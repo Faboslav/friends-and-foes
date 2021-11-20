@@ -1,0 +1,29 @@
+{
+  "entity.copper_golem.death": {
+    "sounds": [
+      "minecraft:mob/irongolem/death"
+    ],
+    "subtitle": "subtitle.entity.copper_golem.death"
+  },
+  "entity.copper_golem.hurt": {
+    "sounds": [
+      "minecraft:mob/irongolem/hit1",
+      "minecraft:mob/irongolem/hit2",
+      "minecraft:mob/irongolem/hit3",
+      "minecraft:mob/irongolem/hit4"
+    ],
+    "subtitle": "subtitle.entity.copper_golem.hurt"
+  },
+  "entity.copper_golem.repair": {
+    "sounds": [
+      "minecraft:mob/irongolem/repair"
+    ],
+    "subtitle": "subtitle.entity.copper_golem.repair"
+  },
+  "entity.copper_golem.head_spin": {
+    "sounds": [
+      "minecraft:entity.fishing_bobber.retrieve"
+    ],
+    "subtitle": "subtitle.entity.copper_golem.head_spin"
+  }
+}

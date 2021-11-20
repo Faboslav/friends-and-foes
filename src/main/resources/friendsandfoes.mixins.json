@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "friendsandfoes",
+  "version": "${version}",
+  "name": "Friends and Foes",
+  "description": "Mod implementing all eliminated mobs from minecraft live mob votes.",
+  "authors": [
+    "Faboslav"
+  ],
+  "required": true,
+  "package": "com.faboslav.friendsandfoes.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "AbstractButtonBlockMixin",
+    "BeeEntityAccessor",
+    "BeeEntityMixin",
+    "BlockTagsAccessor",
+    "EntityNavigationAccessor",
+    "HoneycombItemMixin",
+    "LightningRodBlockMixin",
+    "ModelPartAccessor",
+    "OxidizableMixin",
+    "SpawnRestrictionAccessor"
+  ],
+  "client": [],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

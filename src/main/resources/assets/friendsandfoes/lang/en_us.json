@@ -1,0 +1,22 @@
+{
+  "advancements.adventure.summon_copper_golem.title": "Off you go!",
+  "advancements.adventure.summon_copper_golem.description": "Summon a copper golem.",
+  "block.friendsandfoes.buttercup": "Buttercup",
+  "block.friendsandfoes.copper_button": "Copper Button",
+  "block.friendsandfoes.exposed_copper_button": "Exposed Copper Button",
+  "block.friendsandfoes.oxidized_copper_button": "Oxidized Copper Button",
+  "block.friendsandfoes.waxed_copper_button": "Waxed Copper Button",
+  "block.friendsandfoes.waxed_exposed_copper_button": "Waxed Exposed Copper Button",
+  "block.friendsandfoes.waxed_oxidized_copper_button": "Waxed Oxidized Copper Button",
+  "block.friendsandfoes.waxed_weathered_copper_button": "Waxed Weathered Copper Button",
+  "block.friendsandfoes.weathered_copper_button": "Weathered Copper Button",
+  "entity.friendsandfoes.copper_golem": "Copper Golem",
+  "entity.friendsandfoes.moobloom": "Moobloom",
+  "item.friendsandfoes.buttercup": "Buttercup",
+  "item.friendsandfoes.copper_golem_spawn_egg": "Copper Golem Spawn Egg",
+  "item.friendsandfoes.moobloom_spawn_egg": "Moobloom Spawn Egg",
+  "subtitle.entity.copper_golem.death": "Copper Golem dies",
+  "subtitle.entity.copper_golem.hurt": "Copper Golem hurts",
+  "subtitle.entity.copper_golem.repair": "Copper Golem repaired",
+  "subtitle.entity.copper_golem.head_spin": "Copper Golem spins head"
+}

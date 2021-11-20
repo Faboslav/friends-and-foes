@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "friendsandfoes",
+  "version": "${version}",
+  "name": "friendsandfoes",
+  "description": "Friends And Foes",
+  "authors": [
+    "Faboslav"
+  ],
+  "contributors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/friendsandfoes/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.faboslav.friendsandfoes.FriendsAndFoes"
+    ],
+    "client": [
+      "com.faboslav.friendsandfoes.FriendsAndFoesClient"
+    ],
+    "server": []
+  },
+  "mixins": [
+    "friendsandfoes.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.12.2",
+    "fabric": "*"
+  }
+}

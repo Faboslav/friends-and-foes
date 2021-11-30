@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://github.com/Faboslav/friends-and-foes/blob/master/.github/assets/title.svg?raw=true" height="48" title="Friends&Foes" alt="Friends&Foes">
+    <img src="https://github.com/Faboslav/friends-and-foes/blob/master/.github/assets/title.svg?raw=true" width="500" height="48" title="Friends&Foes" alt="Friends&Foes">
 </p>
 
 ---
@@ -14,10 +14,9 @@ You can check [wiki] for a detailed overview of implemented features.
 <br>
 <br>
 <br>
-<br>
 
 <p align="center">
-    <img src="https://github.com/Faboslav/friends-and-foes/blob/master/.github/assets/roadmap.svg?raw=true" height="48" title="Roadmap" alt="Roadmap">
+    <img src="https://github.com/Faboslav/friends-and-foes/blob/master/.github/assets/roadmap.svg?raw=true" width="290" height="48" title="Roadmap" alt="Roadmap">
 </p>
 
 ---
@@ -41,10 +40,22 @@ I already got pretty solid ideas for most of the mobs and features but you are m
 <br>
 <br>
 <br>
+
+<p align="center">
+  <img src="https://github.com/Faboslav/friends-and-foes/blob/master/.github/assets/socials.svg?raw=true" width="247" height="48" title="Socials" alt="Socials">
+</p>
+
+---
+
+- [CurseForge]
+- [Modrinth]
+
+<br>
+<br>
 <br>
 
 <p align="center">
-  <img src="https://github.com/Faboslav/friends-and-foes/blob/master/.github/assets/license.svg?raw=true" height="48" title="License" alt="License">
+  <img src="https://github.com/Faboslav/friends-and-foes/blob/master/.github/assets/license.svg?raw=true" width="251" height="48" title="License" alt="License">
 </p>
 
 ---
@@ -62,6 +73,8 @@ Get inspired, but please don't just copy & paste any of it as your own.
 [Moobloom]: https://github.com/Faboslav/friends-and-foes/wiki/Moobloom
 [share your ideas or give some feedback]: https://github.com/Faboslav/friends-and-foes/issues/new?assignees=Faboslav&labels=feature&template=feature_request.md&title=
 [wiki]: https://github.com/Faboslav/friends-and-foes/wiki
+[CurseForge]: https://www.curseforge.com/minecraft/mc-mods/friends-foes
+[Modrinth]: https://modrinth.com/mod/friends-and-foes
 [blockbench directory]: https://github.com/Faboslav/friends-and-foes/tree/master/blockbench
 [textures directory]: https://github.com/Faboslav/friends-and-foes/tree/master/src/main/resources/assets/friendsandfoes/textures
 [CC BY-NC-ND 4.0]: https://github.com/Faboslav/friends-and-foes/blob/master/LICENSE.txt

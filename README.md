@@ -62,7 +62,7 @@ Get inspired, but please don't just copy & paste any of it as your own.
 
 ---
 
-[feature_request]: https://github.com/Faboslav/friends-and-foes/issues/new?assignees=Faboslav&labels=feature&template=feature_request.md&title=
+[feature_request]: https://github.com/Faboslav/friends-and-foes/issues/new/choose
 [wiki]: https://github.com/Faboslav/friends-and-foes/wiki
 [blockbench]: https://github.com/Faboslav/friends-and-foes/tree/master/blockbench
 [textures]: https://github.com/Faboslav/friends-and-foes/tree/master/src/main/resources/assets/friendsandfoes/textures

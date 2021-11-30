@@ -38,8 +38,8 @@ I already got pretty solid ideas for most of the mobs and features but you are m
 - [ ] Wildfire
 
 ### Block/Items
-- [x] [Buttercup]
 - [x] [Beehives]
+- [x] [Buttercup]
 - [x] [Copper Button]
 
 ### Village/Villagers
@@ -78,8 +78,8 @@ Get inspired, but please don't just copy & paste any of it as your own.
 
 [Copper Golem]: https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem
 [Moobloom]: https://github.com/Faboslav/friends-and-foes/wiki/Moobloom
-[Buttercup]: https://github.com/Faboslav/friends-and-foes/wiki/Buttercup
 [Beehives]: https://github.com/Faboslav/friends-and-foes/wiki/Beehives
+[Buttercup]: https://github.com/Faboslav/friends-and-foes/wiki/Buttercup
 [Copper Button]: https://github.com/Faboslav/friends-and-foes/wiki/Copper-Button
 [Beekeeper]: https://github.com/Faboslav/friends-and-foes/wiki/Beekeeeper
 [share your ideas or give some feedback]: https://github.com/Faboslav/friends-and-foes/issues/new?assignees=Faboslav&labels=feature&template=feature_request.md&title=

@@ -1,0 +1,52 @@
+plugins {
+	id 'java'
+	id 'maven-publish'
+	id 'fabric-loom' version '0.10.+'
+}
+
+allprojects {
+	apply plugin: 'java'
+	apply plugin: 'fabric-loom'
+
+	group = project.maven_group
+	version = project.mod_version
+	archivesBaseName = "${project.mod_id}-mc${project.minecraft_version}"
+
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
+
+	dependencies {
+		// Fabric
+		minecraft "com.mojang:minecraft:${project.minecraft_version}"
+		mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+
+		// Mods
+		modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+		modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+		// Code Quality
+		compileOnly "org.jetbrains:annotations:${project.jetbrains_annotations_version}"
+		testImplementation "org.junit.jupiter:junit-jupiter-api:${project.junit_jupiter_version}"
+		testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${project.junit_jupiter_version}"
+	}
+
+	java {
+		withSourcesJar()
+	}
+
+	processResources {
+		inputs.property 'id', project.mod_id
+		inputs.property 'name', project.mod_name
+		inputs.property 'version', project.version
+
+		// fabric.mod.json
+		filesMatching('fabric.mod.json') {
+			expand(['id': project.mod_id, 'name': project.mod_name, 'version': project.version])
+		}
+	}
+
+	repositories {
+		mavenCentral()
+		maven { name 'Fabric'; url 'https://maven.fabricmc.net/' }
+	}
+}

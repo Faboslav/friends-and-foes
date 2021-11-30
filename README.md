@@ -13,6 +13,8 @@ You can check [wiki] for a detailed overview of implemented features you visit t
 
 <br>
 <br>
+<br>
+<br>
 
 <p align="center">
     <img src="https://github.com/Faboslav/friends-and-foes/blob/master/.github/assets/roadmap.svg?raw=true" height="48" title="Roadmap" alt="Roadmap">
@@ -36,6 +38,8 @@ I already got pretty solid ideas for most of the mobs and features but you are m
 - [ ] Great Hunger
 - [ ] Wildfire
 
+<br>
+<br>
 <br>
 <br>
 

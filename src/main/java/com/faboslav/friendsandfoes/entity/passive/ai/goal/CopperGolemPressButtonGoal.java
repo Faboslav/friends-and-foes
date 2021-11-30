@@ -32,6 +32,7 @@ public class CopperGolemPressButtonGoal extends Goal
     private int idleTicksBeforeButtonPress;
     private int idleTicksAfterButtonPress;
     private int ticksAfterButtonPress;
+    private int runTicks;
     private boolean copperButtonWasSuccessfullyPressed;
 
     private final Predicate<BlockState> copperButtonPredicate = (state) -> {
@@ -83,6 +84,10 @@ public class CopperGolemPressButtonGoal extends Goal
             return false;
         }
 
+        if(this.runTicks >= 1200) {
+            return false;
+        }
+
         if (this.copperButtonWasSuccessfullyPressed && this.ticksAfterButtonPress >= this.idleTicksAfterButtonPress) {
             return false;
         }
@@ -101,19 +106,14 @@ public class CopperGolemPressButtonGoal extends Goal
 
     @Override
     public void start() {
+        this.runTicks = 0;
         this.standingNearToCopperButtonTicks = 0;
         this.ticksAfterButtonPress = 0;
         this.copperButtonWasSuccessfullyPressed = false;
         int minIdleTicks = 25;
         int maxIdleTicks = 50;
-        this.idleTicksBeforeButtonPress = RandomGenerator.generateInt(
-                minIdleTicks,
-                maxIdleTicks
-        );
-        this.idleTicksAfterButtonPress = RandomGenerator.generateInt(
-                minIdleTicks,
-                maxIdleTicks
-        );
+        this.idleTicksBeforeButtonPress = RandomGenerator.generateInt(minIdleTicks, maxIdleTicks);
+        this.idleTicksAfterButtonPress = RandomGenerator.generateInt(minIdleTicks, maxIdleTicks);
     }
 
     @Override
@@ -138,6 +138,8 @@ public class CopperGolemPressButtonGoal extends Goal
 
     @Override
     public void tick() {
+        this.runTicks++;
+
         EntityNavigation navigation = this.copperGolem.getNavigation();
         double distanceToButton = this.copperGolem.getPos().squaredDistanceTo(this.positionToStandOn.getX(),
                 this.positionToStandOn.getY(),

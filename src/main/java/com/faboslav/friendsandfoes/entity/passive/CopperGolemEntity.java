@@ -51,6 +51,7 @@ import java.util.function.Predicate;
 
 public class CopperGolemEntity extends GolemEntity
 {
+    private static final float MOVEMENT_SPEED = 0.35F;
     private static final int COPPER_INGOT_HEAL_AMOUNT = 5;
     public static final int MIN_TICKS_UNTIL_NEXT_HEAD_SPIN = 200;
     public static final int MAX_TICKS_UNTIL_NEXT_HEAD_SPIN = 400;
@@ -205,7 +206,7 @@ public class CopperGolemEntity extends GolemEntity
     public static DefaultAttributeContainer.Builder createCopperGolemAttributes() {
         return MobEntity.createMobAttributes()
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.4D)
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, MOVEMENT_SPEED)
                 .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D);
     }
 
@@ -274,7 +275,7 @@ public class CopperGolemEntity extends GolemEntity
 
     @Override
     public float getMovementSpeed() {
-        return 0.4F - this.getOxidationLevel().ordinal() * 0.05F;
+        return MOVEMENT_SPEED - this.getOxidationLevel().ordinal() * 0.05F;
     }
 
     @Override
@@ -316,7 +317,7 @@ public class CopperGolemEntity extends GolemEntity
             itemStack.decrement(1);
         }
 
-        this.playSound(SoundRegistry.ENTITY_COPPER_GOLEM_REPAIR, 1.0F, this.getSoundPitch());
+        this.playSound(SoundRegistry.ENTITY_COPPER_GOLEM_REPAIR, 1.0F, this.getSoundPitch() - 1.0F);
 
         return true;
     }
@@ -454,8 +455,7 @@ public class CopperGolemEntity extends GolemEntity
             return;
         }
 
-        if (this.random.nextFloat() < 0.005) {
-        //if (this.random.nextFloat() < 0.00004166666) {
+        if (this.random.nextFloat() < 0.00004166666) {
             int degradedOxidationLevelOrdinal = getOxidationLevel().ordinal() + 1;
             Oxidizable.OxidationLevel[] OxidationLevels = Oxidizable.OxidationLevel.values();
             this.setOxidationLevel(OxidationLevels[degradedOxidationLevelOrdinal]);
@@ -498,10 +498,21 @@ public class CopperGolemEntity extends GolemEntity
         this.getMoveControl().tick();
         this.getLookControl().lookAt(this.getLookControl().getLookX(), this.getLookControl().getLookY(), this.getLookControl().getLookZ());
         this.getLookControl().tick();
+
+        this.inanimate = false;
+        this.jumping = false;
+        this.setMovementSpeed(0.0F);
+        this.prevHorizontalSpeed = 0.0F;
+        this.horizontalSpeed = 0.0F;
+        this.sidewaysSpeed = 0.0F;
+        this.upwardSpeed = 0.0F;
+        this.setVelocity(Vec3d.ZERO);
+        this.velocityDirty = true;
     }
 
     private void becomeEntity() {
         this.setAiDisabled(false);
+        this.inanimate = true;
     }
 
     private NbtCompound takeEntitySnapshot() {

@@ -36,14 +36,6 @@ I already got pretty solid ideas for most of the mobs and features but you are m
 - [ ] Great Hunger
 - [ ] Wildfire
 
----
-
-<p align="center">
-  <img src="https://github.com/Faboslav/friends-and-foes/blob/master/.github/assets/socials.svg?raw=true" height="48" title="Socials" alt="Socials">
-</p>
-
-Discord
-
 <br>
 <br>
 
@@ -64,7 +56,7 @@ Get inspired, but please don't just copy & paste any of it as your own.
 
 [Copper Golem]: https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem
 [Moobloom]: https://github.com/Faboslav/friends-and-foes/wiki/Moobloom
-[share your ideas or give some feedback]: https://github.com/Faboslav/friends-and-foes/issues/new/choose
+[share your ideas or give some feedback]: https://github.com/Faboslav/friends-and-foes/issues/new?assignees=Faboslav&labels=feature&template=feature_request.md&title=
 [wiki]: https://github.com/Faboslav/friends-and-foes/wiki
 [blockbench directory]: https://github.com/Faboslav/friends-and-foes/tree/master/blockbench
 [textures directory]: https://github.com/Faboslav/friends-and-foes/tree/master/src/main/resources/assets/friendsandfoes/textures

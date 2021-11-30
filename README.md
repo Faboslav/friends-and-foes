@@ -51,10 +51,11 @@ Discord
 
 ---
 
-Friends&Foes is licensed with [CC BY-NC-ND 4.0](license).
+The mod is licensed with [CC BY-NC-ND 4.0](license) license.
 
 Feel free to look over my code for examples of how i have implemented and solved various problems while writing this mod, incorporate snippets into your own.
-You can also look into the [blockbench directory](blockbench) which contains all of the models and into the [textures directory](textures) for the textures and take some inspiration.
+
+You can also look into the [blockbench directory](blockbench) which contains all of the models & palettes and into the [textures directory](textures) for the textures.
 Get inspired, but please don't just copy & paste any of it as your own.
 
 ---

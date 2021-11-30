@@ -9,7 +9,7 @@ Friends&Foes is a mod focused on adding all eliminated mobs from the minecraft m
 As cool looking as the glow squid is, it does not really bring anything new to the game.
 Thus the main focus of this mod is to also add related features to all of the mobs and expand the minecraft world and mechanics in a vanilla friendly way.
 
-You can check [wiki] for a detailed overview of implemented features you visit the.
+You can check [wiki] for a detailed overview of implemented features.
 
 <br>
 <br>

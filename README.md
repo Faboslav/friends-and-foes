@@ -2,6 +2,8 @@
     <img src="https://github.com/Faboslav/friends-and-foes/blob/master/.github/assets/title.svg?raw=true" height="48" title="Friends&Foes" alt="Friends&Foes">
 </p>
 
+---
+
 Friends&Foes is a mod focused on adding all eliminated mobs from the minecraft mob votes.
 
 As cool looking as the glow squid is, it does not really bring anything new to the game.

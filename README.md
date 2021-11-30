@@ -37,6 +37,13 @@ I already got pretty solid ideas for most of the mobs and features but you are m
 - [ ] Great Hunger
 - [ ] Wildfire
 
+### Block/Items
+- [x] [Buttercup]
+- [x] [Beehives]
+- [x] [Copper Button]
+
+### Village/Villagers
+- [x] [Beekeeper]
 <br>
 <br>
 <br>
@@ -71,6 +78,10 @@ Get inspired, but please don't just copy & paste any of it as your own.
 
 [Copper Golem]: https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem
 [Moobloom]: https://github.com/Faboslav/friends-and-foes/wiki/Moobloom
+[Buttercup]: https://github.com/Faboslav/friends-and-foes/wiki/Buttercup
+[Beehives]: https://github.com/Faboslav/friends-and-foes/wiki/Beehives
+[Copper Button]: https://github.com/Faboslav/friends-and-foes/wiki/Copper-Button
+[Beekeeper]: https://github.com/Faboslav/friends-and-foes/wiki/Beekeeeper
 [share your ideas or give some feedback]: https://github.com/Faboslav/friends-and-foes/issues/new?assignees=Faboslav&labels=feature&template=feature_request.md&title=
 [wiki]: https://github.com/Faboslav/friends-and-foes/wiki
 [CurseForge]: https://www.curseforge.com/minecraft/mc-mods/friends-foes

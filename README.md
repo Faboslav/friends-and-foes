@@ -4,7 +4,7 @@
 
 ---
 
-Friends&Foes is a mod focused on adding all eliminated mobs from the minecraft mob votes.
+Friends&Foes is a mod focused on adding all eliminated mobs from the minecraft mob votes and also few other exceptional mobs like the Illusioner.
 
 As cool looking as the glow squid is, it does not really bring anything new to the game.
 Thus the main focus of this mod is to also add related features to all of the mobs and expand the minecraft world and mechanics in a vanilla friendly way.

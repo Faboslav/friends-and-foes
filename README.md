@@ -1,8 +1,9 @@
 <p align="center">
     <img src="https://github.com/Faboslav/friends-and-foes/blob/master/.github/assets/title.svg?raw=true" width="500" height="48" title="Friends&Foes" alt="Friends&Foes">
 </p>
-
----
+<p align="center">
+    <img src=https://github.com/Faboslav/friends-and-foes/blob/master/.github/assets/wiki/title/divider.svg?raw=true" width="830" height="12">
+</p>
 
 Friends&Foes is a mod focused on adding all eliminated mobs from the minecraft mob votes and also few other exceptional mobs like the Illusioner.
 

@@ -47,7 +47,7 @@ public class MoobloomEntity extends CowEntity implements Shearable
             BlockPos blockPos,
             Random random
     ) {
-        return serverWorldAccess.getBlockState(blockPos.down()).isOf(Blocks.GRASS_BLOCK) && serverWorldAccess.getBaseLightLevel(blockPos, 0) > 8;
+        return serverWorldAccess.getBlockState(blockPos.down()).isOf(Blocks.GRASS_BLOCK) && isLightLevelValidForNaturalSpawn(serverWorldAccess, blockPos);
     }
 
     public boolean isShearable() {

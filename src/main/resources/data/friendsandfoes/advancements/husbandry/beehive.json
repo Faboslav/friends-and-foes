@@ -13,8 +13,7 @@
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,
-    "hidden": false,
-    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
+    "hidden": false
   },
   "criteria": {
     "beehive": {
@@ -22,77 +21,16 @@
       "conditions": {
         "items": [
           {
-            "item": "minecraft:beehive"
-          }
-        ]
-      }
-    },
-    "acacia_beehive": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "friendsandfoes:acacia_beehive"
-          }
-        ]
-      }
-    },
-    "birch_beehive": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "friendsandfoes:birch_beehive"
-          }
-        ]
-      }
-    },
-    "crimson_beehive": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "friendsandfoes:crimson_beehive"
-          }
-        ]
-      }
-    },
-    "dark_oak_beehive": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "friendsandfoes:dark_oak_beehive"
-          }
-        ]
-      }
-    },
-    "jungle_beehive": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "friendsandfoes:jungle_beehive"
-          }
-        ]
-      }
-    },
-    "spruce_beehive": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "friendsandfoes:spruce_beehive"
-          }
-        ]
-      }
-    },
-    "warped_beehive": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "friendsandfoes:warped_beehive"
+            "items": [
+              "minecraft:beehive",
+              "friendsandfoes:acacia_beehive",
+              "friendsandfoes:birch_beehive",
+              "friendsandfoes:crimson_beehive",
+              "friendsandfoes:dark_oak_beehive",
+              "friendsandfoes:jungle_beehive",
+              "friendsandfoes:spruce_beehive",
+              "friendsandfoes:warped_beehive"
+            ]
           }
         ]
       }
@@ -100,14 +38,7 @@
   },
   "requirements": [
     [
-      "beehive",
-      "acacia_beehive",
-      "birch_beehive",
-      "crimson_beehive",
-      "dark_oak_beehive",
-      "jungle_beehive",
-      "spruce_beehive",
-      "warped_beehive"
+      "beehive"
     ]
   ]
 }

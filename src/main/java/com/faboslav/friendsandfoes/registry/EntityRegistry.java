@@ -3,7 +3,6 @@ package com.faboslav.friendsandfoes.registry;
 import com.faboslav.friendsandfoes.config.Settings;
 import com.faboslav.friendsandfoes.entity.passive.CopperGolemEntity;
 import com.faboslav.friendsandfoes.entity.passive.MoobloomEntity;
-import com.faboslav.friendsandfoes.mixin.SpawnRestrictionAccessor;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;

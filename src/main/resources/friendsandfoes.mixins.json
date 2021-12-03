@@ -12,7 +12,6 @@
     "LightningRodBlockMixin",
     "ModelPartAccessor",
     "PointOfInterestTypeMixin",
-    "SpawnRestrictionAccessor",
     "StructurePoolMixin",
     "VillagerTaskListProviderMixin"
   ],

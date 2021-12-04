@@ -9,16 +9,8 @@ import net.minecraft.util.Util;
 
 public class FriendsAndFoes implements ModInitializer
 {
-    // TODO Find better place for this
-    public static final ServerTickDeltaCounter serverTickDeltaCounter = new ServerTickDeltaCounter(20.0F, 0L);
-
     @Override
     public void onInitialize() {
         RegistryInit.init();
-        StructurePoolInit.init();
-
-        ServerTickEvents.START_SERVER_TICK.register((server) -> {
-            serverTickDeltaCounter.beginRenderTick(Util.getMeasuringTimeMs());
-        });
     }
 }

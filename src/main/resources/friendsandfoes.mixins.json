@@ -8,15 +8,17 @@
     "BeeEntityMixin",
     "BlockEntityTypeMixin",
     "BlockTagsAccessor",
-    "EntityNavigationAccessor",
     "LightningRodBlockMixin",
-    "ModelPartAccessor",
     "PointOfInterestTypeMixin",
-    "StructurePoolMixin",
     "VillagerTaskListProviderMixin"
   ],
-  "client": [],
-  "server": [],
+  "client": [
+    "EntityNavigationAccessor",
+    "ModelPartAccessor"
+  ],
+  "server": [
+    "StructurePoolMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }

@@ -21,10 +21,7 @@ public class CopperButtonBlock extends AbstractButtonBlock
     public static final int PRESS_TICKS = 10;
 
     public CopperButtonBlock(AbstractBlock.Settings settings) {
-        super(
-                false,
-                settings
-        );
+        super(false, settings);
     }
 
     @Override

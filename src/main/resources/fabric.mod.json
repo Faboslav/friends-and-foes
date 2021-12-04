@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "friendsandfoes",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "name": "Friends&Foes",
   "description": "Friends&Foes is a mod focused on adding all eliminated mobs from the minecraft mob votes and also few other exceptional mobs like the Illusioner.",
   "authors": [
@@ -23,7 +23,9 @@
     "client": [
       "com.faboslav.friendsandfoes.FriendsAndFoesClient"
     ],
-    "server": []
+    "server": [
+      "com.faboslav.friendsandfoes.FriendsAndFoesServer"
+    ]
   },
   "mixins": [
     "friendsandfoes.mixins.json"

@@ -21,4 +21,9 @@ public class RegistryInit
         BlockRenderLayerMapRegistry.init();
         EntityRendererRegistry.init();
     }
+
+    @Environment(EnvType.SERVER)
+    public static void initServer() {
+        StructurePoolInit.init();
+    }
 }

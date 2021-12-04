@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 import java.util.List;
 import java.util.Map;
 
+@Environment(EnvType.CLIENT)
 @Mixin({ModelPart.class})
 public interface ModelPartAccessor
 {

@@ -14,8 +14,11 @@ import net.minecraft.structure.pool.StructurePool;
 import net.minecraft.structure.pool.StructurePoolElement;
 import net.minecraft.util.Identifier;
 import com.mojang.datafixers.util.Pair;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 @Mixin(StructurePool.class)
+@Environment(EnvType.SERVER)
 public class StructurePoolMixin {
 
     @Final

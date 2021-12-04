@@ -3,11 +3,15 @@ package com.faboslav.friendsandfoes.client.render.entity;
 import com.faboslav.friendsandfoes.client.render.entity.feature.MoobloomFlowerFeatureRenderer;
 import com.faboslav.friendsandfoes.config.Settings;
 import com.faboslav.friendsandfoes.entity.passive.MoobloomEntity;
+import com.faboslav.friendsandfoes.registry.EntityRendererRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
+import net.minecraft.client.render.entity.feature.MooshroomMushroomFeatureRenderer;
 import net.minecraft.client.render.entity.model.CowEntityModel;
+import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
@@ -15,11 +19,7 @@ import net.minecraft.util.Identifier;
 public class MoobloomEntityRenderer extends MobEntityRenderer<MoobloomEntity, CowEntityModel<MoobloomEntity>>
 {
     public MoobloomEntityRenderer(EntityRendererFactory.Context context) {
-        super(
-                context,
-                new CowEntityModel(CowEntityModel.getTexturedModelData().createModel()),
-                0.7F
-        );
+        super(context, new CowEntityModel(context.getPart(EntityRendererRegistry.MOOBLOOM_LAYER)), 0.7F);
         this.addFeature(new MoobloomFlowerFeatureRenderer(this));
     }
 

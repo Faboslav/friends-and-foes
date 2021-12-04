@@ -19,6 +19,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 @Mixin(LightningRodBlock.class)
 public class LightningRodBlockMixin
@@ -50,7 +52,7 @@ public class LightningRodBlockMixin
                 .build();
         BlockPattern.Result patternSearchResult = copperGolemPattern.searchAround(world, pos);
 
-        if (patternSearchResult==null) {
+        if (patternSearchResult == null) {
             return;
         }
 

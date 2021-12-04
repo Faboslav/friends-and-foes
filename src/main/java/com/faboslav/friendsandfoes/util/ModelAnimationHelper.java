@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.util;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.FriendsAndFoesServer;
 import net.minecraft.entity.LivingEntity;
 
 public class ModelAnimationHelper
@@ -13,6 +13,6 @@ public class ModelAnimationHelper
     }
 
     public static float getTickDelta() {
-        return FriendsAndFoes.serverTickDeltaCounter.tickDelta;
+        return FriendsAndFoesServer.serverTickDeltaCounter.tickDelta;
     }
 }

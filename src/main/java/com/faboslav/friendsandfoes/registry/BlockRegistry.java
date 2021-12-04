@@ -55,7 +55,7 @@ public class BlockRegistry
         WAXED_WEATHERED_COPPER_BUTTON = register("waxed_weathered_copper_button", new CopperButtonBlock(AbstractBlock.Settings.copy(COPPER_BUTTON)));
         WAXED_OXIDIZED_COPPER_BUTTON = register("waxed_oxidized_copper_button", new CopperButtonBlock(AbstractBlock.Settings.copy(COPPER_BUTTON)));
 
-        for (Block block : Registry.BLOCK) {
+        for (Block block : BLOCKS) {
             for (BlockState blockState : block.getStateManager().getStates()) {
                 Block.STATE_IDS.add(blockState);
             }

@@ -23,11 +23,6 @@ allprojects {
 		// Mods
 		modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 		modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-		// Code Quality
-		compileOnly "org.jetbrains:annotations:${project.jetbrains_annotations_version}"
-		testImplementation "org.junit.jupiter:junit-jupiter-api:${project.junit_jupiter_version}"
-		testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${project.junit_jupiter_version}"
 	}
 
 	java {

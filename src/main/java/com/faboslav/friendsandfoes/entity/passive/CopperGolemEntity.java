@@ -504,7 +504,7 @@ public class CopperGolemEntity extends GolemEntity
             return;
         }
 
-        if (this.random.nextFloat() < 0.04166666) {
+        if (this.random.nextFloat() < 0.00004166666) {
             int degradedOxidationLevelOrdinal = getOxidationLevel().ordinal() + 1;
             Oxidizable.OxidationLevel[] OxidationLevels = Oxidizable.OxidationLevel.values();
             this.setOxidationLevel(OxidationLevels[degradedOxidationLevelOrdinal]);

@@ -17,6 +17,15 @@ public class CopperGolemTemptGoal extends TemptGoal
     }
 
     @Override
+    public boolean canStart() {
+       if(this.copperGolem.isWaxed()) {
+           return false;
+       }
+
+       return super.canStart();
+    }
+
+    @Override
     public void tick() {
         this.mob.getLookControl().lookAt(this.closestPlayer, (float)(this.mob.getMaxHeadRotation() + 20), (float)this.mob.getMaxLookPitchChange());
         if (this.mob.squaredDistanceTo(this.closestPlayer) < 6.25D) {

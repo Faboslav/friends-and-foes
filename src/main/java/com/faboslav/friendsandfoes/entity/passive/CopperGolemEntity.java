@@ -5,12 +5,9 @@ import com.faboslav.friendsandfoes.mixin.EntityNavigationAccessor;
 import com.faboslav.friendsandfoes.registry.SoundRegistry;
 import com.faboslav.friendsandfoes.util.ModelAnimationHelper;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Oxidizable;
 import net.minecraft.entity.*;
-import net.minecraft.entity.ai.goal.FleeEntityGoal;
-import net.minecraft.entity.ai.goal.GoToVillageGoal;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
 import net.minecraft.entity.ai.goal.PrioritizedGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -19,11 +16,10 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.passive.CatEntity;
 import net.minecraft.entity.passive.GolemEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
-import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.Item;
@@ -42,11 +38,8 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
-
-import java.util.Iterator;
 import java.util.function.Predicate;
 
 public class CopperGolemEntity extends GolemEntity
@@ -211,6 +204,20 @@ public class CopperGolemEntity extends GolemEntity
     }
 
     @Override
+    protected void pushAway(Entity entity) {
+        if(this.isOxidized()) {
+            return;
+        }
+
+        super.pushAway(entity);
+    }
+
+    @Override
+    public boolean isPushable() {
+        return super.isPushable() && !this.isOxidized();
+    }
+
+    @Override
     protected int getNextAirUnderwater(int air) {
         return air;
     }
@@ -326,7 +333,7 @@ public class CopperGolemEntity extends GolemEntity
             PlayerEntity player,
             ItemStack itemStack
     ) {
-        if (this.isWaxed()) {
+        if (this.isWaxed() || this.isOxidized()) {
             return false;
         }
 
@@ -399,6 +406,51 @@ public class CopperGolemEntity extends GolemEntity
 
         if (!this.isWaxed()) {
             this.handleOxidationIncrease();
+        }
+    }
+
+    @Override
+    public void travel(Vec3d movementInput) {
+        if(!this.isOxidized()) {
+            super.travel(movementInput);
+            return;
+        }
+
+        if(this.getEntityWorld().isClient()) {
+            return;
+        }
+
+        double d = 0.08D;
+        boolean bl = this.getVelocity().y <= 0.0D;
+        if (bl && this.hasStatusEffect(StatusEffects.SLOW_FALLING)) {
+            d = 0.01D;
+            this.onLanding();
+        }
+
+        if (!this.isFallFlying()) {
+            BlockPos e = this.getVelocityAffectingPos();
+            float vec3d3 = this.world.getBlockState(e).getBlock().getSlipperiness();
+            float f = this.onGround ? vec3d3 * 0.91F : 0.91F;
+            Vec3d g = this.applyMovementInput(movementInput, vec3d3);
+            double h = g.y;
+            if (this.hasStatusEffect(StatusEffects.LEVITATION)) {
+                h += (0.05D * (double)(this.getStatusEffect(StatusEffects.LEVITATION).getAmplifier() + 1) - g.y) * 0.2D;
+                this.onLanding();
+            } else if (this.world.isClient && !this.world.isChunkLoaded(e)) {
+                if (this.getY() > (double)this.world.getBottomY()) {
+                    h = -0.1D;
+                } else {
+                    h = 0.0D;
+                }
+            } else if (!this.hasNoGravity()) {
+                h -= d;
+            }
+
+            if (this.hasNoDrag()) {
+                this.setVelocity(g.x, h, g.z);
+            } else {
+                this.setVelocity(g.x * (double)f, h * 0.9800000190734863D, g.z * (double)f);
+            }
         }
     }
 
@@ -519,7 +571,7 @@ public class CopperGolemEntity extends GolemEntity
         NbtCompound entitySnapshot = new NbtCompound();
 
         entitySnapshot.putDouble("serverYaw", this.serverYaw);
-        entitySnapshot.putFloat("prevYaw", this.prevYaw); // Same as yaw and yaw
+        entitySnapshot.putFloat("prevYaw", this.prevYaw); // Same as serverYaw and yaw
         entitySnapshot.putDouble("serverPitch", this.serverPitch);
         entitySnapshot.putFloat("prevPitch", this.prevPitch); // Same as pitch
         entitySnapshot.putInt("roll", this.getRoll());

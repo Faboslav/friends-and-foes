@@ -95,7 +95,7 @@ public class CopperGolemEntity extends GolemEntity
             ItemStack itemStack = player.getStackInHand(Hand.MAIN_HAND);
             Item itemInHand = itemStack.getItem();
 
-            return itemInHand instanceof AxeItem && EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.test(player);
+            return itemInHand instanceof AxeItem && EntityPredicates.EXCEPT_SPECTATOR.test(player);
         };
     }
 
@@ -397,9 +397,6 @@ public class CopperGolemEntity extends GolemEntity
         this.updateButtonPressAnimation();
         this.updateHeadSpinAnimation();
 
-        NbtCompound entitySnapshot = this.takeEntitySnapshot();
-        this.setEntitySnapshot(entitySnapshot);
-
         if (!this.isWaxed()) {
             this.handleOxidationIncrease();
         }
@@ -455,7 +452,7 @@ public class CopperGolemEntity extends GolemEntity
             return;
         }
 
-        if (this.random.nextFloat() < 0.00004166666) {
+        if (this.random.nextFloat() < 0.04166666) {
             int degradedOxidationLevelOrdinal = getOxidationLevel().ordinal() + 1;
             Oxidizable.OxidationLevel[] OxidationLevels = Oxidizable.OxidationLevel.values();
             this.setOxidationLevel(OxidationLevels[degradedOxidationLevelOrdinal]);
@@ -486,6 +483,9 @@ public class CopperGolemEntity extends GolemEntity
     }
 
     private void becomeStatue() {
+        NbtCompound entitySnapshot = this.takeEntitySnapshot();
+        this.setEntitySnapshot(entitySnapshot);
+
         this.setAiDisabled(true);
 
         for(PrioritizedGoal goal : this.goalSelector.getRunningGoals().toList()) {

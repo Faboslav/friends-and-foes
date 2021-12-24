@@ -185,8 +185,8 @@ public class CopperGolemEntityModel<T extends CopperGolemEntity> extends SingleP
             this.rightArm.pitch = (-0.2F - 1.5F * MathHelper.wrap(limbAngle, 13.0F)) * limbDistance;
         }
 
-        if (copperGolemEntity.isOnGround() && (copperGolemEntity.prevX!=copperGolemEntity.getX() || copperGolemEntity.prevY!=copperGolemEntity.getY() || copperGolemEntity.prevZ!=copperGolemEntity.getZ())) {
-            this.rod.pivotY += MathHelper.abs(MathHelper.sin(animationProgress * 0.4F));
+        if (copperGolemEntity.isOnGround() && (copperGolemEntity.prevX != copperGolemEntity.getX() || copperGolemEntity.prevZ != copperGolemEntity.getZ())) {
+            this.rod.pivotY += MathHelper.abs(MathHelper.sin(animationProgress * 0.35F));
         }
     }
 

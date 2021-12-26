@@ -26,7 +26,7 @@ I already got pretty solid ideas for most of the mobs and features but you are m
 
 ### Friends
 
-- [ ] Allay
+- [ ] Glare
 - [x] [Copper Golem]
 - [x] [Moobloom]
 

@@ -420,6 +420,10 @@ public class CopperGolemEntity extends GolemEntity
             return;
         }
 
+        this.applyGravityToTravel(movementInput);
+    }
+
+    private void applyGravityToTravel(Vec3d movementInput) {
         double d = 0.08D;
         boolean bl = this.getVelocity().y <= 0.0D;
         if (bl && this.hasStatusEffect(StatusEffects.SLOW_FALLING)) {

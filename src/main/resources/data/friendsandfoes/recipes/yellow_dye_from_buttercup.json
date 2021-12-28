@@ -2,11 +2,11 @@
   "type": "minecraft:crafting_shapeless",
   "group": "yellow_dye",
   "ingredients": [
-    {
-      "item": "friendsandfoes:buttercup"
-    }
+	{
+	  "item": "friendsandfoes:buttercup"
+	}
   ],
   "result": {
-    "item": "minecraft:yellow_dye"
+	"item": "minecraft:yellow_dye"
   }
 }

@@ -16,61 +16,61 @@ import java.util.Random;
 @SuppressWarnings("deprecation")
 public class OxidizableButtonBlock extends CopperButtonBlock implements Oxidizable
 {
-    public static final int EXPOSED_PRESS_TICKS = 7;
-    public static final int WEATHERED_PRESS_TICKS = 4;
-    public static final int OXIDIZED_PRESS_TICKS = 1;
+	public static final int EXPOSED_PRESS_TICKS = 7;
+	public static final int WEATHERED_PRESS_TICKS = 4;
+	public static final int OXIDIZED_PRESS_TICKS = 1;
 
-    private final OxidationLevel OxidationLevel;
+	private final OxidationLevel OxidationLevel;
 
-    public OxidizableButtonBlock(
-            OxidationLevel OxidationLevel,
-            Settings settings
-    ) {
-        super(settings);
-        this.OxidationLevel = OxidationLevel;
-    }
+	public OxidizableButtonBlock(
+		OxidationLevel OxidationLevel,
+		Settings settings
+	) {
+		super(settings);
+		this.OxidationLevel = OxidationLevel;
+	}
 
-    @Override
-    public void randomTick(
-            BlockState state,
-            ServerWorld world,
-            BlockPos pos,
-            Random random
-    ) {
-        super.randomTick(state, world, pos, random);
-        this.tickDegradation(state, world, pos, random);
-    }
+	@Override
+	public void randomTick(
+		BlockState state,
+		ServerWorld world,
+		BlockPos pos,
+		Random random
+	) {
+		super.randomTick(state, world, pos, random);
+		this.tickDegradation(state, world, pos, random);
+	}
 
-    @Override
-    public boolean hasRandomTicks(BlockState state) {
-        return Oxidizable.getIncreasedOxidationBlock(state.getBlock()).isPresent();
-    }
+	@Override
+	public boolean hasRandomTicks(BlockState state) {
+		return Oxidizable.getIncreasedOxidationBlock(state.getBlock()).isPresent();
+	}
 
-    public OxidationLevel getDegradationLevel() {
-        return this.OxidationLevel;
-    }
+	public OxidationLevel getDegradationLevel() {
+		return this.OxidationLevel;
+	}
 
-    @Override
-    public ActionResult onUse(
-            BlockState state,
-            World world,
-            BlockPos pos,
-            PlayerEntity player,
-            Hand hand,
-            BlockHitResult hit
-    ) {
-        ItemStack itemStack = player.getStackInHand(hand);
-        Item itemInHand = itemStack.getItem();
-        ItemUsageContext itemUsageContext = new ItemUsageContext(player, hand, hit);
+	@Override
+	public ActionResult onUse(
+		BlockState state,
+		World world,
+		BlockPos pos,
+		PlayerEntity player,
+		Hand hand,
+		BlockHitResult hit
+	) {
+		ItemStack itemStack = player.getStackInHand(hand);
+		Item itemInHand = itemStack.getItem();
+		ItemUsageContext itemUsageContext = new ItemUsageContext(player, hand, hit);
 
-        if (itemInHand instanceof HoneycombItem || itemInHand instanceof AxeItem) {
-            ActionResult itemInHandUsageResult = itemInHand.useOnBlock(itemUsageContext);
+		if (itemInHand instanceof HoneycombItem || itemInHand instanceof AxeItem) {
+			ActionResult itemInHandUsageResult = itemInHand.useOnBlock(itemUsageContext);
 
-            if (itemInHandUsageResult.isAccepted()) {
-                return itemInHandUsageResult;
-            }
-        }
+			if (itemInHandUsageResult.isAccepted()) {
+				return itemInHandUsageResult;
+			}
+		}
 
-        return super.onUse(state, world, pos, player, hand, hit);
-    }
+		return super.onUse(state, world, pos, player, hand, hit);
+	}
 }

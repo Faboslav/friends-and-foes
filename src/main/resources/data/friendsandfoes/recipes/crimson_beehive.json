@@ -1,19 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "PPP",
-    "HHH",
-    "PPP"
+	"PPP",
+	"HHH",
+	"PPP"
   ],
   "key": {
-    "P": {
-      "item": "minecraft:crimson_planks"
-    },
-    "H": {
-      "item": "minecraft:honeycomb"
-    }
+	"P": {
+	  "item": "minecraft:crimson_planks"
+	},
+	"H": {
+	  "item": "minecraft:honeycomb"
+	}
   },
   "result": {
-    "item": "friendsandfoes:crimson_beehive"
+	"item": "friendsandfoes:crimson_beehive"
   }
 }

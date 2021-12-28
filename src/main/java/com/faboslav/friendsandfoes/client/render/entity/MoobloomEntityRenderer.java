@@ -15,13 +15,13 @@ import net.minecraft.util.Identifier;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class MoobloomEntityRenderer extends MobEntityRenderer<MoobloomEntity, CowEntityModel<MoobloomEntity>>
 {
-    public MoobloomEntityRenderer(EntityRendererFactory.Context context) {
-        super(context, new CowEntityModel(context.getPart(EntityRendererRegistry.MOOBLOOM_LAYER)), 0.7F);
-        this.addFeature(new MoobloomFlowerFeatureRenderer(this));
-    }
+	public MoobloomEntityRenderer(EntityRendererFactory.Context context) {
+		super(context, new CowEntityModel(context.getPart(EntityRendererRegistry.MOOBLOOM_LAYER)), 0.7F);
+		this.addFeature(new MoobloomFlowerFeatureRenderer(this));
+	}
 
-    @Override
-    public Identifier getTexture(MoobloomEntity entity) {
-        return Settings.makeID("textures/entity/moobloom/moobloom.png");
-    }
+	@Override
+	public Identifier getTexture(MoobloomEntity entity) {
+		return Settings.makeID("textures/entity/moobloom/moobloom.png");
+	}
 }

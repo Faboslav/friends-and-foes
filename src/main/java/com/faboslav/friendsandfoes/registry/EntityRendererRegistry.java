@@ -16,17 +16,17 @@ import net.minecraft.client.render.entity.model.EntityModelLayer;
 @Environment(EnvType.CLIENT)
 public class EntityRendererRegistry
 {
-    public static final EntityModelLayer COPPER_GOLEM_LAYER = new EntityModelLayer(Settings.makeID("copper_golem"), "main");
-    public static final EntityModelLayer GLARE_LAYER = new EntityModelLayer(Settings.makeID("glare"), "main");
-    public static final EntityModelLayer MOOBLOOM_LAYER = new EntityModelLayer(Settings.makeID("moobloom"), "main");
+	public static final EntityModelLayer COPPER_GOLEM_LAYER = new EntityModelLayer(Settings.makeID("copper_golem"), "main");
+	public static final EntityModelLayer GLARE_LAYER = new EntityModelLayer(Settings.makeID("glare"), "main");
+	public static final EntityModelLayer MOOBLOOM_LAYER = new EntityModelLayer(Settings.makeID("moobloom"), "main");
 
-    public static void init() {
-        net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry.register(EntityRegistry.COPPER_GOLEM, CopperGolemEntityRenderer::new);
-        net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry.register(EntityRegistry.GLARE, GlareEntityRenderer::new);
-        net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry.register(EntityRegistry.MOOBLOOM, MoobloomEntityRenderer::new);
+	public static void init() {
+		net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry.register(EntityRegistry.COPPER_GOLEM, CopperGolemEntityRenderer::new);
+		net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry.register(EntityRegistry.GLARE, GlareEntityRenderer::new);
+		net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry.register(EntityRegistry.MOOBLOOM, MoobloomEntityRenderer::new);
 
-        EntityModelLayerRegistry.registerModelLayer(COPPER_GOLEM_LAYER, CopperGolemEntityModel::getTexturedModelData);
-        EntityModelLayerRegistry.registerModelLayer(GLARE_LAYER, GlareEntityModel::getTexturedModelData);
-        EntityModelLayerRegistry.registerModelLayer(MOOBLOOM_LAYER, CowEntityModel::getTexturedModelData);
-    }
+		EntityModelLayerRegistry.registerModelLayer(COPPER_GOLEM_LAYER, CopperGolemEntityModel::getTexturedModelData);
+		EntityModelLayerRegistry.registerModelLayer(GLARE_LAYER, GlareEntityModel::getTexturedModelData);
+		EntityModelLayerRegistry.registerModelLayer(MOOBLOOM_LAYER, CowEntityModel::getTexturedModelData);
+	}
 }

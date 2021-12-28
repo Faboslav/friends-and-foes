@@ -1,11 +1,11 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "minecraft:copper_ingot"
-    }
+	{
+	  "item": "minecraft:copper_ingot"
+	}
   ],
   "result": {
-    "item": "friendsandfoes:copper_button"
+	"item": "friendsandfoes:copper_button"
   }
 }

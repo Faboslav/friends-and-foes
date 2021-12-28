@@ -1,14 +1,14 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "friendsandfoes:copper_button"
-    },
-    {
-      "item": "minecraft:honeycomb"
-    }
+	{
+	  "item": "friendsandfoes:copper_button"
+	},
+	{
+	  "item": "minecraft:honeycomb"
+	}
   ],
   "result": {
-    "item": "friendsandfoes:waxed_copper_button"
+	"item": "friendsandfoes:waxed_copper_button"
   }
 }

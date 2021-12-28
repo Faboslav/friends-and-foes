@@ -8,8 +8,8 @@ import net.minecraft.client.render.RenderLayer;
 @Environment(EnvType.CLIENT)
 public class BlockRenderLayerMapRegistry
 {
-    public static void init() {
-        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.BUTTERCUP, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.POTTED_BUTTERCUP, RenderLayer.getCutout());
-    }
+	public static void init() {
+		BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.BUTTERCUP, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.POTTED_BUTTERCUP, RenderLayer.getCutout());
+	}
 }

@@ -11,15 +11,16 @@ import net.minecraft.tag.Tag;
  */
 public class BlockTagRegistry
 {
-    public static final Tag.Identified<Block> COPPER_BUTTONS;
+	public static final Tag.Identified<Block> COPPER_BUTTONS;
 
-    static {
-        COPPER_BUTTONS = register("copper_buttons");
-    }
+	static {
+		COPPER_BUTTONS = register("copper_buttons");
+	}
 
-    private static Tag.Identified<Block> register(String name) {
-        return BlockTagsAccessor.invokeRegister(Settings.makeStringID(name));
-    }
+	private static Tag.Identified<Block> register(String name) {
+		return BlockTagsAccessor.invokeRegister(Settings.makeStringID(name));
+	}
 
-    public static void init() {}
+	public static void init() {
+	}
 }

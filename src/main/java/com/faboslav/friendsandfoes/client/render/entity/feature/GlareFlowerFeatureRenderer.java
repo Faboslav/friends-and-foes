@@ -14,37 +14,37 @@ import net.minecraft.util.Identifier;
 @Environment(EnvType.CLIENT)
 public class GlareFlowerFeatureRenderer extends FeatureRenderer<GlareEntity, GlareEntityModel<GlareEntity>>
 {
-    public GlareFlowerFeatureRenderer(FeatureRendererContext<GlareEntity, GlareEntityModel<GlareEntity>> featureRendererContext) {
-        super(featureRendererContext);
-    }
+	public GlareFlowerFeatureRenderer(FeatureRendererContext<GlareEntity, GlareEntityModel<GlareEntity>> featureRendererContext) {
+		super(featureRendererContext);
+	}
 
-    public void render(
-            MatrixStack matrixStack,
-            VertexConsumerProvider vertexConsumerProvider,
-            int light,
-            GlareEntity glareEntity,
-            float f,
-            float g,
-            float h,
-            float j,
-            float k,
-            float l
-    ) {
-        if (!glareEntity.isInvisible() && glareEntity.isTamed()) {
-            Identifier identifier = Settings.makeID("textures/entity/glare/flowering_glare.png");
+	public void render(
+		MatrixStack matrixStack,
+		VertexConsumerProvider vertexConsumerProvider,
+		int light,
+		GlareEntity glareEntity,
+		float f,
+		float g,
+		float h,
+		float j,
+		float k,
+		float l
+	) {
+		if (!glareEntity.isInvisible() && glareEntity.isTamed()) {
+			Identifier identifier = Settings.makeID("textures/entity/glare/flowering_glare.png");
 
-            renderModel(
-                    this.getContextModel(),
-                    identifier,
-                    matrixStack,
-                    vertexConsumerProvider,
-                    light,
-                    glareEntity,
-                    1.0F,
-                    1.0F,
-                    1.0F
-            );
-        }
-    }
+			renderModel(
+				this.getContextModel(),
+				identifier,
+				matrixStack,
+				vertexConsumerProvider,
+				light,
+				glareEntity,
+				1.0F,
+				1.0F,
+				1.0F
+			);
+		}
+	}
 }
 

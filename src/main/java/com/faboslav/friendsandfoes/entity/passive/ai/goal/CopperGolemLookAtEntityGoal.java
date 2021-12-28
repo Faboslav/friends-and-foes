@@ -7,20 +7,20 @@ import net.minecraft.entity.mob.MobEntity;
 
 public class CopperGolemLookAtEntityGoal extends LookAtEntityGoal
 {
-    public CopperGolemLookAtEntityGoal(
-            MobEntity mobEntity,
-            Class<? extends LivingEntity> class_,
-            float f
-    ) {
-        super(mobEntity, class_, f);
-    }
+	public CopperGolemLookAtEntityGoal(
+		MobEntity mobEntity,
+		Class<? extends LivingEntity> class_,
+		float f
+	) {
+		super(mobEntity, class_, f);
+	}
 
-    @Override
-    public boolean shouldContinue() {
-        if (((CopperGolemEntity) this.mob).isOxidized()) {
-            return false;
-        }
+	@Override
+	public boolean shouldContinue() {
+		if (((CopperGolemEntity) this.mob).isOxidized()) {
+			return false;
+		}
 
-        return super.shouldContinue();
-    }
+		return super.shouldContinue();
+	}
 }

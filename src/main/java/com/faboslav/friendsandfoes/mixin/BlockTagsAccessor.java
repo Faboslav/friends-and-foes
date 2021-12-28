@@ -9,8 +9,8 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(BlockTags.class)
 public interface BlockTagsAccessor
 {
-    @Invoker
-    static Tag.Identified<Block> invokeRegister(String id) {
-        throw new UnsupportedOperationException();
-    }
+	@Invoker
+	static Tag.Identified<Block> invokeRegister(String id) {
+		throw new UnsupportedOperationException();
+	}
 }

@@ -18,38 +18,38 @@ import net.minecraft.world.World;
 
 public class CopperButtonBlock extends AbstractButtonBlock
 {
-    public static final int PRESS_TICKS = 10;
+	public static final int PRESS_TICKS = 10;
 
-    public CopperButtonBlock(AbstractBlock.Settings settings) {
-        super(false, settings);
-    }
+	public CopperButtonBlock(AbstractBlock.Settings settings) {
+		super(false, settings);
+	}
 
-    @Override
-    public SoundEvent getClickSound(boolean powered) {
-        return powered ? SoundEvents.BLOCK_STONE_BUTTON_CLICK_ON:SoundEvents.BLOCK_STONE_BUTTON_CLICK_OFF;
-    }
+	@Override
+	public SoundEvent getClickSound(boolean powered) {
+		return powered ? SoundEvents.BLOCK_STONE_BUTTON_CLICK_ON:SoundEvents.BLOCK_STONE_BUTTON_CLICK_OFF;
+	}
 
-    @Override
-    public ActionResult onUse(
-            BlockState state,
-            World world,
-            BlockPos pos,
-            PlayerEntity player,
-            Hand hand,
-            BlockHitResult hit
-    ) {
-        ItemStack itemStack = player.getStackInHand(hand);
-        Item itemInHand = itemStack.getItem();
+	@Override
+	public ActionResult onUse(
+		BlockState state,
+		World world,
+		BlockPos pos,
+		PlayerEntity player,
+		Hand hand,
+		BlockHitResult hit
+	) {
+		ItemStack itemStack = player.getStackInHand(hand);
+		Item itemInHand = itemStack.getItem();
 
-        if (itemInHand instanceof AxeItem) {
-            ItemUsageContext itemUsageContext = new ItemUsageContext(player, hand, hit);
-            ActionResult itemInHandUsageResult = itemInHand.useOnBlock(itemUsageContext);
+		if (itemInHand instanceof AxeItem) {
+			ItemUsageContext itemUsageContext = new ItemUsageContext(player, hand, hit);
+			ActionResult itemInHandUsageResult = itemInHand.useOnBlock(itemUsageContext);
 
-            if (itemInHandUsageResult.isAccepted()) {
-                return itemInHandUsageResult;
-            }
-        }
+			if (itemInHandUsageResult.isAccepted()) {
+				return itemInHandUsageResult;
+			}
+		}
 
-        return super.onUse(state, world, pos, player, hand, hit);
-    }
+		return super.onUse(state, world, pos, player, hand, hit);
+	}
 }

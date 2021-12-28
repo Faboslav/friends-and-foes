@@ -14,68 +14,68 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.util.dynamic.GlobalPos;
 import net.minecraft.util.math.BlockPos;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-import org.jetbrains.annotations.Nullable;
+public class BeekeeperWorkTask extends VillagerWorkTask
+{
+	public BeekeeperWorkTask() {
+		super();
+	}
 
-public class BeekeeperWorkTask extends VillagerWorkTask {
-    public BeekeeperWorkTask() {
-        super();
-    }
+	protected void run(ServerWorld serverWorld, VillagerEntity villagerEntity, long l) {
+		super.run(serverWorld, villagerEntity, l);
 
-    protected void run(ServerWorld serverWorld, VillagerEntity villagerEntity, long l) {
-        super.run(serverWorld, villagerEntity, l);
+		GlobalPos beehiveGlobalPos = getBeehiveGlobalPos(serverWorld, villagerEntity);
 
-        GlobalPos beehiveGlobalPos = getBeehiveGlobalPos(serverWorld, villagerEntity);
+		if (beehiveGlobalPos != null) {
+			BlockState beehiveBlockState = serverWorld.getBlockState(beehiveGlobalPos.getPos());
 
-        if (beehiveGlobalPos != null) {
-            BlockState beehiveBlockState = serverWorld.getBlockState(beehiveGlobalPos.getPos());
+			if (isBeehiveReadyForHarvest(beehiveBlockState)) {
+				villagerEntity.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.SHEARS));
+				villagerEntity.setCurrentHand(Hand.MAIN_HAND);
+			}
+		}
+	}
 
-            if (isBeehiveReadyForHarvest(beehiveBlockState)) {
-                villagerEntity.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.SHEARS));
-                villagerEntity.setCurrentHand(Hand.MAIN_HAND);
-            }
-        }
-    }
+	protected void finishRunning(ServerWorld serverWorld, VillagerEntity villagerEntity, long l) {
+		villagerEntity.equipStack(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
+		super.finishRunning(serverWorld, villagerEntity, l);
+	}
 
-    protected void finishRunning(ServerWorld serverWorld, VillagerEntity villagerEntity, long l) {
-        villagerEntity.equipStack(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
-        super.finishRunning(serverWorld, villagerEntity, l);
-    }
+	protected void performAdditionalWork(ServerWorld serverWorld, VillagerEntity villagerEntity) {
+		GlobalPos beehiveGlobalPos = getBeehiveGlobalPos(serverWorld, villagerEntity);
 
-    protected void performAdditionalWork(ServerWorld serverWorld, VillagerEntity villagerEntity) {
-        GlobalPos beehiveGlobalPos = getBeehiveGlobalPos(serverWorld, villagerEntity);
+		if (beehiveGlobalPos != null) {
+			BlockState beehiveBlockState = serverWorld.getBlockState(beehiveGlobalPos.getPos());
 
-        if (beehiveGlobalPos != null) {
-            BlockState beehiveBlockState = serverWorld.getBlockState(beehiveGlobalPos.getPos());
+			if (isBeehiveReadyForHarvest(beehiveBlockState)) {
+				this.harvestHoney(serverWorld, beehiveGlobalPos, beehiveBlockState);
+			}
+		}
+	}
 
-            if (isBeehiveReadyForHarvest(beehiveBlockState)) {
-                this.harvestHoney(serverWorld, beehiveGlobalPos, beehiveBlockState);
-            }
-        }
-    }
+	private void harvestHoney(ServerWorld world, GlobalPos globalPos, BlockState beehiveState) {
+		BlockPos blockPos = globalPos.getPos();
+		world.setBlockState(blockPos, beehiveState.with(BeehiveBlock.HONEY_LEVEL, 0), 3);
+		world.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.BLOCK_BEEHIVE_SHEAR, SoundCategory.NEUTRAL, 1.0F, 1.0F);
+		BeehiveBlock.dropHoneycomb(world, blockPos);
+	}
 
-    private void harvestHoney(ServerWorld world, GlobalPos globalPos, BlockState beehiveState) {
-        BlockPos blockPos = globalPos.getPos();
-        world.setBlockState(blockPos, beehiveState.with(BeehiveBlock.HONEY_LEVEL, 0), 3);
-        world.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.BLOCK_BEEHIVE_SHEAR, SoundCategory.NEUTRAL, 1.0F, 1.0F);
-        BeehiveBlock.dropHoneycomb(world, blockPos);
-    }
+	@Nullable
+	private GlobalPos getBeehiveGlobalPos(ServerWorld world, VillagerEntity entity) {
+		Optional<GlobalPos> optional = entity.getBrain().getOptionalMemory(MemoryModuleType.JOB_SITE);
+		if (optional.isPresent()) {
+			GlobalPos globalPos = optional.get();
 
-    @Nullable
-    private GlobalPos getBeehiveGlobalPos(ServerWorld world, VillagerEntity entity) {
-        Optional<GlobalPos> optional = entity.getBrain().getOptionalMemory(MemoryModuleType.JOB_SITE);
-        if (optional.isPresent()) {
-            GlobalPos globalPos = optional.get();
+			return globalPos;
+		}
 
-            return globalPos;
-        }
+		return null;
+	}
 
-        return null;
-    }
-
-    private boolean isBeehiveReadyForHarvest(BlockState beehiveState) {
-        return beehiveState.get(BeehiveBlock.HONEY_LEVEL) >= 5;
-    }
+	private boolean isBeehiveReadyForHarvest(BlockState beehiveState) {
+		return beehiveState.get(BeehiveBlock.HONEY_LEVEL) >= 5;
+	}
 }

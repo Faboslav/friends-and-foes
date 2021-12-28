@@ -8,12 +8,12 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(BeeEntity.class)
 public interface BeeEntityAccessor
 {
-    @Invoker("setHasNectar")
-    void invokeSetHasNectar(boolean hasNectar);
+	@Invoker("setHasNectar")
+	void invokeSetHasNectar(boolean hasNectar);
 
-    @Accessor
-    int getTicksUntilCanPollinate();
+	@Accessor
+	int getTicksUntilCanPollinate();
 
-    @Accessor("ticksUntilCanPollinate")
-    void setTicksUntilCanPollinate(int ticksUntilCanPollinate);
+	@Accessor("ticksUntilCanPollinate")
+	void setTicksUntilCanPollinate(int ticksUntilCanPollinate);
 }

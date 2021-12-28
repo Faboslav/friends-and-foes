@@ -13,9 +13,9 @@ import java.util.Map;
 @Mixin({ModelPart.class})
 public interface ModelPartAccessor
 {
-    @Accessor("cuboids")
-    List<ModelPart.Cuboid> getCuboids();
+	@Accessor("cuboids")
+	List<ModelPart.Cuboid> getCuboids();
 
-    @Accessor("children")
-    Map<String, ModelPart> getChildren();
+	@Accessor("children")
+	Map<String, ModelPart> getChildren();
 }

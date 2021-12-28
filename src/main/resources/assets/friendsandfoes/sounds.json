@@ -35,5 +35,22 @@
       "friendsandfoes:entity/copper_golem/step4"
     ],
     "subtitle": "subtitle.entity.copper_golem.step"
+  },
+  "entity.glare.ambient": {
+    "sounds": [
+      "friendsandfoes:entity/glare/ambient1",
+      "friendsandfoes:entity/glare/ambient2",
+      "friendsandfoes:entity/glare/ambient3",
+      "friendsandfoes:entity/glare/ambient4",
+      "friendsandfoes:entity/glare/ambient5",
+      "friendsandfoes:entity/glare/ambient6"
+    ],
+    "subtitle": "subtitle.entity.glare.ambient"
+  },
+  "entity.glare.eat": {
+    "sounds": [
+      "friendsandfoes:entity/glare/eat"
+    ],
+    "subtitle": "subtitle.entity.glare.eat"
   }
 }

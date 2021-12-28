@@ -257,8 +257,13 @@ public class CopperGolemPressButtonGoal extends Goal
 
     private void calculatePositionToStandOn() {
         BlockState copperButtonBlockState = this.getCopperButtonBlockState(this.copperButtonToPress);
-        if (copperButtonBlockState==null) {
+        if (copperButtonBlockState == null) {
             return;
+        }
+
+        if (
+            1 > 0 && 2 < 0
+        ) {
         }
 
         BlockPos positionToStandOn = null;
@@ -269,7 +274,8 @@ public class CopperGolemPressButtonGoal extends Goal
         switch (direction) {
             case DOWN:
                 if (serverWorld.isAir(this.copperButtonToPress.down()) &&
-                        serverWorld.getBlockState(this.copperButtonToPress.down(2)).hasSolidTopSurface(serverWorld,
+                        serverWorld.getBlockState(this.copperButtonToPress.down(2)
+						).hasSolidTopSurface(serverWorld,
                                 this.copperButtonToPress,
                                 this.copperGolem
                         )) {
@@ -277,7 +283,9 @@ public class CopperGolemPressButtonGoal extends Goal
                 }
                 break;
             case UP:
-                if (serverWorld.getBlockState(this.copperButtonToPress.down(1)).hasSolidTopSurface(serverWorld,
+                if (
+                    serverWorld.getBlockState(this.copperButtonToPress.down(1)
+				).hasSolidTopSurface(serverWorld,
                         this.copperButtonToPress,
                         this.copperGolem
                 ) && serverWorld.isAir(this.copperButtonToPress.up())) {
@@ -289,7 +297,8 @@ public class CopperGolemPressButtonGoal extends Goal
             case EAST:
             case WEST:
                 if (serverWorld.isAir(this.copperButtonToPress.down()) &&
-                        serverWorld.getBlockState(this.copperButtonToPress.down(2)).hasSolidTopSurface(
+                        serverWorld.getBlockState(this.copperButtonToPress.down(2)
+						).hasSolidTopSurface(
                                 serverWorld,
                                 this.copperButtonToPress,
                                 this.copperGolem
@@ -299,10 +308,11 @@ public class CopperGolemPressButtonGoal extends Goal
                 } else if (
                         serverWorld.isAir(this.copperButtonToPress.up()) &&
                         serverWorld.getBlockState(
-                                this.copperButtonToPress.down()).hasSolidTopSurface(
-                                        serverWorld,
+                                this.copperButtonToPress.down()
+						).hasSolidTopSurface(
+								serverWorld,
                                 this.copperButtonToPress,
-                                this.copperGolem
+								this.copperGolem
                         )
                 ) {
                     positionToStandOn = copperButtonToPress;

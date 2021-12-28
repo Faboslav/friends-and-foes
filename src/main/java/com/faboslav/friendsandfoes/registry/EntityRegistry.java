@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.registry;
 
 import com.faboslav.friendsandfoes.config.Settings;
 import com.faboslav.friendsandfoes.entity.passive.CopperGolemEntity;
+import com.faboslav.friendsandfoes.entity.passive.GlareEntity;
 import com.faboslav.friendsandfoes.entity.passive.MoobloomEntity;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
@@ -19,14 +20,17 @@ import java.util.function.Predicate;
 public class EntityRegistry
 {
     private static final Predicate<BiomeSelectionContext> flowerForest = BiomeSelectors.includeByKey(BiomeKeys.FLOWER_FOREST);
+    private static final Predicate<BiomeSelectionContext> lushCaves = BiomeSelectors.includeByKey(BiomeKeys.LUSH_CAVES);
     private static final SpawnRestriction.Location onGround = SpawnRestriction.Location.ON_GROUND;
     private static final Heightmap.Type motionBlocking = Heightmap.Type.MOTION_BLOCKING_NO_LEAVES;
-    public static final EntityType<MoobloomEntity> MOOBLOOM;
     public static final EntityType<CopperGolemEntity> COPPER_GOLEM;
+    public static final EntityType<GlareEntity> GLARE;
+    public static final EntityType<MoobloomEntity> MOOBLOOM;
 
     static {
-        MOOBLOOM = registerMoobloom();
         COPPER_GOLEM =  registerCopperGolem();
+        GLARE =  registerGlare();
+        MOOBLOOM = registerMoobloom();
     }
 
     private static EntityType<CopperGolemEntity> registerCopperGolem() {
@@ -40,6 +44,28 @@ public class EntityRegistry
         );
 
         return copperGolem;
+    }
+
+    private static EntityType<GlareEntity> registerGlare() {
+        SpawnGroup spawnGroup = SpawnGroup.AMBIENT;
+
+        EntityType<GlareEntity> type = FabricEntityTypeBuilder
+                .createMob()
+                .spawnGroup(spawnGroup)
+                .entityFactory(GlareEntity::new)
+                .spawnRestriction(onGround, motionBlocking, GlareEntity::canSpawn)
+                .dimensions(EntityDimensions.fixed(0.9F, 1.4F))
+                .build();
+
+        EntityType<GlareEntity> glare = Registry.register(Registry.ENTITY_TYPE, Settings.makeID("glare"), type);
+
+        // Register attributes
+        FabricDefaultAttributeRegistry.register(glare, GlareEntity.createGlareAttributes());
+
+        // Register spawn restriction
+        BiomeModifications.addSpawn(lushCaves, spawnGroup, glare, 80, 1, 2);
+
+        return glare;
     }
 
     private static EntityType<MoobloomEntity> registerMoobloom() {

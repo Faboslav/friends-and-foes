@@ -52,5 +52,13 @@
       "friendsandfoes:entity/glare/eat"
     ],
     "subtitle": "subtitle.entity.glare.eat"
+  },
+  "entity.glare.hurt": {
+    "sounds": [
+      "friendsandfoes:entity/glare/hurt1",
+      "friendsandfoes:entity/glare/hurt2",
+      "friendsandfoes:entity/glare/hurt3"
+    ],
+    "subtitle": "subtitle.entity.glare.hurt"
   }
 }

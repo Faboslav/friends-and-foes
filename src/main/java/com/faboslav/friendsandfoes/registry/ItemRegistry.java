@@ -21,8 +21,9 @@ import java.util.List;
 public class ItemRegistry
 {
     public static final List<Item> ITEMS = Lists.newArrayList();
-    public final static Item MOOBLOOM_EGG;
     public final static Item COPPER_GOLEM_SPAWN_EGG;
+    public final static Item GLARE_SPAWN_EGG;
+    public final static Item MOOBLOOM_EGG;
     public static final Item BUTTERCUP;
     public static final Item ACACIA_BEEHIVE;
     public static final Item BIRCH_BEEHIVE;
@@ -41,8 +42,9 @@ public class ItemRegistry
     public static final Item WAXED_OXIDIZED_COPPER_BUTTON;
 
     static {
-        MOOBLOOM_EGG = registerSpawnEgg("moobloom", EntityRegistry.MOOBLOOM, 0xFACA00, 0xf7EDC1);
         COPPER_GOLEM_SPAWN_EGG = registerSpawnEgg("copper_golem", EntityRegistry.COPPER_GOLEM, 0x9A5038, 0xE3826C);
+        GLARE_SPAWN_EGG = registerSpawnEgg("glare", EntityRegistry.GLARE, 0x70922C, 0x44300F);
+        MOOBLOOM_EGG = registerSpawnEgg("moobloom", EntityRegistry.MOOBLOOM, 0xFACA00, 0xf7EDC1);
         BUTTERCUP = register("buttercup", new BlockItem(BlockRegistry.BUTTERCUP, new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
         ACACIA_BEEHIVE = register("acacia_beehive", new BlockItem(BlockRegistry.ACACIA_BEEHIVE, new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
         BIRCH_BEEHIVE = register("birch_beehive", new BlockItem(BlockRegistry.BIRCH_BEEHIVE, new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));

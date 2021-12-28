@@ -22,7 +22,7 @@ import java.util.function.Predicate;
 
 public class CopperGolemPressButtonGoal extends Goal
 {
-    private final double COPPER_BUTTON_SEARCH_DISTANCE = 8.0D;
+    private final double COPPER_BUTTON_SEARCH_DISTANCE = 12.0D;
     protected CopperGolemEntity copperGolem;
     private BlockPos copperButtonToPress;
     private BlockPos positionToStandOn;
@@ -124,15 +124,15 @@ public class CopperGolemPressButtonGoal extends Goal
         this.positionToLookAt = null;
         this.currentPath = null;
 
-        // Update entity
+        // Update entity data
         this.copperGolem.setIsPressingButton(false);
-        int minCooldownTicks = 200;
+        int minCooldownTicks = CopperGolemEntity.MIN_TICKS_UNTIL_NEXT_HEAD_SPIN;
         if (this.copperGolem.isDegraded()) {
             minCooldownTicks *= this.copperGolem.getOxidationLevel().ordinal();
         }
 
-        int maxCooldownTicks = 1200;
-        int cooldown = this.copperGolem.getRandom().nextInt(maxCooldownTicks - minCooldownTicks + 1) + minCooldownTicks;
+        int maxCooldownTicks = CopperGolemEntity.MAX_TICKS_UNTIL_CAN_PRESS_BUTTON;
+        int cooldown = RandomGenerator.generateInt(minCooldownTicks, maxCooldownTicks);
         this.copperGolem.setTicksUntilCanPressButton(cooldown);
     }
 
@@ -153,7 +153,7 @@ public class CopperGolemPressButtonGoal extends Goal
                 0
         );
 
-        if (this.currentPath!=null) {
+        if (this.currentPath != null) {
             this.copperGolem.getNavigation().startMovingAlong(
                     this.currentPath,
                     this.copperGolem.getMovementSpeed()

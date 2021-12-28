@@ -1,23 +1,16 @@
 package com.faboslav.friendsandfoes.client.render.entity.model;
 
 import com.faboslav.friendsandfoes.entity.passive.CopperGolemEntity;
-import com.faboslav.friendsandfoes.mixin.ModelPartAccessor;
 import com.faboslav.friendsandfoes.util.ModelAnimationHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
-import net.minecraft.client.render.entity.model.SinglePartEntityModel;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.MathHelper;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Environment(EnvType.CLIENT)
-public class CopperGolemEntityModel<T extends CopperGolemEntity> extends SinglePartEntityModel<T>
+public class CopperGolemEntityModel<T extends CopperGolemEntity> extends AbstractEntityModel<T>
 {
-    private final Map<String, ModelTransform> defaultModelTransforms;
-
     private static final String MODEL_PART_ROOT = "root";
     private static final String MODEL_PART_BODY = "body";
     private static final String MODEL_PART_LEFT_ARM = "leftArm";
@@ -28,7 +21,6 @@ public class CopperGolemEntityModel<T extends CopperGolemEntity> extends SingleP
     private static final String MODEL_PART_NOSE = "nose";
     private static final String MODEL_PART_ROD = "rod";
 
-    private final ModelPart root;
     private final ModelPart head;
     private final ModelPart nose;
     private final ModelPart rod;
@@ -40,8 +32,8 @@ public class CopperGolemEntityModel<T extends CopperGolemEntity> extends SingleP
 
     private float buttonPressAnimationProgress;
 
-    public CopperGolemEntityModel(ModelPart modelPart) {
-        this.root = modelPart;
+    public CopperGolemEntityModel(ModelPart root) {
+        super(root);
         this.head = this.root.getChild(MODEL_PART_HEAD);
         this.nose = this.head.getChild(MODEL_PART_NOSE);
         this.rod = this.head.getChild(MODEL_PART_ROD);
@@ -51,45 +43,11 @@ public class CopperGolemEntityModel<T extends CopperGolemEntity> extends SingleP
         this.leftLeg = this.root.getChild(MODEL_PART_LEFT_LEG);
         this.rightLeg = this.root.getChild(MODEL_PART_RIGHT_LEG);
 
-        this.defaultModelTransforms = new HashMap<>();
         this.setCurrentModelTransforms(
                 this.defaultModelTransforms,
                 MODEL_PART_ROOT,
                 this.root
         );
-    }
-
-    public void setCurrentModelTransforms(
-            Map<String, ModelTransform> modelTransforms,
-            String modelPartName,
-            ModelPart modelPart
-    ) {
-        modelTransforms.put(modelPartName, modelPart.getTransform());
-
-        ModelPartAccessor modelPartAccessor = ((ModelPartAccessor) (Object) modelPart);
-        modelPartAccessor.getChildren().forEach((childrenModelPartName, childrenModelPart) -> {
-            this.setCurrentModelTransforms(modelTransforms, childrenModelPartName, childrenModelPart);
-        });
-    }
-
-    public void applyModelTransforms(
-            Map<String, ModelTransform> modelTransforms,
-            String modelPartName,
-            ModelPart modelPart
-    ) {
-        ModelTransform defaultModelTransform = modelTransforms.getOrDefault(modelPartName, null);
-        if (defaultModelTransform != null) {
-            modelPart.setTransform(defaultModelTransform);
-        }
-
-        ModelPartAccessor modelPartAccessor = ((ModelPartAccessor) (Object) modelPart);
-        modelPartAccessor.getChildren().forEach((childrenModelPartName, childrenModelPart) -> {
-            this.applyModelTransforms(
-                    modelTransforms,
-                    childrenModelPartName,
-                    childrenModelPart
-            );
-        });
     }
 
     public static TexturedModelData getTexturedModelData() {
@@ -111,11 +69,6 @@ public class CopperGolemEntityModel<T extends CopperGolemEntity> extends SingleP
         root.addChild(MODEL_PART_RIGHT_LEG, ModelPartBuilder.create().uv(20, 17).cuboid(-2.0F, 0.0F, -1.5F, 4.0F, 5.0F, 3.0F), ModelTransform.pivot(-2.0F, 19.0F, 0.0F));
 
         return TexturedModelData.of(modelData, 64, 64);
-    }
-
-    @Override
-    public ModelPart getPart() {
-        return this.root;
     }
 
     @Override

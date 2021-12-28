@@ -16,4 +16,11 @@ public class RandomGenerator
     ) {
         return random.nextInt((max - min) + 1) + min;
     }
+
+    public static float generateFloat(
+            float min,
+            float max
+    ) {
+        return min + random.nextFloat() * (max - min);
+    }
 }

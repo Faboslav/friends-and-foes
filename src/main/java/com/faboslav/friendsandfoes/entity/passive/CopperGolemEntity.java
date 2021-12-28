@@ -46,6 +46,8 @@ public class CopperGolemEntity extends GolemEntity
 {
     private static final float MOVEMENT_SPEED = 0.35F;
     private static final int COPPER_INGOT_HEAL_AMOUNT = 5;
+    public static final int MIN_TICKS_UNTIL_CAN_PRESS_BUTTON = 200;
+    public static final int MAX_TICKS_UNTIL_CAN_PRESS_BUTTON = 1200;
     public static final int MIN_TICKS_UNTIL_NEXT_HEAD_SPIN = 200;
     public static final int MAX_TICKS_UNTIL_NEXT_HEAD_SPIN = 400;
 
@@ -125,7 +127,7 @@ public class CopperGolemEntity extends GolemEntity
         this.dataTracker.startTracking(OXIDATION_TICKS, 0);
         this.dataTracker.startTracking(IS_WAXED, false);
         this.dataTracker.startTracking(IS_PRESSING_BUTTON, false);
-        this.dataTracker.startTracking(TICKS_UNTIL_CAN_PRESS_BUTTON, RandomGenerator.generateInt(MIN_TICKS_UNTIL_NEXT_HEAD_SPIN, MAX_TICKS_UNTIL_NEXT_HEAD_SPIN));
+        this.dataTracker.startTracking(TICKS_UNTIL_CAN_PRESS_BUTTON, RandomGenerator.generateInt(MIN_TICKS_UNTIL_CAN_PRESS_BUTTON, MAX_TICKS_UNTIL_CAN_PRESS_BUTTON));
         this.dataTracker.startTracking(IS_SPINNING_HEAD, false);
         this.dataTracker.startTracking(TICKS_UNTIL_NEXT_HEAD_SPIN, RandomGenerator.generateInt(MIN_TICKS_UNTIL_NEXT_HEAD_SPIN, MAX_TICKS_UNTIL_NEXT_HEAD_SPIN));
         this.dataTracker.startTracking(BUTTON_PRESS_ANIMATION_PROGRESS, 0.0F);

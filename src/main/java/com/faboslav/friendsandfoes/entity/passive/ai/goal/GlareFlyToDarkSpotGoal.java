@@ -9,6 +9,7 @@ import net.minecraft.entity.ai.pathing.Path;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.LightType;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -32,15 +33,17 @@ public class GlareFlyToDarkSpotGoal extends Goal
 
 	@Override
 	public boolean canStart() {
-		if (this.glare.getTicksUntilCanFindDarkSpot() > 0) {
-			return false;
-		}
+		World world = this.glare.getWorld();
 
-		if (this.glare.isLeashed()) {
-			return false;
-		}
-
-		if (!this.glare.isTamed()) {
+		if (
+			this.glare.getTicksUntilCanFindDarkSpot() > 0
+			|| this.glare.isLeashed()
+			|| this.glare.isTamed()
+			|| (
+				world.isDay()
+				&& !world.isSkyVisible(this.glare.getBlockPos())
+			)
+		) {
 			return false;
 		}
 
@@ -48,7 +51,6 @@ public class GlareFlyToDarkSpotGoal extends Goal
 		this.darkSpot = this.getRandomDarkSpot(darkSpots);
 
 		if (this.darkSpot == null) {
-			System.out.println("no spots");
 			return false;
 		}
 
@@ -59,24 +61,18 @@ public class GlareFlyToDarkSpotGoal extends Goal
 
 	@Override
 	public boolean shouldContinue() {
-		if (this.runTicks >= 1200) {
-			System.out.println("time");
+
+		if (
+			this.runTicks >= 1200
+			|| this.darkSpot == null
+		) {
 			return false;
 		}
 
-		if (this.darkSpot == null) {
-			System.out.println("end");
-			return false;
-		}
 
 		boolean isSpotDarkEnough = this.glare.getWorld().getLightLevel(LightType.BLOCK, this.darkSpot) == 0;
 
-		if (!isSpotDarkEnough) {
-			System.out.println("nono");
-			return false;
-		}
-
-		return true;
+		return isSpotDarkEnough;
 	}
 
 	@Override
@@ -141,7 +137,7 @@ public class GlareFlyToDarkSpotGoal extends Goal
 		this.glare.setGrumpy(true);
 		this.glare.getLookControl().lookAt(owner.getPos());
 
-		System.out.println("dark spot");
+		System.out.println("dark spot me grumpy ffs");
 	}
 
 	private ArrayList<BlockPos> findDarkSpots(double searchDistance) {

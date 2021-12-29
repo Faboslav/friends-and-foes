@@ -4,6 +4,7 @@ import com.faboslav.friendsandfoes.entity.passive.GlareEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
+import net.minecraft.entity.decoration.LeashKnotEntity;
 import net.minecraft.util.math.MathHelper;
 
 @Environment(EnvType.CLIENT)
@@ -28,8 +29,8 @@ public class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel
 
 	private final ModelPart[] layers;
 
-	private float angleDegrees = (float) Math.toRadians(1.25);
-	private float bodyYaw;
+	private float layerPitch;
+	private float layerRoll;
 
 	public GlareEntityModel(ModelPart root) {
 		super(root);
@@ -86,14 +87,23 @@ public class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel
 	) {
 		boolean isMoving = !glareEntity.isOnGround() && glareEntity.getVelocity().lengthSquared() >= 0.0001;
 
-		if (isMoving) {
-			//this.angleDegrees = (float) Math.toRadians(2.5);
+		float targetLayerPitch;
+		float targetLayerRoll;
+
+		if (
+			isMoving
+			&& !(glareEntity.getHoldingEntity() instanceof LeashKnotEntity)
+			&& !glareEntity.isGrumpy()
+		) {
+			targetLayerPitch = (float) Math.toRadians(10);
+			targetLayerRoll = (float) Math.toRadians(1);
 		} else {
-			//this.angleDegrees = (float) Math.toRadians(1.25);
+			targetLayerPitch = (float) Math.toRadians(1);
+			targetLayerRoll = (float) Math.toRadians(1);
 		}
 
-		this.angleDegrees = (float) Math.toRadians(1.25);
-		//System.out.println(this.angleDegrees);
+		this.layerPitch = MathHelper.lerp((float) Math.abs(Math.sin(tickDelta)) * 0.1f, this.layerPitch, targetLayerPitch);
+		this.layerRoll = MathHelper.lerp((float) Math.abs(Math.sin(tickDelta)) * 0.1f, this.layerRoll, targetLayerRoll);
 	}
 
 	@Override
@@ -110,32 +120,15 @@ public class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel
 			MODEL_PART_ROOT,
 			this.root
 		);
-
-		boolean isMoving = !glareEntity.isOnGround() && glareEntity.getVelocity().lengthSquared() >= 0.0001;
-		float animationSpeed;
-
-		if (isMoving) {
-			animationSpeed = 0.1F;
-		} else {
-			animationSpeed = 0.075F;
-		}
-
+		
 		this.topAzalea.pivotX = MathHelper.sin((animationProgress * 0.25F)) * 0.1F;
 		this.bottomAzalea.pivotX = MathHelper.sin((animationProgress * 0.25F)) * 0.1F;
 
 		for (int i = 0; i < this.layers.length; ++i) {
-			float layerAnimationProgress = MathHelper.sin(animationProgress * animationSpeed + (float) i + 1.0F);
+			float layerAnimationProgress = animationProgress * 0.1F + (float) i + 1.0F;
 
-			if (isMoving) {
-				layerAnimationProgress += 0.5F;
-			}
-
-			layerAnimationProgress = Math.min(1.0F, layerAnimationProgress);
-
-			//System.out.println(layerAnimationProgress);
-
-			this.layers[i].pitch = layerAnimationProgress * this.angleDegrees;
-			this.layers[i].roll = layerAnimationProgress * this.angleDegrees / 2.0F;
+			this.layers[i].pitch = (float) Math.sin(layerAnimationProgress) * this.layerPitch;
+			this.layers[i].roll = (float) Math.cos(layerAnimationProgress) * this.layerRoll;
 		}
 	}
 }

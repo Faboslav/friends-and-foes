@@ -11,7 +11,6 @@ public class StructurePoolInit
 {
 	public static void init() {
 		if (FriendsAndFoes.CONFIG.generateBeekeeperArea) {
-			System.out.println("register");
 			StructurePools.register(
 				new StructurePool(
 					Settings.makeID("village/common/bee"),

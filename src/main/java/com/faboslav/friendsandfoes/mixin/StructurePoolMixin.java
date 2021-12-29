@@ -43,10 +43,7 @@ public class StructurePoolMixin
 		StructurePool.Projection projection,
 		CallbackInfo ci
 	) {
-		System.out.println("yas");
-
 		if (FriendsAndFoes.CONFIG.generateBeekeeperArea) {
-			System.out.println(id.getPath());
 			if (Objects.equals(id.getPath(), "village/plains/houses")) {
 				addElement(Settings.makeStringID("village/plains/houses/plains_beekeeper_area"), 1, projection);
 			} else if (Objects.equals(id.getPath(), "village/taiga/houses")) {

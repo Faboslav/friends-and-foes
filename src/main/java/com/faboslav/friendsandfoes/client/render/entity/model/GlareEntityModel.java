@@ -120,7 +120,7 @@ public class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel
 			MODEL_PART_ROOT,
 			this.root
 		);
-		
+
 		this.topAzalea.pivotX = MathHelper.sin((animationProgress * 0.25F)) * 0.1F;
 		this.bottomAzalea.pivotX = MathHelper.sin((animationProgress * 0.25F)) * 0.1F;
 

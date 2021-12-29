@@ -20,9 +20,13 @@ allprojects {
 		minecraft "com.mojang:minecraft:${project.minecraft_version}"
 		mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 
-		// Mods
+		// Fabric API
 		modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 		modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+		// Omega Config
+		include "com.github.Draylar.omega-config:omega-config-base:${project.omega_config_version}"
+		modImplementation "com.github.Draylar.omega-config:omega-config-base:${project.omega_config_version}"
 	}
 
 	java {
@@ -42,6 +46,17 @@ allprojects {
 
 	repositories {
 		mavenCentral()
-		maven { name 'Fabric'; url 'https://maven.fabricmc.net/' }
+		maven {
+			name = 'Fabric'
+			url = 'https://maven.fabricmc.net/'
+		}
+
+		maven { url 'https://jitpack.io' }
+
+		// Cloth Config Lite
+		maven {
+			name = "Shedaniel's Maven"
+			url = 'https://maven.shedaniel.me/'
+		}
 	}
 }

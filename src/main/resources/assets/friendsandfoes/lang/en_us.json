@@ -1,8 +1,10 @@
 {
   "advancements.husbandry.beehive.title": "Be Keeper",
   "advancements.husbandry.beehive.description": "Obtain any type of beehive",
-  "advancements.adventure.summon_copper_golem.title": "Off you go!",
-  "advancements.adventure.summon_copper_golem.description": "Summon a copper golem.",
+  "advancements.adventure.summon_copper_golem.title": "Off you go",
+  "advancements.adventure.summon_copper_golem.description": "Summon a copper golem",
+  "advancements.adventure.tame_a_glare.title": "Grumpy and Cute",
+  "advancements.adventure.tame_a_glare.description": "Tame a glare",
   "block.friendsandfoes.buttercup": "Buttercup",
   "block.minecraft.beehive": "Oak Beehive",
   "block.friendsandfoes.acacia_beehive": "Acacia Beehive",

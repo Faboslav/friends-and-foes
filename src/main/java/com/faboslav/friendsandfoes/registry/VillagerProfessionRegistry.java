@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.registry;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.config.Settings;
 import com.google.common.collect.ImmutableMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
@@ -32,13 +33,12 @@ public class VillagerProfessionRegistry
 	public static VillagerProfession registerBeekeeper() {
 		// VillagerProfession
 		VillagerProfession beekeeperVillagerProfession = VillagerProfessionBuilder.create()
-																				  .id(Settings.makeID("beekeeper"))
-																				  .workstation(PointOfInterestType.BEEHIVE)
-																				  // TODO custom sound for subtitles
-																				  .workSound(SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM)
-																				  .harvestableItems(Items.HONEYCOMB)
-																				  .build();
-		Registry.register(Registry.VILLAGER_PROFESSION, Settings.makeID("beekeeper"), beekeeperVillagerProfession);
+			.id(Settings.makeID("beekeeper"))
+			.workstation(PointOfInterestType.BEEHIVE)
+			// TODO custom sound for subtitles
+			.workSound(SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM)
+			.harvestableItems(Items.HONEYCOMB)
+			.build();
 
 		// Trades
 		TradeOffers.PROFESSION_TO_LEVELED_TRADE.put(
@@ -69,6 +69,10 @@ public class VillagerProfessionRegistry
 				}
 			))
 		);
+
+		if (FriendsAndFoes.CONFIG.enableBeekeeperVillagerProfession) {
+			Registry.register(Registry.VILLAGER_PROFESSION, Settings.makeID("beekeeper"), beekeeperVillagerProfession);
+		}
 
 		return beekeeperVillagerProfession;
 	}

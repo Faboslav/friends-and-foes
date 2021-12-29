@@ -1,0 +1,39 @@
+{
+  "parent": "minecraft:husbandry/root",
+  "display": {
+	"icon": {
+	  "item": "minecraft:flowering_azalea"
+	},
+	"title": {
+	  "translate": "advancements.adventure.tame_a_glare.title"
+	},
+	"description": {
+	  "translate": "advancements.adventure.tame_a_glare.description"
+	},
+	"frame": "goal",
+	"show_toast": true,
+	"announce_to_chat": true,
+	"hidden": false
+  },
+  "criteria": {
+	"tamed_glare": {
+	  "trigger": "minecraft:tame_animal",
+	  "conditions": {
+		"entity": [
+		  {
+			"condition": "minecraft:entity_properties",
+			"predicate": {
+			  "type": "friendsandfoes:glare"
+			},
+			"entity": "this"
+		  }
+		]
+	  }
+	}
+  },
+  "requirements": [
+	[
+	  "tamed_glare"
+	]
+  ]
+}

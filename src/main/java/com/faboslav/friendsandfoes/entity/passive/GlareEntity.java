@@ -50,7 +50,7 @@ import java.util.UUID;
 public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 {
 	private static final int GRUMPY_BITMASK = 2;
-	private static final float MOVEMENT_SPEED = 0.35F;
+	private static final float MOVEMENT_SPEED = 0.6F;
 	private static final int GLOW_BERRY_HEAL_AMOUNT = 5;
 	public static final int MIN_TICKS_UNTIL_CAN_FIND_DARK_SPOT = 200;
 	public static final int MAX_TICKS_UNTIL_CAN_FIND_DARK_SPOT = 600;
@@ -154,8 +154,8 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		this.goalSelector.add(1, new GlareAvoidMonsterGoal(this, SpiderEntity.class, 24.0F, 1.5D, 1.5D));
 		this.goalSelector.add(1, new GlareAvoidMonsterGoal(this, WitchEntity.class, 24.0F, 1.5D, 1.5D));
 		this.goalSelector.add(1, new GlareAvoidMonsterGoal(this, ZombieEntity.class, 24.0F, 1.5D, 1.5D));
+		this.goalSelector.add(2, new GlareFollowOwnerGoal(this, 1.0D, 10.0F, 20.0F, false));
 		this.goalSelector.add(2, new GlareFlyToDarkSpotGoal(this));
-		this.goalSelector.add(2, new GlareFollowOwnerGoal(this, 1.0D, 10.0F, 2.0F, false));
 		this.goalSelector.add(3, new LookAroundGoal(this));
 		// Find dark spots and be grumpy
 		this.goalSelector.add(4, new GlareEatGlowBerriesGoal(this));
@@ -171,7 +171,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 			this.setTicksUntilCanFindDarkSpot(this.getTicksUntilCanFindDarkSpot() - 1);
 		}
 
-		this.updateBodyPitchProgress();
+		//this.updateBodyPitchProgress();
 	}
 
 	public static Builder createGlareAttributes() {
@@ -297,7 +297,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 
 		this.playSound(this.getEatSound(itemStack), 1.0F, 1.0F);
 
-		if (this.random.nextInt(10) == 0) {
+		if (this.random.nextInt(5) == 0) {
 			this.setOwner(player);
 			this.world.sendEntityStatus(this, (byte) 7);
 		} else {
@@ -410,7 +410,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		return MathHelper.lerp(tickDelta, this.lastBodyPitchProgress, this.currentBodyPitchProgress);
 	}
 
-	private void updateBodyPitchProgress() {
+	private void updateGrumpyAnimation() {
 		if (!this.getWorld().isClient()) {
 			return;
 		}
@@ -418,7 +418,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		this.lastBodyPitchProgress = this.currentBodyPitchProgress;
 		boolean isMoving = !this.isOnGround() && this.getVelocity().lengthSquared() >= 0.0001;
 
-		if (isMoving) {
+		if (this.isGrumpy()) {
 			this.currentBodyPitchProgress = Math.min(1.0F, this.currentBodyPitchProgress + 0.05F);
 		} else {
 			this.currentBodyPitchProgress = Math.max(0.0F, this.currentBodyPitchProgress - 0.1F);

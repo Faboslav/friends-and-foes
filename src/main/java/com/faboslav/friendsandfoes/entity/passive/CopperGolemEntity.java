@@ -201,9 +201,9 @@ public class CopperGolemEntity extends GolemEntity
 
 	public static DefaultAttributeContainer.Builder createCopperGolemAttributes() {
 		return MobEntity.createMobAttributes()
-						.add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
-						.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, MOVEMENT_SPEED)
-						.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D);
+			.add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
+			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, MOVEMENT_SPEED)
+			.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D);
 	}
 
 	@Override

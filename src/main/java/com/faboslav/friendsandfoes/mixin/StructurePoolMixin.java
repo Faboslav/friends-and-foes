@@ -1,9 +1,8 @@
 package com.faboslav.friendsandfoes.mixin;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.config.Settings;
 import com.mojang.datafixers.util.Pair;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.structure.pool.StructurePool;
 import net.minecraft.structure.pool.StructurePoolElement;
 import net.minecraft.util.Identifier;
@@ -18,10 +17,8 @@ import java.util.List;
 import java.util.Objects;
 
 @Mixin(StructurePool.class)
-@Environment(EnvType.SERVER)
 public class StructurePoolMixin
 {
-
 	@Final
 	@Shadow
 	private List<Pair<StructurePoolElement, Integer>> elementCounts;
@@ -46,12 +43,19 @@ public class StructurePoolMixin
 		StructurePool.Projection projection,
 		CallbackInfo ci
 	) {
-		if (Objects.equals(id.getPath(), "village/plains/houses")) {
-			addElement(Settings.makeStringID("village/plains/houses/plains_beekeeper_area"), 1, projection);
-		} else if (Objects.equals(id.getPath(), "village/taiga/houses")) {
-			addElement(Settings.makeStringID("village/taiga/houses/taiga_beekeeper_area"), 1, projection);
-		} else if (Objects.equals(id.getPath(), "village/savanna/houses")) {
-			addElement(Settings.makeStringID("village/savanna/houses/savanna_beekeeper_area"), 1, projection);
+		System.out.println("yas");
+
+		if (FriendsAndFoes.CONFIG.generateBeekeeperArea) {
+			System.out.println(id.getPath());
+			if (Objects.equals(id.getPath(), "village/plains/houses")) {
+				addElement(Settings.makeStringID("village/plains/houses/plains_beekeeper_area"), 1, projection);
+			} else if (Objects.equals(id.getPath(), "village/taiga/houses")) {
+				addElement(Settings.makeStringID("village/taiga/houses/taiga_beekeeper_area"), 1, projection);
+			} else if (Objects.equals(id.getPath(), "village/savanna/houses")) {
+				addElement(Settings.makeStringID("village/savanna/houses/savanna_beekeeper_area"), 1, projection);
+			} else if (Objects.equals(id.getPath(), "village/common/bee")) {
+				addElement(Settings.makeStringID("village/common/animals/bee"), 1, projection);
+			}
 		}
 	}
 }

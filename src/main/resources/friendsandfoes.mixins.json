@@ -11,13 +11,11 @@
 	"EntityNavigationAccessor",
 	"LightningRodBlockMixin",
 	"PointOfInterestTypeMixin",
+	"StructurePoolMixin",
 	"VillagerTaskListProviderMixin"
   ],
   "client": [
 	"ModelPartAccessor"
-  ],
-  "server": [
-	"StructurePoolMixin"
   ],
   "injectors": {
 	"defaultRequire": 1

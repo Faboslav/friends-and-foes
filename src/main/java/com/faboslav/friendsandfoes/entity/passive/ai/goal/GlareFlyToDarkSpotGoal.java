@@ -9,13 +9,14 @@ import net.minecraft.entity.ai.pathing.Path;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.LightType;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.Optional;
 
 public class GlareFlyToDarkSpotGoal extends Goal
 {
-	private final double DARK_SPOT_SEARCH_DISTANCE = 12.0D;
+	private final double DARK_SPOT_SEARCH_DISTANCE = 8.0D;
 	protected GlareEntity glare;
 	private BlockPos darkSpot;
 	private Path currentPath;
@@ -32,7 +33,7 @@ public class GlareFlyToDarkSpotGoal extends Goal
 	@Override
 	public boolean canStart() {
 		if (this.glare.getTicksUntilCanFindDarkSpot() > 0) {
-			//return false;
+			return false;
 		}
 
 		if (this.glare.isLeashed()) {
@@ -43,13 +44,13 @@ public class GlareFlyToDarkSpotGoal extends Goal
 			return false;
 		}
 
-		Optional<BlockPos> darkSpot = this.findDarkSpot(DARK_SPOT_SEARCH_DISTANCE);
+		ArrayList<BlockPos> darkSpots = this.findDarkSpots(DARK_SPOT_SEARCH_DISTANCE);
+		this.darkSpot = this.getRandomDarkSpot(darkSpots);
 
-		if (darkSpot.isEmpty()) {
+		if (this.darkSpot == null) {
+			System.out.println("no spots");
 			return false;
 		}
-
-		this.darkSpot = darkSpot.get();
 
 		System.out.println(this.darkSpot);
 
@@ -143,9 +144,10 @@ public class GlareFlyToDarkSpotGoal extends Goal
 		System.out.println("dark spot");
 	}
 
-	private Optional<BlockPos> findDarkSpot(double searchDistance) {
+	private ArrayList<BlockPos> findDarkSpots(double searchDistance) {
 		ServerWorld serverWorld = (ServerWorld) this.glare.getEntityWorld();
 		BlockPos blockPos = this.glare.getBlockPos();
+		ArrayList<BlockPos> darkSpots = new ArrayList<>();
 
 		for (int i = 0; (double) i <= searchDistance; i = i > 0 ? -i:1 - i) {
 			for (int j = 0; (double) j < searchDistance; ++j) {
@@ -154,27 +156,43 @@ public class GlareFlyToDarkSpotGoal extends Goal
 						BlockPos.Mutable possibleDarkSpotBlockPos = new BlockPos.Mutable();
 						possibleDarkSpotBlockPos.set(blockPos, k, i - 1, l);
 
+						boolean isBlockWithinDistance = blockPos.isWithinDistance(
+							possibleDarkSpotBlockPos,
+							searchDistance
+						);
 						boolean isSpotDarkEnough = this.glare.getWorld().getLightLevel(LightType.BLOCK, possibleDarkSpotBlockPos) == 0;
 						boolean isBlockSolidSurface = serverWorld.getBlockState(possibleDarkSpotBlockPos.down()).hasSolidTopSurface(serverWorld,
 							possibleDarkSpotBlockPos,
 							this.glare
 						);
-						boolean isBlockA = serverWorld.getBlockState(possibleDarkSpotBlockPos.down()).hasSolidTopSurface(serverWorld,
-							possibleDarkSpotBlockPos,
-							this.glare
-						);
+						boolean isBlockAccessible = serverWorld.isAir(possibleDarkSpotBlockPos) && serverWorld.isAir(possibleDarkSpotBlockPos.up());
 
 						if (
-							blockPos.isWithinDistance(possibleDarkSpotBlockPos, searchDistance) &&
-							isSpotDarkEnough
+							isBlockWithinDistance
+							&& isBlockSolidSurface
+							&& isBlockAccessible
+							&& isSpotDarkEnough
 						) {
-							return Optional.of(possibleDarkSpotBlockPos);
+							darkSpots.add(possibleDarkSpotBlockPos);
 						}
 					}
 				}
 			}
 		}
 
-		return Optional.empty();
+		return darkSpots;
+	}
+
+	@Nullable
+	private BlockPos getRandomDarkSpot(ArrayList<BlockPos> darkSpots) {
+		int darkSpotsCount = darkSpots.size();
+
+		if (darkSpotsCount == 0) {
+			return null;
+		}
+
+		int randomDarkSpotIndex = this.glare.getRandom().nextInt(darkSpotsCount);
+
+		return darkSpots.get(randomDarkSpotIndex);
 	}
 }

@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.registry;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.config.Settings;
 import com.faboslav.friendsandfoes.entity.passive.CopperGolemEntity;
 import com.faboslav.friendsandfoes.entity.passive.GlareEntity;
@@ -63,7 +64,9 @@ public class EntityRegistry
 		FabricDefaultAttributeRegistry.register(glare, GlareEntity.createGlareAttributes());
 
 		// Register spawn restriction
-		BiomeModifications.addSpawn(lushCaves, spawnGroup, glare, 80, 1, 2);
+		if (FriendsAndFoes.CONFIG.enableGlareSpawn) {
+			BiomeModifications.addSpawn(lushCaves, spawnGroup, glare, 80, 1, 2);
+		}
 
 		return glare;
 	}
@@ -85,7 +88,9 @@ public class EntityRegistry
 		FabricDefaultAttributeRegistry.register(moobloom, MoobloomEntity.createCowAttributes());
 
 		// Register spawn restriction
-		BiomeModifications.addSpawn(flowerForest, spawnGroup, moobloom, 32, 2, 4);
+		if (FriendsAndFoes.CONFIG.enableMoobloomSpawn) {
+			BiomeModifications.addSpawn(flowerForest, spawnGroup, moobloom, 32, 2, 4);
+		}
 
 		return moobloom;
 	}

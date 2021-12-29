@@ -14,16 +14,12 @@ public class RegistryInit
 		EntityRegistry.init();
 		SoundRegistry.init();
 		VillagerProfessionRegistry.init();
+		StructurePoolInit.init();
 	}
 
 	@Environment(EnvType.CLIENT)
 	public static void initClient() {
 		BlockRenderLayerMapRegistry.init();
 		EntityRendererRegistry.init();
-	}
-
-	@Environment(EnvType.SERVER)
-	public static void initServer() {
-		StructurePoolInit.init();
 	}
 }

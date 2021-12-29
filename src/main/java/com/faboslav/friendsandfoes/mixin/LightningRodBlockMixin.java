@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.mixin;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.passive.CopperGolemEntity;
 import com.faboslav.friendsandfoes.registry.EntityRegistry;
 import net.minecraft.advancement.criterion.Criteria;
@@ -32,6 +33,10 @@ public class LightningRodBlockMixin
 		boolean notify,
 		CallbackInfo ci
 	) {
+		if (!FriendsAndFoes.CONFIG.enableCopperGolem) {
+			return;
+		}
+
 		if (!oldState.isOf(state.getBlock())) {
 			this.trySpawnEntity(
 				world,
@@ -45,9 +50,9 @@ public class LightningRodBlockMixin
 		BlockPos pos
 	) {
 		BlockPattern copperGolemPattern = BlockPatternBuilder.start().aisle("|", "#")
-															 .where('|', CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(Blocks.LIGHTNING_ROD)))
-															 .where('#', CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(Blocks.COPPER_BLOCK)))
-															 .build();
+			.where('|', CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(Blocks.LIGHTNING_ROD)))
+			.where('#', CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(Blocks.COPPER_BLOCK)))
+			.build();
 		BlockPattern.Result patternSearchResult = copperGolemPattern.searchAround(world, pos);
 
 		if (patternSearchResult == null) {

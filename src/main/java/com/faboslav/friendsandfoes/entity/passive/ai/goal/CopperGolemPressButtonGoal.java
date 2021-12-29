@@ -221,7 +221,7 @@ public class CopperGolemPressButtonGoal extends Goal
 		for (int i = 0; (double) i <= COPPER_BUTTON_SEARCH_DISTANCE; i = i > 0 ? -i:1 - i) {
 			for (int j = 0; (double) j < COPPER_BUTTON_SEARCH_DISTANCE; ++j) {
 				for (int k = 0; k <= j; k = k > 0 ? -k:1 - k) {
-					for (int l = k < j && k > -j ? j:0; l <= j; l = l > 0 ? -l:1 - l) {
+					for (int l = k < j && k > -j ? j:0; l == j; l = l > 0 ? -l:1 - l) {
 						BlockPos.Mutable mutable = new BlockPos.Mutable();
 						mutable.set(blockPos, k, i - 1, l);
 						if (blockPos.isWithinDistance(mutable, COPPER_BUTTON_SEARCH_DISTANCE) && copperButtonPredicate.test(this.copperGolem.getEntityWorld().getBlockState(mutable))) {

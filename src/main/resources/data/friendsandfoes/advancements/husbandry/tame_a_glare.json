@@ -17,7 +17,7 @@
   },
   "criteria": {
 	"tamed_glare": {
-	  "trigger": "minecraft:tame_animal",
+	  "trigger": "friendsandfoes:tame_glare",
 	  "conditions": {
 		"entity": [
 		  {

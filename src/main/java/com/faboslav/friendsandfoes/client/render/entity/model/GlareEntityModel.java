@@ -31,6 +31,10 @@ public class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel
 
 	private float layerPitch;
 	private float layerRoll;
+	private float pitchLayerAnimationProgress;
+	private float rollLayerAnimationProgress;
+	private float randomEyePivotX;
+	private float randomEyePivotY;
 
 	public GlareEntityModel(ModelPart root) {
 		super(root);
@@ -59,12 +63,12 @@ public class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel
 		ModelData modelData = new ModelData();
 		ModelPartData root = modelData.getRoot();
 
-		root.addChild(MODEL_PART_HEAD, ModelPartBuilder.create().uv(0, 0).cuboid(-6.0F, 0.0F, -3.0F, 12.0F, 9.0F, 9.0F, new Dilation(-0.02F)), ModelTransform.pivot(0.0F, 4.0F, 0.0F));
+		root.addChild(MODEL_PART_HEAD, ModelPartBuilder.create().uv(0, 0).cuboid(-6.0F, 0.0F, -3.0F, 12.0F, 9.0F, 9.0F, new Dilation(-0.02F)), ModelTransform.pivot(0.0F, 1.0F, 0.0F));
 
 		ModelPartData head = root.getChild(MODEL_PART_HEAD);
 		head.addChild(MODEL_PART_EYES, ModelPartBuilder.create().uv(36, 0).cuboid(2.0F, -1.0F, -0.3F, 2.0F, 2.0F, 1.0F, new Dilation(-0.29F)).uv(36, 0).cuboid(-4.0F, -1.0F, -0.3F, 2.0F, 2.0F, 1.0F, new Dilation(-0.29F)), ModelTransform.pivot(0.0F, 5.0F, -3.0F));
 		head.addChild(MODEL_TOP_AZALEA, ModelPartBuilder.create().uv(72, 0).cuboid(-7.0F, 0.0F, -7.0F, 14.0F, 8.0F, 14.0F, new Dilation(0.01F)), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
-		head.addChild(MODEL_BOTTOM_AZALEA, ModelPartBuilder.create().uv(0, 114).cuboid(-7.0F, 0.98F, -7.0F, 14.0F, 0.0F, 14.0F, new Dilation(-0.01F)).uv(72, 22).cuboid(-7.0F, -4.0F, -7.0F, 14.0F, 10.0F, 14.0F, new Dilation(0.01F)), ModelTransform.pivot(0.0F, 8.0F, 0.0F));
+		head.addChild(MODEL_BOTTOM_AZALEA, ModelPartBuilder.create().uv(0, 114).cuboid(-7.0F, 0.75F, -7.0F, 14.0F, 0.0F, 14.0F, new Dilation(-0.01F)).uv(72, 22).cuboid(-7.0F, -4.0F, -7.0F, 14.0F, 10.0F, 14.0F, new Dilation(0.01F)), ModelTransform.pivot(0.0F, 8.0F, 0.0F));
 
 		ModelPartData bottomAzalea = head.getChild(MODEL_BOTTOM_AZALEA);
 		bottomAzalea.addChild(MODEL_SECOND_LAYER, ModelPartBuilder.create().uv(80, 46).cuboid(-6.0F, 0.0F, -6.0F, 12.0F, 7.0F, 12.0F, new Dilation(0.01F)), ModelTransform.pivot(0.0F, 1.0F, 0.0F));
@@ -121,14 +125,42 @@ public class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel
 			this.root
 		);
 
-		this.topAzalea.pivotX = MathHelper.sin((animationProgress * 0.25F)) * 0.1F;
-		this.bottomAzalea.pivotX = MathHelper.sin((animationProgress * 0.25F)) * 0.1F;
+		boolean isMoving = !glareEntity.isOnGround() && glareEntity.getVelocity().lengthSquared() >= 0.0001;
+
+		if (glareEntity.isGrumpy()) {
+			this.root.pivotX = MathHelper.sin(animationProgress * 0.25F) * 0.4F;
+			this.root.pivotY = Math.abs(0.25F + MathHelper.sin(animationProgress * 0.25F)) * -10.0F;
+			this.root.yaw = MathHelper.sin(animationProgress * 0.5F) * 0.01F;
+			//this.root.roll = MathHelper.sin(animationProgress * 0.1F) * 0.05F;
+		}
+
+		//this.topAzalea.pivotX = MathHelper.sin((animationProgress * 0.1F)) * 0.1F;
+		//this.bottomAzalea.pivotX = MathHelper.sin((animationProgress * 0.1F)) * 0.1F;
 
 		for (int i = 0; i < this.layers.length; ++i) {
-			float layerAnimationProgress = animationProgress * 0.1F + (float) i + 1.0F;
+			float layerAnimationProgress = (animationProgress * 0.1F);
+			float targetPitchLayerAnimationProgress = (float) Math.sin(layerAnimationProgress);
+			float targetRollLayerAnimationProgress = (float) Math.cos(layerAnimationProgress);
 
-			this.layers[i].pitch = (float) Math.sin(layerAnimationProgress) * this.layerPitch;
-			this.layers[i].roll = (float) Math.cos(layerAnimationProgress) * this.layerRoll;
+			if (isMoving) {
+				targetPitchLayerAnimationProgress = Math.abs(targetPitchLayerAnimationProgress);
+				targetRollLayerAnimationProgress = Math.abs(targetRollLayerAnimationProgress);
+			}
+
+			this.pitchLayerAnimationProgress = MathHelper.lerp(
+				(float) Math.abs(Math.sin(animationProgress)) * 0.1f,
+				this.pitchLayerAnimationProgress,
+				targetPitchLayerAnimationProgress
+			);
+
+			this.rollLayerAnimationProgress = MathHelper.lerp(
+				(float) Math.abs(Math.sin(animationProgress)) * 0.1f,
+				this.rollLayerAnimationProgress,
+				targetRollLayerAnimationProgress
+			);
+
+			this.layers[i].pitch = this.pitchLayerAnimationProgress * this.layerPitch;
+			this.layers[i].roll = this.rollLayerAnimationProgress * this.layerRoll;
 		}
 	}
 }

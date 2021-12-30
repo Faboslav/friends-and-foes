@@ -55,7 +55,7 @@ public class EntityRegistry
 			.spawnGroup(spawnGroup)
 			.entityFactory(GlareEntity::new)
 			.spawnRestriction(onGround, motionBlocking, GlareEntity::canSpawn)
-			.dimensions(EntityDimensions.fixed(0.9F, 1.4F))
+			.dimensions(EntityDimensions.fixed(0.875F, 1.4375F))
 			.build();
 
 		EntityType<GlareEntity> glare = Registry.register(Registry.ENTITY_TYPE, Settings.makeID("glare"), type);

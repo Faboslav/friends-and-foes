@@ -7,14 +7,15 @@ import net.fabricmc.api.Environment;
 public class RegistryInit
 {
 	public static void init() {
+		System.out.println("registry init");
 		BlockRegistry.init();
 		BlockTagRegistry.init();
-		OxidizableBlockRegistry.init();
-		ItemRegistry.init();
+		CriteriaRegistry.init();
 		EntityRegistry.init();
+		ItemRegistry.init();
+		OxidizableBlockRegistry.init();
 		SoundRegistry.init();
 		VillagerProfessionRegistry.init();
-		StructurePoolInit.init();
 	}
 
 	@Environment(EnvType.CLIENT)

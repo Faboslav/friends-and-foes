@@ -22,6 +22,7 @@ public class GlareFlyToDarkSpotGoal extends Goal
 	private BlockPos darkSpot;
 	private Path currentPath;
 	private int runTicks;
+	private int grumpyTicks;
 
 	public GlareFlyToDarkSpotGoal(GlareEntity glareEntity) {
 		this.glare = glareEntity;
@@ -38,10 +39,10 @@ public class GlareFlyToDarkSpotGoal extends Goal
 		if (
 			this.glare.getTicksUntilCanFindDarkSpot() > 0
 			|| this.glare.isLeashed()
-			|| this.glare.isTamed()
+			|| !this.glare.isTamed()
 			|| (
 				world.isDay()
-				&& !world.isSkyVisible(this.glare.getBlockPos())
+				&& world.isSkyVisible(this.glare.getBlockPos())
 			)
 		) {
 			return false;
@@ -65,6 +66,7 @@ public class GlareFlyToDarkSpotGoal extends Goal
 		if (
 			this.runTicks >= 1200
 			|| this.darkSpot == null
+			|| this.grumpyTicks >= 120
 		) {
 			return false;
 		}
@@ -78,13 +80,14 @@ public class GlareFlyToDarkSpotGoal extends Goal
 	@Override
 	public void start() {
 		System.out.println("go");
-		this.runTicks = 0;
 	}
 
 	@Override
 	public void stop() {
 		System.out.println("stop");
 		// Reset goal
+		this.runTicks = 0;
+		this.grumpyTicks = 0;
 		this.darkSpot = null;
 		this.currentPath = null;
 
@@ -134,10 +137,9 @@ public class GlareFlyToDarkSpotGoal extends Goal
 			return;
 		}
 
+		this.grumpyTicks++;
 		this.glare.setGrumpy(true);
 		this.glare.getLookControl().lookAt(owner.getPos());
-
-		System.out.println("dark spot me grumpy ffs");
 	}
 
 	private ArrayList<BlockPos> findDarkSpots(double searchDistance) {

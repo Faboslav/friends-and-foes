@@ -1,14 +1,12 @@
 package com.faboslav.friendsandfoes.entity.passive;
 
-import com.faboslav.friendsandfoes.entity.passive.ai.goal.*;
+import com.faboslav.friendsandfoes.entity.passive.ai.goal.GlareWanderAroundGoal;
 import com.faboslav.friendsandfoes.registry.SoundRegistry;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.control.FlightMoveControl;
-import net.minecraft.entity.ai.goal.LookAroundGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.ai.pathing.PathNodeType;
@@ -18,7 +16,8 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.*;
+import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
@@ -51,7 +50,6 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 {
 	private static final int GRUMPY_BITMASK = 2;
 	private static final float MOVEMENT_SPEED = 0.6F;
-	private static final int GLOW_BERRY_HEAL_AMOUNT = 5;
 	public static final int MIN_TICKS_UNTIL_CAN_FIND_DARK_SPOT = 200;
 	public static final int MAX_TICKS_UNTIL_CAN_FIND_DARK_SPOT = 600;
 
@@ -65,7 +63,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 
 	public GlareEntity(EntityType<? extends GlareEntity> entityType, World world) {
 		super(entityType, world);
-		this.moveControl = new FlightMoveControl(this, 10, true);
+		this.moveControl = new FlightMoveControl(this, 4, true);
 		this.setPathfindingPenalty(PathNodeType.DANGER_FIRE, -1.0F);
 		this.setPathfindingPenalty(PathNodeType.WATER, -1.0F);
 		this.setPathfindingPenalty(PathNodeType.WATER_BORDER, 16.0F);
@@ -148,19 +146,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 	}
 
 	protected void initGoals() {
-		this.goalSelector.add(1, new GlareAvoidMonsterGoal(this, AbstractSkeletonEntity.class, 24.0F, 1.5D, 1.5D));
-		this.goalSelector.add(1, new GlareAvoidMonsterGoal(this, CreeperEntity.class, 24.0F, 1.5D, 1.5D));
-		this.goalSelector.add(1, new GlareAvoidMonsterGoal(this, EndermanEntity.class, 24.0F, 1.5D, 1.5D));
-		this.goalSelector.add(1, new GlareAvoidMonsterGoal(this, SpiderEntity.class, 24.0F, 1.5D, 1.5D));
-		this.goalSelector.add(1, new GlareAvoidMonsterGoal(this, WitchEntity.class, 24.0F, 1.5D, 1.5D));
-		this.goalSelector.add(1, new GlareAvoidMonsterGoal(this, ZombieEntity.class, 24.0F, 1.5D, 1.5D));
-		this.goalSelector.add(2, new GlareFollowOwnerGoal(this, 1.0D, 10.0F, 20.0F, false));
-		this.goalSelector.add(2, new GlareFlyToDarkSpotGoal(this));
-		this.goalSelector.add(3, new LookAroundGoal(this));
-		// Find dark spots and be grumpy
-		this.goalSelector.add(4, new GlareEatGlowBerriesGoal(this));
 		this.goalSelector.add(5, new GlareWanderAroundGoal(this));
-		this.goalSelector.add(6, new SwimGoal(this));
 	}
 
 	@Override
@@ -170,12 +156,14 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		if (this.getTicksUntilCanFindDarkSpot() > 0) {
 			this.setTicksUntilCanFindDarkSpot(this.getTicksUntilCanFindDarkSpot() - 1);
 		}
-
-		//this.updateBodyPitchProgress();
 	}
 
 	public static Builder createGlareAttributes() {
-		return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 10.0D).add(EntityAttributes.GENERIC_FLYING_SPEED, 0.6000000238418579D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.30000001192092896D).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 48.0D);
+		return MobEntity.createMobAttributes()
+			.add(EntityAttributes.GENERIC_MAX_HEALTH, 10.0D)
+			.add(EntityAttributes.GENERIC_FLYING_SPEED, 0.6000000238418579D)
+			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, MOVEMENT_SPEED)
+			.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 48.0D);
 	}
 
 	protected EntityNavigation createNavigation(World world) {
@@ -361,8 +349,11 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		byte b = this.dataTracker.get(TAMEABLE_FLAGS);
 		if (tamed) {
 			this.dataTracker.set(TAMEABLE_FLAGS, (byte) (b | 4));
+			this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(20.0D);
+			this.setHealth(20.0F);
 		} else {
 			this.dataTracker.set(TAMEABLE_FLAGS, (byte) (b & -5));
+			this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(8.0D);
 		}
 
 		this.onTamedChanged();
@@ -440,7 +431,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 
 	@Override
 	protected float getActiveEyeHeight(EntityPose poseIn, EntityDimensions sizeIn) {
-		return 0.95F;
+		return 1.1F;
 	}
 
 	@Override

@@ -19,25 +19,39 @@ public class GlareWanderAroundGoal extends Goal
 	) {
 		this.glare = glare;
 		this.setControls(EnumSet.of(
-			Control.MOVE,
-			Control.LOOK
+			Control.MOVE
 		));
 	}
 
+	@Override
 	public boolean canStart() {
-		return this.glare.getNavigation().isIdle() && this.glare.getRandom().nextInt(10) == 0;
+		if (
+			!this.glare.getNavigation().isIdle()
+			|| this.glare.getRandom().nextInt(10) != 0
+		) {
+			return false;
+		}
+
+		return true;
 	}
 
+	@Override
 	public boolean shouldContinue() {
 		return this.glare.getNavigation().isFollowingPath();
 	}
 
+	@Override
 	public void start() {
 		Vec3d vec3d = this.getRandomLocation();
 		if (vec3d != null) {
-			this.glare.getNavigation().startMovingAlong(this.glare.getNavigation().findPathTo(new BlockPos(vec3d), 1), 1.0D);
+			this.glare.getNavigation().startMovingAlong(
+				this.glare.getNavigation().findPathTo(
+					new BlockPos(vec3d),
+					1
+				),
+				this.glare.getMovementSpeed()
+			);
 		}
-
 	}
 
 	@Nullable

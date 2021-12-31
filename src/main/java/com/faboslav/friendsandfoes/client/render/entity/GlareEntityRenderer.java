@@ -16,7 +16,7 @@ import net.minecraft.util.Identifier;
 public class GlareEntityRenderer extends MobEntityRenderer<GlareEntity, GlareEntityModel<GlareEntity>>
 {
 	public GlareEntityRenderer(EntityRendererFactory.Context context) {
-		super(context, new GlareEntityModel(context.getPart(EntityRendererRegistry.GLARE_LAYER)), 0.45F);
+		super(context, new GlareEntityModel(context.getPart(EntityRendererRegistry.GLARE_LAYER)), 0.5F);
 		this.addFeature(new GlareFlowerFeatureRenderer(this));
 	}
 

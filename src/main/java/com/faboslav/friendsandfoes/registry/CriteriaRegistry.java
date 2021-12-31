@@ -17,7 +17,5 @@ public class CriteriaRegistry
 	}
 
 	public static void init() {
-		System.out.println("criteria init");
-		System.out.println(Criteria.getCriteria());
 	}
 }

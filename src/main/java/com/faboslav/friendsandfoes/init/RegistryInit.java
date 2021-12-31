@@ -7,7 +7,6 @@ import net.fabricmc.api.Environment;
 public class RegistryInit
 {
 	public static void init() {
-		System.out.println("registry init");
 		BlockRegistry.init();
 		BlockTagRegistry.init();
 		CriteriaRegistry.init();

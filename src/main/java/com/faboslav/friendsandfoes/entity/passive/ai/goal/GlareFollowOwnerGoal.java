@@ -29,19 +29,18 @@ public class GlareFollowOwnerGoal extends Goal
 
 	public GlareFollowOwnerGoal(
 		GlareEntity glare,
-		double speed,
 		float minDistance,
 		float maxDistance,
 		boolean leavesAllowed
 	) {
 		this.glare = glare;
 		this.world = glare.world;
-		this.speed = speed;
+		this.speed = glare.getMovementSpeed();
 		this.navigation = glare.getNavigation();
 		this.minDistance = minDistance;
 		this.maxDistance = maxDistance;
 		this.leavesAllowed = leavesAllowed;
-		this.setControls(EnumSet.of(Control.MOVE, Control.LOOK));
+		this.setControls(EnumSet.of(Control.MOVE));
 	}
 
 	public boolean canStart() {

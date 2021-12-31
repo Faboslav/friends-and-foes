@@ -33,8 +33,8 @@ public class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel
 	private float layerRoll;
 	private float pitchLayerAnimationProgress;
 	private float rollLayerAnimationProgress;
-	private float randomEyePivotX;
-	private float randomEyePivotY;
+	private float eyesOffsetPivotX;
+	private float eyesOffsetPivotY;
 
 	public GlareEntityModel(ModelPart root) {
 		super(root);
@@ -57,6 +57,9 @@ public class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel
 			MODEL_PART_ROOT,
 			this.root
 		);
+
+		this.eyesOffsetPivotX = 0.0F;
+		this.eyesOffsetPivotY = 0.0F;
 	}
 
 	public static TexturedModelData getTexturedModelData() {
@@ -84,20 +87,20 @@ public class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel
 
 	@Override
 	public void animateModel(
-		T glareEntity,
+		T glare,
 		float limbAngle,
 		float limbDistance,
 		float tickDelta
 	) {
-		boolean isMoving = !glareEntity.isOnGround() && glareEntity.getVelocity().lengthSquared() >= 0.0001;
+		boolean isMoving = !glare.isOnGround() && glare.getVelocity().lengthSquared() >= 0.0001;
 
 		float targetLayerPitch;
 		float targetLayerRoll;
 
 		if (
 			isMoving
-			&& !(glareEntity.getHoldingEntity() instanceof LeashKnotEntity)
-			&& !glareEntity.isGrumpy()
+			&& !(glare.getHoldingEntity() instanceof LeashKnotEntity)
+			&& !glare.isGrumpy()
 		) {
 			targetLayerPitch = (float) Math.toRadians(10);
 			targetLayerRoll = (float) Math.toRadians(1);
@@ -112,7 +115,7 @@ public class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel
 
 	@Override
 	public void setAngles(
-		T glareEntity,
+		T glare,
 		float limbAngle,
 		float limbDistance,
 		float animationProgress,
@@ -125,9 +128,25 @@ public class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel
 			this.root
 		);
 
-		boolean isMoving = !glareEntity.isOnGround() && glareEntity.getVelocity().lengthSquared() >= 0.0001;
+		this.animateEyes(
+			glare,
+			animationProgress
+		);
+		this.animateHead(
+			glare,
+			animationProgress
+		);
+		this.animateLayers(
+			glare,
+			animationProgress
+		);
+	}
 
-		if (glareEntity.isGrumpy()) {
+	private void animateHead(
+		T glare,
+		float animationProgress
+	) {
+		if (glare.isGrumpy()) {
 			this.root.pivotX = MathHelper.sin(animationProgress * 0.25F) * 0.4F;
 			this.root.pivotY = Math.abs(0.25F + MathHelper.sin(animationProgress * 0.25F)) * -10.0F;
 			this.root.yaw = MathHelper.sin(animationProgress * 0.5F) * 0.01F;
@@ -136,13 +155,41 @@ public class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel
 
 		//this.topAzalea.pivotX = MathHelper.sin((animationProgress * 0.1F)) * 0.1F;
 		//this.bottomAzalea.pivotX = MathHelper.sin((animationProgress * 0.1F)) * 0.1F;
+	}
 
+	private void animateEyes(
+		T glare,
+		float animationProgress
+	) {
+		float targetEyesOffsetPivotX = glare.getEyePositionOffset().x;
+		float targetEyesOffsetPivotY = glare.getEyePositionOffset().y;
+		animationProgress = (float) Math.abs(Math.sin(animationProgress)) * 0.5f;
+
+		this.eyesOffsetPivotX = MathHelper.lerp(
+			animationProgress,
+			this.eyesOffsetPivotX,
+			targetEyesOffsetPivotX
+		);
+		this.eyesOffsetPivotY = MathHelper.lerp(
+			animationProgress,
+			this.eyesOffsetPivotY,
+			targetEyesOffsetPivotY
+		);
+
+		this.eyes.pivotX += this.eyesOffsetPivotX;
+		this.eyes.pivotY += this.eyesOffsetPivotY;
+	}
+
+	private void animateLayers(
+		T glare,
+		float animationProgress
+	) {
 		for (int i = 0; i < this.layers.length; ++i) {
 			float layerAnimationProgress = (animationProgress * 0.1F);
 			float targetPitchLayerAnimationProgress = (float) Math.sin(layerAnimationProgress);
 			float targetRollLayerAnimationProgress = (float) Math.cos(layerAnimationProgress);
 
-			if (isMoving) {
+			if (glare.isMoving()) {
 				targetPitchLayerAnimationProgress = Math.abs(targetPitchLayerAnimationProgress);
 				targetRollLayerAnimationProgress = Math.abs(targetRollLayerAnimationProgress);
 			}
@@ -154,7 +201,7 @@ public class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel
 			);
 
 			this.rollLayerAnimationProgress = MathHelper.lerp(
-				(float) Math.abs(Math.sin(animationProgress)) * 0.1f,
+				(float) Math.abs(Math.sin(animationProgress)) * 0.1F,
 				this.rollLayerAnimationProgress,
 				targetRollLayerAnimationProgress
 			);

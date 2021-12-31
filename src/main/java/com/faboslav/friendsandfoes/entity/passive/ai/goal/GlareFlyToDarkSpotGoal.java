@@ -27,8 +27,7 @@ public class GlareFlyToDarkSpotGoal extends Goal
 	public GlareFlyToDarkSpotGoal(GlareEntity glareEntity) {
 		this.glare = glareEntity;
 		this.setControls(EnumSet.of(
-			Control.MOVE,
-			Control.LOOK
+			Control.MOVE
 		));
 	}
 
@@ -55,8 +54,6 @@ public class GlareFlyToDarkSpotGoal extends Goal
 			return false;
 		}
 
-		System.out.println(this.darkSpot);
-
 		return true;
 	}
 
@@ -79,24 +76,22 @@ public class GlareFlyToDarkSpotGoal extends Goal
 
 	@Override
 	public void start() {
-		System.out.println("go");
+		this.grumpyTicks = 0;
+		this.runTicks = 0;
 	}
 
 	@Override
 	public void stop() {
-		System.out.println("stop");
 		// Reset goal
-		this.runTicks = 0;
-		this.grumpyTicks = 0;
 		this.darkSpot = null;
 		this.currentPath = null;
 
 		// Update entity data
-		this.glare.setGrumpy(false);
 		int minCooldownTicks = GlareEntity.MIN_TICKS_UNTIL_CAN_FIND_DARK_SPOT;
 		int maxCooldownTicks = GlareEntity.MAX_TICKS_UNTIL_CAN_FIND_DARK_SPOT;
 		int cooldown = RandomGenerator.generateInt(minCooldownTicks, maxCooldownTicks);
 		this.glare.setTicksUntilCanFindDarkSpot(cooldown);
+		this.glare.setGrumpy(false);
 	}
 
 	@Override

@@ -11,11 +11,9 @@ public class GlareAvoidMonsterGoal<T extends LivingEntity> extends FleeEntityGoa
 	public GlareAvoidMonsterGoal(
 		GlareEntity glare,
 		Class<T> fleeFromType,
-		float distance,
-		double slowSpeed,
-		double fastSpeed
+		float distance
 	) {
-		super(glare, fleeFromType, distance, slowSpeed, fastSpeed);
+		super(glare, fleeFromType, distance, glare.getMovementSpeed(), glare.getMovementSpeed());
 		this.glare = glare;
 	}
 

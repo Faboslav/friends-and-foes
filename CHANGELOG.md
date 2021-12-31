@@ -1,7 +1,8 @@
 ## mc1.18.1-1.1.0
 
+- Added config (friendsandfoes.json)
 - Added Glare
-- Added config
+- Added new "MooBoom!" advancement
 - Fixed gravity for fully oxidized Copper Golem
 - Fixed Beekeeper Area village structure generation
 - Refactored a lot of code for better readability and performance

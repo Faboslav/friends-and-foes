@@ -25,14 +25,8 @@ public class GlareWanderAroundGoal extends Goal
 
 	@Override
 	public boolean canStart() {
-		if (
-			!this.glare.getNavigation().isIdle()
-			|| this.glare.getRandom().nextInt(10) != 0
-		) {
-			return false;
-		}
-
-		return true;
+		return this.glare.getNavigation().isIdle()
+			   && this.glare.getRandom().nextInt(10) == 0;
 	}
 
 	@Override
@@ -56,8 +50,7 @@ public class GlareWanderAroundGoal extends Goal
 
 	@Nullable
 	private Vec3d getRandomLocation() {
-		Vec3d vec3d2 = this.glare.getRotationVec(0.0F);
-		Vec3d vec3d3 = AboveGroundTargeting.find(this.glare, 8, 7, vec3d2.x, vec3d2.z, 1.5707964F, 3, 1);
-		return vec3d3 != null ? vec3d3:NoPenaltySolidTargeting.find(this.glare, 8, 4, -2, vec3d2.x, vec3d2.z, (float) Math.PI / 2F);
+		Vec3d vec3d3 = AboveGroundTargeting.find(this.glare, 8, 7, this.glare.getX(), this.glare.getZ(), 1.5707964F, 3, 1);
+		return vec3d3 != null ? vec3d3:NoPenaltySolidTargeting.find(this.glare, 8, 4, -2, this.glare.getX(), this.glare.getZ(), (float) Math.PI / 2F);
 	}
 }

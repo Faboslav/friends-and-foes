@@ -9,7 +9,6 @@ public class RegistryInit
 	public static void init() {
 		BlockRegistry.init();
 		BlockTagRegistry.init();
-		CriteriaRegistry.init();
 		EntityRegistry.init();
 		ItemRegistry.init();
 		OxidizableBlockRegistry.init();

@@ -2,38 +2,37 @@
   "parent": "minecraft:husbandry/root",
   "display": {
 	"icon": {
-	  "item": "minecraft:flowering_azalea"
+	  "item": "minecraft:shears"
 	},
 	"title": {
-	  "translate": "advancements.adventure.tame_a_glare.title"
+	  "translate": "advancements.husbandry.try_to_tame_a_glare.title"
 	},
 	"description": {
-	  "translate": "advancements.adventure.tame_a_glare.description"
+	  "translate": "advancements.husbandry.try_to_tame_a_glare.description"
 	},
 	"frame": "goal",
 	"show_toast": true,
 	"announce_to_chat": true,
-	"hidden": false
+	"hidden": true
   },
   "criteria": {
-	"tamed_glare": {
-	  "trigger": "friendsandfoes:tame_glare",
+	"feed_glow_berries_to_glare": {
+	  "trigger": "minecraft:player_interacted_with_entity",
 	  "conditions": {
-		"entity": [
-		  {
-			"condition": "minecraft:entity_properties",
-			"predicate": {
-			  "type": "friendsandfoes:glare"
-			},
-			"entity": "this"
-		  }
-		]
+		"item": {
+		  "items": [
+			"minecraft:glow_berries"
+		  ]
+		},
+		"entity": {
+		  "type": "friendsandfoes:glare"
+		}
 	  }
 	}
   },
   "requirements": [
 	[
-	  "tamed_glare"
+	  "feed_glow_berries_to_glare"
 	]
   ]
 }

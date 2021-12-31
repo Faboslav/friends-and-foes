@@ -1,4 +1,5 @@
 {
+  "replace": false,
   "parent": "minecraft:husbandry/wax_on",
   "display": {
 	"icon": {
@@ -23,6 +24,22 @@
 		"location": {
 		  "block": {
 			"blocks": [
+			  "minecraft:waxed_copper_block",
+			  "minecraft:waxed_exposed_copper",
+			  "minecraft:waxed_weathered_copper",
+			  "minecraft:waxed_oxidized_copper",
+			  "minecraft:waxed_cut_copper",
+			  "minecraft:waxed_exposed_cut_copper",
+			  "minecraft:waxed_weathered_cut_copper",
+			  "minecraft:waxed_oxidized_cut_copper",
+			  "minecraft:waxed_cut_copper_slab",
+			  "minecraft:waxed_exposed_cut_copper_slab",
+			  "minecraft:waxed_weathered_cut_copper_slab",
+			  "minecraft:waxed_oxidized_cut_copper_slab",
+			  "minecraft:waxed_cut_copper_stairs",
+			  "minecraft:waxed_exposed_cut_copper_stairs",
+			  "minecraft:waxed_weathered_cut_copper_stairs",
+			  "minecraft:waxed_oxidized_cut_copper_stairs",
 			  "friendsandfoes:waxed_copper_button",
 			  "friendsandfoes:waxed_exposed_copper_button",
 			  "friendsandfoes:waxed_oxidized_copper_button",

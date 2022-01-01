@@ -173,7 +173,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		boolean isBlockBlockLightLevelDark = serverWorldAccess.getLightLevel(LightType.BLOCK, blockPos) == 0;
 		boolean isBlockSkyLevelDark = serverWorldAccess.getLightLevel(LightType.SKY, blockPos) == 0;
 
-		if(
+		if (
 			!isBelowYLevel63
 			|| isSkyVisible
 			|| !isRelatedBlock

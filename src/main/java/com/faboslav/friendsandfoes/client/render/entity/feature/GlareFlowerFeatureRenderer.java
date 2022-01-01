@@ -31,7 +31,7 @@ public class GlareFlowerFeatureRenderer extends FeatureRenderer<GlareEntity, Gla
 		float k,
 		float l
 	) {
-		if(glare.isInvisible()) {
+		if (glare.isInvisible()) {
 			return;
 		}
 

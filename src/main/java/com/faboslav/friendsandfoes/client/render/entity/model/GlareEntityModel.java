@@ -141,14 +141,11 @@ public class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel
 		float animationProgress
 	) {
 		if (glare.isGrumpy()) {
-			this.root.pivotX = MathHelper.sin(animationProgress * 0.25F) * 0.4F;
-			this.root.pivotY = Math.abs(0.25F + MathHelper.sin(animationProgress * 0.25F)) * -10.0F;
-			this.root.yaw = MathHelper.sin(animationProgress * 0.5F) * 0.01F;
+			this.root.pivotX = MathHelper.sin(animationProgress) * 0.5F;
+			this.root.pivotY = Math.abs(MathHelper.sin(animationProgress * 0.1F)) * -1.0F;
+			this.root.yaw = MathHelper.sin(animationProgress) * 0.05F;
 			//this.root.roll = MathHelper.sin(animationProgress * 0.1F) * 0.05F;
 		}
-
-		//this.topAzalea.pivotX = MathHelper.sin((animationProgress * 0.1F)) * 0.1F;
-		//this.bottomAzalea.pivotX = MathHelper.sin((animationProgress * 0.1F)) * 0.1F;
 	}
 
 	private void animateEyes(

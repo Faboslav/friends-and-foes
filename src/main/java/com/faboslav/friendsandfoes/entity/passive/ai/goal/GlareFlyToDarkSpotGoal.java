@@ -6,6 +6,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.ai.pathing.Path;
+import net.minecraft.particle.ItemStackParticleEffect;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.LightType;
@@ -54,6 +56,8 @@ public class GlareFlyToDarkSpotGoal extends Goal
 			return false;
 		}
 
+		System.out.println(this.darkSpot);
+
 		return true;
 	}
 
@@ -82,6 +86,7 @@ public class GlareFlyToDarkSpotGoal extends Goal
 
 	@Override
 	public void stop() {
+		System.out.println("stop");
 		// Reset goal
 		this.darkSpot = null;
 		this.currentPath = null;
@@ -133,7 +138,19 @@ public class GlareFlyToDarkSpotGoal extends Goal
 		}
 
 		this.grumpyTicks++;
-		this.glare.setGrumpy(true);
+
+		if(!this.glare.isGrumpy()) {
+			this.glare.setGrumpy(true);
+		}
+
+		if(grumpyTicks % 5 == 0) {
+			this.glare.playAmbientSound();
+
+			if(grumpyTicks % 10 == 0) {
+				this.glare.spawnParticles(ParticleTypes.SPORE_BLOSSOM_AIR, 7);
+			}
+		}
+
 		this.glare.getLookControl().lookAt(owner.getPos());
 	}
 

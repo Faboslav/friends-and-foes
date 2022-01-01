@@ -1,89 +1,104 @@
 package com.faboslav.friendsandfoes.entity.passive.ai.goal;
 
 import com.faboslav.friendsandfoes.entity.passive.GlareEntity;
-import com.faboslav.friendsandfoes.registry.SoundRegistry;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.CaveVines;
-import net.minecraft.block.SweetBerryBushBlock;
-import net.minecraft.entity.ai.goal.MoveToTargetPosGoal;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.GameRules;
-import net.minecraft.world.WorldView;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.particle.ItemStackParticleEffect;
+import net.minecraft.particle.ParticleTypes;
+import org.jetbrains.annotations.Nullable;
 
-public class GlareEatGlowBerriesGoal extends MoveToTargetPosGoal
+import java.util.EnumSet;
+import java.util.List;
+import java.util.function.Predicate;
+
+public class GlareEatGlowBerriesGoal extends Goal
 {
-	private final GlareEntity glareEntity;
-	private static final int EATING_TIME = 40;
-	private static final int RANGE = 12;
-	private static final int MAX_Y_DIFFERENCE = 12;
-	protected int timer;
+	private ItemEntity foodItemToPickUp;
+	private int runTicks;
 
-	public GlareEatGlowBerriesGoal(GlareEntity glareEntity) {
-		super(
-			glareEntity,
-			glareEntity.getMovementSpeed(),
-			RANGE,
-			MAX_Y_DIFFERENCE
-		);
+	private static final Predicate<ItemEntity> IS_PICKABLE_FOOD = (itemEntity) -> {
+		Item item = itemEntity.getStack().getItem();
+		return item == Items.GLOW_BERRIES.asItem() && itemEntity.isAlive() && !itemEntity.cannotPickup();
+	};
 
-		this.glareEntity = glareEntity;
-	}
+	private GlareEntity glare;
 
-	public double getDesiredSquaredDistanceToTarget() {
-		return 2.0D;
-	}
-
-	public boolean shouldResetPath() {
-		return this.tryingTime % 100 == 0;
-	}
-
-	protected boolean isTargetPos(WorldView world, BlockPos pos) {
-		BlockState blockState = world.getBlockState(pos);
-		return blockState.isOf(Blocks.SWEET_BERRY_BUSH) && blockState.get(SweetBerryBushBlock.AGE) >= 2 || CaveVines.hasBerries(blockState);
+	public GlareEatGlowBerriesGoal(GlareEntity glare) {
+		this.glare = glare;
+		this.setControls(EnumSet.of(Control.MOVE));
 	}
 
 	@Override
 	public boolean canStart() {
-		if (this.glareEntity.isLeashed()) {
+		this.foodItemToPickUp = this.getFoodItemToPickUp();
+
+		if (
+			glare.isLeashed()
+			|| this.foodItemToPickUp == null
+		) {
 			return false;
 		}
 
-		return super.canStart();
+		System.out.println("lets pickup");
+		return true;
 	}
 
 	@Override
-	public void start() {
-		this.timer = 0;
-		super.start();
+	public boolean shouldContinue() {
+		if(
+			this.foodItemToPickUp == null
+			|| !this.foodItemToPickUp.isAlive()
+		) {
+			return false;
+		}
+
+		return true;
 	}
 
 	@Override
 	public void tick() {
-		if (this.hasReached()) {
-			if (this.timer >= EATING_TIME) {
-				this.eatGlowBerry();
-			} else {
-				++this.timer;
-			}
-		} else if (!this.hasReached() && this.glareEntity.getRandom().nextFloat() < 0.05F) {
-			this.glareEntity.playSound(SoundRegistry.ENTITY_GLARE_AMBIENT, 1.0F, 1.0F);
-		}
-
-		super.tick();
-	}
-
-	protected void eatGlowBerry() {
-		if (this.glareEntity.world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING)) {
-			BlockState blockState = this.glareEntity.world.getBlockState(this.targetPos);
-
-			if (CaveVines.hasBerries(blockState)) {
-				this.pickGlowBerries(blockState);
-			}
+		if (!this.glare.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty()) {
+			this.glare.getNavigation().stop();
 		}
 	}
 
-	private void pickGlowBerries(BlockState state) {
-		CaveVines.pickBerries(state, this.glareEntity.world, this.targetPos);
+	public void start() {
+		System.out.println("start");
+
+		this.glare.getNavigation().startMovingTo(
+			this.foodItemToPickUp,
+			glare.getMovementSpeed()
+		);
+	}
+
+	public void stop() {
+		System.out.println("stop");
+		ItemStack itemStack = foodItemToPickUp.getStack();
+		ItemStackParticleEffect particleEffect  = new ItemStackParticleEffect(ParticleTypes.ITEM, itemStack);
+
+		foodItemToPickUp.discard();
+		this.glare.playEatSound(itemStack);
+		this.glare.spawnParticles(particleEffect, 7);
+	}
+
+	@Nullable
+	private ItemEntity getFoodItemToPickUp() {
+		List<ItemEntity> foodItemsToPickUp = this.glare.world.getEntitiesByClass(
+			ItemEntity.class,
+			this.glare.getBoundingBox().expand(12.0D, 12.0D, 12.0D),
+			IS_PICKABLE_FOOD
+		);
+
+		if(foodItemsToPickUp.isEmpty()) {
+			return null;
+		}
+
+		return foodItemsToPickUp.get(
+			this.glare.getRandom().nextInt(foodItemsToPickUp.size())
+		);
 	}
 }

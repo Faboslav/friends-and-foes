@@ -24,10 +24,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.ServerConfigHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.Tag;
@@ -37,7 +39,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.LightType;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
@@ -46,14 +47,20 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
+import java.util.function.Predicate;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 {
 	private static final int GRUMPY_BITMASK = 2;
-	private static final float MOVEMENT_SPEED = 0.5F;
+	private static final float MOVEMENT_SPEED = 0.6F;
 	public static final int MIN_TICKS_UNTIL_CAN_FIND_DARK_SPOT = 200;
 	public static final int MAX_TICKS_UNTIL_CAN_FIND_DARK_SPOT = 400;
+
+	private static final TrackedData<Byte> TAMEABLE_FLAGS;
+	private static final TrackedData<Byte> GLARE_FLAGS;
+	private static final TrackedData<Optional<UUID>> OWNER_UUID;
+	private static final TrackedData<Integer> TICKS_UNTIL_CAN_FIND_DARK_SPOT;
 
 	private float currentBodyPitchProgress;
 	private float lastBodyPitchProgress;
@@ -64,15 +71,11 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 	private float currentLayerPitchAnimationProgress;
 	private float currentLayerRollAnimationProgress;
 
-	private static final TrackedData<Byte> TAMEABLE_FLAGS;
-	private static final TrackedData<Byte> GLARE_FLAGS;
-	private static final TrackedData<Optional<UUID>> OWNER_UUID;
-	private static final TrackedData<Integer> TICKS_UNTIL_CAN_FIND_DARK_SPOT;
-
 	public GlareEntity(EntityType<? extends GlareEntity> entityType, World world) {
 		super(entityType, world);
 		this.moveControl = new FlightMoveControl(this, 4, true);
 		this.setPathfindingPenalty(PathNodeType.DANGER_FIRE, -1.0F);
+		this.setPathfindingPenalty(PathNodeType.DANGER_CACTUS, -1.0F);
 		this.setPathfindingPenalty(PathNodeType.WATER, -1.0F);
 		this.setPathfindingPenalty(PathNodeType.WATER_BORDER, 16.0F);
 		this.setPathfindingPenalty(PathNodeType.COCOA, -1.0F);
@@ -157,8 +160,9 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		Random random
 	) {
 		BlockState blockState = serverWorldAccess.getBlockState(blockPos.down());
-		boolean isBelowYLevel63 = blockPos.getY() < 63;
+		boolean isAboveSurfaceLevel = blockPos.getY() >= 63;
 		boolean isSkyVisible = serverWorldAccess.isSkyVisible(blockPos);
+		boolean isBlockPosDarkSpot = serverWorldAccess.getBaseLightLevel(blockPos, 0) == 0;
 		boolean isRelatedBlock = (
 			blockState.isOf(Blocks.MOSS_BLOCK)
 			|| blockState.isOf(Blocks.MOSS_CARPET)
@@ -170,15 +174,11 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 			|| blockState.isOf(Blocks.CLAY)
 			|| blockState.isOf(Blocks.GRAVEL)
 		);
-		boolean isBlockBlockLightLevelDark = serverWorldAccess.getLightLevel(LightType.BLOCK, blockPos) == 0;
-		boolean isBlockSkyLevelDark = serverWorldAccess.getLightLevel(LightType.SKY, blockPos) == 0;
-
 		if (
-			!isBelowYLevel63
+			isAboveSurfaceLevel
 			|| isSkyVisible
+			|| isBlockPosDarkSpot
 			|| !isRelatedBlock
-			|| isBlockBlockLightLevelDark
-			|| isBlockSkyLevelDark
 		) {
 			return false;
 		}
@@ -193,9 +193,10 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		this.goalSelector.add(1, new GlareAvoidMonsterGoal(this, SpiderEntity.class, 24.0F));
 		this.goalSelector.add(1, new GlareAvoidMonsterGoal(this, WitchEntity.class, 24.0F));
 		this.goalSelector.add(1, new GlareAvoidMonsterGoal(this, ZombieEntity.class, 24.0F));
-		this.goalSelector.add(2, new GlareFollowOwnerGoal(this, 10.0F, 20.0F, false));
+		this.goalSelector.add(2, new GlareFollowOwnerGoal(this, 10.0F, 2.0F, false));
 		this.goalSelector.add(3, new GlareFlyToDarkSpotGoal(this));
 		this.goalSelector.add(4, new GlareEatGlowBerriesGoal(this));
+		this.goalSelector.add(4, new GlareCollectGlowBerriesGoal(this));
 		this.goalSelector.add(5, new GlareWanderAroundGoal(this));
 		this.goalSelector.add(6, new SwimGoal(this));
 	}
@@ -309,13 +310,18 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		return SoundRegistry.ENTITY_GLARE_EAT;
 	}
 
+	public void playEatSound(ItemStack stack) {
+		SoundEvent soundEvent = this.getEatSound(stack);
+		this.playSound(soundEvent, 1.0F, 1F);
+	}
+
 	protected SoundEvent getHurtSound(DamageSource source) {
 		return SoundRegistry.ENTITY_GLARE_HURT;
 	}
 
 	@Override
 	protected void playHurtSound(DamageSource source) {
-		this.playSound(this.getHurtSound(source), 1.0F, 0.75F);
+		this.playSound(this.getHurtSound(source), 1.0F, 0.5F);
 	}
 
 	protected SoundEvent getDeathSound() {
@@ -323,7 +329,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 	}
 
 	protected float getSoundVolume() {
-		return 0.4F;
+		return 1.0F;
 	}
 
 	@Override
@@ -375,7 +381,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 			itemStack.decrement(1);
 		}
 
-		this.playSound(this.getEatSound(itemStack), 1.0F, 1.0F);
+		this.playEatSound(itemStack);
 
 		return true;
 	}
@@ -392,7 +398,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 			itemStack.decrement(1);
 		}
 
-		this.playSound(this.getEatSound(itemStack), 1.0F, 1.0F);
+		this.playEatSound(itemStack);
 
 		if (this.random.nextInt(5) == 0) {
 			this.setOwner(player);
@@ -558,5 +564,26 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 
 	public boolean isMoving() {
 		return !this.isOnGround() && this.getVelocity().lengthSquared() >= 0.0001;
+	}
+
+	public void spawnParticles(
+		ParticleEffect particleEffect,
+		int amount
+	) {
+		if (!this.world.isClient()) {
+			for (int i = 0; i < amount; i++) {
+				((ServerWorld) this.getEntityWorld()).spawnParticles(
+					particleEffect,
+					this.getParticleX(1.0D),
+					this.getRandomBodyY() + 0.5D,
+					this.getParticleZ(1.0D),
+					1,
+					this.getRandom().nextGaussian() * 0.02D,
+					this.getRandom().nextGaussian() * 0.02D,
+					this.getRandom().nextGaussian() * 0.02D,
+					1.0D
+				);
+			}
+		}
 	}
 }

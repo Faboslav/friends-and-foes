@@ -6,6 +6,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
 import net.minecraft.entity.decoration.LeashKnotEntity;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec2f;
 
 @Environment(EnvType.CLIENT)
 public class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel<T>
@@ -29,13 +30,6 @@ public class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel
 
 	private final ModelPart[] layers;
 
-	private float layerPitch;
-	private float layerRoll;
-	private float pitchLayerAnimationProgress;
-	private float rollLayerAnimationProgress;
-	private float eyesOffsetPivotX;
-	private float eyesOffsetPivotY;
-
 	public GlareEntityModel(ModelPart root) {
 		super(root);
 		this.head = this.root.getChild(MODEL_PART_HEAD);
@@ -57,9 +51,6 @@ public class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel
 			MODEL_PART_ROOT,
 			this.root
 		);
-
-		this.eyesOffsetPivotX = 0.0F;
-		this.eyesOffsetPivotY = 0.0F;
 	}
 
 	public static TexturedModelData getTexturedModelData() {
@@ -109,8 +100,20 @@ public class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel
 			targetLayerRoll = (float) Math.toRadians(1);
 		}
 
-		this.layerPitch = MathHelper.lerp((float) Math.abs(Math.sin(tickDelta)) * 0.1f, this.layerPitch, targetLayerPitch);
-		this.layerRoll = MathHelper.lerp((float) Math.abs(Math.sin(tickDelta)) * 0.1f, this.layerRoll, targetLayerRoll);
+		tickDelta = (float) Math.abs(Math.sin(tickDelta)) * 0.1f;
+
+		float layerPitch = MathHelper.lerp(
+			tickDelta,
+			glare.getCurrentLayersPitch(),
+			targetLayerPitch
+		);
+		float layerRoll = MathHelper.lerp(tickDelta,
+			glare.getCurrentLayersRoll(),
+			targetLayerRoll
+		);
+
+		glare.setCurrentLayerPitch(layerPitch);
+		glare.setCurrentLayerRoll(layerRoll);
 	}
 
 	@Override
@@ -128,18 +131,9 @@ public class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel
 			this.root
 		);
 
-		this.animateEyes(
-			glare,
-			animationProgress
-		);
-		this.animateHead(
-			glare,
-			animationProgress
-		);
-		this.animateLayers(
-			glare,
-			animationProgress
-		);
+		this.animateEyes(glare, animationProgress);
+		this.animateHead(glare, animationProgress);
+		this.animateLayers(glare, animationProgress);
 	}
 
 	private void animateHead(
@@ -161,23 +155,25 @@ public class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel
 		T glare,
 		float animationProgress
 	) {
-		float targetEyesOffsetPivotX = glare.getEyePositionOffset().x;
-		float targetEyesOffsetPivotY = glare.getEyePositionOffset().y;
 		animationProgress = (float) Math.abs(Math.sin(animationProgress)) * 0.5f;
 
-		this.eyesOffsetPivotX = MathHelper.lerp(
+		float eyesPositionOffsetX = MathHelper.lerp(
 			animationProgress,
-			this.eyesOffsetPivotX,
-			targetEyesOffsetPivotX
+			glare.getCurrentEyesPositionOffset().x,
+			glare.getTargetEyesPositionOffset().x
 		);
-		this.eyesOffsetPivotY = MathHelper.lerp(
+		float eyesPositionOffsetY = MathHelper.lerp(
 			animationProgress,
-			this.eyesOffsetPivotY,
-			targetEyesOffsetPivotY
+			glare.getCurrentEyesPositionOffset().y,
+			glare.getTargetEyesPositionOffset().y
 		);
 
-		this.eyes.pivotX += this.eyesOffsetPivotX;
-		this.eyes.pivotY += this.eyesOffsetPivotY;
+		glare.setCurrentEyesPositionOffset(new Vec2f(
+			eyesPositionOffsetX, eyesPositionOffsetY
+		));
+
+		this.eyes.pivotX += eyesPositionOffsetX;
+		this.eyes.pivotY += eyesPositionOffsetY;
 	}
 
 	private void animateLayers(
@@ -194,20 +190,22 @@ public class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel
 				targetRollLayerAnimationProgress = Math.abs(targetRollLayerAnimationProgress);
 			}
 
-			this.pitchLayerAnimationProgress = MathHelper.lerp(
+			float currentPitchLayerAnimationProgress = MathHelper.lerp(
 				(float) Math.abs(Math.sin(animationProgress)) * 0.1f,
-				this.pitchLayerAnimationProgress,
+				glare.getCurrentLayerPitchAnimationProgress(),
 				targetPitchLayerAnimationProgress
 			);
-
-			this.rollLayerAnimationProgress = MathHelper.lerp(
+			float currentRollLayerAnimationProgress = MathHelper.lerp(
 				(float) Math.abs(Math.sin(animationProgress)) * 0.1F,
-				this.rollLayerAnimationProgress,
+				glare.getCurrentLayerRollAnimationProgress(),
 				targetRollLayerAnimationProgress
 			);
 
-			this.layers[i].pitch = this.pitchLayerAnimationProgress * this.layerPitch;
-			this.layers[i].roll = this.rollLayerAnimationProgress * this.layerRoll;
+			glare.setCurrentLayerPitchAnimationProgress(currentPitchLayerAnimationProgress);
+			glare.setCurrentLayerRollAnimationProgress(currentRollLayerAnimationProgress);
+
+			this.layers[i].pitch = glare.getCurrentLayerPitchAnimationProgress() * glare.getCurrentLayersPitch();
+			this.layers[i].roll = glare.getCurrentLayerRollAnimationProgress() * glare.getCurrentLayersRoll();
 		}
 	}
 }

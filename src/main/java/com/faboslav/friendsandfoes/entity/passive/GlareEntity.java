@@ -37,6 +37,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.LightType;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
@@ -56,7 +57,12 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 
 	private float currentBodyPitchProgress;
 	private float lastBodyPitchProgress;
-	private Vec2f eyePositionOffset;
+	private Vec2f currentEyesPositionOffset;
+	private Vec2f targetEyesPositionOffset;
+	private float currentLayerPitch;
+	private float currentLayerRoll;
+	private float currentLayerPitchAnimationProgress;
+	private float currentLayerRollAnimationProgress;
 
 	private static final TrackedData<Byte> TAMEABLE_FLAGS;
 	private static final TrackedData<Byte> GLARE_FLAGS;
@@ -71,7 +77,13 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		this.setPathfindingPenalty(PathNodeType.WATER_BORDER, 16.0F);
 		this.setPathfindingPenalty(PathNodeType.COCOA, -1.0F);
 		this.setPathfindingPenalty(PathNodeType.FENCE, -1.0F);
-		this.eyePositionOffset = new Vec2f(0.0F, 0.0F);
+
+		this.currentEyesPositionOffset = new Vec2f(0.0F, 0.0F);
+		this.targetEyesPositionOffset = new Vec2f(0.0F, 0.0F);
+		this.currentLayerPitch = 0.0F;
+		this.currentLayerRoll = 0.0F;
+		this.currentLayerPitchAnimationProgress = 0.0F;
+		this.currentLayerRollAnimationProgress = 0.0F;
 	}
 
 	static {
@@ -145,7 +157,33 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		Random random
 	) {
 		BlockState blockState = serverWorldAccess.getBlockState(blockPos.down());
-		return blockPos.getY() < 63 && !serverWorldAccess.isSkyVisible(blockPos) && (blockState.isOf(Blocks.MOSS_BLOCK) || blockState.isOf(Blocks.MOSS_CARPET) || blockState.isOf(Blocks.AZALEA) || blockState.isOf(Blocks.FLOWERING_AZALEA) || blockState.isOf(Blocks.GRASS) || blockState.isOf(Blocks.SMALL_DRIPLEAF) || blockState.isOf(Blocks.BIG_DRIPLEAF) || blockState.isOf(Blocks.CLAY));
+		boolean isBelowYLevel63 = blockPos.getY() < 63;
+		boolean isSkyVisible = serverWorldAccess.isSkyVisible(blockPos);
+		boolean isRelatedBlock = (
+			blockState.isOf(Blocks.MOSS_BLOCK)
+			|| blockState.isOf(Blocks.MOSS_CARPET)
+			|| blockState.isOf(Blocks.AZALEA)
+			|| blockState.isOf(Blocks.FLOWERING_AZALEA)
+			|| blockState.isOf(Blocks.GRASS)
+			|| blockState.isOf(Blocks.SMALL_DRIPLEAF)
+			|| blockState.isOf(Blocks.BIG_DRIPLEAF)
+			|| blockState.isOf(Blocks.CLAY)
+			|| blockState.isOf(Blocks.GRAVEL)
+		);
+		boolean isBlockBlockLightLevelDark = serverWorldAccess.getLightLevel(LightType.BLOCK, blockPos) == 0;
+		boolean isBlockSkyLevelDark = serverWorldAccess.getLightLevel(LightType.SKY, blockPos) == 0;
+
+		if(
+			!isBelowYLevel63
+			|| isSkyVisible
+			|| !isRelatedBlock
+			|| isBlockBlockLightLevelDark
+			|| isBlockSkyLevelDark
+		) {
+			return false;
+		}
+
+		return true;
 	}
 
 	protected void initGoals() {
@@ -170,24 +208,63 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 			this.setTicksUntilCanFindDarkSpot(this.getTicksUntilCanFindDarkSpot() - 1);
 		}
 
-		this.updateEyePositionOffset();
+		this.updateTargetEyesPositionOffset();
 	}
 
-	private void updateEyePositionOffset() {
-		if (
-			this.getRandom().nextInt(40) == 0
-		) {
+	public Vec2f getCurrentEyesPositionOffset() {
+		return this.currentEyesPositionOffset;
+	}
+
+	public void setCurrentEyesPositionOffset(Vec2f currentEyesPositionOffset) {
+		this.currentEyesPositionOffset = currentEyesPositionOffset;
+	}
+
+	public Vec2f getTargetEyesPositionOffset() {
+		return this.targetEyesPositionOffset;
+	}
+
+	private void updateTargetEyesPositionOffset() {
+		if (this.getRandom().nextInt(40) == 0) {
+
 			float xEyePosition = RandomGenerator.generateFloat(-0.5F, 0.5F);
 			float yEyePosition = RandomGenerator.generateFloat(-0.4F, 0.4F);
-			this.eyePositionOffset = new Vec2f(
+			this.targetEyesPositionOffset = new Vec2f(
 				xEyePosition,
 				yEyePosition
 			);
 		}
 	}
 
-	public Vec2f getEyePositionOffset() {
-		return this.eyePositionOffset;
+	public float getCurrentLayersPitch() {
+		return this.currentLayerPitch;
+	}
+
+	public void setCurrentLayerPitch(float currentLayersPitch) {
+		this.currentLayerPitch = currentLayersPitch;
+	}
+
+	public float getCurrentLayersRoll() {
+		return this.currentLayerRoll;
+	}
+
+	public void setCurrentLayerRoll(float currentLayersRoll) {
+		this.currentLayerRoll = currentLayersRoll;
+	}
+
+	public float getCurrentLayerPitchAnimationProgress() {
+		return this.currentLayerPitchAnimationProgress;
+	}
+
+	public void setCurrentLayerPitchAnimationProgress(float currentLayersPitchAnimationProgress) {
+		this.currentLayerPitchAnimationProgress = currentLayersPitchAnimationProgress;
+	}
+
+	public float getCurrentLayerRollAnimationProgress() {
+		return this.currentLayerRollAnimationProgress;
+	}
+
+	public void setCurrentLayerRollAnimationProgress(float currentLayersRollAnimationProgress) {
+		this.currentLayerRollAnimationProgress = currentLayersRollAnimationProgress;
 	}
 
 	public static Builder createGlareAttributes() {

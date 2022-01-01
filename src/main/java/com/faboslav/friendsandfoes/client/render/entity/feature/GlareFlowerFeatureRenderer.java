@@ -9,6 +9,7 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
@@ -22,7 +23,7 @@ public class GlareFlowerFeatureRenderer extends FeatureRenderer<GlareEntity, Gla
 		MatrixStack matrixStack,
 		VertexConsumerProvider vertexConsumerProvider,
 		int light,
-		GlareEntity glareEntity,
+		GlareEntity glare,
 		float f,
 		float g,
 		float h,
@@ -30,7 +31,16 @@ public class GlareFlowerFeatureRenderer extends FeatureRenderer<GlareEntity, Gla
 		float k,
 		float l
 	) {
-		if (!glareEntity.isInvisible() && glareEntity.isTamed()) {
+		if(glare.isInvisible()) {
+			return;
+		}
+
+		String string = Formatting.strip(glare.getName().getString());
+
+		if (
+			"Anna".equals(string)
+			|| glare.isTamed()
+		) {
 			Identifier identifier = Settings.makeID("textures/entity/glare/flowering_glare.png");
 
 			renderModel(
@@ -39,7 +49,7 @@ public class GlareFlowerFeatureRenderer extends FeatureRenderer<GlareEntity, Gla
 				matrixStack,
 				vertexConsumerProvider,
 				light,
-				glareEntity,
+				glare,
 				1.0F,
 				1.0F,
 				1.0F

@@ -25,8 +25,14 @@ public class GlareWanderAroundGoal extends Goal
 
 	@Override
 	public boolean canStart() {
-		return this.glare.getNavigation().isIdle()
-			   && this.glare.getRandom().nextInt(10) == 0;
+		if(
+			!this.glare.getNavigation().isIdle()
+			|| this.glare.getRandom().nextInt(10) != 0
+		) {
+			return false;
+		}
+
+		return true;
 	}
 
 	@Override

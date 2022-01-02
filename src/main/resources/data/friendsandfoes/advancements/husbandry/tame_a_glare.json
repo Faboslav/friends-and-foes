@@ -2,13 +2,13 @@
   "parent": "minecraft:husbandry/root",
   "display": {
 	"icon": {
-	  "item": "minecraft:shears"
+	  "item": "minecraft:glow_berries"
 	},
 	"title": {
-	  "translate": "advancements.husbandry.try_to_tame_a_glare.title"
+	  "translate": "advancements.husbandry.tame_a_glare.title"
 	},
 	"description": {
-	  "translate": "advancements.husbandry.try_to_tame_a_glare.description"
+	  "translate": "advancements.husbandry.tame_a_glare.description"
 	},
 	"frame": "goal",
 	"show_toast": true,
@@ -16,8 +16,8 @@
 	"hidden": true
   },
   "criteria": {
-	"feed_glow_berries_to_glare": {
-	  "trigger": "minecraft:player_interacted_with_entity",
+	"friendsandfoes:tame_a_glare": {
+	  "trigger": "friendsandfoes:tame_glare",
 	  "conditions": {
 		"item": {
 		  "items": [
@@ -32,7 +32,7 @@
   },
   "requirements": [
 	[
-	  "feed_glow_berries_to_glare"
+	  "friendsandfoes:tame_a_glare"
 	]
   ]
 }

@@ -6,7 +6,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.ai.pathing.Path;
-import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
@@ -139,14 +138,14 @@ public class GlareFlyToDarkSpotGoal extends Goal
 
 		this.grumpyTicks++;
 
-		if(!this.glare.isGrumpy()) {
+		if (!this.glare.isGrumpy()) {
 			this.glare.setGrumpy(true);
 		}
 
-		if(grumpyTicks % 5 == 0) {
+		if (grumpyTicks % 5 == 0) {
 			this.glare.playAmbientSound();
 
-			if(grumpyTicks % 10 == 0) {
+			if (grumpyTicks % 10 == 0) {
 				this.glare.spawnParticles(ParticleTypes.SPORE_BLOSSOM_AIR, 7);
 			}
 		}

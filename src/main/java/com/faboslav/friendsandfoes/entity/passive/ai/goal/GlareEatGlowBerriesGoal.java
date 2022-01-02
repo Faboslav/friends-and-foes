@@ -49,7 +49,7 @@ public class GlareEatGlowBerriesGoal extends Goal
 
 	@Override
 	public boolean shouldContinue() {
-		if(
+		if (
 			this.foodItemToPickUp == null
 			|| !this.foodItemToPickUp.isAlive()
 		) {
@@ -78,7 +78,7 @@ public class GlareEatGlowBerriesGoal extends Goal
 	public void stop() {
 		System.out.println("stop");
 		ItemStack itemStack = foodItemToPickUp.getStack();
-		ItemStackParticleEffect particleEffect  = new ItemStackParticleEffect(ParticleTypes.ITEM, itemStack);
+		ItemStackParticleEffect particleEffect = new ItemStackParticleEffect(ParticleTypes.ITEM, itemStack);
 
 		foodItemToPickUp.discard();
 		this.glare.playEatSound(itemStack);
@@ -93,7 +93,7 @@ public class GlareEatGlowBerriesGoal extends Goal
 			IS_PICKABLE_FOOD
 		);
 
-		if(foodItemsToPickUp.isEmpty()) {
+		if (foodItemsToPickUp.isEmpty()) {
 			return null;
 		}
 

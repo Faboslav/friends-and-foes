@@ -24,7 +24,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.ServerConfigHandler;
@@ -47,7 +46,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
-import java.util.function.Predicate;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
@@ -272,7 +270,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		return MobEntity.createMobAttributes()
 			.add(EntityAttributes.GENERIC_MAX_HEALTH, 10.0D)
 			.add(EntityAttributes.GENERIC_FLYING_SPEED, MOVEMENT_SPEED)
-			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, MOVEMENT_SPEED)
+			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, MOVEMENT_SPEED * 0.5F)
 			.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 48.0D);
 	}
 

@@ -35,7 +35,6 @@ public class TameGlareCriterion extends AbstractCriterion<TameGlareCriterion.Con
 
 	public void trigger(ServerPlayerEntity player, GlareEntity entity) {
 		LootContext lootContext = EntityPredicate.createAdvancementEntityLootContext(player, entity);
-		System.out.println("loot context");
 		this.trigger(player, (conditions) -> {
 			return conditions.matches(lootContext);
 		});
@@ -51,22 +50,18 @@ public class TameGlareCriterion extends AbstractCriterion<TameGlareCriterion.Con
 		}
 
 		public static TameGlareCriterion.Conditions any() {
-			System.out.println("any");
 			return new TameGlareCriterion.Conditions(Extended.EMPTY, Extended.EMPTY);
 		}
 
 		public static TameGlareCriterion.Conditions create(EntityPredicate entity) {
-			System.out.println("Creating");
 			return new TameGlareCriterion.Conditions(Extended.EMPTY, Extended.ofLegacy(entity));
 		}
 
 		public boolean matches(LootContext tamedEntityContext) {
-			System.out.println("matches");
 			return this.entity.test(tamedEntityContext);
 		}
 
 		public JsonObject toJson(AdvancementEntityPredicateSerializer predicateSerializer) {
-			System.out.println("json");
 			JsonObject jsonObject = super.toJson(predicateSerializer);
 			jsonObject.add("entity", this.entity.toJson(predicateSerializer));
 			return jsonObject;

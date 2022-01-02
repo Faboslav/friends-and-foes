@@ -37,7 +37,7 @@ public class BlockRegistry
 	public static final Block WAXED_OXIDIZED_COPPER_BUTTON;
 
 	static {
-		BUTTERCUP = register("buttercup", new FlowerBlock(StatusEffects.LUCK, 6, AbstractBlock.Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)));
+		BUTTERCUP = register("buttercup", new FlowerBlock(StatusEffects.SATURATION, 6, AbstractBlock.Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)));
 		POTTED_BUTTERCUP = register("potted_buttercup", new FlowerPotBlock(BUTTERCUP, AbstractBlock.Settings.of(Material.DECORATION).breakInstantly()));
 		ACACIA_BEEHIVE = register("acacia_beehive", new BeehiveBlock(AbstractBlock.Settings.of(Material.WOOD).mapColor(MapColor.ORANGE).strength(0.6F).sounds(BlockSoundGroup.WOOD)));
 		BIRCH_BEEHIVE = register("birch_beehive", new BeehiveBlock(AbstractBlock.Settings.of(Material.WOOD).mapColor(MapColor.PALE_YELLOW).strength(0.6F).sounds(BlockSoundGroup.WOOD)));

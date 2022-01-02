@@ -42,7 +42,7 @@ public class ItemRegistry
 
 	static {
 		COPPER_GOLEM_SPAWN_EGG = registerSpawnEgg("copper_golem", EntityRegistry.COPPER_GOLEM, 0x9A5038, 0xE3826C);
-		GLARE_SPAWN_EGG = registerSpawnEgg("glare", EntityRegistry.GLARE, 0x70922C, 0x44300F);
+		GLARE_SPAWN_EGG = registerSpawnEgg("glare", EntityRegistry.GLARE, 0x70922D, 0x4C3817);
 		MOOBLOOM_EGG = registerSpawnEgg("moobloom", EntityRegistry.MOOBLOOM, 0xFACA00, 0xf7EDC1);
 		BUTTERCUP = register("buttercup", new BlockItem(BlockRegistry.BUTTERCUP, new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
 		ACACIA_BEEHIVE = register("acacia_beehive", new BlockItem(BlockRegistry.ACACIA_BEEHIVE, new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));

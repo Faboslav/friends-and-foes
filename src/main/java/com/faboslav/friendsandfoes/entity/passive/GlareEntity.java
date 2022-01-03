@@ -362,7 +362,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 	@Override
 	public void playAmbientSound() {
 		SoundEvent soundEvent = this.getAmbientSound();
-		this.playSound(soundEvent, 1.0F, 1.0F);
+		this.playSound(soundEvent, 0.25F, 0.1F);
 	}
 
 	@Override
@@ -372,7 +372,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 
 	public void playEatSound(ItemStack stack) {
 		SoundEvent soundEvent = this.getEatSound(stack);
-		this.playSound(soundEvent, 1.0F, 1F);
+		this.playSound(soundEvent, 1.0F, 1.0F);
 	}
 
 	protected SoundEvent getHurtSound(DamageSource source) {
@@ -385,7 +385,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 	}
 
 	protected SoundEvent getDeathSound() {
-		return SoundEvents.ENTITY_BEE_DEATH;
+		return SoundRegistry.ENTITY_GLARE_DEATH;
 	}
 
 	protected float getSoundVolume() {

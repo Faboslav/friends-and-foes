@@ -32,9 +32,13 @@
   "item.friendsandfoes.glare_spawn_egg": "Glare Spawn Egg",
   "item.friendsandfoes.copper_golem_spawn_egg": "Copper Golem Spawn Egg",
   "item.friendsandfoes.moobloom_spawn_egg": "Moobloom Spawn Egg",
-  "subtitle.entity.copper_golem.death": "Copper Golem dies",
-  "subtitle.entity.copper_golem.head_spin": "Copper Golem spins head",
-  "subtitle.entity.copper_golem.hurt": "Copper Golem hurts",
-  "subtitle.entity.copper_golem.repair": "Copper Golem repaired",
-  "subtitle.entity.copper_golem.step": "Footsteps"
+  "subtitle.entity.friendsandfoes.glare.ambient": "Glare fly",
+  "subtitle.entity.friendsandfoes.glare.death": "Glare dies",
+  "subtitle.entity.friendsandfoes.glare.eat": "Glare eats",
+  "subtitle.entity.friendsandfoes.glare.hurt": "Glare hurts",
+  "subtitle.entity.friendsandfoes.copper_golem.death": "Copper Golem dies",
+  "subtitle.entity.friendsandfoes.copper_golem.head_spin": "Copper Golem spins head",
+  "subtitle.entity.friendsandfoes.copper_golem.hurt": "Copper Golem hurts",
+  "subtitle.entity.friendsandfoes.copper_golem.repair": "Copper Golem repaired",
+  "subtitle.entity.friendsandfoes.copper_golem.step": "Footsteps"
 }

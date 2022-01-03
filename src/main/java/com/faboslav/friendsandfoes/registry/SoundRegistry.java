@@ -16,6 +16,7 @@ public class SoundRegistry
 	public static final SoundEvent ENTITY_COPPER_GOLEM_REPAIR;
 	public static final SoundEvent ENTITY_COPPER_GOLEM_STEP;
 	public static final SoundEvent ENTITY_GLARE_AMBIENT;
+	public static final SoundEvent ENTITY_GLARE_DEATH;
 	public static final SoundEvent ENTITY_GLARE_EAT;
 	public static final SoundEvent ENTITY_GLARE_HURT;
 
@@ -26,6 +27,7 @@ public class SoundRegistry
 		ENTITY_COPPER_GOLEM_REPAIR = register("entity", "copper_golem.repair");
 		ENTITY_COPPER_GOLEM_STEP = register("entity", "copper_golem.step");
 		ENTITY_GLARE_AMBIENT = register("entity", "glare.ambient");
+		ENTITY_GLARE_DEATH = register("entity", "glare.death");
 		ENTITY_GLARE_EAT = register("entity", "glare.eat");
 		ENTITY_GLARE_HURT = register("entity", "glare.hurt");
 	}

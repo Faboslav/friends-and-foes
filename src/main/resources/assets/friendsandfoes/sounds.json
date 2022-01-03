@@ -3,14 +3,14 @@
 	"sounds": [
 	  "friendsandfoes:entity/copper_golem/death"
 	],
-	"subtitle": "subtitle.entity.copper_golem.death"
+	"subtitle": "subtitle.entity.friendsandfoes.copper_golem.death"
   },
   "entity.copper_golem.head_spin": {
 	"sounds": [
 	  "friendsandfoes:entity/copper_golem/head_spin1",
 	  "friendsandfoes:entity/copper_golem/head_spin2"
 	],
-	"subtitle": "subtitle.entity.copper_golem.head_spin"
+	"subtitle": "subtitle.entity.friendsandfoes.copper_golem.head_spin"
   },
   "entity.copper_golem.hurt": {
 	"sounds": [
@@ -19,13 +19,13 @@
 	  "friendsandfoes:entity/copper_golem/hurt3",
 	  "friendsandfoes:entity/copper_golem/hurt4"
 	],
-	"subtitle": "subtitle.entity.copper_golem.hurt"
+	"subtitle": "subtitle.entity.friendsandfoes.copper_golem.hurt"
   },
   "entity.copper_golem.repair": {
 	"sounds": [
 	  "friendsandfoes:entity/copper_golem/repair"
 	],
-	"subtitle": "subtitle.entity.copper_golem.repair"
+	"subtitle": "subtitle.entity.friendsandfoes.copper_golem.repair"
   },
   "entity.copper_golem.step": {
 	"sounds": [
@@ -34,7 +34,7 @@
 	  "friendsandfoes:entity/copper_golem/step3",
 	  "friendsandfoes:entity/copper_golem/step4"
 	],
-	"subtitle": "subtitle.entity.copper_golem.step"
+	"subtitle": "subtitle.entity.friendsandfoes.copper_golem.step"
   },
   "entity.glare.ambient": {
 	"sounds": [
@@ -45,20 +45,25 @@
 	  "friendsandfoes:entity/glare/ambient5",
 	  "friendsandfoes:entity/glare/ambient6"
 	],
-	"subtitle": "subtitle.entity.glare.ambient"
+	"subtitle": "subtitle.entity.friendsandfoes.glare.ambient"
+  },
+  "entity.glare.death": {
+	"sounds": [
+	  "friendsandfoes:entity/glare/death"
+	],
+	"subtitle": "subtitle.entity.friendsandfoes.glare.death"
   },
   "entity.glare.eat": {
 	"sounds": [
 	  "friendsandfoes:entity/glare/eat"
 	],
-	"subtitle": "subtitle.entity.glare.eat"
+	"subtitle": "subtitle.entity.friendsandfoes.glare.eat"
   },
   "entity.glare.hurt": {
 	"sounds": [
 	  "friendsandfoes:entity/glare/hurt1",
-	  "friendsandfoes:entity/glare/hurt2",
-	  "friendsandfoes:entity/glare/hurt3"
+	  "friendsandfoes:entity/glare/hurt2"
 	],
-	"subtitle": "subtitle.entity.glare.hurt"
+	"subtitle": "subtitle.entity.friendsandfoes.glare.hurt"
   }
 }

@@ -17,6 +17,7 @@ import java.util.function.Predicate;
 
 public class GlareEatGlowBerriesGoal extends Goal
 {
+	public boolean isRunning = false;
 	private ItemEntity foodItemToPickUp;
 	private int runTicks;
 
@@ -25,7 +26,7 @@ public class GlareEatGlowBerriesGoal extends Goal
 		return item == Items.GLOW_BERRIES.asItem() && itemEntity.isAlive() && !itemEntity.cannotPickup();
 	};
 
-	private GlareEntity glare;
+	private final GlareEntity glare;
 
 	public GlareEatGlowBerriesGoal(GlareEntity glare) {
 		this.glare = glare;
@@ -37,37 +38,20 @@ public class GlareEatGlowBerriesGoal extends Goal
 		this.foodItemToPickUp = this.getFoodItemToPickUp();
 
 		if (
-			glare.isLeashed()
+			this.glare.getTicksUntilCanEatGlowBerries() > 0
+			|| this.glare.isLeashed()
+			|| !this.hasGlareEmptyHand()
 			|| this.foodItemToPickUp == null
 		) {
 			return false;
 		}
 
-		System.out.println("lets pickup");
 		return true;
 	}
 
 	@Override
-	public boolean shouldContinue() {
-		if (
-			this.foodItemToPickUp == null
-			|| !this.foodItemToPickUp.isAlive()
-		) {
-			return false;
-		}
-
-		return true;
-	}
-
-	@Override
-	public void tick() {
-		if (!this.glare.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty()) {
-			this.glare.getNavigation().stop();
-		}
-	}
-
 	public void start() {
-		System.out.println("start");
+		this.isRunning = true;
 
 		this.glare.getNavigation().startMovingTo(
 			this.foodItemToPickUp,
@@ -75,14 +59,51 @@ public class GlareEatGlowBerriesGoal extends Goal
 		);
 	}
 
-	public void stop() {
-		System.out.println("stop");
-		ItemStack itemStack = foodItemToPickUp.getStack();
-		ItemStackParticleEffect particleEffect = new ItemStackParticleEffect(ParticleTypes.ITEM, itemStack);
+	@Override
+	public boolean shouldContinue() {
+		if (this.foodItemToPickUp == null) {
+			return false;
+		} else if (!GlareEntity.PICKABLE_FOOD_FILTER.test(foodItemToPickUp)) {
+			return false;
+		} else return this.hasGlareEmptyHand();
+	}
 
-		foodItemToPickUp.discard();
-		this.glare.playEatSound(itemStack);
-		this.glare.spawnParticles(particleEffect, 7);
+	@Override
+	public void tick() {
+		this.glare.getNavigation().startMovingTo(
+			this.foodItemToPickUp,
+			glare.getMovementSpeed()
+		);
+
+		if (this.glare.getRandom().nextFloat() < 0.05F) {
+			this.glare.playAmbientSound();
+		}
+	}
+
+	public void stop() {
+		ItemStack itemStack = this.glare.getEquippedStack(EquipmentSlot.MAINHAND);
+		Item itemInHand = this.glare.getEquippedStack(EquipmentSlot.MAINHAND).getItem();
+
+		if (
+			!this.hasGlareEmptyHand()
+			&& itemInHand == Items.GLOW_BERRIES
+		) {
+			ItemStackParticleEffect particleEffect = new ItemStackParticleEffect(ParticleTypes.ITEM, itemStack);
+			this.glare.heal(itemStack.getItem().getFoodComponent().getHunger());
+			this.glare.playEatSound(itemStack);
+			this.glare.spawnParticles(particleEffect, 7);
+			this.glare.equipStack(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
+		}
+
+		// Reset goal
+		this.isRunning = false;
+		this.foodItemToPickUp = null;
+
+		// Update entity data
+		this.glare.setTicksUntilCanEatGlowBerries(
+			this.glare.generateRandomTicksUntilCanEatGlowBerries()
+		);
+		this.glare.setGrumpy(false);
 	}
 
 	@Nullable
@@ -100,5 +121,9 @@ public class GlareEatGlowBerriesGoal extends Goal
 		return foodItemsToPickUp.get(
 			this.glare.getRandom().nextInt(foodItemsToPickUp.size())
 		);
+	}
+
+	private boolean hasGlareEmptyHand() {
+		return this.glare.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty();
 	}
 }

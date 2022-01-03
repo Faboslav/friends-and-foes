@@ -2,6 +2,8 @@ package com.faboslav.friendsandfoes.entity.passive;
 
 import com.faboslav.friendsandfoes.entity.ai.pathing.GlareNavigation;
 import com.faboslav.friendsandfoes.entity.passive.ai.goal.*;
+import com.faboslav.friendsandfoes.mixin.EntityNavigationAccessor;
+import com.faboslav.friendsandfoes.registry.CriteriaRegistry;
 import com.faboslav.friendsandfoes.registry.SoundRegistry;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.block.BlockState;
@@ -24,6 +26,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.ServerConfigHandler;
@@ -34,10 +37,11 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.Tag;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
@@ -46,28 +50,33 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
+import java.util.function.Predicate;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 {
+	public static final Predicate<ItemEntity> PICKABLE_FOOD_FILTER;
 	private static final int GRUMPY_BITMASK = 2;
 	private static final float MOVEMENT_SPEED = 0.6F;
 	public static final int MIN_TICKS_UNTIL_CAN_FIND_DARK_SPOT = 200;
 	public static final int MAX_TICKS_UNTIL_CAN_FIND_DARK_SPOT = 400;
+	public static final int MIN_TICKS_UNTIL_CAN_EAT_GLOW_BERRIES = 300;
+	public static final int MAX_TICKS_UNTIL_CAN_EAT_GLOW_BERRIES = 600;
 
 	private static final TrackedData<Byte> TAMEABLE_FLAGS;
 	private static final TrackedData<Byte> GLARE_FLAGS;
 	private static final TrackedData<Optional<UUID>> OWNER_UUID;
 	private static final TrackedData<Integer> TICKS_UNTIL_CAN_FIND_DARK_SPOT;
+	private static final TrackedData<Integer> TICKS_UNTIL_CAN_EAT_GLOW_BERRIES;
 
-	private float currentBodyPitchProgress;
-	private float lastBodyPitchProgress;
 	private Vec2f currentEyesPositionOffset;
 	private Vec2f targetEyesPositionOffset;
 	private float currentLayerPitch;
 	private float currentLayerRoll;
 	private float currentLayerPitchAnimationProgress;
 	private float currentLayerRollAnimationProgress;
+	private GlareEatGlowBerriesGoal eatGlowBerriesGoal;
+	private GlareFlyToDarkSpotGoal flyToDarkSpotGoal;
 
 	public GlareEntity(EntityType<? extends GlareEntity> entityType, World world) {
 		super(entityType, world);
@@ -78,6 +87,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		this.setPathfindingPenalty(PathNodeType.WATER_BORDER, 16.0F);
 		this.setPathfindingPenalty(PathNodeType.COCOA, -1.0F);
 		this.setPathfindingPenalty(PathNodeType.FENCE, -1.0F);
+		this.setCanPickUpLoot(true);
 
 		this.currentEyesPositionOffset = new Vec2f(0.0F, 0.0F);
 		this.targetEyesPositionOffset = new Vec2f(0.0F, 0.0F);
@@ -88,26 +98,34 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 	}
 
 	static {
+		GLARE_FLAGS = DataTracker.registerData(GlareEntity.class, TrackedDataHandlerRegistry.BYTE);
 		TAMEABLE_FLAGS = DataTracker.registerData(GlareEntity.class, TrackedDataHandlerRegistry.BYTE);
 		OWNER_UUID = DataTracker.registerData(GlareEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
+		TICKS_UNTIL_CAN_EAT_GLOW_BERRIES = DataTracker.registerData(GlareEntity.class, TrackedDataHandlerRegistry.INTEGER);
 		TICKS_UNTIL_CAN_FIND_DARK_SPOT = DataTracker.registerData(GlareEntity.class, TrackedDataHandlerRegistry.INTEGER);
-		GLARE_FLAGS = DataTracker.registerData(GlareEntity.class, TrackedDataHandlerRegistry.BYTE);
+		PICKABLE_FOOD_FILTER = (itemEntity) -> {
+			Item item = itemEntity.getStack().getItem();
+			return item == Items.GLOW_BERRIES.asItem() && itemEntity.isAlive() && !itemEntity.cannotPickup();
+		};
 	}
 
+	@Override
 	protected void initDataTracker() {
 		super.initDataTracker();
-		this.dataTracker.startTracking(TAMEABLE_FLAGS, (byte) 0);
 		this.dataTracker.startTracking(GLARE_FLAGS, (byte) 0);
+		this.dataTracker.startTracking(TAMEABLE_FLAGS, (byte) 0);
 		this.dataTracker.startTracking(OWNER_UUID, Optional.empty());
 		this.dataTracker.startTracking(
 			TICKS_UNTIL_CAN_FIND_DARK_SPOT,
-			RandomGenerator.generateInt(
-				MIN_TICKS_UNTIL_CAN_FIND_DARK_SPOT,
-				MAX_TICKS_UNTIL_CAN_FIND_DARK_SPOT
-			)
+			this.generateRandomTicksUntilCanFindDarkSpot()
+		);
+		this.dataTracker.startTracking(
+			TICKS_UNTIL_CAN_EAT_GLOW_BERRIES,
+			this.generateRandomTicksUntilCanEatGlowBerries()
 		);
 	}
 
+	@Override
 	public void writeCustomDataToNbt(NbtCompound nbt) {
 		super.writeCustomDataToNbt(nbt);
 		if (this.getOwnerUuid() != null) {
@@ -115,6 +133,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		}
 	}
 
+	@Override
 	public void readCustomDataFromNbt(NbtCompound nbt) {
 		super.readCustomDataFromNbt(nbt);
 		UUID uUID;
@@ -147,7 +166,6 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		} else {
 			this.dataTracker.set(GLARE_FLAGS, (byte) (glareFlags & ~bitmask));
 		}
-
 	}
 
 	public static boolean canSpawn(
@@ -172,16 +190,10 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 			|| blockState.isOf(Blocks.CLAY)
 			|| blockState.isOf(Blocks.GRAVEL)
 		);
-		if (
-			isAboveSurfaceLevel
-			|| isSkyVisible
-			|| isBlockPosDarkSpot
-			|| !isRelatedBlock
-		) {
-			return false;
-		}
-
-		return true;
+		return !isAboveSurfaceLevel
+			   && !isSkyVisible
+			   && !isBlockPosDarkSpot
+			   && isRelatedBlock;
 	}
 
 	protected void initGoals() {
@@ -191,10 +203,12 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		this.goalSelector.add(1, new GlareAvoidMonsterGoal(this, SpiderEntity.class, 24.0F));
 		this.goalSelector.add(1, new GlareAvoidMonsterGoal(this, WitchEntity.class, 24.0F));
 		this.goalSelector.add(1, new GlareAvoidMonsterGoal(this, ZombieEntity.class, 24.0F));
-		this.goalSelector.add(2, new GlareFollowOwnerGoal(this, 10.0F, 2.0F, false));
-		this.goalSelector.add(3, new GlareFlyToDarkSpotGoal(this));
-		this.goalSelector.add(4, new GlareEatGlowBerriesGoal(this));
-		this.goalSelector.add(4, new GlareCollectGlowBerriesGoal(this));
+		this.goalSelector.add(2, new GlareFollowOwnerGoal(this, 8.0F, 2.0F, false));
+		this.eatGlowBerriesGoal = new GlareEatGlowBerriesGoal(this);
+		this.goalSelector.add(3, this.eatGlowBerriesGoal);
+		this.goalSelector.add(3, new GlareCollectGlowBerriesGoal(this));
+		this.flyToDarkSpotGoal = new GlareFlyToDarkSpotGoal(this);
+		this.goalSelector.add(4, this.flyToDarkSpotGoal);
 		this.goalSelector.add(5, new GlareWanderAroundGoal(this));
 		this.goalSelector.add(6, new SwimGoal(this));
 	}
@@ -207,7 +221,53 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 			this.setTicksUntilCanFindDarkSpot(this.getTicksUntilCanFindDarkSpot() - 1);
 		}
 
+		if (this.getTicksUntilCanEatGlowBerries() > 0) {
+			this.setTicksUntilCanEatGlowBerries(this.getTicksUntilCanEatGlowBerries() - 1);
+		} else if (
+			!this.getWorld().isClient()
+			&& !this.eatGlowBerriesGoal.isRunning
+			&& this.getTicksUntilCanEatGlowBerries() == 0
+			&& !this.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty()
+		) {
+			this.dropItem(this.getMainHandStack().getItem());
+			this.equipStack(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
+		}
+
 		this.updateTargetEyesPositionOffset();
+	}
+
+	public boolean canEquip(ItemStack stack) {
+		EquipmentSlot equipmentSlot = MobEntity.getPreferredEquipmentSlot(stack);
+		if (!this.getEquippedStack(equipmentSlot).isEmpty()) {
+			return false;
+		} else {
+			return equipmentSlot == EquipmentSlot.MAINHAND && super.canEquip(stack);
+		}
+	}
+
+	public boolean canPickupItem(ItemStack stack) {
+		return this.eatGlowBerriesGoal.isRunning
+			   && this.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty();
+	}
+
+	private void dropItem(ItemStack stack) {
+		ItemEntity itemEntity = new ItemEntity(this.world, this.getX(), this.getY(), this.getZ(), stack);
+		this.world.spawnEntity(itemEntity);
+	}
+
+	protected void loot(ItemEntity item) {
+		ItemStack itemStack = item.getStack();
+		if (this.canPickupItem(itemStack) && PICKABLE_FOOD_FILTER.test(item)) {
+			int i = itemStack.getCount();
+			if (i > 1) {
+				this.dropItem(itemStack.split(i - 1));
+			}
+
+			this.triggerItemPickedUpByEntityCriteria(item);
+			this.equipStack(EquipmentSlot.MAINHAND, itemStack.split(1));
+			this.sendPickup(item, itemStack.getCount());
+			item.discard();
+		}
 	}
 
 	public Vec2f getCurrentEyesPositionOffset() {
@@ -285,6 +345,8 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		glareNavigation.setCanPathThroughDoors(false);
 		glareNavigation.setCanSwim(false);
 		glareNavigation.setCanEnterOpenDoors(true);
+		EntityNavigationAccessor entityNavigation = (EntityNavigationAccessor) glareNavigation;
+		entityNavigation.setNodeReachProximity(0.1F);
 
 		return glareNavigation;
 	}
@@ -300,7 +362,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 	@Override
 	public void playAmbientSound() {
 		SoundEvent soundEvent = this.getAmbientSound();
-		this.playSound(soundEvent, 0.25F, 1F);
+		this.playSound(soundEvent, 1.0F, 1.0F);
 	}
 
 	@Override
@@ -381,6 +443,9 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 
 		this.playEatSound(itemStack);
 
+		ItemStackParticleEffect particleEffect = new ItemStackParticleEffect(ParticleTypes.ITEM, itemStack);
+		this.spawnParticles(particleEffect, 7);
+
 		return true;
 	}
 
@@ -398,7 +463,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 
 		this.playEatSound(itemStack);
 
-		if (this.random.nextInt(5) == 0) {
+		if (this.random.nextInt(3) == 0) {
 			this.setOwner(player);
 			this.world.sendEntityStatus(this, (byte) 7);
 		} else {
@@ -488,7 +553,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		this.setTamed(true);
 		this.setOwnerUuid(player.getUuid());
 		if (player instanceof ServerPlayerEntity) {
-			// maybe advancement for taming glare?
+			CriteriaRegistry.TAME_GLARE.trigger((ServerPlayerEntity) player, this);
 		}
 	}
 
@@ -506,27 +571,24 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		return entity == this.getOwner();
 	}
 
-	public float getBodyPitchProgress(float tickDelta) {
-		if (!this.getWorld().isClient()) {
-			return 0.0F;
+	public void onDeath(DamageSource source) {
+		if (!this.world.isClient && this.world.getGameRules().getBoolean(GameRules.SHOW_DEATH_MESSAGES) && this.getOwner() instanceof ServerPlayerEntity) {
+			this.getOwner().sendSystemMessage(this.getDamageTracker().getDeathMessage(), Util.NIL_UUID);
 		}
 
-		return MathHelper.lerp(tickDelta, this.lastBodyPitchProgress, this.currentBodyPitchProgress);
+		super.onDeath(source);
 	}
 
-	private void updateGrumpyAnimation() {
+	@Override
+	public boolean damage(
+		DamageSource source,
+		float amount
+	) {
 		if (!this.getWorld().isClient()) {
-			return;
+			this.flyToDarkSpotGoal.stop();
 		}
 
-		this.lastBodyPitchProgress = this.currentBodyPitchProgress;
-		boolean isMoving = !this.isOnGround() && this.getVelocity().lengthSquared() >= 0.0001;
-
-		if (this.isGrumpy()) {
-			this.currentBodyPitchProgress = Math.min(1.0F, this.currentBodyPitchProgress + 0.05F);
-		} else {
-			this.currentBodyPitchProgress = Math.max(0.0F, this.currentBodyPitchProgress - 0.1F);
-		}
+		return super.damage(source, amount);
 	}
 
 	public int getTicksUntilCanFindDarkSpot() {
@@ -535,6 +597,28 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 
 	public void setTicksUntilCanFindDarkSpot(int ticksUntilCanFindDarkSpot) {
 		this.dataTracker.set(TICKS_UNTIL_CAN_FIND_DARK_SPOT, ticksUntilCanFindDarkSpot);
+	}
+
+	public int generateRandomTicksUntilCanFindDarkSpot() {
+		return RandomGenerator.generateInt(
+			MIN_TICKS_UNTIL_CAN_FIND_DARK_SPOT,
+			MAX_TICKS_UNTIL_CAN_FIND_DARK_SPOT
+		);
+	}
+
+	public int getTicksUntilCanEatGlowBerries() {
+		return this.dataTracker.get(TICKS_UNTIL_CAN_EAT_GLOW_BERRIES);
+	}
+
+	public void setTicksUntilCanEatGlowBerries(int ticksUntilCanEatGlowBerries) {
+		this.dataTracker.set(TICKS_UNTIL_CAN_EAT_GLOW_BERRIES, ticksUntilCanEatGlowBerries);
+	}
+
+	public int generateRandomTicksUntilCanEatGlowBerries() {
+		return RandomGenerator.generateInt(
+			MIN_TICKS_UNTIL_CAN_EAT_GLOW_BERRIES,
+			MAX_TICKS_UNTIL_CAN_EAT_GLOW_BERRIES
+		);
 	}
 
 	@Override
@@ -550,6 +634,10 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 	@Override
 	public float getMovementSpeed() {
 		return MOVEMENT_SPEED;
+	}
+
+	public float getFastMovementSpeed() {
+		return MOVEMENT_SPEED * 1.25F;
 	}
 
 	public void setGrumpy(boolean grumpy) {

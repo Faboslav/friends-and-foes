@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.entity.passive.ai.goal;
 
 import com.faboslav.friendsandfoes.entity.passive.GlareEntity;
-import com.faboslav.friendsandfoes.registry.SoundRegistry;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CaveVines;
 import net.minecraft.entity.ai.goal.MoveToTargetPosGoal;
@@ -29,7 +28,7 @@ public class GlareCollectGlowBerriesGoal extends MoveToTargetPosGoal
 	}
 
 	public double getDesiredSquaredDistanceToTarget() {
-		return 2.0D;
+		return 1.5D;
 	}
 
 	public boolean shouldResetPath() {
@@ -43,7 +42,9 @@ public class GlareCollectGlowBerriesGoal extends MoveToTargetPosGoal
 
 	@Override
 	public boolean canStart() {
-		if (this.glareEntity.isLeashed()) {
+		if (
+			this.glareEntity.isLeashed()
+		) {
 			return false;
 		}
 
@@ -66,7 +67,7 @@ public class GlareCollectGlowBerriesGoal extends MoveToTargetPosGoal
 			}
 		} else {
 			if (this.glareEntity.getRandom().nextFloat() < 0.05F) {
-				this.glareEntity.playSound(SoundRegistry.ENTITY_GLARE_AMBIENT, 1.0F, 1.0F);
+				this.glareEntity.playAmbientSound();
 			}
 		}
 

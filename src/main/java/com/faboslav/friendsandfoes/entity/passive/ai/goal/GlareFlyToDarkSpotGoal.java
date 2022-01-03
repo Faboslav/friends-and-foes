@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.entity.passive.ai.goal;
 
 import com.faboslav.friendsandfoes.entity.passive.GlareEntity;
-import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
@@ -55,8 +54,6 @@ public class GlareFlyToDarkSpotGoal extends Goal
 			return false;
 		}
 
-		System.out.println(this.darkSpot);
-
 		return true;
 	}
 
@@ -85,16 +82,15 @@ public class GlareFlyToDarkSpotGoal extends Goal
 
 	@Override
 	public void stop() {
-		System.out.println("stop");
 		// Reset goal
 		this.darkSpot = null;
 		this.currentPath = null;
 
+
 		// Update entity data
-		int minCooldownTicks = GlareEntity.MIN_TICKS_UNTIL_CAN_FIND_DARK_SPOT;
-		int maxCooldownTicks = GlareEntity.MAX_TICKS_UNTIL_CAN_FIND_DARK_SPOT;
-		int cooldown = RandomGenerator.generateInt(minCooldownTicks, maxCooldownTicks);
-		this.glare.setTicksUntilCanFindDarkSpot(cooldown);
+		this.glare.setTicksUntilCanFindDarkSpot(
+			this.glare.generateRandomTicksUntilCanFindDarkSpot()
+		);
 		this.glare.setGrumpy(false);
 	}
 

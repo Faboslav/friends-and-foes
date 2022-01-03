@@ -35,7 +35,7 @@ public class GlareFollowOwnerGoal extends Goal
 	) {
 		this.glare = glare;
 		this.world = glare.world;
-		this.speed = glare.getMovementSpeed();
+		this.speed = glare.getFastMovementSpeed();
 		this.navigation = glare.getNavigation();
 		this.minDistance = minDistance;
 		this.maxDistance = maxDistance;
@@ -44,10 +44,6 @@ public class GlareFollowOwnerGoal extends Goal
 	}
 
 	public boolean canStart() {
-		if (this.glare.isLeashed()) {
-			return false;
-		}
-
 		LivingEntity livingEntity = this.glare.getOwner();
 
 		if (livingEntity == null) {
@@ -87,7 +83,7 @@ public class GlareFollowOwnerGoal extends Goal
 		if (--this.updateCountdownTicks <= 0) {
 			this.updateCountdownTicks = this.getTickCount(10);
 			if (!this.glare.isLeashed() && !this.glare.hasVehicle()) {
-				if (this.glare.squaredDistanceTo(this.owner) >= 144.0D) {
+				if (this.glare.squaredDistanceTo(this.owner) >= 256.0D) {
 					this.tryTeleport();
 				} else {
 					this.navigation.startMovingTo(this.owner, this.speed);

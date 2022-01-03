@@ -1,4 +1,4 @@
-## mc1.18.1-1.1.0
+## mc1.18.1-1.1.0 Jan 3, 2022
 
 - Added config (friendsandfoes.json)
 - Added Glare

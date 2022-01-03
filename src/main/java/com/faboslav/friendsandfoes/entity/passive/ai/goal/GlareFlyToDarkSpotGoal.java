@@ -50,11 +50,7 @@ public class GlareFlyToDarkSpotGoal extends Goal
 		ArrayList<BlockPos> darkSpots = this.findDarkSpots(DARK_SPOT_SEARCH_DISTANCE);
 		this.darkSpot = this.getRandomDarkSpot(darkSpots);
 
-		if (this.darkSpot == null) {
-			return false;
-		}
-
-		return true;
+		return this.darkSpot != null;
 	}
 
 	@Override

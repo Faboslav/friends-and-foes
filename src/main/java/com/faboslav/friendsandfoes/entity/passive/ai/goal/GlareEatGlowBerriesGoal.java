@@ -37,20 +37,15 @@ public class GlareEatGlowBerriesGoal extends Goal
 	public boolean canStart() {
 		this.foodItemToPickUp = this.getFoodItemToPickUp();
 
-		if (
-			this.glare.getTicksUntilCanEatGlowBerries() > 0
-			|| this.glare.isLeashed()
-			|| !this.hasGlareEmptyHand()
-			|| this.foodItemToPickUp == null
-		) {
-			return false;
-		}
-
-		return true;
+		return this.glare.getTicksUntilCanEatGlowBerries() <= 0
+			   && !this.glare.isLeashed()
+			   && this.hasGlareEmptyHand()
+			   && this.foodItemToPickUp != null;
 	}
 
 	@Override
 	public void start() {
+		this.runTicks = 0;
 		this.isRunning = true;
 
 		this.glare.getNavigation().startMovingTo(
@@ -61,15 +56,16 @@ public class GlareEatGlowBerriesGoal extends Goal
 
 	@Override
 	public boolean shouldContinue() {
-		if (this.foodItemToPickUp == null) {
-			return false;
-		} else if (!GlareEntity.PICKABLE_FOOD_FILTER.test(foodItemToPickUp)) {
-			return false;
-		} else return this.hasGlareEmptyHand();
+		return this.runTicks < 600
+			   && this.foodItemToPickUp != null
+			   && GlareEntity.PICKABLE_FOOD_FILTER.test(foodItemToPickUp)
+			   && this.hasGlareEmptyHand();
 	}
 
 	@Override
 	public void tick() {
+		this.runTicks++;
+
 		this.glare.getNavigation().startMovingTo(
 			this.foodItemToPickUp,
 			glare.getMovementSpeed()

@@ -3,7 +3,7 @@
 - Added config (friendsandfoes.json)
 - Added Glare
 - Added new "MooBoom!" and "Grumpy and Cute" advancement
-- Fixed copper button/copper golems related advancements
+- Fixed copper button/copper golem related advancements
 - Fixed gravity for fully oxidized Copper Golem
 - Fixed Beekeeper Area village structure generation
 - Refactored a lot of code for better readability and performance

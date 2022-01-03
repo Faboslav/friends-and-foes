@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier;
 public class StructurePoolInit
 {
 	public static void init() {
-		if (FriendsAndFoes.CONFIG.generateBeekeeperArea) {
+		if (FriendsAndFoes.CONFIG.generateBeekeeperAreaStructure) {
 			StructurePools.register(
 				new StructurePool(
 					Settings.makeID("village/common/bee"),

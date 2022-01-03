@@ -26,8 +26,8 @@ I already got pretty solid ideas for most of the mobs and features but you are m
 
 ### Friends
 
-- [ ] Glare
 - [x] [Copper Golem]
+- [x] [Glare]
 - [x] [Moobloom]
 
 ### Foes
@@ -75,8 +75,8 @@ You can also look into the [blockbench directory] which contains all of the mode
 Get inspired, but please don't just copy & paste any of it as your own.
 
 ---
-
 [Copper Golem]: https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem
+[Glare]: https://github.com/Faboslav/friends-and-foes/wiki/Glare
 [Moobloom]: https://github.com/Faboslav/friends-and-foes/wiki/Moobloom
 [Beehives]: https://github.com/Faboslav/friends-and-foes/wiki/Beehives
 [Buttercup]: https://github.com/Faboslav/friends-and-foes/wiki/Buttercup

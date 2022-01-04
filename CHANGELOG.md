@@ -1,6 +1,6 @@
 ## mc1.18.1-1.1.1 Jan 4, 2022
 
-- Fixed tags (all beehives will now work correctly)
+- Fixed tags (all beehives should now work correctly)
 
 ## mc1.18.1-1.1.0 Jan 3, 2022
 

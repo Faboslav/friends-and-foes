@@ -56,6 +56,7 @@ I already got pretty solid ideas for most of the mobs and features but you are m
 
 - [CurseForge]
 - [Modrinth]
+- [Discord]
 
 <br>
 <br>
@@ -86,6 +87,7 @@ Get inspired, but please don't just copy & paste any of it as your own.
 [wiki]: https://github.com/Faboslav/friends-and-foes/wiki
 [CurseForge]: https://www.curseforge.com/minecraft/mc-mods/friends-foes
 [Modrinth]: https://modrinth.com/mod/friends-and-foes
+[Discord]: https://discord.gg/P3tXnXYK
 [blockbench directory]: https://github.com/Faboslav/friends-and-foes/tree/master/blockbench
 [textures directory]: https://github.com/Faboslav/friends-and-foes/tree/master/src/main/resources/assets/friendsandfoes/textures
 [CC BY-NC-ND 4.0]: https://github.com/Faboslav/friends-and-foes/blob/master/LICENSE.txt

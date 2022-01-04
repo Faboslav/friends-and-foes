@@ -1,7 +1,6 @@
 {
   "replace": false,
   "values": [
-	"minecraft:beehive",
 	"friendsandfoes:acacia_beehive",
 	"friendsandfoes:birch_beehive",
 	"friendsandfoes:crimson_beehive",

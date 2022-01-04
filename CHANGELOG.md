@@ -1,3 +1,7 @@
+## mc1.18.1-1.1.1 Jan 4, 2022
+
+- Fixed tags (all beehives will now work correctly)
+
 ## mc1.18.1-1.1.0 Jan 3, 2022
 
 - Added config (friendsandfoes.json)

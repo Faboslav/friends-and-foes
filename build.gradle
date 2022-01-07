@@ -15,6 +15,10 @@ allprojects {
 	sourceCompatibility = JavaVersion.VERSION_17
 	targetCompatibility = JavaVersion.VERSION_17
 
+	loom {
+		accessWidenerPath = file("src/main/resources/friendsandfoes.accesswidener")
+	}
+
 	dependencies {
 		// Fabric
 		minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -23,6 +27,9 @@ allprojects {
 		// Fabric API
 		modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 		modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+		// Fabric ASM
+		modImplementation "com.github.Chocohead:Fabric-ASM:${project.fabric_asm_version}"
 
 		// Omega Config
 		include "com.github.Draylar.omega-config:omega-config-base:${project.omega_config_version}"

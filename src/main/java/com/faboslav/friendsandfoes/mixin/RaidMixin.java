@@ -29,7 +29,7 @@ public class RaidMixin
 		RaiderEntity raiderEntity
 	) {
 		if(raiderEntity instanceof EvokerEntity) {
-			int randomRaiderNumber = RandomGenerator.generateInt(1, 2);
+			int randomRaiderNumber = RandomGenerator.generateInt(0, 1);
 
 			if(randomRaiderNumber == 1) {
 				return raiderEntity;

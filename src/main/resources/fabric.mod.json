@@ -25,11 +25,15 @@
 	],
 	"server": [
 	  "com.faboslav.friendsandfoes.FriendsAndFoesServer"
+	],
+	"mm:early_risers": [
+	  "com.faboslav.friendsandfoes.EarlyRiser"
 	]
   },
   "mixins": [
 	"friendsandfoes.mixins.json"
   ],
+  "accessWidener": "friendsandfoes.accesswidener",
   "depends": {
 	"fabricloader": ">=0.12.6",
 	"fabric": "*",

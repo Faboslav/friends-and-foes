@@ -10,8 +10,8 @@ public class EarlyRiser implements Runnable {
 	public void run() {
 		MappingResolver remapper = FabricLoader.getInstance().getMappingResolver();
 
-		String Raid = remapper.mapClassName("intermediary", "net/minecraft/class_3765");
-		String EntityType = remapper.mapClassName("intermediary", "net/minecraft/class_3765$class_3766");
+		String Raid = remapper.mapClassName("intermediary", "net.minecraft.class_3765$class_3766");
+		String EntityType = 'L' + remapper.mapClassName("intermediary", "net.minecraft.class_1299") + ';';
 
 		ClassTinkerers
 			.enumBuilder(Raid, EntityType, int[].class)

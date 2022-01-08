@@ -2,7 +2,9 @@ package com.faboslav.friendsandfoes.mixin;
 
 import net.minecraft.village.raid.Raid;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.Slice;
 
 @Mixin(Raid.Member.class)
 public class RaidMemberMixin

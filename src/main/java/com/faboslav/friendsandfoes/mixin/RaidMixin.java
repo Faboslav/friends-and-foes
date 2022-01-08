@@ -9,7 +9,8 @@ import net.minecraft.village.raid.Raid;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(Raid.class)
 public class RaidMixin
@@ -28,10 +29,10 @@ public class RaidMixin
 	private RaiderEntity modifyRaiderEntity(
 		RaiderEntity raiderEntity
 	) {
-		if(raiderEntity instanceof EvokerEntity) {
+		if (raiderEntity instanceof EvokerEntity) {
 			int randomRaiderNumber = RandomGenerator.generateInt(0, 1);
 
-			if(randomRaiderNumber == 1) {
+			if (randomRaiderNumber == 1) {
 				return raiderEntity;
 			}
 

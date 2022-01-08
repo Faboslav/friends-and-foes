@@ -9,6 +9,8 @@ public class FriendsAndFoesConfig implements Config
 	public boolean enableMoobloomSpawn = true;
 	public boolean enableBeekeeperVillagerProfession = true;
 	public boolean generateBeekeeperAreaStructure = true;
+	public boolean enableIllusionersInRaids = true;
+	public boolean generateIllusionerShackStructure = true;
 
 	@Override
 	public String getName() {

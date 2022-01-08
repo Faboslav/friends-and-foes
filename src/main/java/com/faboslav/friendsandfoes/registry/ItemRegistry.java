@@ -4,13 +4,10 @@ import com.faboslav.friendsandfoes.config.Settings;
 import com.google.common.collect.Lists;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.ItemDispenserBehavior;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.mob.IllusionerEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.*;
-import net.minecraft.util.Rarity;
 import net.minecraft.util.math.BlockPointer;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
@@ -43,7 +40,6 @@ public class ItemRegistry
 	public static final Item WAXED_EXPOSED_COPPER_BUTTON;
 	public static final Item WAXED_WEATHERED_COPPER_BUTTON;
 	public static final Item WAXED_OXIDIZED_COPPER_BUTTON;
-	public static final Item TOTEM_OF_ILLUSION;
 
 	static {
 		COPPER_GOLEM_SPAWN_EGG = registerSpawnEgg("copper_golem", EntityRegistry.COPPER_GOLEM, 0x9A5038, 0xE3826C);
@@ -66,8 +62,6 @@ public class ItemRegistry
 		WAXED_EXPOSED_COPPER_BUTTON = register("waxed_exposed_copper_button", new BlockItem(BlockRegistry.WAXED_EXPOSED_COPPER_BUTTON, new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
 		WAXED_WEATHERED_COPPER_BUTTON = register("waxed_weathered_copper_button", new BlockItem(BlockRegistry.WAXED_WEATHERED_COPPER_BUTTON, new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
 		WAXED_OXIDIZED_COPPER_BUTTON = register("waxed_oxidized_copper_button", new BlockItem(BlockRegistry.WAXED_OXIDIZED_COPPER_BUTTON, new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
-		TOTEM_OF_ILLUSION = register("totem_of_illusion", new Item((new Item.Settings()).maxCount(1).group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON)));
-
 	}
 
 	private static Item registerSpawnEgg(

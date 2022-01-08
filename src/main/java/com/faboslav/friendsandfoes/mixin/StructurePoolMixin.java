@@ -36,7 +36,7 @@ public class StructurePoolMixin
 	}
 
 	@Inject(at = @At("TAIL"), method = "<init>(Lnet/minecraft/util/Identifier;Lnet/minecraft/util/Identifier;Ljava/util/List;Lnet/minecraft/structure/pool/StructurePool$Projection;)V")
-	private void addHouses(
+	private void addStructures(
 		Identifier id,
 		Identifier terminatorsId,
 		List elementCounts,
@@ -52,6 +52,15 @@ public class StructurePoolMixin
 				addElement(Settings.makeStringID("village/savanna/houses/savanna_beekeeper_area"), 1, projection);
 			} else if (Objects.equals(id.getPath(), "village/common/bee")) {
 				addElement(Settings.makeStringID("village/common/animals/bee"), 1, projection);
+			}
+		}
+
+		if(FriendsAndFoes.CONFIG.generateIllusionerShackStructure) {
+			System.out.println(id.getPath());
+			 if (Objects.equals(id.getPath(), "illusioner_shack/wolf")) {
+				addElement(Settings.makeStringID("illusioner_shack/wolf"), 1, projection);
+			} else if (Objects.equals(id.getPath(), "illusioner_shack/illusioner")) {
+				addElement(Settings.makeStringID("illusioner_shack/illusioner"), 1, projection);
 			}
 		}
 	}

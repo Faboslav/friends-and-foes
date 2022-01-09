@@ -1,3 +1,8 @@
+## mc1.18.1-1.1.2 Jan 9, 2022
+
+- Changed Copper Button recipe to prevent conflicts with other mods
+- Changed Copper Golem build pattern to be more consistent with other golems build patterns
+
 ## mc1.18.1-1.1.1 Jan 4, 2022
 
 - Fixed tags (all beehives should now work correctly)

@@ -1,10 +1,14 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "ingredients": [
-	{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+	"C",
+	"C"
+  ],
+  "key": {
+	"C": {
 	  "item": "minecraft:copper_ingot"
 	}
-  ],
+  },
   "result": {
 	"item": "friendsandfoes:copper_button"
   }

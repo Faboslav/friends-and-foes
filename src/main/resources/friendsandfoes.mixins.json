@@ -3,23 +3,24 @@
   "package": "com.faboslav.friendsandfoes.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-	"AbstractButtonBlockMixin",
-	"BeeEntityAccessor",
-	"BeeEntityMixin",
-	"BlockEntityTypeMixin",
-	"BlockTagsAccessor",
-	"EntityNavigationAccessor",
-	"LightningRodBlockMixin",
-	"PointOfInterestTypeMixin",
-	"RaidMemberMixin",
-	"RaidMixin",
-	"StructurePoolMixin",
-	"VillagerTaskListProviderMixin"
+    "AbstractButtonBlockMixin",
+    "BeeEntityAccessor",
+    "BeeEntityMixin",
+    "BlockEntityTypeMixin",
+    "BlockTagsAccessor",
+    "EntityNavigationAccessor",
+    "ItemTagsAccessor",
+    "LightningRodBlockMixin",
+    "PointOfInterestTypeMixin",
+    "RaidMemberMixin",
+    "RaidMixin",
+    "StructurePoolMixin",
+    "VillagerTaskListProviderMixin"
   ],
   "client": [
-	"ModelPartAccessor"
+    "ModelPartAccessor"
   ],
   "injectors": {
-	"defaultRequire": 1
+    "defaultRequire": 1
   }
 }

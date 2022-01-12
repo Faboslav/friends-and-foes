@@ -12,6 +12,7 @@ public class RegistryInit
 		CriteriaRegistry.init();
 		EntityRegistry.init();
 		ItemRegistry.init();
+		ItemTagsRegistry.init();
 		OxidizableBlockRegistry.init();
 		SoundRegistry.init();
 		VillagerProfessionRegistry.init();

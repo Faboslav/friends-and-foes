@@ -680,4 +680,15 @@ public class CopperGolemEntity extends GolemEntity
 			}
 		}
 	}
+
+	public void setSpawnYaw(float yaw) {
+		this.serverYaw = yaw;
+		this.prevYaw = yaw;
+		this.setYaw(yaw);
+		this.prevBodyYaw = yaw;
+		this.bodyYaw = yaw;
+		this.serverHeadYaw = yaw;
+		this.prevHeadYaw = yaw;
+		this.headYaw = yaw;
+	}
 }

@@ -86,7 +86,15 @@ public class MoobloomEntity extends CowEntity implements Shearable
 			this.getEntityWorld().spawnEntity(cowEntity);
 
 			for (int i = 0; i < 5; ++i) {
-				this.getEntityWorld().spawnEntity(new ItemEntity(this.world, this.getX(), this.getBodyY(1.0D), this.getZ(), new ItemStack(BlockRegistry.BUTTERCUP)));
+				this.getEntityWorld().spawnEntity(
+					new ItemEntity(
+						this.world,
+						this.getX(),
+						this.getBodyY(1.0D),
+						this.getZ(),
+						new ItemStack(BlockRegistry.BUTTERCUP)
+					)
+				);
 			}
 		}
 	}

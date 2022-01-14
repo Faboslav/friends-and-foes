@@ -76,7 +76,7 @@ public class IllusionerShackFeature extends StructureFeature<StructurePoolFeatur
 			() -> context.registryManager()
 				.get(Registry.STRUCTURE_POOL_KEY)
 				.get(Settings.makeID("illusioner_shack/illusioner_shack")),
-			1
+			10
 		);
 
 		StructureGeneratorFactory.Context<StructurePoolFeatureConfig> newContext = new StructureGeneratorFactory.Context<>(

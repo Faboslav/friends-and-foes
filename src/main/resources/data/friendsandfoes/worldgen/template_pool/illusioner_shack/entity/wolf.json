@@ -1,11 +1,11 @@
 {
-  "name": "friendsandfoes:illusioner_shack/illusioner_shack",
+  "name": "friendsandfoes:illusioner_shack/entity/wolf",
   "fallback": "minecraft:empty",
   "elements": [
 	{
 	  "weight": 1,
 	  "element": {
-		"location": "friendsandfoes:illusioner_shack/base_plate",
+		"location": "friendsandfoes:illusioner_shack/entity/wolf",
 		"processors": "minecraft:empty",
 		"projection": "rigid",
 		"element_type": "minecraft:single_pool_element"

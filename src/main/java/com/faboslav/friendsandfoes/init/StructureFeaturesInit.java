@@ -20,7 +20,7 @@ public class StructureFeaturesInit
 		FabricStructureBuilder
 			.create(Settings.makeID("illusioner_shack"), ILLUSIONER_SHACK)
 			.step(GenerationStep.Feature.SURFACE_STRUCTURES)
-			.defaultConfig(new StructureConfig(50, 25, 365262534))
+			.defaultConfig(new StructureConfig(30, 15, 365262534))
 			.adjustsSurface()
 			.register();
 	}

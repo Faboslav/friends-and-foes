@@ -1,0 +1,102 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": {
+        "type": "minecraft:uniform",
+        "min": 1.0,
+        "max": 3.0
+      },
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 20,
+          "name": "minecraft:lead"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 20,
+          "name": "minecraft:name_tag"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:enchant_randomly"
+            }
+          ],
+          "name": "minecraft:book"
+        }
+      ]
+    },
+    {
+      "rolls": {
+        "type": "minecraft:uniform",
+        "min": 1.0,
+        "max": 8.0
+      },
+      "bonus_rolls": 0.0,
+      "entries": [
+		{
+		  "type": "minecraft:item",
+		  "weight": 20,
+		  "name": "minecraft:potion{Potion: “minecraft:water”}"
+		},
+		{
+		  "type": "minecraft:item",
+		  "weight": 20,
+		  "name": "minecraft:glass_bottle"
+		},
+		{
+		  "type": "minecraft:item",
+		  "weight": 20,
+		  "name": "minecraft:sweet_berries"
+		},
+        {
+          "type": "minecraft:item",
+          "weight": 20,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1.0,
+                "max": 4.0
+              },
+              "add": false
+            }
+          ],
+          "name": "minecraft:coal"
+        }
+      ]
+    },
+    {
+	  "rolls": {
+		"type": "minecraft:uniform",
+		"min": 1.0,
+		"max": 4.0
+	  },
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 50,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1.0,
+                "max": 8.0
+              },
+              "add": false
+            }
+          ],
+          "name": "minecraft:bone"
+        }
+	  ]
+    }
+  ]
+}

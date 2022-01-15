@@ -9,6 +9,7 @@
 	"BlockEntityTypeMixin",
 	"BlockTagsAccessor",
 	"EntityNavigationAccessor",
+	"IllusionerEntityMixin",
 	"LightningRodBlockMixin",
 	"PointOfInterestTypeMixin",
 	"RaidMemberMixin",

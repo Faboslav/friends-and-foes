@@ -1,6 +1,124 @@
 {
   "type": "minecraft:chest",
   "pools": [
+	{
+	  "rolls": 1.0,
+	  "bonus_rolls": 0.0,
+	  "entries": [
+		{
+		  "type": "minecraft:item",
+		  "weight": 1,
+		  "functions": [
+			{
+			  "function": "minecraft:set_damage",
+			  "damage": {
+				"type": "minecraft:uniform",
+				"min": 0.8,
+				"max": 1.0
+			  },
+			  "add": false
+			},
+			{
+			  "function": "minecraft:enchant_with_levels",
+			  "levels": 30.0,
+			  "treasure": true
+			}
+		  ],
+		  "name": "minecraft:bow"
+		}
+	  ]
+	},
+	{
+	  "rolls": 1.0,
+	  "bonus_rolls": 0.0,
+	  "entries": [
+		{
+		  "type": "minecraft:item",
+		  "weight": 10,
+		  "functions": [
+			{
+			  "function": "minecraft:enchant_randomly"
+			}
+		  ],
+		  "name": "minecraft:book"
+		}
+	  ]
+	},
+	{
+	  "rolls": {
+		"type": "minecraft:uniform",
+		"min": 2.0,
+		"max": 6.0
+	  },
+	  "bonus_rolls": 0.0,
+	  "entries": [
+		{
+		  "type": "minecraft:item",
+		  "weight": 20,
+		  "name": "minecraft:lead"
+		},
+		{
+		  "type": "minecraft:item",
+		  "weight": 50,
+		  "name": "minecraft:name_tag"
+		},
+		{
+		  "type": "minecraft:item",
+		  "weight": 30,
+		  "functions": [
+			{
+			  "function": "minecraft:set_count",
+			  "count": {
+				"type": "minecraft:uniform",
+				"min": 4.0,
+				"max": 8.0
+			  },
+			  "add": false
+			}
+		  ],
+		  "name": "minecraft:bone"
+		}
+	  ]
+	},
+	{
+	  "rolls": {
+		"type": "minecraft:uniform",
+		"min": 1.0,
+		"max": 3.0
+	  },
+	  "bonus_rolls": 0.0,
+	  "entries": [
+		{
+		  "type": "minecraft:item",
+		  "name": "minecraft:glass_bottle"
+		}
+	  ]
+	},
+	{
+	  "rolls": {
+		"type": "minecraft:uniform",
+		"min": 1.0,
+		"max": 3.0
+	  },
+	  "bonus_rolls": 0.0,
+	  "entries": [
+		{
+		  "type": "minecraft:item",
+		  "functions": [
+			{
+			  "function": "minecraft:set_count",
+			  "count": {
+				"type": "minecraft:uniform",
+				"min": 2.0,
+				"max": 3.0
+			  },
+			  "add": false
+			}
+		  ],
+		  "name": "minecraft:spruce_log"
+		}
+	  ]
+	},
     {
       "rolls": {
         "type": "minecraft:uniform",
@@ -9,94 +127,22 @@
       },
       "bonus_rolls": 0.0,
       "entries": [
-        {
-          "type": "minecraft:item",
-          "weight": 20,
-          "name": "minecraft:lead"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 20,
-          "name": "minecraft:name_tag"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 10,
-          "functions": [
-            {
-              "function": "minecraft:enchant_randomly"
-            }
-          ],
-          "name": "minecraft:book"
-        }
-      ]
-    },
-    {
-      "rolls": {
-        "type": "minecraft:uniform",
-        "min": 1.0,
-        "max": 8.0
-      },
-      "bonus_rolls": 0.0,
-      "entries": [
 		{
 		  "type": "minecraft:item",
-		  "weight": 20,
-		  "name": "minecraft:potion{Potion: “minecraft:water”}"
-		},
-		{
-		  "type": "minecraft:item",
-		  "weight": 20,
-		  "name": "minecraft:glass_bottle"
-		},
-		{
-		  "type": "minecraft:item",
-		  "weight": 20,
+		  "functions": [
+			{
+			  "function": "minecraft:set_count",
+			  "count": {
+				"type": "minecraft:uniform",
+				"min": 2.0,
+				"max": 4.0
+			  },
+			  "add": false
+			}
+		  ],
 		  "name": "minecraft:sweet_berries"
-		},
-        {
-          "type": "minecraft:item",
-          "weight": 20,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 1.0,
-                "max": 4.0
-              },
-              "add": false
-            }
-          ],
-          "name": "minecraft:coal"
-        }
+		}
       ]
-    },
-    {
-	  "rolls": {
-		"type": "minecraft:uniform",
-		"min": 1.0,
-		"max": 4.0
-	  },
-      "bonus_rolls": 0.0,
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "weight": 50,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 1.0,
-                "max": 8.0
-              },
-              "add": false
-            }
-          ],
-          "name": "minecraft:bone"
-        }
-	  ]
     }
   ]
 }

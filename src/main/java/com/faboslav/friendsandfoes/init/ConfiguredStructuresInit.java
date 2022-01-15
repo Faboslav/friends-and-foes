@@ -7,7 +7,7 @@ import net.minecraft.structure.PlainsVillageData;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.gen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.gen.feature.StructurePoolFeatureConfig;
 
@@ -29,8 +29,10 @@ public class ConfiguredStructuresInit
 
 	private static void addConfiguredStructuresToBiomes() {
 		BiomeModifications.addStructure(
-			BiomeSelectors.categories(
-				Biome.Category.TAIGA
+			BiomeSelectors.includeByKey(
+				BiomeKeys.TAIGA,
+				BiomeKeys.OLD_GROWTH_PINE_TAIGA,
+				BiomeKeys.OLD_GROWTH_SPRUCE_TAIGA
 			),
 			RegistryKey.of(
 				Registry.CONFIGURED_STRUCTURE_FEATURE_KEY,

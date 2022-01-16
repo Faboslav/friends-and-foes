@@ -21,5 +21,6 @@ public class ItemTagsRegistry
 		return ItemTagsAccessor.invokeRegister(Settings.makeStringID(name));
 	}
 
-	public static void init() {}
+	public static void init() {
+	}
 }

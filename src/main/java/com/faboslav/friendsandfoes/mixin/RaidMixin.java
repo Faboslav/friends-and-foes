@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.mixin;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.EvokerEntity;
@@ -29,7 +30,10 @@ public class RaidMixin
 	private RaiderEntity modifyRaiderEntity(
 		RaiderEntity raiderEntity
 	) {
-		if (raiderEntity instanceof EvokerEntity) {
+		if (
+			raiderEntity instanceof EvokerEntity
+			&& FriendsAndFoes.CONFIG.enableIllusionerInRaids
+		) {
 			int randomRaiderNumber = RandomGenerator.generateInt(0, 1);
 
 			if (randomRaiderNumber == 1) {

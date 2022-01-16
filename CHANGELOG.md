@@ -1,3 +1,10 @@
+## mc1.18.1-1.2.0 Jan 16, 2022
+
+- Added Illusioner
+- Added Illusioner Shack structure
+- Added new "World of magic" advancement
+- Fixed Copper Button item tags
+
 ## mc1.18.1-1.1.2 Jan 9, 2022
 
 - Changed Copper Button recipe to prevent conflicts with other mods

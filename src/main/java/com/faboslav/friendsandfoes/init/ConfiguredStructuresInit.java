@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.init;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.config.Settings;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
@@ -28,16 +29,18 @@ public class ConfiguredStructuresInit
 	}
 
 	private static void addConfiguredStructuresToBiomes() {
-		BiomeModifications.addStructure(
-			BiomeSelectors.includeByKey(
-				BiomeKeys.TAIGA,
-				BiomeKeys.OLD_GROWTH_PINE_TAIGA,
-				BiomeKeys.OLD_GROWTH_SPRUCE_TAIGA
-			),
-			RegistryKey.of(
-				Registry.CONFIGURED_STRUCTURE_FEATURE_KEY,
-				BuiltinRegistries.CONFIGURED_STRUCTURE_FEATURE.getId(CONFIGURED_ILLUSIONER_SHACK)
-			)
-		);
+		if (FriendsAndFoes.CONFIG.generateIllusionerShackStructure) {
+			BiomeModifications.addStructure(
+				BiomeSelectors.includeByKey(
+					BiomeKeys.TAIGA,
+					BiomeKeys.OLD_GROWTH_PINE_TAIGA,
+					BiomeKeys.OLD_GROWTH_SPRUCE_TAIGA
+				),
+				RegistryKey.of(
+					Registry.CONFIGURED_STRUCTURE_FEATURE_KEY,
+					BuiltinRegistries.CONFIGURED_STRUCTURE_FEATURE.getId(CONFIGURED_ILLUSIONER_SHACK)
+				)
+			);
+		}
 	}
 }

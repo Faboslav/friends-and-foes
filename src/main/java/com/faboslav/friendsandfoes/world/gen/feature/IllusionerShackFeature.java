@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.world.gen.feature;
 
 import com.faboslav.friendsandfoes.config.Settings;
+import com.faboslav.friendsandfoes.util.RandomGenerator;
 import com.mojang.serialization.Codec;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
@@ -64,10 +65,10 @@ public class IllusionerShackFeature extends StructureFeature<StructurePoolFeatur
 	public static Optional<StructurePiecesGenerator<StructurePoolFeatureConfig>> createPiecesGenerator(
 		StructureGeneratorFactory.Context<StructurePoolFeatureConfig> context
 	) {
-
 		if (
 			isOnFluid(context)
 			|| isVillageNearby(context)
+			|| RandomGenerator.generateInt(1, 3) != 1
 		) {
 			return Optional.empty();
 		}
@@ -76,7 +77,7 @@ public class IllusionerShackFeature extends StructureFeature<StructurePoolFeatur
 			() -> context.registryManager()
 				.get(Registry.STRUCTURE_POOL_KEY)
 				.get(Settings.makeID("illusioner_shack/illusioner_shack")),
-			1
+			10
 		);
 
 		StructureGeneratorFactory.Context<StructurePoolFeatureConfig> newContext = new StructureGeneratorFactory.Context<>(
@@ -91,12 +92,15 @@ public class IllusionerShackFeature extends StructureFeature<StructurePoolFeatur
 			context.registryManager()
 		);
 
-		BlockPos blockpos = context.chunkPos().getCenterAtY(0);
+		BlockPos blockPos = new BlockPos(context.chunkPos().getStartX(), 0, context.chunkPos().getStartZ());
 
-		Optional<StructurePiecesGenerator<StructurePoolFeatureConfig>> structurePiecesGenerator = StructurePoolBasedGenerator.generate(newContext, PoolStructurePiece::new, blockpos, false, true);
-		if (structurePiecesGenerator.isPresent()) {
-			System.out.println("shack at :" + blockpos);
-		}
+		Optional<StructurePiecesGenerator<StructurePoolFeatureConfig>> structurePiecesGenerator = StructurePoolBasedGenerator.generate(
+			newContext,
+			PoolStructurePiece::new,
+			blockPos,
+			false,
+			true
+		);
 
 		return structurePiecesGenerator;
 	}

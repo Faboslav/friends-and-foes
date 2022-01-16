@@ -26,34 +26,6 @@ public class StructurePoolInit
 				)
 			);
 		}
-
-		if (FriendsAndFoes.CONFIG.generateIllusionerShackStructure) {
-			StructurePools.register(
-				new StructurePool(
-					Settings.makeID("illusioner_shack/wolf"),
-					new Identifier("empty"),
-					ImmutableList.of(
-						Pair.of(StructurePoolElement.ofSingle(
-							Settings.makeStringID("illusioner_shack/wolf")
-						), 1)
-					),
-					StructurePool.Projection.RIGID
-				)
-			);
-
-			StructurePools.register(
-				new StructurePool(
-					Settings.makeID("illusioner_shack/illusioner"),
-					new Identifier("empty"),
-					ImmutableList.of(
-						Pair.of(StructurePoolElement.ofSingle(
-							Settings.makeStringID("illusioner_shack/illusioner")
-						), 1)
-					),
-					StructurePool.Projection.RIGID
-				)
-			);
-		}
 	}
 
 }

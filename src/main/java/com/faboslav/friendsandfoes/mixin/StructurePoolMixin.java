@@ -55,13 +55,15 @@ public class StructurePoolMixin
 			}
 		}
 
+		/*
 		if (FriendsAndFoes.CONFIG.generateIllusionerShackStructure) {
-			System.out.println(id.getPath());
 			if (Objects.equals(id.getPath(), "illusioner_shack/wolf")) {
 				addElement(Settings.makeStringID("illusioner_shack/wolf"), 1, projection);
 			} else if (Objects.equals(id.getPath(), "illusioner_shack/illusioner")) {
 				addElement(Settings.makeStringID("illusioner_shack/illusioner"), 1, projection);
+			} else if (Objects.equals(id.getPath(), "illusioner_shack/villager")) {
+				addElement(Settings.makeStringID("illusioner_shack/villager"), 1, projection);
 			}
-		}
+		}*/
 	}
 }

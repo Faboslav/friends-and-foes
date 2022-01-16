@@ -11,6 +11,7 @@
 	"BlockTagsAccessor",
 	"EntityNavigationAccessor",
 	"IllusionerEntityMixin",
+	"ItemTagsAccessor",
 	"LightningRodBlockMixin",
 	"PointOfInterestTypeMixin",
 	"RaidMemberMixin",
@@ -23,6 +24,6 @@
 	"ModelPartAccessor"
   ],
   "injectors": {
-	"defaultRequire": 1
+    "defaultRequire": 1
   }
 }

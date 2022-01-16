@@ -1,13 +1,13 @@
 package com.faboslav.friendsandfoes.api;
 
+import com.faboslav.friendsandfoes.mixin.IllusionerEntityMixin;
 import net.minecraft.entity.mob.IllusionerEntity;
 import net.minecraft.nbt.NbtCompound;
-import com.faboslav.friendsandfoes.mixin.IllusionerEntityMixin;
 
 /**
  * @see IllusionerEntityMixin
  */
-public interface IllusionerAccess
+public interface IllusionerEntityAccess
 {
 	void initGoals();
 
@@ -21,7 +21,7 @@ public interface IllusionerAccess
 
 	void readCustomDataFromNbt(NbtCompound nbt);
 
-	void setIllusionerEntity(IllusionerEntity illusionerEntity);
+	void setIllusioner(IllusionerEntity illusionerEntity);
 
 	void setIsIllusion(boolean isIllusion);
 
@@ -30,6 +30,8 @@ public interface IllusionerAccess
 	int getAliveIllusionsCount();
 
 	void setAliveIllusionsCount(int aliveIllusionsCount);
+
+	boolean tryToTeleport(int x, int y, int z);
 
 	void spawnCloudParticles();
 }

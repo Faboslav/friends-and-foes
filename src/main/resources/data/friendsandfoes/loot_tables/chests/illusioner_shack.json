@@ -54,24 +54,19 @@
 	  "entries": [
 		{
 		  "type": "minecraft:item",
-		  "weight": 20,
-		  "name": "minecraft:lead"
-		},
-		{
-		  "type": "minecraft:item",
 		  "weight": 50,
 		  "name": "minecraft:name_tag"
 		},
 		{
 		  "type": "minecraft:item",
-		  "weight": 30,
+		  "weight": 50,
 		  "functions": [
 			{
 			  "function": "minecraft:set_count",
 			  "count": {
 				"type": "minecraft:uniform",
-				"min": 4.0,
-				"max": 8.0
+				"min": 2.0,
+				"max": 4.0
 			  },
 			  "add": false
 			}
@@ -84,13 +79,24 @@
 	  "rolls": {
 		"type": "minecraft:uniform",
 		"min": 1.0,
-		"max": 3.0
+		"max": 2.0
 	  },
 	  "bonus_rolls": 0.0,
 	  "entries": [
 		{
 		  "type": "minecraft:item",
-		  "name": "minecraft:glass_bottle"
+		  "functions": [
+			{
+			  "function": "minecraft:set_count",
+			  "count": {
+				"type": "minecraft:uniform",
+				"min": 1.0,
+				"max": 3.0
+			  },
+			  "add": false
+			}
+		  ],
+		  "name": "minecraft:arrow"
 		}
 	  ]
 	},

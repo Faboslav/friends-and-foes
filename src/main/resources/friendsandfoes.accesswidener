@@ -2,4 +2,3 @@ accessWidener v1 named
 
 accessible class net/minecraft/village/raid/Raid$Member
 accessible class net/minecraft/entity/mob/IllusionerEntity$BlindTargetGoal
-extendable method net/minecraft/entity/mob/IllusionerEntity$BlindTargetGoal <init> ()

@@ -6,6 +6,7 @@
 	"AbstractButtonBlockMixin",
 	"BeeEntityAccessor",
 	"BeeEntityMixin",
+	"BlindTargetGoalFactory",
 	"BlockEntityTypeMixin",
 	"BlockTagsAccessor",
 	"EntityNavigationAccessor",
@@ -18,6 +19,7 @@
 	"VillagerTaskListProviderMixin"
   ],
   "client": [
+	"IllusionerEntityRendererMixin",
 	"ModelPartAccessor"
   ],
   "injectors": {

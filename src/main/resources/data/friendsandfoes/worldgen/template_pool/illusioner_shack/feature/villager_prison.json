@@ -8,7 +8,7 @@
 		"location": "friendsandfoes:illusioner_shack/feature/villager_prison",
 		"processors": "minecraft:empty",
 		"projection": "rigid",
-		"element_type": "minecraft:single_pool_element"
+		"element_type": "minecraft:legacy_single_pool_element"
 	  }
 	}
   ]

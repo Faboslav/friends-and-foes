@@ -1,9 +1,10 @@
 package com.faboslav.friendsandfoes.mixin;
 
-import com.faboslav.friendsandfoes.api.IllusionerAccess;
+import com.faboslav.friendsandfoes.api.IllusionerEntityAccess;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.RangedAttackMob;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.damage.DamageSource;
@@ -34,10 +35,11 @@ import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(IllusionerEntity.class)
 @SuppressWarnings({"rawtypes", "unchecked"})
-public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity implements RangedAttackMob, IllusionerAccess
+public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity implements RangedAttackMob, IllusionerEntityAccess
 {
 	private static final int MAX_ILLUSIONS_COUNT = 9;
 	private static final int ILLUSION_LIFETIME_TICKS = 600;
+	private static final int INVISIBILITY_TICKS = 100;
 
 	private static final String IS_ILLUSION_NBT_NAME = "IsIllusion";
 	private static final String WAS_ATTACKED_NBT_NAME = "WasAttacked";
@@ -49,7 +51,7 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 	private static final TrackedData<Integer> TICKS_UNTIL_DESPAWN;
 	private static final TrackedData<Integer> TICKS_UNTIL_CAN_CREATE_ILLUSIONS;
 
-	private IllusionerEntity illusionerEntity;
+	private IllusionerEntity illusioner;
 
 	static {
 		IS_ILLUSION = DataTracker.registerData(IllusionerEntityMixin.class, TrackedDataHandlerRegistry.BOOLEAN);
@@ -63,7 +65,7 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 		World world
 	) {
 		super(entityType, world);
-		this.illusionerEntity = null;
+		this.illusioner = null;
 	}
 
 	@Override
@@ -100,7 +102,7 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 		this.goalSelector.add(1, new LookAtTargetGoal());
 
 		if (!this.isIllusion()) {
-			//this.goalSelector.add(5, new IllusionerEntity.BlindTargetGoal());
+			this.goalSelector.add(5, BlindTargetGoalFactory.newBlindTargetGoal((IllusionerEntity) (Object) this));
 		}
 
 		this.goalSelector.add(6, new BowAttackGoal(this, 0.5D, 20, 15.0F));
@@ -117,10 +119,7 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 	public void tick() {
 		super.tick();
 
-		if(
-			this.getWorld().isClient()
-			|| this.isIllusion()
-		) {
+		if (this.getWorld().isClient()) {
 			return;
 		}
 
@@ -135,6 +134,15 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 		) {
 			this.createIllusions();
 		}
+
+		if (
+			this.wasAttacked()
+			&& this.getTarget() == null
+			&& this.getTicksUntilCanCreateIllusions() < ILLUSION_LIFETIME_TICKS / 3
+		) {
+			this.setWasAttacked(false);
+			this.setTicksUntilCanCreateIllusions(0);
+		}
 	}
 
 	@Override
@@ -142,22 +150,23 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 		super.tickMovement();
 
 		if (
-			!this.world.isClient() &&
-			this.isIllusion()
+			this.world.isClient()
+			|| !this.isIllusion()
 		) {
-			if (this.getTicksUntilDespawn() > 0) {
-				this.setTicksUntilDespawn(this.getTicksUntilDespawn() - 1);
-			}
+			return;
+		}
 
-			if (
-				this.getTicksUntilDespawn() == 0
-				|| (
-					this.getIllusionerEntity() != null
-					&& !this.getIllusionerEntity().isAlive()
-				)
-			) {
-				this.discardIllusion();
-			}
+		if (this.getTicksUntilDespawn() > 0) {
+			this.setTicksUntilDespawn(this.getTicksUntilDespawn() - 1);
+		}
+
+		boolean isIllusionerNonExistingOrDead = this.getIllusioner() != null && !this.getIllusioner().isAlive();
+
+		if (
+			this.getTicksUntilDespawn() == 0
+			|| isIllusionerNonExistingOrDead
+		) {
+			this.discardIllusion();
 		}
 	}
 
@@ -177,9 +186,20 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 		float amount
 	) {
 		if (
+			source.getAttacker() instanceof IllusionerEntity
+			|| (
+				this.isIllusion()
+				&& !(source.getAttacker() instanceof LivingEntity)
+			)
+		) {
+			return false;
+		}
+
+		if (
 			this.getWorld().isClient()
 			|| (
 				source.getAttacker() instanceof PlayerEntity
+				&& !this.isIllusion()
 				&& ((PlayerEntity) source.getAttacker()).getAbilities().creativeMode
 			)
 		) {
@@ -191,7 +211,9 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 			return false;
 		}
 
-		if (this.getTicksUntilCanCreateIllusions() == 0) {
+		if (
+			source.getAttacker() instanceof PlayerEntity
+			&& this.getTicksUntilCanCreateIllusions() == 0) {
 			this.createIllusions();
 		}
 
@@ -208,40 +230,68 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 		this.setWasAttacked(true);
 		this.setTicksUntilCanCreateIllusions(ILLUSION_LIFETIME_TICKS);
 		this.playMirrorSound();
-		this.spawnCloudParticles();
 
 		Vec3d illusionerPosition = this.getPos();
 		float slice = 2.0F * (float) Math.PI / MAX_ILLUSIONS_COUNT;
-		int radius = 7;
+		int radius = 9;
+		int randomPoint = RandomGenerator.generateInt(0, MAX_ILLUSIONS_COUNT - 1);
+
 		for (int point = 0; point < MAX_ILLUSIONS_COUNT; ++point) {
 			float angle = slice * point;
 			int x = (int) (illusionerPosition.getX() + radius * MathHelper.cos(angle));
 			int y = (int) illusionerPosition.getY();
 			int z = (int) (illusionerPosition.getZ() + radius * MathHelper.sin(angle));
-			Vec3d randomPosition = new Vec3d(x, y, z);
-			int randomPoint = RandomGenerator.generateInt(1, MAX_ILLUSIONS_COUNT);
 
-			this.createIllusion(randomPosition);
+			this.createIllusion(x, y, z);
 
 			if (randomPoint == point) {
-				this.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 100));
-				this.setPosition(randomPosition);
+				boolean teleportResult = this.tryToTeleport(x, y, z);
+
+				if (teleportResult) {
+					this.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, INVISIBILITY_TICKS));
+					this.spawnCloudParticles();
+				}
 			}
 		}
 	}
 
-	private void createIllusion(Vec3d position) {
-		IllusionerEntity illusionEntity = EntityType.ILLUSIONER.create(this.world);
-		illusionEntity.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
-		illusionEntity.setHealth(this.getMaxHealth());
-		illusionEntity.copyPositionAndRotation((IllusionerEntity) (Object) this);
-		illusionEntity.setPosition(position);
-		IllusionerAccess illusionerAccess = (IllusionerAccess) illusionEntity;
+	private void createIllusion(int x, int y, int z) {
+		IllusionerEntity illusioner = (IllusionerEntity) (Object) this;
+		IllusionerEntity illusion = EntityType.ILLUSIONER.create(this.world);
+
+		illusion.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
+		IllusionerEntityAccess illusionerAccess = (IllusionerEntityAccess) illusion;
 		illusionerAccess.setIsIllusion(true);
-		illusionerAccess.setIllusionerEntity((IllusionerEntity) (Object) this);
+		illusionerAccess.setIllusioner(illusioner);
 		illusionerAccess.setTicksUntilDespawn(ILLUSION_LIFETIME_TICKS);
-		this.getEntityWorld().spawnEntity(illusionEntity);
-		illusionerAccess.spawnCloudParticles();
+
+		illusion.setHealth(this.getMaxHealth());
+		illusion.copyPositionAndRotation(illusioner);
+		illusion.setTarget(illusioner.getTarget());
+
+		boolean teleportResult = illusionerAccess.tryToTeleport(x, y, z);
+
+		if (teleportResult) {
+			this.getEntityWorld().spawnEntity(illusion);
+			illusionerAccess.spawnCloudParticles();
+		}
+	}
+
+	public boolean tryToTeleport(int x, int y, int z) {
+		y -= 8;
+		double bottomY = Math.max(y, getWorld().getBottomY());
+		double topY = Math.min(bottomY + 16, ((ServerWorld) this.getWorld()).getLogicalHeight() - 1);
+
+		for (int i = 0; i < 16; ++i) {
+			y = (int) MathHelper.clamp(y + 1, bottomY, topY);
+			boolean teleportResult = this.teleport(x, y, z, false);
+
+			if (teleportResult) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private void playMirrorSound() {
@@ -294,12 +344,12 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 	}
 
 	@Nullable
-	public IllusionerEntity getIllusionerEntity() {
-		return this.illusionerEntity;
+	public IllusionerEntity getIllusioner() {
+		return this.illusioner;
 	}
 
-	public void setIllusionerEntity(IllusionerEntity illusionerEntity) {
-		this.illusionerEntity = illusionerEntity;
+	public void setIllusioner(IllusionerEntity illusioner) {
+		this.illusioner = illusioner;
 	}
 
 	public int getTicksUntilDespawn() {

@@ -92,12 +92,12 @@ public class IllusionerShackFeature extends StructureFeature<StructurePoolFeatur
 			context.registryManager()
 		);
 
-		BlockPos blockpos = context.chunkPos().getCenterAtY(0);
+		BlockPos blockPos = new BlockPos(context.chunkPos().getStartX(), 0, context.chunkPos().getStartZ());
 
 		Optional<StructurePiecesGenerator<StructurePoolFeatureConfig>> structurePiecesGenerator = StructurePoolBasedGenerator.generate(
 			newContext,
 			PoolStructurePiece::new,
-			blockpos,
+			blockPos,
 			false,
 			true
 		);

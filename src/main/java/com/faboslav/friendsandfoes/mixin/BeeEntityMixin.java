@@ -25,7 +25,15 @@ public abstract class BeeEntityMixin extends AnimalEntity implements Angerable
 		super(entityType, world);
 	}
 
-	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/goal/GoalSelector;add(ILnet/minecraft/entity/ai/goal/Goal;)V", ordinal = 4, shift = At.Shift.AFTER), method = "initGoals")
+	@Inject(
+		at = @At(
+			value = "INVOKE",
+			target = "Lnet/minecraft/entity/ai/goal/GoalSelector;add(ILnet/minecraft/entity/ai/goal/Goal;)V",
+			ordinal = 4,
+			shift = At.Shift.AFTER
+		),
+		method = "initGoals"
+	)
 	private void addFleeEntityGoal(CallbackInfo ci) {
 		this.pollinateMoobloomGoal = new BeePollinateMoobloomGoal((BeeEntity) (Object) this, (BeeEntityAccessor) this);
 		this.goalSelector.add(3, this.pollinateMoobloomGoal);

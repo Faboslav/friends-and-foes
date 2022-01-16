@@ -22,7 +22,8 @@ public class ItemRegistry
 	public static final List<Item> ITEMS = Lists.newArrayList();
 	public final static Item COPPER_GOLEM_SPAWN_EGG;
 	public final static Item GLARE_SPAWN_EGG;
-	public final static Item MOOBLOOM_EGG;
+	public final static Item ILLUSIONER_SPAWN_EGG;
+	public final static Item MOOBLOOM_SPAWN_EGG;
 	public static final Item BUTTERCUP;
 	public static final Item ACACIA_BEEHIVE;
 	public static final Item BIRCH_BEEHIVE;
@@ -43,7 +44,8 @@ public class ItemRegistry
 	static {
 		COPPER_GOLEM_SPAWN_EGG = registerSpawnEgg("copper_golem", EntityRegistry.COPPER_GOLEM, 0x9A5038, 0xE3826C);
 		GLARE_SPAWN_EGG = registerSpawnEgg("glare", EntityRegistry.GLARE, 0x70922D, 0x6A5227);
-		MOOBLOOM_EGG = registerSpawnEgg("moobloom", EntityRegistry.MOOBLOOM, 0xFACA00, 0xf7EDC1);
+		ILLUSIONER_SPAWN_EGG = registerSpawnEgg("illusioner", EntityType.ILLUSIONER, 0x135893, 0x6f91a7);
+		MOOBLOOM_SPAWN_EGG = registerSpawnEgg("moobloom", EntityRegistry.MOOBLOOM, 0xFACA00, 0xf7EDC1);
 		BUTTERCUP = register("buttercup", new BlockItem(BlockRegistry.BUTTERCUP, new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
 		ACACIA_BEEHIVE = register("acacia_beehive", new BlockItem(BlockRegistry.ACACIA_BEEHIVE, new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
 		BIRCH_BEEHIVE = register("birch_beehive", new BlockItem(BlockRegistry.BIRCH_BEEHIVE, new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));

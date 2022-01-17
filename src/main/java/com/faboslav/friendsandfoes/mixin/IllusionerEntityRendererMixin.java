@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.mixin;
 
-import com.faboslav.friendsandfoes.api.IllusionerEntittyRendererAccess;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -11,10 +10,11 @@ import net.minecraft.client.render.entity.model.IllagerEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.mob.IllusionerEntity;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 
 @Environment(EnvType.CLIENT)
 @Mixin({IllusionerEntityRenderer.class})
-public abstract class IllusionerEntityRendererMixin extends IllagerEntityRenderer<IllusionerEntity> implements IllusionerEntittyRendererAccess
+public abstract class IllusionerEntityRendererMixin extends IllagerEntityRenderer<IllusionerEntity>
 {
 	protected IllusionerEntityRendererMixin(
 		EntityRendererFactory.Context ctx,
@@ -24,7 +24,7 @@ public abstract class IllusionerEntityRendererMixin extends IllagerEntityRendere
 		super(ctx, model, shadowRadius);
 	}
 
-	@Override
+	@Overwrite
 	public void render(
 		IllusionerEntity mobEntity,
 		float f,
@@ -36,7 +36,7 @@ public abstract class IllusionerEntityRendererMixin extends IllagerEntityRendere
 		super.render(mobEntity, f, g, matrixStack, vertexConsumerProvider, i);
 	}
 
-	@Override
+	@Overwrite
 	public boolean isVisible(IllusionerEntity illusioner) {
 		return super.isVisible(illusioner);
 	}

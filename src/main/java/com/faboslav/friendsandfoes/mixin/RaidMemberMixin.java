@@ -28,7 +28,7 @@ public class RaidMemberMixin
 		int[] countInWave
 	) {
 		if (FriendsAndFoes.CONFIG.enableIllusionerInRaids) {
-			return new int[]{0, 0, 0, 0, 0, 1, 0, 1};
+			return new int[]{0, 0, 0, 0, 0, 1, 1, 1};
 		}
 
 		return new int[]{0, 0, 0, 0, 0, 1, 1, 2};

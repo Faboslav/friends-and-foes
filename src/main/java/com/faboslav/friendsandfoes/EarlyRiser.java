@@ -15,7 +15,7 @@ public class EarlyRiser implements Runnable
 
 		ClassTinkerers
 			.enumBuilder(Raid, EntityType, int[].class)
-			.addEnum("ILLUSIONER", () -> new Object[]{net.minecraft.entity.EntityType.ILLUSIONER, new int[]{0, 0, 0, 0, 0, 0, 1, 1}})
+			.addEnum("ILLUSIONER", () -> new Object[]{net.minecraft.entity.EntityType.ILLUSIONER, new int[]{0, 0, 0, 0, 1, 0, 1, 1}})
 			.build();
 	}
 }

@@ -1,4 +1,4 @@
-## mc1.18.1-1.2.0 Jan 16, 2022
+## mc1.18.1-1.2.0 Jan 17, 2022
 
 - Added Illusioner
 - Added Illusioner Shack structure

@@ -8,16 +8,14 @@ public class EarlyRiser implements Runnable
 {
 	@Override
 	public void run() {
-		if (FriendsAndFoes.CONFIG.enableIllusionerInRaids) {
-			MappingResolver remapper = FabricLoader.getInstance().getMappingResolver();
+		MappingResolver remapper = FabricLoader.getInstance().getMappingResolver();
 
-			String Raid = remapper.mapClassName("intermediary", "net.minecraft.class_3765$class_3766");
-			String EntityType = 'L' + remapper.mapClassName("intermediary", "net.minecraft.class_1299") + ';';
+		String Raid = remapper.mapClassName("intermediary", "net.minecraft.class_3765$class_3766");
+		String EntityType = 'L' + remapper.mapClassName("intermediary", "net.minecraft.class_1299") + ';';
 
-			ClassTinkerers
-				.enumBuilder(Raid, EntityType, int[].class)
-				.addEnum("ILLUSIONER", () -> new Object[]{net.minecraft.entity.EntityType.ILLUSIONER, new int[]{0, 0, 0, 0, 0, 0, 1, 1}})
-				.build();
-		}
+		ClassTinkerers
+			.enumBuilder(Raid, EntityType, int[].class)
+			.addEnum("ILLUSIONER", () -> new Object[]{net.minecraft.entity.EntityType.ILLUSIONER, new int[]{0, 0, 0, 0, 0, 0, 1, 1}})
+			.build();
 	}
 }

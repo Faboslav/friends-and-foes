@@ -2,7 +2,7 @@
 
 - Added Illusioner
 - Added Illusioner Shack structure
-- Added new "World of magic" advancement
+- Added new "World of illusion" advancement
 - Fixed Copper Button item tags
 
 ## mc1.18.1-1.1.2 Jan 9, 2022

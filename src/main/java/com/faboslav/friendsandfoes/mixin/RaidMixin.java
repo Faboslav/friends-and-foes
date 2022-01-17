@@ -32,7 +32,7 @@ public class RaidMixin
 		boolean existing,
 		CallbackInfo ci
 	) {
-		if(
+		if (
 			raider instanceof IllusionerEntity
 			&& FriendsAndFoes.CONFIG.enableIllusionerInRaids == false
 		) {

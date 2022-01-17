@@ -32,7 +32,7 @@ I already got pretty solid ideas for most of the mobs and features but you are m
 
 ### Foes
 - [ ] Iceologer
-- [ ] Illusioner
+- [x] [Illusioner]
 - [ ] Barnacle
 - [ ] Great Hunger
 - [ ] Wildfire
@@ -79,6 +79,7 @@ Get inspired, but please don't just copy & paste any of it as your own.
 [Copper Golem]: https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem
 [Glare]: https://github.com/Faboslav/friends-and-foes/wiki/Glare
 [Moobloom]: https://github.com/Faboslav/friends-and-foes/wiki/Moobloom
+[Illusioner]: https://github.com/Faboslav/friends-and-foes/wiki/Illusioner
 [Beehives]: https://github.com/Faboslav/friends-and-foes/wiki/Beehives
 [Buttercup]: https://github.com/Faboslav/friends-and-foes/wiki/Buttercup
 [Copper Button]: https://github.com/Faboslav/friends-and-foes/wiki/Copper-Button
@@ -87,7 +88,7 @@ Get inspired, but please don't just copy & paste any of it as your own.
 [wiki]: https://github.com/Faboslav/friends-and-foes/wiki
 [CurseForge]: https://www.curseforge.com/minecraft/mc-mods/friends-foes
 [Modrinth]: https://modrinth.com/mod/friends-and-foes
-[Discord]: https://discord.gg/P3tXnXYK
+[Discord]: https://discord.gg/sEdM6KRNdZ
 [blockbench directory]: https://github.com/Faboslav/friends-and-foes/tree/master/blockbench
 [textures directory]: https://github.com/Faboslav/friends-and-foes/tree/master/src/main/resources/assets/friendsandfoes/textures
 [CC BY-NC-ND 4.0]: https://github.com/Faboslav/friends-and-foes/blob/master/LICENSE.txt

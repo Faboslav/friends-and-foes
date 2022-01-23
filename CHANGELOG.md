@@ -1,3 +1,9 @@
+## mc1.18.1-1.2.1 Jan 23, 2022
+
+- Changed Illusioner texture
+- Changed Illusioner Shack color scheme
+- Added zh_cn translations (thanks to chen-Futuro)
+
 ## mc1.18.1-1.2.0 Jan 17, 2022
 
 - Added Illusioner

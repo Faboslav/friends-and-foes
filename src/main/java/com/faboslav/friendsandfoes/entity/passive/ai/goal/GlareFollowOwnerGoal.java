@@ -52,10 +52,12 @@ public class GlareFollowOwnerGoal extends Goal
 			return false;
 		} else if (this.glare.squaredDistanceTo(livingEntity) < (double) (this.minDistance * this.minDistance)) {
 			return false;
-		} else {
-			this.owner = livingEntity;
-			return true;
+		} else if(this.glare.isLeashed()) {
+			return false;
 		}
+
+		this.owner = livingEntity;
+		return true;
 	}
 
 	public boolean shouldContinue() {

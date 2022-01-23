@@ -39,7 +39,7 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 {
 	private static final int MAX_ILLUSIONS_COUNT = 9;
 	private static final int ILLUSION_LIFETIME_TICKS = 600;
-	private static final int INVISIBILITY_TICKS = 100;
+	private static final int INVISIBILITY_TICKS = 60;
 
 	private static final String IS_ILLUSION_NBT_NAME = "IsIllusion";
 	private static final String WAS_ATTACKED_NBT_NAME = "WasAttacked";

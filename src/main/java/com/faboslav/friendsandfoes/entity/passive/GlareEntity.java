@@ -79,6 +79,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 
 	public GlareEntity(EntityType<? extends GlareEntity> entityType, World world) {
 		super(entityType, world);
+		this.setPersistent();
 		this.moveControl = new FlightMoveControl(this, 4, true);
 		this.setPathfindingPenalty(PathNodeType.DANGER_FIRE, -1.0F);
 		this.setPathfindingPenalty(PathNodeType.DANGER_CACTUS, -1.0F);

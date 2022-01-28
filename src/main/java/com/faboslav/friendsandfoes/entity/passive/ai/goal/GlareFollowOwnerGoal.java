@@ -52,7 +52,7 @@ public class GlareFollowOwnerGoal extends Goal
 			return false;
 		} else if (this.glare.squaredDistanceTo(livingEntity) < (double) (this.minDistance * this.minDistance)) {
 			return false;
-		} else if(this.glare.isLeashed()) {
+		} else if (this.glare.isLeashed()) {
 			return false;
 		}
 

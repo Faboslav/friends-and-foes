@@ -76,6 +76,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 	private float currentLayerRollAnimationProgress;
 	private GlareEatGlowBerriesGoal eatGlowBerriesGoal;
 	private GlareFlyToDarkSpotGoal flyToDarkSpotGoal;
+	private boolean sitting;
 
 	public GlareEntity(EntityType<? extends GlareEntity> entityType, World world) {
 		super(entityType, world);
@@ -131,6 +132,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		if (this.getOwnerUuid() != null) {
 			nbt.putUuid("Owner", this.getOwnerUuid());
 		}
+		nbt.putBoolean("Sitting", this.sitting);
 	}
 
 	@Override
@@ -152,6 +154,9 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 				this.setTamed(false);
 			}
 		}
+
+		this.sitting = nbt.getBoolean("Sitting");
+		this.setInSittingPose(this.sitting);
 	}
 
 	private boolean hasGlareFlag(int bitmask) {
@@ -188,6 +193,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 			|| blockState.isOf(Blocks.SMALL_DRIPLEAF)
 			|| blockState.isOf(Blocks.BIG_DRIPLEAF)
 			|| blockState.isOf(Blocks.CLAY)
+			|| blockState.isOf(Blocks.DIRT)
 			|| blockState.isOf(Blocks.GRAVEL)
 		);
 		return !isAboveSurfaceLevel
@@ -197,19 +203,20 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 	}
 
 	protected void initGoals() {
-		this.goalSelector.add(1, new GlareAvoidMonsterGoal(this, AbstractSkeletonEntity.class, 24.0F));
-		this.goalSelector.add(1, new GlareAvoidMonsterGoal(this, CreeperEntity.class, 24.0F));
-		this.goalSelector.add(1, new GlareAvoidMonsterGoal(this, EndermanEntity.class, 24.0F));
-		this.goalSelector.add(1, new GlareAvoidMonsterGoal(this, SpiderEntity.class, 24.0F));
-		this.goalSelector.add(1, new GlareAvoidMonsterGoal(this, WitchEntity.class, 24.0F));
-		this.goalSelector.add(1, new GlareAvoidMonsterGoal(this, ZombieEntity.class, 24.0F));
-		this.goalSelector.add(2, new GlareFollowOwnerGoal(this, 8.0F, 2.0F, false));
+		this.goalSelector.add(1, new GlareSitGoal(this));
+		this.goalSelector.add(2, new GlareAvoidMonsterGoal(this, AbstractSkeletonEntity.class, 24.0F));
+		this.goalSelector.add(2, new GlareAvoidMonsterGoal(this, CreeperEntity.class, 24.0F));
+		this.goalSelector.add(2, new GlareAvoidMonsterGoal(this, EndermanEntity.class, 24.0F));
+		this.goalSelector.add(2, new GlareAvoidMonsterGoal(this, SpiderEntity.class, 24.0F));
+		this.goalSelector.add(2, new GlareAvoidMonsterGoal(this, WitchEntity.class, 24.0F));
+		this.goalSelector.add(2, new GlareAvoidMonsterGoal(this, ZombieEntity.class, 24.0F));
+		this.goalSelector.add(3, new GlareFollowOwnerGoal(this, 8.0F, 2.0F, false));
 		this.eatGlowBerriesGoal = new GlareEatGlowBerriesGoal(this);
-		this.goalSelector.add(3, this.eatGlowBerriesGoal);
-		this.goalSelector.add(3, new GlareCollectGlowBerriesGoal(this));
+		this.goalSelector.add(4, this.eatGlowBerriesGoal);
+		this.goalSelector.add(4, new GlareShakeOffGlowBerriesGoal(this));
 		this.flyToDarkSpotGoal = new GlareFlyToDarkSpotGoal(this);
-		this.goalSelector.add(4, this.flyToDarkSpotGoal);
-		this.goalSelector.add(5, new GlareWanderAroundGoal(this));
+		this.goalSelector.add(5, this.flyToDarkSpotGoal);
+		this.goalSelector.add(6, new GlareWanderAroundGoal(this));
 		this.goalSelector.add(6, new SwimGoal(this));
 	}
 
@@ -414,7 +421,19 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 			return ActionResult.success(this.world.isClient);
 		}
 
-		return super.interactMob(player, hand);
+		ActionResult actionResult = super.interactMob(player, hand);
+
+		if (
+			actionResult.isAccepted() == false
+			&& this.isOwner(player) == true
+		) {
+			this.setSitting(!this.isSitting());
+			this.jumping = false;
+			this.navigation.stop();
+			return ActionResult.SUCCESS;
+		}
+
+		return actionResult;
 	}
 
 	private boolean tryToHealWithGlowBerries(
@@ -571,6 +590,27 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		return entity == this.getOwner();
 	}
 
+	public boolean isInSittingPose() {
+		return (this.dataTracker.get(TAMEABLE_FLAGS) & 1) != 0;
+	}
+
+	public void setInSittingPose(boolean inSittingPose) {
+		byte b = this.dataTracker.get(TAMEABLE_FLAGS);
+		if (inSittingPose) {
+			this.dataTracker.set(TAMEABLE_FLAGS, (byte) (b | 1));
+		} else {
+			this.dataTracker.set(TAMEABLE_FLAGS, (byte) (b & -2));
+		}
+	}
+
+	public boolean isSitting() {
+		return this.sitting;
+	}
+
+	public void setSitting(boolean sitting) {
+		this.sitting = sitting;
+	}
+
 	public void onDeath(DamageSource source) {
 		if (!this.world.isClient && this.world.getGameRules().getBoolean(GameRules.SHOW_DEATH_MESSAGES) && this.getOwner() instanceof ServerPlayerEntity) {
 			this.getOwner().sendSystemMessage(this.getDamageTracker().getDeathMessage(), Util.NIL_UUID);
@@ -587,6 +627,8 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		if (!this.getWorld().isClient()) {
 			this.flyToDarkSpotGoal.stop();
 		}
+
+		this.setSitting(false);
 
 		return super.damage(source, amount);
 	}

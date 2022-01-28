@@ -56,7 +56,7 @@ public class GlareEatGlowBerriesGoal extends Goal
 
 	@Override
 	public boolean shouldContinue() {
-		return this.runTicks < 600
+		return this.runTicks < 300
 			   && this.foodItemToPickUp != null
 			   && GlareEntity.PICKABLE_FOOD_FILTER.test(foodItemToPickUp)
 			   && this.hasGlareEmptyHand();

@@ -8,7 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.WorldView;
 
-public class GlareCollectGlowBerriesGoal extends MoveToTargetPosGoal
+public class GlareShakeOffGlowBerriesGoal extends MoveToTargetPosGoal
 {
 	private final GlareEntity glareEntity;
 	private static final int COLLECTING_TIME = 40;
@@ -16,7 +16,7 @@ public class GlareCollectGlowBerriesGoal extends MoveToTargetPosGoal
 	private static final int MAX_Y_DIFFERENCE = 12;
 	protected int timer;
 
-	public GlareCollectGlowBerriesGoal(GlareEntity glareEntity) {
+	public GlareShakeOffGlowBerriesGoal(GlareEntity glareEntity) {
 		super(
 			glareEntity,
 			glareEntity.getMovementSpeed(),
@@ -28,7 +28,7 @@ public class GlareCollectGlowBerriesGoal extends MoveToTargetPosGoal
 	}
 
 	public double getDesiredSquaredDistanceToTarget() {
-		return 1.5D;
+		return 2.0D;
 	}
 
 	public boolean shouldResetPath() {
@@ -61,7 +61,7 @@ public class GlareCollectGlowBerriesGoal extends MoveToTargetPosGoal
 	public void tick() {
 		if (this.hasReached()) {
 			if (this.timer >= COLLECTING_TIME) {
-				this.collectGlowBerries();
+				this.shakeOffGlowBerries();
 			} else {
 				++this.timer;
 			}
@@ -74,7 +74,7 @@ public class GlareCollectGlowBerriesGoal extends MoveToTargetPosGoal
 		super.tick();
 	}
 
-	private void collectGlowBerries() {
+	private void shakeOffGlowBerries() {
 		if (this.glareEntity.world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING)) {
 			BlockState blockState = this.glareEntity.world.getBlockState(this.targetPos);
 

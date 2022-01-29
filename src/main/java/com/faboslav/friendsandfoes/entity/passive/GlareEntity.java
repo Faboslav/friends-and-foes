@@ -428,8 +428,8 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 			&& this.isOwner(player) == true
 		) {
 			this.setSitting(!this.isSitting());
-			this.jumping = false;
-			this.navigation.stop();
+			this.getNavigation().setSpeed(0);
+			this.getNavigation().stop();
 			return ActionResult.SUCCESS;
 		}
 

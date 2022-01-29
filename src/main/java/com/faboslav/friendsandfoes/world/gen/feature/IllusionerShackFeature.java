@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.world.gen.feature;
 
 import com.faboslav.friendsandfoes.config.Settings;
-import com.faboslav.friendsandfoes.util.RandomGenerator;
 import com.mojang.serialization.Codec;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
@@ -21,6 +20,8 @@ import net.minecraft.world.gen.chunk.StructureConfig;
 import net.minecraft.world.gen.chunk.VerticalBlockSample;
 import net.minecraft.world.gen.feature.StructureFeature;
 import net.minecraft.world.gen.feature.StructurePoolFeatureConfig;
+import net.minecraft.world.gen.random.AtomicSimpleRandom;
+import net.minecraft.world.gen.random.ChunkRandom;
 
 import java.util.Optional;
 
@@ -43,23 +44,39 @@ public class IllusionerShackFeature extends StructureFeature<StructurePoolFeatur
 
 	private static boolean isVillageNearby(Context<StructurePoolFeatureConfig> context) {
 		StructureConfig structureConfig = context.chunkGenerator().getStructuresConfig().getForType(StructureFeature.VILLAGE);
+
 		if (structureConfig == null) {
 			return false;
-		} else {
-			int i = context.chunkPos().x;
-			int j = context.chunkPos().z;
+		}
 
-			for (int k = i - 10; k <= i + 10; ++k) {
-				for (int l = j - 10; l <= j + 10; ++l) {
-					ChunkPos chunkPos2 = StructureFeature.VILLAGE.getStartChunk(structureConfig, context.seed(), k, l);
-					if (k == chunkPos2.x && l == chunkPos2.z) {
-						return true;
-					}
+		int i = context.chunkPos().x;
+		int j = context.chunkPos().z;
+
+		for (int k = i - 10; k <= i + 10; ++k) {
+			for (int l = j - 10; l <= j + 10; ++l) {
+				ChunkPos chunkPos2 = StructureFeature.VILLAGE.getStartChunk(structureConfig, context.seed(), k, l);
+				if (k == chunkPos2.x && l == chunkPos2.z) {
+					return true;
 				}
 			}
+		}
 
+		return false;
+	}
+
+	private static boolean isSuitableChunk(Context<StructurePoolFeatureConfig> context) {
+		int i = context.chunkPos().x >> 4;
+		int j = context.chunkPos().z >> 4;
+
+		ChunkRandom chunkRandom = new ChunkRandom(new AtomicSimpleRandom(0L));
+		chunkRandom.setSeed((long) (i ^ j << 4) ^ context.seed());
+		chunkRandom.nextInt();
+
+		if (chunkRandom.nextInt(5) != 0) {
 			return false;
 		}
+
+		return true;
 	}
 
 	public static Optional<StructurePiecesGenerator<StructurePoolFeatureConfig>> createPiecesGenerator(
@@ -68,7 +85,7 @@ public class IllusionerShackFeature extends StructureFeature<StructurePoolFeatur
 		if (
 			isOnFluid(context)
 			|| isVillageNearby(context)
-			|| RandomGenerator.generateInt(1, 3) != 1
+			|| !isSuitableChunk(context)
 		) {
 			return Optional.empty();
 		}
@@ -77,7 +94,7 @@ public class IllusionerShackFeature extends StructureFeature<StructurePoolFeatur
 			() -> context.registryManager()
 				.get(Registry.STRUCTURE_POOL_KEY)
 				.get(Settings.makeID("illusioner_shack/illusioner_shack")),
-			10
+			5
 		);
 
 		StructureGeneratorFactory.Context<StructurePoolFeatureConfig> newContext = new StructureGeneratorFactory.Context<>(

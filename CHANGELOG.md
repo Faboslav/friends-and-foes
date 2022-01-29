@@ -1,3 +1,10 @@
+## mc1.18.1-1.2.2 Jan 29, 2022
+
+- All glares are now persisted (just like an animals)
+- Tamed glares can sit now
+- More balanced Illusioner Shack structure generation
+- More balanced Illusioner Shack chest loot table
+
 ## mc1.18.1-1.2.1 Jan 23, 2022
 
 - Changed Illusioner texture

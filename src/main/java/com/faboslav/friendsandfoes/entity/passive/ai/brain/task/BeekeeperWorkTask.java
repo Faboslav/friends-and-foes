@@ -29,14 +29,18 @@ public class BeekeeperWorkTask extends VillagerWorkTask
 
 		GlobalPos beehiveGlobalPos = getBeehiveGlobalPos(serverWorld, villagerEntity);
 
-		if (beehiveGlobalPos != null) {
-			BlockState beehiveBlockState = serverWorld.getBlockState(beehiveGlobalPos.getPos());
-
-			if (isBeehiveReadyForHarvest(beehiveBlockState)) {
-				villagerEntity.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.SHEARS));
-				villagerEntity.setCurrentHand(Hand.MAIN_HAND);
-			}
+		if (beehiveGlobalPos == null) {
+			return;
 		}
+
+		BlockState beehiveBlockState = serverWorld.getBlockState(beehiveGlobalPos.getPos());
+
+		if (isBeehiveReadyForHarvest(beehiveBlockState) == false) {
+			return;
+		}
+
+		villagerEntity.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.SHEARS));
+		villagerEntity.setCurrentHand(Hand.MAIN_HAND);
 	}
 
 	protected void finishRunning(ServerWorld serverWorld, VillagerEntity villagerEntity, long l) {
@@ -47,13 +51,21 @@ public class BeekeeperWorkTask extends VillagerWorkTask
 	protected void performAdditionalWork(ServerWorld serverWorld, VillagerEntity villagerEntity) {
 		GlobalPos beehiveGlobalPos = getBeehiveGlobalPos(serverWorld, villagerEntity);
 
-		if (beehiveGlobalPos != null) {
-			BlockState beehiveBlockState = serverWorld.getBlockState(beehiveGlobalPos.getPos());
-
-			if (isBeehiveReadyForHarvest(beehiveBlockState)) {
-				this.harvestHoney(serverWorld, beehiveGlobalPos, beehiveBlockState);
-			}
+		if (beehiveGlobalPos == null) {
+			return;
 		}
+
+		BlockState beehiveBlockState = serverWorld.getBlockState(beehiveGlobalPos.getPos());
+
+		if (beehiveBlockState == null) {
+			return;
+		}
+
+		if (isBeehiveReadyForHarvest(beehiveBlockState) == false) {
+			return;
+		}
+
+		this.harvestHoney(serverWorld, beehiveGlobalPos, beehiveBlockState);
 	}
 
 	private void harvestHoney(ServerWorld world, GlobalPos globalPos, BlockState beehiveState) {

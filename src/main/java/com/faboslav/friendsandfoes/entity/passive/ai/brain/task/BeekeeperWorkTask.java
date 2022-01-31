@@ -88,6 +88,6 @@ public class BeekeeperWorkTask extends VillagerWorkTask
 	}
 
 	private boolean isBeehiveReadyForHarvest(BlockState beehiveState) {
-		return beehiveState.get(BeehiveBlock.HONEY_LEVEL) >= 5;
+		return beehiveState.get(BeehiveBlock.HONEY_LEVEL) == BeehiveBlock.FULL_HONEY_LEVEL;
 	}
 }

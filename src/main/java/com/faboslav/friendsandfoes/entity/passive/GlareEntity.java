@@ -81,7 +81,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 	public GlareEntity(EntityType<? extends GlareEntity> entityType, World world) {
 		super(entityType, world);
 
-		if(this.isTamed()) {
+		if (this.isTamed()) {
 			this.setPersistent();
 		}
 

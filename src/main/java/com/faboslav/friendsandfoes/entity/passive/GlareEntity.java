@@ -80,7 +80,11 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 
 	public GlareEntity(EntityType<? extends GlareEntity> entityType, World world) {
 		super(entityType, world);
-		this.setPersistent();
+
+		if(this.isTamed()) {
+			this.setPersistent();
+		}
+
 		this.moveControl = new FlightMoveControl(this, 4, true);
 		this.setPathfindingPenalty(PathNodeType.DANGER_FIRE, -1.0F);
 		this.setPathfindingPenalty(PathNodeType.DANGER_CACTUS, -1.0F);
@@ -569,8 +573,10 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 	}
 
 	public void setOwner(PlayerEntity player) {
+		this.setPersistent();
 		this.setTamed(true);
 		this.setOwnerUuid(player.getUuid());
+
 		if (player instanceof ServerPlayerEntity) {
 			CriteriaRegistry.TAME_GLARE.trigger((ServerPlayerEntity) player, this);
 		}

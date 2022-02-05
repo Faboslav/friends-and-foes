@@ -1,3 +1,8 @@
+## mc1.18.1-1.2.3 Feb 05, 2022
+
+- Fixed crash related to Beekeeper work task
+- Only tamed and named Glares are now persisted
+
 ## mc1.18.1-1.2.2 Jan 29, 2022
 
 - All Glares are now persisted (just like an animals)

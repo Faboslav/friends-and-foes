@@ -187,7 +187,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		BlockState blockState = serverWorldAccess.getBlockState(blockPos.down());
 		boolean isAboveSurfaceLevel = blockPos.getY() >= 63;
 		boolean isSkyVisible = serverWorldAccess.isSkyVisible(blockPos);
-		boolean isBlockPosDarkSpot = serverWorldAccess.getBaseLightLevel(blockPos, 0) == 0;
+		boolean isBlockPosDarkSpot = serverWorldAccess.getBaseLightLevel(blockPos, 0) <= 3;
 		boolean isRelatedBlock = (
 			blockState.isOf(Blocks.MOSS_BLOCK)
 			|| blockState.isOf(Blocks.MOSS_CARPET)

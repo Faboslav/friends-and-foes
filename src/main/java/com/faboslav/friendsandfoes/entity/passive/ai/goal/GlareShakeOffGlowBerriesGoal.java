@@ -10,25 +10,25 @@ import net.minecraft.world.WorldView;
 
 public class GlareShakeOffGlowBerriesGoal extends MoveToTargetPosGoal
 {
-	private final GlareEntity glareEntity;
+	private final GlareEntity glare;
 	private static final int COLLECTING_TIME = 40;
-	private static final int RANGE = 12;
-	private static final int MAX_Y_DIFFERENCE = 12;
+	private static final int RANGE = 8;
+	private static final int MAX_Y_DIFFERENCE = 8;
 	protected int timer;
 
-	public GlareShakeOffGlowBerriesGoal(GlareEntity glareEntity) {
+	public GlareShakeOffGlowBerriesGoal(GlareEntity glare) {
 		super(
-			glareEntity,
-			glareEntity.getMovementSpeed(),
+			glare,
+			glare.getMovementSpeed(),
 			RANGE,
 			MAX_Y_DIFFERENCE
 		);
 
-		this.glareEntity = glareEntity;
+		this.glare = glare;
 	}
 
 	public double getDesiredSquaredDistanceToTarget() {
-		return 2.0D;
+		return 4.0D;
 	}
 
 	public boolean shouldResetPath() {
@@ -40,10 +40,19 @@ public class GlareShakeOffGlowBerriesGoal extends MoveToTargetPosGoal
 		return CaveVines.hasBerries(blockState);
 	}
 
+	protected void startMovingToTarget() {
+		this.mob.getNavigation().startMovingTo(
+			this.targetPos.getX() + 1.0D,
+			this.targetPos.getY() - 1.0D,
+			this.targetPos.getZ() + 1.0D,
+			this.speed
+		);
+	}
+
 	@Override
 	public boolean canStart() {
 		if (
-			this.glareEntity.isLeashed()
+			this.glare.isLeashed()
 		) {
 			return false;
 		}
@@ -66,8 +75,8 @@ public class GlareShakeOffGlowBerriesGoal extends MoveToTargetPosGoal
 				++this.timer;
 			}
 		} else {
-			if (this.glareEntity.getRandom().nextFloat() < 0.05F) {
-				this.glareEntity.playAmbientSound();
+			if (this.glare.getRandom().nextFloat() < 0.05F) {
+				this.glare.playAmbientSound();
 			}
 		}
 
@@ -75,16 +84,20 @@ public class GlareShakeOffGlowBerriesGoal extends MoveToTargetPosGoal
 	}
 
 	private void shakeOffGlowBerries() {
-		if (this.glareEntity.world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING)) {
-			BlockState blockState = this.glareEntity.world.getBlockState(this.targetPos);
-
-			if (CaveVines.hasBerries(blockState)) {
-				CaveVines.pickBerries(
-					blockState,
-					this.glareEntity.world,
-					this.targetPos
-				);
-			}
+		if (this.glare.world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING) == false) {
+			return;
 		}
+
+		BlockState blockState = this.glare.world.getBlockState(this.targetPos);
+
+		if (CaveVines.hasBerries(blockState) == false) {
+			return;
+		}
+
+		CaveVines.pickBerries(
+			blockState,
+			this.glare.getWorld(),
+			this.targetPos
+		);
 	}
 }

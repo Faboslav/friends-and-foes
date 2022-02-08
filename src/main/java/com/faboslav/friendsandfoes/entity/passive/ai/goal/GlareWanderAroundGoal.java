@@ -4,7 +4,6 @@ import com.faboslav.friendsandfoes.entity.passive.GlareEntity;
 import net.minecraft.entity.ai.AboveGroundTargeting;
 import net.minecraft.entity.ai.NoPenaltySolidTargeting;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,16 +35,23 @@ public class GlareWanderAroundGoal extends Goal
 
 	@Override
 	public void start() {
-		Vec3d vec3d = this.getRandomLocation();
-		if (vec3d != null) {
-			this.glare.getNavigation().startMovingAlong(
-				this.glare.getNavigation().findPathTo(
-					new BlockPos(vec3d),
-					1
-				),
-				this.glare.getMovementSpeed()
-			);
+		Vec3d randomLocation = this.getRandomLocation();
+
+		if (randomLocation == null) {
+			return;
 		}
+
+		var path = this.glare.getNavigation().findPathTo(
+			randomLocation.getX(),
+			randomLocation.getY(),
+			randomLocation.getZ(),
+			1
+		);
+
+		this.glare.getNavigation().startMovingAlong(
+			path,
+			this.glare.getMovementSpeed()
+		);
 	}
 
 	@Nullable

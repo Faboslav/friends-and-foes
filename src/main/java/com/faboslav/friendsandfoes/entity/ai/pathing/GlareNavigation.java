@@ -23,12 +23,12 @@ public class GlareNavigation extends BirdNavigation
 		boolean isSkyVisible = world.isSkyVisible(
 			new BlockPos(
 				glare.getX(),
-				glare.getY() + 0.5D,
+				glare.getY(),
 				glare.getZ()
 			)
 		);
 		int glareBlockPosBaseLightLevel = world.getBaseLightLevel(glare.getBlockPos(), 0);
-		boolean isGlareInDarkSpot = glareBlockPosBaseLightLevel == 0;
+		boolean isGlareInDarkSpot = glareBlockPosBaseLightLevel <= 3;
 
 		this.lastPathNodeBaseLightLevel = glareBlockPosBaseLightLevel;
 
@@ -49,11 +49,10 @@ public class GlareNavigation extends BirdNavigation
 				continue;
 			}
 
-			boolean pathNodeIsDarkSpot = pathNodeBaseLightLevel == 0;
+			boolean isPathNodeDarkSpot = pathNodeBaseLightLevel <= 3;
 
-			if (pathNodeIsDarkSpot) {
+			if (isPathNodeDarkSpot) {
 				this.currentPath.setLength(i);
-
 				return;
 			}
 		}

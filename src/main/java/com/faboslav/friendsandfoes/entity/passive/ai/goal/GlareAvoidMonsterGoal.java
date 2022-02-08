@@ -24,6 +24,6 @@ public class GlareAvoidMonsterGoal<T extends LivingEntity> extends FleeEntityGoa
 	}
 
 	public boolean canStart() {
-		return super.canStart() && !this.glare.isTamed();
+		return !this.glare.isTamed() && super.canStart();
 	}
 }

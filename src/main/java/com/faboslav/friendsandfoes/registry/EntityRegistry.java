@@ -18,6 +18,9 @@ import net.minecraft.world.biome.BiomeKeys;
 
 import java.util.function.Predicate;
 
+/**
+ * @see EntityType
+ */
 public class EntityRegistry
 {
 	private static final Predicate<BiomeSelectionContext> flowerForest = BiomeSelectors.includeByKey(BiomeKeys.FLOWER_FOREST);
@@ -65,7 +68,7 @@ public class EntityRegistry
 
 		// Register spawn restriction
 		if (FriendsAndFoes.CONFIG.enableGlareSpawn) {
-			BiomeModifications.addSpawn(lushCaves, spawnGroup, glare, 30, 1, 1);
+			BiomeModifications.addSpawn(lushCaves, spawnGroup, glare, 20, 1, 1);
 		}
 
 		return glare;

@@ -35,12 +35,22 @@ public class GlareEatGlowBerriesGoal extends Goal
 
 	@Override
 	public boolean canStart() {
+		if (
+			this.glare.getTicksUntilCanEatGlowBerries() > 0
+			|| this.glare.getRandom().nextInt(10) != 0
+			|| this.glare.isLeashed() == true
+			|| this.hasGlareEmptyHand() == false
+		) {
+			return false;
+		}
+
 		this.foodItemToPickUp = this.getFoodItemToPickUp();
 
-		return this.glare.getTicksUntilCanEatGlowBerries() <= 0
-			   && !this.glare.isLeashed()
-			   && this.hasGlareEmptyHand()
-			   && this.foodItemToPickUp != null;
+		if (this.foodItemToPickUp == null) {
+			return false;
+		}
+
+		return true;
 	}
 
 	@Override
@@ -106,7 +116,7 @@ public class GlareEatGlowBerriesGoal extends Goal
 	private ItemEntity getFoodItemToPickUp() {
 		List<ItemEntity> foodItemsToPickUp = this.glare.world.getEntitiesByClass(
 			ItemEntity.class,
-			this.glare.getBoundingBox().expand(12.0D, 12.0D, 12.0D),
+			this.glare.getBoundingBox().expand(8.0D, 8.0D, 8.0D),
 			IS_PICKABLE_FOOD
 		);
 

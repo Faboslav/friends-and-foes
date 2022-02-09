@@ -53,11 +53,13 @@ public class GlareShakeOffGlowBerriesGoal extends MoveToTargetPosGoal
 	public boolean canStart() {
 		if (
 			this.glare.isLeashed()
+			|| this.glare.getRandom().nextInt(10) != 0
+			|| super.canStart() == false
 		) {
 			return false;
 		}
 
-		return super.canStart();
+		return true;
 	}
 
 	@Override

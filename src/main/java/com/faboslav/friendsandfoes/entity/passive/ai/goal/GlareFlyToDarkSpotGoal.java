@@ -37,6 +37,7 @@ public class GlareFlyToDarkSpotGoal extends Goal
 
 		if (
 			this.glare.getTicksUntilCanFindDarkSpot() > 0
+			|| this.glare.getRandom().nextInt(10) != 0
 			|| this.glare.isLeashed()
 			|| !this.glare.isTamed()
 			|| (

@@ -208,12 +208,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 
 	protected void initGoals() {
 		this.goalSelector.add(1, new GlareSitGoal(this));
-		this.goalSelector.add(2, new GlareAvoidMonsterGoal(this, AbstractSkeletonEntity.class, 24.0F));
-		this.goalSelector.add(2, new GlareAvoidMonsterGoal(this, CreeperEntity.class, 24.0F));
-		this.goalSelector.add(2, new GlareAvoidMonsterGoal(this, EndermanEntity.class, 24.0F));
-		this.goalSelector.add(2, new GlareAvoidMonsterGoal(this, SpiderEntity.class, 24.0F));
-		this.goalSelector.add(2, new GlareAvoidMonsterGoal(this, WitchEntity.class, 24.0F));
-		this.goalSelector.add(2, new GlareAvoidMonsterGoal(this, ZombieEntity.class, 24.0F));
+		this.goalSelector.add(2, new GlareAvoidMonsterGoal(this, HostileEntity.class, 16.0F));
 		this.goalSelector.add(3, new GlareFollowOwnerGoal(this, 8.0F, 2.0F, false));
 		this.eatGlowBerriesGoal = new GlareEatGlowBerriesGoal(this);
 		this.goalSelector.add(4, this.eatGlowBerriesGoal);

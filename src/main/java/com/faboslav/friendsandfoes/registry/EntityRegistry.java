@@ -68,7 +68,7 @@ public class EntityRegistry
 
 		// Register spawn restriction
 		if (FriendsAndFoes.CONFIG.enableGlareSpawn) {
-			BiomeModifications.addSpawn(lushCaves, spawnGroup, glare, 10, 1, 1);
+			BiomeModifications.addSpawn(lushCaves, spawnGroup, glare, 15, 1, 1);
 		}
 
 		return glare;

@@ -1,11 +1,9 @@
 package com.faboslav.friendsandfoes.entity.passive.ai.goal;
 
 import com.faboslav.friendsandfoes.entity.passive.GlareEntity;
-import net.minecraft.client.util.math.Vector3d;
 import net.minecraft.entity.ai.AboveGroundTargeting;
 import net.minecraft.entity.ai.NoPenaltySolidTargeting;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 

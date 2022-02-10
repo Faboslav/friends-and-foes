@@ -71,9 +71,6 @@ public class GlareShakeOffGlowBerriesGoal extends MoveToTargetPosGoal
 
 	@Override
 	public void tick() {
-		BlockPos blockPos = this.getTargetPos();
-		System.out.println(blockPos.getSquaredDistance(this.mob.getPos(), true));
-
 		if (this.hasReached()) {
 			if (this.timer >= COLLECTING_TIME) {
 				this.shakeOffGlowBerries();

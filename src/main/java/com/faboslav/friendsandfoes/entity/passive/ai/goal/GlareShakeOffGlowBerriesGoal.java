@@ -12,8 +12,8 @@ public class GlareShakeOffGlowBerriesGoal extends MoveToTargetPosGoal
 {
 	private final GlareEntity glare;
 	private static final int COLLECTING_TIME = 40;
-	private static final int RANGE = 8;
-	private static final int MAX_Y_DIFFERENCE = 8;
+	private static final int RANGE = 12;
+	private static final int MAX_Y_DIFFERENCE = 12;
 	protected int timer;
 
 	public GlareShakeOffGlowBerriesGoal(GlareEntity glare) {
@@ -27,7 +27,8 @@ public class GlareShakeOffGlowBerriesGoal extends MoveToTargetPosGoal
 		this.glare = glare;
 	}
 
-	public double getDesiredSquaredDistanceToTarget() {
+	@Override
+	public double getDesiredDistanceToTarget() {
 		return 4.0D;
 	}
 
@@ -42,9 +43,9 @@ public class GlareShakeOffGlowBerriesGoal extends MoveToTargetPosGoal
 
 	protected void startMovingToTarget() {
 		this.mob.getNavigation().startMovingTo(
-			this.targetPos.getX() + 1.0D,
-			this.targetPos.getY() - 1.0D,
-			this.targetPos.getZ() + 1.0D,
+			this.targetPos.getX(),
+			this.targetPos.getY() - 2.0D,
+			this.targetPos.getZ(),
 			this.speed
 		);
 	}
@@ -70,6 +71,9 @@ public class GlareShakeOffGlowBerriesGoal extends MoveToTargetPosGoal
 
 	@Override
 	public void tick() {
+		BlockPos blockPos = this.getTargetPos();
+		System.out.println(blockPos.getSquaredDistance(this.mob.getPos(), true));
+
 		if (this.hasReached()) {
 			if (this.timer >= COLLECTING_TIME) {
 				this.shakeOffGlowBerries();
@@ -83,6 +87,11 @@ public class GlareShakeOffGlowBerriesGoal extends MoveToTargetPosGoal
 		}
 
 		super.tick();
+	}
+
+	@Override
+	public boolean shouldRunEveryTick() {
+		return false;
 	}
 
 	private void shakeOffGlowBerries() {

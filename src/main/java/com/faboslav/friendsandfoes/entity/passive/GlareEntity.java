@@ -19,7 +19,9 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.*;
+import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
@@ -208,8 +210,8 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 
 	protected void initGoals() {
 		this.goalSelector.add(1, new GlareSitGoal(this));
-		this.goalSelector.add(2, new GlareAvoidMonsterGoal(this, HostileEntity.class, 16.0F));
-		this.goalSelector.add(3, new GlareFollowOwnerGoal(this, 8.0F, 2.0F, false));
+		this.goalSelector.add(2, new GlareFollowOwnerGoal(this, 8.0F, 2.0F, false));
+		this.goalSelector.add(3, new GlareAvoidMonsterGoal(this, HostileEntity.class, 16.0F));
 		this.eatGlowBerriesGoal = new GlareEatGlowBerriesGoal(this);
 		this.goalSelector.add(4, this.eatGlowBerriesGoal);
 		this.goalSelector.add(4, new GlareShakeOffGlowBerriesGoal(this));
@@ -710,7 +712,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 					this.getRandom().nextGaussian() * 0.02D,
 					this.getRandom().nextGaussian() * 0.02D,
 					this.getRandom().nextGaussian() * 0.02D,
-					1.0D
+					0.1D
 				);
 			}
 		}

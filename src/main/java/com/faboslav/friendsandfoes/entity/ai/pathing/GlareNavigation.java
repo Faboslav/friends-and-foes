@@ -49,7 +49,7 @@ public class GlareNavigation extends BirdNavigation
 				continue;
 			}
 
-			boolean isPathNodeDarkSpot = pathNodeBaseLightLevel <= 3;
+			boolean isPathNodeDarkSpot = pathNodeBaseLightLevel == 0;
 
 			if (isPathNodeDarkSpot) {
 				this.currentPath.setLength(i);

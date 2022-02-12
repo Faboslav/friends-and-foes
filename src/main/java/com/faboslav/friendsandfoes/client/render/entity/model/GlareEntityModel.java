@@ -177,32 +177,36 @@ public class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel
 		T glare,
 		float animationProgress
 	) {
-		for (int i = 0; i < this.layers.length; ++i) {
-			float layerAnimationProgress = (animationProgress * 0.1F);
-			float targetPitchLayerAnimationProgress = (float) Math.sin(layerAnimationProgress);
-			float targetRollLayerAnimationProgress = (float) Math.cos(layerAnimationProgress);
+		float layerAnimationProgress = (animationProgress * 0.1F);
+		float targetPitchLayerAnimationProgress = (float) Math.sin(layerAnimationProgress);
+		float targetRollLayerAnimationProgress = (float) Math.cos(layerAnimationProgress);
 
-			if (glare.isMoving()) {
-				targetPitchLayerAnimationProgress = Math.abs(targetPitchLayerAnimationProgress);
-				targetRollLayerAnimationProgress = Math.abs(targetRollLayerAnimationProgress);
-			}
-
-			float currentPitchLayerAnimationProgress = MathHelper.lerp(
-				(float) Math.abs(Math.sin(animationProgress)) * 0.1f,
-				glare.getCurrentLayerPitchAnimationProgress(),
-				targetPitchLayerAnimationProgress
-			);
-			float currentRollLayerAnimationProgress = MathHelper.lerp(
-				(float) Math.abs(Math.sin(animationProgress)) * 0.1F,
-				glare.getCurrentLayerRollAnimationProgress(),
-				targetRollLayerAnimationProgress
-			);
-
-			glare.setCurrentLayerPitchAnimationProgress(currentPitchLayerAnimationProgress);
-			glare.setCurrentLayerRollAnimationProgress(currentRollLayerAnimationProgress);
-
-			this.layers[i].pitch = glare.getCurrentLayerPitchAnimationProgress() * glare.getCurrentLayersPitch();
-			this.layers[i].roll = glare.getCurrentLayerRollAnimationProgress() * glare.getCurrentLayersRoll();
+		if (glare.isMoving()) {
+			targetPitchLayerAnimationProgress = Math.abs(targetPitchLayerAnimationProgress);
+			targetRollLayerAnimationProgress = Math.abs(targetRollLayerAnimationProgress);
 		}
+
+		float currentPitchLayerAnimationProgress = MathHelper.lerp(
+			(float) Math.abs(Math.sin(animationProgress)) * 0.1f,
+			glare.getCurrentLayerPitchAnimationProgress(),
+			targetPitchLayerAnimationProgress
+		);
+		float currentRollLayerAnimationProgress = MathHelper.lerp(
+			(float) Math.abs(Math.sin(animationProgress)) * 0.1F,
+			glare.getCurrentLayerRollAnimationProgress(),
+			targetRollLayerAnimationProgress
+		);
+
+		for (ModelPart layer : this.layers) {
+			layer.pitch = currentPitchLayerAnimationProgress * glare.getCurrentLayersPitch();
+			layer.roll = currentRollLayerAnimationProgress * glare.getCurrentLayersRoll();
+		}
+
+		if (glare.isMoving()) {
+			this.root.pitch = currentPitchLayerAnimationProgress * glare.getCurrentLayersPitch();
+		}
+
+		glare.setCurrentLayerPitchAnimationProgress(currentPitchLayerAnimationProgress);
+		glare.setCurrentLayerRollAnimationProgress(currentRollLayerAnimationProgress);
 	}
 }

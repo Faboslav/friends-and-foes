@@ -1,10 +1,12 @@
 package com.faboslav.friendsandfoes.entity.passive.ai.goal;
 
 import com.faboslav.friendsandfoes.entity.passive.GlareEntity;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.ai.pathing.Path;
+import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
@@ -38,8 +40,9 @@ public class GlareFlyToDarkSpotGoal extends Goal
 		if (
 			this.glare.getTicksUntilCanFindDarkSpot() > 0
 			|| this.glare.getRandom().nextInt(10) != 0
-			|| this.glare.isLeashed()
-			|| !this.glare.isTamed()
+			|| this.glare.isLeashed() == true
+			|| this.glare.isSitting() == true
+			|| this.glare.isTamed() == false
 			|| (
 				world.isDay()
 				&& world.isSkyVisible(this.glare.getBlockPos())
@@ -65,8 +68,10 @@ public class GlareFlyToDarkSpotGoal extends Goal
 			return false;
 		}
 
-
-		boolean isSpotDarkEnough = this.glare.getWorld().getLightLevel(LightType.BLOCK, this.darkSpot) == 0;
+		boolean isSpotDarkEnough = this.glare.getWorld().getLightLevel(
+			LightType.BLOCK,
+			this.darkSpot
+		) == 0;
 
 		return isSpotDarkEnough;
 	}
@@ -139,7 +144,10 @@ public class GlareFlyToDarkSpotGoal extends Goal
 			this.glare.playAmbientSound();
 
 			if (grumpyTicks % 10 == 0) {
-				this.glare.spawnParticles(ParticleTypes.SPORE_BLOSSOM_AIR, 7);
+				this.glare.spawnParticles(
+					new BlockStateParticleEffect(ParticleTypes.BLOCK, Blocks.AZALEA.getDefaultState()),
+					7
+				);
 			}
 		}
 

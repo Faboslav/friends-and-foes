@@ -46,13 +46,13 @@ public class GlareFollowOwnerGoal extends Goal
 	public boolean canStart() {
 		LivingEntity livingEntity = this.glare.getOwner();
 
-		if (livingEntity == null) {
-			return false;
-		} else if (livingEntity.isSpectator()) {
-			return false;
-		} else if (this.glare.squaredDistanceTo(livingEntity) < (double) (this.minDistance * this.minDistance)) {
-			return false;
-		} else if (this.glare.isLeashed()) {
+		if (
+			livingEntity == null
+			|| livingEntity.isSpectator() == true
+			|| this.glare.isLeashed() == true
+			|| this.glare.isSitting() == true
+			|| this.glare.squaredDistanceTo(livingEntity) < (double) (this.minDistance * this.minDistance)
+		) {
 			return false;
 		}
 

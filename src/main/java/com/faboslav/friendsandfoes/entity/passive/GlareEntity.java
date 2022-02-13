@@ -10,6 +10,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.control.FlightMoveControl;
+import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.ai.pathing.PathNodeType;
@@ -218,7 +219,8 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		this.flyToDarkSpotGoal = new GlareFlyToDarkSpotGoal(this);
 		this.goalSelector.add(5, this.flyToDarkSpotGoal);
 		this.goalSelector.add(6, new GlareWanderAroundGoal(this));
-		this.goalSelector.add(6, new SwimGoal(this));
+		this.goalSelector.add(7, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
+		this.goalSelector.add(8, new SwimGoal(this));
 	}
 
 	@Override

@@ -39,6 +39,7 @@ public class GlareEatGlowBerriesGoal extends Goal
 			this.glare.getTicksUntilCanEatGlowBerries() > 0
 			|| this.glare.getRandom().nextInt(10) != 0
 			|| this.glare.isLeashed() == true
+			|| this.glare.isSitting() == true
 			|| this.hasGlareEmptyHand() == false
 		) {
 			return false;

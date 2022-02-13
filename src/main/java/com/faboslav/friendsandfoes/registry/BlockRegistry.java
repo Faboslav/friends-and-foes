@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.registry;
 
-import com.faboslav.friendsandfoes.block.CopperButtonBlock;
-import com.faboslav.friendsandfoes.block.OxidizableButtonBlock;
+import com.faboslav.friendsandfoes.block.*;
 import com.faboslav.friendsandfoes.config.Settings;
 import com.google.common.collect.Lists;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -51,9 +50,9 @@ public class BlockRegistry
 		WEATHERED_COPPER_BUTTON = register("weathered_copper_button", new OxidizableButtonBlock(Oxidizable.OxidationLevel.WEATHERED, FabricBlockSettings.of(Material.DECORATION).noCollision().strength(0.5F).sounds(BlockSoundGroup.COPPER)));
 		OXIDIZED_COPPER_BUTTON = register("oxidized_copper_button", new OxidizableButtonBlock(Oxidizable.OxidationLevel.OXIDIZED, FabricBlockSettings.of(Material.DECORATION).noCollision().strength(0.5F).sounds(BlockSoundGroup.COPPER)));
 		WAXED_COPPER_BUTTON = register("waxed_copper_button", new CopperButtonBlock(AbstractBlock.Settings.copy(COPPER_BUTTON)));
-		WAXED_EXPOSED_COPPER_BUTTON = register("waxed_exposed_copper_button", new CopperButtonBlock(AbstractBlock.Settings.copy(COPPER_BUTTON)));
-		WAXED_WEATHERED_COPPER_BUTTON = register("waxed_weathered_copper_button", new CopperButtonBlock(AbstractBlock.Settings.copy(COPPER_BUTTON)));
-		WAXED_OXIDIZED_COPPER_BUTTON = register("waxed_oxidized_copper_button", new CopperButtonBlock(AbstractBlock.Settings.copy(COPPER_BUTTON)));
+		WAXED_EXPOSED_COPPER_BUTTON = register("waxed_exposed_copper_button", new ExposedCopperButtonBlock(AbstractBlock.Settings.copy(COPPER_BUTTON)));
+		WAXED_WEATHERED_COPPER_BUTTON = register("waxed_weathered_copper_button", new WeatheredCopperButtonBlock(AbstractBlock.Settings.copy(COPPER_BUTTON)));
+		WAXED_OXIDIZED_COPPER_BUTTON = register("waxed_oxidized_copper_button", new OxidizedCopperButtonBlock(AbstractBlock.Settings.copy(COPPER_BUTTON)));
 
 		for (Block block : BLOCKS) {
 			for (BlockState blockState : block.getStateManager().getStates()) {

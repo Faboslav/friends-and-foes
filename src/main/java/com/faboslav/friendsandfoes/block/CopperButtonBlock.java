@@ -18,7 +18,7 @@ import net.minecraft.world.World;
 
 public class CopperButtonBlock extends AbstractButtonBlock
 {
-	public static final int PRESS_TICKS = 10;
+	public static final int PRESS_TICKS = 100;
 
 	public CopperButtonBlock(AbstractBlock.Settings settings) {
 		super(false, settings);

@@ -16,10 +16,6 @@ import java.util.Random;
 @SuppressWarnings("deprecation")
 public class OxidizableButtonBlock extends CopperButtonBlock implements Oxidizable
 {
-	public static final int EXPOSED_PRESS_TICKS = 7;
-	public static final int WEATHERED_PRESS_TICKS = 4;
-	public static final int OXIDIZED_PRESS_TICKS = 1;
-
 	private final OxidationLevel OxidationLevel;
 
 	public OxidizableButtonBlock(

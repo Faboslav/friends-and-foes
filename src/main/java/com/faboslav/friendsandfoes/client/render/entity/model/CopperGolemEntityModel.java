@@ -73,7 +73,7 @@ public class CopperGolemEntityModel<T extends CopperGolemEntity> extends Abstrac
 
 	@Override
 	public void setAngles(
-		T copperGolemEntity,
+		T copperGolem,
 		float limbAngle,
 		float limbDistance,
 		float animationProgress,
@@ -82,24 +82,22 @@ public class CopperGolemEntityModel<T extends CopperGolemEntity> extends Abstrac
 	) {
 		float tickDelta = ModelAnimationHelper.getTickDelta();
 
-		if (copperGolemEntity.isOxidized()) {
-			NbtCompound modelAngles = copperGolemEntity.getEntitySnapshot();
+		if (copperGolem.isOxidized()) {
+			NbtCompound modelAngles = copperGolem.getEntitySnapshot();
 
 			tickDelta = modelAngles.getFloat("tickDelta");
-			limbAngle = copperGolemEntity.limbAngle;
-			limbDistance = copperGolemEntity.limbDistance;
-			//headYaw = modelAngles.getFloat("prevHeadYaw");
-			//headPitch = modelAngles.getFloat("prevHeadPitch");
+			limbAngle = copperGolem.limbAngle;
+			limbDistance = copperGolem.limbDistance;
 		} else {
-			if (copperGolemEntity.hurtTime == 0) {
+			if (copperGolem.hurtTime == 0) {
 				limbDistance *= 1.5;
 				limbAngle *= 1.5;
 			}
 		}
 
-		float headSpinAnimationProgress = copperGolemEntity.getHeadSpinAnimationProgress();
+		float headSpinAnimationProgress = copperGolem.getHeadSpinAnimationProgress();
 		animationProgress = ModelAnimationHelper.getAnimationProgress(
-			copperGolemEntity,
+			copperGolem,
 			tickDelta
 		);
 
@@ -121,8 +119,8 @@ public class CopperGolemEntityModel<T extends CopperGolemEntity> extends Abstrac
 			this.head.pitch = headPitch * 0.017453292F;
 		}
 
-		if (copperGolemEntity.getButtonPressAnimationProgress() > 0.0F) {
-			if (copperGolemEntity.getButtonPressAnimationProgress() == 1.0F) {
+		if (copperGolem.getButtonPressAnimationProgress() > 0.0F) {
+			if (copperGolem.getButtonPressAnimationProgress() == 1.0F) {
 				this.leftArm.pitch = (float) Math.toRadians(-180 + 30 * MathHelper.abs(MathHelper.sin(animationProgress * 0.5F)));
 				this.rightArm.pitch = (float) Math.toRadians(-180 + 30 * MathHelper.abs(MathHelper.cos(animationProgress * 0.5F)));
 				this.leftArm.roll = (float) Math.toRadians(20);
@@ -138,24 +136,31 @@ public class CopperGolemEntityModel<T extends CopperGolemEntity> extends Abstrac
 			this.rightArm.pitch = (-0.2F - 1.5F * MathHelper.wrap(limbAngle, 13.0F)) * limbDistance;
 		}
 
-		if (copperGolemEntity.isOnGround() && (copperGolemEntity.prevX != copperGolemEntity.getX() || copperGolemEntity.prevZ != copperGolemEntity.getZ())) {
+		if (
+			copperGolem.isOnGround() == true
+			&& copperGolem.isOxidized() == false
+			&& (
+				copperGolem.prevX != copperGolem.getX()
+				|| copperGolem.prevZ != copperGolem.getZ()
+			)
+		) {
 			this.rod.pivotY += MathHelper.abs(MathHelper.sin(animationProgress * 0.35F));
 		}
 	}
 
 	public void animateModel(
-		T copperGolemEntity,
+		T copperGolem,
 		float limbAngle,
 		float limbDistance,
 		float tickDelta
 	) {
 		tickDelta = ModelAnimationHelper.getTickDelta();
 
-		if (copperGolemEntity.isOxidized()) {
-			NbtCompound modelAngles = copperGolemEntity.getEntitySnapshot();
+		if (copperGolem.isOxidized()) {
+			NbtCompound modelAngles = copperGolem.getEntitySnapshot();
 			tickDelta = modelAngles.getFloat("tickDelta");
 		}
 
-		this.buttonPressAnimationProgress = copperGolemEntity.getLastButtonPressAnimationProgress() + (copperGolemEntity.getButtonPressAnimationProgress() - copperGolemEntity.getLastButtonPressAnimationProgress()) * tickDelta;
+		this.buttonPressAnimationProgress = copperGolem.getLastButtonPressAnimationProgress() + (copperGolem.getButtonPressAnimationProgress() - copperGolem.getLastButtonPressAnimationProgress()) * tickDelta;
 	}
 }

@@ -216,11 +216,6 @@ public class CopperGolemEntity extends GolemEntity
 	}
 
 	@Override
-	public boolean isPushable() {
-		return super.isPushable() && !this.isOxidized();
-	}
-
-	@Override
 	protected int getNextAirUnderwater(int air) {
 		return air;
 	}

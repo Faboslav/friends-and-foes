@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.mixin;
 
-import com.faboslav.friendsandfoes.block.CopperButtonBlock;
-import com.faboslav.friendsandfoes.block.OxidizableButtonBlock;
+import com.faboslav.friendsandfoes.block.*;
 import net.minecraft.block.AbstractButtonBlock;
 import net.minecraft.block.Oxidizable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,23 +15,33 @@ public class AbstractButtonBlockMixin
 	public void getCopperPressTicks(CallbackInfoReturnable<Integer> callbackInfoReturnable) {
 		Object buttonBlock = this;
 
-		if (buttonBlock instanceof CopperButtonBlock) {
-			callbackInfoReturnable.setReturnValue(CopperButtonBlock.PRESS_TICKS);
-		} else if (buttonBlock instanceof OxidizableButtonBlock) {
+		if (!(buttonBlock instanceof CopperButtonBlock)) {
+			callbackInfoReturnable.cancel();
+		}
+
+		int pressTicks = CopperButtonBlock.PRESS_TICKS;
+
+		if (buttonBlock instanceof OxidizableButtonBlock) {
 			OxidizableButtonBlock oxidizableButtonBlock = (OxidizableButtonBlock) buttonBlock;
 			Oxidizable.OxidationLevel OxidationLevel = oxidizableButtonBlock.getDegradationLevel();
 
-			int pressTicks = OxidizableButtonBlock.PRESS_TICKS;
-
 			if (OxidationLevel == Oxidizable.OxidationLevel.EXPOSED) {
-				pressTicks = OxidizableButtonBlock.EXPOSED_PRESS_TICKS;
+				pressTicks = ExposedCopperButtonBlock.PRESS_TICKS;
 			} else if (OxidationLevel == Oxidizable.OxidationLevel.WEATHERED) {
-				pressTicks = OxidizableButtonBlock.WEATHERED_PRESS_TICKS;
+				pressTicks = WeatheredCopperButtonBlock.PRESS_TICKS;
 			} else if (OxidationLevel == Oxidizable.OxidationLevel.OXIDIZED) {
-				pressTicks = OxidizableButtonBlock.OXIDIZED_PRESS_TICKS;
+				pressTicks = OxidizedCopperButtonBlock.PRESS_TICKS;
 			}
-
-			callbackInfoReturnable.setReturnValue(pressTicks);
+		} else {
+			if(buttonBlock instanceof ExposedCopperButtonBlock) {
+				pressTicks = ExposedCopperButtonBlock.PRESS_TICKS;
+			} else if(buttonBlock instanceof WeatheredCopperButtonBlock) {
+				pressTicks = WeatheredCopperButtonBlock.PRESS_TICKS;
+			} else if(buttonBlock instanceof OxidizableButtonBlock) {
+				pressTicks = OxidizedCopperButtonBlock.PRESS_TICKS;
+			}
 		}
+
+		callbackInfoReturnable.setReturnValue(pressTicks);
 	}
 }

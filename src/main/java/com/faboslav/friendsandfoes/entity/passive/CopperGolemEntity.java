@@ -20,6 +20,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.GolemEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
+import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.Item;
@@ -215,6 +216,7 @@ public class CopperGolemEntity extends GolemEntity
 		super.pushAway(entity);
 	}
 
+
 	@Override
 	protected int getNextAirUnderwater(int air) {
 		return air;
@@ -240,6 +242,10 @@ public class CopperGolemEntity extends GolemEntity
 		BlockPos pos,
 		BlockState state
 	) {
+		if(this.isOxidized()) {
+			return;
+		}
+
 		this.playSound(SoundRegistry.ENTITY_COPPER_GOLEM_STEP, 1.0F, this.getSoundPitch());
 	}
 

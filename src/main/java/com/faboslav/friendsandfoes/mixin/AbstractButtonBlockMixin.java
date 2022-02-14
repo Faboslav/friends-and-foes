@@ -33,11 +33,11 @@ public class AbstractButtonBlockMixin
 				pressTicks = OxidizedCopperButtonBlock.PRESS_TICKS;
 			}
 		} else {
-			if(buttonBlock instanceof ExposedCopperButtonBlock) {
+			if (buttonBlock instanceof ExposedCopperButtonBlock) {
 				pressTicks = ExposedCopperButtonBlock.PRESS_TICKS;
-			} else if(buttonBlock instanceof WeatheredCopperButtonBlock) {
+			} else if (buttonBlock instanceof WeatheredCopperButtonBlock) {
 				pressTicks = WeatheredCopperButtonBlock.PRESS_TICKS;
-			} else if(buttonBlock instanceof OxidizableButtonBlock) {
+			} else if (buttonBlock instanceof OxidizableButtonBlock) {
 				pressTicks = OxidizedCopperButtonBlock.PRESS_TICKS;
 			}
 		}

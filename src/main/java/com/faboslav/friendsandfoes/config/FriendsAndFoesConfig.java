@@ -5,6 +5,7 @@ import draylar.omegaconfig.api.Config;
 public class FriendsAndFoesConfig implements Config
 {
 	public boolean enableCopperGolem = true;
+	public boolean generateCopperGolemAreaStructure = true;
 	public boolean enableGlareSpawn = true;
 	public boolean enableMoobloomSpawn = true;
 	public boolean enableBeekeeperVillagerProfession = true;

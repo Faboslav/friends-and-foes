@@ -1,3 +1,13 @@
+## mc1.18.1-1.2.4 Feb 13, 2022
+
+- Added new copper golem related village structure
+- Fixed copper buttons tick times
+- Polished copper golem behaviour
+- Balanced glare spawn rate and conditions
+- Improved glare performance
+- Polished glare behaviour
+- Updated savanna variant of beekeepers area to correspond with the savanna theme
+
 ## mc1.18.1-1.2.3 Feb 05, 2022
 
 - Fixed crash related to Beekeeper work task

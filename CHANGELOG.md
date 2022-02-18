@@ -1,4 +1,4 @@
-## mc1.18.1-1.2.4 Feb 13, 2022
+## mc1.18.1-1.2.4 Feb 18, 2022
 
 - Added new copper golem related village structure
 - Fixed copper buttons tick times

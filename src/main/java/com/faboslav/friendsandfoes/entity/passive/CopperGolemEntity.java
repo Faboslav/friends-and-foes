@@ -20,7 +20,6 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.GolemEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
-import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.Item;
@@ -242,7 +241,7 @@ public class CopperGolemEntity extends GolemEntity
 		BlockPos pos,
 		BlockState state
 	) {
-		if(this.isOxidized()) {
+		if (this.isOxidized()) {
 			return;
 		}
 

@@ -15,33 +15,31 @@ public class AbstractButtonBlockMixin
 	public void getCopperPressTicks(CallbackInfoReturnable<Integer> callbackInfoReturnable) {
 		Object buttonBlock = this;
 
-		if (!(buttonBlock instanceof CopperButtonBlock)) {
-			callbackInfoReturnable.cancel();
-		}
+		if (buttonBlock instanceof CopperButtonBlock) {
+			int pressTicks = CopperButtonBlock.PRESS_TICKS;
 
-		int pressTicks = CopperButtonBlock.PRESS_TICKS;
+			if (buttonBlock instanceof OxidizableButtonBlock) {
+				OxidizableButtonBlock oxidizableButtonBlock = (OxidizableButtonBlock) buttonBlock;
+				Oxidizable.OxidationLevel OxidationLevel = oxidizableButtonBlock.getDegradationLevel();
 
-		if (buttonBlock instanceof OxidizableButtonBlock) {
-			OxidizableButtonBlock oxidizableButtonBlock = (OxidizableButtonBlock) buttonBlock;
-			Oxidizable.OxidationLevel OxidationLevel = oxidizableButtonBlock.getDegradationLevel();
-
-			if (OxidationLevel == Oxidizable.OxidationLevel.EXPOSED) {
-				pressTicks = ExposedCopperButtonBlock.PRESS_TICKS;
-			} else if (OxidationLevel == Oxidizable.OxidationLevel.WEATHERED) {
-				pressTicks = WeatheredCopperButtonBlock.PRESS_TICKS;
-			} else if (OxidationLevel == Oxidizable.OxidationLevel.OXIDIZED) {
-				pressTicks = OxidizedCopperButtonBlock.PRESS_TICKS;
+				if (OxidationLevel == Oxidizable.OxidationLevel.EXPOSED) {
+					pressTicks = ExposedCopperButtonBlock.PRESS_TICKS;
+				} else if (OxidationLevel == Oxidizable.OxidationLevel.WEATHERED) {
+					pressTicks = WeatheredCopperButtonBlock.PRESS_TICKS;
+				} else if (OxidationLevel == Oxidizable.OxidationLevel.OXIDIZED) {
+					pressTicks = OxidizedCopperButtonBlock.PRESS_TICKS;
+				}
+			} else {
+				if (buttonBlock instanceof ExposedCopperButtonBlock) {
+					pressTicks = ExposedCopperButtonBlock.PRESS_TICKS;
+				} else if (buttonBlock instanceof WeatheredCopperButtonBlock) {
+					pressTicks = WeatheredCopperButtonBlock.PRESS_TICKS;
+				} else if (buttonBlock instanceof OxidizableButtonBlock) {
+					pressTicks = OxidizedCopperButtonBlock.PRESS_TICKS;
+				}
 			}
-		} else {
-			if (buttonBlock instanceof ExposedCopperButtonBlock) {
-				pressTicks = ExposedCopperButtonBlock.PRESS_TICKS;
-			} else if (buttonBlock instanceof WeatheredCopperButtonBlock) {
-				pressTicks = WeatheredCopperButtonBlock.PRESS_TICKS;
-			} else if (buttonBlock instanceof OxidizableButtonBlock) {
-				pressTicks = OxidizedCopperButtonBlock.PRESS_TICKS;
-			}
-		}
 
-		callbackInfoReturnable.setReturnValue(pressTicks);
+			callbackInfoReturnable.setReturnValue(pressTicks);
+		}
 	}
 }

@@ -1,3 +1,7 @@
+## mc1.18.1-1.2.5 Feb 24, 2022
+
+- Fixed logic changing vanilla buttons tick times along with copper buttons tick times
+
 ## mc1.18.1-1.2.4 Feb 18, 2022
 
 - Added new copper golem related village structure

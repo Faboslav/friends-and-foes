@@ -24,6 +24,7 @@ import java.util.function.Predicate;
 public class EntityRegistry
 {
 	private static final Predicate<BiomeSelectionContext> flowerForest = BiomeSelectors.includeByKey(BiomeKeys.FLOWER_FOREST);
+	private static final Predicate<BiomeSelectionContext> meadow = BiomeSelectors.includeByKey(BiomeKeys.MEADOW);
 	private static final Predicate<BiomeSelectionContext> lushCaves = BiomeSelectors.includeByKey(BiomeKeys.LUSH_CAVES);
 	private static final SpawnRestriction.Location onGround = SpawnRestriction.Location.ON_GROUND;
 	private static final Heightmap.Type motionBlocking = Heightmap.Type.MOTION_BLOCKING_NO_LEAVES;
@@ -101,6 +102,15 @@ public class EntityRegistry
 		if (FriendsAndFoes.CONFIG.enableMoobloomSpawn) {
 			BiomeModifications.addSpawn(
 				flowerForest,
+				spawnGroup,
+				moobloom,
+				FriendsAndFoes.CONFIG.moobloomSpawnWeight,
+				FriendsAndFoes.CONFIG.moobloomSpawnMinGroupSize,
+				FriendsAndFoes.CONFIG.moobloomSpawnMaxGroupSize
+			);
+
+			BiomeModifications.addSpawn(
+				meadow,
 				spawnGroup,
 				moobloom,
 				FriendsAndFoes.CONFIG.moobloomSpawnWeight,

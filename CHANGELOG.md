@@ -1,3 +1,5 @@
+## mc1.18.2-1.2.6 Feb 26, 2022
+
 ## mc1.18.1-1.2.5 Feb 26, 2022
 
 - Fixed logic wrongly changing also vanilla buttons tick times instead of copper buttons tick times

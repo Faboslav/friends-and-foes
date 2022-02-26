@@ -85,7 +85,7 @@ public class CopperGolemEntity extends GolemEntity
 		BUTTON_PRESS_ANIMATION_PROGRESS = DataTracker.registerData(CopperGolemEntity.class, TrackedDataHandlerRegistry.FLOAT);
 		LAST_BUTTON_PRESS_ANIMATION_PROGRESS = DataTracker.registerData(CopperGolemEntity.class, TrackedDataHandlerRegistry.FLOAT);
 		HEAD_SPIN_ANIMATION_PROGRESS = DataTracker.registerData(CopperGolemEntity.class, TrackedDataHandlerRegistry.FLOAT);
-		ENTITY_SNAPSHOT = DataTracker.registerData(CopperGolemEntity.class, TrackedDataHandlerRegistry.TAG_COMPOUND);
+		ENTITY_SNAPSHOT = DataTracker.registerData(CopperGolemEntity.class, TrackedDataHandlerRegistry.NBT_COMPOUND);
 		NOTICEABLE_PLAYER_FILTER = (entity) -> {
 			PlayerEntity player = (PlayerEntity) entity;
 			ItemStack itemStack = player.getStackInHand(Hand.MAIN_HAND);
@@ -427,6 +427,7 @@ public class CopperGolemEntity extends GolemEntity
 	}
 
 	private void applyGravityToTravel(Vec3d movementInput) {
+		// TODO copy new code
 		double d = 0.08D;
 		boolean bl = this.getVelocity().y <= 0.0D;
 		if (bl && this.hasStatusEffect(StatusEffects.SLOW_FALLING)) {
@@ -558,7 +559,7 @@ public class CopperGolemEntity extends GolemEntity
 		this.getLookControl().lookAt(this.getLookControl().getLookX(), this.getLookControl().getLookY(), this.getLookControl().getLookZ());
 		this.getLookControl().tick();
 
-		this.inanimate = false;
+		this.intersectionChecked = false;
 		this.jumping = false;
 		this.setMovementSpeed(0.0F);
 		this.prevHorizontalSpeed = 0.0F;
@@ -571,7 +572,7 @@ public class CopperGolemEntity extends GolemEntity
 
 	private void becomeEntity() {
 		this.setAiDisabled(false);
-		this.inanimate = true;
+		this.intersectionChecked = true;
 	}
 
 	private NbtCompound takeEntitySnapshot() {

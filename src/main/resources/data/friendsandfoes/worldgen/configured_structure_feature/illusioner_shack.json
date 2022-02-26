@@ -1,0 +1,33 @@
+{
+  "type": "friendsandfoes:illusioner_shack",
+  "config": {
+	"start_pool": "friendsandfoes:illusioner_shack/base_plates",
+	"size": 1
+  },
+  "biomes": "#friendsandfoes:has_structure/illusioner_shack",
+  "adapt_noise": true,
+  "spawn_overrides": {
+	"creature": {
+	  "bounding_box": "piece",
+	  "spawns": [
+		{
+		  "type": "minecraft:wolf",
+		  "weight": 1,
+		  "minCount": 1,
+		  "maxCount": 1
+		}
+	  ]
+	},
+	"monster": {
+	  "bounding_box": "full",
+	  "spawns": [
+		{
+		  "type": "minecraft:illusioner",
+		  "weight": 1,
+		  "minCount": 1,
+		  "maxCount": 1
+		}
+	  ]
+	}
+  }
+}

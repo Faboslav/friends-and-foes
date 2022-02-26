@@ -1,6 +1,7 @@
 ## mc1.18.1-1.2.5 Feb 24, 2022
 
 - Fixed logic changing vanilla buttons tick times along with copper buttons tick times
+- Added more configuration for mobs and structures
 
 ## mc1.18.1-1.2.4 Feb 18, 2022
 

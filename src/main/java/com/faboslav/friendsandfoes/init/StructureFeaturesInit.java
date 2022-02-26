@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.init;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.config.FriendsAndFoesConfig;
 import com.faboslav.friendsandfoes.config.Settings;
 import com.faboslav.friendsandfoes.world.gen.feature.IllusionerShackFeature;
 import net.fabricmc.fabric.api.structure.v1.FabricStructureBuilder;

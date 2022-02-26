@@ -1,6 +1,6 @@
 ## mc1.18.1-1.2.5 Feb 24, 2022
 
-- Fixed logic changing vanilla buttons tick times along with copper buttons tick times
+- Fixed logic wrongly changing also vanilla buttons tick times instead of copper buttons tick times
 - Added more configuration for mobs and structures
 - Mooblooms can now spawn also in the meadow biome
 

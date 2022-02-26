@@ -68,7 +68,14 @@ public class EntityRegistry
 
 		// Register spawn restriction
 		if (FriendsAndFoes.CONFIG.enableGlareSpawn) {
-			BiomeModifications.addSpawn(lushCaves, spawnGroup, glare, 32, 1, 1);
+			BiomeModifications.addSpawn(
+				lushCaves,
+				spawnGroup,
+				glare,
+				FriendsAndFoes.CONFIG.glareSpawnWeight,
+				FriendsAndFoes.CONFIG.glareSpawnMinGroupSize,
+				FriendsAndFoes.CONFIG.glareSpawnMaxGroupSize
+			);
 		}
 
 		return glare;
@@ -92,7 +99,14 @@ public class EntityRegistry
 
 		// Register spawn restriction
 		if (FriendsAndFoes.CONFIG.enableMoobloomSpawn) {
-			BiomeModifications.addSpawn(flowerForest, spawnGroup, moobloom, 32, 2, 4);
+			BiomeModifications.addSpawn(
+				flowerForest,
+				spawnGroup,
+				moobloom,
+				FriendsAndFoes.CONFIG.moobloomSpawnWeight,
+				FriendsAndFoes.CONFIG.moobloomSpawnMinGroupSize,
+				FriendsAndFoes.CONFIG.moobloomSpawnMaxGroupSize
+			);
 		}
 
 		return moobloom;

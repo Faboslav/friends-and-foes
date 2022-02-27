@@ -16,6 +16,7 @@
 	"PointOfInterestTypeMixin",
 	"RaidMemberMixin",
 	"RaidMixin",
+	"StructureFeaturesAccessor",
 	"StructurePoolMixin",
 	"VillagerTaskListProviderMixin"
   ],

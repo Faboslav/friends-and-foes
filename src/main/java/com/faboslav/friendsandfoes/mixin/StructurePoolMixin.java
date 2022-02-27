@@ -45,23 +45,23 @@ public class StructurePoolMixin
 	) {
 		if (FriendsAndFoes.CONFIG.generateBeekeeperAreaStructure) {
 			if (Objects.equals(id.getPath(), "village/plains/houses")) {
-				addElement(Settings.makeStringID("village/plains/houses/plains_beekeeper_area"), 1, projection);
+				addElement(Settings.makeStringID("village/plains/houses/plains_beekeeper_area"), 2, projection);
 			} else if (Objects.equals(id.getPath(), "village/savanna/houses")) {
-				addElement(Settings.makeStringID("village/savanna/houses/savanna_beekeeper_area"), 1, projection);
+				addElement(Settings.makeStringID("village/savanna/houses/savanna_beekeeper_area"), 2, projection);
 			} else if (Objects.equals(id.getPath(), "village/taiga/houses")) {
-				addElement(Settings.makeStringID("village/taiga/houses/taiga_beekeeper_area"), 1, projection);
+				addElement(Settings.makeStringID("village/taiga/houses/taiga_beekeeper_area"), 2, projection);
 			}
 		}
 
 		if (FriendsAndFoes.CONFIG.generateCopperGolemAreaStructure) {
 			if (Objects.equals(id.getPath(), "village/desert/houses")) {
-				addElement(Settings.makeStringID("village/desert/houses/desert_copper_golem_area"), 1, projection);
+				addElement(Settings.makeStringID("village/desert/houses/desert_copper_golem_area"), 2, projection);
 			} else if (Objects.equals(id.getPath(), "village/plains/houses")) {
-				addElement(Settings.makeStringID("village/plains/houses/plains_copper_golem_area"), 1, projection);
+				addElement(Settings.makeStringID("village/plains/houses/plains_copper_golem_area"), 2, projection);
 			} else if (Objects.equals(id.getPath(), "village/savanna/houses")) {
-				addElement(Settings.makeStringID("village/savanna/houses/savanna_copper_golem_area"), 1, projection);
+				addElement(Settings.makeStringID("village/savanna/houses/savanna_copper_golem_area"), 2, projection);
 			} else if (Objects.equals(id.getPath(), "village/taiga/houses")) {
-				addElement(Settings.makeStringID("village/taiga/houses/taiga_copper_golem_area"), 1, projection);
+				addElement(Settings.makeStringID("village/taiga/houses/taiga_copper_golem_area"), 2, projection);
 			}
 		}
 	}

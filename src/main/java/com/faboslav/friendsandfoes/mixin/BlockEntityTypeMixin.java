@@ -25,6 +25,7 @@ public class BlockEntityTypeMixin
 			ordinal = 0
 		)
 	)
+
 	private static Block[] addBeehiveBlocks(Block... original) {
 		Block[] newBeehives = Arrays.copyOf(original, original.length + 7);
 		newBeehives[newBeehives.length - 1] = BlockRegistry.ACACIA_BEEHIVE;

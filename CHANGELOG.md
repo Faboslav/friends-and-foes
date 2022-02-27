@@ -1,4 +1,7 @@
-## mc1.18.2-1.2.6 Feb 26, 2022
+## mc1.18.2-1.2.6 Feb 28, 2022
+
+- Refactored for minecraft 1.18.2 version
+- Fixed bees and villager occasionally not spawning in the beekeeper area village structure
 
 ## mc1.18.1-1.2.5 Feb 26, 2022
 

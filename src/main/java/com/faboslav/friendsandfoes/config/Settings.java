@@ -4,7 +4,6 @@ import net.minecraft.util.Identifier;
 
 public class Settings
 {
-	// TODO modmenu
 	public static final String MOD_ID = "friendsandfoes";
 
 	public static Identifier makeID(String path) {

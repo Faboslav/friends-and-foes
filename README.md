@@ -1,3 +1,4 @@
+<br>
 <p align="center">
     <img src="https://github.com/Faboslav/friends-and-foes/blob/master/.github/assets/title.svg?raw=true" width="500" height="48" title="Friends&Foes" alt="Friends&Foes">
 </p>
@@ -63,7 +64,6 @@ I already got pretty solid ideas for most of the mobs and features but you are m
 - [Modrinth]
 - [Discord]
 
----
 <br>
 <br>
 <br>
@@ -93,7 +93,6 @@ Feel free to look over my code for examples of how i have implemented and solved
 You can also look into the [blockbench directory] which contains all of the models & palettes and into the [textures directory] for the textures.
 Get inspired, but please don't just copy & paste any of it as your own.
 
----
 [Copper Golem]: https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem
 [Glare]: https://github.com/Faboslav/friends-and-foes/wiki/Glare
 [Moobloom]: https://github.com/Faboslav/friends-and-foes/wiki/Moobloom

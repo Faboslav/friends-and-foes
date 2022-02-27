@@ -108,7 +108,7 @@ Get inspired, but please don't just copy & paste any of it as your own.
 [wiki]: https://github.com/Faboslav/friends-and-foes/wiki
 [CurseForge]: https://www.curseforge.com/minecraft/mc-mods/friends-foes
 [Modrinth]: https://modrinth.com/mod/friends-and-foes
-[Discord]: https://discord.gg/sEdM6KRNdZ
+[Discord]: https://discord.com/invite/QGwFvvMQCn
 [Patreon]: https://www.patreon.com/Faboslavv
 [Ko-fi]: https://ko-fi.com/faboslav
 [CC BY-NC-ND 4.0]: https://github.com/Faboslav/friends-and-foes/blob/master/LICENSE.txt

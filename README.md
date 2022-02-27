@@ -38,9 +38,14 @@ I already got pretty solid ideas for most of the mobs and features but you are m
 - [ ] Wildfire
 
 ### Block/Items
-- [x] [Beehives]
+- [x] [Beehive]
 - [x] [Buttercup]
 - [x] [Copper Button]
+
+### Structures
+- [x] [Beekeeper Area]
+- [x] [Copper Golem Workstation]
+- [x] [Illusioner Shack]
 
 ### Village/Villagers
 - [x] [Beekeeper]
@@ -57,6 +62,19 @@ I already got pretty solid ideas for most of the mobs and features but you are m
 - [CurseForge]
 - [Modrinth]
 - [Discord]
+
+---
+<br>
+<br>
+<br>
+
+<p align="center">
+  <img src="https://github.com/Faboslav/friends-and-foes/blob/master/.github/assets/curseforge/title/support.svg?raw=true" width="276" height="48" title="Support" alt="Support">
+</p>
+
+---
+
+I will continue to develop my mods regardless of any support as it is my hobby. If you want to support me anyway you can do that on [Patreon] or [Ko-fi].
 
 <br>
 <br>
@@ -80,15 +98,20 @@ Get inspired, but please don't just copy & paste any of it as your own.
 [Glare]: https://github.com/Faboslav/friends-and-foes/wiki/Glare
 [Moobloom]: https://github.com/Faboslav/friends-and-foes/wiki/Moobloom
 [Illusioner]: https://github.com/Faboslav/friends-and-foes/wiki/Illusioner
-[Beehives]: https://github.com/Faboslav/friends-and-foes/wiki/Beehives
+[Beehive]: https://github.com/Faboslav/friends-and-foes/wiki/Beehive
 [Buttercup]: https://github.com/Faboslav/friends-and-foes/wiki/Buttercup
 [Copper Button]: https://github.com/Faboslav/friends-and-foes/wiki/Copper-Button
+[Beekeeper Area]: https://github.com/Faboslav/friends-and-foes/wiki/Beekeeeper-Area
+[Copper Golem Workstation]: https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem-Workstation
+[Illusioner Shack]: https://github.com/Faboslav/friends-and-foes/wiki/Illusioner-Shack
 [Beekeeper]: https://github.com/Faboslav/friends-and-foes/wiki/Beekeeeper
 [share your ideas or give some feedback]: https://github.com/Faboslav/friends-and-foes/issues/new?assignees=Faboslav&labels=feature&template=feature_request.md&title=
 [wiki]: https://github.com/Faboslav/friends-and-foes/wiki
 [CurseForge]: https://www.curseforge.com/minecraft/mc-mods/friends-foes
 [Modrinth]: https://modrinth.com/mod/friends-and-foes
 [Discord]: https://discord.gg/sEdM6KRNdZ
+[Patreon]: https://www.patreon.com/Faboslavv
+[Ko-fi]: https://ko-fi.com/faboslav
+[CC BY-NC-ND 4.0]: https://github.com/Faboslav/friends-and-foes/blob/master/LICENSE.txt
 [blockbench directory]: https://github.com/Faboslav/friends-and-foes/tree/master/blockbench
 [textures directory]: https://github.com/Faboslav/friends-and-foes/tree/master/src/main/resources/assets/friendsandfoes/textures
-[CC BY-NC-ND 4.0]: https://github.com/Faboslav/friends-and-foes/blob/master/LICENSE.txt

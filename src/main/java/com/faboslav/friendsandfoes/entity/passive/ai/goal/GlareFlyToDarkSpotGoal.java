@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.entity.passive.ai.goal;
 
 import com.faboslav.friendsandfoes.entity.passive.GlareEntity;
+import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
@@ -84,6 +85,8 @@ public class GlareFlyToDarkSpotGoal extends Goal
 
 	@Override
 	public void stop() {
+		this.glare.playGrumpinessShortSound();
+
 		// Reset goal
 		this.darkSpot = null;
 		this.currentPath = null;
@@ -140,7 +143,7 @@ public class GlareFlyToDarkSpotGoal extends Goal
 			this.glare.setGrumpy(true);
 		}
 
-		if(grumpyTicks == 20) {
+		if (grumpyTicks == 10) {
 			this.glare.playGrumpinessSound();
 		}
 

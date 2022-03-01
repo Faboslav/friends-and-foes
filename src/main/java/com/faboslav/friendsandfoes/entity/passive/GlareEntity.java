@@ -372,7 +372,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 	@Override
 	public void playAmbientSound() {
 		SoundEvent soundEvent = this.getAmbientSound();
-		this.playSound(soundEvent, 0.01F, RandomGenerator.generateFloat(0.9F, 1.1F));
+		this.playSound(soundEvent, 0.05F, RandomGenerator.generateFloat(0.85F, 1.25F));
 	}
 
 	protected SoundEvent getGrumpinessSound() {
@@ -381,7 +381,16 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 
 	public void playGrumpinessSound() {
 		SoundEvent soundEvent = this.getGrumpinessSound();
-		this.playSound(soundEvent, 0.1F, RandomGenerator.generateFloat(1.1F, 1.2F));
+		this.playSound(soundEvent, 0.05F, RandomGenerator.generateFloat(1.2F, 1.3F));
+	}
+
+	protected SoundEvent getGrumpinessShortSound() {
+		return SoundRegistry.ENTITY_GLARE_GRUMPINESS_SHORT;
+	}
+
+	public void playGrumpinessShortSound() {
+		SoundEvent soundEvent = this.getGrumpinessShortSound();
+		this.playSound(soundEvent, 0.05F, RandomGenerator.generateFloat(1.2F, 1.3F));
 	}
 
 	protected SoundEvent getRustleSound() {

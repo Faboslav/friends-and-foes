@@ -61,6 +61,12 @@
 	],
 	"subtitle": "subtitle.entity.friendsandfoes.glare.grumpiness"
   },
+  "entity.glare.grumpiness_short": {
+	"sounds": [
+	  "friendsandfoes:entity/glare/grumpiness_short"
+	],
+	"subtitle": "subtitle.entity.friendsandfoes.glare.grumpiness_short"
+  },
   "entity.glare.hurt": {
 	"sounds": [
 	  "friendsandfoes:entity/glare/hurt1",

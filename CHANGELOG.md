@@ -1,8 +1,8 @@
-## mc1.18.2-1.2.6 Feb 28, 2022
+## mc1.18.2-1.2.6 Mar 01, 2022
 
 - Refactored for minecraft 1.18.2 version
 - Fixed bees and villager occasionally not spawning in the beekeeper area village structure
-- New custom sounds for glare
+- Added new custom sounds for glare
 
 ## mc1.18.1-1.2.5 Feb 26, 2022
 

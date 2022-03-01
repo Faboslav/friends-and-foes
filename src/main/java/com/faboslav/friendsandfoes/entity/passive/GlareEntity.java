@@ -372,7 +372,25 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 	@Override
 	public void playAmbientSound() {
 		SoundEvent soundEvent = this.getAmbientSound();
-		this.playSound(soundEvent, 0.25F, 0.1F);
+		this.playSound(soundEvent, 0.01F, RandomGenerator.generateFloat(0.9F, 1.1F));
+	}
+
+	protected SoundEvent getGrumpinessSound() {
+		return SoundRegistry.ENTITY_GLARE_GRUMPINESS;
+	}
+
+	public void playGrumpinessSound() {
+		SoundEvent soundEvent = this.getGrumpinessSound();
+		this.playSound(soundEvent, 0.1F, RandomGenerator.generateFloat(1.1F, 1.2F));
+	}
+
+	protected SoundEvent getRustleSound() {
+		return SoundRegistry.ENTITY_GLARE_RUSTLE;
+	}
+
+	public void playRustleSound() {
+		SoundEvent soundEvent = this.getRustleSound();
+		this.playSound(soundEvent, 0.15F, 0.1F);
 	}
 
 	@Override

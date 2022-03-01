@@ -39,11 +39,7 @@
   "entity.glare.ambient": {
 	"sounds": [
 	  "friendsandfoes:entity/glare/ambient1",
-	  "friendsandfoes:entity/glare/ambient2",
-	  "friendsandfoes:entity/glare/ambient3",
-	  "friendsandfoes:entity/glare/ambient4",
-	  "friendsandfoes:entity/glare/ambient5",
-	  "friendsandfoes:entity/glare/ambient6"
+	  "friendsandfoes:entity/glare/ambient2"
 	],
 	"subtitle": "subtitle.entity.friendsandfoes.glare.ambient"
   },
@@ -59,11 +55,25 @@
 	],
 	"subtitle": "subtitle.entity.friendsandfoes.glare.eat"
   },
+  "entity.glare.grumpiness": {
+	"sounds": [
+	  "friendsandfoes:entity/glare/grumpiness"
+	],
+	"subtitle": "subtitle.entity.friendsandfoes.glare.grumpiness"
+  },
   "entity.glare.hurt": {
 	"sounds": [
 	  "friendsandfoes:entity/glare/hurt1",
 	  "friendsandfoes:entity/glare/hurt2"
 	],
 	"subtitle": "subtitle.entity.friendsandfoes.glare.hurt"
+  },
+  "entity.glare.rustle": {
+	"sounds": [
+	  "friendsandfoes:entity/glare/rustle1",
+	  "friendsandfoes:entity/glare/rustle2",
+	  "friendsandfoes:entity/glare/rustle3"
+	],
+	"subtitle": "subtitle.entity.friendsandfoes.glare.rustle"
   }
 }

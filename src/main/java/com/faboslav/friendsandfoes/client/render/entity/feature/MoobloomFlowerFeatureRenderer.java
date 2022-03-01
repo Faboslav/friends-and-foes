@@ -14,8 +14,8 @@ import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.CowEntityModel;
 import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.screen.PlayerScreenHandler;
 
 @Environment(EnvType.CLIENT)
 public class MoobloomFlowerFeatureRenderer<T extends MoobloomEntity> extends FeatureRenderer<T, CowEntityModel<T>>
@@ -91,7 +91,7 @@ public class MoobloomFlowerFeatureRenderer<T extends MoobloomEntity> extends Fea
 		BakedModel moobloomModel
 	) {
 		if (renderAsModel) {
-			blockRenderManager.getModelRenderer().render(matrices.peek(), vertexConsumers.getBuffer(RenderLayer.getOutline(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE)), moobloomState, moobloomModel, 0.0F, 0.0F, 0.0F, light, overlay);
+			blockRenderManager.getModelRenderer().render(matrices.peek(), vertexConsumers.getBuffer(RenderLayer.getOutline(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE)), moobloomState, moobloomModel, 0.0F, 0.0F, 0.0F, light, overlay);
 		} else {
 			blockRenderManager.renderBlockAsEntity(moobloomState, matrices, vertexConsumers, light, overlay);
 		}

@@ -18,8 +18,6 @@ public class FriendsAndFoesConfig implements Config
 	public boolean generateBeekeeperAreaStructure = true;
 	public boolean enableIllusionerInRaids = true;
 	public boolean generateIllusionerShackStructure = true;
-	public int illusionerShackStructureSpacing = 25;
-	public int illusionerShackStructureSeparation = 20;
 
 	@Override
 	public String getName() {

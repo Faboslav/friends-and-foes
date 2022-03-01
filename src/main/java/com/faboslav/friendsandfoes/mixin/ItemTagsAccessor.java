@@ -2,7 +2,7 @@ package com.faboslav.friendsandfoes.mixin;
 
 import net.minecraft.item.Item;
 import net.minecraft.tag.ItemTags;
-import net.minecraft.tag.Tag.Identified;
+import net.minecraft.tag.TagKey;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 public interface ItemTagsAccessor
 {
 	@Invoker
-	static Identified<Item> invokeRegister(String id) {
+	static TagKey<Item> invokeRegister(String id) {
 		throw new UnsupportedOperationException();
 	}
 }

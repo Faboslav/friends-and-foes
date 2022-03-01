@@ -84,6 +84,8 @@ public class GlareFlyToDarkSpotGoal extends Goal
 
 	@Override
 	public void stop() {
+		this.glare.playGrumpinessShortSound();
+
 		// Reset goal
 		this.darkSpot = null;
 		this.currentPath = null;
@@ -140,15 +142,19 @@ public class GlareFlyToDarkSpotGoal extends Goal
 			this.glare.setGrumpy(true);
 		}
 
-		if (grumpyTicks % 5 == 0) {
-			this.glare.playAmbientSound();
+		if (grumpyTicks == 10) {
+			this.glare.playGrumpinessSound();
+		}
 
-			if (grumpyTicks % 10 == 0) {
-				this.glare.spawnParticles(
-					new BlockStateParticleEffect(ParticleTypes.BLOCK, Blocks.AZALEA.getDefaultState()),
-					7
-				);
-			}
+		if (grumpyTicks % 5 == 0) {
+			this.glare.playRustleSound();
+		}
+
+		if (grumpyTicks % 10 == 0) {
+			this.glare.spawnParticles(
+				new BlockStateParticleEffect(ParticleTypes.BLOCK, Blocks.AZALEA.getDefaultState()),
+				7
+			);
 		}
 
 		this.glare.getLookControl().lookAt(owner.getPos());

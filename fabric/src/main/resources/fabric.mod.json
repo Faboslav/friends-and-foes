@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "id": "friendsandfoes",
+  "version": "1.2.6",
+  "name": "Friends&Foes",
+  "description": "Friends&Foes is a mod focused on adding all eliminated mobs from the minecraft mob votes and also few other exceptional mobs like the Illusioner.",
+  "authors": [
+	"Faboslav"
+  ],
+  "contact": {
+	"homepage": "https://github.com/Faboslav/friends-and-foes",
+	"sources": "https://github.com/Faboslav/friends-and-foes",
+	"issues": "https://github.com/Faboslav/friends-and-foes/issues",
+	"wiki": "https://github.com/Faboslav/friends-and-foes/wiki"
+  },
+  "license": "CC BY-NC-ND 4.0",
+  "icon": "assets/friendsandfoes/icon.png",
+  "environment": "*",
+  "entrypoints": {
+	"main": [
+	  "com.faboslav.friendsandfoes.fabric.FriendsAndFoesFabric"
+	],
+	"client": [
+	  "com.faboslav.friendsandfoes.fabric.FriendsAndFoesFabricClient"
+	],
+	"server": [
+	  "com.faboslav.friendsandfoes.fabric.FriendsAndFoesFabricServer"
+	],
+	"mm:early_risers": [
+	  "com.faboslav.friendsandfoes.fabric.EarlyRiserFabric"
+	]
+  },
+  "mixins": [
+	"friendsandfoes-common.mixins.json"
+  ],
+  "depends": {
+	"fabric": "*",
+	"minecraft": ">=1.18.2",
+	"architectury": ">=4.0.30",
+	"java": ">=17"
+  }
+}

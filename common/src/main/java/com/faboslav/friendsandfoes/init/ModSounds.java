@@ -1,0 +1,58 @@
+package com.faboslav.friendsandfoes.init;
+
+import com.faboslav.friendsandfoes.FriendsAndFoes;
+import dev.architectury.registry.registries.DeferredRegister;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.registry.Registry;
+
+public final class ModSounds
+{
+	public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(FriendsAndFoes.MOD_ID, Registry.SOUND_EVENT_KEY);
+
+	public static final SoundEvent ENTITY_COPPER_GOLEM_DEATH;
+	public static final SoundEvent ENTITY_COPPER_GOLEM_HEAD_SPIN;
+	public static final SoundEvent ENTITY_COPPER_GOLEM_HURT;
+	public static final SoundEvent ENTITY_COPPER_GOLEM_REPAIR;
+	public static final SoundEvent ENTITY_COPPER_GOLEM_STEP;
+	public static final SoundEvent ENTITY_GLARE_AMBIENT;
+	public static final SoundEvent ENTITY_GLARE_DEATH;
+	public static final SoundEvent ENTITY_GLARE_EAT;
+	public static final SoundEvent ENTITY_GLARE_GRUMPINESS;
+	public static final SoundEvent ENTITY_GLARE_GRUMPINESS_SHORT;
+	public static final SoundEvent ENTITY_GLARE_HURT;
+	public static final SoundEvent ENTITY_GLARE_RUSTLE;
+	public static final SoundEvent ENTITY_ICE_CHUNK_AMBIENT;
+	public static final SoundEvent ENTITY_ICE_CHUNK_HIT;
+	public static final SoundEvent ENTITY_ICE_CHUNK_SUMMON;
+
+	static {
+		ENTITY_COPPER_GOLEM_DEATH = register("entity", "copper_golem.death");
+		ENTITY_COPPER_GOLEM_HEAD_SPIN = register("entity", "copper_golem.head_spin");
+		ENTITY_COPPER_GOLEM_HURT = register("entity", "copper_golem.hurt");
+		ENTITY_COPPER_GOLEM_REPAIR = register("entity", "copper_golem.repair");
+		ENTITY_COPPER_GOLEM_STEP = register("entity", "copper_golem.step");
+		ENTITY_GLARE_AMBIENT = register("entity", "glare.ambient");
+		ENTITY_GLARE_DEATH = register("entity", "glare.death");
+		ENTITY_GLARE_EAT = register("entity", "glare.eat");
+		ENTITY_GLARE_GRUMPINESS = register("entity", "glare.grumpiness");
+		ENTITY_GLARE_GRUMPINESS_SHORT = register("entity", "glare.grumpiness_short");
+		ENTITY_GLARE_HURT = register("entity", "glare.hurt");
+		ENTITY_GLARE_RUSTLE = register("entity", "glare.rustle");
+		ENTITY_ICE_CHUNK_AMBIENT = register("entity", "ice_chunk.ambient");
+		ENTITY_ICE_CHUNK_HIT = register("entity", "ice_chunk.hit");
+		ENTITY_ICE_CHUNK_SUMMON = register("entity", "ice_chunk.summon");
+	}
+
+	private static SoundEvent register(String type, String name) {
+		String id = type + "." + name;
+		var soundEvent = new SoundEvent(FriendsAndFoes.makeID(id));
+
+		SOUNDS.register(id, () -> soundEvent);
+
+		return soundEvent;
+	}
+
+	public static void init() {
+		SOUNDS.register();
+	}
+}

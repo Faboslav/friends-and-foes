@@ -1,0 +1,33 @@
+{
+  "name": "friendsandfoes:illusioner_shack/feature/campfire",
+  "fallback": "minecraft:empty",
+  "elements": [
+	{
+	  "weight": 40,
+	  "element": {
+		"location": "friendsandfoes:illusioner_shack/feature/campfire1",
+		"processors": "minecraft:empty",
+		"projection": "rigid",
+		"element_type": "minecraft:legacy_single_pool_element"
+	  }
+	},
+	{
+	  "weight": 40,
+	  "element": {
+		"location": "friendsandfoes:illusioner_shack/feature/campfire2",
+		"processors": "minecraft:empty",
+		"projection": "rigid",
+		"element_type": "minecraft:legacy_single_pool_element"
+	  }
+	},
+	{
+	  "weight": 20,
+	  "element": {
+		"location": "friendsandfoes:illusioner_shack/feature/campfire3",
+		"processors": "minecraft:empty",
+		"projection": "rigid",
+		"element_type": "minecraft:legacy_single_pool_element"
+	  }
+	}
+  ]
+}

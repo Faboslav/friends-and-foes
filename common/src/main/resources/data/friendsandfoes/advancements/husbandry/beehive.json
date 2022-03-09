@@ -1,0 +1,44 @@
+{
+  "parent": "minecraft:husbandry/root",
+  "display": {
+	"title": {
+	  "translate": "advancements.husbandry.beehive.title"
+	},
+	"description": {
+	  "translate": "advancements.husbandry.beehive.description"
+	},
+	"icon": {
+	  "item": "minecraft:beehive"
+	},
+	"frame": "task",
+	"show_toast": true,
+	"announce_to_chat": true,
+	"hidden": false
+  },
+  "criteria": {
+	"beehive": {
+	  "trigger": "minecraft:inventory_changed",
+	  "conditions": {
+		"items": [
+		  {
+			"items": [
+			  "minecraft:beehive",
+			  "friendsandfoes:acacia_beehive",
+			  "friendsandfoes:birch_beehive",
+			  "friendsandfoes:crimson_beehive",
+			  "friendsandfoes:dark_oak_beehive",
+			  "friendsandfoes:jungle_beehive",
+			  "friendsandfoes:spruce_beehive",
+			  "friendsandfoes:warped_beehive"
+			]
+		  }
+		]
+	  }
+	}
+  },
+  "requirements": [
+	[
+	  "beehive"
+	]
+  ]
+}

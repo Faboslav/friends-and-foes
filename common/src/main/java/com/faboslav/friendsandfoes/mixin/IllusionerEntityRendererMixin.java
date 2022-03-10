@@ -26,6 +26,7 @@ public abstract class IllusionerEntityRendererMixin extends IllagerEntityRendere
 
 	/**
 	 * @author Faboslav
+	 * @reason This is needed
 	 */
 	@Overwrite
 	public void render(
@@ -41,6 +42,7 @@ public abstract class IllusionerEntityRendererMixin extends IllagerEntityRendere
 
 	/**
 	 * @author Faboslav
+	 * @reason This is needed
 	 */
 	@Overwrite
 	public boolean isVisible(IllusionerEntity illusioner) {

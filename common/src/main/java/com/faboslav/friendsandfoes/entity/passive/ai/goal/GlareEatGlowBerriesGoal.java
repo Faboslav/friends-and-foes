@@ -47,11 +47,7 @@ public class GlareEatGlowBerriesGoal extends Goal
 
 		this.foodItemToPickUp = this.getFoodItemToPickUp();
 
-		if (this.foodItemToPickUp == null) {
-			return false;
-		}
-
-		return true;
+		return this.foodItemToPickUp != null;
 	}
 
 	@Override

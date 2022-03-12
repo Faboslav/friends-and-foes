@@ -1,24 +1,20 @@
 plugins {
     id "com.github.johnrengelman.shadow" version "7.1.2"
 }
+
 loom {
+	accessWidenerPath = project(":common").loom.accessWidenerPath
+
     forge {
-        mixinConfig "friendsandfoes-common.mixins.json"
+		convertAccessWideners = true
+		extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
+		mixinConfig "friendsandfoes-common.mixins.json"
     }
 }
 
 architectury {
     platformSetupLoomIde()
     forge()
-}
-
-loom {
-    accessWidenerPath = project(":common").loom.accessWidenerPath
-
-    forge {
-        convertAccessWideners = true
-        extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
-    }
 }
 
 configurations {
@@ -31,7 +27,6 @@ configurations {
 
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
-    // Remove the next line if you don't want to depend on the API
     modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
@@ -80,13 +75,6 @@ components.java {
     withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
         skip()
     }
-}
-
-repositories {
-	maven {
-		name = "Forge"
-		url = "https://files.minecraftforge.net/maven/"
-	}
 }
 
 publishing {

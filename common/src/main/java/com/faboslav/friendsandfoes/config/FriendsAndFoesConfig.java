@@ -18,6 +18,7 @@ public class FriendsAndFoesConfig
 	public static int moobloomSpawnMaxGroupSize = 4;
 	public static boolean enableBeekeeperVillagerProfession = true;
 	public static boolean generateBeekeeperAreaStructure = true;
+	public static boolean enableIllusionerSpawn = true;
 	public static boolean enableIllusionerInRaids = true;
 	public static boolean generateIllusionerShackStructure = true;
 }

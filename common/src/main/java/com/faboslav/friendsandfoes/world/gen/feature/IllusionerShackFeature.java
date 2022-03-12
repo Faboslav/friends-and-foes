@@ -17,15 +17,9 @@ public class IllusionerShackFeature extends JigsawFeature
 
 	private static boolean canGenerate(Context<StructurePoolFeatureConfig> context) {
 
-		if (
-			FriendsAndFoesConfig.generateIllusionerShackStructure == false
-			|| isVillageNearby(context) == true
-			|| isSuitableChunk(context) == false
-		) {
-			return false;
-		}
-
-		return true;
+		return FriendsAndFoesConfig.generateIllusionerShackStructure != false
+			   && isVillageNearby(context) != true
+			   && isSuitableChunk(context) != false;
 	}
 
 	private static boolean isVillageNearby(Context<StructurePoolFeatureConfig> context) {
@@ -47,10 +41,6 @@ public class IllusionerShackFeature extends JigsawFeature
 		chunkRandom.setSeed((long) (i ^ j << 4) ^ context.seed());
 		chunkRandom.nextInt();
 
-		if (chunkRandom.nextInt(5) != 0) {
-			return false;
-		}
-
-		return true;
+		return chunkRandom.nextInt(5) == 0;
 	}
 }

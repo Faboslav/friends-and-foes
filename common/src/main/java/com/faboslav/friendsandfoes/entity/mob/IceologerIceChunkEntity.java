@@ -55,7 +55,6 @@ public class IceologerIceChunkEntity extends Entity
 	private UUID targetUuid;
 
 	private int lifetimeTicks;
-	private double initialTargetYPosition;
 
 	static {
 		TICKS_UNTIL_FALL = DataTracker.registerData(IceologerIceChunkEntity.class, TrackedDataHandlerRegistry.INTEGER);
@@ -68,14 +67,11 @@ public class IceologerIceChunkEntity extends Entity
 	) {
 		super(entityType, world);
 
-		if (this.getWorld().isClient()) {
-			return;
-		}
-
 		this.setInvulnerable(true);
 		this.setNoGravity(true);
 
 		this.lifetimeTicks = 0;
+		this.playSummonSound();
 	}
 
 	@Override
@@ -137,7 +133,6 @@ public class IceologerIceChunkEntity extends Entity
 	public void setTarget(@Nullable LivingEntity target) {
 		this.target = target;
 		this.targetUuid = target == null ? null:target.getUuid();
-		this.initialTargetYPosition = target.getY() + target.getHeight() * target.getHeight();
 	}
 
 	@Nullable
@@ -156,10 +151,9 @@ public class IceologerIceChunkEntity extends Entity
 	public void tick() {
 		if (lifetimeTicks == 0) {
 			FriendsAndFoes.LOGGER.info("summon sound");
-			this.playSummonSound();
 		} else if (lifetimeTicks == 30) {
 			FriendsAndFoes.LOGGER.info("ambient");
-			this.playAmbientSound();
+			//this.playSummonSound();
 		}
 
 		this.lifetimeTicks++;
@@ -189,7 +183,7 @@ public class IceologerIceChunkEntity extends Entity
 		this.addVelocity(0.0F, -0.05F, 0.0F);
 		this.move(MovementType.SELF, this.getVelocity());
 
-		if(this.horizontalCollision) {
+		if (this.horizontalCollision) {
 			this.customDiscard();
 		}
 
@@ -258,7 +252,7 @@ public class IceologerIceChunkEntity extends Entity
 	private void setPositionAboveTarget() {
 		this.setPosition(
 			this.target.getX(),
-			this.initialTargetYPosition,
+			target.getY() + target.getHeight() * target.getHeight(),
 			this.target.getZ()
 		);
 	}

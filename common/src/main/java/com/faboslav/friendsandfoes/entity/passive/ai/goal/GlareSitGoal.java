@@ -22,16 +22,10 @@ public class GlareSitGoal extends Goal
 
 	@Override
 	public boolean canStart() {
-		if (
-			this.glare.isTamed() == false
-			|| this.glare.isLeashed() == true
-			|| this.glare.isInsideWaterOrBubbleColumn() == true
-			|| this.glare.isSitting() == false
-		) {
-			return false;
-		}
-
-		return true;
+		return this.glare.isTamed() != false
+			   && this.glare.isLeashed() != true
+			   && this.glare.isInsideWaterOrBubbleColumn() != true
+			   && this.glare.isSitting() != false;
 	}
 
 	@Override

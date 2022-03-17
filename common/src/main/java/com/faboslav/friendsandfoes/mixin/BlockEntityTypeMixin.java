@@ -13,6 +13,7 @@ import java.util.Arrays;
 @Mixin(BlockEntityType.class)
 public class BlockEntityTypeMixin
 {
+	/*
 	@ModifyArg(
 		method = "<clinit>",
 		slice = @Slice(from = @At(
@@ -25,17 +26,16 @@ public class BlockEntityTypeMixin
 			ordinal = 0
 		)
 	)
-
 	private static Block[] addBeehiveBlocks(Block... original) {
-		Block[] newBeehives = Arrays.copyOf(original, original.length + 7);
-		newBeehives[newBeehives.length - 1] = ModBlocks.ACACIA_BEEHIVE;
-		newBeehives[newBeehives.length - 2] = ModBlocks.BIRCH_BEEHIVE;
-		newBeehives[newBeehives.length - 3] = ModBlocks.CRIMSON_BEEHIVE;
-		newBeehives[newBeehives.length - 4] = ModBlocks.DARK_OAK_BEEHIVE;
-		newBeehives[newBeehives.length - 5] = ModBlocks.JUNGLE_BEEHIVE;
-		newBeehives[newBeehives.length - 6] = ModBlocks.SPRUCE_BEEHIVE;
-		newBeehives[newBeehives.length - 7] = ModBlocks.WARPED_BEEHIVE;
+		Block[] newBeehives = Arrays.copyOf(original, original.length + 1);
+		newBeehives[newBeehives.length - 1] = ModBlocks.ACACIA_BEEHIVE.get();
+		newBeehives[newBeehives.length - 2] = ModBlocks.BIRCH_BEEHIVE.get();
+		newBeehives[newBeehives.length - 3] = ModBlocks.CRIMSON_BEEHIVE.get();
+		newBeehives[newBeehives.length - 4] = ModBlocks.DARK_OAK_BEEHIVE.get();
+		newBeehives[newBeehives.length - 5] = ModBlocks.JUNGLE_BEEHIVE.get();
+		newBeehives[newBeehives.length - 6] = ModBlocks.SPRUCE_BEEHIVE.get();
+		newBeehives[newBeehives.length - 7] = ModBlocks.WARPED_BEEHIVE.get();
 
 		return newBeehives;
-	}
+	}*/
 }

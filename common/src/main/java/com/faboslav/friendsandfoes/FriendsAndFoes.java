@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes;
 
 import com.faboslav.friendsandfoes.init.*;
-import com.faboslav.friendsandfoes.world.gen.feature.StructureFeature;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,13 +21,24 @@ public class FriendsAndFoes
 		return MOD_ID + ":" + name;
 	}
 
-	public static void init() {
-		ModEntity.init();
-		ModBlocks.init();
-		ModItems.init();
+	public static void initRegisters() {
+		ModBlocks.initRegister();
+		ModBlockEntityTypes.initRegister();
 		ModCriteria.init();
+		ModEntity.initRegister();
+		ModItems.initRegister();
+		ModSounds.initRegister();
+		ModVillagerProfessions.initRegister();
+		ModStructureFeatures.initRegister();
+	}
+
+	public static void initCustomRegisters() {
+		ModBlocks.init();
+		ModBlockEntityTypes.init();
+		ModEntity.init();
+		ModItems.init();
 		ModSounds.init();
 		ModVillagerProfessions.init();
-		StructureFeature.init();
+		ModStructureFeatures.init();
 	}
 }

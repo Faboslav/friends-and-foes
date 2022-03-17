@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes;
 
-import com.faboslav.friendsandfoes.init.ModBlocks;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import dev.architectury.platform.Platform;
 
@@ -23,11 +22,6 @@ public class FriendsAndFoesPlatform
 	 */
 	@ExpectPlatform
 	public static Path getConfigDirectory() {
-		throw new AssertionError();
-	}
-
-	@ExpectPlatform
-	public static ModBlocks getModBlocks() {
 		throw new AssertionError();
 	}
 }

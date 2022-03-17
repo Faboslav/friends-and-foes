@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.init;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import dev.architectury.registry.registries.DeferredRegister;
+import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.registry.Registry;
 
@@ -9,21 +10,21 @@ public final class ModSounds
 {
 	public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(FriendsAndFoes.MOD_ID, Registry.SOUND_EVENT_KEY);
 
-	public static final SoundEvent ENTITY_COPPER_GOLEM_DEATH;
-	public static final SoundEvent ENTITY_COPPER_GOLEM_HEAD_SPIN;
-	public static final SoundEvent ENTITY_COPPER_GOLEM_HURT;
-	public static final SoundEvent ENTITY_COPPER_GOLEM_REPAIR;
-	public static final SoundEvent ENTITY_COPPER_GOLEM_STEP;
-	public static final SoundEvent ENTITY_GLARE_AMBIENT;
-	public static final SoundEvent ENTITY_GLARE_DEATH;
-	public static final SoundEvent ENTITY_GLARE_EAT;
-	public static final SoundEvent ENTITY_GLARE_GRUMPINESS;
-	public static final SoundEvent ENTITY_GLARE_GRUMPINESS_SHORT;
-	public static final SoundEvent ENTITY_GLARE_HURT;
-	public static final SoundEvent ENTITY_GLARE_RUSTLE;
-	public static final SoundEvent ENTITY_ICE_CHUNK_AMBIENT;
-	public static final SoundEvent ENTITY_ICE_CHUNK_HIT;
-	public static final SoundEvent ENTITY_ICE_CHUNK_SUMMON;
+	public static final RegistrySupplier<SoundEvent> ENTITY_COPPER_GOLEM_DEATH;
+	public static final RegistrySupplier<SoundEvent> ENTITY_COPPER_GOLEM_HEAD_SPIN;
+	public static final RegistrySupplier<SoundEvent> ENTITY_COPPER_GOLEM_HURT;
+	public static final RegistrySupplier<SoundEvent> ENTITY_COPPER_GOLEM_REPAIR;
+	public static final RegistrySupplier<SoundEvent> ENTITY_COPPER_GOLEM_STEP;
+	public static final RegistrySupplier<SoundEvent> ENTITY_GLARE_AMBIENT;
+	public static final RegistrySupplier<SoundEvent> ENTITY_GLARE_DEATH;
+	public static final RegistrySupplier<SoundEvent> ENTITY_GLARE_EAT;
+	public static final RegistrySupplier<SoundEvent> ENTITY_GLARE_GRUMPINESS;
+	public static final RegistrySupplier<SoundEvent> ENTITY_GLARE_GRUMPINESS_SHORT;
+	public static final RegistrySupplier<SoundEvent> ENTITY_GLARE_HURT;
+	public static final RegistrySupplier<SoundEvent> ENTITY_GLARE_RUSTLE;
+	public static final RegistrySupplier<SoundEvent> ENTITY_ICE_CHUNK_AMBIENT;
+	public static final RegistrySupplier<SoundEvent> ENTITY_ICE_CHUNK_HIT;
+	public static final RegistrySupplier<SoundEvent> ENTITY_ICE_CHUNK_SUMMON;
 
 	static {
 		ENTITY_COPPER_GOLEM_DEATH = register("entity", "copper_golem.death");
@@ -43,16 +44,16 @@ public final class ModSounds
 		ENTITY_ICE_CHUNK_SUMMON = register("entity", "ice_chunk.summon");
 	}
 
-	private static SoundEvent register(String type, String name) {
+	private static RegistrySupplier<SoundEvent> register(String type, String name) {
 		String id = type + "." + name;
 		var soundEvent = new SoundEvent(FriendsAndFoes.makeID(id));
 
-		SOUNDS.register(id, () -> soundEvent);
-
-		return soundEvent;
+		return SOUNDS.register(id, () -> soundEvent);
 	}
 
-	public static void init() {
+	public static void initRegister() {
 		SOUNDS.register();
 	}
+
+	public static void init() {}
 }

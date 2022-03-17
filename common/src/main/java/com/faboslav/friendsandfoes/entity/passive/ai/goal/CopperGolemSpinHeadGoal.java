@@ -39,7 +39,7 @@ public class CopperGolemSpinHeadGoal extends Goal
 	public void start() {
 		this.spinHeadProgress = 0;
 		this.copperGolem.setIsSpinningHead(true);
-		this.copperGolem.playSound(ModSounds.ENTITY_COPPER_GOLEM_HEAD_SPIN, 1.0F, copperGolem.getSoundPitch() - 1.5F);
+		this.copperGolem.playSound(ModSounds.ENTITY_COPPER_GOLEM_HEAD_SPIN.get(), 1.0F, copperGolem.getSoundPitch() - 1.5F);
 	}
 
 	@Override

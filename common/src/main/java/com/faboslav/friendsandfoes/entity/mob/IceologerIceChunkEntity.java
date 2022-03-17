@@ -258,7 +258,7 @@ public class IceologerIceChunkEntity extends Entity
 	}
 
 	private SoundEvent getAmbientSound() {
-		return ModSounds.ENTITY_ICE_CHUNK_AMBIENT;
+		return ModSounds.ENTITY_ICE_CHUNK_AMBIENT.get();
 	}
 
 	private void playAmbientSound() {
@@ -267,7 +267,7 @@ public class IceologerIceChunkEntity extends Entity
 	}
 
 	private SoundEvent getHitSound() {
-		return ModSounds.ENTITY_ICE_CHUNK_HIT;
+		return ModSounds.ENTITY_ICE_CHUNK_HIT.get();
 	}
 
 	private void playHitSound() {
@@ -276,7 +276,7 @@ public class IceologerIceChunkEntity extends Entity
 	}
 
 	private SoundEvent getSummonSound() {
-		return ModSounds.ENTITY_ICE_CHUNK_SUMMON;
+		return ModSounds.ENTITY_ICE_CHUNK_SUMMON.get();
 	}
 
 	private void playSummonSound() {
@@ -325,7 +325,7 @@ public class IceologerIceChunkEntity extends Entity
 		LivingEntity target
 	) {
 		var chunkEntity = new IceologerIceChunkEntity(
-			ModEntity.ICE_CHUNK,
+			ModEntity.ICE_CHUNK.get(),
 			world
 		);
 

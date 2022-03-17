@@ -16,6 +16,5 @@ public final class ModCriteria
 		return CriteriaTriggersRegistry.register(criterion);
 	}
 
-	public static void init() {
-	}
+	public static void init() {}
 }

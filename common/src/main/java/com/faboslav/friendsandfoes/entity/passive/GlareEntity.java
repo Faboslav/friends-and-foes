@@ -367,7 +367,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return ModSounds.ENTITY_GLARE_AMBIENT;
+		return ModSounds.ENTITY_GLARE_AMBIENT.get();
 	}
 
 	@Override
@@ -377,7 +377,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 	}
 
 	protected SoundEvent getGrumpinessSound() {
-		return ModSounds.ENTITY_GLARE_GRUMPINESS;
+		return ModSounds.ENTITY_GLARE_GRUMPINESS.get();
 	}
 
 	public void playGrumpinessSound() {
@@ -386,7 +386,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 	}
 
 	protected SoundEvent getGrumpinessShortSound() {
-		return ModSounds.ENTITY_GLARE_GRUMPINESS_SHORT;
+		return ModSounds.ENTITY_GLARE_GRUMPINESS_SHORT.get();
 	}
 
 	public void playGrumpinessShortSound() {
@@ -395,7 +395,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 	}
 
 	protected SoundEvent getRustleSound() {
-		return ModSounds.ENTITY_GLARE_RUSTLE;
+		return ModSounds.ENTITY_GLARE_RUSTLE.get();
 	}
 
 	public void playRustleSound() {
@@ -405,7 +405,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 
 	@Override
 	public SoundEvent getEatSound(ItemStack stack) {
-		return ModSounds.ENTITY_GLARE_EAT;
+		return ModSounds.ENTITY_GLARE_EAT.get();
 	}
 
 	public void playEatSound(ItemStack stack) {
@@ -414,7 +414,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 	}
 
 	protected SoundEvent getHurtSound(DamageSource source) {
-		return ModSounds.ENTITY_GLARE_HURT;
+		return ModSounds.ENTITY_GLARE_HURT.get();
 	}
 
 	@Override
@@ -423,7 +423,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 	}
 
 	protected SoundEvent getDeathSound() {
-		return ModSounds.ENTITY_GLARE_DEATH;
+		return ModSounds.ENTITY_GLARE_DEATH.get();
 	}
 
 	protected float getSoundVolume() {

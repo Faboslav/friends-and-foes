@@ -92,7 +92,7 @@ public class MoobloomEntity extends CowEntity implements Shearable
 						this.getX(),
 						this.getBodyY(1.0D),
 						this.getZ(),
-						new ItemStack(ModBlocks.BUTTERCUP)
+						new ItemStack(ModBlocks.BUTTERCUP.get())
 					)
 				);
 			}
@@ -127,7 +127,7 @@ public class MoobloomEntity extends CowEntity implements Shearable
 		ServerWorld serverWorld,
 		PassiveEntity entity
 	) {
-		return ModEntity.MOOBLOOM.create(serverWorld);
+		return ModEntity.MOOBLOOM.get().create(serverWorld);
 	}
 
 	@Override
@@ -142,7 +142,7 @@ public class MoobloomEntity extends CowEntity implements Shearable
 					int flowerChance = RandomGenerator.generateInt(1, 100);
 
 					if (flowerChance >= 0 && flowerChance < 40) {
-						this.world.setBlockState(this.getBlockPos(), ModBlocks.BUTTERCUP.getDefaultState());
+						this.world.setBlockState(this.getBlockPos(), ModBlocks.BUTTERCUP.get().getDefaultState());
 					} else if (flowerChance >= 40 && flowerChance < 80) {
 						this.world.setBlockState(this.getBlockPos(), Blocks.DANDELION.getDefaultState());
 					} else {

@@ -228,12 +228,12 @@ public class CopperGolemEntity extends GolemEntity
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource source) {
-		return ModSounds.ENTITY_COPPER_GOLEM_HURT;
+		return ModSounds.ENTITY_COPPER_GOLEM_HURT.get();
 	}
 
 	@Override
 	protected SoundEvent getDeathSound() {
-		return ModSounds.ENTITY_COPPER_GOLEM_DEATH;
+		return ModSounds.ENTITY_COPPER_GOLEM_DEATH.get();
 	}
 
 	@Override
@@ -245,7 +245,7 @@ public class CopperGolemEntity extends GolemEntity
 			return;
 		}
 
-		this.playSound(ModSounds.ENTITY_COPPER_GOLEM_STEP, 1.0F, this.getSoundPitch());
+		this.playSound(ModSounds.ENTITY_COPPER_GOLEM_STEP.get(), 1.0F, this.getSoundPitch());
 	}
 
 	@Override
@@ -327,7 +327,7 @@ public class CopperGolemEntity extends GolemEntity
 			itemStack.decrement(1);
 		}
 
-		this.playSound(ModSounds.ENTITY_COPPER_GOLEM_REPAIR, 1.0F, this.getSoundPitch() - 1.0F);
+		this.playSound(ModSounds.ENTITY_COPPER_GOLEM_REPAIR.get(), 1.0F, this.getSoundPitch() - 1.0F);
 
 		return true;
 	}

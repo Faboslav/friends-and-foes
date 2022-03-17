@@ -94,13 +94,13 @@ public class IceologerSpawner implements Spawner
 		BlockState blockState = world.getBlockState(mutable);
 
 		if (
-			SpawnHelper.isClearForSpawn(world, mutable, blockState, blockState.getFluidState(), ModEntity.ICEOLOGER) == false
-			|| PatrolEntity.canSpawn(ModEntity.ICEOLOGER, world, SpawnReason.PATROL, mutable, random) == false
+			SpawnHelper.isClearForSpawn(world, mutable, blockState, blockState.getFluidState(), ModEntity.ICEOLOGER.get()) == false
+			|| PatrolEntity.canSpawn(ModEntity.ICEOLOGER.get(), world, SpawnReason.PATROL, mutable, random) == false
 		) {
 			return 0;
 		}
 
-		var iceologer = ModEntity.ICEOLOGER.create(world);
+		var iceologer = ModEntity.ICEOLOGER.get().create(world);
 
 		if (iceologer == null) {
 			return 0;

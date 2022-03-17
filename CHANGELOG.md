@@ -2,6 +2,8 @@
 
 - Forge port
 - Added iceologer
+- TODO use shadow and relocate packages
+- TODO Forge world events
 
 ## mc1.18.2-1.2.6 Mar 01, 2022
 

@@ -3,17 +3,15 @@ package com.faboslav.friendsandfoes.mixin;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.StructureFeature;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Invoker;
+import org.spongepowered.asm.mixin.gen.Accessor;
+
+import java.util.Map;
 
 @Mixin(StructureFeature.class)
-public interface StructureFeaturesAccessor
+public interface StructureFeatureAccessor
 {
-	@Invoker
-	static <F extends StructureFeature<?>> F invokeRegister(
-		String name,
-		F structureFeature,
-		GenerationStep.Feature step
-	) {
+	@Accessor("STRUCTURE_TO_GENERATION_STEP")
+	static Map<StructureFeature<?>, GenerationStep.Feature> getStructureToGenerationStep() {
 		throw new UnsupportedOperationException();
 	}
 }

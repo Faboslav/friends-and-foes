@@ -53,7 +53,7 @@ public class PatrolSpawnerMixin
 
 		if (precipitation == Biome.Precipitation.SNOW) {
 			FriendsAndFoes.LOGGER.info("iceologer");
-			patrolEntity = ModEntity.ICEOLOGER.create(world);
+			patrolEntity = ModEntity.ICEOLOGER.get().create(world);
 		} else {
 			FriendsAndFoes.LOGGER.info("illusioner");
 			patrolEntity = EntityType.ILLUSIONER.create(world);

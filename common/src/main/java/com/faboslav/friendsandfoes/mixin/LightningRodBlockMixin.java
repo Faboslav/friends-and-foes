@@ -95,7 +95,7 @@ public abstract class LightningRodBlockMixin extends RodBlock
 		BlockPos cachedBlockPosition = patternSearchResult.translate(0, 2, 0).getBlockPos();
 		float copperGolemYaw = headBlockState.get(CarvedPumpkinBlock.FACING).asRotation();
 
-		CopperGolemEntity copperGolemEntity = ModEntity.COPPER_GOLEM.create(world);
+		CopperGolemEntity copperGolemEntity = ModEntity.COPPER_GOLEM.get().create(world);
 
 		copperGolemEntity.setPosition(
 			(double) cachedBlockPosition.getX() + 0.5D,

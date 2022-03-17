@@ -118,7 +118,7 @@ public class IceologerEntity extends SpellcastingIllagerEntity
 
 		@Override
 		protected Spell getSpell() {
-			return Spell.valueOf(SUMMON_ICE_CHUNK_SPELL_NAME);
+			return Spell.FANGS;
 		}
 
 		private void summonIceChunk(LivingEntity target) {

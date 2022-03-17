@@ -4,6 +4,7 @@ import com.faboslav.friendsandfoes.config.FriendsAndFoesConfig;
 import com.mojang.serialization.Codec;
 import net.minecraft.structure.StructureGeneratorFactory.Context;
 import net.minecraft.structure.StructureSetKeys;
+import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.JigsawFeature;
 import net.minecraft.world.gen.feature.StructurePoolFeatureConfig;
 import net.minecraft.world.gen.random.AtomicSimpleRandom;
@@ -42,5 +43,10 @@ public class IllusionerShackFeature extends JigsawFeature
 		chunkRandom.nextInt();
 
 		return chunkRandom.nextInt(5) == 0;
+	}
+
+	@Override
+	public GenerationStep.Feature getGenerationStep() {
+		return GenerationStep.Feature.SURFACE_STRUCTURES;
 	}
 }

@@ -12,4 +12,6 @@ public final class ModRenderType
 		RenderTypeRegistry.register(RenderLayer.getCutout(), ModBlocks.BUTTERCUP.get());
 		RenderTypeRegistry.register(RenderLayer.getCutout(), ModBlocks.POTTED_BUTTERCUP.get());
 	}
+
+	private ModRenderType() {}
 }

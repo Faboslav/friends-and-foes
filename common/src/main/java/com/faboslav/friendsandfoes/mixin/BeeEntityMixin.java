@@ -1,8 +1,6 @@
 package com.faboslav.friendsandfoes.mixin;
 
 import com.faboslav.friendsandfoes.entity.passive.ai.goal.BeePollinateMoobloomGoal;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.Angerable;
@@ -10,7 +8,6 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import com.faboslav.friendsandfoes.init.ModBlockEntityTypes;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -67,26 +64,24 @@ public abstract class BeeEntityMixin extends AnimalEntity implements Angerable
 		}
 	}
 
+
+	/*
 	@Inject(
 		method = "isHiveValid",
-		at = @At(
-			value = "RETURN",
-			ordinal = 1
-		),
+		at = @At("RETURN"),
 		cancellable = true
 	)
 	private void isHiveValid(
 		CallbackInfoReturnable<Boolean> cir
 	){
-		var isHiveValid = cir.getReturnValue();
+		var isHiveValid = cir.getReturnValueZ();
 		if(isHiveValid) {
 			cir.setReturnValue(isHiveValid);
 		}
 
 		BlockEntity blockEntity = this.world.getBlockEntity(this.hivePos);
-
-
 		isHiveValid = blockEntity != null && blockEntity.getType() == ModBlockEntityTypes.FRIENDS_AND_FOES_BEEHIVES;
-		if(!info.getReturnValueZ() && be instanceof ApiaryBlockEntity) info.setReturnValue(true);
-	}
+
+		cir.setReturnValue(isHiveValid);
+	}*/
 }

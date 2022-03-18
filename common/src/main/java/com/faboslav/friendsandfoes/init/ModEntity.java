@@ -93,4 +93,6 @@ public final class ModEntity
 	) {
 		BiomeModifications.addProperties(biomes, (ctx, p) -> p.getSpawnProperties().addSpawn(spawnGroup, new SpawnSettings.SpawnEntry(type, weight, min, max)));
 	}
+
+	private ModEntity() {}
 }

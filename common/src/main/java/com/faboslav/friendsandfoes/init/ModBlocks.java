@@ -13,7 +13,7 @@ import net.minecraft.util.registry.Registry;
 /**
  * @see Blocks
  */
-public class ModBlocks
+public final class ModBlocks
 {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(FriendsAndFoes.MOD_ID, Registry.BLOCK_KEY);
 
@@ -70,4 +70,6 @@ public class ModBlocks
 			}
 		}
 	}
+
+	private ModBlocks() {}
 }

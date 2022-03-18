@@ -28,4 +28,6 @@ public final class ModEntityRenderer
 		EntityRendererRegistry.register(ModEntity.ICE_CHUNK::get, IceologerIceChunkRenderer::new);
 		EntityRendererRegistry.register(ModEntity.MOOBLOOM::get, MoobloomEntityRenderer::new);
 	}
+
+	private ModEntityRenderer() {}
 }

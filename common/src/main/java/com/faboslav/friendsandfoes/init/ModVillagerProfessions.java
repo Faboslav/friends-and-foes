@@ -70,4 +70,6 @@ public final class ModVillagerProfessions
 			);
 		}
 	}
+
+	private ModVillagerProfessions() {}
 }

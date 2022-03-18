@@ -22,7 +22,9 @@ public class VillagerTaskListProviderMixin
 		VillagerProfession profession,
 		float f
 	) {
-		if (profession == ModVillagerProfessions.BEEKEEPER) {
+		if (
+			profession == ModVillagerProfessions.BEEKEEPER.get()
+		) {
 			return new BeekeeperWorkTask();
 		}
 

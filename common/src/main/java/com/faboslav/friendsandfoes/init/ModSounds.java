@@ -56,4 +56,6 @@ public final class ModSounds
 	}
 
 	public static void init() {}
+
+	private ModSounds() {}
 }

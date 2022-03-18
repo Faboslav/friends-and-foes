@@ -16,4 +16,6 @@ public final class ModEntityModelLayer
 		EntityModelLayerRegistry.register(ModEntityRenderer.ICEOLOGER_ICE_CHUNK_LAYER, IceologerIceChunkModel::getTexturedModelData);
 		EntityModelLayerRegistry.register(ModEntityRenderer.MOOBLOOM_LAYER, CowEntityModel::getTexturedModelData);
 	}
+
+	private ModEntityModelLayer() {}
 }

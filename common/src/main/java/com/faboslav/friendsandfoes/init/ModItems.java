@@ -14,7 +14,10 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
 import com.faboslav.friendsandfoes.item.SpawnEggItem;
 
-public class ModItems
+/**
+ * @see Items
+ */
+public final class ModItems
 {
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(FriendsAndFoes.MOD_ID, Registry.ITEM_KEY);
 
@@ -111,4 +114,6 @@ public class ModItems
 	}
 
 	public static void init() {}
+
+	private ModItems() {}
 }

@@ -2,6 +2,8 @@ package com.faboslav.friendsandfoes;
 
 import com.faboslav.friendsandfoes.init.*;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Util;
+import net.minecraft.world.poi.PointOfInterestType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +25,6 @@ public class FriendsAndFoes
 
 	public static void initRegisters() {
 		ModBlocks.initRegister();
-		ModBlockEntityTypes.initRegister();
 		ModCriteria.init();
 		ModEntity.initRegister();
 		ModItems.initRegister();
@@ -34,10 +35,11 @@ public class FriendsAndFoes
 
 	public static void initCustomRegisters() {
 		ModBlocks.init();
-		ModBlockEntityTypes.init();
 		ModEntity.init();
 		ModItems.init();
+		ModBlockEntityTypes.init();
 		ModSounds.init();
+		ModPointOfInterestTypes.init();
 		ModVillagerProfessions.init();
 		ModStructureFeatures.init();
 	}

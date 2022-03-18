@@ -4,3 +4,12 @@ accessible class net/minecraft/village/raid/Raid$Member
 accessible class net/minecraft/entity/mob/IllusionerEntity$BlindTargetGoal
 accessible class net/minecraft/entity/mob/SpellcastingIllagerEntity$Spell
 accessible method net/minecraft/village/VillagerProfession <init> (Ljava/lang/String;Lnet/minecraft/world/poi/PointOfInterestType;Lcom/google/common/collect/ImmutableSet;Lcom/google/common/collect/ImmutableSet;Lnet/minecraft/sound/SoundEvent;)V
+accessible method net/minecraft/world/poi/PointOfInterestType <init> (Ljava/lang/String;Ljava/util/Set;II)V
+accessible field net/minecraft/world/poi/PointOfInterestType blockStates Ljava/util/Set;
+mutable field net/minecraft/world/poi/PointOfInterestType blockStates Ljava/util/Set;
+accessible field net/minecraft/world/poi/PointOfInterestType ticketCount I
+mutable field net/minecraft/world/poi/PointOfInterestType ticketCount I
+accessible field net/minecraft/world/poi/PointOfInterestType BLOCK_STATE_TO_POINT_OF_INTEREST_TYPE Ljava/util/Map;
+mutable field net/minecraft/world/poi/PointOfInterestType BLOCK_STATE_TO_POINT_OF_INTEREST_TYPE Ljava/util/Map;
+accessible field net/minecraft/block/entity/BlockEntityType blocks Ljava/util/Set;
+mutable field net/minecraft/block/entity/BlockEntityType blocks Ljava/util/Set;

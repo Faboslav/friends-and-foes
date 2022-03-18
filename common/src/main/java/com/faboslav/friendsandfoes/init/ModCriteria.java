@@ -17,4 +17,6 @@ public final class ModCriteria
 	}
 
 	public static void init() {}
+
+	private ModCriteria() {}
 }

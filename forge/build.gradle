@@ -1,94 +1,94 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "7.1.2"
+	id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
 loom {
 	accessWidenerPath = project(":common").loom.accessWidenerPath
 
-    forge {
+	forge {
 		convertAccessWideners = true
 		extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
 		mixinConfig "friendsandfoes-common.mixins.json"
-    }
+	}
 }
 
 architectury {
-    platformSetupLoomIde()
-    forge()
+	platformSetupLoomIde()
+	forge()
 }
 
 configurations {
-    common
-    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
-    compileClasspath.extendsFrom common
-    runtimeClasspath.extendsFrom common
-    developmentForge.extendsFrom common
+	common
+	shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
+	compileClasspath.extendsFrom common
+	runtimeClasspath.extendsFrom common
+	developmentForge.extendsFrom common
 	library
 	implementation.extendsFrom library
 }
 
 dependencies {
-    forge "net.minecraftforge:forge:${rootProject.forge_version}"
-    modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
+	forge "net.minecraftforge:forge:${rootProject.forge_version}"
+	modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
 
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
+	common(project(path: ":common", configuration: "namedElements")) { transitive false }
+	shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 }
 
 processResources {
-    inputs.property "modVersion", rootProject.mod_version
-    inputs.property "modName", rootProject.mod_name
-    inputs.property "modDescription", rootProject.mod_description
-    inputs.property "modAuthor", rootProject.mod_author
+	inputs.property "modVersion", rootProject.mod_version
+	inputs.property "modName", rootProject.mod_name
+	inputs.property "modDescription", rootProject.mod_description
+	inputs.property "modAuthor", rootProject.mod_author
 
-    filesMatching("META-INF/mods.toml") {
-        expand "modVersion": rootProject.mod_version,
-        "modName": rootProject.mod_name,
-        "modDescription": rootProject.mod_description,
-        "modAuthor": rootProject.mod_author
-    }
+	filesMatching("META-INF/mods.toml") {
+		expand "modVersion": rootProject.mod_version,
+			"modName": rootProject.mod_name,
+			"modDescription": rootProject.mod_description,
+			"modAuthor": rootProject.mod_author
+	}
 }
 
 shadowJar {
-    exclude "fabric.mod.json"
-    exclude "architectury.common.json"
+	exclude "fabric.mod.json"
+	exclude "architectury.common.json"
 
-    configurations = [project.configurations.shadowCommon]
-    classifier "dev-shadow"
+	configurations = [project.configurations.shadowCommon]
+	classifier "dev-shadow"
 }
 
 remapJar {
-    input.set shadowJar.archiveFile
-    dependsOn shadowJar
-    classifier null
+	input.set shadowJar.archiveFile
+	dependsOn shadowJar
+	classifier null
 }
 
 jar {
-    classifier "dev"
+	classifier "dev"
 }
 
 sourcesJar {
-    def commonSources = project(":common").sourcesJar
-    dependsOn commonSources
-    from commonSources.archiveFile.map { zipTree(it) }
+	def commonSources = project(":common").sourcesJar
+	dependsOn commonSources
+	from commonSources.archiveFile.map { zipTree(it) }
 }
 
 components.java {
-    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
-        skip()
-    }
+	withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
+		skip()
+	}
 }
 
 publishing {
-    publications {
-        mavenForge(MavenPublication) {
-            artifactId = rootProject.mod_id + "-" + project.name
-            from components.java
-        }
-    }
+	publications {
+		mavenForge(MavenPublication) {
+			artifactId = rootProject.mod_id + "-" + project.name
+			from components.java
+		}
+	}
 
-    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-    repositories {
-        // Add repositories to publish to here.
-    }
+	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+	repositories {
+		// Add repositories to publish to here.
+	}
 }

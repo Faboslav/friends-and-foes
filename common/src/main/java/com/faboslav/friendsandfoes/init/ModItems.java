@@ -1,18 +1,15 @@
 package com.faboslav.friendsandfoes.init;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.item.SpawnEggItem;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
-import net.minecraft.block.DispenserBlock;
-import net.minecraft.block.dispenser.ItemDispenserBehavior;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.item.*;
-import net.minecraft.util.math.BlockPointer;
-import net.minecraft.util.math.Direction;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.Items;
 import net.minecraft.util.registry.Registry;
-import com.faboslav.friendsandfoes.item.SpawnEggItem;
 
 /**
  * @see Items
@@ -113,7 +110,9 @@ public final class ModItems
 		ITEMS.register();
 	}
 
-	public static void init() {}
+	public static void init() {
+	}
 
-	private ModItems() {}
+	private ModItems() {
+	}
 }

@@ -1,19 +1,19 @@
 package com.faboslav.friendsandfoes.mixin;
 
-import java.util.Optional;
-import java.util.function.Supplier;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.item.HoneycombItem;
 import com.faboslav.friendsandfoes.init.ModBlocks;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.item.HoneycombItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.Optional;
+import java.util.function.Supplier;
 
 @Mixin(HoneycombItem.class)
 @SuppressWarnings({"rawtypes", "unchecked"})
@@ -39,11 +39,11 @@ public abstract class HoneycombItemMixin
 	) {
 		var blockState = cir.getReturnValue();
 
-		if(blockState.isPresent()) {
+		if (blockState.isPresent()) {
 			cir.setReturnValue(blockState);
 		}
 
-		blockState = Optional.ofNullable((Block)((BiMap)UNWAXED_TO_WAXED_BUTTON_BLOCKS.get()).get(state.getBlock())).map((block) -> {
+		blockState = Optional.ofNullable((Block) ((BiMap) UNWAXED_TO_WAXED_BUTTON_BLOCKS.get()).get(state.getBlock())).map((block) -> {
 			return block.getStateWithProperties(state);
 		});
 

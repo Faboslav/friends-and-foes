@@ -1,22 +1,22 @@
 package com.faboslav.friendsandfoes.mixin;
 
-import java.util.Optional;
-import java.util.function.Supplier;
-
 import com.faboslav.friendsandfoes.block.Oxidizable;
 import com.faboslav.friendsandfoes.init.ModBlocks;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
+
+import java.util.Optional;
+import java.util.function.Supplier;
 
 @Mixin(AxeItem.class)
 @SuppressWarnings({"rawtypes", "unchecked"})
@@ -42,7 +42,7 @@ public abstract class AxeItemMixin
 		Optional<BlockState> originalBlockState,
 		ItemUsageContext context
 	) {
-		if(originalBlockState.isPresent()) {
+		if (originalBlockState.isPresent()) {
 			return originalBlockState;
 		}
 
@@ -64,7 +64,7 @@ public abstract class AxeItemMixin
 		Optional<BlockState> originalBlockState,
 		ItemUsageContext context
 	) {
-		if(originalBlockState.isPresent()) {
+		if (originalBlockState.isPresent()) {
 			return originalBlockState;
 		}
 

@@ -8,9 +8,7 @@ import com.google.common.collect.ImmutableSet;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import net.minecraft.item.Item;
 import net.minecraft.item.Items;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.village.TradeOffers;
@@ -27,7 +25,7 @@ public final class ModVillagerProfessions
 	public static final RegistrySupplier<VillagerProfession> BEEKEEPER;
 
 	static {
-		BEEKEEPER = FriendsAndFoesConfig.enableBeekeeperVillagerProfession ? VILLAGER_PROFESSIONS.register("beekeeper", () -> new VillagerProfession(FriendsAndFoes.makeStringID("beekeeper"), PointOfInterestType.BEEHIVE, ImmutableSet.of(Items.HONEYCOMB), ImmutableSet.of(), SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM)) : null;
+		BEEKEEPER = FriendsAndFoesConfig.enableBeekeeperVillagerProfession ? VILLAGER_PROFESSIONS.register("beekeeper", () -> new VillagerProfession(FriendsAndFoes.makeStringID("beekeeper"), PointOfInterestType.BEEHIVE, ImmutableSet.of(Items.HONEYCOMB), ImmutableSet.of(), SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM)):null;
 	}
 
 	public static void initRegister() {
@@ -71,5 +69,6 @@ public final class ModVillagerProfessions
 		}
 	}
 
-	private ModVillagerProfessions() {}
+	private ModVillagerProfessions() {
+	}
 }

@@ -1,64 +1,64 @@
 name: 'Bug Report'
 description: 'Use this template if you want to report a new bug'
-labels: ["bug"]
+labels: [ "bug" ]
 assignees:
-  - Faboslav
+    - Faboslav
 body:
-  - type: markdown
-    attributes:
-      value: |
-        Thanks for taking the time to fill out this bug report! Anyhow before you take your time answering all of the question please make sure of the following:
-          - Are you sure that there is not already reported same or similiar bug? You can try to use the [search](https://github.com/Faboslav/friends-and-foes/issues).
-          - Are you using the latest version of the mod? You can find the latest version [here](https://github.com/Faboslav/friends-and-foes/releases).
-  - type: input
-    id: minecraft-version
-    attributes:
-        label: 'Minecraft version information'
-        description: 'Please provide the exact minecraft version that you are using.'
-        placeholder: 'Example: 1.18-pre5'
-    validations:
-        required: true
-  - type: input
-    id: mod-version
-    attributes:
-        label: 'Mod version information'
-        description: 'Please provide the exact mod version that you are using.'
-        placeholder: 'Example: 1.0.0'
-    validations:
-        required: true
-  - type: textarea
-    id: expected-behaviour
-    attributes:
-        label: 'Expected Behavior'
-        description: 'What did you expect to happen?'
-        placeholder: 'Example: The mob should move.'
-    validations:
-        required: true
-  - type: textarea
-    id: actual-behaviour
-    attributes:
-        label: 'Actual Behavior'
-        description: 'What did actually happen?'
-        placeholder: 'Example: The mob does not move.'
-    validations:
-        required: true
-  - type: textarea
-    id: reproduction-steps
-    attributes:
-        label: 'Reproduction Steps'
-        description: 'Provide information on how to reproduce this bug. Make sure your instructions are minimal and clear.'
-        placeholder: |
-            Example:
-            1. Spawn Copper Golem using spawn egg
-            2. Wait for some action
-            3. Nothing happens
-    validations:
-        required: true
-  - type: textarea
-    id: screenshots-and-files
-    attributes:
-        label: 'Screenshots & files'
-        description: 'If appropriate, add screenshots or other files to help explain your problem.'
-        placeholder: 'You can attach your files by dragging & dropping them to this textbox.'
-    validations:
-        required: false
+    -   type: markdown
+        attributes:
+            value: |
+                Thanks for taking the time to fill out this bug report! Anyhow before you take your time answering all of the question please make sure of the following:
+                  - Are you sure that there is not already reported same or similiar bug? You can try to use the [search](https://github.com/Faboslav/friends-and-foes/issues).
+                  - Are you using the latest version of the mod? You can find the latest version [here](https://github.com/Faboslav/friends-and-foes/releases).
+    -   type: input
+        id: minecraft-version
+        attributes:
+            label: 'Minecraft version information'
+            description: 'Please provide the exact minecraft version that you are using.'
+            placeholder: 'Example: 1.18-pre5'
+        validations:
+            required: true
+    -   type: input
+        id: mod-version
+        attributes:
+            label: 'Mod version information'
+            description: 'Please provide the exact mod version that you are using.'
+            placeholder: 'Example: 1.0.0'
+        validations:
+            required: true
+    -   type: textarea
+        id: expected-behaviour
+        attributes:
+            label: 'Expected Behavior'
+            description: 'What did you expect to happen?'
+            placeholder: 'Example: The mob should move.'
+        validations:
+            required: true
+    -   type: textarea
+        id: actual-behaviour
+        attributes:
+            label: 'Actual Behavior'
+            description: 'What did actually happen?'
+            placeholder: 'Example: The mob does not move.'
+        validations:
+            required: true
+    -   type: textarea
+        id: reproduction-steps
+        attributes:
+            label: 'Reproduction Steps'
+            description: 'Provide information on how to reproduce this bug. Make sure your instructions are minimal and clear.'
+            placeholder: |
+                Example:
+                1. Spawn Copper Golem using spawn egg
+                2. Wait for some action
+                3. Nothing happens
+        validations:
+            required: true
+    -   type: textarea
+        id: screenshots-and-files
+        attributes:
+            label: 'Screenshots & files'
+            description: 'If appropriate, add screenshots or other files to help explain your problem.'
+            placeholder: 'You can attach your files by dragging & dropping them to this textbox.'
+        validations:
+            required: false

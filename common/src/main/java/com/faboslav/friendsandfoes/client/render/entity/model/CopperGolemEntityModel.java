@@ -96,10 +96,7 @@ public class CopperGolemEntityModel<T extends CopperGolemEntity> extends Abstrac
 		}
 
 		float headSpinAnimationProgress = copperGolem.getHeadSpinAnimationProgress();
-		animationProgress = ModelAnimationHelper.getAnimationProgress(
-			copperGolem,
-			tickDelta
-		);
+		animationProgress = ModelAnimationHelper.getAnimationProgress(copperGolem);
 
 		this.applyModelTransforms(
 			this.defaultModelTransforms,

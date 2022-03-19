@@ -1,10 +1,7 @@
 package com.faboslav.friendsandfoes.fabric;
 
 import com.chocohead.mm.api.ClassTinkerers;
-import com.faboslav.friendsandfoes.entity.mob.IceologerEntity;
 import com.faboslav.friendsandfoes.init.ModEntity;
-
-import net.minecraft.entity.mob.MobEntity;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.MappingResolver;
 

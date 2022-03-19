@@ -17,5 +17,6 @@ public final class ModEntityModelLayer
 		EntityModelLayerRegistry.register(ModEntityRenderer.MOOBLOOM_LAYER, CowEntityModel::getTexturedModelData);
 	}
 
-	private ModEntityModelLayer() {}
+	private ModEntityModelLayer() {
+	}
 }

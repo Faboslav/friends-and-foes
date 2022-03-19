@@ -9,9 +9,13 @@ import net.fabricmc.api.Environment;
 public final class FriendsAndFoesClient
 {
 	@Environment(EnvType.CLIENT)
-	public static void init() {
+	public static void initRegisters() {
 		ModEntityRenderer.init();
 		ModEntityModelLayer.init();
+	}
+
+	@Environment(EnvType.CLIENT)
+	public static void initCustomRegisters() {
 		ModRenderType.init();
 	}
 }

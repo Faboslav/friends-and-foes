@@ -55,7 +55,9 @@ public final class ModSounds
 		SOUNDS.register();
 	}
 
-	public static void init() {}
+	public static void init() {
+	}
 
-	private ModSounds() {}
+	private ModSounds() {
+	}
 }

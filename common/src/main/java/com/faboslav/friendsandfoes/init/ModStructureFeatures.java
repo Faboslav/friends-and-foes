@@ -31,5 +31,6 @@ public final class ModStructureFeatures
 		StructureFeatureAccessor.getStructureToGenerationStep().put(ILLUSIONER_SHACK.get(), GenerationStep.Feature.SURFACE_STRUCTURES);
 	}
 
-	private ModStructureFeatures() {}
+	private ModStructureFeatures() {
+	}
 }

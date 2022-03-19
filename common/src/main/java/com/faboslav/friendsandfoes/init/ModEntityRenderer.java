@@ -3,8 +3,15 @@ package com.faboslav.friendsandfoes.init;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.*;
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.render.entity.EntityRenderers;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 
+/**
+ * @see EntityRenderers
+ */
+@Environment(EnvType.CLIENT)
 public final class ModEntityRenderer
 {
 	public static final EntityModelLayer COPPER_GOLEM_LAYER;
@@ -29,5 +36,6 @@ public final class ModEntityRenderer
 		EntityRendererRegistry.register(ModEntity.MOOBLOOM::get, MoobloomEntityRenderer::new);
 	}
 
-	private ModEntityRenderer() {}
+	private ModEntityRenderer() {
+	}
 }

@@ -3,9 +3,9 @@ package com.faboslav.friendsandfoes.init;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.world.poi.PointOfInterestType;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -13,19 +13,24 @@ import java.util.Set;
  */
 public final class ModPointOfInterestTypes
 {
-	public static final Set<BlockState> FRIENDS_AND_FOES_BEEHIVE_STATES = ImmutableList.of(Blocks.BEEHIVE, ModBlocks.ACACIA_BEEHIVE.get(), ModBlocks.BIRCH_BEEHIVE.get(), ModBlocks.CRIMSON_BEEHIVE.get(), ModBlocks.DARK_OAK_BEEHIVE.get(), ModBlocks.JUNGLE_BEEHIVE.get(), ModBlocks.SPRUCE_BEEHIVE.get(), ModBlocks.WARPED_BEEHIVE.get()).stream().flatMap((block) -> block.getStateManager().getStates().stream()).collect(ImmutableSet.toImmutableSet());
+	public static final Set<BlockState> BEEHIVE_STATES = ImmutableList.of(ModBlocks.ACACIA_BEEHIVE.get(), ModBlocks.BIRCH_BEEHIVE.get(), ModBlocks.CRIMSON_BEEHIVE.get(), ModBlocks.DARK_OAK_BEEHIVE.get(), ModBlocks.JUNGLE_BEEHIVE.get(), ModBlocks.SPRUCE_BEEHIVE.get(), ModBlocks.WARPED_BEEHIVE.get()).stream().flatMap((block) -> block.getStateManager().getStates().stream()).collect(ImmutableSet.toImmutableSet());
 
 	public static void init() {
 		expandBeehive();
 	}
 
 	private static void expandBeehive() {
-		PointOfInterestType.BEEHIVE.ticketCount = 1;
-		PointOfInterestType.BEEHIVE.blockStates = FRIENDS_AND_FOES_BEEHIVE_STATES;
-		FRIENDS_AND_FOES_BEEHIVE_STATES.forEach((state) -> {
+		Set<BlockState> beehiveStates = new HashSet<>();
+		beehiveStates.addAll(PointOfInterestType.BEEHIVE.blockStates);
+		beehiveStates.addAll(BEEHIVE_STATES);
+
+		PointOfInterestType.BEEHIVE.blockStates = beehiveStates;
+		BEEHIVE_STATES.forEach((state) -> {
 			PointOfInterestType.BLOCK_STATE_TO_POINT_OF_INTEREST_TYPE.put(state, PointOfInterestType.BEEHIVE);
 		});
+		PointOfInterestType.BEEHIVE.ticketCount = 1;
 	}
 
-	private ModPointOfInterestTypes() {}
+	private ModPointOfInterestTypes() {
+	}
 }

@@ -1,9 +1,8 @@
 package com.faboslav.friendsandfoes;
 
 import com.faboslav.friendsandfoes.init.*;
+import com.faboslav.friendsandfoes.util.ServerTickDeltaCounter;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Util;
-import net.minecraft.world.poi.PointOfInterestType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,6 +10,7 @@ public class FriendsAndFoes
 {
 	public static final Logger LOGGER = LoggerFactory.getLogger(FriendsAndFoes.MOD_ID);
 	public static final String MOD_ID = "friendsandfoes";
+	public static final ServerTickDeltaCounter serverTickDeltaCounter = new ServerTickDeltaCounter(20.0F, 0L);
 
 	public static Identifier makeID(String path) {
 		return new Identifier(

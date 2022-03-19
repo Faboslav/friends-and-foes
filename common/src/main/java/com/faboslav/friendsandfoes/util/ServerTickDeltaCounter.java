@@ -15,12 +15,11 @@ public class ServerTickDeltaCounter
 		this.prevTimeMillis = l;
 	}
 
-	public int beginRenderTick(long timeMillis) {
+	public void beginRenderTick(long timeMillis) {
 		this.lastFrameDuration = (float) (timeMillis - this.prevTimeMillis) / this.tickTime;
 		this.prevTimeMillis = timeMillis;
 		this.tickDelta += this.lastFrameDuration;
 		int i = (int) this.tickDelta;
 		this.tickDelta -= (float) i;
-		return i;
 	}
 }

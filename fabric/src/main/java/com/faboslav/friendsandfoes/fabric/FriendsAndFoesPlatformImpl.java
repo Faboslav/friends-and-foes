@@ -7,10 +7,10 @@ import java.nio.file.Path;
 
 public class FriendsAndFoesPlatformImpl
 {
-    /**
-     * This is our actual method to {@link FriendsAndFoesPlatform#getConfigDirectory()}.
-     */
-    public static Path getConfigDirectory() {
-        return FabricLoader.getInstance().getConfigDir();
-    }
+	/**
+	 * This is our actual method to {@link FriendsAndFoesPlatform#getConfigDirectory()}.
+	 */
+	public static Path getConfigDirectory() {
+		return FabricLoader.getInstance().getConfigDir();
+	}
 }

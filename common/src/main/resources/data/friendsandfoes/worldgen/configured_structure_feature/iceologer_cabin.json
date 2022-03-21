@@ -1,0 +1,33 @@
+{
+  "type": "friendsandfoes:iceologer_cabin",
+  "config": {
+	"start_pool": "friendsandfoes:iceologer_cabin/base_plates",
+	"size": 5
+  },
+  "biomes": "#friendsandfoes:has_structure/iceologer_cabin",
+  "adapt_noise": true,
+  "spawn_overrides": {
+	"creature": {
+	  "bounding_box": "piece",
+	  "spawns": [
+		{
+		  "type": "minecraft:goat",
+		  "weight": 1,
+		  "minCount": 2,
+		  "maxCount": 2
+		}
+	  ]
+	},
+	"monster": {
+	  "bounding_box": "full",
+	  "spawns": [
+		{
+		  "type": "friendsandfoes:iceologer",
+		  "weight": 1,
+		  "minCount": 1,
+		  "maxCount": 1
+		}
+	  ]
+	}
+  }
+}

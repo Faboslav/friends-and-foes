@@ -21,4 +21,5 @@ public class FriendsAndFoesConfig
 	public static boolean enableIllusionerSpawn = true;
 	public static boolean enableIllusionerInRaids = true;
 	public static boolean generateIllusionerShackStructure = true;
+	public static boolean generateIceologerCabinStructure = true;
 }

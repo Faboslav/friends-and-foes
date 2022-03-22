@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.mixin;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.config.FriendsAndFoesConfig;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.structure.pool.StructurePool;
 import net.minecraft.structure.pool.StructurePoolElement;
@@ -43,7 +42,7 @@ public class StructurePoolMixin
 		StructurePool.Projection projection,
 		CallbackInfo ci
 	) {
-		if (FriendsAndFoesConfig.generateBeekeeperAreaStructure) {
+		if (FriendsAndFoes.getConfig().generateBeekeeperAreaStructure) {
 			if (Objects.equals(id.getPath(), "village/plains/houses")) {
 				addElement(FriendsAndFoes.makeStringID("village/plains/houses/plains_beekeeper_area"), 1, projection);
 			} else if (Objects.equals(id.getPath(), "village/savanna/houses")) {
@@ -53,7 +52,7 @@ public class StructurePoolMixin
 			}
 		}
 
-		if (FriendsAndFoesConfig.generateCopperGolemAreaStructure) {
+		if (FriendsAndFoes.getConfig().generateCopperGolemAreaStructure) {
 			if (Objects.equals(id.getPath(), "village/desert/houses")) {
 				addElement(FriendsAndFoes.makeStringID("village/desert/houses/desert_copper_golem_area"), 1, projection);
 			} else if (Objects.equals(id.getPath(), "village/plains/houses")) {

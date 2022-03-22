@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.mixin;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.init.ModEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.PatrolEntity;
@@ -37,25 +36,16 @@ public class PatrolSpawnerMixin
 		RegistryEntry<Biome> registryEntry = world.getBiome(pos);
 		var category = Biome.getCategory(registryEntry);
 
-		FriendsAndFoes.LOGGER.info(category.asString());
-
-		if (
-			category != Biome.Category.TAIGA
-			|| this.isBiomeSpecificIllagerSpawned
-		) {
-			FriendsAndFoes.LOGGER.info("not a taiga");
+		if (category != Biome.Category.TAIGA || this.isBiomeSpecificIllagerSpawned) {
 			return patrolEntity;
 		}
 
 		this.isBiomeSpecificIllagerSpawned = true;
 		var precipitation = registryEntry.value().getPrecipitation();
-		FriendsAndFoes.LOGGER.info(precipitation.asString());
 
 		if (precipitation == Biome.Precipitation.SNOW) {
-			FriendsAndFoes.LOGGER.info("iceologer");
 			patrolEntity = ModEntity.ICEOLOGER.get().create(world);
 		} else {
-			FriendsAndFoes.LOGGER.info("illusioner");
 			patrolEntity = EntityType.ILLUSIONER.create(world);
 		}
 

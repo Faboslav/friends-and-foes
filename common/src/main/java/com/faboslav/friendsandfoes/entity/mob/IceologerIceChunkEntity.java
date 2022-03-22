@@ -5,6 +5,7 @@ import com.faboslav.friendsandfoes.init.ModEntity;
 import com.faboslav.friendsandfoes.init.ModSounds;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -24,6 +25,7 @@ import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -42,6 +44,7 @@ public class IceologerIceChunkEntity extends Entity
 	private static final int MAX_FLYING_TICKS = 100;
 	private static final int MIN_IDLE_TICKS = 10;
 	private static final int MAX_IDLE_TICKS = 20;
+	private static final int SUMMON_TICKS = 30;
 	private static final TrackedData<Integer> TICKS_UNTIL_FALL;
 	private static final TrackedData<Integer> IDLE_TICKS;
 
@@ -55,6 +58,8 @@ public class IceologerIceChunkEntity extends Entity
 	private UUID targetUuid;
 
 	private int lifetimeTicks;
+	private float summonAnimationProgress;
+	private float lastSummonAnimationProgress;
 
 	static {
 		TICKS_UNTIL_FALL = DataTracker.registerData(IceologerIceChunkEntity.class, TrackedDataHandlerRegistry.INTEGER);
@@ -71,6 +76,8 @@ public class IceologerIceChunkEntity extends Entity
 		this.setNoGravity(true);
 
 		this.lifetimeTicks = 0;
+		this.summonAnimationProgress = 0;
+		this.lastSummonAnimationProgress = 0;
 		this.playSummonSound();
 	}
 
@@ -149,28 +156,26 @@ public class IceologerIceChunkEntity extends Entity
 
 	@Override
 	public void tick() {
-		if (lifetimeTicks == 0) {
-			FriendsAndFoes.LOGGER.info("summon sound");
-		} else if (lifetimeTicks == 30) {
-			FriendsAndFoes.LOGGER.info("ambient");
-			//this.playSummonSound();
+		if (lifetimeTicks == 10) {
+			this.playSummonSound();
+		} else if (lifetimeTicks == 40) {
+			this.playAmbientSound();
 		}
 
 		this.lifetimeTicks++;
+		this.setSummonAnimationProgress();
 
 		if (this.target != null && this.getWorld().isClient() == false) {
 			if (this.target.isPlayer()) {
 				var playerTarget = (PlayerEntity) this.target;
-				if (
-					playerTarget.isSpectator()
-					|| playerTarget.isCreative()
-				) {
+
+				if (playerTarget.isSpectator() || playerTarget.isCreative()) {
 					this.customDiscard();
 					return;
 				}
 			}
 
-			if (this.getTicksUntilFall() > 0) {
+			if (this.getTicksUntilFall() > 0 && this.getTicksUntilFall() % 2 == 0) {
 				this.setPositionAboveTarget();
 			}
 		}
@@ -188,7 +193,7 @@ public class IceologerIceChunkEntity extends Entity
 		}
 
 		if (this.verticalCollision) {
-			FriendsAndFoes.LOGGER.info("hit");
+			FriendsAndFoes.getLogger().info("hit");
 			this.damageHitEntities();
 			this.customDiscard();
 		}
@@ -229,7 +234,7 @@ public class IceologerIceChunkEntity extends Entity
 
 		if (
 			hitEntity.isAlive() == false
-			|| hitEntity.isInvulnerable() == true
+			|| hitEntity.isInvulnerable()
 			|| hitEntity == livingEntity
 			|| (
 				livingEntity != null
@@ -250,11 +255,20 @@ public class IceologerIceChunkEntity extends Entity
 	}
 
 	private void setPositionAboveTarget() {
-		this.setPosition(
-			this.target.getX(),
-			target.getY() + target.getHeight() * target.getHeight(),
-			this.target.getZ()
+		if (this.getTarget() == null) {
+			return;
+		}
+
+		var tickDelta = MinecraftClient.getInstance().getTickDelta();
+		var x = MathHelper.lerp(tickDelta, this.getPos().getX(), this.getTarget().getX());
+		var y = MathHelper.lerp(
+			tickDelta,
+			this.getPos().getY(),
+			this.getTarget().getY() + this.getTarget().getHeight() * this.getTarget().getHeight()
 		);
+		var z = MathHelper.lerp(tickDelta, this.getPos().getZ(), this.getTarget().getZ());
+
+		this.setPosition(x, y, z);
 	}
 
 	private SoundEvent getAmbientSound() {
@@ -315,8 +329,16 @@ public class IceologerIceChunkEntity extends Entity
 	}
 
 	public float getSummonAnimationProgress() {
-		var summonAnimationProgress = (float) this.lifetimeTicks / 30;
-		return Math.min(1.0F, summonAnimationProgress);
+		return this.summonAnimationProgress;
+	}
+
+	public void setSummonAnimationProgress() {
+		this.lastSummonAnimationProgress = this.summonAnimationProgress;
+		this.summonAnimationProgress = Math.min(1.0F, (float) this.lifetimeTicks / SUMMON_TICKS);
+	}
+
+	public float getLastSummonAnimationProgress() {
+		return this.lastSummonAnimationProgress;
 	}
 
 	public static IceologerIceChunkEntity createWithOwnerAndTarget(

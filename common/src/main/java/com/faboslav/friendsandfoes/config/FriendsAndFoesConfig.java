@@ -1,6 +1,9 @@
 package com.faboslav.friendsandfoes.config;
 
-public class FriendsAndFoesConfig
+import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.config.omegaconfig.api.Config;
+
+public class FriendsAndFoesConfig implements Config
 {
 	public static boolean enableCopperGolem = true;
 	public static boolean generateCopperGolemAreaStructure = true;
@@ -22,4 +25,9 @@ public class FriendsAndFoesConfig
 	public static boolean enableIllusionerInRaids = true;
 	public static boolean generateIllusionerShackStructure = true;
 	public static boolean generateIceologerCabinStructure = true;
+
+	@Override
+	public String getName() {
+		return FriendsAndFoes.MOD_ID;
+	}
 }

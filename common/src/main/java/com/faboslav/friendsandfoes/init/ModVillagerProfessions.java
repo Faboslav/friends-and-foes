@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.init;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.config.FriendsAndFoesConfig;
 import com.faboslav.friendsandfoes.util.TradeOffersUtil;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -25,7 +24,7 @@ public final class ModVillagerProfessions
 	public static final RegistrySupplier<VillagerProfession> BEEKEEPER;
 
 	static {
-		BEEKEEPER = FriendsAndFoesConfig.enableBeekeeperVillagerProfession ? VILLAGER_PROFESSIONS.register("beekeeper", () -> new VillagerProfession(FriendsAndFoes.makeStringID("beekeeper"), PointOfInterestType.BEEHIVE, ImmutableSet.of(Items.HONEYCOMB), ImmutableSet.of(), SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM)):null;
+		BEEKEEPER = FriendsAndFoes.getConfig().enableBeekeeperVillagerProfession ? VILLAGER_PROFESSIONS.register("beekeeper", () -> new VillagerProfession(FriendsAndFoes.makeStringID("beekeeper"), PointOfInterestType.BEEHIVE, ImmutableSet.of(Items.HONEYCOMB), ImmutableSet.of(), SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM)):null;
 	}
 
 	public static void initRegister() {
@@ -37,7 +36,7 @@ public final class ModVillagerProfessions
 	}
 
 	private static void initTradeOffers() {
-		if (FriendsAndFoesConfig.enableBeekeeperVillagerProfession) {
+		if (FriendsAndFoes.getConfig().enableBeekeeperVillagerProfession) {
 			TradeOffers.PROFESSION_TO_LEVELED_TRADE.put(
 				BEEKEEPER.get(), new Int2ObjectOpenHashMap(ImmutableMap.of(
 					1,

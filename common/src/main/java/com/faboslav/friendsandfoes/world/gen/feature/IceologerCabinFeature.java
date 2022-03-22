@@ -1,10 +1,9 @@
 package com.faboslav.friendsandfoes.world.gen.feature;
 
-import com.faboslav.friendsandfoes.config.FriendsAndFoesConfig;
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.mojang.serialization.Codec;
 import net.minecraft.structure.StructureGeneratorFactory.Context;
 import net.minecraft.structure.StructureSetKeys;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.JigsawFeature;
 import net.minecraft.world.gen.feature.StructurePoolFeatureConfig;
@@ -17,15 +16,13 @@ public class IceologerCabinFeature extends JigsawFeature
 		super(configCodec, 0, true, true, IceologerCabinFeature::canGenerate);
 	}
 
-	private static boolean canGenerate(Context<StructurePoolFeatureConfig> context)
-	{
-		return FriendsAndFoesConfig.generateIceologerCabinStructure
+	private static boolean canGenerate(Context<StructurePoolFeatureConfig> context) {
+		return FriendsAndFoes.getConfig().generateIceologerCabinStructure
 			   && isVillageNearby(context) == false
 			   && isSuitableChunk(context);
 	}
 
-	private static boolean isVillageNearby(Context<StructurePoolFeatureConfig> context)
-	{
+	private static boolean isVillageNearby(Context<StructurePoolFeatureConfig> context) {
 		int chunkPosX = context.chunkPos().x;
 		int chunkPosZ = context.chunkPos().z;
 
@@ -36,8 +33,7 @@ public class IceologerCabinFeature extends JigsawFeature
 		);
 	}
 
-	private static boolean isSuitableChunk(Context<StructurePoolFeatureConfig> context)
-	{
+	private static boolean isSuitableChunk(Context<StructurePoolFeatureConfig> context) {
 		int i = context.chunkPos().x >> 4;
 		int j = context.chunkPos().z >> 4;
 

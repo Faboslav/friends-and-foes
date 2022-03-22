@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.world.spawner;
 
-import com.faboslav.friendsandfoes.config.FriendsAndFoesConfig;
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
@@ -28,7 +28,7 @@ public class IllusionerSpawner implements Spawner
 	public int spawn(ServerWorld world, boolean spawnMonsters, boolean spawnAnimals) {
 		if (
 			spawnMonsters == false
-			|| FriendsAndFoesConfig.enableIllusionerSpawn == false
+			|| FriendsAndFoes.getConfig().enableIllusionerSpawn == false
 		) {
 			return 0;
 		}

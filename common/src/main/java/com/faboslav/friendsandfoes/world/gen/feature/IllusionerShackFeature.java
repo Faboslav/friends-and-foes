@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.world.gen.feature;
 
-import com.faboslav.friendsandfoes.config.FriendsAndFoesConfig;
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.mojang.serialization.Codec;
 import net.minecraft.structure.StructureGeneratorFactory.Context;
 import net.minecraft.structure.StructureSetKeys;
@@ -18,7 +18,7 @@ public class IllusionerShackFeature extends JigsawFeature
 
 	private static boolean canGenerate(Context<StructurePoolFeatureConfig> context) {
 
-		return FriendsAndFoesConfig.generateIllusionerShackStructure != false
+		return FriendsAndFoes.getConfig().generateIllusionerShackStructure != false
 			   && isVillageNearby(context) != true
 			   && isSuitableChunk(context) != false;
 	}

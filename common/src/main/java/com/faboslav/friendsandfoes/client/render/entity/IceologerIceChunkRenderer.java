@@ -6,6 +6,7 @@ import com.faboslav.friendsandfoes.entity.mob.IceologerIceChunkEntity;
 import com.faboslav.friendsandfoes.init.ModEntityRenderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -13,6 +14,7 @@ import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory.Context;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
 
 @Environment(EnvType.CLIENT)
 @SuppressWarnings({"rawtypes", "unchecked"})
@@ -34,7 +36,11 @@ public class IceologerIceChunkRenderer extends EntityRenderer<IceologerIceChunkE
 		VertexConsumerProvider vertexConsumerProvider,
 		int i
 	) {
-		var summonAnimationProgress = iceChunkEntity.getSummonAnimationProgress();
+		var summonAnimationProgress = MathHelper.lerp(
+			MinecraftClient.getInstance().getTickDelta(),
+			iceChunkEntity.getLastSummonAnimationProgress(),
+			iceChunkEntity.getSummonAnimationProgress()
+		);
 		matrixStack.push();
 		VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(this.model.getLayer(TEXTURE));
 		matrixStack.scale(summonAnimationProgress, summonAnimationProgress, summonAnimationProgress);

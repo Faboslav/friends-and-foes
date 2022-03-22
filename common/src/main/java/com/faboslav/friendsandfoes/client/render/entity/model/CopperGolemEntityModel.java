@@ -80,14 +80,11 @@ public class CopperGolemEntityModel<T extends CopperGolemEntity> extends Abstrac
 		float headYaw,
 		float headPitch
 	) {
-		float tickDelta = ModelAnimationHelper.getTickDelta();
-
 		if (copperGolem.isOxidized()) {
 			NbtCompound modelAngles = copperGolem.getEntitySnapshot();
 
-			tickDelta = modelAngles.getFloat("tickDelta");
-			limbAngle = copperGolem.limbAngle;
-			limbDistance = copperGolem.limbDistance;
+			limbAngle = modelAngles.getFloat("limbAngle");
+			limbDistance = modelAngles.getFloat("lastLimbDistance");
 		} else {
 			if (copperGolem.hurtTime == 0) {
 				limbDistance *= 1.5;
@@ -134,7 +131,7 @@ public class CopperGolemEntityModel<T extends CopperGolemEntity> extends Abstrac
 		}
 
 		if (
-			copperGolem.isOnGround() == true
+			copperGolem.isOnGround()
 			&& copperGolem.isOxidized() == false
 			&& (
 				copperGolem.prevX != copperGolem.getX()

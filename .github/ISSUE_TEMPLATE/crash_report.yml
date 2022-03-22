@@ -18,6 +18,14 @@ body:
             placeholder: 'Example: 1.18-pre5'
         validations:
             required: true
+    -   type: dropdown
+        id: mod-loader
+        attributes:
+            label: 'Minecraft version information'
+            description: 'Please provide the exact minecraft version that you are using.'
+            options:
+                - Fabric
+                - Forge
     -   type: input
         id: mod-version
         attributes:

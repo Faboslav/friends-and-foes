@@ -8,7 +8,10 @@ import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer.Builder;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.IllusionerEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.SpellcastingIllagerEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
@@ -18,6 +21,7 @@ import net.minecraft.entity.raid.RaiderEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Box;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -38,9 +42,10 @@ public class IceologerEntity extends SpellcastingIllagerEntity
 		this.goalSelector.add(2, new FleeEntityGoal(this, PlayerEntity.class, 8.0F, 0.6D, 1.0D));
 		this.goalSelector.add(2, new FleeEntityGoal(this, IronGolemEntity.class, 8.0F, 0.6D, 1.0D));
 		this.goalSelector.add(3, new SummonIceChunkGoal());
-		this.goalSelector.add(4, new WanderAroundGoal(this, 0.6D));
-		this.goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 3.0F, 1.0F));
-		this.goalSelector.add(6, new LookAtEntityGoal(this, MobEntity.class, 8.0F));
+		this.goalSelector.add(4, new SlowTargetGoal());
+		this.goalSelector.add(5, new WanderAroundGoal(this, 0.6D));
+		this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 3.0F, 1.0F));
+		this.goalSelector.add(7, new LookAtEntityGoal(this, MobEntity.class, 8.0F));
 		this.targetSelector.add(1, (new RevengeGoal(this, RaiderEntity.class)).setGroupRevenge());
 		this.targetSelector.add(2, (new ActiveTargetGoal(this, PlayerEntity.class, true)).setMaxTimeWithoutVisibility(300));
 		this.targetSelector.add(3, (new ActiveTargetGoal(this, MerchantEntity.class, false)).setMaxTimeWithoutVisibility(300));
@@ -130,6 +135,58 @@ public class IceologerEntity extends SpellcastingIllagerEntity
 			);
 
 			world.spawnEntity(iceChunk);
+		}
+	}
+
+	public class SlowTargetGoal extends CastSpellGoal {
+		private int targetId;
+
+		@Override
+		public boolean canStart() {
+			if (!super.canStart()) {
+				return false;
+			} else if (IceologerEntity.this.getTarget() == null) {
+				return false;
+			} else if (IceologerEntity.this.getTarget().getId() == this.targetId) {
+				return false;
+			} else {
+				return IceologerEntity.this.world.getLocalDifficulty(IceologerEntity.this.getBlockPos()).isHarderThan((float) Difficulty.NORMAL.ordinal());
+			}
+		}
+
+		@Override
+		public void start() {
+			super.start();
+			LivingEntity livingEntity = IceologerEntity.this.getTarget();
+			if (livingEntity != null) {
+				this.targetId = livingEntity.getId();
+			}
+
+		}
+
+		@Override
+		protected int getSpellTicks() {
+			return 20;
+		}
+
+		@Override
+		protected int startTimeDelay() {
+			return 180;
+		}
+
+		@Override
+		protected void castSpell() {
+			IceologerEntity.this.getTarget().addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 400), IceologerEntity.this);
+		}
+
+		@Override
+		protected SoundEvent getSoundPrepare() {
+			return SoundEvents.ENTITY_ILLUSIONER_PREPARE_BLINDNESS;
+		}
+
+		@Override
+		protected Spell getSpell() {
+			return Spell.BLINDNESS;
 		}
 	}
 }

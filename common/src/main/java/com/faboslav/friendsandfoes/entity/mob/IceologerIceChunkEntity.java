@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes.entity.mob;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.init.ModEntity;
 import com.faboslav.friendsandfoes.init.ModSounds;
+import com.faboslav.friendsandfoes.util.ModelAnimationHelper;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
@@ -137,7 +138,7 @@ public class IceologerIceChunkEntity extends Entity
 		return this.owner;
 	}
 
-	public void setTarget(@Nullable LivingEntity target) {
+	public void setTargetAndTargetUuid(@Nullable LivingEntity target) {
 		this.target = target;
 		this.targetUuid = target == null ? null:target.getUuid();
 	}
@@ -156,6 +157,8 @@ public class IceologerIceChunkEntity extends Entity
 
 	@Override
 	public void tick() {
+		super.tick();
+
 		if (lifetimeTicks == 10) {
 			this.playSummonSound();
 		} else if (lifetimeTicks == 40) {
@@ -165,9 +168,9 @@ public class IceologerIceChunkEntity extends Entity
 		this.lifetimeTicks++;
 		this.setSummonAnimationProgress();
 
-		if (this.target != null && this.getWorld().isClient() == false) {
-			if (this.target.isPlayer()) {
-				var playerTarget = (PlayerEntity) this.target;
+		if (this.getTarget() != null && this.getWorld().isClient() == false) {
+			if (this.getTarget().isPlayer()) {
+				var playerTarget = (PlayerEntity) this.getTarget();
 
 				if (playerTarget.isSpectator() || playerTarget.isCreative()) {
 					this.customDiscard();
@@ -175,7 +178,7 @@ public class IceologerIceChunkEntity extends Entity
 				}
 			}
 
-			if (this.getTicksUntilFall() > 0 && this.getTicksUntilFall() % 2 == 0) {
+			if (this.getTicksUntilFall() > 0) {
 				this.setPositionAboveTarget();
 			}
 		}
@@ -255,11 +258,12 @@ public class IceologerIceChunkEntity extends Entity
 	}
 
 	private void setPositionAboveTarget() {
-		if (this.getTarget() == null) {
+		if (this.getTarget() == null || this.getWorld().isClient()) {
 			return;
 		}
 
-		var tickDelta = MinecraftClient.getInstance().getTickDelta();
+		var tickDelta = ModelAnimationHelper.getTickDelta();
+
 		var x = MathHelper.lerp(tickDelta, this.getPos().getX(), this.getTarget().getX());
 		var y = MathHelper.lerp(
 			tickDelta,
@@ -352,7 +356,7 @@ public class IceologerIceChunkEntity extends Entity
 		);
 
 		chunkEntity.setOwner(owner);
-		chunkEntity.setTarget(target);
+		chunkEntity.setTargetAndTargetUuid(target);
 
 		return chunkEntity;
 	}

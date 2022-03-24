@@ -1,8 +1,10 @@
 ## mc1.18.2-1.3.0
 
-- (replace) Forge port
-- (replace) Added iceologer
-- TODO rework config
+- Mod is now using architectury
+- Added Iceologer
+- Added Iceologer Cabin structure
+- Added new "I was here" advancement
+- Added new "The Magicians" advancement
 
 ## mc1.18.2-1.2.6 Mar 01, 2022
 

@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.world.spawner;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.config.FriendsAndFoesConfig;
 import com.faboslav.friendsandfoes.init.ModEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.SpawnReason;
@@ -28,7 +29,7 @@ public class IceologerSpawner implements Spawner
 	public int spawn(ServerWorld world, boolean spawnMonsters, boolean spawnAnimals) {
 		if (
 			spawnMonsters == false
-			|| FriendsAndFoes.getConfig().enableIceologerSpawn == false
+			|| FriendsAndFoesConfig.enableIceologerSpawn == false
 		) {
 			return 0;
 		}

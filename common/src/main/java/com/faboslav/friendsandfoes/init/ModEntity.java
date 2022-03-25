@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.init;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.config.FriendsAndFoesConfig;
 import com.faboslav.friendsandfoes.entity.mob.IceologerEntity;
 import com.faboslav.friendsandfoes.entity.mob.IceologerIceChunkEntity;
 import com.faboslav.friendsandfoes.entity.passive.CopperGolemEntity;
@@ -73,13 +74,13 @@ public final class ModEntity
 
 		var config = FriendsAndFoes.getConfig();
 
-		if (config.enableGlareSpawn) {
-			registerBiomeModification(LUSH_CAVES, GLARE.get(), SpawnGroup.MISC, config.glareSpawnWeight, config.glareSpawnMinGroupSize, config.glareSpawnMaxGroupSize);
+		if (FriendsAndFoesConfig.enableGlareSpawn) {
+			registerBiomeModification(LUSH_CAVES, GLARE.get(), SpawnGroup.MISC, FriendsAndFoesConfig.glareSpawnWeight, FriendsAndFoesConfig.glareSpawnMinGroupSize, FriendsAndFoesConfig.glareSpawnMaxGroupSize);
 		}
 
-		if (config.enableMoobloomSpawn) {
-			registerBiomeModification(FLOWER_FOREST, MOOBLOOM.get(), SpawnGroup.CREATURE, config.moobloomSpawnWeight, config.moobloomSpawnMinGroupSize, config.moobloomSpawnMaxGroupSize);
-			registerBiomeModification(MEADOW, MOOBLOOM.get(), SpawnGroup.CREATURE, config.moobloomSpawnWeight, config.moobloomSpawnMinGroupSize, config.moobloomSpawnMaxGroupSize);
+		if (FriendsAndFoesConfig.enableMoobloomSpawn) {
+			registerBiomeModification(FLOWER_FOREST, MOOBLOOM.get(), SpawnGroup.CREATURE, FriendsAndFoesConfig.moobloomSpawnWeight, FriendsAndFoesConfig.moobloomSpawnMinGroupSize, FriendsAndFoesConfig.moobloomSpawnMaxGroupSize);
+			registerBiomeModification(MEADOW, MOOBLOOM.get(), SpawnGroup.CREATURE, FriendsAndFoesConfig.moobloomSpawnWeight, FriendsAndFoesConfig.moobloomSpawnMinGroupSize, FriendsAndFoesConfig.moobloomSpawnMaxGroupSize);
 		}
 	}
 

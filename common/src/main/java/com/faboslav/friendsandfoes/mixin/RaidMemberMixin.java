@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.mixin;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.config.FriendsAndFoesConfig;
 import net.minecraft.village.raid.Raid;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -27,7 +28,7 @@ public class RaidMemberMixin
 	private static int[] updateCountInWave(
 		int[] countInWave
 	) {
-		if (FriendsAndFoes.getConfig().enableIllusionerInRaids) {
+		if (FriendsAndFoesConfig.enableIllusionerInRaids) {
 			return new int[]{0, 0, 0, 0, 0, 1, 1, 1};
 		}
 

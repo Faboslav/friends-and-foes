@@ -99,5 +99,48 @@
 	  "friendsandfoes:entity/ice_chunk/summon"
 	],
 	"subtitle": "subtitle.entity.friendsandfoes.ice_chunk.summon"
+  },
+  "entity.iceologer.ambient": {
+	"sounds": [
+	  "friendsandfoes:entity/iceologer/ambient1",
+	  "friendsandfoes:entity/iceologer/ambient2",
+	  "friendsandfoes:entity/iceologer/ambient3"
+	],
+	"subtitle": "subtitle.entity.friendsandfoes.iceologer.ambient"
+  },
+  "entity.iceologer.cast_spell": {
+	"sounds": [
+	  "friendsandfoes:entity/iceologer/cast_spell1",
+	  "friendsandfoes:entity/iceologer/cast_spell2"
+	],
+	"subtitle": "subtitle.entity.friendsandfoes.iceologer.cast_spell"
+  },
+  "entity.iceologer.death": {
+	"sounds": [
+	  "friendsandfoes:entity/iceologer/death1",
+	  "friendsandfoes:entity/iceologer/death2",
+	  "friendsandfoes:entity/iceologer/death3"
+	],
+	"subtitle": "subtitle.entity.friendsandfoes.iceologer.death"
+  },
+  "entity.iceologer.hurt": {
+	"sounds": [
+	  "friendsandfoes:entity/iceologer/hurt1",
+	  "friendsandfoes:entity/iceologer/hurt2",
+	  "friendsandfoes:entity/iceologer/hurt3"
+	],
+	"subtitle": "subtitle.entity.friendsandfoes.iceologer.hurt"
+  },
+  "entity.iceologer.prepare_slowness": {
+	"sounds": [
+	  "friendsandfoes:entity/iceologer/prepare_slowness"
+	],
+	"subtitle": "subtitle.entity.friendsandfoes.iceologer.prepare_slowness"
+  },
+  "entity.iceologer.prepare_summon": {
+	"sounds": [
+	  "friendsandfoes:entity/iceologer/prepare_summon"
+	],
+	"subtitle": "subtitle.entity.friendsandfoes.iceologer.prepare_summon"
   }
 }

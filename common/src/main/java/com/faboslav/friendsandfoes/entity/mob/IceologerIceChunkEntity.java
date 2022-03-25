@@ -1,12 +1,10 @@
 package com.faboslav.friendsandfoes.entity.mob;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.init.ModEntity;
 import com.faboslav.friendsandfoes.init.ModSounds;
 import com.faboslav.friendsandfoes.util.ModelAnimationHelper;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -191,12 +189,7 @@ public class IceologerIceChunkEntity extends Entity
 		this.addVelocity(0.0F, -0.05F, 0.0F);
 		this.move(MovementType.SELF, this.getVelocity());
 
-		if (this.horizontalCollision) {
-			this.customDiscard();
-		}
-
 		if (this.verticalCollision) {
-			FriendsAndFoes.getLogger().info("hit");
 			this.damageHitEntities();
 			this.customDiscard();
 		}
@@ -268,7 +261,7 @@ public class IceologerIceChunkEntity extends Entity
 		var y = MathHelper.lerp(
 			tickDelta,
 			this.getPos().getY(),
-			this.getTarget().getY() + this.getTarget().getHeight() * this.getTarget().getHeight()
+			this.getTarget().getY() + this.getTarget().getHeight() * this.getTarget().getHeight() * 1.25F
 		);
 		var z = MathHelper.lerp(tickDelta, this.getPos().getZ(), this.getTarget().getZ());
 

@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.world.gen.feature;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.config.FriendsAndFoesConfig;
 import com.mojang.serialization.Codec;
 import net.minecraft.structure.StructureGeneratorFactory.Context;
 import net.minecraft.structure.StructureSetKeys;
@@ -17,7 +18,7 @@ public class IceologerCabinFeature extends JigsawFeature
 	}
 
 	private static boolean canGenerate(Context<StructurePoolFeatureConfig> context) {
-		return FriendsAndFoes.getConfig().generateIceologerCabinStructure
+		return FriendsAndFoesConfig.generateIceologerCabinStructure
 			   && isVillageNearby(context) == false
 			   && isSuitableChunk(context);
 	}

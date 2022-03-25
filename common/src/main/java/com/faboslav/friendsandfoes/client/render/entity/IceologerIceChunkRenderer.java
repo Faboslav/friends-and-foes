@@ -15,6 +15,7 @@ import net.minecraft.client.render.entity.EntityRendererFactory.Context;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3f;
 
 @Environment(EnvType.CLIENT)
 @SuppressWarnings({"rawtypes", "unchecked"})
@@ -29,7 +30,7 @@ public class IceologerIceChunkRenderer extends EntityRenderer<IceologerIceChunkE
 	}
 
 	public void render(
-		IceologerIceChunkEntity iceChunkEntity,
+		IceologerIceChunkEntity iceChunk,
 		float f,
 		float g,
 		MatrixStack matrixStack,
@@ -38,15 +39,17 @@ public class IceologerIceChunkRenderer extends EntityRenderer<IceologerIceChunkE
 	) {
 		var summonAnimationProgress = MathHelper.lerp(
 			MinecraftClient.getInstance().getTickDelta(),
-			iceChunkEntity.getLastSummonAnimationProgress(),
-			iceChunkEntity.getSummonAnimationProgress()
+			iceChunk.getLastSummonAnimationProgress(),
+			iceChunk.getSummonAnimationProgress()
 		);
 		matrixStack.push();
+		matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F - iceChunk.getYaw()));
 		VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(this.model.getLayer(TEXTURE));
+		this.model.setAngles(iceChunk, 0.0F, 0.0F, 0.0F, iceChunk.getYaw(), iceChunk.getPitch());
 		matrixStack.scale(summonAnimationProgress, summonAnimationProgress, summonAnimationProgress);
 		this.model.render(matrixStack, vertexConsumer, i, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
 		matrixStack.pop();
-		super.render(iceChunkEntity, f, g, matrixStack, vertexConsumerProvider, i);
+		super.render(iceChunk, f, g, matrixStack, vertexConsumerProvider, i);
 	}
 
 	@Override

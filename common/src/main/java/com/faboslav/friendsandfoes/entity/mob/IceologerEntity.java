@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.entity.mob;
 
+import com.faboslav.friendsandfoes.init.ModSounds;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EntityType;
@@ -11,7 +12,6 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.IllusionerEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.SpellcastingIllagerEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
@@ -19,17 +19,11 @@ import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.raid.RaiderEntity;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.Box;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class IceologerEntity extends SpellcastingIllagerEntity
 {
-	public static final String SUMMON_ICE_CHUNK_SPELL_NAME = "SUMMON_ICE_CHUNK";
-
 	public IceologerEntity(EntityType<? extends IceologerEntity> entityType, World world) {
 		super(entityType, world);
 		this.experiencePoints = 10;
@@ -53,19 +47,11 @@ public class IceologerEntity extends SpellcastingIllagerEntity
 	}
 
 	public static Builder createAttributes() {
-		return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.5D).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 18.0D).add(EntityAttributes.GENERIC_MAX_HEALTH, 32.0D);
-	}
-
-	protected void initDataTracker() {
-		super.initDataTracker();
-	}
-
-	public Box getVisibilityBoundingBox() {
-		return this.getBoundingBox().expand(3.0D, 0.0D, 3.0D);
+		return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.5D).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 18.0D).add(EntityAttributes.GENERIC_MAX_HEALTH, 40.0D);
 	}
 
 	public SoundEvent getCelebratingSound() {
-		return SoundEvents.ENTITY_ILLUSIONER_AMBIENT;
+		return ModSounds.ENTITY_ICEOLOGER_AMBIENT.get();
 	}
 
 	public boolean isTeammate(Entity other) {
@@ -79,19 +65,19 @@ public class IceologerEntity extends SpellcastingIllagerEntity
 	}
 
 	protected SoundEvent getAmbientSound() {
-		return SoundEvents.ENTITY_ILLUSIONER_AMBIENT;
+		return ModSounds.ENTITY_ICEOLOGER_AMBIENT.get();
 	}
 
 	protected SoundEvent getDeathSound() {
-		return SoundEvents.ENTITY_ILLUSIONER_DEATH;
+		return ModSounds.ENTITY_ICEOLOGER_DEATH.get();
 	}
 
 	protected SoundEvent getHurtSound(DamageSource source) {
-		return SoundEvents.ENTITY_ILLUSIONER_HURT;
+		return ModSounds.ENTITY_ICEOLOGER_HURT.get();
 	}
 
 	protected SoundEvent getCastSpellSound() {
-		return SoundEvents.ENTITY_ILLUSIONER_CAST_SPELL;
+		return ModSounds.ENTITY_ICEOLOGER_CAST_SPELL.get();
 	}
 
 	public void addBonusForWave(int wave, boolean unused) {
@@ -107,7 +93,7 @@ public class IceologerEntity extends SpellcastingIllagerEntity
 
 		@Override
 		protected int getSpellTicks() {
-			return 50;
+			return 40;
 		}
 
 		@Override
@@ -115,10 +101,9 @@ public class IceologerEntity extends SpellcastingIllagerEntity
 			return 160;
 		}
 
-		@Nullable
 		@Override
 		protected SoundEvent getSoundPrepare() {
-			return null;
+			return ModSounds.ENTITY_ICEOLOGER_PREPARES_SUMMON.get();
 		}
 
 		@Override
@@ -138,30 +123,12 @@ public class IceologerEntity extends SpellcastingIllagerEntity
 		}
 	}
 
-	public class SlowTargetGoal extends CastSpellGoal {
-		private int targetId;
-
+	public class SlowTargetGoal extends CastSpellGoal
+	{
 		@Override
 		public boolean canStart() {
-			if (!super.canStart()) {
-				return false;
-			} else if (IceologerEntity.this.getTarget() == null) {
-				return false;
-			} else if (IceologerEntity.this.getTarget().getId() == this.targetId) {
-				return false;
-			} else {
-				return IceologerEntity.this.world.getLocalDifficulty(IceologerEntity.this.getBlockPos()).isHarderThan((float) Difficulty.NORMAL.ordinal());
-			}
-		}
-
-		@Override
-		public void start() {
-			super.start();
-			LivingEntity livingEntity = IceologerEntity.this.getTarget();
-			if (livingEntity != null) {
-				this.targetId = livingEntity.getId();
-			}
-
+			return super.canStart() != false
+				   && IceologerEntity.this.getTarget() != null;
 		}
 
 		@Override
@@ -176,12 +143,12 @@ public class IceologerEntity extends SpellcastingIllagerEntity
 
 		@Override
 		protected void castSpell() {
-			IceologerEntity.this.getTarget().addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 400), IceologerEntity.this);
+			IceologerEntity.this.getTarget().addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 400, 2), IceologerEntity.this);
 		}
 
 		@Override
 		protected SoundEvent getSoundPrepare() {
-			return SoundEvents.ENTITY_ILLUSIONER_PREPARE_BLINDNESS;
+			return ModSounds.ENTITY_ICEOLOGER_PREPARES_SLOWNESS.get();
 		}
 
 		@Override

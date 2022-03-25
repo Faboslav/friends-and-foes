@@ -51,5 +51,14 @@
   "subtitle.entity.friendsandfoes.copper_golem.head_spin": "Copper Golem spins head",
   "subtitle.entity.friendsandfoes.copper_golem.hurt": "Copper Golem hurts",
   "subtitle.entity.friendsandfoes.copper_golem.repair": "Copper Golem repaired",
-  "subtitle.entity.friendsandfoes.copper_golem.step": "Footsteps"
+  "subtitle.entity.friendsandfoes.copper_golem.step": "Footsteps",
+  "subtitle.entity.friendsandfoes.iceologer.ambient": "Iceologer murmurs",
+  "subtitle.entity.friendsandfoes.iceologer.cast_spell": "Iceologer casts spell",
+  "subtitle.entity.friendsandfoes.iceologer.death": "Iceologer dies",
+  "subtitle.entity.friendsandfoes.iceologer.hurt": "Iceologer hurts",
+  "subtitle.entity.friendsandfoes.iceologer.prepare_slowness": "Iceologer prepares slowness",
+  "subtitle.entity.friendsandfoes.iceologer.prepare_summon": "Iceologer prepares summoning",
+  "subtitle.entity.friendsandfoes.ice_chunk.ambient": "Ice chunk cracks",
+  "subtitle.entity.friendsandfoes.ice_chunk.hit": "Ice chunk falls",
+  "subtitle.entity.friendsandfoes.ice_chunk.summon": "Ice chunk cracks"
 }

@@ -83,31 +83,10 @@
 	  ]
 	},
 	{
-	  "rolls": 1.0,
-	  "bonus_rolls": 0.0,
-	  "entries": [
-		{
-		  "type": "minecraft:item",
-		  "weight": 1,
-		  "functions": [
-			{
-			  "function": "minecraft:enchant_randomly"
-			}
-		  ],
-		  "name": "minecraft:book"
-		},
-		{
-		  "type": "minecraft:item",
-		  "weight": 2,
-		  "name": "minecraft:name_tag"
-		}
-	  ]
-	},
-	{
 	  "rolls": {
 		"type": "minecraft:uniform",
 		"min": 2.0,
-		"max": 5.0
+		"max": 4.0
 	  },
 	  "bonus_rolls": 0.0,
 	  "entries": [

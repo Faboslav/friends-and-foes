@@ -2,17 +2,6 @@
   "type": "minecraft:chest",
   "pools": [
 	{
-	  "rolls": 1.0,
-	  "bonus_rolls": 0.0,
-	  "entries": [
-		{
-		  "type": "minecraft:item",
-		  "weight": 2,
-		  "name": "minecraft:name_tag"
-		}
-	  ]
-	},
-	{
 	  "rolls": {
 		"type": "minecraft:uniform",
 		"min": 2.0,
@@ -39,7 +28,7 @@
 			  "add": false
 			}
 		  ],
-		  "name": "minecraft:bone"
+		  "name": "minecraft:blue_ice"
 		}
 	  ]
 	},

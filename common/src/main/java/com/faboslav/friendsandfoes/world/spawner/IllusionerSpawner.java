@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.world.spawner;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.config.FriendsAndFoesConfig;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
@@ -29,7 +28,7 @@ public class IllusionerSpawner implements Spawner
 	public int spawn(ServerWorld world, boolean spawnMonsters, boolean spawnAnimals) {
 		if (
 			spawnMonsters == false
-			|| FriendsAndFoesConfig.enableIllusionerSpawn == false
+			|| FriendsAndFoes.getConfig().enableIllusionerSpawn == false
 		) {
 			return 0;
 		}
@@ -39,7 +38,6 @@ public class IllusionerSpawner implements Spawner
 
 		if (this.cooldown > 0) {
 			return 0;
-
 		}
 
 		this.cooldown += 12000 + random.nextInt(1200);
@@ -112,6 +110,7 @@ public class IllusionerSpawner implements Spawner
 		illusioner.setPosition(mutable.getX(), mutable.getY(), mutable.getZ());
 		illusioner.initialize(world, world.getLocalDifficulty(mutable), SpawnReason.PATROL, null, null);
 		world.spawnEntityAndPassengers(illusioner);
+		FriendsAndFoes.getLogger().info("illusioner spawner");
 		return 1;
 	}
 }

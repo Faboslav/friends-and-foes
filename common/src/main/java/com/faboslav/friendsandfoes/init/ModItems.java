@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.init;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.item.SpawnEggItem;
+import dev.architectury.core.item.ArchitecturySpawnEggItem;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.entity.EntityType;
@@ -41,11 +41,11 @@ public final class ModItems
 	public static final RegistrySupplier<Item> WAXED_OXIDIZED_COPPER_BUTTON;
 
 	static {
-		COPPER_GOLEM_SPAWN_EGG = ITEMS.register("copper_golem_spawn_egg", () -> new SpawnEggItem(ModEntity.COPPER_GOLEM, 0x9A5038, 0xE3826C, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
-		GLARE_SPAWN_EGG = ITEMS.register("glare_spawn_egg", () -> new SpawnEggItem(ModEntity.GLARE, 0x70922D, 0x6A5227, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
-		ICEOLOGER_SPAWN_EGG = ITEMS.register("iceologer_spawn_egg", () -> new SpawnEggItem(ModEntity.ICEOLOGER, 0x173873, 0x949b9b, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
+		COPPER_GOLEM_SPAWN_EGG = ITEMS.register("copper_golem_spawn_egg", () -> new ArchitecturySpawnEggItem(ModEntity.COPPER_GOLEM, 0x9A5038, 0xE3826C, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
+		GLARE_SPAWN_EGG = ITEMS.register("glare_spawn_egg", () -> new ArchitecturySpawnEggItem(ModEntity.GLARE, 0x70922D, 0x6A5227, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
+		ICEOLOGER_SPAWN_EGG = ITEMS.register("iceologer_spawn_egg", () -> new ArchitecturySpawnEggItem(ModEntity.ICEOLOGER, 0x173873, 0x949b9b, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
 		ILLUSIONER_SPAWN_EGG = ITEMS.register("illusioner_spawn_egg", () -> new net.minecraft.item.SpawnEggItem(EntityType.ILLUSIONER, 0x603e5c, 0x888e8e, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
-		MOOBLOOM_SPAWN_EGG = ITEMS.register("moobloom_spawn_egg", () -> new SpawnEggItem(ModEntity.MOOBLOOM, 0xFACA00, 0xf7EDC1, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
+		MOOBLOOM_SPAWN_EGG = ITEMS.register("moobloom_spawn_egg", () -> new ArchitecturySpawnEggItem(ModEntity.MOOBLOOM, 0xFACA00, 0xf7EDC1, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
 		BUTTERCUP = ITEMS.register("buttercup", () -> new BlockItem(ModBlocks.BUTTERCUP.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
 		ACACIA_BEEHIVE = ITEMS.register("acacia_beehive", () -> new BlockItem(ModBlocks.ACACIA_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
 		BIRCH_BEEHIVE = ITEMS.register("birch_beehive", () -> new BlockItem(ModBlocks.BIRCH_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
@@ -63,48 +63,6 @@ public final class ModItems
 		WAXED_WEATHERED_COPPER_BUTTON = ITEMS.register("waxed_weathered_copper_button", () -> new BlockItem(ModBlocks.WAXED_WEATHERED_COPPER_BUTTON.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
 		WAXED_OXIDIZED_COPPER_BUTTON = ITEMS.register("waxed_oxidized_copper_button", () -> new BlockItem(ModBlocks.WAXED_OXIDIZED_COPPER_BUTTON.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
 	}
-
-	/*
-	private static SpawnEggItem registerSpawnEgg(
-		EntityType<? extends MobEntity> entityType,
-		int backgroundColor,
-		int dotsColor
-	) {
-		SpawnEggItem spawnEggItem = new SpawnEggItem(
-			entityType,
-			backgroundColor,
-			dotsColor,
-			new Item.Settings().maxCount(64).group(ItemGroup.MISC)
-		);
-
-		ItemDispenserBehavior behavior = new ItemDispenserBehavior()
-		{
-			public ItemStack dispenseSilently(
-				BlockPointer pointer,
-				ItemStack stack
-			) {
-				Direction direction = pointer.getBlockState().get(DispenserBlock.FACING);
-				EntityType<?> entityType = ((SpawnEggItem) stack.getItem()).getEntityType(stack.getNbt());
-				entityType.spawnFromItemStack(
-					pointer.getWorld(),
-					stack,
-					null,
-					pointer.getPos().offset(direction),
-					SpawnReason.DISPENSER,
-					direction != Direction.UP,
-					false
-				);
-				stack.decrement(1);
-				return stack;
-			}
-		};
-		DispenserBlock.registerBehavior(
-			spawnEggItem,
-			behavior
-		);
-
-		return spawnEggItem;
-	}*/
 
 	public static void initRegister() {
 		ITEMS.register();

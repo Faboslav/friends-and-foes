@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.mixin;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.config.FriendsAndFoesConfig;
 import com.faboslav.friendsandfoes.entity.passive.CopperGolemEntity;
 import com.faboslav.friendsandfoes.init.ModEntity;
 import net.minecraft.advancement.criterion.Criteria;
@@ -66,7 +65,7 @@ public abstract class LightningRodBlockMixin extends RodBlock
 		World world,
 		BlockPos pos
 	) {
-		if (FriendsAndFoesConfig.enableCopperGolem == false) {
+		if (FriendsAndFoes.getConfig().enableCopperGolem == false) {
 			return;
 		}
 

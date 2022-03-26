@@ -143,7 +143,7 @@ public class IceologerEntity extends SpellcastingIllagerEntity
 
 		@Override
 		protected void castSpell() {
-			IceologerEntity.this.getTarget().addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 400, 2), IceologerEntity.this);
+			IceologerEntity.this.getTarget().addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 400, 1), IceologerEntity.this);
 		}
 
 		@Override

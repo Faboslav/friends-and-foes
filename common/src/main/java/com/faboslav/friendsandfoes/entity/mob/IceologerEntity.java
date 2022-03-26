@@ -14,6 +14,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.SpellcastingIllagerEntity;
+import net.minecraft.entity.passive.GlowSquidEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -44,6 +45,7 @@ public class IceologerEntity extends SpellcastingIllagerEntity
 		this.targetSelector.add(2, (new ActiveTargetGoal(this, PlayerEntity.class, true)).setMaxTimeWithoutVisibility(300));
 		this.targetSelector.add(3, (new ActiveTargetGoal(this, MerchantEntity.class, false)).setMaxTimeWithoutVisibility(300));
 		this.targetSelector.add(3, (new ActiveTargetGoal(this, IronGolemEntity.class, false)).setMaxTimeWithoutVisibility(300));
+		this.targetSelector.add(4, (new ActiveTargetGoal(this, GlowSquidEntity.class, false)).setMaxTimeWithoutVisibility(300));
 	}
 
 	public static Builder createAttributes() {
@@ -93,7 +95,7 @@ public class IceologerEntity extends SpellcastingIllagerEntity
 
 		@Override
 		protected int getSpellTicks() {
-			return 40;
+			return 30;
 		}
 
 		@Override
@@ -103,7 +105,7 @@ public class IceologerEntity extends SpellcastingIllagerEntity
 
 		@Override
 		protected SoundEvent getSoundPrepare() {
-			return ModSounds.ENTITY_ICEOLOGER_PREPARES_SUMMON.get();
+			return ModSounds.ENTITY_ICEOLOGER_PREPARE_SUMMON.get();
 		}
 
 		@Override
@@ -112,7 +114,7 @@ public class IceologerEntity extends SpellcastingIllagerEntity
 		}
 
 		private void summonIceChunk(LivingEntity target) {
-			var world = IceologerEntity.this.world;
+			var world = IceologerEntity.this.getWorld();
 			var iceChunk = IceologerIceChunkEntity.createWithOwnerAndTarget(
 				world,
 				IceologerEntity.this,
@@ -138,7 +140,7 @@ public class IceologerEntity extends SpellcastingIllagerEntity
 
 		@Override
 		protected int startTimeDelay() {
-			return 180;
+			return 220;
 		}
 
 		@Override
@@ -148,7 +150,7 @@ public class IceologerEntity extends SpellcastingIllagerEntity
 
 		@Override
 		protected SoundEvent getSoundPrepare() {
-			return ModSounds.ENTITY_ICEOLOGER_PREPARES_SLOWNESS.get();
+			return ModSounds.ENTITY_ICEOLOGER_PREPARE_SLOWNESS.get();
 		}
 
 		@Override

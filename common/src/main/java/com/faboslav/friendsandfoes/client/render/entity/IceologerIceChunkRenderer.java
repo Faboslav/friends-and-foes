@@ -32,7 +32,7 @@ public class IceologerIceChunkRenderer extends EntityRenderer<IceologerIceChunkE
 	public void render(
 		IceologerIceChunkEntity iceChunk,
 		float f,
-		float g,
+		float tickDelta,
 		MatrixStack matrixStack,
 		VertexConsumerProvider vertexConsumerProvider,
 		int i
@@ -46,10 +46,11 @@ public class IceologerIceChunkRenderer extends EntityRenderer<IceologerIceChunkE
 		matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F - iceChunk.getYaw()));
 		VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(this.model.getLayer(TEXTURE));
 		this.model.setAngles(iceChunk, 0.0F, 0.0F, 0.0F, iceChunk.getYaw(), iceChunk.getPitch());
+		this.model.animateModel(iceChunk, 0.0F, 0.0F, tickDelta);
 		matrixStack.scale(summonAnimationProgress, summonAnimationProgress, summonAnimationProgress);
 		this.model.render(matrixStack, vertexConsumer, i, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
 		matrixStack.pop();
-		super.render(iceChunk, f, g, matrixStack, vertexConsumerProvider, i);
+		super.render(iceChunk, f, tickDelta, matrixStack, vertexConsumerProvider, i);
 	}
 
 	@Override

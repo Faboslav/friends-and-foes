@@ -110,7 +110,6 @@ public class IllusionerSpawner implements Spawner
 		illusioner.setPosition(mutable.getX(), mutable.getY(), mutable.getZ());
 		illusioner.initialize(world, world.getLocalDifficulty(mutable), SpawnReason.PATROL, null, null);
 		world.spawnEntityAndPassengers(illusioner);
-		FriendsAndFoes.getLogger().info("illusioner spawner");
 		return 1;
 	}
 }

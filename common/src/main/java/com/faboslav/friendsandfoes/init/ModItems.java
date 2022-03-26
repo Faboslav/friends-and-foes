@@ -16,7 +16,7 @@ import net.minecraft.util.registry.Registry;
  */
 public final class ModItems
 {
-	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(FriendsAndFoes.MOD_ID, Registry.ITEM_KEY);
+	private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(FriendsAndFoes.MOD_ID, Registry.ITEM_KEY);
 
 	public final static RegistrySupplier<Item> COPPER_GOLEM_SPAWN_EGG;
 	public final static RegistrySupplier<Item> GLARE_SPAWN_EGG;

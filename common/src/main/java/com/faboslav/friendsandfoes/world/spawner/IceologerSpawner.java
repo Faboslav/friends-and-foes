@@ -111,7 +111,6 @@ public class IceologerSpawner implements Spawner
 		iceologer.setPosition(mutable.getX(), mutable.getY(), mutable.getZ());
 		iceologer.initialize(world, world.getLocalDifficulty(mutable), SpawnReason.PATROL, null, null);
 		world.spawnEntityAndPassengers(iceologer);
-		FriendsAndFoes.getLogger().info("iceologer spawner");
 		return 1;
 	}
 }

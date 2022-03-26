@@ -1,9 +1,12 @@
 package com.faboslav.friendsandfoes.entity.mob;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.init.ModEntity;
 import com.faboslav.friendsandfoes.init.ModSounds;
 import com.faboslav.friendsandfoes.util.ModelAnimationHelper;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -24,12 +27,14 @@ import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class IceologerIceChunkEntity extends Entity
@@ -44,23 +49,25 @@ public class IceologerIceChunkEntity extends Entity
 	private static final int MIN_IDLE_TICKS = 10;
 	private static final int MAX_IDLE_TICKS = 20;
 	private static final int SUMMON_TICKS = 30;
+	private static final TrackedData<Optional<UUID>> OWNER_UUID;
+	private static final TrackedData<Optional<UUID>> TARGET_UUID;
+	private static final TrackedData<NbtCompound> TARGET_POSITION;
 	private static final TrackedData<Integer> TICKS_UNTIL_FALL;
 	private static final TrackedData<Integer> IDLE_TICKS;
 
 	@Nullable
 	private LivingEntity owner;
 	@Nullable
-	private UUID ownerUuid;
-	@Nullable
 	private LivingEntity target;
-	@Nullable
-	private UUID targetUuid;
 
 	private int lifetimeTicks;
 	private float summonAnimationProgress;
 	private float lastSummonAnimationProgress;
 
 	static {
+		OWNER_UUID = DataTracker.registerData(IceologerIceChunkEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
+		TARGET_UUID = DataTracker.registerData(IceologerIceChunkEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
+		TARGET_POSITION = DataTracker.registerData(IceologerIceChunkEntity.class, TrackedDataHandlerRegistry.NBT_COMPOUND);
 		TICKS_UNTIL_FALL = DataTracker.registerData(IceologerIceChunkEntity.class, TrackedDataHandlerRegistry.INTEGER);
 		IDLE_TICKS = DataTracker.registerData(IceologerIceChunkEntity.class, TrackedDataHandlerRegistry.INTEGER);
 	}
@@ -82,6 +89,9 @@ public class IceologerIceChunkEntity extends Entity
 
 	@Override
 	protected void initDataTracker() {
+		this.dataTracker.startTracking(OWNER_UUID, Optional.empty());
+		this.dataTracker.startTracking(TARGET_UUID, Optional.empty());
+		this.dataTracker.startTracking(TARGET_POSITION, new NbtCompound());
 		this.dataTracker.startTracking(TICKS_UNTIL_FALL, RandomGenerator.generateInt(MIN_FLYING_TICKS, MAX_FLYING_TICKS));
 		this.dataTracker.startTracking(IDLE_TICKS, RandomGenerator.generateInt(MIN_IDLE_TICKS, MAX_IDLE_TICKS));
 	}
@@ -89,11 +99,11 @@ public class IceologerIceChunkEntity extends Entity
 	@Override
 	protected void readCustomDataFromNbt(NbtCompound nbt) {
 		if (nbt.containsUuid(OWNER_UUID_NBT_NAME)) {
-			this.ownerUuid = nbt.getUuid(OWNER_UUID_NBT_NAME);
+			this.setOwnerUuid(nbt.getUuid(OWNER_UUID_NBT_NAME));
 		}
 
 		if (nbt.containsUuid(TARGET_UUID_NBT_NAME)) {
-			this.targetUuid = nbt.getUuid(TARGET_UUID_NBT_NAME);
+			this.setTargetUuid(nbt.getUuid(TARGET_UUID_NBT_NAME));
 		}
 
 		if (nbt.contains(TICKS_UNTIL_FALL_NBT_NAME)) {
@@ -107,27 +117,31 @@ public class IceologerIceChunkEntity extends Entity
 
 	@Override
 	protected void writeCustomDataToNbt(NbtCompound nbt) {
-		if (this.ownerUuid != null) {
-			nbt.putUuid(OWNER_UUID_NBT_NAME, this.ownerUuid);
+		if (this.getOwnerUuid() != null) {
+			nbt.putUuid(OWNER_UUID_NBT_NAME, this.getOwnerUuid());
 		}
 
-		if (this.targetUuid != null) {
-			nbt.putUuid(TARGET_UUID_NBT_NAME, this.targetUuid);
+		if (this.getTargetUuid() != null) {
+			nbt.putUuid(TARGET_UUID_NBT_NAME, this.getTargetUuid());
 		}
 
 		nbt.putInt(TICKS_UNTIL_FALL_NBT_NAME, this.getTicksUntilFall());
 		nbt.putInt(IDLE_TICKS_NBT_NAME, this.getIdleTicks());
 	}
 
-	public void setOwner(@Nullable LivingEntity owner) {
-		this.owner = owner;
-		this.ownerUuid = owner == null ? null:owner.getUuid();
+	@Nullable
+	public UUID getOwnerUuid() {
+		return (UUID) ((Optional) this.dataTracker.get(OWNER_UUID)).orElse(null);
+	}
+
+	public void setOwnerUuid(@Nullable UUID uuid) {
+		this.dataTracker.set(OWNER_UUID, Optional.ofNullable(uuid));
 	}
 
 	@Nullable
 	public LivingEntity getOwner() {
-		if (this.owner == null && this.ownerUuid != null && this.getWorld().isClient() == false) {
-			Entity entity = ((ServerWorld) this.world).getEntity(this.ownerUuid);
+		if (this.owner == null && this.getOwnerUuid() != null && this.getWorld().isClient() == false) {
+			Entity entity = ((ServerWorld) this.world).getEntity(this.getOwnerUuid());
 			if (entity instanceof LivingEntity) {
 				this.owner = (LivingEntity) entity;
 			}
@@ -136,21 +150,33 @@ public class IceologerIceChunkEntity extends Entity
 		return this.owner;
 	}
 
-	public void setTargetAndTargetUuid(@Nullable LivingEntity target) {
-		this.target = target;
-		this.targetUuid = target == null ? null:target.getUuid();
+	@Nullable
+	public UUID getTargetUuid() {
+		return (UUID) ((Optional) this.dataTracker.get(TARGET_UUID)).orElse(null);
+	}
+
+	public void setTargetUuid(@Nullable UUID uuid) {
+		this.dataTracker.set(TARGET_UUID, Optional.ofNullable(uuid));
 	}
 
 	@Nullable
 	public LivingEntity getTarget() {
-		if (this.target == null && this.targetUuid != null && this.getWorld().isClient() == false) {
-			Entity entity = ((ServerWorld) this.world).getEntity(this.targetUuid);
+		if (this.target == null && this.getTargetUuid() != null && this.getWorld().isClient() == false) {
+			Entity entity = ((ServerWorld) this.world).getEntity(this.getTargetUuid());
 			if (entity instanceof LivingEntity) {
 				this.target = (LivingEntity) entity;
 			}
 		}
 
 		return this.target;
+	}
+
+	public void setTargetPosition(NbtCompound targetPosition) {
+		dataTracker.set(TARGET_POSITION, targetPosition);
+	}
+
+	public NbtCompound getTargetPosition() {
+		return this.dataTracker.get(TARGET_POSITION);
 	}
 
 	@Override
@@ -199,7 +225,7 @@ public class IceologerIceChunkEntity extends Entity
 		return new EntitySpawnS2CPacket(this);
 	}
 
-	private int getTicksUntilFall() {
+	public int getTicksUntilFall() {
 		return this.dataTracker.get(TICKS_UNTIL_FALL);
 	}
 
@@ -216,11 +242,13 @@ public class IceologerIceChunkEntity extends Entity
 	}
 
 	private void damageHitEntities() {
-		List<LivingEntity> hitEntities = this.world.getNonSpectatingEntities(LivingEntity.class, this.getBoundingBox().expand(0.2D, 0.0D, 0.2D));
-		Iterator hitEntitiesIterator = hitEntities.iterator();
+		if(this.getWorld().isClient()) {
+			return;
+		}
 
-		while (hitEntitiesIterator.hasNext()) {
-			LivingEntity hitEntity = (LivingEntity) hitEntitiesIterator.next();
+		List<LivingEntity> hitEntities = this.getWorld().getNonSpectatingEntities(LivingEntity.class, this.getBoundingBox().expand(0.2D, 0.0D, 0.2D));
+
+		for (LivingEntity hitEntity : hitEntities) {
 			this.damage(hitEntity);
 		}
 	}
@@ -241,7 +269,7 @@ public class IceologerIceChunkEntity extends Entity
 		}
 
 		hitEntity.damage(DamageSource.MAGIC, 12.0F);
-		hitEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 80));
+		hitEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 80, 2));
 	}
 
 	private void customDiscard() {
@@ -250,22 +278,79 @@ public class IceologerIceChunkEntity extends Entity
 		this.discard();
 	}
 
-	private void setPositionAboveTarget() {
-		if (this.getTarget() == null || this.getWorld().isClient()) {
+	public void setPositionAboveTarget() {
+		if(this.getTarget() == null || this.getWorld().isClient()) {
 			return;
 		}
 
-		var tickDelta = ModelAnimationHelper.getTickDelta();
+		var tickDelta = FriendsAndFoes.serverTickDeltaCounter.tickDelta;
 
-		var x = MathHelper.lerp(tickDelta, this.getPos().getX(), this.getTarget().getX());
-		var y = MathHelper.lerp(
-			tickDelta,
-			this.getPos().getY(),
-			this.getTarget().getY() + this.getTarget().getHeight() * this.getTarget().getHeight() * 1.25F
+		var x = this.getPos().getX();
+		var y = this.getPos().getY();
+		var z = this.getPos().getZ();
+		var height = this.getTarget().getHeight();
+
+		if(
+			this.getTargetPosition().contains("x") == false
+			|| this.getTargetPosition().contains("y") == false
+			|| this.getTargetPosition().contains("z") == false
+			|| this.getTargetPosition().contains("height") == false
+		) {
+			x = this.getTarget().getX();
+			y = this.getTarget().getY();
+			z = this.getTarget().getZ();
+		}
+
+		var yWithHeightOffset = this.getYPositionWithHeightOffset(y, height);
+		var targetX = this.getTarget().getX();
+		var targetY = this.getTarget().getY();
+		var targetZ = this.getTarget().getZ();
+		var targetYWithHeightOffset = this.getYPositionWithHeightOffset(targetY, height);
+
+		NbtCompound targetPosition = new NbtCompound();
+		targetPosition.putDouble("x", x);
+		targetPosition.putDouble("y", y);
+		targetPosition.putDouble("z", z);
+		targetPosition.putDouble("height", height);
+
+		this.setPosition(
+			MathHelper.lerp(tickDelta, x, targetX),
+			MathHelper.lerp(tickDelta, yWithHeightOffset, targetYWithHeightOffset),
+			MathHelper.lerp(tickDelta, z, targetZ)
 		);
-		var z = MathHelper.lerp(tickDelta, this.getPos().getZ(), this.getTarget().getZ());
+	}
 
-		this.setPosition(x, y, z);
+	public void setPositionAboveTarget(float tickDelta) {
+		if (
+			this.getWorld().isClient() == false
+			|| (
+				this.getTargetPosition().contains("x") == false
+				|| this.getTargetPosition().contains("y") == false
+				|| this.getTargetPosition().contains("z") == false
+				|| this.getTargetPosition().contains("height") == false
+			)
+		) {
+			return;
+		}
+
+		var x = this.getPos().getX();
+		var y = this.getPos().getY();
+		var z = this.getPos().getZ();
+		var targetX = this.getTargetPosition().getDouble("x");
+		var targetY = this.getTargetPosition().getDouble("y");
+		var targetZ = this.getTargetPosition().getDouble("z");
+		var targetHeight = this.getTargetPosition().getDouble("height");
+		var targetYWithHeightOffset = this.getYPositionWithHeightOffset(targetY, targetHeight);
+
+		this.setPosition(
+			MathHelper.lerp(tickDelta, x, targetX),
+			MathHelper.lerp(tickDelta, y, targetYWithHeightOffset),
+			MathHelper.lerp(tickDelta, z, targetZ)
+		);
+	}
+
+	private double getYPositionWithHeightOffset(double y, double height) {
+		return Math.min(y + height * height, y + 6.0f);
 	}
 
 	private SoundEvent getAmbientSound() {
@@ -348,8 +433,8 @@ public class IceologerIceChunkEntity extends Entity
 			world
 		);
 
-		chunkEntity.setOwner(owner);
-		chunkEntity.setTargetAndTargetUuid(target);
+		chunkEntity.setOwnerUuid(owner.getUuid());
+		chunkEntity.setTargetUuid(target.getUuid());
 
 		return chunkEntity;
 	}

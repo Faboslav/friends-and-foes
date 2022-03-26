@@ -8,7 +8,7 @@ import net.minecraft.util.registry.Registry;
 
 public final class ModSounds
 {
-	public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(FriendsAndFoes.MOD_ID, Registry.SOUND_EVENT_KEY);
+	private static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(FriendsAndFoes.MOD_ID, Registry.SOUND_EVENT_KEY);
 
 	public static final RegistrySupplier<SoundEvent> ENTITY_COPPER_GOLEM_DEATH;
 	public static final RegistrySupplier<SoundEvent> ENTITY_COPPER_GOLEM_HEAD_SPIN;
@@ -29,8 +29,8 @@ public final class ModSounds
 	public static final RegistrySupplier<SoundEvent> ENTITY_ICEOLOGER_CAST_SPELL;
 	public static final RegistrySupplier<SoundEvent> ENTITY_ICEOLOGER_DEATH;
 	public static final RegistrySupplier<SoundEvent> ENTITY_ICEOLOGER_HURT;
-	public static final RegistrySupplier<SoundEvent> ENTITY_ICEOLOGER_PREPARES_SLOWNESS;
-	public static final RegistrySupplier<SoundEvent> ENTITY_ICEOLOGER_PREPARES_SUMMON;
+	public static final RegistrySupplier<SoundEvent> ENTITY_ICEOLOGER_PREPARE_SLOWNESS;
+	public static final RegistrySupplier<SoundEvent> ENTITY_ICEOLOGER_PREPARE_SUMMON;
 
 	static {
 		ENTITY_COPPER_GOLEM_DEATH = register("entity", "copper_golem.death");
@@ -52,8 +52,8 @@ public final class ModSounds
 		ENTITY_ICEOLOGER_CAST_SPELL = register("entity", "iceologer.cast_spell");
 		ENTITY_ICEOLOGER_DEATH = register("entity", "iceologer.death");
 		ENTITY_ICEOLOGER_HURT = register("entity", "iceologer.hurt");
-		ENTITY_ICEOLOGER_PREPARES_SLOWNESS = register("entity", "iceologer.prepares_slowness");
-		ENTITY_ICEOLOGER_PREPARES_SUMMON = register("entity", "iceologer.prepares_summon");
+		ENTITY_ICEOLOGER_PREPARE_SLOWNESS = register("entity", "iceologer.prepare_slowness");
+		ENTITY_ICEOLOGER_PREPARE_SUMMON = register("entity", "iceologer.prepare_summon");
 	}
 
 	private static RegistrySupplier<SoundEvent> register(String type, String name) {

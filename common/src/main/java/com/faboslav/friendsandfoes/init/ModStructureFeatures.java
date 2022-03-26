@@ -13,7 +13,8 @@ import net.minecraft.world.gen.feature.StructurePoolFeatureConfig;
 
 public final class ModStructureFeatures
 {
-	public static final DeferredRegister<StructureFeature<?>> STRUCTURE_FEATURES = DeferredRegister.create(FriendsAndFoes.MOD_ID, Registry.STRUCTURE_FEATURE_KEY);
+	private static final DeferredRegister<StructureFeature<?>> STRUCTURE_FEATURES = DeferredRegister.create(FriendsAndFoes.MOD_ID, Registry.STRUCTURE_FEATURE_KEY);
+
 	public static final RegistrySupplier<StructureFeature<StructurePoolFeatureConfig>> ILLUSIONER_SHACK;
 	public static final RegistrySupplier<StructureFeature<StructurePoolFeatureConfig>> ICEOLOGER_CABIN;
 

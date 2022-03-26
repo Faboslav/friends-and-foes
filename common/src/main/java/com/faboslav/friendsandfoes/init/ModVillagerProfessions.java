@@ -20,7 +20,8 @@ import net.minecraft.world.poi.PointOfInterestType;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public final class ModVillagerProfessions
 {
-	public static final DeferredRegister<VillagerProfession> VILLAGER_PROFESSIONS = DeferredRegister.create(FriendsAndFoes.MOD_ID, Registry.VILLAGER_PROFESSION_KEY);
+	private static final DeferredRegister<VillagerProfession> VILLAGER_PROFESSIONS = DeferredRegister.create(FriendsAndFoes.MOD_ID, Registry.VILLAGER_PROFESSION_KEY);
+
 	public static final RegistrySupplier<VillagerProfession> BEEKEEPER;
 
 	static {

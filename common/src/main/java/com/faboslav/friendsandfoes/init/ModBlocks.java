@@ -15,7 +15,7 @@ import net.minecraft.util.registry.Registry;
  */
 public final class ModBlocks
 {
-	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(FriendsAndFoes.MOD_ID, Registry.BLOCK_KEY);
+	private static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(FriendsAndFoes.MOD_ID, Registry.BLOCK_KEY);
 
 	public static final RegistrySupplier<Block> BUTTERCUP;
 	public static final RegistrySupplier<Block> ACACIA_BEEHIVE;

@@ -16,7 +16,7 @@
 	"hidden": true
   },
   "criteria": {
-	"killed_evoker": {
+	"killed_magicians": {
 	  "trigger": "minecraft:player_killed_entity",
 	  "conditions": {
 		"entity": [
@@ -26,28 +26,14 @@
 			  "type": "minecraft:evoker"
 			},
 			"entity": "this"
-		  }
-		]
-	  }
-	},
-	"killed_iceologer": {
-	  "trigger": "minecraft:player_killed_entity",
-	  "conditions": {
-		"entity": [
+		  },
 		  {
 			"condition": "minecraft:entity_properties",
 			"predicate": {
 			  "type": "friendsandfoes:iceologer"
 			},
 			"entity": "this"
-		  }
-		]
-	  }
-	},
-	"killed_illusioner": {
-	  "trigger": "minecraft:player_killed_entity",
-	  "conditions": {
-		"entity": [
+		  },
 		  {
 			"condition": "minecraft:entity_properties",
 			"predicate": {
@@ -61,9 +47,7 @@
   },
   "requirements": [
 	[
-	  "killed_evoker",
-	  "killed_iceologer",
-	  "killed_illusioner"
+	  "killed_magicians"
 	]
   ]
 }

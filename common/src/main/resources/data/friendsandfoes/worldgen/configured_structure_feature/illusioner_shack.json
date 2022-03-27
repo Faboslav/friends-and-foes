@@ -5,29 +5,5 @@
 	"size": 7
   },
   "biomes": "#friendsandfoes:has_structure/illusioner_shack",
-  "adapt_noise": true,
-  "spawn_overrides": {
-	"creature": {
-	  "bounding_box": "piece",
-	  "spawns": [
-		{
-		  "type": "minecraft:wolf",
-		  "weight": 1,
-		  "minCount": 1,
-		  "maxCount": 1
-		}
-	  ]
-	},
-	"monster": {
-	  "bounding_box": "piece",
-	  "spawns": [
-		{
-		  "type": "minecraft:illusioner",
-		  "weight": 1,
-		  "minCount": 1,
-		  "maxCount": 1
-		}
-	  ]
-	}
-  }
+  "adapt_noise": true
 }

@@ -5,29 +5,5 @@
 	"size": 5
   },
   "biomes": "#friendsandfoes:has_structure/iceologer_cabin",
-  "adapt_noise": true,
-  "spawn_overrides": {
-	"creature": {
-	  "bounding_box": "piece",
-	  "spawns": [
-		{
-		  "type": "minecraft:goat",
-		  "weight": 1,
-		  "minCount": 2,
-		  "maxCount": 2
-		}
-	  ]
-	},
-	"monster": {
-	  "bounding_box": "piece",
-	  "spawns": [
-		{
-		  "type": "friendsandfoes:iceologer",
-		  "weight": 1,
-		  "minCount": 1,
-		  "maxCount": 1
-		}
-	  ]
-	}
-  }
+  "adapt_noise": true
 }

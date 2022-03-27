@@ -1,13 +1,10 @@
 package com.faboslav.friendsandfoes.client.render.entity.model;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.mob.IceologerIceChunkEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.entity.model.SinglePartEntityModel;
-import net.minecraft.entity.decoration.LeashKnotEntity;
-import net.minecraft.util.math.MathHelper;
 
 @Environment(EnvType.CLIENT)
 public class IceologerIceChunkModel<T extends IceologerIceChunkEntity> extends SinglePartEntityModel<T>
@@ -67,7 +64,7 @@ public class IceologerIceChunkModel<T extends IceologerIceChunkEntity> extends S
 		float limbDistance,
 		float tickDelta
 	) {
-		if(iceChunk.getTicksUntilFall() > 0) {
+		if (iceChunk.getTicksUntilFall() > 0) {
 			iceChunk.setPositionAboveTarget(tickDelta);
 		}
 	}

@@ -219,8 +219,7 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 				source.getAttacker() instanceof PlayerEntity
 				|| source.getAttacker() instanceof IronGolemEntity
 			)
-			&& this.getTicksUntilCanCreateIllusions() == 0)
-		{
+			&& this.getTicksUntilCanCreateIllusions() == 0) {
 			this.createIllusions();
 		}
 

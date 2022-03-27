@@ -3,10 +3,7 @@ package com.faboslav.friendsandfoes.entity.mob;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.init.ModEntity;
 import com.faboslav.friendsandfoes.init.ModSounds;
-import com.faboslav.friendsandfoes.util.ModelAnimationHelper;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -27,12 +24,10 @@ import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -242,7 +237,7 @@ public class IceologerIceChunkEntity extends Entity
 	}
 
 	private void damageHitEntities() {
-		if(this.getWorld().isClient()) {
+		if (this.getWorld().isClient()) {
 			return;
 		}
 
@@ -279,7 +274,7 @@ public class IceologerIceChunkEntity extends Entity
 	}
 
 	public void setPositionAboveTarget() {
-		if(this.getTarget() == null || this.getWorld().isClient()) {
+		if (this.getTarget() == null || this.getWorld().isClient()) {
 			return;
 		}
 
@@ -290,7 +285,7 @@ public class IceologerIceChunkEntity extends Entity
 		var z = this.getPos().getZ();
 		var height = this.getTarget().getHeight();
 
-		if(
+		if (
 			this.getTargetPosition().contains("x") == false
 			|| this.getTargetPosition().contains("y") == false
 			|| this.getTargetPosition().contains("z") == false

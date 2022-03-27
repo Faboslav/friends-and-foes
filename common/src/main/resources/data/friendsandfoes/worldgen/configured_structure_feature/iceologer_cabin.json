@@ -19,7 +19,7 @@
 	  ]
 	},
 	"monster": {
-	  "bounding_box": "full",
+	  "bounding_box": "piece",
 	  "spawns": [
 		{
 		  "type": "friendsandfoes:iceologer",

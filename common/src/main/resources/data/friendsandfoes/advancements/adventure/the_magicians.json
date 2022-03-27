@@ -15,8 +15,11 @@
 	"announce_to_chat": true,
 	"hidden": true
   },
+  "rewards": {
+	"experience": 100
+  },
   "criteria": {
-	"killed_magicians": {
+	"killed_evoker": {
 	  "trigger": "minecraft:player_killed_entity",
 	  "conditions": {
 		"entity": [
@@ -26,14 +29,28 @@
 			  "type": "minecraft:evoker"
 			},
 			"entity": "this"
-		  },
+		  }
+		]
+	  }
+	},
+	"killed_iceologer": {
+	  "trigger": "minecraft:player_killed_entity",
+	  "conditions": {
+		"entity": [
 		  {
 			"condition": "minecraft:entity_properties",
 			"predicate": {
 			  "type": "friendsandfoes:iceologer"
 			},
 			"entity": "this"
-		  },
+		  }
+		]
+	  }
+	},
+	"killed_illusioner": {
+	  "trigger": "minecraft:player_killed_entity",
+	  "conditions": {
+		"entity": [
 		  {
 			"condition": "minecraft:entity_properties",
 			"predicate": {
@@ -47,7 +64,13 @@
   },
   "requirements": [
 	[
-	  "killed_magicians"
+	  "killed_evoker"
+	],
+	[
+	  "killed_iceologer"
+	],
+	[
+	  "killed_illusioner"
 	]
   ]
 }

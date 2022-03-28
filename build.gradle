@@ -25,8 +25,9 @@ allprojects {
 	apply plugin: "architectury-plugin"
 	apply plugin: "maven-publish"
 
-	archivesBaseName = project.mod_id
 	group = rootProject.maven_group
+	version = rootProject.mod_version
+	archivesBaseName = "${rootProject.mod_id}-mc${rootProject.minecraft_version}"
 
 	repositories {
 		maven {

@@ -2,6 +2,10 @@ plugins {
 	id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
+allprojects {
+	archivesBaseName = "${rootProject.mod_id}-forge-mc${rootProject.minecraft_version}"
+}
+
 loom {
 	accessWidenerPath = project(":common").loom.accessWidenerPath
 
@@ -19,7 +23,7 @@ architectury {
 
 configurations {
 	common
-	shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
+	shadowCommon
 	compileClasspath.extendsFrom common
 	runtimeClasspath.extendsFrom common
 	developmentForge.extendsFrom common
@@ -87,8 +91,6 @@ publishing {
 		}
 	}
 
-	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
 	repositories {
-		// Add repositories to publish to here.
 	}
 }

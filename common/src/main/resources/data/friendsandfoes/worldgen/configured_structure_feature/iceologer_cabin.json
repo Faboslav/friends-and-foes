@@ -5,5 +5,7 @@
 	"size": 5
   },
   "biomes": "#friendsandfoes:has_structure/iceologer_cabin",
-  "adapt_noise": true
+  "adapt_noise": true,
+  "spawn_overrides": {
+  }
 }

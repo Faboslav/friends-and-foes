@@ -2,6 +2,10 @@ plugins {
 	id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
+allprojects {
+	archivesBaseName = "${rootProject.mod_id}-fabric-mc${rootProject.minecraft_version}"
+}
+
 architectury {
 	platformSetupLoomIde()
 	fabric()
@@ -13,7 +17,7 @@ loom {
 
 configurations {
 	common
-	shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
+	shadowCommon
 	compileClasspath.extendsFrom common
 	runtimeClasspath.extendsFrom common
 	developmentFabric.extendsFrom common
@@ -21,22 +25,27 @@ configurations {
 
 dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+	modImplementation "com.github.Chocohead:Fabric-ASM:${rootProject.fabric_asm_version}"
 	modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
-	// Remove the next line if you don't want to depend on the API
 	modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
-
-	// Fabric ASM
-	modImplementation "com.github.Chocohead:Fabric-ASM:${project.fabric_asm_version}"
 
 	common(project(path: ":common", configuration: "namedElements")) { transitive false }
 	shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 }
 
 processResources {
-	inputs.property "version", project.version
+	inputs.property 'modId', rootProject.mod_id
+	inputs.property 'modName', rootProject.mod_name
+	inputs.property 'modVersion', rootProject.mod_version
+	inputs.property 'modAuthor', rootProject.mod_author
 
 	filesMatching("fabric.mod.json") {
-		expand "version": project.version
+		expand([
+			'modId': rootProject.mod_id,
+			'modName': rootProject.mod_name,
+			'modVersion': rootProject.mod_version,
+			'modAuthor': rootProject.mod_author
+		])
 	}
 }
 
@@ -85,8 +94,6 @@ publishing {
 		}
 	}
 
-	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
 	repositories {
-		// Add repositories to publish to here.
 	}
 }

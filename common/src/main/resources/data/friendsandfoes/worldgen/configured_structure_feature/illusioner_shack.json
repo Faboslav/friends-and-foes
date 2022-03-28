@@ -5,5 +5,7 @@
 	"size": 7
   },
   "biomes": "#friendsandfoes:has_structure/illusioner_shack",
-  "adapt_noise": true
+  "adapt_noise": true,
+  "spawn_overrides": {
+  }
 }

@@ -1,7 +1,6 @@
 modLoader = "javafml"
 loaderVersion = "[40,)"
-#issueTrackerURL = ""
-license = "Insert License Here"
+license = "Custom"
 
 [[mods]]
 modId = "friendsandfoes"

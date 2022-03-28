@@ -42,7 +42,6 @@ public class StructurePoolMixin
 		StructurePool.Projection projection,
 		CallbackInfo ci
 	) {
-		if (FriendsAndFoes.getConfig().generateBeekeeperAreaStructure) {
 			if (Objects.equals(id.getPath(), "village/plains/houses")) {
 				addElement(FriendsAndFoes.makeStringID("village/plains/houses/plains_beekeeper_area"), 1, projection);
 			} else if (Objects.equals(id.getPath(), "village/savanna/houses")) {
@@ -52,9 +51,7 @@ public class StructurePoolMixin
 			} else if (Objects.equals(id.getPath(), "village/taiga/houses")) {
 				addElement(FriendsAndFoes.makeStringID("village/taiga/houses/taiga_beekeeper_area"), 1, projection);
 			}
-		}
 
-		if (FriendsAndFoes.getConfig().generateCopperGolemAreaStructure) {
 			if (Objects.equals(id.getPath(), "village/desert/houses")) {
 				addElement(FriendsAndFoes.makeStringID("village/desert/houses/desert_copper_golem_area"), 1, projection);
 			} else if (Objects.equals(id.getPath(), "village/plains/houses")) {
@@ -66,6 +63,5 @@ public class StructurePoolMixin
 			} else if (Objects.equals(id.getPath(), "village/taiga/houses")) {
 				addElement(FriendsAndFoes.makeStringID("village/taiga/houses/taiga_copper_golem_area"), 1, projection);
 			}
-		}
 	}
 }

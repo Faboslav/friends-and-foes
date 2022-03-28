@@ -59,17 +59,7 @@ public final class ModBlocks
 		BLOCKS.register();
 	}
 
-	public static void init() {
-		initBlockStates();
-	}
-
-	public static void initBlockStates() {
-		for (RegistrySupplier<Block> block : BLOCKS) {
-			for (BlockState blockState : block.get().getStateManager().getStates()) {
-				Block.STATE_IDS.add(blockState);
-			}
-		}
-	}
+	public static void init() {}
 
 	private ModBlocks() {
 	}

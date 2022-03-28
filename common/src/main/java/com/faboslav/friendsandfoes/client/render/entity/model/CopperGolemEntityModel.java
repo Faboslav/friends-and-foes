@@ -80,9 +80,12 @@ public class CopperGolemEntityModel<T extends CopperGolemEntity> extends Abstrac
 		float headYaw,
 		float headPitch
 	) {
+		float tickDelta = ModelAnimationHelper.getTickDelta();
+
 		if (copperGolem.isOxidized()) {
 			NbtCompound modelAngles = copperGolem.getEntitySnapshot();
 
+			tickDelta = modelAngles.getFloat("tickDelta");
 			limbAngle = modelAngles.getFloat("limbAngle");
 			limbDistance = modelAngles.getFloat("lastLimbDistance");
 		} else {
@@ -93,7 +96,7 @@ public class CopperGolemEntityModel<T extends CopperGolemEntity> extends Abstrac
 		}
 
 		float headSpinAnimationProgress = copperGolem.getHeadSpinAnimationProgress();
-		animationProgress = ModelAnimationHelper.getAnimationProgress(copperGolem);
+		animationProgress = ModelAnimationHelper.getAnimationProgress(copperGolem, tickDelta);
 
 		this.applyModelTransforms(
 			this.defaultModelTransforms,

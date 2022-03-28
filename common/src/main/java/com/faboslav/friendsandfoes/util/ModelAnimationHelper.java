@@ -6,9 +6,10 @@ import net.minecraft.entity.LivingEntity;
 public class ModelAnimationHelper
 {
 	public static float getAnimationProgress(
-		LivingEntity entity
+		LivingEntity entity,
+		float tickDelta
 	) {
-		return (float) entity.age + getTickDelta();
+		return (float) entity.age + tickDelta;
 	}
 
 	public static float getTickDelta() {

@@ -67,8 +67,10 @@ but you are more than welcome to [share your ideas or give some feedback].
 
 ---
 
-- [CurseForge]
-- [Modrinth]
+- [CurseForge (Fabric)]
+- [Modrinth (Fabric)]
+- [CurseForge (Forge)]
+- [Modrinth (Forge)]
 - [Discord]
 
 <br>
@@ -132,9 +134,13 @@ the [textures directory] for the textures. Get inspired, but please don't just c
 
 [wiki]: https://github.com/Faboslav/friends-and-foes/wiki
 
-[CurseForge]: https://www.curseforge.com/minecraft/mc-mods/friends-foes
+[CurseForge (Fabric)]: https://www.curseforge.com/minecraft/mc-mods/friends-foes
 
-[Modrinth]: https://modrinth.com/mod/friends-and-foes
+[Modrinth (Fabric)]: https://modrinth.com/mod/friends-and-foes
+
+[CurseForge (Forge)]: https://www.curseforge.com/minecraft/mc-mods/friends-foes-forge
+
+[Modrinth (Forge)]: https://modrinth.com/mod/friends-and-foes-forge
 
 [Discord]: https://discord.com/invite/QGwFvvMQCn
 

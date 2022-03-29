@@ -1,6 +1,6 @@
 modLoader = "javafml"
 loaderVersion = "[40,)"
-license = "Custom"
+license = "CC BY-NC-ND 4.0"
 
 [[mods]]
 modId = "friendsandfoes"
@@ -8,7 +8,7 @@ version = "${modVersion}"
 displayName = "${modName}"
 authors = "${modAuthor}"
 description = "${modDescription}"
-#logoFile = ""
+logoFile = "icon.png"
 
 [[dependencies.friendsandfoes]]
 modId = "forge"

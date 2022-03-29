@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "id": "friendsandfoes",
-  "version": "1.3.0",
-  "name": "Friends&Foes",
-  "description": "Friends&Foes is a mod focused on adding all eliminated mobs from the minecraft mob votes and also few other exceptional mobs like the Illusioner.",
+  "version": "${modVersion}",
+  "name": "${modName}",
+  "description": "${modDescription}",
   "authors": [
-	"Faboslav"
+	"${modAuthor}"
   ],
   "contact": {
 	"homepage": "https://github.com/Faboslav/friends-and-foes",

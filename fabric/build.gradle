@@ -36,6 +36,7 @@ dependencies {
 processResources {
 	inputs.property 'modId', rootProject.mod_id
 	inputs.property 'modName', rootProject.mod_name
+	inputs.property 'modDescription', rootProject.mod_description
 	inputs.property 'modVersion', rootProject.mod_version
 	inputs.property 'modAuthor', rootProject.mod_author
 
@@ -43,6 +44,7 @@ processResources {
 		expand([
 			'modId': rootProject.mod_id,
 			'modName': rootProject.mod_name,
+			'modDescription': rootProject.mod_description,
 			'modVersion': rootProject.mod_version,
 			'modAuthor': rootProject.mod_author
 		])

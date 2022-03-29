@@ -1,16 +1,7 @@
 {
-  "name": "friendsandfoes:iceologer_cabin/cabin",
+  "name": "friendsandfoes:iceologer_cabin/cabin/abandoned_cabin",
   "fallback": "minecraft:empty",
   "elements": [
-	{
-	  "weight": 9,
-	  "element": {
-		"location": "friendsandfoes:iceologer_cabin/cabin/cabin",
-		"processors": "minecraft:empty",
-		"projection": "rigid",
-		"element_type": "minecraft:legacy_single_pool_element"
-	  }
-	},
 	{
 	  "weight": 1,
 	  "element": {

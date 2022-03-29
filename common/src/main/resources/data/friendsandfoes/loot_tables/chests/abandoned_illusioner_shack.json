@@ -5,7 +5,7 @@
 	  "rolls": {
 		"type": "minecraft:uniform",
 		"min": 2.0,
-		"max": 5.0
+		"max": 4.0
 	  },
 	  "bonus_rolls": 0.0,
 	  "entries": [
@@ -13,11 +13,6 @@
 		  "type": "minecraft:item",
 		  "weight": 1,
 		  "name": "minecraft:name_tag"
-		},
-		{
-		  "type": "minecraft:item",
-		  "weight": 1,
-		  "name": "minecraft:emerald"
 		},
 		{
 		  "type": "minecraft:item",
@@ -33,7 +28,36 @@
 			  "add": false
 			}
 		  ],
-		  "name": "minecraft:blue_ice"
+		  "name": "minecraft:bone"
+		}
+	  ]
+	},
+	{
+	  "rolls": {
+		"type": "minecraft:uniform",
+		"min": 1.0,
+		"max": 4.0
+	  },
+	  "bonus_rolls": 0.0,
+	  "entries": [
+		{
+		  "type": "minecraft:item",
+		  "name": "minecraft:emerald"
+		},
+		{
+		  "type": "minecraft:item",
+		  "functions": [
+			{
+			  "function": "minecraft:set_count",
+			  "count": {
+				"type": "minecraft:uniform",
+				"min": 1.0,
+				"max": 3.0
+			  },
+			  "add": false
+			}
+		  ],
+		  "name": "minecraft:arrow"
 		}
 	  ]
 	},
@@ -66,7 +90,7 @@
 	  "rolls": {
 		"type": "minecraft:uniform",
 		"min": 1.0,
-		"max": 3.0
+		"max": 5.0
 	  },
 	  "bonus_rolls": 0.0,
 	  "entries": [
@@ -83,32 +107,7 @@
 			  "add": false
 			}
 		  ],
-		  "name": "minecraft:bread"
-		}
-	  ]
-	},
-	{
-	  "rolls": {
-		"type": "minecraft:uniform",
-		"min": 1.0,
-		"max": 4.0
-	  },
-	  "bonus_rolls": 0.0,
-	  "entries": [
-		{
-		  "type": "minecraft:item",
-		  "functions": [
-			{
-			  "function": "minecraft:set_count",
-			  "count": {
-				"type": "minecraft:uniform",
-				"min": 1.0,
-				"max": 3.0
-			  },
-			  "add": false
-			}
-		  ],
-		  "name": "minecraft:wheat"
+		  "name": "minecraft:cobweb"
 		}
 	  ]
 	}

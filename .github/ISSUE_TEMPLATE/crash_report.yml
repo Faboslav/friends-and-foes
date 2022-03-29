@@ -21,11 +21,21 @@ body:
     -   type: dropdown
         id: mod-loader
         attributes:
-            label: 'Minecraft version information'
-            description: 'Please provide the exact minecraft version that you are using.'
+            label: 'Mod loader information'
+            description: 'Please choose the mod loader that you are using.'
             options:
                 - Fabric
                 - Forge
+        validations:
+            required: true
+    -   type: input
+        id: mod-loader-version
+        attributes:
+            label: 'Mod loader version information'
+            description: 'Please provide the exact mod loader version that you are using.'
+            placeholder: 'Example: 0.13.3 (Fabric) or 40.0.32 (Forge)'
+        validations:
+            required: true
     -   type: input
         id: mod-version
         attributes:

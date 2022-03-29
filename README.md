@@ -133,7 +133,7 @@ the [textures directory] for the textures. Get inspired, but please don't just c
 
 [Discord]: https://discord.com/invite/QGwFvvMQCn
 
-[Patreon]: https://www.patreon.com/Faboslavv
+[Patreon]: https://www.patreon.com/Faboslav
 
 [Ko-fi]: https://ko-fi.com/faboslav
 

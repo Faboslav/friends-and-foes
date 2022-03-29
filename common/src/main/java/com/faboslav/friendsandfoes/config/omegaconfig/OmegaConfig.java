@@ -24,10 +24,8 @@ import java.util.*;
 public class OmegaConfig
 {
 	private static final Logger LOGGER = LogManager.getLogger();
-	public static final String MODID = "omega-config";
 
 	public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-	private static final List<Config> REGISTERED_CONFIGURATIONS = new ArrayList<>();
 
 	public static <T extends Config> T register(Class<T> configClass) {
 		try {
@@ -40,7 +38,6 @@ public class OmegaConfig
 			//    2. read from disk if it does exist
 			if (!configExists(config)) {
 				config.save();
-				REGISTERED_CONFIGURATIONS.add(config);
 			} else {
 				try {
 					// Read from the disk config file to populate the correct values into our config object.
@@ -52,7 +49,6 @@ public class OmegaConfig
 
 					// re-write the config to add new values
 					object.save();
-					REGISTERED_CONFIGURATIONS.add(object);
 					return object;
 				} catch (Exception e) {
 					LOGGER.error(e);
@@ -176,9 +172,5 @@ public class OmegaConfig
 
 	public static boolean configExists(Config config) {
 		return Files.exists(getConfigPath(config));
-	}
-
-	public static List<Config> getRegisteredConfigurations() {
-		return REGISTERED_CONFIGURATIONS;
 	}
 }

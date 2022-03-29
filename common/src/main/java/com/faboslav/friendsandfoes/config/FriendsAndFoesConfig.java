@@ -5,24 +5,24 @@ import com.faboslav.friendsandfoes.config.omegaconfig.api.Config;
 
 public final class FriendsAndFoesConfig implements Config
 {
-	public static boolean enableCopperGolem = true;
-	public static boolean generateCopperGolemAreaStructure = true;
-	public static boolean enableGlareSpawn = true;
-	public static int glareSpawnWeight = 32;
-	public static int glareSpawnMinGroupSize = 1;
-	public static int glareSpawnMaxGroupSize = 1;
-	public static boolean enableMoobloomSpawn = true;
-	public static int moobloomSpawnWeight = 32;
-	public static int moobloomSpawnMinGroupSize = 2;
-	public static int moobloomSpawnMaxGroupSize = 4;
-	public static boolean enableBeekeeperVillagerProfession = true;
-	public static boolean generateBeekeeperAreaStructure = true;
-	public static boolean enableIllusionerSpawn = true;
-	public static boolean enableIllusionerInRaids = true;
-	public static boolean generateIllusionerShackStructure = true;
-	public static boolean enableIceologerSpawn = true;
-	public static boolean enableIceologerInRaids = true;
-	public static boolean generateIceologerCabinStructure = true;
+	public boolean enableCopperGolem = true;
+	public boolean generateCopperGolemAreaStructure = true;
+	public boolean enableGlareSpawn = true;
+	public int glareSpawnWeight = 32;
+	public int glareSpawnMinGroupSize = 1;
+	public int glareSpawnMaxGroupSize = 1;
+	public boolean enableMoobloomSpawn = true;
+	public int moobloomSpawnWeight = 32;
+	public int moobloomSpawnMinGroupSize = 2;
+	public int moobloomSpawnMaxGroupSize = 4;
+	public boolean enableBeekeeperVillagerProfession = true;
+	public boolean generateBeekeeperAreaStructure = true;
+	public boolean enableIllusionerSpawn = true;
+	public boolean enableIllusionerInRaids = true;
+	public boolean generateIllusionerShackStructure = true;
+	public boolean enableIceologerSpawn = true;
+	public boolean enableIceologerInRaids = true;
+	public boolean generateIceologerCabinStructure = true;
 
 	@Override
 	public String getName() {

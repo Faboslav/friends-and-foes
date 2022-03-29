@@ -35,7 +35,7 @@ but you are more than welcome to [share your ideas or give some feedback].
 
 ### Foes
 
-- [ ] Iceologer
+- [x] [Iceologer]
 - [x] [Illusioner]
 - [ ] Barnacle
 - [ ] Great Hunger
@@ -51,6 +51,7 @@ but you are more than welcome to [share your ideas or give some feedback].
 
 - [x] [Beekeeper Area]
 - [x] [Copper Golem Workstation]
+- [x] [Iceologer Cabin]
 - [x] [Illusioner Shack]
 
 ### Village/Villagers
@@ -107,6 +108,8 @@ the [textures directory] for the textures. Get inspired, but please don't just c
 
 [Moobloom]: https://github.com/Faboslav/friends-and-foes/wiki/Moobloom
 
+[Iceologer]: https://github.com/Faboslav/friends-and-foes/wiki/Iceologer
+
 [Illusioner]: https://github.com/Faboslav/friends-and-foes/wiki/Illusioner
 
 [Beehive]: https://github.com/Faboslav/friends-and-foes/wiki/Beehive
@@ -118,6 +121,8 @@ the [textures directory] for the textures. Get inspired, but please don't just c
 [Beekeeper Area]: https://github.com/Faboslav/friends-and-foes/wiki/Beekeeeper-Area
 
 [Copper Golem Workstation]: https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem-Workstation
+
+[Iceologer Cabin]: https://github.com/Faboslav/friends-and-foes/wiki/Iceologer-Cabin
 
 [Illusioner Shack]: https://github.com/Faboslav/friends-and-foes/wiki/Illusioner-Shack
 

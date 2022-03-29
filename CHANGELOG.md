@@ -1,6 +1,6 @@
-## mc1.18.2-1.3.0
+## mc1.18.2-1.3.0, Mar 29, 2022
 
-- Mod is now using architectury
+- Mod is now using Architectury (Forge port)
 - Added Iceologer
 - Added Iceologer Cabin structure
 - Added new "I was here" advancement

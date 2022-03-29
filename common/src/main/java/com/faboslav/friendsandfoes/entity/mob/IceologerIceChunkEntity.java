@@ -430,6 +430,14 @@ public class IceologerIceChunkEntity extends Entity
 
 		chunkEntity.setOwnerUuid(owner.getUuid());
 		chunkEntity.setTargetUuid(target.getUuid());
+		chunkEntity.setPosition(
+			target.getX(),
+			chunkEntity.getYPositionWithHeightOffset(
+				target.getY(),
+				target.getHeight()
+			),
+			target.getZ()
+		);
 
 		return chunkEntity;
 	}

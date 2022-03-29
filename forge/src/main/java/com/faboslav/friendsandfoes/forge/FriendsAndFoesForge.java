@@ -45,9 +45,15 @@ public class FriendsAndFoesForge
 	}
 
 	private static void init(final FMLCommonSetupEvent event) {
-		Raid.Member.create("ILLUSIONER", EntityType.ILLUSIONER, new int[]{0, 0, 0, 0, 1, 0, 1, 1});
-		Raid.Member.create("ICEOLOGER", ModEntity.ICEOLOGER.get(), new int[]{0, 0, 0, 0, 1, 1, 0, 1});
 		FriendsAndFoes.initCustomRegisters();
+
+		if (FriendsAndFoes.getConfig().enableIllusionerInRaids) {
+			Raid.Member.create("ILLUSIONER", EntityType.ILLUSIONER, new int[]{0, 0, 0, 0, 1, 0, 1, 1});
+		}
+
+		if (FriendsAndFoes.getConfig().enableIceologerInRaids) {
+			Raid.Member.create("ICEOLOGER", ModEntity.ICEOLOGER.get(), new int[]{0, 0, 0, 0, 1, 1, 0, 1});
+		}
 	}
 
 	private static void serverInit(final FMLDedicatedServerSetupEvent event) {

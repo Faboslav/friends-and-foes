@@ -59,7 +59,8 @@ public final class ModBlocks
 		BLOCKS.register();
 	}
 
-	public static void init() {}
+	public static void init() {
+	}
 
 	private ModBlocks() {
 	}

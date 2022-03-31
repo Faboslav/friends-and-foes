@@ -1,3 +1,7 @@
+## mc1.18.2-1.3.1, Mar 31, 2022
+
+- Fixed villagers disappearing due to disabled beekeeper villager profession
+
 ## mc1.18.2-1.3.0, Mar 29, 2022
 
 - Mod is now using Architectury (Forge port)

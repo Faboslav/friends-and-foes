@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.init;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.block.BlockState;
@@ -28,7 +29,10 @@ public final class ModPointOfInterestTypes
 		BEEHIVE_STATES.forEach((state) -> {
 			PointOfInterestType.BLOCK_STATE_TO_POINT_OF_INTEREST_TYPE.put(state, PointOfInterestType.BEEHIVE);
 		});
-		PointOfInterestType.BEEHIVE.ticketCount = 1;
+
+		if (FriendsAndFoes.getConfig().enableBeekeeperVillagerProfession) {
+			PointOfInterestType.BEEHIVE.ticketCount = 1;
+		}
 	}
 
 	private ModPointOfInterestTypes() {

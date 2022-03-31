@@ -25,7 +25,7 @@ public final class ModVillagerProfessions
 	public static final RegistrySupplier<VillagerProfession> BEEKEEPER;
 
 	static {
-		BEEKEEPER = FriendsAndFoes.getConfig().enableBeekeeperVillagerProfession ? VILLAGER_PROFESSIONS.register("beekeeper", () -> new VillagerProfession(FriendsAndFoes.makeStringID("beekeeper"), PointOfInterestType.BEEHIVE, ImmutableSet.of(Items.HONEYCOMB), ImmutableSet.of(), SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM)):null;
+		BEEKEEPER = VILLAGER_PROFESSIONS.register("beekeeper", () -> new VillagerProfession(FriendsAndFoes.makeStringID("beekeeper"), PointOfInterestType.BEEHIVE, ImmutableSet.of(Items.HONEYCOMB), ImmutableSet.of(), SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM));
 	}
 
 	public static void initRegister() {
@@ -37,36 +37,34 @@ public final class ModVillagerProfessions
 	}
 
 	private static void initTradeOffers() {
-		if (FriendsAndFoes.getConfig().enableBeekeeperVillagerProfession) {
-			TradeOffers.PROFESSION_TO_LEVELED_TRADE.put(
-				BEEKEEPER.get(), new Int2ObjectOpenHashMap(ImmutableMap.of(
-					1,
-					new TradeOffers.Factory[]{
-						new TradeOffersUtil.BuyForOneEmeraldFactory(ModItems.BUTTERCUP.get(), 10, 16, 2),
-						new TradeOffersUtil.BuyForOneEmeraldFactory(Items.DANDELION, 10, 16, 2),
-						new TradeOffersUtil.BuyForOneEmeraldFactory(Items.SUNFLOWER, 10, 16, 2),
-					},
-					2,
-					new TradeOffers.Factory[]{
-						new TradeOffersUtil.BuyForOneEmeraldFactory(Items.GLASS_BOTTLE, 9, 12, 10),
-						new TradeOffersUtil.SellItemFactory(Items.HONEY_BOTTLE, 3, 1, 12, 5),
-					},
-					3,
-					new TradeOffers.Factory[]{
-						new TradeOffersUtil.BuyForOneEmeraldFactory(Items.SHEARS, 1, 12, 20),
-						new TradeOffersUtil.SellItemFactory(Items.HONEY_BLOCK, 10, 1, 12, 10),
-					},
-					4,
-					new TradeOffers.Factory[]{
-						new TradeOffersUtil.SellItemFactory(Items.HONEYCOMB, 4, 1, 12, 15),
-					},
-					5,
-					new TradeOffers.Factory[]{
-						new TradeOffersUtil.SellItemFactory(Items.HONEYCOMB_BLOCK, 12, 1, 12, 30),
-					}
-				))
-			);
-		}
+		TradeOffers.PROFESSION_TO_LEVELED_TRADE.put(
+			BEEKEEPER.get(), new Int2ObjectOpenHashMap(ImmutableMap.of(
+				1,
+				new TradeOffers.Factory[]{
+					new TradeOffersUtil.BuyForOneEmeraldFactory(ModItems.BUTTERCUP.get(), 10, 16, 2),
+					new TradeOffersUtil.BuyForOneEmeraldFactory(Items.DANDELION, 10, 16, 2),
+					new TradeOffersUtil.BuyForOneEmeraldFactory(Items.SUNFLOWER, 10, 16, 2),
+				},
+				2,
+				new TradeOffers.Factory[]{
+					new TradeOffersUtil.BuyForOneEmeraldFactory(Items.GLASS_BOTTLE, 9, 12, 10),
+					new TradeOffersUtil.SellItemFactory(Items.HONEY_BOTTLE, 3, 1, 12, 5),
+				},
+				3,
+				new TradeOffers.Factory[]{
+					new TradeOffersUtil.BuyForOneEmeraldFactory(Items.SHEARS, 1, 12, 20),
+					new TradeOffersUtil.SellItemFactory(Items.HONEY_BLOCK, 10, 1, 12, 10),
+				},
+				4,
+				new TradeOffers.Factory[]{
+					new TradeOffersUtil.SellItemFactory(Items.HONEYCOMB, 4, 1, 12, 15),
+				},
+				5,
+				new TradeOffers.Factory[]{
+					new TradeOffersUtil.SellItemFactory(Items.HONEYCOMB_BLOCK, 12, 1, 12, 30),
+				}
+			))
+		);
 	}
 
 	private ModVillagerProfessions() {

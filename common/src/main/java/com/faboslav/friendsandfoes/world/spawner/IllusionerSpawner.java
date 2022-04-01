@@ -46,7 +46,7 @@ public class IllusionerSpawner implements Spawner
 		if (
 			l < 5L
 			|| world.isDay() == false
-			|| random.nextInt(5) != 3
+			|| random.nextInt(3) != 0
 		) {
 			return 0;
 		}

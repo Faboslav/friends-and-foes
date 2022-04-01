@@ -1,3 +1,10 @@
+## mc1.18.2-1.3.2, April 01, 2022
+
+- Fixed crash related to the bees pollinating mooblooms
+- Tweaked illusioner and iceologer spawns
+- Iceologer can now walk on the powder snow
+- Updated "Be Keeper" advancement
+
 ## mc1.18.2-1.3.1, Mar 31, 2022
 
 - Fixed villagers disappearing due to disabled beekeeper villager profession

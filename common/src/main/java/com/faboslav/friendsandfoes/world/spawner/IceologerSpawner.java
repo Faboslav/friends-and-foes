@@ -38,7 +38,6 @@ public class IceologerSpawner implements Spawner
 
 		if (this.cooldown > 0) {
 			return 0;
-
 		}
 
 		this.cooldown += 12000 + random.nextInt(1200);
@@ -47,7 +46,7 @@ public class IceologerSpawner implements Spawner
 		if (
 			l < 5L
 			|| world.isDay() == false
-			|| random.nextInt(5) != 0
+			|| random.nextInt(5) != 3
 		) {
 			return 0;
 		}
@@ -84,7 +83,7 @@ public class IceologerSpawner implements Spawner
 		var precipitation = registryEntry.value().getPrecipitation();
 
 		if (
-			category != Biome.Category.TAIGA
+			category != Category.TAIGA
 			|| precipitation != Biome.Precipitation.SNOW
 		) {
 			return 0;
@@ -106,7 +105,7 @@ public class IceologerSpawner implements Spawner
 			return 0;
 		}
 
-		iceologer.setPatrolLeader(true);
+		iceologer.setPatrolLeader(false);
 		iceologer.setRandomPatrolTarget();
 		iceologer.setPosition(mutable.getX(), mutable.getY(), mutable.getZ());
 		iceologer.initialize(world, world.getLocalDifficulty(mutable), SpawnReason.PATROL, null, null);

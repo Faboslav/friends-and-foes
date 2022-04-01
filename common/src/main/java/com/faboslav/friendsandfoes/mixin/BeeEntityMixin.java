@@ -3,29 +3,18 @@ package com.faboslav.friendsandfoes.mixin;
 import com.faboslav.friendsandfoes.entity.passive.ai.goal.BeePollinateMoobloomGoal;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.mob.Angerable;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.BeeEntity;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(BeeEntity.class)
-public abstract class BeeEntityMixin extends AnimalEntity implements Angerable
+public abstract class BeeEntityMixin extends AnimalEntity
 {
-	@Shadow
-	@Nullable
-	private BlockPos hivePos;
-
-	@Shadow
-	abstract boolean isHiveValid();
-
 	BeePollinateMoobloomGoal pollinateMoobloomGoal;
 
 	public BeeEntityMixin(
@@ -58,30 +47,12 @@ public abstract class BeeEntityMixin extends AnimalEntity implements Angerable
 		if (this.isInvulnerableTo(source)) {
 			info.setReturnValue(false);
 		} else {
-			if (!this.world.isClient) {
+			if (
+				this.world.isClient() == false
+				&& this.pollinateMoobloomGoal != null
+			) {
 				this.pollinateMoobloomGoal.cancel();
 			}
 		}
 	}
-
-
-	/*
-	@Inject(
-		method = "isHiveValid",
-		at = @At("RETURN"),
-		cancellable = true
-	)
-	private void isHiveValid(
-		CallbackInfoReturnable<Boolean> cir
-	){
-		var isHiveValid = cir.getReturnValueZ();
-		if(isHiveValid) {
-			cir.setReturnValue(isHiveValid);
-		}
-
-		BlockEntity blockEntity = this.world.getBlockEntity(this.hivePos);
-		isHiveValid = blockEntity != null && blockEntity.getType() == ModBlockEntityTypes.FRIENDS_AND_FOES_BEEHIVES;
-
-		cir.setReturnValue(isHiveValid);
-	}*/
 }

@@ -46,7 +46,7 @@ public class IllusionerSpawner implements Spawner
 		if (
 			l < 5L
 			|| world.isDay() == false
-			|| random.nextInt(5) != 0
+			|| random.nextInt(5) != 3
 		) {
 			return 0;
 		}
@@ -105,7 +105,7 @@ public class IllusionerSpawner implements Spawner
 			return 0;
 		}
 
-		illusioner.setPatrolLeader(true);
+		illusioner.setPatrolLeader(false);
 		illusioner.setRandomPatrolTarget();
 		illusioner.setPosition(mutable.getX(), mutable.getY(), mutable.getZ());
 		illusioner.initialize(world, world.getLocalDifficulty(mutable), SpawnReason.PATROL, null, null);

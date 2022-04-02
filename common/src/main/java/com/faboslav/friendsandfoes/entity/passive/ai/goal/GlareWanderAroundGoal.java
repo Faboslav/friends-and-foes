@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.entity.passive.ai.goal;
 
 import com.faboslav.friendsandfoes.entity.passive.GlareEntity;
 import net.minecraft.entity.ai.AboveGroundTargeting;
+import net.minecraft.entity.ai.FuzzyTargeting;
 import net.minecraft.entity.ai.NoPenaltySolidTargeting;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.util.math.Vec3d;
@@ -58,13 +59,20 @@ public class GlareWanderAroundGoal extends Goal
 	}
 
 	private Vec3d getRandomLocation() {
-		Vec3d vec3d = this.glare.getRotationVec(0.0F);
-		Vec3d vec3d2 = AboveGroundTargeting.find(this.glare, 8, 7, vec3d.getX(), vec3d.getZ(), 1.5707964F, 1, 1);
+		var isAboveSurfaceLevel = this.glare.getBlockPos().getY() >= 63;
+		Vec3d rotationVec = this.glare.getRotationVec(0.0F);
+		Vec3d positionVec;
 
-		if (vec3d2 != null) {
-			return vec3d2;
+		if (isAboveSurfaceLevel) {
+			positionVec = AboveGroundTargeting.find(this.glare, 8, 4, rotationVec.getX(), rotationVec.getZ(), 1.5707964F, 1, 1);
+
+			if (positionVec == null) {
+				positionVec = NoPenaltySolidTargeting.find(this.glare, 8, 4, -2, rotationVec.getX(), rotationVec.getZ(), 1.5707963705062866D);
+			}
+		} else {
+			positionVec = FuzzyTargeting.find(this.glare, 8, 4);
 		}
 
-		return NoPenaltySolidTargeting.find(this.glare, 8, 4, -2, vec3d.getX(), vec3d.getZ(), 1.5707963705062866D);
+		return positionVec;
 	}
 }

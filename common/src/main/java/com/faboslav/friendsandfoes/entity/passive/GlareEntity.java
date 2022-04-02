@@ -92,6 +92,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		this.setPathfindingPenalty(PathNodeType.DANGER_FIRE, -1.0F);
 		this.setPathfindingPenalty(PathNodeType.DANGER_CACTUS, -1.0F);
 		this.setPathfindingPenalty(PathNodeType.WATER, -1.0F);
+		this.setPathfindingPenalty(PathNodeType.LAVA, -1.0F);
 		this.setPathfindingPenalty(PathNodeType.WATER_BORDER, 16.0F);
 		this.setPathfindingPenalty(PathNodeType.COCOA, -1.0F);
 		this.setPathfindingPenalty(PathNodeType.FENCE, -1.0F);
@@ -190,7 +191,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		BlockState blockState = serverWorldAccess.getBlockState(blockPos.down());
 		boolean isAboveSurfaceLevel = blockPos.getY() >= 63;
 		boolean isSkyVisible = serverWorldAccess.isSkyVisible(blockPos);
-		boolean isBlockPosDarkSpot = serverWorldAccess.getBaseLightLevel(blockPos, 0) == 0;
+		boolean isBlockPosDarkSpot = serverWorldAccess.getBaseLightLevel(blockPos, 0) <= 3;
 		boolean isRelatedBlock = (
 			blockState.isOf(Blocks.MOSS_BLOCK)
 			|| blockState.isOf(Blocks.MOSS_CARPET)
@@ -344,11 +345,12 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 			.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 48.0D);
 	}
 
+	@Override
 	protected EntityNavigation createNavigation(World world) {
 		GlareNavigation glareNavigation = new GlareNavigation(this, world)
 		{
 			public boolean isValidPosition(BlockPos pos) {
-				return !this.world.getBlockState(pos.down()).isAir();
+				return this.world.getBlockState(pos.down()).isAir() == false;
 			}
 		};
 
@@ -356,7 +358,6 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		glareNavigation.setCanSwim(false);
 		glareNavigation.setCanEnterOpenDoors(true);
 		EntityNavigationAccessor entityNavigation = (EntityNavigationAccessor) glareNavigation;
-		entityNavigation.setNodeReachProximity(0.1F);
 
 		return glareNavigation;
 	}

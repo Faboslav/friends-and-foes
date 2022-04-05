@@ -17,7 +17,7 @@ public class GlareSitGoal extends Goal
 	@Override
 	public void start() {
 		this.glare.getNavigation().stop();
-		this.glare.setInSittingPose(true);
+		this.glare.setSitting(true);
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class GlareSitGoal extends Goal
 
 	@Override
 	public void stop() {
-		this.glare.setInSittingPose(false);
+		this.glare.setSitting(false);
 	}
 }
 

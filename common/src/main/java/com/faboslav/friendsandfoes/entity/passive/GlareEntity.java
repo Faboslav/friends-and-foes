@@ -58,7 +58,9 @@ import java.util.function.Predicate;
 public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 {
 	public static final Predicate<ItemEntity> PICKABLE_FOOD_FILTER;
+	private static final int SITTING_BITMASK = 1;
 	private static final int GRUMPY_BITMASK = 2;
+	private static final int TAMED_BITMASK = 4;
 	private static final float MOVEMENT_SPEED = 0.6F;
 	public static final int MIN_TICKS_UNTIL_CAN_FIND_DARK_SPOT = 200;
 	public static final int MAX_TICKS_UNTIL_CAN_FIND_DARK_SPOT = 400;
@@ -79,7 +81,6 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 	private float currentLayerRollAnimationProgress;
 	private GlareEatGlowBerriesGoal eatGlowBerriesGoal;
 	private GlareFlyToDarkSpotGoal flyToDarkSpotGoal;
-	private boolean sitting;
 
 	public GlareEntity(EntityType<? extends GlareEntity> entityType, World world) {
 		super(entityType, world);
@@ -140,7 +141,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		if (this.getOwnerUuid() != null) {
 			nbt.putUuid("Owner", this.getOwnerUuid());
 		}
-		nbt.putBoolean("Sitting", this.sitting);
+		nbt.putBoolean("Sitting", this.isSitting());
 	}
 
 	@Override
@@ -163,8 +164,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 			}
 		}
 
-		this.sitting = nbt.getBoolean("Sitting");
-		this.setInSittingPose(this.sitting);
+		this.setSitting(nbt.getBoolean("Sitting"));
 	}
 
 	private boolean hasGlareFlag(int bitmask) {
@@ -358,6 +358,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		glareNavigation.setCanSwim(false);
 		glareNavigation.setCanEnterOpenDoors(true);
 		EntityNavigationAccessor entityNavigation = (EntityNavigationAccessor) glareNavigation;
+		entityNavigation.setNodeReachProximity(0.1F);
 
 		return glareNavigation;
 	}
@@ -571,17 +572,18 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 	}
 
 	public boolean isTamed() {
-		return (this.dataTracker.get(TAMEABLE_FLAGS) & 4) != 0;
+		return (this.dataTracker.get(TAMEABLE_FLAGS) & TAMED_BITMASK) != 0;
 	}
 
 	public void setTamed(boolean tamed) {
-		byte b = this.dataTracker.get(TAMEABLE_FLAGS);
+		byte tameableFlags = this.dataTracker.get(TAMEABLE_FLAGS);
+
 		if (tamed) {
-			this.dataTracker.set(TAMEABLE_FLAGS, (byte) (b | 4));
+			this.dataTracker.set(TAMEABLE_FLAGS, (byte) (tameableFlags | TAMED_BITMASK));
 			this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(20.0D);
 			this.setHealth(this.getMaxHealth());
 		} else {
-			this.dataTracker.set(TAMEABLE_FLAGS, (byte) (b & -5));
+			this.dataTracker.set(TAMEABLE_FLAGS, (byte) (tameableFlags & -5));
 			this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(10.0D);
 		}
 
@@ -624,25 +626,18 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		return entity == this.getOwner();
 	}
 
-	public boolean isInSittingPose() {
-		return (this.dataTracker.get(TAMEABLE_FLAGS) & 1) != 0;
-	}
-
-	public void setInSittingPose(boolean inSittingPose) {
-		byte b = this.dataTracker.get(TAMEABLE_FLAGS);
-		if (inSittingPose) {
-			this.dataTracker.set(TAMEABLE_FLAGS, (byte) (b | 1));
-		} else {
-			this.dataTracker.set(TAMEABLE_FLAGS, (byte) (b & -2));
-		}
-	}
-
 	public boolean isSitting() {
-		return this.sitting;
+		return (this.dataTracker.get(TAMEABLE_FLAGS) & SITTING_BITMASK) != 0;
 	}
 
-	public void setSitting(boolean sitting) {
-		this.sitting = sitting;
+	public void setSitting(boolean isSitting) {
+		byte tameableFlags = this.dataTracker.get(TAMEABLE_FLAGS);
+
+		if (isSitting) {
+			this.dataTracker.set(TAMEABLE_FLAGS, (byte) (tameableFlags | SITTING_BITMASK));
+		} else {
+			this.dataTracker.set(TAMEABLE_FLAGS, (byte) (tameableFlags & -2));
+		}
 	}
 
 	public void onDeath(DamageSource source) {

@@ -1,3 +1,10 @@
+## mc1.18.2-1.3.3, April 04, 2022
+
+- Improved Glare performance
+- Improved visual of Glares sitting state
+- Improved bottom part of the Glare texture
+- Fixed Illusioner and Iceologer spawns in patrols
+
 ## mc1.18.2-1.3.2, April 01, 2022
 
 - Fixed crash related to the bees pollinating mooblooms

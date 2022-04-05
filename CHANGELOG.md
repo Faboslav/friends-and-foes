@@ -1,4 +1,4 @@
-## mc1.18.2-1.3.3, April 04, 2022
+## mc1.18.2-1.3.3, April 05, 2022
 
 - Improved Glare performance
 - Improved visual of Glares sitting state

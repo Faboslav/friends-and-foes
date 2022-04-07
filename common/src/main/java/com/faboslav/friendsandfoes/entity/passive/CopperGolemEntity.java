@@ -72,7 +72,7 @@ public class CopperGolemEntity extends GolemEntity
 	private static final TrackedData<NbtCompound> ENTITY_SNAPSHOT;
 	private static final Predicate<Entity> NOTICEABLE_PLAYER_FILTER;
 
-	private CopperGolemPressButtonGoal pressButtonGoal;
+	public CopperGolemPressButtonGoal pressButtonGoal;
 
 	static {
 		OXIDATION_LEVEL = DataTracker.registerData(CopperGolemEntity.class, TrackedDataHandlerRegistry.INTEGER);
@@ -102,7 +102,7 @@ public class CopperGolemEntity extends GolemEntity
 		super(entityType, world);
 		this.stepHeight = 0.3F;
 		EntityNavigationAccessor entityNavigation = (EntityNavigationAccessor) this.getNavigation();
-		entityNavigation.setNodeReachProximity(0.1F);
+		entityNavigation.setNodeReachProximity(0.01F);
 	}
 
 	@Override

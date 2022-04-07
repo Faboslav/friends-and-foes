@@ -144,7 +144,7 @@ public class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel
 			this.root.pivotX = MathHelper.sin(animationProgress) * 0.5F;
 			this.root.pivotY = Math.abs(MathHelper.sin(animationProgress * 0.1F)) * -1.0F;
 			this.root.yaw = MathHelper.sin(animationProgress) * 0.05F;
-		} else if(glare.isSitting()) {
+		} else if (glare.isSitting()) {
 			this.root.pivotY = 6.0F;
 		}
 	}

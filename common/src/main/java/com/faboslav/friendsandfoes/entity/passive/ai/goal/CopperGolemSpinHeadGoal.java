@@ -20,7 +20,7 @@ public class CopperGolemSpinHeadGoal extends Goal
 			return false;
 		} else if (this.copperGolem.getNavigation().isFollowingPath()) {
 			return false;
-		} else if (this.copperGolem.isPressingButton()) {
+		} else if (this.copperGolem.pressButtonGoal.isRunning()) {
 			return false;
 		}
 

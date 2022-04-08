@@ -1,3 +1,8 @@
+## mc1.18.2-1.3.4, April 08, 2022
+
+- Fixed Copper Golem press button goal logic
+- Improved Copper Golem spin head goal timing
+
 ## mc1.18.2-1.3.3, April 05, 2022
 
 - Improved Glare performance

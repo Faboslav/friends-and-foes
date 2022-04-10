@@ -31,6 +31,7 @@
   "block.friendsandfoes.waxed_weathered_copper_button": "Waxed Weathered Copper Button",
   "block.friendsandfoes.waxed_oxidized_copper_button": "Waxed Oxidized Copper Button",
   "entity.minecraft.villager.beekeeper": "Beekeeper",
+  "entity.minecraft.villager.friendsandfoes.beekeeper": "Beekeeper",
   "entity.friendsandfoes.copper_golem": "Copper Golem",
   "entity.friendsandfoes.glare": "Glare",
   "entity.friendsandfoes.moobloom": "Moobloom",

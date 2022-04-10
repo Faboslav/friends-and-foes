@@ -12,6 +12,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,7 +22,7 @@ import java.util.function.Predicate;
 
 public class CopperGolemPressButtonGoal extends Goal
 {
-	private final double COPPER_BUTTON_SEARCH_DISTANCE = 12.0D;
+	private final int COPPER_BUTTON_SEARCH_DISTANCE = 8;
 	protected CopperGolemEntity copperGolem;
 	private BlockPos copperButtonToPress;
 	private BlockPos positionToStandOn;
@@ -31,6 +32,7 @@ public class CopperGolemPressButtonGoal extends Goal
 	private int idleTicksBeforeButtonPress;
 	private int idleTicksAfterButtonPress;
 	private int ticksAfterButtonPress;
+	private boolean isRunning;
 	private int runTicks;
 	private boolean copperButtonWasSuccessfullyPressed;
 
@@ -79,7 +81,7 @@ public class CopperGolemPressButtonGoal extends Goal
 			return false;
 		}
 
-		if (this.runTicks >= 1200) {
+		if (this.runTicks >= 900) {
 			return false;
 		}
 
@@ -97,6 +99,7 @@ public class CopperGolemPressButtonGoal extends Goal
 
 	@Override
 	public void start() {
+		this.isRunning = true;
 		this.runTicks = 0;
 		this.standingNearToCopperButtonTicks = 0;
 		this.ticksAfterButtonPress = 0;
@@ -110,6 +113,7 @@ public class CopperGolemPressButtonGoal extends Goal
 	@Override
 	public void stop() {
 		// Reset goal
+		this.isRunning = false;
 		this.copperButtonToPress = null;
 		this.positionToStandOn = null;
 		this.positionToLookAt = null;
@@ -160,7 +164,7 @@ public class CopperGolemPressButtonGoal extends Goal
 			);
 		}
 
-		if (distanceToButton >= 1.0D) {
+		if (distanceToButton >= 1.5D) {
 			if (this.copperGolem.isPressingButton()) {
 				this.copperGolem.setIsPressingButton(false);
 			}
@@ -214,18 +218,27 @@ public class CopperGolemPressButtonGoal extends Goal
 	}
 
 	private ArrayList<BlockPos> findCopperButtons() {
-		BlockPos blockPos = this.copperGolem.getBlockPos();
+		int horizontalSearchDistance = COPPER_BUTTON_SEARCH_DISTANCE;
+		int verticalSearchDistance = COPPER_BUTTON_SEARCH_DISTANCE / 2;
+
+		World world = this.copperGolem.getWorld();
+		BlockPos currentPosition = this.copperGolem.getBlockPos();
+
 		ArrayList<BlockPos> copperButtonBlocks = new ArrayList<>();
 
-		for (int i = 0; (double) i <= COPPER_BUTTON_SEARCH_DISTANCE; i = i > 0 ? -i:1 - i) {
-			for (int j = 0; (double) j < COPPER_BUTTON_SEARCH_DISTANCE; ++j) {
-				for (int k = 0; k <= j; k = k > 0 ? -k:1 - k) {
-					for (int l = k < j && k > -j ? j:0; l == j; l = l > 0 ? -l:1 - l) {
-						BlockPos.Mutable mutable = new BlockPos.Mutable();
-						mutable.set(blockPos, k, i - 1, l);
-						if (blockPos.isWithinDistance(mutable, COPPER_BUTTON_SEARCH_DISTANCE) && copperButtonPredicate.test(this.copperGolem.getEntityWorld().getBlockState(mutable))) {
-							copperButtonBlocks.add(mutable);
-						}
+		for (int xPosition = -horizontalSearchDistance; xPosition <= horizontalSearchDistance; xPosition++) {
+			for (int zPosition = -horizontalSearchDistance; zPosition <= horizontalSearchDistance; zPosition++) {
+				for (int yPosition = -verticalSearchDistance; yPosition <= verticalSearchDistance; yPosition++) {
+					BlockPos.Mutable mutableBlockPosition = new BlockPos.Mutable();
+
+					mutableBlockPosition.set(
+						currentPosition.getX() + xPosition,
+						currentPosition.getY() + yPosition,
+						currentPosition.getZ() + zPosition
+					);
+
+					if (copperButtonPredicate.test(world.getBlockState(mutableBlockPosition))) {
+						copperButtonBlocks.add(mutableBlockPosition);
 					}
 				}
 			}
@@ -242,7 +255,7 @@ public class CopperGolemPressButtonGoal extends Goal
 			return null;
 		}
 
-		int randomCopperButtonIndex = this.copperGolem.getRandom().nextInt(copperButtonsCount);
+		int randomCopperButtonIndex = RandomGenerator.generateInt(0, copperButtonsCount - 1);
 
 		return copperButtons.get(randomCopperButtonIndex);
 	}
@@ -342,5 +355,9 @@ public class CopperGolemPressButtonGoal extends Goal
 		}
 
 		return null;
+	}
+
+	public boolean isRunning() {
+		return this.isRunning;
 	}
 }

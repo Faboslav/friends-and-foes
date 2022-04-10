@@ -10,7 +10,9 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.spawner.PatrolSpawner;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Random;
 
@@ -50,5 +52,25 @@ public class PatrolSpawnerMixin
 		}
 
 		return patrolEntity;
+	}
+
+	@Inject(
+		method = "spawn",
+		at = @At("RETURN"),
+		cancellable = true
+	)
+	private void resetBiomeSpecificIllagerSpawnFlag(
+		ServerWorld world,
+		boolean spawnMonsters,
+		boolean spawnAnimals,
+		CallbackInfoReturnable<Integer> cir
+	) {
+		var spawnerPatrolMembersCount = cir.getReturnValue();
+
+		if (spawnerPatrolMembersCount > 0) {
+			this.isBiomeSpecificIllagerSpawned = false;
+		}
+
+		cir.setReturnValue(spawnerPatrolMembersCount);
 	}
 }

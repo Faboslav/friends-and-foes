@@ -42,11 +42,11 @@ processResources {
 
 	filesMatching("fabric.mod.json") {
 		expand([
-			'modId': rootProject.mod_id,
-			'modName': rootProject.mod_name,
+			'modId'         : rootProject.mod_id,
+			'modName'       : rootProject.mod_name,
 			'modDescription': rootProject.mod_description,
-			'modVersion': rootProject.mod_version,
-			'modAuthor': rootProject.mod_author
+			'modVersion'    : rootProject.mod_version,
+			'modAuthor'     : rootProject.mod_author
 		])
 	}
 }

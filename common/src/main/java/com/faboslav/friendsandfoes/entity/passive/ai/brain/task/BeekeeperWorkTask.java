@@ -35,6 +35,10 @@ public class BeekeeperWorkTask extends VillagerWorkTask
 
 		BlockState beehiveBlockState = serverWorld.getBlockState(beehiveGlobalPos.getPos());
 
+		if (beehiveBlockState == null) {
+			return;
+		}
+
 		if (isBeehiveReadyForHarvest(beehiveBlockState) == false) {
 			return;
 		}

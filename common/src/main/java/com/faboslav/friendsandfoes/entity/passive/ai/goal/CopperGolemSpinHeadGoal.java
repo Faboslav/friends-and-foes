@@ -22,6 +22,8 @@ public class CopperGolemSpinHeadGoal extends Goal
 			return false;
 		} else if (this.copperGolem.pressButtonGoal.isRunning()) {
 			return false;
+		} else if(RandomGenerator.generateRandomFloat() < 0.95) {
+			return false;
 		}
 
 		return this.copperGolem.getTicksUntilNextHeadSpin() == 0;

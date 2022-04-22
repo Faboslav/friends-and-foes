@@ -47,6 +47,7 @@ public class CopperGolemEntity extends GolemEntity
 {
 	private static final float MOVEMENT_SPEED = 0.35F;
 	private static final int COPPER_INGOT_HEAL_AMOUNT = 5;
+	private static final float OXIDATION_CHANCE = 0.00004F;
 	public static final int MIN_TICKS_UNTIL_CAN_PRESS_BUTTON = 200;
 	public static final int MAX_TICKS_UNTIL_CAN_PRESS_BUTTON = 1200;
 	public static final int MIN_TICKS_UNTIL_NEXT_HEAD_SPIN = 200;
@@ -57,6 +58,7 @@ public class CopperGolemEntity extends GolemEntity
 	private static final String BUTTON_PRESS_ANIMATION_PROGRESS_NBT_NAME = "ButtonPressAnimationProgress";
 	private static final String LAST_BUTTON_PRESS_ANIMATION_PROGRESS_NBT_NAME = "LastButtonPressAnimationProgress";
 	private static final String HEAD_SPIN_ANIMATION_PROGRESS_NBT_NAME = "HeadSpinAnimationProgress";
+	private static final String LAST_HEAD_SPIN_ANIMATION_PROGRESS_NBT_NAME = "LastHeadSpinAnimationProgress";
 	private static final String ENTITY_SNAPSHOT_NBT_NAME = "EntitySnapshot";
 
 	private static final TrackedData<Integer> OXIDATION_LEVEL;
@@ -69,6 +71,7 @@ public class CopperGolemEntity extends GolemEntity
 	private static final TrackedData<Float> BUTTON_PRESS_ANIMATION_PROGRESS;
 	private static final TrackedData<Float> LAST_BUTTON_PRESS_ANIMATION_PROGRESS;
 	private static final TrackedData<Float> HEAD_SPIN_ANIMATION_PROGRESS;
+	private static final TrackedData<Float> LAST_HEAD_SPIN_ANIMATION_PROGRESS;
 	private static final TrackedData<NbtCompound> ENTITY_SNAPSHOT;
 	private static final Predicate<Entity> NOTICEABLE_PLAYER_FILTER;
 
@@ -85,13 +88,14 @@ public class CopperGolemEntity extends GolemEntity
 		BUTTON_PRESS_ANIMATION_PROGRESS = DataTracker.registerData(CopperGolemEntity.class, TrackedDataHandlerRegistry.FLOAT);
 		LAST_BUTTON_PRESS_ANIMATION_PROGRESS = DataTracker.registerData(CopperGolemEntity.class, TrackedDataHandlerRegistry.FLOAT);
 		HEAD_SPIN_ANIMATION_PROGRESS = DataTracker.registerData(CopperGolemEntity.class, TrackedDataHandlerRegistry.FLOAT);
+		LAST_HEAD_SPIN_ANIMATION_PROGRESS = DataTracker.registerData(CopperGolemEntity.class, TrackedDataHandlerRegistry.FLOAT);
 		ENTITY_SNAPSHOT = DataTracker.registerData(CopperGolemEntity.class, TrackedDataHandlerRegistry.NBT_COMPOUND);
 		NOTICEABLE_PLAYER_FILTER = (entity) -> {
 			PlayerEntity player = (PlayerEntity) entity;
 			ItemStack itemStack = player.getStackInHand(Hand.MAIN_HAND);
 			Item itemInHand = itemStack.getItem();
 
-			return itemInHand instanceof AxeItem && EntityPredicates.EXCEPT_SPECTATOR.test(player);
+			return itemInHand instanceof AxeItem && EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.test(player);
 		};
 	}
 
@@ -134,6 +138,7 @@ public class CopperGolemEntity extends GolemEntity
 		this.dataTracker.startTracking(BUTTON_PRESS_ANIMATION_PROGRESS, 0.0F);
 		this.dataTracker.startTracking(LAST_BUTTON_PRESS_ANIMATION_PROGRESS, 0.0F);
 		this.dataTracker.startTracking(HEAD_SPIN_ANIMATION_PROGRESS, 0.0F);
+		this.dataTracker.startTracking(LAST_HEAD_SPIN_ANIMATION_PROGRESS, 0.0F);
 		this.dataTracker.startTracking(ENTITY_SNAPSHOT, new NbtCompound());
 	}
 
@@ -144,6 +149,7 @@ public class CopperGolemEntity extends GolemEntity
 		nbt.putFloat(BUTTON_PRESS_ANIMATION_PROGRESS_NBT_NAME, this.getButtonPressAnimationProgress());
 		nbt.putFloat(LAST_BUTTON_PRESS_ANIMATION_PROGRESS_NBT_NAME, this.getLastButtonPressAnimationProgress());
 		nbt.putFloat(HEAD_SPIN_ANIMATION_PROGRESS_NBT_NAME, this.getHeadSpinAnimationProgress());
+		nbt.putFloat(LAST_HEAD_SPIN_ANIMATION_PROGRESS_NBT_NAME, this.getLastHeadSpinAnimationProgress());
 		nbt.putBoolean(IS_WAXED_NBT_NAME, this.isWaxed());
 		nbt.put(ENTITY_SNAPSHOT_NBT_NAME, this.getEntitySnapshot());
 	}
@@ -156,6 +162,7 @@ public class CopperGolemEntity extends GolemEntity
 		this.setButtonPressAnimationProgress(nbt.getFloat(BUTTON_PRESS_ANIMATION_PROGRESS_NBT_NAME));
 		this.setLastButtonPressAnimationProgress(nbt.getFloat(LAST_BUTTON_PRESS_ANIMATION_PROGRESS_NBT_NAME));
 		this.setHeadSpinAnimationProgress(nbt.getFloat(HEAD_SPIN_ANIMATION_PROGRESS_NBT_NAME));
+		this.setLastHeadSpinAnimationProgress(nbt.getFloat(LAST_HEAD_SPIN_ANIMATION_PROGRESS_NBT_NAME));
 		this.setEntitySnapshot(nbt.getCompound(ENTITY_SNAPSHOT_NBT_NAME));
 		this.applyEntitySnapshot();
 	}
@@ -484,7 +491,7 @@ public class CopperGolemEntity extends GolemEntity
 			this.spawnParticles(ParticleTypes.WAX_OFF, 7);
 		}
 
-		if (!this.isWaxed() && !this.getEntityWorld().isClient()) {
+		if (this.isWaxed() == false && this.getEntityWorld().isClient() == false) {
 			this.setOxidationLevel(Oxidizable.OxidationLevel.UNAFFECTED);
 		}
 	}
@@ -493,13 +500,15 @@ public class CopperGolemEntity extends GolemEntity
 		this.setLastButtonPressAnimationProgress(this.getButtonPressAnimationProgress());
 
 		if (this.isPressingButton()) {
-			this.setButtonPressAnimationProgress(Math.min(1.0F, this.getButtonPressAnimationProgress() + 0.25F));
+			this.setButtonPressAnimationProgress(Math.min(1.0F, this.getButtonPressAnimationProgress() + 0.20F));
 		} else {
-			this.setButtonPressAnimationProgress(Math.max(0.0F, this.getButtonPressAnimationProgress() - 0.25F));
+			this.setButtonPressAnimationProgress(Math.max(0.0F, this.getButtonPressAnimationProgress() - 0.20F));
 		}
 	}
 
 	private void updateHeadSpinAnimation() {
+		this.setLastHeadSpinAnimationProgress(this.getHeadSpinAnimationProgress());
+
 		if (this.isSpinningHead()) {
 			this.setHeadSpinAnimationProgress(Math.min(1.0F, this.getHeadSpinAnimationProgress() + 0.05F));
 		} else {
@@ -512,7 +521,7 @@ public class CopperGolemEntity extends GolemEntity
 			return;
 		}
 
-		if (this.random.nextFloat() < 0.00004166666) {
+		if (RandomGenerator.generateRandomFloat() < OXIDATION_CHANCE) {
 			int degradedOxidationLevelOrdinal = getOxidationLevel().ordinal() + 1;
 			Oxidizable.OxidationLevel[] OxidationLevels = Oxidizable.OxidationLevel.values();
 			this.setOxidationLevel(OxidationLevels[degradedOxidationLevelOrdinal]);
@@ -534,10 +543,9 @@ public class CopperGolemEntity extends GolemEntity
 	public void setOxidationLevel(Oxidizable.OxidationLevel OxidationLevel) {
 		this.dataTracker.set(OXIDATION_LEVEL, OxidationLevel.ordinal());
 
-		if (this.isOxidized() && !this.isAiDisabled()) {
+		if (this.isOxidized() && this.isAiDisabled() == false) {
 			this.becomeStatue();
-		}
-		if (!this.isOxidized() && this.isAiDisabled()) {
+		} else if (this.isOxidized() == false && this.isAiDisabled()) {
 			this.becomeEntity();
 		}
 	}
@@ -661,24 +669,34 @@ public class CopperGolemEntity extends GolemEntity
 		this.dataTracker.set(HEAD_SPIN_ANIMATION_PROGRESS, headSpinAnimationProgress);
 	}
 
+	public float getLastHeadSpinAnimationProgress() {
+		return this.dataTracker.get(LAST_HEAD_SPIN_ANIMATION_PROGRESS);
+	}
+
+	public void setLastHeadSpinAnimationProgress(float lastHeadSpinAnimationProgress) {
+		this.dataTracker.set(LAST_HEAD_SPIN_ANIMATION_PROGRESS, lastHeadSpinAnimationProgress);
+	}
+
 	private void spawnParticles(
 		DefaultParticleType particleType,
 		int amount
 	) {
-		if (!this.world.isClient()) {
-			for (int i = 0; i < amount; i++) {
-				((ServerWorld) this.getEntityWorld()).spawnParticles(
-					particleType,
-					this.getParticleX(1.0D),
-					this.getRandomBodyY() + 0.5D,
-					this.getParticleZ(1.0D),
-					1,
-					this.getRandom().nextGaussian() * 0.02D,
-					this.getRandom().nextGaussian() * 0.02D,
-					this.getRandom().nextGaussian() * 0.02D,
-					1.0D
-				);
-			}
+		if (this.world.isClient()) {
+			return;
+		}
+
+		for (int i = 0; i < amount; i++) {
+			((ServerWorld) this.getEntityWorld()).spawnParticles(
+				particleType,
+				this.getParticleX(1.0D),
+				this.getRandomBodyY() + 0.5D,
+				this.getParticleZ(1.0D),
+				1,
+				this.getRandom().nextGaussian() * 0.02D,
+				this.getRandom().nextGaussian() * 0.02D,
+				this.getRandom().nextGaussian() * 0.02D,
+				1.0D
+			);
 		}
 	}
 

@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Environment(EnvType.CLIENT)
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class CopperGolemEntityRenderer extends MobEntityRenderer<CopperGolemEntity, CopperGolemEntityModel<CopperGolemEntity>>
+public final class CopperGolemEntityRenderer extends MobEntityRenderer<CopperGolemEntity, CopperGolemEntityModel<CopperGolemEntity>>
 {
 	private static final Map<Oxidizable.OxidationLevel, Identifier> OXIDATION_TO_TEXTURE_MAP;
 

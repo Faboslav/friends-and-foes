@@ -104,8 +104,8 @@ public class CopperGolemPressButtonGoal extends Goal
 		this.standingNearToCopperButtonTicks = 0;
 		this.ticksAfterButtonPress = 0;
 		this.copperButtonWasSuccessfullyPressed = false;
-		int minIdleTicks = 25;
-		int maxIdleTicks = 50;
+		int minIdleTicks = 20;
+		int maxIdleTicks = 40;
 		this.idleTicksBeforeButtonPress = RandomGenerator.generateInt(minIdleTicks, maxIdleTicks);
 		this.idleTicksAfterButtonPress = RandomGenerator.generateInt(minIdleTicks, maxIdleTicks);
 	}

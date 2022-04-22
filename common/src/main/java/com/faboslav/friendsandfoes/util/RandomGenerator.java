@@ -23,4 +23,8 @@ public class RandomGenerator
 	) {
 		return min + random.nextFloat() * (max - min);
 	}
+
+	public static float generateRandomFloat() {
+		return generateFloat(0, 1);
+	}
 }

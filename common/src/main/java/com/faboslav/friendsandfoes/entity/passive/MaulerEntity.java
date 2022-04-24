@@ -1,103 +1,170 @@
 package com.faboslav.friendsandfoes.entity.passive;
 
-import java.util.Random;
-import net.minecraft.block.Block;
+import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.CarrotsBlock;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.control.JumpControl;
-import net.minecraft.entity.ai.control.MoveControl;
-import net.minecraft.entity.ai.goal.ActiveTargetGoal;
-import net.minecraft.entity.ai.goal.AnimalMateGoal;
-import net.minecraft.entity.ai.goal.FleeEntityGoal;
-import net.minecraft.entity.ai.goal.LookAtEntityGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.MoveToTargetPosGoal;
-import net.minecraft.entity.ai.goal.PowderSnowJumpGoal;
-import net.minecraft.entity.ai.goal.RevengeGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.ai.goal.TemptGoal;
-import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
-import net.minecraft.entity.ai.pathing.Path;
-import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer.Builder;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.mob.PathAwareEntity;
-import net.minecraft.entity.passive.PassiveEntity;
-import net.minecraft.entity.passive.PassiveEntity.PassiveData;
-import net.minecraft.entity.passive.WolfEntity;
+import net.minecraft.entity.mob.*;
+import net.minecraft.entity.passive.ChickenEntity;
+import net.minecraft.entity.passive.RabbitEntity;
+import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemConvertible;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.recipe.Ingredient;
+import net.minecraft.particle.DefaultParticleType;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.tag.BlockTags;
-import net.minecraft.text.TranslatableText;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.Util;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.RegistryEntry;
-import net.minecraft.world.GameRules;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
-import net.minecraft.world.WorldView;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.Biome.Category;
-import net.minecraft.world.biome.Biome.Precipitation;
+import net.minecraft.world.biome.BiomeKeys;
+import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
-public class MaulerEntity extends PathAwareEntity
+import java.util.Map;
+import java.util.Random;
+import java.util.UUID;
+import java.util.function.Predicate;
+
+@SuppressWarnings({"rawtypes", "unchecked"})
+public final class MaulerEntity extends PathAwareEntity implements Angerable
 {
-	public static final double field_30356 = 0.6D;
-	public static final double field_30357 = 0.8D;
-	public static final double field_30358 = 1.0D;
-	public static final double ESCAPE_SPEED = 2.2D;
-	public static final double field_30360 = 1.4D;
-	private static final TrackedData<Integer> RABBIT_TYPE;
-	public static final int BROWN_TYPE = 0;
-	public static final int WHITE_TYPE = 1;
-	public static final int BLACK_TYPE = 2;
-	public static final int WHITE_SPOTTED_TYPE = 3;
-	public static final int GOLD_TYPE = 4;
-	public static final int SALT_TYPE = 5;
-	public static final int KILLER_BUNNY_TYPE = 99;
-	private static final Identifier KILLER_BUNNY;
-	public static final int field_30368 = 8;
-	public static final int field_30369 = 8;
-	private static final int field_30370 = 40;
-	private int jumpTicks;
-	private int jumpDuration;
-	private boolean lastOnGround;
-	private int ticksUntilJump;
-	int moreCarrotTicks;
+	private static final int MAXIMUM_STORED_EXPERIENCE_POINTS = 1395;
+	private static final Predicate<Entity> BABY_VILLAGER_PREDICATE;
+	private static final Predicate<Entity> BABY_ZOMBIE_PREDICATE;
+	private static final Predicate<Entity> SMALL_SLIME_PREDICATE;
+
+	private static final String STORED_EXPERIENCE_POINTS_NBT_NAME = "StoredExperiencePoints";
+
+	private static final TrackedData<String> TYPE;
+	private static final TrackedData<Integer> ANGER_TIME;
+	private static final TrackedData<Integer> STORED_EXPERIENCE_POINTS;
+
+	@Nullable
+	private UUID angryAt;
+
+	static {
+		BABY_VILLAGER_PREDICATE = (entity) -> {
+			return entity instanceof VillagerEntity && ((VillagerEntity) entity).isBaby();
+		};
+		BABY_ZOMBIE_PREDICATE = (entity) -> {
+			return entity instanceof ZombieEntity && ((ZombieEntity) entity).isBaby();
+		};
+		SMALL_SLIME_PREDICATE = (entity) -> {
+			return entity instanceof SlimeEntity && ((SlimeEntity) entity).getSize() == SlimeEntity.MIN_SIZE;
+		};
+		TYPE = DataTracker.registerData(MaulerEntity.class, TrackedDataHandlerRegistry.STRING);
+		ANGER_TIME = DataTracker.registerData(MaulerEntity.class, TrackedDataHandlerRegistry.INTEGER);
+		STORED_EXPERIENCE_POINTS = DataTracker.registerData(MaulerEntity.class, TrackedDataHandlerRegistry.INTEGER);
+	}
 
 	public MaulerEntity(EntityType<? extends MaulerEntity> entityType, World world) {
 		super(entityType, world);
-		this.jumpControl = new MaulerEntity.RabbitJumpControl(this);
-		this.moveControl = new MaulerEntity.RabbitMoveControl(this);
-		this.setSpeed(0.0D);
+	}
+
+	protected void initDataTracker() {
+		super.initDataTracker();
+		this.dataTracker.startTracking(TYPE, Type.DESERT.name());
+		this.dataTracker.startTracking(ANGER_TIME, 0);
+		this.dataTracker.startTracking(STORED_EXPERIENCE_POINTS, 0);
+	}
+
+	public void writeCustomDataToNbt(NbtCompound nbt) {
+		super.writeCustomDataToNbt(nbt);
+		this.writeAngerToNbt(nbt);
+		nbt.putInt(STORED_EXPERIENCE_POINTS_NBT_NAME, this.getStoredExperiencePoints());
+	}
+
+	public void readCustomDataFromNbt(NbtCompound nbt) {
+		super.readCustomDataFromNbt(nbt);
+		this.readAngerFromNbt(this.getWorld(), nbt);
+		this.setStoredExperiencePoints(nbt.getInt(STORED_EXPERIENCE_POINTS_NBT_NAME));
+	}
+
+	@Nullable
+	public EntityData initialize(
+		ServerWorldAccess world,
+		LocalDifficulty difficulty,
+		SpawnReason spawnReason,
+		@Nullable EntityData entityData,
+		@Nullable NbtCompound entityNbt
+	) {
+		Type type;
+
+		if (
+			spawnReason == SpawnReason.COMMAND
+			|| spawnReason == SpawnReason.SPAWN_EGG
+			|| spawnReason == SpawnReason.SPAWNER
+			|| spawnReason == SpawnReason.DISPENSER
+		) {
+			int randomTypeNumber = RandomGenerator.generateInt(0, Type.values().length - 1);
+			type = Type.values()[randomTypeNumber];
+		} else {
+			RegistryKey<Biome> biomeKey = world.getBiome(this.getBlockPos()).getKey().orElse(BiomeKeys.DESERT);
+			type = Type.getTypeByBiome(biomeKey);
+		}
+
+		this.setType(type);
+
+		return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
+	}
+
+	public static boolean canSpawn(
+		EntityType<MaulerEntity> maulerEntityType,
+		ServerWorldAccess serverWorldAccess,
+		SpawnReason spawnReason,
+		BlockPos blockPos,
+		Random random
+	) {
+		BlockState blockState = serverWorldAccess.getBlockState(blockPos.down());
+
+		boolean isRelatedBlock = (
+			blockState.isOf(Blocks.SAND)
+			|| blockState.isOf(Blocks.RED_SAND)
+			|| blockState.isOf(Blocks.GRASS_BLOCK)
+		);
+
+		return isRelatedBlock;
 	}
 
 	protected void initGoals() {
+		this.goalSelector.add(1, new SwimGoal(this));
+		this.goalSelector.add(4, new MeleeAttackGoal(this, 1.0, true));
+		this.goalSelector.add(6, new WanderAroundFarGoal(this, 0.6D));
+		this.goalSelector.add(11, new LookAtEntityGoal(this, PlayerEntity.class, 10.0F));
+
+		this.targetSelector.add(1, (new RevengeGoal(this)).setGroupRevenge());
+		this.targetSelector.add(2, new ActiveTargetGoal(this, RabbitEntity.class, true));
+		this.targetSelector.add(2, new ActiveTargetGoal(this, ChickenEntity.class, true));
+		this.targetSelector.add(4, new ActiveTargetGoal(this, VillagerEntity.class, 10, true, true, BABY_VILLAGER_PREDICATE));
+		this.targetSelector.add(4, new ActiveTargetGoal(this, ZombieEntity.class, 10, true, true, BABY_ZOMBIE_PREDICATE));
+		this.targetSelector.add(4, new ActiveTargetGoal(this, SlimeEntity.class, 10, true, true, SMALL_SLIME_PREDICATE));
+
+		/*
 		this.goalSelector.add(1, new SwimGoal(this));
 		this.goalSelector.add(1, new PowderSnowJumpGoal(this, this.world));
 		this.goalSelector.add(1, new MaulerEntity.EscapeDangerGoal(this, 2.2D));
@@ -108,176 +175,117 @@ public class MaulerEntity extends PathAwareEntity
 		this.goalSelector.add(5, new MaulerEntity.EatCarrotCropGoal(this));
 		this.goalSelector.add(6, new WanderAroundFarGoal(this, 0.6D));
 		this.goalSelector.add(11, new LookAtEntityGoal(this, PlayerEntity.class, 10.0F));
+	*/
 	}
 
-	protected float getJumpVelocity() {
-		if (!this.horizontalCollision && (!this.moveControl.isMoving() || !(this.moveControl.getTargetY() > this.getY() + 0.5D))) {
-			Path path = this.navigation.getCurrentPath();
-			if (path != null && !path.isFinished()) {
-				Vec3d vec3d = path.getNodePosition(this);
-				if (vec3d.y > this.getY() + 0.5D) {
-					return 0.5F;
-				}
-			}
+	public void tickMovement() {
+		super.tickMovement();
 
-			return this.moveControl.getSpeed() <= 0.6D ? 0.2F : 0.3F;
-		} else {
-			return 0.5F;
+		if (this.getWorld().isClient() == false) {
+			this.tickAngerLogic((ServerWorld) this.getWorld(), true);
 		}
 	}
 
-	protected void jump() {
-		super.jump();
-		double d = this.moveControl.getSpeed();
-		if (d > 0.0D) {
-			double e = this.getVelocity().horizontalLengthSquared();
-			if (e < 0.01D) {
-				this.updateVelocity(0.1F, new Vec3d(0.0D, 0.0D, 1.0D));
-			}
+	@Override
+	public ActionResult interactMob(
+		PlayerEntity player,
+		Hand hand
+	) {
+		ItemStack itemStack = player.getStackInHand(hand);
+		Item itemInHand = itemStack.getItem();
+		boolean interactionResult = false;
+
+		if (
+			this.hasAngerTime() == false
+			&& (
+				itemStack.hasEnchantments()
+				|| itemInHand == Items.ENCHANTED_BOOK
+			)
+		) {
+			interactionResult = this.tryToInteractWithEnhancedItem(player, itemStack);
+		} else if (
+			this.hasAngerTime() == false
+			&& itemInHand == Items.GLASS_BOTTLE
+		) {
+			interactionResult = this.tryToInteractWithGlassBottle(player, itemStack);
 		}
 
-		if (!this.world.isClient) {
-			this.world.sendEntityStatus(this, (byte)1);
+		if (interactionResult) {
+			this.emitGameEvent(GameEvent.MOB_INTERACT, this.getCameraBlockPos());
+			return ActionResult.success(this.world.isClient);
 		}
 
+		return super.interactMob(player, hand);
 	}
 
-	public float getJumpProgress(float delta) {
-		return this.jumpDuration == 0 ? 0.0F : ((float)this.jumpTicks + delta) / (float)this.jumpDuration;
-	}
+	private boolean tryToInteractWithEnhancedItem(
+		PlayerEntity player,
+		ItemStack itemStack
+	) {
+		int storedExperiencePoints = this.getStoredExperiencePoints();
 
-	public void setSpeed(double speed) {
-		this.getNavigation().setSpeed(speed);
-		this.moveControl.moveTo(this.moveControl.getTargetX(), this.moveControl.getTargetY(), this.moveControl.getTargetZ(), speed);
-	}
-
-	public void setJumping(boolean jumping) {
-		super.setJumping(jumping);
-		if (jumping) {
-			this.playSound(this.getJumpSound(), this.getSoundVolume(), ((this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F) * 0.8F);
+		if (storedExperiencePoints >= MAXIMUM_STORED_EXPERIENCE_POINTS) {
+			return false;
 		}
 
-	}
+		int experiencePoints = this.getExperiencePoints(itemStack);
+		int recalculatedExperiencePoints = storedExperiencePoints + experiencePoints;
 
-	public void startJump() {
-		this.setJumping(true);
-		this.jumpDuration = 10;
-		this.jumpTicks = 0;
-	}
-
-	protected void initDataTracker() {
-		super.initDataTracker();
-		this.dataTracker.startTracking(RABBIT_TYPE, 0);
-	}
-
-	public void mobTick() {
-		if (this.ticksUntilJump > 0) {
-			--this.ticksUntilJump;
+		if (recalculatedExperiencePoints > MAXIMUM_STORED_EXPERIENCE_POINTS) {
+			recalculatedExperiencePoints = MAXIMUM_STORED_EXPERIENCE_POINTS;
 		}
 
-		if (this.moreCarrotTicks > 0) {
-			this.moreCarrotTicks -= this.random.nextInt(3);
-			if (this.moreCarrotTicks < 0) {
-				this.moreCarrotTicks = 0;
-			}
+		this.setStoredExperiencePoints(recalculatedExperiencePoints);
+
+		itemStack.decrement(1);
+
+		this.getEntityWorld().playSoundFromEntity(null, this, SoundEvents.ITEM_HONEYCOMB_WAX_ON, SoundCategory.BLOCKS, 1.0F, 1.0F);
+		this.spawnParticles(ParticleTypes.ENCHANT, 7);
+
+		FriendsAndFoes.getLogger().info(String.valueOf(this.getStoredExperiencePoints()));
+		return true;
+	}
+
+	private boolean tryToInteractWithGlassBottle(
+		PlayerEntity player,
+		ItemStack itemStack
+	) {
+		int storedExperiencePoints = this.getStoredExperiencePoints();
+
+		FriendsAndFoes.getLogger().info(String.valueOf(this.getStoredExperiencePoints()));
+
+		if (storedExperiencePoints < 7) {
+			return false;
 		}
 
-		if (this.onGround) {
-			if (!this.lastOnGround) {
-				this.setJumping(false);
-				this.scheduleJump();
-			}
+		int glassBottlesCount = itemStack.getCount();
+		int experienceBottleCount = storedExperiencePoints / 7;
 
-			if (this.getRabbitType() == 99 && this.ticksUntilJump == 0) {
-				LivingEntity livingEntity = this.getTarget();
-				if (livingEntity != null && this.squaredDistanceTo(livingEntity) < 16.0D) {
-					this.lookTowards(livingEntity.getX(), livingEntity.getZ());
-					this.moveControl.moveTo(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), this.moveControl.getSpeed());
-					this.startJump();
-					this.lastOnGround = true;
-				}
-			}
-
-			MaulerEntity.RabbitJumpControl rabbitJumpControl = (MaulerEntity.RabbitJumpControl)this.jumpControl;
-			if (!rabbitJumpControl.isActive()) {
-				if (this.moveControl.isMoving() && this.ticksUntilJump == 0) {
-					Path path = this.navigation.getCurrentPath();
-					Vec3d vec3d = new Vec3d(this.moveControl.getTargetX(), this.moveControl.getTargetY(), this.moveControl.getTargetZ());
-					if (path != null && !path.isFinished()) {
-						vec3d = path.getNodePosition(this);
-					}
-
-					this.lookTowards(vec3d.x, vec3d.z);
-					this.startJump();
-				}
-			} else if (!rabbitJumpControl.canJump()) {
-				this.enableJump();
-			}
+		if (experienceBottleCount > glassBottlesCount) {
+			experienceBottleCount = glassBottlesCount;
 		}
 
-		this.lastOnGround = this.onGround;
+		FriendsAndFoes.getLogger().info("experienceBottleCount: " + experienceBottleCount);
+		FriendsAndFoes.getLogger().info("glassBottlesCount: " + glassBottlesCount);
+
+		itemStack.decrement(experienceBottleCount);
+		ItemStack experienceBottleItemStack = new ItemStack(Items.EXPERIENCE_BOTTLE, experienceBottleCount);
+		player.giveItemStack(experienceBottleItemStack);
+
+		this.setStoredExperiencePoints(storedExperiencePoints - experienceBottleCount * 7);
+
+		this.playSound(SoundEvents.ITEM_BOTTLE_FILL_DRAGONBREATH, 1.0F, 1.0F);
+		this.spawnParticles(ParticleTypes.ENCHANT, 7);
+
+		return true;
 	}
 
 	public boolean shouldSpawnSprintingParticles() {
 		return false;
 	}
 
-	private void lookTowards(double x, double z) {
-		this.setYaw((float)(MathHelper.atan2(z - this.getZ(), x - this.getX()) * 57.2957763671875D) - 90.0F);
-	}
-
-	private void enableJump() {
-		((MaulerEntity.RabbitJumpControl)this.jumpControl).setCanJump(true);
-	}
-
-	private void disableJump() {
-		((MaulerEntity.RabbitJumpControl)this.jumpControl).setCanJump(false);
-	}
-
-	private void doScheduleJump() {
-		if (this.moveControl.getSpeed() < 2.2D) {
-			this.ticksUntilJump = 10;
-		} else {
-			this.ticksUntilJump = 1;
-		}
-
-	}
-
-	private void scheduleJump() {
-		this.doScheduleJump();
-		this.disableJump();
-	}
-
-	public void tickMovement() {
-		super.tickMovement();
-		if (this.jumpTicks != this.jumpDuration) {
-			++this.jumpTicks;
-		} else if (this.jumpDuration != 0) {
-			this.jumpTicks = 0;
-			this.jumpDuration = 0;
-			this.setJumping(false);
-		}
-
-	}
-
 	public static Builder createRabbitAttributes() {
 		return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 3.0D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.30000001192092896D);
-	}
-
-	public void writeCustomDataToNbt(NbtCompound nbt) {
-		super.writeCustomDataToNbt(nbt);
-		nbt.putInt("RabbitType", this.getRabbitType());
-		nbt.putInt("MoreCarrotTicks", this.moreCarrotTicks);
-	}
-
-	public void readCustomDataFromNbt(NbtCompound nbt) {
-		super.readCustomDataFromNbt(nbt);
-		this.setRabbitType(nbt.getInt("RabbitType"));
-		this.moreCarrotTicks = nbt.getInt("MoreCarrotTicks");
-	}
-
-	protected SoundEvent getJumpSound() {
-		return SoundEvents.ENTITY_RABBIT_JUMP;
 	}
 
 	protected SoundEvent getAmbientSound() {
@@ -293,268 +301,132 @@ public class MaulerEntity extends PathAwareEntity
 	}
 
 	public boolean tryAttack(Entity target) {
-		if (this.getRabbitType() == 99) {
-			this.playSound(SoundEvents.ENTITY_RABBIT_ATTACK, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
-			return target.damage(DamageSource.mob(this), 8.0F);
-		} else {
-			return target.damage(DamageSource.mob(this), 3.0F);
-		}
+		this.playSound(SoundEvents.ENTITY_RABBIT_ATTACK, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
+		return target.damage(DamageSource.mob(this), 0.0F);
 	}
 
-	public SoundCategory getSoundCategory() {
-		return this.getRabbitType() == 99 ? SoundCategory.HOSTILE : SoundCategory.NEUTRAL;
+	public int getAngerTime() {
+		return this.dataTracker.get(ANGER_TIME);
 	}
 
-	private static boolean isTempting(ItemStack stack) {
-		return stack.isOf(Items.CARROT) || stack.isOf(Items.GOLDEN_CARROT) || stack.isOf(Blocks.DANDELION.asItem());
+	public void setAngerTime(int angerTime) {
+		this.dataTracker.set(ANGER_TIME, angerTime);
 	}
 
-	public int getRabbitType() {
-		return (Integer)this.dataTracker.get(RABBIT_TYPE);
-	}
-
-	public void setRabbitType(int rabbitType) {
-		if (rabbitType == 99) {
-			this.getAttributeInstance(EntityAttributes.GENERIC_ARMOR).setBaseValue(8.0D);
-			this.goalSelector.add(4, new MaulerEntity.RabbitAttackGoal(this));
-			this.targetSelector.add(1, (new RevengeGoal(this, new Class[0])).setGroupRevenge(new Class[0]));
-			this.targetSelector.add(2, new ActiveTargetGoal(this, PlayerEntity.class, true));
-			this.targetSelector.add(2, new ActiveTargetGoal(this, WolfEntity.class, true));
-			if (!this.hasCustomName()) {
-				this.setCustomName(new TranslatableText(Util.createTranslationKey("entity", KILLER_BUNNY)));
-			}
-		}
-
-		this.dataTracker.set(RABBIT_TYPE, rabbitType);
+	public void chooseRandomAngerTime() {
+		int angerTime = RandomGenerator.generateInt(400, 1000);
+		FriendsAndFoes.getLogger().info(String.valueOf(angerTime));
+		this.setAngerTime(angerTime);
 	}
 
 	@Nullable
-	public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
-		int i = this.chooseType(world);
-		if (entityData instanceof MaulerEntity.RabbitData) {
-			i = ((MaulerEntity.RabbitData)entityData).type;
-		} else {
-			entityData = new MaulerEntity.RabbitData(i);
-		}
-
-		this.setRabbitType(i);
-		return super.initialize(world, difficulty, spawnReason, (EntityData)entityData, entityNbt);
+	public UUID getAngryAt() {
+		return this.angryAt;
 	}
 
-	private int chooseType(WorldAccess world) {
-		RegistryEntry<Biome> registryEntry = world.getBiome(this.getBlockPos());
-		int i = this.random.nextInt(100);
-		if (((Biome)registryEntry.value()).getPrecipitation() == Precipitation.SNOW) {
-			return i < 80 ? 1 : 3;
-		} else if (Biome.getCategory(registryEntry) == Category.DESERT) {
-			return 4;
-		} else {
-			return i < 50 ? 0 : (i < 90 ? 5 : 2);
-		}
+	public void setAngryAt(@Nullable UUID angryAt) {
+		this.angryAt = angryAt;
 	}
 
-	public static boolean canSpawn(EntityType<MaulerEntity> entity, WorldAccess world, SpawnReason spawnReason, BlockPos pos, Random random) {
-		return true;
+	public Type getMaulerType() {
+		return MaulerEntity.Type.fromName(this.dataTracker.get(TYPE));
 	}
 
-	boolean wantsCarrots() {
-		return this.moreCarrotTicks == 0;
+	private void setType(MaulerEntity.Type type) {
+		this.dataTracker.set(TYPE, type.name);
 	}
 
-	public void handleStatus(byte status) {
-		if (status == 1) {
-			this.spawnSprintingParticles();
-			this.jumpDuration = 10;
-			this.jumpTicks = 0;
-		} else {
-			super.handleStatus(status);
-		}
+	public int getStoredExperiencePoints() {
+		return this.dataTracker.get(STORED_EXPERIENCE_POINTS);
+	}
 
+	public void setStoredExperiencePoints(int storedExperiencePoints) {
+		this.dataTracker.set(STORED_EXPERIENCE_POINTS, storedExperiencePoints);
 	}
 
 	public Vec3d getLeashOffset() {
-		return new Vec3d(0.0D, (double)(0.6F * this.getStandingEyeHeight()), (double)(this.getWidth() * 0.4F));
+		return new Vec3d(0.0D, (double) (0.6F * this.getStandingEyeHeight()), (double) (this.getWidth() * 0.4F));
 	}
 
-	static {
-		RABBIT_TYPE = DataTracker.registerData(MaulerEntity.class, TrackedDataHandlerRegistry.INTEGER);
-		KILLER_BUNNY = new Identifier("killer_bunny");
+	private int getExperiencePoints(ItemStack stack) {
+		int experiencePoints = 0;
+		Map<Enchantment, Integer> mappedEnchantments = EnchantmentHelper.get(stack);
+
+		for (Map.Entry<Enchantment, Integer> enchantmentItem : mappedEnchantments.entrySet()) {
+			Enchantment enchantment = enchantmentItem.getKey();
+			Integer enchantmentExperiencePoints = enchantmentItem.getValue();
+
+			if (enchantmentItem.getKey().isCursed()) {
+				continue;
+			}
+
+			experiencePoints += enchantment.getMinPower(enchantmentExperiencePoints);
+		}
+
+		return experiencePoints;
 	}
 
-	public static class RabbitJumpControl extends JumpControl {
-		private final MaulerEntity rabbit;
-		private boolean canJump;
+	private void spawnParticles(
+		DefaultParticleType particleType,
+		int amount
+	) {
+		World world = this.getWorld();
 
-		public RabbitJumpControl(MaulerEntity rabbit) {
-			super(rabbit);
-			this.rabbit = rabbit;
+		if (world.isClient()) {
+			return;
 		}
 
-		public boolean isActive() {
-			return this.active;
-		}
-
-		public boolean canJump() {
-			return this.canJump;
-		}
-
-		public void setCanJump(boolean canJump) {
-			this.canJump = canJump;
-		}
-
-		public void tick() {
-			if (this.active) {
-				this.rabbit.startJump();
-				this.active = false;
-			}
-
-		}
-	}
-
-	private static class RabbitMoveControl extends MoveControl {
-		private final MaulerEntity rabbit;
-		private double rabbitSpeed;
-
-		public RabbitMoveControl(MaulerEntity owner) {
-			super(owner);
-			this.rabbit = owner;
-		}
-
-		public void tick() {
-			if (this.rabbit.onGround && !this.rabbit.jumping && !((MaulerEntity.RabbitJumpControl)this.rabbit.jumpControl).isActive()) {
-				this.rabbit.setSpeed(0.0D);
-			} else if (this.isMoving()) {
-				this.rabbit.setSpeed(this.rabbitSpeed);
-			}
-
-			super.tick();
-		}
-
-		public void moveTo(double x, double y, double z, double speed) {
-			if (this.rabbit.isTouchingWater()) {
-				speed = 1.5D;
-			}
-
-			super.moveTo(x, y, z, speed);
-			if (speed > 0.0D) {
-				this.rabbitSpeed = speed;
-			}
-
+		for (int i = 0; i < amount; i++) {
+			((ServerWorld) world).spawnParticles(
+				particleType,
+				this.getParticleX(1.0D),
+				this.getRandomBodyY() + 0.5D,
+				this.getParticleZ(1.0D),
+				1,
+				this.getRandom().nextGaussian() * 0.02D,
+				this.getRandom().nextGaussian() * 0.02D,
+				this.getRandom().nextGaussian() * 0.02D,
+				1.0D
+			);
 		}
 	}
 
-	private static class EscapeDangerGoal extends net.minecraft.entity.ai.goal.EscapeDangerGoal {
-		private final MaulerEntity rabbit;
+	public enum Type
+	{
+		DESERT("desert"),
+		BADLANDS("badlands"),
+		SWAMP("swamp");
 
-		public EscapeDangerGoal(MaulerEntity rabbit, double speed) {
-			super(rabbit, speed);
-			this.rabbit = rabbit;
+		private final String name;
+
+		private Type(String name) {
+			this.name = name;
 		}
 
-		public void tick() {
-			super.tick();
-			this.rabbit.setSpeed(this.speed);
-		}
-	}
-
-	private static class FleeGoal<T extends LivingEntity> extends FleeEntityGoal<T> {
-		private final MaulerEntity rabbit;
-
-		public FleeGoal(MaulerEntity rabbit, Class<T> fleeFromType, float distance, double slowSpeed, double fastSpeed) {
-			super(rabbit, fleeFromType, distance, slowSpeed, fastSpeed);
-			this.rabbit = rabbit;
+		public String getName() {
+			return this.name;
 		}
 
-		public boolean canStart() {
-			return this.rabbit.getRabbitType() != 99 && super.canStart();
-		}
-	}
+		private static MaulerEntity.Type fromName(String name) {
+			MaulerEntity.Type[] types = values();
 
-	static class EatCarrotCropGoal extends MoveToTargetPosGoal {
-		private final MaulerEntity rabbit;
-		private boolean wantsCarrots;
-		private boolean hasTarget;
-
-		public EatCarrotCropGoal(MaulerEntity rabbit) {
-			super(rabbit, 0.699999988079071D, 16);
-			this.rabbit = rabbit;
-		}
-
-		public boolean canStart() {
-			if (this.cooldown <= 0) {
-				if (!this.rabbit.world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING)) {
-					return false;
-				}
-
-				this.hasTarget = false;
-				this.wantsCarrots = this.rabbit.wantsCarrots();
-				this.wantsCarrots = true;
-			}
-
-			return super.canStart();
-		}
-
-		public boolean shouldContinue() {
-			return this.hasTarget && super.shouldContinue();
-		}
-
-		public void tick() {
-			super.tick();
-			this.rabbit.getLookControl().lookAt((double)this.targetPos.getX() + 0.5D, (double)(this.targetPos.getY() + 1), (double)this.targetPos.getZ() + 0.5D, 10.0F, (float)this.rabbit.getMaxLookPitchChange());
-			if (this.hasReached()) {
-				World world = this.rabbit.world;
-				BlockPos blockPos = this.targetPos.up();
-				BlockState blockState = world.getBlockState(blockPos);
-				Block block = blockState.getBlock();
-				if (this.hasTarget && block instanceof CarrotsBlock) {
-					int i = (Integer)blockState.get(CarrotsBlock.AGE);
-					if (i == 0) {
-						world.setBlockState(blockPos, Blocks.AIR.getDefaultState(), 2);
-						world.breakBlock(blockPos, true, this.rabbit);
-					} else {
-						world.setBlockState(blockPos, (BlockState)blockState.with(CarrotsBlock.AGE, i - 1), 2);
-						world.syncWorldEvent(2001, blockPos, Block.getRawIdFromState(blockState));
-					}
-
-					this.rabbit.moreCarrotTicks = 40;
-				}
-
-				this.hasTarget = false;
-				this.cooldown = 10;
-			}
-
-		}
-
-		protected boolean isTargetPos(WorldView world, BlockPos pos) {
-			BlockState blockState = world.getBlockState(pos);
-			if (blockState.isOf(Blocks.FARMLAND) && this.wantsCarrots && !this.hasTarget) {
-				blockState = world.getBlockState(pos.up());
-				if (blockState.getBlock() instanceof CarrotsBlock && ((CarrotsBlock)blockState.getBlock()).isMature(blockState)) {
-					this.hasTarget = true;
-					return true;
+			for (Type type : types) {
+				if (type.name.equals(name)) {
+					return type;
 				}
 			}
 
-			return false;
-		}
-	}
-
-	private static class RabbitAttackGoal extends MeleeAttackGoal {
-		public RabbitAttackGoal(MaulerEntity rabbit) {
-			super(rabbit, 1.4D, true);
+			return DESERT;
 		}
 
-		protected double getSquaredMaxAttackDistance(LivingEntity entity) {
-			return (double)(4.0F + entity.getWidth());
-		}
-	}
+		public static Type getTypeByBiome(RegistryKey<Biome> biome) {
+			if (biome == BiomeKeys.BADLANDS) {
+				return BADLANDS;
+			} else if (biome == BiomeKeys.SWAMP) {
+				return SWAMP;
+			}
 
-	public static class RabbitData extends PassiveData {
-		public final int type;
-
-		public RabbitData(int type) {
-			super(1.0F);
-			this.type = type;
+			return DESERT;
 		}
 	}
 }

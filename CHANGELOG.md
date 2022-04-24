@@ -1,3 +1,9 @@
+## mc1.18.2-1.4.0, 2022
+
+- Added Mauler
+- Fixed crash related to non-existing beekeepers beehive
+- Fixed errors/warnings related to the mixins/data fixers
+
 ## mc1.18.2-1.3.4, April 08, 2022
 
 - Fixed Copper Golem press button goal logic

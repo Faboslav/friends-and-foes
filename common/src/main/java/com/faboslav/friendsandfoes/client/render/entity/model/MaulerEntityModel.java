@@ -4,9 +4,10 @@ import com.faboslav.friendsandfoes.entity.passive.MaulerEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
+import net.minecraft.util.math.MathHelper;
 
 @Environment(EnvType.CLIENT)
-public class MaulerEntityModel<T extends MaulerEntity> extends AbstractEntityModel<T>
+public final class MaulerEntityModel<T extends MaulerEntity> extends AbstractEntityModel<T>
 {
 	private static final String MODEL_PART_ROOT = "root";
 	private static final String MODEL_PART_HEAD = "head";
@@ -26,8 +27,6 @@ public class MaulerEntityModel<T extends MaulerEntity> extends AbstractEntityMod
 	private final ModelPart frontRightLeg;
 	private final ModelPart backLeftLeg;
 	private final ModelPart backRightLeg;
-
-	private float buttonPressAnimationProgress;
 
 	public MaulerEntityModel(ModelPart root) {
 		super(root);
@@ -52,16 +51,16 @@ public class MaulerEntityModel<T extends MaulerEntity> extends AbstractEntityMod
 		ModelPartData root = modelData.getRoot();
 
 		// Add head
-		root.addChild(MODEL_PART_HEAD, ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 20.0F, 1.0F));
+		root.addChild(MODEL_PART_HEAD, ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 14.0F, 0.0F));
 
 		ModelPartData head = root.getChild(MODEL_PART_HEAD);
-		head.addChild(MODEL_PART_UPPER_JAW, ModelPartBuilder.create().uv(0, 0).cuboid(-4.5F, -3.0F, -10.0F, 9.0F, 3.0F, 10.0F), ModelTransform.pivot(0.0F, -3.0F, 5.0F));
-		head.addChild(MODEL_PART_LOWER_JAW, ModelPartBuilder.create().uv(0, 13).cuboid(-4.5F, -3.0F, -10.0F, 9.0F, 3.0F, 10.0F), ModelTransform.pivot(0.0F, -3.0F, 5.0F));
+		head.addChild(MODEL_PART_UPPER_JAW, ModelPartBuilder.create().uv(0, 0).cuboid(-4.5F, -3.0F, -10.0F, 9.0F, 3.0F, 10.0F), ModelTransform.pivot(0.0F, 3.0F, 5.0F));
+		head.addChild(MODEL_PART_LOWER_JAW, ModelPartBuilder.create().uv(0, 13).cuboid(-4.5F, 0.0F, -10.0F, 9.0F, 3.0F, 10.0F), ModelTransform.pivot(0.0F, 3.0F, 5.0F));
 
 		// Add body
-		root.addChild(MODEL_PART_BODY, ModelPartBuilder.create().uv(0, 26).cuboid(-3.5F, 0.0F, -3.0F, 7.0F, 2.0F, 6.0F, new Dilation(-0.01F)), ModelTransform.pivot(0.0F, 20.0F, 1.0F));
+		root.addChild(MODEL_PART_BODY, ModelPartBuilder.create().uv(0, 26).cuboid(-3.5F, -4.0F, -2.0F, 7.0F, 2.0F, 6.0F, new Dilation(-0.01F)), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
 		root.addChild(MODEL_PART_FRONT_LEFT_LEG, ModelPartBuilder.create().uv(0, 5).cuboid(-1.0F, 0.0F, -1.0F, 2.0F, 3.0F, 2.0F), ModelTransform.pivot(2.5F, 21.0F, -1.0F));
-		root.addChild(MODEL_PART_FRONT_RIGHT_LEG, ModelPartBuilder.create().uv(0, 0).cuboid(-2.0F, -1.0F, -1.5F, 2.0F, 10.0F, 3.0F), ModelTransform.pivot(-2.5F, 21.0F, -1.0F));
+		root.addChild(MODEL_PART_FRONT_RIGHT_LEG, ModelPartBuilder.create().uv(0, 0).cuboid(-1.0F, 0.0F, -1.0F, 2.0F, 3.0F, 2.0F), ModelTransform.pivot(-2.5F, 21.0F, -1.0F));
 		root.addChild(MODEL_PART_BACK_LEFT_LEG, ModelPartBuilder.create().uv(0, 18).cuboid(-1.0F, 0.0F, -1.0F, 2.0F, 3.0F, 2.0F), ModelTransform.pivot(2.5F, 21.0F, 3.0F));
 		root.addChild(MODEL_PART_BACK_RIGHT_LEG, ModelPartBuilder.create().uv(0, 13).cuboid(-1.0F, 0.0F, -1.0F, 2.0F, 3.0F, 2.0F), ModelTransform.pivot(-2.5F, 21.0F, 3.0F));
 
@@ -70,7 +69,7 @@ public class MaulerEntityModel<T extends MaulerEntity> extends AbstractEntityMod
 
 	@Override
 	public void setAngles(
-		T copperGolem,
+		T mauler,
 		float limbAngle,
 		float limbDistance,
 		float animationProgress,
@@ -82,10 +81,22 @@ public class MaulerEntityModel<T extends MaulerEntity> extends AbstractEntityMod
 			MODEL_PART_ROOT,
 			this.root
 		);
+
+		float limbPitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance;
+
+		this.frontLeftLeg.pitch = limbPitch;
+		this.frontRightLeg.pitch = limbPitch;
+		this.backLeftLeg.pitch = limbPitch;
+		this.backRightLeg.pitch = limbPitch;
+
+		if (mauler.hasAngerTime()) {
+			this.upperJaw.pitch = toRadians(-60) * Math.abs(MathHelper.sin(limbAngle * 0.35F));
+			this.lowerJaw.pitch = toRadians(5);
+		}
 	}
 
 	public void animateModel(
-		T copperGolem,
+		T mauler,
 		float limbAngle,
 		float limbDistance,
 		float tickDelta

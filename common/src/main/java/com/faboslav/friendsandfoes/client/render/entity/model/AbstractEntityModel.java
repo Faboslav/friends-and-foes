@@ -59,4 +59,8 @@ abstract public class AbstractEntityModel<E extends Entity> extends SinglePartEn
 			);
 		});
 	}
+
+	protected float toRadians(double angleDegree) {
+		return (float) Math.toRadians(angleDegree);
+	}
 }

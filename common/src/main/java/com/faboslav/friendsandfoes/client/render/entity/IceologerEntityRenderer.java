@@ -14,7 +14,7 @@ import net.minecraft.entity.mob.SpellcastingIllagerEntity;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
-public class IceologerEntityRenderer<T extends SpellcastingIllagerEntity> extends IllagerEntityRenderer<T>
+public final class IceologerEntityRenderer<T extends SpellcastingIllagerEntity> extends IllagerEntityRenderer<T>
 {
 	public IceologerEntityRenderer(Context context) {
 		super(context, new IllagerEntityModel<>(context.getPart(ModEntityRenderer.ICEOLOGER_LAYER)), 0.5F);

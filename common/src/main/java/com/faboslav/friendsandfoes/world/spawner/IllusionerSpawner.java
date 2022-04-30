@@ -17,7 +17,7 @@ import net.minecraft.world.spawner.Spawner;
 
 import java.util.Random;
 
-public class IllusionerSpawner implements Spawner
+public final class IllusionerSpawner implements Spawner
 {
 	private int cooldown;
 

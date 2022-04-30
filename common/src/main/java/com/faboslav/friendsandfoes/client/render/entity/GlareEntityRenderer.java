@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class GlareEntityRenderer extends MobEntityRenderer<GlareEntity, GlareEntityModel<GlareEntity>>
+public final class GlareEntityRenderer extends MobEntityRenderer<GlareEntity, GlareEntityModel<GlareEntity>>
 {
 	public GlareEntityRenderer(EntityRendererFactory.Context context) {
 		super(context, new GlareEntityModel(context.getPart(ModEntityRenderer.GLARE_LAYER)), 0.45F);

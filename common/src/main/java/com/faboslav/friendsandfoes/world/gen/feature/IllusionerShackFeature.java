@@ -10,7 +10,7 @@ import net.minecraft.world.gen.feature.StructurePoolFeatureConfig;
 import net.minecraft.world.gen.random.AtomicSimpleRandom;
 import net.minecraft.world.gen.random.ChunkRandom;
 
-public class IllusionerShackFeature extends JigsawFeature
+public final class IllusionerShackFeature extends JigsawFeature
 {
 	public IllusionerShackFeature(Codec<StructurePoolFeatureConfig> configCodec) {
 		super(configCodec, 0, true, true, IllusionerShackFeature::canGenerate);

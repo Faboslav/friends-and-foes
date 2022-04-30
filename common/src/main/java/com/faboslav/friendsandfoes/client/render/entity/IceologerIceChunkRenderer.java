@@ -19,7 +19,7 @@ import net.minecraft.util.math.Vec3f;
 
 @Environment(EnvType.CLIENT)
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class IceologerIceChunkRenderer extends EntityRenderer<IceologerIceChunkEntity>
+public final class IceologerIceChunkRenderer extends EntityRenderer<IceologerIceChunkEntity>
 {
 	private static final Identifier TEXTURE = FriendsAndFoes.makeID("textures/entity/illager/ice_chunk.png");
 	private final IceologerIceChunkModel<IceologerIceChunkEntity> model;

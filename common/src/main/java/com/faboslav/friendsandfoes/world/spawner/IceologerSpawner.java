@@ -17,7 +17,7 @@ import net.minecraft.world.spawner.Spawner;
 
 import java.util.Random;
 
-public class IceologerSpawner implements Spawner
+public final class IceologerSpawner implements Spawner
 {
 	private int cooldown;
 

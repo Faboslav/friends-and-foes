@@ -58,7 +58,8 @@ public class OmegaConfig
 			}
 
 			return config;
-		} catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException exception) {
+		} catch (NoSuchMethodException | InstantiationException | IllegalAccessException |
+				 InvocationTargetException exception) {
 			exception.printStackTrace();
 			throw new RuntimeException("No valid constructor found for: " + configClass.getName());
 		}

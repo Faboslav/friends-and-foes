@@ -13,7 +13,7 @@ import net.minecraft.predicate.entity.EntityPredicate.Extended;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
-public class TameGlareCriterion extends AbstractCriterion<TameGlareCriterion.Conditions>
+public final class TameGlareCriterion extends AbstractCriterion<TameGlareCriterion.Conditions>
 {
 	static final Identifier ID = FriendsAndFoes.makeID("tame_glare");
 

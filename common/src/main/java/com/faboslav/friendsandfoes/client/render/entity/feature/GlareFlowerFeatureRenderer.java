@@ -13,7 +13,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
-public class GlareFlowerFeatureRenderer extends FeatureRenderer<GlareEntity, GlareEntityModel<GlareEntity>>
+public final class GlareFlowerFeatureRenderer extends FeatureRenderer<GlareEntity, GlareEntityModel<GlareEntity>>
 {
 	public GlareFlowerFeatureRenderer(FeatureRendererContext<GlareEntity, GlareEntityModel<GlareEntity>> featureRendererContext) {
 		super(featureRendererContext);

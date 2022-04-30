@@ -100,19 +100,20 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 		super.initGoals();
 		this.goalSelector.add(0, new SwimGoal(this));
 		this.goalSelector.add(1, new LookAtTargetGoal());
+		this.goalSelector.add(2, new FleeEntityGoal(this, IronGolemEntity.class, 8.0F, 0.6D, 1.0D));
 
 		if (!this.isIllusion()) {
-			this.goalSelector.add(5, BlindTargetGoalFactory.newBlindTargetGoal((IllusionerEntity) (Object) this));
+			this.goalSelector.add(3, BlindTargetGoalFactory.newBlindTargetGoal((IllusionerEntity) (Object) this));
 		}
 
-		this.goalSelector.add(6, new BowAttackGoal(this, 0.5D, 20, 15.0F));
-		this.goalSelector.add(8, new WanderAroundGoal(this, 0.6D));
-		this.goalSelector.add(9, new LookAtEntityGoal(this, PlayerEntity.class, 3.0F, 1.0F));
-		this.goalSelector.add(10, new LookAtEntityGoal(this, MobEntity.class, 8.0F));
+		this.goalSelector.add(4, new BowAttackGoal(this, 0.5D, 20, 15.0F));
+		this.goalSelector.add(5, new WanderAroundGoal(this, 0.6D));
+		this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 3.0F, 1.0F));
+		this.goalSelector.add(7, new LookAtEntityGoal(this, MobEntity.class, 8.0F));
 		this.targetSelector.add(1, (new RevengeGoal(this, RaiderEntity.class)).setGroupRevenge());
 		this.targetSelector.add(2, (new ActiveTargetGoal(this, PlayerEntity.class, true)).setMaxTimeWithoutVisibility(300));
-		this.targetSelector.add(3, (new ActiveTargetGoal(this, MerchantEntity.class, false)).setMaxTimeWithoutVisibility(300));
 		this.targetSelector.add(3, (new ActiveTargetGoal(this, IronGolemEntity.class, false)).setMaxTimeWithoutVisibility(300));
+		this.targetSelector.add(4, (new ActiveTargetGoal(this, MerchantEntity.class, false)).setMaxTimeWithoutVisibility(300));
 	}
 
 	@Override
@@ -316,20 +317,22 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 		DefaultParticleType particleType,
 		int amount
 	) {
-		if (!this.world.isClient()) {
-			for (int i = 0; i < amount; i++) {
-				((ServerWorld) this.getEntityWorld()).spawnParticles(
-					particleType,
-					this.getParticleX(0.5D),
-					this.getRandomBodyY() + 0.5D,
-					this.getParticleZ(0.5D),
-					1,
-					0.0D,
-					0.0D,
-					0.0D,
-					0.0D
-				);
-			}
+		if (this.world.isClient()) {
+			return;
+		}
+
+		for (int i = 0; i < amount; i++) {
+			((ServerWorld) this.getEntityWorld()).spawnParticles(
+				particleType,
+				this.getParticleX(0.5D),
+				this.getRandomBodyY() + 0.5D,
+				this.getParticleZ(0.5D),
+				1,
+				0.0D,
+				0.0D,
+				0.0D,
+				0.0D
+			);
 		}
 	}
 

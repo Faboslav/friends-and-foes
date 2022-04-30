@@ -6,6 +6,7 @@ import com.faboslav.friendsandfoes.config.omegaconfig.OmegaConfig;
  * Originally from ΩConfig(https://github.com/Draylar/omega-config) by Draylar.
  * Inspired by use in Repurposed Structures by TelepathicGrunt(https://github.com/TelepathicGrunt/RepurposedStructures)
  */
+@SuppressWarnings({"unchecked"})
 public interface Config
 {
 

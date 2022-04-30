@@ -31,7 +31,7 @@ import net.minecraft.world.event.GameEvent;
 
 import java.util.Random;
 
-public class MoobloomEntity extends CowEntity implements Shearable
+public final class MoobloomEntity extends CowEntity implements Shearable
 {
 	public MoobloomEntity(
 		EntityType<? extends CowEntity> entityType,
@@ -41,7 +41,7 @@ public class MoobloomEntity extends CowEntity implements Shearable
 	}
 
 	public static boolean canSpawn(
-		EntityType<MoobloomEntity> moobloomEntityEntityType,
+		EntityType<MoobloomEntity> moobloomEntityType,
 		ServerWorldAccess serverWorldAccess,
 		SpawnReason spawnReason,
 		BlockPos blockPos,
@@ -55,47 +55,51 @@ public class MoobloomEntity extends CowEntity implements Shearable
 	}
 
 	public void sheared(SoundCategory shearedSoundCategory) {
-		this.world.playSoundFromEntity(null, this, SoundEvents.ENTITY_MOOSHROOM_SHEAR, shearedSoundCategory, 1.0F, 1.0F);
+		World world = this.getWorld();
 
-		if (!this.world.isClient()) {
-			((ServerWorld) this.world).spawnParticles(ParticleTypes.EXPLOSION, this.getX(), this.getBodyY(0.5D), this.getZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
-			this.discard();
-			CowEntity cowEntity = EntityType.COW.create(this.world);
+		world.playSoundFromEntity(null, this, SoundEvents.ENTITY_MOOSHROOM_SHEAR, shearedSoundCategory, 1.0F, 1.0F);
 
-			if (cowEntity == null) {
-				return;
-			}
+		if (world.isClient()) {
+			return;
+		}
 
-			cowEntity.setHealth(this.getHealth());
-			cowEntity.copyPositionAndRotation(this);
-			cowEntity.prevBodyYaw = this.prevBodyYaw;
-			cowEntity.bodyYaw = this.bodyYaw;
-			cowEntity.prevHeadYaw = this.prevHeadYaw;
-			cowEntity.headYaw = this.headYaw;
+		((ServerWorld) world).spawnParticles(ParticleTypes.EXPLOSION, this.getX(), this.getBodyY(0.5D), this.getZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
+		this.discard();
+		CowEntity cowEntity = EntityType.COW.create(world);
 
-			if (this.hasCustomName()) {
-				cowEntity.setCustomName(this.getCustomName());
-				cowEntity.setCustomNameVisible(this.isCustomNameVisible());
-			}
+		if (cowEntity == null) {
+			return;
+		}
 
-			if (this.isPersistent()) {
-				cowEntity.setPersistent();
-			}
+		cowEntity.setHealth(this.getHealth());
+		cowEntity.copyPositionAndRotation(this);
+		cowEntity.prevBodyYaw = this.prevBodyYaw;
+		cowEntity.bodyYaw = this.bodyYaw;
+		cowEntity.prevHeadYaw = this.prevHeadYaw;
+		cowEntity.headYaw = this.headYaw;
 
-			cowEntity.setInvulnerable(this.isInvulnerable());
-			this.getEntityWorld().spawnEntity(cowEntity);
+		if (this.hasCustomName()) {
+			cowEntity.setCustomName(this.getCustomName());
+			cowEntity.setCustomNameVisible(this.isCustomNameVisible());
+		}
 
-			for (int i = 0; i < 5; ++i) {
-				this.getEntityWorld().spawnEntity(
-					new ItemEntity(
-						this.world,
-						this.getX(),
-						this.getBodyY(1.0D),
-						this.getZ(),
-						new ItemStack(ModBlocks.BUTTERCUP.get())
-					)
-				);
-			}
+		if (this.isPersistent()) {
+			cowEntity.setPersistent();
+		}
+
+		cowEntity.setInvulnerable(this.isInvulnerable());
+		world.spawnEntity(cowEntity);
+
+		for (int i = 0; i < 5; ++i) {
+			world.spawnEntity(
+				new ItemEntity(
+					world,
+					this.getX(),
+					this.getBodyY(1.0D),
+					this.getZ(),
+					new ItemStack(ModBlocks.BUTTERCUP.get())
+				)
+			);
 		}
 	}
 
@@ -110,13 +114,15 @@ public class MoobloomEntity extends CowEntity implements Shearable
 			this.sheared(SoundCategory.PLAYERS);
 			this.emitGameEvent(GameEvent.SHEAR, player);
 
-			if (!this.world.isClient) {
+			boolean isClientWorld = this.getWorld().isClient();
+
+			if (isClientWorld == false) {
 				itemStack.damage(1, player, (playerx) -> {
 					playerx.sendToolBreakStatus(hand);
 				});
 			}
 
-			return ActionResult.success(this.world.isClient);
+			return ActionResult.success(isClientWorld);
 		} else {
 			return super.interactMob(player, hand);
 		}
@@ -132,24 +138,26 @@ public class MoobloomEntity extends CowEntity implements Shearable
 
 	@Override
 	public void tickMovement() {
-		if (!this.world.isClient && !this.isBaby()) {
-			// On average once per five minutes (1/6000)
-			if (this.getRandom().nextFloat() <= 0.00016666666) {
-				Block blockUnderneath = this.world.getBlockState(new BlockPos(this.getX(), this.getY() - 1, this.getZ())).getBlock();
+		if (this.getWorld().isClient() || this.isBaby()) {
+			return;
+		}
 
-				if (blockUnderneath == Blocks.GRASS_BLOCK && this.world.isAir(this.getBlockPos())) {
-					// 40% chance buttercup, 40% chance dandelion, 20% chance sunflower
-					int flowerChance = RandomGenerator.generateInt(1, 100);
+		// On average once per five minutes (1/6000)
+		if (this.getRandom().nextFloat() <= 0.00016666666) {
+			Block blockUnderneath = this.world.getBlockState(new BlockPos(this.getX(), this.getY() - 1, this.getZ())).getBlock();
 
-					if (flowerChance >= 0 && flowerChance < 40) {
-						this.world.setBlockState(this.getBlockPos(), ModBlocks.BUTTERCUP.get().getDefaultState());
-					} else if (flowerChance >= 40 && flowerChance < 80) {
-						this.world.setBlockState(this.getBlockPos(), Blocks.DANDELION.getDefaultState());
-					} else {
-						BlockState sunflowerBlockState = Blocks.SUNFLOWER.getDefaultState().with(TallPlantBlock.HALF, DoubleBlockHalf.UPPER);
-						this.world.setBlockState(this.getBlockPos(), sunflowerBlockState.cycle(Properties.DOUBLE_BLOCK_HALF));
-						this.world.setBlockState(this.getBlockPos().up(), sunflowerBlockState);
-					}
+			if (blockUnderneath == Blocks.GRASS_BLOCK && this.world.isAir(this.getBlockPos())) {
+				// 40% chance buttercup, 40% chance dandelion, 20% chance sunflower
+				int flowerChance = RandomGenerator.generateInt(1, 100);
+
+				if (flowerChance >= 0 && flowerChance < 40) {
+					this.world.setBlockState(this.getBlockPos(), ModBlocks.BUTTERCUP.get().getDefaultState());
+				} else if (flowerChance >= 40 && flowerChance < 80) {
+					this.world.setBlockState(this.getBlockPos(), Blocks.DANDELION.getDefaultState());
+				} else {
+					BlockState sunflowerBlockState = Blocks.SUNFLOWER.getDefaultState().with(TallPlantBlock.HALF, DoubleBlockHalf.UPPER);
+					this.world.setBlockState(this.getBlockPos(), sunflowerBlockState.cycle(Properties.DOUBLE_BLOCK_HALF));
+					this.world.setBlockState(this.getBlockPos().up(), sunflowerBlockState);
 				}
 			}
 		}

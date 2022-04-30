@@ -7,7 +7,7 @@ import net.minecraft.client.model.*;
 import net.minecraft.client.render.entity.model.SinglePartEntityModel;
 
 @Environment(EnvType.CLIENT)
-public class IceologerIceChunkModel<T extends IceologerIceChunkEntity> extends SinglePartEntityModel<T>
+public final class IceologerIceChunkModel<T extends IceologerIceChunkEntity> extends SinglePartEntityModel<T>
 {
 	private static final String MODEL_PART_ROOT = "root";
 	private static final String MODEL_PART_FIRST_FULL_BLOCK = "firstFullBlock";

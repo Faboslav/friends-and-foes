@@ -191,6 +191,7 @@ public class CopperGolemPressButtonGoal extends Goal
 
 	private boolean pressCopperButton() {
 		BlockState copperButtonBlockState = this.getCopperButtonBlockState(this.copperButtonToPress);
+
 		if (copperButtonBlockState == null) {
 			return false;
 		} else if (copperButtonBlockState.get(CopperButtonBlock.POWERED)) {
@@ -198,6 +199,7 @@ public class CopperGolemPressButtonGoal extends Goal
 		}
 
 		CopperButtonBlock copperButtonBlock = (CopperButtonBlock) copperButtonBlockState.getBlock();
+
 		copperButtonBlock.powerOn(
 			copperButtonBlockState,
 			this.copperGolem.getEntityWorld(),
@@ -214,6 +216,7 @@ public class CopperGolemPressButtonGoal extends Goal
 			GameEvent.BLOCK_PRESS,
 			this.copperButtonToPress
 		);
+
 		return true;
 	}
 

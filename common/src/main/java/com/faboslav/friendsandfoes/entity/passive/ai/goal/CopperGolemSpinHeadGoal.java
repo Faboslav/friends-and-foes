@@ -22,7 +22,7 @@ public class CopperGolemSpinHeadGoal extends Goal
 			return false;
 		} else if (this.copperGolem.pressButtonGoal.isRunning()) {
 			return false;
-		} else if(RandomGenerator.generateRandomFloat() < 0.95) {
+		} else if (RandomGenerator.generateRandomFloat() < 0.95) {
 			return false;
 		}
 
@@ -35,10 +35,12 @@ public class CopperGolemSpinHeadGoal extends Goal
 			return false;
 		}
 
-		return this.spinHeadProgress <= 20;
+		return this.spinHeadProgress <= 14;
 	}
 
 	public void start() {
+		this.copperGolem.getNavigation().setSpeed(0);
+		this.copperGolem.getNavigation().stop();
 		this.spinHeadProgress = 0;
 		this.copperGolem.setIsSpinningHead(true);
 		this.copperGolem.playSound(ModSounds.ENTITY_COPPER_GOLEM_HEAD_SPIN.get(), 1.0F, copperGolem.getSoundPitch() - 1.5F);

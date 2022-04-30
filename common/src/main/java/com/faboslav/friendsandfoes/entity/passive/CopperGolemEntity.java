@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.entity.passive;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.passive.ai.goal.*;
 import com.faboslav.friendsandfoes.init.ModSounds;
 import com.faboslav.friendsandfoes.mixin.EntityNavigationAccessor;
@@ -31,7 +32,6 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
@@ -43,15 +43,15 @@ import net.minecraft.world.event.GameEvent;
 
 import java.util.function.Predicate;
 
-public class CopperGolemEntity extends GolemEntity
+public final class CopperGolemEntity extends GolemEntity
 {
 	private static final float MOVEMENT_SPEED = 0.35F;
 	private static final int COPPER_INGOT_HEAL_AMOUNT = 5;
 	private static final float OXIDATION_CHANCE = 0.00004F;
 	public static final int MIN_TICKS_UNTIL_CAN_PRESS_BUTTON = 200;
 	public static final int MAX_TICKS_UNTIL_CAN_PRESS_BUTTON = 1200;
-	public static final int MIN_TICKS_UNTIL_NEXT_HEAD_SPIN = 200;
-	public static final int MAX_TICKS_UNTIL_NEXT_HEAD_SPIN = 400;
+	public static final int MIN_TICKS_UNTIL_NEXT_HEAD_SPIN = 150;
+	public static final int MAX_TICKS_UNTIL_NEXT_HEAD_SPIN = 300;
 
 	private static final String OXIDATION_LEVEL_NBT_NAME = "OxidationLevel";
 	private static final String IS_WAXED_NBT_NAME = "IsWaxed";
@@ -66,6 +66,7 @@ public class CopperGolemEntity extends GolemEntity
 	private static final TrackedData<Boolean> IS_WAXED;
 	private static final TrackedData<Boolean> IS_PRESSING_BUTTON;
 	private static final TrackedData<Boolean> IS_SPINNING_HEAD;
+	private static final TrackedData<Boolean> IS_MOVING;
 	private static final TrackedData<Integer> TICKS_UNTIL_CAN_PRESS_BUTTON;
 	private static final TrackedData<Integer> TICKS_UNTIL_NEXT_HEAD_SPIN;
 	private static final TrackedData<Float> BUTTON_PRESS_ANIMATION_PROGRESS;
@@ -84,6 +85,7 @@ public class CopperGolemEntity extends GolemEntity
 		IS_PRESSING_BUTTON = DataTracker.registerData(CopperGolemEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 		TICKS_UNTIL_CAN_PRESS_BUTTON = DataTracker.registerData(CopperGolemEntity.class, TrackedDataHandlerRegistry.INTEGER);
 		IS_SPINNING_HEAD = DataTracker.registerData(CopperGolemEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+		IS_MOVING = DataTracker.registerData(CopperGolemEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 		TICKS_UNTIL_NEXT_HEAD_SPIN = DataTracker.registerData(CopperGolemEntity.class, TrackedDataHandlerRegistry.INTEGER);
 		BUTTON_PRESS_ANIMATION_PROGRESS = DataTracker.registerData(CopperGolemEntity.class, TrackedDataHandlerRegistry.FLOAT);
 		LAST_BUTTON_PRESS_ANIMATION_PROGRESS = DataTracker.registerData(CopperGolemEntity.class, TrackedDataHandlerRegistry.FLOAT);
@@ -134,6 +136,7 @@ public class CopperGolemEntity extends GolemEntity
 		this.dataTracker.startTracking(IS_PRESSING_BUTTON, false);
 		this.dataTracker.startTracking(TICKS_UNTIL_CAN_PRESS_BUTTON, RandomGenerator.generateInt(MIN_TICKS_UNTIL_CAN_PRESS_BUTTON, MAX_TICKS_UNTIL_CAN_PRESS_BUTTON));
 		this.dataTracker.startTracking(IS_SPINNING_HEAD, false);
+		this.dataTracker.startTracking(IS_MOVING, false);
 		this.dataTracker.startTracking(TICKS_UNTIL_NEXT_HEAD_SPIN, RandomGenerator.generateInt(MIN_TICKS_UNTIL_NEXT_HEAD_SPIN, MAX_TICKS_UNTIL_NEXT_HEAD_SPIN));
 		this.dataTracker.startTracking(BUTTON_PRESS_ANIMATION_PROGRESS, 0.0F);
 		this.dataTracker.startTracking(LAST_BUTTON_PRESS_ANIMATION_PROGRESS, 0.0F);
@@ -353,7 +356,7 @@ public class CopperGolemEntity extends GolemEntity
 			itemStack.decrement(1);
 		}
 
-		this.getEntityWorld().playSoundFromEntity(null, this, SoundEvents.ITEM_HONEYCOMB_WAX_ON, SoundCategory.BLOCKS, 1.0F, 1.0F);
+		this.playSound(SoundEvents.ITEM_HONEYCOMB_WAX_ON, 1.0F, 1.0F);
 		this.spawnParticles(ParticleTypes.WAX_ON, 7);
 
 		return true;
@@ -371,7 +374,7 @@ public class CopperGolemEntity extends GolemEntity
 		if (this.isWaxed()) {
 			this.setIsWaxed(false);
 
-			this.world.playSoundFromEntity(player, this, SoundEvents.ITEM_AXE_WAX_OFF, SoundCategory.BLOCKS, 1.0F, 1.0F);
+			this.playSound(SoundEvents.ITEM_AXE_WAX_OFF, 1.0F, 1.0F);
 			this.spawnParticles(ParticleTypes.WAX_OFF, 7);
 
 		} else if (isDegraded()) {
@@ -381,7 +384,7 @@ public class CopperGolemEntity extends GolemEntity
 				this.setOxidationLevel(OxidationLevels[increasedOxidationLevelOrdinal]);
 			}
 
-			this.world.playSoundFromEntity(player, this, SoundEvents.ITEM_AXE_SCRAPE, SoundCategory.BLOCKS, 1.0F, 1.0F);
+			this.playSound(SoundEvents.ITEM_AXE_SCRAPE, 1.0F, 1.0F);
 			this.spawnParticles(ParticleTypes.SCRAPE, 7);
 		}
 
@@ -414,6 +417,10 @@ public class CopperGolemEntity extends GolemEntity
 		this.updateButtonPressAnimation();
 		this.updateHeadSpinAnimation();
 
+		if(this.getWorld().isClient() == false) {
+			this.setIsMoving(this.getNavigation().isFollowingPath());
+		}
+
 		if (!this.isWaxed()) {
 			this.handleOxidationIncrease();
 		}
@@ -421,7 +428,7 @@ public class CopperGolemEntity extends GolemEntity
 
 	@Override
 	public void travel(Vec3d movementInput) {
-		if (!this.isOxidized()) {
+		if (this.isOxidized() == false) {
 			super.travel(movementInput);
 			return;
 		}
@@ -434,37 +441,36 @@ public class CopperGolemEntity extends GolemEntity
 	}
 
 	private void applyGravityToTravel(Vec3d movementInput) {
-		// TODO copy new code
-		double d = 0.08D;
-		boolean bl = this.getVelocity().y <= 0.0D;
+		double d = 0.08;
+		boolean bl = this.getVelocity().y <= 0.0;
 		if (bl && this.hasStatusEffect(StatusEffects.SLOW_FALLING)) {
-			d = 0.01D;
+			d = 0.01;
 			this.onLanding();
 		}
 
-		if (!this.isFallFlying()) {
-			BlockPos e = this.getVelocityAffectingPos();
-			float vec3d3 = this.world.getBlockState(e).getBlock().getSlipperiness();
-			float f = this.onGround ? vec3d3 * 0.91F:0.91F;
-			Vec3d g = this.applyMovementInput(movementInput, vec3d3);
-			double h = g.y;
+		if (this.isFallFlying() == false) {
+			BlockPos blockPos = this.getVelocityAffectingPos();
+			float p = this.world.getBlockState(blockPos).getBlock().getSlipperiness();
+			float f = this.onGround ? p * 0.91F : 0.91F;
+			Vec3d vec3d6 = this.applyMovementInput(movementInput, p);
+			double q = vec3d6.y;
 			if (this.hasStatusEffect(StatusEffects.LEVITATION)) {
-				h += (0.05D * (double) (this.getStatusEffect(StatusEffects.LEVITATION).getAmplifier() + 1) - g.y) * 0.2D;
+				q += (0.05 * (double)(this.getStatusEffect(StatusEffects.LEVITATION).getAmplifier() + 1) - vec3d6.y) * 0.2;
 				this.onLanding();
-			} else if (this.world.isClient && !this.world.isChunkLoaded(e)) {
-				if (this.getY() > (double) this.world.getBottomY()) {
-					h = -0.1D;
+			} else if (this.world.isClient && !this.world.isChunkLoaded(blockPos)) {
+				if (this.getY() > (double)this.world.getBottomY()) {
+					q = -0.1;
 				} else {
-					h = 0.0D;
+					q = 0.0;
 				}
 			} else if (!this.hasNoGravity()) {
-				h -= d;
+				q -= d;
 			}
 
 			if (this.hasNoDrag()) {
-				this.setVelocity(g.x, h, g.z);
+				this.setVelocity(vec3d6.x, q, vec3d6.z);
 			} else {
-				this.setVelocity(g.x * (double) f, h * 0.9800000190734863D, g.z * (double) f);
+				this.setVelocity(vec3d6.x * (double)f, q * 0.9800000190734863, vec3d6.z * (double)f);
 			}
 		}
 	}
@@ -510,7 +516,7 @@ public class CopperGolemEntity extends GolemEntity
 		this.setLastHeadSpinAnimationProgress(this.getHeadSpinAnimationProgress());
 
 		if (this.isSpinningHead()) {
-			this.setHeadSpinAnimationProgress(Math.min(1.0F, this.getHeadSpinAnimationProgress() + 0.05F));
+			this.setHeadSpinAnimationProgress(Math.min(1.0F, this.getHeadSpinAnimationProgress() + 0.075F));
 		} else {
 			this.setHeadSpinAnimationProgress(0);
 		}
@@ -637,6 +643,14 @@ public class CopperGolemEntity extends GolemEntity
 		this.dataTracker.set(IS_SPINNING_HEAD, isSpinningHead);
 	}
 
+	public boolean isMoving() {
+		return this.dataTracker.get(IS_MOVING);
+	}
+
+	public void setIsMoving(boolean isMoving) {
+		this.dataTracker.set(IS_MOVING, isMoving);
+	}
+
 	public int getTicksUntilNextHeadSpin() {
 		return this.dataTracker.get(TICKS_UNTIL_NEXT_HEAD_SPIN);
 	}
@@ -681,12 +695,14 @@ public class CopperGolemEntity extends GolemEntity
 		DefaultParticleType particleType,
 		int amount
 	) {
-		if (this.world.isClient()) {
+		World world = this.getWorld();
+
+		if (world.isClient()) {
 			return;
 		}
 
 		for (int i = 0; i < amount; i++) {
-			((ServerWorld) this.getEntityWorld()).spawnParticles(
+			((ServerWorld) world).spawnParticles(
 				particleType,
 				this.getParticleX(1.0D),
 				this.getRandomBodyY() + 0.5D,

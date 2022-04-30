@@ -134,11 +134,8 @@ public final class CopperGolemEntityModel<T extends CopperGolemEntity> extends A
 
 		if (
 			copperGolem.isOnGround()
+			&& copperGolem.isMoving()
 			&& copperGolem.isOxidized() == false
-			&& (
-				copperGolem.prevX != copperGolem.getX()
-				|| copperGolem.prevZ != copperGolem.getZ()
-			)
 		) {
 			this.rod.pivotY += MathHelper.abs(MathHelper.sin(animationProgress * 0.25F));
 		}

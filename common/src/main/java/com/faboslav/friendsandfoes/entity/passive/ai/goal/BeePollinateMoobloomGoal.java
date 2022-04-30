@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.entity.passive.ai.goal;
 
 import com.faboslav.friendsandfoes.entity.passive.MoobloomEntity;
 import com.faboslav.friendsandfoes.mixin.BeeEntityAccessor;
+import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.passive.BeeEntity;
@@ -45,7 +46,7 @@ public class BeePollinateMoobloomGoal extends Goal
 			return false;
 		} else if (this.beeEntity.world.isRaining()) {
 			return false;
-		} else if (this.beeEntity.getRandom().nextFloat() < 0.9F) {
+		} else if (RandomGenerator.generateRandomFloat() < 0.5F) {
 			return false;
 		}
 

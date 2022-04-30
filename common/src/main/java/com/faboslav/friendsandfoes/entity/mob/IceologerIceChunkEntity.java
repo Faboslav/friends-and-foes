@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class IceologerIceChunkEntity extends Entity
+public final class IceologerIceChunkEntity extends Entity
 {
 	private static final String OWNER_UUID_NBT_NAME = "OwnerUuid";
 	private static final String TARGET_UUID_NBT_NAME = "TargetUuid";
@@ -264,7 +264,10 @@ public class IceologerIceChunkEntity extends Entity
 		}
 
 		hitEntity.damage(DamageSource.MAGIC, 12.0F);
-		hitEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 80, 2));
+
+		if(hitEntity.canFreeze()) {
+			hitEntity.setFrozenTicks(400);
+		}
 	}
 
 	private void customDiscard() {

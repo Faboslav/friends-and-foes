@@ -23,7 +23,7 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.world.World;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class IceologerEntity extends SpellcastingIllagerEntity
+public final class IceologerEntity extends SpellcastingIllagerEntity
 {
 	public IceologerEntity(EntityType<? extends IceologerEntity> entityType, World world) {
 		super(entityType, world);
@@ -43,9 +43,9 @@ public class IceologerEntity extends SpellcastingIllagerEntity
 		this.goalSelector.add(7, new LookAtEntityGoal(this, MobEntity.class, 8.0F));
 		this.targetSelector.add(1, (new RevengeGoal(this, RaiderEntity.class)).setGroupRevenge());
 		this.targetSelector.add(2, (new ActiveTargetGoal(this, PlayerEntity.class, true)).setMaxTimeWithoutVisibility(300));
-		this.targetSelector.add(3, (new ActiveTargetGoal(this, MerchantEntity.class, false)).setMaxTimeWithoutVisibility(300));
 		this.targetSelector.add(3, (new ActiveTargetGoal(this, IronGolemEntity.class, false)).setMaxTimeWithoutVisibility(300));
-		this.targetSelector.add(4, (new ActiveTargetGoal(this, GlowSquidEntity.class, false)).setMaxTimeWithoutVisibility(300));
+		this.targetSelector.add(4, (new ActiveTargetGoal(this, MerchantEntity.class, false)).setMaxTimeWithoutVisibility(300));
+		this.targetSelector.add(5, (new ActiveTargetGoal(this, GlowSquidEntity.class, false)).setMaxTimeWithoutVisibility(300));
 	}
 
 	public static Builder createAttributes() {
@@ -145,7 +145,11 @@ public class IceologerEntity extends SpellcastingIllagerEntity
 
 		@Override
 		protected void castSpell() {
-			IceologerEntity.this.getTarget().addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 400, 1), IceologerEntity.this);
+			var target = IceologerEntity.this.getTarget();
+
+			if(target.canFreeze()) {
+				target.setFrozenTicks(400);
+			}
 		}
 
 		@Override

@@ -85,7 +85,7 @@ public class GlareFollowOwnerGoal extends Goal
 		if (--this.updateCountdownTicks <= 0) {
 			this.updateCountdownTicks = this.getTickCount(10);
 			if (!this.glare.isLeashed() && !this.glare.hasVehicle()) {
-				if (this.glare.squaredDistanceTo(this.owner) >= 256.0D) {
+				if (this.glare.squaredDistanceTo(this.owner) >= 512.0D) {
 					this.tryTeleport();
 				} else {
 					this.navigation.startMovingTo(this.owner, this.speed);

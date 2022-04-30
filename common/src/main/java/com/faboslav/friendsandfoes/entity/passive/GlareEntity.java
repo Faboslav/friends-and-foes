@@ -12,6 +12,7 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.ai.control.FlightMoveControl;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer.Builder;
@@ -22,54 +23,45 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.entity.passive.PassiveEntity;
+import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.ServerConfigHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.tag.Tag;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.GameRules;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
 import java.util.Random;
-import java.util.UUID;
 import java.util.function.Predicate;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
+public final class GlareEntity extends TameableEntity implements Flutterer
 {
 	public static final Predicate<ItemEntity> PICKABLE_FOOD_FILTER;
-	private static final int SITTING_BITMASK = 1;
 	private static final int GRUMPY_BITMASK = 2;
-	private static final int TAMED_BITMASK = 4;
 	private static final float MOVEMENT_SPEED = 0.6F;
 	public static final int MIN_TICKS_UNTIL_CAN_FIND_DARK_SPOT = 200;
 	public static final int MAX_TICKS_UNTIL_CAN_FIND_DARK_SPOT = 400;
 	public static final int MIN_TICKS_UNTIL_CAN_EAT_GLOW_BERRIES = 300;
 	public static final int MAX_TICKS_UNTIL_CAN_EAT_GLOW_BERRIES = 600;
 
-	private static final TrackedData<Byte> TAMEABLE_FLAGS;
 	private static final TrackedData<Byte> GLARE_FLAGS;
-	private static final TrackedData<Optional<UUID>> OWNER_UUID;
 	private static final TrackedData<Integer> TICKS_UNTIL_CAN_FIND_DARK_SPOT;
 	private static final TrackedData<Integer> TICKS_UNTIL_CAN_EAT_GLOW_BERRIES;
 
@@ -89,7 +81,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 			this.setPersistent();
 		}
 
-		this.moveControl = new FlightMoveControl(this, 4, true);
+		this.moveControl = new FlightMoveControl(this, 10, true);
 		this.setPathfindingPenalty(PathNodeType.DANGER_FIRE, -1.0F);
 		this.setPathfindingPenalty(PathNodeType.DANGER_CACTUS, -1.0F);
 		this.setPathfindingPenalty(PathNodeType.WATER, -1.0F);
@@ -109,8 +101,6 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 
 	static {
 		GLARE_FLAGS = DataTracker.registerData(GlareEntity.class, TrackedDataHandlerRegistry.BYTE);
-		TAMEABLE_FLAGS = DataTracker.registerData(GlareEntity.class, TrackedDataHandlerRegistry.BYTE);
-		OWNER_UUID = DataTracker.registerData(GlareEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
 		TICKS_UNTIL_CAN_EAT_GLOW_BERRIES = DataTracker.registerData(GlareEntity.class, TrackedDataHandlerRegistry.INTEGER);
 		TICKS_UNTIL_CAN_FIND_DARK_SPOT = DataTracker.registerData(GlareEntity.class, TrackedDataHandlerRegistry.INTEGER);
 		PICKABLE_FOOD_FILTER = (itemEntity) -> {
@@ -123,8 +113,6 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 	protected void initDataTracker() {
 		super.initDataTracker();
 		this.dataTracker.startTracking(GLARE_FLAGS, (byte) 0);
-		this.dataTracker.startTracking(TAMEABLE_FLAGS, (byte) 0);
-		this.dataTracker.startTracking(OWNER_UUID, Optional.empty());
 		this.dataTracker.startTracking(
 			TICKS_UNTIL_CAN_FIND_DARK_SPOT,
 			this.generateRandomTicksUntilCanFindDarkSpot()
@@ -133,38 +121,6 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 			TICKS_UNTIL_CAN_EAT_GLOW_BERRIES,
 			this.generateRandomTicksUntilCanEatGlowBerries()
 		);
-	}
-
-	@Override
-	public void writeCustomDataToNbt(NbtCompound nbt) {
-		super.writeCustomDataToNbt(nbt);
-		if (this.getOwnerUuid() != null) {
-			nbt.putUuid("Owner", this.getOwnerUuid());
-		}
-		nbt.putBoolean("Sitting", this.isSitting());
-	}
-
-	@Override
-	public void readCustomDataFromNbt(NbtCompound nbt) {
-		super.readCustomDataFromNbt(nbt);
-		UUID uUID;
-		if (nbt.containsUuid("Owner")) {
-			uUID = nbt.getUuid("Owner");
-		} else {
-			String string = nbt.getString("Owner");
-			uUID = ServerConfigHandler.getPlayerUuidByName(this.getServer(), string);
-		}
-
-		if (uUID != null) {
-			try {
-				this.setOwnerUuid(uUID);
-				this.setTamed(true);
-			} catch (Throwable var4) {
-				this.setTamed(false);
-			}
-		}
-
-		this.setSitting(nbt.getBoolean("Sitting"));
 	}
 
 	private boolean hasGlareFlag(int bitmask) {
@@ -179,6 +135,10 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		} else {
 			this.dataTracker.set(GLARE_FLAGS, (byte) (glareFlags & ~bitmask));
 		}
+	}
+
+	public boolean canImmediatelyDespawn(double distanceSquared) {
+		return this.hasCustomName() == false;
 	}
 
 	public static boolean canSpawn(
@@ -347,17 +307,12 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 
 	@Override
 	protected EntityNavigation createNavigation(World world) {
-		GlareNavigation glareNavigation = new GlareNavigation(this, world)
-		{
-			public boolean isValidPosition(BlockPos pos) {
-				return this.world.getBlockState(pos.down()).isAir() == false;
-			}
-		};
+		GlareNavigation glareNavigation = new GlareNavigation(this, world);
 
 		glareNavigation.setCanPathThroughDoors(false);
 		glareNavigation.setCanSwim(false);
 		glareNavigation.setCanEnterOpenDoors(true);
-		EntityNavigationAccessor entityNavigation = (EntityNavigationAccessor) glareNavigation;
+		EntityNavigationAccessor entityNavigation = (EntityNavigationAccessor) (BirdNavigation) glareNavigation;
 		entityNavigation.setNodeReachProximity(0.1F);
 
 		return glareNavigation;
@@ -378,7 +333,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		this.playSound(soundEvent, 0.05F, RandomGenerator.generateFloat(0.85F, 1.25F));
 	}
 
-	protected SoundEvent getGrumpinessSound() {
+	private SoundEvent getGrumpinessSound() {
 		return ModSounds.ENTITY_GLARE_GRUMPINESS.get();
 	}
 
@@ -387,7 +342,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		this.playSound(soundEvent, 0.05F, RandomGenerator.generateFloat(1.2F, 1.3F));
 	}
 
-	protected SoundEvent getGrumpinessShortSound() {
+	private SoundEvent getGrumpinessShortSound() {
 		return ModSounds.ENTITY_GLARE_GRUMPINESS_SHORT.get();
 	}
 
@@ -396,7 +351,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		this.playSound(soundEvent, 0.05F, RandomGenerator.generateFloat(1.2F, 1.3F));
 	}
 
-	protected SoundEvent getRustleSound() {
+	private SoundEvent getRustleSound() {
 		return ModSounds.ENTITY_GLARE_RUSTLE.get();
 	}
 
@@ -525,11 +480,21 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		return true;
 	}
 
+	public boolean isSitting() {
+		return isInSittingPose();
+	}
+
+	public void setSitting(boolean isSitting) {
+		// This is just needed, because original bad implementation
+		super.setSitting(isSitting);
+		super.setInSittingPose(isSitting);
+	}
+
 	public boolean isInAir() {
 		return !this.onGround;
 	}
 
-	protected void swimUpward(Tag<Fluid> fluid) {
+	private void swimUpward(Tag<Fluid> fluid) {
 		this.setVelocity(this.getVelocity().add(0.0D, 0.01D, 0.0D));
 	}
 
@@ -561,91 +526,41 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		}
 	}
 
-	public void handleStatus(byte status) {
-		if (status == 7) {
-			this.showEmoteParticle(true);
-		} else if (status == 6) {
-			this.showEmoteParticle(false);
-		} else {
-			super.handleStatus(status);
-		}
-	}
-
-	public boolean isTamed() {
-		return (this.dataTracker.get(TAMEABLE_FLAGS) & TAMED_BITMASK) != 0;
-	}
-
 	public void setTamed(boolean tamed) {
-		byte tameableFlags = this.dataTracker.get(TAMEABLE_FLAGS);
+		super.setTamed(tamed);
 
 		if (tamed) {
-			this.dataTracker.set(TAMEABLE_FLAGS, (byte) (tameableFlags | TAMED_BITMASK));
 			this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(20.0D);
 			this.setHealth(this.getMaxHealth());
 		} else {
-			this.dataTracker.set(TAMEABLE_FLAGS, (byte) (tameableFlags & -5));
 			this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(10.0D);
 		}
-
-		this.onTamedChanged();
 	}
 
-	protected void onTamedChanged() {
-	}
-
-	@Nullable
-	public UUID getOwnerUuid() {
-		return (UUID) ((Optional) this.dataTracker.get(OWNER_UUID)).orElse(null);
-	}
-
-	public void setOwnerUuid(@Nullable UUID uuid) {
-		this.dataTracker.set(OWNER_UUID, Optional.ofNullable(uuid));
-	}
-
-	public void setOwner(PlayerEntity player) {
+	public void setOwner(PlayerEntity owner) {
 		this.setPersistent();
 		this.setTamed(true);
-		this.setOwnerUuid(player.getUuid());
+		this.setOwnerUuid(owner.getUuid());
 
-		if (player instanceof ServerPlayerEntity) {
-			ModCriteria.TAME_GLARE.trigger((ServerPlayerEntity) player, this);
+		if (owner instanceof ServerPlayerEntity) {
+			ModCriteria.TAME_GLARE.trigger((ServerPlayerEntity) owner, this);
 		}
+	}
+
+	@Override
+	public boolean isBreedingItem(ItemStack stack) {
+		return false;
+	}
+
+	@Override
+	public boolean canEat() {
+		return false;
 	}
 
 	@Nullable
-	public LivingEntity getOwner() {
-		try {
-			UUID uUID = this.getOwnerUuid();
-			return uUID == null ? null:this.world.getPlayerByUuid(uUID);
-		} catch (IllegalArgumentException var2) {
-			return null;
-		}
-	}
-
-	public boolean isOwner(LivingEntity entity) {
-		return entity == this.getOwner();
-	}
-
-	public boolean isSitting() {
-		return (this.dataTracker.get(TAMEABLE_FLAGS) & SITTING_BITMASK) != 0;
-	}
-
-	public void setSitting(boolean isSitting) {
-		byte tameableFlags = this.dataTracker.get(TAMEABLE_FLAGS);
-
-		if (isSitting) {
-			this.dataTracker.set(TAMEABLE_FLAGS, (byte) (tameableFlags | SITTING_BITMASK));
-		} else {
-			this.dataTracker.set(TAMEABLE_FLAGS, (byte) (tameableFlags & -2));
-		}
-	}
-
-	public void onDeath(DamageSource source) {
-		if (!this.world.isClient && this.world.getGameRules().getBoolean(GameRules.SHOW_DEATH_MESSAGES) && this.getOwner() instanceof ServerPlayerEntity) {
-			this.getOwner().sendSystemMessage(this.getDamageTracker().getDeathMessage(), Util.NIL_UUID);
-		}
-
-		super.onDeath(source);
+	@Override
+	public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
+		return null;
 	}
 
 	@Override
@@ -653,7 +568,7 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		DamageSource source,
 		float amount
 	) {
-		if (!this.getWorld().isClient()) {
+		if (this.getWorld().isClient() == false) {
 			this.flyToDarkSpotGoal.stop();
 		}
 
@@ -727,20 +642,24 @@ public class GlareEntity extends PathAwareEntity implements Tameable, Flutterer
 		ParticleEffect particleEffect,
 		int amount
 	) {
-		if (!this.world.isClient()) {
-			for (int i = 0; i < amount; i++) {
-				((ServerWorld) this.getEntityWorld()).spawnParticles(
-					particleEffect,
-					this.getParticleX(1.0D),
-					this.getRandomBodyY() + 0.5D,
-					this.getParticleZ(1.0D),
-					1,
-					this.getRandom().nextGaussian() * 0.02D,
-					this.getRandom().nextGaussian() * 0.02D,
-					this.getRandom().nextGaussian() * 0.02D,
-					0.1D
-				);
-			}
+		World world = this.getWorld();
+
+		if (world.isClient()) {
+			return;
+		}
+
+		for (int i = 0; i < amount; i++) {
+			((ServerWorld) world).spawnParticles(
+				particleEffect,
+				this.getParticleX(1.0D),
+				this.getRandomBodyY() + 0.5D,
+				this.getParticleZ(1.0D),
+				1,
+				this.getRandom().nextGaussian() * 0.02D,
+				this.getRandom().nextGaussian() * 0.02D,
+				this.getRandom().nextGaussian() * 0.02D,
+				0.1D
+			);
 		}
 	}
 }

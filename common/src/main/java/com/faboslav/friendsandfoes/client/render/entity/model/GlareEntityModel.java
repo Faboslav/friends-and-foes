@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.client.render.entity.model;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.passive.GlareEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -9,7 +10,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec2f;
 
 @Environment(EnvType.CLIENT)
-public class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel<T>
+public final class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel<T>
 {
 	private static final String MODEL_PART_ROOT = "root";
 	private static final String MODEL_PART_HEAD = "head";
@@ -83,15 +84,13 @@ public class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel
 		float limbDistance,
 		float tickDelta
 	) {
-		boolean isMoving = !glare.isOnGround() && glare.getVelocity().lengthSquared() >= 0.0001;
-
 		float targetLayerPitch;
 		float targetLayerRoll;
 
 		if (
-			isMoving
-			&& !(glare.getHoldingEntity() instanceof LeashKnotEntity)
-			&& !glare.isGrumpy()
+			glare.isMoving()
+			&& (glare.getHoldingEntity() instanceof LeashKnotEntity) == false
+			&& glare.isGrumpy() == false
 		) {
 			targetLayerPitch = (float) Math.toRadians(10);
 			targetLayerRoll = (float) Math.toRadians(1);
@@ -144,9 +143,15 @@ public class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel
 			this.root.pivotX = MathHelper.sin(animationProgress) * 0.5F;
 			this.root.pivotY = Math.abs(MathHelper.sin(animationProgress * 0.1F)) * -1.0F;
 			this.root.yaw = MathHelper.sin(animationProgress) * 0.05F;
-		} else if (glare.isSitting()) {
-			this.root.pivotY = 6.0F;
 		}
+
+		float targetPivotY = 0.0F;
+
+		if (glare.isSitting()) {
+			targetPivotY = 3.0F;
+		}
+
+		this.root.pivotY = targetPivotY;
 	}
 
 	private void animateEyes(

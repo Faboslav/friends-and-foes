@@ -1,9 +1,12 @@
 package com.faboslav.friendsandfoes.world.gen.feature;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.util.RandomGenerator;
 import com.mojang.serialization.Codec;
 import net.minecraft.structure.StructureGeneratorFactory.Context;
 import net.minecraft.structure.StructureSetKeys;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.Heightmap;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.JigsawFeature;
 import net.minecraft.world.gen.feature.StructurePoolFeatureConfig;
@@ -41,7 +44,10 @@ public final class IceologerCabinFeature extends JigsawFeature
 		chunkRandom.setSeed((long) (i ^ j << 4) ^ context.seed());
 		chunkRandom.nextInt();
 
-		return chunkRandom.nextInt(3) == 0;
+		BlockPos blockpos = context.chunkPos().getCenterAtY(0);
+		int topLandY = context.chunkGenerator().getHeight(blockpos.getX(), blockpos.getZ(), Heightmap.Type.WORLD_SURFACE_WG, context.world());
+
+		return topLandY >= 100 && RandomGenerator.generateInt(0, 1) == 0;
 	}
 
 	@Override

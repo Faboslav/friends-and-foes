@@ -1,7 +1,8 @@
 package com.faboslav.friendsandfoes.client.render.entity.model;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.client.animation.ModelPartAnimator;
 import com.faboslav.friendsandfoes.entity.passive.GlareEntity;
+import com.faboslav.friendsandfoes.util.animation.AnimationMath;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
@@ -10,7 +11,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec2f;
 
 @Environment(EnvType.CLIENT)
-public final class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel<T>
+public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntityModel<T>
 {
 	private static final String MODEL_PART_ROOT = "root";
 	private static final String MODEL_PART_HEAD = "head";
@@ -46,12 +47,6 @@ public final class GlareEntityModel<T extends GlareEntity> extends AbstractEntit
 			this.thirdLayer,
 			this.fourthLayer,
 		};
-
-		this.setCurrentModelTransforms(
-			this.defaultModelTransforms,
-			MODEL_PART_ROOT,
-			this.root
-		);
 	}
 
 	public static TexturedModelData getTexturedModelData() {
@@ -75,6 +70,23 @@ public final class GlareEntityModel<T extends GlareEntity> extends AbstractEntit
 		thirdLayer.addChild(MODEL_FOURTH_LAYER, ModelPartBuilder.create().uv(96, 82).cuboid(-4.0F, 0.0F, -4.0F, 8.0F, 7.0F, 8.0F), ModelTransform.pivot(0.0F, 2.0F, 0.0F));
 
 		return TexturedModelData.of(modelData, 128, 128);
+	}
+
+	@Override
+	public void setAngles(
+		T glare,
+		float limbAngle,
+		float limbDistance,
+		float animationProgress,
+		float headYaw,
+		float headPitch
+	) {
+		this.applyModelTransforms(MODEL_PART_ROOT, this.root);
+		this.modelAnimator.setEntity(glare);
+
+		this.animateEyes(glare);
+		this.animateHead(glare, animationProgress);
+		this.animateLayers(glare, animationProgress);
 	}
 
 	@Override
@@ -115,68 +127,30 @@ public final class GlareEntityModel<T extends GlareEntity> extends AbstractEntit
 		glare.setCurrentLayerRoll(layerRoll);
 	}
 
-	@Override
-	public void setAngles(
-		T glare,
-		float limbAngle,
-		float limbDistance,
-		float animationProgress,
-		float headYaw,
-		float headPitch
-	) {
-		this.applyModelTransforms(
-			this.defaultModelTransforms,
-			MODEL_PART_ROOT,
-			this.root
-		);
-
-		this.animateEyes(glare, animationProgress);
-		this.animateHead(glare, animationProgress);
-		this.animateLayers(glare, animationProgress);
-	}
-
 	private void animateHead(
 		T glare,
 		float animationProgress
 	) {
 		if (glare.isGrumpy()) {
-			this.root.pivotX = MathHelper.sin(animationProgress) * 0.5F;
-			this.root.pivotY = Math.abs(MathHelper.sin(animationProgress * 0.1F)) * -1.0F;
-			this.root.yaw = MathHelper.sin(animationProgress) * 0.05F;
+			ModelPartAnimator.setXPosition(this.root, AnimationMath.sin(animationProgress, 0.5F));
+			ModelPartAnimator.setYPosition(this.root, AnimationMath.absSin(animationProgress, 0.1F));
+			ModelPartAnimator.setYRotation(this.root, AnimationMath.sin(animationProgress, 0.05F));
+		} else {
+			float targetPivotY = glare.isSitting() ? 3.0F:0.0F;
+			this.modelAnimator.animateYPositionOverTicks(this.root, targetPivotY, 10);
 		}
-
-		float targetPivotY = 0.0F;
-
-		if (glare.isSitting()) {
-			targetPivotY = 3.0F;
-		}
-
-		this.root.pivotY = targetPivotY;
 	}
 
-	private void animateEyes(
-		T glare,
-		float animationProgress
-	) {
-		animationProgress = (float) Math.abs(Math.sin(animationProgress)) * 0.5f;
+	private void animateEyes(T glare) {
+		Vec2f targetEyesPositionOffset = glare.getTargetEyesPositionOffset();
 
-		float eyesPositionOffsetX = MathHelper.lerp(
-			animationProgress,
-			glare.getCurrentEyesPositionOffset().x,
-			glare.getTargetEyesPositionOffset().x
+		this.modelAnimator.animatePositionOverTicks(
+			this.eyes,
+			this.eyes.pivotX + targetEyesPositionOffset.x,
+			this.eyes.pivotY + targetEyesPositionOffset.y,
+			this.eyes.pivotZ,
+			GlareEntity.MIN_EYE_ANIMATION_TICK_AMOUNT
 		);
-		float eyesPositionOffsetY = MathHelper.lerp(
-			animationProgress,
-			glare.getCurrentEyesPositionOffset().y,
-			glare.getTargetEyesPositionOffset().y
-		);
-
-		glare.setCurrentEyesPositionOffset(new Vec2f(
-			eyesPositionOffsetX, eyesPositionOffsetY
-		));
-
-		this.eyes.pivotX += eyesPositionOffsetX;
-		this.eyes.pivotY += eyesPositionOffsetY;
 	}
 
 	private void animateLayers(

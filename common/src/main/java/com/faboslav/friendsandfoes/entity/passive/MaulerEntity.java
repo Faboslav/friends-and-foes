@@ -1,7 +1,11 @@
 package com.faboslav.friendsandfoes.entity.passive;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.client.animation.AnimationContextTracker;
+import com.faboslav.friendsandfoes.entity.AnimatedEntity;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.Enchantment;
@@ -51,8 +55,9 @@ import java.util.UUID;
 import java.util.function.Predicate;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-public final class MaulerEntity extends PathAwareEntity implements Angerable
+public final class MaulerEntity extends PathAwareEntity implements Angerable, AnimatedEntity
 {
+	private static final float MOVEMENT_SPEED = 0.35F;
 	private static final int MAXIMUM_STORED_EXPERIENCE_POINTS = 1395;
 	private static final Predicate<Entity> BABY_VILLAGER_PREDICATE;
 	private static final Predicate<Entity> BABY_ZOMBIE_PREDICATE;
@@ -63,6 +68,9 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable
 	private static final TrackedData<String> TYPE;
 	private static final TrackedData<Integer> ANGER_TIME;
 	private static final TrackedData<Integer> STORED_EXPERIENCE_POINTS;
+
+	@Environment(EnvType.CLIENT)
+	private AnimationContextTracker animationTickTracker;
 
 	@Nullable
 	private UUID angryAt;
@@ -153,7 +161,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable
 
 	protected void initGoals() {
 		this.goalSelector.add(1, new SwimGoal(this));
-		this.goalSelector.add(4, new MeleeAttackGoal(this, 1.0, true));
+		this.goalSelector.add(4, new MeleeAttackGoal(this, 0.5F, false));
 		this.goalSelector.add(6, new WanderAroundFarGoal(this, 0.6D));
 		this.goalSelector.add(11, new LookAtEntityGoal(this, PlayerEntity.class, 10.0F));
 
@@ -184,6 +192,11 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable
 		if (this.getWorld().isClient() == false) {
 			this.tickAngerLogic((ServerWorld) this.getWorld(), true);
 		}
+	}
+
+	@Override
+	public float getMovementSpeed() {
+		return MOVEMENT_SPEED;
 	}
 
 	@Override
@@ -285,7 +298,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable
 	}
 
 	public static Builder createRabbitAttributes() {
-		return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 3.0D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.30000001192092896D);
+		return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 3.0D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, MOVEMENT_SPEED).add(EntityAttributes.GENERIC_ATTACK_SPEED, MOVEMENT_SPEED);
 	}
 
 	protected SoundEvent getAmbientSound() {
@@ -345,7 +358,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable
 	}
 
 	public Vec3d getLeashOffset() {
-		return new Vec3d(0.0D, (double) (0.6F * this.getStandingEyeHeight()), (double) (this.getWidth() * 0.4F));
+		return new Vec3d(0.0D, 0.6F * this.getStandingEyeHeight(), this.getWidth() * 0.4F);
 	}
 
 	private int getExperiencePoints(ItemStack stack) {
@@ -391,6 +404,16 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable
 		}
 	}
 
+	@Override
+	@Environment(EnvType.CLIENT)
+	public AnimationContextTracker getAnimationContextTracker() {
+		if (this.animationTickTracker == null) {
+			this.animationTickTracker = new AnimationContextTracker();
+		}
+
+		return this.animationTickTracker;
+	}
+
 	public enum Type
 	{
 		DESERT("desert"),
@@ -399,7 +422,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable
 
 		private final String name;
 
-		private Type(String name) {
+		Type(String name) {
 			this.name = name;
 		}
 

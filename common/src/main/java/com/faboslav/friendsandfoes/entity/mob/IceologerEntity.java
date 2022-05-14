@@ -9,8 +9,6 @@ import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer.Builder;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.SpellcastingIllagerEntity;
@@ -147,7 +145,7 @@ public final class IceologerEntity extends SpellcastingIllagerEntity
 		protected void castSpell() {
 			var target = IceologerEntity.this.getTarget();
 
-			if(target.canFreeze()) {
+			if (target.canFreeze()) {
 				target.setFrozenTicks(400);
 			}
 		}

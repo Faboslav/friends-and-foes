@@ -13,8 +13,6 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
@@ -265,7 +263,7 @@ public final class IceologerIceChunkEntity extends Entity
 
 		hitEntity.damage(DamageSource.MAGIC, 12.0F);
 
-		if(hitEntity.canFreeze()) {
+		if (hitEntity.canFreeze()) {
 			hitEntity.setFrozenTicks(400);
 		}
 	}

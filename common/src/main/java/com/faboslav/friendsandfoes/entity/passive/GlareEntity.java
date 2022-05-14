@@ -1,11 +1,15 @@
 package com.faboslav.friendsandfoes.entity.passive;
 
+import com.faboslav.friendsandfoes.client.animation.AnimationContextTracker;
+import com.faboslav.friendsandfoes.entity.AnimatedEntity;
 import com.faboslav.friendsandfoes.entity.ai.pathing.GlareNavigation;
 import com.faboslav.friendsandfoes.entity.passive.ai.goal.*;
 import com.faboslav.friendsandfoes.init.ModCriteria;
 import com.faboslav.friendsandfoes.init.ModSounds;
 import com.faboslav.friendsandfoes.mixin.EntityNavigationAccessor;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
@@ -51,11 +55,12 @@ import java.util.Random;
 import java.util.function.Predicate;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-public final class GlareEntity extends TameableEntity implements Flutterer
+public final class GlareEntity extends TameableEntity implements Flutterer, AnimatedEntity
 {
 	public static final Predicate<ItemEntity> PICKABLE_FOOD_FILTER;
 	private static final int GRUMPY_BITMASK = 2;
 	private static final float MOVEMENT_SPEED = 0.6F;
+	public static final int MIN_EYE_ANIMATION_TICK_AMOUNT = 10;
 	public static final int MIN_TICKS_UNTIL_CAN_FIND_DARK_SPOT = 200;
 	public static final int MAX_TICKS_UNTIL_CAN_FIND_DARK_SPOT = 400;
 	public static final int MIN_TICKS_UNTIL_CAN_EAT_GLOW_BERRIES = 300;
@@ -65,7 +70,9 @@ public final class GlareEntity extends TameableEntity implements Flutterer
 	private static final TrackedData<Integer> TICKS_UNTIL_CAN_FIND_DARK_SPOT;
 	private static final TrackedData<Integer> TICKS_UNTIL_CAN_EAT_GLOW_BERRIES;
 
-	private Vec2f currentEyesPositionOffset;
+	@Environment(EnvType.CLIENT)
+	private AnimationContextTracker animationTickTracker;
+
 	private Vec2f targetEyesPositionOffset;
 	private float currentLayerPitch;
 	private float currentLayerRoll;
@@ -91,7 +98,6 @@ public final class GlareEntity extends TameableEntity implements Flutterer
 		this.setPathfindingPenalty(PathNodeType.FENCE, -1.0F);
 		this.setCanPickUpLoot(true);
 
-		this.currentEyesPositionOffset = new Vec2f(0.0F, 0.0F);
 		this.targetEyesPositionOffset = new Vec2f(0.0F, 0.0F);
 		this.currentLayerPitch = 0.0F;
 		this.currentLayerRoll = 0.0F;
@@ -241,28 +247,26 @@ public final class GlareEntity extends TameableEntity implements Flutterer
 		}
 	}
 
-	public Vec2f getCurrentEyesPositionOffset() {
-		return this.currentEyesPositionOffset;
-	}
-
-	public void setCurrentEyesPositionOffset(Vec2f currentEyesPositionOffset) {
-		this.currentEyesPositionOffset = currentEyesPositionOffset;
-	}
-
 	public Vec2f getTargetEyesPositionOffset() {
 		return this.targetEyesPositionOffset;
 	}
 
-	private void updateTargetEyesPositionOffset() {
-		if (this.getRandom().nextInt(40) == 0) {
+	public void setTargetEyesPositionOffset(float xEyePositionOffset, float yEyePositionOffset) {
+		this.targetEyesPositionOffset = new Vec2f(xEyePositionOffset, yEyePositionOffset);
+	}
 
-			float xEyePosition = RandomGenerator.generateFloat(-0.5F, 0.5F);
-			float yEyePosition = RandomGenerator.generateFloat(-0.4F, 0.4F);
-			this.targetEyesPositionOffset = new Vec2f(
-				xEyePosition,
-				yEyePosition
-			);
+	private void updateTargetEyesPositionOffset() {
+		if (
+			this.age % MIN_EYE_ANIMATION_TICK_AMOUNT != 0
+			|| RandomGenerator.generateInt(0, 2) != 0
+		) {
+			return;
 		}
+
+		this.setTargetEyesPositionOffset(
+			RandomGenerator.generateFloat(-0.5F, 0.5F),
+			RandomGenerator.generateFloat(-0.4F, 0.4F)
+		);
 	}
 
 	public float getCurrentLayersPitch() {
@@ -330,7 +334,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer
 	@Override
 	public void playAmbientSound() {
 		SoundEvent soundEvent = this.getAmbientSound();
-		this.playSound(soundEvent, 0.05F, RandomGenerator.generateFloat(0.85F, 1.25F));
+		this.playSound(soundEvent, 0.025F, RandomGenerator.generateFloat(0.85F, 1.25F));
 	}
 
 	private SoundEvent getGrumpinessSound() {
@@ -357,7 +361,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer
 
 	public void playRustleSound() {
 		SoundEvent soundEvent = this.getRustleSound();
-		this.playSound(soundEvent, 0.15F, 0.1F);
+		this.playSound(soundEvent, 0.1F, 0.1F);
 	}
 
 	@Override
@@ -412,8 +416,9 @@ public final class GlareEntity extends TameableEntity implements Flutterer
 		ActionResult actionResult = super.interactMob(player, hand);
 
 		if (
-			actionResult.isAccepted() == false
-			&& this.isOwner(player) == true
+			this.isOwner(player)
+			&& actionResult.isAccepted() == false
+			&& this.isGrumpy() == false
 		) {
 			this.setSitting(!this.isSitting());
 			this.getNavigation().setSpeed(0);
@@ -573,6 +578,8 @@ public final class GlareEntity extends TameableEntity implements Flutterer
 		}
 
 		this.setSitting(false);
+		this.getNavigation().setSpeed(0);
+		this.getNavigation().stop();
 
 		return super.damage(source, amount);
 	}
@@ -635,7 +642,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer
 	}
 
 	public boolean isMoving() {
-		return !this.isOnGround() && this.getVelocity().lengthSquared() >= 0.0001;
+		return this.isOnGround() == false && this.getVelocity().lengthSquared() >= 0.0001;
 	}
 
 	public void spawnParticles(
@@ -661,5 +668,15 @@ public final class GlareEntity extends TameableEntity implements Flutterer
 				0.1D
 			);
 		}
+	}
+
+	@Override
+	@Environment(EnvType.CLIENT)
+	public AnimationContextTracker getAnimationContextTracker() {
+		if (this.animationTickTracker == null) {
+			this.animationTickTracker = new AnimationContextTracker();
+		}
+
+		return this.animationTickTracker;
 	}
 }

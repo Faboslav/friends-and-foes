@@ -7,7 +7,7 @@ import net.minecraft.client.model.*;
 import net.minecraft.util.math.MathHelper;
 
 @Environment(EnvType.CLIENT)
-public final class MaulerEntityModel<T extends MaulerEntity> extends AbstractEntityModel<T>
+public final class MaulerEntityModel<T extends MaulerEntity> extends AnimatedEntityModel<T>
 {
 	private static final String MODEL_PART_ROOT = "root";
 	private static final String MODEL_PART_HEAD = "head";
@@ -40,7 +40,6 @@ public final class MaulerEntityModel<T extends MaulerEntity> extends AbstractEnt
 		this.backRightLeg = this.root.getChild(MODEL_PART_BACK_RIGHT_LEG);
 
 		this.setCurrentModelTransforms(
-			this.defaultModelTransforms,
 			MODEL_PART_ROOT,
 			this.root
 		);
@@ -50,14 +49,12 @@ public final class MaulerEntityModel<T extends MaulerEntity> extends AbstractEnt
 		ModelData modelData = new ModelData();
 		ModelPartData root = modelData.getRoot();
 
-		// Add head
 		root.addChild(MODEL_PART_HEAD, ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 14.0F, 0.0F));
 
 		ModelPartData head = root.getChild(MODEL_PART_HEAD);
 		head.addChild(MODEL_PART_UPPER_JAW, ModelPartBuilder.create().uv(0, 0).cuboid(-4.5F, -3.0F, -10.0F, 9.0F, 3.0F, 10.0F), ModelTransform.pivot(0.0F, 3.0F, 5.0F));
 		head.addChild(MODEL_PART_LOWER_JAW, ModelPartBuilder.create().uv(0, 13).cuboid(-4.5F, 0.0F, -10.0F, 9.0F, 3.0F, 10.0F), ModelTransform.pivot(0.0F, 3.0F, 5.0F));
 
-		// Add body
 		root.addChild(MODEL_PART_BODY, ModelPartBuilder.create().uv(0, 26).cuboid(-3.5F, -4.0F, -2.0F, 7.0F, 2.0F, 6.0F, new Dilation(-0.01F)), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
 		root.addChild(MODEL_PART_FRONT_LEFT_LEG, ModelPartBuilder.create().uv(0, 5).cuboid(-1.0F, 0.0F, -1.0F, 2.0F, 3.0F, 2.0F), ModelTransform.pivot(2.5F, 21.0F, -1.0F));
 		root.addChild(MODEL_PART_FRONT_RIGHT_LEG, ModelPartBuilder.create().uv(0, 0).cuboid(-1.0F, 0.0F, -1.0F, 2.0F, 3.0F, 2.0F), ModelTransform.pivot(-2.5F, 21.0F, -1.0F));
@@ -76,22 +73,28 @@ public final class MaulerEntityModel<T extends MaulerEntity> extends AbstractEnt
 		float headYaw,
 		float headPitch
 	) {
-		this.applyModelTransforms(
-			this.defaultModelTransforms,
-			MODEL_PART_ROOT,
-			this.root
-		);
+		// TODO reset position
 
-		float limbPitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance;
+		//FriendsAndFoes.getLogger().info("angle: " + MathHelper.wrap(limbAngle, 13.0F) * limbDistance);
 
-		this.frontLeftLeg.pitch = limbPitch;
-		this.frontRightLeg.pitch = limbPitch;
-		this.backLeftLeg.pitch = limbPitch;
-		this.backRightLeg.pitch = limbPitch;
+		float baseSpeed = 10.0F;
+		this.root.pivotY = -2.5F * Math.abs(MathHelper.wrap(limbAngle, baseSpeed) * limbDistance);
+
+		float legPitch = MathHelper.wrap(limbAngle, baseSpeed) * limbDistance;
+		float frontLegPitch = -1.5F * legPitch;
+		float backLegPitch = 1.5F * legPitch;
+
+		this.frontLeftLeg.pitch = frontLegPitch;
+		this.frontRightLeg.pitch = frontLegPitch;
+		this.backLeftLeg.pitch = backLegPitch;
+		this.backRightLeg.pitch = backLegPitch;
 
 		if (mauler.hasAngerTime()) {
-			this.upperJaw.pitch = toRadians(-60) * Math.abs(MathHelper.sin(limbAngle * 0.35F));
-			this.lowerJaw.pitch = toRadians(5);
+			//this.animateRotation(MODEL_PART_UPPER_JAW, -60.0F, 0.0F, 0.0F, Math.abs(MathHelper.sin(animationProgress * 0.5F)));
+			//this.animateRotation(MODEL_PART_LOWER_JAW, 5.0F, 0.0F, 0.0F);
+		} else {
+			//this.animateRotationOverTicks(MODEL_PART_UPPER_JAW, 0.0F, 0.0F, 0.0F, 20);
+			//this.animateRotationOverTicks(MODEL_PART_LOWER_JAW, 0.0F, 0.0F, 0.0F, 100);
 		}
 	}
 

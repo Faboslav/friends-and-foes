@@ -1,11 +1,14 @@
 package com.faboslav.friendsandfoes.entity.passive;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.client.animation.AnimationContextTracker;
+import com.faboslav.friendsandfoes.entity.AnimatedEntity;
 import com.faboslav.friendsandfoes.entity.passive.ai.goal.*;
 import com.faboslav.friendsandfoes.init.ModSounds;
 import com.faboslav.friendsandfoes.mixin.EntityNavigationAccessor;
 import com.faboslav.friendsandfoes.util.ModelAnimationHelper;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Oxidizable;
 import net.minecraft.entity.*;
@@ -43,7 +46,7 @@ import net.minecraft.world.event.GameEvent;
 
 import java.util.function.Predicate;
 
-public final class CopperGolemEntity extends GolemEntity
+public final class CopperGolemEntity extends GolemEntity implements AnimatedEntity
 {
 	private static final float MOVEMENT_SPEED = 0.35F;
 	private static final int COPPER_INGOT_HEAL_AMOUNT = 5;
@@ -77,6 +80,9 @@ public final class CopperGolemEntity extends GolemEntity
 	private static final Predicate<Entity> NOTICEABLE_PLAYER_FILTER;
 
 	public CopperGolemPressButtonGoal pressButtonGoal;
+
+	@Environment(EnvType.CLIENT)
+	private AnimationContextTracker animationTickTracker;
 
 	static {
 		OXIDATION_LEVEL = DataTracker.registerData(CopperGolemEntity.class, TrackedDataHandlerRegistry.INTEGER);
@@ -417,7 +423,7 @@ public final class CopperGolemEntity extends GolemEntity
 		this.updateButtonPressAnimation();
 		this.updateHeadSpinAnimation();
 
-		if(this.getWorld().isClient() == false) {
+		if (this.getWorld().isClient() == false) {
 			this.setIsMoving(this.getNavigation().isFollowingPath());
 		}
 
@@ -451,14 +457,14 @@ public final class CopperGolemEntity extends GolemEntity
 		if (this.isFallFlying() == false) {
 			BlockPos blockPos = this.getVelocityAffectingPos();
 			float p = this.world.getBlockState(blockPos).getBlock().getSlipperiness();
-			float f = this.onGround ? p * 0.91F : 0.91F;
+			float f = this.onGround ? p * 0.91F:0.91F;
 			Vec3d vec3d6 = this.applyMovementInput(movementInput, p);
 			double q = vec3d6.y;
 			if (this.hasStatusEffect(StatusEffects.LEVITATION)) {
-				q += (0.05 * (double)(this.getStatusEffect(StatusEffects.LEVITATION).getAmplifier() + 1) - vec3d6.y) * 0.2;
+				q += (0.05 * (double) (this.getStatusEffect(StatusEffects.LEVITATION).getAmplifier() + 1) - vec3d6.y) * 0.2;
 				this.onLanding();
 			} else if (this.world.isClient && !this.world.isChunkLoaded(blockPos)) {
-				if (this.getY() > (double)this.world.getBottomY()) {
+				if (this.getY() > (double) this.world.getBottomY()) {
 					q = -0.1;
 				} else {
 					q = 0.0;
@@ -470,7 +476,7 @@ public final class CopperGolemEntity extends GolemEntity
 			if (this.hasNoDrag()) {
 				this.setVelocity(vec3d6.x, q, vec3d6.z);
 			} else {
-				this.setVelocity(vec3d6.x * (double)f, q * 0.9800000190734863, vec3d6.z * (double)f);
+				this.setVelocity(vec3d6.x * (double) f, q * 0.9800000190734863, vec3d6.z * (double) f);
 			}
 		}
 	}
@@ -725,5 +731,15 @@ public final class CopperGolemEntity extends GolemEntity
 		this.serverHeadYaw = yaw;
 		this.prevHeadYaw = yaw;
 		this.headYaw = yaw;
+	}
+
+	@Override
+	@Environment(EnvType.CLIENT)
+	public AnimationContextTracker getAnimationContextTracker() {
+		if (this.animationTickTracker == null) {
+			this.animationTickTracker = new AnimationContextTracker();
+		}
+
+		return this.animationTickTracker;
 	}
 }

@@ -4,10 +4,9 @@ import com.faboslav.friendsandfoes.entity.mob.IceologerIceChunkEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
-import net.minecraft.client.render.entity.model.SinglePartEntityModel;
 
 @Environment(EnvType.CLIENT)
-public final class IceologerIceChunkModel<T extends IceologerIceChunkEntity> extends SinglePartEntityModel<T>
+public final class IceologerIceChunkModel<T extends IceologerIceChunkEntity> extends BaseEntityModel<T>
 {
 	private static final String MODEL_PART_ROOT = "root";
 	private static final String MODEL_PART_FIRST_FULL_BLOCK = "firstFullBlock";
@@ -16,7 +15,6 @@ public final class IceologerIceChunkModel<T extends IceologerIceChunkEntity> ext
 	private static final String MODEL_PART_FIRST_VERTICAL_SLAB = "firstVerticalSlab";
 	private static final String MODEL_PART_SECOND_VERTICAL_SLAB = "secondVerticalSlab";
 
-	private final ModelPart root;
 	private final ModelPart firstFullBlock;
 	private final ModelPart secondFullBlock;
 	private final ModelPart thirdFullBlock;
@@ -24,7 +22,7 @@ public final class IceologerIceChunkModel<T extends IceologerIceChunkEntity> ext
 	private final ModelPart secondVerticalSlab;
 
 	public IceologerIceChunkModel(ModelPart root) {
-		this.root = root;
+		super(root);
 		this.firstFullBlock = this.root.getChild(MODEL_PART_FIRST_FULL_BLOCK);
 		this.secondFullBlock = this.root.getChild(MODEL_PART_SECOND_FULL_BLOCK);
 		this.thirdFullBlock = this.root.getChild(MODEL_PART_THIRD_FULL_BLOCK);

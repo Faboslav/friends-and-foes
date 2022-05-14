@@ -15,7 +15,7 @@ import net.minecraft.util.Identifier;
 public final class MaulerEntityRenderer extends MobEntityRenderer<MaulerEntity, MaulerEntityModel<MaulerEntity>>
 {
 	public MaulerEntityRenderer(EntityRendererFactory.Context context) {
-		super(context, new MaulerEntityModel(context.getPart(ModEntityRenderer.MAULER_LAYER)), 0.5F);
+		super(context, new MaulerEntityModel(context.getPart(ModEntityRenderer.MAULER_LAYER)), 0.35F);
 	}
 
 	@Override

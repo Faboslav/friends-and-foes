@@ -40,15 +40,15 @@ public final class ModelAnimator
 	}
 
 	public void animateXRotationWithProgress(ModelPart modelPart, float targetX, float progress) {
-		this.animateRotationWithProgress(modelPart, targetX, modelPart.pivotY, modelPart.pivotZ, progress);
+		this.animateRotationWithProgress(modelPart, targetX, modelPart.yaw, modelPart.roll, progress);
 	}
 
 	public void animateYRotationWithProgress(ModelPart modelPart, float targetY, float progress) {
-		this.animateRotationWithProgress(modelPart, modelPart.pivotX, targetY, modelPart.pivotZ, progress);
+		this.animateRotationWithProgress(modelPart, modelPart.pitch, targetY, modelPart.roll, progress);
 	}
 
 	public void animateZRotationWithProgress(ModelPart modelPart, float targetX, float progress) {
-		this.animateRotationWithProgress(modelPart, targetX, modelPart.pivotY, modelPart.pivotZ, progress);
+		this.animateRotationWithProgress(modelPart, targetX, modelPart.yaw, modelPart.roll, progress);
 	}
 
 	public void animateRotationWithProgress(
@@ -88,7 +88,11 @@ public final class ModelAnimator
 				this.getAnimationContextTracker().add(modelPartName, animationType, animationContext);
 			}
 		} else {
-			animationCurrentVector = new Vec3f(modelPart.pivotX, modelPart.pivotY, modelPart.pivotZ);
+			animationCurrentVector = switch (animationType) {
+				case POSITION -> new Vec3f(modelPart.pivotX, modelPart.pivotY, modelPart.pivotZ);
+				case ROTATION -> new Vec3f(modelPart.pitch, modelPart.yaw, modelPart.roll);
+			};
+
 			animationContext = ModelPartAnimationContext.createWithProgress(
 				progress,
 				targetVector,
@@ -131,15 +135,15 @@ public final class ModelAnimator
 	}
 
 	public void animateXRotationOverTicks(ModelPart modelPart, float targetX, int ticks) {
-		this.animatePositionOverTicks(modelPart, targetX, modelPart.pivotY, modelPart.pivotZ, ticks);
+		this.animateRotationOverTicks(modelPart, targetX, modelPart.yaw, modelPart.roll, ticks);
 	}
 
 	public void animateYRotationOverTicks(ModelPart modelPart, float targetY, int ticks) {
-		this.animateRotationOverTicks(modelPart, modelPart.pivotX, targetY, modelPart.pivotZ, ticks);
+		this.animateRotationOverTicks(modelPart, modelPart.pitch, targetY, modelPart.roll, ticks);
 	}
 
-	public void animateZRotationOverTicks(ModelPart modelPart, float targetX, int ticks) {
-		this.animateRotationOverTicks(modelPart, targetX, modelPart.pivotY, modelPart.pivotZ, ticks);
+	public void animateZRotationOverTicks(ModelPart modelPart, float targetZ, int ticks) {
+		this.animateRotationOverTicks(modelPart, modelPart.yaw, modelPart.roll, targetZ, ticks);
 	}
 
 	public void animateRotationOverTicks(
@@ -190,7 +194,11 @@ public final class ModelAnimator
 				this.getAnimationContextTracker().add(modelPartName, animationType, animationContext);
 			}
 		} else {
-			currentVector = new Vec3f(modelPart.pivotX, modelPart.pivotY, modelPart.pivotZ);
+			currentVector = switch (animationType) {
+				case POSITION -> new Vec3f(modelPart.pivotX, modelPart.pivotY, modelPart.pivotZ);
+				case ROTATION -> new Vec3f(modelPart.pitch, modelPart.yaw, modelPart.roll);
+			};
+
 			animationContext = ModelPartAnimationContext.createWithTicks(
 				this.getEntityCurrentTick(),
 				ticks,

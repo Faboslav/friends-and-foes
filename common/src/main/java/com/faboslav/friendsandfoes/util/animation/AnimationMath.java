@@ -49,7 +49,7 @@ public final class AnimationMath
 		return Math.min(Math.max(-1.0f, value), 1.0f);
 	}
 
-	public float toRadians(double angleDegree) {
+	public static float toRadians(double angleDegree) {
 		return (float) Math.toRadians(angleDegree);
 	}
 }

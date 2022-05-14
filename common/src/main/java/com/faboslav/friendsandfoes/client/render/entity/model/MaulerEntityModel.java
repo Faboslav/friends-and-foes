@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.client.render.entity.model;
 
 import com.faboslav.friendsandfoes.entity.passive.MaulerEntity;
+import com.faboslav.friendsandfoes.util.animation.AnimationMath;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
@@ -73,9 +74,8 @@ public final class MaulerEntityModel<T extends MaulerEntity> extends AnimatedEnt
 		float headYaw,
 		float headPitch
 	) {
-		// TODO reset position
-
-		//FriendsAndFoes.getLogger().info("angle: " + MathHelper.wrap(limbAngle, 13.0F) * limbDistance);
+		this.applyModelTransforms(MODEL_PART_ROOT, this.root);
+		this.modelAnimator.setEntity(mauler);
 
 		float baseSpeed = 10.0F;
 		this.root.pivotY = -2.5F * Math.abs(MathHelper.wrap(limbAngle, baseSpeed) * limbDistance);
@@ -90,11 +90,15 @@ public final class MaulerEntityModel<T extends MaulerEntity> extends AnimatedEnt
 		this.backRightLeg.pitch = backLegPitch;
 
 		if (mauler.hasAngerTime()) {
-			//this.animateRotation(MODEL_PART_UPPER_JAW, -60.0F, 0.0F, 0.0F, Math.abs(MathHelper.sin(animationProgress * 0.5F)));
-			//this.animateRotation(MODEL_PART_LOWER_JAW, 5.0F, 0.0F, 0.0F);
+			this.modelAnimator.animateXRotationWithProgress(
+				this.upperJaw,
+				AnimationMath.toRadians(-60),
+				AnimationMath.absSin(animationProgress, 1.0F, 0.25F)
+			);
+			this.modelAnimator.animateXRotationOverTicks(this.lowerJaw, AnimationMath.toRadians(5), 10);
 		} else {
-			//this.animateRotationOverTicks(MODEL_PART_UPPER_JAW, 0.0F, 0.0F, 0.0F, 20);
-			//this.animateRotationOverTicks(MODEL_PART_LOWER_JAW, 0.0F, 0.0F, 0.0F, 100);
+			this.modelAnimator.animateXRotationOverTicks(this.upperJaw, 0.0F, 10);
+			this.modelAnimator.animateXRotationOverTicks(this.lowerJaw, 0.0F, 10);
 		}
 	}
 

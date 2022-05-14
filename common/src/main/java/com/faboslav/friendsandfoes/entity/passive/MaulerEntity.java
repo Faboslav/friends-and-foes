@@ -10,7 +10,10 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityData;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer.Builder;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -214,7 +217,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 				|| itemInHand == Items.ENCHANTED_BOOK
 			)
 		) {
-			interactionResult = this.tryToInteractWithEnhancedItem(player, itemStack);
+			interactionResult = this.tryToInteractWithEnhancedItem(itemStack);
 		} else if (
 			this.hasAngerTime() == false
 			&& itemInHand == Items.GLASS_BOTTLE
@@ -230,10 +233,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		return super.interactMob(player, hand);
 	}
 
-	private boolean tryToInteractWithEnhancedItem(
-		PlayerEntity player,
-		ItemStack itemStack
-	) {
+	private boolean tryToInteractWithEnhancedItem(ItemStack itemStack) {
 		int storedExperiencePoints = this.getStoredExperiencePoints();
 
 		if (storedExperiencePoints >= MAXIMUM_STORED_EXPERIENCE_POINTS) {
@@ -253,7 +253,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 		itemStack.decrement(1);
 
-		this.getEntityWorld().playSoundFromEntity(null, this, SoundEvents.ITEM_HONEYCOMB_WAX_ON, SoundCategory.BLOCKS, 1.0F, 1.0F);
+		this.getEntityWorld().playSoundFromEntity(null, this, SoundEvents.ENCHANT_THORNS_HIT, SoundCategory.BLOCKS, 1.0F, 1.0F);
 		this.spawnParticles(ParticleTypes.ENCHANT, 7);
 
 		FriendsAndFoes.getLogger().info(String.valueOf(this.getStoredExperiencePoints()));
@@ -315,8 +315,8 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	}
 
 	public boolean tryAttack(Entity target) {
-		this.playSound(SoundEvents.ENTITY_RABBIT_ATTACK, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
-		return target.damage(DamageSource.mob(this), 0.0F);
+		this.playSound(SoundEvents.ENTITY_EVOKER_FANGS_ATTACK, 1.0F, RandomGenerator.generateFloat(1.8F, 2.0F));
+		return target.damage(DamageSource.mob(this), 1.0F);
 	}
 
 	public int getAngerTime() {

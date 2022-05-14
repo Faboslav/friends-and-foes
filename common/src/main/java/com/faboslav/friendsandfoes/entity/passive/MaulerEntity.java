@@ -10,10 +10,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityData;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer.Builder;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -111,6 +108,8 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		super.readCustomDataFromNbt(nbt);
 		this.readAngerFromNbt(this.getWorld(), nbt);
 		this.setStoredExperiencePoints(nbt.getInt(STORED_EXPERIENCE_POINTS_NBT_NAME));
+		this.experiencePoints = this.getStoredExperiencePoints();
+		this.calculateDimensions();
 	}
 
 	@Nullable
@@ -249,6 +248,8 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		}
 
 		this.setStoredExperiencePoints(recalculatedExperiencePoints);
+		this.experiencePoints = this.getStoredExperiencePoints();
+		this.calculateDimensions();
 
 		itemStack.decrement(1);
 
@@ -328,7 +329,6 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 	public void chooseRandomAngerTime() {
 		int angerTime = RandomGenerator.generateInt(400, 1000);
-		FriendsAndFoes.getLogger().info(String.valueOf(angerTime));
 		this.setAngerTime(angerTime);
 	}
 
@@ -355,6 +355,15 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 	public void setStoredExperiencePoints(int storedExperiencePoints) {
 		this.dataTracker.set(STORED_EXPERIENCE_POINTS, storedExperiencePoints);
+	}
+
+	public float getSize() {
+		return 1.0F + (float) this.getStoredExperiencePoints() / MAXIMUM_STORED_EXPERIENCE_POINTS;
+	}
+
+	@Override
+	public float getScaleFactor() {
+		return this.getSize();
 	}
 
 	public Vec3d getLeashOffset() {

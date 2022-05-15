@@ -1,10 +1,7 @@
 package com.faboslav.friendsandfoes.config;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.config.omegaconfig.api.Comment;
 import com.faboslav.friendsandfoes.config.omegaconfig.api.Config;
-
-import java.util.Map;
 
 public final class FriendsAndFoesConfig implements Config
 {
@@ -15,13 +12,13 @@ public final class FriendsAndFoesConfig implements Config
 	public int glareSpawnMinGroupSize = 1;
 	public int glareSpawnMaxGroupSize = 1;
 	public boolean enableMaulerSpawn = true;
-	public int maulerDesertSpawnWeight = 32;
+	public int maulerDesertSpawnWeight = 16;
 	public int maulerDesertSpawnMinGroupSize = 1;
 	public int maulerDesertSpawnMaxGroupSize = 1;
-	public int maulerBadlandsSpawnWeight = 32;
+	public int maulerBadlandsSpawnWeight = 16;
 	public int maulerBadlandsSpawnMinGroupSize = 1;
 	public int maulerBadlandsSpawnMaxGroupSize = 1;
-	public int maulerSwampSpawnWeight = 32;
+	public int maulerSwampSpawnWeight = 16;
 	public int maulerSwampSpawnMinGroupSize = 1;
 	public int maulerSwampSpawnMaxGroupSize = 1;
 	public boolean enableMoobloomSpawn = true;
@@ -46,7 +43,7 @@ public final class FriendsAndFoesConfig implements Config
 
 	@Override
 	public void save() {
-		if(configVersion == 1) {
+		if (configVersion == 1) {
 			this.moobloomSpawnWeight = 16;
 			this.configVersion = 2;
 		}

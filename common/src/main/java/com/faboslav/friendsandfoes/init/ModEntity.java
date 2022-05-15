@@ -60,7 +60,7 @@ public final class ModEntity
 		EntityAttributeRegistry.register(ModEntity.COPPER_GOLEM, CopperGolemEntity::createAttributes);
 		EntityAttributeRegistry.register(ModEntity.GLARE, GlareEntity::createAttributes);
 		EntityAttributeRegistry.register(ModEntity.ICEOLOGER, IceologerEntity::createAttributes);
-		EntityAttributeRegistry.register(ModEntity.MAULER, MaulerEntity::createRabbitAttributes);
+		EntityAttributeRegistry.register(ModEntity.MAULER, MaulerEntity::createAttributes);
 		EntityAttributeRegistry.register(ModEntity.MOOBLOOM, MoobloomEntity::createCowAttributes);
 	}
 
@@ -72,22 +72,20 @@ public final class ModEntity
 	}
 
 	public static void initBiomeModifications() {
-		Predicate<BiomeModifications.BiomeContext> BADLANDS = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.BADLANDS.getValue());
-		Predicate<BiomeModifications.BiomeContext> ERODED_BADLANDS = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.ERODED_BADLANDS.getValue());
-		Predicate<BiomeModifications.BiomeContext> WOODED_BADLANDS = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.WOODED_BADLANDS.getValue());
-		Predicate<BiomeModifications.BiomeContext> DESERT = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.DESERT.getValue());
-		Predicate<BiomeModifications.BiomeContext> FLOWER_FOREST = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.FLOWER_FOREST.getValue());
-		Predicate<BiomeModifications.BiomeContext> LUSH_CAVES = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.LUSH_CAVES.getValue());
-		Predicate<BiomeModifications.BiomeContext> SWAMP = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.SWAMP.getValue());
-		Predicate<BiomeModifications.BiomeContext> MEADOW = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.MEADOW.getValue());
-
 		var config = FriendsAndFoes.getConfig();
 
 		if (config.enableGlareSpawn) {
+			Predicate<BiomeModifications.BiomeContext> LUSH_CAVES = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.LUSH_CAVES.getValue());
 			registerBiomeModification(LUSH_CAVES, GLARE.get(), SpawnGroup.AMBIENT, config.glareSpawnWeight, config.glareSpawnMinGroupSize, config.glareSpawnMaxGroupSize);
 		}
 
 		if (config.enableMaulerSpawn) {
+			Predicate<BiomeModifications.BiomeContext> DESERT = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.DESERT.getValue());
+			Predicate<BiomeModifications.BiomeContext> BADLANDS = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.BADLANDS.getValue());
+			Predicate<BiomeModifications.BiomeContext> ERODED_BADLANDS = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.ERODED_BADLANDS.getValue());
+			Predicate<BiomeModifications.BiomeContext> WOODED_BADLANDS = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.WOODED_BADLANDS.getValue());
+			Predicate<BiomeModifications.BiomeContext> SWAMP = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.SWAMP.getValue());
+
 			registerBiomeModification(DESERT, MAULER.get(), SpawnGroup.CREATURE, config.maulerDesertSpawnWeight, config.maulerDesertSpawnMinGroupSize, config.maulerDesertSpawnMaxGroupSize);
 			registerBiomeModification(BADLANDS, MAULER.get(), SpawnGroup.CREATURE, config.maulerBadlandsSpawnWeight, config.maulerBadlandsSpawnMinGroupSize, config.maulerBadlandsSpawnMaxGroupSize);
 			registerBiomeModification(ERODED_BADLANDS, MAULER.get(), SpawnGroup.CREATURE, config.maulerBadlandsSpawnWeight, config.maulerBadlandsSpawnMinGroupSize, config.maulerBadlandsSpawnMaxGroupSize);
@@ -96,6 +94,9 @@ public final class ModEntity
 		}
 
 		if (config.enableMoobloomSpawn) {
+			Predicate<BiomeModifications.BiomeContext> FLOWER_FOREST = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.FLOWER_FOREST.getValue());
+			Predicate<BiomeModifications.BiomeContext> MEADOW = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.MEADOW.getValue());
+
 			registerBiomeModification(FLOWER_FOREST, MOOBLOOM.get(), SpawnGroup.CREATURE, config.moobloomSpawnWeight, config.moobloomSpawnMinGroupSize, config.moobloomSpawnMaxGroupSize);
 			registerBiomeModification(MEADOW, MOOBLOOM.get(), SpawnGroup.CREATURE, config.moobloomSpawnWeight, config.moobloomSpawnMinGroupSize, config.moobloomSpawnMaxGroupSize);
 		}

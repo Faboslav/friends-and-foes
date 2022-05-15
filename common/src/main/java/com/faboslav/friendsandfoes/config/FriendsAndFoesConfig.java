@@ -1,7 +1,10 @@
 package com.faboslav.friendsandfoes.config;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.config.omegaconfig.api.Comment;
 import com.faboslav.friendsandfoes.config.omegaconfig.api.Config;
+
+import java.util.Map;
 
 public final class FriendsAndFoesConfig implements Config
 {
@@ -12,11 +15,17 @@ public final class FriendsAndFoesConfig implements Config
 	public int glareSpawnMinGroupSize = 1;
 	public int glareSpawnMaxGroupSize = 1;
 	public boolean enableMaulerSpawn = true;
-	public int maulerpawnWeight = 32;
-	public int maulerSpawnMinGroupSize = 1;
-	public int maulerSpawnMaxGroupSize = 1;
+	public int maulerDesertSpawnWeight = 32;
+	public int maulerDesertSpawnMinGroupSize = 1;
+	public int maulerDesertSpawnMaxGroupSize = 1;
+	public int maulerBadlandsSpawnWeight = 32;
+	public int maulerBadlandsSpawnMinGroupSize = 1;
+	public int maulerBadlandsSpawnMaxGroupSize = 1;
+	public int maulerSwampSpawnWeight = 32;
+	public int maulerSwampSpawnMinGroupSize = 1;
+	public int maulerSwampSpawnMaxGroupSize = 1;
 	public boolean enableMoobloomSpawn = true;
-	public int moobloomSpawnWeight = 32;
+	public int moobloomSpawnWeight = 16;
 	public int moobloomSpawnMinGroupSize = 2;
 	public int moobloomSpawnMaxGroupSize = 4;
 	public boolean enableBeekeeperVillagerProfession = true;
@@ -28,8 +37,20 @@ public final class FriendsAndFoesConfig implements Config
 	public boolean enableIceologerInRaids = true;
 	public boolean generateIceologerCabinStructure = true;
 
+	public int configVersion = 1;
+
 	@Override
 	public String getName() {
 		return FriendsAndFoes.MOD_ID;
+	}
+
+	@Override
+	public void save() {
+		if(configVersion == 1) {
+			this.moobloomSpawnWeight = 16;
+			this.configVersion = 2;
+		}
+
+		Config.super.save();
 	}
 }

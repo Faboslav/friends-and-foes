@@ -72,9 +72,13 @@ public final class ModEntity
 	}
 
 	public static void initBiomeModifications() {
+		Predicate<BiomeModifications.BiomeContext> BADLANDS = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.BADLANDS.getValue());
+		Predicate<BiomeModifications.BiomeContext> ERODED_BADLANDS = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.ERODED_BADLANDS.getValue());
+		Predicate<BiomeModifications.BiomeContext> WOODED_BADLANDS = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.WOODED_BADLANDS.getValue());
 		Predicate<BiomeModifications.BiomeContext> DESERT = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.DESERT.getValue());
 		Predicate<BiomeModifications.BiomeContext> FLOWER_FOREST = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.FLOWER_FOREST.getValue());
 		Predicate<BiomeModifications.BiomeContext> LUSH_CAVES = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.LUSH_CAVES.getValue());
+		Predicate<BiomeModifications.BiomeContext> SWAMP = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.SWAMP.getValue());
 		Predicate<BiomeModifications.BiomeContext> MEADOW = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.MEADOW.getValue());
 
 		var config = FriendsAndFoes.getConfig();
@@ -84,7 +88,11 @@ public final class ModEntity
 		}
 
 		if (config.enableMaulerSpawn) {
-			registerBiomeModification(DESERT, MAULER.get(), SpawnGroup.CREATURE, config.maulerpawnWeight, config.maulerSpawnMinGroupSize, config.maulerSpawnMaxGroupSize);
+			registerBiomeModification(DESERT, MAULER.get(), SpawnGroup.CREATURE, config.maulerDesertSpawnWeight, config.maulerDesertSpawnMinGroupSize, config.maulerDesertSpawnMaxGroupSize);
+			registerBiomeModification(BADLANDS, MAULER.get(), SpawnGroup.CREATURE, config.maulerBadlandsSpawnWeight, config.maulerBadlandsSpawnMinGroupSize, config.maulerBadlandsSpawnMaxGroupSize);
+			registerBiomeModification(ERODED_BADLANDS, MAULER.get(), SpawnGroup.CREATURE, config.maulerBadlandsSpawnWeight, config.maulerBadlandsSpawnMinGroupSize, config.maulerBadlandsSpawnMaxGroupSize);
+			registerBiomeModification(WOODED_BADLANDS, MAULER.get(), SpawnGroup.CREATURE, config.maulerBadlandsSpawnWeight, config.maulerBadlandsSpawnMinGroupSize, config.maulerBadlandsSpawnMaxGroupSize);
+			registerBiomeModification(SWAMP, MAULER.get(), SpawnGroup.CREATURE, config.maulerSwampSpawnWeight, config.maulerSwampSpawnMinGroupSize, config.maulerSwampSpawnMaxGroupSize);
 		}
 
 		if (config.enableMoobloomSpawn) {

@@ -24,7 +24,6 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.*;
 import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.passive.RabbitEntity;
-import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -57,9 +56,10 @@ import java.util.function.Predicate;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public final class MaulerEntity extends PathAwareEntity implements Angerable, AnimatedEntity
 {
-	private static final float MOVEMENT_SPEED = 0.35F;
+	private static final int HEALTH = 20;
+	private static final float MOVEMENT_SPEED = 0.4F;
+	private static final float ATTACK_DAMAGE = 8.0F;
 	private static final int MAXIMUM_STORED_EXPERIENCE_POINTS = 1395;
-	private static final Predicate<Entity> BABY_VILLAGER_PREDICATE;
 	private static final Predicate<Entity> BABY_ZOMBIE_PREDICATE;
 	private static final Predicate<Entity> SMALL_SLIME_PREDICATE;
 
@@ -76,9 +76,6 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	private UUID angryAt;
 
 	static {
-		BABY_VILLAGER_PREDICATE = (entity) -> {
-			return entity instanceof VillagerEntity && ((VillagerEntity) entity).isBaby();
-		};
 		BABY_ZOMBIE_PREDICATE = (entity) -> {
 			return entity instanceof ZombieEntity && ((ZombieEntity) entity).isBaby();
 		};
@@ -112,7 +109,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		this.readAngerFromNbt(this.getWorld(), nbt);
 		this.setStoredExperiencePoints(nbt.getInt(STORED_EXPERIENCE_POINTS_NBT_NAME));
 		this.experiencePoints = this.getStoredExperiencePoints();
-		this.calculateDimensions();
+		this.setSize(false);
 	}
 
 	@Nullable
@@ -143,6 +140,10 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
 	}
 
+	public boolean canImmediatelyDespawn(double distanceSquared) {
+		return this.hasCustomName() == false;
+	}
+
 	public static boolean canSpawn(
 		EntityType<MaulerEntity> maulerEntityType,
 		ServerWorldAccess serverWorldAccess,
@@ -170,7 +171,6 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		this.targetSelector.add(1, (new RevengeGoal(this)).setGroupRevenge());
 		this.targetSelector.add(2, new ActiveTargetGoal(this, RabbitEntity.class, true));
 		this.targetSelector.add(2, new ActiveTargetGoal(this, ChickenEntity.class, true));
-		this.targetSelector.add(4, new ActiveTargetGoal(this, VillagerEntity.class, 10, true, true, BABY_VILLAGER_PREDICATE));
 		this.targetSelector.add(4, new ActiveTargetGoal(this, ZombieEntity.class, 10, true, true, BABY_ZOMBIE_PREDICATE));
 		this.targetSelector.add(4, new ActiveTargetGoal(this, SlimeEntity.class, 10, true, true, SMALL_SLIME_PREDICATE));
 
@@ -249,7 +249,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 		this.setStoredExperiencePoints(recalculatedExperiencePoints);
 		this.experiencePoints = this.getStoredExperiencePoints();
-		this.calculateDimensions();
+		this.setSize(true);
 
 		itemStack.decrement(1);
 
@@ -298,8 +298,11 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		return false;
 	}
 
-	public static Builder createRabbitAttributes() {
-		return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 3.0D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, MOVEMENT_SPEED).add(EntityAttributes.GENERIC_ATTACK_SPEED, MOVEMENT_SPEED);
+	public static Builder createAttributes() {
+		return MobEntity.createMobAttributes()
+			.add(EntityAttributes.GENERIC_MAX_HEALTH, HEALTH)
+			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, MOVEMENT_SPEED)
+			.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, ATTACK_DAMAGE);
 	}
 
 	protected SoundEvent getAmbientSound() {
@@ -316,7 +319,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 	public boolean tryAttack(Entity target) {
 		this.playSound(SoundEvents.ENTITY_EVOKER_FANGS_ATTACK, 1.0F, RandomGenerator.generateFloat(1.8F, 2.0F));
-		return target.damage(DamageSource.mob(this), 1.0F);
+		return target.damage(DamageSource.mob(this), (float) this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE));
 	}
 
 	public int getAngerTime() {
@@ -354,7 +357,23 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	}
 
 	public void setStoredExperiencePoints(int storedExperiencePoints) {
+		if (storedExperiencePoints > 0) {
+			this.setPersistent();
+		}
+
 		this.dataTracker.set(STORED_EXPERIENCE_POINTS, storedExperiencePoints);
+	}
+
+	public void setSize(boolean heal) {
+		float size = this.getSize();
+		this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue((int) (HEALTH * size));
+		this.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).setBaseValue(MOVEMENT_SPEED * (size / 2.0F));
+		this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue(ATTACK_DAMAGE * (size / 2.0F));
+		this.calculateDimensions();
+
+		if (heal) {
+			this.setHealth(this.getMaxHealth());
+		}
 	}
 
 	public float getSize() {

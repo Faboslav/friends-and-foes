@@ -12,13 +12,13 @@ public final class FriendsAndFoesConfig implements Config
 	public int glareSpawnMinGroupSize = 1;
 	public int glareSpawnMaxGroupSize = 1;
 	public boolean enableMaulerSpawn = true;
-	public int maulerDesertSpawnWeight = 16;
+	public int maulerDesertSpawnWeight = 32;
 	public int maulerDesertSpawnMinGroupSize = 1;
 	public int maulerDesertSpawnMaxGroupSize = 1;
-	public int maulerBadlandsSpawnWeight = 16;
+	public int maulerBadlandsSpawnWeight = 32;
 	public int maulerBadlandsSpawnMinGroupSize = 1;
 	public int maulerBadlandsSpawnMaxGroupSize = 1;
-	public int maulerSwampSpawnWeight = 16;
+	public int maulerSwampSpawnWeight = 32;
 	public int maulerSwampSpawnMinGroupSize = 1;
 	public int maulerSwampSpawnMaxGroupSize = 1;
 	public boolean enableMoobloomSpawn = true;

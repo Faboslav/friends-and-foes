@@ -126,6 +126,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		RegistryKey<Biome> biomeKey = world.getBiome(this.getBlockPos()).getKey().orElse(BiomeKeys.SWAMP);
 		Type type = Type.getTypeByBiome(biomeKey);
 
+		FriendsAndFoes.getLogger().info("Spawned with type: " + type.getName());
 		this.setType(type);
 
 		return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
@@ -464,7 +465,11 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		public static Type getTypeByBiome(RegistryKey<Biome> biome) {
 			if (biome == BiomeKeys.DESERT) {
 				return DESERT;
-			} else if (biome == BiomeKeys.BADLANDS) {
+			} else if (
+				biome == BiomeKeys.BADLANDS
+				|| biome == BiomeKeys.ERODED_BADLANDS
+				|| biome == BiomeKeys.WOODED_BADLANDS
+			) {
 				return BADLANDS;
 			}
 

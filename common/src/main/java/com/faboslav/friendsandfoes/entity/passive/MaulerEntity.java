@@ -63,6 +63,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	private static final Predicate<Entity> BABY_ZOMBIE_PREDICATE;
 	private static final Predicate<Entity> SMALL_SLIME_PREDICATE;
 
+	private static final String TYPE_NBT_NAME = "Type";
 	private static final String STORED_EXPERIENCE_POINTS_NBT_NAME = "StoredExperiencePoints";
 
 	private static final TrackedData<String> TYPE;
@@ -101,12 +102,14 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	public void writeCustomDataToNbt(NbtCompound nbt) {
 		super.writeCustomDataToNbt(nbt);
 		this.writeAngerToNbt(nbt);
+		nbt.putString(TYPE_NBT_NAME, this.getMaulerType().getName());
 		nbt.putInt(STORED_EXPERIENCE_POINTS_NBT_NAME, this.getStoredExperiencePoints());
 	}
 
 	public void readCustomDataFromNbt(NbtCompound nbt) {
 		super.readCustomDataFromNbt(nbt);
 		this.readAngerFromNbt(this.getWorld(), nbt);
+		this.setType(Type.fromName(nbt.getString(TYPE_NBT_NAME)));
 		this.setStoredExperiencePoints(nbt.getInt(STORED_EXPERIENCE_POINTS_NBT_NAME));
 		this.experiencePoints = this.getStoredExperiencePoints();
 		this.setSize(false);
@@ -120,20 +123,8 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		@Nullable EntityData entityData,
 		@Nullable NbtCompound entityNbt
 	) {
-		Type type;
-
-		if (
-			spawnReason == SpawnReason.COMMAND
-			|| spawnReason == SpawnReason.SPAWN_EGG
-			|| spawnReason == SpawnReason.SPAWNER
-			|| spawnReason == SpawnReason.DISPENSER
-		) {
-			int randomTypeNumber = RandomGenerator.generateInt(0, Type.values().length - 1);
-			type = Type.values()[randomTypeNumber];
-		} else {
-			RegistryKey<Biome> biomeKey = world.getBiome(this.getBlockPos()).getKey().orElse(BiomeKeys.DESERT);
-			type = Type.getTypeByBiome(biomeKey);
-		}
+		RegistryKey<Biome> biomeKey = world.getBiome(this.getBlockPos()).getKey().orElse(BiomeKeys.SWAMP);
+		Type type = Type.getTypeByBiome(biomeKey);
 
 		this.setType(type);
 
@@ -367,7 +358,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	public void setSize(boolean heal) {
 		float size = this.getSize();
 		this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue((int) (HEALTH * size));
-		this.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).setBaseValue(MOVEMENT_SPEED * (size / 2.0F));
+		//this.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).setBaseValue(MOVEMENT_SPEED * (size / 2.0F));
 		this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue(ATTACK_DAMAGE * (size / 2.0F));
 		this.calculateDimensions();
 
@@ -444,8 +435,8 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 	public enum Type
 	{
-		DESERT("desert"),
 		BADLANDS("badlands"),
+		DESERT("desert"),
 		SWAMP("swamp");
 
 		private final String name;
@@ -467,17 +458,17 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 				}
 			}
 
-			return DESERT;
+			return SWAMP;
 		}
 
 		public static Type getTypeByBiome(RegistryKey<Biome> biome) {
-			if (biome == BiomeKeys.BADLANDS) {
+			if (biome == BiomeKeys.DESERT) {
+				return DESERT;
+			} else if (biome == BiomeKeys.BADLANDS) {
 				return BADLANDS;
-			} else if (biome == BiomeKeys.SWAMP) {
-				return SWAMP;
 			}
 
-			return DESERT;
+			return SWAMP;
 		}
 	}
 }

@@ -77,8 +77,10 @@ public final class MaulerEntityModel<T extends MaulerEntity> extends AnimatedEnt
 		this.applyModelTransforms(MODEL_PART_ROOT, this.root);
 		this.modelAnimator.setEntity(mauler);
 
+		this.head.pitch = headPitch * 0.017453292F;
+
 		float baseSpeed = 10.0F;
-		this.root.pivotY = -2.5F * Math.abs(MathHelper.wrap(limbAngle, baseSpeed) * limbDistance);
+		this.root.pivotY = -5F * Math.abs(MathHelper.wrap(limbAngle, baseSpeed) * limbDistance);
 
 		float legPitch = MathHelper.wrap(limbAngle, baseSpeed) * limbDistance;
 		float frontLegPitch = -1.5F * legPitch;
@@ -92,8 +94,8 @@ public final class MaulerEntityModel<T extends MaulerEntity> extends AnimatedEnt
 		if (mauler.hasAngerTime()) {
 			this.modelAnimator.animateXRotationWithProgress(
 				this.upperJaw,
-				AnimationMath.toRadians(-60),
-				AnimationMath.absSin(animationProgress, 1.0F, 0.25F)
+				AnimationMath.toRadians(-70) * AnimationMath.absSin(animationProgress, 1.0F, 0.33F),
+				AnimationMath.absSin(animationProgress)
 			);
 			this.modelAnimator.animateXRotationOverTicks(this.lowerJaw, AnimationMath.toRadians(5), 10);
 		} else {

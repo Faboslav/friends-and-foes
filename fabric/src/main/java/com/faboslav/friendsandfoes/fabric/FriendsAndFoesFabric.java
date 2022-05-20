@@ -12,7 +12,7 @@ import net.minecraft.world.dimension.DimensionType;
 
 import static com.faboslav.friendsandfoes.FriendsAndFoes.serverTickDeltaCounter;
 
-public class FriendsAndFoesFabric implements ModInitializer
+public final class FriendsAndFoesFabric implements ModInitializer
 {
 	@Override
 	public void onInitialize() {

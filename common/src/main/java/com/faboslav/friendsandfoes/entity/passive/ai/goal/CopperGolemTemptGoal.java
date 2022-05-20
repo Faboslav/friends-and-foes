@@ -4,7 +4,7 @@ import com.faboslav.friendsandfoes.entity.passive.CopperGolemEntity;
 import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.recipe.Ingredient;
 
-public class CopperGolemTemptGoal extends TemptGoal
+public final class CopperGolemTemptGoal extends TemptGoal
 {
 	private final CopperGolemEntity copperGolem;
 

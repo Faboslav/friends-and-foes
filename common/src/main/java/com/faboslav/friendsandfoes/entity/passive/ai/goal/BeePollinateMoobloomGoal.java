@@ -15,12 +15,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.EnumSet;
 import java.util.List;
 
-public class BeePollinateMoobloomGoal extends Goal
+public final class BeePollinateMoobloomGoal extends Goal
 {
-	protected final TargetPredicate VALID_MOOBLOOM_PREDICATE = TargetPredicate.createNonAttackable().ignoreDistanceScalingFactor();
-	protected BeeEntity beeEntity;
-	protected BeeEntityAccessor beeEntityAccessor;
-	protected MoobloomEntity moobloom;
+	private final TargetPredicate VALID_MOOBLOOM_PREDICATE = TargetPredicate.createNonAttackable().ignoreDistanceScalingFactor();
+	private final BeeEntity beeEntity;
+	private final BeeEntityAccessor beeEntityAccessor;
+	private MoobloomEntity moobloom;
 
 	private boolean running;
 	private int ticks = 0;

@@ -10,7 +10,7 @@ import net.minecraft.village.TradeOffers;
 
 import java.util.Random;
 
-public class TradeOffersUtil
+public final class TradeOffersUtil
 {
 	public static class SellItemFactory implements TradeOffers.Factory
 	{

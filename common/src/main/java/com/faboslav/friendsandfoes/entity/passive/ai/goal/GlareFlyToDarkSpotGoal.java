@@ -17,10 +17,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.EnumSet;
 
-public class GlareFlyToDarkSpotGoal extends Goal
+public final class GlareFlyToDarkSpotGoal extends Goal
 {
 	private final double DARK_SPOT_SEARCH_DISTANCE = 8.0D;
-	protected GlareEntity glare;
+	private final GlareEntity glare;
 	private BlockPos darkSpot;
 	private Path currentPath;
 	private int runTicks;
@@ -68,12 +68,7 @@ public class GlareFlyToDarkSpotGoal extends Goal
 			return false;
 		}
 
-		boolean isSpotDarkEnough = this.glare.getWorld().getLightLevel(
-			LightType.BLOCK,
-			this.darkSpot
-		) == 0;
-
-		return isSpotDarkEnough;
+		return this.glare.getWorld().getLightLevel(LightType.BLOCK, this.darkSpot) == 0;
 	}
 
 	@Override
@@ -86,12 +81,9 @@ public class GlareFlyToDarkSpotGoal extends Goal
 	public void stop() {
 		this.glare.playGrumpinessShortSound();
 
-		// Reset goal
 		this.darkSpot = null;
 		this.currentPath = null;
 
-
-		// Update entity data
 		this.glare.setTicksUntilCanFindDarkSpot(
 			this.glare.generateRandomTicksUntilCanFindDarkSpot()
 		);

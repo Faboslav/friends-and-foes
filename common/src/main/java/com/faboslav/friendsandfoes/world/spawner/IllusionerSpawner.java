@@ -41,7 +41,7 @@ public final class IllusionerSpawner implements Spawner
 			return 0;
 		}
 
-		this.cooldown += 6000 + random.nextInt(3000);
+		this.cooldown += 12000 + random.nextInt(1000);
 		long l = world.getTimeOfDay() / 24000L;
 
 		if (

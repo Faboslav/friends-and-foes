@@ -8,13 +8,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.WorldView;
 
-public class GlareShakeOffGlowBerriesGoal extends MoveToTargetPosGoal
+public final class GlareShakeOffGlowBerriesGoal extends MoveToTargetPosGoal
 {
 	private final GlareEntity glare;
 	private static final int COLLECTING_TIME = 40;
 	private static final int RANGE = 8;
 	private static final int MAX_Y_DIFFERENCE = 8;
-	protected int timer;
+	private int timer;
 
 	public GlareShakeOffGlowBerriesGoal(GlareEntity glare) {
 		super(

@@ -10,7 +10,7 @@ import net.minecraft.util.math.Vec3d;
 import java.util.function.Predicate;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class CopperGolemFleeEntityGoal extends FleeEntityGoal
+public final class CopperGolemFleeEntityGoal extends FleeEntityGoal
 {
 	public CopperGolemFleeEntityGoal(
 		PathAwareEntity fleeingEntity,

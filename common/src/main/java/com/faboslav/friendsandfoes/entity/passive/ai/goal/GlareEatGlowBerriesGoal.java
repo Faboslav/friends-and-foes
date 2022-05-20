@@ -15,7 +15,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class GlareEatGlowBerriesGoal extends Goal
+public final class GlareEatGlowBerriesGoal extends Goal
 {
 	public boolean isRunning = false;
 	private ItemEntity foodItemToPickUp;

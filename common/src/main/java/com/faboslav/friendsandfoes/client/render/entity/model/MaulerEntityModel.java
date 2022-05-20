@@ -1,13 +1,10 @@
 package com.faboslav.friendsandfoes.client.render.entity.model;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.passive.MaulerEntity;
-import com.faboslav.friendsandfoes.util.RandomGenerator;
 import com.faboslav.friendsandfoes.util.animation.AnimationMath;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 
 @Environment(EnvType.CLIENT)

@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.util;
 
-public class ServerTickDeltaCounter
+public final class ServerTickDeltaCounter
 {
 	public float tickDelta;
 	public float lastFrameDuration;

@@ -5,7 +5,7 @@ import dev.architectury.platform.Platform;
 import dev.architectury.utils.Env;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
-public class FriendsAndFoesForgeClient
+public final class FriendsAndFoesForgeClient
 {
 	public static void init() {
 		if (Platform.getEnvironment() != Env.CLIENT) {

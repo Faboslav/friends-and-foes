@@ -5,7 +5,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.mob.MobEntity;
 
-public class CopperGolemLookAtEntityGoal extends LookAtEntityGoal
+public final class CopperGolemLookAtEntityGoal extends LookAtEntityGoal
 {
 	public CopperGolemLookAtEntityGoal(
 		MobEntity mobEntity,

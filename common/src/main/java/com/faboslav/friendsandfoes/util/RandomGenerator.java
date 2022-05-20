@@ -2,7 +2,7 @@ package com.faboslav.friendsandfoes.util;
 
 import java.util.Random;
 
-public class RandomGenerator
+public final class RandomGenerator
 {
 	private static final Random random;
 

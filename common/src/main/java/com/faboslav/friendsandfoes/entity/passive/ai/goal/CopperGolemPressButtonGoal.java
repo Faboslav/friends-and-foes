@@ -20,10 +20,10 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.function.Predicate;
 
-public class CopperGolemPressButtonGoal extends Goal
+public final class CopperGolemPressButtonGoal extends Goal
 {
 	private final int COPPER_BUTTON_SEARCH_DISTANCE = 8;
-	protected CopperGolemEntity copperGolem;
+	private final CopperGolemEntity copperGolem;
 	private BlockPos copperButtonToPress;
 	private BlockPos positionToStandOn;
 	private BlockPos positionToLookAt;

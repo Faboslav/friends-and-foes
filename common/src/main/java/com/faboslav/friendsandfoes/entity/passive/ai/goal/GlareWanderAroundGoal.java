@@ -9,7 +9,7 @@ import net.minecraft.util.math.Vec3d;
 
 import java.util.EnumSet;
 
-public class GlareWanderAroundGoal extends Goal
+public final class GlareWanderAroundGoal extends Goal
 {
 	private final GlareEntity glare;
 

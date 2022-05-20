@@ -4,7 +4,7 @@ import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
-public class FriendsAndFoesFabricServer implements DedicatedServerModInitializer
+public final class FriendsAndFoesFabricServer implements DedicatedServerModInitializer
 {
 	@Override
 	@Environment(EnvType.SERVER)

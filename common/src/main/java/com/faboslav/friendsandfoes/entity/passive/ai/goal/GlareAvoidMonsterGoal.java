@@ -4,7 +4,7 @@ import com.faboslav.friendsandfoes.entity.passive.GlareEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.FleeEntityGoal;
 
-public class GlareAvoidMonsterGoal<T extends LivingEntity> extends FleeEntityGoal<T>
+public final class GlareAvoidMonsterGoal<T extends LivingEntity> extends FleeEntityGoal<T>
 {
 	private final GlareEntity glare;
 

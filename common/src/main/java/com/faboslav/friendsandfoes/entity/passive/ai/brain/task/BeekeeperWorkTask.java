@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class BeekeeperWorkTask extends VillagerWorkTask
+public final class BeekeeperWorkTask extends VillagerWorkTask
 {
 	public BeekeeperWorkTask() {
 		super();

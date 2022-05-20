@@ -3,9 +3,9 @@ package com.faboslav.friendsandfoes.entity.passive.ai.goal;
 import com.faboslav.friendsandfoes.entity.passive.CopperGolemEntity;
 import net.minecraft.entity.ai.goal.WanderAroundGoal;
 
-public class CopperGolemWanderAroundGoal extends WanderAroundGoal
+public final class CopperGolemWanderAroundGoal extends WanderAroundGoal
 {
-	protected CopperGolemEntity copperGolem;
+	private CopperGolemEntity copperGolem;
 
 	public CopperGolemWanderAroundGoal(CopperGolemEntity copperGolemEntity) {
 		super(copperGolemEntity, 0.0F);

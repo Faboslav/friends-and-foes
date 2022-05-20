@@ -5,7 +5,7 @@ import net.minecraft.entity.ai.goal.Goal;
 
 import java.util.EnumSet;
 
-public class GlareSitGoal extends Goal
+public final class GlareSitGoal extends Goal
 {
 	private final GlareEntity glare;
 

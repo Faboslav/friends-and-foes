@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.entity.passive.ai.goal;
 
-
 import com.faboslav.friendsandfoes.entity.passive.GlareEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeavesBlock;
@@ -14,7 +13,7 @@ import net.minecraft.world.WorldView;
 
 import java.util.EnumSet;
 
-public class GlareFollowOwnerGoal extends Goal
+public final class GlareFollowOwnerGoal extends Goal
 {
 	private final GlareEntity glare;
 	private LivingEntity owner;

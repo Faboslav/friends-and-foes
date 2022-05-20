@@ -123,7 +123,7 @@ public final class IceologerEntity extends SpellcastingIllagerEntity
 		}
 	}
 
-	public class SlowTargetGoal extends CastSpellGoal
+	public final class SlowTargetGoal extends CastSpellGoal
 	{
 		@Override
 		public boolean canStart() {

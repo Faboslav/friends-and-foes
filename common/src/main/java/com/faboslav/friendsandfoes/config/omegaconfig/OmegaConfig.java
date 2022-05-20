@@ -21,7 +21,7 @@ import java.util.*;
  * Originally from ΩConfig(https://github.com/Draylar/omega-config) by Draylar.
  * Inspired by use in Repurposed Structures by TelepathicGrunt(https://github.com/TelepathicGrunt/RepurposedStructures)
  */
-public class OmegaConfig
+public final class OmegaConfig
 {
 	private static final Logger LOGGER = LogManager.getLogger();
 

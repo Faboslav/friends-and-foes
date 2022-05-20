@@ -309,11 +309,11 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 	@Override
 	public void playAmbientSound() {
-		if(this.hasAngerTime() && this.isMoving()) {
+		if (this.hasAngerTime() && this.isMoving()) {
 			return;
 		}
 
-		this.playSound(this.getAmbientSound(), this.getSoundVolume(), RandomGenerator.generateFloat(0.75F, 0.85F));
+		this.playSound(this.getAmbientSound(), 0.5F, RandomGenerator.generateFloat(0.75F, 0.85F));
 	}
 
 	protected SoundEvent getHurtSound(DamageSource source) {
@@ -327,7 +327,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	public void playStepSound(BlockPos pos, BlockState state) {
 		super.playStepSound(pos, state);
 
-		if(this.hasAngerTime() && this.isMoving() && this.isOnGround() && this.getVelocity().getY() <= 0.0001) {
+		if (this.hasAngerTime() && this.isMoving() && this.isOnGround() && this.getVelocity().getY() <= 0.0001) {
 			this.playSound(ModSounds.ENTITY_MAULER_BITE.get(), 0.2F, RandomGenerator.generateFloat(0.9F, 0.95F));
 		}
 	}

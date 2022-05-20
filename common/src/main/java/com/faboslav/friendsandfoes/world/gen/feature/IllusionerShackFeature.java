@@ -48,7 +48,7 @@ public final class IllusionerShackFeature extends JigsawFeature
 		BlockPos blockpos = context.chunkPos().getCenterAtY(0);
 		int topLandY = context.chunkGenerator().getHeight(blockpos.getX(), blockpos.getZ(), Heightmap.Type.WORLD_SURFACE_WG, context.world());
 
-		return topLandY >= 80 && RandomGenerator.generateInt(0, 1) == 0;
+		return topLandY >= 80;
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes.entity.passive;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.animation.AnimationContextTracker;
 import com.faboslav.friendsandfoes.entity.AnimatedEntity;
+import com.faboslav.friendsandfoes.init.ModSounds;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -69,6 +70,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	private static final TrackedData<String> TYPE;
 	private static final TrackedData<Integer> ANGER_TIME;
 	private static final TrackedData<Integer> STORED_EXPERIENCE_POINTS;
+	private static final TrackedData<Boolean> IS_MOVING;
 
 	@Environment(EnvType.CLIENT)
 	private AnimationContextTracker animationTickTracker;
@@ -86,6 +88,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		TYPE = DataTracker.registerData(MaulerEntity.class, TrackedDataHandlerRegistry.STRING);
 		ANGER_TIME = DataTracker.registerData(MaulerEntity.class, TrackedDataHandlerRegistry.INTEGER);
 		STORED_EXPERIENCE_POINTS = DataTracker.registerData(MaulerEntity.class, TrackedDataHandlerRegistry.INTEGER);
+		IS_MOVING = DataTracker.registerData(MaulerEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 	}
 
 	public MaulerEntity(EntityType<? extends MaulerEntity> entityType, World world) {
@@ -97,6 +100,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		this.dataTracker.startTracking(TYPE, Type.DESERT.name());
 		this.dataTracker.startTracking(ANGER_TIME, 0);
 		this.dataTracker.startTracking(STORED_EXPERIENCE_POINTS, 0);
+		this.dataTracker.startTracking(IS_MOVING, false);
 	}
 
 	public void writeCustomDataToNbt(NbtCompound nbt) {
@@ -126,7 +130,6 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		RegistryKey<Biome> biomeKey = world.getBiome(this.getBlockPos()).getKey().orElse(BiomeKeys.SWAMP);
 		Type type = Type.getTypeByBiome(biomeKey);
 
-		FriendsAndFoes.getLogger().info("Spawned with type: " + type.getName());
 		this.setType(type);
 
 		return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
@@ -180,11 +183,13 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	*/
 	}
 
+	@Override
 	public void tickMovement() {
 		super.tickMovement();
 
 		if (this.getWorld().isClient() == false) {
 			this.tickAngerLogic((ServerWorld) this.getWorld(), true);
+			this.setIsMoving(this.getNavigation().isFollowingPath());
 		}
 	}
 
@@ -297,8 +302,18 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 			.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, ATTACK_DAMAGE);
 	}
 
+	@Override
 	protected SoundEvent getAmbientSound() {
-		return SoundEvents.ENTITY_RABBIT_AMBIENT;
+		return ModSounds.ENTITY_MAULER_GROWL.get();
+	}
+
+	@Override
+	public void playAmbientSound() {
+		if(this.hasAngerTime() && this.isMoving()) {
+			return;
+		}
+
+		this.playSound(this.getAmbientSound(), this.getSoundVolume(), RandomGenerator.generateFloat(0.75F, 0.85F));
 	}
 
 	protected SoundEvent getHurtSound(DamageSource source) {
@@ -309,8 +324,15 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		return SoundEvents.ENTITY_RABBIT_DEATH;
 	}
 
+	public void playStepSound(BlockPos pos, BlockState state) {
+		super.playStepSound(pos, state);
+
+		if(this.hasAngerTime() && this.isMoving() && this.isOnGround() && this.getVelocity().getY() <= 0.0001) {
+			this.playSound(ModSounds.ENTITY_MAULER_BITE.get(), 0.2F, RandomGenerator.generateFloat(0.9F, 0.95F));
+		}
+	}
+
 	public boolean tryAttack(Entity target) {
-		this.playSound(SoundEvents.ENTITY_EVOKER_FANGS_ATTACK, 1.0F, RandomGenerator.generateFloat(1.8F, 2.0F));
 		return target.damage(DamageSource.mob(this), (float) this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE));
 	}
 
@@ -370,6 +392,14 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 	public float getSize() {
 		return 1.0F + (float) this.getStoredExperiencePoints() / MAXIMUM_STORED_EXPERIENCE_POINTS;
+	}
+
+	public boolean isMoving() {
+		return this.dataTracker.get(IS_MOVING);
+	}
+
+	public void setIsMoving(boolean isMoving) {
+		this.dataTracker.set(IS_MOVING, isMoving);
 	}
 
 	@Override

@@ -1,10 +1,13 @@
 package com.faboslav.friendsandfoes.client.render.entity.model;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.passive.MaulerEntity;
+import com.faboslav.friendsandfoes.util.RandomGenerator;
 import com.faboslav.friendsandfoes.util.animation.AnimationMath;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 
 @Environment(EnvType.CLIENT)
@@ -77,10 +80,10 @@ public final class MaulerEntityModel<T extends MaulerEntity> extends AnimatedEnt
 		this.applyModelTransforms(MODEL_PART_ROOT, this.root);
 		this.modelAnimator.setEntity(mauler);
 
-		this.head.pitch = headPitch * 0.008726646F;
+		this.head.pitch = headPitch * 0.005F;
 
-		float baseSpeed = 10.0F;
-		this.root.pivotY = -5F * Math.abs(MathHelper.wrap(limbAngle, baseSpeed) * limbDistance);
+		float baseSpeed = 13.0F;
+		this.root.pivotY = -5.0F * Math.abs(MathHelper.wrap(limbAngle, baseSpeed) * limbDistance);
 
 		float legPitch = MathHelper.wrap(limbAngle, baseSpeed) * limbDistance;
 		float frontLegPitch = -1.5F * legPitch;
@@ -91,10 +94,10 @@ public final class MaulerEntityModel<T extends MaulerEntity> extends AnimatedEnt
 		this.backLeftLeg.pitch = backLegPitch;
 		this.backRightLeg.pitch = backLegPitch;
 
-		if (mauler.hasAngerTime()) {
+		if (mauler.hasAngerTime() && mauler.isMoving() && mauler.isOnGround() && mauler.getVelocity().getY() <= 0.0001) {
 			this.modelAnimator.animateXRotationWithProgress(
 				this.upperJaw,
-				AnimationMath.toRadians(5) + AnimationMath.toRadians(-65) * AnimationMath.absSin(animationProgress, 1.0F, 0.33F),
+				AnimationMath.toRadians(5) + AnimationMath.toRadians(-65) * AnimationMath.absSin(animationProgress, 1.0F, 0.35F),
 				AnimationMath.absSin(animationProgress)
 			);
 			this.modelAnimator.animateXRotationOverTicks(this.lowerJaw, AnimationMath.toRadians(-5), 10);

@@ -35,12 +35,14 @@
   "entity.friendsandfoes.copper_golem": "Copper Golem",
   "entity.friendsandfoes.glare": "Glare",
   "entity.friendsandfoes.moobloom": "Moobloom",
+  "entity.friendsandfoes.mauler": "Mauler",
   "item.friendsandfoes.buttercup": "Buttercup",
   "item.friendsandfoes.glare_spawn_egg": "Glare Spawn Egg",
   "item.friendsandfoes.copper_golem_spawn_egg": "Copper Golem Spawn Egg",
   "item.friendsandfoes.iceologer_spawn_egg": "Iceologer Spawn Egg",
   "item.friendsandfoes.illusioner_spawn_egg": "Illusioner Spawn Egg",
   "item.friendsandfoes.moobloom_spawn_egg": "Moobloom Spawn Egg",
+  "item.friendsandfoes.mauler_spawn_egg": "Mauler Spawn Egg",
   "subtitle.entity.friendsandfoes.glare.ambient": "Glare flies",
   "subtitle.entity.friendsandfoes.glare.death": "Glare dies",
   "subtitle.entity.friendsandfoes.glare.eat": "Glare eats",
@@ -61,5 +63,7 @@
   "subtitle.entity.friendsandfoes.iceologer.prepare_summon": "Iceologer prepares summoning",
   "subtitle.entity.friendsandfoes.ice_chunk.ambient": "Ice chunk cracks",
   "subtitle.entity.friendsandfoes.ice_chunk.hit": "Ice chunk falls",
-  "subtitle.entity.friendsandfoes.ice_chunk.summon": "Ice chunk cracks"
+  "subtitle.entity.friendsandfoes.ice_chunk.summon": "Ice chunk cracks",
+  "subtitle.entity.friendsandfoes.mauler.bite": "Mauler bites",
+  "subtitle.entity.friendsandfoes.mauler.growl": "Mauler growls"
 }

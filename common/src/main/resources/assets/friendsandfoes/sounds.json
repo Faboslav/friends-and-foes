@@ -142,5 +142,19 @@
 	  "friendsandfoes:entity/iceologer/prepare_summon"
 	],
 	"subtitle": "subtitle.entity.friendsandfoes.iceologer.prepare_summon"
+  },
+  "entity.mauler.bite": {
+	"sounds": [
+	  "friendsandfoes:entity/mauler/bite"
+	],
+	"subtitle": "subtitle.entity.friendsandfoes.mauler.bite"
+  },
+  "entity.mauler.growl": {
+	"sounds": [
+	  "friendsandfoes:entity/mauler/growl1",
+	  "friendsandfoes:entity/mauler/growl2",
+	  "friendsandfoes:entity/mauler/growl3"
+	],
+	"subtitle": "subtitle.entity.friendsandfoes.mauler.growl"
   }
 }

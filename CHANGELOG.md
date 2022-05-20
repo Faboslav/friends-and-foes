@@ -1,8 +1,8 @@
 ## mc1.18.2-1.4.0, 2022
 
-- Added Mauler
+- Added Mauler (The Great Hunger)
 - Fixed crash related to non-existing beekeepers beehive
-- Fixed errors/warnings related to the mixins/data fixers
+- Fixed all errors/warnings related to the mixins/data fixers
 
 ## mc1.18.2-1.3.4, April 08, 2022
 

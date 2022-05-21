@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@SuppressWarnings({"rawtypes", "unchecked"})
 public final class IceologerIceChunkEntity extends Entity
 {
 	private static final String OWNER_UUID_NBT_NAME = "OwnerUuid";

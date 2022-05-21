@@ -1,8 +1,12 @@
 ## mc1.18.2-1.4.0, 2022
 
 - Added Mauler (The Great Hunger)
+- Improved copper golem/glare animations
+- Improved illusioner/iceologer spawning logic
+- Improved glare compatibility as tameable mob(for example with Domestication Innovation)
 - Fixed crash related to non-existing beekeepers beehive
 - Fixed all errors/warnings related to the mixins/data fixers
+- Added it_it translations (thanks to https://github.com/Zano1999)
 
 ## mc1.18.2-1.3.4, April 08, 2022
 

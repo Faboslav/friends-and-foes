@@ -91,13 +91,15 @@ public final class ModEntity
 			Predicate<BiomeModifications.BiomeContext> BADLANDS = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.BADLANDS.getValue());
 			Predicate<BiomeModifications.BiomeContext> ERODED_BADLANDS = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.ERODED_BADLANDS.getValue());
 			Predicate<BiomeModifications.BiomeContext> WOODED_BADLANDS = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.WOODED_BADLANDS.getValue());
-			Predicate<BiomeModifications.BiomeContext> SWAMP = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.SWAMP.getValue());
+			Predicate<BiomeModifications.BiomeContext> SAVANNA = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.SAVANNA.getValue());
+			Predicate<BiomeModifications.BiomeContext> SAVANNA_PLATEAU = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.SAVANNA_PLATEAU.getValue());
 
 			registerBiomeModification(DESERT, MAULER.get(), SpawnGroup.CREATURE, config.maulerDesertSpawnWeight, config.maulerDesertSpawnMinGroupSize, config.maulerDesertSpawnMaxGroupSize);
 			registerBiomeModification(BADLANDS, MAULER.get(), SpawnGroup.CREATURE, config.maulerBadlandsSpawnWeight, config.maulerBadlandsSpawnMinGroupSize, config.maulerBadlandsSpawnMaxGroupSize);
 			registerBiomeModification(ERODED_BADLANDS, MAULER.get(), SpawnGroup.CREATURE, config.maulerBadlandsSpawnWeight, config.maulerBadlandsSpawnMinGroupSize, config.maulerBadlandsSpawnMaxGroupSize);
 			registerBiomeModification(WOODED_BADLANDS, MAULER.get(), SpawnGroup.CREATURE, config.maulerBadlandsSpawnWeight, config.maulerBadlandsSpawnMinGroupSize, config.maulerBadlandsSpawnMaxGroupSize);
-			registerBiomeModification(SWAMP, MAULER.get(), SpawnGroup.CREATURE, config.maulerSwampSpawnWeight, config.maulerSwampSpawnMinGroupSize, config.maulerSwampSpawnMaxGroupSize);
+			registerBiomeModification(SAVANNA, MAULER.get(), SpawnGroup.CREATURE, config.maulerSavannaSpawnWeight, config.maulerSavannaSpawnMinGroupSize, config.maulerSavannaSpawnMaxGroupSize);
+			registerBiomeModification(SAVANNA_PLATEAU, MAULER.get(), SpawnGroup.CREATURE, config.maulerSavannaSpawnWeight, config.maulerSavannaSpawnMinGroupSize, config.maulerSavannaSpawnMaxGroupSize);
 		}
 
 		if (config.enableMoobloomSpawn) {

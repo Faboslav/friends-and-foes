@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.entity.passive;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.animation.AnimationContextTracker;
 import com.faboslav.friendsandfoes.entity.AnimatedEntity;
 import com.faboslav.friendsandfoes.init.ModSounds;
@@ -41,9 +40,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.RegistryKey;
-import net.minecraft.world.LocalDifficulty;
-import net.minecraft.world.ServerWorldAccess;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.event.GameEvent;
@@ -58,7 +55,8 @@ import java.util.function.Predicate;
 public final class MaulerEntity extends PathAwareEntity implements Angerable, AnimatedEntity
 {
 	private static final int HEALTH = 20;
-	private static final float MOVEMENT_SPEED = 0.4F;
+	private static final float ANGERED_MOVEMENT_SPEED = 0.5F;
+	private static final float MOVEMENT_SPEED = 0.3F;
 	private static final float ATTACK_DAMAGE = 8.0F;
 	private static final int MAXIMUM_STORED_EXPERIENCE_POINTS = 1395;
 	private static final Predicate<Entity> BABY_ZOMBIE_PREDICATE;
@@ -127,7 +125,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		@Nullable EntityData entityData,
 		@Nullable NbtCompound entityNbt
 	) {
-		RegistryKey<Biome> biomeKey = world.getBiome(this.getBlockPos()).getKey().orElse(BiomeKeys.SWAMP);
+		RegistryKey<Biome> biomeKey = world.getBiome(this.getBlockPos()).getKey().orElse(BiomeKeys.SAVANNA);
 		Type type = Type.getTypeByBiome(biomeKey);
 
 		this.setType(type);
@@ -135,6 +133,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
 	}
 
+	@Override
 	public boolean canImmediatelyDespawn(double distanceSquared) {
 		return this.hasCustomName() == false;
 	}
@@ -151,6 +150,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		boolean isRelatedBlock = (
 			blockState.isOf(Blocks.SAND)
 			|| blockState.isOf(Blocks.RED_SAND)
+			|| blockState.isOf(Blocks.COARSE_DIRT)
 			|| blockState.isOf(Blocks.GRASS_BLOCK)
 		);
 
@@ -159,7 +159,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 	protected void initGoals() {
 		this.goalSelector.add(1, new SwimGoal(this));
-		this.goalSelector.add(4, new MeleeAttackGoal(this, 0.5F, false));
+		this.goalSelector.add(4, new MeleeAttackGoal(this, ANGERED_MOVEMENT_SPEED, false));
 		this.goalSelector.add(6, new WanderAroundFarGoal(this, 0.6D));
 		this.goalSelector.add(11, new LookAtEntityGoal(this, PlayerEntity.class, 10.0F));
 
@@ -168,6 +168,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		this.targetSelector.add(2, new ActiveTargetGoal(this, ChickenEntity.class, true));
 		this.targetSelector.add(4, new ActiveTargetGoal(this, ZombieEntity.class, 10, true, true, BABY_ZOMBIE_PREDICATE));
 		this.targetSelector.add(4, new ActiveTargetGoal(this, SlimeEntity.class, 10, true, true, SMALL_SLIME_PREDICATE));
+		//this.goalSelector.add(5, new MaulerEntity.EatCarrotCropGoal(this));
 
 		/*
 		this.goalSelector.add(1, new SwimGoal(this));
@@ -195,7 +196,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 	@Override
 	public float getMovementSpeed() {
-		return MOVEMENT_SPEED;
+		return this.hasAngerTime() ? ANGERED_MOVEMENT_SPEED : MOVEMENT_SPEED;
 	}
 
 	@Override
@@ -237,6 +238,10 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 			return false;
 		}
 
+		if(this.getWorld().isClient()) {
+			return true;
+		}
+
 		int experiencePoints = this.getExperiencePoints(itemStack);
 		int recalculatedExperiencePoints = storedExperiencePoints + experiencePoints;
 
@@ -253,7 +258,6 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		this.getEntityWorld().playSoundFromEntity(null, this, SoundEvents.ENCHANT_THORNS_HIT, SoundCategory.BLOCKS, 1.0F, 1.0F);
 		this.spawnParticles(ParticleTypes.ENCHANT, 7);
 
-		FriendsAndFoes.getLogger().info(String.valueOf(this.getStoredExperiencePoints()));
 		return true;
 	}
 
@@ -261,12 +265,15 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		PlayerEntity player,
 		ItemStack itemStack
 	) {
-		int storedExperiencePoints = this.getStoredExperiencePoints();
 
-		FriendsAndFoes.getLogger().info(String.valueOf(this.getStoredExperiencePoints()));
+		int storedExperiencePoints = this.getStoredExperiencePoints();
 
 		if (storedExperiencePoints < 7) {
 			return false;
+		}
+
+		if(this.getWorld().isClient()) {
+			return true;
 		}
 
 		int glassBottlesCount = itemStack.getCount();
@@ -275,9 +282,6 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		if (experienceBottleCount > glassBottlesCount) {
 			experienceBottleCount = glassBottlesCount;
 		}
-
-		FriendsAndFoes.getLogger().info("experienceBottleCount: " + experienceBottleCount);
-		FriendsAndFoes.getLogger().info("glassBottlesCount: " + glassBottlesCount);
 
 		itemStack.decrement(experienceBottleCount);
 		ItemStack experienceBottleItemStack = new ItemStack(Items.EXPERIENCE_BOTTLE, experienceBottleCount);
@@ -468,7 +472,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	{
 		BADLANDS("badlands"),
 		DESERT("desert"),
-		SWAMP("swamp");
+		SAVANNA("savanna");
 
 		private final String name;
 
@@ -489,7 +493,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 				}
 			}
 
-			return SWAMP;
+			return SAVANNA;
 		}
 
 		public static Type getTypeByBiome(RegistryKey<Biome> biome) {
@@ -503,7 +507,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 				return BADLANDS;
 			}
 
-			return SWAMP;
+			return SAVANNA;
 		}
 	}
 }

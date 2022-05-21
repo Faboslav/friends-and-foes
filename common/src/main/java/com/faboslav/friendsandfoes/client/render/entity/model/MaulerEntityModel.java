@@ -79,8 +79,10 @@ public final class MaulerEntityModel<T extends MaulerEntity> extends AnimatedEnt
 
 		this.head.pitch = headPitch * 0.005F;
 
-		float baseSpeed = 13.0F;
-		this.root.pivotY = -5.0F * Math.abs(MathHelper.wrap(limbAngle, baseSpeed) * limbDistance);
+		float baseSpeed = mauler.hasAngerTime() ? 13.0F : 10.0F;
+		float jumpHeight = mauler.hasAngerTime() ? -5.0F : -2.5F;
+
+		this.root.pivotY = jumpHeight * Math.abs(MathHelper.wrap(limbAngle, baseSpeed) * limbDistance);
 
 		float legPitch = MathHelper.wrap(limbAngle, baseSpeed) * limbDistance;
 		float frontLegPitch = -1.5F * legPitch;

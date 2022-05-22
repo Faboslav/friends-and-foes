@@ -11,17 +11,16 @@ public final class ModelPartAnimationContext
 	private final int initialTick;
 	private final int totalTicks;
 	private int currentTick;
-	private float delta;
-	private float progress;
 
 	private final Vec3f targetVector;
 	private final Vec3f currentVector;
+
+	private float progress;
 
 	private ModelPartAnimationContext(
 		int initialTick,
 		int totalTicks,
 		float progress,
-		float delta,
 		Vec3f targetVector,
 		Vec3f currentVector
 	) {
@@ -29,7 +28,6 @@ public final class ModelPartAnimationContext
 		this.totalTicks = totalTicks;
 		this.currentTick = initialTick;
 		this.progress = progress;
-		this.delta = delta;
 		this.targetVector = targetVector;
 		this.currentVector = currentVector;
 	}
@@ -44,22 +42,6 @@ public final class ModelPartAnimationContext
 			initialTick,
 			totalTicks,
 			0.0F,
-			0.0F,
-			targetVector,
-			currentVector
-		);
-	}
-
-	public static ModelPartAnimationContext createWithDelta(
-		float delta,
-		Vec3f targetVector,
-		Vec3f currentVector
-	) {
-		return new ModelPartAnimationContext(
-			0,
-			0,
-			0.0F,
-			delta,
 			targetVector,
 			currentVector
 		);
@@ -74,7 +56,6 @@ public final class ModelPartAnimationContext
 			0,
 			0,
 			progress,
-			0.0F,
 			targetVector,
 			currentVector
 		);
@@ -84,8 +65,9 @@ public final class ModelPartAnimationContext
 		this.currentTick = currentTick;
 	}
 
-	public void setDelta(float delta) {
-		this.delta = delta;
+	public void recalculateProgress() {
+		float progress = (float) (this.currentTick - this.initialTick) / this.totalTicks;
+		this.progress = Math.min(Math.max(-1.0f, progress), 1.0f);
 	}
 
 	public void setProgress(float progress) {
@@ -100,46 +82,30 @@ public final class ModelPartAnimationContext
 		return targetVector;
 	}
 
-	public void calculateAndSetProgressFromCurrentTick() {
-		float progress = (float) (this.currentTick - this.initialTick) / this.totalTicks;
-		this.progress = Math.min(Math.max(-1.0f, progress), 1.0f);
-	}
-
-	public void recalculateCurrentVectorWithProgress() {
-
-	}
-
-	public void ForDelta(float delta) {
-		this.delta = delta;
-
+	public void recalculateCurrentVector() {
 		this.currentVector.set(
-			calculateNewValueForProgress(this.currentVector.getX(), this.targetVector.getX()),
-			calculateNewValueForProgress(this.currentVector.getY(), this.targetVector.getY()),
-			calculateNewValueForProgress(this.currentVector.getZ(), this.targetVector.getZ())
+			recalculateCurrentX(),
+			recalculateCurrentY(),
+			recalculateCurrentZ()
 		);
 	}
 
-	public void updateForProgress(float progress) {
-		this.progress = progress;
-
-		this.currentVector.set(
-			calculateNewValueForProgress(this.currentVector.getX(), this.targetVector.getX()),
-			calculateNewValueForProgress(this.currentVector.getY(), this.targetVector.getY()),
-			calculateNewValueForProgress(this.currentVector.getZ(), this.targetVector.getZ())
-		);
+	private float recalculateCurrentX() {
+		return this.calculateNewValue(this.currentVector.getX(), this.targetVector.getX());
 	}
 
-	private float calculateNewValueForProgress(
+	private float recalculateCurrentY() {
+		return this.calculateNewValue(this.currentVector.getY(), this.targetVector.getY());
+	}
+
+	private float recalculateCurrentZ() {
+		return this.calculateNewValue(this.currentVector.getZ(), this.targetVector.getZ());
+	}
+
+	private float calculateNewValue(
 		float currentValue,
 		float targetValue
 	) {
 		return AnimationMath.lerp(this.progress, currentValue, targetValue);
-	}
-
-	private float calculateNewValueForDelta(
-		float currentValue,
-		float targetValue
-	) {
-		return AnimationMath.lerp(this.delta, currentValue, targetValue);
 	}
 }

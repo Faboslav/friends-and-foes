@@ -10,15 +10,105 @@ import net.minecraft.util.math.Vec3f;
 @Environment(EnvType.CLIENT)
 public final class ModelAnimator
 {
-	private AnimatedEntity entity;
-	private float delta;
+	AnimatedEntity entity;
 
 	public void setEntity(AnimatedEntity entity) {
 		this.entity = entity;
 	}
 
-	public void setDelta(float delta) {
-		this.delta = delta;
+	public void animateXPositionWithProgress(ModelPart modelPart, float targetX, float progress) {
+		this.animatePositionWithProgress(modelPart, targetX, modelPart.pivotY, modelPart.pivotZ, progress);
+	}
+
+	public void animateYPositionWithProgress(ModelPart modelPart, float targetY, float progress) {
+		this.animatePositionWithProgress(modelPart, modelPart.pivotX, targetY, modelPart.pivotZ, progress);
+	}
+
+	public void animateZPositionWithProgress(ModelPart modelPart, float targetX, float progress) {
+		this.animatePositionWithProgress(modelPart, targetX, modelPart.pivotY, modelPart.pivotZ, progress);
+	}
+
+	public void animatePositionWithProgress(
+		ModelPart modelPart,
+		float targetX,
+		float targetY,
+		float targetZ,
+		float progress
+	) {
+		Vec3f targetVector = new Vec3f(targetX, targetY, targetZ);
+		this.animateWithProgress(modelPart, ModelPartAnimationType.POSITION, targetVector, progress);
+	}
+
+	public void animateXRotationWithProgress(ModelPart modelPart, float targetX, float progress) {
+		this.animateRotationWithProgress(modelPart, targetX, modelPart.yaw, modelPart.roll, progress);
+	}
+
+	public void animateYRotationWithProgress(ModelPart modelPart, float targetY, float progress) {
+		this.animateRotationWithProgress(modelPart, modelPart.pitch, targetY, modelPart.roll, progress);
+	}
+
+	public void animateZRotationWithProgress(ModelPart modelPart, float targetX, float progress) {
+		this.animateRotationWithProgress(modelPart, targetX, modelPart.yaw, modelPart.roll, progress);
+	}
+
+	public void animateRotationWithProgress(
+		ModelPart modelPart,
+		float targetX,
+		float targetY,
+		float targetZ,
+		float progress
+	) {
+		Vec3f targetVector = new Vec3f(targetX, targetY, targetZ);
+		this.animateWithProgress(modelPart, ModelPartAnimationType.ROTATION, targetVector, progress);
+	}
+
+	private void animateWithProgress(
+		ModelPart modelPart,
+		ModelPartAnimationType animationType,
+		Vec3f targetVector,
+		float progress
+	) {
+		String modelPartName = modelPart.toString();
+		ModelPartAnimationContext animationContext;
+		Vec3f animationCurrentVector;
+		Vec3f animationTargetVector;
+
+		if (this.getAnimationContextTracker().contains(modelPartName, animationType)) {
+			animationContext = this.getAnimationContextTracker().get(modelPartName, animationType);
+			animationCurrentVector = animationContext.getCurrentVector();
+			animationTargetVector = animationContext.getTargetVector();
+
+			if (animationTargetVector.equals(targetVector) == false) {
+				this.getAnimationContextTracker().remove(modelPartName, animationType);
+				animationContext = ModelPartAnimationContext.createWithProgress(
+					progress,
+					targetVector,
+					animationCurrentVector
+				);
+				this.getAnimationContextTracker().add(modelPartName, animationType, animationContext);
+			}
+		} else {
+			animationCurrentVector = switch (animationType) {
+				case POSITION -> new Vec3f(modelPart.pivotX, modelPart.pivotY, modelPart.pivotZ);
+				case ROTATION -> new Vec3f(modelPart.pitch, modelPart.yaw, modelPart.roll);
+			};
+
+			animationContext = ModelPartAnimationContext.createWithProgress(
+				progress,
+				targetVector,
+				animationCurrentVector
+			);
+			this.getAnimationContextTracker().add(modelPartName, animationType, animationContext);
+		}
+
+		animationContext.setProgress(progress);
+		animationContext.recalculateCurrentVector();
+		animationCurrentVector = animationContext.getCurrentVector();
+
+		switch (animationType) {
+			case POSITION -> ModelPartAnimator.setPosition(modelPart, animationCurrentVector);
+			case ROTATION -> ModelPartAnimator.setRotation(modelPart, animationCurrentVector);
+		}
 	}
 
 	public void animateXPositionOverTicks(ModelPart modelPart, float targetX, int ticks) {
@@ -118,202 +208,14 @@ public final class ModelAnimator
 			this.getAnimationContextTracker().add(modelPartName, animationType, animationContext);
 		}
 
-		animationContext.setDelta(this.delta);
 		animationContext.setCurrentTick(this.getEntityCurrentTick());
-		animationContext.calculateAndSetProgressFromCurrentTick();
+		animationContext.recalculateProgress();
+		animationContext.recalculateCurrentVector();
 		currentVector = animationContext.getCurrentVector();
 
 		switch (animationType) {
 			case POSITION -> ModelPartAnimator.setPosition(modelPart, currentVector);
 			case ROTATION -> ModelPartAnimator.setRotation(modelPart, currentVector);
-		}
-	}
-
-	public void animateXPositionWithDelta(ModelPart modelPart, float targetX, float delta) {
-		this.animatePositionWithProgress(modelPart, targetX, modelPart.pivotY, modelPart.pivotZ, delta);
-	}
-
-	public void animateYPositionWithDelta(ModelPart modelPart, float targetY, float delta) {
-		this.animatePositionWithProgress(modelPart, modelPart.pivotX, targetY, modelPart.pivotZ, delta);
-	}
-
-	public void animateZPositionWithDelta(ModelPart modelPart, float targetX, float delta) {
-		this.animatePositionWithProgress(modelPart, targetX, modelPart.pivotY, modelPart.pivotZ, delta);
-	}
-
-	public void animatePositionWithDelta(
-		ModelPart modelPart,
-		float targetX,
-		float targetY,
-		float targetZ,
-		float delta
-	) {
-		Vec3f targetVector = new Vec3f(targetX, targetY, targetZ);
-		this.animateWithProgress(modelPart, ModelPartAnimationType.POSITION, targetVector, delta);
-	}
-
-	public void animateXRotationWithDelta(ModelPart modelPart, float targetX, float delta) {
-		this.animateRotationWithProgress(modelPart, targetX, modelPart.yaw, modelPart.roll, delta);
-	}
-
-	public void animateYRotationWithDelta(ModelPart modelPart, float targetY, float delta) {
-		this.animateRotationWithProgress(modelPart, modelPart.pitch, targetY, modelPart.roll, delta);
-	}
-
-	public void animateZRotationWithDelta(ModelPart modelPart, float targetX, float delta) {
-		this.animateRotationWithProgress(modelPart, targetX, modelPart.yaw, modelPart.roll, delta);
-	}
-
-	public void animateRotationWithDelta(
-		ModelPart modelPart,
-		float targetX,
-		float targetY,
-		float targetZ,
-		float delta
-	) {
-		Vec3f targetVector = new Vec3f(targetX, targetY, targetZ);
-		this.animateWithProgress(modelPart, ModelPartAnimationType.ROTATION, targetVector, delta);
-	}
-
-	private void animateWithDelta(
-		ModelPart modelPart,
-		ModelPartAnimationType animationType,
-		Vec3f targetVector,
-		float delta
-	) {
-		String modelPartName = modelPart.toString();
-		ModelPartAnimationContext animationContext;
-		Vec3f animationCurrentVector;
-		Vec3f animationTargetVector;
-
-		if (this.getAnimationContextTracker().contains(modelPartName, animationType)) {
-			animationContext = this.getAnimationContextTracker().get(modelPartName, animationType);
-			animationCurrentVector = animationContext.getCurrentVector();
-			animationTargetVector = animationContext.getTargetVector();
-
-			if (animationTargetVector.equals(targetVector) == false) {
-				this.getAnimationContextTracker().remove(modelPartName, animationType);
-				animationContext = ModelPartAnimationContext.createWithDelta(
-					delta,
-					targetVector,
-					animationCurrentVector
-				);
-				this.getAnimationContextTracker().add(modelPartName, animationType, animationContext);
-			}
-		} else {
-			animationCurrentVector = switch (animationType) {
-				case POSITION -> new Vec3f(modelPart.pivotX, modelPart.pivotY, modelPart.pivotZ);
-				case ROTATION -> new Vec3f(modelPart.pitch, modelPart.yaw, modelPart.roll);
-			};
-
-			animationContext = ModelPartAnimationContext.createWithDelta(
-				delta,
-				targetVector,
-				animationCurrentVector
-			);
-			this.getAnimationContextTracker().add(modelPartName, animationType, animationContext);
-		}
-
-		animationContext.updateForDelta(delta);
-		animationCurrentVector = animationContext.getCurrentVector();
-
-		switch (animationType) {
-			case POSITION -> ModelPartAnimator.setPosition(modelPart, animationCurrentVector);
-			case ROTATION -> ModelPartAnimator.setRotation(modelPart, animationCurrentVector);
-		}
-	}
-
-	public void animateXPositionWithProgress(ModelPart modelPart, float targetX, float progress) {
-		this.animatePositionWithProgress(modelPart, targetX, modelPart.pivotY, modelPart.pivotZ, progress);
-	}
-
-	public void animateYPositionWithProgress(ModelPart modelPart, float targetY, float progress) {
-		this.animatePositionWithProgress(modelPart, modelPart.pivotX, targetY, modelPart.pivotZ, progress);
-	}
-
-	public void animateZPositionWithProgress(ModelPart modelPart, float targetX, float progress) {
-		this.animatePositionWithProgress(modelPart, targetX, modelPart.pivotY, modelPart.pivotZ, progress);
-	}
-
-	public void animatePositionWithProgress(
-		ModelPart modelPart,
-		float targetX,
-		float targetY,
-		float targetZ,
-		float progress
-	) {
-		Vec3f targetVector = new Vec3f(targetX, targetY, targetZ);
-		this.animateWithProgress(modelPart, ModelPartAnimationType.POSITION, targetVector, progress);
-	}
-
-	public void animateXRotationWithProgress(ModelPart modelPart, float targetX, float progress) {
-		this.animateRotationWithProgress(modelPart, targetX, modelPart.yaw, modelPart.roll, progress);
-	}
-
-	public void animateYRotationWithProgress(ModelPart modelPart, float targetY, float progress) {
-		this.animateRotationWithProgress(modelPart, modelPart.pitch, targetY, modelPart.roll, progress);
-	}
-
-	public void animateZRotationWithProgress(ModelPart modelPart, float targetX, float progress) {
-		this.animateRotationWithProgress(modelPart, targetX, modelPart.yaw, modelPart.roll, progress);
-	}
-
-	public void animateRotationWithProgress(
-		ModelPart modelPart,
-		float targetX,
-		float targetY,
-		float targetZ,
-		float progress
-	) {
-		Vec3f targetVector = new Vec3f(targetX, targetY, targetZ);
-		this.animateWithProgress(modelPart, ModelPartAnimationType.ROTATION, targetVector, progress);
-	}
-
-	private void animateWithProgress(
-		ModelPart modelPart,
-		ModelPartAnimationType animationType,
-		Vec3f targetVector,
-		float progress
-	) {
-		String modelPartName = modelPart.toString();
-		ModelPartAnimationContext animationContext;
-		Vec3f animationCurrentVector;
-		Vec3f animationTargetVector;
-
-		if (this.getAnimationContextTracker().contains(modelPartName, animationType)) {
-			animationContext = this.getAnimationContextTracker().get(modelPartName, animationType);
-			animationCurrentVector = animationContext.getCurrentVector();
-			animationTargetVector = animationContext.getTargetVector();
-
-			if (animationTargetVector.equals(targetVector) == false) {
-				this.getAnimationContextTracker().remove(modelPartName, animationType);
-				animationContext = ModelPartAnimationContext.createWithProgress(
-					progress,
-					targetVector,
-					animationCurrentVector
-				);
-				this.getAnimationContextTracker().add(modelPartName, animationType, animationContext);
-			}
-		} else {
-			animationCurrentVector = switch (animationType) {
-				case POSITION -> new Vec3f(modelPart.pivotX, modelPart.pivotY, modelPart.pivotZ);
-				case ROTATION -> new Vec3f(modelPart.pitch, modelPart.yaw, modelPart.roll);
-			};
-
-			animationContext = ModelPartAnimationContext.createWithProgress(
-				progress,
-				targetVector,
-				animationCurrentVector
-			);
-			this.getAnimationContextTracker().add(modelPartName, animationType, animationContext);
-		}
-
-		animationContext.updateForProgress(progress);
-		animationCurrentVector = animationContext.getCurrentVector();
-
-		switch (animationType) {
-			case POSITION -> ModelPartAnimator.setPosition(modelPart, animationCurrentVector);
-			case ROTATION -> ModelPartAnimator.setRotation(modelPart, animationCurrentVector);
 		}
 	}
 

@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.mixin;
 
-import com.faboslav.friendsandfoes.entity.passive.ai.brain.task.BeekeeperWorkTask;
+import com.faboslav.friendsandfoes.entity.ai.brain.task.BeekeeperWorkTask;
 import com.faboslav.friendsandfoes.init.ModVillagerProfessions;
 import net.minecraft.entity.ai.brain.task.VillagerTaskListProvider;
 import net.minecraft.entity.ai.brain.task.VillagerWorkTask;

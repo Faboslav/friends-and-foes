@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.mixin;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.entity.passive.CopperGolemEntity;
+import com.faboslav.friendsandfoes.entity.CopperGolemEntity;
 import com.faboslav.friendsandfoes.init.ModEntity;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.*;

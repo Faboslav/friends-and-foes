@@ -2,7 +2,7 @@ package com.faboslav.friendsandfoes.client.render.entity;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.feature.MoobloomFlowerFeatureRenderer;
-import com.faboslav.friendsandfoes.entity.passive.MoobloomEntity;
+import com.faboslav.friendsandfoes.entity.MoobloomEntity;
 import com.faboslav.friendsandfoes.init.ModEntityRenderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

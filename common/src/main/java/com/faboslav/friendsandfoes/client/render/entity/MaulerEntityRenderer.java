@@ -2,7 +2,7 @@ package com.faboslav.friendsandfoes.client.render.entity;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.model.MaulerEntityModel;
-import com.faboslav.friendsandfoes.entity.passive.MaulerEntity;
+import com.faboslav.friendsandfoes.entity.MaulerEntity;
 import com.faboslav.friendsandfoes.init.ModEntityRenderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.client.render.entity.model;
 
-import com.faboslav.friendsandfoes.entity.passive.CopperGolemEntity;
+import com.faboslav.friendsandfoes.entity.CopperGolemEntity;
 import com.faboslav.friendsandfoes.util.ModelAnimationHelper;
 import com.faboslav.friendsandfoes.util.animation.AnimationMath;
 import net.fabricmc.api.EnvType;

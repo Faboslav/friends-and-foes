@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.client.render.entity.model;
 
-import com.faboslav.friendsandfoes.entity.mob.IceologerIceChunkEntity;
+import com.faboslav.friendsandfoes.entity.IceologerIceChunkEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;

@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.client.render.entity.feature;
 
-import com.faboslav.friendsandfoes.entity.passive.MoobloomEntity;
+import com.faboslav.friendsandfoes.entity.MoobloomEntity;
 import com.faboslav.friendsandfoes.init.ModBlocks;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

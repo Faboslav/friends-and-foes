@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.mixin;
 
-import com.faboslav.friendsandfoes.entity.passive.MaulerEntity;
+import com.faboslav.friendsandfoes.entity.MaulerEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.FleeEntityGoal;
 import net.minecraft.entity.passive.AnimalEntity;
@@ -21,6 +21,15 @@ public abstract class ChickenEntityMixin extends AnimalEntity
 
 	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/goal/GoalSelector;add(ILnet/minecraft/entity/ai/goal/Goal;)V", ordinal = 1, shift = At.Shift.AFTER), method = "initGoals")
 	private void addFleeGoal(CallbackInfo ci) {
-		this.goalSelector.add(2, new FleeEntityGoal((ChickenEntity) (Object) this, MaulerEntity.class, 10.0F, 1.4, 1.4));
+		this.goalSelector.add(2, new FleeEntityGoal(
+			(ChickenEntity) (Object) this,
+			MaulerEntity.class,
+			10.0F,
+			1.4,
+			1.4,
+			(entity) -> {
+				return ((MaulerEntity) entity).isBurrowedDown() == false;
+			}
+		));
 	}
 }

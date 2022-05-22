@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.client.render.entity.model;
 
-import com.faboslav.friendsandfoes.entity.passive.MaulerEntity;
+import com.faboslav.friendsandfoes.entity.MaulerEntity;
 import com.faboslav.friendsandfoes.util.animation.AnimationMath;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -28,6 +28,8 @@ public final class MaulerEntityModel<T extends MaulerEntity> extends AnimatedEnt
 	private final ModelPart frontRightLeg;
 	private final ModelPart backLeftLeg;
 	private final ModelPart backRightLeg;
+
+	private float burrowingDownAnimationProgress;
 
 	public MaulerEntityModel(ModelPart root) {
 		super(root);
@@ -77,10 +79,15 @@ public final class MaulerEntityModel<T extends MaulerEntity> extends AnimatedEnt
 		this.applyModelTransforms(MODEL_PART_ROOT, this.root);
 		this.modelAnimator.setEntity(mauler);
 
+		if(mauler.isBurrowedDown() && mauler.was) {
+			this.modelAnimator.animateYPositionOverTicks(this.root, 14, 40);
+			return;
+		}
+
 		this.head.pitch = headPitch * 0.005F;
 
-		float baseSpeed = mauler.hasAngerTime() ? 13.0F : 10.0F;
-		float jumpHeight = mauler.hasAngerTime() ? -5.0F : -2.5F;
+		float baseSpeed = mauler.hasAngerTime() ? 13.0F:10.0F;
+		float jumpHeight = mauler.hasAngerTime() ? -5.0F:-2.5F;
 
 		this.root.pivotY = jumpHeight * Math.abs(MathHelper.wrap(limbAngle, baseSpeed) * limbDistance);
 
@@ -94,23 +101,13 @@ public final class MaulerEntityModel<T extends MaulerEntity> extends AnimatedEnt
 		this.backRightLeg.pitch = backLegPitch;
 
 		if (mauler.hasAngerTime() && mauler.isMoving() && mauler.isOnGround() && mauler.getVelocity().getY() <= 0.0001) {
-			this.modelAnimator.animateXRotationWithProgress(
-				this.upperJaw,
-				AnimationMath.toRadians(5) + AnimationMath.toRadians(-65) * AnimationMath.absSin(animationProgress, 1.0F, 0.35F),
-				AnimationMath.absSin(animationProgress)
-			);
+			float targetX = AnimationMath.toRadians(5) + AnimationMath.toRadians(-65) * AnimationMath.absSin(animationProgress, 1.0F, 0.35F);
+			float delta = AnimationMath.absSin(animationProgress);
+			this.modelAnimator.animateXRotationWithProgress(this.upperJaw, targetX, delta);
 			this.modelAnimator.animateXRotationOverTicks(this.lowerJaw, AnimationMath.toRadians(-5), 10);
 		} else {
 			this.modelAnimator.animateXRotationOverTicks(this.upperJaw, 0.0F, 10);
 			this.modelAnimator.animateXRotationOverTicks(this.lowerJaw, 0.0F, 10);
 		}
-	}
-
-	public void animateModel(
-		T mauler,
-		float limbAngle,
-		float limbDistance,
-		float tickDelta
-	) {
 	}
 }

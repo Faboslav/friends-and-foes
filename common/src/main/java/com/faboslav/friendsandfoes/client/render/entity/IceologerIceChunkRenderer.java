@@ -2,7 +2,7 @@ package com.faboslav.friendsandfoes.client.render.entity;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.model.IceologerIceChunkModel;
-import com.faboslav.friendsandfoes.entity.mob.IceologerIceChunkEntity;
+import com.faboslav.friendsandfoes.entity.IceologerIceChunkEntity;
 import com.faboslav.friendsandfoes.init.ModEntityRenderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.advancements.criterion;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.entity.passive.GlareEntity;
+import com.faboslav.friendsandfoes.entity.GlareEntity;
 import com.google.gson.JsonObject;
 import net.minecraft.advancement.criterion.AbstractCriterion;
 import net.minecraft.advancement.criterion.AbstractCriterionConditions;

@@ -2,7 +2,7 @@ package com.faboslav.friendsandfoes.client.render.entity;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.model.CopperGolemEntityModel;
-import com.faboslav.friendsandfoes.entity.passive.CopperGolemEntity;
+import com.faboslav.friendsandfoes.entity.CopperGolemEntity;
 import com.faboslav.friendsandfoes.init.ModEntityRenderer;
 import com.google.common.collect.ImmutableMap;
 import net.fabricmc.api.EnvType;

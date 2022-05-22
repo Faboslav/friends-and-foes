@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.client.render.entity.model;
 
-import com.faboslav.friendsandfoes.client.animation.ModelAnimator;
+import com.faboslav.friendsandfoes.client.render.entity.animation.ModelAnimator;
 import com.faboslav.friendsandfoes.mixin.ModelPartAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

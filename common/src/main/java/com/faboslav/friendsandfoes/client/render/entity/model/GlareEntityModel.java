@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.client.render.entity.model;
 
-import com.faboslav.friendsandfoes.client.animation.ModelPartAnimator;
-import com.faboslav.friendsandfoes.entity.passive.GlareEntity;
+import com.faboslav.friendsandfoes.client.render.entity.animation.ModelPartAnimator;
+import com.faboslav.friendsandfoes.entity.GlareEntity;
 import com.faboslav.friendsandfoes.util.animation.AnimationMath;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

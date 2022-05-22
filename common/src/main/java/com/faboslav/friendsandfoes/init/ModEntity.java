@@ -1,12 +1,12 @@
 package com.faboslav.friendsandfoes.init;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.entity.mob.IceologerEntity;
-import com.faboslav.friendsandfoes.entity.mob.IceologerIceChunkEntity;
-import com.faboslav.friendsandfoes.entity.passive.CopperGolemEntity;
-import com.faboslav.friendsandfoes.entity.passive.GlareEntity;
-import com.faboslav.friendsandfoes.entity.passive.MaulerEntity;
-import com.faboslav.friendsandfoes.entity.passive.MoobloomEntity;
+import com.faboslav.friendsandfoes.entity.IceologerEntity;
+import com.faboslav.friendsandfoes.entity.IceologerIceChunkEntity;
+import com.faboslav.friendsandfoes.entity.CopperGolemEntity;
+import com.faboslav.friendsandfoes.entity.GlareEntity;
+import com.faboslav.friendsandfoes.entity.MaulerEntity;
+import com.faboslav.friendsandfoes.entity.MoobloomEntity;
 import com.faboslav.friendsandfoes.mixin.SpawnRestrictionAccessor;
 import dev.architectury.registry.level.biome.BiomeModifications;
 import dev.architectury.registry.level.entity.EntityAttributeRegistry;
@@ -45,7 +45,7 @@ public final class ModEntity
 		GLARE = ENTITY_TYPES.register("glare", () -> EntityType.Builder.create(GlareEntity::new, SpawnGroup.AMBIENT).setDimensions(0.875F, 1.4375F).maxTrackingRange(8).build(FriendsAndFoes.makeStringID("glare")));
 		ICEOLOGER = ENTITY_TYPES.register("iceologer", () -> EntityType.Builder.create(IceologerEntity::new, SpawnGroup.MONSTER).setDimensions(0.6F, 1.95F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("iceologer")));
 		ICE_CHUNK = ENTITY_TYPES.register("ice_chunk", () -> EntityType.Builder.create(IceologerIceChunkEntity::new, SpawnGroup.MISC).makeFireImmune().setDimensions(2.5F, 1.0F).maxTrackingRange(6).build(FriendsAndFoes.makeStringID("ice_chunk")));
-		MAULER = ENTITY_TYPES.register("mauler", () -> EntityType.Builder.create(MaulerEntity::new, SpawnGroup.CREATURE).setDimensions(0.5625F, 0.625F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("mauler")));
+		MAULER = ENTITY_TYPES.register("mauler", () -> EntityType.Builder.create(MaulerEntity::new, SpawnGroup.CREATURE).setDimensions(0.5625F, 0.5625F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("mauler")));
 		MOOBLOOM = ENTITY_TYPES.register("moobloom", () -> EntityType.Builder.create(MoobloomEntity::new, SpawnGroup.CREATURE).setDimensions(0.9F, 1.4F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("moobloom")));
 		SharedConstants.useChoiceTypeRegistrations = previousUseChoiceTypeRegistrations;
 	}

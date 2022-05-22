@@ -2,7 +2,7 @@ package com.faboslav.friendsandfoes.client.render.entity.feature;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.model.GlareEntityModel;
-import com.faboslav.friendsandfoes.entity.passive.GlareEntity;
+import com.faboslav.friendsandfoes.entity.GlareEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;

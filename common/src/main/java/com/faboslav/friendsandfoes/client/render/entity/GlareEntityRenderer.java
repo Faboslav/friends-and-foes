@@ -3,7 +3,7 @@ package com.faboslav.friendsandfoes.client.render.entity;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.feature.GlareFlowerFeatureRenderer;
 import com.faboslav.friendsandfoes.client.render.entity.model.GlareEntityModel;
-import com.faboslav.friendsandfoes.entity.passive.GlareEntity;
+import com.faboslav.friendsandfoes.entity.GlareEntity;
 import com.faboslav.friendsandfoes.init.ModEntityRenderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

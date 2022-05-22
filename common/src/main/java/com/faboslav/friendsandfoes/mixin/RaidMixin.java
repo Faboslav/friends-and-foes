@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.mixin;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.entity.mob.IceologerEntity;
+import com.faboslav.friendsandfoes.entity.IceologerEntity;
 import net.minecraft.entity.mob.IllusionerEntity;
 import net.minecraft.entity.raid.RaiderEntity;
 import net.minecraft.util.math.BlockPos;

@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.entity.ai.pathing;
 
-import com.faboslav.friendsandfoes.entity.passive.GlareEntity;
+import com.faboslav.friendsandfoes.entity.GlareEntity;
 import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.ai.pathing.PathNode;
 import net.minecraft.util.math.BlockPos;

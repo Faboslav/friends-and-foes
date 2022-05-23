@@ -79,7 +79,7 @@ public final class MaulerEntityModel<T extends MaulerEntity> extends AnimatedEnt
 		this.applyModelTransforms(MODEL_PART_ROOT, this.root);
 		this.modelAnimator.setEntity(mauler);
 
-		if(mauler.isBurrowedDown() && mauler.was) {
+		if(mauler.isBurrowedDown()) {
 			this.modelAnimator.animateYPositionOverTicks(this.root, 14, 40);
 			return;
 		}

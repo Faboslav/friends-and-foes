@@ -24,8 +24,8 @@ public final class ModelAnimator
 		this.animatePositionWithProgress(modelPart, modelPart.pivotX, targetY, modelPart.pivotZ, progress);
 	}
 
-	public void animateZPositionWithProgress(ModelPart modelPart, float targetX, float progress) {
-		this.animatePositionWithProgress(modelPart, targetX, modelPart.pivotY, modelPart.pivotZ, progress);
+	public void animateZPositionWithProgress(ModelPart modelPart, float targetZ, float progress) {
+		this.animatePositionWithProgress(modelPart, modelPart.pivotX, modelPart.pivotY, targetZ, progress);
 	}
 
 	public void animatePositionWithProgress(

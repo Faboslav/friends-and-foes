@@ -25,7 +25,7 @@ public final class FriendsAndFoesConfig implements Config
 	public int moobloomFlowerForestSpawnWeight = 32;
 	public int moobloomFlowerForestSpawnMinGroupSize = 2;
 	public int moobloomFlowerForestSpawnMaxGroupSize = 4;
-	public int moobloomMeadowSpawnWeight = 4;
+	public int moobloomMeadowSpawnWeight = 2;
 	public int moobloomMeadowSpawnMinGroupSize = 2;
 	public int moobloomMeadowSpawnMaxGroupSize = 4;
 	public boolean enableBeekeeperVillagerProfession = true;
@@ -36,8 +36,6 @@ public final class FriendsAndFoesConfig implements Config
 	public boolean enableIceologerSpawn = true;
 	public boolean enableIceologerInRaids = true;
 	public boolean generateIceologerCabinStructure = true;
-
-	public int configVersion = 1;
 
 	@Override
 	public String getName() {

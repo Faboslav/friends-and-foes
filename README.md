@@ -152,4 +152,4 @@ the [textures directory] for the textures. Get inspired, but please don't just c
 
 [blockbench directory]: https://github.com/Faboslav/friends-and-foes/tree/master/blockbench
 
-[textures directory]: https://github.com/Faboslav/friends-and-foes/tree/master/src/main/resources/assets/friendsandfoes/textures
+[textures directory]: https://github.com/Faboslav/friends-and-foes/tree/master/common/src/main/resources/assets/friendsandfoes/textures

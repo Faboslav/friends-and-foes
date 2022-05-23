@@ -7,6 +7,8 @@
 - Fixed crash related to non-existing beekeepers beehive
 - Fixed all errors/warnings related to the mixins/data fixers
 - Added it_it translations (thanks to https://github.com/Zano1999)
+- Iceologer cabin can now generate only in Y coordinate of 100 and more
+- Illusioner shack can now generate only in Y coordinate of 80 and more
 
 ## mc1.18.2-1.3.4, April 08, 2022
 

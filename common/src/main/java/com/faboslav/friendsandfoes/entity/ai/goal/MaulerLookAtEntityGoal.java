@@ -13,7 +13,7 @@ public final class MaulerLookAtEntityGoal extends LookAtEntityGoal
 
 	@Override
 	public boolean canStart() {
-		if (((MaulerEntity)this.mob).isBurrowedDown()) {
+		if (((MaulerEntity) this.mob).isBurrowedDown()) {
 			return false;
 		}
 

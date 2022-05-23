@@ -11,11 +11,24 @@ public final class MaulerMeeleAttackGoal extends MeleeAttackGoal
 	}
 
 	@Override
-	public boolean canStart() {
-		if (((MaulerEntity)this.mob).isBurrowedDown()) {
-			return false;
+	public void start() {
+		MaulerEntity mauler = ((MaulerEntity) this.mob);
+
+		if (mauler.isBurrowedDown()) {
+			mauler.burrowDownGoal.stop();
 		}
 
-		return super.canStart();
+		super.start();
+	}
+
+	@Override
+	public void tick() {
+		MaulerEntity mauler = ((MaulerEntity) this.mob);
+
+		if (mauler.getBurrowingDownAnimationProgress() > 0.0F) {
+			return;
+		}
+
+		super.tick();
 	}
 }

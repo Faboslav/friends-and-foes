@@ -29,8 +29,6 @@ public final class MaulerEntityModel<T extends MaulerEntity> extends AnimatedEnt
 	private final ModelPart backLeftLeg;
 	private final ModelPart backRightLeg;
 
-	private float burrowingDownAnimationProgress;
-
 	public MaulerEntityModel(ModelPart root) {
 		super(root);
 		this.head = this.root.getChild(MODEL_PART_HEAD);
@@ -79,8 +77,14 @@ public final class MaulerEntityModel<T extends MaulerEntity> extends AnimatedEnt
 		this.applyModelTransforms(MODEL_PART_ROOT, this.root);
 		this.modelAnimator.setEntity(mauler);
 
-		if(mauler.isBurrowedDown()) {
-			this.modelAnimator.animateYPositionOverTicks(this.root, 14, 40);
+		float burrowingDownAnimationProgress = mauler.getBurrowingDownAnimationProgress();
+
+		if (burrowingDownAnimationProgress > 0.0F && burrowingDownAnimationProgress < 1.0F) {
+			float targetY = 9 * burrowingDownAnimationProgress;
+			this.modelAnimator.animateYPositionWithProgress(this.root, targetY, AnimationMath.absSin(animationProgress));
+			return;
+		} else if (mauler.getBurrowingDownAnimationProgress() == 1.0F) {
+			this.root.pivotY = 9;
 			return;
 		}
 

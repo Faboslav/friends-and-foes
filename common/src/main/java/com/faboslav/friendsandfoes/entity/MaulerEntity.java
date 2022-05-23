@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.entity;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.animation.AnimationContextTracker;
 import com.faboslav.friendsandfoes.entity.ai.goal.*;
 import com.faboslav.friendsandfoes.init.ModSounds;
@@ -15,7 +14,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.goal.ActiveTargetGoal;
+import net.minecraft.entity.ai.goal.RevengeGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer.Builder;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
@@ -41,7 +42,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.RegistryKey;
-import net.minecraft.world.GameRules;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
@@ -77,12 +77,15 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	private static final TrackedData<Boolean> IS_MOVING;
 	private static final TrackedData<Boolean> IS_BURROWED_DOWN;
 	private static final TrackedData<Integer> TICKS_UNTIL_NEXT_BURROWING_DOWN;
+	private static final TrackedData<Float> BURROWING_DOWN_ANIMATION_PROGRESS;
 
 	@Environment(EnvType.CLIENT)
 	private AnimationContextTracker animationTickTracker;
 
 	@Nullable
 	private UUID angryAt;
+
+	public MaulerBurrowDownGoal burrowDownGoal;
 
 	static {
 		BABY_ZOMBIE_PREDICATE = (entity) -> {
@@ -97,6 +100,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		IS_MOVING = DataTracker.registerData(MaulerEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 		IS_BURROWED_DOWN = DataTracker.registerData(MaulerEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 		TICKS_UNTIL_NEXT_BURROWING_DOWN = DataTracker.registerData(MaulerEntity.class, TrackedDataHandlerRegistry.INTEGER);
+		BURROWING_DOWN_ANIMATION_PROGRESS = DataTracker.registerData(MaulerEntity.class, TrackedDataHandlerRegistry.FLOAT);
 	}
 
 	public MaulerEntity(EntityType<? extends MaulerEntity> entityType, World world) {
@@ -112,6 +116,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		this.dataTracker.startTracking(IS_BURROWED_DOWN, false);
 		//this.dataTracker.startTracking(TICKS_UNTIL_NEXT_BURROWING_DOWN, RandomGenerator.generateInt(MIN_TICKS_UNTIL_NEXT_BURROWING, MAX_TICKS_UNTIL_NEXT_BURROWING));
 		this.dataTracker.startTracking(TICKS_UNTIL_NEXT_BURROWING_DOWN, 0);
+		this.dataTracker.startTracking(BURROWING_DOWN_ANIMATION_PROGRESS, 0.0F);
 	}
 
 	public void writeCustomDataToNbt(NbtCompound nbt) {
@@ -177,7 +182,8 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		this.goalSelector.add(3, new MaulerWanderAroundFarGoal(this, 0.6D));
 		this.goalSelector.add(4, new MaulerLookAtEntityGoal(this, PlayerEntity.class, 10.0F));
 		this.goalSelector.add(5, new MaulerLookAroundGoal(this));
-		this.goalSelector.add(6, new MaulerBurrowDownGoal(this));
+		this.burrowDownGoal = new MaulerBurrowDownGoal(this);
+		this.goalSelector.add(6, this.burrowDownGoal);
 		this.targetSelector.add(1, (new RevengeGoal(this)).setGroupRevenge());
 		this.targetSelector.add(2, new ActiveTargetGoal(this, RabbitEntity.class, true));
 		this.targetSelector.add(2, new ActiveTargetGoal(this, ChickenEntity.class, true));
@@ -186,13 +192,35 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	}
 
 	@Override
+	public void tick() {
+		super.tick();
+
+		if (this.getWorld().isClient() == true) {
+			return;
+		}
+
+		if (this.getTicksUntilNextBurrowingDown() > 0) {
+			this.setTicksUntilNextBurrowingDown(this.getTicksUntilNextBurrowingDown() - 1);
+		}
+
+		this.updateBurrowingDownAnimation();
+	}
+
+	@Override
 	public void tickMovement() {
+		if (this.getWorld().isClient() == false && this.getBurrowingDownAnimationProgress() > 0.0F) {
+			this.getNavigation().setSpeed(0);
+			this.getNavigation().stop();
+		}
+
 		super.tickMovement();
 
-		if (this.getWorld().isClient() == false) {
-			this.tickAngerLogic((ServerWorld) this.getWorld(), true);
-			this.setMoving(this.getNavigation().isFollowingPath());
+		if (this.getWorld().isClient() == true) {
+			return;
 		}
+
+		this.tickAngerLogic((ServerWorld) this.getWorld(), true);
+		this.setMoving(this.getNavigation().isFollowingPath());
 	}
 
 	@Override
@@ -296,19 +324,6 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		return true;
 	}
 
-	@Override
-	public void tick() {
-		super.tick();
-
-		if (this.getTicksUntilNextBurrowingDown() > 0) {
-			this.setTicksUntilNextBurrowingDown(this.getTicksUntilNextBurrowingDown() - 1);
-		}
-
-		if(this.getWorld().isClient() == false) {
-			this.updateBurrowingDownAnimation();
-		}
-	}
-
 	public boolean shouldSpawnSprintingParticles() {
 		return false;
 	}
@@ -327,7 +342,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 	@Override
 	public void playAmbientSound() {
-		if (this.hasAngerTime() && this.isMoving()) {
+		if ((this.hasAngerTime() && this.isMoving()) || this.isBurrowedDown()) {
 			return;
 		}
 
@@ -434,6 +449,22 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 	public void setTicksUntilNextBurrowingDown(int ticksUntilNextBurrowingDown) {
 		this.dataTracker.set(TICKS_UNTIL_NEXT_BURROWING_DOWN, ticksUntilNextBurrowingDown);
+	}
+
+	public float getBurrowingDownAnimationProgress() {
+		return this.dataTracker.get(BURROWING_DOWN_ANIMATION_PROGRESS);
+	}
+
+	public void setBurrowingDownAnimationProgress(float burrowingDownAnimationProgress) {
+		this.dataTracker.set(BURROWING_DOWN_ANIMATION_PROGRESS, burrowingDownAnimationProgress);
+	}
+
+	private void updateBurrowingDownAnimation() {
+		if (this.isBurrowedDown()) {
+			this.setBurrowingDownAnimationProgress(Math.min(1.0F, this.getBurrowingDownAnimationProgress() + 0.04F));
+		} else {
+			this.setBurrowingDownAnimationProgress(Math.max(0.0F, this.getBurrowingDownAnimationProgress() - 0.04F));
+		}
 	}
 
 	@Override

@@ -12,7 +12,7 @@ public final class MaulerWanderAroundFarGoal extends WanderAroundFarGoal
 
 	@Override
 	public boolean canStart() {
-		if (((MaulerEntity)this.mob).isBurrowedDown()) {
+		if (((MaulerEntity) this.mob).isBurrowedDown()) {
 			return false;
 		}
 

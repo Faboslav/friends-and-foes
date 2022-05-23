@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.entity.ai.goal;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.MaulerEntity;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.entity.ai.goal.Goal;
@@ -11,7 +10,6 @@ import net.minecraft.util.math.BlockPos;
 public final class MaulerBurrowDownGoal extends Goal
 {
 	private final MaulerEntity mauler;
-	private int ticksToBeBurrowedDown;
 	private int burrowedDownTicks;
 
 	public MaulerBurrowDownGoal(MaulerEntity mauler) {
@@ -33,13 +31,13 @@ public final class MaulerBurrowDownGoal extends Goal
 
 	@Override
 	public boolean shouldContinue() {
-		return this.burrowedDownTicks <= ticksToBeBurrowedDown;
+		return this.burrowedDownTicks > 0;
 	}
 
 	public void start() {
-		FriendsAndFoes.getLogger().info("starting");
-		this.burrowedDownTicks = 0;
-		this.ticksToBeBurrowedDown = RandomGenerator.generateInt(1200, 2400);
+		this.mauler.getNavigation().setSpeed(0);
+		this.mauler.getNavigation().stop();
+		this.burrowedDownTicks = RandomGenerator.generateInt(600, 1200);
 		this.mauler.setBurrowedDown(true);
 		this.mauler.setInvulnerable(true);
 		//this.mauler.playSound(ModSounds.ENTITY_COPPER_GOLEM_HEAD_SPIN.get(), 1.0F, copperGolem.getSoundPitch() - 1.5F);
@@ -47,9 +45,9 @@ public final class MaulerBurrowDownGoal extends Goal
 
 	@Override
 	public void stop() {
-		FriendsAndFoes.getLogger().info("end");
-		this.mauler.setBurrowedDown(false);
+		this.mauler.setInvisible(false);
 		this.mauler.setInvulnerable(false);
+		this.mauler.setBurrowedDown(false);
 		this.mauler.setTicksUntilNextBurrowingDown(
 			RandomGenerator.generateInt(
 				MaulerEntity.MIN_TICKS_UNTIL_NEXT_BURROWING,
@@ -60,11 +58,13 @@ public final class MaulerBurrowDownGoal extends Goal
 
 	@Override
 	public void tick() {
-		this.burrowedDownTicks++;
-
-		if(this.mauler.getBurrowingDownAnimationProgress() > 0 && this.mauler.getBurrowingDownAnimationProgress() < 1) {
+		if (this.mauler.getBurrowingDownAnimationProgress() > 0.0F && this.mauler.getBurrowingDownAnimationProgress() < 1.0F) {
 			BlockPos blockPos = this.mauler.getBlockPos();
 			this.mauler.getWorld().playSound(null, blockPos, SoundEvents.ENTITY_TURTLE_LAY_EGG, SoundCategory.BLOCKS, 0.3F, 1.0F);
+		} else if (this.mauler.isBurrowedDown() && this.mauler.getBurrowingDownAnimationProgress() == 1.0F) {
+			this.mauler.setInvisible(true);
 		}
+
+		this.burrowedDownTicks--;
 	}
 }

@@ -1,12 +1,7 @@
 package com.faboslav.friendsandfoes.init;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.entity.IceologerEntity;
-import com.faboslav.friendsandfoes.entity.IceologerIceChunkEntity;
-import com.faboslav.friendsandfoes.entity.CopperGolemEntity;
-import com.faboslav.friendsandfoes.entity.GlareEntity;
-import com.faboslav.friendsandfoes.entity.MaulerEntity;
-import com.faboslav.friendsandfoes.entity.MoobloomEntity;
+import com.faboslav.friendsandfoes.entity.*;
 import com.faboslav.friendsandfoes.mixin.SpawnRestrictionAccessor;
 import dev.architectury.registry.level.biome.BiomeModifications;
 import dev.architectury.registry.level.entity.EntityAttributeRegistry;

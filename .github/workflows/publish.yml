@@ -1,62 +1,113 @@
-name: Publish Debugify
+name: "Publish release to GitHub, CurseForge and Modrinth"
 
-on: release
+on:
+    release:
+        types: [ published ]
+
+env:
+    VERSION_TYPE: release
+    GAME_VERSIONS: 1.18.2
+    MOD_VERSION: 1.4.0
+    JAVA_VERSIONS: |
+        Java 17
+        Java 18
+    DEPENDENCIES: |
+        fabric-api | depends | *
+        architectury-api | depends | *
+    RETRY_ATTEMPTS: 3
+    RELAY_DELAY: 10000
+    VERSION_RESOLVER: latest
 
 jobs:
-    publish:
-        if: contains('["isXander", "EthanDevelops", "Wyvest", "raeids"]', github.actor)
+    build:
         runs-on: ubuntu-latest
-        name: Publish to all platforms
+        name: "Publish Fabric version to CurseForge"
 
         steps:
-            - uses: actions/checkout@v3
-            - name: Set up JDK
-              uses: actions/setup-java@v3.3.0
-              with:
-                  java-version: 17
-                  distribution: temurin
+            -   name: "Checkout repository"
+                uses: actions/checkout@v3
 
-            -   name: Build artifacts
+            -   name: "Set up JDK"
+                uses: actions/setup-java@v3.3.0
+                with:
+                    java-version: 17
+                    distribution: temurin
+
+            -   name: "Make gradle wrapper executable"
+                run: chmod +x ./gradlew
+
+            -   name: "Build artifacts"
                 run: ./gradlew build
 
-            -   name: "Release Fabric version to CurseForge"
+            -   name: "Capture fabric build artifacts"
+                uses: actions/upload-artifact@v3.1.0
+                with:
+                    name: "Artifacts"
+                    path: |
+                        fabric/build/libs/!(*-@(dev-shadow|sources)).jar
+                        forge/build/libs/!(*-@(dev-shadow|sources)).jar
+                        quilt/build/libs/!(*-@(dev-shadow|sources)).jar
+                        LICENSE.txt
+
+    fabric-github:
+        needs: build
+        runs-on: ubuntu-latest
+        name: "Publish Fabric file to GitHub release"
+
+        steps:
+            -   name: "Add Fabric file to GitHub release"
+                uses: Kir-Antipov/mc-publish@v2.1
+                with:
+                    github-token: ${{ secrets.TOKEN_GITHUB }}
+
+                    files: |
+                        "${{ steps.download.outputs.download-path }}/friendsandfoes-fabric-!(*-@(dev-shadow|sources)).jar"
+                    version-type: $VERSION_TYPE
+
+                    retry-attempts: $RETRY_ATTEMPTS
+                    retry-delay: $RETRY_DELAY
+                    version-resolver: $VERSION_RESOLVER
+
+    release-fabric-to-curseforge:
+        needs: build
+        runs-on: ubuntu-latest
+        name: "Publish Fabric version to CurseForge"
+
+        steps:
+            -   name: "Publish Fabric version to CurseForge"
+                uses: Kir-Antipov/mc-publish@v2.1
+                with:
+                    curseforge-id: 551364
+                    curseforge-token: ${{ secrets.CURSEFORGE_RELEASE_TOKEN }}
+
+                    files-primary: "${{ steps.download.outputs.download-path }}/friendsandfoes-fabric-!(*-@(dev-shadow|sources)).jar"
+                    version-type: $VERSION_TYPE
+                    loaders: fabric
+                    game-versions: $GAME_VERSIONS
+                    name: "Friends&Foes mc$GAME_VERSION-$MOD_VERSION (Fabric)"
+                    dependencies: $DEPENDENCIES
+                    java: $JAVA_VERSIONS
+                    retry-attempts: $RETRY_ATTEMPTS
+                    retry-delay: $RETRY_DELAY
+                    version-resolver: $VERSION_RESOLVER
+
+    release-fabric-to-modrinth:
+        runs-on: ubuntu-latest
+        name: "Publish Fabric release to Modrinth"
+        steps:
+            -   name: "Publish Fabric version to CurseForge"
                 uses: Kir-Antipov/mc-publish@v2.1
                 with:
                     modrinth-id: YL57xq9U
                     modrinth-token: ${{ secrets.MODRINTH_RELEASE_TOKEN }}
 
-                    curseforge-id: 551364
-                    curseforge-token: ${{ secrets.CURSEFORGE_RELEASE_TOKEN }}
-
-                    github-token: ${{ secrets.GITHUB_TOKEN }}
-
-                    files: build/libs/!(*-@(dev|sources|all)).jar
-
-                    version-type: release
-
+                    files-primary: "${{ steps.download.outputs.download-path }}/friendsandfoes-fabric-!(*-@(dev-shadow|sources)).jar"
+                    version-type: $VERSION_TYPE
                     loaders: fabric
-
-                    dependencies: sodium | depends | *
-
-                    version-resolver: latest
-
-            -   name: "Release Fabric version to Modrinth"
-                    uses: Kir-Antipov/mc-publish@v2.1
-                    with:
-                        modrinth-id: YL57xq9U
-                        modrinth-token: ${{ secrets.MODRINTH_RELEASE_TOKEN }}
-
-                        curseforge-id: 455508
-                        curseforge-token: ${{ secrets.CURSEFORGE_RELEASE_TOKEN }}
-
-                        github-token: ${{ secrets.GITHUB_TOKEN }}
-
-                        files: build/libs/!(*-@(dev|sources|all)).jar
-
-                        version-type: release
-
-                        loaders: fabric
-
-                        dependencies: sodium | depends | *
-
-                        version-resolver: latest
+                    game-versions: $GAME_VERSIONS
+                    name: "Friends&Foes mc$GAME_VERSION-$MOD_VERSION (Fabric)"
+                    dependencies: $DEPENDENCIES
+                    java: $JAVA_VERSIONS
+                    retry-attempts: $RETRY_ATTEMPTS
+                    retry-delay: $RETRY_DELAY
+                    version-resolver: $VERSION_RESOLVER

@@ -4,6 +4,7 @@ import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.init.ModEntity;
 import com.faboslav.friendsandfoes.init.ModSounds;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
+import com.faboslav.friendsandfoes.util.animation.AnimationMath;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -276,7 +277,10 @@ public final class IceologerIceChunkEntity extends Entity
 	}
 
 	public void setPositionAboveTarget() {
-		if (this.getTarget() == null || this.getWorld().isClient()) {
+		if (
+			this.getTarget() == null
+			|| this.getTicksUntilFall() <= 10
+		) {
 			return;
 		}
 
@@ -311,9 +315,9 @@ public final class IceologerIceChunkEntity extends Entity
 		targetPosition.putDouble("height", height);
 
 		this.setPosition(
-			MathHelper.lerp(tickDelta, x, targetX),
-			MathHelper.lerp(tickDelta, yWithHeightOffset, targetYWithHeightOffset),
-			MathHelper.lerp(tickDelta, z, targetZ)
+			AnimationMath.lerp(tickDelta, x, targetX),
+			AnimationMath.lerp(tickDelta, yWithHeightOffset, targetYWithHeightOffset),
+			AnimationMath.lerp(tickDelta, z, targetZ)
 		);
 	}
 
@@ -340,9 +344,9 @@ public final class IceologerIceChunkEntity extends Entity
 		var targetYWithHeightOffset = this.getYPositionWithHeightOffset(targetY, targetHeight);
 
 		this.setPosition(
-			MathHelper.lerp(tickDelta, x, targetX),
-			MathHelper.lerp(tickDelta, y, targetYWithHeightOffset),
-			MathHelper.lerp(tickDelta, z, targetZ)
+			AnimationMath.lerp(tickDelta, x, targetX),
+			AnimationMath.lerp(tickDelta, y, targetYWithHeightOffset),
+			AnimationMath.lerp(tickDelta, z, targetZ)
 		);
 	}
 

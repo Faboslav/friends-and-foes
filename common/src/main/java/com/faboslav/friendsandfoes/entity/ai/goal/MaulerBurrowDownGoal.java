@@ -1,7 +1,9 @@
 package com.faboslav.friendsandfoes.entity.ai.goal;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.MaulerEntity;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -18,15 +20,27 @@ public final class MaulerBurrowDownGoal extends Goal
 
 	@Override
 	public boolean canStart() {
-		if (this.mauler.hasAngerTime()) {
-			return false;
-		} else if (this.mauler.getNavigation().isFollowingPath()) {
-			return false;
-		} else if (RandomGenerator.generateRandomFloat() < 0.99) {
+		if (
+			this.mauler.hasAngerTime()
+			|| this.mauler.getNavigation().isFollowingPath()
+			|| RandomGenerator.generateRandomFloat() < 0.99
+			|| this.mauler.getTicksUntilNextBurrowingDown() > 0
+		) {
 			return false;
 		}
 
-		return this.mauler.getTicksUntilNextBurrowingDown() == 0;
+		BlockPos blockPos = this.mauler.getBlockPos().down();
+		var blockState = this.mauler.getWorld().getBlockState(blockPos);
+
+		boolean isRelatedBlock = (
+			blockState.isOf(Blocks.SAND)
+			|| blockState.isOf(Blocks.RED_SAND)
+			|| blockState.isOf(Blocks.COARSE_DIRT)
+			|| blockState.isOf(Blocks.DIRT)
+			|| blockState.isOf(Blocks.GRASS_BLOCK)
+		);
+
+		return isRelatedBlock;
 	}
 
 	@Override

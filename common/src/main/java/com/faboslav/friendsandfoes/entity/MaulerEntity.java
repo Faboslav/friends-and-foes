@@ -224,6 +224,18 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	}
 
 	@Override
+	public boolean damage(
+		DamageSource source,
+		float amount
+	) {
+		if (this.getWorld().isClient() == false) {
+			this.burrowDownGoal.stop();
+		}
+
+		return super.damage(source, amount);
+	}
+
+	@Override
 	public float getMovementSpeed() {
 		return this.hasAngerTime() ? ANGERED_MOVEMENT_SPEED:MOVEMENT_SPEED;
 	}
@@ -350,7 +362,13 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	}
 
 	protected SoundEvent getHurtSound(DamageSource source) {
-		return SoundEvents.ENTITY_RABBIT_HURT;
+		return ModSounds.ENTITY_MAULER_HURT.get();
+	}
+
+	@Override
+	public void playHurtSound(DamageSource source) {
+		this.ambientSoundChance = -this.getMinAmbientSoundDelay();
+		this.playSound(this.getHurtSound(source), 0.5F, RandomGenerator.generateFloat(0.85F, 0.95F));
 	}
 
 	protected SoundEvent getDeathSound() {

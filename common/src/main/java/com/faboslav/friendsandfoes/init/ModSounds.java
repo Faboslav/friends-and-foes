@@ -33,6 +33,7 @@ public final class ModSounds
 	public static final RegistrySupplier<SoundEvent> ENTITY_ICEOLOGER_PREPARE_SUMMON;
 	public static final RegistrySupplier<SoundEvent> ENTITY_MAULER_BITE;
 	public static final RegistrySupplier<SoundEvent> ENTITY_MAULER_GROWL;
+	public static final RegistrySupplier<SoundEvent> ENTITY_MAULER_HURT;
 
 	static {
 		ENTITY_COPPER_GOLEM_DEATH = register("entity", "copper_golem.death");
@@ -58,6 +59,7 @@ public final class ModSounds
 		ENTITY_ICEOLOGER_PREPARE_SUMMON = register("entity", "iceologer.prepare_summon");
 		ENTITY_MAULER_BITE = register("entity", "mauler.bite");
 		ENTITY_MAULER_GROWL = register("entity", "mauler.growl");
+		ENTITY_MAULER_HURT = register("entity", "mauler.hurt");
 	}
 
 	private static RegistrySupplier<SoundEvent> register(String type, String name) {

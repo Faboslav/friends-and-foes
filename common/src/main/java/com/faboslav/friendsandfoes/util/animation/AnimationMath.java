@@ -29,20 +29,37 @@ public final class AnimationMath
 		return sin(progress, 1.0F);
 	}
 
-	public static float absCos(float progress, float speed) {
-		return MathHelper.abs(cos(progress, speed));
+	public static float absCos(float progress, float range, float speed) {
+		return MathHelper.cos(cos(progress, range, speed));
+	}
+
+	public static float absCos(float progress, float range) {
+		return absCos(progress, range, 1.0F);
+	}
+
+	public static float absCos(float progress) {
+		return absCos(progress, 1.0F);
+	}
+
+	public static float cos(float progress, float range, float speed) {
+		return MathHelper.cos(progress * speed) * range;
 	}
 
 	public static float cos(float progress, float range) {
-		return MathHelper.cos(progress) * range;
+		return cos(progress, range, 1.0F);
 	}
 
 	public static float cos(float progress) {
 		return cos(progress, 1.0F);
 	}
 
+
 	public static float lerp(float progress, float start, float end) {
 		return MathHelper.lerp(progress, start, end);
+	}
+
+	public static float lerp(float progress, double start, double end) {
+		return lerp(progress, (float) start, (float) end);
 	}
 
 	public static float correctProgress(float value) {

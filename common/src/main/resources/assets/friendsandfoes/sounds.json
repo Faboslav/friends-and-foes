@@ -156,5 +156,11 @@
 	  "friendsandfoes:entity/mauler/growl3"
 	],
 	"subtitle": "subtitle.entity.friendsandfoes.mauler.growl"
+  },
+  "entity.mauler.hurt": {
+	"sounds": [
+	  "friendsandfoes:entity/mauler/hurt"
+	],
+	"subtitle": "subtitle.entity.friendsandfoes.mauler.hurt"
   }
 }

@@ -65,5 +65,6 @@
   "subtitle.entity.friendsandfoes.ice_chunk.hit": "Ice chunk falls",
   "subtitle.entity.friendsandfoes.ice_chunk.summon": "Ice chunk cracks",
   "subtitle.entity.friendsandfoes.mauler.bite": "Mauler bites",
-  "subtitle.entity.friendsandfoes.mauler.growl": "Mauler growls"
+  "subtitle.entity.friendsandfoes.mauler.growl": "Mauler growls",
+  "subtitle.entity.friendsandfoes.mauler.hurt": "Mauler hurts"
 }

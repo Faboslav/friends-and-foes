@@ -78,20 +78,21 @@ public final class MaulerEntityModel<T extends MaulerEntity> extends AnimatedEnt
 		this.modelAnimator.setEntity(mauler);
 
 		float burrowingDownAnimationProgress = mauler.getBurrowingDownAnimationProgress();
+		float maulerHeightWithOffset = 10;
 
 		if (burrowingDownAnimationProgress > 0.0F && burrowingDownAnimationProgress < 1.0F) {
-			float targetY = 9 * burrowingDownAnimationProgress;
+			float targetY = maulerHeightWithOffset * burrowingDownAnimationProgress;
 			this.modelAnimator.animateYPositionWithProgress(this.root, targetY, AnimationMath.absSin(animationProgress));
 			return;
 		} else if (mauler.getBurrowingDownAnimationProgress() == 1.0F) {
-			this.root.pivotY = 9;
+			this.root.pivotY = maulerHeightWithOffset;
 			return;
 		}
 
 		this.head.pitch = headPitch * 0.005F;
 
-		float baseSpeed = mauler.hasAngerTime() ? 13.0F:10.0F;
-		float jumpHeight = mauler.hasAngerTime() ? -5.0F:-2.5F;
+		float baseSpeed = mauler.hasAngerTime() ? 14.0F:10.0F;
+		float jumpHeight = mauler.hasAngerTime() ? -4.5F:-2.5F;
 
 		this.root.pivotY = jumpHeight * Math.abs(MathHelper.wrap(limbAngle, baseSpeed) * limbDistance);
 

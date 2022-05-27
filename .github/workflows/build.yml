@@ -27,15 +27,5 @@ jobs:
             -   name: "Make gradle wrapper executable"
                 run: chmod +x ./gradlew
 
-            -   name: "Build artifacts"
-                run: ./gradlew build --stacktrace --info
-
-            -   name: "Capture fabric build artifacts"
-                uses: actions/upload-artifact@v3.1.0
-                with:
-                    name: "Artifacts"
-                    path: |
-                        fabric/build/libs/!(*-@(dev-shadow|sources)).jar
-                        forge/build/libs/!(*-@(dev-shadow|sources)).jar
-                        quilt/build/libs/!(*-@(dev-shadow|sources)).jar
-                        LICENSE.txt
+            -   name: "Build with gradle"
+                run: ./gradlew clean build --refresh-dependencies --stacktrace

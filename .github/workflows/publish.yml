@@ -36,8 +36,8 @@ jobs:
             -   name: "Make gradle wrapper executable"
                 run: chmod +x ./gradlew
 
-            -   name: "Build artifacts"
-                run: ./gradlew build
+            -   name: "Build with gradle"
+                run: ./gradlew clean build --refresh-dependencies --stacktrace
 
             -   name: "Capture fabric build artifacts"
                 uses: actions/upload-artifact@v3.1.0

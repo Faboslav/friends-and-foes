@@ -160,6 +160,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		RegistryKey<Biome> biomeKey = world.getBiome(this.getBlockPos()).getKey().orElse(BiomeKeys.SAVANNA);
 		Type type = Type.getTypeByBiome(biomeKey);
 
+		this.setPersistent();
 		this.setType(type);
 		this.setSize(false);
 
@@ -443,10 +444,6 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	}
 
 	public void setStoredExperiencePoints(int storedExperiencePoints) {
-		if (storedExperiencePoints > 0) {
-			this.setPersistent();
-		}
-
 		this.dataTracker.set(STORED_EXPERIENCE_POINTS, storedExperiencePoints);
 		this.experiencePoints = storedExperiencePoints;
 		this.setSize(false);

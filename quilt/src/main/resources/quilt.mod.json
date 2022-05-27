@@ -4,13 +4,12 @@
 	"friendsandfoes-common.mixins.json"
   ],
   "quilt_loader": {
-	"group": "${group}",
 	"id": "friendsandfoes",
-	"version": "${version}",
-	"name": "Example Mod",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"version": "${modVersion}",
+	"name": "${modName}",
+	"description": "${modDescription}",
 	"authors": [
-	  "Me!"
+	  "${modAuthor}"
 	],
 	"contact": {
 	  "homepage": "https://github.com/Faboslav/friends-and-foes",

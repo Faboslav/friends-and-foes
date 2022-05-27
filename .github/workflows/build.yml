@@ -13,6 +13,7 @@ jobs:
     build:
         runs-on: ubuntu-latest
         name: "Publish Fabric version to CurseForge"
+        timeout-minutes: 30
 
         steps:
             -   name: "Checkout repository"
@@ -23,9 +24,10 @@ jobs:
                 with:
                     java-version: 17
                     distribution: temurin
+                    cache: gradle
 
             -   name: "Make gradle wrapper executable"
                 run: chmod +x ./gradlew
 
             -   name: "Build with gradle"
-                run: ./gradlew clean build --refresh-dependencies --stacktrace
+                run: ./gradlew clean build --no-daemon --refresh-dependencies --stacktrace

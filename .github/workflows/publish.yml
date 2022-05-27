@@ -46,9 +46,9 @@ jobs:
                 with:
                     name: "Artifacts"
                     path: |
-                        "fabric/build/libs/friendsandfoes-fabric-mc$GAME_VERSION-$MOD_VERSION.jar"
-                        "forge/build/libs/friendsandfoes-forge-mc$GAME_VERSION-$MOD_VERSION.jar"
-                        "quilt/build/libs/friendsandfoes-quilt-mc$GAME_VERSION-$MOD_VERSION.jar"
+                        "fabric/build/libs/friendsandfoes-fabric-mc1.18.2-1.4.0.jar"
+                        "forge/build/libs/friendsandfoes-forge-mc1.18.2-1.4.0.jar"
+                        "quilt/build/libs/friendsandfoes-quilt-mc1.18.2-1.4.0.jar"
                         LICENSE.txt
 
     publish-fabric-to-github:
@@ -63,7 +63,7 @@ jobs:
                 with:
                     github-token: ${{ secrets.TOKEN_GITHUB }}
 
-                    files-primary: "${{ steps.download.outputs.download-path }}/friendsandfoes-fabric-mc$GAME_VERSION-$MOD_VERSION.jar"
+                    files-primary: "${{ steps.download.outputs.download-path }}/friendsandfoes-fabric-mc1.18.2-1.4.0.jar"
                     version-type: $VERSION_TYPE
 
                     retry-attempts: $RETRY_ATTEMPTS
@@ -83,7 +83,7 @@ jobs:
                     curseforge-id: 551364
                     curseforge-token: ${{ secrets.CURSEFORGE_RELEASE_TOKEN }}
 
-                    files-primary: "${{ steps.download.outputs.download-path }}/friendsandfoes-fabric-mc$GAME_VERSION-$MOD_VERSION.jar"
+                    files-primary: "${{ steps.download.outputs.download-path }}/friendsandfoes-fabric-mc1.18.2-1.4.0.jar"
                     version-type: $VERSION_TYPE
                     loaders: fabric
                     game-versions: $GAME_VERSIONS
@@ -107,7 +107,7 @@ jobs:
                     modrinth-id: YL57xq9U
                     modrinth-token: ${{ secrets.MODRINTH_RELEASE_TOKEN }}
 
-                    files-primary: "${{ steps.download.outputs.download-path }}/friendsandfoes-fabric-mc$GAME_VERSION-$MOD_VERSION.jar"
+                    files-primary: "${{ steps.download.outputs.download-path }}/friendsandfoes-fabric-mc1.18.2-1.4.0.jar"
                     version-type: $VERSION_TYPE
                     loaders: fabric
                     game-versions: $GAME_VERSIONS

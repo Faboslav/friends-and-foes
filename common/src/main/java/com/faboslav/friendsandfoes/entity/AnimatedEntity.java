@@ -4,7 +4,6 @@ import com.faboslav.friendsandfoes.client.render.entity.animation.AnimationConte
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
-@Environment(EnvType.CLIENT)
 public interface AnimatedEntity
 {
 	AnimationContextTracker getAnimationContextTracker();

@@ -59,9 +59,11 @@ jobs:
             -   name: "Publish Fabric to GitHub"
                 uses: Kir-Antipov/mc-publish@v2.1
                 with:
+                    github-tag: mc1.18.2-1.4.0
                     github-token: ${{ secrets.TOKEN_GITHUB }}
 
                     files-primary: "${{ steps.download.outputs.download-path }}/fabric/build/libs/friendsandfoes-fabric-mc1.18.2-1.4.0.jar"
+                    files-secondary: "${{ steps.download.outputs.download-path }}/LICENSE.txt"
                     version-type: $VERSION_TYPE
 
                     retry-attempts: $RETRY_ATTEMPTS

@@ -1,4 +1,4 @@
-name: "Publish release to GitHub, CurseForge and Modrinth"
+name: "Publish"
 
 on:
     release:
@@ -41,50 +41,49 @@ jobs:
             -   name: "Build with gradle"
                 run: ./gradlew clean build --no-daemon --refresh-dependencies --stacktrace
 
-            -   name: "Capture fabric build artifacts"
+            -   name: "Capture build artifacts"
                 uses: actions/upload-artifact@v3.1.0
                 with:
                     name: "Artifacts"
                     path: |
-                        fabric/build/libs/!(*-@(dev-shadow|sources)).jar
-                        forge/build/libs/!(*-@(dev-shadow|sources)).jar
-                        quilt/build/libs/!(*-@(dev-shadow|sources)).jar
+                        "fabric/build/libs/friendsandfoes-fabric-mc$GAME_VERSION-$MOD_VERSION.jar"
+                        "forge/build/libs/friendsandfoes-forge-mc$GAME_VERSION-$MOD_VERSION.jar"
+                        "quilt/build/libs/friendsandfoes-quilt-mc$GAME_VERSION-$MOD_VERSION.jar"
                         LICENSE.txt
 
-    fabric-github:
+    publish-fabric-to-github:
         needs: build
         runs-on: ubuntu-latest
-        name: "Publish Fabric file to GitHub release"
+        name: "Publish Fabric to GitHub"
         timeout-minutes: 30
 
         steps:
-            -   name: "Add Fabric file to GitHub release"
+            -   name: "Publish Fabric to GitHub"
                 uses: Kir-Antipov/mc-publish@v2.1
                 with:
                     github-token: ${{ secrets.TOKEN_GITHUB }}
 
-                    files: |
-                        "${{ steps.download.outputs.download-path }}/friendsandfoes-fabric-!(*-@(dev-shadow|sources)).jar"
+                    files-primary: "${{ steps.download.outputs.download-path }}/friendsandfoes-fabric-mc$GAME_VERSION-$MOD_VERSION.jar"
                     version-type: $VERSION_TYPE
 
                     retry-attempts: $RETRY_ATTEMPTS
                     retry-delay: $RETRY_DELAY
                     version-resolver: $VERSION_RESOLVER
 
-    release-fabric-to-curseforge:
+    publish-fabric-to-curseforge:
         needs: build
         runs-on: ubuntu-latest
-        name: "Publish Fabric version to CurseForge"
+        name: "Publish Fabric to CurseForge"
         timeout-minutes: 30
 
         steps:
-            -   name: "Publish Fabric version to CurseForge"
+            -   name: "Publish Fabric to CurseForge"
                 uses: Kir-Antipov/mc-publish@v2.1
                 with:
                     curseforge-id: 551364
                     curseforge-token: ${{ secrets.CURSEFORGE_RELEASE_TOKEN }}
 
-                    files-primary: "${{ steps.download.outputs.download-path }}/friendsandfoes-fabric-!(*-@(dev-shadow|sources)).jar"
+                    files-primary: "${{ steps.download.outputs.download-path }}/friendsandfoes-fabric-mc$GAME_VERSION-$MOD_VERSION.jar"
                     version-type: $VERSION_TYPE
                     loaders: fabric
                     game-versions: $GAME_VERSIONS
@@ -95,20 +94,20 @@ jobs:
                     retry-delay: $RETRY_DELAY
                     version-resolver: $VERSION_RESOLVER
 
-    release-fabric-to-modrinth:
+    publish-fabric-to-modrinth:
         needs: build
         runs-on: ubuntu-latest
-        name: "Publish Fabric release to Modrinth"
+        name: "Publish Fabric to Modrinth"
         timeout-minutes: 30
 
         steps:
-            -   name: "Publish Fabric version to CurseForge"
+            -   name: "Publish Fabric to Modrinth"
                 uses: Kir-Antipov/mc-publish@v2.1
                 with:
                     modrinth-id: YL57xq9U
                     modrinth-token: ${{ secrets.MODRINTH_RELEASE_TOKEN }}
 
-                    files-primary: "${{ steps.download.outputs.download-path }}/friendsandfoes-fabric-!(*-@(dev-shadow|sources)).jar"
+                    files-primary: "${{ steps.download.outputs.download-path }}/friendsandfoes-fabric-mc$GAME_VERSION-$MOD_VERSION.jar"
                     version-type: $VERSION_TYPE
                     loaders: fabric
                     game-versions: $GAME_VERSIONS

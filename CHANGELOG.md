@@ -1,6 +1,7 @@
-## mc1.18.2-1.4.0, 2022
+## mc1.18.2-1.4.0, May 27, 2022
 
 - Added Mauler (The Great Hunger)
+- Added new "It Bites" advancement
 - Improved copper golem/glare animations
 - Improved illusioner/iceologer spawning logic
 - Improved glare compatibility as tameable mob(for example with Domestication Innovation)

@@ -81,9 +81,9 @@ jobs:
 
             -   name: "Publish Fabric to GitHub"
                 uses: AButler/upload-release-assets@v2.0
-                    with:
-                        files: 'fabric/build/libs/friendsandfoes-fabric-mc1.18.2-1.4.0.jar'
-                        repo-token: ${{ secrets.GITHUB_TOKEN }}
+                with:
+                    files: 'fabric/build/libs/friendsandfoes-fabric-mc1.18.2-1.4.0.jar'
+                    repo-token: ${{ secrets.GITHUB_TOKEN }}
 
     publish-fabric-to-curseforge:
         needs: build

@@ -6,12 +6,10 @@ on:
 
 env:
     VERSION_TYPE: release
-    GAME_VERSIONS: 1.18.2
-    MOD_VERSION: 1.4.0
     JAVA_VERSIONS: |
         Java 17
         Java 18
-    DEPENDENCIES: |
+    FABRIC_DEPENDENCIES: |
         fabric-api | depends | *
         architectury-api | depends | *
     RETRY_ATTEMPTS: 3
@@ -63,7 +61,7 @@ jobs:
                 with:
                     github-token: ${{ secrets.TOKEN_GITHUB }}
 
-                    files-primary: "${{ steps.download.outputs.download-path }}/friendsandfoes-fabric-mc1.18.2-1.4.0.jar"
+                    files-primary: "${{ steps.download.outputs.download-path }}/fabric/build/libs/friendsandfoes-fabric-mc1.18.2-1.4.0.jar"
                     version-type: $VERSION_TYPE
 
                     retry-attempts: $RETRY_ATTEMPTS
@@ -83,12 +81,12 @@ jobs:
                     curseforge-id: 551364
                     curseforge-token: ${{ secrets.CURSEFORGE_RELEASE_TOKEN }}
 
-                    files-primary: "${{ steps.download.outputs.download-path }}/friendsandfoes-fabric-mc1.18.2-1.4.0.jar"
+                    files-primary: "${{ steps.download.outputs.download-path }}/fabric/build/libs/friendsandfoes-fabric-mc1.18.2-1.4.0.jar"
                     version-type: $VERSION_TYPE
                     loaders: fabric
-                    game-versions: $GAME_VERSIONS
-                    name: "Friends&Foes mc$GAME_VERSION-$MOD_VERSION (Fabric)"
-                    dependencies: $DEPENDENCIES
+                    game-versions: 1.18.2
+                    name: "Friends&Foes mc1.18.2-1.4.0 (Fabric)"
+                    dependencies: $FABRIC_DEPENDENCIES
                     java: $JAVA_VERSIONS
                     retry-attempts: $RETRY_ATTEMPTS
                     retry-delay: $RETRY_DELAY
@@ -107,12 +105,12 @@ jobs:
                     modrinth-id: YL57xq9U
                     modrinth-token: ${{ secrets.MODRINTH_RELEASE_TOKEN }}
 
-                    files-primary: "${{ steps.download.outputs.download-path }}/friendsandfoes-fabric-mc1.18.2-1.4.0.jar"
+                    files-primary: "${{ steps.download.outputs.download-path }}/fabric/build/libs/friendsandfoes-fabric-mc1.18.2-1.4.0.jar"
                     version-type: $VERSION_TYPE
                     loaders: fabric
-                    game-versions: $GAME_VERSIONS
-                    name: "Friends&Foes mc$GAME_VERSION-$MOD_VERSION (Fabric)"
-                    dependencies: $DEPENDENCIES
+                    game-versions: 1.18.2
+                    name: "Friends&Foes mc1.18.2-1.4.0 (Fabric)"
+                    dependencies: $FABRIC_DEPENDENCIES
                     java: $JAVA_VERSIONS
                     retry-attempts: $RETRY_ATTEMPTS
                     retry-delay: $RETRY_DELAY

@@ -143,6 +143,7 @@ jobs:
                     loaders: fabric
                     game-versions: 1.18.2
                     name: "Friends&Foes mc1.18.2-1.4.0 (Fabric)"
+                    version: "fabric-mc1.18.2-1.4.0"
                     dependencies: ${{ env.FABRIC_DEPENDENCIES }}
                     java: ${{ env.JAVA_VERSIONS }}
                     retry-attempts: ${{ env.RETRY_ATTEMPTS }}
@@ -220,6 +221,7 @@ jobs:
                     loaders: forge
                     game-versions: 1.18.2
                     name: "Friends&Foes mc1.18.2-1.4.0 (Forge)"
+                    version: "forge-mc1.18.2-1.4.0"
                     dependencies: ${{ env.FORGE_DEPENDENCIES }}
                     java: ${{ env.JAVA_VERSIONS }}
                     retry-attempts: ${{ env.RETRY_ATTEMPTS }}
@@ -297,6 +299,7 @@ jobs:
                     loaders: quilt
                     game-versions: 1.18.2
                     name: "Friends&Foes mc1.18.2-1.4.0 (Quilt)"
+                    version: "quilt-mc1.18.2-1.4.0"
                     dependencies: ${{ env.QUILT_DEPENDENCIES }}
                     java: ${{ env.JAVA_VERSIONS }}
                     retry-attempts: ${{ env.RETRY_ATTEMPTS }}

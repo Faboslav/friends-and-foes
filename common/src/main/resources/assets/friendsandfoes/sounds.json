@@ -149,6 +149,12 @@
 	],
 	"subtitle": "subtitle.entity.friendsandfoes.mauler.bite"
   },
+  "entity.mauler.death": {
+	"sounds": [
+	  "friendsandfoes:entity/mauler/death"
+	],
+	"subtitle": "subtitle.entity.friendsandfoes.mauler.death"
+  },
   "entity.mauler.growl": {
 	"sounds": [
 	  "friendsandfoes:entity/mauler/growl1",

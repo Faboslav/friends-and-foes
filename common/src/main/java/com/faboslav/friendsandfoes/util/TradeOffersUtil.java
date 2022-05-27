@@ -64,4 +64,7 @@ public final class TradeOffersUtil
 			return new TradeOffer(itemStack, new ItemStack(Items.EMERALD), this.maxUses, this.experience, this.multiplier);
 		}
 	}
+
+	private TradeOffersUtil() {
+	}
 }

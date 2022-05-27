@@ -78,7 +78,7 @@ public final class MaulerEntityModel<T extends MaulerEntity> extends AnimatedEnt
 		this.modelAnimator.setEntity(mauler);
 
 		float burrowingDownAnimationProgress = mauler.getBurrowingDownAnimationProgress();
-		float maulerHeightWithOffset = 10;
+		float maulerHeightWithOffset = 0.5625F * 16.0F + 1.0F;
 
 		if (burrowingDownAnimationProgress > 0.0F && burrowingDownAnimationProgress < 1.0F) {
 			float targetY = maulerHeightWithOffset * burrowingDownAnimationProgress;

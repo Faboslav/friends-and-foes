@@ -4,7 +4,6 @@ import net.minecraft.util.math.MathHelper;
 
 public final class AnimationMath
 {
-
 	public static float absSin(float progress, float range, float speed) {
 		return MathHelper.abs(sin(progress, range, speed));
 	}
@@ -53,7 +52,6 @@ public final class AnimationMath
 		return cos(progress, 1.0F);
 	}
 
-
 	public static float lerp(float progress, float start, float end) {
 		return MathHelper.lerp(progress, start, end);
 	}
@@ -68,5 +66,8 @@ public final class AnimationMath
 
 	public static float toRadians(double angleDegree) {
 		return (float) Math.toRadians(angleDegree);
+	}
+
+	private AnimationMath() {
 	}
 }

@@ -1,0 +1,39 @@
+{
+  "parent": "minecraft:adventure/kill_a_mob",
+  "display": {
+	"icon": {
+	  "item": "minecraft:stone_sword"
+	},
+	"title": {
+	  "translate": "advancements.adventure.it_bites.title"
+	},
+	"description": {
+	  "translate": "advancements.adventure.it_bites.description"
+	},
+	"frame": "task",
+	"show_toast": true,
+	"announce_to_chat": true,
+	"hidden": false
+  },
+  "criteria": {
+	"killed_mauler": {
+	  "trigger": "minecraft:player_killed_entity",
+	  "conditions": {
+		"entity": [
+		  {
+			"condition": "minecraft:entity_properties",
+			"predicate": {
+			  "type": "friendsandfoes:mauler"
+			},
+			"entity": "this"
+		  }
+		]
+	  }
+	}
+  },
+  "requirements": [
+	[
+	  "killed_mauler"
+	]
+  ]
+}

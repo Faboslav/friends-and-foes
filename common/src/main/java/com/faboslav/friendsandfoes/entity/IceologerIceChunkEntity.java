@@ -23,7 +23,6 @@ import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -389,16 +388,18 @@ public final class IceologerIceChunkEntity extends Entity
 	}
 
 	private void spawnParticles(
-		ParticleEffect particleType,
+		ParticleEffect particleEffect,
 		int amount
 	) {
-		if (this.world.isClient()) {
+		World world = this.getWorld();
+
+		if (world.isClient()) {
 			return;
 		}
 
 		for (int i = 0; i < amount; i++) {
-			((ServerWorld) this.getEntityWorld()).spawnParticles(
-				particleType,
+			((ServerWorld) world).spawnParticles(
+				particleEffect,
 				this.getParticleX(0.5D),
 				this.getRandomBodyY() + 0.5D,
 				this.getParticleZ(0.5D),

@@ -27,4 +27,7 @@ public final class RandomGenerator
 	public static float generateRandomFloat() {
 		return generateFloat(0, 1);
 	}
+
+	private RandomGenerator() {
+	}
 }

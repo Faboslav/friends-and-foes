@@ -29,7 +29,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.DefaultParticleType;
+import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.recipe.Ingredient;
@@ -696,8 +696,8 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		this.dataTracker.set(LAST_HEAD_SPIN_ANIMATION_PROGRESS, lastHeadSpinAnimationProgress);
 	}
 
-	private void spawnParticles(
-		DefaultParticleType particleType,
+	public void spawnParticles(
+		ParticleEffect particleEffect,
 		int amount
 	) {
 		World world = this.getWorld();
@@ -708,7 +708,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 
 		for (int i = 0; i < amount; i++) {
 			((ServerWorld) world).spawnParticles(
-				particleType,
+				particleEffect,
 				this.getParticleX(1.0D),
 				this.getRandomBodyY() + 0.5D,
 				this.getParticleZ(1.0D),

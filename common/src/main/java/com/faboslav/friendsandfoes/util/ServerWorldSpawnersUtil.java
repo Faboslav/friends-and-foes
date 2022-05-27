@@ -14,4 +14,7 @@ public final class ServerWorldSpawnersUtil
 		spawnerList.add(spawner);
 		((ServerWorldAccessor) world).setSpawners(spawnerList);
 	}
+
+	private ServerWorldSpawnersUtil() {
+	}
 }

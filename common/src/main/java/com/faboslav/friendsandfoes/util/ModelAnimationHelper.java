@@ -15,4 +15,7 @@ public final class ModelAnimationHelper
 	public static float getTickDelta() {
 		return FriendsAndFoes.serverTickDeltaCounter.tickDelta;
 	}
+
+	private ModelAnimationHelper() {
+	}
 }

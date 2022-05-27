@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.world.spawner;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.init.ModEntity;
+import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.mob.PatrolEntity;
@@ -17,7 +18,7 @@ import net.minecraft.world.spawner.Spawner;
 
 import java.util.Random;
 
-public class IceologerSpawner implements Spawner
+public final class IceologerSpawner implements Spawner
 {
 	private int cooldown;
 
@@ -40,13 +41,13 @@ public class IceologerSpawner implements Spawner
 			return 0;
 		}
 
-		this.cooldown += 12000 + random.nextInt(1200);
+		this.cooldown += 12000 + random.nextInt(1000);
 		long l = world.getTimeOfDay() / 24000L;
 
 		if (
 			l < 5L
 			|| world.isDay() == false
-			|| random.nextInt(3) != 0
+			|| RandomGenerator.generateInt(0, 1) != 0
 		) {
 			return 0;
 		}

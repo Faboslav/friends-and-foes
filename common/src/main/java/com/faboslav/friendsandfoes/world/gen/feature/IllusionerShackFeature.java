@@ -4,13 +4,15 @@ import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.mojang.serialization.Codec;
 import net.minecraft.structure.StructureGeneratorFactory.Context;
 import net.minecraft.structure.StructureSetKeys;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.Heightmap;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.JigsawFeature;
 import net.minecraft.world.gen.feature.StructurePoolFeatureConfig;
 import net.minecraft.world.gen.random.AtomicSimpleRandom;
 import net.minecraft.world.gen.random.ChunkRandom;
 
-public class IllusionerShackFeature extends JigsawFeature
+public final class IllusionerShackFeature extends JigsawFeature
 {
 	public IllusionerShackFeature(Codec<StructurePoolFeatureConfig> configCodec) {
 		super(configCodec, 0, true, true, IllusionerShackFeature::canGenerate);
@@ -42,7 +44,10 @@ public class IllusionerShackFeature extends JigsawFeature
 		chunkRandom.setSeed((long) (i ^ j << 4) ^ context.seed());
 		chunkRandom.nextInt();
 
-		return chunkRandom.nextInt(5) == 0;
+		BlockPos blockpos = context.chunkPos().getCenterAtY(0);
+		int topLandY = context.chunkGenerator().getHeight(blockpos.getX(), blockpos.getZ(), Heightmap.Type.WORLD_SURFACE_WG, context.world());
+
+		return topLandY >= 80;
 	}
 
 	@Override

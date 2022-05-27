@@ -5,7 +5,7 @@ import com.faboslav.friendsandfoes.init.ModEntity;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.MappingResolver;
 
-public class EarlyRiserFabric implements Runnable
+public final class EarlyRiserFabric implements Runnable
 {
 	@Override
 	public void run() {

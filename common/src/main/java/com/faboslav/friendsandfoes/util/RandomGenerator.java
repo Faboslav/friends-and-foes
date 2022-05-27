@@ -2,7 +2,7 @@ package com.faboslav.friendsandfoes.util;
 
 import java.util.Random;
 
-public class RandomGenerator
+public final class RandomGenerator
 {
 	private static final Random random;
 
@@ -22,5 +22,12 @@ public class RandomGenerator
 		float max
 	) {
 		return min + random.nextFloat() * (max - min);
+	}
+
+	public static float generateRandomFloat() {
+		return generateFloat(0, 1);
+	}
+
+	private RandomGenerator() {
 	}
 }

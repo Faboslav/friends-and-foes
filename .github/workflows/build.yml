@@ -1,0 +1,33 @@
+name: "Build"
+
+on:
+    push:
+        branches:
+            - "**"
+    pull_request:
+        branches:
+            - "**"
+            - "!master"
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        name: "Build"
+        timeout-minutes: 30
+
+        steps:
+            -   name: "Checkout repository"
+                uses: actions/checkout@v3
+
+            -   name: "Set up JDK"
+                uses: actions/setup-java@v3.3.0
+                with:
+                    java-version: 17
+                    distribution: temurin
+                    cache: gradle
+
+            -   name: "Make gradle wrapper executable"
+                run: chmod +x ./gradlew
+
+            -   name: "Build with gradle"
+                run: ./gradlew clean build --no-daemon --refresh-dependencies --stacktrace

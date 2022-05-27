@@ -1,6 +1,7 @@
 modLoader = "javafml"
 loaderVersion = "[40,)"
 license = "CC BY-NC-ND 4.0"
+issueTrackerURL = "https://github.com/Faboslav/friends-and-foes/issues"
 
 [[mods]]
 modId = "friendsandfoes"
@@ -13,7 +14,7 @@ logoFile = "icon.png"
 [[dependencies.friendsandfoes]]
 modId = "forge"
 mandatory = true
-versionRange = "[40,)"
+versionRange = "[40.1.0,)"
 ordering = "NONE"
 side = "BOTH"
 

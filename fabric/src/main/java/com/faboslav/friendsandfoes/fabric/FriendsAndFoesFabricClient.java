@@ -5,7 +5,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
-public class FriendsAndFoesFabricClient implements ClientModInitializer
+public final class FriendsAndFoesFabricClient implements ClientModInitializer
 {
 	@Override
 	@Environment(EnvType.CLIENT)

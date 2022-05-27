@@ -4,13 +4,15 @@ import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.mojang.serialization.Codec;
 import net.minecraft.structure.StructureGeneratorFactory.Context;
 import net.minecraft.structure.StructureSetKeys;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.Heightmap;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.JigsawFeature;
 import net.minecraft.world.gen.feature.StructurePoolFeatureConfig;
 import net.minecraft.world.gen.random.AtomicSimpleRandom;
 import net.minecraft.world.gen.random.ChunkRandom;
 
-public class IceologerCabinFeature extends JigsawFeature
+public final class IceologerCabinFeature extends JigsawFeature
 {
 	public IceologerCabinFeature(Codec<StructurePoolFeatureConfig> configCodec) {
 		super(configCodec, 0, true, true, IceologerCabinFeature::canGenerate);
@@ -41,7 +43,10 @@ public class IceologerCabinFeature extends JigsawFeature
 		chunkRandom.setSeed((long) (i ^ j << 4) ^ context.seed());
 		chunkRandom.nextInt();
 
-		return chunkRandom.nextInt(3) == 0;
+		BlockPos blockpos = context.chunkPos().getCenterAtY(0);
+		int topLandY = context.chunkGenerator().getHeight(blockpos.getX(), blockpos.getZ(), Heightmap.Type.WORLD_SURFACE_WG, context.world());
+
+		return topLandY >= 100;
 	}
 
 	@Override

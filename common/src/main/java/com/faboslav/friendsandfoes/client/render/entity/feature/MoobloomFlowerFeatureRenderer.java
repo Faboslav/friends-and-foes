@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.client.render.entity.feature;
 
-import com.faboslav.friendsandfoes.entity.passive.MoobloomEntity;
+import com.faboslav.friendsandfoes.entity.MoobloomEntity;
 import com.faboslav.friendsandfoes.init.ModBlocks;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -18,7 +18,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.screen.PlayerScreenHandler;
 
 @Environment(EnvType.CLIENT)
-public class MoobloomFlowerFeatureRenderer<T extends MoobloomEntity> extends FeatureRenderer<T, CowEntityModel<T>>
+public final class MoobloomFlowerFeatureRenderer<T extends MoobloomEntity> extends FeatureRenderer<T, CowEntityModel<T>>
 {
 	public MoobloomFlowerFeatureRenderer(
 		FeatureRendererContext<T, CowEntityModel<T>> featureRendererContext

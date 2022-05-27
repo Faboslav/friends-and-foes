@@ -2,7 +2,7 @@ package com.faboslav.friendsandfoes.client.render.entity.feature;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.model.GlareEntityModel;
-import com.faboslav.friendsandfoes.entity.passive.GlareEntity;
+import com.faboslav.friendsandfoes.entity.GlareEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -13,7 +13,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
-public class GlareFlowerFeatureRenderer extends FeatureRenderer<GlareEntity, GlareEntityModel<GlareEntity>>
+public final class GlareFlowerFeatureRenderer extends FeatureRenderer<GlareEntity, GlareEntityModel<GlareEntity>>
 {
 	public GlareFlowerFeatureRenderer(FeatureRendererContext<GlareEntity, GlareEntityModel<GlareEntity>> featureRendererContext) {
 		super(featureRendererContext);

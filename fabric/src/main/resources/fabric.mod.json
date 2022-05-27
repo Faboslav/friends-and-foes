@@ -34,9 +34,10 @@
 	"friendsandfoes-common.mixins.json"
   ],
   "depends": {
-	"fabric": "*",
+	"java": ">=17",
 	"minecraft": ">=1.18.2",
-	"architectury": ">=4.0.30",
-	"java": ">=17"
+	"fabric": "*",
+	"fabricloader": "*",
+	"architectury": ">=4.0.30"
   }
 }

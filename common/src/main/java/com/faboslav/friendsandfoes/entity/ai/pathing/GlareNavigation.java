@@ -1,11 +1,12 @@
 package com.faboslav.friendsandfoes.entity.ai.pathing;
 
-import com.faboslav.friendsandfoes.entity.passive.GlareEntity;
+import com.faboslav.friendsandfoes.entity.GlareEntity;
 import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.ai.pathing.PathNode;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class GlareNavigation extends BirdNavigation
+public final class GlareNavigation extends BirdNavigation
 {
 	int lastPathNodeBaseLightLevel = 1;
 
@@ -13,6 +14,7 @@ public class GlareNavigation extends BirdNavigation
 		super(glare, world);
 	}
 
+	@Override
 	protected void adjustPath() {
 		super.adjustPath();
 
@@ -25,8 +27,8 @@ public class GlareNavigation extends BirdNavigation
 
 		this.lastPathNodeBaseLightLevel = glareBlockPosBaseLightLevel;
 
-		for (int i = 0; i < this.currentPath.getLength(); ++i) {
-			PathNode pathNode = this.currentPath.getNode(i);
+		for (int i = 0; i < this.getCurrentPath().getLength(); ++i) {
+			PathNode pathNode = this.getCurrentPath().getNode(i);
 			int pathNodeBaseLightLevel = world.getBaseLightLevel(pathNode.getBlockPos(), 0);
 
 			if (isGlareTamed || isSkyVisible) {
@@ -48,5 +50,10 @@ public class GlareNavigation extends BirdNavigation
 				return;
 			}
 		}
+	}
+
+	@Override
+	public boolean isValidPosition(BlockPos pos) {
+		return this.world.getBlockState(pos.down()).isAir() == false;
 	}
 }

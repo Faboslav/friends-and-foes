@@ -1,6 +1,8 @@
 package com.faboslav.friendsandfoes.client.render.entity.model;
 
-import com.faboslav.friendsandfoes.entity.passive.GlareEntity;
+import com.faboslav.friendsandfoes.client.render.entity.animation.ModelPartAnimator;
+import com.faboslav.friendsandfoes.entity.GlareEntity;
+import com.faboslav.friendsandfoes.util.animation.AnimationMath;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
@@ -9,7 +11,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec2f;
 
 @Environment(EnvType.CLIENT)
-public class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel<T>
+public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntityModel<T>
 {
 	private static final String MODEL_PART_ROOT = "root";
 	private static final String MODEL_PART_HEAD = "head";
@@ -45,12 +47,6 @@ public class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel
 			this.thirdLayer,
 			this.fourthLayer,
 		};
-
-		this.setCurrentModelTransforms(
-			this.defaultModelTransforms,
-			MODEL_PART_ROOT,
-			this.root
-		);
 	}
 
 	public static TexturedModelData getTexturedModelData() {
@@ -77,21 +73,36 @@ public class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel
 	}
 
 	@Override
+	public void setAngles(
+		T glare,
+		float limbAngle,
+		float limbDistance,
+		float animationProgress,
+		float headYaw,
+		float headPitch
+	) {
+		this.applyModelTransforms(MODEL_PART_ROOT, this.root);
+		this.modelAnimator.setEntity(glare);
+
+		this.animateEyes(glare);
+		this.animateHead(glare, animationProgress);
+		this.animateLayers(glare, animationProgress);
+	}
+
+	@Override
 	public void animateModel(
 		T glare,
 		float limbAngle,
 		float limbDistance,
 		float tickDelta
 	) {
-		boolean isMoving = !glare.isOnGround() && glare.getVelocity().lengthSquared() >= 0.0001;
-
 		float targetLayerPitch;
 		float targetLayerRoll;
 
 		if (
-			isMoving
-			&& !(glare.getHoldingEntity() instanceof LeashKnotEntity)
-			&& !glare.isGrumpy()
+			glare.isMoving()
+			&& (glare.getHoldingEntity() instanceof LeashKnotEntity) == false
+			&& glare.isGrumpy() == false
 		) {
 			targetLayerPitch = (float) Math.toRadians(10);
 			targetLayerRoll = (float) Math.toRadians(1);
@@ -116,62 +127,30 @@ public class GlareEntityModel<T extends GlareEntity> extends AbstractEntityModel
 		glare.setCurrentLayerRoll(layerRoll);
 	}
 
-	@Override
-	public void setAngles(
-		T glare,
-		float limbAngle,
-		float limbDistance,
-		float animationProgress,
-		float headYaw,
-		float headPitch
-	) {
-		this.applyModelTransforms(
-			this.defaultModelTransforms,
-			MODEL_PART_ROOT,
-			this.root
-		);
-
-		this.animateEyes(glare, animationProgress);
-		this.animateHead(glare, animationProgress);
-		this.animateLayers(glare, animationProgress);
-	}
-
 	private void animateHead(
 		T glare,
 		float animationProgress
 	) {
 		if (glare.isGrumpy()) {
-			this.root.pivotX = MathHelper.sin(animationProgress) * 0.5F;
-			this.root.pivotY = Math.abs(MathHelper.sin(animationProgress * 0.1F)) * -1.0F;
-			this.root.yaw = MathHelper.sin(animationProgress) * 0.05F;
-		} else if (glare.isSitting()) {
-			this.root.pivotY = 6.0F;
+			ModelPartAnimator.setXPosition(this.root, AnimationMath.sin(animationProgress, 0.5F));
+			ModelPartAnimator.setYPosition(this.root, AnimationMath.absSin(animationProgress, 0.1F));
+			ModelPartAnimator.setYRotation(this.root, AnimationMath.sin(animationProgress, 0.05F));
+		} else {
+			float targetPivotY = glare.isSitting() ? 3.0F:0.0F;
+			this.modelAnimator.animateYPositionOverTicks(this.root, targetPivotY, 10);
 		}
 	}
 
-	private void animateEyes(
-		T glare,
-		float animationProgress
-	) {
-		animationProgress = (float) Math.abs(Math.sin(animationProgress)) * 0.5f;
+	private void animateEyes(T glare) {
+		Vec2f targetEyesPositionOffset = glare.getTargetEyesPositionOffset();
 
-		float eyesPositionOffsetX = MathHelper.lerp(
-			animationProgress,
-			glare.getCurrentEyesPositionOffset().x,
-			glare.getTargetEyesPositionOffset().x
+		this.modelAnimator.animatePositionOverTicks(
+			this.eyes,
+			this.eyes.pivotX + targetEyesPositionOffset.x,
+			this.eyes.pivotY + targetEyesPositionOffset.y,
+			this.eyes.pivotZ,
+			GlareEntity.MIN_EYE_ANIMATION_TICK_AMOUNT
 		);
-		float eyesPositionOffsetY = MathHelper.lerp(
-			animationProgress,
-			glare.getCurrentEyesPositionOffset().y,
-			glare.getTargetEyesPositionOffset().y
-		);
-
-		glare.setCurrentEyesPositionOffset(new Vec2f(
-			eyesPositionOffsetX, eyesPositionOffsetY
-		));
-
-		this.eyes.pivotX += eyesPositionOffsetX;
-		this.eyes.pivotY += eyesPositionOffsetY;
 	}
 
 	private void animateLayers(

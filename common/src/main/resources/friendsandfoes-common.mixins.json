@@ -2,17 +2,23 @@
   "required": true,
   "package": "com.faboslav.friendsandfoes.mixin",
   "compatibilityLevel": "JAVA_17",
+  "minVersion": "0.8",
+  "injectors": {
+	"defaultRequire": 1
+  },
   "mixins": [
 	"AbstractButtonBlockMixin",
 	"AxeItemMixin",
 	"BeeEntityAccessor",
 	"BeeEntityMixin",
 	"BlindTargetGoalFactory",
+	"ChickenEntityMixin",
 	"EntityNavigationAccessor",
 	"HoneycombItemMixin",
 	"IllusionerEntityMixin",
 	"LightningRodBlockMixin",
 	"PatrolSpawnerMixin",
+	"RabbitEntityMixin",
 	"RaidMemberMixin",
 	"RaidMixin",
 	"ServerWorldAccessor",
@@ -24,8 +30,5 @@
   "client": [
 	"IllusionerEntityRendererMixin",
 	"ModelPartAccessor"
-  ],
-  "injectors": {
-	"defaultRequire": 1
-  }
+  ]
 }

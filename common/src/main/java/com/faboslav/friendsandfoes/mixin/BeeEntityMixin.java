@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.mixin;
 
-import com.faboslav.friendsandfoes.entity.passive.ai.goal.BeePollinateMoobloomGoal;
+import com.faboslav.friendsandfoes.entity.ai.goal.BeePollinateMoobloomGoal;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.passive.AnimalEntity;

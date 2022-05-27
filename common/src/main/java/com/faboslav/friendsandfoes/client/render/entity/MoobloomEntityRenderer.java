@@ -2,7 +2,7 @@ package com.faboslav.friendsandfoes.client.render.entity;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.feature.MoobloomFlowerFeatureRenderer;
-import com.faboslav.friendsandfoes.entity.passive.MoobloomEntity;
+import com.faboslav.friendsandfoes.entity.MoobloomEntity;
 import com.faboslav.friendsandfoes.init.ModEntityRenderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class MoobloomEntityRenderer extends MobEntityRenderer<MoobloomEntity, CowEntityModel<MoobloomEntity>>
+public final class MoobloomEntityRenderer extends MobEntityRenderer<MoobloomEntity, CowEntityModel<MoobloomEntity>>
 {
 	public MoobloomEntityRenderer(EntityRendererFactory.Context context) {
 		super(context, new CowEntityModel(context.getPart(ModEntityRenderer.MOOBLOOM_LAYER)), 0.7F);

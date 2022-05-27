@@ -26,7 +26,7 @@ import static com.faboslav.friendsandfoes.FriendsAndFoes.serverTickDeltaCounter;
 
 @Mod(FriendsAndFoes.MOD_ID)
 @Mod.EventBusSubscriber(modid = FriendsAndFoes.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class FriendsAndFoesForge
+public final class FriendsAndFoesForge
 {
 	public FriendsAndFoesForge() {
 		var modEventBus = FMLJavaModLoadingContext.get().getModEventBus();

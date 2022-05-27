@@ -22,6 +22,7 @@ public final class ModItems
 	public final static RegistrySupplier<Item> GLARE_SPAWN_EGG;
 	public final static RegistrySupplier<Item> ICEOLOGER_SPAWN_EGG;
 	public final static RegistrySupplier<Item> ILLUSIONER_SPAWN_EGG;
+	public final static RegistrySupplier<Item> MAULER_SPAWN_EGG;
 	public final static RegistrySupplier<Item> MOOBLOOM_SPAWN_EGG;
 	public static final RegistrySupplier<Item> BUTTERCUP;
 	public static final RegistrySupplier<Item> ACACIA_BEEHIVE;
@@ -45,7 +46,8 @@ public final class ModItems
 		GLARE_SPAWN_EGG = ITEMS.register("glare_spawn_egg", () -> new ArchitecturySpawnEggItem(ModEntity.GLARE, 0x70922D, 0x6A5227, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
 		ICEOLOGER_SPAWN_EGG = ITEMS.register("iceologer_spawn_egg", () -> new ArchitecturySpawnEggItem(ModEntity.ICEOLOGER, 0x173873, 0x949b9b, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
 		ILLUSIONER_SPAWN_EGG = ITEMS.register("illusioner_spawn_egg", () -> new net.minecraft.item.SpawnEggItem(EntityType.ILLUSIONER, 0x603e5c, 0x888e8e, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
-		MOOBLOOM_SPAWN_EGG = ITEMS.register("moobloom_spawn_egg", () -> new ArchitecturySpawnEggItem(ModEntity.MOOBLOOM, 0xFACA00, 0xf7EDC1, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
+		MAULER_SPAWN_EGG = ITEMS.register("mauler_spawn_egg", () -> new ArchitecturySpawnEggItem(ModEntity.MAULER, 0x534F25, 0x817B39, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
+		MOOBLOOM_SPAWN_EGG = ITEMS.register("moobloom_spawn_egg", () -> new ArchitecturySpawnEggItem(ModEntity.MOOBLOOM, 0xf7EDC1, 0xFACA00, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
 		BUTTERCUP = ITEMS.register("buttercup", () -> new BlockItem(ModBlocks.BUTTERCUP.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
 		ACACIA_BEEHIVE = ITEMS.register("acacia_beehive", () -> new BlockItem(ModBlocks.ACACIA_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
 		BIRCH_BEEHIVE = ITEMS.register("birch_beehive", () -> new BlockItem(ModBlocks.BIRCH_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));

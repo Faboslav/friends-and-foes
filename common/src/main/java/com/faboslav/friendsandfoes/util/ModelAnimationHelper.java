@@ -3,7 +3,7 @@ package com.faboslav.friendsandfoes.util;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import net.minecraft.entity.LivingEntity;
 
-public class ModelAnimationHelper
+public final class ModelAnimationHelper
 {
 	public static float getAnimationProgress(
 		LivingEntity entity,
@@ -14,5 +14,8 @@ public class ModelAnimationHelper
 
 	public static float getTickDelta() {
 		return FriendsAndFoes.serverTickDeltaCounter.tickDelta;
+	}
+
+	private ModelAnimationHelper() {
 	}
 }

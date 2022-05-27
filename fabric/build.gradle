@@ -31,6 +31,11 @@ dependencies {
 
 	common(project(path: ":common", configuration: "namedElements")) { transitive false }
 	shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
+
+	// https://www.cursemaven.com/
+	modRuntimeOnly "maven.modrinth:lazydfu:0.1.2"
+	modRuntimeOnly "maven.modrinth:starlight:1.0.2+1.18.2"
+	modRuntimeOnly "curse.maven:disablecustomworldsadvice-401978:3677546"
 }
 
 processResources {
@@ -42,11 +47,11 @@ processResources {
 
 	filesMatching("fabric.mod.json") {
 		expand([
-			'modId': rootProject.mod_id,
-			'modName': rootProject.mod_name,
+			'modId'         : rootProject.mod_id,
+			'modName'       : rootProject.mod_name,
 			'modDescription': rootProject.mod_description,
-			'modVersion': rootProject.mod_version,
-			'modAuthor': rootProject.mod_author
+			'modVersion'    : rootProject.mod_version,
+			'modAuthor'     : rootProject.mod_author
 		])
 	}
 }
@@ -86,6 +91,17 @@ repositories {
 		name = 'Fabric'
 		url = 'https://maven.fabricmc.net/'
 	}
+
+	maven {
+		name = "Modrinth"
+		url = "https://api.modrinth.com/maven"
+
+		content {
+			includeGroup "maven.modrinth"
+		}
+	}
+
+	maven { url "https://www.cursemaven.com" }
 }
 
 publishing {

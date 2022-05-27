@@ -10,7 +10,7 @@ import net.minecraft.village.TradeOffers;
 
 import java.util.Random;
 
-public class TradeOffersUtil
+public final class TradeOffersUtil
 {
 	public static class SellItemFactory implements TradeOffers.Factory
 	{
@@ -63,5 +63,8 @@ public class TradeOffersUtil
 			ItemStack itemStack = new ItemStack(this.buy, this.price);
 			return new TradeOffer(itemStack, new ItemStack(Items.EMERALD), this.maxUses, this.experience, this.multiplier);
 		}
+	}
+
+	private TradeOffersUtil() {
 	}
 }

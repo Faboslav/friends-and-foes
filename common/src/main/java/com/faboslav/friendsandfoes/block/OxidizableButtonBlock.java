@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 import java.util.Random;
 
 @SuppressWarnings("deprecation")
-public class OxidizableButtonBlock extends CopperButtonBlock implements Oxidizable
+public final class OxidizableButtonBlock extends CopperButtonBlock implements Oxidizable
 {
 	private final OxidationLevel OxidationLevel;
 

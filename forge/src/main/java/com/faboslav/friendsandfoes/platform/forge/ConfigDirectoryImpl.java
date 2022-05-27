@@ -5,7 +5,7 @@ import net.minecraftforge.fml.loading.FMLPaths;
 
 import java.nio.file.Path;
 
-public class ConfigDirectoryImpl
+public final class ConfigDirectoryImpl
 {
 	/**
 	 * @see ConfigDirectory#getConfigDirectory()

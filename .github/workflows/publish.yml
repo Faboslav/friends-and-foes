@@ -49,6 +49,24 @@ jobs:
                         quilt/build/libs/friendsandfoes-quilt-mc1.18.2-1.4.0.jar
                         LICENSE.txt
 
+    publish-license-to-release:
+        needs: build
+        runs-on: ubuntu-latest
+        name: "Publish license to GitHub"
+        timeout-minutes: 30
+
+        steps:
+            -   name: "Download artifacts"
+                uses: actions/download-artifact@v3.0.0
+                with:
+                    name: "artifacts"
+
+            -   name: "Publish license to GitHub"
+                uses: AButler/upload-release-assets@v2.0
+                with:
+                    files: 'LIECENSE.txt'
+                    repo-token: ${{ secrets.GITHUB_TOKEN }}
+
     publish-fabric-to-github:
         needs: build
         runs-on: ubuntu-latest
@@ -62,18 +80,10 @@ jobs:
                     name: "artifacts"
 
             -   name: "Publish Fabric to GitHub"
-                uses: Kir-Antipov/mc-publish@v2.1
-                with:
-                    github-tag: mc1.18.2-1.4.0
-                    github-token: ${{ secrets.TOKEN_GITHUB }}
-
-                    files-primary: "artifacts/fabric/build/libs/friendsandfoes-fabric-mc1.18.2-1.4.0.jar"
-                    files-secondary: "artifacts/LICENSE.txt"
-                    version-type: $VERSION_TYPE
-
-                    retry-attempts: $RETRY_ATTEMPTS
-                    retry-delay: $RETRY_DELAY
-                    version-resolver: $VERSION_RESOLVER
+                uses: AButler/upload-release-assets@v2.0
+                    with:
+                        files: 'fabric/build/libs/friendsandfoes-fabric-mc1.18.2-1.4.0.jar'
+                        repo-token: ${{ secrets.GITHUB_TOKEN }}
 
     publish-fabric-to-curseforge:
         needs: build
@@ -93,7 +103,7 @@ jobs:
                     curseforge-id: 551364
                     curseforge-token: ${{ secrets.CURSEFORGE_RELEASE_TOKEN }}
 
-                    files-primary: "artifacts/fabric/build/libs/friendsandfoes-fabric-mc1.18.2-1.4.0.jar"
+                    files-primary: "fabric/build/libs/friendsandfoes-fabric-mc1.18.2-1.4.0.jar"
                     version-type: $VERSION_TYPE
                     loaders: fabric
                     game-versions: 1.18.2
@@ -123,7 +133,7 @@ jobs:
                     modrinth-id: YL57xq9U
                     modrinth-token: ${{ secrets.MODRINTH_RELEASE_TOKEN }}
 
-                    files-primary: "artifacts/fabric/build/libs/friendsandfoes-fabric-mc1.18.2-1.4.0.jar"
+                    files-primary: "fabric/build/libs/friendsandfoes-fabric-mc1.18.2-1.4.0.jar"
                     version-type: $VERSION_TYPE
                     loaders: fabric
                     game-versions: 1.18.2

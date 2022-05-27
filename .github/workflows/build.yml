@@ -1,0 +1,41 @@
+name: "Build"
+
+on:
+    push:
+        branches:
+            - "**"
+    pull_request:
+        branches:
+            - "**"
+            - "!master"
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        name: "Publish Fabric version to CurseForge"
+
+        steps:
+            -   name: "Checkout repository"
+                uses: actions/checkout@v3
+
+            -   name: "Set up JDK"
+                uses: actions/setup-java@v3.3.0
+                with:
+                    java-version: 17
+                    distribution: temurin
+
+            -   name: "Make gradle wrapper executable"
+                run: chmod +x ./gradlew
+
+            -   name: "Build artifacts"
+                run: ./gradlew build --stacktrace --info
+
+            -   name: "Capture fabric build artifacts"
+                uses: actions/upload-artifact@v3.1.0
+                with:
+                    name: "Artifacts"
+                    path: |
+                        fabric/build/libs/!(*-@(dev-shadow|sources)).jar
+                        forge/build/libs/!(*-@(dev-shadow|sources)).jar
+                        quilt/build/libs/!(*-@(dev-shadow|sources)).jar
+                        LICENSE.txt

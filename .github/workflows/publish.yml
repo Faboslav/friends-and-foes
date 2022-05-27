@@ -64,7 +64,7 @@ jobs:
             -   name: "Publish license to GitHub"
                 uses: AButler/upload-release-assets@v2.0
                 with:
-                    files: 'LIECENSE.txt'
+                    files: 'LICENSE.txt'
                     repo-token: ${{ secrets.GITHUB_TOKEN }}
 
     publish-fabric-to-github:
@@ -104,16 +104,16 @@ jobs:
                     curseforge-token: ${{ secrets.CURSEFORGE_RELEASE_TOKEN }}
 
                     files-primary: "fabric/build/libs/friendsandfoes-fabric-mc1.18.2-1.4.0.jar"
-                    version-type: $VERSION_TYPE
+                    version-type: ${{ env.VERSION_TYPE }}
                     loaders: fabric
                     game-versions: 1.18.2
                     name: "Friends&Foes mc1.18.2-1.4.0 (Fabric)"
-                    dependencies: $FABRIC_DEPENDENCIES
-                    java: $JAVA_VERSIONS
+                    dependencies: ${{ env.FABRIC_DEPENDENCIES }}
+                    java: ${{ env.JAVA_VERSIONS }}
 
-                    retry-attempts: $RETRY_ATTEMPTS
-                    retry-delay: $RETRY_DELAY
-                    version-resolver: $VERSION_RESOLVER
+                    retry-attempts: ${{ env.RETRY_ATTEMPTS }}
+                    retry-delay: ${{ env.RETRY_DELAY }}
+                    version-resolver: ${{ env.VERSION_RESOLVER }}
 
     publish-fabric-to-modrinth:
         needs: build
@@ -134,12 +134,12 @@ jobs:
                     modrinth-token: ${{ secrets.MODRINTH_RELEASE_TOKEN }}
 
                     files-primary: "fabric/build/libs/friendsandfoes-fabric-mc1.18.2-1.4.0.jar"
-                    version-type: $VERSION_TYPE
+                    version-type: ${{ env.VERSION_TYPE }}
                     loaders: fabric
                     game-versions: 1.18.2
                     name: "Friends&Foes mc1.18.2-1.4.0 (Fabric)"
-                    dependencies: $FABRIC_DEPENDENCIES
-                    java: $JAVA_VERSIONS
-                    retry-attempts: $RETRY_ATTEMPTS
-                    retry-delay: $RETRY_DELAY
-                    version-resolver: $VERSION_RESOLVER
+                    dependencies: ${{ env.FABRIC_DEPENDENCIES }}
+                    java: ${{ env.JAVA_VERSIONS }}
+                    retry-attempts: ${{ env.RETRY_ATTEMPTS }}
+                    retry-delay: ${{ env.RETRY_DELAY }}
+                    version-resolver: ${{ env.VERSION_RESOLVER }}

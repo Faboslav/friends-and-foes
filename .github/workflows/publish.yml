@@ -46,9 +46,9 @@ jobs:
                 with:
                     name: "Artifacts"
                     path: |
-                        "fabric/build/libs/friendsandfoes-fabric-mc1.18.2-1.4.0.jar"
-                        "forge/build/libs/friendsandfoes-forge-mc1.18.2-1.4.0.jar"
-                        "quilt/build/libs/friendsandfoes-quilt-mc1.18.2-1.4.0.jar"
+                        fabric/build/libs/friendsandfoes-fabric-mc1.18.2-1.4.0.jar
+                        forge/build/libs/friendsandfoes-forge-mc1.18.2-1.4.0.jar
+                        quilt/build/libs/friendsandfoes-quilt-mc1.18.2-1.4.0.jar
                         LICENSE.txt
 
     publish-fabric-to-github:

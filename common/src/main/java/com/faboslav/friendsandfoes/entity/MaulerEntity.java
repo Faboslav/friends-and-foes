@@ -257,26 +257,14 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	}
 
 	@Override
-	public ActionResult interactMob(
-		PlayerEntity player,
-		Hand hand
-	) {
+	public ActionResult interactMob(PlayerEntity player, Hand hand) {
 		ItemStack itemStack = player.getStackInHand(hand);
 		Item itemInHand = itemStack.getItem();
 		boolean interactionResult = false;
 
-		if (
-			this.hasAngerTime() == false
-			&& (
-				itemStack.hasEnchantments()
-				|| itemInHand == Items.ENCHANTED_BOOK
-			)
-		) {
+		if (this.hasAngerTime() == false && itemInHand == Items.ENCHANTED_BOOK) {
 			interactionResult = this.tryToInteractWithEnhancedItem(itemStack);
-		} else if (
-			this.hasAngerTime() == false
-			&& itemInHand == Items.GLASS_BOTTLE
-		) {
+		} else if (this.hasAngerTime() == false && itemInHand == Items.GLASS_BOTTLE) {
 			interactionResult = this.tryToInteractWithGlassBottle(player, itemStack);
 		}
 

@@ -138,6 +138,8 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 
 	@Override
 	public void tickMovement() {
+		super.tickMovement();
+
 		if (this.getWorld().isClient() || this.isBaby()) {
 			return;
 		}
@@ -161,7 +163,5 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 				}
 			}
 		}
-
-		super.tickMovement();
 	}
 }

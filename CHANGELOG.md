@@ -1,3 +1,7 @@
+## mc1.18.2-1.4.1, May 29, 2022
+
+- Fixed moobloom movement (mooblooms not moving at all)
+
 ## mc1.18.2-1.4.0, May 27, 2022
 
 - Added Mauler (The Great Hunger)

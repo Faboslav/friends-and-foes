@@ -9,14 +9,14 @@ import net.minecraft.entity.mob.PatrolEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos.Mutable;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.SpawnHelper;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.Category;
+import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.spawner.Spawner;
-
-import java.util.Random;
 
 public final class IceologerSpawner implements Spawner
 {
@@ -41,7 +41,7 @@ public final class IceologerSpawner implements Spawner
 			return 0;
 		}
 
-		this.cooldown += 12000 + random.nextInt(1000);
+		this.cooldown += 12000 + RandomGenerator.generateInt(0, 1000);
 		long l = world.getTimeOfDay() / 24000L;
 
 		if (
@@ -79,12 +79,12 @@ public final class IceologerSpawner implements Spawner
 		}
 
 		RegistryEntry<Biome> registryEntry = world.getBiome(mutable);
-		Category category = Biome.getCategory(registryEntry);
+		BiomeKeys category = Biome.getCategory(registryEntry);
 
 		var precipitation = registryEntry.value().getPrecipitation();
 
 		if (
-			category != Category.TAIGA
+			category != BiomeKeys.TAIGA
 			|| precipitation != Biome.Precipitation.SNOW
 		) {
 			return 0;

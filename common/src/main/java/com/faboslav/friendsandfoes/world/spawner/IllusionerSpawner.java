@@ -9,14 +9,13 @@ import net.minecraft.entity.mob.PatrolEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos.Mutable;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.SpawnHelper;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.Category;
 import net.minecraft.world.spawner.Spawner;
-
-import java.util.Random;
 
 public final class IllusionerSpawner implements Spawner
 {
@@ -34,7 +33,7 @@ public final class IllusionerSpawner implements Spawner
 			return 0;
 		}
 
-		Random random = world.random;
+		Random random = world.getRandom();
 		--this.cooldown;
 
 		if (this.cooldown > 0) {

@@ -135,33 +135,4 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 	) {
 		return ModEntity.MOOBLOOM.get().create(serverWorld);
 	}
-
-	@Override
-	public void tickMovement() {
-		if (this.getWorld().isClient() || this.isBaby()) {
-			return;
-		}
-
-		// On average once per five minutes (1/6000)
-		if (this.getRandom().nextFloat() <= 0.00016666666) {
-			Block blockUnderneath = this.world.getBlockState(new BlockPos(this.getX(), this.getY() - 1, this.getZ())).getBlock();
-
-			if (blockUnderneath == Blocks.GRASS_BLOCK && this.world.isAir(this.getBlockPos())) {
-				// 40% chance buttercup, 40% chance dandelion, 20% chance sunflower
-				int flowerChance = RandomGenerator.generateInt(1, 100);
-
-				if (flowerChance >= 0 && flowerChance < 40) {
-					this.world.setBlockState(this.getBlockPos(), ModBlocks.BUTTERCUP.get().getDefaultState());
-				} else if (flowerChance >= 40 && flowerChance < 80) {
-					this.world.setBlockState(this.getBlockPos(), Blocks.DANDELION.getDefaultState());
-				} else {
-					BlockState sunflowerBlockState = Blocks.SUNFLOWER.getDefaultState().with(TallPlantBlock.HALF, DoubleBlockHalf.UPPER);
-					this.world.setBlockState(this.getBlockPos(), sunflowerBlockState.cycle(Properties.DOUBLE_BLOCK_HALF));
-					this.world.setBlockState(this.getBlockPos().up(), sunflowerBlockState);
-				}
-			}
-		}
-
-		super.tickMovement();
-	}
 }

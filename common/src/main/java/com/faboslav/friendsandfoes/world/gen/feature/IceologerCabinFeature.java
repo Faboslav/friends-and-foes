@@ -12,7 +12,7 @@ import net.minecraft.world.gen.feature.StructurePoolFeatureConfig;
 import net.minecraft.world.gen.random.AtomicSimpleRandom;
 import net.minecraft.world.gen.random.ChunkRandom;
 
-public final class IceologerCabinFeature extends JigsawFeature
+public final class IceologerCabinFeature extends JigsawStructur
 {
 	public IceologerCabinFeature(Codec<StructurePoolFeatureConfig> configCodec) {
 		super(configCodec, 0, true, true, IceologerCabinFeature::canGenerate);

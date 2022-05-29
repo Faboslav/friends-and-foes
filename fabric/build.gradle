@@ -33,9 +33,9 @@ dependencies {
 	shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 
 	// https://www.cursemaven.com/
-	modRuntimeOnly "maven.modrinth:lazydfu:0.1.2"
-	modRuntimeOnly "maven.modrinth:starlight:1.0.2+1.18.2"
-	modRuntimeOnly "curse.maven:disablecustomworldsadvice-401978:3677546"
+	//modRuntimeOnly "maven.modrinth:lazydfu:0.1.2"
+	//modRuntimeOnly "maven.modrinth:starlight:1.0.2+1.18.2"
+	//modRuntimeOnly "curse.maven:disablecustomworldsadvice-401978:3677546"
 }
 
 processResources {

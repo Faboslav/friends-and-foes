@@ -7,12 +7,12 @@ import net.minecraft.structure.StructureSetKeys;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.gen.GenerationStep;
-import net.minecraft.world.gen.feature.JigsawFeature;
+import net.minecraft.world.gen.structure.JigsawStructure;
 import net.minecraft.world.gen.feature.StructurePoolFeatureConfig;
 import net.minecraft.world.gen.random.AtomicSimpleRandom;
 import net.minecraft.world.gen.random.ChunkRandom;
 
-public final class IllusionerShackFeature extends JigsawFeature
+public final class IllusionerShackFeature extends JigsawStructure
 {
 	public IllusionerShackFeature(Codec<StructurePoolFeatureConfig> configCodec) {
 		super(configCodec, 0, true, true, IllusionerShackFeature::canGenerate);

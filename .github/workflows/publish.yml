@@ -266,7 +266,7 @@ jobs:
 
                     files-primary: "quilt/build/libs/friendsandfoes-quilt-mc1.18.2-1.4.1.jar"
                     version-type: ${{ env.VERSION_TYPE }}
-                    loaders: fabric
+                    loaders: quilt
                     game-versions: 1.18.2
                     name: "Friends&Foes mc1.18.2-1.4.1 (Quilt)"
                     dependencies: ${{ env.QUILT_DEPENDENCIES }}

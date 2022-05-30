@@ -43,6 +43,10 @@
 	"fabricloader": "*",
 	"architectury": ">=4.4.60"
   },
+  "recommends": {
+	"cloth-config2": "*",
+	"modmenu": "*"
+  },
   "custom": {
 	"modmenu": {
 	  "links": {

@@ -7,7 +7,6 @@ import com.faboslav.friendsandfoes.world.spawner.IllusionerSpawner;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
-import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.Util;
 import net.minecraft.world.dimension.DimensionType;
 
@@ -17,10 +16,6 @@ public final class FriendsAndFoesFabric implements ModInitializer
 {
 	@Override
 	public void onInitialize() {
-		for (SpawnGroup spawnGroup : SpawnGroup.values()) {
-			System.out.println(spawnGroup.getName());
-		}
-
 		FriendsAndFoes.initRegisters();
 		FriendsAndFoes.initCustomRegisters();
 

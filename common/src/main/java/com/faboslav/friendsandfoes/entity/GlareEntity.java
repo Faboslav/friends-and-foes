@@ -103,8 +103,6 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		this.currentLayerRoll = 0.0F;
 		this.currentLayerPitchAnimationProgress = 0.0F;
 		this.currentLayerRollAnimationProgress = 0.0F;
-
-		FriendsAndFoes.getLogger().info("spawned!");
 	}
 
 	static {
@@ -166,7 +164,6 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		boolean isSkyVisible = serverWorldAccess.isSkyVisible(blockPos);
 		boolean isBlockPosDarkSpot = serverWorldAccess.getBaseLightLevel(blockPos, 0) <= 3;
 
-		FriendsAndFoes.getLogger().info("can i spawn?: " + (isBelowSurfaceLevel && !isSkyVisible && !isBlockPosDarkSpot));
 		return isBelowSurfaceLevel
 			   && isSkyVisible == false
 			   && isBlockPosDarkSpot == false;

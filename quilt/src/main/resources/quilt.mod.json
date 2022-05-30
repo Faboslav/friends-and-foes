@@ -46,16 +46,16 @@
 		"version": ">=1.18.2"
 	  },
 	  {
+		"id": "architectury",
+		"version": ">=4.4.60"
+	  },
+	  {
 		"id": "quilt_loader",
 		"version": "*"
 	  },
 	  {
 		"id": "quilt_base",
 		"version": "*"
-	  },
-	  {
-		"id": "architectury",
-		"version": ">=4.0.30"
 	  }
 	]
   }

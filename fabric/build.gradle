@@ -24,13 +24,14 @@ configurations {
 }
 
 dependencies {
+	// Core dependencies
 	modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-	modImplementation "com.github.Chocohead:Fabric-ASM:${rootProject.fabric_asm_version}"
 	modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
 	modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
 
-	common(project(path: ":common", configuration: "namedElements")) { transitive false }
-	shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
+	// Fabric ASM
+	modImplementation "com.github.Chocohead:Fabric-ASM:${rootProject.fabric_asm_version}"
+	include "com.github.Chocohead:Fabric-ASM:${rootProject.fabric_asm_version}"
 
 	// Config dependencies
 	modImplementation("maven.modrinth:modmenu:${project.mod_menu_version}") { transitive = false }
@@ -41,6 +42,9 @@ dependencies {
 	modRuntimeOnly "maven.modrinth:lazydfu:0.1.2"
 	modRuntimeOnly "maven.modrinth:starlight:1.0.2+1.18.2"
 	modRuntimeOnly "curse.maven:disablecustomworldsadvice-401978:3677546"
+
+	common(project(path: ":common", configuration: "namedElements")) { transitive false }
+	shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 }
 
 processResources {

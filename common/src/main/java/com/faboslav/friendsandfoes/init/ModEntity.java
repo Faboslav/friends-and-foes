@@ -3,7 +3,6 @@ package com.faboslav.friendsandfoes.init;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.*;
 import com.faboslav.friendsandfoes.mixin.SpawnRestrictionAccessor;
-import com.faboslav.friendsandfoes.util.ExpandedEnumValues;
 import dev.architectury.registry.level.biome.BiomeModifications;
 import dev.architectury.registry.level.entity.EntityAttributeRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
@@ -47,7 +46,6 @@ public final class ModEntity
 	}
 
 	public static void initRegister() {
-		System.out.println("initRegister");
 		previousUseChoiceTypeRegistrations = SharedConstants.useChoiceTypeRegistrations;
 		SharedConstants.useChoiceTypeRegistrations = false;
 		ENTITY_TYPES.register();
@@ -76,7 +74,6 @@ public final class ModEntity
 	}
 
 	public static void initBiomeModifications() {
-		System.out.println("initBiomeModifications");
 		var config = FriendsAndFoes.getConfig();
 
 		if (config.enableGlare && config.enableGlareSpawn) {

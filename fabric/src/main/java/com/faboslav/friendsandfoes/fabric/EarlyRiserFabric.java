@@ -11,7 +11,6 @@ public final class EarlyRiserFabric implements Runnable
 {
 	@Override
 	public void run() {
-		System.out.println("EarlyRiserFabric");
 		MappingResolver remapper = FabricLoader.getInstance().getMappingResolver();
 
 		String Raid = remapper.mapClassName("intermediary", "net.minecraft.class_3765$class_3766");

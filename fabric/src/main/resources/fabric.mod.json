@@ -43,15 +43,11 @@
 	"fabricloader": "*",
 	"architectury": ">=4.4.60"
   },
-  "recommends": {
-	"cloth-config2": "*",
-	"modmenu": "*"
-  },
   "custom": {
 	"modmenu": {
 	  "links": {
-		"modmenu.discord": "https://discord.com/invite/QGwFvvMQCn",
-		"Wiki": "https://github.com/Faboslav/friends-and-foes/wiki"
+		"discord": "https://discord.com/invite/QGwFvvMQCn",
+		"wiki": "https://github.com/Faboslav/friends-and-foes/wiki"
 	  }
 	}
   }

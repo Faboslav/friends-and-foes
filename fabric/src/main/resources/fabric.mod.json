@@ -41,7 +41,7 @@
 	"minecraft": ">=1.18.2",
 	"fabric": "*",
 	"fabricloader": "*",
-	"architectury": ">=4.0.30"
+	"architectury": ">=4.4.60"
   },
   "custom": {
 	"modmenu": {

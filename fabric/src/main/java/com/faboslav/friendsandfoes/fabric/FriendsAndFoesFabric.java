@@ -16,6 +16,7 @@ public final class FriendsAndFoesFabric implements ModInitializer
 {
 	@Override
 	public void onInitialize() {
+		FriendsAndFoes.checkForNewUpdates();
 		FriendsAndFoes.initRegisters();
 		FriendsAndFoes.initCustomRegisters();
 

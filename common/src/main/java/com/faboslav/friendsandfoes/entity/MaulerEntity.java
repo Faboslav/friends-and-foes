@@ -185,6 +185,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		boolean isRelatedBlock = (
 			blockState.isOf(Blocks.SAND)
 			|| blockState.isOf(Blocks.RED_SAND)
+			|| blockState.isOf(Blocks.DIRT)
 			|| blockState.isOf(Blocks.COARSE_DIRT)
 			|| blockState.isOf(Blocks.GRASS_BLOCK)
 		);

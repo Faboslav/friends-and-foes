@@ -1,4 +1,4 @@
-## mc1.18.2-1.4.2, May 29, 2022
+## mc1.18.2-1.4.2, May 30, 2022
 
 - Added in game configs for all mod loaders
 - Changed Glares spawn group (so it is unique for example like axolotl spawn group)

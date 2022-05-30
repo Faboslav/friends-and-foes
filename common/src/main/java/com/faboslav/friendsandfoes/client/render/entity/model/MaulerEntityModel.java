@@ -105,7 +105,13 @@ public final class MaulerEntityModel<T extends MaulerEntity> extends AnimatedEnt
 		this.backLeftLeg.pitch = backLegPitch;
 		this.backRightLeg.pitch = backLegPitch;
 
-		if (mauler.hasAngerTime() && mauler.isMoving() && mauler.isOnGround() && mauler.getVelocity().getY() <= 0.0001) {
+		if (
+			mauler.hasAngerTime()
+			&& mauler.isBurrowedDown() == false
+			&& mauler.isMoving()
+			&& mauler.isOnGround()
+			&& mauler.getVelocity().getY() <= 0.0001
+		) {
 			float targetX = AnimationMath.toRadians(5) + AnimationMath.toRadians(-65) * AnimationMath.absSin(animationProgress, 1.0F, 0.35F);
 			float delta = AnimationMath.absSin(animationProgress);
 			this.modelAnimator.animateXRotationWithProgress(this.upperJaw, targetX, delta);

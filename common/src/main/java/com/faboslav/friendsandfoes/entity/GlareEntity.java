@@ -1,21 +1,23 @@
 package com.faboslav.friendsandfoes.entity;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.animation.AnimationContextTracker;
 import com.faboslav.friendsandfoes.entity.ai.goal.*;
 import com.faboslav.friendsandfoes.entity.ai.pathing.GlareNavigation;
 import com.faboslav.friendsandfoes.init.ModCriteria;
 import com.faboslav.friendsandfoes.init.ModSounds;
-import com.faboslav.friendsandfoes.mixin.EntityNavigationAccessor;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
+import com.google.common.collect.ImmutableList;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
+import net.minecraft.entity.ai.brain.MemoryModuleType;
+import net.minecraft.entity.ai.brain.sensor.Sensor;
+import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.control.FlightMoveControl;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer.Builder;
@@ -56,6 +58,9 @@ import java.util.function.Predicate;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public final class GlareEntity extends TameableEntity implements Flutterer, AnimatedEntity
 {
+	protected static final ImmutableList<SensorType<? extends Sensor<? super GlareEntity>>> SENSORS;
+	protected static final ImmutableList<MemoryModuleType<?>> MEMORY_MODULES;
+
 	public static final Predicate<ItemEntity> PICKABLE_FOOD_FILTER;
 	private static final int GRUMPY_BITMASK = 2;
 	private static final float MOVEMENT_SPEED = 0.6F;
@@ -83,10 +88,6 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	public GlareEntity(EntityType<? extends GlareEntity> entityType, World world) {
 		super(entityType, world);
 
-		if (this.isTamed()) {
-			this.setPersistent();
-		}
-
 		this.moveControl = new FlightMoveControl(this, 10, true);
 		this.setPathfindingPenalty(PathNodeType.DANGER_FIRE, -1.0F);
 		this.setPathfindingPenalty(PathNodeType.DANGER_CACTUS, -1.0F);
@@ -102,9 +103,21 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		this.currentLayerRoll = 0.0F;
 		this.currentLayerPitchAnimationProgress = 0.0F;
 		this.currentLayerRollAnimationProgress = 0.0F;
+
+		FriendsAndFoes.getLogger().info("spawned!");
 	}
 
 	static {
+		SENSORS = ImmutableList.of(SensorType.NEAREST_LIVING_ENTITIES, SensorType.NEAREST_PLAYERS, SensorType.HURT_BY, SensorType.NEAREST_ITEMS);
+		MEMORY_MODULES = ImmutableList.of(
+			MemoryModuleType.PATH,
+			MemoryModuleType.LOOK_TARGET,
+			MemoryModuleType.VISIBLE_MOBS,
+			MemoryModuleType.WALK_TARGET,
+			MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
+			MemoryModuleType.HURT_BY,
+			MemoryModuleType.NEAREST_VISIBLE_WANTED_ITEM
+		);
 		GLARE_FLAGS = DataTracker.registerData(GlareEntity.class, TrackedDataHandlerRegistry.BYTE);
 		TICKS_UNTIL_CAN_EAT_GLOW_BERRIES = DataTracker.registerData(GlareEntity.class, TrackedDataHandlerRegistry.INTEGER);
 		TICKS_UNTIL_CAN_FIND_DARK_SPOT = DataTracker.registerData(GlareEntity.class, TrackedDataHandlerRegistry.INTEGER);
@@ -142,10 +155,6 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		}
 	}
 
-	public boolean canImmediatelyDespawn(double distanceSquared) {
-		return this.hasCustomName() == false;
-	}
-
 	public static boolean canSpawn(
 		EntityType<GlareEntity> glareEntityEntityType,
 		ServerWorldAccess serverWorldAccess,
@@ -153,26 +162,14 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		BlockPos blockPos,
 		Random random
 	) {
-		BlockState blockState = serverWorldAccess.getBlockState(blockPos.down());
-		boolean isAboveSurfaceLevel = blockPos.getY() >= 63;
+		boolean isBelowSurfaceLevel = blockPos.getY() < 63;
 		boolean isSkyVisible = serverWorldAccess.isSkyVisible(blockPos);
 		boolean isBlockPosDarkSpot = serverWorldAccess.getBaseLightLevel(blockPos, 0) <= 3;
-		boolean isRelatedBlock = (
-			blockState.isOf(Blocks.MOSS_BLOCK)
-			|| blockState.isOf(Blocks.MOSS_CARPET)
-			|| blockState.isOf(Blocks.AZALEA)
-			|| blockState.isOf(Blocks.FLOWERING_AZALEA)
-			|| blockState.isOf(Blocks.GRASS)
-			|| blockState.isOf(Blocks.SMALL_DRIPLEAF)
-			|| blockState.isOf(Blocks.BIG_DRIPLEAF)
-			|| blockState.isOf(Blocks.CLAY)
-			|| blockState.isOf(Blocks.DIRT)
-			|| blockState.isOf(Blocks.GRAVEL)
-		);
-		return !isAboveSurfaceLevel
-			   && !isSkyVisible
-			   && !isBlockPosDarkSpot
-			   && isRelatedBlock;
+
+		FriendsAndFoes.getLogger().info("can i spawn?: " + (isBelowSurfaceLevel && !isSkyVisible && !isBlockPosDarkSpot));
+		return isBelowSurfaceLevel
+			   && isSkyVisible == false
+			   && isBlockPosDarkSpot == false;
 	}
 
 	protected void initGoals() {
@@ -191,6 +188,10 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 
 	@Override
 	public void tick() {
+		if (FriendsAndFoes.getConfig().enableGlare == false) {
+			this.discard();
+		}
+
 		super.tick();
 
 		if (this.getTicksUntilCanFindDarkSpot() > 0) {
@@ -313,10 +314,8 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		GlareNavigation glareNavigation = new GlareNavigation(this, world);
 
 		glareNavigation.setCanPathThroughDoors(false);
-		glareNavigation.setCanSwim(false);
+		glareNavigation.setCanSwim(true);
 		glareNavigation.setCanEnterOpenDoors(true);
-		EntityNavigationAccessor entityNavigation = (EntityNavigationAccessor) (BirdNavigation) glareNavigation;
-		entityNavigation.setNodeReachProximity(0.1F);
 
 		return glareNavigation;
 	}
@@ -542,7 +541,6 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	}
 
 	public void setOwner(PlayerEntity owner) {
-		this.setPersistent();
 		this.setTamed(true);
 		this.setOwnerUuid(owner.getUuid());
 

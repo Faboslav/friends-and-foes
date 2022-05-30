@@ -29,6 +29,7 @@ public final class IllusionerSpawner implements Spawner
 	public int spawn(ServerWorld world, boolean spawnMonsters, boolean spawnAnimals) {
 		if (
 			spawnMonsters == false
+			|| FriendsAndFoes.getConfig().enableIllusioner == false
 			|| FriendsAndFoes.getConfig().enableIllusionerSpawn == false
 		) {
 			return 0;

@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes.forge;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.FriendsAndFoesServer;
 import com.faboslav.friendsandfoes.init.ModEntity;
+import com.faboslav.friendsandfoes.util.ExpandedEnumValues;
 import com.faboslav.friendsandfoes.util.ServerWorldSpawnersUtil;
 import com.faboslav.friendsandfoes.world.spawner.IceologerSpawner;
 import com.faboslav.friendsandfoes.world.spawner.IllusionerSpawner;
@@ -10,6 +11,7 @@ import dev.architectury.platform.Platform;
 import dev.architectury.platform.forge.EventBuses;
 import dev.architectury.utils.Env;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.Util;
 import net.minecraft.village.raid.Raid;
 import net.minecraft.world.dimension.DimensionType;
@@ -32,6 +34,8 @@ public final class FriendsAndFoesForge
 		var modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 		EventBuses.registerModEventBus(FriendsAndFoes.MOD_ID, modEventBus);
 
+		expandEnums();
+
 		FriendsAndFoes.initRegisters();
 		FriendsAndFoesForgeClient.init();
 
@@ -44,15 +48,19 @@ public final class FriendsAndFoesForge
 		forgeBus.addListener(FriendsAndFoesForge::initTickDeltaCounter);
 	}
 
+	private static void expandEnums() {
+		SpawnGroup.create(ExpandedEnumValues.GLARES, FriendsAndFoes.makeStringID("glares"), 5, true, false, 128);
+	}
+
 	private static void init(final FMLCommonSetupEvent event) {
 		FriendsAndFoes.initCustomRegisters();
 
-		if (FriendsAndFoes.getConfig().enableIllusionerInRaids) {
-			Raid.Member.create("ILLUSIONER", EntityType.ILLUSIONER, new int[]{0, 0, 0, 0, 1, 0, 1, 1});
+		if (FriendsAndFoes.getConfig().enableIllusioner && FriendsAndFoes.getConfig().enableIllusionerInRaids) {
+			Raid.Member.create(ExpandedEnumValues.ILLUSIONER, EntityType.ILLUSIONER, new int[]{0, 0, 0, 0, 1, 0, 1, 1});
 		}
 
-		if (FriendsAndFoes.getConfig().enableIceologerInRaids) {
-			Raid.Member.create("ICEOLOGER", ModEntity.ICEOLOGER.get(), new int[]{0, 0, 0, 0, 1, 1, 0, 1});
+		if (FriendsAndFoes.getConfig().enableIceologer && FriendsAndFoes.getConfig().enableIceologerInRaids) {
+			Raid.Member.create(ExpandedEnumValues.ICEOLOGER, ModEntity.ICEOLOGER.get(), new int[]{0, 0, 0, 0, 1, 1, 0, 1});
 		}
 	}
 

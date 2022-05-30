@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.entity;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.init.ModBlocks;
 import com.faboslav.friendsandfoes.init.ModEntity;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
@@ -163,5 +164,14 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 				}
 			}
 		}
+	}
+
+	@Override
+	public void tick() {
+		if (FriendsAndFoes.getConfig().enableMoobloom == false) {
+			this.discard();
+		}
+
+		super.tick();
 	}
 }

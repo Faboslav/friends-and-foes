@@ -14,7 +14,7 @@
 	"wiki": "https://github.com/Faboslav/friends-and-foes/wiki"
   },
   "license": "CC BY-NC-ND 4.0",
-  "icon": "assets/friendsandfoes/icon.png",
+  "icon": "icon.png",
   "environment": "*",
   "entrypoints": {
 	"main": [
@@ -28,6 +28,9 @@
 	],
 	"mm:early_risers": [
 	  "com.faboslav.friendsandfoes.fabric.EarlyRiserFabric"
+	],
+	"modmenu": [
+	  "com.faboslav.friendsandfoes.fabric.integrations.ModMenuIntegration"
 	]
   },
   "mixins": [
@@ -39,5 +42,13 @@
 	"fabric": "*",
 	"fabricloader": "*",
 	"architectury": ">=4.0.30"
+  },
+  "custom": {
+	"modmenu": {
+	  "links": {
+		"modmenu.discord": "https://discord.com/invite/QGwFvvMQCn",
+		"Wiki": "https://github.com/Faboslav/friends-and-foes/wiki"
+	  }
+	}
   }
 }

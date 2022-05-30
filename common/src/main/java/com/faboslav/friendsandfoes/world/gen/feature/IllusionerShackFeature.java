@@ -20,9 +20,10 @@ public final class IllusionerShackFeature extends JigsawFeature
 
 	private static boolean canGenerate(Context<StructurePoolFeatureConfig> context) {
 
-		return FriendsAndFoes.getConfig().generateIllusionerShackStructure != false
-			   && isVillageNearby(context) != true
-			   && isSuitableChunk(context) != false;
+		return FriendsAndFoes.getConfig().enableIllusioner
+			   && FriendsAndFoes.getConfig().generateIllusionerShackStructure
+			   && isVillageNearby(context) == false
+			   && isSuitableChunk(context);
 	}
 
 	private static boolean isVillageNearby(Context<StructurePoolFeatureConfig> context) {

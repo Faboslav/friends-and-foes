@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.config.omegaconfig;
 
-import com.faboslav.friendsandfoes.config.omegaconfig.api.Comment;
+import com.faboslav.friendsandfoes.config.annotation.Description;
 import com.faboslav.friendsandfoes.config.omegaconfig.api.Config;
 import com.faboslav.friendsandfoes.platform.ConfigDirectory;
 import com.google.gson.Gson;
@@ -129,8 +129,8 @@ public final class OmegaConfig
 
 		// Find comment
 		for (Annotation annotation : annotations) {
-			if (annotation instanceof Comment) {
-				keyToComments.put(fieldName, ((Comment) annotation).value());
+			if (annotation instanceof Description) {
+				//keyToComments.put(fieldName, ((Description) annotation).value());
 				break;
 			}
 		}

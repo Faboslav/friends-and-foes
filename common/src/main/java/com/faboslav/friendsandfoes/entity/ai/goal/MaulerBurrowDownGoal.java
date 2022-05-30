@@ -43,6 +43,8 @@ public final class MaulerBurrowDownGoal extends Goal
 		boolean isRelatedBlock = (
 			blockUnderMauler == Blocks.SAND
 			|| blockUnderMauler == Blocks.RED_SAND
+			|| blockUnderMauler == Blocks.DIRT
+			|| blockUnderMauler == Blocks.COARSE_DIRT
 			|| blockUnderMauler == Blocks.GRASS_BLOCK
 		);
 

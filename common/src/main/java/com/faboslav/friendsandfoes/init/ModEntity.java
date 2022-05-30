@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes.init;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.*;
 import com.faboslav.friendsandfoes.mixin.SpawnRestrictionAccessor;
+import com.faboslav.friendsandfoes.util.ExpandedEnumValues;
 import dev.architectury.registry.level.biome.BiomeModifications;
 import dev.architectury.registry.level.entity.EntityAttributeRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
@@ -37,7 +38,7 @@ public final class ModEntity
 	static {
 		SharedConstants.useChoiceTypeRegistrations = false;
 		COPPER_GOLEM = ENTITY_TYPES.register("copper_golem", () -> EntityType.Builder.create(CopperGolemEntity::new, SpawnGroup.MISC).setDimensions(0.75F, 1.375F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("copper_golem")));
-		GLARE = ENTITY_TYPES.register("glare", () -> EntityType.Builder.create(GlareEntity::new, SpawnGroup.AMBIENT).setDimensions(0.875F, 1.4375F).maxTrackingRange(8).build(FriendsAndFoes.makeStringID("glare")));
+		GLARE = ENTITY_TYPES.register("glare", () -> EntityType.Builder.create(GlareEntity::new, SpawnGroup.CREATURE).setDimensions(0.875F, 1.4375F).maxTrackingRange(8).trackingTickInterval(2).build(FriendsAndFoes.makeStringID("glare")));
 		ICEOLOGER = ENTITY_TYPES.register("iceologer", () -> EntityType.Builder.create(IceologerEntity::new, SpawnGroup.MONSTER).setDimensions(0.6F, 1.95F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("iceologer")));
 		ICE_CHUNK = ENTITY_TYPES.register("ice_chunk", () -> EntityType.Builder.create(IceologerIceChunkEntity::new, SpawnGroup.MISC).makeFireImmune().setDimensions(2.5F, 1.0F).maxTrackingRange(6).build(FriendsAndFoes.makeStringID("ice_chunk")));
 		MAULER = ENTITY_TYPES.register("mauler", () -> EntityType.Builder.create(MaulerEntity::new, SpawnGroup.CREATURE).setDimensions(0.5625F, 0.5625F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("mauler")));
@@ -46,6 +47,7 @@ public final class ModEntity
 	}
 
 	public static void initRegister() {
+		System.out.println("initRegister");
 		previousUseChoiceTypeRegistrations = SharedConstants.useChoiceTypeRegistrations;
 		SharedConstants.useChoiceTypeRegistrations = false;
 		ENTITY_TYPES.register();
@@ -74,14 +76,15 @@ public final class ModEntity
 	}
 
 	public static void initBiomeModifications() {
+		System.out.println("initBiomeModifications");
 		var config = FriendsAndFoes.getConfig();
 
-		if (config.enableGlareSpawn) {
+		if (config.enableGlare && config.enableGlareSpawn) {
 			Predicate<BiomeModifications.BiomeContext> LUSH_CAVES = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.LUSH_CAVES.getValue());
-			registerBiomeModification(LUSH_CAVES, GLARE.get(), SpawnGroup.AMBIENT, config.glareSpawnWeight, config.glareSpawnMinGroupSize, config.glareSpawnMaxGroupSize);
+			registerBiomeModification(LUSH_CAVES, GLARE.get(), SpawnGroup.CREATURE, config.glareSpawnWeight, config.glareSpawnMinGroupSize, config.glareSpawnMaxGroupSize);
 		}
 
-		if (config.enableMaulerSpawn) {
+		if (config.enableMauler && config.enableMaulerSpawn) {
 			Predicate<BiomeModifications.BiomeContext> DESERT = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.DESERT.getValue());
 			Predicate<BiomeModifications.BiomeContext> BADLANDS = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.BADLANDS.getValue());
 			Predicate<BiomeModifications.BiomeContext> ERODED_BADLANDS = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.ERODED_BADLANDS.getValue());
@@ -97,7 +100,7 @@ public final class ModEntity
 			registerBiomeModification(SAVANNA_PLATEAU, MAULER.get(), SpawnGroup.CREATURE, config.maulerSavannaSpawnWeight, config.maulerSavannaSpawnMinGroupSize, config.maulerSavannaSpawnMaxGroupSize);
 		}
 
-		if (config.enableMoobloomSpawn) {
+		if (config.enableMoobloom && config.enableMoobloomSpawn) {
 			Predicate<BiomeModifications.BiomeContext> FLOWER_FOREST = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.FLOWER_FOREST.getValue());
 			Predicate<BiomeModifications.BiomeContext> MEADOW = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.MEADOW.getValue());
 

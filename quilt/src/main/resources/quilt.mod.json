@@ -4,6 +4,7 @@
 	"friendsandfoes-common.mixins.json"
   ],
   "quilt_loader": {
+	"group": "${group}",
 	"id": "friendsandfoes",
 	"version": "${modVersion}",
 	"name": "${modName}",
@@ -18,7 +19,7 @@
 	  "wiki": "https://github.com/Faboslav/friends-and-foes/wiki"
 	},
 	"license": "CC BY-NC-ND 4.0",
-	"icon": "assets/friendsandfoes/icon.png",
+	"icon": "icon.png",
 	"intermediate_mappings": "net.fabricmc:intermediary",
 	"environment": "*",
 	"entrypoints": {

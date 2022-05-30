@@ -38,7 +38,7 @@ but you are more than welcome to [share your ideas or give some feedback].
 - [x] [Iceologer]
 - [x] [Illusioner]
 - [ ] Barnacle
-- [ ] Great Hunger
+- [x] [Mauler (Great Hunger)]
 - [ ] Wildfire
 
 ### Block/Items
@@ -71,6 +71,8 @@ but you are more than welcome to [share your ideas or give some feedback].
 - [Modrinth (Fabric)]
 - [CurseForge (Forge)]
 - [Modrinth (Forge)]
+- [CurseForge (Quilt)]
+- [Modrinth (Quilt)]
 - [Discord]
 
 <br>
@@ -114,6 +116,8 @@ the [textures directory] for the textures. Get inspired, but please don't just c
 
 [Illusioner]: https://github.com/Faboslav/friends-and-foes/wiki/Illusioner
 
+[Mauler (Great Hunger)]: https://github.com/Faboslav/friends-and-foes/wiki/Mauler-%28Great-Hunger%29
+
 [Beehive]: https://github.com/Faboslav/friends-and-foes/wiki/Beehive
 
 [Buttercup]: https://github.com/Faboslav/friends-and-foes/wiki/Buttercup
@@ -141,6 +145,10 @@ the [textures directory] for the textures. Get inspired, but please don't just c
 [CurseForge (Forge)]: https://www.curseforge.com/minecraft/mc-mods/friends-foes-forge
 
 [Modrinth (Forge)]: https://modrinth.com/mod/friends-and-foes-forge
+
+[CurseForge (Quilt)]: https://www.curseforge.com/minecraft/mc-mods/friends-foes-quilt
+
+[Modrinth (Quilt)]: https://modrinth.com/mod/friends-and-foes-quilt
 
 [Discord]: https://discord.com/invite/QGwFvvMQCn
 

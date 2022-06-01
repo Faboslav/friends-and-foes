@@ -6,10 +6,6 @@ allprojects {
 	archivesBaseName = "${rootProject.mod_id}-quilt-mc${rootProject.minecraft_version}"
 }
 
-repositories {
-	maven { url "https://maven.quiltmc.org/repository/release/" }
-}
-
 architectury {
 	platformSetupLoomIde()
 	loader("quilt")
@@ -28,19 +24,24 @@ configurations {
 }
 
 dependencies {
-	modImplementation "org.quiltmc:quilt-loader:${rootProject.quilt_loader_version}"
-	modImplementation "com.github.Chocohead:Fabric-ASM:${rootProject.fabric_asm_version}"
-	modApi "org.quiltmc.quilted-fabric-api:quilted-fabric-api:${rootProject.quilt_fabric_api_version}"
+	// Core dependencies
+	modImplementation "org.quiltmc:quilt-loader:${project.quilt_loader_version}"
+	modApi "org.quiltmc.quilted-fabric-api:quilted-fabric-api:${project.quilt_fabric_api_version}"
 	modApi("dev.architectury:architectury-fabric:${rootProject.architectury_version}") {
 		exclude group: "net.fabricmc"
 		exclude group: "net.fabricmc.fabric-api"
 	}
+
+	// Fabric ASM
+	modImplementation "com.github.Chocohead:Fabric-ASM:${rootProject.fabric_asm_version}"
+	include "com.github.Chocohead:Fabric-ASM:${rootProject.fabric_asm_version}"
 
 	common(project(path: ":common", configuration: "namedElements")) { transitive false }
 	shadowCommon(project(path: ":common", configuration: "transformProductionQuilt")) { transitive false }
 }
 
 processResources {
+	inputs.property "group", rootProject.maven_group
 	inputs.property 'modId', rootProject.mod_id
 	inputs.property 'modName', rootProject.mod_name
 	inputs.property 'modDescription', rootProject.mod_description
@@ -49,6 +50,7 @@ processResources {
 
 	filesMatching("quilt.mod.json") {
 		expand([
+			'group'         : rootProject.maven_group,
 			'modId'         : rootProject.mod_id,
 			'modName'       : rootProject.mod_name,
 			'modDescription': rootProject.mod_description,
@@ -86,6 +88,10 @@ components.java {
 	withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
 		skip()
 	}
+}
+
+repositories {
+	maven { url "https://maven.quiltmc.org/repository/release/" }
 }
 
 publishing {

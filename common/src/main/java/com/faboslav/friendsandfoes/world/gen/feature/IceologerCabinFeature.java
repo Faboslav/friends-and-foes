@@ -19,7 +19,8 @@ public final class IceologerCabinFeature extends JigsawStructur
 	}
 
 	private static boolean canGenerate(Context<StructurePoolFeatureConfig> context) {
-		return FriendsAndFoes.getConfig().generateIceologerCabinStructure
+		return FriendsAndFoes.getConfig().enableIceologer
+			   && FriendsAndFoes.getConfig().generateIceologerCabinStructure
 			   && isVillageNearby(context) == false
 			   && isSuitableChunk(context);
 	}

@@ -16,6 +16,7 @@ public final class FriendsAndFoesQuilt implements ModInitializer
 {
 	@Override
 	public void onInitialize() {
+		FriendsAndFoes.checkForNewUpdates();
 		FriendsAndFoes.initRegisters();
 		FriendsAndFoes.initCustomRegisters();
 

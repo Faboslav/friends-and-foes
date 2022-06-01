@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.entity;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.init.ModSounds;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityGroup;
@@ -25,6 +26,11 @@ public final class IceologerEntity extends SpellcastingIllagerEntity
 {
 	public IceologerEntity(EntityType<? extends IceologerEntity> entityType, World world) {
 		super(entityType, world);
+
+		if (FriendsAndFoes.getConfig().enableIceologer == false && this.getWorld().isClient() == false) {
+			this.discard();
+		}
+
 		this.experiencePoints = 10;
 	}
 
@@ -62,6 +68,15 @@ public final class IceologerEntity extends SpellcastingIllagerEntity
 		} else {
 			return false;
 		}
+	}
+
+	@Override
+	public void tick() {
+		if (FriendsAndFoes.getConfig().enableIceologer == false) {
+			this.discard();
+		}
+
+		super.tick();
 	}
 
 	protected SoundEvent getAmbientSound() {

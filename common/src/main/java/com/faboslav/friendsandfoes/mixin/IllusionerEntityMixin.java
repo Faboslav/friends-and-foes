@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.mixin;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.api.IllusionerEntityAccess;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.entity.EntityType;
@@ -118,6 +119,10 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 
 	@Override
 	public void tick() {
+		if (FriendsAndFoes.getConfig().enableIllusioner == false) {
+			this.discard();
+		}
+
 		super.tick();
 
 		if (this.getWorld().isClient()) {

@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.entity;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.animation.AnimationContextTracker;
 import com.faboslav.friendsandfoes.entity.ai.goal.*;
 import com.faboslav.friendsandfoes.init.ModSounds;
@@ -87,6 +88,10 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 	public MaulerBurrowDownGoal burrowDownGoal;
 
+	public MaulerEntity(EntityType<? extends MaulerEntity> entityType, World world) {
+		super(entityType, world);
+	}
+
 	static {
 		BABY_ZOMBIE_PREDICATE = (entity) -> {
 			return entity instanceof ZombieEntity && ((ZombieEntity) entity).isBaby();
@@ -101,10 +106,6 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		IS_BURROWED_DOWN = DataTracker.registerData(MaulerEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 		TICKS_UNTIL_NEXT_BURROWING_DOWN = DataTracker.registerData(MaulerEntity.class, TrackedDataHandlerRegistry.INTEGER);
 		BURROWING_DOWN_ANIMATION_PROGRESS = DataTracker.registerData(MaulerEntity.class, TrackedDataHandlerRegistry.FLOAT);
-	}
-
-	public MaulerEntity(EntityType<? extends MaulerEntity> entityType, World world) {
-		super(entityType, world);
 	}
 
 	protected void initDataTracker() {
@@ -184,6 +185,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		boolean isRelatedBlock = (
 			blockState.isOf(Blocks.SAND)
 			|| blockState.isOf(Blocks.RED_SAND)
+			|| blockState.isOf(Blocks.DIRT)
 			|| blockState.isOf(Blocks.COARSE_DIRT)
 			|| blockState.isOf(Blocks.GRASS_BLOCK)
 		);
@@ -209,6 +211,10 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 	@Override
 	public void tick() {
+		if (FriendsAndFoes.getConfig().enableMauler == false) {
+			this.discard();
+		}
+
 		super.tick();
 
 		if (this.getWorld().isClient() == true) {
@@ -262,7 +268,13 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		Item itemInHand = itemStack.getItem();
 		boolean interactionResult = false;
 
-		if (this.hasAngerTime() == false && itemInHand == Items.ENCHANTED_BOOK) {
+		if (
+			this.hasAngerTime() == false
+			&& (
+				itemStack.hasEnchantments()
+				|| itemInHand == Items.ENCHANTED_BOOK
+			)
+		) {
 			interactionResult = this.tryToInteractWithEnhancedItem(itemStack);
 		} else if (this.hasAngerTime() == false && itemInHand == Items.GLASS_BOTTLE) {
 			interactionResult = this.tryToInteractWithGlassBottle(player, itemStack);
@@ -394,6 +406,10 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 	@Override
 	public boolean tryAttack(Entity target) {
+		if (this.isBurrowedDown()) {
+			return false;
+		}
+
 		return target.damage(DamageSource.mob(this), (float) this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE));
 	}
 

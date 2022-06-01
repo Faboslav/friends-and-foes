@@ -1,3 +1,15 @@
+## mc1.18.2-1.4.2, May 30, 2022
+
+- Added in game configs for all mod loaders
+- Changed Glares spawn group (so it is unique for example like axolotl spawn group)
+- All Glares are now persisted
+- Fixed iceologer/illusioner spawning in the raids/world
+- Fixed mauler attacking while burrowed 
+
+## mc1.18.2-1.4.1, May 29, 2022
+
+- Fixed moobloom movement (mooblooms not moving at all)
+
 ## mc1.18.2-1.4.0, May 27, 2022
 
 - Added Mauler (The Great Hunger)

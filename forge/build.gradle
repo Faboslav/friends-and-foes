@@ -32,11 +32,13 @@ configurations {
 }
 
 dependencies {
-	forge "net.minecraftforge:forge:${rootProject.forge_version}"
+	forge "net.minecraftforge:forge:${project.forge_version}"
 	modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
 
 	common(project(path: ":common", configuration: "namedElements")) { transitive false }
 	shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
+
+	modImplementation("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}")
 }
 
 processResources {

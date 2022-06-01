@@ -28,7 +28,9 @@ public class RaidMemberMixin
 		int[] countInWave
 	) {
 		if (
-			FriendsAndFoes.getConfig().enableIllusionerInRaids
+			FriendsAndFoes.getConfig().enableIllusioner
+			|| FriendsAndFoes.getConfig().enableIllusionerInRaids
+			|| FriendsAndFoes.getConfig().enableIceologer
 			|| FriendsAndFoes.getConfig().enableIceologerInRaids
 		) {
 			return new int[]{0, 0, 0, 0, 0, 1, 1, 1};

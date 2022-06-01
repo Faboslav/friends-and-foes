@@ -16,7 +16,7 @@ subprojects {
 
 	dependencies {
 		minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
-		mappings "net.fabricmc:yarn:1.19-pre3+build.4"
+		mappings "net.fabricmc:yarn:1.19-pre5+build.3"
 	}
 }
 

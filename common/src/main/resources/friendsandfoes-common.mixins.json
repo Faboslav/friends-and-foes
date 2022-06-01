@@ -13,7 +13,6 @@
 	"BeeEntityMixin",
 	"BlindTargetGoalFactory",
 	"ChickenEntityMixin",
-	"EntityNavigationAccessor",
 	"HoneycombItemMixin",
 	"IllusionerEntityMixin",
 	"LightningRodBlockMixin",

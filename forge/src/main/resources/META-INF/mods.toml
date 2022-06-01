@@ -9,7 +9,7 @@ version = "${modVersion}"
 displayName = "${modName}"
 authors = "${modAuthor}"
 description = "${modDescription}"
-logoFile = "icon.png"
+logoFile = "icon.jpg"
 
 [[dependencies.friendsandfoes]]
 modId = "forge"
@@ -28,6 +28,13 @@ side = "BOTH"
 [[dependencies.friendsandfoes]]
 modId = "architectury"
 mandatory = true
-versionRange = "[4.0.30,)"
+versionRange = "[4.4.60,)"
 ordering = "AFTER"
 side = "BOTH"
+
+[[dependencies.friendsandfoes]]
+modId = "cloth_config"
+mandatory = false
+versionRange = "[6,)"
+ordering = "NONE"
+side = "CLIENT"

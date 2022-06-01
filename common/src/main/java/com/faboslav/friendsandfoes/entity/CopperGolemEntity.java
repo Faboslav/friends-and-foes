@@ -1,9 +1,9 @@
 package com.faboslav.friendsandfoes.entity;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.animation.AnimationContextTracker;
 import com.faboslav.friendsandfoes.entity.ai.goal.*;
 import com.faboslav.friendsandfoes.init.ModSounds;
-import com.faboslav.friendsandfoes.mixin.EntityNavigationAccessor;
 import com.faboslav.friendsandfoes.util.ModelAnimationHelper;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.fabricmc.api.EnvType;
@@ -112,8 +112,6 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 	) {
 		super(entityType, world);
 		this.stepHeight = 0.3F;
-		EntityNavigationAccessor entityNavigation = (EntityNavigationAccessor) this.getNavigation();
-		entityNavigation.setNodeReachProximity(0.01F);
 	}
 
 	@Override
@@ -404,6 +402,10 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 
 	@Override
 	public void tick() {
+		if (FriendsAndFoes.getConfig().enableCopperGolem == false) {
+			this.discard();
+		}
+
 		super.tick();
 
 		if (this.isOxidized()) {

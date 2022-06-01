@@ -13,6 +13,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.village.TradeOffers;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.poi.PointOfInterestType;
+import net.minecraft.world.poi.PointOfInterestTypes;
 
 /**
  * @see VillagerProfession
@@ -25,7 +26,14 @@ public final class ModVillagerProfessions
 	public static final RegistrySupplier<VillagerProfession> BEEKEEPER;
 
 	static {
-		BEEKEEPER = VILLAGER_PROFESSIONS.register("beekeeper", () -> new VillagerProfession(FriendsAndFoes.makeStringID("beekeeper"), PointOfInterestType.BEEHIVE, ImmutableSet.of(Items.HONEYCOMB), ImmutableSet.of(), SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM));
+		BEEKEEPER = VILLAGER_PROFESSIONS.register("beekeeper", () -> new VillagerProfession(
+			FriendsAndFoes.makeStringID("beekeeper"),
+			(registryEntry) -> registryEntry.matchesKey(PointOfInterestTypes.BEEHIVE),
+			(registryEntry) -> registryEntry.matchesKey(PointOfInterestTypes.BEEHIVE),
+			ImmutableSet.of(Items.HONEYCOMB),
+			ImmutableSet.of(),
+			SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM)
+		);
 	}
 
 	public static void initRegister() {

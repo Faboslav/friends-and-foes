@@ -281,7 +281,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		}
 
 		if (interactionResult) {
-			this.emitGameEvent(GameEvent.MOB_INTERACT, this.getCameraBlockPos());
+			this.emitGameEvent(GameEvent.ENTITY_INTERACT, this);
 			return ActionResult.success(this.world.isClient);
 		}
 

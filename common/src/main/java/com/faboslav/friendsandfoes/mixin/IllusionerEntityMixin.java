@@ -180,7 +180,7 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 	}
 
 	@Override
-	protected boolean shouldDropXp() {
+	public boolean shouldDropXp() {
 		return !this.isIllusion();
 	}
 

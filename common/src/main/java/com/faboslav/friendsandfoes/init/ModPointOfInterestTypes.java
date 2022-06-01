@@ -4,7 +4,9 @@ import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.block.BlockState;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.poi.PointOfInterestType;
+import net.minecraft.world.poi.PointOfInterestTypes;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -21,17 +23,21 @@ public final class ModPointOfInterestTypes
 	}
 
 	private static void expandBeehive() {
+		var beehiveRegistryEntry = Registry.POINT_OF_INTEREST_TYPE.getEntry(PointOfInterestTypes.BEEHIVE).get();
+		var beehivePointOfType = beehiveRegistryEntry.comp_349();
+
 		Set<BlockState> beehiveStates = new HashSet<>();
-		beehiveStates.addAll(PointOfInterestType.BEEHIVE.blockStates);
+		beehiveStates.addAll(beehivePointOfType.blockStates);
 		beehiveStates.addAll(BEEHIVE_STATES);
 
-		PointOfInterestType.BEEHIVE.blockStates = beehiveStates;
+		beehivePointOfType.blockStates = beehiveStates;
 		BEEHIVE_STATES.forEach((state) -> {
-			PointOfInterestType.BLOCK_STATE_TO_POINT_OF_INTEREST_TYPE.put(state, PointOfInterestType.BEEHIVE);
+			PointOfInterestTypes.POI_STATES_TO_TYPE.put(state, beehiveRegistryEntry);
+			PointOfInterestTypes.POI_STATES.add(state);
 		});
 
 		if (FriendsAndFoes.getConfig().enableBeekeeperVillagerProfession) {
-			PointOfInterestType.BEEHIVE.ticketCount = 1;
+			beehivePointOfType.ticketCount = 1;
 		}
 	}
 

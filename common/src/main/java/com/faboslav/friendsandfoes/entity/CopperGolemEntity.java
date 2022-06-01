@@ -319,7 +319,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		}
 
 		if (interactionResult) {
-			this.emitGameEvent(GameEvent.MOB_INTERACT, this.getCameraBlockPos());
+			this.emitGameEvent(GameEvent.ENTITY_INTERACT, this);
 			return ActionResult.success(this.world.isClient);
 		}
 

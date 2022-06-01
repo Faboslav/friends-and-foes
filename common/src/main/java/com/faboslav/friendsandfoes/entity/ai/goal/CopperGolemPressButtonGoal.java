@@ -213,7 +213,7 @@ public final class CopperGolemPressButtonGoal extends Goal
 			0.6F
 		);
 		copperGolem.getEntityWorld().emitGameEvent(this.copperGolem,
-			GameEvent.BLOCK_PRESS,
+			GameEvent.BLOCK_ACTIVATE,
 			this.copperButtonToPress
 		);
 

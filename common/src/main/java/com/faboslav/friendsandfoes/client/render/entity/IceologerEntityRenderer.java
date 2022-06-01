@@ -19,7 +19,7 @@ public final class IceologerEntityRenderer<T extends SpellcastingIllagerEntity> 
 	public IceologerEntityRenderer(Context context) {
 		super(context, new IllagerEntityModel<>(context.getPart(ModEntityRenderer.ICEOLOGER_LAYER)), 0.5F);
 
-		this.addFeature(new HeldItemFeatureRenderer<T, IllagerEntityModel<T>>(this)
+		this.addFeature(new HeldItemFeatureRenderer<>(this, context.getHeldItemRenderer())
 		{
 			public void render(
 				MatrixStack matrixStack,

@@ -5,7 +5,7 @@ import com.faboslav.friendsandfoes.config.annotation.Description;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 
 import javax.annotation.Nullable;
 import java.lang.annotation.Annotation;
@@ -15,7 +15,7 @@ public final class ConfigScreenBuilder
 {
 	public static Screen createConfigScreen(FriendsAndFoesConfig config, Screen parent) {
 		ConfigBuilder builder = ConfigBuilder.create()
-			.setTitle(new LiteralText("Friends&Foes"))
+			.setTitle(Text.literal("Friends&Foes"))
 			.setSavingRunnable(config::save)
 			.setParentScreen(parent);
 
@@ -26,7 +26,7 @@ public final class ConfigScreenBuilder
 				String categoryString = getFieldCategory(field);
 
 				if (categoryString != null) {
-					category = builder.getOrCreateCategory(new LiteralText(getFieldCategory(field)));
+					category = builder.getOrCreateCategory(Text.literal(getFieldCategory(field)));
 				}
 
 				if (category == null) {
@@ -35,7 +35,7 @@ public final class ConfigScreenBuilder
 
 				if (field.getGenericType() == boolean.class) {
 					category.addEntry(builder.entryBuilder()
-						.startBooleanToggle(new LiteralText(getFieldDescription(field)), field.getBoolean(config))
+						.startBooleanToggle(Text.literal(getFieldDescription(field)), field.getBoolean(config))
 						.setDefaultValue(field.getBoolean(new FriendsAndFoesConfig()))
 						.setSaveConsumer((enabled) -> {
 							try {
@@ -48,7 +48,7 @@ public final class ConfigScreenBuilder
 					);
 				} else if (field.getGenericType() == int.class) {
 					category.addEntry(builder.entryBuilder()
-						.startIntField(new LiteralText(getFieldDescription(field)), field.getInt(config))
+						.startIntField(Text.literal(getFieldDescription(field)), field.getInt(config))
 						.setDefaultValue(field.getInt(new FriendsAndFoesConfig()))
 						.setSaveConsumer((enabled) -> {
 							try {

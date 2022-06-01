@@ -10,11 +10,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos.Mutable;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.SpawnHelper;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.Biome.Category;
+import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.spawner.Spawner;
 
 public final class IllusionerSpawner implements Spawner
@@ -78,14 +77,14 @@ public final class IllusionerSpawner implements Spawner
 			return 0;
 		}
 
-		RegistryEntry<Biome> registryEntry = world.getBiome(mutable);
-		Category category = Biome.getCategory(registryEntry);
+		var biomeRegistryEntry = world.getBiome(mutable);
+		var biomeKey = biomeRegistryEntry.getKey().get();
+		var biomePrecipitation = biomeRegistryEntry.comp_349().getPrecipitation();
 
-		var precipitation = registryEntry.value().getPrecipitation();
 
 		if (
-			category != Category.TAIGA
-			|| precipitation != Biome.Precipitation.RAIN
+			biomeKey != BiomeKeys.TAIGA
+			|| biomePrecipitation != Biome.Precipitation.RAIN
 		) {
 			return 0;
 		}

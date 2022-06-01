@@ -7,8 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.village.TradeOffer;
 import net.minecraft.village.TradeOffers;
-
-import java.util.Random;
+import net.minecraft.util.math.random.Random;
 
 public final class TradeOffersUtil
 {

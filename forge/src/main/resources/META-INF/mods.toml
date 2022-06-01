@@ -9,7 +9,7 @@ version = "${modVersion}"
 displayName = "${modName}"
 authors = "${modAuthor}"
 description = "${modDescription}"
-logoFile = "icon.png"
+logoFile = "icon.jpg"
 
 [[dependencies.friendsandfoes]]
 modId = "forge"

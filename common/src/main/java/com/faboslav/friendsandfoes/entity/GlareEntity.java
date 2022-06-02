@@ -7,14 +7,11 @@ import com.faboslav.friendsandfoes.entity.ai.pathing.GlareNavigation;
 import com.faboslav.friendsandfoes.init.ModCriteria;
 import com.faboslav.friendsandfoes.init.ModSounds;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
-import com.google.common.collect.ImmutableList;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
-import net.minecraft.entity.ai.brain.MemoryModuleType;
-import net.minecraft.entity.ai.brain.sensor.Sensor;
-import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.control.FlightMoveControl;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
@@ -58,9 +55,6 @@ import java.util.function.Predicate;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public final class GlareEntity extends TameableEntity implements Flutterer, AnimatedEntity
 {
-	protected static final ImmutableList<SensorType<? extends Sensor<? super GlareEntity>>> SENSORS;
-	protected static final ImmutableList<MemoryModuleType<?>> MEMORY_MODULES;
-
 	public static final Predicate<ItemEntity> PICKABLE_FOOD_FILTER;
 	private static final int GRUMPY_BITMASK = 2;
 	private static final float MOVEMENT_SPEED = 0.6F;
@@ -106,16 +100,6 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	}
 
 	static {
-		SENSORS = ImmutableList.of(SensorType.NEAREST_LIVING_ENTITIES, SensorType.NEAREST_PLAYERS, SensorType.HURT_BY, SensorType.NEAREST_ITEMS);
-		MEMORY_MODULES = ImmutableList.of(
-			MemoryModuleType.PATH,
-			MemoryModuleType.LOOK_TARGET,
-			MemoryModuleType.VISIBLE_MOBS,
-			MemoryModuleType.WALK_TARGET,
-			MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
-			MemoryModuleType.HURT_BY,
-			MemoryModuleType.NEAREST_VISIBLE_WANTED_ITEM
-		);
 		GLARE_FLAGS = DataTracker.registerData(GlareEntity.class, TrackedDataHandlerRegistry.BYTE);
 		TICKS_UNTIL_CAN_EAT_GLOW_BERRIES = DataTracker.registerData(GlareEntity.class, TrackedDataHandlerRegistry.INTEGER);
 		TICKS_UNTIL_CAN_FIND_DARK_SPOT = DataTracker.registerData(GlareEntity.class, TrackedDataHandlerRegistry.INTEGER);
@@ -160,11 +144,22 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		BlockPos blockPos,
 		Random random
 	) {
-		boolean isBelowSurfaceLevel = blockPos.getY() < 63;
+		BlockState blockState = serverWorldAccess.getBlockState(blockPos.down());
+
 		boolean isSkyVisible = serverWorldAccess.isSkyVisible(blockPos);
 		boolean isBlockPosDarkSpot = serverWorldAccess.getBaseLightLevel(blockPos, 0) <= 3;
+		boolean isRelatedBlock = (
+			blockState.isOf(Blocks.MOSS_BLOCK)
+			|| blockState.isOf(Blocks.MOSS_CARPET)
+			|| blockState.isOf(Blocks.AZALEA)
+			|| blockState.isOf(Blocks.FLOWERING_AZALEA)
+			|| blockState.isOf(Blocks.GRASS)
+			|| blockState.isOf(Blocks.SMALL_DRIPLEAF)
+			|| blockState.isOf(Blocks.BIG_DRIPLEAF)
+			|| blockState.isOf(Blocks.CLAY)
+		);
 
-		return isBelowSurfaceLevel
+		return isRelatedBlock
 			   && isSkyVisible == false
 			   && isBlockPosDarkSpot == false;
 	}
@@ -181,6 +176,14 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		this.goalSelector.add(6, new GlareWanderAroundGoal(this));
 		this.goalSelector.add(7, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
 		this.goalSelector.add(8, new SwimGoal(this));
+	}
+
+	@Override
+	public void tickMovement() {
+		super.tickMovement();
+		if (this.getWorld().isClient() == false && this.isAlive() && this.age % 10 == 0) {
+			this.heal(1.0F);
+		}
 	}
 
 	@Override

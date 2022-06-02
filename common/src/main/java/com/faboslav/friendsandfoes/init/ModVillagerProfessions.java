@@ -9,6 +9,7 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.item.Items;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.tag.PointOfInterestTypeTags;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.village.TradeOffers;
 import net.minecraft.village.VillagerProfession;
@@ -27,8 +28,14 @@ public final class ModVillagerProfessions
 	static {
 		BEEKEEPER = VILLAGER_PROFESSIONS.register("beekeeper", () -> new VillagerProfession(
 			FriendsAndFoes.makeStringID("beekeeper"),
-			(registryEntry) -> registryEntry.matchesKey(PointOfInterestTypes.BEEHIVE),
-			(registryEntry) -> registryEntry.matchesKey(PointOfInterestTypes.BEEHIVE),
+			(registryEntry) -> {
+				FriendsAndFoes.getLogger().info("test");
+				return registryEntry.matchesKey(PointOfInterestTypes.BEEHIVE);
+			},
+			(registryEntry) -> {
+				FriendsAndFoes.getLogger().info("test");
+				return registryEntry.matchesKey(PointOfInterestTypes.BEEHIVE);
+			},
 			ImmutableSet.of(Items.HONEYCOMB),
 			ImmutableSet.of(),
 			SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM)
@@ -36,6 +43,7 @@ public final class ModVillagerProfessions
 	}
 
 	public static void initRegister() {
+		FriendsAndFoes.getLogger().info(PointOfInterestTypeTags.ACQUIRABLE_JOB_SITE.toString());
 		VILLAGER_PROFESSIONS.register();
 	}
 

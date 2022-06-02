@@ -4,6 +4,7 @@ import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.block.BlockState;
+import net.minecraft.tag.PointOfInterestTypeTags;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.poi.PointOfInterestType;
 import net.minecraft.world.poi.PointOfInterestTypes;
@@ -39,6 +40,9 @@ public final class ModPointOfInterestTypes
 		if (FriendsAndFoes.getConfig().enableBeekeeperVillagerProfession) {
 			beehivePointOfType.ticketCount = 1;
 		}
+
+		PointOfInterestTypeTags.ACQUIRABLE_JOB_SITE.
+		//PointOfInterestTypeTags.BEE_HOME.
 	}
 
 	private ModPointOfInterestTypes() {

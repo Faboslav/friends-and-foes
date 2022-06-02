@@ -61,7 +61,6 @@ public final class FriendsAndFoes
 		ModItems.initRegister();
 		ModSounds.initRegister();
 		ModVillagerProfessions.initRegister();
-		ModStructures.initRegister();
 	}
 
 	public static void initCustomRegisters() {
@@ -72,6 +71,5 @@ public final class FriendsAndFoes
 		ModSounds.init();
 		ModPointOfInterestTypes.init();
 		ModVillagerProfessions.init();
-		ModStructures.init();
 	}
 }

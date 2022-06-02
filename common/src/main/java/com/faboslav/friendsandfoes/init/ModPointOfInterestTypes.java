@@ -40,9 +40,6 @@ public final class ModPointOfInterestTypes
 		if (FriendsAndFoes.getConfig().enableBeekeeperVillagerProfession) {
 			beehivePointOfType.ticketCount = 1;
 		}
-
-		PointOfInterestTypeTags.ACQUIRABLE_JOB_SITE.
-		//PointOfInterestTypeTags.BEE_HOME.
 	}
 
 	private ModPointOfInterestTypes() {

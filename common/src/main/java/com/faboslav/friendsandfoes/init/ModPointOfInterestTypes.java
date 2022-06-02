@@ -24,7 +24,7 @@ public final class ModPointOfInterestTypes
 
 	private static void expandBeehive() {
 		var beehiveRegistryEntry = Registry.POINT_OF_INTEREST_TYPE.getEntry(PointOfInterestTypes.BEEHIVE).get();
-		var beehivePointOfType = beehiveRegistryEntry.comp_349();
+		var beehivePointOfType = beehiveRegistryEntry.value();
 
 		Set<BlockState> beehiveStates = new HashSet<>();
 		beehiveStates.addAll(beehivePointOfType.blockStates);

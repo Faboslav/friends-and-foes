@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.world.spawner;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.init.ModEntity;
+import com.faboslav.friendsandfoes.init.ModEntityTypes;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.SpawnReason;
@@ -12,7 +12,6 @@ import net.minecraft.util.math.BlockPos.Mutable;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.SpawnHelper;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.spawner.Spawner;
 
@@ -78,11 +77,11 @@ public final class IceologerSpawner implements Spawner
 
 		var biomeRegistryEntry = world.getBiome(mutable);
 		var biomeKey = biomeRegistryEntry.getKey().get();
-		var biomePrecipitation = biomeRegistryEntry.comp_349().getPrecipitation();
 
 		if (
 			biomeKey != BiomeKeys.TAIGA
-			|| biomePrecipitation != Biome.Precipitation.SNOW
+			&& biomeKey != BiomeKeys.OLD_GROWTH_SPRUCE_TAIGA
+			&& biomeKey != BiomeKeys.OLD_GROWTH_PINE_TAIGA
 		) {
 			return 0;
 		}
@@ -91,13 +90,13 @@ public final class IceologerSpawner implements Spawner
 		BlockState blockState = world.getBlockState(mutable);
 
 		if (
-			SpawnHelper.isClearForSpawn(world, mutable, blockState, blockState.getFluidState(), ModEntity.ICEOLOGER.get()) == false
-			|| PatrolEntity.canSpawn(ModEntity.ICEOLOGER.get(), world, SpawnReason.PATROL, mutable, random) == false
+			SpawnHelper.isClearForSpawn(world, mutable, blockState, blockState.getFluidState(), ModEntityTypes.ICEOLOGER.get()) == false
+			|| PatrolEntity.canSpawn(ModEntityTypes.ICEOLOGER.get(), world, SpawnReason.PATROL, mutable, random) == false
 		) {
 			return 0;
 		}
 
-		var iceologer = ModEntity.ICEOLOGER.get().create(world);
+		var iceologer = ModEntityTypes.ICEOLOGER.get().create(world);
 
 		if (iceologer == null) {
 			return 0;

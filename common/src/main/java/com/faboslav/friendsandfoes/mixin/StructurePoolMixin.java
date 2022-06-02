@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.mixin;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.mojang.datafixers.util.Pair;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.structure.pool.StructurePool;
 import net.minecraft.structure.pool.StructurePoolElement;
 import net.minecraft.util.Identifier;
@@ -24,7 +25,7 @@ public class StructurePoolMixin
 
 	@Final
 	@Shadow
-	private List<StructurePoolElement> elements;
+	private ObjectArrayList<StructurePoolElement> elements;
 
 	private void addElement(String element, int weight, StructurePool.Projection projection) {
 		StructurePoolElement e = StructurePoolElement.ofLegacySingle(element).apply(projection);

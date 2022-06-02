@@ -12,7 +12,6 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.village.TradeOffers;
 import net.minecraft.village.VillagerProfession;
-import net.minecraft.world.poi.PointOfInterestType;
 import net.minecraft.world.poi.PointOfInterestTypes;
 
 /**

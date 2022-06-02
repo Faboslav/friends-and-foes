@@ -12,7 +12,6 @@ import net.minecraft.util.math.BlockPos.Mutable;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.SpawnHelper;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.spawner.Spawner;
 
@@ -79,12 +78,10 @@ public final class IllusionerSpawner implements Spawner
 
 		var biomeRegistryEntry = world.getBiome(mutable);
 		var biomeKey = biomeRegistryEntry.getKey().get();
-		var biomePrecipitation = biomeRegistryEntry.comp_349().getPrecipitation();
-
 
 		if (
-			biomeKey != BiomeKeys.TAIGA
-			|| biomePrecipitation != Biome.Precipitation.RAIN
+			biomeKey != BiomeKeys.SNOWY_TAIGA
+			&& biomeKey != BiomeKeys.GROVE
 		) {
 			return 0;
 		}

@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.entity;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.init.ModEntity;
+import com.faboslav.friendsandfoes.init.ModEntityTypes;
 import com.faboslav.friendsandfoes.init.ModSounds;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import com.faboslav.friendsandfoes.util.animation.AnimationMath;
@@ -431,7 +431,7 @@ public final class IceologerIceChunkEntity extends Entity
 		LivingEntity target
 	) {
 		var chunkEntity = new IceologerIceChunkEntity(
-			ModEntity.ICE_CHUNK.get(),
+			ModEntityTypes.ICE_CHUNK.get(),
 			world
 		);
 

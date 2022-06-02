@@ -57,21 +57,21 @@ public final class FriendsAndFoes
 	public static void initRegisters() {
 		ModBlocks.initRegister();
 		ModCriteria.init();
-		ModEntity.initRegister();
+		ModEntityTypes.initRegister();
 		ModItems.initRegister();
 		ModSounds.initRegister();
 		ModVillagerProfessions.initRegister();
-		ModStructureFeatures.initRegister();
+		ModStructures.initRegister();
 	}
 
 	public static void initCustomRegisters() {
 		ModBlocks.init();
-		ModEntity.init();
+		ModEntityTypes.init();
 		ModItems.init();
 		ModBlockEntityTypes.init();
 		ModSounds.init();
 		ModPointOfInterestTypes.init();
 		ModVillagerProfessions.init();
-		ModStructureFeatures.init();
+		ModStructures.init();
 	}
 }

@@ -22,7 +22,7 @@ import java.util.function.Predicate;
 /**
  * @see EntityType
  */
-public final class ModEntity
+public final class ModEntityTypes
 {
 	private static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(FriendsAndFoes.MOD_ID, Registry.ENTITY_TYPE_KEY);
 	private static boolean previousUseChoiceTypeRegistrations = SharedConstants.useChoiceTypeRegistrations;
@@ -59,11 +59,11 @@ public final class ModEntity
 	}
 
 	public static void initMobAttributes() {
-		EntityAttributeRegistry.register(ModEntity.COPPER_GOLEM, CopperGolemEntity::createAttributes);
-		EntityAttributeRegistry.register(ModEntity.GLARE, GlareEntity::createAttributes);
-		EntityAttributeRegistry.register(ModEntity.ICEOLOGER, IceologerEntity::createAttributes);
-		EntityAttributeRegistry.register(ModEntity.MAULER, MaulerEntity::createAttributes);
-		EntityAttributeRegistry.register(ModEntity.MOOBLOOM, MoobloomEntity::createCowAttributes);
+		EntityAttributeRegistry.register(ModEntityTypes.COPPER_GOLEM, CopperGolemEntity::createAttributes);
+		EntityAttributeRegistry.register(ModEntityTypes.GLARE, GlareEntity::createAttributes);
+		EntityAttributeRegistry.register(ModEntityTypes.ICEOLOGER, IceologerEntity::createAttributes);
+		EntityAttributeRegistry.register(ModEntityTypes.MAULER, MaulerEntity::createAttributes);
+		EntityAttributeRegistry.register(ModEntityTypes.MOOBLOOM, MoobloomEntity::createCowAttributes);
 	}
 
 	public static void initSpawnRestrictions() {
@@ -117,6 +117,6 @@ public final class ModEntity
 		BiomeModifications.addProperties(biomes, (ctx, p) -> p.getSpawnProperties().addSpawn(spawnGroup, new SpawnSettings.SpawnEntry(type, weight, min, max)));
 	}
 
-	private ModEntity() {
+	private ModEntityTypes() {
 	}
 }

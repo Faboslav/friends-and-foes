@@ -3,7 +3,7 @@ accessWidener v1 named
 accessible class net/minecraft/village/raid/Raid$Member
 accessible class net/minecraft/entity/mob/IllusionerEntity$BlindTargetGoal
 accessible class net/minecraft/entity/mob/SpellcastingIllagerEntity$Spell
-accessible class net/minecraft/world/gen/structure/JigsawStructure
+extendable class net/minecraft/world/gen/structure/JigsawStructure
 accessible method net/minecraft/village/VillagerProfession <init> (Ljava/lang/String;Lnet/minecraft/world/poi/PointOfInterestType;Lcom/google/common/collect/ImmutableSet;Lcom/google/common/collect/ImmutableSet;Lnet/minecraft/sound/SoundEvent;)V
 accessible method net/minecraft/world/poi/PointOfInterestType <init> (Ljava/lang/String;Ljava/util/Set;II)V
 accessible field net/minecraft/world/poi/PointOfInterestType blockStates Ljava/util/Set;

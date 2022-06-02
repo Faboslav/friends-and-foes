@@ -31,12 +31,12 @@ public final class ModEntityRenderer
 	}
 
 	public static void init() {
-		EntityRendererRegistry.register(ModEntity.COPPER_GOLEM::get, CopperGolemEntityRenderer::new);
-		EntityRendererRegistry.register(ModEntity.GLARE::get, GlareEntityRenderer::new);
-		EntityRendererRegistry.register(ModEntity.ICEOLOGER::get, IceologerEntityRenderer::new);
-		EntityRendererRegistry.register(ModEntity.ICE_CHUNK::get, IceologerIceChunkRenderer::new);
-		EntityRendererRegistry.register(ModEntity.MAULER::get, MaulerEntityRenderer::new);
-		EntityRendererRegistry.register(ModEntity.MOOBLOOM::get, MoobloomEntityRenderer::new);
+		EntityRendererRegistry.register(ModEntityTypes.COPPER_GOLEM::get, CopperGolemEntityRenderer::new);
+		EntityRendererRegistry.register(ModEntityTypes.GLARE::get, GlareEntityRenderer::new);
+		EntityRendererRegistry.register(ModEntityTypes.ICEOLOGER::get, IceologerEntityRenderer::new);
+		EntityRendererRegistry.register(ModEntityTypes.ICE_CHUNK::get, IceologerIceChunkRenderer::new);
+		EntityRendererRegistry.register(ModEntityTypes.MAULER::get, MaulerEntityRenderer::new);
+		EntityRendererRegistry.register(ModEntityTypes.MOOBLOOM::get, MoobloomEntityRenderer::new);
 	}
 
 	private ModEntityRenderer() {

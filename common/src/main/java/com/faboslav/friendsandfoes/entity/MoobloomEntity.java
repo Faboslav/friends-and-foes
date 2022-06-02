@@ -2,7 +2,7 @@ package com.faboslav.friendsandfoes.entity;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.init.ModBlocks;
-import com.faboslav.friendsandfoes.init.ModEntity;
+import com.faboslav.friendsandfoes.init.ModEntityTypes;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -26,11 +26,10 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
-
-import java.util.Random;
 
 public final class MoobloomEntity extends CowEntity implements Shearable
 {
@@ -134,7 +133,7 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 		ServerWorld serverWorld,
 		PassiveEntity entity
 	) {
-		return ModEntity.MOOBLOOM.get().create(serverWorld);
+		return ModEntityTypes.MOOBLOOM.get().create(serverWorld);
 	}
 
 	@Override

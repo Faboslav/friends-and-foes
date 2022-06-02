@@ -10,6 +10,7 @@ import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.control.FlightMoveControl;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
@@ -143,11 +144,22 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		BlockPos blockPos,
 		Random random
 	) {
-		boolean isBelowSurfaceLevel = blockPos.getY() < 63;
+		BlockState blockState = serverWorldAccess.getBlockState(blockPos.down());
+
 		boolean isSkyVisible = serverWorldAccess.isSkyVisible(blockPos);
 		boolean isBlockPosDarkSpot = serverWorldAccess.getBaseLightLevel(blockPos, 0) <= 3;
+		boolean isRelatedBlock = (
+			blockState.isOf(Blocks.MOSS_BLOCK)
+			|| blockState.isOf(Blocks.MOSS_CARPET)
+			|| blockState.isOf(Blocks.AZALEA)
+			|| blockState.isOf(Blocks.FLOWERING_AZALEA)
+			|| blockState.isOf(Blocks.GRASS)
+			|| blockState.isOf(Blocks.SMALL_DRIPLEAF)
+			|| blockState.isOf(Blocks.BIG_DRIPLEAF)
+			|| blockState.isOf(Blocks.CLAY)
+		);
 
-		return isBelowSurfaceLevel
+		return isRelatedBlock
 			   && isSkyVisible == false
 			   && isBlockPosDarkSpot == false;
 	}
@@ -164,6 +176,14 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		this.goalSelector.add(6, new GlareWanderAroundGoal(this));
 		this.goalSelector.add(7, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
 		this.goalSelector.add(8, new SwimGoal(this));
+	}
+
+	@Override
+	public void tickMovement() {
+		super.tickMovement();
+		if (this.getWorld().isClient() == false && this.isAlive() && this.age % 10 == 0) {
+			this.heal(1.0F);
+		}
 	}
 
 	@Override

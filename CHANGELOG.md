@@ -1,4 +1,4 @@
-## mc1.19-rc2-1.5.0, June, 2022
+## mc1.19-rc2-1.5.0, June 03, 2022
 
 - Added mangrove beehive
 

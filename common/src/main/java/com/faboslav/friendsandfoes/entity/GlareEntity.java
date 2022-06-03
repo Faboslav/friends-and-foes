@@ -378,6 +378,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 
 	@Override
 	protected void playHurtSound(DamageSource source) {
+		this.ambientSoundChance = -this.getMinAmbientSoundDelay();
 		this.playSound(this.getHurtSound(source), 1.0F, 0.5F);
 	}
 

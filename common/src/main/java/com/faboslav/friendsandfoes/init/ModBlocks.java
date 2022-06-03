@@ -23,6 +23,7 @@ public final class ModBlocks
 	public static final RegistrySupplier<Block> CRIMSON_BEEHIVE;
 	public static final RegistrySupplier<Block> DARK_OAK_BEEHIVE;
 	public static final RegistrySupplier<Block> JUNGLE_BEEHIVE;
+	public static final RegistrySupplier<Block> MANGROVE_BEEHIVE;
 	public static final RegistrySupplier<Block> SPRUCE_BEEHIVE;
 	public static final RegistrySupplier<Block> WARPED_BEEHIVE;
 	public static final RegistrySupplier<Block> POTTED_BUTTERCUP;
@@ -43,6 +44,7 @@ public final class ModBlocks
 		CRIMSON_BEEHIVE = BLOCKS.register("crimson_beehive", () -> new BeehiveBlock(AbstractBlock.Settings.of(Material.NETHER_WOOD).mapColor(MapColor.DULL_PINK).strength(0.6F).sounds(BlockSoundGroup.WOOD)));
 		DARK_OAK_BEEHIVE = BLOCKS.register("dark_oak_beehive", () -> new BeehiveBlock(AbstractBlock.Settings.of(Material.WOOD).mapColor(MapColor.BROWN).strength(0.6F).sounds(BlockSoundGroup.WOOD)));
 		JUNGLE_BEEHIVE = BLOCKS.register("jungle_beehive", () -> new BeehiveBlock(AbstractBlock.Settings.of(Material.WOOD).mapColor(MapColor.DIRT_BROWN).strength(0.6F).sounds(BlockSoundGroup.WOOD)));
+		MANGROVE_BEEHIVE = BLOCKS.register("mangrove_beehive", () -> new BeehiveBlock(AbstractBlock.Settings.of(Material.WOOD).mapColor(MapColor.RED).strength(0.6F).sounds(BlockSoundGroup.WOOD)));
 		SPRUCE_BEEHIVE = BLOCKS.register("spruce_beehive", () -> new BeehiveBlock(AbstractBlock.Settings.of(Material.WOOD).mapColor(MapColor.SPRUCE_BROWN).strength(0.6F).sounds(BlockSoundGroup.WOOD)));
 		WARPED_BEEHIVE = BLOCKS.register("warped_beehive", () -> new BeehiveBlock(AbstractBlock.Settings.of(Material.NETHER_WOOD).mapColor(MapColor.DARK_AQUA).strength(0.6F).sounds(BlockSoundGroup.WOOD)));
 		COPPER_BUTTON = BLOCKS.register("copper_button", () -> new OxidizableButtonBlock(Oxidizable.OxidationLevel.UNAFFECTED, AbstractBlock.Settings.of(Material.DECORATION).noCollision().strength(0.5F).sounds(BlockSoundGroup.COPPER)));

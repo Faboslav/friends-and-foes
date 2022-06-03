@@ -88,6 +88,18 @@
 		]
 	  }
 	},
+	"mangrove_beehive": {
+	  "trigger": "minecraft:inventory_changed",
+	  "conditions": {
+		"items": [
+		  {
+			"items": [
+			  "friendsandfoes:mangrove_beehive"
+			]
+		  }
+		]
+	  }
+	},
 	"spruce_beehive": {
 	  "trigger": "minecraft:inventory_changed",
 	  "conditions": {
@@ -131,6 +143,9 @@
 	],
 	[
 	  "jungle_beehive"
+	],
+	[
+	  "mangrove_beehive"
 	],
 	[
 	  "spruce_beehive"

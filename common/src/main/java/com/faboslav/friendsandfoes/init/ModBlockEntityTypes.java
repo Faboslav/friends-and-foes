@@ -13,7 +13,16 @@ import java.util.Set;
  */
 public final class ModBlockEntityTypes
 {
-	private static final Set<Block> BEEHIVE_BLOCKS = ImmutableList.of(ModBlocks.ACACIA_BEEHIVE.get(), ModBlocks.BIRCH_BEEHIVE.get(), ModBlocks.CRIMSON_BEEHIVE.get(), ModBlocks.DARK_OAK_BEEHIVE.get(), ModBlocks.JUNGLE_BEEHIVE.get(), ModBlocks.SPRUCE_BEEHIVE.get(), ModBlocks.WARPED_BEEHIVE.get()).stream().collect(ImmutableSet.toImmutableSet());
+	private static final Set<Block> BEEHIVE_BLOCKS = ImmutableList.of(
+		ModBlocks.ACACIA_BEEHIVE.get(),
+		ModBlocks.BIRCH_BEEHIVE.get(),
+		ModBlocks.CRIMSON_BEEHIVE.get(),
+		ModBlocks.DARK_OAK_BEEHIVE.get(),
+		ModBlocks.JUNGLE_BEEHIVE.get(),
+		ModBlocks.MANGROVE_BEEHIVE.get(),
+		ModBlocks.SPRUCE_BEEHIVE.get(),
+		ModBlocks.WARPED_BEEHIVE.get()
+	).stream().collect(ImmutableSet.toImmutableSet());
 
 	public static void init() {
 		expandBeehive();

@@ -30,6 +30,7 @@ public final class ModItems
 	public static final RegistrySupplier<Item> CRIMSON_BEEHIVE;
 	public static final RegistrySupplier<Item> DARK_OAK_BEEHIVE;
 	public static final RegistrySupplier<Item> JUNGLE_BEEHIVE;
+	public static final RegistrySupplier<Item> MANGROVE_BEEHIVE;
 	public static final RegistrySupplier<Item> SPRUCE_BEEHIVE;
 	public static final RegistrySupplier<Item> WARPED_BEEHIVE;
 	public static final RegistrySupplier<Item> COPPER_BUTTON;
@@ -54,6 +55,7 @@ public final class ModItems
 		CRIMSON_BEEHIVE = ITEMS.register("crimson_beehive", () -> new BlockItem(ModBlocks.CRIMSON_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
 		DARK_OAK_BEEHIVE = ITEMS.register("dark_oak_beehive", () -> new BlockItem(ModBlocks.DARK_OAK_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
 		JUNGLE_BEEHIVE = ITEMS.register("jungle_beehive", () -> new BlockItem(ModBlocks.JUNGLE_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
+		MANGROVE_BEEHIVE = ITEMS.register("mangrove_beehive", () -> new BlockItem(ModBlocks.MANGROVE_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
 		SPRUCE_BEEHIVE = ITEMS.register("spruce_beehive", () -> new BlockItem(ModBlocks.SPRUCE_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
 		WARPED_BEEHIVE = ITEMS.register("warped_beehive", () -> new BlockItem(ModBlocks.WARPED_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
 		COPPER_BUTTON = ITEMS.register("copper_button", () -> new BlockItem(ModBlocks.COPPER_BUTTON.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));

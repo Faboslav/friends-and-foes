@@ -1,3 +1,8 @@
+## mc1.18.2-1.4.3, June, 2022
+
+- Added mangrove beehive
+- Improved glare spawn conditions/rates
+
 ## mc1.18.2-1.4.2, May 30, 2022
 
 - Added in game configs for all mod loaders

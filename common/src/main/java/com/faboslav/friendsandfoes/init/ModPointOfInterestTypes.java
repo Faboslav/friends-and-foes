@@ -4,7 +4,6 @@ import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.block.BlockState;
-import net.minecraft.tag.PointOfInterestTypeTags;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.poi.PointOfInterestType;
 import net.minecraft.world.poi.PointOfInterestTypes;
@@ -17,7 +16,18 @@ import java.util.Set;
  */
 public final class ModPointOfInterestTypes
 {
-	private static final Set<BlockState> BEEHIVE_STATES = ImmutableList.of(ModBlocks.ACACIA_BEEHIVE.get(), ModBlocks.BIRCH_BEEHIVE.get(), ModBlocks.CRIMSON_BEEHIVE.get(), ModBlocks.DARK_OAK_BEEHIVE.get(), ModBlocks.JUNGLE_BEEHIVE.get(), ModBlocks.SPRUCE_BEEHIVE.get(), ModBlocks.WARPED_BEEHIVE.get()).stream().flatMap((block) -> block.getStateManager().getStates().stream()).collect(ImmutableSet.toImmutableSet());
+	private static final Set<BlockState> BEEHIVE_STATES = ImmutableList.of(
+			ModBlocks.ACACIA_BEEHIVE.get(),
+			ModBlocks.BIRCH_BEEHIVE.get(),
+			ModBlocks.CRIMSON_BEEHIVE.get(),
+			ModBlocks.DARK_OAK_BEEHIVE.get(),
+			ModBlocks.JUNGLE_BEEHIVE.get(),
+			ModBlocks.MANGROVE_BEEHIVE.get(),
+			ModBlocks.SPRUCE_BEEHIVE.get(),
+			ModBlocks.WARPED_BEEHIVE.get()
+		).stream()
+		.flatMap((block) -> block.getStateManager().getStates().stream())
+		.collect(ImmutableSet.toImmutableSet());
 
 	public static void init() {
 		expandBeehive();

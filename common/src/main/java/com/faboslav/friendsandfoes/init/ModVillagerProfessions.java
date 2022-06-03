@@ -9,7 +9,6 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.item.Items;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.tag.PointOfInterestTypeTags;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.village.TradeOffers;
 import net.minecraft.village.VillagerProfession;

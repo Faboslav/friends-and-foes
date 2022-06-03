@@ -23,6 +23,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.*;
 import net.minecraft.entity.passive.ChickenEntity;
+import net.minecraft.entity.passive.FrogEntity;
 import net.minecraft.entity.passive.RabbitEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -205,8 +206,9 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		this.targetSelector.add(1, (new RevengeGoal(this)).setGroupRevenge());
 		this.targetSelector.add(2, new ActiveTargetGoal(this, RabbitEntity.class, true));
 		this.targetSelector.add(2, new ActiveTargetGoal(this, ChickenEntity.class, true));
-		this.targetSelector.add(4, new ActiveTargetGoal(this, ZombieEntity.class, 10, true, true, BABY_ZOMBIE_PREDICATE));
-		this.targetSelector.add(4, new ActiveTargetGoal(this, SlimeEntity.class, 10, true, true, SMALL_SLIME_PREDICATE));
+		this.targetSelector.add(2, new ActiveTargetGoal(this, FrogEntity.class, true));
+		this.targetSelector.add(3, new ActiveTargetGoal(this, ZombieEntity.class, 10, true, true, BABY_ZOMBIE_PREDICATE));
+		this.targetSelector.add(3, new ActiveTargetGoal(this, SlimeEntity.class, 10, true, true, SMALL_SLIME_PREDICATE));
 	}
 
 	@Override

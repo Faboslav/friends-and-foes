@@ -28,14 +28,8 @@ public final class ModVillagerProfessions
 	static {
 		BEEKEEPER = VILLAGER_PROFESSIONS.register("beekeeper", () -> new VillagerProfession(
 			FriendsAndFoes.makeStringID("beekeeper"),
-			(registryEntry) -> {
-				FriendsAndFoes.getLogger().info("test");
-				return registryEntry.matchesKey(PointOfInterestTypes.BEEHIVE);
-			},
-			(registryEntry) -> {
-				FriendsAndFoes.getLogger().info("test");
-				return registryEntry.matchesKey(PointOfInterestTypes.BEEHIVE);
-			},
+			(registryEntry) -> registryEntry.matchesKey(PointOfInterestTypes.BEEHIVE),
+			(registryEntry) -> registryEntry.matchesKey(PointOfInterestTypes.BEEHIVE),
 			ImmutableSet.of(Items.HONEYCOMB),
 			ImmutableSet.of(),
 			SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM)
@@ -43,7 +37,6 @@ public final class ModVillagerProfessions
 	}
 
 	public static void initRegister() {
-		FriendsAndFoes.getLogger().info(PointOfInterestTypeTags.ACQUIRABLE_JOB_SITE.toString());
 		VILLAGER_PROFESSIONS.register();
 	}
 

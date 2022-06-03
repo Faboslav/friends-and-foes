@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.minecraft.util.Util;
 import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.dimension.DimensionTypes;
 
 import static com.faboslav.friendsandfoes.FriendsAndFoes.serverTickDeltaCounter;
 
@@ -28,7 +29,7 @@ public final class FriendsAndFoesQuilt implements ModInitializer
 		ServerWorldEvents.LOAD.register(((server, world) -> {
 			if (
 				world.isClient()
-				|| world.getDimension().getEffects() != DimensionType.OVERWORLD_ID
+				|| world.getDimensionKey() != DimensionTypes.OVERWORLD
 			) {
 				return;
 			}

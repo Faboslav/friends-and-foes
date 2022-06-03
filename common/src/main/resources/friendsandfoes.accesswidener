@@ -14,7 +14,5 @@ accessible field net/minecraft/world/poi/PointOfInterestTypes POI_STATES_TO_TYPE
 mutable field net/minecraft/world/poi/PointOfInterestTypes POI_STATES_TO_TYPE Ljava/util/Map;
 accessible field net/minecraft/world/poi/PointOfInterestTypes POI_STATES Ljava/util/Set;
 mutable field net/minecraft/world/poi/PointOfInterestTypes POI_STATES Ljava/util/Set;
-mutable field net/minecraft/tag/PointOfInterestTypeTags ACQUIRABLE_JOB_SITE Lnet/minecraft/tag/TagKey;
-mutable field net/minecraft/tag/PointOfInterestTypeTags BEE_HOME Lnet/minecraft/tag/TagKey;
 accessible field net/minecraft/block/entity/BlockEntityType blocks Ljava/util/Set;
 mutable field net/minecraft/block/entity/BlockEntityType blocks Ljava/util/Set;

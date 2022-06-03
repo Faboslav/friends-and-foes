@@ -49,7 +49,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 {
 	private static final float MOVEMENT_SPEED = 0.35F;
 	private static final int COPPER_INGOT_HEAL_AMOUNT = 5;
-	private static final float OXIDATION_CHANCE = 0.00004F;
+	private static final float OXIDATION_CHANCE = 0.00002F;
 	public static final int MIN_TICKS_UNTIL_CAN_PRESS_BUTTON = 200;
 	public static final int MAX_TICKS_UNTIL_CAN_PRESS_BUTTON = 1200;
 	public static final int MIN_TICKS_UNTIL_NEXT_HEAD_SPIN = 150;

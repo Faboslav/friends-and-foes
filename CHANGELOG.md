@@ -1,3 +1,8 @@
+## mc1.18.2-1.4.3, June 03, 2022
+
+- Fixed glare not spawning correctly
+- Copper golems will now oxidize slower
+
 ## mc1.18.2-1.4.2, May 30, 2022
 
 - Added in game configs for all mod loaders

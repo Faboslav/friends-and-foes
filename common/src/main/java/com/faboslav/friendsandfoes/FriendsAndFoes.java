@@ -48,7 +48,7 @@ public final class FriendsAndFoes
 				}
 
 				if (latestVersion.equals(MOD_VERSION) == false) {
-					getLogger().info("An update is available! You're using {} version but the latest version is {}!", MOD_VERSION, latestVersion);
+					getLogger().info("An update for Friends&Foes is available! You're using {} version but the latest version is {}!", MOD_VERSION, latestVersion);
 				}
 			}
 		});

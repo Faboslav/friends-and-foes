@@ -1,7 +1,11 @@
-## mc1.18.2-1.4.3, June, 2022
+## mc1.19.x-1.4.4, June, 2022
 
 - Added mangrove beehive
-- Improved glare spawn conditions/rates
+
+## mc1.18.2-1.4.3, June 03, 2022
+
+- Fixed glare not spawning correctly
+- Copper golems will now oxidize slower
 
 ## mc1.18.2-1.4.2, May 30, 2022
 

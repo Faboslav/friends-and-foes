@@ -16,7 +16,7 @@ public final class FriendsAndFoes
 	private static final FriendsAndFoesConfig CONFIG = OmegaConfig.register(FriendsAndFoesConfig.class);
 	private static final Logger LOGGER = LoggerFactory.getLogger(FriendsAndFoes.MOD_ID);
 	public static final String MOD_ID = "friendsandfoes";
-	public static final String MOD_VERSION = "1.4.2";
+	public static final String MOD_VERSION = "1.4.3";
 	public static final ServerTickDeltaCounter serverTickDeltaCounter = new ServerTickDeltaCounter(20.0F, 0L);
 
 	public static Identifier makeID(String path) {
@@ -48,7 +48,7 @@ public final class FriendsAndFoes
 				}
 
 				if (latestVersion.equals(MOD_VERSION) == false) {
-					getLogger().info("An update is available! You're using {} version but the latest version is {}!", MOD_VERSION, latestVersion);
+					getLogger().info("An update for Friends&Foes is available! You're using {} version but the latest version is {}!", MOD_VERSION, latestVersion);
 				}
 			}
 		});

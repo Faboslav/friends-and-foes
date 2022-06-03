@@ -1,4 +1,4 @@
-## mc1.19.x-1.4.4, June, 2022
+## mc1.19-1.4.4, June, 2022
 
 - Added mangrove beehive
 

@@ -79,9 +79,8 @@ public final class IceologerSpawner implements Spawner
 		var biomeKey = biomeRegistryEntry.getKey().get();
 
 		if (
-			biomeKey != BiomeKeys.TAIGA
-			&& biomeKey != BiomeKeys.OLD_GROWTH_SPRUCE_TAIGA
-			&& biomeKey != BiomeKeys.OLD_GROWTH_PINE_TAIGA
+			biomeKey != BiomeKeys.SNOWY_TAIGA
+			&& biomeKey != BiomeKeys.GROVE
 		) {
 			return 0;
 		}

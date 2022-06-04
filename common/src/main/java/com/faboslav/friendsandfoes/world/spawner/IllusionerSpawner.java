@@ -80,8 +80,9 @@ public final class IllusionerSpawner implements Spawner
 		var biomeKey = biomeRegistryEntry.getKey().get();
 
 		if (
-			biomeKey != BiomeKeys.SNOWY_TAIGA
-			&& biomeKey != BiomeKeys.GROVE
+			biomeKey != BiomeKeys.TAIGA
+			&& biomeKey != BiomeKeys.OLD_GROWTH_SPRUCE_TAIGA
+			&& biomeKey != BiomeKeys.OLD_GROWTH_PINE_TAIGA
 		) {
 			return 0;
 		}

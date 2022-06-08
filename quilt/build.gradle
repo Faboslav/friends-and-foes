@@ -25,8 +25,8 @@ configurations {
 
 dependencies {
 	// Core dependencies
-	modImplementation "org.quiltmc:quilt-loader:${project.quilt_loader_version}"
-	modApi "org.quiltmc.quilted-fabric-api:quilted-fabric-api:${project.quilt_fabric_api_version}"
+	modImplementation "org.quiltmc:quilt-loader:${rootProject.quilt_loader_version}"
+	modApi "org.quiltmc.quilted-fabric-api:quilted-fabric-api:${rootProject.qsl_version}"
 	modApi("dev.architectury:architectury-fabric:${rootProject.architectury_version}") {
 		exclude group: "net.fabricmc"
 		exclude group: "net.fabricmc.fabric-api"

@@ -2,7 +2,7 @@ package com.faboslav.friendsandfoes.forge;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.FriendsAndFoesServer;
-import com.faboslav.friendsandfoes.init.ModEntity;
+import com.faboslav.friendsandfoes.init.ModEntityTypes;
 import com.faboslav.friendsandfoes.util.ExpandedEnumValues;
 import com.faboslav.friendsandfoes.util.ServerWorldSpawnersUtil;
 import com.faboslav.friendsandfoes.world.spawner.IceologerSpawner;
@@ -14,7 +14,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.Util;
 import net.minecraft.village.raid.Raid;
-import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.dimension.DimensionTypes;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.ServerTickEvent;
@@ -62,7 +62,7 @@ public final class FriendsAndFoesForge
 		}
 
 		if (FriendsAndFoes.getConfig().enableIceologer && FriendsAndFoes.getConfig().enableIceologerInRaids) {
-			Raid.Member.create(ExpandedEnumValues.ICEOLOGER, ModEntity.ICEOLOGER.get(), new int[]{0, 0, 0, 0, 1, 1, 0, 1});
+			Raid.Member.create(ExpandedEnumValues.ICEOLOGER, ModEntityTypes.ICEOLOGER.get(), new int[]{0, 0, 0, 0, 1, 1, 0, 1});
 		}
 	}
 
@@ -77,14 +77,19 @@ public final class FriendsAndFoesForge
 	}
 
 	private static void initSpawners(final WorldEvent.Load event) {
-		if (
-			event.getWorld().isClient()
-			|| event.getWorld().getDimension().getEffects() != DimensionType.OVERWORLD_ID
-		) {
+		// TODO
+		/*
+		if (event.getWorld().isClient() || event.getWorld().getDimension() != DimensionTypes.OVERWORLD.ge) {
+			return;
+		}*/
+
+		var server = event.getWorld().getServer();
+
+		if(server == null) {
 			return;
 		}
 
-		var world = event.getWorld().getServer().getOverworld();
+		var world = server.getOverworld();
 
 		if (world == null) {
 			return;

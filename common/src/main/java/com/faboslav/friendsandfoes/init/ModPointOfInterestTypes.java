@@ -30,7 +30,7 @@ public final class ModPointOfInterestTypes
 		.collect(ImmutableSet.toImmutableSet());
 
 	public static void init() {
-		expandBeehive();
+		//expandBeehive();
 	}
 
 	private static void expandBeehive() {

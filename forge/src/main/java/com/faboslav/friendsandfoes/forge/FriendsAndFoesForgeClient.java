@@ -28,7 +28,7 @@ public final class FriendsAndFoesForgeClient
 
 			FriendsAndFoesClient.initCustomRegisters();
 
-			if(ModList.get().isLoaded("cloth_config")) {
+			if (ModList.get().isLoaded("cloth_config")) {
 				ModLoadingContext.get().registerExtensionPoint(ConfigGuiHandler.ConfigGuiFactory.class, () ->
 					new ConfigGuiHandler.ConfigGuiFactory(
 						(mc, screen) -> ConfigScreenBuilder.createConfigScreen(FriendsAndFoes.getConfig(), screen)

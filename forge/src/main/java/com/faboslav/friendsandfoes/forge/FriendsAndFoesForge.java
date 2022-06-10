@@ -12,6 +12,7 @@ import dev.architectury.platform.forge.EventBuses;
 import dev.architectury.utils.Env;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Util;
 import net.minecraft.village.raid.Raid;
 import net.minecraft.world.dimension.DimensionTypes;
@@ -77,15 +78,15 @@ public final class FriendsAndFoesForge
 	}
 
 	private static void initSpawners(final WorldEvent.Load event) {
-		// TODO
-		/*
-		if (event.getWorld().isClient() || event.getWorld().getDimension() != DimensionTypes.OVERWORLD.ge) {
+		if (
+			event.getWorld().isClient()
+			|| ((ServerWorld) event.getWorld()).getDimensionKey() != DimensionTypes.OVERWORLD) {
 			return;
-		}*/
+		}
 
 		var server = event.getWorld().getServer();
 
-		if(server == null) {
+		if (server == null) {
 			return;
 		}
 
@@ -95,6 +96,7 @@ public final class FriendsAndFoesForge
 			return;
 		}
 
+		FriendsAndFoes.getLogger().info("running spawns");
 		ServerWorldSpawnersUtil.register(world, new IceologerSpawner());
 		ServerWorldSpawnersUtil.register(world, new IllusionerSpawner());
 	}

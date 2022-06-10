@@ -10,9 +10,13 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.item.Items;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.village.TradeOffers;
 import net.minecraft.village.VillagerProfession;
+import net.minecraft.world.poi.PointOfInterestType;
 import net.minecraft.world.poi.PointOfInterestTypes;
+
+import java.util.function.Predicate;
 
 /**
  * @see VillagerProfession
@@ -24,11 +28,23 @@ public final class ModVillagerProfessions
 
 	public static final RegistrySupplier<VillagerProfession> BEEKEEPER;
 
+	public static final Predicate<RegistryEntry<PointOfInterestType>> BEEHIVE_PREDICATE = (registryEntry) -> {
+		return registryEntry.matchesKey(PointOfInterestTypes.BEEHIVE)
+			   || registryEntry.value() == ModPointOfInterestTypes.ACACIA_BEEHIVE.get()
+			   || registryEntry.value() == ModPointOfInterestTypes.BIRCH_BEEHIVE.get()
+			   || registryEntry.value() == ModPointOfInterestTypes.CRIMSON_BEEHIVE.get()
+			   || registryEntry.value() == ModPointOfInterestTypes.DARK_OAK_BEEHIVE.get()
+			   || registryEntry.value() == ModPointOfInterestTypes.JUNGLE_BEEHIVE.get()
+			   || registryEntry.value() == ModPointOfInterestTypes.MANGROVE_BEEHIVE.get()
+			   || registryEntry.value() == ModPointOfInterestTypes.SPRUCE_BEEHIVE.get()
+			   || registryEntry.value() == ModPointOfInterestTypes.WARPED_BEEHIVE.get();
+	};
+
 	static {
 		BEEKEEPER = VILLAGER_PROFESSIONS.register("beekeeper", () -> new VillagerProfession(
 			FriendsAndFoes.makeStringID("beekeeper"),
-			(registryEntry) -> registryEntry.matchesKey(PointOfInterestTypes.BEEHIVE),
-			(registryEntry) -> registryEntry.matchesKey(PointOfInterestTypes.BEEHIVE),
+			BEEHIVE_PREDICATE,
+			BEEHIVE_PREDICATE,
 			ImmutableSet.of(Items.HONEYCOMB),
 			ImmutableSet.of(),
 			SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM)

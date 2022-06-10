@@ -48,7 +48,7 @@ public final class FriendsAndFoes
 				}
 
 				if (latestVersion.equals(MOD_VERSION) == false) {
-					getLogger().info("An update for Friends&Foes is available! You're using {} version but the latest version is {}!", MOD_VERSION, latestVersion);
+					getLogger().info("[Friends&Foes] An update is available! You're using {} version but the latest version is {}!", MOD_VERSION, latestVersion);
 				}
 			}
 		});
@@ -59,6 +59,7 @@ public final class FriendsAndFoes
 		ModCriteria.init();
 		ModEntityTypes.initRegister();
 		ModItems.initRegister();
+		ModPointOfInterestTypes.initRegister();
 		ModSounds.initRegister();
 		ModVillagerProfessions.initRegister();
 	}

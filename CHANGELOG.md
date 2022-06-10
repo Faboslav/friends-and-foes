@@ -1,6 +1,8 @@
-## mc1.19-rc2-1.5.0, June 03, 2022
+## mc1.19-1.5.0, June 11, 2022
 
+- Ported to 1.19
 - Added mangrove beehive
+- All beehives are now legit point of interests
 
 ## mc1.18.2-1.4.3, June 03, 2022
 

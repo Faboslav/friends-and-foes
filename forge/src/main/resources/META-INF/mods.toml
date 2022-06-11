@@ -14,27 +14,27 @@ logoFile = "icon.jpg"
 [[dependencies.friendsandfoes]]
 modId = "forge"
 mandatory = true
-versionRange = "[40.1.0,)"
+versionRange = "[41,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.friendsandfoes]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.18.2,)"
+versionRange = "[1.19,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.friendsandfoes]]
 modId = "architectury"
 mandatory = true
-versionRange = "[4.4.60,)"
+versionRange = "[5.6.22,)"
 ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies.friendsandfoes]]
 modId = "cloth_config"
 mandatory = false
-versionRange = "[6,)"
+versionRange = "[7,)"
 ordering = "NONE"
 side = "CLIENT"

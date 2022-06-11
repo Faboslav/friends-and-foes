@@ -78,17 +78,17 @@ public final class ModEntityTypes
 		var config = FriendsAndFoes.getConfig();
 
 		if (config.enableGlare && config.enableGlareSpawn) {
-			Predicate<BiomeModifications.BiomeContext> LUSH_CAVES = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.LUSH_CAVES.getValue());
+			Predicate<BiomeModifications.BiomeContext> LUSH_CAVES = (ctx) -> Objects.equals(ctx.getKey().get(), BiomeKeys.LUSH_CAVES.getValue());
 			registerBiomeModification(LUSH_CAVES, GLARE.get(), SpawnGroup.valueOf(ExpandedEnumValues.GLARES), config.glareSpawnWeight, config.glareSpawnMinGroupSize, config.glareSpawnMaxGroupSize);
 		}
 
 		if (config.enableMauler && config.enableMaulerSpawn) {
-			Predicate<BiomeModifications.BiomeContext> DESERT = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.DESERT.getValue());
-			Predicate<BiomeModifications.BiomeContext> BADLANDS = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.BADLANDS.getValue());
-			Predicate<BiomeModifications.BiomeContext> ERODED_BADLANDS = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.ERODED_BADLANDS.getValue());
-			Predicate<BiomeModifications.BiomeContext> WOODED_BADLANDS = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.WOODED_BADLANDS.getValue());
-			Predicate<BiomeModifications.BiomeContext> SAVANNA = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.SAVANNA.getValue());
-			Predicate<BiomeModifications.BiomeContext> SAVANNA_PLATEAU = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.SAVANNA_PLATEAU.getValue());
+			Predicate<BiomeModifications.BiomeContext> DESERT = (ctx) -> Objects.equals(ctx.getKey().get(), BiomeKeys.DESERT.getValue());
+			Predicate<BiomeModifications.BiomeContext> BADLANDS = (ctx) -> Objects.equals(ctx.getKey().get(), BiomeKeys.BADLANDS.getValue());
+			Predicate<BiomeModifications.BiomeContext> ERODED_BADLANDS = (ctx) -> Objects.equals(ctx.getKey().get(), BiomeKeys.ERODED_BADLANDS.getValue());
+			Predicate<BiomeModifications.BiomeContext> WOODED_BADLANDS = (ctx) -> Objects.equals(ctx.getKey().get(), BiomeKeys.WOODED_BADLANDS.getValue());
+			Predicate<BiomeModifications.BiomeContext> SAVANNA = (ctx) -> Objects.equals(ctx.getKey().get(), BiomeKeys.SAVANNA.getValue());
+			Predicate<BiomeModifications.BiomeContext> SAVANNA_PLATEAU = (ctx) -> Objects.equals(ctx.getKey().get(), BiomeKeys.SAVANNA_PLATEAU.getValue());
 
 			registerBiomeModification(DESERT, MAULER.get(), SpawnGroup.CREATURE, config.maulerDesertSpawnWeight, config.maulerDesertSpawnMinGroupSize, config.maulerDesertSpawnMaxGroupSize);
 			registerBiomeModification(BADLANDS, MAULER.get(), SpawnGroup.CREATURE, config.maulerBadlandsSpawnWeight, config.maulerBadlandsSpawnMinGroupSize, config.maulerBadlandsSpawnMaxGroupSize);
@@ -99,8 +99,8 @@ public final class ModEntityTypes
 		}
 
 		if (config.enableMoobloom && config.enableMoobloomSpawn) {
-			Predicate<BiomeModifications.BiomeContext> FLOWER_FOREST = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.FLOWER_FOREST.getValue());
-			Predicate<BiomeModifications.BiomeContext> MEADOW = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.MEADOW.getValue());
+			Predicate<BiomeModifications.BiomeContext> FLOWER_FOREST = (ctx) -> Objects.equals(ctx.getKey().get(), BiomeKeys.FLOWER_FOREST.getValue());
+			Predicate<BiomeModifications.BiomeContext> MEADOW = (ctx) -> Objects.equals(ctx.getKey().get(), BiomeKeys.MEADOW.getValue());
 
 			registerBiomeModification(FLOWER_FOREST, MOOBLOOM.get(), SpawnGroup.CREATURE, config.moobloomFlowerForestSpawnWeight, config.moobloomFlowerForestSpawnMinGroupSize, config.moobloomFlowerForestSpawnMaxGroupSize);
 			registerBiomeModification(MEADOW, MOOBLOOM.get(), SpawnGroup.CREATURE, config.moobloomMeadowSpawnWeight, config.moobloomMeadowSpawnMinGroupSize, config.moobloomMeadowSpawnMaxGroupSize);

@@ -1,3 +1,7 @@
+## mc1.19-1.5.1, June 11, 2022
+
+- Fixed natural mob spawning
+
 ## mc1.19-1.5.0, June 11, 2022
 
 - Ported to 1.19

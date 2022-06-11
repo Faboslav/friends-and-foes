@@ -96,7 +96,6 @@ public final class FriendsAndFoesForge
 			return;
 		}
 
-		FriendsAndFoes.getLogger().info("running spawns");
 		ServerWorldSpawnersUtil.register(world, new IceologerSpawner());
 		ServerWorldSpawnersUtil.register(world, new IllusionerSpawner());
 	}

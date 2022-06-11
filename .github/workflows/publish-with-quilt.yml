@@ -1,8 +1,4 @@
-name: "Publish"
-
-on:
-    release:
-        types: [ published ]
+name: "Tmp file backup with quilt publish"
 
 env:
     VERSION_TYPE: release
@@ -13,6 +9,9 @@ env:
         fabric-api | depends | *
         architectury-api | depends | *
     FORGE_DEPENDENCIES: |
+        architectury-api | depends | *
+    QUILT_DEPENDENCIES: |
+        qsl | depends | *
         architectury-api | depends | *
     RETRY_ATTEMPTS: 3
     RELAY_DELAY: 10000
@@ -48,6 +47,7 @@ jobs:
                     path: |
                         fabric/build/libs/friendsandfoes-fabric-mc1.19.0-1.5.0.jar
                         forge/build/libs/friendsandfoes-forge-mc1.19.0-1.5.0.jar
+                        quilt/build/libs/friendsandfoes-quilt-mc1.19.0-1.5.0.jar
                         LICENSE.txt
 
     publish-license-to-release:
@@ -219,6 +219,85 @@ jobs:
                     name: "Friends&Foes mc1.19.0-1.5.0 (Forge)"
                     version: "forge-mc1.19.0-1.5.0"
                     dependencies: ${{ env.FORGE_DEPENDENCIES }}
+                    java: ${{ env.JAVA_VERSIONS }}
+                    retry-attempts: ${{ env.RETRY_ATTEMPTS }}
+                    retry-delay: ${{ env.RETRY_DELAY }}
+                    version-resolver: ${{ env.VERSION_RESOLVER }}
+
+
+    publish-quilt-to-github:
+        needs: build
+        runs-on: ubuntu-latest
+        name: "Publish Quilt to GitHub"
+        timeout-minutes: 30
+
+        steps:
+            -   name: "Download artifacts"
+                uses: actions/download-artifact@v3.0.0
+                with:
+                    name: "friends-and-foes"
+
+            -   name: "Publish Quilt to GitHub"
+                uses: AButler/upload-release-assets@v3.0
+                with:
+                    files: 'quilt/build/libs/friendsandfoes-quilt-mc1.19.0-1.5.0.jar'
+                    repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+    publish-quilt-to-curseforge:
+        needs: build
+        runs-on: ubuntu-latest
+        name: "Publish Quilt to CurseForge"
+        timeout-minutes: 30
+
+        steps:
+            -   name: "Download artifacts"
+                uses: actions/download-artifact@v3.0.0
+                with:
+                    name: "friends-and-foes"
+
+            -   name: "Publish Quilt to CurseForge"
+                uses: Kir-Antipov/mc-publish@v2.1
+                with:
+                    curseforge-id: 628248
+                    curseforge-token: ${{ secrets.CURSEFORGE_RELEASE_TOKEN }}
+
+                    files-primary: "quilt/build/libs/friendsandfoes-quilt-mc1.19.0-1.5.0.jar"
+                    version-type: ${{ env.VERSION_TYPE }}
+                    loaders: quilt
+                    game-versions: 1.19.0
+                    name: "Friends&Foes mc1.19.0-1.5.0 (Quilt)"
+                    dependencies: ${{ env.QUILT_DEPENDENCIES }}
+                    java: ${{ env.JAVA_VERSIONS }}
+
+                    retry-attempts: ${{ env.RETRY_ATTEMPTS }}
+                    retry-delay: ${{ env.RETRY_DELAY }}
+                    version-resolver: ${{ env.VERSION_RESOLVER }}
+
+    publish-quilt-to-modrinth:
+        needs: build
+        runs-on: ubuntu-latest
+        name: "Publish Quilt to Modrinth"
+        timeout-minutes: 30
+
+        steps:
+            -   name: "Download artifacts"
+                uses: actions/download-artifact@v3.0.0
+                with:
+                    name: "friends-and-foes"
+
+            -   name: "Publish Quilt to Modrinth"
+                uses: Kir-Antipov/mc-publish@v2.1
+                with:
+                    modrinth-id: NxP9xmhw
+                    modrinth-token: ${{ secrets.MODRINTH_RELEASE_TOKEN }}
+
+                    files-primary: "quilt/build/libs/friendsandfoes-quilt-mc1.19.0-1.5.0.jar"
+                    version-type: ${{ env.VERSION_TYPE }}
+                    loaders: quilt
+                    game-versions: 1.19.0
+                    name: "Friends&Foes mc1.19.0-1.5.0 (Quilt)"
+                    version: "quilt-mc1.19.0-1.5.0"
+                    dependencies: ${{ env.QUILT_DEPENDENCIES }}
                     java: ${{ env.JAVA_VERSIONS }}
                     retry-attempts: ${{ env.RETRY_ATTEMPTS }}
                     retry-delay: ${{ env.RETRY_DELAY }}

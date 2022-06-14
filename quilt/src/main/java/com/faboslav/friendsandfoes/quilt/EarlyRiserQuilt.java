@@ -11,6 +11,14 @@ public final class EarlyRiserQuilt implements Runnable
 {
 	@Override
 	public void run() {
+		FriendsAndFoes.getLogger().info("EarlyRiserQuilt");
+		FriendsAndFoes.getLogger().info("EarlyRiserQuilt");
+		FriendsAndFoes.getLogger().info("EarlyRiserQuilt");
+		FriendsAndFoes.getLogger().info("EarlyRiserQuilt");
+		FriendsAndFoes.getLogger().info("EarlyRiserQuilt");
+		FriendsAndFoes.getLogger().info("EarlyRiserQuilt");
+		FriendsAndFoes.getLogger().info("EarlyRiserQuilt");
+		FriendsAndFoes.getLogger().info("EarlyRiserQuilt");
 		MappingResolver remapper = FabricLoader.getInstance().getMappingResolver();
 
 		String Raid = remapper.mapClassName("intermediary", "net.minecraft.class_3765$class_3766");

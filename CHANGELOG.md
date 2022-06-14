@@ -1,3 +1,7 @@
+## mc1.19-1.5.2, June 11, 2022
+
+- Mod is now tag driven (thus much more customizable trough datapacks)
+
 ## mc1.19-1.5.1, June 11, 2022
 
 - Fixed natural mob spawning

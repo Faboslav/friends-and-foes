@@ -23,6 +23,9 @@
 	"intermediate_mappings": "net.fabricmc:intermediary",
 	"environment": "*",
 	"entrypoints": {
+	  "mm:early_risers": [
+		"com.faboslav.friendsandfoes.quilt.EarlyRiserQuilt"
+	  ],
 	  "main": [
 		"com.faboslav.friendsandfoes.quilt.FriendsAndFoesQuilt"
 	  ],
@@ -31,9 +34,6 @@
 	  ],
 	  "server": [
 		"com.faboslav.friendsandfoes.quilt.FriendsAndFoesQuiltServer"
-	  ],
-	  "mm:early_risers": [
-		"com.faboslav.friendsandfoes.quilt.EarlyRiserQuilt"
 	  ]
 	},
 	"depends": [

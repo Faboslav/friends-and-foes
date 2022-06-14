@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.world.spawner;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.init.ModTags;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
@@ -12,7 +13,6 @@ import net.minecraft.util.math.BlockPos.Mutable;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.SpawnHelper;
-import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.spawner.Spawner;
 
 public final class IllusionerSpawner implements Spawner
@@ -76,14 +76,7 @@ public final class IllusionerSpawner implements Spawner
 			return 0;
 		}
 
-		var biomeRegistryEntry = world.getBiome(mutable);
-		var biomeKey = biomeRegistryEntry.getKey().get();
-
-		if (
-			biomeKey != BiomeKeys.TAIGA
-			&& biomeKey != BiomeKeys.OLD_GROWTH_SPRUCE_TAIGA
-			&& biomeKey != BiomeKeys.OLD_GROWTH_PINE_TAIGA
-		) {
+		if (world.getBiome(mutable).isIn(ModTags.HAS_ILLUSIONER) == false) {
 			return 0;
 		}
 

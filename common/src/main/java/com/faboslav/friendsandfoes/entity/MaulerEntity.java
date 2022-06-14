@@ -4,11 +4,11 @@ import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.animation.AnimationContextTracker;
 import com.faboslav.friendsandfoes.entity.ai.goal.*;
 import com.faboslav.friendsandfoes.init.ModSounds;
+import com.faboslav.friendsandfoes.init.ModTags;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
@@ -22,9 +22,6 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.*;
-import net.minecraft.entity.passive.ChickenEntity;
-import net.minecraft.entity.passive.FrogEntity;
-import net.minecraft.entity.passive.RabbitEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -63,8 +60,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	private static final int MAXIMUM_STORED_EXPERIENCE_POINTS = 1395;
 	public static final int MIN_TICKS_UNTIL_NEXT_BURROWING = 6000;
 	public static final int MAX_TICKS_UNTIL_NEXT_BURROWING = 9000;
-	private static final Predicate<Entity> BABY_ZOMBIE_PREDICATE;
-	private static final Predicate<Entity> SMALL_SLIME_PREDICATE;
+	private static final Predicate<Entity> PREY_PREDICATE_FILTER;
 
 	private static final String TYPE_NBT_NAME = "Type";
 	private static final String STORED_EXPERIENCE_POINTS_NBT_NAME = "StoredExperiencePoints";
@@ -94,11 +90,15 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	}
 
 	static {
-		BABY_ZOMBIE_PREDICATE = (entity) -> {
-			return entity instanceof ZombieEntity && ((ZombieEntity) entity).isBaby();
-		};
-		SMALL_SLIME_PREDICATE = (entity) -> {
-			return entity instanceof SlimeEntity && ((SlimeEntity) entity).getSize() == SlimeEntity.MIN_SIZE;
+		PREY_PREDICATE_FILTER = (entity) -> {
+			if (
+				entity instanceof SlimeEntity slimeEntity && slimeEntity.getSize() != SlimeEntity.MIN_SIZE
+				|| entity instanceof ZombieEntity && ((ZombieEntity) entity).isBaby() == false
+			) {
+				return false;
+			}
+
+			return entity.getType().isIn(ModTags.MAULER_PREY);
 		};
 		TYPE = DataTracker.registerData(MaulerEntity.class, TrackedDataHandlerRegistry.STRING);
 		ANGER_TIME = DataTracker.registerData(MaulerEntity.class, TrackedDataHandlerRegistry.INTEGER);
@@ -181,17 +181,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		BlockPos blockPos,
 		Random random
 	) {
-		BlockState blockState = serverWorldAccess.getBlockState(blockPos.down());
-
-		boolean isRelatedBlock = (
-			blockState.isOf(Blocks.SAND)
-			|| blockState.isOf(Blocks.RED_SAND)
-			|| blockState.isOf(Blocks.DIRT)
-			|| blockState.isOf(Blocks.COARSE_DIRT)
-			|| blockState.isOf(Blocks.GRASS_BLOCK)
-		);
-
-		return isRelatedBlock;
+		return serverWorldAccess.getBlockState(blockPos.down()).isIn(ModTags.MAULER_SPAWNABLE_ON);
 	}
 
 	@Override
@@ -204,11 +194,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		this.burrowDownGoal = new MaulerBurrowDownGoal(this);
 		this.goalSelector.add(6, this.burrowDownGoal);
 		this.targetSelector.add(1, (new RevengeGoal(this)).setGroupRevenge());
-		this.targetSelector.add(2, new ActiveTargetGoal(this, RabbitEntity.class, true));
-		this.targetSelector.add(2, new ActiveTargetGoal(this, ChickenEntity.class, true));
-		this.targetSelector.add(2, new ActiveTargetGoal(this, FrogEntity.class, true));
-		this.targetSelector.add(3, new ActiveTargetGoal(this, ZombieEntity.class, 10, true, true, BABY_ZOMBIE_PREDICATE));
-		this.targetSelector.add(3, new ActiveTargetGoal(this, SlimeEntity.class, 10, true, true, SMALL_SLIME_PREDICATE));
+		this.targetSelector.add(2, new ActiveTargetGoal(this, PathAwareEntity.class, 10, true, true, PREY_PREDICATE_FILTER));
 	}
 
 	@Override

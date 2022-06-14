@@ -6,11 +6,11 @@ import com.faboslav.friendsandfoes.entity.ai.goal.*;
 import com.faboslav.friendsandfoes.entity.ai.pathing.GlareNavigation;
 import com.faboslav.friendsandfoes.init.ModCriteria;
 import com.faboslav.friendsandfoes.init.ModSounds;
+import com.faboslav.friendsandfoes.init.ModTags;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.control.FlightMoveControl;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
@@ -149,16 +149,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		boolean isBelowSurfaceLevel = blockPos.getY() < 63;
 		boolean isSkyVisible = serverWorldAccess.isSkyVisible(blockPos);
 		boolean isBlockPosDarkSpot = serverWorldAccess.getBaseLightLevel(blockPos, 0) <= 3;
-		boolean isRelatedBlock = (
-			blockState.isOf(Blocks.MOSS_BLOCK)
-			|| blockState.isOf(Blocks.MOSS_CARPET)
-			|| blockState.isOf(Blocks.AZALEA)
-			|| blockState.isOf(Blocks.FLOWERING_AZALEA)
-			|| blockState.isOf(Blocks.GRASS)
-			|| blockState.isOf(Blocks.SMALL_DRIPLEAF)
-			|| blockState.isOf(Blocks.BIG_DRIPLEAF)
-			|| blockState.isOf(Blocks.CLAY)
-		);
+		boolean isRelatedBlock = blockState.isIn(ModTags.GLARE_SPAWNABLE_ON);
 
 		return isBelowSurfaceLevel
 			   && isRelatedBlock

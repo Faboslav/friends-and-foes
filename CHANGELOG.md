@@ -1,4 +1,4 @@
-## mc1.19-1.5.2, June 11, 2022
+## mc1.19-1.5.2, June 18, 2022
 
 - Mod is now tag driven (thus much more customizable trough datapacks)
 

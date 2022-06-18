@@ -4,18 +4,19 @@ import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.util.ServerWorldSpawnersUtil;
 import com.faboslav.friendsandfoes.world.spawner.IceologerSpawner;
 import com.faboslav.friendsandfoes.world.spawner.IllusionerSpawner;
-import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.minecraft.util.Util;
 import net.minecraft.world.dimension.DimensionTypes;
+import org.quiltmc.loader.api.ModContainer;
+import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 
 import static com.faboslav.friendsandfoes.FriendsAndFoes.serverTickDeltaCounter;
 
 public final class FriendsAndFoesQuilt implements ModInitializer
 {
 	@Override
-	public void onInitialize() {
+	public void onInitialize(ModContainer mod) {
 		FriendsAndFoes.checkForNewUpdates();
 		FriendsAndFoes.initRegisters();
 		FriendsAndFoes.initCustomRegisters();

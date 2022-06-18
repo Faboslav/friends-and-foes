@@ -64,9 +64,9 @@ public final class BeekeeperWorkTask extends VillagerWorkTask
 	}
 
 	private boolean canHarvestHoney(BlockState beehiveBlockState) {
-		return beehiveBlockState == null
-			   || (beehiveBlockState.getBlock() instanceof BeehiveBlock) == false
-			   || beehiveBlockState.get(BeehiveBlock.HONEY_LEVEL) != BeehiveBlock.FULL_HONEY_LEVEL;
+		return beehiveBlockState != null
+			   && (beehiveBlockState.getBlock() instanceof BeehiveBlock)
+			   && beehiveBlockState.get(BeehiveBlock.HONEY_LEVEL) == BeehiveBlock.FULL_HONEY_LEVEL;
 	}
 
 	private void harvestHoney(ServerWorld world, GlobalPos globalPos, BlockState beehiveState) {

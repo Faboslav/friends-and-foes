@@ -14,7 +14,7 @@ public class ModTags
 {
 	public static final TagKey<Block> COPPER_BUTTONS = blockTag("copper_buttons");
 	public static final TagKey<Block> GLARE_SPAWNABLE_ON = blockTag("glare_spawnable_on");
-	public static final TagKey<Block> MAULER_SPAWNABLE_ON = blockTag("mauler_spawnable_on");
+	public static final TagKey<Block> MAULERS_SPAWNABLE_ON = blockTag("maulers_spawnable_on");
 
 	public static final TagKey<EntityType<?>> MAULER_PREY = entityTypeTag("mauler_prey");
 

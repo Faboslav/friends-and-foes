@@ -181,7 +181,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		BlockPos blockPos,
 		Random random
 	) {
-		return serverWorldAccess.getBlockState(blockPos.down()).isIn(ModTags.MAULER_SPAWNABLE_ON);
+		return serverWorldAccess.getBlockState(blockPos.down()).isIn(ModTags.MAULERS_SPAWNABLE_ON);
 	}
 
 	@Override

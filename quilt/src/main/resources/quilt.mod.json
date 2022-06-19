@@ -48,7 +48,7 @@
 	  },
 	  {
 		"id": "architectury",
-		"version": ">=5.6.22"
+		"version": ">=5.7.27"
 	  },
 	  {
 		"id": "quilt_loader",

@@ -28,7 +28,7 @@ side = "BOTH"
 [[dependencies.friendsandfoes]]
 modId = "architectury"
 mandatory = true
-versionRange = "[5.6.22,)"
+versionRange = "[5.7.27,)"
 ordering = "AFTER"
 side = "BOTH"
 

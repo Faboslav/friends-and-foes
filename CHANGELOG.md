@@ -1,6 +1,8 @@
-## mc1.19-1.5.2, June 18, 2022
+## mc1.19-1.5.2, June 19, 2022
 
 - Mod is now tag driven (thus much more customizable trough datapacks)
+- Fixed beehives related crashes
+- Fixed beekeeper related crash
 
 ## mc1.19-1.5.1, June 11, 2022
 

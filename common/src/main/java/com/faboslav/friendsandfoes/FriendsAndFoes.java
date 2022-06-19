@@ -70,7 +70,6 @@ public final class FriendsAndFoes
 		ModItems.init();
 		ModBlockEntityTypes.init();
 		ModSounds.init();
-		ModPointOfInterestTypes.init();
 		ModVillagerProfessions.init();
 	}
 }

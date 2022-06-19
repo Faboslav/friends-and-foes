@@ -10,6 +10,8 @@ accessible field net/minecraft/world/poi/PointOfInterestType ticketCount I
 mutable field net/minecraft/world/poi/PointOfInterestType ticketCount I
 accessible field net/minecraft/world/poi/PointOfInterestTypes POI_STATES_TO_TYPE Ljava/util/Map;
 mutable field net/minecraft/world/poi/PointOfInterestTypes POI_STATES_TO_TYPE Ljava/util/Map;
+accessible field net/minecraft/world/poi/PointOfInterestTypes POI_STATES Ljava/util/Set;
+mutable field net/minecraft/world/poi/PointOfInterestTypes POI_STATES Ljava/util/Set;
 accessible field net/minecraft/block/entity/BlockEntityType blocks Ljava/util/Set;
 mutable field net/minecraft/block/entity/BlockEntityType blocks Ljava/util/Set;
 accessible method net/minecraft/world/poi/PointOfInterestTypes getStatesOfBlock (Lnet/minecraft/block/Block;)Ljava/util/Set;

@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.fabric;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.init.ModPointOfInterestTypes;
 import com.faboslav.friendsandfoes.util.ServerWorldSpawnersUtil;
 import com.faboslav.friendsandfoes.world.spawner.IceologerSpawner;
 import com.faboslav.friendsandfoes.world.spawner.IllusionerSpawner;
@@ -19,6 +20,7 @@ public final class FriendsAndFoesFabric implements ModInitializer
 		FriendsAndFoes.checkForNewUpdates();
 		FriendsAndFoes.initRegisters();
 		FriendsAndFoes.initCustomRegisters();
+		ModPointOfInterestTypes.postInit();
 
 		initSpawners();
 		initTickDeltaCounter();

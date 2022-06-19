@@ -20,6 +20,7 @@ public final class FriendsAndFoesQuilt implements ModInitializer
 		FriendsAndFoes.checkForNewUpdates();
 		FriendsAndFoes.initRegisters();
 		FriendsAndFoes.initCustomRegisters();
+		ModPointOfInterestTypes.postInit();
 
 		initSpawners();
 		initTickDeltaCounter();

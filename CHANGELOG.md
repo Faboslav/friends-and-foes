@@ -1,3 +1,12 @@
+## mc1.19-1.5.3, June 20, 2022
+
+- Improved code compatibility between all mod loaders
+
+## mc1.18.2-1.4.4, June 20, 2022
+
+- Fixed beekeeper related crash
+- Fixed quilt crashes
+- 
 ## mc1.19-1.5.2, June 19, 2022
 
 - Mod is now tag driven (thus much more customizable trough datapacks)

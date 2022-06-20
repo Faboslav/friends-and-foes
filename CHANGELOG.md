@@ -1,6 +1,7 @@
 ## mc1.18.2-1.4.4, June 20, 2022
 
 - Fixed beekeeper related crash
+- Fixed quilt crashes
 
 ## mc1.18.2-1.4.3, June 03, 2022
 

@@ -16,6 +16,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.biome.SpawnSettings;
+import org.apache.commons.lang3.EnumUtils;
 
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -38,7 +39,7 @@ public final class ModEntity
 	static {
 		SharedConstants.useChoiceTypeRegistrations = false;
 		COPPER_GOLEM = ENTITY_TYPES.register("copper_golem", () -> EntityType.Builder.create(CopperGolemEntity::new, SpawnGroup.MISC).setDimensions(0.75F, 1.375F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("copper_golem")));
-		GLARE = ENTITY_TYPES.register("glare", () -> EntityType.Builder.create(GlareEntity::new, SpawnGroup.valueOf(ExpandedEnumValues.GLARES)).setDimensions(0.875F, 1.4375F).maxTrackingRange(8).trackingTickInterval(2).build(FriendsAndFoes.makeStringID("glare")));
+		GLARE = ENTITY_TYPES.register("glare", () -> EntityType.Builder.create(GlareEntity::new, EnumUtils.isValidEnum(SpawnGroup.class, ExpandedEnumValues.GLARES) ? SpawnGroup.valueOf(ExpandedEnumValues.GLARES) : SpawnGroup.CREATURE).setDimensions(0.875F, 1.4375F).maxTrackingRange(8).trackingTickInterval(2).build(FriendsAndFoes.makeStringID("glare")));
 		ICEOLOGER = ENTITY_TYPES.register("iceologer", () -> EntityType.Builder.create(IceologerEntity::new, SpawnGroup.MONSTER).setDimensions(0.6F, 1.95F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("iceologer")));
 		ICE_CHUNK = ENTITY_TYPES.register("ice_chunk", () -> EntityType.Builder.create(IceologerIceChunkEntity::new, SpawnGroup.MISC).makeFireImmune().setDimensions(2.5F, 1.0F).maxTrackingRange(6).build(FriendsAndFoes.makeStringID("ice_chunk")));
 		MAULER = ENTITY_TYPES.register("mauler", () -> EntityType.Builder.create(MaulerEntity::new, SpawnGroup.CREATURE).setDimensions(0.5625F, 0.5625F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("mauler")));
@@ -79,7 +80,7 @@ public final class ModEntity
 
 		if (config.enableGlare && config.enableGlareSpawn) {
 			Predicate<BiomeModifications.BiomeContext> LUSH_CAVES = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.LUSH_CAVES.getValue());
-			registerBiomeModification(LUSH_CAVES, GLARE.get(), SpawnGroup.valueOf(ExpandedEnumValues.GLARES), config.glareSpawnWeight, config.glareSpawnMinGroupSize, config.glareSpawnMaxGroupSize);
+			registerBiomeModification(LUSH_CAVES, GLARE.get(), EnumUtils.isValidEnum(SpawnGroup.class, ExpandedEnumValues.GLARES) ? SpawnGroup.valueOf(ExpandedEnumValues.GLARES) : SpawnGroup.CREATURE, config.glareSpawnWeight, config.glareSpawnMinGroupSize, config.glareSpawnMaxGroupSize);
 		}
 
 		if (config.enableMauler && config.enableMaulerSpawn) {

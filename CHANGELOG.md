@@ -1,3 +1,11 @@
+## mc1.19-1.5.4, June 21, 2022
+
+- Fixed bug when copper blocks can not be waxed
+
+## mc1.18.2-1.4.5, June 21, 2022
+
+- Fixed bug when copper blocks can not be waxed
+
 ## mc1.19-1.5.3, June 20, 2022
 
 - Improved code compatibility between all mod loaders

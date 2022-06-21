@@ -38,15 +38,13 @@ public abstract class BeeEntityMixin extends AnimalEntity
 		this.goalSelector.add(3, this.pollinateMoobloomGoal);
 	}
 
-	@Inject(method = "damage", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "damage", at = @At("HEAD"))
 	public void damage(
 		DamageSource source,
 		float amount,
-		CallbackInfoReturnable<Boolean> info
+		CallbackInfoReturnable<Boolean> callbackInfo
 	) {
-		if (this.isInvulnerableTo(source)) {
-			info.setReturnValue(false);
-		} else {
+		if (this.isInvulnerableTo(source) == false) {
 			if (
 				this.world.isClient() == false
 				&& this.pollinateMoobloomGoal != null

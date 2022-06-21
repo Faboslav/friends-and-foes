@@ -56,21 +56,18 @@ public class PatrolSpawnerMixin
 
 	@Inject(
 		method = "spawn",
-		at = @At("RETURN"),
-		cancellable = true
+		at = @At("RETURN")
 	)
 	private void resetBiomeSpecificIllagerSpawnFlag(
 		ServerWorld world,
 		boolean spawnMonsters,
 		boolean spawnAnimals,
-		CallbackInfoReturnable<Integer> cir
+		CallbackInfoReturnable<Integer> callbackInfo
 	) {
-		var spawnerPatrolMembersCount = cir.getReturnValue();
+		var spawnerPatrolMembersCount = callbackInfo.getReturnValue();
 
 		if (spawnerPatrolMembersCount > 0) {
 			this.isBiomeSpecificIllagerSpawned = false;
 		}
-
-		cir.setReturnValue(spawnerPatrolMembersCount);
 	}
 }

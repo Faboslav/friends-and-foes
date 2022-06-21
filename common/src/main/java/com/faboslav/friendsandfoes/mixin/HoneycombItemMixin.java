@@ -35,18 +35,16 @@ public abstract class HoneycombItemMixin
 	)
 	private static void getWaxedState(
 		BlockState state,
-		CallbackInfoReturnable<Optional<BlockState>> cir
+		CallbackInfoReturnable<Optional<BlockState>> callbackInfo
 	) {
-		var blockState = cir.getReturnValue();
+		var blockState = callbackInfo.getReturnValue();
 
-		if (blockState.isPresent()) {
-			cir.setReturnValue(blockState);
+		if (blockState.isEmpty()) {
+			blockState = Optional.ofNullable((Block) ((BiMap) UNWAXED_TO_WAXED_BUTTON_BLOCKS.get()).get(state.getBlock())).map((block) -> {
+				return block.getStateWithProperties(state);
+			});
+
+			callbackInfo.setReturnValue(blockState);
 		}
-
-		blockState = Optional.ofNullable((Block) ((BiMap) UNWAXED_TO_WAXED_BUTTON_BLOCKS.get()).get(state.getBlock())).map((block) -> {
-			return block.getStateWithProperties(state);
-		});
-
-		cir.setReturnValue(blockState);
 	}
 }

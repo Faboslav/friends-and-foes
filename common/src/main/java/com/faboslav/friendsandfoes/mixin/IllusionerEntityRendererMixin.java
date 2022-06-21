@@ -55,10 +55,10 @@ public abstract class IllusionerEntityRendererMixin extends IllagerEntityRendere
 	)
 	protected void isVisible(
 		IllusionerEntity illusioner,
-		CallbackInfoReturnable<Boolean> ci
+		CallbackInfoReturnable<Boolean> callbackInfo
 	) {
 		if (FriendsAndFoes.getConfig().enableIllusioner) {
-			ci.setReturnValue(super.isVisible(illusioner));
+			callbackInfo.setReturnValue(super.isVisible(illusioner));
 		}
 	}
 }

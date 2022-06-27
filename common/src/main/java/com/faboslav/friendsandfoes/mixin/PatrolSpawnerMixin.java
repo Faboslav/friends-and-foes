@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.mixin;
 
 import com.faboslav.friendsandfoes.init.ModEntityTypes;
+import com.faboslav.friendsandfoes.init.ModTags;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.PatrolEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -8,7 +9,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.spawner.PatrolSpawner;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -35,20 +35,12 @@ public class PatrolSpawnerMixin
 		Random random,
 		boolean captain
 	) {
-		RegistryEntry<Biome> biomeRegistryEntry = world.getBiome(pos);
-		var biomeKey = biomeRegistryEntry.getKey().get();
+		RegistryEntry<Biome> biomeEntry = world.getBiome(pos);
 
 		if (this.isBiomeSpecificIllagerSpawned == false) {
-			if (
-				biomeKey != BiomeKeys.TAIGA
-				|| biomeKey != BiomeKeys.OLD_GROWTH_PINE_TAIGA
-				|| biomeKey != BiomeKeys.OLD_GROWTH_SPRUCE_TAIGA
-			) {
+			if (biomeEntry.isIn(ModTags.HAS_ILLUSIONER)) {
 				patrolEntity = EntityType.ILLUSIONER.create(world);
-			} else if (
-				biomeKey != BiomeKeys.SNOWY_TAIGA
-				|| biomeKey != BiomeKeys.GROVE
-			) {
+			} else if (biomeEntry.isIn(ModTags.HAS_ICEOLOGER)) {
 				patrolEntity = ModEntityTypes.ICEOLOGER.get().create(world);
 			}
 		}
@@ -58,21 +50,18 @@ public class PatrolSpawnerMixin
 
 	@Inject(
 		method = "spawn",
-		at = @At("RETURN"),
-		cancellable = true
+		at = @At("RETURN")
 	)
 	private void resetBiomeSpecificIllagerSpawnFlag(
 		ServerWorld world,
 		boolean spawnMonsters,
 		boolean spawnAnimals,
-		CallbackInfoReturnable<Integer> cir
+		CallbackInfoReturnable<Integer> callbackInfo
 	) {
-		var spawnerPatrolMembersCount = cir.getReturnValue();
+		var spawnerPatrolMembersCount = callbackInfo.getReturnValue();
 
 		if (spawnerPatrolMembersCount > 0) {
 			this.isBiomeSpecificIllagerSpawned = false;
 		}
-
-		cir.setReturnValue(spawnerPatrolMembersCount);
 	}
 }

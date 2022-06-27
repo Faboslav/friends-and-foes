@@ -12,7 +12,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class AbstractButtonBlockMixin
 {
 	@Inject(method = "getPressTicks", at = @At("HEAD"), cancellable = true)
-	public void getCopperPressTicks(CallbackInfoReturnable<Integer> callbackInfoReturnable) {
+	public void getCopperPressTicks(
+		CallbackInfoReturnable<Integer> callbackInfo
+	) {
 		Object buttonBlock = this;
 
 		if (buttonBlock instanceof CopperButtonBlock) {
@@ -39,7 +41,7 @@ public class AbstractButtonBlockMixin
 				}
 			}
 
-			callbackInfoReturnable.setReturnValue(pressTicks);
+			callbackInfo.setReturnValue(pressTicks);
 		}
 	}
 }

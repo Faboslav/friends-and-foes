@@ -1,6 +1,35 @@
-## mc1.19-rc2-1.5.0, June 03, 2022
+## mc1.19-1.5.4, June 21, 2022
 
+- Fixed bug when copper blocks can not be waxed
+
+## mc1.18.2-1.4.5, June 21, 2022
+
+- Fixed bug when copper blocks can not be waxed
+
+## mc1.19-1.5.3, June 20, 2022
+
+- Improved code compatibility between all mod loaders
+
+## mc1.18.2-1.4.4, June 20, 2022
+
+- Fixed beekeeper related crash
+- Fixed quilt crashes
+- 
+## mc1.19-1.5.2, June 19, 2022
+
+- Mod is now tag driven (thus much more customizable trough datapacks)
+- Fixed beehives related crashes
+- Fixed beekeeper related crash
+
+## mc1.19-1.5.1, June 11, 2022
+
+- Fixed natural mob spawning
+
+## mc1.19-1.5.0, June 11, 2022
+
+- Ported to 1.19
 - Added mangrove beehive
+- All beehives are now legit point of interests
 
 ## mc1.18.2-1.4.3, June 03, 2022
 

@@ -9,5 +9,7 @@ pluginManagement {
 
 include("common")
 include("fabric")
+include("forge")
+include("quilt")
 
 rootProject.name = "friends-and-foes"

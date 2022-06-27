@@ -13,7 +13,7 @@
 	"issues": "https://github.com/Faboslav/friends-and-foes/issues",
 	"wiki": "https://github.com/Faboslav/friends-and-foes/wiki"
   },
-  "license": "CC BY-NC-ND 4.0",
+  "license": "CC-BY-NC-ND-4.0",
   "icon": "icon.jpg",
   "environment": "*",
   "entrypoints": {
@@ -38,10 +38,10 @@
   ],
   "depends": {
 	"java": ">=17",
-	"minecraft": ">=1.18.2",
+	"minecraft": ">=1.19",
 	"fabric": "*",
 	"fabricloader": "*",
-	"architectury": ">=4.4.60"
+	"architectury": ">=5.7.27"
   },
   "custom": {
 	"modmenu": {

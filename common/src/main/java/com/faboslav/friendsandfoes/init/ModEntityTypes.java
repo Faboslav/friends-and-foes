@@ -12,13 +12,13 @@ import net.minecraft.SharedConstants;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.SpawnRestriction;
+import net.minecraft.tag.BiomeTags;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Heightmap;
-import net.minecraft.world.biome.BiomeKeys;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.SpawnSettings;
-
-import java.util.Objects;
-import java.util.function.Predicate;
+import org.apache.commons.lang3.EnumUtils;
 
 /**
  * @see EntityType
@@ -39,7 +39,7 @@ public final class ModEntityTypes
 	static {
 		SharedConstants.useChoiceTypeRegistrations = false;
 		COPPER_GOLEM = ENTITY_TYPES.register("copper_golem", () -> EntityType.Builder.create(CopperGolemEntity::new, SpawnGroup.MISC).setDimensions(0.75F, 1.375F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("copper_golem")));
-		GLARE = ENTITY_TYPES.register("glare", () -> EntityType.Builder.create(GlareEntity::new, SpawnGroup.valueOf(ExpandedEnumValues.GLARES)).setDimensions(0.875F, 1.4375F).maxTrackingRange(8).trackingTickInterval(2).build(FriendsAndFoes.makeStringID("glare")));
+		GLARE = ENTITY_TYPES.register("glare", () -> EntityType.Builder.create(GlareEntity::new, EnumUtils.isValidEnum(SpawnGroup.class, ExpandedEnumValues.GLARES) ? SpawnGroup.valueOf(ExpandedEnumValues.GLARES):SpawnGroup.CREATURE).setDimensions(0.875F, 1.4375F).maxTrackingRange(8).trackingTickInterval(2).build(FriendsAndFoes.makeStringID("glare")));
 		ICEOLOGER = ENTITY_TYPES.register("iceologer", () -> EntityType.Builder.create(IceologerEntity::new, SpawnGroup.MONSTER).setDimensions(0.6F, 1.95F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("iceologer")));
 		ICE_CHUNK = ENTITY_TYPES.register("ice_chunk", () -> EntityType.Builder.create(IceologerIceChunkEntity::new, SpawnGroup.MISC).makeFireImmune().setDimensions(2.5F, 1.0F).maxTrackingRange(6).build(FriendsAndFoes.makeStringID("ice_chunk")));
 		MAULER = ENTITY_TYPES.register("mauler", () -> EntityType.Builder.create(MaulerEntity::new, SpawnGroup.CREATURE).setDimensions(0.5625F, 0.5625F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("mauler")));
@@ -58,7 +58,7 @@ public final class ModEntityTypes
 
 	public static void init() {
 		initSpawnRestrictions();
-		initBiomeModifications();
+		addSpawns();
 	}
 
 	public static void initMobAttributes() {
@@ -77,48 +77,38 @@ public final class ModEntityTypes
 		SpawnRestrictionAccessor.callRegister(MOOBLOOM.get(), SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MoobloomEntity::canSpawn);
 	}
 
-	public static void initBiomeModifications() {
+	public static void addSpawns() {
 		var config = FriendsAndFoes.getConfig();
 
 		if (config.enableGlare && config.enableGlareSpawn) {
-			Predicate<BiomeModifications.BiomeContext> LUSH_CAVES = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.LUSH_CAVES.getValue());
-			registerBiomeModification(LUSH_CAVES, GLARE.get(), SpawnGroup.valueOf(ExpandedEnumValues.GLARES), config.glareSpawnWeight, config.glareSpawnMinGroupSize, config.glareSpawnMaxGroupSize);
+			addSpawn(ModTags.HAS_GLARE, GLARE.get(), EnumUtils.isValidEnum(SpawnGroup.class, ExpandedEnumValues.GLARES) ? SpawnGroup.valueOf(ExpandedEnumValues.GLARES):SpawnGroup.CREATURE, config.glareSpawnWeight, config.glareSpawnMinGroupSize, config.glareSpawnMaxGroupSize);
 		}
 
 		if (config.enableMauler && config.enableMaulerSpawn) {
-			Predicate<BiomeModifications.BiomeContext> DESERT = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.DESERT.getValue());
-			Predicate<BiomeModifications.BiomeContext> BADLANDS = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.BADLANDS.getValue());
-			Predicate<BiomeModifications.BiomeContext> ERODED_BADLANDS = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.ERODED_BADLANDS.getValue());
-			Predicate<BiomeModifications.BiomeContext> WOODED_BADLANDS = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.WOODED_BADLANDS.getValue());
-			Predicate<BiomeModifications.BiomeContext> SAVANNA = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.SAVANNA.getValue());
-			Predicate<BiomeModifications.BiomeContext> SAVANNA_PLATEAU = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.SAVANNA_PLATEAU.getValue());
-
-			registerBiomeModification(DESERT, MAULER.get(), SpawnGroup.CREATURE, config.maulerDesertSpawnWeight, config.maulerDesertSpawnMinGroupSize, config.maulerDesertSpawnMaxGroupSize);
-			registerBiomeModification(BADLANDS, MAULER.get(), SpawnGroup.CREATURE, config.maulerBadlandsSpawnWeight, config.maulerBadlandsSpawnMinGroupSize, config.maulerBadlandsSpawnMaxGroupSize);
-			registerBiomeModification(ERODED_BADLANDS, MAULER.get(), SpawnGroup.CREATURE, config.maulerBadlandsSpawnWeight, config.maulerBadlandsSpawnMinGroupSize, config.maulerBadlandsSpawnMaxGroupSize);
-			registerBiomeModification(WOODED_BADLANDS, MAULER.get(), SpawnGroup.CREATURE, config.maulerBadlandsSpawnWeight, config.maulerBadlandsSpawnMinGroupSize, config.maulerBadlandsSpawnMaxGroupSize);
-			registerBiomeModification(SAVANNA, MAULER.get(), SpawnGroup.CREATURE, config.maulerSavannaSpawnWeight, config.maulerSavannaSpawnMinGroupSize, config.maulerSavannaSpawnMaxGroupSize);
-			registerBiomeModification(SAVANNA_PLATEAU, MAULER.get(), SpawnGroup.CREATURE, config.maulerSavannaSpawnWeight, config.maulerSavannaSpawnMinGroupSize, config.maulerSavannaSpawnMaxGroupSize);
+			addSpawn(ModTags.HAS_DESERT_MAULER, MAULER.get(), SpawnGroup.CREATURE, config.maulerDesertSpawnWeight, config.maulerDesertSpawnMinGroupSize, config.maulerDesertSpawnMaxGroupSize);
+			addSpawn(ModTags.HAS_BADLANDS_MAULER, MAULER.get(), SpawnGroup.CREATURE, config.maulerBadlandsSpawnWeight, config.maulerBadlandsSpawnMinGroupSize, config.maulerBadlandsSpawnMaxGroupSize);
+			addSpawn(ModTags.HAS_SAVANNA_MAULER, MAULER.get(), SpawnGroup.CREATURE, config.maulerSavannaSpawnWeight, config.maulerSavannaSpawnMinGroupSize, config.maulerSavannaSpawnMaxGroupSize);
 		}
 
 		if (config.enableMoobloom && config.enableMoobloomSpawn) {
-			Predicate<BiomeModifications.BiomeContext> FLOWER_FOREST = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.FLOWER_FOREST.getValue());
-			Predicate<BiomeModifications.BiomeContext> MEADOW = (ctx) -> Objects.equals(ctx.getKey(), BiomeKeys.MEADOW.getValue());
-
-			registerBiomeModification(FLOWER_FOREST, MOOBLOOM.get(), SpawnGroup.CREATURE, config.moobloomFlowerForestSpawnWeight, config.moobloomFlowerForestSpawnMinGroupSize, config.moobloomFlowerForestSpawnMaxGroupSize);
-			registerBiomeModification(MEADOW, MOOBLOOM.get(), SpawnGroup.CREATURE, config.moobloomMeadowSpawnWeight, config.moobloomMeadowSpawnMinGroupSize, config.moobloomMeadowSpawnMaxGroupSize);
+			addSpawn(ModTags.HAS_LESS_MOOBLOOMS, MOOBLOOM.get(), SpawnGroup.CREATURE, config.moobloomFlowerForestSpawnWeight, config.moobloomFlowerForestSpawnMinGroupSize, config.moobloomFlowerForestSpawnMaxGroupSize);
+			addSpawn(ModTags.HAS_MORE_MOOBLOOMS, MOOBLOOM.get(), SpawnGroup.CREATURE, config.moobloomMeadowSpawnWeight, config.moobloomMeadowSpawnMinGroupSize, config.moobloomMeadowSpawnMaxGroupSize);
 		}
 	}
 
-	private static void registerBiomeModification(
-		Predicate<BiomeModifications.BiomeContext> biomes,
+	private static void addSpawn(
+		TagKey<Biome> tag,
 		EntityType<?> type,
 		SpawnGroup spawnGroup,
 		int weight,
 		int min,
 		int max
 	) {
-		BiomeModifications.addProperties(biomes, (ctx, p) -> p.getSpawnProperties().addSpawn(spawnGroup, new SpawnSettings.SpawnEntry(type, weight, min, max)));
+		BiomeModifications.addProperties((biomeContext -> {
+			return biomeContext.hasTag(tag) && biomeContext.hasTag(BiomeTags.IS_OVERWORLD);
+		}), (ctx, p) -> {
+			p.getSpawnProperties().addSpawn(spawnGroup, new SpawnSettings.SpawnEntry(type, weight, min, max));
+		});
 	}
 
 	private ModEntityTypes() {

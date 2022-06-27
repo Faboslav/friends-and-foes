@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.mixin;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -41,8 +42,10 @@ public abstract class IllusionerEntityRendererMixin extends IllagerEntityRendere
 		int i,
 		CallbackInfo ci
 	) {
-		super.render(mobEntity, f, g, matrixStack, vertexConsumerProvider, i);
-		ci.cancel();
+		if (FriendsAndFoes.getConfig().enableIllusioner) {
+			super.render(mobEntity, f, g, matrixStack, vertexConsumerProvider, i);
+			ci.cancel();
+		}
 	}
 
 	@Inject(
@@ -52,8 +55,10 @@ public abstract class IllusionerEntityRendererMixin extends IllagerEntityRendere
 	)
 	protected void isVisible(
 		IllusionerEntity illusioner,
-		CallbackInfoReturnable<Boolean> ci
+		CallbackInfoReturnable<Boolean> callbackInfo
 	) {
-		ci.setReturnValue(super.isVisible(illusioner));
+		if (FriendsAndFoes.getConfig().enableIllusioner) {
+			callbackInfo.setReturnValue(super.isVisible(illusioner));
+		}
 	}
 }

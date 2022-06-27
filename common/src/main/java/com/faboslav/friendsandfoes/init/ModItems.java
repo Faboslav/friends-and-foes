@@ -24,6 +24,7 @@ public final class ModItems
 	public final static RegistrySupplier<Item> ILLUSIONER_SPAWN_EGG;
 	public final static RegistrySupplier<Item> MAULER_SPAWN_EGG;
 	public final static RegistrySupplier<Item> MOOBLOOM_SPAWN_EGG;
+	public final static RegistrySupplier<Item> WILDFIRE_SPAWN_EGG;
 	public static final RegistrySupplier<Item> BUTTERCUP;
 	public static final RegistrySupplier<Item> ACACIA_BEEHIVE;
 	public static final RegistrySupplier<Item> BIRCH_BEEHIVE;
@@ -49,6 +50,7 @@ public final class ModItems
 		ILLUSIONER_SPAWN_EGG = ITEMS.register("illusioner_spawn_egg", () -> new net.minecraft.item.SpawnEggItem(EntityType.ILLUSIONER, 0x603e5c, 0x888e8e, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
 		MAULER_SPAWN_EGG = ITEMS.register("mauler_spawn_egg", () -> new ArchitecturySpawnEggItem(ModEntityTypes.MAULER, 0x534F25, 0x817B39, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
 		MOOBLOOM_SPAWN_EGG = ITEMS.register("moobloom_spawn_egg", () -> new ArchitecturySpawnEggItem(ModEntityTypes.MOOBLOOM, 0xf7EDC1, 0xFACA00, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
+		WILDFIRE_SPAWN_EGG = ITEMS.register("wildfire_spawn_egg", () -> new ArchitecturySpawnEggItem(ModEntityTypes.WILDFIRE, 0xf7EDC1, 0xFACA00, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
 		BUTTERCUP = ITEMS.register("buttercup", () -> new BlockItem(ModBlocks.BUTTERCUP.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
 		ACACIA_BEEHIVE = ITEMS.register("acacia_beehive", () -> new BlockItem(ModBlocks.ACACIA_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
 		BIRCH_BEEHIVE = ITEMS.register("birch_beehive", () -> new BlockItem(ModBlocks.BIRCH_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));

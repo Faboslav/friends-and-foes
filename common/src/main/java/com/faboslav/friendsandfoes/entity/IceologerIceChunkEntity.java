@@ -2,7 +2,7 @@ package com.faboslav.friendsandfoes.entity;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.init.ModEntityTypes;
-import com.faboslav.friendsandfoes.init.ModSounds;
+import com.faboslav.friendsandfoes.init.ModSoundEvents;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import com.faboslav.friendsandfoes.util.animation.AnimationMath;
 import net.minecraft.block.Blocks;
@@ -354,7 +354,7 @@ public final class IceologerIceChunkEntity extends Entity
 	}
 
 	private SoundEvent getAmbientSound() {
-		return ModSounds.ENTITY_ICE_CHUNK_AMBIENT.get();
+		return ModSoundEvents.ENTITY_ICE_CHUNK_AMBIENT.get();
 	}
 
 	private void playAmbientSound() {
@@ -363,7 +363,7 @@ public final class IceologerIceChunkEntity extends Entity
 	}
 
 	private SoundEvent getHitSound() {
-		return ModSounds.ENTITY_ICE_CHUNK_HIT.get();
+		return ModSoundEvents.ENTITY_ICE_CHUNK_HIT.get();
 	}
 
 	private void playHitSound() {
@@ -372,7 +372,7 @@ public final class IceologerIceChunkEntity extends Entity
 	}
 
 	private SoundEvent getSummonSound() {
-		return ModSounds.ENTITY_ICE_CHUNK_SUMMON.get();
+		return ModSoundEvents.ENTITY_ICE_CHUNK_SUMMON.get();
 	}
 
 	private void playSummonSound() {

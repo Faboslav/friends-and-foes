@@ -3,7 +3,7 @@ package com.faboslav.friendsandfoes.entity;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.animation.AnimationContextTracker;
 import com.faboslav.friendsandfoes.entity.ai.goal.*;
-import com.faboslav.friendsandfoes.init.ModSounds;
+import com.faboslav.friendsandfoes.init.ModSoundEvents;
 import com.faboslav.friendsandfoes.util.ModelAnimationHelper;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.fabricmc.api.EnvType;
@@ -241,12 +241,12 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource source) {
-		return ModSounds.ENTITY_COPPER_GOLEM_HURT.get();
+		return ModSoundEvents.ENTITY_COPPER_GOLEM_HURT.get();
 	}
 
 	@Override
 	protected SoundEvent getDeathSound() {
-		return ModSounds.ENTITY_COPPER_GOLEM_DEATH.get();
+		return ModSoundEvents.ENTITY_COPPER_GOLEM_DEATH.get();
 	}
 
 	@Override
@@ -258,7 +258,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 			return;
 		}
 
-		this.playSound(ModSounds.ENTITY_COPPER_GOLEM_STEP.get(), 1.0F, this.getSoundPitch());
+		this.playSound(ModSoundEvents.ENTITY_COPPER_GOLEM_STEP.get(), 1.0F, this.getSoundPitch());
 	}
 
 	@Override
@@ -340,7 +340,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 			itemStack.decrement(1);
 		}
 
-		this.playSound(ModSounds.ENTITY_COPPER_GOLEM_REPAIR.get(), 1.0F, this.getSoundPitch() - 1.0F);
+		this.playSound(ModSoundEvents.ENTITY_COPPER_GOLEM_REPAIR.get(), 1.0F, this.getSoundPitch() - 1.0F);
 
 		return true;
 	}

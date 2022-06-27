@@ -59,7 +59,7 @@ public final class FriendsAndFoes
 		ModCriteria.init();
 		ModEntityTypes.initRegister();
 		ModItems.initRegister();
-		ModSounds.initRegister();
+		ModSoundEvents.initRegister();
 		ModVillagerProfessions.initRegister();
 	}
 
@@ -68,7 +68,7 @@ public final class FriendsAndFoes
 		ModEntityTypes.init();
 		ModItems.init();
 		ModBlockEntityTypes.init();
-		ModSounds.init();
+		ModSoundEvents.init();
 		ModPointOfInterestTypes.init();
 		ModVillagerProfessions.init();
 	}

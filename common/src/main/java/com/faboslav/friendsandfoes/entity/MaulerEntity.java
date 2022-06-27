@@ -3,7 +3,7 @@ package com.faboslav.friendsandfoes.entity;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.animation.AnimationContextTracker;
 import com.faboslav.friendsandfoes.entity.ai.goal.*;
-import com.faboslav.friendsandfoes.init.ModSounds;
+import com.faboslav.friendsandfoes.init.ModSoundEvents;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -308,7 +308,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 		itemStack.decrement(1);
 
-		this.playSound(ModSounds.ENTITY_MAULER_BITE.get(), 0.2F, RandomGenerator.generateFloat(0.9F, 0.95F));
+		this.playSound(ModSoundEvents.ENTITY_MAULER_BITE.get(), 0.2F, RandomGenerator.generateFloat(0.9F, 0.95F));
 		this.spawnParticles(ParticleTypes.ENCHANT, 7);
 
 		return true;
@@ -369,7 +369,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return ModSounds.ENTITY_MAULER_GROWL.get();
+		return ModSoundEvents.ENTITY_MAULER_GROWL.get();
 	}
 
 	@Override
@@ -383,7 +383,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource source) {
-		return ModSounds.ENTITY_MAULER_HURT.get();
+		return ModSoundEvents.ENTITY_MAULER_HURT.get();
 	}
 
 	@Override
@@ -394,7 +394,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 	@Override
 	protected SoundEvent getDeathSound() {
-		return ModSounds.ENTITY_MAULER_DEATH.get();
+		return ModSoundEvents.ENTITY_MAULER_DEATH.get();
 	}
 
 	@Override
@@ -402,7 +402,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		super.playStepSound(pos, state);
 
 		if (this.hasAngerTime() && this.isMoving() && this.isOnGround() && this.getVelocity().getY() <= 0.0001) {
-			this.playSound(ModSounds.ENTITY_MAULER_BITE.get(), 0.2F, RandomGenerator.generateFloat(0.9F, 0.95F));
+			this.playSound(ModSoundEvents.ENTITY_MAULER_BITE.get(), 0.2F, RandomGenerator.generateFloat(0.9F, 0.95F));
 		}
 	}
 

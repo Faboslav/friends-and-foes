@@ -34,6 +34,7 @@ public final class ModEntityTypes
 	public static final RegistrySupplier<EntityType<IceologerIceChunkEntity>> ICE_CHUNK;
 	public static final RegistrySupplier<EntityType<MaulerEntity>> MAULER;
 	public static final RegistrySupplier<EntityType<MoobloomEntity>> MOOBLOOM;
+	public static final RegistrySupplier<EntityType<WildfireEntity>> WILDFIRE;
 
 	static {
 		SharedConstants.useChoiceTypeRegistrations = false;
@@ -43,6 +44,7 @@ public final class ModEntityTypes
 		ICE_CHUNK = ENTITY_TYPES.register("ice_chunk", () -> EntityType.Builder.create(IceologerIceChunkEntity::new, SpawnGroup.MISC).makeFireImmune().setDimensions(2.5F, 1.0F).maxTrackingRange(6).build(FriendsAndFoes.makeStringID("ice_chunk")));
 		MAULER = ENTITY_TYPES.register("mauler", () -> EntityType.Builder.create(MaulerEntity::new, SpawnGroup.CREATURE).setDimensions(0.5625F, 0.5625F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("mauler")));
 		MOOBLOOM = ENTITY_TYPES.register("moobloom", () -> EntityType.Builder.create(MoobloomEntity::new, SpawnGroup.CREATURE).setDimensions(0.9F, 1.4F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("moobloom")));
+		WILDFIRE = ENTITY_TYPES.register("wildfire", () -> EntityType.Builder.create(WildfireEntity::new, SpawnGroup.MONSTER).setDimensions(0.8F, 1.875F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("wildfire")));
 		SharedConstants.useChoiceTypeRegistrations = previousUseChoiceTypeRegistrations;
 	}
 
@@ -65,6 +67,7 @@ public final class ModEntityTypes
 		EntityAttributeRegistry.register(ModEntityTypes.ICEOLOGER, IceologerEntity::createAttributes);
 		EntityAttributeRegistry.register(ModEntityTypes.MAULER, MaulerEntity::createAttributes);
 		EntityAttributeRegistry.register(ModEntityTypes.MOOBLOOM, MoobloomEntity::createCowAttributes);
+		EntityAttributeRegistry.register(ModEntityTypes.WILDFIRE, WildfireEntity::createAttributes);
 	}
 
 	public static void initSpawnRestrictions() {

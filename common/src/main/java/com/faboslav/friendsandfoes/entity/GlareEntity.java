@@ -5,7 +5,7 @@ import com.faboslav.friendsandfoes.client.render.entity.animation.AnimationConte
 import com.faboslav.friendsandfoes.entity.ai.goal.*;
 import com.faboslav.friendsandfoes.entity.ai.pathing.GlareNavigation;
 import com.faboslav.friendsandfoes.init.ModCriteria;
-import com.faboslav.friendsandfoes.init.ModSounds;
+import com.faboslav.friendsandfoes.init.ModSoundEvents;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -328,7 +328,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return ModSounds.ENTITY_GLARE_AMBIENT.get();
+		return ModSoundEvents.ENTITY_GLARE_AMBIENT.get();
 	}
 
 	@Override
@@ -338,7 +338,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	}
 
 	private SoundEvent getGrumpinessSound() {
-		return ModSounds.ENTITY_GLARE_GRUMPINESS.get();
+		return ModSoundEvents.ENTITY_GLARE_GRUMPINESS.get();
 	}
 
 	public void playGrumpinessSound() {
@@ -347,7 +347,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	}
 
 	private SoundEvent getGrumpinessShortSound() {
-		return ModSounds.ENTITY_GLARE_GRUMPINESS_SHORT.get();
+		return ModSoundEvents.ENTITY_GLARE_GRUMPINESS_SHORT.get();
 	}
 
 	public void playGrumpinessShortSound() {
@@ -356,7 +356,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	}
 
 	private SoundEvent getRustleSound() {
-		return ModSounds.ENTITY_GLARE_RUSTLE.get();
+		return ModSoundEvents.ENTITY_GLARE_RUSTLE.get();
 	}
 
 	public void playRustleSound() {
@@ -366,7 +366,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 
 	@Override
 	public SoundEvent getEatSound(ItemStack stack) {
-		return ModSounds.ENTITY_GLARE_EAT.get();
+		return ModSoundEvents.ENTITY_GLARE_EAT.get();
 	}
 
 	public void playEatSound(ItemStack stack) {
@@ -375,7 +375,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	}
 
 	protected SoundEvent getHurtSound(DamageSource source) {
-		return ModSounds.ENTITY_GLARE_HURT.get();
+		return ModSoundEvents.ENTITY_GLARE_HURT.get();
 	}
 
 	@Override
@@ -385,7 +385,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	}
 
 	protected SoundEvent getDeathSound() {
-		return ModSounds.ENTITY_GLARE_DEATH.get();
+		return ModSoundEvents.ENTITY_GLARE_DEATH.get();
 	}
 
 	protected float getSoundVolume() {

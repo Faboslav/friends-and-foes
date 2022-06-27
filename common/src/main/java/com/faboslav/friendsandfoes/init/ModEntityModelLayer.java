@@ -1,9 +1,6 @@
 package com.faboslav.friendsandfoes.init;
 
-import com.faboslav.friendsandfoes.client.render.entity.model.CopperGolemEntityModel;
-import com.faboslav.friendsandfoes.client.render.entity.model.GlareEntityModel;
-import com.faboslav.friendsandfoes.client.render.entity.model.IceologerIceChunkModel;
-import com.faboslav.friendsandfoes.client.render.entity.model.MaulerEntityModel;
+import com.faboslav.friendsandfoes.client.render.entity.model.*;
 import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry;
 import net.minecraft.client.render.entity.model.CowEntityModel;
 import net.minecraft.client.render.entity.model.IllagerEntityModel;
@@ -17,6 +14,7 @@ public final class ModEntityModelLayer
 		EntityModelLayerRegistry.register(ModEntityRenderer.ICEOLOGER_ICE_CHUNK_LAYER, IceologerIceChunkModel::getTexturedModelData);
 		EntityModelLayerRegistry.register(ModEntityRenderer.MAULER_LAYER, MaulerEntityModel::getTexturedModelData);
 		EntityModelLayerRegistry.register(ModEntityRenderer.MOOBLOOM_LAYER, CowEntityModel::getTexturedModelData);
+		EntityModelLayerRegistry.register(ModEntityRenderer.WILDFIRE_LAYER, WildfireEntityModel::getTexturedModelData);
 	}
 
 	private ModEntityModelLayer() {

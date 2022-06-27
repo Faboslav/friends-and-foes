@@ -6,7 +6,10 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.registry.Registry;
 
-public final class ModSounds
+/**
+ * @see net.minecraft.sound.SoundEvents
+ */
+public final class ModSoundEvents
 {
 	private static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(FriendsAndFoes.MOD_ID, Registry.SOUND_EVENT_KEY);
 
@@ -35,6 +38,12 @@ public final class ModSounds
 	public static final RegistrySupplier<SoundEvent> ENTITY_MAULER_DEATH;
 	public static final RegistrySupplier<SoundEvent> ENTITY_MAULER_GROWL;
 	public static final RegistrySupplier<SoundEvent> ENTITY_MAULER_HURT;
+	public static final RegistrySupplier<SoundEvent> ENTITY_WILDFIRE_AMBIENT;
+	public static final RegistrySupplier<SoundEvent> ENTITY_WILDFIRE_DEATH;
+	public static final RegistrySupplier<SoundEvent> ENTITY_WILDFIRE_HURT;
+	public static final RegistrySupplier<SoundEvent> ENTITY_WILDFIRE_SHIELD_BREAK;
+	public static final RegistrySupplier<SoundEvent> ENTITY_WILDFIRE_SHOOT;
+	public static final RegistrySupplier<SoundEvent> ENTITY_WILDFIRE_STEP;
 
 	static {
 		ENTITY_COPPER_GOLEM_DEATH = register("entity", "copper_golem.death");
@@ -62,6 +71,12 @@ public final class ModSounds
 		ENTITY_MAULER_DEATH = register("entity", "mauler.death");
 		ENTITY_MAULER_GROWL = register("entity", "mauler.growl");
 		ENTITY_MAULER_HURT = register("entity", "mauler.hurt");
+		ENTITY_WILDFIRE_AMBIENT = register("entity", "wildfire.ambient");
+		ENTITY_WILDFIRE_DEATH = register("entity", "wildfire.death");
+		ENTITY_WILDFIRE_HURT = register("entity", "wildfire.hurt");
+		ENTITY_WILDFIRE_SHIELD_BREAK = register("entity", "wildfire.shield_break");
+		ENTITY_WILDFIRE_SHOOT = register("entity", "wildfire.shoot");
+		ENTITY_WILDFIRE_STEP = register("entity", "wildfire.step");
 	}
 
 	private static RegistrySupplier<SoundEvent> register(String type, String name) {
@@ -78,6 +93,6 @@ public final class ModSounds
 	public static void init() {
 	}
 
-	private ModSounds() {
+	private ModSoundEvents() {
 	}
 }

@@ -1,14 +1,9 @@
 package com.faboslav.friendsandfoes.entity;
 
-import com.faboslav.friendsandfoes.init.ModSoundEvents;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.ActiveTargetGoal;
-import net.minecraft.entity.ai.goal.GoToWalkTargetGoal;
-import net.minecraft.entity.ai.goal.LookAroundGoal;
-import net.minecraft.entity.ai.goal.LookAtEntityGoal;
-import net.minecraft.entity.ai.goal.RevengeGoal;
-import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -59,19 +54,19 @@ public final class WildfireEntity extends HostileEntity
 
 	protected void initDataTracker() {
 		super.initDataTracker();
-		this.dataTracker.startTracking(BLAZE_FLAGS, (byte)0);
+		this.dataTracker.startTracking(BLAZE_FLAGS, (byte) 0);
 	}
 
 	protected SoundEvent getAmbientSound() {
-		return ModSoundEvents.ENTITY_WILDFIRE_AMBIENT.get();
+		return FriendsAndFoesSoundEvents.ENTITY_WILDFIRE_AMBIENT.get();
 	}
 
 	protected SoundEvent getHurtSound(DamageSource source) {
-		return ModSoundEvents.ENTITY_WILDFIRE_HURT.get();
+		return FriendsAndFoesSoundEvents.ENTITY_WILDFIRE_HURT.get();
 	}
 
 	protected SoundEvent getDeathSound() {
-		return ModSoundEvents.ENTITY_WILDFIRE_DEATH.get();
+		return FriendsAndFoesSoundEvents.ENTITY_WILDFIRE_DEATH.get();
 	}
 
 	public float getBrightnessAtEyes() {
@@ -88,7 +83,7 @@ public final class WildfireEntity extends HostileEntity
 				this.world.playSound(this.getX() + 0.5, this.getY() + 0.5, this.getZ() + 0.5, SoundEvents.ENTITY_BLAZE_BURN, this.getSoundCategory(), 1.0F + this.random.nextFloat(), this.random.nextFloat() * 0.7F + 0.3F, false);
 			}
 
-			for(int i = 0; i < 2; ++i) {
+			for (int i = 0; i < 2; ++i) {
 				this.world.addParticle(ParticleTypes.LARGE_SMOKE, this.getParticleX(0.5), this.getRandomBodyY(), this.getParticleZ(0.5), 0.0, 0.0, 0.0);
 			}
 		}
@@ -104,11 +99,11 @@ public final class WildfireEntity extends HostileEntity
 		--this.eyeOffsetCooldown;
 		if (this.eyeOffsetCooldown <= 0) {
 			this.eyeOffsetCooldown = 100;
-			this.eyeOffset = (float)this.random.nextTriangular(0.5, 6.891);
+			this.eyeOffset = (float) this.random.nextTriangular(0.5, 6.891);
 		}
 
 		LivingEntity livingEntity = this.getTarget();
-		if (livingEntity != null && livingEntity.getEyeY() > this.getEyeY() + (double)this.eyeOffset && this.canTarget(livingEntity)) {
+		if (livingEntity != null && livingEntity.getEyeY() > this.getEyeY() + (double) this.eyeOffset && this.canTarget(livingEntity)) {
 			Vec3d vec3d = this.getVelocity();
 			this.setVelocity(this.getVelocity().add(0.0, (0.30000001192092896 - vec3d.y) * 0.30000001192092896, 0.0));
 			this.velocityDirty = true;
@@ -126,13 +121,13 @@ public final class WildfireEntity extends HostileEntity
 	}
 
 	private boolean isFireActive() {
-		return ((Byte)this.dataTracker.get(BLAZE_FLAGS) & 1) != 0;
+		return ((Byte) this.dataTracker.get(BLAZE_FLAGS) & 1) != 0;
 	}
 
 	void setFireActive(boolean fireActive) {
-		byte b = (Byte)this.dataTracker.get(BLAZE_FLAGS);
+		byte b = (Byte) this.dataTracker.get(BLAZE_FLAGS);
 		if (fireActive) {
-			b = (byte)(b | 1);
+			b = (byte) (b | 1);
 		} else {
 			b &= -2;
 		}

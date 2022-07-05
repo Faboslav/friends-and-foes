@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.mixin;
 
 import com.faboslav.friendsandfoes.entity.ai.brain.task.BeekeeperWorkTask;
-import com.faboslav.friendsandfoes.init.ModVillagerProfessions;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesVillagerProfessions;
 import net.minecraft.entity.ai.brain.task.VillagerTaskListProvider;
 import net.minecraft.entity.ai.brain.task.VillagerWorkTask;
 import net.minecraft.village.VillagerProfession;
@@ -23,7 +23,7 @@ public class VillagerTaskListProviderMixin
 		float f
 	) {
 		if (
-			profession == ModVillagerProfessions.BEEKEEPER.get()
+			profession == FriendsAndFoesVillagerProfessions.BEEKEEPER.get()
 		) {
 			return new BeekeeperWorkTask();
 		}

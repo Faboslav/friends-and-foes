@@ -10,8 +10,8 @@ public final class FriendsAndFoesFabricClient implements ClientModInitializer
 	@Override
 	@Environment(EnvType.CLIENT)
 	public void onInitializeClient() {
-		FriendsAndFoesClient.initRegisters();
-		FriendsAndFoesClient.initCustomRegisters();
+		FriendsAndFoesClient.init();
+		FriendsAndFoesClient.postInit();
 	}
 }
 

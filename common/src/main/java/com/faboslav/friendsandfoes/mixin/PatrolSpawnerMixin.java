@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.mixin;
 
-import com.faboslav.friendsandfoes.init.ModEntityTypes;
-import com.faboslav.friendsandfoes.init.ModTags;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
+import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.PatrolEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -38,10 +38,10 @@ public class PatrolSpawnerMixin
 		RegistryEntry<Biome> biomeEntry = world.getBiome(pos);
 
 		if (this.isBiomeSpecificIllagerSpawned == false) {
-			if (biomeEntry.isIn(ModTags.HAS_ILLUSIONER)) {
+			if (biomeEntry.isIn(FriendsAndFoesTags.HAS_ILLUSIONER)) {
 				patrolEntity = EntityType.ILLUSIONER.create(world);
-			} else if (biomeEntry.isIn(ModTags.HAS_ICEOLOGER)) {
-				patrolEntity = ModEntityTypes.ICEOLOGER.get().create(world);
+			} else if (biomeEntry.isIn(FriendsAndFoesTags.HAS_ICEOLOGER)) {
+				patrolEntity = FriendsAndFoesEntityTypes.ICEOLOGER.get().create(world);
 			}
 		}
 

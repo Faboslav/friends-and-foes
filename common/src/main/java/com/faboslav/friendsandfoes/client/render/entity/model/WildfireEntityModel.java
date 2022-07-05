@@ -61,6 +61,7 @@ public class WildfireEntityModel<T extends WildfireEntity> extends BaseEntityMod
 
 		return TexturedModelData.of(modelData, 64, 64);
 	}
+
 	@Override
 	public void setAngles(
 		T mauler,
@@ -73,8 +74,8 @@ public class WildfireEntityModel<T extends WildfireEntity> extends BaseEntityMod
 		float f = animationProgress * 3.1415927F * -0.1F;
 
 		int i;
-		for(i = 0; i < 4; ++i) {
-			this.shields[i].yaw = -2.0F + MathHelper.cos(((float)(i * 2) + animationProgress) * 0.25F);
+		for (i = 0; i < 4; ++i) {
+			this.shields[i].yaw = -2.0F + MathHelper.cos(((float) (i * 2) + animationProgress) * 0.25F);
 			this.shields[i].pivotX = MathHelper.cos(f) * 9.0F;
 			this.shields[i].pivotZ = MathHelper.sin(f) * 9.0F;
 			++f;

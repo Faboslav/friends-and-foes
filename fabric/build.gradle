@@ -27,11 +27,6 @@ dependencies {
 	// Core dependencies
 	modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
 	modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
-	modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
-
-	// Fabric ASM
-	modImplementation "com.github.Chocohead:Fabric-ASM:${rootProject.fabric_asm_version}"
-	include "com.github.Chocohead:Fabric-ASM:${rootProject.fabric_asm_version}"
 
 	// Config dependencies
 	modImplementation("com.terraformersmc:modmenu:${project.mod_menu_version}") { transitive = false }

@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.mixin;
 
 import com.faboslav.friendsandfoes.block.Oxidizable;
-import com.faboslav.friendsandfoes.init.ModBlocks;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesBlocks;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
@@ -24,10 +24,10 @@ public abstract class AxeItemMixin
 {
 	private static final Supplier<BiMap<Block, Block>> WAXED_TO_UNWAXED_BLOCKS = Suppliers.memoize(() -> {
 		return (BiMap) ImmutableBiMap.builder()
-			.put(ModBlocks.WAXED_COPPER_BUTTON.get(), ModBlocks.COPPER_BUTTON.get())
-			.put(ModBlocks.WAXED_EXPOSED_COPPER_BUTTON.get(), ModBlocks.EXPOSED_COPPER_BUTTON.get())
-			.put(ModBlocks.WAXED_WEATHERED_COPPER_BUTTON.get(), ModBlocks.WEATHERED_COPPER_BUTTON.get())
-			.put(ModBlocks.WAXED_OXIDIZED_COPPER_BUTTON.get(), ModBlocks.OXIDIZED_COPPER_BUTTON.get())
+			.put(FriendsAndFoesBlocks.WAXED_COPPER_BUTTON.get(), FriendsAndFoesBlocks.COPPER_BUTTON.get())
+			.put(FriendsAndFoesBlocks.WAXED_EXPOSED_COPPER_BUTTON.get(), FriendsAndFoesBlocks.EXPOSED_COPPER_BUTTON.get())
+			.put(FriendsAndFoesBlocks.WAXED_WEATHERED_COPPER_BUTTON.get(), FriendsAndFoesBlocks.WEATHERED_COPPER_BUTTON.get())
+			.put(FriendsAndFoesBlocks.WAXED_OXIDIZED_COPPER_BUTTON.get(), FriendsAndFoesBlocks.OXIDIZED_COPPER_BUTTON.get())
 			.build();
 	});
 

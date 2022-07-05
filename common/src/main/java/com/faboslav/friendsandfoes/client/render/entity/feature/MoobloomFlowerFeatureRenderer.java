@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.client.render.entity.feature;
 
 import com.faboslav.friendsandfoes.entity.MoobloomEntity;
-import com.faboslav.friendsandfoes.init.ModBlocks;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesBlocks;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
@@ -40,7 +40,7 @@ public final class MoobloomFlowerFeatureRenderer<T extends MoobloomEntity> exten
 	) {
 		if (!moobloomEntity.isBaby() && !moobloomEntity.isInvisible()) {
 			BlockRenderManager blockRenderManager = MinecraftClient.getInstance().getBlockRenderManager();
-			BlockState blockState = ModBlocks.BUTTERCUP.get().getDefaultState();
+			BlockState blockState = FriendsAndFoesBlocks.BUTTERCUP.get().getDefaultState();
 			int overlay = LivingEntityRenderer.getOverlay(moobloomEntity, 0.0F);
 
 			MinecraftClient minecraftClient = MinecraftClient.getInstance();

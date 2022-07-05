@@ -3,30 +3,21 @@ package com.faboslav.friendsandfoes.forge;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.FriendsAndFoesClient;
 import com.faboslav.friendsandfoes.config.ConfigScreenBuilder;
-import dev.architectury.platform.Platform;
-import dev.architectury.utils.Env;
 import net.minecraftforge.client.ConfigGuiHandler;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
+@Mod.EventBusSubscriber(modid = FriendsAndFoes.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class FriendsAndFoesForgeClient
 {
-	public static void init() {
-		if (Platform.getEnvironment() != Env.CLIENT) {
-			return;
-		}
-
-		FriendsAndFoesClient.initRegisters();
-	}
-
+	@SubscribeEvent
 	public static void clientInit(final FMLClientSetupEvent event) {
 		event.enqueueWork(() -> {
-			if (Platform.getEnvironment() != Env.CLIENT) {
-				return;
-			}
-
-			FriendsAndFoesClient.initCustomRegisters();
+			FriendsAndFoesClient.init();
+			FriendsAndFoesClient.postInit();
 
 			if (ModList.get().isLoaded("cloth_config")) {
 				ModLoadingContext.get().registerExtensionPoint(ConfigGuiHandler.ConfigGuiFactory.class, () ->

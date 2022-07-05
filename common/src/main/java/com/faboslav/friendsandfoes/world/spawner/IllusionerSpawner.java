@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.world.spawner;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.init.ModTags;
+import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
@@ -76,7 +76,7 @@ public final class IllusionerSpawner implements Spawner
 			return 0;
 		}
 
-		if (world.getBiome(mutable).isIn(ModTags.HAS_ILLUSIONER) == false) {
+		if (world.getBiome(mutable).isIn(FriendsAndFoesTags.HAS_ILLUSIONER) == false) {
 			return 0;
 		}
 

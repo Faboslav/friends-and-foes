@@ -1,8 +1,8 @@
 package com.faboslav.friendsandfoes.world.spawner;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.init.ModEntityTypes;
-import com.faboslav.friendsandfoes.init.ModTags;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
+import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.SpawnReason;
@@ -76,7 +76,7 @@ public final class IceologerSpawner implements Spawner
 			return 0;
 		}
 
-		if (world.getBiome(mutable).isIn(ModTags.HAS_ICEOLOGER) == false) {
+		if (world.getBiome(mutable).isIn(FriendsAndFoesTags.HAS_ICEOLOGER) == false) {
 			return 0;
 		}
 
@@ -84,13 +84,13 @@ public final class IceologerSpawner implements Spawner
 		BlockState blockState = world.getBlockState(mutable);
 
 		if (
-			SpawnHelper.isClearForSpawn(world, mutable, blockState, blockState.getFluidState(), ModEntityTypes.ICEOLOGER.get()) == false
-			|| PatrolEntity.canSpawn(ModEntityTypes.ICEOLOGER.get(), world, SpawnReason.PATROL, mutable, random) == false
+			SpawnHelper.isClearForSpawn(world, mutable, blockState, blockState.getFluidState(), FriendsAndFoesEntityTypes.ICEOLOGER.get()) == false
+			|| PatrolEntity.canSpawn(FriendsAndFoesEntityTypes.ICEOLOGER.get(), world, SpawnReason.PATROL, mutable, random) == false
 		) {
 			return 0;
 		}
 
-		var iceologer = ModEntityTypes.ICEOLOGER.get().create(world);
+		var iceologer = FriendsAndFoesEntityTypes.ICEOLOGER.get().create(world);
 
 		if (iceologer == null) {
 			return 0;

@@ -54,22 +54,20 @@ public final class FriendsAndFoes
 		});
 	}
 
-	public static void initRegisters() {
-		ModBlocks.initRegister();
-		ModCriteria.init();
-		ModEntityTypes.initRegister();
-		ModItems.initRegister();
-		ModSoundEvents.initRegister();
-		ModPointOfInterestTypes.initRegister();
-		ModVillagerProfessions.initRegister();
+
+	public static void init() {
+		FriendsAndFoesBlocks.init();
+		FriendsAndFoesCriteria.init();
+		FriendsAndFoesEntityTypes.init();
+		FriendsAndFoesItems.init();
+		FriendsAndFoesPointOfInterestTypes.init();
+		FriendsAndFoesSoundEvents.init();
+		FriendsAndFoesVillagerProfessions.init();
 	}
 
-	public static void initCustomRegisters() {
-		ModBlocks.init();
-		ModEntityTypes.init();
-		ModItems.init();
-		ModBlockEntityTypes.init();
-		ModSoundEvents.init();
-		ModVillagerProfessions.init();
+	public static void postInit() {
+		FriendsAndFoesEntityTypes.postInit();
+		FriendsAndFoesBlockEntityTypes.postInit();
+		FriendsAndFoesVillagerProfessions.postInit();
 	}
 }

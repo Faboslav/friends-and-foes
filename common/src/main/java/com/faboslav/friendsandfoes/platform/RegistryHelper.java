@@ -1,0 +1,86 @@
+package com.faboslav.friendsandfoes.platform;
+
+import dev.architectury.injectables.annotations.ExpectPlatform;
+import net.minecraft.block.Block;
+import net.minecraft.client.model.TexturedModelData;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.model.EntityModelLayer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.item.Item;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.village.VillagerProfession;
+import net.minecraft.world.poi.PointOfInterestType;
+
+import java.util.function.Supplier;
+
+public final class RegistryHelper
+{
+	@ExpectPlatform
+	public static <T extends Block> Supplier<T> registerBlock(String name, Supplier<T> block) {
+		throw new AssertionError();
+	}
+
+	@ExpectPlatform
+	public static void registerEntityModelLayer(EntityModelLayer location, Supplier<TexturedModelData> definition) {
+		throw new AssertionError();
+	}
+
+	@ExpectPlatform
+	public static <T extends Entity> void registerEntityRenderer(
+		Supplier<EntityType<T>> type,
+		EntityRendererFactory<T> renderProvider
+	) {
+		throw new AssertionError();
+	}
+
+	@ExpectPlatform
+	public static <T extends Entity> Supplier<EntityType<T>> registerEntityType(
+		String name,
+		Supplier<EntityType<T>> entityType
+	) {
+		throw new AssertionError();
+	}
+
+	@ExpectPlatform
+	public static void registerEntityAttribute(
+		Supplier<? extends EntityType<? extends LivingEntity>> type,
+		Supplier<DefaultAttributeContainer.Builder> attribute
+	) {
+		throw new AssertionError();
+	}
+
+	@ExpectPlatform
+	public static <T extends Item> Supplier<T> registerItem(String name, Supplier<T> item) {
+		throw new AssertionError();
+	}
+
+	@ExpectPlatform
+	public static <T extends PointOfInterestType> Supplier<T> registerPointOfInterestType(
+		String name,
+		Supplier<T> pointOfInterestType
+	) {
+		throw new AssertionError();
+	}
+
+	@ExpectPlatform
+	public static void registerRenderType(RenderLayer type, Block... blocks) {
+		throw new AssertionError();
+	}
+
+	@ExpectPlatform
+	public static <T extends SoundEvent> Supplier<T> registerSoundEvent(String name, Supplier<T> soundEvent) {
+		throw new AssertionError();
+	}
+
+	@ExpectPlatform
+	public static <T extends VillagerProfession> Supplier<T> registerVillagerProfession(
+		String name,
+		Supplier<T> villagerProfession
+	) {
+		throw new AssertionError();
+	}
+}

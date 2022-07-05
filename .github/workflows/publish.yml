@@ -11,12 +11,8 @@ env:
         Java 18
     FABRIC_DEPENDENCIES: |
         fabric-api | depends | *
-        architectury-api | depends | *
-    FORGE_DEPENDENCIES: |
-        architectury-api | depends | *
     QUILT_DEPENDENCIES: |
         qsl | depends | *
-        architectury-api | depends | *
     RETRY_ATTEMPTS: 3
     RELAY_DELAY: 10000
     VERSION_RESOLVER: latest
@@ -193,7 +189,6 @@ jobs:
                     loaders: forge
                     game-versions: 1.19
                     name: "Friends&Foes mc1.19-1.5.4 (Forge)"
-                    dependencies: ${{ env.FORGE_DEPENDENCIES }}
                     java: ${{ env.JAVA_VERSIONS }}
 
                     retry-attempts: ${{ env.RETRY_ATTEMPTS }}
@@ -226,7 +221,6 @@ jobs:
                     game-versions: 1.19
                     name: "Friends&Foes mc1.19-1.5.4 (Forge)"
                     version: "forge-mc1.19-1.5.4"
-                    dependencies: ${{ env.FORGE_DEPENDENCIES }}
                     java: ${{ env.JAVA_VERSIONS }}
                     retry-attempts: ${{ env.RETRY_ATTEMPTS }}
                     retry-delay: ${{ env.RETRY_DELAY }}

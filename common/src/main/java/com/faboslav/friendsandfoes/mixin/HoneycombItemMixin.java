@@ -17,7 +17,7 @@ import java.util.function.Supplier;
 
 @Mixin(HoneycombItem.class)
 @SuppressWarnings({"rawtypes", "unchecked"})
-public abstract class HoneycombItemMixin
+public final class HoneycombItemMixin
 {
 	private static final Supplier<BiMap<Block, Block>> UNWAXED_TO_WAXED_BUTTON_BLOCKS = Suppliers.memoize(() -> {
 		return (BiMap) ImmutableBiMap.builder()

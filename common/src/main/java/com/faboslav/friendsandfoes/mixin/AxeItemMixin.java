@@ -20,7 +20,7 @@ import java.util.function.Supplier;
 
 @Mixin(AxeItem.class)
 @SuppressWarnings({"rawtypes", "unchecked"})
-public abstract class AxeItemMixin
+public final class AxeItemMixin
 {
 	private static final Supplier<BiMap<Block, Block>> WAXED_TO_UNWAXED_BLOCKS = Suppliers.memoize(() -> {
 		return (BiMap) ImmutableBiMap.builder()

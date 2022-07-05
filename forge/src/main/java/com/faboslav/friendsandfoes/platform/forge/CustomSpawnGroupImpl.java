@@ -12,7 +12,7 @@ public final class CustomSpawnGroupImpl
 	public static SpawnGroup getGlaresCategory() {
 		var spawnGroup = SpawnGroup.byName(CustomSpawnGroup.GLARES_INTERNAL_NAME);
 
-		if(spawnGroup == null) {
+		if (spawnGroup == null) {
 			spawnGroup = SpawnGroup.create(
 				CustomSpawnGroup.GLARES_INTERNAL_NAME,
 				FriendsAndFoes.makeStringID(CustomSpawnGroup.NAME),

@@ -2,10 +2,10 @@
   "type": "forge:add_spawns",
   "biomes": "#friendsandfoes:has_savanna_mauler",
   "spawn": {
-    "type": "friendsandfoes:mauler",
-    "minCount": 1,
-    "maxCount": 1,
-    "weight": 32
+	"type": "friendsandfoes:mauler",
+	"minCount": 1,
+	"maxCount": 1,
+	"weight": 32
   },
   "category": "creature"
 }

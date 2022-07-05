@@ -22,7 +22,7 @@ import net.minecraft.world.poi.PointOfInterestType;
 
 import java.util.function.Supplier;
 
-public class RegistryHelperImpl
+public final class RegistryHelperImpl
 {
 	public static <T extends Block> Supplier<T> registerBlock(String name, Supplier<T> block) {
 		var registry = Registry.register(Registry.BLOCK, FriendsAndFoes.makeID(name), block.get());

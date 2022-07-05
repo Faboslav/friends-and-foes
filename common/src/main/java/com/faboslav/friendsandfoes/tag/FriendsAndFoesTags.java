@@ -3,14 +3,15 @@ package com.faboslav.friendsandfoes.tag;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 
 /**
- * @see net.minecraft.tag.BlockTags
+ * @see BlockTags
  */
-public class FriendsAndFoesTags
+public final class FriendsAndFoesTags
 {
 	public static final TagKey<Block> COPPER_BUTTONS = blockTag("copper_buttons");
 	public static final TagKey<Block> GLARES_SPAWNABLE_ON = blockTag("glares_spawnable_on");

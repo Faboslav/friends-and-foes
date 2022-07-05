@@ -14,7 +14,7 @@ public final class CustomSpawnGroupImpl
 	/**
 	 * @see CustomSpawnGroup#getGlaresCategory()
 	 */
-    public static SpawnGroup getGlaresCategory() {
+	public static SpawnGroup getGlaresCategory() {
 		return GLARES;
-    }
+	}
 }

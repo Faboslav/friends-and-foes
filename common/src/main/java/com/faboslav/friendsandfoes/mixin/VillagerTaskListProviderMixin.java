@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(VillagerTaskListProvider.class)
-public class VillagerTaskListProviderMixin
+public final class VillagerTaskListProviderMixin
 {
 	@ModifyVariable(
 		method = "createWorkTasks(Lnet/minecraft/village/VillagerProfession;F)Lcom/google/common/collect/ImmutableList;",

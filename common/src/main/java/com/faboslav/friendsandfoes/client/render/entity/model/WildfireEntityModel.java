@@ -4,7 +4,7 @@ import com.faboslav.friendsandfoes.entity.WildfireEntity;
 import net.minecraft.client.model.*;
 import net.minecraft.util.math.MathHelper;
 
-public class WildfireEntityModel<T extends WildfireEntity> extends BaseEntityModel<T>
+public final class WildfireEntityModel<T extends WildfireEntity> extends BaseEntityModel<T>
 {
 	private static final String MODEL_PART_HEAD = "head";
 	private static final String MODEL_PART_HELMET = "helmet";

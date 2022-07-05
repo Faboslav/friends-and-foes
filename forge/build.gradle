@@ -27,8 +27,6 @@ configurations {
 	compileClasspath.extendsFrom common
 	runtimeClasspath.extendsFrom common
 	developmentForge.extendsFrom common
-	library
-	implementation.extendsFrom library
 }
 
 dependencies {

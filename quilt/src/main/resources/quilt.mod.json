@@ -45,10 +45,6 @@
 		"version": ">=1.19"
 	  },
 	  {
-		"id": "architectury",
-		"version": ">=5.7.27"
-	  },
-	  {
 		"id": "quilt_loader",
 		"version": "*"
 	  },

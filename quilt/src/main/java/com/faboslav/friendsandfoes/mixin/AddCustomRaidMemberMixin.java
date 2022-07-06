@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.mixin;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.util.CustomRaidMember;
 import net.minecraft.entity.EntityType;
@@ -21,7 +20,7 @@ import java.util.Arrays;
 
 @Mixin(Raid.Member.class)
 @SuppressWarnings({"ShadowTarget", "InvokerTarget"})
-public final class RaidMemberMixin
+public final class AddCustomRaidMemberMixin
 {
 	@Invoker("<init>")
 	private static Raid.Member newRaidMember(

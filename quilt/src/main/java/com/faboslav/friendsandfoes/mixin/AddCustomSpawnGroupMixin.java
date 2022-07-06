@@ -19,7 +19,7 @@ import java.util.Arrays;
 
 @Mixin(SpawnGroup.class)
 @SuppressWarnings({"ShadowTarget", "InvokerTarget"})
-public final class SpawnGroupMixin
+public final class AddCustomSpawnGroupMixin
 {
 	@Invoker("<init>")
 	public static SpawnGroup newSpawnGroup(
@@ -49,7 +49,6 @@ public final class SpawnGroupMixin
 		)
 	)
 	private static void addCustomSpawnGroup(CallbackInfo ci) {
-		FriendsAndFoes.getLogger().info("adding spawn group");
 		var spawnGroups = new ArrayList<>(Arrays.asList(field_6301));
 		var lastSpawnGroup = spawnGroups.get(spawnGroups.size() - 1);
 

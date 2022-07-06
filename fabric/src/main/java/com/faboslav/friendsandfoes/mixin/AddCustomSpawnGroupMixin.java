@@ -19,7 +19,7 @@ import java.util.Arrays;
 
 @Mixin(SpawnGroup.class)
 @SuppressWarnings({"ShadowTarget", "InvokerTarget"})
-public final class SpawnGroupMixin
+public final class AddCustomSpawnGroupMixin
 {
 	@Invoker("<init>")
 	public static SpawnGroup newSpawnGroup(

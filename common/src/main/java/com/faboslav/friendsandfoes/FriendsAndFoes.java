@@ -53,7 +53,5 @@ public final class FriendsAndFoes
 		FriendsAndFoesEntityTypes.postInit();
 		FriendsAndFoesBlockEntityTypes.postInit();
 		FriendsAndFoesVillagerProfessions.postInit();
-		FriendsAndFoes.getLogger().info(Arrays.toString(Raid.Member.values()));
-		FriendsAndFoes.getLogger().info(Arrays.toString(SpawnGroup.values()));
 	}
 }

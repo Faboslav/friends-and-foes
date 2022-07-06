@@ -40,24 +40,8 @@ public final class FriendsAndFoesForgeClient
 
 	@SubscribeEvent
 	public static void registerLayerDefinitions(RegisterLayerDefinitions event) {
-		FriendsAndFoes.getLogger().info("registerLayerDefinitions");
 		for (Map.Entry<EntityModelLayer, Supplier<TexturedModelData>> entry : RegistryHelperImpl.ENTITY_MODEL_LAYERS.entrySet()) {
-			FriendsAndFoes.getLogger().info(entry.getKey().getName());
 			event.registerLayerDefinition(entry.getKey(), entry.getValue());
 		}
-	}
-
-	@SubscribeEvent
-	public static <T extends Entity> void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
-		FriendsAndFoes.getLogger().info("registerEntityRenderers");
-		/*
-		event.registerEntityRenderer(FriendsAndFoesEntityTypes.COPPER_GOLEM.get(), CopperGolemEntityRenderer::new);
-		event.registerEntityRenderer(FriendsAndFoesEntityTypes.GLARE.get(), GlareEntityRenderer::new);
-		event.registerEntityRenderer(FriendsAndFoesEntityTypes.ICEOLOGER.get(), IceologerEntityRenderer::new);
-		event.registerEntityRenderer(FriendsAndFoesEntityTypes.ICE_CHUNK.get(), IceologerIceChunkRenderer::new);
-		event.registerEntityRenderer(FriendsAndFoesEntityTypes.MAULER.get(), MaulerEntityRenderer::new);
-		event.registerEntityRenderer(FriendsAndFoesEntityTypes.MOOBLOOM.get(), MoobloomEntityRenderer::new);
-		event.registerEntityRenderer(FriendsAndFoesEntityTypes.WILDFIRE.get(), WildfireEntityRenderer::new);
-		 */
 	}
 }

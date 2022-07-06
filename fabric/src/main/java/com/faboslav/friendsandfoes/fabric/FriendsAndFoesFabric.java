@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes.fabric;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesPointOfInterestTypes;
 import com.faboslav.friendsandfoes.util.ServerWorldSpawnersUtil;
+import com.faboslav.friendsandfoes.util.UpdateChecker;
 import com.faboslav.friendsandfoes.world.spawner.IceologerSpawner;
 import com.faboslav.friendsandfoes.world.spawner.IllusionerSpawner;
 import net.fabricmc.api.ModInitializer;
@@ -17,7 +18,7 @@ public final class FriendsAndFoesFabric implements ModInitializer
 {
 	@Override
 	public void onInitialize() {
-		FriendsAndFoes.checkForNewUpdates();
+		UpdateChecker.checkForNewUpdates();
 		FriendsAndFoes.init();
 		FriendsAndFoes.postInit();
 		FriendsAndFoesPointOfInterestTypes.postInit();

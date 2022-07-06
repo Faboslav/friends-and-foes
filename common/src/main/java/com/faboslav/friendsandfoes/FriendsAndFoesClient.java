@@ -10,12 +10,12 @@ public final class FriendsAndFoesClient
 {
 	@Environment(EnvType.CLIENT)
 	public static void init() {
-		FriendAndFoesEntityRenderer.init();
 		FriendsAndFoesEntityModelLayer.init();
 	}
 
 	@Environment(EnvType.CLIENT)
 	public static void postInit() {
+		FriendAndFoesEntityRenderer.postInit();
 		FriendsAndFoesRenderType.postInit();
 	}
 }

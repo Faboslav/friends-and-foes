@@ -136,7 +136,7 @@ public final class WildfireEntity extends HostileEntity
 	}
 
 	static {
-		BLAZE_FLAGS = DataTracker.registerData(net.minecraft.entity.mob.BlazeEntity.class, TrackedDataHandlerRegistry.BYTE);
+		BLAZE_FLAGS = DataTracker.registerData(WildfireEntity.class, TrackedDataHandlerRegistry.BYTE);
 	}
 }
 

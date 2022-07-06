@@ -12,7 +12,7 @@ import net.minecraft.client.render.entity.EntityRenderers;
 @Environment(EnvType.CLIENT)
 public final class FriendAndFoesEntityRenderer
 {
-	public static void init() {
+	public static void postInit() {
 		RegistryHelper.registerEntityRenderer(FriendsAndFoesEntityTypes.COPPER_GOLEM, CopperGolemEntityRenderer::new);
 		RegistryHelper.registerEntityRenderer(FriendsAndFoesEntityTypes.GLARE, GlareEntityRenderer::new);
 		RegistryHelper.registerEntityRenderer(FriendsAndFoesEntityTypes.ICEOLOGER, IceologerEntityRenderer::new);

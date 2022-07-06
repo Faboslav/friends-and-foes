@@ -49,6 +49,7 @@ public final class SpawnGroupMixin
 		)
 	)
 	private static void addCustomSpawnGroup(CallbackInfo ci) {
+		FriendsAndFoes.getLogger().info("adding spawn group");
 		var spawnGroups = new ArrayList<>(Arrays.asList(field_6301));
 		var lastSpawnGroup = spawnGroups.get(spawnGroups.size() - 1);
 

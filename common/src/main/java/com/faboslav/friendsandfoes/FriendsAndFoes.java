@@ -4,13 +4,9 @@ import com.faboslav.friendsandfoes.config.FriendsAndFoesConfig;
 import com.faboslav.friendsandfoes.config.omegaconfig.OmegaConfig;
 import com.faboslav.friendsandfoes.init.*;
 import com.faboslav.friendsandfoes.util.ServerTickDeltaCounter;
-import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.Identifier;
-import net.minecraft.village.raid.Raid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Arrays;
 
 public final class FriendsAndFoes
 {

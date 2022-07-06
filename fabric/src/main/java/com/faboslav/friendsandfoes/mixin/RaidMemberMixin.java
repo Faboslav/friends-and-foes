@@ -59,7 +59,7 @@ public final class RaidMemberMixin
 		);
 		CustomRaidMember.ICEOLOGER = iceologerRaidMember;
 		raidMembers.add(iceologerRaidMember);
-		
+
 		var illusionerRaidMember = newRaidMember(
 			CustomRaidMember.ILLUSIONER_INTERNAL_NAME,
 			lastRaidMember.ordinal() + 1,
@@ -67,7 +67,7 @@ public final class RaidMemberMixin
 			CustomRaidMember.ILLUSIONER_COUNT_IN_WAVE
 		);
 		CustomRaidMember.ILLUSIONER = illusionerRaidMember;
-		raidMembers.add(illusionerRaidMember);*/
+		raidMembers.add(illusionerRaidMember);
 
 		field_16632 = raidMembers.toArray(new Raid.Member[0]);
 	}

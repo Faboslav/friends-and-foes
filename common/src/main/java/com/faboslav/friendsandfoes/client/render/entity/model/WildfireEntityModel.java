@@ -1,6 +1,8 @@
 package com.faboslav.friendsandfoes.client.render.entity.model;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.WildfireEntity;
+import com.faboslav.friendsandfoes.util.animation.AnimationMath;
 import net.minecraft.client.model.*;
 import net.minecraft.util.math.MathHelper;
 
@@ -13,6 +15,8 @@ public final class WildfireEntityModel<T extends WildfireEntity> extends BaseEnt
 	private static final String MODEL_PART_RIGHT_SHIELD = "rightShield";
 	private static final String MODEL_PART_BACK_SHIELD = "BackShield";
 	private static final String MODEL_PART_LEFT_SHIELD = "LeftShield";
+	private float prevBodyYaw = 0.0F;
+	private float bodyYaw = 0.0F;
 
 	private final ModelPart head;
 	private final ModelPart helmet;
@@ -29,10 +33,10 @@ public final class WildfireEntityModel<T extends WildfireEntity> extends BaseEnt
 		this.head = this.root.getChild(MODEL_PART_HEAD);
 		this.helmet = this.head.getChild(MODEL_PART_HELMET);
 		this.body = this.root.getChild(MODEL_PART_BODY);
-		this.frontShield = this.body.getChild(MODEL_PART_FRONT_SHIELD);
-		this.rightShield = this.body.getChild(MODEL_PART_RIGHT_SHIELD);
-		this.backShield = this.body.getChild(MODEL_PART_BACK_SHIELD);
-		this.leftShield = this.body.getChild(MODEL_PART_LEFT_SHIELD);
+		this.frontShield = this.root.getChild(MODEL_PART_FRONT_SHIELD);
+		this.rightShield = this.root.getChild(MODEL_PART_RIGHT_SHIELD);
+		this.backShield = this.root.getChild(MODEL_PART_BACK_SHIELD);
+		this.leftShield = this.root.getChild(MODEL_PART_LEFT_SHIELD);
 
 		this.shields = new ModelPart[]{
 			this.frontShield,
@@ -53,32 +57,37 @@ public final class WildfireEntityModel<T extends WildfireEntity> extends BaseEnt
 
 		root.addChild(MODEL_PART_BODY, ModelPartBuilder.create().uv(0, 0).cuboid(-2.0F, 0.0F, -2.0F, 4.0F, 21.0F, 4.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 3.0F, 0.0F));
 
-		ModelPartData body = root.getChild(MODEL_PART_BODY);
-		body.addChild(MODEL_PART_FRONT_SHIELD, ModelPartBuilder.create().uv(17, 0).cuboid(-5.0F, 1.0F, -10.0F, 10.0F, 17.0F, 2.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 0.0F, 0.0F, -0.2618F, 0.0F, 0.0F));
-		body.addChild(MODEL_PART_RIGHT_SHIELD, ModelPartBuilder.create().uv(17, 0).cuboid(-5.0F, 1.0F, -10.0F, 10.0F, 17.0F, 2.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 0.0F, 0.0F, -0.2618F, 1.5708F, 0.0F));
-		body.addChild(MODEL_PART_BACK_SHIELD, ModelPartBuilder.create().uv(17, 0).cuboid(-5.0F, 1.0F, -10.0F, 10.0F, 17.0F, 2.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 0.0F, 0.0F, -0.2618F, 3.1416F, 0.0F));
-		body.addChild(MODEL_PART_LEFT_SHIELD, ModelPartBuilder.create().uv(17, 0).cuboid(-5.0F, 1.0F, -10.0F, 10.0F, 17.0F, 2.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 0.0F, 0.0F, -0.2618F, -1.5708F, 0.0F));
+		root.addChild(MODEL_PART_FRONT_SHIELD, ModelPartBuilder.create().uv(17, 0).cuboid(-5.0F, 1.0F, -10.0F, 10.0F, 17.0F, 2.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 3.0F, 0.0F, -0.2618F, 0.0F, 0.0F));
+		root.addChild(MODEL_PART_RIGHT_SHIELD, ModelPartBuilder.create().uv(17, 0).cuboid(-5.0F, 1.0F, -10.0F, 10.0F, 17.0F, 2.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 3.0F, 0.0F, -0.2618F, -1.5708F, 0.0F));
+		root.addChild(MODEL_PART_BACK_SHIELD, ModelPartBuilder.create().uv(17, 0).cuboid(-5.0F, 1.0F, -10.0F, 10.0F, 17.0F, 2.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 3.0F, 0.0F, -0.2618F, 3.1416F, 0.0F));
+		root.addChild(MODEL_PART_LEFT_SHIELD, ModelPartBuilder.create().uv(17, 0).cuboid(-5.0F, 1.0F, -10.0F, 10.0F, 17.0F, 2.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 3.0F, 0.0F, -0.2618F, 1.5708F, 0.0F));
 
 		return TexturedModelData.of(modelData, 64, 64);
 	}
 
 	@Override
 	public void setAngles(
-		T mauler,
+		T wildfire,
 		float limbAngle,
 		float limbDistance,
 		float animationProgress,
 		float headYaw,
 		float headPitch
 	) {
-		float f = animationProgress * 3.1415927F * -0.1F;
+		int activeShieldsCount = wildfire.getActiveShieldsCount();
+		float baseRotationUnit = (2.0F * (float) Math.PI) / activeShieldsCount;
+		float bodyCounterRotation = (float) Math.toRadians((wildfire.prevBodyYaw * -1.0F));
+		float additionalShieldRotation = (animationProgress * 0.1F) % (2.0F * (float) Math.PI);
 
-		int i;
-		for (i = 0; i < 4; ++i) {
-			this.shields[i].yaw = -2.0F + MathHelper.cos(((float) (i * 2) + animationProgress) * 0.25F);
-			this.shields[i].pivotX = MathHelper.cos(f) * 9.0F;
-			this.shields[i].pivotZ = MathHelper.sin(f) * 9.0F;
-			++f;
+		for (int i = 0; i < WildfireEntity.DEFAULT_ACTIVE_SHIELDS_COUNT; ++i) {
+			if(i > activeShieldsCount) {
+				this.shields[i].hidden = true;
+				continue;
+			} else {
+				this.shields[i].hidden = false;
+			}
+
+			this.shields[i].yaw = (bodyCounterRotation + (baseRotationUnit * i)) + additionalShieldRotation;;
 		}
 
 		this.head.yaw = headYaw * 0.017453292F;

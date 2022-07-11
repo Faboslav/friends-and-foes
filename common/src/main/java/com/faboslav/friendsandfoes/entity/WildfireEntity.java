@@ -1,6 +1,8 @@
 package com.faboslav.friendsandfoes.entity;
 
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
+import com.faboslav.friendsandfoes.util.RandomGenerator;
+import net.minecraft.block.Oxidizable;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.*;
@@ -13,17 +15,28 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 public final class WildfireEntity extends HostileEntity
 {
+	private float damageAmountCounter = 0;
 	private float eyeOffset = 0.5F;
 	private int eyeOffsetCooldown;
-	private static final TrackedData<Byte> BLAZE_FLAGS;
+
+	public static final int DEFAULT_ACTIVE_SHIELDS_COUNT = 4;
+	public static final int ONE_ACTIVE_SHIELD_NUMBER = 1;
+	public static final int TWO_ACTIVE_SHIELDS_NUMBER = 2;
+	public static final int THREE_ACTIVE_SHIELDS_NUMBER = 3;
+	public static final int FOUR_ACTIVE_SHIELDS_NUMBER = 4;
+	private static final String ACTIVE_SHIELDS_NBT_NAME = "ActiveShields";
+	private static final TrackedData<Integer> ACTIVE_SHIELDS;
 
 	public WildfireEntity(EntityType<? extends WildfireEntity> entityType, World world) {
 		super(entityType, world);
@@ -46,15 +59,56 @@ public final class WildfireEntity extends HostileEntity
 
 	public static DefaultAttributeContainer.Builder createAttributes() {
 		return HostileEntity.createHostileAttributes()
-			.add(EntityAttributes.GENERIC_MAX_HEALTH, 120.0)
+			.add(EntityAttributes.GENERIC_MAX_HEALTH, 80.0)
 			.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.0)
 			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.23000000417232513)
 			.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 48.0);
 	}
 
+	@Override
 	protected void initDataTracker() {
 		super.initDataTracker();
-		this.dataTracker.startTracking(BLAZE_FLAGS, (byte) 0);
+		this.dataTracker.startTracking(ACTIVE_SHIELDS, DEFAULT_ACTIVE_SHIELDS_COUNT);
+	}
+
+	@Override
+	public void writeCustomDataToNbt(NbtCompound nbt) {
+		super.writeCustomDataToNbt(nbt);
+		nbt.putInt(ACTIVE_SHIELDS_NBT_NAME, this.getActiveShieldsCount());
+	}
+
+	@Override
+	public void readCustomDataFromNbt(NbtCompound nbt) {
+		super.readCustomDataFromNbt(nbt);
+		this.setActiveShieldsCount(nbt.getInt(ACTIVE_SHIELDS_NBT_NAME));
+	}
+
+	public SoundEvent getShieldBreakSound() {
+		return FriendsAndFoesSoundEvents.ENTITY_WILDFIRE_SHIELD_BREAK.get();
+	}
+
+	public void playShieldBreakSound() {
+		this.playSound(this.getShieldBreakSound(), 1.0F, 1.0F);
+	}
+
+	public void breakShield() {
+		this.setActiveShieldsCount(this.getActiveShieldsCount() - 1);
+	}
+
+	public void regenerateShield() {
+		this.setActiveShieldsCount(this.getActiveShieldsCount() + 1);
+	}
+
+	public int getActiveShieldsCount() {
+		return this.dataTracker.get(ACTIVE_SHIELDS);
+	}
+
+	public void setActiveShieldsCount(int activeShields) {
+		this.dataTracker.set(ACTIVE_SHIELDS, activeShields);
+	}
+
+	public boolean hasActiveShields() {
+		return this.getActiveShieldsCount() > 0;
 	}
 
 	protected SoundEvent getAmbientSound() {
@@ -67,10 +121,6 @@ public final class WildfireEntity extends HostileEntity
 
 	protected SoundEvent getDeathSound() {
 		return FriendsAndFoesSoundEvents.ENTITY_WILDFIRE_DEATH.get();
-	}
-
-	public float getBrightnessAtEyes() {
-		return 1.0F;
 	}
 
 	public void tickMovement() {
@@ -91,8 +141,24 @@ public final class WildfireEntity extends HostileEntity
 		super.tickMovement();
 	}
 
-	public boolean hurtByWater() {
-		return true;
+	public boolean damage(
+		DamageSource source,
+		float amount
+	) {
+		if (this.hasActiveShields()) {
+			this.damageAmountCounter += amount;
+			float shieldBreakDamageThreshold = (float) this.getAttributeValue(EntityAttributes.GENERIC_MAX_HEALTH) * 0.25F;
+
+			if (this.damageAmountCounter >= shieldBreakDamageThreshold) {
+				this.breakShield();
+				this.playShieldBreakSound();
+				this.damageAmountCounter = 0;
+			}
+
+			amount = 0.0F;
+		}
+
+		return super.damage(source, amount);
 	}
 
 	protected void mobTick() {
@@ -112,31 +178,24 @@ public final class WildfireEntity extends HostileEntity
 		super.mobTick();
 	}
 
+	public float getBrightnessAtEyes() {
+		return 1.0F;
+	}
+
+	public boolean hurtByWater() {
+		return true;
+	}
+
+	public boolean isOnFire() {
+		return true;
+	}
+
 	public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
 		return false;
 	}
 
-	public boolean isOnFire() {
-		return this.isFireActive();
-	}
-
-	private boolean isFireActive() {
-		return ((Byte) this.dataTracker.get(BLAZE_FLAGS) & 1) != 0;
-	}
-
-	void setFireActive(boolean fireActive) {
-		byte b = (Byte) this.dataTracker.get(BLAZE_FLAGS);
-		if (fireActive) {
-			b = (byte) (b | 1);
-		} else {
-			b &= -2;
-		}
-
-		this.dataTracker.set(BLAZE_FLAGS, b);
-	}
-
 	static {
-		BLAZE_FLAGS = DataTracker.registerData(WildfireEntity.class, TrackedDataHandlerRegistry.BYTE);
+		ACTIVE_SHIELDS = DataTracker.registerData(WildfireEntity.class, TrackedDataHandlerRegistry.INTEGER);
 	}
 }
 

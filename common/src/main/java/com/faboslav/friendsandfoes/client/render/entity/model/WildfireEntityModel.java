@@ -1,10 +1,7 @@
 package com.faboslav.friendsandfoes.client.render.entity.model;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.WildfireEntity;
-import com.faboslav.friendsandfoes.util.animation.AnimationMath;
 import net.minecraft.client.model.*;
-import net.minecraft.util.math.MathHelper;
 
 public final class WildfireEntityModel<T extends WildfireEntity> extends BaseEntityModel<T>
 {
@@ -15,8 +12,6 @@ public final class WildfireEntityModel<T extends WildfireEntity> extends BaseEnt
 	private static final String MODEL_PART_RIGHT_SHIELD = "rightShield";
 	private static final String MODEL_PART_BACK_SHIELD = "BackShield";
 	private static final String MODEL_PART_LEFT_SHIELD = "LeftShield";
-	private float prevBodyYaw = 0.0F;
-	private float bodyYaw = 0.0F;
 
 	private final ModelPart head;
 	private final ModelPart helmet;
@@ -80,14 +75,15 @@ public final class WildfireEntityModel<T extends WildfireEntity> extends BaseEnt
 		float additionalShieldRotation = (animationProgress * 0.1F) % (2.0F * (float) Math.PI);
 
 		for (int i = 0; i < WildfireEntity.DEFAULT_ACTIVE_SHIELDS_COUNT; ++i) {
-			if(i > activeShieldsCount) {
+			if (i > activeShieldsCount) {
 				this.shields[i].hidden = true;
 				continue;
 			} else {
 				this.shields[i].hidden = false;
 			}
 
-			this.shields[i].yaw = (bodyCounterRotation + (baseRotationUnit * i)) + additionalShieldRotation;;
+			this.shields[i].yaw = (bodyCounterRotation + (baseRotationUnit * i)) + additionalShieldRotation;
+			;
 		}
 
 		this.head.yaw = headYaw * 0.017453292F;

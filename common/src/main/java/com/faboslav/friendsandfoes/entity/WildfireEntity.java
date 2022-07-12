@@ -1,10 +1,11 @@
 package com.faboslav.friendsandfoes.entity;
 
+import com.faboslav.friendsandfoes.entity.ai.brain.WildfireBrain;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
-import com.faboslav.friendsandfoes.util.RandomGenerator;
-import net.minecraft.block.Oxidizable;
+import com.mojang.serialization.Dynamic;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -15,14 +16,13 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 public final class WildfireEntity extends HostileEntity
 {
@@ -31,10 +31,6 @@ public final class WildfireEntity extends HostileEntity
 	private int eyeOffsetCooldown;
 
 	public static final int DEFAULT_ACTIVE_SHIELDS_COUNT = 4;
-	public static final int ONE_ACTIVE_SHIELD_NUMBER = 1;
-	public static final int TWO_ACTIVE_SHIELDS_NUMBER = 2;
-	public static final int THREE_ACTIVE_SHIELDS_NUMBER = 3;
-	public static final int FOUR_ACTIVE_SHIELDS_NUMBER = 4;
 	private static final String ACTIVE_SHIELDS_NBT_NAME = "ActiveShields";
 	private static final TrackedData<Integer> ACTIVE_SHIELDS;
 
@@ -47,14 +43,46 @@ public final class WildfireEntity extends HostileEntity
 		this.experiencePoints = 10;
 	}
 
-	protected void initGoals() {
-		//this.goalSelector.add(4, new net.minecraft.entity.mob.BlazeEntity.ShootFireballGoal(this));
-		this.goalSelector.add(5, new GoToWalkTargetGoal(this, 1.0));
-		this.goalSelector.add(7, new WanderAroundFarGoal(this, 1.0, 0.0F));
-		this.goalSelector.add(8, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
-		this.goalSelector.add(8, new LookAroundGoal(this));
-		this.targetSelector.add(1, (new RevengeGoal(this, new Class[0])).setGroupRevenge());
-		this.targetSelector.add(2, new ActiveTargetGoal(this, PlayerEntity.class, true));
+	@Override
+	protected Brain.Profile<?> createBrainProfile() {
+		return Brain.createProfile(WildfireBrain.MEMORY_MODULES, WildfireBrain.SENSORS);
+	}
+
+	@Override
+	@SuppressWarnings("all")
+	protected Brain<?> deserializeBrain(Dynamic<?> dynamic) {
+		return WildfireBrain.create((Brain<WildfireEntity>) this.createBrainProfile().deserialize(dynamic));
+	}
+
+	@Override
+	@SuppressWarnings("all")
+	public Brain<WildfireEntity> getBrain() {
+		return (Brain<WildfireEntity>) super.getBrain();
+	}
+
+	@Override
+	protected void mobTick() {
+		this.world.getProfiler().push("wildfireBrain");
+		this.getBrain().tick((ServerWorld)this.getWorld(), this);
+		this.world.getProfiler().pop();
+		this.world.getProfiler().push("wildfireActivityUpdate");
+		WildfireBrain.updateActivities(this);
+		this.world.getProfiler().pop();
+
+		--this.eyeOffsetCooldown;
+		if (this.eyeOffsetCooldown <= 0) {
+			this.eyeOffsetCooldown = 100;
+			this.eyeOffset = (float) this.random.nextTriangular(0.5, 6.891);
+		}
+
+		LivingEntity livingEntity = this.getTarget();
+		if (livingEntity != null && livingEntity.getEyeY() > this.getEyeY() + (double) this.eyeOffset && this.canTarget(livingEntity)) {
+			Vec3d vec3d = this.getVelocity();
+			this.setVelocity(this.getVelocity().add(0.0, (0.30000001192092896 - vec3d.y) * 0.30000001192092896, 0.0));
+			this.velocityDirty = true;
+		}
+
+		super.mobTick();
 	}
 
 	public static DefaultAttributeContainer.Builder createAttributes() {
@@ -161,23 +189,6 @@ public final class WildfireEntity extends HostileEntity
 		return super.damage(source, amount);
 	}
 
-	protected void mobTick() {
-		--this.eyeOffsetCooldown;
-		if (this.eyeOffsetCooldown <= 0) {
-			this.eyeOffsetCooldown = 100;
-			this.eyeOffset = (float) this.random.nextTriangular(0.5, 6.891);
-		}
-
-		LivingEntity livingEntity = this.getTarget();
-		if (livingEntity != null && livingEntity.getEyeY() > this.getEyeY() + (double) this.eyeOffset && this.canTarget(livingEntity)) {
-			Vec3d vec3d = this.getVelocity();
-			this.setVelocity(this.getVelocity().add(0.0, (0.30000001192092896 - vec3d.y) * 0.30000001192092896, 0.0));
-			this.velocityDirty = true;
-		}
-
-		super.mobTick();
-	}
-
 	public float getBrightnessAtEyes() {
 		return 1.0F;
 	}
@@ -187,7 +198,7 @@ public final class WildfireEntity extends HostileEntity
 	}
 
 	public boolean isOnFire() {
-		return true;
+		return false;
 	}
 
 	public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {

@@ -19,7 +19,7 @@ import net.minecraft.world.dimension.DimensionTypes;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.ServerTickEvent;
-import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
@@ -77,14 +77,14 @@ public final class FriendsAndFoesForge
 		});
 	}
 
-	private static void initSpawners(final WorldEvent.Load event) {
+	private static void initSpawners(final LevelEvent.Load event) {
 		if (
-			event.getWorld().isClient()
-			|| ((ServerWorld) event.getWorld()).getDimensionKey() != DimensionTypes.OVERWORLD) {
+			event.getLevel().isClient()
+			|| ((ServerWorld) event.getLevel()).getDimensionKey() != DimensionTypes.OVERWORLD) {
 			return;
 		}
 
-		var server = event.getWorld().getServer();
+		var server = event.getLevel().getServer();
 
 		if (server == null) {
 			return;

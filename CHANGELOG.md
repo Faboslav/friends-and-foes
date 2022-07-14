@@ -1,3 +1,9 @@
+## mc1.19-1.5.5, July 13, 2022
+
+- Fixed compatibility with the new forge release
+- Added es_es translations (Thanks to https://github.com/baooduy)
+- Added vi_vn translations (Thanks to https://github.com/Zano1999)
+
 ## mc1.19-1.5.4, June 21, 2022
 
 - Fixed bug when copper blocks can not be waxed

@@ -7,9 +7,9 @@ import com.faboslav.friendsandfoes.platform.forge.RegistryHelperImpl;
 import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.ConfigGuiHandler;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterLayerDefinitions;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -27,8 +27,8 @@ public final class FriendsAndFoesForgeClient
 			FriendsAndFoesClient.postInit();
 
 			if (ModList.get().isLoaded("cloth_config")) {
-				ModLoadingContext.get().registerExtensionPoint(ConfigGuiHandler.ConfigGuiFactory.class, () ->
-					new ConfigGuiHandler.ConfigGuiFactory(
+				ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () ->
+					new ConfigScreenHandler.ConfigScreenFactory(
 						(mc, screen) -> ConfigScreenBuilder.createConfigScreen(FriendsAndFoes.getConfig(), screen)
 					)
 				);

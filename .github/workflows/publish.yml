@@ -9,6 +9,9 @@ env:
     JAVA_VERSIONS: |
         Java 17
         Java 18
+    GAME_VERSIONS: |
+        1.19
+        1.19.1
     FABRIC_DEPENDENCIES: |
         fabric-api | depends | *
         architectury-api | depends | *
@@ -49,9 +52,9 @@ jobs:
                 with:
                     name: "friends-and-foes"
                     path: |
-                        fabric/build/libs/friendsandfoes-fabric-mc1.19-1.5.5.jar
-                        forge/build/libs/friendsandfoes-forge-mc1.19-1.5.5.jar
-                        quilt/build/libs/friendsandfoes-quilt-mc1.19-1.5.5.jar
+                        fabric/build/libs/friendsandfoes-fabric-mc1.19.1-1.5.5.jar
+                        forge/build/libs/friendsandfoes-forge-mc1.19.1-1.5.5.jar
+                        quilt/build/libs/friendsandfoes-quilt-mc1.19.1-1.5.5.jar
                         LICENSE.txt
 
     publish-license-to-release:
@@ -87,7 +90,7 @@ jobs:
             -   name: "Publish Fabric to GitHub"
                 uses: AButler/upload-release-assets@v2.0
                 with:
-                    files: 'fabric/build/libs/friendsandfoes-fabric-mc1.19-1.5.5.jar'
+                    files: 'fabric/build/libs/friendsandfoes-fabric-mc1.19.1-1.5.5.jar'
                     repo-token: ${{ secrets.GITHUB_TOKEN }}
 
     publish-fabric-to-curseforge:
@@ -108,11 +111,11 @@ jobs:
                     curseforge-id: 551364
                     curseforge-token: ${{ secrets.CURSEFORGE_RELEASE_TOKEN }}
 
-                    files-primary: "fabric/build/libs/friendsandfoes-fabric-mc1.19-1.5.5.jar"
+                    files-primary: "fabric/build/libs/friendsandfoes-fabric-mc1.19.1-1.5.5.jar"
                     version-type: ${{ env.VERSION_TYPE }}
                     loaders: fabric
-                    game-versions: 1.19
-                    name: "Friends&Foes mc1.19-1.5.5 (Fabric)"
+                    game-versions: ${{ env.GAME_VERSIONS }}
+                    name: "Friends&Foes mc1.19.1-1.5.5 (Fabric)"
                     dependencies: ${{ env.FABRIC_DEPENDENCIES }}
                     java: ${{ env.JAVA_VERSIONS }}
 
@@ -140,12 +143,12 @@ jobs:
                     modrinth-unfeature-mode: version-intersection
                     modrinth-token: ${{ secrets.MODRINTH_RELEASE_TOKEN }}
 
-                    files-primary: "fabric/build/libs/friendsandfoes-fabric-mc1.19-1.5.5.jar"
+                    files-primary: "fabric/build/libs/friendsandfoes-fabric-mc1.19.1-1.5.5.jar"
                     version-type: ${{ env.VERSION_TYPE }}
                     loaders: fabric
-                    game-versions: 1.19
-                    name: "Friends&Foes mc1.19-1.5.5 (Fabric)"
-                    version: "fabric-mc1.19-1.5.5"
+                    game-versions: ${{ env.GAME_VERSIONS }}
+                    name: "Friends&Foes mc1.19.1-1.5.5 (Fabric)"
+                    version: "fabric-mc1.19.1-1.5.5"
                     dependencies: ${{ env.FABRIC_DEPENDENCIES }}
                     java: ${{ env.JAVA_VERSIONS }}
                     retry-attempts: ${{ env.RETRY_ATTEMPTS }}
@@ -167,7 +170,7 @@ jobs:
             -   name: "Publish Forge to GitHub"
                 uses: AButler/upload-release-assets@v2.0
                 with:
-                    files: 'forge/build/libs/friendsandfoes-forge-mc1.19-1.5.5.jar'
+                    files: 'forge/build/libs/friendsandfoes-forge-mc1.19.1-1.5.5.jar'
                     repo-token: ${{ secrets.GITHUB_TOKEN }}
 
     publish-forge-to-curseforge:
@@ -188,11 +191,11 @@ jobs:
                     curseforge-id: 602059
                     curseforge-token: ${{ secrets.CURSEFORGE_RELEASE_TOKEN }}
 
-                    files-primary: "forge/build/libs/friendsandfoes-forge-mc1.19-1.5.5.jar"
+                    files-primary: "forge/build/libs/friendsandfoes-forge-mc1.19.1-1.5.5.jar"
                     version-type: ${{ env.VERSION_TYPE }}
                     loaders: forge
-                    game-versions: 1.19
-                    name: "Friends&Foes mc1.19-1.5.5 (Forge)"
+                    game-versions: ${{ env.GAME_VERSIONS }}
+                    name: "Friends&Foes mc1.19.1-1.5.5 (Forge)"
                     dependencies: ${{ env.FORGE_DEPENDENCIES }}
                     java: ${{ env.JAVA_VERSIONS }}
 
@@ -220,12 +223,12 @@ jobs:
                     modrinth-unfeature-mode: version-intersection
                     modrinth-token: ${{ secrets.MODRINTH_RELEASE_TOKEN }}
 
-                    files-primary: "forge/build/libs/friendsandfoes-forge-mc1.19-1.5.5.jar"
+                    files-primary: "forge/build/libs/friendsandfoes-forge-mc1.19.1-1.5.5.jar"
                     version-type: ${{ env.VERSION_TYPE }}
                     loaders: forge
-                    game-versions: 1.19
-                    name: "Friends&Foes mc1.19-1.5.5 (Forge)"
-                    version: "forge-mc1.19-1.5.5"
+                    game-versions: ${{ env.GAME_VERSIONS }}
+                    name: "Friends&Foes mc1.19.1-1.5.5 (Forge)"
+                    version: "forge-mc1.19.1-1.5.5"
                     dependencies: ${{ env.FORGE_DEPENDENCIES }}
                     java: ${{ env.JAVA_VERSIONS }}
                     retry-attempts: ${{ env.RETRY_ATTEMPTS }}
@@ -248,7 +251,7 @@ jobs:
             -   name: "Publish Quilt to GitHub"
                 uses: AButler/upload-release-assets@v2.0
                 with:
-                    files: 'quilt/build/libs/friendsandfoes-quilt-mc1.19-1.5.5.jar'
+                    files: 'quilt/build/libs/friendsandfoes-quilt-mc1.19.1-1.5.5.jar'
                     repo-token: ${{ secrets.GITHUB_TOKEN }}
 
     publish-quilt-to-curseforge:
@@ -269,11 +272,11 @@ jobs:
                     curseforge-id: 628248
                     curseforge-token: ${{ secrets.CURSEFORGE_RELEASE_TOKEN }}
 
-                    files-primary: "quilt/build/libs/friendsandfoes-quilt-mc1.19-1.5.5.jar"
+                    files-primary: "quilt/build/libs/friendsandfoes-quilt-mc1.19.1-1.5.5.jar"
                     version-type: ${{ env.VERSION_TYPE }}
                     loaders: quilt
-                    game-versions: 1.19
-                    name: "Friends&Foes mc1.19-1.5.5 (Quilt)"
+                    game-versions: ${{ env.GAME_VERSIONS }}
+                    name: "Friends&Foes mc1.19.1-1.5.5 (Quilt)"
                     dependencies: ${{ env.QUILT_DEPENDENCIES }}
                     java: ${{ env.JAVA_VERSIONS }}
 
@@ -301,12 +304,12 @@ jobs:
                     modrinth-unfeature-mode: version-intersection
                     modrinth-token: ${{ secrets.MODRINTH_RELEASE_TOKEN }}
 
-                    files-primary: "quilt/build/libs/friendsandfoes-quilt-mc1.19-1.5.5.jar"
+                    files-primary: "quilt/build/libs/friendsandfoes-quilt-mc1.19.1-1.5.5.jar"
                     version-type: ${{ env.VERSION_TYPE }}
                     loaders: quilt
-                    game-versions: 1.19
-                    name: "Friends&Foes mc1.19-1.5.5 (Quilt)"
-                    version: "quilt-mc1.19-1.5.5"
+                    game-versions: ${{ env.GAME_VERSIONS }}
+                    name: "Friends&Foes mc1.19.1-1.5.5 (Quilt)"
+                    version: "quilt-mc1.19.1-1.5.5"
                     dependencies: ${{ env.QUILT_DEPENDENCIES }}
                     java: ${{ env.JAVA_VERSIONS }}
                     retry-attempts: ${{ env.RETRY_ATTEMPTS }}

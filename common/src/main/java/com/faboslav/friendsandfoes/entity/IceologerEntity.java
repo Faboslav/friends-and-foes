@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.entity;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.init.ModSounds;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EntityType;
@@ -57,7 +57,7 @@ public final class IceologerEntity extends SpellcastingIllagerEntity
 	}
 
 	public SoundEvent getCelebratingSound() {
-		return ModSounds.ENTITY_ICEOLOGER_AMBIENT.get();
+		return FriendsAndFoesSoundEvents.ENTITY_ICEOLOGER_AMBIENT.get();
 	}
 
 	public boolean isTeammate(Entity other) {
@@ -80,19 +80,19 @@ public final class IceologerEntity extends SpellcastingIllagerEntity
 	}
 
 	protected SoundEvent getAmbientSound() {
-		return ModSounds.ENTITY_ICEOLOGER_AMBIENT.get();
+		return FriendsAndFoesSoundEvents.ENTITY_ICEOLOGER_AMBIENT.get();
 	}
 
 	protected SoundEvent getDeathSound() {
-		return ModSounds.ENTITY_ICEOLOGER_DEATH.get();
+		return FriendsAndFoesSoundEvents.ENTITY_ICEOLOGER_DEATH.get();
 	}
 
 	protected SoundEvent getHurtSound(DamageSource source) {
-		return ModSounds.ENTITY_ICEOLOGER_HURT.get();
+		return FriendsAndFoesSoundEvents.ENTITY_ICEOLOGER_HURT.get();
 	}
 
 	protected SoundEvent getCastSpellSound() {
-		return ModSounds.ENTITY_ICEOLOGER_CAST_SPELL.get();
+		return FriendsAndFoesSoundEvents.ENTITY_ICEOLOGER_CAST_SPELL.get();
 	}
 
 	public void addBonusForWave(int wave, boolean unused) {
@@ -118,7 +118,7 @@ public final class IceologerEntity extends SpellcastingIllagerEntity
 
 		@Override
 		protected SoundEvent getSoundPrepare() {
-			return ModSounds.ENTITY_ICEOLOGER_PREPARE_SUMMON.get();
+			return FriendsAndFoesSoundEvents.ENTITY_ICEOLOGER_PREPARE_SUMMON.get();
 		}
 
 		@Override
@@ -167,7 +167,7 @@ public final class IceologerEntity extends SpellcastingIllagerEntity
 
 		@Override
 		protected SoundEvent getSoundPrepare() {
-			return ModSounds.ENTITY_ICEOLOGER_PREPARE_SLOWNESS.get();
+			return FriendsAndFoesSoundEvents.ENTITY_ICEOLOGER_PREPARE_SLOWNESS.get();
 		}
 
 		@Override

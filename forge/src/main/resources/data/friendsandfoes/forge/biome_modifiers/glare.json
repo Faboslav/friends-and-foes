@@ -1,0 +1,11 @@
+{
+  "type": "friendsandfoes:mob_spawns",
+  "biomes": "#friendsandfoes:has_glare",
+  "spawn": {
+	"type": "friendsandfoes:glare",
+	"minCount": 1,
+	"maxCount": 1,
+	"weight": 4
+  },
+  "category": "glares"
+}

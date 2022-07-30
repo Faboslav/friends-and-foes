@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Environment(EnvType.CLIENT)
-abstract public class AnimatedEntityModel<E extends Entity> extends BaseEntityModel<E>
+public abstract class AnimatedEntityModel<E extends Entity> extends BaseEntityModel<E>
 {
 	protected final ModelAnimator modelAnimator;
 	protected final Map<String, ModelTransform> defaultModelTransforms;

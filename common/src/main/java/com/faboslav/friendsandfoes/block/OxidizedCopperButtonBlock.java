@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.block;
 
-final public class OxidizedCopperButtonBlock extends CopperButtonBlock
+public final class OxidizedCopperButtonBlock extends CopperButtonBlock
 {
 	public static final int PRESS_TICKS = 1;
 

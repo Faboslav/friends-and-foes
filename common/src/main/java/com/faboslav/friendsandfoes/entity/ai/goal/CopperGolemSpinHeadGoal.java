@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.entity.ai.goal;
 
 import com.faboslav.friendsandfoes.entity.CopperGolemEntity;
-import com.faboslav.friendsandfoes.init.ModSounds;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.entity.ai.goal.Goal;
 
@@ -39,11 +39,9 @@ public final class CopperGolemSpinHeadGoal extends Goal
 	}
 
 	public void start() {
-		//this.copperGolem.getNavigation().setSpeed(0);
-		//this.copperGolem.getNavigation().stop();
 		this.spinHeadProgress = 0;
 		this.copperGolem.setIsSpinningHead(true);
-		this.copperGolem.playSound(ModSounds.ENTITY_COPPER_GOLEM_HEAD_SPIN.get(), 1.0F, copperGolem.getSoundPitch() - 1.5F);
+		this.copperGolem.playSound(FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_HEAD_SPIN.get(), 1.0F, copperGolem.getSoundPitch() - 1.5F);
 	}
 
 	@Override

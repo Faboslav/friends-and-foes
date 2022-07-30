@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import java.util.Set;
 
 @Mixin(PointOfInterestTypes.class)
-public class PointOfInterestTypesMixin
+public final class PointOfInterestTypesMixin
 {
 	@ModifyVariable(
 		method = "register",

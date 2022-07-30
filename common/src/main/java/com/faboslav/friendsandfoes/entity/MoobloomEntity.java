@@ -1,8 +1,8 @@
 package com.faboslav.friendsandfoes.entity;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.init.ModBlocks;
-import com.faboslav.friendsandfoes.init.ModEntityTypes;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesBlocks;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -97,7 +97,7 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 					this.getX(),
 					this.getBodyY(1.0D),
 					this.getZ(),
-					new ItemStack(ModBlocks.BUTTERCUP.get())
+					new ItemStack(FriendsAndFoesBlocks.BUTTERCUP.get())
 				)
 			);
 		}
@@ -133,7 +133,7 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 		ServerWorld serverWorld,
 		PassiveEntity entity
 	) {
-		return ModEntityTypes.MOOBLOOM.get().create(serverWorld);
+		return FriendsAndFoesEntityTypes.MOOBLOOM.get().create(serverWorld);
 	}
 
 	@Override
@@ -153,7 +153,7 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 				int flowerChance = RandomGenerator.generateInt(1, 100);
 
 				if (flowerChance >= 0 && flowerChance < 40) {
-					this.world.setBlockState(this.getBlockPos(), ModBlocks.BUTTERCUP.get().getDefaultState());
+					this.world.setBlockState(this.getBlockPos(), FriendsAndFoesBlocks.BUTTERCUP.get().getDefaultState());
 				} else if (flowerChance >= 40 && flowerChance < 80) {
 					this.world.setBlockState(this.getBlockPos(), Blocks.DANDELION.getDefaultState());
 				} else {

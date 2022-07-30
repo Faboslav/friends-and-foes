@@ -2,7 +2,7 @@ package com.faboslav.friendsandfoes.entity.ai.goal;
 
 import com.faboslav.friendsandfoes.block.CopperButtonBlock;
 import com.faboslav.friendsandfoes.entity.CopperGolemEntity;
-import com.faboslav.friendsandfoes.init.ModTags;
+import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalFacingBlock;
@@ -236,7 +236,7 @@ public final class CopperGolemPressButtonGoal extends Goal
 						currentPosition.getZ() + zPosition
 					);
 
-					if (world.getBlockState(mutableBlockPosition).isIn(ModTags.COPPER_BUTTONS)) {
+					if (world.getBlockState(mutableBlockPosition).isIn(FriendsAndFoesTags.COPPER_BUTTONS)) {
 						copperButtonBlocks.add(mutableBlockPosition);
 					}
 				}

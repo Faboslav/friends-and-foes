@@ -15,6 +15,7 @@
 	"ChickenEntityMixin",
 	"HoneycombItemMixin",
 	"IllusionerEntityMixin",
+	"LightningEntityMixin",
 	"LightningRodBlockMixin",
 	"PatrolSpawnerAccessor",
 	"PatrolSpawnerMixin",

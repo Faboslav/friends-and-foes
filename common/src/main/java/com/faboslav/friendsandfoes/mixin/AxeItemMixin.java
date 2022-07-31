@@ -1,11 +1,7 @@
 package com.faboslav.friendsandfoes.mixin;
 
 import com.faboslav.friendsandfoes.block.Oxidizable;
-import com.faboslav.friendsandfoes.init.ModBlocks;
-import com.google.common.base.Suppliers;
-import com.google.common.collect.BiMap;
-import com.google.common.collect.ImmutableBiMap;
-import net.minecraft.block.Block;
+import com.faboslav.friendsandfoes.util.WaxableBlocksMap;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemUsageContext;
@@ -16,21 +12,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 import java.util.Optional;
-import java.util.function.Supplier;
 
 @Mixin(AxeItem.class)
-@SuppressWarnings({"rawtypes", "unchecked"})
 public abstract class AxeItemMixin
 {
-	private static final Supplier<BiMap<Block, Block>> WAXED_TO_UNWAXED_BLOCKS = Suppliers.memoize(() -> {
-		return (BiMap) ImmutableBiMap.builder()
-			.put(ModBlocks.WAXED_COPPER_BUTTON.get(), ModBlocks.COPPER_BUTTON.get())
-			.put(ModBlocks.WAXED_EXPOSED_COPPER_BUTTON.get(), ModBlocks.EXPOSED_COPPER_BUTTON.get())
-			.put(ModBlocks.WAXED_WEATHERED_COPPER_BUTTON.get(), ModBlocks.WEATHERED_COPPER_BUTTON.get())
-			.put(ModBlocks.WAXED_OXIDIZED_COPPER_BUTTON.get(), ModBlocks.OXIDIZED_COPPER_BUTTON.get())
-			.build();
-	});
-
 	@ModifyVariable(
 		method = "useOnBlock",
 		ordinal = 1,
@@ -72,6 +57,6 @@ public abstract class AxeItemMixin
 		BlockPos blockPos = context.getBlockPos();
 		BlockState blockState = world.getBlockState(blockPos);
 
-		return Optional.ofNullable(WAXED_TO_UNWAXED_BLOCKS.get().get(blockState.getBlock())).map((block) -> block.getStateWithProperties(blockState));
+		return Optional.ofNullable(WaxableBlocksMap.WAXED_TO_UNWAXED_BLOCKS.get().get(blockState.getBlock())).map((block) -> block.getStateWithProperties(blockState));
 	}
 }

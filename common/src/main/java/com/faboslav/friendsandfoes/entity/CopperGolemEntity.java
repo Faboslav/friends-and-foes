@@ -498,6 +498,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 	) {
 		super.onStruckByLightning(serverWorld, lightning);
 
+		this.setOnFire(false);
 		this.setHealth(this.getMaxHealth());
 
 		if (this.isDegraded()) {

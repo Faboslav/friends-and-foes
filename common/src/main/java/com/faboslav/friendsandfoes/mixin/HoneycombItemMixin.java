@@ -1,9 +1,7 @@
 package com.faboslav.friendsandfoes.mixin;
 
-import com.faboslav.friendsandfoes.init.ModBlocks;
-import com.google.common.base.Suppliers;
+import com.faboslav.friendsandfoes.util.WaxableBlocksMap;
 import com.google.common.collect.BiMap;
-import com.google.common.collect.ImmutableBiMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.HoneycombItem;
@@ -13,21 +11,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Optional;
-import java.util.function.Supplier;
 
 @Mixin(HoneycombItem.class)
-@SuppressWarnings({"rawtypes", "unchecked"})
+@SuppressWarnings({"rawtypes"})
 public abstract class HoneycombItemMixin
 {
-	private static final Supplier<BiMap<Block, Block>> UNWAXED_TO_WAXED_BUTTON_BLOCKS = Suppliers.memoize(() -> {
-		return (BiMap) ImmutableBiMap.builder()
-			.put(ModBlocks.COPPER_BUTTON.get(), ModBlocks.WAXED_COPPER_BUTTON.get())
-			.put(ModBlocks.EXPOSED_COPPER_BUTTON.get(), ModBlocks.WAXED_EXPOSED_COPPER_BUTTON.get())
-			.put(ModBlocks.WEATHERED_COPPER_BUTTON.get(), ModBlocks.WAXED_WEATHERED_COPPER_BUTTON.get())
-			.put(ModBlocks.OXIDIZED_COPPER_BUTTON.get(), ModBlocks.WAXED_OXIDIZED_COPPER_BUTTON.get())
-			.build();
-	});
-
 	@Inject(
 		method = "getWaxedState",
 		at = @At("RETURN"),
@@ -40,7 +28,7 @@ public abstract class HoneycombItemMixin
 		var blockState = callbackInfo.getReturnValue();
 
 		if (blockState.isEmpty()) {
-			blockState = Optional.ofNullable((Block) ((BiMap) UNWAXED_TO_WAXED_BUTTON_BLOCKS.get()).get(state.getBlock())).map((block) -> {
+			blockState = Optional.ofNullable((Block) ((BiMap) WaxableBlocksMap.UNWAXED_TO_WAXED_BUTTON_BLOCKS.get()).get(state.getBlock())).map((block) -> {
 				return block.getStateWithProperties(state);
 			});
 

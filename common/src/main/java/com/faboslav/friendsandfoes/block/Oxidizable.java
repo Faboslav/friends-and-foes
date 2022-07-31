@@ -6,6 +6,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -18,6 +19,9 @@ public interface Oxidizable extends net.minecraft.block.Oxidizable
 			.put(ModBlocks.COPPER_BUTTON.get(), ModBlocks.EXPOSED_COPPER_BUTTON.get())
 			.put(ModBlocks.EXPOSED_COPPER_BUTTON.get(), ModBlocks.WEATHERED_COPPER_BUTTON.get())
 			.put(ModBlocks.WEATHERED_COPPER_BUTTON.get(), ModBlocks.OXIDIZED_COPPER_BUTTON.get())
+			.put(Blocks.LIGHTNING_ROD, ModBlocks.EXPOSED_LIGHTNING_ROD.get())
+			.put(ModBlocks.EXPOSED_LIGHTNING_ROD.get(), ModBlocks.WEATHERED_LIGHTNING_ROD.get())
+			.put(ModBlocks.WEATHERED_LIGHTNING_ROD.get(), ModBlocks.OXIDIZED_LIGHTNING_ROD.get())
 			.build();
 	});
 	Supplier<BiMap<Block, Block>> OXIDATION_LEVEL_DECREASES = Suppliers.memoize(() -> {

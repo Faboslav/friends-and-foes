@@ -41,6 +41,13 @@ public final class ModItems
 	public static final RegistrySupplier<Item> WAXED_EXPOSED_COPPER_BUTTON;
 	public static final RegistrySupplier<Item> WAXED_WEATHERED_COPPER_BUTTON;
 	public static final RegistrySupplier<Item> WAXED_OXIDIZED_COPPER_BUTTON;
+	public static final RegistrySupplier<Item> EXPOSED_LIGHTNING_ROD;
+	public static final RegistrySupplier<Item> WEATHERED_LIGHTNING_ROD;
+	public static final RegistrySupplier<Item> OXIDIZED_LIGHTNING_ROD;
+	public static final RegistrySupplier<Item> WAXED_LIGHTNING_ROD;
+	public static final RegistrySupplier<Item> WAXED_EXPOSED_LIGHTNING_ROD;
+	public static final RegistrySupplier<Item> WAXED_WEATHERED_LIGHTNING_ROD;
+	public static final RegistrySupplier<Item> WAXED_OXIDIZED_LIGHTNING_ROD;
 
 	static {
 		COPPER_GOLEM_SPAWN_EGG = ITEMS.register("copper_golem_spawn_egg", () -> new ArchitecturySpawnEggItem(ModEntityTypes.COPPER_GOLEM, 0x9A5038, 0xE3826C, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
@@ -66,6 +73,13 @@ public final class ModItems
 		WAXED_EXPOSED_COPPER_BUTTON = ITEMS.register("waxed_exposed_copper_button", () -> new BlockItem(ModBlocks.WAXED_EXPOSED_COPPER_BUTTON.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
 		WAXED_WEATHERED_COPPER_BUTTON = ITEMS.register("waxed_weathered_copper_button", () -> new BlockItem(ModBlocks.WAXED_WEATHERED_COPPER_BUTTON.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
 		WAXED_OXIDIZED_COPPER_BUTTON = ITEMS.register("waxed_oxidized_copper_button", () -> new BlockItem(ModBlocks.WAXED_OXIDIZED_COPPER_BUTTON.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
+		EXPOSED_LIGHTNING_ROD = ITEMS.register("exposed_lightning_rod", () -> new BlockItem(ModBlocks.EXPOSED_LIGHTNING_ROD.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
+		WEATHERED_LIGHTNING_ROD = ITEMS.register("weathered_lightning_rod", () -> new BlockItem(ModBlocks.WEATHERED_LIGHTNING_ROD.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
+		OXIDIZED_LIGHTNING_ROD = ITEMS.register("oxidized_lightning_rod", () -> new BlockItem(ModBlocks.OXIDIZED_LIGHTNING_ROD.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
+		WAXED_LIGHTNING_ROD = ITEMS.register("waxed_lightning_rod", () -> new BlockItem(ModBlocks.WAXED_LIGHTNING_ROD.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
+		WAXED_EXPOSED_LIGHTNING_ROD = ITEMS.register("waxed_exposed_lightning_rod", () -> new BlockItem(ModBlocks.WAXED_EXPOSED_LIGHTNING_ROD.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
+		WAXED_WEATHERED_LIGHTNING_ROD = ITEMS.register("waxed_weathered_lightning_rod", () -> new BlockItem(ModBlocks.WAXED_WEATHERED_LIGHTNING_ROD.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
+		WAXED_OXIDIZED_LIGHTNING_ROD = ITEMS.register("waxed_oxidized_lightning_rod", () -> new BlockItem(ModBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
 	}
 
 	public static void initRegister() {

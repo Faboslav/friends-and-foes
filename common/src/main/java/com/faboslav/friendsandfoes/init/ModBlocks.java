@@ -35,6 +35,13 @@ public final class ModBlocks
 	public static final RegistrySupplier<Block> WAXED_EXPOSED_COPPER_BUTTON;
 	public static final RegistrySupplier<Block> WAXED_WEATHERED_COPPER_BUTTON;
 	public static final RegistrySupplier<Block> WAXED_OXIDIZED_COPPER_BUTTON;
+	public static final RegistrySupplier<Block> EXPOSED_LIGHTNING_ROD;
+	public static final RegistrySupplier<Block> WEATHERED_LIGHTNING_ROD;
+	public static final RegistrySupplier<Block> OXIDIZED_LIGHTNING_ROD;
+	public static final RegistrySupplier<Block> WAXED_LIGHTNING_ROD;
+	public static final RegistrySupplier<Block> WAXED_EXPOSED_LIGHTNING_ROD;
+	public static final RegistrySupplier<Block> WAXED_WEATHERED_LIGHTNING_ROD;
+	public static final RegistrySupplier<Block> WAXED_OXIDIZED_LIGHTNING_ROD;
 
 	static {
 		BUTTERCUP = BLOCKS.register("buttercup", () -> new FlowerBlock(StatusEffects.SATURATION, 6, AbstractBlock.Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)));
@@ -55,6 +62,13 @@ public final class ModBlocks
 		WAXED_EXPOSED_COPPER_BUTTON = BLOCKS.register("waxed_exposed_copper_button", () -> new ExposedCopperButtonBlock(AbstractBlock.Settings.copy(COPPER_BUTTON.get())));
 		WAXED_WEATHERED_COPPER_BUTTON = BLOCKS.register("waxed_weathered_copper_button", () -> new WeatheredCopperButtonBlock(AbstractBlock.Settings.copy(COPPER_BUTTON.get())));
 		WAXED_OXIDIZED_COPPER_BUTTON = BLOCKS.register("waxed_oxidized_copper_button", () -> new OxidizedCopperButtonBlock(AbstractBlock.Settings.copy(COPPER_BUTTON.get())));
+		EXPOSED_LIGHTNING_ROD = BLOCKS.register("exposed_lightning_rod", () -> new OxidizableLightningRodBlock(Oxidizable.OxidationLevel.EXPOSED, AbstractBlock.Settings.copy(Blocks.LIGHTNING_ROD)));
+		WEATHERED_LIGHTNING_ROD = BLOCKS.register("weathered_lightning_rod", () -> new OxidizableLightningRodBlock(Oxidizable.OxidationLevel.WEATHERED, AbstractBlock.Settings.copy(Blocks.LIGHTNING_ROD)));
+		OXIDIZED_LIGHTNING_ROD = BLOCKS.register("oxidized_lightning_rod", () -> new OxidizableLightningRodBlock(Oxidizable.OxidationLevel.OXIDIZED, AbstractBlock.Settings.copy(Blocks.LIGHTNING_ROD)));
+		WAXED_LIGHTNING_ROD = BLOCKS.register("waxed_lightning_rod", () -> new LightningRodBlock(AbstractBlock.Settings.copy(Blocks.LIGHTNING_ROD)));
+		WAXED_EXPOSED_LIGHTNING_ROD = BLOCKS.register("waxed_exposed_lightning_rod", () -> new LightningRodBlock(AbstractBlock.Settings.copy(Blocks.LIGHTNING_ROD)));
+		WAXED_WEATHERED_LIGHTNING_ROD = BLOCKS.register("waxed_weathered_lightning_rod", () -> new LightningRodBlock(AbstractBlock.Settings.copy(Blocks.LIGHTNING_ROD)));
+		WAXED_OXIDIZED_LIGHTNING_ROD = BLOCKS.register("waxed_oxidized_lightning_rod", () -> new LightningRodBlock(AbstractBlock.Settings.copy(Blocks.LIGHTNING_ROD)));
 	}
 
 	public static void initRegister() {

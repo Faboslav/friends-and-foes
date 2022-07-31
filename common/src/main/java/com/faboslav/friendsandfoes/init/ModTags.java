@@ -13,11 +13,10 @@ import net.minecraft.world.biome.Biome;
 public class ModTags
 {
 	public static final TagKey<Block> COPPER_BUTTONS = blockTag("copper_buttons");
+	public static final TagKey<Block> LIGHTNING_RODS = blockTag("lightning_rods");
 	public static final TagKey<Block> GLARE_SPAWNABLE_ON = blockTag("glare_spawnable_on");
 	public static final TagKey<Block> MAULERS_SPAWNABLE_ON = blockTag("maulers_spawnable_on");
-
 	public static final TagKey<EntityType<?>> MAULER_PREY = entityTypeTag("mauler_prey");
-
 	public static final TagKey<Biome> HAS_BADLANDS_MAULER = biomeTag("has_badlands_mauler");
 	public static final TagKey<Biome> HAS_DESERT_MAULER = biomeTag("has_desert_mauler");
 	public static final TagKey<Biome> HAS_GLARE = biomeTag("has_glare");

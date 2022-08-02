@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.init;
 
-import com.faboslav.friendsandfoes.item.DispensableSpawnEggItem;
 import com.faboslav.friendsandfoes.platform.RegistryHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.*;
@@ -44,12 +43,12 @@ public final class FriendsAndFoesItems
 	public static final Supplier<Item> WAXED_OXIDIZED_LIGHTNING_ROD;
 
 	static {
-		COPPER_GOLEM_SPAWN_EGG = RegistryHelper.registerItem("copper_golem_spawn_egg", () -> new DispensableSpawnEggItem(FriendsAndFoesEntityTypes.COPPER_GOLEM, 0x9A5038, 0xE3826C, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
-		GLARE_SPAWN_EGG = RegistryHelper.registerItem("glare_spawn_egg", () -> new DispensableSpawnEggItem(FriendsAndFoesEntityTypes.GLARE, 0x70922D, 0x6A5227, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
-		ICEOLOGER_SPAWN_EGG = RegistryHelper.registerItem("iceologer_spawn_egg", () -> new DispensableSpawnEggItem(FriendsAndFoesEntityTypes.ICEOLOGER, 0x173873, 0x949b9b, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
+		COPPER_GOLEM_SPAWN_EGG = RegistryHelper.registerItem("copper_golem_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.COPPER_GOLEM.get(), 0x9A5038, 0xE3826C, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
+		GLARE_SPAWN_EGG = RegistryHelper.registerItem("glare_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.GLARE.get(), 0x70922D, 0x6A5227, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
+		ICEOLOGER_SPAWN_EGG = RegistryHelper.registerItem("iceologer_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.ICEOLOGER.get(), 0x173873, 0x949b9b, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
 		ILLUSIONER_SPAWN_EGG = RegistryHelper.registerItem("illusioner_spawn_egg", () -> new SpawnEggItem(EntityType.ILLUSIONER, 0x603e5c, 0x888e8e, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
-		MAULER_SPAWN_EGG = RegistryHelper.registerItem("mauler_spawn_egg", () -> new DispensableSpawnEggItem(FriendsAndFoesEntityTypes.MAULER, 0x534F25, 0x817B39, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
-		MOOBLOOM_SPAWN_EGG = RegistryHelper.registerItem("moobloom_spawn_egg", () -> new DispensableSpawnEggItem(FriendsAndFoesEntityTypes.MOOBLOOM, 0xf7EDC1, 0xFACA00, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
+		MAULER_SPAWN_EGG = RegistryHelper.registerItem("mauler_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.MAULER.get(), 0x534F25, 0x817B39, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
+		MOOBLOOM_SPAWN_EGG = RegistryHelper.registerItem("moobloom_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.MOOBLOOM.get(), 0xf7EDC1, 0xFACA00, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
 		BUTTERCUP = RegistryHelper.registerItem("buttercup", () -> new BlockItem(FriendsAndFoesBlocks.BUTTERCUP.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
 		ACACIA_BEEHIVE = RegistryHelper.registerItem("acacia_beehive", () -> new BlockItem(FriendsAndFoesBlocks.ACACIA_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
 		BIRCH_BEEHIVE = RegistryHelper.registerItem("birch_beehive", () -> new BlockItem(FriendsAndFoesBlocks.BIRCH_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));

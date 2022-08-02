@@ -11,8 +11,8 @@ public final class FriendsAndFoesQuiltClient implements ClientModInitializer
 	@Override
 	@Environment(EnvType.CLIENT)
 	public void onInitializeClient(ModContainer mod) {
-		FriendsAndFoesClient.initRegisters();
-		FriendsAndFoesClient.initCustomRegisters();
+		FriendsAndFoesClient.init();
+		FriendsAndFoesClient.postInit();
 	}
 }
 

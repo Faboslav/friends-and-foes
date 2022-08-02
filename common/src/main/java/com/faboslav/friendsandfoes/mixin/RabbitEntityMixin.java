@@ -19,7 +19,14 @@ public abstract class RabbitEntityMixin extends AnimalEntity
 		super(entityType, world);
 	}
 
-	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/goal/GoalSelector;add(ILnet/minecraft/entity/ai/goal/Goal;)V", ordinal = 6, shift = At.Shift.AFTER), method = "initGoals")
+	@Inject(
+		at = @At(
+			value = "INVOKE",
+			target = "Lnet/minecraft/entity/ai/goal/GoalSelector;add(ILnet/minecraft/entity/ai/goal/Goal;)V",
+			ordinal = 6,
+			shift = At.Shift.AFTER),
+		method = "initGoals"
+	)
 	private void addFleeGoal(CallbackInfo ci) {
 		this.goalSelector.add(4, new FleeEntityGoal(
 			(RabbitEntity) (Object) this,

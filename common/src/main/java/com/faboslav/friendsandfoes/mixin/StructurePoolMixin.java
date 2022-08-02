@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Mixin(StructurePool.class)
-public class StructurePoolMixin
+public final class StructurePoolMixin
 {
 	@Final
 	@Shadow

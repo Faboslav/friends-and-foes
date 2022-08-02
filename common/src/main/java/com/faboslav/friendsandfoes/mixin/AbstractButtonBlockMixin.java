@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AbstractButtonBlock.class)
-public class AbstractButtonBlockMixin
+public final class AbstractButtonBlockMixin
 {
 	@Inject(method = "getPressTicks", at = @At("HEAD"), cancellable = true)
 	public void getCopperPressTicks(
@@ -20,8 +20,7 @@ public class AbstractButtonBlockMixin
 		if (buttonBlock instanceof CopperButtonBlock) {
 			int pressTicks = CopperButtonBlock.PRESS_TICKS;
 
-			if (buttonBlock instanceof OxidizableButtonBlock) {
-				OxidizableButtonBlock oxidizableButtonBlock = (OxidizableButtonBlock) buttonBlock;
+			if (buttonBlock instanceof OxidizableButtonBlock oxidizableButtonBlock) {
 				Oxidizable.OxidationLevel OxidationLevel = oxidizableButtonBlock.getDegradationLevel();
 
 				if (OxidationLevel == Oxidizable.OxidationLevel.EXPOSED) {

@@ -27,13 +27,10 @@ configurations {
 	compileClasspath.extendsFrom common
 	runtimeClasspath.extendsFrom common
 	developmentForge.extendsFrom common
-	library
-	implementation.extendsFrom library
 }
 
 dependencies {
 	forge "net.minecraftforge:forge:${rootProject.forge_version}"
-	modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
 
 	common(project(path: ":common", configuration: "namedElements")) { transitive false }
 	shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
@@ -56,6 +53,8 @@ processResources {
 }
 
 shadowJar {
+	relocate("com.llamalad7.mixinextras", "com.faboslav.friendsandfoes.lib.mixinextras")
+
 	exclude "fabric.mod.json"
 	exclude "architectury.common.json"
 

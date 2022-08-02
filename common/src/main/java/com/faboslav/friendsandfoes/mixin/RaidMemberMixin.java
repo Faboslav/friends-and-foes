@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Slice;
 
 @Mixin(Raid.Member.class)
-public class RaidMemberMixin
+public final class RaidMemberMixin
 {
 	@ModifyArg(
 		method = "<clinit>",

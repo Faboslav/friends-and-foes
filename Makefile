@@ -7,5 +7,11 @@ build-project: ## Builds project
 refresh: ## Refresh dependencies
 	./gradlew --refresh-dependencies
 
+clean-cache: ## Cleans cache
+	./gradlew --stop
+	rm -rf $GRADLE_HOME/caches/transforms-*
+	rm -rf $GRADLE_HOME/caches/build-cache-*
+	./gradlew clean
+
 gen-sources: ## Generate sources
 	./gradlew genSources

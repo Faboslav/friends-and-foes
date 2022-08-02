@@ -4,12 +4,9 @@ import com.faboslav.friendsandfoes.config.FriendsAndFoesConfig;
 import com.faboslav.friendsandfoes.config.omegaconfig.OmegaConfig;
 import com.faboslav.friendsandfoes.init.*;
 import com.faboslav.friendsandfoes.util.ServerTickDeltaCounter;
-import com.faboslav.friendsandfoes.util.UpdateChecker;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.concurrent.CompletableFuture;
 
 public final class FriendsAndFoes
 {
@@ -38,38 +35,19 @@ public final class FriendsAndFoes
 		return LOGGER;
 	}
 
-	public static void checkForNewUpdates() {
-		CompletableFuture.runAsync(() -> {
-			if (FriendsAndFoes.getConfig().checkForNewUpdates) {
-				String latestVersion = UpdateChecker.getLatestVersion();
-
-				if (latestVersion == null) {
-					return;
-				}
-
-				if (latestVersion.equals(MOD_VERSION) == false) {
-					getLogger().info("[Friends&Foes] An update is available! You're using {} version but the latest version is {}!", MOD_VERSION, latestVersion);
-				}
-			}
-		});
+	public static void init() {
+		FriendsAndFoesBlocks.init();
+		FriendsAndFoesCriteria.init();
+		FriendsAndFoesEntityTypes.init();
+		FriendsAndFoesItems.init();
+		FriendsAndFoesPointOfInterestTypes.init();
+		FriendsAndFoesSoundEvents.init();
+		FriendsAndFoesVillagerProfessions.init();
 	}
 
-	public static void initRegisters() {
-		ModBlocks.initRegister();
-		ModCriteria.init();
-		ModEntityTypes.initRegister();
-		ModItems.initRegister();
-		ModPointOfInterestTypes.initRegister();
-		ModSounds.initRegister();
-		ModVillagerProfessions.initRegister();
-	}
-
-	public static void initCustomRegisters() {
-		ModBlocks.init();
-		ModEntityTypes.init();
-		ModItems.init();
-		ModBlockEntityTypes.init();
-		ModSounds.init();
-		ModVillagerProfessions.init();
+	public static void postInit() {
+		FriendsAndFoesEntityTypes.postInit();
+		FriendsAndFoesBlockEntityTypes.postInit();
+		FriendsAndFoesVillagerProfessions.postInit();
 	}
 }

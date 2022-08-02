@@ -26,22 +26,19 @@
 	"server": [
 	  "com.faboslav.friendsandfoes.fabric.FriendsAndFoesFabricServer"
 	],
-	"mm:early_risers": [
-	  "com.faboslav.friendsandfoes.fabric.EarlyRiserFabric"
-	],
 	"modmenu": [
-	  "com.faboslav.friendsandfoes.fabric.integrations.ModMenuIntegration"
+	  "com.faboslav.friendsandfoes.integrations.ModMenuIntegration"
 	]
   },
   "mixins": [
+	"friendsandfoes.mixins.json",
 	"friendsandfoes-common.mixins.json"
   ],
   "depends": {
 	"java": ">=17",
 	"minecraft": ">=1.19",
 	"fabric": "*",
-	"fabricloader": "*",
-	"architectury": ">=5.7.27"
+	"fabricloader": "*"
   },
   "custom": {
 	"modmenu": {

@@ -20,7 +20,8 @@
 
 - Fixed beekeeper related crash
 - Fixed quilt crashes
-- 
+-
+
 ## mc1.19-1.5.2, June 19, 2022
 
 - Mod is now tag driven (thus much more customizable trough datapacks)
@@ -48,7 +49,7 @@
 - Changed Glares spawn group (so it is unique for example like axolotl spawn group)
 - All Glares are now persisted
 - Fixed iceologer/illusioner spawning in the raids/world
-- Fixed mauler attacking while burrowed 
+- Fixed mauler attacking while burrowed
 
 ## mc1.18.2-1.4.1, May 29, 2022
 

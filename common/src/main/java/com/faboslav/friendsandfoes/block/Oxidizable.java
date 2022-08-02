@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.block;
 
-import com.faboslav.friendsandfoes.init.ModBlocks;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesBlocks;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
@@ -16,12 +16,12 @@ public interface Oxidizable extends net.minecraft.block.Oxidizable
 {
 	Supplier<BiMap<Block, Block>> OXIDATION_LEVEL_INCREASES = Suppliers.memoize(() -> {
 		return (BiMap) ImmutableBiMap.builder()
-			.put(ModBlocks.COPPER_BUTTON.get(), ModBlocks.EXPOSED_COPPER_BUTTON.get())
-			.put(ModBlocks.EXPOSED_COPPER_BUTTON.get(), ModBlocks.WEATHERED_COPPER_BUTTON.get())
-			.put(ModBlocks.WEATHERED_COPPER_BUTTON.get(), ModBlocks.OXIDIZED_COPPER_BUTTON.get())
-			.put(Blocks.LIGHTNING_ROD, ModBlocks.EXPOSED_LIGHTNING_ROD.get())
-			.put(ModBlocks.EXPOSED_LIGHTNING_ROD.get(), ModBlocks.WEATHERED_LIGHTNING_ROD.get())
-			.put(ModBlocks.WEATHERED_LIGHTNING_ROD.get(), ModBlocks.OXIDIZED_LIGHTNING_ROD.get())
+			.put(FriendsAndFoesBlocks.COPPER_BUTTON.get(), FriendsAndFoesBlocks.EXPOSED_COPPER_BUTTON.get())
+			.put(FriendsAndFoesBlocks.EXPOSED_COPPER_BUTTON.get(), FriendsAndFoesBlocks.WEATHERED_COPPER_BUTTON.get())
+			.put(FriendsAndFoesBlocks.WEATHERED_COPPER_BUTTON.get(), FriendsAndFoesBlocks.OXIDIZED_COPPER_BUTTON.get())
+			.put(Blocks.LIGHTNING_ROD, FriendsAndFoesBlocks.EXPOSED_LIGHTNING_ROD.get())
+			.put(FriendsAndFoesBlocks.EXPOSED_LIGHTNING_ROD.get(), FriendsAndFoesBlocks.WEATHERED_LIGHTNING_ROD.get())
+			.put(FriendsAndFoesBlocks.WEATHERED_LIGHTNING_ROD.get(), FriendsAndFoesBlocks.OXIDIZED_LIGHTNING_ROD.get())
 			.build();
 	});
 	Supplier<BiMap<Block, Block>> OXIDATION_LEVEL_DECREASES = Suppliers.memoize(() -> {
@@ -56,12 +56,14 @@ public interface Oxidizable extends net.minecraft.block.Oxidizable
 		return getUnaffectedOxidationBlock(state.getBlock()).getStateWithProperties(state);
 	}
 
+	@Override
 	default Optional<BlockState> getDegradationResult(BlockState state) {
 		return getIncreasedOxidationBlock(state.getBlock()).map((block) -> {
 			return block.getStateWithProperties(state);
 		});
 	}
 
+	@Override
 	default float getDegradationChanceMultiplier() {
 		return this.getDegradationLevel() == net.minecraft.block.Oxidizable.OxidationLevel.UNAFFECTED ? 0.75F:1.0F;
 	}

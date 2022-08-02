@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.util;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import net.minecraft.SharedConstants;
@@ -9,10 +10,31 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.concurrent.CompletableFuture;
 
 public final class UpdateChecker
 {
 	private static final Gson gson = new Gson();
+
+	public static void checkForNewUpdates() {
+		CompletableFuture.runAsync(() -> {
+			if (FriendsAndFoes.getConfig().checkForNewUpdates) {
+				String latestVersion = UpdateChecker.getLatestVersion();
+
+				if (latestVersion == null) {
+					return;
+				}
+
+				if (latestVersion.equals(FriendsAndFoes.MOD_VERSION) == false) {
+					FriendsAndFoes.getLogger().info(
+						"[Friends&Foes] An update is available! You're using {} version but the latest version is {}!",
+						FriendsAndFoes.MOD_VERSION,
+						latestVersion
+					);
+				}
+			}
+		});
+	}
 
 	public static String getLatestVersion() {
 		HttpClient client = HttpClient.newHttpClient();

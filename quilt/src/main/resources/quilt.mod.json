@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
   "mixin": [
+	"friendsandfoes.mixins.json",
 	"friendsandfoes-common.mixins.json"
   ],
   "quilt_loader": {
@@ -24,9 +25,6 @@
 	},
 	"intermediate_mappings": "net.fabricmc:intermediary",
 	"entrypoints": {
-	  "mm:early_risers": [
-		"com.faboslav.friendsandfoes.quilt.EarlyRiserQuilt"
-	  ],
 	  "init": [
 		"com.faboslav.friendsandfoes.quilt.FriendsAndFoesQuilt"
 	  ],
@@ -45,10 +43,6 @@
 	  {
 		"id": "minecraft",
 		"version": ">=1.19"
-	  },
-	  {
-		"id": "architectury",
-		"version": ">=5.7.27"
 	  },
 	  {
 		"id": "quilt_loader",

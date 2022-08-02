@@ -1,7 +1,17 @@
+architectury {
+	common(rootProject.enabled_platforms.split(","))
+}
+
+loom {
+	accessWidenerPath = file("src/main/resources/friendsandfoes.accesswidener")
+}
+
 dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-	modApi "dev.architectury:architectury:${rootProject.architectury_version}"
 	modImplementation("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}")
+
+	implementation("com.github.LlamaLad7:MixinExtras:${rootProject.mixin_extras_version}")
+	annotationProcessor("com.github.LlamaLad7:MixinExtras:${rootProject.mixin_extras_version}")
 }
 
 repositories {
@@ -11,12 +21,4 @@ repositories {
 			includeGroup "com.terraformersmc"
 		}
 	}
-}
-
-architectury {
-	common(rootProject.enabled_platforms.split(","))
-}
-
-loom {
-	accessWidenerPath = file("src/main/resources/friendsandfoes.accesswidener")
 }

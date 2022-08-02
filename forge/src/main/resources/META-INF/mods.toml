@@ -26,13 +26,6 @@ ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.friendsandfoes]]
-modId = "architectury"
-mandatory = true
-versionRange = "[5.7.27,)"
-ordering = "AFTER"
-side = "BOTH"
-
-[[dependencies.friendsandfoes]]
 modId = "cloth_config"
 mandatory = false
 versionRange = "[7,)"

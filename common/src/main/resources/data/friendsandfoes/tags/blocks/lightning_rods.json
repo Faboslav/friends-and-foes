@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+	"minecraft:lightning_rod",
 	"friendsandfoes:exposed_lightning_rod",
 	"friendsandfoes:weathered_lightning_rod",
 	"friendsandfoes:oxidized_lightning_rod",

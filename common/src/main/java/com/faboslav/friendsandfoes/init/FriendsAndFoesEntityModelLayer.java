@@ -1,7 +1,10 @@
 package com.faboslav.friendsandfoes.init;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.client.render.entity.model.*;
+import com.faboslav.friendsandfoes.client.render.entity.model.CopperGolemEntityModel;
+import com.faboslav.friendsandfoes.client.render.entity.model.GlareEntityModel;
+import com.faboslav.friendsandfoes.client.render.entity.model.IceologerIceChunkModel;
+import com.faboslav.friendsandfoes.client.render.entity.model.MaulerEntityModel;
 import com.faboslav.friendsandfoes.platform.RegistryHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

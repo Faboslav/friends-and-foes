@@ -54,7 +54,7 @@ public final class CopperGolemEntityModel<T extends CopperGolemEntity> extends A
 
 		ModelPartData head = root.getChild(MODEL_PART_HEAD);
 		head.addChild(MODEL_PART_NOSE, ModelPartBuilder.create().uv(56, 15).cuboid(-1.0F, -1.0F, -2.0F, 2.0F, 3.0F, 2.0F), ModelTransform.pivot(0.0F, -1.0F, -4.0F));
-		head.addChild(MODEL_PART_ROD, ModelPartBuilder.create().uv(56, 10).cuboid(-1.0F, -3.0F, -1.0F, 2.0F, 3.0F, 2.0F).uv(40, 10).cuboid(-2.0F, -7.0F, -2.0F, 4.0F, 4.0F, 4.0F), ModelTransform.pivot(0.0F, -5.0F, 0.0F));
+		head.addChild(MODEL_PART_ROD, ModelPartBuilder.create().uv(56, 9).cuboid(-1.0F, -3.0F, -1.0F, 2.0F, 3.0F, 2.0F).uv(40, 10).cuboid(-2.0F, -7.0F, -2.0F, 4.0F, 4.0F, 4.0F), ModelTransform.pivot(0.0F, -5.0F, 0.0F));
 
 		// Add body
 		root.addChild(MODEL_PART_BODY, ModelPartBuilder.create().uv(40, 0).cuboid(-4.0F, 0.0F, -2.0F, 8.0F, 5.0F, 4.0F), ModelTransform.pivot(0.0F, 14.0F, 0.0F));

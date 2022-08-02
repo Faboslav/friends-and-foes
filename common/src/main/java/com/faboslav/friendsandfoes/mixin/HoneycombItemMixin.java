@@ -2,7 +2,6 @@ package com.faboslav.friendsandfoes.mixin;
 
 import com.faboslav.friendsandfoes.util.WaxableBlocksMap;
 import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.HoneycombItem;

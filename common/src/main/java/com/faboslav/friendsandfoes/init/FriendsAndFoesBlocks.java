@@ -3,14 +3,8 @@ package com.faboslav.friendsandfoes.init;
 import com.faboslav.friendsandfoes.block.Oxidizable;
 import com.faboslav.friendsandfoes.block.*;
 import com.faboslav.friendsandfoes.platform.RegistryHelper;
-import com.faboslav.friendsandfoes.util.WaxableBlocksMap;
-import com.google.common.base.Suppliers;
-import com.google.common.collect.BiMap;
-import com.google.common.collect.ImmutableBiMap;
-import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
 import net.minecraft.block.*;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.item.HoneycombItem;
 import net.minecraft.sound.BlockSoundGroup;
 
 import java.util.function.Supplier;

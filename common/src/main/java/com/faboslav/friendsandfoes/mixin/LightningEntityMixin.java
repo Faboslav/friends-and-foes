@@ -58,7 +58,7 @@ public abstract class LightningEntityMixin extends Entity
 		BlockPos blockPos = this.getAffectedBlockPos();
 		BlockState blockState = this.world.getBlockState(blockPos);
 
-		if(blockState.isIn(FriendsAndFoesTags.LIGHTNING_RODS)) {
+		if (blockState.isIn(FriendsAndFoesTags.LIGHTNING_RODS)) {
 			FriendsAndFoes.getLogger().info("doing that!");
 			world.setBlockState(
 				blockPos,

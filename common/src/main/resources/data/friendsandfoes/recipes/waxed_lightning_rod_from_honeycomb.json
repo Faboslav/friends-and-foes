@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+	{
+	  "item": "minecraft:lightning_rod"
+	},
+	{
+	  "item": "minecraft:honeycomb"
+	}
+  ],
+  "result": {
+	"item": "friendsandfoes:waxed_lightning_rod"
+  }
+}

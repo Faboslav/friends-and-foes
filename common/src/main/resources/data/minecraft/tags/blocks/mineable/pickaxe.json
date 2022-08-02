@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-	"#friendsandfoes:copper_buttons"
+	"#friendsandfoes:copper_buttons",
+	"#friendsandfoes:lightning_rods"
   ]
 }

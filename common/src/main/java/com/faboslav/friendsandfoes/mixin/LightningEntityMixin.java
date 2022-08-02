@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.mixin;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.block.Oxidizable;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
@@ -59,7 +58,6 @@ public abstract class LightningEntityMixin extends Entity
 		BlockState blockState = this.world.getBlockState(blockPos);
 
 		if (blockState.isIn(FriendsAndFoesTags.LIGHTNING_RODS)) {
-			FriendsAndFoes.getLogger().info("doing that!");
 			world.setBlockState(
 				blockPos,
 				Oxidizable.getUnaffectedOxidationState(world.getBlockState(blockPos))
@@ -103,7 +101,6 @@ public abstract class LightningEntityMixin extends Entity
 		BlockState blockState
 	) {
 		Oxidizable.getDecreasedOxidationState(blockState).ifPresent((state) -> {
-			FriendsAndFoes.getLogger().info(state.toString());
 			world.setBlockState(blockPos, state);
 		});
 	}

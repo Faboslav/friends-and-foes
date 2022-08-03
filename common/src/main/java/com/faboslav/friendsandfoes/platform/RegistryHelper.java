@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.platform;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
@@ -81,6 +82,15 @@ public final class RegistryHelper
 		String name,
 		Supplier<T> villagerProfession
 	) {
+		throw new AssertionError();
+	}
+
+	public static <T extends Block> void registerFlammableBlock(Supplier<T> block, int burnChance, int spreadChance) {
+		registerFlammableBlock(Blocks.FIRE, block, burnChance, spreadChance);
+	}
+
+	@ExpectPlatform
+	public static <T extends Block> void registerFlammableBlock(Block fireBlock, Supplier<T> block, int burnChance, int spreadChance) {
 		throw new AssertionError();
 	}
 }

@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.integrations;
+package com.faboslav.friendsandfoes.integrations.fabric;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.config.ConfigScreenBuilder;

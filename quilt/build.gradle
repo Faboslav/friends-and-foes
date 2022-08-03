@@ -28,6 +28,10 @@ dependencies {
 	modImplementation "org.quiltmc:quilt-loader:${rootProject.quilt_loader_version}"
 	modApi "org.quiltmc.quilted-fabric-api:quilted-fabric-api:${rootProject.quilt_fabric_api_version}"
 
+	implementation("com.github.LlamaLad7:MixinExtras:${rootProject.mixin_extras_version}")
+	annotationProcessor("com.github.LlamaLad7:MixinExtras:${rootProject.mixin_extras_version}")
+	include("com.github.LlamaLad7:MixinExtras:${rootProject.mixin_extras_version}")
+
 	common(project(path: ":common", configuration: "namedElements")) { transitive false }
 	shadowCommon(project(path: ":common", configuration: "transformProductionQuilt")) { transitive false }
 }
@@ -54,6 +58,8 @@ processResources {
 
 shadowJar {
 	exclude "architectury.common.json"
+
+	relocate("com.llamalad7.mixinextras", "com.faboslav.friendsandfoes.lib.mixinextras")
 
 	configurations = [project.configurations.shadowCommon]
 	classifier "dev-shadow"

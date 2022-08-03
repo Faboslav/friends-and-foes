@@ -31,5 +31,6 @@
   "client": [
 	"IllusionerEntityRendererMixin",
 	"ModelPartAccessor"
-  ]
+  ],
+  "plugin": "com.faboslav.friendsandfoes.util.plugin.MixinExtrasPlugin"
 }

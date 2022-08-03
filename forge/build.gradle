@@ -13,6 +13,7 @@ loom {
 		convertAccessWideners = true
 		extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
 		mixinConfig "friendsandfoes-common.mixins.json"
+		mixinConfig "friendsandfoes.mixins.json"
 	}
 }
 
@@ -35,6 +36,10 @@ dependencies {
 	common(project(path: ":common", configuration: "namedElements")) { transitive false }
 	shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 
+	implementation("com.github.LlamaLad7:MixinExtras:${rootProject.mixin_extras_version}")
+	annotationProcessor("com.github.LlamaLad7:MixinExtras:${rootProject.mixin_extras_version}")
+	include("com.github.LlamaLad7:MixinExtras:${rootProject.mixin_extras_version}")
+
 	modImplementation("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}")
 }
 
@@ -53,10 +58,10 @@ processResources {
 }
 
 shadowJar {
-	relocate("com.llamalad7.mixinextras", "com.faboslav.friendsandfoes.lib.mixinextras")
-
 	exclude "fabric.mod.json"
 	exclude "architectury.common.json"
+
+	relocate("com.llamalad7.mixinextras", "com.faboslav.friendsandfoes.lib.mixinextras")
 
 	configurations = [project.configurations.shadowCommon]
 	classifier "dev-shadow"

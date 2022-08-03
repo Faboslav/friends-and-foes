@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.mixin;
+package com.faboslav.friendsandfoes.mixin.quilt;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.platform.CustomSpawnGroup;

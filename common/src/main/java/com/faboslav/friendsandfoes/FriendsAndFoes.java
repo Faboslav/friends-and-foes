@@ -46,6 +46,7 @@ public final class FriendsAndFoes
 	}
 
 	public static void postInit() {
+		FriendsAndFoesBlocks.postInit();
 		FriendsAndFoesEntityTypes.postInit();
 		FriendsAndFoesBlockEntityTypes.postInit();
 		FriendsAndFoesVillagerProfessions.postInit();

@@ -27,12 +27,12 @@
 	  "com.faboslav.friendsandfoes.fabric.FriendsAndFoesFabricServer"
 	],
 	"modmenu": [
-	  "com.faboslav.friendsandfoes.integrations.ModMenuIntegration"
+	  "com.faboslav.friendsandfoes.integrations.fabric.ModMenuIntegration"
 	]
   },
   "mixins": [
-	"friendsandfoes.mixins.json",
-	"friendsandfoes-common.mixins.json"
+	"friendsandfoes-common.mixins.json",
+	"friendsandfoes.mixins.json"
   ],
   "depends": {
 	"java": ">=17",

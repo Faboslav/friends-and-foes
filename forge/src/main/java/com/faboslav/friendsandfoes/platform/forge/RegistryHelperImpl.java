@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.platform.forge;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.mixin.forge.FireBlockAccessor;
 import net.minecraft.block.Block;
 import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.render.RenderLayer;
@@ -89,5 +90,9 @@ public final class RegistryHelperImpl
 		Supplier<T> villagerProfession
 	) {
 		return VILLAGER_PROFESSIONS.register(name, villagerProfession);
+	}
+
+	public static <T extends Block> void registerFlammableBlock(Block fireBlock, Supplier<T> block, int burnChance, int spreadChance) {
+		((FireBlockAccessor)fireBlock).invokeRegisterFlammableBlock(block.get(), burnChance, spreadChance);
 	}
 }

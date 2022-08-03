@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.client.model.TexturedModelData;
@@ -84,5 +85,9 @@ public final class RegistryHelperImpl
 	) {
 		var registry = Registry.register(Registry.VILLAGER_PROFESSION, FriendsAndFoes.makeID(name), villagerProfession.get());
 		return () -> registry;
+	}
+
+	public static <T extends Block> void registerFlammableBlock(Block fireBlock, Supplier<T> block, int burnChance, int spreadChance) {
+		FlammableBlockRegistry.getInstance(fireBlock).add(block.get(), burnChance, spreadChance);
 	}
 }

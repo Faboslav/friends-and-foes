@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.mixin;
+package com.faboslav.friendsandfoes.mixin.fabric;
 
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.util.CustomRaidMember;

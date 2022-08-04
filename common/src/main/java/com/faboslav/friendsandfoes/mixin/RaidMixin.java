@@ -25,12 +25,16 @@ public final class RaidMixin
 		if (
 			(
 				raider instanceof IllusionerEntity
-				&& FriendsAndFoes.getConfig().enableIllusioner == false
-				&& FriendsAndFoes.getConfig().enableIllusionerInRaids == false
+				&& (
+					FriendsAndFoes.getConfig().enableIllusioner == false
+					|| FriendsAndFoes.getConfig().enableIllusionerInRaids == false
+				)
 			) || (
 				raider instanceof IceologerEntity
-				&& FriendsAndFoes.getConfig().enableIceologer == false
-				&& FriendsAndFoes.getConfig().enableIceologerInRaids == false
+				&& (
+					FriendsAndFoes.getConfig().enableIceologer == false
+					|| FriendsAndFoes.getConfig().enableIceologerInRaids == false
+				)
 			)
 		) {
 			ci.cancel();

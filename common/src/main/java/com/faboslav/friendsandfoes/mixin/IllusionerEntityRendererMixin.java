@@ -33,7 +33,7 @@ public abstract class IllusionerEntityRendererMixin extends IllagerEntityRendere
 		method = "render(Lnet/minecraft/entity/mob/IllusionerEntity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V",
 		cancellable = true
 	)
-	public void render(
+	public void friendsandfoes_render(
 		IllusionerEntity mobEntity,
 		float f,
 		float g,

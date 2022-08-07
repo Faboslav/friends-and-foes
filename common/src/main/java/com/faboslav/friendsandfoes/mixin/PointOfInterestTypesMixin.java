@@ -22,7 +22,7 @@ public final class PointOfInterestTypesMixin
 			value = "LOAD"
 		)
 	)
-	private static PointOfInterestType modifyBeehivePointOfInterest(
+	private static PointOfInterestType friendsandfoes_modifyBeehivePointOfInterest(
 		PointOfInterestType pointOfInterestType,
 		Registry<PointOfInterestType> registry,
 		RegistryKey<PointOfInterestType> key,

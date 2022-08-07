@@ -17,7 +17,7 @@ public final class VillagerTaskListProviderMixin
 		at = @At("STORE"),
 		ordinal = 0
 	)
-	private static VillagerWorkTask setSecondVillagerWorkTask(
+	private static VillagerWorkTask friendsandfoes_setSecondVillagerWorkTask(
 		VillagerWorkTask originalTask,
 		VillagerProfession profession,
 		float f

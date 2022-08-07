@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public final class AbstractButtonBlockMixin
 {
 	@Inject(method = "getPressTicks", at = @At("HEAD"), cancellable = true)
-	public void getCopperPressTicks(
+	public void friendsandfoes_getCopperPressTicks(
 		CallbackInfoReturnable<Integer> callbackInfo
 	) {
 		Object buttonBlock = this;

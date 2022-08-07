@@ -21,7 +21,7 @@ public abstract class HoneycombItemMixin
 		at = @At("RETURN"),
 		cancellable = true
 	)
-	private static void getWaxedState(
+	private static void friendsandfoes_getWaxedState(
 		BlockState state,
 		CallbackInfoReturnable<Optional<BlockState>> callbackInfo
 	) {

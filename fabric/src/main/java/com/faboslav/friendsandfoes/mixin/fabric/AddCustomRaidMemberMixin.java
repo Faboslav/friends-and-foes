@@ -46,7 +46,7 @@ public final class AddCustomRaidMemberMixin
 			shift = At.Shift.AFTER
 		)
 	)
-	private static void addCustomRaidMembers(CallbackInfo ci) {
+	private static void friendsandfoes_addCustomRaidMembers(CallbackInfo ci) {
 		var raidMembers = new ArrayList<>(Arrays.asList(field_16632));
 		var lastRaidMember = raidMembers.get(raidMembers.size() - 1);
 

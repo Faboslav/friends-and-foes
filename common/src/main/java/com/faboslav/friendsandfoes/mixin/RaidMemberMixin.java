@@ -24,7 +24,7 @@ public final class RaidMemberMixin
 			ordinal = 0
 		)
 	)
-	private static int[] updateCountInWave(
+	private static int[] friendsandfoes_updateCountInWave(
 		int[] countInWave
 	) {
 		if (

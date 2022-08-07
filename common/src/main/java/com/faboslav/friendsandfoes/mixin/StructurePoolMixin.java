@@ -35,8 +35,11 @@ public final class StructurePoolMixin
 		}
 	}
 
-	@Inject(at = @At("TAIL"), method = "<init>(Lnet/minecraft/util/Identifier;Lnet/minecraft/util/Identifier;Ljava/util/List;Lnet/minecraft/structure/pool/StructurePool$Projection;)V")
-	private void addStructures(
+	@Inject(
+		at = @At("TAIL"),
+		method = "<init>(Lnet/minecraft/util/Identifier;Lnet/minecraft/util/Identifier;Ljava/util/List;Lnet/minecraft/structure/pool/StructurePool$Projection;)V"
+	)
+	private void friendsandfoes_addCustomStructures(
 		Identifier id,
 		Identifier terminatorsId,
 		List elementCounts,

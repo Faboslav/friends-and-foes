@@ -33,13 +33,16 @@ public abstract class BeeEntityMixin extends AnimalEntity
 		),
 		method = "initGoals"
 	)
-	private void addPollinateMoobloomGoal(CallbackInfo ci) {
+	private void friendsandfoes_addPollinateMoobloomGoal(CallbackInfo ci) {
 		this.pollinateMoobloomGoal = new BeePollinateMoobloomGoal((BeeEntity) (Object) this, (BeeEntityAccessor) this);
 		this.goalSelector.add(3, this.pollinateMoobloomGoal);
 	}
 
-	@Inject(method = "damage", at = @At("HEAD"))
-	public void damage(
+	@Inject(
+		method = "damage",
+		at = @At("HEAD")
+	)
+	public void friendsandfoes_tweakDamage(
 		DamageSource source,
 		float amount,
 		CallbackInfoReturnable<Boolean> callbackInfo

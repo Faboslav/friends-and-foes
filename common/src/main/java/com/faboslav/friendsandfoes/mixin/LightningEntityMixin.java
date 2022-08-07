@@ -37,7 +37,7 @@ public abstract class LightningEntityMixin extends Entity
 			target = "net/minecraft/block/BlockState.isOf (Lnet/minecraft/block/Block;)Z"
 		)
 	)
-	private boolean expandPowerLightningRodIsLightningRodCondition(boolean original) {
+	private boolean friendsandfoes_expandPowerLightningRodIsLightningRodCondition(boolean original) {
 		BlockPos blockPos = this.getAffectedBlockPos();
 		BlockState blockState = this.world.getBlockState(blockPos);
 
@@ -53,7 +53,7 @@ public abstract class LightningEntityMixin extends Entity
 		),
 		method = "Lnet/minecraft/entity/LightningEntity;tick()V"
 	)
-	private void cleanLightningRodOxidation(CallbackInfo ci) {
+	private void friendsandfoes_cleanLightningRodOxidation(CallbackInfo ci) {
 		BlockPos blockPos = this.getAffectedBlockPos();
 		BlockState blockState = this.world.getBlockState(blockPos);
 
@@ -72,7 +72,7 @@ public abstract class LightningEntityMixin extends Entity
 			target = "net/minecraft/block/BlockState.isOf (Lnet/minecraft/block/Block;)Z"
 		)
 	)
-	private static boolean expandCleanOxidationRodIsLightningRodCondition(
+	private static boolean friendsandfoes_expandCleanOxidationRodIsLightningRodCondition(
 		boolean original,
 		World world,
 		BlockPos pos
@@ -92,7 +92,7 @@ public abstract class LightningEntityMixin extends Entity
 		method = "Lnet/minecraft/entity/LightningEntity;cleanOxidationAround(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)Ljava/util/Optional;",
 		locals = LocalCapture.CAPTURE_FAILSOFT
 	)
-	private static void decreaseCustomOxidationStates(
+	private static void friendsandfoes_decreaseCustomOxidationStates(
 		World world,
 		BlockPos pos,
 		CallbackInfoReturnable<Optional<BlockPos>> cir,

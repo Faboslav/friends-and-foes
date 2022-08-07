@@ -27,7 +27,7 @@ public abstract class RabbitEntityMixin extends AnimalEntity
 			shift = At.Shift.AFTER),
 		method = "initGoals"
 	)
-	private void addFleeGoal(CallbackInfo ci) {
+	private void friendsandfoes_addFleeGoal(CallbackInfo ci) {
 		this.goalSelector.add(4, new FleeEntityGoal(
 			(RabbitEntity) (Object) this,
 			MaulerEntity.class,

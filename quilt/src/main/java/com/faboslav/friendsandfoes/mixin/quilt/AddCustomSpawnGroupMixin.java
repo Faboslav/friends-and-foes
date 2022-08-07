@@ -48,7 +48,7 @@ public final class AddCustomSpawnGroupMixin
 			shift = At.Shift.AFTER
 		)
 	)
-	private static void addCustomSpawnGroup(CallbackInfo ci) {
+	private static void friendsandfoes_addCustomSpawnGroup(CallbackInfo ci) {
 		var spawnGroups = new ArrayList<>(Arrays.asList(field_6301));
 		var lastSpawnGroup = spawnGroups.get(spawnGroups.size() - 1);
 

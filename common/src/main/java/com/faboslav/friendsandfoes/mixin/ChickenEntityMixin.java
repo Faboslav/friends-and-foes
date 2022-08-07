@@ -19,8 +19,15 @@ public abstract class ChickenEntityMixin extends AnimalEntity
 		super(entityType, world);
 	}
 
-	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/goal/GoalSelector;add(ILnet/minecraft/entity/ai/goal/Goal;)V", ordinal = 1, shift = At.Shift.AFTER), method = "initGoals")
-	private void addFleeGoal(CallbackInfo ci) {
+	@Inject(
+		at = @At(
+			value = "INVOKE",
+			target = "Lnet/minecraft/entity/ai/goal/GoalSelector;add(ILnet/minecraft/entity/ai/goal/Goal;)V",
+			ordinal = 1,
+			shift = At.Shift.AFTER
+		), method = "initGoals"
+	)
+	private void friendsandfoes_addFleeGoal(CallbackInfo ci) {
 		this.goalSelector.add(2, new FleeEntityGoal(
 			(ChickenEntity) (Object) this,
 			MaulerEntity.class,

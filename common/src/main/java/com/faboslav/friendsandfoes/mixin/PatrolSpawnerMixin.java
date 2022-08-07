@@ -28,7 +28,7 @@ public final class PatrolSpawnerMixin
 			value = "LOAD"
 		)
 	)
-	private PatrolEntity modifyPatrolEntity(
+	private PatrolEntity friendsandfoes_modifyPatrolEntity(
 		PatrolEntity patrolEntity,
 		ServerWorld world,
 		BlockPos pos,
@@ -52,7 +52,7 @@ public final class PatrolSpawnerMixin
 		method = "spawn",
 		at = @At("RETURN")
 	)
-	private void resetBiomeSpecificIllagerSpawnFlag(
+	private void friendsandfoes_resetBiomeSpecificIllagerSpawnFlag(
 		ServerWorld world,
 		boolean spawnMonsters,
 		boolean spawnAnimals,

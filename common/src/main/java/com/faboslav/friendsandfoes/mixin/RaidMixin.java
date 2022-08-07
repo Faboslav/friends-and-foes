@@ -14,8 +14,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Raid.class)
 public final class RaidMixin
 {
-	@Inject(method = "addRaider", at = @At("HEAD"), cancellable = true)
-	public void addRaider(
+	@Inject(
+		method = "addRaider",
+		at = @At("HEAD"),
+		cancellable = true
+	)
+	public void friendsandfoes_addRaider(
 		int wave,
 		RaiderEntity raider,
 		BlockPos pos,

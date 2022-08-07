@@ -41,7 +41,10 @@ public abstract class LightningRodBlockMixin extends RodBlock implements Oxidiza
 		|| state == FriendsAndFoesBlocks.WAXED_EXPOSED_LIGHTNING_ROD.get().getDefaultState().with(LightningRodBlock.FACING, Direction.UP)
 		|| state == FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get().getDefaultState().with(LightningRodBlock.FACING, Direction.UP)
 	);
-	private static final Predicate<BlockState> IS_GOLEM_HEAD_PREDICATE = state -> state != null && (state.isOf(Blocks.CARVED_PUMPKIN) || state.isOf(Blocks.JACK_O_LANTERN));
+	private static final Predicate<BlockState> IS_GOLEM_HEAD_PREDICATE = state -> state != null && (
+		state.isOf(Blocks.CARVED_PUMPKIN)
+		|| state.isOf(Blocks.JACK_O_LANTERN)
+	);
 	private static final Predicate<BlockState> IS_GOLEM_BODY_PREDICATE = state -> state != null && (
 		state.isOf(Blocks.COPPER_BLOCK)
 		|| state.isOf(Blocks.WEATHERED_COPPER)
@@ -58,7 +61,7 @@ public abstract class LightningRodBlockMixin extends RodBlock implements Oxidiza
 	}
 
 	@Inject(method = "onBlockAdded", at = @At("HEAD"))
-	private void customOnBlockAdded(
+	private void friendsandfoes_customOnBlockAdded(
 		BlockState state,
 		World world,
 		BlockPos pos,

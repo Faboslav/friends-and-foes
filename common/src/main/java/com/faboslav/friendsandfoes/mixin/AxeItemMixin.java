@@ -23,7 +23,7 @@ public abstract class AxeItemMixin
 			value = "STORE"
 		)
 	)
-	private Optional<BlockState> modifyOxidizedBlock(
+	private Optional<BlockState> friendsandfoes_modifyOxidizedBlock(
 		Optional<BlockState> originalBlockState,
 		ItemUsageContext context
 	) {
@@ -45,7 +45,7 @@ public abstract class AxeItemMixin
 			value = "STORE"
 		)
 	)
-	private Optional<BlockState> modifyWaxedBlock(
+	private Optional<BlockState> friendsandfoes_modifyWaxedBlock(
 		Optional<BlockState> originalBlockState,
 		ItemUsageContext context
 	) {

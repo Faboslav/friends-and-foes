@@ -169,7 +169,7 @@ public final class BeePollinateMoobloomGoal extends Goal
 			MoobloomEntity.class,
 			VALID_MOOBLOOM_PREDICATE,
 			this.beeEntity,
-			this.beeEntity.getBoundingBox().expand(16.0D)
+			this.beeEntity.getBoundingBox().expand(32.0D)
 		);
 		double d = 1.7976931348623157E308D;
 		MoobloomEntity closestMoobloomEntity = null;

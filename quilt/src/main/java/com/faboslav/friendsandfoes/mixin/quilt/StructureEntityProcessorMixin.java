@@ -34,6 +34,8 @@ import java.util.Optional;
 
 /**
  * Allows for processing entities in Jigsaw structures.
+ * Originally from YUNG's API by.
+ * YUNGNICKYOUNG(https://github.com/YUNG-GANG/YUNGs-API)
  */
 @Mixin(StructureTemplate.class)
 public final class StructureEntityProcessorMixin

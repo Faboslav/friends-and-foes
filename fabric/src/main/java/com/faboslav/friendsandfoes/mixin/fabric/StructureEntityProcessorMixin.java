@@ -46,7 +46,7 @@ public final class StructureEntityProcessorMixin
 
 	/**
 	 * Reimplements vanilla behavior for spawning entities,
-	 * but with additional behavior allowing for the use of entity processing ({@link com.faboslav.friendsandfoes.world.processor.StructureEntityProcessor})
+	 * but with additional behavior allowing for the use of entity processing ({@link StructureEntityProcessor})
 	 */
 	@Inject(
 		method = "place",

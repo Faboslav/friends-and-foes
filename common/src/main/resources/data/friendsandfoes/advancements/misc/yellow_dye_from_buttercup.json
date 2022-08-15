@@ -1,34 +1,34 @@
 {
-  "parent": "minecraft:recipes/root",
-  "rewards": {
-	"recipes": [
-	  "friendsandfoes:yellow_dye_from_buttercup"
-	]
-  },
-  "criteria": {
-	"has_buttercup": {
-	  "trigger": "minecraft:inventory_changed",
-	  "conditions": {
-		"items": [
-		  {
-			"items": [
-			  "friendsandfoes:buttercup"
-			]
-		  }
+	"parent": "minecraft:recipes/root",
+	"rewards": {
+		"recipes": [
+			"friendsandfoes:yellow_dye_from_buttercup"
 		]
-	  }
 	},
-	"has_the_recipe": {
-	  "trigger": "minecraft:recipe_unlocked",
-	  "conditions": {
-		"recipe": "friendsandfoes:yellow_dye_from_buttercup"
-	  }
-	}
-  },
-  "requirements": [
-	[
-	  "has_buttercup",
-	  "has_the_recipe"
+	"criteria": {
+		"has_buttercup": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"friendsandfoes:buttercup"
+						]
+					}
+				]
+			}
+		},
+		"has_the_recipe": {
+			"trigger": "minecraft:recipe_unlocked",
+			"conditions": {
+				"recipe": "friendsandfoes:yellow_dye_from_buttercup"
+			}
+		}
+	},
+	"requirements": [
+		[
+			"has_buttercup",
+			"has_the_recipe"
+		]
 	]
-  ]
 }

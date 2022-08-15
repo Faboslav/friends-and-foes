@@ -1,0 +1,15 @@
+{
+	"name": "friendsandfoes:illusioner_shack/shack/basement",
+	"fallback": "minecraft:empty",
+	"elements": [
+		{
+			"weight": 1,
+			"element": {
+				"location": "friendsandfoes:illusioner_shack/shack/basement",
+				"processors": "friendsandfoes:illusioner_shack",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		}
+	]
+}

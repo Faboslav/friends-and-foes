@@ -1,39 +1,39 @@
 {
-  "parent": "minecraft:adventure/root",
-  "display": {
-	"icon": {
-	  "item": "minecraft:copper_block"
+	"parent": "minecraft:adventure/root",
+	"display": {
+		"icon": {
+			"item": "minecraft:copper_block"
+		},
+		"title": {
+			"translate": "advancements.adventure.summon_copper_golem.title"
+		},
+		"description": {
+			"translate": "advancements.adventure.summon_copper_golem.description"
+		},
+		"frame": "goal",
+		"show_toast": true,
+		"announce_to_chat": true,
+		"hidden": false
 	},
-	"title": {
-	  "translate": "advancements.adventure.summon_copper_golem.title"
+	"criteria": {
+		"summoned_golem": {
+			"trigger": "minecraft:summoned_entity",
+			"conditions": {
+				"entity": [
+					{
+						"condition": "minecraft:entity_properties",
+						"predicate": {
+							"type": "friendsandfoes:copper_golem"
+						},
+						"entity": "this"
+					}
+				]
+			}
+		}
 	},
-	"description": {
-	  "translate": "advancements.adventure.summon_copper_golem.description"
-	},
-	"frame": "goal",
-	"show_toast": true,
-	"announce_to_chat": true,
-	"hidden": false
-  },
-  "criteria": {
-	"summoned_golem": {
-	  "trigger": "minecraft:summoned_entity",
-	  "conditions": {
-		"entity": [
-		  {
-			"condition": "minecraft:entity_properties",
-			"predicate": {
-			  "type": "friendsandfoes:copper_golem"
-			},
-			"entity": "this"
-		  }
+	"requirements": [
+		[
+			"summoned_golem"
 		]
-	  }
-	}
-  },
-  "requirements": [
-	[
-	  "summoned_golem"
 	]
-  ]
 }

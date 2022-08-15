@@ -1,0 +1,15 @@
+{
+	"name": "friendsandfoes:illusioner_training_grounds/illusioner_training_grounds",
+	"fallback": "minecraft:empty",
+	"elements": [
+		{
+			"weight": 1,
+			"element": {
+				"location": "friendsandfoes:illusioner_training_grounds/illusioner_training_grounds",
+				"processors": "friendsandfoes:illusioner_training_grounds",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		}
+	]
+}

@@ -48,11 +48,11 @@ public final class StructurePoolMixin
 	) {
 		if (FriendsAndFoes.getConfig().generateBeekeeperAreaStructure) {
 			if (Objects.equals(id.getPath(), "village/plains/houses")) {
-				addElement(FriendsAndFoes.makeStringID("village/plains/houses/plains_beekeeper_area"), 1, projection);
+				addElement(FriendsAndFoes.makeStringID("village/plains/houses/plains_beekeeper_area"), 2, projection);
 			} else if (Objects.equals(id.getPath(), "village/savanna/houses")) {
-				addElement(FriendsAndFoes.makeStringID("village/savanna/houses/savanna_beekeeper_area"), 1, projection);
+				addElement(FriendsAndFoes.makeStringID("village/savanna/houses/savanna_beekeeper_area"), 2, projection);
 			} else if (Objects.equals(id.getPath(), "village/taiga/houses")) {
-				addElement(FriendsAndFoes.makeStringID("village/taiga/houses/taiga_beekeeper_area"), 1, projection);
+				addElement(FriendsAndFoes.makeStringID("village/taiga/houses/taiga_beekeeper_area"), 2, projection);
 			}
 		}
 

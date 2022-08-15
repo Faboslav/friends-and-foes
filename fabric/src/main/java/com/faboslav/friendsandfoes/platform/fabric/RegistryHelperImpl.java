@@ -6,7 +6,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
-import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.render.RenderLayer;
@@ -18,6 +17,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.item.Item;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.structure.processor.StructureProcessor;
+import net.minecraft.structure.processor.StructureProcessorType;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.poi.PointOfInterestType;
@@ -87,7 +89,19 @@ public final class RegistryHelperImpl
 		return () -> registry;
 	}
 
-	public static <T extends Block> void registerFlammableBlock(Block fireBlock, Supplier<T> block, int burnChance, int spreadChance) {
+	public static <T extends Block> void registerFlammableBlock(
+		Block fireBlock,
+		Supplier<T> block,
+		int burnChance,
+		int spreadChance
+	) {
 		FlammableBlockRegistry.getInstance(fireBlock).add(block.get(), burnChance, spreadChance);
+	}
+
+	public static void registerStructureProcessorType(
+		Identifier identifier,
+		StructureProcessorType<? extends StructureProcessor> structureProcessorType
+	) {
+		Registry.register(Registry.STRUCTURE_PROCESSOR, identifier, structureProcessorType);
 	}
 }

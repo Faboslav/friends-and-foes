@@ -1,13 +1,14 @@
 {
-  "required": true,
-  "package": "com.faboslav.friendsandfoes.mixin.quilt",
-  "compatibilityLevel": "JAVA_17",
-  "minVersion": "0.8",
-  "injectors": {
-	"defaultRequire": 1
-  },
-  "mixins": [
-    "AddCustomRaidMemberMixin",
-    "AddCustomSpawnGroupMixin"
-  ]
+	"required": true,
+	"package": "com.faboslav.friendsandfoes.mixin.quilt",
+	"compatibilityLevel": "JAVA_17",
+	"minVersion": "0.8",
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"mixins": [
+		"AddCustomRaidMemberMixin",
+		"AddCustomSpawnGroupMixin",
+		"StructureEntityProcessorMixin"
+	]
 }

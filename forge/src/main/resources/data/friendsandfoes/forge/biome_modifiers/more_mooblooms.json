@@ -1,11 +1,11 @@
 {
-  "type": "forge:add_spawns",
-  "biomes": "#friendsandfoes:more_moobloom",
-  "spawn": {
-	"type": "friendsandfoes:moobloom",
-	"minCount": 2,
-	"maxCount": 4,
-	"weight": 32
-  },
-  "category": "creature"
+	"type": "forge:add_spawns",
+	"biomes": "#friendsandfoes:more_moobloom",
+	"spawn": {
+		"type": "friendsandfoes:moobloom",
+		"minCount": 2,
+		"maxCount": 4,
+		"weight": 32
+	},
+	"category": "creature"
 }

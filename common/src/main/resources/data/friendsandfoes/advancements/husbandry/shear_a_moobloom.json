@@ -1,38 +1,38 @@
 {
-  "parent": "minecraft:husbandry/root",
-  "display": {
-	"icon": {
-	  "item": "minecraft:shears"
-	},
-	"title": {
-	  "translate": "advancements.husbandry.shear_a_moobloom.title"
-	},
-	"description": {
-	  "translate": "advancements.husbandry.shear_a_moobloom.description"
-	},
-	"frame": "goal",
-	"show_toast": true,
-	"announce_to_chat": true,
-	"hidden": true
-  },
-  "criteria": {
-	"shear_moobloom": {
-	  "trigger": "minecraft:player_interacted_with_entity",
-	  "conditions": {
-		"item": {
-		  "items": [
-			"minecraft:shears"
-		  ]
+	"parent": "minecraft:husbandry/root",
+	"display": {
+		"icon": {
+			"item": "minecraft:shears"
 		},
-		"entity": {
-		  "type": "friendsandfoes:moobloom"
+		"title": {
+			"translate": "advancements.husbandry.shear_a_moobloom.title"
+		},
+		"description": {
+			"translate": "advancements.husbandry.shear_a_moobloom.description"
+		},
+		"frame": "goal",
+		"show_toast": true,
+		"announce_to_chat": true,
+		"hidden": true
+	},
+	"criteria": {
+		"shear_moobloom": {
+			"trigger": "minecraft:player_interacted_with_entity",
+			"conditions": {
+				"item": {
+					"items": [
+						"minecraft:shears"
+					]
+				},
+				"entity": {
+					"type": "friendsandfoes:moobloom"
+				}
+			}
 		}
-	  }
-	}
-  },
-  "requirements": [
-	[
-	  "shear_moobloom"
+	},
+	"requirements": [
+		[
+			"shear_moobloom"
+		]
 	]
-  ]
 }

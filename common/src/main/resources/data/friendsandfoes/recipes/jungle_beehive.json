@@ -1,19 +1,19 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-	"PPP",
-	"HHH",
-	"PPP"
-  ],
-  "key": {
-	"P": {
-	  "item": "minecraft:jungle_planks"
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"PPP",
+		"HHH",
+		"PPP"
+	],
+	"key": {
+		"P": {
+			"item": "minecraft:jungle_planks"
+		},
+		"H": {
+			"item": "minecraft:honeycomb"
+		}
 	},
-	"H": {
-	  "item": "minecraft:honeycomb"
+	"result": {
+		"item": "friendsandfoes:jungle_beehive"
 	}
-  },
-  "result": {
-	"item": "friendsandfoes:jungle_beehive"
-  }
 }

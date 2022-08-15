@@ -1,10 +1,10 @@
 {
-  "parent": "minecraft:block/orientable_with_bottom",
-  "textures": {
-	"top": "friendsandfoes:block/acacia_beehive_end",
-	"bottom": "friendsandfoes:block/acacia_beehive_end",
-	"side": "friendsandfoes:block/acacia_beehive_side",
-	"front": "friendsandfoes:block/acacia_beehive_front",
-	"particle": "friendsandfoes:block/acacia_beehive_side"
-  }
+	"parent": "minecraft:block/orientable_with_bottom",
+	"textures": {
+		"top": "friendsandfoes:block/acacia_beehive_end",
+		"bottom": "friendsandfoes:block/acacia_beehive_end",
+		"side": "friendsandfoes:block/acacia_beehive_side",
+		"front": "friendsandfoes:block/acacia_beehive_front",
+		"particle": "friendsandfoes:block/acacia_beehive_side"
+	}
 }

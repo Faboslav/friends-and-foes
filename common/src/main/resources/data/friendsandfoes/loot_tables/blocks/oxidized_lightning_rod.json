@@ -1,19 +1,19 @@
 {
-  "type": "minecraft:block",
-  "pools": [
-	{
-	  "rolls": 1,
-	  "entries": [
+	"type": "minecraft:block",
+	"pools": [
 		{
-		  "type": "minecraft:item",
-		  "name": "friendsandfoes:oxidized_lightning_rod"
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "minecraft:item",
+					"name": "friendsandfoes:oxidized_lightning_rod"
+				}
+			],
+			"conditions": [
+				{
+					"condition": "minecraft:survives_explosion"
+				}
+			]
 		}
-	  ],
-	  "conditions": [
-		{
-		  "condition": "minecraft:survives_explosion"
-		}
-	  ]
-	}
-  ]
+	]
 }

@@ -1,172 +1,172 @@
 {
-  "entity.copper_golem.death": {
-	"sounds": [
-	  "friendsandfoes:entity/copper_golem/death"
-	],
-	"subtitle": "subtitle.entity.friendsandfoes.copper_golem.death"
-  },
-  "entity.copper_golem.head_spin": {
-	"sounds": [
-	  "friendsandfoes:entity/copper_golem/head_spin1",
-	  "friendsandfoes:entity/copper_golem/head_spin2"
-	],
-	"subtitle": "subtitle.entity.friendsandfoes.copper_golem.head_spin"
-  },
-  "entity.copper_golem.hurt": {
-	"sounds": [
-	  "friendsandfoes:entity/copper_golem/hurt1",
-	  "friendsandfoes:entity/copper_golem/hurt2",
-	  "friendsandfoes:entity/copper_golem/hurt3",
-	  "friendsandfoes:entity/copper_golem/hurt4"
-	],
-	"subtitle": "subtitle.entity.friendsandfoes.copper_golem.hurt"
-  },
-  "entity.copper_golem.repair": {
-	"sounds": [
-	  "friendsandfoes:entity/copper_golem/repair"
-	],
-	"subtitle": "subtitle.entity.friendsandfoes.copper_golem.repair"
-  },
-  "entity.copper_golem.step": {
-	"sounds": [
-	  "friendsandfoes:entity/copper_golem/step1",
-	  "friendsandfoes:entity/copper_golem/step2",
-	  "friendsandfoes:entity/copper_golem/step3",
-	  "friendsandfoes:entity/copper_golem/step4"
-	],
-	"subtitle": "subtitle.entity.friendsandfoes.copper_golem.step"
-  },
-  "entity.glare.ambient": {
-	"sounds": [
-	  "friendsandfoes:entity/glare/ambient1",
-	  "friendsandfoes:entity/glare/ambient2"
-	],
-	"subtitle": "subtitle.entity.friendsandfoes.glare.ambient"
-  },
-  "entity.glare.death": {
-	"sounds": [
-	  "friendsandfoes:entity/glare/death"
-	],
-	"subtitle": "subtitle.entity.friendsandfoes.glare.death"
-  },
-  "entity.glare.eat": {
-	"sounds": [
-	  "friendsandfoes:entity/glare/eat"
-	],
-	"subtitle": "subtitle.entity.friendsandfoes.glare.eat"
-  },
-  "entity.glare.grumpiness": {
-	"sounds": [
-	  "friendsandfoes:entity/glare/grumpiness"
-	],
-	"subtitle": "subtitle.entity.friendsandfoes.glare.grumpiness"
-  },
-  "entity.glare.grumpiness_short": {
-	"sounds": [
-	  "friendsandfoes:entity/glare/grumpiness_short"
-	],
-	"subtitle": "subtitle.entity.friendsandfoes.glare.grumpiness_short"
-  },
-  "entity.glare.hurt": {
-	"sounds": [
-	  "friendsandfoes:entity/glare/hurt1",
-	  "friendsandfoes:entity/glare/hurt2"
-	],
-	"subtitle": "subtitle.entity.friendsandfoes.glare.hurt"
-  },
-  "entity.glare.rustle": {
-	"sounds": [
-	  "friendsandfoes:entity/glare/rustle1",
-	  "friendsandfoes:entity/glare/rustle2",
-	  "friendsandfoes:entity/glare/rustle3"
-	],
-	"subtitle": "subtitle.entity.friendsandfoes.glare.rustle"
-  },
-  "entity.ice_chunk.ambient": {
-	"sounds": [
-	  "friendsandfoes:entity/ice_chunk/ambient"
-	],
-	"subtitle": "subtitle.entity.friendsandfoes.ice_chunk.ambient"
-  },
-  "entity.ice_chunk.hit": {
-	"sounds": [
-	  "friendsandfoes:entity/ice_chunk/hit"
-	],
-	"subtitle": "subtitle.entity.friendsandfoes.ice_chunk.hit"
-  },
-  "entity.ice_chunk.summon": {
-	"sounds": [
-	  "friendsandfoes:entity/ice_chunk/summon"
-	],
-	"subtitle": "subtitle.entity.friendsandfoes.ice_chunk.summon"
-  },
-  "entity.iceologer.ambient": {
-	"sounds": [
-	  "friendsandfoes:entity/iceologer/ambient1",
-	  "friendsandfoes:entity/iceologer/ambient2",
-	  "friendsandfoes:entity/iceologer/ambient3"
-	],
-	"subtitle": "subtitle.entity.friendsandfoes.iceologer.ambient"
-  },
-  "entity.iceologer.cast_spell": {
-	"sounds": [
-	  "friendsandfoes:entity/iceologer/cast_spell1",
-	  "friendsandfoes:entity/iceologer/cast_spell2"
-	],
-	"subtitle": "subtitle.entity.friendsandfoes.iceologer.cast_spell"
-  },
-  "entity.iceologer.death": {
-	"sounds": [
-	  "friendsandfoes:entity/iceologer/death1",
-	  "friendsandfoes:entity/iceologer/death2",
-	  "friendsandfoes:entity/iceologer/death3"
-	],
-	"subtitle": "subtitle.entity.friendsandfoes.iceologer.death"
-  },
-  "entity.iceologer.hurt": {
-	"sounds": [
-	  "friendsandfoes:entity/iceologer/hurt1",
-	  "friendsandfoes:entity/iceologer/hurt2",
-	  "friendsandfoes:entity/iceologer/hurt3"
-	],
-	"subtitle": "subtitle.entity.friendsandfoes.iceologer.hurt"
-  },
-  "entity.iceologer.prepare_slowness": {
-	"sounds": [
-	  "friendsandfoes:entity/iceologer/prepare_slowness"
-	],
-	"subtitle": "subtitle.entity.friendsandfoes.iceologer.prepare_slowness"
-  },
-  "entity.iceologer.prepare_summon": {
-	"sounds": [
-	  "friendsandfoes:entity/iceologer/prepare_summon"
-	],
-	"subtitle": "subtitle.entity.friendsandfoes.iceologer.prepare_summon"
-  },
-  "entity.mauler.bite": {
-	"sounds": [
-	  "friendsandfoes:entity/mauler/bite"
-	],
-	"subtitle": "subtitle.entity.friendsandfoes.mauler.bite"
-  },
-  "entity.mauler.death": {
-	"sounds": [
-	  "friendsandfoes:entity/mauler/death"
-	],
-	"subtitle": "subtitle.entity.friendsandfoes.mauler.death"
-  },
-  "entity.mauler.growl": {
-	"sounds": [
-	  "friendsandfoes:entity/mauler/growl1",
-	  "friendsandfoes:entity/mauler/growl2",
-	  "friendsandfoes:entity/mauler/growl3"
-	],
-	"subtitle": "subtitle.entity.friendsandfoes.mauler.growl"
-  },
-  "entity.mauler.hurt": {
-	"sounds": [
-	  "friendsandfoes:entity/mauler/hurt"
-	],
-	"subtitle": "subtitle.entity.friendsandfoes.mauler.hurt"
-  }
+	"entity.copper_golem.death": {
+		"sounds": [
+			"friendsandfoes:entity/copper_golem/death"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.copper_golem.death"
+	},
+	"entity.copper_golem.head_spin": {
+		"sounds": [
+			"friendsandfoes:entity/copper_golem/head_spin1",
+			"friendsandfoes:entity/copper_golem/head_spin2"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.copper_golem.head_spin"
+	},
+	"entity.copper_golem.hurt": {
+		"sounds": [
+			"friendsandfoes:entity/copper_golem/hurt1",
+			"friendsandfoes:entity/copper_golem/hurt2",
+			"friendsandfoes:entity/copper_golem/hurt3",
+			"friendsandfoes:entity/copper_golem/hurt4"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.copper_golem.hurt"
+	},
+	"entity.copper_golem.repair": {
+		"sounds": [
+			"friendsandfoes:entity/copper_golem/repair"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.copper_golem.repair"
+	},
+	"entity.copper_golem.step": {
+		"sounds": [
+			"friendsandfoes:entity/copper_golem/step1",
+			"friendsandfoes:entity/copper_golem/step2",
+			"friendsandfoes:entity/copper_golem/step3",
+			"friendsandfoes:entity/copper_golem/step4"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.copper_golem.step"
+	},
+	"entity.glare.ambient": {
+		"sounds": [
+			"friendsandfoes:entity/glare/ambient1",
+			"friendsandfoes:entity/glare/ambient2"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.glare.ambient"
+	},
+	"entity.glare.death": {
+		"sounds": [
+			"friendsandfoes:entity/glare/death"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.glare.death"
+	},
+	"entity.glare.eat": {
+		"sounds": [
+			"friendsandfoes:entity/glare/eat"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.glare.eat"
+	},
+	"entity.glare.grumpiness": {
+		"sounds": [
+			"friendsandfoes:entity/glare/grumpiness"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.glare.grumpiness"
+	},
+	"entity.glare.grumpiness_short": {
+		"sounds": [
+			"friendsandfoes:entity/glare/grumpiness_short"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.glare.grumpiness_short"
+	},
+	"entity.glare.hurt": {
+		"sounds": [
+			"friendsandfoes:entity/glare/hurt1",
+			"friendsandfoes:entity/glare/hurt2"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.glare.hurt"
+	},
+	"entity.glare.rustle": {
+		"sounds": [
+			"friendsandfoes:entity/glare/rustle1",
+			"friendsandfoes:entity/glare/rustle2",
+			"friendsandfoes:entity/glare/rustle3"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.glare.rustle"
+	},
+	"entity.ice_chunk.ambient": {
+		"sounds": [
+			"friendsandfoes:entity/ice_chunk/ambient"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.ice_chunk.ambient"
+	},
+	"entity.ice_chunk.hit": {
+		"sounds": [
+			"friendsandfoes:entity/ice_chunk/hit"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.ice_chunk.hit"
+	},
+	"entity.ice_chunk.summon": {
+		"sounds": [
+			"friendsandfoes:entity/ice_chunk/summon"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.ice_chunk.summon"
+	},
+	"entity.iceologer.ambient": {
+		"sounds": [
+			"friendsandfoes:entity/iceologer/ambient1",
+			"friendsandfoes:entity/iceologer/ambient2",
+			"friendsandfoes:entity/iceologer/ambient3"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.iceologer.ambient"
+	},
+	"entity.iceologer.cast_spell": {
+		"sounds": [
+			"friendsandfoes:entity/iceologer/cast_spell1",
+			"friendsandfoes:entity/iceologer/cast_spell2"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.iceologer.cast_spell"
+	},
+	"entity.iceologer.death": {
+		"sounds": [
+			"friendsandfoes:entity/iceologer/death1",
+			"friendsandfoes:entity/iceologer/death2",
+			"friendsandfoes:entity/iceologer/death3"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.iceologer.death"
+	},
+	"entity.iceologer.hurt": {
+		"sounds": [
+			"friendsandfoes:entity/iceologer/hurt1",
+			"friendsandfoes:entity/iceologer/hurt2",
+			"friendsandfoes:entity/iceologer/hurt3"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.iceologer.hurt"
+	},
+	"entity.iceologer.prepare_slowness": {
+		"sounds": [
+			"friendsandfoes:entity/iceologer/prepare_slowness"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.iceologer.prepare_slowness"
+	},
+	"entity.iceologer.prepare_summon": {
+		"sounds": [
+			"friendsandfoes:entity/iceologer/prepare_summon"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.iceologer.prepare_summon"
+	},
+	"entity.mauler.bite": {
+		"sounds": [
+			"friendsandfoes:entity/mauler/bite"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.mauler.bite"
+	},
+	"entity.mauler.death": {
+		"sounds": [
+			"friendsandfoes:entity/mauler/death"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.mauler.death"
+	},
+	"entity.mauler.growl": {
+		"sounds": [
+			"friendsandfoes:entity/mauler/growl1",
+			"friendsandfoes:entity/mauler/growl2",
+			"friendsandfoes:entity/mauler/growl3"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.mauler.growl"
+	},
+	"entity.mauler.hurt": {
+		"sounds": [
+			"friendsandfoes:entity/mauler/hurt"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.mauler.hurt"
+	}
 }

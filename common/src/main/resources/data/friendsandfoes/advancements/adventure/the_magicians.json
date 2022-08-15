@@ -1,76 +1,76 @@
 {
-  "parent": "minecraft:adventure/voluntary_exile",
-  "display": {
-	"icon": {
-	  "item": "minecraft:emerald"
+	"parent": "minecraft:adventure/voluntary_exile",
+	"display": {
+		"icon": {
+			"item": "minecraft:emerald"
+		},
+		"title": {
+			"translate": "advancements.adventure.the_magicians.title"
+		},
+		"description": {
+			"translate": "advancements.adventure.the_magicians.description"
+		},
+		"frame": "challenge",
+		"show_toast": true,
+		"announce_to_chat": true,
+		"hidden": true
 	},
-	"title": {
-	  "translate": "advancements.adventure.the_magicians.title"
+	"rewards": {
+		"experience": 100
 	},
-	"description": {
-	  "translate": "advancements.adventure.the_magicians.description"
+	"criteria": {
+		"killed_evoker": {
+			"trigger": "minecraft:player_killed_entity",
+			"conditions": {
+				"entity": [
+					{
+						"condition": "minecraft:entity_properties",
+						"predicate": {
+							"type": "minecraft:evoker"
+						},
+						"entity": "this"
+					}
+				]
+			}
+		},
+		"killed_iceologer": {
+			"trigger": "minecraft:player_killed_entity",
+			"conditions": {
+				"entity": [
+					{
+						"condition": "minecraft:entity_properties",
+						"predicate": {
+							"type": "friendsandfoes:iceologer"
+						},
+						"entity": "this"
+					}
+				]
+			}
+		},
+		"killed_illusioner": {
+			"trigger": "minecraft:player_killed_entity",
+			"conditions": {
+				"entity": [
+					{
+						"condition": "minecraft:entity_properties",
+						"predicate": {
+							"type": "minecraft:illusioner"
+						},
+						"entity": "this"
+					}
+				]
+			}
+		}
 	},
-	"frame": "challenge",
-	"show_toast": true,
-	"announce_to_chat": true,
-	"hidden": true
-  },
-  "rewards": {
-	"experience": 100
-  },
-  "criteria": {
-	"killed_evoker": {
-	  "trigger": "minecraft:player_killed_entity",
-	  "conditions": {
-		"entity": [
-		  {
-			"condition": "minecraft:entity_properties",
-			"predicate": {
-			  "type": "minecraft:evoker"
-			},
-			"entity": "this"
-		  }
+	"requirements": [
+		[
+			"killed_evoker"
+		],
+		[
+			"killed_iceologer"
+		],
+		[
+			"killed_illusioner"
 		]
-	  }
-	},
-	"killed_iceologer": {
-	  "trigger": "minecraft:player_killed_entity",
-	  "conditions": {
-		"entity": [
-		  {
-			"condition": "minecraft:entity_properties",
-			"predicate": {
-			  "type": "friendsandfoes:iceologer"
-			},
-			"entity": "this"
-		  }
-		]
-	  }
-	},
-	"killed_illusioner": {
-	  "trigger": "minecraft:player_killed_entity",
-	  "conditions": {
-		"entity": [
-		  {
-			"condition": "minecraft:entity_properties",
-			"predicate": {
-			  "type": "minecraft:illusioner"
-			},
-			"entity": "this"
-		  }
-		]
-	  }
-	}
-  },
-  "requirements": [
-	[
-	  "killed_evoker"
-	],
-	[
-	  "killed_iceologer"
-	],
-	[
-	  "killed_illusioner"
 	]
-  ]
 }

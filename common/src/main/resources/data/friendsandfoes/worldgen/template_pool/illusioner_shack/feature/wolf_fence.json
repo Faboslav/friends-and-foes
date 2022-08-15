@@ -1,0 +1,24 @@
+{
+	"name": "friendsandfoes:illusioner_shack/feature/wolf_fence",
+	"fallback": "minecraft:empty",
+	"elements": [
+		{
+			"weight": 1,
+			"element": {
+				"location": "friendsandfoes:illusioner_shack/feature/wolf_fence1",
+				"processors": "minecraft:empty",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		},
+		{
+			"weight": 1,
+			"element": {
+				"location": "friendsandfoes:illusioner_shack/feature/wolf_fence2",
+				"processors": "minecraft:empty",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		}
+	]
+}

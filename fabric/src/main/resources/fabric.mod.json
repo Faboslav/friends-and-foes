@@ -1,51 +1,51 @@
 {
-  "schemaVersion": 1,
-  "id": "friendsandfoes",
-  "version": "${modVersion}",
-  "name": "${modName}",
-  "description": "${modDescription}",
-  "authors": [
-	"${modAuthor}"
-  ],
-  "contact": {
-	"homepage": "https://github.com/Faboslav/friends-and-foes",
-	"sources": "https://github.com/Faboslav/friends-and-foes",
-	"issues": "https://github.com/Faboslav/friends-and-foes/issues",
-	"wiki": "https://github.com/Faboslav/friends-and-foes/wiki"
-  },
-  "license": "CC-BY-NC-ND-4.0",
-  "icon": "icon.jpg",
-  "environment": "*",
-  "entrypoints": {
-	"main": [
-	  "com.faboslav.friendsandfoes.fabric.FriendsAndFoesFabric"
+	"schemaVersion": 1,
+	"id": "friendsandfoes",
+	"version": "${modVersion}",
+	"name": "${modName}",
+	"description": "${modDescription}",
+	"authors": [
+		"${modAuthor}"
 	],
-	"client": [
-	  "com.faboslav.friendsandfoes.fabric.FriendsAndFoesFabricClient"
+	"contact": {
+		"homepage": "https://github.com/Faboslav/friends-and-foes",
+		"sources": "https://github.com/Faboslav/friends-and-foes",
+		"issues": "https://github.com/Faboslav/friends-and-foes/issues",
+		"wiki": "https://github.com/Faboslav/friends-and-foes/wiki"
+	},
+	"license": "CC-BY-NC-ND-4.0",
+	"icon": "icon.jpg",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.faboslav.friendsandfoes.fabric.FriendsAndFoesFabric"
+		],
+		"client": [
+			"com.faboslav.friendsandfoes.fabric.FriendsAndFoesFabricClient"
+		],
+		"server": [
+			"com.faboslav.friendsandfoes.fabric.FriendsAndFoesFabricServer"
+		],
+		"modmenu": [
+			"com.faboslav.friendsandfoes.integrations.fabric.ModMenuIntegration"
+		]
+	},
+	"mixins": [
+		"friendsandfoes-common.mixins.json",
+		"friendsandfoes.mixins.json"
 	],
-	"server": [
-	  "com.faboslav.friendsandfoes.fabric.FriendsAndFoesFabricServer"
-	],
-	"modmenu": [
-	  "com.faboslav.friendsandfoes.integrations.fabric.ModMenuIntegration"
-	]
-  },
-  "mixins": [
-	"friendsandfoes-common.mixins.json",
-	"friendsandfoes.mixins.json"
-  ],
-  "depends": {
-	"java": ">=17",
-	"minecraft": ">=1.19",
-	"fabric": "*",
-	"fabricloader": "*"
-  },
-  "custom": {
-	"modmenu": {
-	  "links": {
-		"Discord": "https://discord.com/invite/QGwFvvMQCn",
-		"Wiki": "https://github.com/Faboslav/friends-and-foes/wiki"
-	  }
+	"depends": {
+		"java": ">=17",
+		"minecraft": ">=1.19",
+		"fabric": "*",
+		"fabricloader": "*"
+	},
+	"custom": {
+		"modmenu": {
+			"links": {
+				"Discord": "https://discord.com/invite/QGwFvvMQCn",
+				"Wiki": "https://github.com/Faboslav/friends-and-foes/wiki"
+			}
+		}
 	}
-  }
 }

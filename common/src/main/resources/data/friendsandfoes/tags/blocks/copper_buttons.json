@@ -1,13 +1,13 @@
 {
-  "replace": false,
-  "values": [
-	"friendsandfoes:copper_button",
-	"friendsandfoes:exposed_copper_button",
-	"friendsandfoes:oxidized_copper_button",
-	"friendsandfoes:waxed_copper_button",
-	"friendsandfoes:waxed_exposed_copper_button",
-	"friendsandfoes:waxed_oxidized_copper_button",
-	"friendsandfoes:waxed_weathered_copper_button",
-	"friendsandfoes:weathered_copper_button"
-  ]
+	"replace": false,
+	"values": [
+		"friendsandfoes:copper_button",
+		"friendsandfoes:exposed_copper_button",
+		"friendsandfoes:oxidized_copper_button",
+		"friendsandfoes:waxed_copper_button",
+		"friendsandfoes:waxed_exposed_copper_button",
+		"friendsandfoes:waxed_oxidized_copper_button",
+		"friendsandfoes:waxed_weathered_copper_button",
+		"friendsandfoes:weathered_copper_button"
+	]
 }

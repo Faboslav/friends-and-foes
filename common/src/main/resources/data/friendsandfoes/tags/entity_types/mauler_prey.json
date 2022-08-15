@@ -1,9 +1,9 @@
 {
-  "values": [
-	"minecraft:chicken",
-	"minecraft:rabbit",
-	"minecraft:frog",
-	"minecraft:slime",
-	"minecraft:zombie"
-  ]
+	"values": [
+		"minecraft:chicken",
+		"minecraft:rabbit",
+		"minecraft:frog",
+		"minecraft:slime",
+		"minecraft:zombie"
+	]
 }

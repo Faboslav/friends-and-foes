@@ -1,39 +1,39 @@
 {
-  "parent": "minecraft:adventure/voluntary_exile",
-  "display": {
-	"icon": {
-	  "item": "minecraft:blue_ice"
+	"parent": "minecraft:adventure/voluntary_exile",
+	"display": {
+		"icon": {
+			"item": "minecraft:blue_ice"
+		},
+		"title": {
+			"translate": "advancements.adventure.kill_iceologer.title"
+		},
+		"description": {
+			"translate": "advancements.adventure.kill_iceologer.description"
+		},
+		"frame": "task",
+		"show_toast": true,
+		"announce_to_chat": true,
+		"hidden": false
 	},
-	"title": {
-	  "translate": "advancements.adventure.kill_iceologer.title"
+	"criteria": {
+		"killed_iceologer": {
+			"trigger": "minecraft:player_killed_entity",
+			"conditions": {
+				"entity": [
+					{
+						"condition": "minecraft:entity_properties",
+						"predicate": {
+							"type": "friendsandfoes:iceologer"
+						},
+						"entity": "this"
+					}
+				]
+			}
+		}
 	},
-	"description": {
-	  "translate": "advancements.adventure.kill_iceologer.description"
-	},
-	"frame": "task",
-	"show_toast": true,
-	"announce_to_chat": true,
-	"hidden": false
-  },
-  "criteria": {
-	"killed_iceologer": {
-	  "trigger": "minecraft:player_killed_entity",
-	  "conditions": {
-		"entity": [
-		  {
-			"condition": "minecraft:entity_properties",
-			"predicate": {
-			  "type": "friendsandfoes:iceologer"
-			},
-			"entity": "this"
-		  }
+	"requirements": [
+		[
+			"killed_iceologer"
 		]
-	  }
-	}
-  },
-  "requirements": [
-	[
-	  "killed_iceologer"
 	]
-  ]
 }

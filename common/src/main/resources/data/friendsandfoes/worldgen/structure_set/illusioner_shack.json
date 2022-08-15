@@ -1,0 +1,14 @@
+{
+	"structures": [
+		{
+			"structure": "friendsandfoes:illusioner_shack",
+			"weight": 1
+		}
+	],
+	"placement": {
+		"salt": 365262534,
+		"spacing": 30,
+		"separation": 8,
+		"type": "minecraft:random_spread"
+	}
+}

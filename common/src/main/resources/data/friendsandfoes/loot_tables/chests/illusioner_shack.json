@@ -1,196 +1,196 @@
 {
-  "type": "minecraft:chest",
-  "pools": [
-	{
-	  "rolls": 1.0,
-	  "bonus_rolls": 0.0,
-	  "entries": [
+	"type": "minecraft:chest",
+	"pools": [
 		{
-		  "type": "minecraft:item",
-		  "weight": 1,
-		  "functions": [
-			{
-			  "function": "minecraft:set_damage",
-			  "damage": {
-				"type": "minecraft:uniform",
-				"min": 0.1,
-				"max": 0.4
-			  },
-			  "add": false
-			},
-			{
-			  "function": "minecraft:enchant_with_levels",
-			  "levels": {
-				"type": "minecraft:uniform",
-				"min": 10.0,
-				"max": 19.0
-			  },
-			  "treasure": true
-			}
-		  ],
-		  "name": "minecraft:bow"
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "minecraft:item",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "minecraft:set_damage",
+							"damage": {
+								"type": "minecraft:uniform",
+								"min": 0.1,
+								"max": 0.4
+							}
+						},
+						{
+							"function": "minecraft:enchant_with_levels",
+							"levels": {
+								"type": "minecraft:uniform",
+								"min": 10.0,
+								"max": 19.0
+							},
+							"treasure": true
+						}
+					],
+					"name": "minecraft:bow"
+				},
+				{
+					"type": "minecraft:item",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "minecraft:set_damage",
+							"damage": {
+								"type": "minecraft:uniform",
+								"min": 0.4,
+								"max": 0.7
+							}
+						},
+						{
+							"function": "minecraft:enchant_with_levels",
+							"levels": {
+								"type": "minecraft:uniform",
+								"min": 20.0,
+								"max": 29.0
+							},
+							"treasure": true
+						}
+					],
+					"name": "minecraft:bow"
+				},
+				{
+					"type": "minecraft:item",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "minecraft:set_damage",
+							"damage": {
+								"type": "minecraft:uniform",
+								"min": 0.7,
+								"max": 1.0
+							}
+						},
+						{
+							"function": "minecraft:enchant_with_levels",
+							"levels": {
+								"type": "minecraft:uniform",
+								"min": 1.0,
+								"max": 9.0
+							},
+							"treasure": true
+						}
+					],
+					"name": "minecraft:bow"
+				}
+			]
 		},
 		{
-		  "type": "minecraft:item",
-		  "weight": 1,
-		  "functions": [
-			{
-			  "function": "minecraft:set_damage",
-			  "damage": {
-				"type": "minecraft:uniform",
-				"min": 0.4,
-				"max": 0.7
-			  },
-			  "add": false
-			},
-			{
-			  "function": "minecraft:enchant_with_levels",
-			  "levels": {
-				"type": "minecraft:uniform",
-				"min": 20.0,
-				"max": 29.0
-			  },
-			  "treasure": true
-			}
-		  ],
-		  "name": "minecraft:bow"
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "minecraft:item",
+					"name": "minecraft:bundle"
+				}
+			]
 		},
 		{
-		  "type": "minecraft:item",
-		  "weight": 1,
-		  "functions": [
-			{
-			  "function": "minecraft:set_damage",
-			  "damage": {
-				"type": "minecraft:uniform",
-				"min": 0.7,
-				"max": 1.0
-			  },
-			  "add": false
-			},
-			{
-			  "function": "minecraft:enchant_with_levels",
-			  "levels": {
-				"type": "minecraft:uniform",
-				"min": 1.0,
-				"max": 9.0
-			  },
-			  "treasure": true
-			}
-		  ],
-		  "name": "minecraft:bow"
-		}
-	  ]
-	},
-	{
-	  "rolls": {
-		"type": "minecraft:uniform",
-		"min": 2.0,
-		"max": 4.0
-	  },
-	  "bonus_rolls": 0.0,
-	  "entries": [
-		{
-		  "type": "minecraft:item",
-		  "weight": 1,
-		  "name": "minecraft:name_tag"
-		},
-		{
-		  "type": "minecraft:item",
-		  "weight": 2,
-		  "functions": [
-			{
-			  "function": "minecraft:set_count",
-			  "count": {
+			"rolls": {
 				"type": "minecraft:uniform",
 				"min": 1.0,
 				"max": 3.0
-			  },
-			  "add": false
-			}
-		  ],
-		  "name": "minecraft:bone"
-		}
-	  ]
-	},
-	{
-	  "rolls": {
-		"type": "minecraft:uniform",
-		"min": 1.0,
-		"max": 4.0
-	  },
-	  "bonus_rolls": 0.0,
-	  "entries": [
-		{
-		  "type": "minecraft:item",
-		  "name": "minecraft:emerald"
+			},
+			"entries": [
+				{
+					"type": "minecraft:item",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "minecraft:set_count",
+							"count": {
+								"type": "minecraft:uniform",
+								"min": 2.0,
+								"max": 6.0
+							}
+						}
+					],
+					"name": "minecraft:arrow"
+				}
+			]
 		},
 		{
-		  "type": "minecraft:item",
-		  "functions": [
-			{
-			  "function": "minecraft:set_count",
-			  "count": {
-				"type": "minecraft:uniform",
-				"min": 1.0,
-				"max": 3.0
-			  },
-			  "add": false
-			}
-		  ],
-		  "name": "minecraft:arrow"
-		}
-	  ]
-	},
-	{
-	  "rolls": {
-		"type": "minecraft:uniform",
-		"min": 1.0,
-		"max": 2.0
-	  },
-	  "bonus_rolls": 0.0,
-	  "entries": [
-		{
-		  "type": "minecraft:item",
-		  "functions": [
-			{
-			  "function": "minecraft:set_count",
-			  "count": {
+			"rolls": {
 				"type": "minecraft:uniform",
 				"min": 2.0,
 				"max": 3.0
-			  },
-			  "add": false
-			}
-		  ],
-		  "name": "minecraft:spruce_log"
-		}
-	  ]
-	},
-	{
-	  "rolls": {
-		"type": "minecraft:uniform",
-		"min": 1.0,
-		"max": 3.0
-	  },
-	  "bonus_rolls": 0.0,
-	  "entries": [
+			},
+			"entries": [
+				{
+					"type": "minecraft:item",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "minecraft:set_nbt",
+							"tag": "{Potion:\"minecraft:water\"}"
+						}
+					],
+					"name": "minecraft:potion"
+				},
+				{
+					"type": "minecraft:item",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "minecraft:set_nbt",
+							"tag": "{Potion:\"minecraft:night_vision\"}"
+						}
+					],
+					"name": "minecraft:potion"
+				},
+				{
+					"type": "minecraft:item",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "minecraft:set_nbt",
+							"tag": "{Potion:\"minecraft:invisibility\"}"
+						}
+					],
+					"name": "minecraft:potion"
+				}
+			]
+		},
 		{
-		  "type": "minecraft:item",
-		  "functions": [
-			{
-			  "function": "minecraft:set_count",
-			  "count": {
+			"rolls": {
 				"type": "minecraft:uniform",
-				"min": 1.0,
+				"min": 2.0,
 				"max": 3.0
-			  },
-			  "add": false
-			}
-		  ],
-		  "name": "minecraft:sweet_berries"
+			},
+			"entries": [
+				{
+					"type": "minecraft:item",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "minecraft:set_count",
+							"count": {
+								"type": "minecraft:uniform",
+								"min": 1.0,
+								"max": 3.0
+							}
+						}
+					],
+					"name": "minecraft:sweet_berries"
+				},
+				{
+					"type": "minecraft:item",
+					"weight": 1,
+					"functions": [
+						{
+							"function": "minecraft:set_count",
+							"count": {
+								"type": "minecraft:uniform",
+								"min": 2.0,
+								"max": 3.0
+							}
+						}
+					],
+					"name": "minecraft:bread"
+				}
+			]
 		}
-	  ]
-	}
-  ]
+	]
 }

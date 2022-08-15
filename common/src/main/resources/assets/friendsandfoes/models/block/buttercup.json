@@ -1,6 +1,6 @@
 {
-  "parent": "minecraft:block/cross",
-  "textures": {
-	"cross": "friendsandfoes:block/buttercup"
-  }
+	"parent": "minecraft:block/cross",
+	"textures": {
+		"cross": "friendsandfoes:block/buttercup"
+	}
 }

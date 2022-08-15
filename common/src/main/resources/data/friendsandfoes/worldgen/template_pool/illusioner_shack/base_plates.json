@@ -1,24 +1,15 @@
 {
-  "name": "friendsandfoes:illusioner_shack/base_plates",
-  "fallback": "minecraft:empty",
-  "elements": [
-	{
-	  "weight": 9,
-	  "element": {
-		"location": "friendsandfoes:illusioner_shack/base_plate",
-		"processors": "minecraft:empty",
-		"projection": "rigid",
-		"element_type": "minecraft:legacy_single_pool_element"
-	  }
-	},
-	{
-	  "weight": 1,
-	  "element": {
-		"location": "friendsandfoes:illusioner_shack/abandoned_base_plate",
-		"processors": "minecraft:empty",
-		"projection": "rigid",
-		"element_type": "minecraft:legacy_single_pool_element"
-	  }
-	}
-  ]
+	"name": "friendsandfoes:illusioner_shack/base_plates",
+	"fallback": "minecraft:empty",
+	"elements": [
+		{
+			"weight": 1,
+			"element": {
+				"location": "friendsandfoes:illusioner_shack/base_plate",
+				"processors": "minecraft:empty",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		}
+	]
 }

@@ -1,39 +1,39 @@
 {
-  "parent": "minecraft:adventure/voluntary_exile",
-  "display": {
-	"icon": {
-	  "item": "minecraft:bow"
+	"parent": "minecraft:adventure/voluntary_exile",
+	"display": {
+		"icon": {
+			"item": "minecraft:bow"
+		},
+		"title": {
+			"translate": "advancements.adventure.kill_illusioner.title"
+		},
+		"description": {
+			"translate": "advancements.adventure.kill_illusioner.description"
+		},
+		"frame": "task",
+		"show_toast": true,
+		"announce_to_chat": true,
+		"hidden": false
 	},
-	"title": {
-	  "translate": "advancements.adventure.kill_illusioner.title"
+	"criteria": {
+		"killed_illusioner": {
+			"trigger": "minecraft:player_killed_entity",
+			"conditions": {
+				"entity": [
+					{
+						"condition": "minecraft:entity_properties",
+						"predicate": {
+							"type": "minecraft:illusioner"
+						},
+						"entity": "this"
+					}
+				]
+			}
+		}
 	},
-	"description": {
-	  "translate": "advancements.adventure.kill_illusioner.description"
-	},
-	"frame": "task",
-	"show_toast": true,
-	"announce_to_chat": true,
-	"hidden": false
-  },
-  "criteria": {
-	"killed_illusioner": {
-	  "trigger": "minecraft:player_killed_entity",
-	  "conditions": {
-		"entity": [
-		  {
-			"condition": "minecraft:entity_properties",
-			"predicate": {
-			  "type": "minecraft:illusioner"
-			},
-			"entity": "this"
-		  }
+	"requirements": [
+		[
+			"killed_illusioner"
 		]
-	  }
-	}
-  },
-  "requirements": [
-	[
-	  "killed_illusioner"
 	]
-  ]
 }

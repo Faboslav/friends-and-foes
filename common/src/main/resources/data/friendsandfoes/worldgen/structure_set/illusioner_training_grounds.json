@@ -1,0 +1,14 @@
+{
+	"structures": [
+		{
+			"structure": "friendsandfoes:illusioner_training_grounds",
+			"weight": 1
+		}
+	],
+	"placement": {
+		"salt": 819729564,
+		"spacing": 40,
+		"separation": 10,
+		"type": "minecraft:random_spread"
+	}
+}

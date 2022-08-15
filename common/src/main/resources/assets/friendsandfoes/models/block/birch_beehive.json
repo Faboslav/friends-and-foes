@@ -1,10 +1,10 @@
 {
-  "parent": "minecraft:block/orientable_with_bottom",
-  "textures": {
-	"top": "friendsandfoes:block/birch_beehive_end",
-	"bottom": "friendsandfoes:block/birch_beehive_end",
-	"side": "friendsandfoes:block/birch_beehive_side",
-	"front": "friendsandfoes:block/birch_beehive_front",
-	"particle": "friendsandfoes:block/birch_beehive_side"
-  }
+	"parent": "minecraft:block/orientable_with_bottom",
+	"textures": {
+		"top": "friendsandfoes:block/birch_beehive_end",
+		"bottom": "friendsandfoes:block/birch_beehive_end",
+		"side": "friendsandfoes:block/birch_beehive_side",
+		"front": "friendsandfoes:block/birch_beehive_front",
+		"particle": "friendsandfoes:block/birch_beehive_side"
+	}
 }

@@ -1,15 +1,15 @@
 {
-  "name": "friendsandfoes:iceologer_cabin/entity/iceologer",
-  "fallback": "minecraft:empty",
-  "elements": [
-	{
-	  "weight": 1,
-	  "element": {
-		"location": "friendsandfoes:iceologer_cabin/entity/iceologer",
-		"processors": "minecraft:empty",
-		"projection": "rigid",
-		"element_type": "minecraft:single_pool_element"
-	  }
-	}
-  ]
+	"name": "friendsandfoes:iceologer_cabin/entity/iceologer",
+	"fallback": "minecraft:empty",
+	"elements": [
+		{
+			"weight": 1,
+			"element": {
+				"location": "friendsandfoes:iceologer_cabin/entity/iceologer",
+				"processors": "minecraft:empty",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		}
+	]
 }

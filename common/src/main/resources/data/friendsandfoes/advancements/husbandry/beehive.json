@@ -1,157 +1,157 @@
 {
-  "parent": "minecraft:husbandry/root",
-  "display": {
-	"title": {
-	  "translate": "advancements.husbandry.beehive.title"
+	"parent": "minecraft:husbandry/root",
+	"display": {
+		"title": {
+			"translate": "advancements.husbandry.beehive.title"
+		},
+		"description": {
+			"translate": "advancements.husbandry.beehive.description"
+		},
+		"icon": {
+			"item": "minecraft:beehive"
+		},
+		"frame": "task",
+		"show_toast": true,
+		"announce_to_chat": true,
+		"hidden": false
 	},
-	"description": {
-	  "translate": "advancements.husbandry.beehive.description"
+	"criteria": {
+		"beehive": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"minecraft:beehive"
+						]
+					}
+				]
+			}
+		},
+		"acacia_beehive": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"friendsandfoes:acacia_beehive"
+						]
+					}
+				]
+			}
+		},
+		"birch_beehive": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"friendsandfoes:birch_beehive"
+						]
+					}
+				]
+			}
+		},
+		"crimson_beehive": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"friendsandfoes:crimson_beehive"
+						]
+					}
+				]
+			}
+		},
+		"dark_oak_beehive": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"friendsandfoes:dark_oak_beehive"
+						]
+					}
+				]
+			}
+		},
+		"jungle_beehive": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"friendsandfoes:jungle_beehive"
+						]
+					}
+				]
+			}
+		},
+		"mangrove_beehive": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"friendsandfoes:mangrove_beehive"
+						]
+					}
+				]
+			}
+		},
+		"spruce_beehive": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"friendsandfoes:spruce_beehive"
+						]
+					}
+				]
+			}
+		},
+		"warped_beehive": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"friendsandfoes:warped_beehive"
+						]
+					}
+				]
+			}
+		}
 	},
-	"icon": {
-	  "item": "minecraft:beehive"
-	},
-	"frame": "task",
-	"show_toast": true,
-	"announce_to_chat": true,
-	"hidden": false
-  },
-  "criteria": {
-	"beehive": {
-	  "trigger": "minecraft:inventory_changed",
-	  "conditions": {
-		"items": [
-		  {
-			"items": [
-			  "minecraft:beehive"
-			]
-		  }
+	"requirements": [
+		[
+			"beehive"
+		],
+		[
+			"acacia_beehive"
+		],
+		[
+			"birch_beehive"
+		],
+		[
+			"crimson_beehive"
+		],
+		[
+			"dark_oak_beehive"
+		],
+		[
+			"jungle_beehive"
+		],
+		[
+			"mangrove_beehive"
+		],
+		[
+			"spruce_beehive"
+		],
+		[
+			"warped_beehive"
 		]
-	  }
-	},
-	"acacia_beehive": {
-	  "trigger": "minecraft:inventory_changed",
-	  "conditions": {
-		"items": [
-		  {
-			"items": [
-			  "friendsandfoes:acacia_beehive"
-			]
-		  }
-		]
-	  }
-	},
-	"birch_beehive": {
-	  "trigger": "minecraft:inventory_changed",
-	  "conditions": {
-		"items": [
-		  {
-			"items": [
-			  "friendsandfoes:birch_beehive"
-			]
-		  }
-		]
-	  }
-	},
-	"crimson_beehive": {
-	  "trigger": "minecraft:inventory_changed",
-	  "conditions": {
-		"items": [
-		  {
-			"items": [
-			  "friendsandfoes:crimson_beehive"
-			]
-		  }
-		]
-	  }
-	},
-	"dark_oak_beehive": {
-	  "trigger": "minecraft:inventory_changed",
-	  "conditions": {
-		"items": [
-		  {
-			"items": [
-			  "friendsandfoes:dark_oak_beehive"
-			]
-		  }
-		]
-	  }
-	},
-	"jungle_beehive": {
-	  "trigger": "minecraft:inventory_changed",
-	  "conditions": {
-		"items": [
-		  {
-			"items": [
-			  "friendsandfoes:jungle_beehive"
-			]
-		  }
-		]
-	  }
-	},
-	"mangrove_beehive": {
-	  "trigger": "minecraft:inventory_changed",
-	  "conditions": {
-		"items": [
-		  {
-			"items": [
-			  "friendsandfoes:mangrove_beehive"
-			]
-		  }
-		]
-	  }
-	},
-	"spruce_beehive": {
-	  "trigger": "minecraft:inventory_changed",
-	  "conditions": {
-		"items": [
-		  {
-			"items": [
-			  "friendsandfoes:spruce_beehive"
-			]
-		  }
-		]
-	  }
-	},
-	"warped_beehive": {
-	  "trigger": "minecraft:inventory_changed",
-	  "conditions": {
-		"items": [
-		  {
-			"items": [
-			  "friendsandfoes:warped_beehive"
-			]
-		  }
-		]
-	  }
-	}
-  },
-  "requirements": [
-	[
-	  "beehive"
-	],
-	[
-	  "acacia_beehive"
-	],
-	[
-	  "birch_beehive"
-	],
-	[
-	  "crimson_beehive"
-	],
-	[
-	  "dark_oak_beehive"
-	],
-	[
-	  "jungle_beehive"
-	],
-	[
-	  "mangrove_beehive"
-	],
-	[
-	  "spruce_beehive"
-	],
-	[
-	  "warped_beehive"
 	]
-  ]
 }

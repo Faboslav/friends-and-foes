@@ -15,6 +15,10 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.item.Item;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.structure.processor.StructureProcessor;
+import net.minecraft.structure.processor.StructureProcessorType;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.poi.PointOfInterestType;
 import net.minecraftforge.registries.DeferredRegister;
@@ -92,7 +96,19 @@ public final class RegistryHelperImpl
 		return VILLAGER_PROFESSIONS.register(name, villagerProfession);
 	}
 
-	public static <T extends Block> void registerFlammableBlock(Block fireBlock, Supplier<T> block, int burnChance, int spreadChance) {
-		((FireBlockAccessor)fireBlock).invokeRegisterFlammableBlock(block.get(), burnChance, spreadChance);
+	public static <T extends Block> void registerFlammableBlock(
+		Block fireBlock,
+		Supplier<T> block,
+		int burnChance,
+		int spreadChance
+	) {
+		((FireBlockAccessor) fireBlock).invokeRegisterFlammableBlock(block.get(), burnChance, spreadChance);
+	}
+
+	public static void registerStructureProcessorType(
+		Identifier identifier,
+		StructureProcessorType<? extends StructureProcessor> structureProcessorType
+	) {
+		Registry.register(Registry.STRUCTURE_PROCESSOR, identifier, structureProcessorType);
 	}
 }

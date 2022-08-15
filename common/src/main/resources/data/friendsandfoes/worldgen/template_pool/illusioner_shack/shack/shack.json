@@ -1,15 +1,15 @@
 {
-  "name": "friendsandfoes:illusioner_shack/shack/shack",
-  "fallback": "minecraft:empty",
-  "elements": [
-	{
-	  "weight": 1,
-	  "element": {
-		"location": "friendsandfoes:illusioner_shack/shack/shack",
-		"processors": "minecraft:empty",
-		"projection": "rigid",
-		"element_type": "minecraft:legacy_single_pool_element"
-	  }
-	}
-  ]
+	"name": "friendsandfoes:illusioner_shack/shack/shack",
+	"fallback": "minecraft:empty",
+	"elements": [
+		{
+			"weight": 1,
+			"element": {
+				"location": "friendsandfoes:illusioner_shack/shack/shack",
+				"processors": "friendsandfoes:illusioner_shack",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		}
+	]
 }

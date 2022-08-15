@@ -42,6 +42,7 @@ public final class FriendsAndFoes
 		FriendsAndFoesItems.init();
 		FriendsAndFoesPointOfInterestTypes.init();
 		FriendsAndFoesSoundEvents.init();
+		FriendsAndFoesStructureProcessorTypes.init();
 		FriendsAndFoesVillagerProfessions.init();
 	}
 
@@ -49,6 +50,7 @@ public final class FriendsAndFoes
 		FriendsAndFoesBlocks.postInit();
 		FriendsAndFoesEntityTypes.postInit();
 		FriendsAndFoesBlockEntityTypes.postInit();
+		FriendsAndFoesStructureProcessorTypes.postInit();
 		FriendsAndFoesVillagerProfessions.postInit();
 	}
 }

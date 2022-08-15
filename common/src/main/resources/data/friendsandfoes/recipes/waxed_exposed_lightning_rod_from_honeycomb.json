@@ -1,14 +1,14 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "ingredients": [
-	{
-	  "item": "friendsandfoes:exposed_lightning_rod"
-	},
-	{
-	  "item": "minecraft:honeycomb"
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "friendsandfoes:exposed_lightning_rod"
+		},
+		{
+			"item": "minecraft:honeycomb"
+		}
+	],
+	"result": {
+		"item": "friendsandfoes:waxed_exposed_lightning_rod"
 	}
-  ],
-  "result": {
-	"item": "friendsandfoes:waxed_exposed_lightning_rod"
-  }
 }

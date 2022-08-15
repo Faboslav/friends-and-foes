@@ -1,19 +1,19 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-	"PPP",
-	"HHH",
-	"PPP"
-  ],
-  "key": {
-	"P": {
-	  "item": "minecraft:dark_oak_planks"
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"PPP",
+		"HHH",
+		"PPP"
+	],
+	"key": {
+		"P": {
+			"item": "minecraft:dark_oak_planks"
+		},
+		"H": {
+			"item": "minecraft:honeycomb"
+		}
 	},
-	"H": {
-	  "item": "minecraft:honeycomb"
+	"result": {
+		"item": "friendsandfoes:dark_oak_beehive"
 	}
-  },
-  "result": {
-	"item": "friendsandfoes:dark_oak_beehive"
-  }
 }

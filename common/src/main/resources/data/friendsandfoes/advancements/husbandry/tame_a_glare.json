@@ -1,38 +1,38 @@
 {
-  "parent": "minecraft:husbandry/root",
-  "display": {
-	"icon": {
-	  "item": "minecraft:glow_berries"
-	},
-	"title": {
-	  "translate": "advancements.husbandry.tame_a_glare.title"
-	},
-	"description": {
-	  "translate": "advancements.husbandry.tame_a_glare.description"
-	},
-	"frame": "goal",
-	"show_toast": true,
-	"announce_to_chat": true,
-	"hidden": true
-  },
-  "criteria": {
-	"friendsandfoes:tame_a_glare": {
-	  "trigger": "friendsandfoes:tame_glare",
-	  "conditions": {
-		"item": {
-		  "items": [
-			"minecraft:glow_berries"
-		  ]
+	"parent": "minecraft:husbandry/root",
+	"display": {
+		"icon": {
+			"item": "minecraft:glow_berries"
 		},
-		"entity": {
-		  "type": "friendsandfoes:glare"
+		"title": {
+			"translate": "advancements.husbandry.tame_a_glare.title"
+		},
+		"description": {
+			"translate": "advancements.husbandry.tame_a_glare.description"
+		},
+		"frame": "goal",
+		"show_toast": true,
+		"announce_to_chat": true,
+		"hidden": true
+	},
+	"criteria": {
+		"friendsandfoes:tame_a_glare": {
+			"trigger": "friendsandfoes:tame_glare",
+			"conditions": {
+				"item": {
+					"items": [
+						"minecraft:glow_berries"
+					]
+				},
+				"entity": {
+					"type": "friendsandfoes:glare"
+				}
+			}
 		}
-	  }
-	}
-  },
-  "requirements": [
-	[
-	  "friendsandfoes:tame_a_glare"
+	},
+	"requirements": [
+		[
+			"friendsandfoes:tame_a_glare"
+		]
 	]
-  ]
 }

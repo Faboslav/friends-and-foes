@@ -1,15 +1,14 @@
-package com.faboslav.friendsandfoes.world.processor;
+package com.faboslav.friendsandfoes.world.processor.fabric;
 
-import com.faboslav.friendsandfoes.init.FriendsAndFoesStructureProcessorTypes;
+import com.faboslav.friendsandfoes.platform.fabric.StructureEntityProcessorTypesImpl;
+import com.faboslav.friendsandfoes.util.world.processor.IllusionerShackItemFrameProcessorHelper;
+import com.faboslav.friendsandfoes.world.processor.StructureEntityProcessor;
 import com.mojang.serialization.Codec;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.structure.StructurePlacementData;
 import net.minecraft.structure.StructureTemplate;
 import net.minecraft.structure.StructureTemplate.StructureEntityInfo;
 import net.minecraft.structure.processor.StructureProcessorType;
-import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
@@ -32,24 +31,10 @@ public final class IllusionerShackItemFrameProcessor extends StructureEntityProc
 		StructureEntityInfo globalEntityInfo,
 		StructurePlacementData structurePlacementData
 	) {
-		if (globalEntityInfo.nbt.getString("id").equals("minecraft:item_frame") == false) {
-			return globalEntityInfo;
-		}
-
-		Random random = structurePlacementData.getRandom(globalEntityInfo.blockPos);
-
-		NbtCompound newNbt = globalEntityInfo.nbt.copy();
-		newNbt.getCompound("Item").putString("id", "minecraft:potion");
-		newNbt.getCompound("Item").put("tag", Util.make(new NbtCompound(), potionTag -> {
-			potionTag.putString("Potion", "minecraft:water");
-		}));
-
-		int randomRotation = random.nextInt(8);
-		newNbt.putByte("ItemRotation", (byte) randomRotation);
-
-		globalEntityInfo = new StructureEntityInfo(globalEntityInfo.pos, globalEntityInfo.blockPos, newNbt);
-
-		return globalEntityInfo;
+		return IllusionerShackItemFrameProcessorHelper.processEntity(
+			globalEntityInfo,
+			structurePlacementData
+		);
 	}
 
 	@Nullable
@@ -67,6 +52,6 @@ public final class IllusionerShackItemFrameProcessor extends StructureEntityProc
 
 	@Override
 	protected StructureProcessorType<?> getType() {
-		return FriendsAndFoesStructureProcessorTypes.ILLUSIONER_SHACK_ITEM_FRAME_PROCESSOR;
+		return StructureEntityProcessorTypesImpl.ILLUSIONER_SHACK_ITEM_FRAME_PROCESSOR;
 	}
 }

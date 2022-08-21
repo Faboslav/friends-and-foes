@@ -1,3 +1,16 @@
+## mc1.19-1.5.6, August 21, 2022
+
+- Architectury API is no longer needed as required dependency
+- Reworked Illusioner Shack structure
+- Reworked Iceologer Cabin structure
+- Added Illusioner Training Ground structure
+- Added Copper Golem related Ancient City centerpiece
+- Added (Waxed) Exposed Lightning Rod
+- Added (Waxed) Weathered Lightning Rod
+- Added (Waxed) Oxidized Lightning Rod
+- Added ru_ru translations (Thanks to https://github.com/DrHesperus)
+- Fixed issue with iceologer/illusioner raid spawning
+
 ## mc1.19-1.5.5, July 13, 2022
 
 - Fixed compatibility with the new forge release

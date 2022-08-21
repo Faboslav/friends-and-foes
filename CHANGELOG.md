@@ -1,4 +1,4 @@
-## mc1.19-1.5.6, August 21, 2022
+## mc1.19.2-1.5.6, August 21, 2022
 
 - Architectury API is no longer needed as required dependency
 - Reworked Illusioner Shack structure

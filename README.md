@@ -53,6 +53,7 @@ but you are more than welcome to [share your ideas or give some feedback].
 - [x] [Copper Golem Workstation]
 - [x] [Iceologer Cabin]
 - [x] [Illusioner Shack]
+- [x] [Illusioner Training Grounds]
 
 ### Village/Villagers
 
@@ -131,6 +132,8 @@ the [textures directory] for the textures. Get inspired, but please don't just c
 [Iceologer Cabin]: https://github.com/Faboslav/friends-and-foes/wiki/Iceologer-Cabin
 
 [Illusioner Shack]: https://github.com/Faboslav/friends-and-foes/wiki/Illusioner-Shack
+
+[Illusioner Training Grounds]: https://github.com/Faboslav/friends-and-foes/wiki/Illusioner-Training-Grounds
 
 [Beekeeper]: https://github.com/Faboslav/friends-and-foes/wiki/Beekeeeper
 

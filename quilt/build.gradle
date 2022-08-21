@@ -59,8 +59,6 @@ processResources {
 shadowJar {
 	exclude "architectury.common.json"
 
-	relocate("com.llamalad7.mixinextras", "com.faboslav.friendsandfoes.lib.mixinextras")
-
 	configurations = [project.configurations.shadowCommon]
 	classifier "dev-shadow"
 }

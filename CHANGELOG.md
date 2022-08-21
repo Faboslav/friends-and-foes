@@ -10,7 +10,7 @@
 - Added (Waxed) Oxidized Lightning Rod
 - Added ru_ru translations (Thanks to https://github.com/DrHesperus)
 - Increased Glare spawn limit (from 5 to 10)
-- Fixed issue with iceologer/illusioner raid spawning
+- Fixed issue with Iceologer/Illusioner raid spawning
 
 ## mc1.19-1.5.5, July 13, 2022
 

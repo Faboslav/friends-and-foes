@@ -18,6 +18,9 @@ public final class FriendsAndFoesConfig implements Config
 	@Description("Generate copper golem area structure in villages")
 	public boolean generateCopperGolemAreaStructure = true;
 
+	@Description("Occasionally generate copper golem in the center piece in the ancient cities")
+	public boolean generateCopperGolemInAncientCity = true;
+
 	@Category("Glare")
 	@Description("Enable")
 	public boolean enableGlare = true;

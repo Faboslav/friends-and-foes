@@ -13,7 +13,6 @@ import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.WorldView;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Inspired by use in Better Witch Huts by
@@ -24,7 +23,6 @@ public final class IllusionerShackBrewingStandProcessor extends StructureProcess
 	public static final IllusionerShackBrewingStandProcessor INSTANCE = new IllusionerShackBrewingStandProcessor();
 	public static final Codec<IllusionerShackBrewingStandProcessor> CODEC = Codec.unit(() -> INSTANCE);
 
-	@Nullable
 	@Override
 	public StructureBlockInfo process(
 		WorldView world,
@@ -71,7 +69,7 @@ public final class IllusionerShackBrewingStandProcessor extends StructureProcess
 		Random randomSource
 	) {
 		itemsListTag.add(Util.make(new NbtCompound(), itemTag -> {
-			putInputItem(itemTag, inputItemId, (byte) (randomSource.nextInt(4) + 2));
+			putInputItem(itemTag, inputItemId, (byte) (randomSource.nextInt(1) + 2));
 		}));
 
 		itemsListTag.add(Util.make(new NbtCompound(), itemTag -> {

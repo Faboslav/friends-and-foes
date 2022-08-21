@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.world.processor;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesStructureProcessorTypes;
 import com.mojang.serialization.Codec;
 import net.minecraft.nbt.NbtCompound;
@@ -24,7 +23,6 @@ public final class IllusionerShackItemFrameProcessor extends StructureEntityProc
 	public static final IllusionerShackItemFrameProcessor INSTANCE = new IllusionerShackItemFrameProcessor();
 	public static final Codec<IllusionerShackItemFrameProcessor> CODEC = Codec.unit(() -> INSTANCE);
 
-	@Nullable
 	@Override
 	public StructureEntityInfo processEntity(
 		ServerWorldAccess serverWorldAccess,
@@ -47,10 +45,7 @@ public final class IllusionerShackItemFrameProcessor extends StructureEntityProc
 		}));
 
 		int randomRotation = random.nextInt(8);
-		FriendsAndFoes.getLogger().info(String.valueOf(randomRotation));
 		newNbt.putByte("ItemRotation", (byte) randomRotation);
-
-		FriendsAndFoes.getLogger().info(newNbt.toString());
 
 		globalEntityInfo = new StructureEntityInfo(globalEntityInfo.pos, globalEntityInfo.blockPos, newNbt);
 

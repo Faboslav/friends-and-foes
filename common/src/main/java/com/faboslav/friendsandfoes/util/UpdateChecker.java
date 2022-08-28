@@ -1,10 +1,12 @@
 package com.faboslav.friendsandfoes.util;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.platform.ModVersion;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import net.minecraft.SharedConstants;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -25,10 +27,13 @@ public final class UpdateChecker
 					return;
 				}
 
-				if (latestVersion.equals(FriendsAndFoes.MOD_VERSION) == false) {
+				String modVersion = ModVersion.getModVersion();
+
+
+				if (latestVersion.equals(modVersion) == false) {
 					FriendsAndFoes.getLogger().info(
 						"[Friends&Foes] An update is available! You're using {} version but the latest version is {}!",
-						FriendsAndFoes.MOD_VERSION,
+						modVersion,
 						latestVersion
 					);
 				}
@@ -36,6 +41,7 @@ public final class UpdateChecker
 		});
 	}
 
+	@Nullable
 	public static String getLatestVersion() {
 		HttpClient client = HttpClient.newHttpClient();
 		HttpRequest request = HttpRequest.newBuilder(

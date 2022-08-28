@@ -13,7 +13,6 @@ public final class FriendsAndFoes
 	private static final FriendsAndFoesConfig CONFIG = OmegaConfig.register(FriendsAndFoesConfig.class);
 	private static final Logger LOGGER = LoggerFactory.getLogger(FriendsAndFoes.MOD_ID);
 	public static final String MOD_ID = "friendsandfoes";
-	public static final String MOD_VERSION = "1.5.7";
 	public static final ServerTickDeltaCounter serverTickDeltaCounter = new ServerTickDeltaCounter(20.0F, 0L);
 
 	public static Identifier makeID(String path) {

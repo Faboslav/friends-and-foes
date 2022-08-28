@@ -29,6 +29,9 @@ public final class UpdateChecker
 
 				String modVersion = ModVersion.getModVersion();
 
+				if(modVersion == null) {
+					return;
+				}
 
 				if (latestVersion.equals(modVersion) == false) {
 					FriendsAndFoes.getLogger().info(

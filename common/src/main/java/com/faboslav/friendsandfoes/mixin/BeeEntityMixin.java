@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(BeeEntity.class)
 public abstract class BeeEntityMixin extends AnimalEntity
 {
-	BeePollinateMoobloomGoal pollinateMoobloomGoal;
+	private BeePollinateMoobloomGoal pollinateMoobloomGoal;
 
 	public BeeEntityMixin(
 		EntityType<? extends AnimalEntity> entityType,
@@ -28,7 +28,7 @@ public abstract class BeeEntityMixin extends AnimalEntity
 		at = @At(
 			value = "INVOKE",
 			target = "Lnet/minecraft/entity/ai/goal/GoalSelector;add(ILnet/minecraft/entity/ai/goal/Goal;)V",
-			ordinal = 4,
+			ordinal = 3,
 			shift = At.Shift.AFTER
 		),
 		method = "initGoals"

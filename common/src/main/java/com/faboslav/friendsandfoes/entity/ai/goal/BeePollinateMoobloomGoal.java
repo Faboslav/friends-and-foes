@@ -48,6 +48,8 @@ public final class BeePollinateMoobloomGoal extends Goal
 			return false;
 		} else if (RandomGenerator.generateRandomFloat() < 0.5F) {
 			return false;
+		} else if (this.beeEntity.pollinateGoal.isRunning()) {
+			return false;
 		}
 
 		MoobloomEntity moobloom = this.findMoobloom();

@@ -1,3 +1,8 @@
+## mc1.19.2-1.5.7, August 28, 2022
+
+- Mooblooms will now correctly randomly choose between pollinating moobloom or flower
+- Fixed invalid configuration for structure processors
+
 ## mc1.19.2-1.5.6, August 21, 2022
 
 - Architectury API is no longer needed as required dependency

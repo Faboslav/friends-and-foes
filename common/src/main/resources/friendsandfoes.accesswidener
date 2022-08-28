@@ -16,4 +16,5 @@ accessible field net/minecraft/block/entity/BlockEntityType blocks Ljava/util/Se
 mutable field net/minecraft/block/entity/BlockEntityType blocks Ljava/util/Set;
 accessible method net/minecraft/world/poi/PointOfInterestTypes getStatesOfBlock (Lnet/minecraft/block/Block;)Ljava/util/Set;
 accessible field net/minecraft/entity/passive/BeeEntity pollinateGoal Lnet/minecraft/entity/passive/BeeEntity$PollinateGoal;
+accessible class net/minecraft/entity/passive/BeeEntity$PollinateGoal
 accessible method net/minecraft/entity/passive/BeeEntity$PollinateGoal isRunning ()Z

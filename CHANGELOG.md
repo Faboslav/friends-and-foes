@@ -1,3 +1,7 @@
+## mc1.19.2-1.5.8, August 28, 2022
+
+- Fixed the critical crash related to the bees and mooblooms from the previous release
+
 ## mc1.19.2-1.5.7, August 28, 2022
 
 - Mooblooms will now correctly randomly choose between pollinating moobloom or flower

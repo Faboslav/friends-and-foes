@@ -29,7 +29,7 @@ public final class UpdateChecker
 
 				String modVersion = ModVersion.getModVersion();
 
-				if(modVersion == null) {
+				if (modVersion == null) {
 					return;
 				}
 
@@ -71,9 +71,7 @@ public final class UpdateChecker
 			return null;
 		}
 
-		String latestModVersion = json.get(gameVersion).getAsString();
-
-		return latestModVersion;
+		return json.get(gameVersion).getAsString();
 	}
 }
 

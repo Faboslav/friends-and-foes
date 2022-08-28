@@ -5,7 +5,8 @@ import net.fabricmc.loader.api.FabricLoader;
 
 import javax.annotation.Nullable;
 
-public final class ModVersionImpl {
+public final class ModVersionImpl
+{
 	@Nullable
 	public static String getModVersion() {
 		return FabricLoader.getInstance().getModContainer(FriendsAndFoes.MOD_ID).map(modContainer -> modContainer.getMetadata().getVersion().toString()).orElse(null);

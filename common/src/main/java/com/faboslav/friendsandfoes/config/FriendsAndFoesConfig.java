@@ -45,7 +45,7 @@ public final class FriendsAndFoesConfig implements Config
 	public boolean enableMaulerSpawn = true;
 
 	@Description("Spawn weight in desert biome")
-	public int maulerDesertSpawnWeight = 32;
+	public int maulerDesertSpawnWeight = 8;
 
 	@Description("Minimal spawn group size in desert biome")
 	public int maulerDesertSpawnMinGroupSize = 1;
@@ -54,7 +54,7 @@ public final class FriendsAndFoesConfig implements Config
 	public int maulerDesertSpawnMaxGroupSize = 1;
 
 	@Description("Spawn weight in badlands biome")
-	public int maulerBadlandsSpawnWeight = 32;
+	public int maulerBadlandsSpawnWeight = 16;
 
 	@Description("Minimal spawn group size in badlands biome")
 	public int maulerBadlandsSpawnMinGroupSize = 1;

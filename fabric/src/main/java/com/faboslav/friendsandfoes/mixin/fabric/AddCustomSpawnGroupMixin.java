@@ -55,7 +55,7 @@ public final class AddCustomSpawnGroupMixin
 		var glaresSpawnGroup = newSpawnGroup(
 			CustomSpawnGroup.GLARES_INTERNAL_NAME,
 			lastSpawnGroup.ordinal() + 1,
-			FriendsAndFoes.makeStringID(CustomSpawnGroup.NAME),
+			CustomSpawnGroup.NAME,
 			CustomSpawnGroup.SPAWN_CAP,
 			CustomSpawnGroup.PEACEFUL,
 			CustomSpawnGroup.RARE,

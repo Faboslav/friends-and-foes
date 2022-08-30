@@ -1,7 +1,7 @@
 {
 	"type": "forge:add_spawns",
-	"biomes": "#friendsandfoes:has_desert_mauler",
-	"spawn": {
+	"biomes": "#friendsandfoes:has_savanna_mauler",
+	"spawners": {
 		"type": "friendsandfoes:mauler",
 		"minCount": 1,
 		"maxCount": 1,

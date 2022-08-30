@@ -1,7 +1,7 @@
 {
-	"type": "friendsandfoes:mob_spawns",
+	"type": "forge:add_spawns",
 	"biomes": "#friendsandfoes:has_glare",
-	"spawn": {
+	"spawners": {
 		"type": "friendsandfoes:glare",
 		"minCount": 1,
 		"maxCount": 1,

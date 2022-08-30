@@ -147,14 +147,14 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		BlockState blockState = serverWorldAccess.getBlockState(blockPos.down());
 
 		boolean isBelowSurfaceLevel = blockPos.getY() < 63;
-		boolean isSkyVisible = serverWorldAccess.isSkyVisible(blockPos);
-		boolean isBlockPosDarkSpot = serverWorldAccess.getBaseLightLevel(blockPos, 0) <= 3;
+		boolean isSkyHidden = serverWorldAccess.isSkyVisible(blockPos) == false;
+		boolean isBlockPosLightEnough = serverWorldAccess.getBaseLightLevel(blockPos, 0) > 3;
 		boolean isRelatedBlock = blockState.isIn(FriendsAndFoesTags.GLARES_SPAWNABLE_ON);
 
 		return isBelowSurfaceLevel
 			   && isRelatedBlock
-			   && isSkyVisible == false
-			   && isBlockPosDarkSpot == false;
+			   && isSkyHidden
+			   && isBlockPosLightEnough;
 	}
 
 	protected void initGoals() {

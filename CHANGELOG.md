@@ -1,3 +1,7 @@
+## mc1.19.2-1.5.9, August 30, 2022
+
+- Fixed all spawning related issues (mob not spawning at all)
+
 ## mc1.19.2-1.5.8, August 28, 2022
 
 - Fixed the critical crash related to the bees and mooblooms from the previous release

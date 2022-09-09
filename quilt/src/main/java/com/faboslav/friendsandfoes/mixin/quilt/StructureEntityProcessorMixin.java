@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.mixin.quilt;
 
 import com.faboslav.friendsandfoes.world.processor.StructureEntityProcessor;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
@@ -55,7 +56,7 @@ public final class StructureEntityProcessorMixin
 			target = "net/minecraft/structure/StructureTemplate.spawnEntities (Lnet/minecraft/world/ServerWorldAccess;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/BlockMirror;Lnet/minecraft/util/BlockRotation;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/BlockBox;Z)V"
 		)
 	)
-	private void processEntities(
+	private void friendsandfoes_processEntities(
 		ServerWorldAccess serverWorldAccess,
 		BlockPos structurePiecePos,
 		BlockPos structurePieceBottomCenterPos,
@@ -64,62 +65,64 @@ public final class StructureEntityProcessorMixin
 		int flags,
 		CallbackInfoReturnable<Boolean> cir
 	) {
-		for (StructureEntityInfo entityInfo : processEntityInfos(
-			serverWorldAccess,
-			structurePiecePos,
-			structurePieceBottomCenterPos,
-			structurePlacementData,
-			this.entities
-		)) {
-			BlockPos blockPos = entityInfo.blockPos;
+		if (FabricLoader.getInstance().isModLoaded("yungsapi") == false) {
+			for (StructureEntityInfo entityInfo : processEntityInfos(
+				serverWorldAccess,
+				structurePiecePos,
+				structurePieceBottomCenterPos,
+				structurePlacementData,
+				this.entities
+			)) {
+				BlockPos blockPos = entityInfo.blockPos;
 
-			if (
-				structurePlacementData.getBoundingBox() != null
-				&& structurePlacementData.getBoundingBox().contains(blockPos) == false
-			) {
-				continue;
-			}
-
-			NbtCompound compoundTag = entityInfo.nbt.copy();
-			Vec3d vec3d = entityInfo.pos;
-
-			NbtList nbtList = new NbtList();
-			nbtList.add(NbtDouble.of(vec3d.getX()));
-			nbtList.add(NbtDouble.of(vec3d.getY()));
-			nbtList.add(NbtDouble.of(vec3d.getZ()));
-			compoundTag.put("Pos", nbtList);
-			compoundTag.remove("UUID");
-
-			getEntity(serverWorldAccess, compoundTag).ifPresent((entity) -> {
-				float f = entity.applyMirror(structurePlacementData.getMirror());
-				f += entity.getYaw() - entity.applyRotation(structurePlacementData.getRotation());
-				entity.refreshPositionAndAngles(
-					vec3d.getX(),
-					vec3d.getY(),
-					vec3d.getZ(),
-					f,
-					entity.getPitch()
-				);
-				if (structurePlacementData.shouldInitializeMobs() && entity instanceof MobEntity) {
-					((MobEntity) entity).initialize(
-						serverWorldAccess,
-						serverWorldAccess.getLocalDifficulty(
-							new BlockPos(vec3d)
-						),
-						SpawnReason.STRUCTURE,
-						null,
-						compoundTag
-					);
+				if (
+					structurePlacementData.getBoundingBox() != null
+					&& structurePlacementData.getBoundingBox().contains(blockPos) == false
+				) {
+					continue;
 				}
 
-				serverWorldAccess.spawnEntityAndPassengers(entity);
-			});
+				NbtCompound compoundTag = entityInfo.nbt.copy();
+				Vec3d vec3d = entityInfo.pos;
+
+				NbtList nbtList = new NbtList();
+				nbtList.add(NbtDouble.of(vec3d.getX()));
+				nbtList.add(NbtDouble.of(vec3d.getY()));
+				nbtList.add(NbtDouble.of(vec3d.getZ()));
+				compoundTag.put("Pos", nbtList);
+				compoundTag.remove("UUID");
+
+				getEntity(serverWorldAccess, compoundTag).ifPresent((entity) -> {
+					float f = entity.applyMirror(structurePlacementData.getMirror());
+					f += entity.getYaw() - entity.applyRotation(structurePlacementData.getRotation());
+					entity.refreshPositionAndAngles(
+						vec3d.getX(),
+						vec3d.getY(),
+						vec3d.getZ(),
+						f,
+						entity.getPitch()
+					);
+					if (structurePlacementData.shouldInitializeMobs() && entity instanceof MobEntity) {
+						((MobEntity) entity).initialize(
+							serverWorldAccess,
+							serverWorldAccess.getLocalDifficulty(
+								new BlockPos(vec3d)
+							),
+							SpawnReason.STRUCTURE,
+							null,
+							compoundTag
+						);
+					}
+
+					serverWorldAccess.spawnEntityAndPassengers(entity);
+				});
+			}
 		}
 	}
 
 	/**
 	 * Cancel spawning entities.
-	 * This behavior is recreated in {@link #processEntities}
+	 * This behavior is recreated in {@link #friendsandfoes_processEntities}
 	 */
 	@Inject(
 		method = "spawnEntities",
@@ -136,7 +139,9 @@ public final class StructureEntityProcessorMixin
 		boolean initializeMobs,
 		CallbackInfo ci
 	) {
-		ci.cancel();
+		if (FabricLoader.getInstance().isModLoaded("yungsapi") == false) {
+			ci.cancel();
+		}
 	}
 
 	/**

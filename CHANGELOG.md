@@ -1,3 +1,7 @@
+## mc1.19.2-1.5.10, September 09, 2022
+
+- Fixed incompatibility with YOUNG mods
+
 ## mc1.19.2-1.5.9, August 30, 2022
 
 - Fixed all spawning related issues (mob not spawning at all)

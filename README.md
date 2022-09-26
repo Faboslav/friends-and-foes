@@ -125,7 +125,7 @@ the [textures directory] for the textures. Get inspired, but please don't just c
 
 [Copper Button]: https://github.com/Faboslav/friends-and-foes/wiki/Copper-Button
 
-[Beekeeper Area]: https://github.com/Faboslav/friends-and-foes/wiki/Beekeeeper-Area
+[Beekeeper Area]: https://github.com/Faboslav/friends-and-foes/wiki/Beekeeper-Area
 
 [Copper Golem Workstation]: https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem-Workstation
 
@@ -135,7 +135,7 @@ the [textures directory] for the textures. Get inspired, but please don't just c
 
 [Illusioner Training Grounds]: https://github.com/Faboslav/friends-and-foes/wiki/Illusioner-Training-Grounds
 
-[Beekeeper]: https://github.com/Faboslav/friends-and-foes/wiki/Beekeeeper
+[Beekeeper]: https://github.com/Faboslav/friends-and-foes/wiki/Beekeeper
 
 [share your ideas or give some feedback]: https://github.com/Faboslav/friends-and-foes/issues/new?assignees=Faboslav&labels=feature&template=feature_request.md&title=
 

@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.entity.ai.goal;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.GlareEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CaveVines;
@@ -52,9 +53,11 @@ public final class GlareShakeOffGlowBerriesGoal extends MoveToTargetPosGoal
 
 	@Override
 	public boolean canStart() {
-		return this.glare.isLeashed() != true
+		return FriendsAndFoes.getConfig().enableGlareGriefing == false
+			   && this.glare.isLeashed() != true
 			   && this.glare.isSitting() != true
 			   && this.glare.getRandom().nextInt(10) == 0
+			   && this.glare.isBaby() == false
 			   && super.canStart() != false;
 	}
 

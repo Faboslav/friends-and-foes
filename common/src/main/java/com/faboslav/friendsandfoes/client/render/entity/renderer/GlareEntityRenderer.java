@@ -9,6 +9,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
@@ -18,6 +19,15 @@ public final class GlareEntityRenderer extends MobEntityRenderer<GlareEntity, Gl
 	public GlareEntityRenderer(EntityRendererFactory.Context context) {
 		super(context, new GlareEntityModel(context.getPart(FriendsAndFoesEntityModelLayer.GLARE_LAYER)), 0.45F);
 		this.addFeature(new GlareFlowerFeatureRenderer(this));
+	}
+
+	@Override
+	protected void scale(GlareEntity glare, MatrixStack matrixStack, float amount) {
+		if (glare.isBaby() == false) {
+			return;
+		}
+
+		matrixStack.scale(0.5F, 0.5F, 0.5F);
 	}
 
 	@Override

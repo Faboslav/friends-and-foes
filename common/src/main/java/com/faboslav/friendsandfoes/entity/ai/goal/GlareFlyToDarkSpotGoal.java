@@ -43,6 +43,7 @@ public final class GlareFlyToDarkSpotGoal extends Goal
 			|| this.glare.isLeashed() == true
 			|| this.glare.isSitting() == true
 			|| this.glare.isTamed() == false
+			|| this.glare.isBaby()
 			|| (
 				world.isDay()
 				&& world.isSkyVisible(this.glare.getBlockPos())

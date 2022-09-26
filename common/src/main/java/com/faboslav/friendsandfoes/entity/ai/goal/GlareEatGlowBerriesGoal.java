@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.entity.ai.goal;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.GlareEntity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ItemEntity;
@@ -36,7 +37,8 @@ public final class GlareEatGlowBerriesGoal extends Goal
 	@Override
 	public boolean canStart() {
 		if (
-			this.glare.getTicksUntilCanEatGlowBerries() > 0
+			FriendsAndFoes.getConfig().enableGlareGriefing == false
+			|| this.glare.getTicksUntilCanEatGlowBerries() > 0
 			|| this.glare.getRandom().nextInt(10) != 0
 			|| this.glare.isLeashed() == true
 			|| this.glare.isSitting() == true

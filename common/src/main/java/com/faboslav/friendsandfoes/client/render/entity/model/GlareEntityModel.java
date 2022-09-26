@@ -6,6 +6,8 @@ import com.faboslav.friendsandfoes.util.animation.AnimationMath;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.decoration.LeashKnotEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec2f;
@@ -191,5 +193,10 @@ public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntit
 
 		glare.setCurrentLayerPitchAnimationProgress(currentPitchLayerAnimationProgress);
 		glare.setCurrentLayerRollAnimationProgress(currentRollLayerAnimationProgress);
+	}
+
+	@Override
+	public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
+		this.getPart().render(matrices, vertices, light, overlay, red, green, blue, alpha);
 	}
 }

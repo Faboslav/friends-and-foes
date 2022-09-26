@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes.tag;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
+import net.minecraft.item.Item;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.registry.Registry;
@@ -17,6 +18,8 @@ public final class FriendsAndFoesTags
 	public static final TagKey<Block> LIGHTNING_RODS = blockTag("lightning_rods");
 	public static final TagKey<Block> GLARES_SPAWNABLE_ON = blockTag("glares_spawnable_on");
 	public static final TagKey<Block> MAULERS_SPAWNABLE_ON = blockTag("maulers_spawnable_on");
+	public static final TagKey<Item> GLARE_FOOD_ITEMS = itemTag("glare_food_items");
+	public static final TagKey<Item> GLARE_TEMPT_ITEMS = itemTag("glare_tempt_items");
 	public static final TagKey<EntityType<?>> MAULER_PREY = entityTypeTag("mauler_prey");
 	public static final TagKey<Biome> HAS_BADLANDS_MAULER = biomeTag("has_badlands_mauler");
 	public static final TagKey<Biome> HAS_DESERT_MAULER = biomeTag("has_desert_mauler");
@@ -29,6 +32,10 @@ public final class FriendsAndFoesTags
 
 	private static TagKey<Block> blockTag(String name) {
 		return TagKey.of(Registry.BLOCK_KEY, FriendsAndFoes.makeID(name));
+	}
+
+	private static TagKey<Item> itemTag(String name) {
+		return TagKey.of(Registry.ITEM_KEY, FriendsAndFoes.makeID(name));
 	}
 
 	private static TagKey<EntityType<?>> entityTypeTag(String name) {

@@ -5,6 +5,7 @@ import com.faboslav.friendsandfoes.client.render.entity.animation.AnimationConte
 import com.faboslav.friendsandfoes.entity.ai.goal.*;
 import com.faboslav.friendsandfoes.entity.ai.pathing.GlareNavigation;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesCriteria;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
@@ -13,8 +14,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.control.FlightMoveControl;
-import net.minecraft.entity.ai.goal.LookAtEntityGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer.Builder;
@@ -25,6 +25,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -35,6 +36,7 @@ import net.minecraft.item.Items;
 import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
@@ -56,6 +58,7 @@ import java.util.function.Predicate;
 public final class GlareEntity extends TameableEntity implements Flutterer, AnimatedEntity
 {
 	public static final Predicate<ItemEntity> PICKABLE_FOOD_FILTER;
+	private static final Ingredient TEMPT_ITEMS = Ingredient.fromTag(FriendsAndFoesTags.GLARE_TEMPT_ITEMS);
 	private static final int GRUMPY_BITMASK = 2;
 	private static final float MOVEMENT_SPEED = 0.6F;
 	public static final int MIN_EYE_ANIMATION_TICK_AMOUNT = 10;
@@ -104,8 +107,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		TICKS_UNTIL_CAN_EAT_GLOW_BERRIES = DataTracker.registerData(GlareEntity.class, TrackedDataHandlerRegistry.INTEGER);
 		TICKS_UNTIL_CAN_FIND_DARK_SPOT = DataTracker.registerData(GlareEntity.class, TrackedDataHandlerRegistry.INTEGER);
 		PICKABLE_FOOD_FILTER = (itemEntity) -> {
-			Item item = itemEntity.getStack().getItem();
-			return item == Items.GLOW_BERRIES.asItem() && itemEntity.isAlive() && !itemEntity.cannotPickup();
+			return itemEntity.getStack().isIn(FriendsAndFoesTags.GLARE_FOOD_ITEMS) && itemEntity.isAlive() && itemEntity.cannotPickup() == false;
 		};
 	}
 
@@ -161,14 +163,17 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		this.goalSelector.add(1, new GlareSitGoal(this));
 		this.goalSelector.add(2, new GlareFollowOwnerGoal(this, 8.0F, 2.0F, false));
 		this.goalSelector.add(3, new GlareAvoidMonsterGoal(this, HostileEntity.class, 16.0F));
+		this.goalSelector.add(4, new AnimalMateGoal(this, 1.0));
+		this.goalSelector.add(4, new TemptGoal(this, 1.2, TEMPT_ITEMS, false));
+		this.goalSelector.add(4, new FollowParentGoal(this, 1.1));
 		this.eatGlowBerriesGoal = new GlareEatGlowBerriesGoal(this);
-		this.goalSelector.add(4, this.eatGlowBerriesGoal);
-		this.goalSelector.add(4, new GlareShakeOffGlowBerriesGoal(this));
+		this.goalSelector.add(5, this.eatGlowBerriesGoal);
+		this.goalSelector.add(5, new GlareShakeOffGlowBerriesGoal(this));
 		this.flyToDarkSpotGoal = new GlareFlyToDarkSpotGoal(this);
-		this.goalSelector.add(5, this.flyToDarkSpotGoal);
-		this.goalSelector.add(6, new GlareWanderAroundGoal(this));
-		this.goalSelector.add(7, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
-		this.goalSelector.add(8, new SwimGoal(this));
+		this.goalSelector.add(6, this.flyToDarkSpotGoal);
+		this.goalSelector.add(7, new GlareWanderAroundGoal(this));
+		this.goalSelector.add(8, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
+		this.goalSelector.add(9, new SwimGoal(this));
 	}
 
 	@Override
@@ -393,9 +398,13 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		boolean interactionResult = false;
 
 		if (itemInHand == Items.GLOW_BERRIES) {
-			if (this.isTamed()) {
+			if (
+				this.isTamed()
+				&& this.getHealth() < this.getMaxHealth()
+				&& this.isBreedingItem(itemStack) == false
+			) {
 				interactionResult = this.tryToHealWithGlowBerries(player, itemStack);
-			} else {
+			} else if (this.isTamed() == false) {
 				interactionResult = this.tryToTameWithGlowBerries(player, itemStack);
 			}
 		}
@@ -544,19 +553,36 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	}
 
 	@Override
-	public boolean isBreedingItem(ItemStack stack) {
-		return false;
+	public boolean isBreedingItem(ItemStack itemStack) {
+		return TEMPT_ITEMS.test(itemStack);
 	}
 
 	@Override
-	public boolean canEat() {
-		return false;
-	}
-
 	@Nullable
+	public PassiveEntity createChild(ServerWorld serverWorld, PassiveEntity entity) {
+		GlareEntity glareEntity = FriendsAndFoesEntityTypes.GLARE.get().create(serverWorld);
+
+		if (this.isTamed() == false) {
+			return null;
+		}
+
+		glareEntity.setOwnerUuid(this.getOwnerUuid());
+		glareEntity.setTamed(true);
+
+		return glareEntity;
+	}
+
 	@Override
-	public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
-		return null;
+	public boolean canBreedWith(AnimalEntity other) {
+		if (
+			this.isTamed() == false
+			|| (other instanceof GlareEntity) == false
+		) {
+			return false;
+		}
+
+		GlareEntity glare = (GlareEntity) other;
+		return glare.isTamed() && super.canBreedWith(other);
 	}
 
 	@Override
@@ -617,6 +643,10 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 
 	@Override
 	public float getMovementSpeed() {
+		if (this.isBaby()) {
+			return MOVEMENT_SPEED / 2.0F;
+		}
+
 		return MOVEMENT_SPEED;
 	}
 

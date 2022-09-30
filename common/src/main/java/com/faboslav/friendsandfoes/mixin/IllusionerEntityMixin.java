@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.mixin;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.api.IllusionerEntityAccess;
+import com.faboslav.friendsandfoes.advancements.api.IllusionerEntityAccess;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -72,6 +72,11 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 	@Override
 	public void initDataTracker() {
 		super.initDataTracker();
+
+		if (FriendsAndFoes.getConfig().enableIllusioner == false) {
+			return;
+		}
+
 		this.dataTracker.startTracking(IS_ILLUSION, false);
 		this.dataTracker.startTracking(WAS_ATTACKED, false);
 		this.dataTracker.startTracking(TICKS_UNTIL_DESPAWN, 0);
@@ -81,6 +86,11 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 	@Override
 	public void writeCustomDataToNbt(NbtCompound nbt) {
 		super.writeCustomDataToNbt(nbt);
+
+		if (FriendsAndFoes.getConfig().enableIllusioner == false) {
+			return;
+		}
+
 		nbt.putBoolean(IS_ILLUSION_NBT_NAME, this.isIllusion());
 		nbt.putBoolean(WAS_ATTACKED_NBT_NAME, this.wasAttacked());
 		nbt.putInt(TICKS_UNTIL_DESPAWN_NBT_NAME, this.getTicksUntilDespawn());
@@ -90,6 +100,11 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 	@Override
 	public void readCustomDataFromNbt(NbtCompound nbt) {
 		super.readCustomDataFromNbt(nbt);
+
+		if (FriendsAndFoes.getConfig().enableIllusioner == false) {
+			return;
+		}
+
 		this.setIsIllusion(nbt.getBoolean(IS_ILLUSION_NBT_NAME));
 		this.setWasAttacked(nbt.getBoolean(WAS_ATTACKED_NBT_NAME));
 		this.setTicksUntilDespawn(nbt.getInt(TICKS_UNTIL_DESPAWN_NBT_NAME));
@@ -99,11 +114,12 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 	@Override
 	public void initGoals() {
 		super.initGoals();
+
 		this.goalSelector.add(0, new SwimGoal(this));
 		this.goalSelector.add(1, new LookAtTargetGoal());
 		this.goalSelector.add(2, new FleeEntityGoal(this, IronGolemEntity.class, 8.0F, 0.6D, 1.0D));
 
-		if (!this.isIllusion()) {
+		if (FriendsAndFoes.getConfig().enableIllusioner == false || this.isIllusion() == false) {
 			this.goalSelector.add(3, BlindTargetGoalFactory.newBlindTargetGoal((IllusionerEntity) (Object) this));
 		}
 
@@ -119,11 +135,11 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 
 	@Override
 	public void tick() {
-		if (FriendsAndFoes.getConfig().enableIllusioner == false) {
-			this.discard();
-		}
-
 		super.tick();
+
+		if (FriendsAndFoes.getConfig().enableIllusioner == false) {
+			return;
+		}
 
 		if (this.getWorld().isClient()) {
 			return;
@@ -158,6 +174,10 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 	public void tickMovement() {
 		super.tickMovement();
 
+		if (FriendsAndFoes.getConfig().enableIllusioner == false) {
+			return;
+		}
+
 		if (
 			this.world.isClient()
 			|| !this.isIllusion()
@@ -181,12 +201,20 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 
 	@Override
 	public boolean shouldDropXp() {
-		return !this.isIllusion();
+		if (FriendsAndFoes.getConfig().enableIllusioner == false) {
+			return super.shouldDropXp();
+		}
+
+		return this.isIllusion() == false;
 	}
 
 	@Override
 	protected boolean shouldDropLoot() {
-		return !this.isIllusion();
+		if (FriendsAndFoes.getConfig().enableIllusioner == false) {
+			return super.shouldDropLoot();
+		}
+
+		return this.isIllusion() == false;
 	}
 
 	@Override
@@ -194,6 +222,10 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 		DamageSource source,
 		float amount
 	) {
+		if (FriendsAndFoes.getConfig().enableIllusioner == false) {
+			return super.damage(source, amount);
+		}
+
 		if (
 			source.getAttacker() instanceof IllusionerEntity
 			|| (

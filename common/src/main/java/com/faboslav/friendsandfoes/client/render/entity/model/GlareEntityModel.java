@@ -196,7 +196,16 @@ public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntit
 	}
 
 	@Override
-	public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
+	public void render(
+		MatrixStack matrices,
+		VertexConsumer vertices,
+		int light,
+		int overlay,
+		float red,
+		float green,
+		float blue,
+		float alpha
+	) {
 		this.getPart().render(matrices, vertices, light, overlay, red, green, blue, alpha);
 	}
 }

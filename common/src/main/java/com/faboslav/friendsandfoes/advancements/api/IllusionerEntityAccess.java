@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.api;
+package com.faboslav.friendsandfoes.advancements.api;
 
 import com.faboslav.friendsandfoes.mixin.IllusionerEntityMixin;
 import net.minecraft.entity.mob.IllusionerEntity;

@@ -1,3 +1,9 @@
+## mc1.19.2-1.5.11, September 30, 2022
+
+- Glare is now breedable (it can have children)
+- Updated translations
+- Added config option to enable/disable glare griefing
+
 ## mc1.19.2-1.5.10, September 09, 2022
 
 - Fixed incompatibility with YOUNG mods

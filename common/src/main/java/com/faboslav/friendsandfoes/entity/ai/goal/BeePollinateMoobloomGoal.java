@@ -146,7 +146,7 @@ public final class BeePollinateMoobloomGoal extends Goal
 		}
 	}
 
-	protected void pollinate() {
+	private void pollinate() {
 		for (int i = 0; i < 7; ++i) {
 			double d = this.beeEntity.getRandom().nextGaussian() * 0.02D;
 			double e = this.beeEntity.getRandom().nextGaussian() * 0.02D;
@@ -195,15 +195,15 @@ public final class BeePollinateMoobloomGoal extends Goal
 		);
 	}
 
-	protected boolean completedPollination() {
+	private boolean completedPollination() {
 		return this.pollinationTicks > 200;
 	}
 
-	protected boolean isRunning() {
+	private boolean isRunning() {
 		return this.running;
 	}
 
-	protected void setIsRunning(boolean isRunning) {
+	private void setIsRunning(boolean isRunning) {
 		this.running = isRunning;
 	}
 

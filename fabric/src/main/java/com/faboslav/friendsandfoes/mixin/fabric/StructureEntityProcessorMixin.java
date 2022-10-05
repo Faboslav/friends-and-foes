@@ -147,7 +147,7 @@ public final class StructureEntityProcessorMixin
 	/**
 	 * Applies placement data and {@link StructureEntityProcessor}s to entities in a structure.
 	 */
-	private List<StructureEntityInfo> processEntityInfos(
+	private List<StructureEntityInfo> friendsandfoes_processEntityInfos(
 		ServerWorldAccess serverWorldAccess,
 		BlockPos structurePiecePos,
 		BlockPos structurePieceBottomCenterPos,
@@ -208,7 +208,7 @@ public final class StructureEntityProcessorMixin
 		return processedEntities;
 	}
 
-	private static Optional<Entity> getEntity(
+	private static Optional<Entity> friendsandfoes_getEntity(
 		ServerWorldAccess serverWorldAccess,
 		NbtCompound compoundTag
 	) {

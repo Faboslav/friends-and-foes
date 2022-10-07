@@ -168,5 +168,57 @@
 			"friendsandfoes:entity/mauler/hurt"
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.mauler.hurt"
+	},
+	"entity.wildfire.ambient": {
+		"sounds": [
+			"friendsandfoes:entity/wildfire/ambient1",
+			"friendsandfoes:entity/wildfire/ambient2",
+			"friendsandfoes:entity/wildfire/ambient3",
+			"friendsandfoes:entity/wildfire/ambient4",
+			"friendsandfoes:entity/wildfire/ambient5"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.wildfire.ambient"
+	},
+	"entity.wildfire.death": {
+		"sounds": [
+			"friendsandfoes:entity/wildfire/death1",
+			"friendsandfoes:entity/wildfire/death2",
+			"friendsandfoes:entity/wildfire/death3"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.wildfire.death"
+	},
+	"entity.wildfire.hurt": {
+		"sounds": [
+			"friendsandfoes:entity/wildfire/hurt1",
+			"friendsandfoes:entity/wildfire/hurt2",
+			"friendsandfoes:entity/wildfire/hurt3"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.wildfire.hurt"
+	},
+	"entity.wildfire.shield_break": {
+		"sounds": [
+			"friendsandfoes:entity/wildfire/shield_break1",
+			"friendsandfoes:entity/wildfire/shield_break2",
+			"friendsandfoes:entity/wildfire/shield_break3"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.wildfire.shield_break"
+	},
+	"entity.wildfire.shoot": {
+		"sounds": [
+			"friendsandfoes:entity/wildfire/shoot1",
+			"friendsandfoes:entity/wildfire/shoot2",
+			"friendsandfoes:entity/wildfire/shoot3",
+			"friendsandfoes:entity/wildfire/shoot4"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.wildfire.shoot"
+	},
+	"entity.wildfire.step": {
+		"sounds": [
+			"friendsandfoes:entity/wildfire/step1",
+			"friendsandfoes:entity/wildfire/step2",
+			"friendsandfoes:entity/wildfire/step3",
+			"friendsandfoes:entity/wildfire/step4"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.wildfire.step"
 	}
 }

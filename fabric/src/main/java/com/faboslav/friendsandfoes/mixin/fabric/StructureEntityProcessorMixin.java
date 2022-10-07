@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.mixin.fabric;
 
 import com.faboslav.friendsandfoes.world.processor.StructureEntityProcessor;
+import com.google.common.collect.Lists;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -66,7 +67,7 @@ public final class StructureEntityProcessorMixin
 		CallbackInfoReturnable<Boolean> cir
 	) {
 		if (FabricLoader.getInstance().isModLoaded("yungsapi") == false) {
-			for (StructureEntityInfo entityInfo : processEntityInfos(
+			for (StructureEntityInfo entityInfo : friendsandfoes_processEntityInfos(
 				serverWorldAccess,
 				structurePiecePos,
 				structurePieceBottomCenterPos,
@@ -92,7 +93,7 @@ public final class StructureEntityProcessorMixin
 				compoundTag.put("Pos", nbtList);
 				compoundTag.remove("UUID");
 
-				getEntity(serverWorldAccess, compoundTag).ifPresent((entity) -> {
+				friendsandfoes_getEntity(serverWorldAccess, compoundTag).ifPresent((entity) -> {
 					float f = entity.applyMirror(structurePlacementData.getMirror());
 					f += entity.getYaw() - entity.applyRotation(structurePlacementData.getRotation());
 					entity.refreshPositionAndAngles(

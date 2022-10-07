@@ -66,7 +66,7 @@ public final class StructureEntityProcessorMixin
 		CallbackInfoReturnable<Boolean> cir
 	) {
 		if (FabricLoader.getInstance().isModLoaded("yungsapi") == false) {
-			for (StructureEntityInfo entityInfo : processEntityInfos(
+			for (StructureEntityInfo entityInfo : friendsandfoes_processEntityInfos(
 				serverWorldAccess,
 				structurePiecePos,
 				structurePieceBottomCenterPos,
@@ -92,7 +92,7 @@ public final class StructureEntityProcessorMixin
 				compoundTag.put("Pos", nbtList);
 				compoundTag.remove("UUID");
 
-				getEntity(serverWorldAccess, compoundTag).ifPresent((entity) -> {
+				friendsandfoes_getEntity(serverWorldAccess, compoundTag).ifPresent((entity) -> {
 					float f = entity.applyMirror(structurePlacementData.getMirror());
 					f += entity.getYaw() - entity.applyRotation(structurePlacementData.getRotation());
 					entity.refreshPositionAndAngles(
@@ -129,7 +129,7 @@ public final class StructureEntityProcessorMixin
 		at = @At(value = "HEAD"),
 		cancellable = true
 	)
-	private void cancelPlaceEntities(
+	private void friendsandfoes_cancelPlaceEntities(
 		ServerWorldAccess serverWorldAccess,
 		BlockPos structurePiecePos,
 		BlockMirror mirror,
@@ -147,7 +147,7 @@ public final class StructureEntityProcessorMixin
 	/**
 	 * Applies placement data and {@link StructureEntityProcessor}s to entities in a structure.
 	 */
-	private List<StructureEntityInfo> processEntityInfos(
+	private List<StructureEntityInfo> friendsandfoes_processEntityInfos(
 		ServerWorldAccess serverWorldAccess,
 		BlockPos structurePiecePos,
 		BlockPos structurePieceBottomCenterPos,
@@ -208,7 +208,7 @@ public final class StructureEntityProcessorMixin
 		return processedEntities;
 	}
 
-	private static Optional<Entity> getEntity(
+	private static Optional<Entity> friendsandfoes_getEntity(
 		ServerWorldAccess serverWorldAccess,
 		NbtCompound compoundTag
 	) {

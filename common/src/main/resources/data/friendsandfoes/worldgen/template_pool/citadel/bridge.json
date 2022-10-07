@@ -1,0 +1,15 @@
+{
+	"name": "friendsandfoes:citadel/bridge",
+	"fallback": "minecraft:empty",
+	"elements": [
+		{
+			"weight": 1,
+			"element": {
+				"location": "friendsandfoes:citadel/bridge/portal_bridge",
+				"processors": "friendsandfoes:citadel",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		}
+	]
+}

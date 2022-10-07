@@ -37,6 +37,12 @@ public final class FriendsAndFoesSoundEvents
 	public static final Supplier<SoundEvent> ENTITY_MAULER_DEATH;
 	public static final Supplier<SoundEvent> ENTITY_MAULER_GROWL;
 	public static final Supplier<SoundEvent> ENTITY_MAULER_HURT;
+	public static final Supplier<SoundEvent> ENTITY_WILDFIRE_AMBIENT;
+	public static final Supplier<SoundEvent> ENTITY_WILDFIRE_DEATH;
+	public static final Supplier<SoundEvent> ENTITY_WILDFIRE_HURT;
+	public static final Supplier<SoundEvent> ENTITY_WILDFIRE_SHIELD_BREAK;
+	public static final Supplier<SoundEvent> ENTITY_WILDFIRE_SHOOT;
+	public static final Supplier<SoundEvent> ENTITY_WILDFIRE_STEP;
 
 	static {
 		ENTITY_COPPER_GOLEM_DEATH = register("entity", "copper_golem.death");
@@ -64,6 +70,12 @@ public final class FriendsAndFoesSoundEvents
 		ENTITY_MAULER_DEATH = register("entity", "mauler.death");
 		ENTITY_MAULER_GROWL = register("entity", "mauler.growl");
 		ENTITY_MAULER_HURT = register("entity", "mauler.hurt");
+		ENTITY_WILDFIRE_AMBIENT = register("entity", "wildfire.ambient");
+		ENTITY_WILDFIRE_DEATH = register("entity", "wildfire.death");
+		ENTITY_WILDFIRE_HURT = register("entity", "wildfire.hurt");
+		ENTITY_WILDFIRE_SHIELD_BREAK = register("entity", "wildfire.shield_break");
+		ENTITY_WILDFIRE_SHOOT = register("entity", "wildfire.shoot");
+		ENTITY_WILDFIRE_STEP = register("entity", "wildfire.step");
 	}
 
 	private static Supplier<SoundEvent> register(String type, String name) {

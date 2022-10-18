@@ -156,6 +156,7 @@ public final class WildfireEntity extends HostileEntity
 			this.setVelocity(this.getVelocity().multiply(1.0, 0.6, 1.0));
 		}
 
+		/*
 		if (this.world.isClient) {
 			if (this.random.nextInt(24) == 0 && !this.isSilent()) {
 				this.world.playSound(this.getX() + 0.5, this.getY() + 0.5, this.getZ() + 0.5, SoundEvents.ENTITY_BLAZE_BURN, this.getSoundCategory(), 1.0F + this.random.nextFloat(), this.random.nextFloat() * 0.7F + 0.3F, false);
@@ -164,7 +165,7 @@ public final class WildfireEntity extends HostileEntity
 			for (int i = 0; i < 2; ++i) {
 				this.world.addParticle(ParticleTypes.LARGE_SMOKE, this.getParticleX(0.5), this.getRandomBodyY(), this.getParticleZ(0.5), 0.0, 0.0, 0.0);
 			}
-		}
+		}*/
 
 		super.tickMovement();
 	}
@@ -193,10 +194,12 @@ public final class WildfireEntity extends HostileEntity
 		return 1.0F;
 	}
 
+	@Override
 	public boolean hurtByWater() {
 		return true;
 	}
 
+	@Override
 	public boolean isOnFire() {
 		return false;
 	}

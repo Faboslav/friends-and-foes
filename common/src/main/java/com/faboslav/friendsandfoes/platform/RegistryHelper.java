@@ -17,6 +17,8 @@ import net.minecraft.structure.processor.StructureProcessor;
 import net.minecraft.structure.processor.StructureProcessorType;
 import net.minecraft.util.Identifier;
 import net.minecraft.village.VillagerProfession;
+import net.minecraft.world.gen.structure.Structure;
+import net.minecraft.world.gen.structure.StructureType;
 import net.minecraft.world.poi.PointOfInterestType;
 
 import java.util.function.Supplier;
@@ -98,6 +100,14 @@ public final class RegistryHelper
 		Supplier<T> block,
 		int burnChance,
 		int spreadChance
+	) {
+		throw new AssertionError();
+	}
+
+	@ExpectPlatform
+	public static <T extends Structure>void registerStructureType(
+		Identifier identifier,
+		StructureType<T> structureCodec
 	) {
 		throw new AssertionError();
 	}

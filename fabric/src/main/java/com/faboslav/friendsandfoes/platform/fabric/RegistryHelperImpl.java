@@ -22,6 +22,8 @@ import net.minecraft.structure.processor.StructureProcessorType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.village.VillagerProfession;
+import net.minecraft.world.gen.structure.Structure;
+import net.minecraft.world.gen.structure.StructureType;
 import net.minecraft.world.poi.PointOfInterestType;
 
 import java.util.function.Supplier;
@@ -103,5 +105,12 @@ public final class RegistryHelperImpl
 		StructureProcessorType<? extends StructureProcessor> structureProcessorType
 	) {
 		Registry.register(Registry.STRUCTURE_PROCESSOR, identifier, structureProcessorType);
+	}
+
+	public static <T extends Structure> void registerStructureType(
+		Identifier identifier,
+		StructureType<T> structureType
+	) {
+		Registry.register(Registry.STRUCTURE_TYPE, identifier, structureType);
 	}
 }

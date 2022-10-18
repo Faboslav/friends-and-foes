@@ -1,6 +1,15 @@
 {
 	"processors": [
 		{
+			"processor_type": "friendsandfoes:citadel_bottom_processor",
+			"target_block": {
+				"Name": "minecraft:yellow_concrete"
+			},
+			"target_block_output": {
+				"Name": "minecraft:nether_bricks"
+			}
+		},
+		{
 			"processor_type": "minecraft:rule",
 			"rules": [
 				{

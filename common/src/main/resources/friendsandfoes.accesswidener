@@ -18,3 +18,4 @@ accessible method net/minecraft/world/poi/PointOfInterestTypes getStatesOfBlock 
 accessible field net/minecraft/entity/passive/BeeEntity pollinateGoal Lnet/minecraft/entity/passive/BeeEntity$PollinateGoal;
 accessible class net/minecraft/entity/passive/BeeEntity$PollinateGoal
 accessible method net/minecraft/entity/passive/BeeEntity$PollinateGoal isRunning ()Z
+accessible field net/minecraft/world/gen/structure/JigsawStructure startHeight Lnet/minecraft/world/gen/heightprovider/HeightProvider;

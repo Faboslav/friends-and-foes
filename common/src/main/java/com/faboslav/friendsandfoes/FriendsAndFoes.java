@@ -42,6 +42,7 @@ public final class FriendsAndFoes
 		FriendsAndFoesPointOfInterestTypes.init();
 		FriendsAndFoesSoundEvents.init();
 		FriendsAndFoesStructureProcessorTypes.init();
+		FriendsAndFoesStructureTypes.init();
 		FriendsAndFoesVillagerProfessions.init();
 	}
 

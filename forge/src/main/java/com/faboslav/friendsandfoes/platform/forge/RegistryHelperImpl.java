@@ -20,6 +20,8 @@ import net.minecraft.structure.processor.StructureProcessorType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.village.VillagerProfession;
+import net.minecraft.world.gen.structure.Structure;
+import net.minecraft.world.gen.structure.StructureType;
 import net.minecraft.world.poi.PointOfInterestType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -37,6 +39,7 @@ public final class RegistryHelperImpl
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, FriendsAndFoes.MOD_ID);
 	public static final DeferredRegister<PointOfInterestType> POINT_OF_INTEREST_TYPES = DeferredRegister.create(ForgeRegistries.POI_TYPES, FriendsAndFoes.MOD_ID);
 	public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, FriendsAndFoes.MOD_ID);
+	public static final DeferredRegister<StructureType<?>> STRUCTURE_TYPES = DeferredRegister.create(Registry.STRUCTURE_TYPE_KEY, FriendsAndFoes.MOD_ID);
 	public static final DeferredRegister<VillagerProfession> VILLAGER_PROFESSIONS = DeferredRegister.create(ForgeRegistries.VILLAGER_PROFESSIONS, FriendsAndFoes.MOD_ID);
 
 	public static <T extends Block> Supplier<T> registerBlock(String name, Supplier<T> block) {
@@ -110,5 +113,12 @@ public final class RegistryHelperImpl
 		StructureProcessorType<? extends StructureProcessor> structureProcessorType
 	) {
 		Registry.register(Registry.STRUCTURE_PROCESSOR, identifier, structureProcessorType);
+	}
+
+	public static <T extends Structure> void registerStructureType(
+		Identifier identifier,
+		StructureType<T> structureType
+	) {
+		STRUCTURE_TYPES.register(identifier.toString(), () -> structureType);
 	}
 }

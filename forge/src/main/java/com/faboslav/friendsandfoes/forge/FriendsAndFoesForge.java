@@ -55,6 +55,7 @@ public final class FriendsAndFoesForge
 		RegistryHelperImpl.ITEMS.register(bus);
 		RegistryHelperImpl.POINT_OF_INTEREST_TYPES.register(bus);
 		RegistryHelperImpl.SOUND_EVENTS.register(bus);
+		RegistryHelperImpl.STRUCTURE_TYPES.register(bus);
 		RegistryHelperImpl.VILLAGER_PROFESSIONS.register(bus);
 
 		bus.addListener(FriendsAndFoesForge::init);

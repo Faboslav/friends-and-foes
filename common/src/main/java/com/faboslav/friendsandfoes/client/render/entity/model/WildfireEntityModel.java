@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.client.render.entity.model;
 
+import com.faboslav.friendsandfoes.client.render.entity.renderer.WildfireEntityRenderer;
 import com.faboslav.friendsandfoes.entity.WildfireEntity;
 import net.minecraft.client.model.*;
 
@@ -70,9 +71,10 @@ public final class WildfireEntityModel<T extends WildfireEntity> extends BaseEnt
 		float headPitch
 	) {
 		int activeShieldsCount = wildfire.getActiveShieldsCount();
+		float rotationSpeedMultiplier = Math.max(1, WildfireEntity.DEFAULT_ACTIVE_SHIELDS_COUNT - activeShieldsCount);
 		float baseRotationUnit = (2.0F * (float) Math.PI) / activeShieldsCount;
 		float bodyCounterRotation = (float) Math.toRadians((wildfire.prevBodyYaw * -1.0F));
-		float additionalShieldRotation = (animationProgress * 0.1F) % (2.0F * (float) Math.PI);
+		float additionalShieldRotation = (animationProgress * 0.1F * rotationSpeedMultiplier) % (2.0F * (float) Math.PI);
 
 		for (int i = 0; i < WildfireEntity.DEFAULT_ACTIVE_SHIELDS_COUNT; ++i) {
 			if (i > activeShieldsCount) {

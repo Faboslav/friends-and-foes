@@ -39,14 +39,15 @@ public class LavaOceanStructure extends Structure
 	private final Optional<Heightmap.Type> projectStartToHeightmap;
 	private final int maxDistanceFromCenter;
 
-	public LavaOceanStructure(Structure.Config config,
+	public LavaOceanStructure(
+		Structure.Config config,
 		RegistryEntry<StructurePool> startPool,
 		Optional<Identifier> startJigsawName,
 		int size,
 		HeightProvider startHeight,
 		Optional<Heightmap.Type> projectStartToHeightmap,
-		int maxDistanceFromCenter)
-	{
+		int maxDistanceFromCenter
+	) {
 		super(config);
 		this.startPool = startPool;
 		this.startJigsawName = startJigsawName;
@@ -88,9 +89,9 @@ public class LavaOceanStructure extends Structure
 				int minValidSpace = 64;
 				int maxHeight = Math.min(context.chunkGenerator().getMinimumY() + context.chunkGenerator().getWorldHeight(), context.chunkGenerator().getSeaLevel() + minValidSpace);
 
-				while(mutable.getY() < maxHeight) {
+				while (mutable.getY() < maxHeight) {
 					BlockState state = blockView.getState(mutable.getY());
-					if(!state.isAir()) {
+					if (!state.isAir()) {
 						return false;
 					}
 					mutable.move(Direction.UP);

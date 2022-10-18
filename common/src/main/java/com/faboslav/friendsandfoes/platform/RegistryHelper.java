@@ -105,7 +105,7 @@ public final class RegistryHelper
 	}
 
 	@ExpectPlatform
-	public static <T extends Structure>void registerStructureType(
+	public static <T extends Structure> void registerStructureType(
 		Identifier identifier,
 		StructureType<T> structureCodec
 	) {

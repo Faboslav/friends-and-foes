@@ -84,7 +84,6 @@ public final class WildfireEntityModel<T extends WildfireEntity> extends BaseEnt
 			}
 
 			this.shields[i].yaw = (bodyCounterRotation + (baseRotationUnit * i)) + additionalShieldRotation;
-			;
 		}
 
 		this.head.yaw = headYaw * 0.017453292F;

@@ -1,4 +1,4 @@
-accessWidener v1 named
+accessWidener v2 named
 
 accessible class net/minecraft/village/raid/Raid$Member
 accessible class net/minecraft/entity/mob/IllusionerEntity$BlindTargetGoal
@@ -19,3 +19,5 @@ accessible field net/minecraft/entity/passive/BeeEntity pollinateGoal Lnet/minec
 accessible class net/minecraft/entity/passive/BeeEntity$PollinateGoal
 accessible method net/minecraft/entity/passive/BeeEntity$PollinateGoal isRunning ()Z
 accessible field net/minecraft/world/gen/structure/JigsawStructure startHeight Lnet/minecraft/world/gen/heightprovider/HeightProvider;
+accessible method net/minecraft/entity/ai/brain/MemoryModuleType <init> (Ljava/util/Optional;)V
+accessible method net/minecraft/entity/ai/brain/Activity <init> (Ljava/lang/String;)V

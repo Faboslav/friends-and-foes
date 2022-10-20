@@ -14,6 +14,8 @@ import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.brain.Activity;
+import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.item.Item;
 import net.minecraft.sound.SoundEvent;
@@ -30,6 +32,11 @@ import java.util.function.Supplier;
 
 public final class RegistryHelperImpl
 {
+	public static <T extends Activity> Supplier<T> registerActivity(String name, Supplier<T> activity) {
+		var registry = Registry.register(Registry.ACTIVITY, FriendsAndFoes.makeID(name), activity.get());
+		return () -> registry;
+	}
+
 	public static <T extends Block> Supplier<T> registerBlock(String name, Supplier<T> block) {
 		var registry = Registry.register(Registry.BLOCK, FriendsAndFoes.makeID(name), block.get());
 		return () -> registry;
@@ -63,6 +70,14 @@ public final class RegistryHelperImpl
 
 	public static <T extends Item> Supplier<T> registerItem(String name, Supplier<T> item) {
 		var registry = Registry.register(Registry.ITEM, FriendsAndFoes.makeID(name), item.get());
+		return () -> registry;
+	}
+
+	public static <T extends MemoryModuleType<?>> Supplier<T> registerMemoryModuleType(
+		String name,
+		Supplier<T> memoryModuleType
+	) {
+		var registry = Registry.register(Registry.MEMORY_MODULE_TYPE, FriendsAndFoes.makeID(name), memoryModuleType.get());
 		return () -> registry;
 	}
 

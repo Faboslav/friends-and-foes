@@ -35,10 +35,12 @@ public final class FriendsAndFoes
 	}
 
 	public static void init() {
+		FriendsAndFoesActivities.init();
 		FriendsAndFoesBlocks.init();
 		FriendsAndFoesCriteria.init();
 		FriendsAndFoesEntityTypes.init();
 		FriendsAndFoesItems.init();
+		FriendsAndFoesMemoryModuleTypes.init();
 		FriendsAndFoesPointOfInterestTypes.init();
 		FriendsAndFoesSoundEvents.init();
 		FriendsAndFoesStructureProcessorTypes.init();

@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.mixin.fabric;
 
 import com.faboslav.friendsandfoes.world.processor.StructureEntityProcessor;
-import com.google.common.collect.Lists;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;

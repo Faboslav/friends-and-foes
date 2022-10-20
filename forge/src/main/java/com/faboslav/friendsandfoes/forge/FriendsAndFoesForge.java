@@ -47,12 +47,14 @@ public final class FriendsAndFoesForge
 
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
+		RegistryHelperImpl.ACTIVITIES.register(bus);
 		RegistryHelperImpl.BLOCKS.register(bus);
 		FriendsAndFoesEntityTypes.previousUseChoiceTypeRegistrations = SharedConstants.useChoiceTypeRegistrations;
 		SharedConstants.useChoiceTypeRegistrations = false;
 		RegistryHelperImpl.ENTITY_TYPES.register(bus);
 		SharedConstants.useChoiceTypeRegistrations = FriendsAndFoesEntityTypes.previousUseChoiceTypeRegistrations;
 		RegistryHelperImpl.ITEMS.register(bus);
+		RegistryHelperImpl.MEMORY_MODULE_TYPES.register(bus);
 		RegistryHelperImpl.POINT_OF_INTEREST_TYPES.register(bus);
 		RegistryHelperImpl.SOUND_EVENTS.register(bus);
 		RegistryHelperImpl.STRUCTURE_TYPES.register(bus);

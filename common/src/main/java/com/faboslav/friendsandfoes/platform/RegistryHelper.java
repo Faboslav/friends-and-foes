@@ -10,6 +10,8 @@ import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.brain.Activity;
+import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.item.Item;
 import net.minecraft.sound.SoundEvent;
@@ -25,6 +27,11 @@ import java.util.function.Supplier;
 
 public final class RegistryHelper
 {
+	@ExpectPlatform
+	public static <T extends Activity> Supplier<T> registerActivity(String name, Supplier<T> activity) {
+		throw new AssertionError();
+	}
+
 	@ExpectPlatform
 	public static <T extends Block> Supplier<T> registerBlock(String name, Supplier<T> block) {
 		throw new AssertionError();
@@ -61,6 +68,14 @@ public final class RegistryHelper
 
 	@ExpectPlatform
 	public static <T extends Item> Supplier<T> registerItem(String name, Supplier<T> item) {
+		throw new AssertionError();
+	}
+
+	@ExpectPlatform
+	public static <T extends MemoryModuleType<?>> Supplier<T> registerMemoryModuleType(
+		String name,
+		Supplier<T> memoryModuleType
+	) {
 		throw new AssertionError();
 	}
 

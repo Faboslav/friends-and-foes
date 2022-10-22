@@ -1,6 +1,10 @@
 {
 	"replace": false,
 	"values": [
-		"minecraft:nether_wastes"
+		"#minecraft:is_nether",
+		{
+			"id": "#c:in_nether",
+			"required": false
+		}
 	]
 }

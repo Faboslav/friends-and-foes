@@ -1,0 +1,16 @@
+{
+	"type": "crafting_shaped",
+	"pattern": [
+		"ccc",
+		"c c"
+	],
+	"key": {
+		"c": {
+			"item": "friendsandfoes:wildfire_crown_fragment"
+		}
+	},
+	"result": {
+		"item": "friendsandfoes:wildfire_crown",
+		"count": 1
+	}
+}

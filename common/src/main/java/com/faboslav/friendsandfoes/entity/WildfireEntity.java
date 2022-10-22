@@ -132,12 +132,12 @@ public final class WildfireEntity extends HostileEntity
 		this.setTicksUntilShieldRegeneration(nbt.getInt(TICKS_UNTIL_SHIELD_REGENERATION_NBT_NAME));
 	}
 
-	public SoundEvent getShieldBreakSound() {
-		return FriendsAndFoesSoundEvents.ENTITY_WILDFIRE_SHIELD_BREAK.get();
+	public SoundEvent getShockwaveSound() {
+		return FriendsAndFoesSoundEvents.ENTITY_WILDFIRE_SHOCKWAVE.get();
 	}
 
-	public void playShieldBreakSound() {
-		this.playSound(this.getShieldBreakSound(), 1.0F, 1.0F);
+	public void playShockwaveSound() {
+		this.playSound(this.getShockwaveSound(), 1.0F, 1.0F);
 	}
 
 	public void breakShield() {
@@ -174,6 +174,14 @@ public final class WildfireEntity extends HostileEntity
 
 	public void resetTicksUntilShieldRegeneration() {
 		this.setTicksUntilShieldRegeneration(DEFAULT_TICKS_UNTIL_SHIELD_REGENERATION);
+	}
+
+	public SoundEvent getShieldBreakSound() {
+		return FriendsAndFoesSoundEvents.ENTITY_WILDFIRE_SHIELD_BREAK.get();
+	}
+
+	public void playShieldBreakSound() {
+		this.playSound(this.getShieldBreakSound(), 1.0F, 1.0F);
 	}
 
 	protected SoundEvent getAmbientSound() {

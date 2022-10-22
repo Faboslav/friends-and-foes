@@ -41,6 +41,7 @@ public final class FriendsAndFoesSoundEvents
 	public static final Supplier<SoundEvent> ENTITY_WILDFIRE_DEATH;
 	public static final Supplier<SoundEvent> ENTITY_WILDFIRE_HURT;
 	public static final Supplier<SoundEvent> ENTITY_WILDFIRE_SHIELD_BREAK;
+	public static final Supplier<SoundEvent> ENTITY_WILDFIRE_SHOCKWAVE;
 	public static final Supplier<SoundEvent> ENTITY_WILDFIRE_SHOOT;
 	public static final Supplier<SoundEvent> ENTITY_WILDFIRE_STEP;
 
@@ -74,6 +75,7 @@ public final class FriendsAndFoesSoundEvents
 		ENTITY_WILDFIRE_DEATH = register("entity", "wildfire.death");
 		ENTITY_WILDFIRE_HURT = register("entity", "wildfire.hurt");
 		ENTITY_WILDFIRE_SHIELD_BREAK = register("entity", "wildfire.shield_break");
+		ENTITY_WILDFIRE_SHOCKWAVE = register("entity", "wildfire.shockwave");
 		ENTITY_WILDFIRE_SHOOT = register("entity", "wildfire.shoot");
 		ENTITY_WILDFIRE_STEP = register("entity", "wildfire.step");
 	}

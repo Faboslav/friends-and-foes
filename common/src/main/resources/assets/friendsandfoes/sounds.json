@@ -203,6 +203,14 @@
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.wildfire.shield_break"
 	},
+	"entity.wildfire.shockwave": {
+		"sounds": [
+			"friendsandfoes:entity/wildfire/shockwave1",
+			"friendsandfoes:entity/wildfire/shockwave2",
+			"friendsandfoes:entity/wildfire/shockwave3"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.wildfire.shoot"
+	},
 	"entity.wildfire.shoot": {
 		"sounds": [
 			"friendsandfoes:entity/wildfire/shoot1",

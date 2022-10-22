@@ -1,7 +1,7 @@
 {
 	"advancements.husbandry.beehive.title": "Be Keeper",
 	"advancements.husbandry.beehive.description": "Obtain all beehive types",
-	"advancements.adventure.kill_iceologer.title": "I was here",
+	"advancements.adventure.kill_iceologer.title": "i was here, i lived, i..",
 	"advancements.adventure.kill_iceologer.description": "Kill the iceologer",
 	"advancements.adventure.kill_illusioner.title": "World of illusion",
 	"advancements.adventure.kill_illusioner.description": "Kill the illusioner... if he is even real",
@@ -54,6 +54,9 @@
 	"item.friendsandfoes.illusioner_spawn_egg": "Illusioner Spawn Egg",
 	"item.friendsandfoes.moobloom_spawn_egg": "Moobloom Spawn Egg",
 	"item.friendsandfoes.mauler_spawn_egg": "Mauler Spawn Egg",
+	"item.friendsandfoes.wildfire_spawn_egg": "Wildfire Spawn Egg",
+	"item.friendsandfoes.wildfire_crown": "Wildfire Crown",
+	"item.friendsandfoes.wildfire_crown_fragment": "Wildfire Crown Fragment",
 	"subtitle.entity.friendsandfoes.glare.ambient": "Glare flies",
 	"subtitle.entity.friendsandfoes.glare.death": "Glare dies",
 	"subtitle.entity.friendsandfoes.glare.eat": "Glare eats",

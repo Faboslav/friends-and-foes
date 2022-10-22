@@ -30,7 +30,15 @@ public enum FriendsAndFoesArmorMaterials implements ArmorMaterial
 	private final Lazy<Ingredient> repairIngredientSupplier;
 
 	private FriendsAndFoesArmorMaterials(
-		String name, int durabilityMultiplier, int[] protectionAmounts, int enchantability, SoundEvent equipSound, float toughness, float knockbackResistance, Supplier repairIngredientSupplier) {
+		String name,
+		int durabilityMultiplier,
+		int[] protectionAmounts,
+		int enchantability,
+		SoundEvent equipSound,
+		float toughness,
+		float knockbackResistance,
+		Supplier repairIngredientSupplier
+	) {
 		this.name = name;
 		this.durabilityMultiplier = durabilityMultiplier;
 		this.protectionAmounts = protectionAmounts;

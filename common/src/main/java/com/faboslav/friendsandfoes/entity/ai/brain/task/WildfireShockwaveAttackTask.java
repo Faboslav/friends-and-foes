@@ -31,13 +31,13 @@ public final class WildfireShockwaveAttackTask extends Task<WildfireEntity>
 	protected boolean shouldRun(ServerWorld world, WildfireEntity wildfire) {
 		var nearestVisiblePlayer = wildfire.getBrain().getOptionalMemory(MemoryModuleType.NEAREST_VISIBLE_PLAYER);
 
-		if(nearestVisiblePlayer.isEmpty()) {
+		if (nearestVisiblePlayer.isEmpty()) {
 			return false;
 		}
 
 		this.nearestVisiblePlayer = nearestVisiblePlayer.get();
 
-		if(wildfire.distanceTo(this.nearestVisiblePlayer) > 5.0F) {
+		if (wildfire.distanceTo(this.nearestVisiblePlayer) > 5.0F) {
 			return false;
 		}
 
@@ -62,9 +62,9 @@ public final class WildfireShockwaveAttackTask extends Task<WildfireEntity>
 
 	@Override
 	protected void keepRunning(ServerWorld world, WildfireEntity wildfire, long time) {
-		if(this.shockwaveTicks < SHOCWAVE_PHASE_ONE_END_TICK) {
+		if (this.shockwaveTicks < SHOCWAVE_PHASE_ONE_END_TICK) {
 			wildfire.addVelocity(0.0F, 0.075F, 0.0F);
-		} else if(this.shockwaveTicks == SHOCWAVE_PHASE_ONE_END_TICK) {
+		} else if (this.shockwaveTicks == SHOCWAVE_PHASE_ONE_END_TICK) {
 			wildfire.setVelocity(0.0F, 0.0F, 0.0F);
 		} else {
 			wildfire.addVelocity(0.0F, -1.0F, 0.0F);
@@ -73,7 +73,7 @@ public final class WildfireShockwaveAttackTask extends Task<WildfireEntity>
 		wildfire.move(MovementType.SELF, wildfire.getVelocity());
 		wildfire.getLookControl().lookAt(this.nearestVisiblePlayer);
 
-		if(this.shockwaveTicks == SHOCKWAVE_DURATION) {
+		if (this.shockwaveTicks == SHOCKWAVE_DURATION) {
 			FriendsAndFoes.getLogger().info("SHOCKWAVE");
 		}
 

@@ -15,7 +15,7 @@ import java.util.function.Supplier;
  */
 public enum FriendsAndFoesArmorMaterials implements ArmorMaterial
 {
-	WILDFIRE("wildfire", 35, new int[]{2, 5, 7, 2}, 12, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 2.5F, 0.1F, () -> {
+	WILDFIRE("wildfire", 35, new int[]{2, 5, 7, 2}, 12, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 2.0F, 0.1F, () -> {
 		return Ingredient.ofItems(FriendsAndFoesItems.WILDFIRE_CROWN_FRAGMENT.get());
 	});
 

@@ -15,7 +15,7 @@ public final class FriendsAndFoesActivities
 
 	static {
 		WILDFIRE_BARRAGE_ATTACK = RegistryHelper.registerActivity("wildfire_barrage_attack", () -> new Activity("wildfire_barrage_attack"));
-		WILDFIRE_SHOCKWAVE_ATTACK = RegistryHelper.registerActivity("wildfire_shockwave_attack", () -> new Activity("wildfire_shockwave_attack"));
+		WILDFIRE_SHOCKWAVE_ATTACK = RegistryHelper.registerActivity("wildfire_shockwave_attack", () -> new Activity("wildfire_shockwave"));
 	}
 
 	public static void init() {

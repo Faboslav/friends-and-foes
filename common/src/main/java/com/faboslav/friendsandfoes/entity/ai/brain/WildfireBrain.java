@@ -1,15 +1,23 @@
 package com.faboslav.friendsandfoes.entity.ai.brain;
 
 import com.faboslav.friendsandfoes.entity.WildfireEntity;
+import com.faboslav.friendsandfoes.entity.ai.brain.task.WildfireBarrageAttackTask;
+import com.faboslav.friendsandfoes.entity.ai.brain.task.WildfireShockwaveAttackTask;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesActivities;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesStructureProcessorTypes;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.task.*;
+import net.minecraft.util.Unit;
 
 import java.util.List;
 
@@ -25,7 +33,7 @@ public final class WildfireBrain
 	public static Brain<?> create(Brain<WildfireEntity> brain) {
 		addCoreActivities(brain);
 		addIdleActivities(brain);
-		addFightActivities(brain);
+		addAttackActivities(brain);
 
 		brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
 		brain.setDefaultActivity(Activity.IDLE);
@@ -41,7 +49,8 @@ public final class WildfireBrain
 				new StayAboveWaterTask(0.8F),
 				new WalkTask(2.5F),
 				new LookAroundTask(45, 90),
-				new WanderAroundTask()
+				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.WILDFIRE_BARRAGE_ATTACK_COOLDOWN.get()),
+				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get())
 			));
 	}
 
@@ -62,16 +71,38 @@ public final class WildfireBrain
 	}
 
 
-	private static void addFightActivities(
+	private static void addAttackActivities(
 		Brain<WildfireEntity> brain
 	) {
-
+		brain.setTaskList(
+			FriendsAndFoesActivities.WILDFIRE_SHOCKWAVE_ATTACK.get(),
+			ImmutableList.of(Pair.of(0, new WildfireShockwaveAttackTask())),
+			ImmutableSet.of(
+				Pair.of(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER, MemoryModuleState.VALUE_PRESENT),
+				Pair.of(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT)
+			)
+		);
+		brain.setTaskList(
+			FriendsAndFoesActivities.WILDFIRE_BARRAGE_ATTACK.get(),
+			ImmutableList.of(Pair.of(0, new WildfireBarrageAttackTask())),
+			ImmutableSet.of(
+				Pair.of(MemoryModuleType.NEAREST_ATTACKABLE, MemoryModuleState.VALUE_PRESENT),
+				Pair.of(MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_PRESENT),
+				Pair.of(FriendsAndFoesMemoryModuleTypes.WILDFIRE_BARRAGE_ATTACK_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT)
+			)
+		);
 	}
 
 	public static void updateActivities(WildfireEntity wildfire) {
 		wildfire.getBrain().resetPossibleActivities(ImmutableList.of(
+			FriendsAndFoesActivities.WILDFIRE_SHOCKWAVE_ATTACK.get(),
+			FriendsAndFoesActivities.WILDFIRE_BARRAGE_ATTACK.get(),
 			Activity.IDLE
 		));
+	}
+
+	public static void setShockwaveAttackCooldown(LivingEntity wildfire) {
+		wildfire.getBrain().remember(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get(), 200);
 	}
 
 	static {
@@ -82,10 +113,14 @@ public final class WildfireBrain
 		MEMORY_MODULES = List.of(
 			MemoryModuleType.NEAREST_VISIBLE_PLAYER,
 			MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER,
+			MemoryModuleType.NEAREST_ATTACKABLE,
+			MemoryModuleType.ATTACK_TARGET,
 			MemoryModuleType.PATH,
 			MemoryModuleType.LOOK_TARGET,
 			MemoryModuleType.WALK_TARGET,
-			MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE
+			MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
+			FriendsAndFoesMemoryModuleTypes.WILDFIRE_BARRAGE_ATTACK_COOLDOWN.get(),
+			FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get()
 		);
 	}
 }

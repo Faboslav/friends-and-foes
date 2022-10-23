@@ -38,7 +38,7 @@ public abstract class PlayerEntityMixin extends LivingEntity
 		ItemStack itemStack = this.getEquippedStack(EquipmentSlot.HEAD);
 
 		if (itemStack.isOf(FriendsAndFoesItems.WILDFIRE_CROWN.get()) && !this.isSubmergedIn(FluidTags.LAVA)) {
-			this.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 400, 0, false, false, true));
+			this.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 300, 0, false, false, true));
 		}
 	}
 }

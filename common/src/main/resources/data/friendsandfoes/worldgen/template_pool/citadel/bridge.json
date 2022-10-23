@@ -5,8 +5,26 @@
 		{
 			"weight": 1,
 			"element": {
-				"location": "friendsandfoes:citadel/bridge/portal_bridge",
-				"processors": "friendsandfoes:citadel",
+				"location": "friendsandfoes:citadel/bridge/bridge1",
+				"processors": "friendsandfoes:citadel/citadel",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		},
+		{
+			"weight": 1,
+			"element": {
+				"location": "friendsandfoes:citadel/bridge/bridge2",
+				"processors": "friendsandfoes:citadel/citadel",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		},
+		{
+			"weight": 1,
+			"element": {
+				"location": "friendsandfoes:citadel/bridge/bridge3",
+				"processors": "friendsandfoes:citadel/citadel",
 				"projection": "rigid",
 				"element_type": "minecraft:single_pool_element"
 			}

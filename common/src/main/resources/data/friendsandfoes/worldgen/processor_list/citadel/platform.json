@@ -1,0 +1,40 @@
+{
+	"processors": [
+		{
+			"processor_type": "friendsandfoes:citadel_bottom_processor",
+			"target_block": {
+				"Name": "minecraft:yellow_concrete"
+			},
+			"target_block_output": {
+				"Name": "minecraft:nether_bricks"
+			}
+		},
+		{
+			"processor_type": "friendsandfoes:citadel_bottom_processor",
+			"target_block": {
+				"Name": "minecraft:red_concrete"
+			},
+			"target_block_output": {
+				"Name": "minecraft:red_nether_brick_wall"
+			}
+		},
+		{
+			"processor_type": "minecraft:rule",
+			"rules": [
+				{
+					"input_predicate": {
+						"block": "minecraft:nether_bricks",
+						"predicate_type": "minecraft:random_block_match",
+						"probability": 0.33
+					},
+					"location_predicate": {
+						"predicate_type": "minecraft:always_true"
+					},
+					"output_state": {
+						"Name": "minecraft:cracked_nether_bricks"
+					}
+				}
+			]
+		}
+	]
+}

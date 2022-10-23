@@ -109,11 +109,13 @@ public final class WildfireBrain
 			SensorType.HURT_BY
 		);
 		MEMORY_MODULES = List.of(
+			MemoryModuleType.PATH,
+			MemoryModuleType.MOBS,
+			MemoryModuleType.VISIBLE_MOBS,
 			MemoryModuleType.NEAREST_VISIBLE_PLAYER,
 			MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER,
 			MemoryModuleType.NEAREST_ATTACKABLE,
 			MemoryModuleType.ATTACK_TARGET,
-			MemoryModuleType.PATH,
 			MemoryModuleType.LOOK_TARGET,
 			MemoryModuleType.WALK_TARGET,
 			MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,

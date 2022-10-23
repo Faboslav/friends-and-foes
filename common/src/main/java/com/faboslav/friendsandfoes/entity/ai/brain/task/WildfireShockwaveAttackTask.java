@@ -86,7 +86,7 @@ public final class WildfireShockwaveAttackTask extends Task<WildfireEntity>
 			);
 
 			for (Entity closeEntity : closeEntities) {
-				if(closeEntity instanceof BlazeEntity) {
+				if (closeEntity instanceof BlazeEntity) {
 					continue;
 				}
 
@@ -108,7 +108,7 @@ public final class WildfireShockwaveAttackTask extends Task<WildfireEntity>
 
 		float slice = 2.0F * (float) Math.PI / particleAmount;
 
-		for(int radius = 1; radius < waveAmount; radius++) {
+		for (int radius = 1; radius < waveAmount; radius++) {
 			for (int particleNumber = 0; particleNumber < particleAmount; ++particleNumber) {
 				float angle = slice * particleNumber;
 				int x = (int) (wildfirePosition.getX() + radius * MathHelper.cos(angle));

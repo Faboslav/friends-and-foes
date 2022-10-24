@@ -56,6 +56,7 @@ public final class WildfireShockwaveAttackTask extends Task<WildfireEntity>
 	protected void run(ServerWorld world, WildfireEntity wildfire, long time) {
 		wildfire.getNavigation().stop();
 		wildfire.getBrain().forget(MemoryModuleType.WALK_TARGET);
+		wildfire.getBrain().forget(MemoryModuleType.LOOK_TARGET);
 		LookTargetUtil.lookAt(wildfire, this.nearestVisiblePlayer);
 		wildfire.playShockwaveSound();
 	}
@@ -81,7 +82,7 @@ public final class WildfireShockwaveAttackTask extends Task<WildfireEntity>
 		if (this.shockwaveTicks == SHOCKWAVE_DURATION) {
 			var closeEntities = wildfire.getWorld().getOtherEntities(
 				wildfire,
-				wildfire.getBoundingBox().expand(SHOCKWAVE_ATTACK_RANGE * 1.25F),
+				wildfire.getBoundingBox().expand(SHOCKWAVE_ATTACK_RANGE),
 				EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR
 			);
 

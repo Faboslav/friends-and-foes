@@ -30,9 +30,6 @@ public class WildfireBarrageAttackTask extends Task<WildfireEntity>
 	@Override
 	protected void run(ServerWorld world, WildfireEntity wildfire, long time) {
 		FriendsAndFoes.getLogger().info("run");
-		wildfire.getNavigation().stop();
-		wildfire.getBrain().forget(MemoryModuleType.WALK_TARGET);
-		wildfire.getBrain().forget(MemoryModuleType.LOOK_TARGET);
 		this.fireballsFired = 0;
 	}
 }

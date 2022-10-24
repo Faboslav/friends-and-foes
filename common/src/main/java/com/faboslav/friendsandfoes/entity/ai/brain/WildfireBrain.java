@@ -47,6 +47,7 @@ public final class WildfireBrain
 				new StayAboveWaterTask(0.8F),
 				new WalkTask(2.5F),
 				new LookAroundTask(45, 90),
+				new WanderAroundTask(),
 				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.WILDFIRE_BARRAGE_ATTACK_COOLDOWN.get()),
 				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get())
 			));

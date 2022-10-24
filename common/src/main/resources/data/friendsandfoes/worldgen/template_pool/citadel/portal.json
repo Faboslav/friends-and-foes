@@ -5,7 +5,34 @@
 		{
 			"weight": 1,
 			"element": {
-				"location": "friendsandfoes:citadel/portal/portal",
+				"location": "friendsandfoes:citadel/portal/portal1",
+				"processors": "minecraft:empty",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		},
+		{
+			"weight": 1,
+			"element": {
+				"location": "friendsandfoes:citadel/portal/portal2",
+				"processors": "friendsandfoes:citadel/portal",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		},
+		{
+			"weight": 1,
+			"element": {
+				"location": "friendsandfoes:citadel/portal/portal3",
+				"processors": "friendsandfoes:citadel/portal",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		},
+		{
+			"weight": 1,
+			"element": {
+				"location": "friendsandfoes:citadel/portal/portal4",
 				"processors": "friendsandfoes:citadel/portal",
 				"projection": "rigid",
 				"element_type": "minecraft:single_pool_element"

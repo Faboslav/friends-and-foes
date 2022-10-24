@@ -74,7 +74,6 @@ public final class CitadelBottomProcessor extends StructureProcessor
 				   && mutable.getY() < worldView.getTopY()
 				   && (currentBlockState.isAir() || !worldView.getFluidState(mutable).isEmpty())) {
 				worldView.getChunk(mutable).setBlockState(mutable, this.targetBlockOutput, false);
-
 				mutable.move(Direction.DOWN);
 				currentBlockState = worldView.getBlockState(mutable);
 			}

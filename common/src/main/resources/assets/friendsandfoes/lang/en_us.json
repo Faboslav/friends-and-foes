@@ -47,6 +47,7 @@
 	"entity.friendsandfoes.iceologer": "Iceologer",
 	"entity.friendsandfoes.moobloom": "Moobloom",
 	"entity.friendsandfoes.mauler": "Mauler",
+	"entity.friendsandfoes.wildfire": "Wildfire",
 	"item.friendsandfoes.buttercup": "Buttercup",
 	"item.friendsandfoes.glare_spawn_egg": "Glare Spawn Egg",
 	"item.friendsandfoes.copper_golem_spawn_egg": "Copper Golem Spawn Egg",
@@ -81,5 +82,12 @@
 	"subtitle.entity.friendsandfoes.mauler.bite": "Mauler bites",
 	"subtitle.entity.friendsandfoes.mauler.death": "Mauler dies",
 	"subtitle.entity.friendsandfoes.mauler.growl": "Mauler growls",
-	"subtitle.entity.friendsandfoes.mauler.hurt": "Mauler hurts"
+	"subtitle.entity.friendsandfoes.mauler.hurt": "Mauler hurts",
+	"subtitle.entity.friendsandfoes.wildfire.ambient": "Wildfire breathes",
+	"subtitle.entity.friendsandfoes.wildfire.death": "Wildfire dies",
+	"subtitle.entity.friendsandfoes.wildfire.hurt": "Wildfire hurts",
+	"subtitle.entity.friendsandfoes.wildfire.shield_break": "Wildfire's shield brokes",
+	"subtitle.entity.friendsandfoes.wildfire.shockwave": "Wilsfire shockwaves",
+	"subtitle.entity.friendsandfoes.wildfire.shoot": "Wildfire shoots",
+	"subtitle.entity.friendsandfoes.wildfire.step": "Footsteps"
 }

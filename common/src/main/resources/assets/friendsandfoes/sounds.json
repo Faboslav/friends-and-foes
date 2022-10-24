@@ -174,8 +174,7 @@
 			"friendsandfoes:entity/wildfire/ambient1",
 			"friendsandfoes:entity/wildfire/ambient2",
 			"friendsandfoes:entity/wildfire/ambient3",
-			"friendsandfoes:entity/wildfire/ambient4",
-			"friendsandfoes:entity/wildfire/ambient5"
+			"friendsandfoes:entity/wildfire/ambient4"
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.wildfire.ambient"
 	},

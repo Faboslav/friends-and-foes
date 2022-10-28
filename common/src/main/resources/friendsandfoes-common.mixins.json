@@ -27,6 +27,7 @@
 		"ServerWorldAccessor",
 		"SpawnRestrictionAccessor",
 		"StructurePoolMixin",
+		"VillagerHostilesSensorMixin",
 		"VillagerTaskListProviderMixin"
 	],
 	"client": [

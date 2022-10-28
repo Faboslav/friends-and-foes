@@ -82,18 +82,21 @@ public class LavaOceanStructure extends Structure
 		ChunkPos chunkPos = new ChunkPos(blockPos);
 		BlockPos.Mutable mutable = new BlockPos.Mutable();
 
+		int minValidSpace = 40;
+		int maxHeight = Math.min(context.chunkGenerator().getMinimumY() + context.chunkGenerator().getWorldHeight(), context.chunkGenerator().getSeaLevel() + minValidSpace);
+
 		for (int curChunkX = chunkPos.x - 1; curChunkX <= chunkPos.x + 1; curChunkX++) {
 			for (int curChunkZ = chunkPos.z - 1; curChunkZ <= chunkPos.z + 1; curChunkZ++) {
 				mutable.set(curChunkX << 4, context.chunkGenerator().getSeaLevel() + 10, curChunkZ << 4);
 				VerticalBlockSample blockView = context.chunkGenerator().getColumnSample(mutable.getX(), mutable.getZ(), context.world(), context.noiseConfig());
-				int minValidSpace = 64;
-				int maxHeight = Math.min(context.chunkGenerator().getMinimumY() + context.chunkGenerator().getWorldHeight(), context.chunkGenerator().getSeaLevel() + minValidSpace);
 
 				while (mutable.getY() < maxHeight) {
 					BlockState state = blockView.getState(mutable.getY());
-					if (!state.isAir()) {
+
+					if (state.isAir() == false) {
 						return false;
 					}
+
 					mutable.move(Direction.UP);
 				}
 			}

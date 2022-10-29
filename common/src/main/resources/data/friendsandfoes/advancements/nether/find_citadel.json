@@ -1,0 +1,40 @@
+{
+	"parent": "minecraft:nether/root",
+	"display": {
+		"icon": {
+			"item": "minecraft:red_nether_bricks"
+		},
+		"title": {
+			"translate": "advancements.nether.find_citadel.title"
+		},
+		"description": {
+			"translate": "advancements.nether.find_citadel.description"
+		},
+		"show_toast": true,
+		"announce_to_chat": true,
+		"hidden": false
+	},
+	"criteria": {
+		"citadel": {
+			"conditions": {
+				"player": [
+					{
+						"condition": "minecraft:entity_properties",
+						"entity": "this",
+						"predicate": {
+							"location": {
+								"structure": "friendsandfoes:citadel"
+							}
+						}
+					}
+				]
+			},
+			"trigger": "minecraft:location"
+		}
+	},
+	"requirements": [
+		[
+			"citadel"
+		]
+	]
+}

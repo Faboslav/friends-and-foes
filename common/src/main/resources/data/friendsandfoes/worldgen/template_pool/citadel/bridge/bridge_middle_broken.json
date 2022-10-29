@@ -1,0 +1,33 @@
+{
+	"name": "friendsandfoes:citadel/bridge/bridge_middle_broken",
+	"fallback": "minecraft:empty",
+	"elements": [
+		{
+			"weight": 5,
+			"element": {
+				"location": "friendsandfoes:citadel/bridge/bridge_end_broken",
+				"processors": "friendsandfoes:citadel/citadel",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		},
+		{
+			"weight": 3,
+			"element": {
+				"location": "friendsandfoes:citadel/bridge/bridge_middle_broken",
+				"processors": "friendsandfoes:citadel/citadel",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		},
+		{
+			"weight": 1,
+			"element": {
+				"location": "friendsandfoes:citadel/bridge/bridge_end_broken",
+				"processors": "friendsandfoes:citadel/citadel",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		}
+	]
+}

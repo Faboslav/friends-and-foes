@@ -1,11 +1,11 @@
 {
-	"name": "friendsandfoes:citadel/bridge/bridge_opening",
+	"name": "friendsandfoes:citadel/bridge/bridge_end_broken",
 	"fallback": "minecraft:empty",
 	"elements": [
 		{
 			"weight": 1,
 			"element": {
-				"location": "friendsandfoes:citadel/bridge/bridge_opening",
+				"location": "friendsandfoes:citadel/bridge/bridge_end_broken",
 				"processors": "friendsandfoes:citadel/citadel",
 				"projection": "rigid",
 				"element_type": "minecraft:single_pool_element"

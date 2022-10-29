@@ -10,5 +10,9 @@
 		"spacing": 50,
 		"separation": 20,
 		"type": "minecraft:random_spread"
+	},
+	"exclusion_zone": {
+		"other_set": "minecraft:nether_complexes",
+		"chunk_count": 4
 	}
 }

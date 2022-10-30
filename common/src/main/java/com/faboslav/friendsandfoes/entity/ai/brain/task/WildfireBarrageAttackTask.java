@@ -20,7 +20,7 @@ public class WildfireBarrageAttackTask extends Task<WildfireEntity>
 	private int attackTargetIsNotVisibleTicks;
 
 	private final static int BARRAGE_ATTACK_DURATION = 180;
-	private final static int MAX_FIREBALLS_TO_BE_FIRED = 15;
+	private final static int MAX_FIREBALLS_TO_BE_FIRED = 30;
 
 	public WildfireBarrageAttackTask() {
 		super(ImmutableMap.of(
@@ -59,7 +59,7 @@ public class WildfireBarrageAttackTask extends Task<WildfireEntity>
 			attackTarget.isAlive() == false
 			|| wildfire.canTarget(attackTarget) == false
 		) {
-			attackTarget = wildfire.getBrain().getOptionalMemory(MemoryModuleType.NEAREST_ATTACKABLE).orElse(null);
+			attackTarget = wildfire.getBrain().getOptionalMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER).orElse(null);
 		}
 
 		if (
@@ -101,6 +101,10 @@ public class WildfireBarrageAttackTask extends Task<WildfireEntity>
 		double targetZ = this.attackTarget.getZ() - wildfire.getZ();
 
 		if (this.fireballCooldown > 0) {
+			if (wildfire.distanceTo(attackTarget) < 4.0F) {
+				wildfire.tryAttack(attackTarget);
+			}
+
 			this.fireballCooldown--;
 			return;
 		}

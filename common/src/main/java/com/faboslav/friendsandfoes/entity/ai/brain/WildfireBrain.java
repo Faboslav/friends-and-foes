@@ -17,14 +17,18 @@ import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.task.*;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
 
 import java.util.List;
+import java.util.Optional;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public final class WildfireBrain
 {
 	public static final List<MemoryModuleType<?>> MEMORY_MODULES;
 	public static final List<SensorType<? extends Sensor<? super WildfireEntity>>> SENSORS;
+	private static final UniformIntProvider barrageAttackCooldownProvider = UniformIntProvider.create(200, 300);
+	private static final UniformIntProvider shockwaveAttackCooldownProvider = UniformIntProvider.create(200, 300);
 
 	public WildfireBrain() {
 	}
@@ -54,11 +58,11 @@ public final class WildfireBrain
 			));
 	}
 
-	private static void addIdleActivities(
-		Brain<WildfireEntity> brain
-	) {
-		brain.setTaskList(Activity.IDLE,
+	private static void addIdleActivities(Brain<WildfireEntity> brain) {
+		brain.setTaskList(
+			Activity.IDLE,
 			ImmutableList.of(
+				Pair.of(0, new UpdateAttackTargetTask(wildfire -> getTarget((WildfireEntity) wildfire))),
 				Pair.of(0, new RandomTask(
 					ImmutableList.of(
 						Pair.of(new StrollTask(1.0F), 2),
@@ -69,7 +73,6 @@ public final class WildfireBrain
 			)
 		);
 	}
-
 
 	private static void addAttackActivities(
 		Brain<WildfireEntity> brain
@@ -101,17 +104,30 @@ public final class WildfireBrain
 	}
 
 	public static void setBarrageAttackCooldown(LivingEntity wildfire) {
-		wildfire.getBrain().remember(FriendsAndFoesMemoryModuleTypes.WILDFIRE_BARRAGE_ATTACK_COOLDOWN.get(), 200);
+		wildfire.getBrain().remember(FriendsAndFoesMemoryModuleTypes.WILDFIRE_BARRAGE_ATTACK_COOLDOWN.get(), barrageAttackCooldownProvider.get(wildfire.getRandom()));
 	}
 
 	public static void setShockwaveAttackCooldown(LivingEntity wildfire) {
-		wildfire.getBrain().remember(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get(), 200);
+		wildfire.getBrain().remember(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get(), shockwaveAttackCooldownProvider.get(wildfire.getRandom()));
 	}
 
 	public static void onAttacked(WildfireEntity wildfire, LivingEntity attacker) {
 		var attackTarget = wildfire.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET);
 		setAttackTarget(wildfire, attacker);
 		FriendsAndFoes.getLogger().info(attackTarget.toString());
+	}
+
+	private static Optional<? extends LivingEntity> getTarget(WildfireEntity wildfire) {
+		return getTargetIfInRange(wildfire, MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER);
+	}
+
+	private static Optional<? extends LivingEntity> getTargetIfInRange(
+		WildfireEntity wildfire,
+		MemoryModuleType<? extends LivingEntity> targetMemoryModule
+	) {
+		return wildfire.getBrain().getOptionalMemory(targetMemoryModule).filter((target) -> {
+			return target.isInRange(wildfire, WildfireEntity.GENERIC_FOLLOW_RANGE);
+		});
 	}
 
 	public static void setAttackTarget(WildfireEntity wildfire, LivingEntity target) {

@@ -83,7 +83,7 @@ public final class WildfireShockwaveAttackTask extends Task<WildfireEntity>
 		if (this.shockwaveTicks == SHOCKWAVE_DURATION) {
 			var closeEntities = wildfire.getWorld().getOtherEntities(
 				wildfire,
-				wildfire.getBoundingBox().expand(SHOCKWAVE_ATTACK_RANGE),
+				wildfire.getBoundingBox().expand(SHOCKWAVE_ATTACK_RANGE * 0.75F),
 				EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR
 			);
 

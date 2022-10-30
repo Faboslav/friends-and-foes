@@ -22,6 +22,7 @@ import java.util.Optional;
 
 /**
  * Inspired by use in Repurposed Structures mod by
+ *
  * @author TelepathicGrunt
  * <a href="https://github.com/TelepathicGrunt/RepurposedStructures">https://github.com/TelepathicGrunt/RepurposedStructures</a>
  */

@@ -100,6 +100,10 @@ public final class WildfireBrain
 		));
 	}
 
+	public static void setBarrageAttackCooldown(LivingEntity wildfire) {
+		wildfire.getBrain().remember(FriendsAndFoesMemoryModuleTypes.WILDFIRE_BARRAGE_ATTACK_COOLDOWN.get(), 200);
+	}
+
 	public static void setShockwaveAttackCooldown(LivingEntity wildfire) {
 		wildfire.getBrain().remember(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get(), 200);
 	}

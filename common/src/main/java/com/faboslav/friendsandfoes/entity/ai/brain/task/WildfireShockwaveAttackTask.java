@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.entity.ai.brain.task;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.WildfireEntity;
 import com.faboslav.friendsandfoes.entity.ai.brain.WildfireBrain;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
@@ -23,44 +22,43 @@ public final class WildfireShockwaveAttackTask extends Task<WildfireEntity>
 {
 	private final static int SHOCKWAVE_DURATION = 20;
 	private final static int SHOCKWAVE_PHASE_ONE_END_TICK = 15;
-	private final static float SHOCKWAVE_ATTACK_RANGE = 8.0F;
+	public final static float SHOCKWAVE_ATTACK_RANGE = 8.0F;
 
 	private int shockwaveTicks;
-	private PlayerEntity nearestVisiblePlayer;
+	private PlayerEntity targetPlayer;
 
 	public WildfireShockwaveAttackTask() {
 		super(ImmutableMap.of(
-			MemoryModuleType.NEAREST_VISIBLE_PLAYER, MemoryModuleState.VALUE_PRESENT,
+			MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER, MemoryModuleState.VALUE_PRESENT,
 			FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT
 		), SHOCKWAVE_DURATION);
 	}
 
 	@Override
 	protected boolean shouldRun(ServerWorld world, WildfireEntity wildfire) {
-		var nearestVisiblePlayer = wildfire.getBrain().getOptionalMemory(MemoryModuleType.NEAREST_VISIBLE_PLAYER);
-
-		if (nearestVisiblePlayer.isEmpty()) {
-			return false;
-		}
-
-		this.nearestVisiblePlayer = nearestVisiblePlayer.get();
+		var targetPlayer = wildfire.getBrain().getOptionalMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER).orElse(null);
 
 		if (
-			wildfire.distanceTo(this.nearestVisiblePlayer) > SHOCKWAVE_ATTACK_RANGE
-			|| this.nearestVisiblePlayer.isAlive() == false
+			targetPlayer == null
+			|| wildfire.distanceTo(targetPlayer) > SHOCKWAVE_ATTACK_RANGE
+			|| targetPlayer.isAlive() == false
+			|| wildfire.canTarget(targetPlayer) == false
 		) {
 			return false;
 		}
+
+		this.targetPlayer = targetPlayer;
 
 		return true;
 	}
 
 	@Override
 	protected void run(ServerWorld world, WildfireEntity wildfire, long time) {
-		wildfire.getNavigation().stop();
 		wildfire.getBrain().forget(MemoryModuleType.WALK_TARGET);
-		WildfireBrain.setAttackTarget(wildfire, this.nearestVisiblePlayer);
-		LookTargetUtil.lookAt(wildfire, this.nearestVisiblePlayer);
+		WildfireBrain.setAttackTarget(wildfire, this.targetPlayer);
+		LookTargetUtil.lookAt(wildfire, this.targetPlayer);
+
+		wildfire.getNavigation().stop();
 		wildfire.playShockwaveSound();
 	}
 
@@ -79,8 +77,8 @@ public final class WildfireShockwaveAttackTask extends Task<WildfireEntity>
 			wildfire.addVelocity(0.0F, -1.0F, 0.0F);
 		}
 
-		LookTargetUtil.lookAt(wildfire, this.nearestVisiblePlayer);
 		wildfire.move(MovementType.SELF, wildfire.getVelocity());
+		wildfire.getLookControl().lookAt(this.targetPlayer);
 
 		if (this.shockwaveTicks == SHOCKWAVE_DURATION) {
 			var closeEntities = wildfire.getWorld().getOtherEntities(
@@ -94,7 +92,6 @@ public final class WildfireShockwaveAttackTask extends Task<WildfireEntity>
 					continue;
 				}
 
-				FriendsAndFoes.getLogger().info("should attack: " + closeEntity.toString());
 				this.spawnShockwaveParticles(wildfire);
 				wildfire.tryAttack(closeEntity);
 			}

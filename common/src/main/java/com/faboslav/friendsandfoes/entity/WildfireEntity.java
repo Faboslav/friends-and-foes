@@ -134,6 +134,14 @@ public final class WildfireEntity extends HostileEntity
 		this.setTicksUntilShieldRegeneration(nbt.getInt(TICKS_UNTIL_SHIELD_REGENERATION_NBT_NAME));
 	}
 
+	public SoundEvent getShootSound() {
+		return FriendsAndFoesSoundEvents.ENTITY_WILDFIRE_SHOOT.get();
+	}
+
+	public void playShootSound() {
+		this.playSound(this.getShootSound(), 1.0F, 1.0F);
+	}
+
 	public SoundEvent getShockwaveSound() {
 		return FriendsAndFoesSoundEvents.ENTITY_WILDFIRE_SHOCKWAVE.get();
 	}
@@ -221,7 +229,7 @@ public final class WildfireEntity extends HostileEntity
 		DamageSource source,
 		float amount
 	) {
-		if (this.world.isClient) {
+		if (source == DamageSource.IN_FIRE) {
 			return false;
 		}
 

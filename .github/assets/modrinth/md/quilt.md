@@ -1,6 +1,8 @@
 <img title="Friends&amp;Foes" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/title.jpg" alt="Friends&amp;Foes">
 
-<p style="text-align: center;">
+<p></p>
+
+<p align="center">
 	<a style="text-decoration: none;" href="https://ko-fi.com/faboslav">
 		<img src="https://img.shields.io/static/v1?label=&amp;message=Ko-fi&amp;color=ff5f5f&amp;labelColor=111214&amp;logoColor=white&amp;style=for-the-badge&amp;logo=ko-fi" height="28" />
 	</a>
@@ -10,119 +12,66 @@
 	<a style="text-decoration: none;" href="https://discord.gg/QGwFvvMQCn">
 		<img src="https://img.shields.io/discord/924964658169913404?color=5865F2&amp;label=&amp;labelColor=111214&amp;logoColor=white&amp;style=for-the-badge&amp;logo=discord" height="28" />
 	</a>
-	<a style="text-decoration: none;" href="https://www.curseforge.com/minecraft/mc-mods/fabric-api">
+	<a style="text-decoration: none;" href="https://modrinth.com/mod/fabric-api">
 		<img src="https://img.shields.io/static/v1?label=&amp;message=Requires Fabric API&amp;color=c9d1d9&amp;labelColor=111214&amp;logoColor=white&amp;style=for-the-badge&amp;logo=curseforge" width="208" height="28" />
 	</a>
-	<a style="text-decoration: none;" href="https://www.curseforge.com/minecraft/mc-mods/architectury-api">
+	<a style="text-decoration: none;" href="https://modrinth.com/mod/architectury-api">
 		<img src="https://img.shields.io/static/v1?label=&amp;message=Requires Architectury API&amp;color=c9d1d9&amp;labelColor=111214&amp;logoColor=white&amp;style=for-the-badge&amp;logo=curseforge" width="260" height="28" />
 	</a>
 </p>
 
-<p>
-	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/curseforge/images/divider.png">
-</p>
+<hr>
 
 <p>
 	<span style="font-size: 14px;">Friends&amp;Foes adds all eliminated mobs from the minecraft mob votes along with the forgotten mobs like the Illusioner. One of the main goals is to also further expand upon original concepts and add new vanilla like features related to all the mobs.</span>
 </p>
 <p>
-	<span style="font-size: 14px;">You can check <a style="font-size: 14px;" title="wiki" href="https://github.com/Faboslav/friends-and-foes/wiki" target="_blank" rel="noopener noreferrer">wiki</a> for a detailed overview of implemented mobs and features. Looking for the <a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/friends-and-foes">Fabric</a> or <a style="font-size: 14px;" href="https://www.curseforge.com/minecraft/mc-mods/friends-and-foes-forge">Forge</a> version?</span>
+	<span style="font-size: 14px;">You can check <a style="font-size: 14px;" title="wiki" href="https://github.com/Faboslav/friends-and-foes/wiki" target="_blank" rel="noopener noreferrer">wiki</a> for a detailed overview of implemented mobs and features. Looking for the <a style="font-size: 14px;" href="https://modrinth.com/mod/friends-and-foes">Fabric</a> or <a style="font-size: 14px;" href="https://modrinth.com/mod/friends-and-foes-forge">Forge</a> version?</span>
+</p>
+
+<hr>
+
+<p>
+	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/copper_golem.png" width="412" height="232" />
+	<span>&emsp;&emsp;</span>
+	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/glare.png" width="412" height="232" />
 </p>
 
 <p>
-	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/curseforge/images/divider.png">
+	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/moobloom.png" width="412" height="232" />
+	<span>&emsp;&emsp;</span>
+	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/beekeeper.png" width="412" height="232" />
 </p>
 
-<table style="text-align: center;">
-	<tbody>
-	<tr>
-		<td><img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/copper_golem.png" width="410" height="231" /></td>
-		<td>&emsp;&emsp;</td>
-		<td><img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/glare.png" width="410" height="231" /></td>
-	</tr>
-	<tr>
-		<td><strong style="font-size: 14px;">Unaffected and exposed copper golems</strong></td>
-		<td>&emsp;&emsp;</td>
-		<td><strong style="font-size: 14px;">Glare flying in the lush caves</strong></td>
-	</tr>
-	<tr>
-		<td>&nbsp;</td>
-	</tr>
-	<tr>
-		<td><img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/moobloom.png" width="410" height="231" /></td>
-		<td>&emsp;&emsp;</td>
-		<td><img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/beekeeper.png" width="410" height="231" /></td>
-	</tr>
-	<tr>
-		<td><strong style="font-size: 14px;">Bee pollinating moobloom's flowers</strong></td>
-		<td>&emsp;&emsp;</td>
-		<td><strong style="font-size: 14px;">Beekeeper with a new village structure</strong></td>
-	</tr>
-	<tr>
-		<td>&nbsp;</td>
-	</tr>
-	<tr>
-		<td><img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/iceologer.png" width="410" height="231" /></td>
-		<td>&emsp;&emsp;</td>
-		<td><img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/iceologer_cabin.png" width="410" height="231" /></td>
-	</tr>
-	<tr>
-		<td><strong style="font-size: 14px;">Iceologer summoning ice chunk</strong></td>
-		<td>&emsp;&emsp;</td>
-		<td><strong style="font-size: 14px;">Iceologer Cabin structure in the snowy taiga biome</strong></td>
-	</tr>
-	<tr>
-		<td>&nbsp;</td>
-	</tr>
-	<tr>
-		<td><img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/illusioner.png" width="410" height="231" /></td>
-		<td>&emsp;&emsp;</td>
-		<td><img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/illusioner_shack.png" width="410" height="231" /></td>
-	</tr>
-	<tr>
-		<td><strong style="font-size: 14px;">Illusioner shooting villager with his bow</strong></td>
-		<td>&emsp;&emsp;</td>
-		<td><strong style="font-size: 14px;">Illusioner Shack structure in the taiga biome</strong></td>
-	</tr>
-	<tr>
-		<td>&nbsp;</td>
-	</tr>
-	<tr>
-		<td><img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/beehive.png" width="410" height="231" /></td>
-		<td>&emsp;&emsp;</td>
-		<td><img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/copper_button.png" width="410" height="231" /></td>
-	</tr>
-	<tr>
-		<td><strong style="font-size: 14px;">One beehive for each wood variant</strong></td>
-		<td>&emsp;&emsp;</td>
-		<td><strong style="font-size: 14px;">All four stages of the copper button</strong></td>
-	</tr>
-	<tr>
-		<td>&nbsp;</td>
-	</tr>
-	<tr>
-		<td><img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/copper_golem_workstation.png" width="410" height="231" /></td>
-		<td>&emsp;&emsp;</td>
-		<td><img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/mauler.png" width="410" height="231" /></td>
-	</tr>
-	<tr>
-		<td><strong style="font-size: 14px;">One of four variants of copper golem workstation structures</strong></td>
-		<td>&emsp;&emsp;</td>
-		<td><strong style="font-size: 14px;">Maulers trying to eat the chicken</strong></td>
-	</tr>
-	<tr>
-		<td>&nbsp;</td>
-	</tr>
-	</tbody>
-</table>
+<p>
+	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/iceologer.png" width="412" height="232" />
+	<span>&emsp;&emsp;</span>
+	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/iceologer_cabin.png" width="412" height="232" />
+</p>
+
+<p>
+	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/illusioner.png" width="412" height="232" />
+	<span>&emsp;&emsp;</span>
+	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/illusioner_shack.png" width="412" height="232" />
+</p>
+
+<p>
+	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/beehive.png" width="412" height="232" />
+	<span>&emsp;&emsp;</span>
+	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/copper_button.png" width="412" height="232" />
+</p>
+
+<p>
+	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/copper_golem_workstation.png" width="412" height="232" />
+	<span>&emsp;&emsp;</span>
+	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/mauler.png" width="412" height="232" />
+</p>
 
 <br>
 
 <h2>Features</h2>
 
-<p>
-	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/curseforge/images/divider.png">
-</p>
+<hr>
 
 <p>
 	<span style="font-size: 14px;">Following features are currently already fully working in the game, you can check <a style="font-size: 14px;" title="wiki" href="https://github.com/Faboslav/friends-and-foes/wiki" target="_blank" rel="noopener noreferrer">wiki</a> for more info or click on the links to the specific wiki pages for the full description.</a>
@@ -181,9 +130,7 @@
 
 <h2>Roadmap</h2>
 
-<p>
-	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/curseforge/images/divider.png">
-</p>
+<hr>
 
 <p>
 	<span style="font-size: 14px;">I am currently working on the Wildfire (Hovering Inferno). Following mobs are planned to be implemented:</span>
@@ -199,9 +146,7 @@
 
 <h2>Support</h2>
 
-<p>
-	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/curseforge/images/divider.png">
-</p>
+<hr>
 
 <p><span style="font-size: 14px;">I will continue to develop my mods regardless of any support as it is my hobby, although most of my free time goes into development of my mods. So if you want to support me anyway, you can do that via <a style="font-size: 14px;" href="https://www.patreon.com/Faboslav">Patreon</a> or <a style="font-size: 14px;" href="https://ko-fi.com/faboslav">Ko-fi</a>. I appreciate that.</span></p>
 
@@ -209,9 +154,8 @@
 
 <h2>License</h2>
 
-<p>
-	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/curseforge/images/divider.png">
-</p>
+<hr>
+
 <p>
 	<span style="font-size: 14px;">The mod is licensed with <a style="font-size: 14px;" href="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/LICENSE.txt">CC BY-NC-ND 4.0</a> license.</span>
 </p>

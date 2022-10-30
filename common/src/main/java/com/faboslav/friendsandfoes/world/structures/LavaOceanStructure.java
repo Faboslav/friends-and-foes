@@ -20,6 +20,11 @@ import net.minecraft.world.gen.structure.StructureType;
 
 import java.util.Optional;
 
+/**
+ * Inspired by use in Repurposed Structures mod by
+ * @author TelepathicGrunt
+ * <a href="https://github.com/TelepathicGrunt/RepurposedStructures">https://github.com/TelepathicGrunt/RepurposedStructures</a>
+ */
 public class LavaOceanStructure extends Structure
 {
 	public static final Codec<LavaOceanStructure> CODEC = RecordCodecBuilder.<LavaOceanStructure>mapCodec(instance ->

@@ -3,11 +3,9 @@ package com.faboslav.friendsandfoes.entity;
 import com.faboslav.friendsandfoes.entity.ai.brain.WildfireBrain;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import com.mojang.serialization.Dynamic;
-import net.minecraft.entity.EntityData;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -15,10 +13,11 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.*;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -210,8 +209,8 @@ public final class WildfireEntity extends HostileEntity
 	}
 
 	public void tickMovement() {
-		if (!this.onGround && this.getVelocity().y < 0.0) {
-			this.setVelocity(this.getVelocity().multiply(1.0, 0.6, 1.0));
+		if (this.onGround == false && this.getVelocity().y < 0.0F) {
+			this.setVelocity(this.getVelocity().multiply(1.0F, 0.6F, 1.0F  ));
 		}
 
 		super.tickMovement();
@@ -221,6 +220,10 @@ public final class WildfireEntity extends HostileEntity
 		DamageSource source,
 		float amount
 	) {
+		if (this.world.isClient) {
+			return false;
+		}
+
 		if (this.hasActiveShields()) {
 			this.damageAmountCounter += amount;
 			float shieldBreakDamageThreshold = (float) this.getAttributeValue(EntityAttributes.GENERIC_MAX_HEALTH) * 0.25F;
@@ -236,7 +239,13 @@ public final class WildfireEntity extends HostileEntity
 
 		this.resetTicksUntilShieldRegeneration();
 
-		return super.damage(source, amount);
+		boolean damageResult = super.damage(source, amount);
+
+		if (damageResult && source.getAttacker() instanceof LivingEntity) {
+			WildfireBrain.onAttacked(this, (LivingEntity)source.getAttacker());
+		}
+
+		return damageResult;
 	}
 
 	@Override

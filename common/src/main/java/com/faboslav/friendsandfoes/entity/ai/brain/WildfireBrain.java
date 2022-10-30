@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.entity.ai.brain;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.WildfireEntity;
 import com.faboslav.friendsandfoes.entity.ai.brain.task.WildfireBarrageAttackTask;
 import com.faboslav.friendsandfoes.entity.ai.brain.task.WildfireShockwaveAttackTask;
@@ -8,6 +9,7 @@ import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.Brain;
@@ -16,6 +18,9 @@ import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.task.*;
+import net.minecraft.entity.mob.HoglinEntity;
+import net.minecraft.entity.mob.PiglinEntity;
+import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.List;
 
@@ -85,7 +90,6 @@ public final class WildfireBrain
 			FriendsAndFoesActivities.WILDFIRE_BARRAGE_ATTACK.get(),
 			ImmutableList.of(Pair.of(0, new WildfireBarrageAttackTask())),
 			ImmutableSet.of(
-				Pair.of(MemoryModuleType.NEAREST_ATTACKABLE, MemoryModuleState.VALUE_PRESENT),
 				Pair.of(MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_PRESENT),
 				Pair.of(FriendsAndFoesMemoryModuleTypes.WILDFIRE_BARRAGE_ATTACK_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT)
 			)
@@ -104,6 +108,17 @@ public final class WildfireBrain
 		wildfire.getBrain().remember(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get(), 200);
 	}
 
+	public static void onAttacked(WildfireEntity wildfire, LivingEntity attacker) {
+		var attackTarget = wildfire.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET);
+		setAttackTarget(wildfire, attacker);
+		FriendsAndFoes.getLogger().info(attackTarget.toString());
+	}
+
+	public static void setAttackTarget(WildfireEntity wildfire, LivingEntity target) {
+		wildfire.getBrain().forget(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE);
+		wildfire.getBrain().remember(MemoryModuleType.ATTACK_TARGET, target, 200L);
+	}
+
 	static {
 		SENSORS = List.of(
 			SensorType.NEAREST_PLAYERS,
@@ -113,9 +128,7 @@ public final class WildfireBrain
 			MemoryModuleType.PATH,
 			MemoryModuleType.MOBS,
 			MemoryModuleType.VISIBLE_MOBS,
-			MemoryModuleType.NEAREST_VISIBLE_PLAYER,
 			MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER,
-			MemoryModuleType.NEAREST_ATTACKABLE,
 			MemoryModuleType.ATTACK_TARGET,
 			MemoryModuleType.LOOK_TARGET,
 			MemoryModuleType.WALK_TARGET,

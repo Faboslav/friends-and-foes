@@ -217,9 +217,4 @@ public abstract class LightningRodBlockMixin extends RodBlock implements Oxidiza
 	public boolean hasRandomTicks(BlockState state) {
 		return Oxidizable.getIncreasedOxidationBlock(state.getBlock()).isPresent();
 	}
-
-	@Override
-	public OxidationLevel getDegradationLevel() {
-		return net.minecraft.block.Oxidizable.OxidationLevel.UNAFFECTED;
-	}
 }

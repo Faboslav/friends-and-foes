@@ -1,3 +1,8 @@
+## mc1.19.2-1.5.12, October 31, 2022
+
+- Fixed conflicts(crashes) with another mod
+- Fixed villagers not running from the iceologers
+
 ## mc1.19.2-1.5.11, September 30, 2022
 
 - Glare is now breedable (it can have children)

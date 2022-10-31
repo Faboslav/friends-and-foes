@@ -16,6 +16,7 @@ public class WildfireBarrageAttackTask extends Task<WildfireEntity>
 {
 	private int fireballsFired;
 	private int fireballCooldown;
+	private boolean canDoMeeleAttack;
 	private LivingEntity attackTarget;
 	private int attackTargetIsNotVisibleTicks;
 
@@ -51,6 +52,7 @@ public class WildfireBarrageAttackTask extends Task<WildfireEntity>
 		wildfire.getNavigation().stop();
 		this.fireballsFired = 0;
 		this.attackTargetIsNotVisibleTicks = 0;
+		this.canDoMeeleAttack = true;
 	}
 
 	@Override
@@ -101,8 +103,9 @@ public class WildfireBarrageAttackTask extends Task<WildfireEntity>
 		double targetZ = this.attackTarget.getZ() - wildfire.getZ();
 
 		if (this.fireballCooldown > 0) {
-			if (wildfire.distanceTo(attackTarget) < 4.0F) {
+			if (this.canDoMeeleAttack && wildfire.distanceTo(attackTarget) < 3.0F) {
 				wildfire.tryAttack(attackTarget);
+				this.canDoMeeleAttack = false;
 			}
 
 			this.fireballCooldown--;
@@ -154,6 +157,7 @@ public class WildfireBarrageAttackTask extends Task<WildfireEntity>
 	protected void finishRunning(ServerWorld world, WildfireEntity wildfire, long time) {
 		this.fireballsFired = 0;
 		this.attackTargetIsNotVisibleTicks = 0;
+		this.canDoMeeleAttack = true;
 		WildfireBrain.setBarrageAttackCooldown(wildfire);
 	}
 }

@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.entity.ai.brain;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.WildfireEntity;
 import com.faboslav.friendsandfoes.entity.ai.brain.task.WildfireBarrageAttackTask;
 import com.faboslav.friendsandfoes.entity.ai.brain.task.WildfireShockwaveAttackTask;
@@ -10,6 +9,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
@@ -17,6 +17,7 @@ import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.task.*;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public final class WildfireBrain
 	public static final List<SensorType<? extends Sensor<? super WildfireEntity>>> SENSORS;
 	private static final UniformIntProvider barrageAttackCooldownProvider = UniformIntProvider.create(200, 300);
 	private static final UniformIntProvider shockwaveAttackCooldownProvider = UniformIntProvider.create(200, 300);
+	private static final TargetPredicate VALID_TARGET_PLAYER_PREDICATE = TargetPredicate.createAttackable().setBaseMaxDistance(WildfireEntity.GENERIC_FOLLOW_RANGE);
 
 	public WildfireBrain() {
 	}
@@ -49,8 +51,6 @@ public final class WildfireBrain
 		brain.setTaskList(Activity.CORE,
 			0,
 			ImmutableList.of(
-				new StayAboveWaterTask(0.8F),
-				new WalkTask(2.5F),
 				new LookAroundTask(45, 90),
 				new WanderAroundTask(),
 				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.WILDFIRE_BARRAGE_ATTACK_COOLDOWN.get()),
@@ -112,22 +112,19 @@ public final class WildfireBrain
 	}
 
 	public static void onAttacked(WildfireEntity wildfire, LivingEntity attacker) {
-		var attackTarget = wildfire.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET);
 		setAttackTarget(wildfire, attacker);
-		FriendsAndFoes.getLogger().info(attackTarget.toString());
 	}
 
 	private static Optional<? extends LivingEntity> getTarget(WildfireEntity wildfire) {
-		return getTargetIfInRange(wildfire, MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER);
-	}
+		PlayerEntity nearestVisibleTargetablePlayer = wildfire.getBrain().getOptionalMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER).orElse(
+			wildfire.getWorld().getClosestPlayer(VALID_TARGET_PLAYER_PREDICATE, wildfire, wildfire.getX(), wildfire.getEyeY(), wildfire.getZ())
+		);
 
-	private static Optional<? extends LivingEntity> getTargetIfInRange(
-		WildfireEntity wildfire,
-		MemoryModuleType<? extends LivingEntity> targetMemoryModule
-	) {
-		return wildfire.getBrain().getOptionalMemory(targetMemoryModule).filter((target) -> {
-			return target.isInRange(wildfire, WildfireEntity.GENERIC_FOLLOW_RANGE);
-		});
+		if (nearestVisibleTargetablePlayer == null) {
+			return Optional.empty();
+		}
+
+		return Optional.of(nearestVisibleTargetablePlayer);
 	}
 
 	public static void setAttackTarget(WildfireEntity wildfire, LivingEntity target) {

@@ -31,7 +31,7 @@ public final class WildfireEntity extends HostileEntity
 	private float eyeOffset = 0.5F;
 	private int eyeOffsetCooldown;
 
-	public static final float GENERIC_FOLLOW_RANGE = 48.0F;
+	public static final float GENERIC_FOLLOW_RANGE = 32.0F;
 
 	public static final int DEFAULT_ACTIVE_SHIELDS_COUNT = 4;
 	public static final int DEFAULT_TICKS_UNTIL_SHIELD_REGENERATION = 300;
@@ -107,11 +107,11 @@ public final class WildfireEntity extends HostileEntity
 
 	public static DefaultAttributeContainer.Builder createAttributes() {
 		return HostileEntity.createHostileAttributes()
-			.add(EntityAttributes.GENERIC_MAX_HEALTH, 80.0F)
+			.add(EntityAttributes.GENERIC_MAX_HEALTH, 100.0F)
 			.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 10.0F)
-			.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 10.0F)
+			.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 15.0F)
 			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.23000000417232513)
-			.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 48.0F)
+			.add(EntityAttributes.GENERIC_FOLLOW_RANGE, GENERIC_FOLLOW_RANGE)
 			.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0F);
 	}
 

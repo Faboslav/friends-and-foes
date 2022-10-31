@@ -28,9 +28,9 @@ public final class WildfireBrain
 {
 	public static final List<MemoryModuleType<?>> MEMORY_MODULES;
 	public static final List<SensorType<? extends Sensor<? super WildfireEntity>>> SENSORS;
-	private static final UniformIntProvider barrageAttackCooldownProvider = UniformIntProvider.create(200, 300);
-	private static final UniformIntProvider shockwaveAttackCooldownProvider = UniformIntProvider.create(200, 300);
-	private static final TargetPredicate VALID_TARGET_PLAYER_PREDICATE = TargetPredicate.createAttackable().setBaseMaxDistance(WildfireEntity.GENERIC_FOLLOW_RANGE);
+	private static final UniformIntProvider BARRAGE_ATTACK_COOLDOWN_PROVIDER;
+	private static final UniformIntProvider SHOCKWAVE_ATTACK_COOLDOWN_PROVIDER;
+	private static final TargetPredicate VALID_TARGET_PLAYER_PREDICATE;
 
 	public WildfireBrain() {
 	}
@@ -104,11 +104,11 @@ public final class WildfireBrain
 	}
 
 	public static void setBarrageAttackCooldown(LivingEntity wildfire) {
-		wildfire.getBrain().remember(FriendsAndFoesMemoryModuleTypes.WILDFIRE_BARRAGE_ATTACK_COOLDOWN.get(), barrageAttackCooldownProvider.get(wildfire.getRandom()));
+		wildfire.getBrain().remember(FriendsAndFoesMemoryModuleTypes.WILDFIRE_BARRAGE_ATTACK_COOLDOWN.get(), BARRAGE_ATTACK_COOLDOWN_PROVIDER.get(wildfire.getRandom()));
 	}
 
 	public static void setShockwaveAttackCooldown(LivingEntity wildfire) {
-		wildfire.getBrain().remember(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get(), shockwaveAttackCooldownProvider.get(wildfire.getRandom()));
+		wildfire.getBrain().remember(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get(), SHOCKWAVE_ATTACK_COOLDOWN_PROVIDER.get(wildfire.getRandom()));
 	}
 
 	public static void onAttacked(WildfireEntity wildfire, LivingEntity attacker) {
@@ -149,5 +149,8 @@ public final class WildfireBrain
 			FriendsAndFoesMemoryModuleTypes.WILDFIRE_BARRAGE_ATTACK_COOLDOWN.get(),
 			FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get()
 		);
+		BARRAGE_ATTACK_COOLDOWN_PROVIDER = UniformIntProvider.create(150, 300);
+		SHOCKWAVE_ATTACK_COOLDOWN_PROVIDER = UniformIntProvider.create(150, 300);
+		VALID_TARGET_PLAYER_PREDICATE = TargetPredicate.createAttackable().setBaseMaxDistance(WildfireEntity.GENERIC_FOLLOW_RANGE);
 	}
 }

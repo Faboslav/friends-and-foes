@@ -70,14 +70,14 @@ public abstract class LightningRodBlockMixin extends RodBlock implements Oxidiza
 		CallbackInfo ci
 	) {
 		if (oldState.isOf(state.getBlock()) == false) {
-			this.tryToSpawnCopperGolem(
+			this.friendsandfoes_tryToSpawnCopperGolem(
 				world,
 				pos
 			);
 		}
 	}
 
-	private void tryToSpawnCopperGolem(
+	private void friendsandfoes_tryToSpawnCopperGolem(
 		World world,
 		BlockPos pos
 	) {
@@ -85,7 +85,7 @@ public abstract class LightningRodBlockMixin extends RodBlock implements Oxidiza
 			return;
 		}
 
-		BlockPattern.Result patternSearchResult = this.getCopperGolemPattern().searchAround(world, pos);
+		BlockPattern.Result patternSearchResult = this.friendsandfoes_getCopperGolemPattern().searchAround(world, pos);
 
 		if (patternSearchResult == null) {
 			return;
@@ -127,7 +127,7 @@ public abstract class LightningRodBlockMixin extends RodBlock implements Oxidiza
 			return;
 		}
 
-		for (int i = 0; i < this.getCopperGolemPattern().getHeight(); ++i) {
+		for (int i = 0; i < this.friendsandfoes_getCopperGolemPattern().getHeight(); ++i) {
 			CachedBlockPosition cachedBlockPosition = patternSearchResult.translate(0, i, 0);
 			world.setBlockState(
 				cachedBlockPosition.getBlockPos(),
@@ -157,8 +157,8 @@ public abstract class LightningRodBlockMixin extends RodBlock implements Oxidiza
 		copperGolemEntity.setOxidationLevel(bodyOxidationLevel);
 
 		if (lightningRodOxidationLevel != Oxidizable.OxidationLevel.OXIDIZED) {
-			boolean isHeadBlockWaxed = this.isCopperBlockWaxed(headBlockState);
-			boolean isBodyBlockWaxed = this.isCopperBlockWaxed(bodyBlockState);
+			boolean isHeadBlockWaxed = this.friendsandfoes_isCopperBlockWaxed(headBlockState);
+			boolean isBodyBlockWaxed = this.friendsandfoes_isCopperBlockWaxed(bodyBlockState);
 			boolean isWaxed = isHeadBlockWaxed && isBodyBlockWaxed;
 			copperGolemEntity.setIsWaxed(isWaxed);
 		}
@@ -170,13 +170,13 @@ public abstract class LightningRodBlockMixin extends RodBlock implements Oxidiza
 			Criteria.SUMMONED_ENTITY.trigger(serverPlayerEntity, copperGolemEntity);
 		}
 
-		for (int j = 0; j < this.getCopperGolemPattern().getHeight(); ++j) {
+		for (int j = 0; j < this.friendsandfoes_getCopperGolemPattern().getHeight(); ++j) {
 			CachedBlockPosition cachedBlockPosition2 = patternSearchResult.translate(0, j, 0);
 			world.updateNeighbors(cachedBlockPosition2.getBlockPos(), Blocks.AIR);
 		}
 	}
 
-	private BlockPattern getCopperGolemPattern() {
+	private BlockPattern friendsandfoes_getCopperGolemPattern() {
 		if (this.copperGolemPattern == null) {
 			this.copperGolemPattern = BlockPatternBuilder.start()
 				.aisle("|", "^", "#")
@@ -189,7 +189,7 @@ public abstract class LightningRodBlockMixin extends RodBlock implements Oxidiza
 		return this.copperGolemPattern;
 	}
 
-	private boolean isCopperBlockWaxed(
+	private boolean friendsandfoes_isCopperBlockWaxed(
 		BlockState blockState
 	) {
 		return blockState.isOf(Blocks.WAXED_COPPER_BLOCK)
@@ -216,10 +216,5 @@ public abstract class LightningRodBlockMixin extends RodBlock implements Oxidiza
 	@Override
 	public boolean hasRandomTicks(BlockState state) {
 		return Oxidizable.getIncreasedOxidationBlock(state.getBlock()).isPresent();
-	}
-
-	@Override
-	public OxidationLevel getDegradationLevel() {
-		return net.minecraft.block.Oxidizable.OxidationLevel.UNAFFECTED;
 	}
 }

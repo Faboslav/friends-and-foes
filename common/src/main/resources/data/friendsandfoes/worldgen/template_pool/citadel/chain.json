@@ -3,7 +3,7 @@
 	"fallback": "minecraft:empty",
 	"elements": [
 		{
-			"weight": 1,
+			"weight": 5,
 			"element": {
 				"location": "friendsandfoes:citadel/chain/chain1",
 				"processors": "minecraft:empty",
@@ -12,7 +12,7 @@
 			}
 		},
 		{
-			"weight": 1,
+			"weight": 2,
 			"element": {
 				"location": "friendsandfoes:citadel/chain/chain2",
 				"processors": "minecraft:empty",
@@ -21,7 +21,7 @@
 			}
 		},
 		{
-			"weight": 1,
+			"weight": 2,
 			"element": {
 				"location": "friendsandfoes:citadel/chain/chain3",
 				"processors": "minecraft:empty",
@@ -30,7 +30,7 @@
 			}
 		},
 		{
-			"weight": 1,
+			"weight": 3,
 			"element": {
 				"location": "friendsandfoes:citadel/chain/chain4",
 				"processors": "minecraft:empty",
@@ -39,7 +39,7 @@
 			}
 		},
 		{
-			"weight": 1,
+			"weight": 3,
 			"element": {
 				"location": "friendsandfoes:citadel/chain/chain5",
 				"processors": "minecraft:empty",

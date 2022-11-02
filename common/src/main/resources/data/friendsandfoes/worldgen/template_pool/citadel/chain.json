@@ -3,7 +3,7 @@
 	"fallback": "minecraft:empty",
 	"elements": [
 		{
-			"weight": 5,
+			"weight": 7,
 			"element": {
 				"location": "friendsandfoes:citadel/chain/chain1",
 				"processors": "minecraft:empty",

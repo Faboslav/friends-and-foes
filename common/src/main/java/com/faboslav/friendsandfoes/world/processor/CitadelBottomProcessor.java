@@ -11,6 +11,7 @@ import net.minecraft.structure.processor.StructureProcessorType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.ChunkRegion;
 import net.minecraft.world.WorldView;
 
@@ -69,11 +70,14 @@ public final class CitadelBottomProcessor extends StructureProcessor
 			);
 			BlockPos.Mutable mutable = blockInfoGlobal.pos.mutableCopy().move(Direction.DOWN);
 			BlockState currentBlockState = worldView.getBlockState(mutable);
+			Random random = structurePlacementData.getRandom(blockInfoGlobal.pos);
 
-			while (mutable.getY() > worldView.getBottomY()
-				   && mutable.getY() < worldView.getTopY()
-				   && (currentBlockState.isAir() || !worldView.getFluidState(mutable).isEmpty())) {
-				worldView.getChunk(mutable).setBlockState(mutable, this.targetBlockOutput, false);
+			while (
+				mutable.getY() > worldView.getBottomY()
+				&& mutable.getY() < worldView.getTopY()
+				&& (currentBlockState.isAir() || !worldView.getFluidState(mutable).isEmpty())
+			) {
+				worldView.getChunk(mutable).setBlockState(mutable, targetBlockOutput, false);
 				mutable.move(Direction.DOWN);
 				currentBlockState = worldView.getBlockState(mutable);
 			}
@@ -83,6 +87,6 @@ public final class CitadelBottomProcessor extends StructureProcessor
 	}
 
 	protected StructureProcessorType<?> getType() {
-		return FriendsAndFoesStructureProcessorTypes.CITADEL_BOTTOM__PROCESSOR;
+		return FriendsAndFoesStructureProcessorTypes.CITADEL_BOTTOM_PROCESSOR;
 	}
 }

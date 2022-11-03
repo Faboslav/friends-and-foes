@@ -1,38 +1,38 @@
 {
-  "required": true,
-  "package": "com.faboslav.friendsandfoes.mixin",
-  "compatibilityLevel": "JAVA_17",
-  "minVersion": "0.8",
-  "injectors": {
-    "defaultRequire": 1
-  },
-  "mixins": [
-    "AbstractButtonBlockMixin",
-    "AxeItemMixin",
-    "BeeEntityAccessor",
-    "BeeEntityMixin",
-    "BlindTargetGoalFactory",
-    "ChickenEntityMixin",
-    "HoneycombItemMixin",
-    "IllusionerEntityMixin",
-    "LightningEntityMixin",
-    "LightningRodBlockDegradableMixin",
-    "LightningRodBlockMixin",
-    "PatrolSpawnerAccessor",
-    "PatrolSpawnerMixin",
-    "PointOfInterestTypesMixin",
-    "RabbitEntityMixin",
-    "RaidMemberMixin",
-    "RaidMixin",
-    "ServerWorldAccessor",
-    "SpawnRestrictionAccessor",
-    "StructurePoolMixin",
-    "VillagerHostilesSensorMixin",
-    "VillagerTaskListProviderMixin"
-  ],
-  "client": [
-    "IllusionerEntityRendererMixin",
-    "ModelPartAccessor"
-  ],
-  "plugin": "com.faboslav.friendsandfoes.util.plugin.MixinExtrasPlugin"
+	"required": true,
+	"package": "com.faboslav.friendsandfoes.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"minVersion": "0.8",
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"mixins": [
+		"AbstractButtonBlockMixin",
+		"AxeItemMixin",
+		"BeeEntityAccessor",
+		"BeeEntityMixin",
+		"BlindTargetGoalFactory",
+		"ChickenEntityMixin",
+		"HoneycombItemMixin",
+		"IllusionerEntityMixin",
+		"LightningEntityMixin",
+		"LightningRodBlockDegradableMixin",
+		"LightningRodBlockMixin",
+		"PatrolSpawnerAccessor",
+		"PatrolSpawnerMixin",
+		"PointOfInterestTypesMixin",
+		"RabbitEntityMixin",
+		"RaidMemberMixin",
+		"RaidMixin",
+		"ServerWorldAccessor",
+		"SpawnRestrictionAccessor",
+		"StructurePoolMixin",
+		"VillagerHostilesSensorMixin",
+		"VillagerTaskListProviderMixin"
+	],
+	"client": [
+		"IllusionerEntityRendererMixin",
+		"ModelPartAccessor"
+	],
+	"plugin": "com.faboslav.friendsandfoes.util.plugin.MixinExtrasPlugin"
 }

@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.mixin;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
@@ -31,10 +30,6 @@ public final class PointOfInterestTypesMixin
 		int searchDistance
 	) {
 		if (key != PointOfInterestTypes.BEEHIVE) {
-			return pointOfInterestType;
-		}
-
-		if (FriendsAndFoes.getConfig().enableBeekeeperVillagerProfession == false) {
 			return pointOfInterestType;
 		}
 

@@ -3,6 +3,7 @@
 - Added Wildfire
 - Added Wildfire Crown Fragment and Wildfire Crown items
 - Added Citadel structure in the nether dimension
+- `enableBeekeeperVillagerProfession` config option will now work correctly
 
 ## mc1.19.2-1.5.12, October 31, 2022
 

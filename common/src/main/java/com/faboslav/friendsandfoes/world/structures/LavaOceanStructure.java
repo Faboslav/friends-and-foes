@@ -88,7 +88,7 @@ public class LavaOceanStructure extends Structure
 		ChunkPos chunkPos = new ChunkPos(blockPos);
 		BlockPos.Mutable mutable = new BlockPos.Mutable();
 
-		int minValidSpace = 40;
+		int minValidSpace = 31;
 		int maxHeight = Math.min(context.chunkGenerator().getMinimumY() + context.chunkGenerator().getWorldHeight(), context.chunkGenerator().getSeaLevel() + minValidSpace);
 
 		for (int curChunkX = chunkPos.x - 1; curChunkX <= chunkPos.x + 1; curChunkX++) {

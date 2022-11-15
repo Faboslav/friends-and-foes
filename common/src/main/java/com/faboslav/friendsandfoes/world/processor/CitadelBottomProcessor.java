@@ -16,8 +16,10 @@ import net.minecraft.world.ChunkRegion;
 import net.minecraft.world.WorldView;
 
 /**
- * Inspired by use in Better Fortresses by
- * YUNGNICKYOUNG (https://github.com/YUNG-GANG/YUNGs-Better-Fortresses)
+ * Inspired by use in Better Fortresses mod
+ *
+ * @author YUNGNICKYOUNG
+ * <a href="https://github.com/YUNG-GANG/YUNGs-Better-Fortresses">https://github.com/YUNG-GANG/YUNGs-Better-Fortresses</a>
  */
 public final class CitadelBottomProcessor extends StructureProcessor
 {

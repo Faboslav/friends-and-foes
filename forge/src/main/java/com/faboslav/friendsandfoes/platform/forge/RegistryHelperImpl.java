@@ -131,9 +131,9 @@ public final class RegistryHelperImpl
 	}
 
 	public static <T extends Structure> void registerStructureType(
-		Identifier identifier,
+		String name,
 		StructureType<T> structureType
 	) {
-		STRUCTURE_TYPES.register(identifier.toString(), () -> structureType);
+		STRUCTURE_TYPES.register(name, () -> structureType);
 	}
 }

@@ -123,9 +123,9 @@ public final class RegistryHelperImpl
 	}
 
 	public static <T extends Structure> void registerStructureType(
-		Identifier identifier,
+		String name,
 		StructureType<T> structureType
 	) {
-		Registry.register(Registry.STRUCTURE_TYPE, identifier, structureType);
+		Registry.register(Registry.STRUCTURE_TYPE, FriendsAndFoes.makeID(name), structureType);
 	}
 }

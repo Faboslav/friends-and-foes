@@ -21,7 +21,7 @@ import net.minecraft.world.gen.structure.StructureType;
 import java.util.Optional;
 
 /**
- * Inspired by use in Repurposed Structures mod by
+ * Inspired by use in Repurposed Structures mod
  *
  * @author TelepathicGrunt
  * <a href="https://github.com/TelepathicGrunt/RepurposedStructures">https://github.com/TelepathicGrunt/RepurposedStructures</a>

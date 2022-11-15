@@ -121,7 +121,7 @@ public final class RegistryHelper
 
 	@ExpectPlatform
 	public static <T extends Structure> void registerStructureType(
-		Identifier identifier,
+		String name,
 		StructureType<T> structureCodec
 	) {
 		throw new AssertionError();

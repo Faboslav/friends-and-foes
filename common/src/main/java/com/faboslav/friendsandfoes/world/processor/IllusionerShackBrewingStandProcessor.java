@@ -15,8 +15,10 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.WorldView;
 
 /**
- * Inspired by use in Better Witch Huts by
- * YUNGNICKYOUNG (https://github.com/YUNG-GANG/YUNGs-Better-Witch-Huts)
+ * Inspired by use in Better Witch Huts mod
+ *
+ * @author YUNGNICKYOUNG
+ * <a href="https://github.com/YUNG-GANG/YUNGs-Better-Witch-Huts">https://github.com/YUNG-GANG/YUNGs-Better-Witch-Huts</a>
  */
 public final class IllusionerShackBrewingStandProcessor extends StructureProcessor
 {

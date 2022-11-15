@@ -11,7 +11,7 @@ public final class FriendsAndFoesStructureTypes
 	public static StructureType<LavaOceanStructure> LAVA_OCEAN_STRUCTURE = () -> LavaOceanStructure.CODEC;
 
 	static {
-		RegistryHelper.registerStructureType(new Identifier(FriendsAndFoes.MOD_ID, "lava_ocean_structure"), LAVA_OCEAN_STRUCTURE);
+		RegistryHelper.registerStructureType("lava_ocean_structure", LAVA_OCEAN_STRUCTURE);
 	}
 
 	public static void init() {

@@ -22,8 +22,8 @@
 				{
 					"type": "minecraft:blaze",
 					"weight": 1,
-					"minCount": 2,
-					"maxCount": 3
+					"minCount": 1,
+					"maxCount": 2
 				}
 			]
 		}

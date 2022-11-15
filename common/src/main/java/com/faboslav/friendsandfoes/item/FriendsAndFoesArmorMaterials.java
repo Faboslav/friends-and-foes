@@ -29,7 +29,7 @@ public enum FriendsAndFoesArmorMaterials implements ArmorMaterial
 	private final float knockbackResistance;
 	private final Lazy<Ingredient> repairIngredientSupplier;
 
-	private FriendsAndFoesArmorMaterials(
+	FriendsAndFoesArmorMaterials(
 		String name,
 		int durabilityMultiplier,
 		int[] protectionAmounts,

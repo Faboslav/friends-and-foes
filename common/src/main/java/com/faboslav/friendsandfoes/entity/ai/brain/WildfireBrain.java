@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes.entity.ai.brain;
 import com.faboslav.friendsandfoes.entity.WildfireEntity;
 import com.faboslav.friendsandfoes.entity.ai.brain.task.WildfireBarrageAttackTask;
 import com.faboslav.friendsandfoes.entity.ai.brain.task.WildfireShockwaveAttackTask;
+import com.faboslav.friendsandfoes.entity.ai.brain.task.WildfireSummonBlazeTask;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesActivities;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
 import com.google.common.collect.ImmutableList;
@@ -30,6 +31,7 @@ public final class WildfireBrain
 	public static final List<SensorType<? extends Sensor<? super WildfireEntity>>> SENSORS;
 	private static final UniformIntProvider BARRAGE_ATTACK_COOLDOWN_PROVIDER;
 	private static final UniformIntProvider SHOCKWAVE_ATTACK_COOLDOWN_PROVIDER;
+	private static final UniformIntProvider SUMMON_BLAZE_COOLDOWN_PROVIDER;
 	private static final TargetPredicate VALID_TARGET_PLAYER_PREDICATE;
 
 	public WildfireBrain() {
@@ -54,7 +56,8 @@ public final class WildfireBrain
 				new LookAroundTask(45, 90),
 				new WanderAroundTask(),
 				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.WILDFIRE_BARRAGE_ATTACK_COOLDOWN.get()),
-				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get())
+				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get()),
+				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SUMMON_BLAZE_COOLDOWN.get())
 			));
 	}
 
@@ -78,11 +81,11 @@ public final class WildfireBrain
 		Brain<WildfireEntity> brain
 	) {
 		brain.setTaskList(
-			FriendsAndFoesActivities.WILDFIRE_SHOCKWAVE_ATTACK.get(),
-			ImmutableList.of(Pair.of(0, new WildfireShockwaveAttackTask())),
+			FriendsAndFoesActivities.SUMMON_BLAZE.get(),
+			ImmutableList.of(Pair.of(0, new WildfireSummonBlazeTask())),
 			ImmutableSet.of(
-				Pair.of(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER, MemoryModuleState.VALUE_PRESENT),
-				Pair.of(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT)
+				Pair.of(MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_PRESENT),
+				Pair.of(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SUMMON_BLAZE_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT)
 			)
 		);
 		brain.setTaskList(
@@ -93,12 +96,21 @@ public final class WildfireBrain
 				Pair.of(FriendsAndFoesMemoryModuleTypes.WILDFIRE_BARRAGE_ATTACK_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT)
 			)
 		);
+		brain.setTaskList(
+			FriendsAndFoesActivities.WILDFIRE_SHOCKWAVE_ATTACK.get(),
+			ImmutableList.of(Pair.of(0, new WildfireShockwaveAttackTask())),
+			ImmutableSet.of(
+				Pair.of(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER, MemoryModuleState.VALUE_PRESENT),
+				Pair.of(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT)
+			)
+		);
 	}
 
 	public static void updateActivities(WildfireEntity wildfire) {
 		wildfire.getBrain().resetPossibleActivities(ImmutableList.of(
-			FriendsAndFoesActivities.WILDFIRE_SHOCKWAVE_ATTACK.get(),
+			FriendsAndFoesActivities.SUMMON_BLAZE.get(),
 			FriendsAndFoesActivities.WILDFIRE_BARRAGE_ATTACK.get(),
+			FriendsAndFoesActivities.WILDFIRE_SHOCKWAVE_ATTACK.get(),
 			Activity.IDLE
 		));
 	}
@@ -109,6 +121,10 @@ public final class WildfireBrain
 
 	public static void setShockwaveAttackCooldown(LivingEntity wildfire) {
 		wildfire.getBrain().remember(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get(), SHOCKWAVE_ATTACK_COOLDOWN_PROVIDER.get(wildfire.getRandom()));
+	}
+
+	public static void setSummonBlazeCooldown(LivingEntity wildfire) {
+		wildfire.getBrain().remember(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SUMMON_BLAZE_COOLDOWN.get(), SUMMON_BLAZE_COOLDOWN_PROVIDER.get(wildfire.getRandom()));
 	}
 
 	public static void onAttacked(WildfireEntity wildfire, LivingEntity attacker) {
@@ -146,9 +162,11 @@ public final class WildfireBrain
 			MemoryModuleType.LOOK_TARGET,
 			MemoryModuleType.WALK_TARGET,
 			MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
+			FriendsAndFoesMemoryModuleTypes.WILDFIRE_SUMMON_BLAZE_COOLDOWN.get(),
 			FriendsAndFoesMemoryModuleTypes.WILDFIRE_BARRAGE_ATTACK_COOLDOWN.get(),
 			FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get()
 		);
+		SUMMON_BLAZE_COOLDOWN_PROVIDER = UniformIntProvider.create(1000, 1400);
 		BARRAGE_ATTACK_COOLDOWN_PROVIDER = UniformIntProvider.create(150, 300);
 		SHOCKWAVE_ATTACK_COOLDOWN_PROVIDER = UniformIntProvider.create(150, 300);
 		VALID_TARGET_PLAYER_PREDICATE = TargetPredicate.createAttackable().setBaseMaxDistance(WildfireEntity.GENERIC_FOLLOW_RANGE);

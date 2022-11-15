@@ -35,12 +35,15 @@ public final class WildfireEntity extends HostileEntity
 
 	public static final int DEFAULT_ACTIVE_SHIELDS_COUNT = 4;
 	public static final int DEFAULT_TICKS_UNTIL_SHIELD_REGENERATION = 300;
+	public static final int DEFAULT_SUMMONED_BLAZES_COUNT = 0;
 
-	private static final String ACTIVE_SHIELDS_NBT_NAME = "ActiveShields";
+	private static final String ACTIVE_SHIELDS_NBT_NAME = "ActiveShieldsCount";
 	private static final String TICKS_UNTIL_SHIELD_REGENERATION_NBT_NAME = "TicksUntilShieldRegeneration";
+	private static final String SUMMONED_BLAZES_COUNT_NBT_NAME = "SummonedBlazesCount";
 
-	private static final TrackedData<Integer> ACTIVE_SHIELDS;
+	private static final TrackedData<Integer> ACTIVE_SHIELDS_COUNT;
 	private static final TrackedData<Integer> TICKS_UNTIL_SHIELD_REGENERATION;
+	private static final TrackedData<Integer> SUMMONED_BLAZES_COUNT;
 
 	public WildfireEntity(EntityType<? extends WildfireEntity> entityType, World world) {
 		super(entityType, world);
@@ -60,6 +63,7 @@ public final class WildfireEntity extends HostileEntity
 		@Nullable NbtCompound entityNbt
 	) {
 		this.setActiveShieldsCount(DEFAULT_ACTIVE_SHIELDS_COUNT);
+		this.setSummonedBlazesCount(DEFAULT_SUMMONED_BLAZES_COUNT);
 		return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
 	}
 
@@ -118,8 +122,9 @@ public final class WildfireEntity extends HostileEntity
 	@Override
 	protected void initDataTracker() {
 		super.initDataTracker();
-		this.dataTracker.startTracking(ACTIVE_SHIELDS, DEFAULT_ACTIVE_SHIELDS_COUNT);
+		this.dataTracker.startTracking(ACTIVE_SHIELDS_COUNT, DEFAULT_ACTIVE_SHIELDS_COUNT);
 		this.dataTracker.startTracking(TICKS_UNTIL_SHIELD_REGENERATION, DEFAULT_TICKS_UNTIL_SHIELD_REGENERATION);
+		this.dataTracker.startTracking(SUMMONED_BLAZES_COUNT, DEFAULT_SUMMONED_BLAZES_COUNT);
 	}
 
 	@Override
@@ -127,6 +132,7 @@ public final class WildfireEntity extends HostileEntity
 		super.writeCustomDataToNbt(nbt);
 		nbt.putInt(ACTIVE_SHIELDS_NBT_NAME, this.getActiveShieldsCount());
 		nbt.putInt(TICKS_UNTIL_SHIELD_REGENERATION_NBT_NAME, this.getTicksUntilShieldRegeneration());
+		nbt.putInt(SUMMONED_BLAZES_COUNT_NBT_NAME, this.getSummonedBlazesCount());
 	}
 
 	@Override
@@ -134,6 +140,7 @@ public final class WildfireEntity extends HostileEntity
 		super.readCustomDataFromNbt(nbt);
 		this.setActiveShieldsCount(nbt.getInt(ACTIVE_SHIELDS_NBT_NAME));
 		this.setTicksUntilShieldRegeneration(nbt.getInt(TICKS_UNTIL_SHIELD_REGENERATION_NBT_NAME));
+		this.setSummonedBlazesCount(nbt.getInt(SUMMONED_BLAZES_COUNT_NBT_NAME));
 	}
 
 	public SoundEvent getShootSound() {
@@ -165,11 +172,11 @@ public final class WildfireEntity extends HostileEntity
 	}
 
 	public int getActiveShieldsCount() {
-		return this.dataTracker.get(ACTIVE_SHIELDS);
+		return this.dataTracker.get(ACTIVE_SHIELDS_COUNT);
 	}
 
 	public void setActiveShieldsCount(int activeShields) {
-		this.dataTracker.set(ACTIVE_SHIELDS, activeShields);
+		this.dataTracker.set(ACTIVE_SHIELDS_COUNT, activeShields);
 	}
 
 	public boolean hasActiveShields() {
@@ -186,6 +193,18 @@ public final class WildfireEntity extends HostileEntity
 
 	public void resetTicksUntilShieldRegeneration() {
 		this.setTicksUntilShieldRegeneration(DEFAULT_TICKS_UNTIL_SHIELD_REGENERATION);
+	}
+
+	public int getSummonedBlazesCount() {
+		return this.dataTracker.get(SUMMONED_BLAZES_COUNT);
+	}
+
+	public void setSummonedBlazesCount(int summonedBlazesCount) {
+		this.dataTracker.set(SUMMONED_BLAZES_COUNT, summonedBlazesCount);
+	}
+
+	public boolean areBlazesSummoned() {
+		return this.getSummonedBlazesCount() > 0;
 	}
 
 	public SoundEvent getShieldBreakSound() {
@@ -279,8 +298,9 @@ public final class WildfireEntity extends HostileEntity
 	}
 
 	static {
-		ACTIVE_SHIELDS = DataTracker.registerData(WildfireEntity.class, TrackedDataHandlerRegistry.INTEGER);
+		ACTIVE_SHIELDS_COUNT = DataTracker.registerData(WildfireEntity.class, TrackedDataHandlerRegistry.INTEGER);
 		TICKS_UNTIL_SHIELD_REGENERATION = DataTracker.registerData(WildfireEntity.class, TrackedDataHandlerRegistry.INTEGER);
+		SUMMONED_BLAZES_COUNT = DataTracker.registerData(WildfireEntity.class, TrackedDataHandlerRegistry.INTEGER);
 	}
 }
 

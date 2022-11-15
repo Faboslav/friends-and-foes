@@ -7,6 +7,7 @@ import com.google.common.collect.ImmutableMap;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
+import net.minecraft.entity.ai.brain.task.LookTargetUtil;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.projectile.SmallFireballEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -75,17 +76,11 @@ public class WildfireBarrageAttackTask extends Task<WildfireEntity>
 
 		var nearestVisibleTargetablePlayer = wildfire.getBrain().getOptionalMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER).orElse(null);
 
-		if (
-			nearestVisibleTargetablePlayer != null
-			&& nearestVisibleTargetablePlayer.isAlive()
-			&& wildfire.canTarget(nearestVisibleTargetablePlayer) == false
-			&& wildfire.distanceTo(nearestVisibleTargetablePlayer) <= WildfireShockwaveAttackTask.SHOCKWAVE_ATTACK_RANGE
-			&& wildfire.getBrain().isMemoryInState(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT)
-		) {
-			return false;
-		}
-
-		return true;
+		return nearestVisibleTargetablePlayer == null
+			   || !nearestVisibleTargetablePlayer.isAlive()
+			   || wildfire.canTarget(nearestVisibleTargetablePlayer) != false
+			   || !(wildfire.distanceTo(nearestVisibleTargetablePlayer) <= WildfireShockwaveAttackTask.SHOCKWAVE_ATTACK_RANGE)
+			   || !wildfire.getBrain().isMemoryInState(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT);
 	}
 
 	@Override
@@ -103,13 +98,15 @@ public class WildfireBarrageAttackTask extends Task<WildfireEntity>
 		double targetZ = this.attackTarget.getZ() - wildfire.getZ();
 
 		if (this.fireballCooldown > 0) {
-			if (this.canDoMeeleAttack && wildfire.distanceTo(attackTarget) < 3.0F) {
-				wildfire.tryAttack(attackTarget);
-				this.canDoMeeleAttack = false;
-			}
-
 			this.fireballCooldown--;
 			return;
+		}
+
+		if (this.canDoMeeleAttack && wildfire.distanceTo(attackTarget) < 3.0F) {
+			wildfire.tryAttack(attackTarget);
+			this.canDoMeeleAttack = false;
+		} else {
+			this.canDoMeeleAttack = true;
 		}
 
 		if (this.attackTargetIsNotVisibleTicks > 5) {
@@ -122,6 +119,7 @@ public class WildfireBarrageAttackTask extends Task<WildfireEntity>
 		}
 
 		wildfire.getLookControl().lookAt(this.attackTarget);
+		LookTargetUtil.lookAt(wildfire, this.attackTarget);
 
 		double distanceToAttackTarget = wildfire.squaredDistanceTo(this.attackTarget);
 
@@ -155,9 +153,6 @@ public class WildfireBarrageAttackTask extends Task<WildfireEntity>
 
 	@Override
 	protected void finishRunning(ServerWorld world, WildfireEntity wildfire, long time) {
-		this.fireballsFired = 0;
-		this.attackTargetIsNotVisibleTicks = 0;
-		this.canDoMeeleAttack = true;
 		WildfireBrain.setBarrageAttackCooldown(wildfire);
 	}
 }

@@ -11,6 +11,7 @@
 		"AxeItemMixin",
 		"BeeEntityAccessor",
 		"BeeEntityMixin",
+		"BlazeEntityMixin",
 		"BlindTargetGoalFactory",
 		"ChickenEntityMixin",
 		"HoneycombItemMixin",

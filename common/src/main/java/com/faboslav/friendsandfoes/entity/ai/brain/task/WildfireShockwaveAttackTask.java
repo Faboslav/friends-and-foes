@@ -11,6 +11,7 @@ import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.LookTargetUtil;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.mob.BlazeEntity;
+import net.minecraft.entity.mob.WitherSkeletonEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
@@ -60,6 +61,8 @@ public final class WildfireShockwaveAttackTask extends Task<WildfireEntity>
 
 		wildfire.getNavigation().stop();
 		wildfire.playShockwaveSound();
+
+		this.shockwaveTicks = 0;
 	}
 
 	@Override
@@ -77,6 +80,7 @@ public final class WildfireShockwaveAttackTask extends Task<WildfireEntity>
 			wildfire.addVelocity(0.0F, -1.0F, 0.0F);
 		}
 
+		LookTargetUtil.lookAt(wildfire, this.targetPlayer);
 		wildfire.move(MovementType.SELF, wildfire.getVelocity());
 		wildfire.getLookControl().lookAt(this.targetPlayer);
 
@@ -88,7 +92,11 @@ public final class WildfireShockwaveAttackTask extends Task<WildfireEntity>
 			);
 
 			for (Entity closeEntity : closeEntities) {
-				if (closeEntity instanceof BlazeEntity) {
+				if (
+					closeEntity instanceof BlazeEntity
+					|| closeEntity instanceof WildfireEntity
+					|| closeEntity instanceof WitherSkeletonEntity
+				) {
 					continue;
 				}
 
@@ -133,7 +141,6 @@ public final class WildfireShockwaveAttackTask extends Task<WildfireEntity>
 
 	@Override
 	protected void finishRunning(ServerWorld world, WildfireEntity wildfire, long time) {
-		this.shockwaveTicks = 0;
 		WildfireBrain.setShockwaveAttackCooldown(wildfire);
 	}
 }

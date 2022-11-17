@@ -111,9 +111,9 @@ public final class WildfireEntity extends HostileEntity
 
 	public static DefaultAttributeContainer.Builder createAttributes() {
 		return HostileEntity.createHostileAttributes()
-			.add(EntityAttributes.GENERIC_MAX_HEALTH, 100.0F)
-			.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 10.0F)
-			.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 15.0F)
+			.add(EntityAttributes.GENERIC_MAX_HEALTH, 120.0F)
+			.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.0F)
+			.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 16.0F)
 			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.23000000417232513)
 			.add(EntityAttributes.GENERIC_FOLLOW_RANGE, GENERIC_FOLLOW_RANGE)
 			.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0F);

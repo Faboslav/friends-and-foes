@@ -2,8 +2,7 @@ package com.faboslav.friendsandfoes.platform.forge;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import net.minecraftforge.fml.ModList;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public final class ModVersionImpl
 {

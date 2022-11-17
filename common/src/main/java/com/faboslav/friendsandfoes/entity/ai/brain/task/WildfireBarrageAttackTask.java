@@ -38,7 +38,6 @@ public class WildfireBarrageAttackTask extends Task<WildfireEntity>
 		if (
 			attackTarget == null
 			|| attackTarget.isAlive() == false
-			|| wildfire.canTarget(attackTarget) == false
 		) {
 			return false;
 		}
@@ -50,7 +49,14 @@ public class WildfireBarrageAttackTask extends Task<WildfireEntity>
 
 	@Override
 	protected void run(ServerWorld world, WildfireEntity wildfire, long time) {
+		wildfire.getBrain().forget(MemoryModuleType.WALK_TARGET);
 		wildfire.getNavigation().stop();
+
+		LookTargetUtil.lookAt(wildfire, this.attackTarget);
+		wildfire.getLookControl().lookAt(this.attackTarget);
+
+		WildfireBrain.setAttackTarget(wildfire, this.attackTarget);
+
 		this.fireballsFired = 0;
 		this.attackTargetIsNotVisibleTicks = 0;
 		this.canDoMeeleAttack = true;
@@ -58,17 +64,14 @@ public class WildfireBarrageAttackTask extends Task<WildfireEntity>
 
 	@Override
 	protected boolean shouldKeepRunning(ServerWorld world, WildfireEntity wildfire, long time) {
-		if (
-			attackTarget.isAlive() == false
-			|| wildfire.canTarget(attackTarget) == false
-		) {
+		if (attackTarget.isAlive() == false) {
 			attackTarget = wildfire.getBrain().getOptionalMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER).orElse(null);
 		}
 
 		if (
 			attackTarget == null
 			|| attackTarget.isAlive() == false
-			|| wildfire.canTarget(attackTarget) == false
+			|| attackTarget.isAlive() == false
 			|| fireballsFired > MAX_FIREBALLS_TO_BE_FIRED
 		) {
 			return false;
@@ -78,13 +81,14 @@ public class WildfireBarrageAttackTask extends Task<WildfireEntity>
 
 		return nearestVisibleTargetablePlayer == null
 			   || !nearestVisibleTargetablePlayer.isAlive()
-			   || wildfire.canTarget(nearestVisibleTargetablePlayer) != false
 			   || !(wildfire.distanceTo(nearestVisibleTargetablePlayer) <= WildfireShockwaveAttackTask.SHOCKWAVE_ATTACK_RANGE)
 			   || !wildfire.getBrain().isMemoryInState(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT);
 	}
 
 	@Override
 	protected void keepRunning(ServerWorld world, WildfireEntity wildfire, long time) {
+		wildfire.getLookControl().lookAt(this.attackTarget);
+
 		boolean isAttackTargetVisible = wildfire.getVisibilityCache().canSee(this.attackTarget);
 
 		if (isAttackTargetVisible) {
@@ -117,9 +121,6 @@ public class WildfireBarrageAttackTask extends Task<WildfireEntity>
 				wildfire.getMovementSpeed()
 			);
 		}
-
-		wildfire.getLookControl().lookAt(this.attackTarget);
-		LookTargetUtil.lookAt(wildfire, this.attackTarget);
 
 		double distanceToAttackTarget = wildfire.squaredDistanceTo(this.attackTarget);
 

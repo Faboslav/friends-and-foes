@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.entity.ai.brain;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.WildfireEntity;
 import com.faboslav.friendsandfoes.entity.ai.brain.task.WildfireBarrageAttackTask;
 import com.faboslav.friendsandfoes.entity.ai.brain.task.WildfireShockwaveAttackTask;

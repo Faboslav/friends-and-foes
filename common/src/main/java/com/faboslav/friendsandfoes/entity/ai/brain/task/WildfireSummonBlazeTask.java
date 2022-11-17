@@ -11,6 +11,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
+import net.minecraft.entity.ai.brain.task.LookTargetUtil;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.mob.BlazeEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -18,7 +19,6 @@ import net.minecraft.util.math.BlockPos;
 
 public class WildfireSummonBlazeTask extends Task<WildfireEntity>
 {
-	private int summonedBlazes;
 	private LivingEntity attackTarget;
 
 	private final static int SUMMON_BLAZES_DURATION = 20;
@@ -39,7 +39,6 @@ public class WildfireSummonBlazeTask extends Task<WildfireEntity>
 		if (
 			attackTarget == null
 			|| attackTarget.isAlive() == false
-			|| wildfire.canTarget(attackTarget) == false
 			|| wildfire.getSummonedBlazesCount() >= MAX_BLAZES_TO_BE_SUMMONED
 		) {
 			return false;
@@ -52,28 +51,19 @@ public class WildfireSummonBlazeTask extends Task<WildfireEntity>
 
 	@Override
 	protected void run(ServerWorld world, WildfireEntity wildfire, long time) {
-		this.summonedBlazes = 0;
+		wildfire.getBrain().forget(MemoryModuleType.WALK_TARGET);
 		wildfire.getNavigation().stop();
-	}
 
-	@Override
-	protected boolean shouldKeepRunning(ServerWorld world, WildfireEntity wildfire, long time) {
-		if (
-			attackTarget.isAlive() == false
-			|| wildfire.canTarget(attackTarget) == false
-		) {
-			attackTarget = wildfire.getBrain().getOptionalMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER).orElse(null);
-		}
+		LookTargetUtil.lookAt(wildfire, this.attackTarget);
+		wildfire.getLookControl().lookAt(this.attackTarget);
 
-		return attackTarget != null
-			   && attackTarget.isAlive() != false
-			   && wildfire.canTarget(attackTarget) != false
-			   && wildfire.getSummonedBlazesCount() != MAX_BLAZES_TO_BE_SUMMONED
-			   && summonedBlazes <= 0;
+		WildfireBrain.setAttackTarget(wildfire, this.attackTarget);
 	}
 
 	@Override
 	protected void keepRunning(ServerWorld world, WildfireEntity wildfire, long time) {
+		LookTargetUtil.lookAt(wildfire, this.attackTarget);
+
 		ServerWorld serverWorld = (ServerWorld) wildfire.getWorld();
 		int blazesToBeSummoned = Math.max(0, RandomGenerator.generateInt(MIN_BLAZES_TO_BE_SUMMONED, MAX_BLAZES_TO_BE_SUMMONED) - wildfire.getSummonedBlazesCount());
 
@@ -87,7 +77,6 @@ public class WildfireSummonBlazeTask extends Task<WildfireEntity>
 			serverWorld.spawnEntityAndPassengers(blazeEntity);
 
 			wildfire.setSummonedBlazesCount(wildfire.getSummonedBlazesCount() + 1);
-			summonedBlazes++;
 		}
 	}
 

@@ -1,0 +1,33 @@
+{
+	"name": "friendsandfoes:citadel/platform/platform_damaged",
+	"fallback": "minecraft:empty",
+	"elements": [
+		{
+			"weight": 5,
+			"element": {
+				"location": "friendsandfoes:citadel/platform/platform_damaged",
+				"processors": "friendsandfoes:citadel/citadel",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		},
+		{
+			"weight": 3,
+			"element": {
+				"location": "friendsandfoes:citadel/platform/platform",
+				"processors": "friendsandfoes:citadel/citadel",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		},
+		{
+			"weight": 1,
+			"element": {
+				"location": "friendsandfoes:citadel/platform/platform_broken",
+				"processors": "friendsandfoes:citadel/citadel",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		}
+	]
+}

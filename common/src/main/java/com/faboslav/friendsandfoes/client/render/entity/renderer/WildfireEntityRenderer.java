@@ -10,6 +10,7 @@ import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 
 @Environment(EnvType.CLIENT)
 @SuppressWarnings({"rawtypes", "unchecked"})
@@ -19,6 +20,11 @@ public final class WildfireEntityRenderer extends MobEntityRenderer<WildfireEnti
 
 	public WildfireEntityRenderer(EntityRendererFactory.Context context) {
 		super(context, new WildfireEntityModel(context.getPart(FriendsAndFoesEntityModelLayer.WILDFIRE_LAYER)), 0.35F);
+	}
+
+	@Override
+	protected int getBlockLight(WildfireEntity wildfire, BlockPos blockPos) {
+		return 15;
 	}
 
 	@Override

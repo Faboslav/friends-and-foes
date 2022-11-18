@@ -21,6 +21,7 @@
 		"LightningRodBlockMixin",
 		"PatrolSpawnerAccessor",
 		"PatrolSpawnerMixin",
+		"PlayerEntityMixin",
 		"PointOfInterestTypesMixin",
 		"RabbitEntityMixin",
 		"RaidMemberMixin",

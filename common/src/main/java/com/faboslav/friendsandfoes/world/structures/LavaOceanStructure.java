@@ -8,8 +8,6 @@ import net.minecraft.structure.pool.StructurePool;
 import net.minecraft.structure.pool.StructurePoolBasedGenerator;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.gen.HeightContext;
@@ -85,25 +83,19 @@ public class LavaOceanStructure extends Structure
 	}
 
 	protected boolean extraSpawningChecks(Structure.Context context, BlockPos blockPos) {
-		ChunkPos chunkPos = new ChunkPos(blockPos);
+		int checkRadius = 16;
 		BlockPos.Mutable mutable = new BlockPos.Mutable();
 
-		int minValidSpace = 31;
-		int maxHeight = Math.min(context.chunkGenerator().getMinimumY() + context.chunkGenerator().getWorldHeight(), context.chunkGenerator().getSeaLevel() + minValidSpace);
-
-		for (int curChunkX = chunkPos.x - 1; curChunkX <= chunkPos.x + 1; curChunkX++) {
-			for (int curChunkZ = chunkPos.z - 1; curChunkZ <= chunkPos.z + 1; curChunkZ++) {
-				mutable.set(curChunkX << 4, context.chunkGenerator().getSeaLevel() + 10, curChunkZ << 4);
-				VerticalBlockSample blockView = context.chunkGenerator().getColumnSample(mutable.getX(), mutable.getZ(), context.world(), context.noiseConfig());
-
-				while (mutable.getY() < maxHeight) {
+		for (int xOffset = -checkRadius; xOffset <= checkRadius; xOffset += 8) {
+			for (int zOffset = -checkRadius; zOffset <= checkRadius; zOffset += 8) {
+				VerticalBlockSample blockView = context.chunkGenerator().getColumnSample(xOffset + blockPos.getX(), zOffset + blockPos.getZ(), context.world(), context.noiseConfig());
+				for (int yOffset = 0; yOffset <= 53; yOffset += 5) {
+					mutable.set(blockPos).move(xOffset, yOffset, zOffset);
 					BlockState state = blockView.getState(mutable.getY());
 
-					if (state.isAir() == false) {
+					if (state.isAir() == false && state.getFluidState().isEmpty()) {
 						return false;
 					}
-
-					mutable.move(Direction.UP);
 				}
 			}
 		}

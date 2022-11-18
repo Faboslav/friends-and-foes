@@ -13,6 +13,7 @@ import net.minecraft.entity.ai.brain.task.LookTargetUtil;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.mob.BlazeEntity;
 import net.minecraft.entity.mob.WitherSkeletonEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.world.ServerWorld;
@@ -47,6 +48,13 @@ public final class WildfireShockwaveAttackTask extends Task<WildfireEntity>
 			nearestTarget == null
 			|| wildfire.distanceTo(nearestTarget) > SHOCKWAVE_ATTACK_RANGE
 			|| nearestTarget.isAlive() == false
+			|| (
+				nearestTarget instanceof PlayerEntity
+				&& (
+					nearestTarget.isSpectator()
+					|| ((PlayerEntity) nearestTarget).isCreative()
+				)
+			)
 		) {
 			return false;
 		}
@@ -118,7 +126,7 @@ public final class WildfireShockwaveAttackTask extends Task<WildfireEntity>
 		Vec3d wildfirePosition = wildfire.getPos();
 		ServerWorld serverWorld = (ServerWorld) wildfire.getWorld();
 
-		int waveAmount = 3;
+		int waveAmount = 5;
 		int particleAmount = 64;
 
 		float slice = 2.0F * (float) Math.PI / particleAmount;
@@ -133,7 +141,7 @@ public final class WildfireShockwaveAttackTask extends Task<WildfireEntity>
 				serverWorld.spawnParticles(
 					ParticleTypes.LARGE_SMOKE,
 					x,
-					y + 0.1F * radius,
+					y + 0.15F * radius,
 					z,
 					1,
 					0.0D,

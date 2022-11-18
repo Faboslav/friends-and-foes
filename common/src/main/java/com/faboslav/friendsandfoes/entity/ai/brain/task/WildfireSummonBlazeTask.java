@@ -14,12 +14,14 @@ import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.LookTargetUtil;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.mob.BlazeEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 
 public class WildfireSummonBlazeTask extends Task<WildfireEntity>
 {
 	private LivingEntity attackTarget;
+	private int summonedBlazesCount;
 
 	private final static int SUMMON_BLAZES_DURATION = 20;
 	private final static int MIN_BLAZES_TO_BE_SUMMONED = 1;
@@ -39,6 +41,13 @@ public class WildfireSummonBlazeTask extends Task<WildfireEntity>
 		if (
 			attackTarget == null
 			|| attackTarget.isAlive() == false
+			|| (
+				attackTarget instanceof PlayerEntity
+				&& (
+					attackTarget.isSpectator()
+					|| ((PlayerEntity) attackTarget).isCreative()
+				)
+			)
 			|| wildfire.getSummonedBlazesCount() >= MAX_BLAZES_TO_BE_SUMMONED
 		) {
 			return false;
@@ -58,6 +67,13 @@ public class WildfireSummonBlazeTask extends Task<WildfireEntity>
 		wildfire.getLookControl().lookAt(this.attackTarget);
 
 		WildfireBrain.setAttackTarget(wildfire, this.attackTarget);
+
+		this.summonedBlazesCount = wildfire.getSummonedBlazesCount();
+	}
+
+	@Override
+	protected boolean shouldKeepRunning(ServerWorld world, WildfireEntity wildfire, long time) {
+		return this.summonedBlazesCount <= wildfire.getSummonedBlazesCount();
 	}
 
 	@Override
@@ -67,8 +83,16 @@ public class WildfireSummonBlazeTask extends Task<WildfireEntity>
 		ServerWorld serverWorld = (ServerWorld) wildfire.getWorld();
 		int blazesToBeSummoned = Math.max(0, RandomGenerator.generateInt(MIN_BLAZES_TO_BE_SUMMONED, MAX_BLAZES_TO_BE_SUMMONED) - wildfire.getSummonedBlazesCount());
 
-		for (int i = 0; i < blazesToBeSummoned; ++i) {
-			BlockPos blockPos = wildfire.getBlockPos().add(-2 + wildfire.getRandom().nextInt(5), 1, -2 + wildfire.getRandom().nextInt(5));
+		if (blazesToBeSummoned > 0) {
+			wildfire.playSummonBlazeSound();
+		}
+
+		for (int i = 0; i < blazesToBeSummoned; i++) {
+			BlockPos blockPos = wildfire.getBlockPos().add(
+				-2 + wildfire.getRandom().nextInt(5),
+				1,
+				-2 + wildfire.getRandom().nextInt(5)
+			);
 			BlazeEntity blazeEntity = EntityType.BLAZE.create(serverWorld);
 			blazeEntity.refreshPositionAndAngles(blockPos, 0.0F, 0.0F);
 			blazeEntity.setTarget(this.attackTarget);

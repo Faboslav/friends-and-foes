@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes.entity;
 import com.faboslav.friendsandfoes.entity.ai.brain.WildfireBrain;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import com.mojang.serialization.Dynamic;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -18,7 +19,10 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.tag.BlockTags;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -31,6 +35,7 @@ public final class WildfireEntity extends HostileEntity
 	private float eyeOffset = 0.5F;
 	private int eyeOffsetCooldown;
 
+	public static final float GENERIC_ATTACK_DAMAGE = 8.0F;
 	public static final float GENERIC_FOLLOW_RANGE = 32.0F;
 
 	public static final int DEFAULT_ACTIVE_SHIELDS_COUNT = 4;
@@ -113,7 +118,7 @@ public final class WildfireEntity extends HostileEntity
 		return HostileEntity.createHostileAttributes()
 			.add(EntityAttributes.GENERIC_MAX_HEALTH, 120.0F)
 			.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.0F)
-			.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 16.0F)
+			.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 32.0F)
 			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.23000000417232513)
 			.add(EntityAttributes.GENERIC_FOLLOW_RANGE, GENERIC_FOLLOW_RANGE)
 			.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0F);
@@ -143,12 +148,23 @@ public final class WildfireEntity extends HostileEntity
 		this.setSummonedBlazesCount(nbt.getInt(SUMMONED_BLAZES_COUNT_NBT_NAME));
 	}
 
+	@Override
+	protected void playStepSound(BlockPos pos, BlockState state) {
+		if (state.getMaterial().isLiquid()) {
+			return;
+		}
+
+		BlockState blockState = this.world.getBlockState(pos.up());
+		BlockSoundGroup blockSoundGroup = blockState.isIn(BlockTags.INSIDE_STEP_SOUND_BLOCKS) ? blockState.getSoundGroup():state.getSoundGroup();
+		this.playSound(FriendsAndFoesSoundEvents.ENTITY_WILDFIRE_STEP.get(), blockSoundGroup.getVolume() * 0.15F, blockSoundGroup.getPitch());
+	}
+
 	public SoundEvent getShootSound() {
 		return FriendsAndFoesSoundEvents.ENTITY_WILDFIRE_SHOOT.get();
 	}
 
 	public void playShootSound() {
-		this.playSound(this.getShootSound(), 1.0F, 1.0F);
+		this.playSound(this.getShootSound(), this.getSoundVolume(), this.getSoundPitch());
 	}
 
 	public SoundEvent getShockwaveSound() {
@@ -156,7 +172,7 @@ public final class WildfireEntity extends HostileEntity
 	}
 
 	public void playShockwaveSound() {
-		this.playSound(this.getShockwaveSound(), 1.0F, 1.0F);
+		this.playSound(this.getShockwaveSound(), this.getSoundVolume(), this.getSoundPitch());
 	}
 
 	public void breakShield() {
@@ -212,7 +228,7 @@ public final class WildfireEntity extends HostileEntity
 	}
 
 	public void playShieldBreakSound() {
-		this.playSound(this.getShieldBreakSound(), 1.0F, 1.0F);
+		this.playSound(this.getShieldBreakSound(), this.getSoundVolume(), this.getSoundPitch());
 	}
 
 	protected SoundEvent getAmbientSound() {
@@ -225,6 +241,14 @@ public final class WildfireEntity extends HostileEntity
 
 	protected SoundEvent getDeathSound() {
 		return FriendsAndFoesSoundEvents.ENTITY_WILDFIRE_DEATH.get();
+	}
+
+	public SoundEvent getSummonBlazeSound() {
+		return FriendsAndFoesSoundEvents.ENTITY_WILDFIRE_SUMMON_BLAZE.get();
+	}
+
+	public void playSummonBlazeSound() {
+		this.playSound(this.getSummonBlazeSound(), this.getSoundVolume(), this.getSoundPitch());
 	}
 
 	public void tick() {
@@ -259,6 +283,7 @@ public final class WildfireEntity extends HostileEntity
 			float shieldBreakDamageThreshold = (float) this.getAttributeValue(EntityAttributes.GENERIC_MAX_HEALTH) * 0.25F;
 
 			if (this.damageAmountCounter >= shieldBreakDamageThreshold) {
+				source.getAttacker().damage(DamageSource.mob(this), GENERIC_ATTACK_DAMAGE);
 				this.breakShield();
 				this.playShieldBreakSound();
 				this.damageAmountCounter = 0;

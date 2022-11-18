@@ -34,8 +34,10 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -254,11 +256,16 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		BlockPos pos,
 		BlockState state
 	) {
-		if (this.isOxidized()) {
+		if (
+			this.isOxidized()
+			|| state.getMaterial().isLiquid()
+		) {
 			return;
 		}
 
-		this.playSound(FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_STEP.get(), 1.0F, this.getSoundPitch());
+		BlockState blockState = this.world.getBlockState(pos.up());
+		BlockSoundGroup blockSoundGroup = blockState.isIn(BlockTags.INSIDE_STEP_SOUND_BLOCKS) ? blockState.getSoundGroup():state.getSoundGroup();
+		this.playSound(FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_STEP.get(), blockSoundGroup.getVolume() * 0.15F, this.getSoundPitch());
 	}
 
 	@Override

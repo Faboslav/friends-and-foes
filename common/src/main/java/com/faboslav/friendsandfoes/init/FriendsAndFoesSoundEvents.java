@@ -44,6 +44,7 @@ public final class FriendsAndFoesSoundEvents
 	public static final Supplier<SoundEvent> ENTITY_WILDFIRE_SHOCKWAVE;
 	public static final Supplier<SoundEvent> ENTITY_WILDFIRE_SHOOT;
 	public static final Supplier<SoundEvent> ENTITY_WILDFIRE_STEP;
+	public static final Supplier<SoundEvent> ENTITY_WILDFIRE_SUMMON_BLAZE;
 
 	static {
 		ENTITY_COPPER_GOLEM_DEATH = register("entity", "copper_golem.death");
@@ -78,6 +79,7 @@ public final class FriendsAndFoesSoundEvents
 		ENTITY_WILDFIRE_SHOCKWAVE = register("entity", "wildfire.shockwave");
 		ENTITY_WILDFIRE_SHOOT = register("entity", "wildfire.shoot");
 		ENTITY_WILDFIRE_STEP = register("entity", "wildfire.step");
+		ENTITY_WILDFIRE_SUMMON_BLAZE = register("entity", "wildfire.summon_blaze");
 	}
 
 	private static Supplier<SoundEvent> register(String type, String name) {

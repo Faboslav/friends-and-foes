@@ -227,5 +227,13 @@
 			"friendsandfoes:entity/wildfire/step4"
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.wildfire.step"
+	},
+	"entity.wildfire.summon_blaze": {
+		"sounds": [
+			"friendsandfoes:entity/wildfire/summon_blaze1",
+			"friendsandfoes:entity/wildfire/summon_blaze2",
+			"friendsandfoes:entity/wildfire/summon_blaze3"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.wildfire.summon_blaze"
 	}
 }

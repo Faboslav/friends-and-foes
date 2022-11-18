@@ -72,7 +72,9 @@ public final class WildfireEntityModel<T extends WildfireEntity> extends BaseEnt
 		int activeShieldsCount = wildfire.getActiveShieldsCount();
 		float rotationSpeedMultiplier = Math.max(1, WildfireEntity.DEFAULT_ACTIVE_SHIELDS_COUNT - activeShieldsCount);
 		float baseRotationUnit = (2.0F * (float) Math.PI) / activeShieldsCount;
-		float bodyCounterRotation = (float) Math.toRadians((wildfire.prevBodyYaw * -1.0F));
+		// I don't know why, but this is just choppy and laggy in the game
+		//float bodyCounterRotation = (float) Math.toRadians((wildfire.prevBodyYaw * -1.0F));
+		float bodyCounterRotation = 0.0F;
 		float additionalShieldRotation = (animationProgress * 0.1F * rotationSpeedMultiplier) % (2.0F * (float) Math.PI);
 
 		for (int i = 0; i < WildfireEntity.DEFAULT_ACTIVE_SHIELDS_COUNT; ++i) {

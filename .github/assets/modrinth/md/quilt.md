@@ -23,7 +23,7 @@
 <hr>
 
 <p>
-	<span style="font-size: 14px;">Friends&amp;Foes adds all eliminated mobs from the minecraft mob votes along with the forgotten mobs like the Illusioner. One of the main goals is to also further expand upon original concepts and add new vanilla like features related to all the mobs.</span>
+	<span style="font-size: 14px;">Friends&amp;Foes adds outvoted and forgotten mobs from the mob vote. One of the main goals is to also further expand upon original concepts and add new vanilla like features related to all the mobs.</span>
 </p>
 <p>
 	<span style="font-size: 14px;">You can check <a style="font-size: 14px;" title="wiki" href="https://github.com/Faboslav/friends-and-foes/wiki" target="_blank" rel="noopener noreferrer">wiki</a> for a detailed overview of implemented mobs and features. Looking for the <a style="font-size: 14px;" href="https://modrinth.com/mod/friends-and-foes">Fabric</a> or <a style="font-size: 14px;" href="https://modrinth.com/mod/friends-and-foes-forge">Forge</a> version?</span>
@@ -71,8 +71,6 @@
 
 <h2>Features</h2>
 
-<hr>
-
 <p>
 	<span style="font-size: 14px;">Following features are currently already fully working in the game, you can check <a style="font-size: 14px;" title="wiki" href="https://github.com/Faboslav/friends-and-foes/wiki" target="_blank" rel="noopener noreferrer">wiki</a> for more info or click on the links to the specific wiki pages for the full description.</a>
 </p>
@@ -93,6 +91,7 @@
 	<li><a style="font-size: 14px;" href="https://github.com/Faboslav/friends-and-foes/wiki/Iceologer">Iceologer</a></li>
 	<li><a style="font-size: 14px;" href="https://github.com/Faboslav/friends-and-foes/wiki/Illusioner">Illusioner</a></li>
 	<li><span style="font-size: 14px;"><a style="font-size: 14px;" href="https://github.com/Faboslav/friends-and-foes/wiki/Mauler-%28Great-Hunger%29">Mauler (Great Hunger)</a></span></li>
+	<li><a style="font-size: 14px;" href="https://github.com/Faboslav/friends-and-foes/wiki/Wildfire">Wildfire</a></li>
 </ul>
 
 <br>
@@ -112,6 +111,7 @@
 
 <ul>
 	<li><span style="font-size: 14px;"><a style="font-size: 14px;" href="https://github.com/Faboslav/friends-and-foes/wiki/Beekeeper-Area">Beekeeper Area</a></span></li>
+	<li><span style="font-size: 14px;"><a style="font-size: 14px;" href="https://github.com/Faboslav/friends-and-foes/wiki/Citadel">Citadel</a></span></li>	
 	<li><span style="font-size: 14px;"><a style="font-size: 14px;" href="https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem-Workstation">Copper Golem Workstation</a></span></li>
 	<li><span style="font-size: 14px;"><a style="font-size: 14px;" href="https://github.com/Faboslav/friends-and-foes/wiki/Iceologer-Cabin">Iceologer Cabin</a></span></li>
 	<li><span style="font-size: 14px;"><a style="font-size: 14px;" href="https://github.com/Faboslav/friends-and-foes/wiki/Illusioner-Shack">Illusioner Shack</a></span></li>
@@ -130,14 +130,11 @@
 
 <h2>Roadmap</h2>
 
-<hr>
-
 <p>
-	<span style="font-size: 14px;">I am currently working on the Wildfire (Hovering Inferno). Following mobs are planned to be implemented:</span>
+	<span style="font-size: 14px;">I am currently working on the Tuff Golem. Following mobs are planned to be implemented:</span>
 </p>
 
 <ul>
-	<li><span style="font-size: 14px;">Tuff Golem</span></li>
 	<li><span style="font-size: 14px;">Rascal</span></li>
 	<li><span style="font-size: 14px;">Barnacle</span></li>
 </ul>
@@ -146,15 +143,11 @@
 
 <h2>Support</h2>
 
-<hr>
-
 <p><span style="font-size: 14px;">I will continue to develop my mods regardless of any support as it is my hobby, although most of my free time goes into development of my mods. So if you want to support me anyway, you can do that via <a style="font-size: 14px;" href="https://www.patreon.com/Faboslav">Patreon</a> or <a style="font-size: 14px;" href="https://ko-fi.com/faboslav">Ko-fi</a>. I appreciate that.</span></p>
 
 <br>
 
 <h2>License</h2>
-
-<hr>
 
 <p>
 	<span style="font-size: 14px;">The mod is licensed with <a style="font-size: 14px;" href="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/LICENSE.txt">CC BY-NC-ND 4.0</a> license.</span>

@@ -1,8 +1,10 @@
 package com.faboslav.friendsandfoes.entity.ai.brain.task;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.WildfireEntity;
 import com.faboslav.friendsandfoes.entity.ai.brain.WildfireBrain;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
+import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -11,8 +13,6 @@ import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.LookTargetUtil;
 import net.minecraft.entity.ai.brain.task.Task;
-import net.minecraft.entity.mob.BlazeEntity;
-import net.minecraft.entity.mob.WitherSkeletonEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
@@ -24,7 +24,7 @@ public final class WildfireShockwaveAttackTask extends Task<WildfireEntity>
 {
 	private final static int SHOCKWAVE_DURATION = 20;
 	private final static int SHOCKWAVE_PHASE_ONE_END_TICK = 15;
-	public final static float SHOCKWAVE_ATTACK_RANGE = 8.0F;
+	public final static float SHOCKWAVE_ATTACK_RANGE = 6.0F;
 
 	private int shockwaveTicks;
 	private LivingEntity attackTarget;
@@ -101,16 +101,12 @@ public final class WildfireShockwaveAttackTask extends Task<WildfireEntity>
 		if (this.shockwaveTicks == SHOCKWAVE_DURATION) {
 			var closeEntities = wildfire.getWorld().getOtherEntities(
 				wildfire,
-				wildfire.getBoundingBox().expand(SHOCKWAVE_ATTACK_RANGE * 0.75F),
+				wildfire.getBoundingBox().expand(SHOCKWAVE_ATTACK_RANGE),
 				EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR
 			);
 
 			for (Entity closeEntity : closeEntities) {
-				if (
-					closeEntity instanceof BlazeEntity
-					|| closeEntity instanceof WildfireEntity
-					|| closeEntity instanceof WitherSkeletonEntity
-				) {
+				if (closeEntity.getType().isIn(FriendsAndFoesTags.WILDFIRE_ALLIES)) {
 					continue;
 				}
 
@@ -126,7 +122,7 @@ public final class WildfireShockwaveAttackTask extends Task<WildfireEntity>
 		Vec3d wildfirePosition = wildfire.getPos();
 		ServerWorld serverWorld = (ServerWorld) wildfire.getWorld();
 
-		int waveAmount = 5;
+		int waveAmount = 4;
 		int particleAmount = 64;
 
 		float slice = 2.0F * (float) Math.PI / particleAmount;
@@ -141,7 +137,7 @@ public final class WildfireShockwaveAttackTask extends Task<WildfireEntity>
 				serverWorld.spawnParticles(
 					ParticleTypes.LARGE_SMOKE,
 					x,
-					y + 0.15F * radius,
+					y + 0.2F * radius,
 					z,
 					1,
 					0.0D,

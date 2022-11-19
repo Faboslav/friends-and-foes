@@ -10,6 +10,7 @@ import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.Dynamic;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.brain.Activity;
@@ -19,6 +20,7 @@ import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.task.*;
+import net.minecraft.entity.mob.WardenEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.TimeHelper;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
@@ -40,10 +42,13 @@ public final class WildfireBrain
 	public WildfireBrain() {
 	}
 
-	public static Brain<?> create(Brain<WildfireEntity> brain) {
+	public static Brain<?> create(Dynamic<?> dynamic) {
+		Brain.Profile<WildfireEntity> profile = Brain.createProfile(MEMORY_MODULES, SENSORS);
+		Brain<WildfireEntity> brain = profile.deserialize(dynamic);
+
 		addCoreActivities(brain);
 		addIdleActivities(brain);
-		addAttackActivities(brain);
+		addFightActivities(brain);
 		addAvoidActivities(brain);
 
 		brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
@@ -75,32 +80,18 @@ public final class WildfireBrain
 		);
 	}
 
-	private static void addAttackActivities(
+	private static void addFightActivities(
 		Brain<WildfireEntity> brain
 	) {
 		brain.setTaskList(
-			FriendsAndFoesActivities.SUMMON_BLAZE.get(),
-			ImmutableList.of(Pair.of(0, new WildfireSummonBlazeTask())),
-			ImmutableSet.of(
-				Pair.of(MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_PRESENT),
-				Pair.of(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SUMMON_BLAZE_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT)
-			)
-		);
-		brain.setTaskList(
-			FriendsAndFoesActivities.WILDFIRE_BARRAGE_ATTACK.get(),
-			ImmutableList.of(Pair.of(0, new WildfireBarrageAttackTask())),
-			ImmutableSet.of(
-				Pair.of(MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_PRESENT),
-				Pair.of(FriendsAndFoesMemoryModuleTypes.WILDFIRE_BARRAGE_ATTACK_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT)
-			)
-		);
-		brain.setTaskList(
-			FriendsAndFoesActivities.WILDFIRE_SHOCKWAVE_ATTACK.get(),
-			ImmutableList.of(Pair.of(0, new WildfireShockwaveAttackTask())),
-			ImmutableSet.of(
-				Pair.of(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER, MemoryModuleState.VALUE_PRESENT),
-				Pair.of(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT)
-			)
+			Activity.FIGHT,
+			10,
+			ImmutableList.of(
+				new WildfireSummonBlazeTask(),
+				new WildfireBarrageAttackTask(),
+				new WildfireShockwaveAttackTask()
+			),
+			MemoryModuleType.ATTACK_TARGET
 		);
 	}
 
@@ -128,9 +119,7 @@ public final class WildfireBrain
 
 	public static void updateActivities(WildfireEntity wildfire) {
 		wildfire.getBrain().resetPossibleActivities(ImmutableList.of(
-			FriendsAndFoesActivities.SUMMON_BLAZE.get(),
-			FriendsAndFoesActivities.WILDFIRE_BARRAGE_ATTACK.get(),
-			FriendsAndFoesActivities.WILDFIRE_SHOCKWAVE_ATTACK.get(),
+			Activity.FIGHT,
 			Activity.AVOID,
 			Activity.IDLE
 		));
@@ -154,7 +143,10 @@ public final class WildfireBrain
 		if (
 			wildfire.getBrain().getOptionalMemory(FriendsAndFoesMemoryModuleTypes.WILDFIRE_BARRAGE_ATTACK_COOLDOWN.get()).isPresent()
 			&& wildfire.getBrain().getOptionalMemory(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get()).isPresent()
-			&& wildfire.getBrain().getOptionalMemory(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SUMMON_BLAZE_COOLDOWN.get()).isPresent()
+			&& (
+				wildfire.getBrain().getOptionalMemory(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SUMMON_BLAZE_COOLDOWN.get()).isPresent()
+				|| wildfire.getSummonedBlazesCount() == WildfireEntity.MAXIMUM_SUMMONED_BLAZES_COUNT
+			)
 		) {
 			runAwayFrom(wildfire, attacker);
 		}

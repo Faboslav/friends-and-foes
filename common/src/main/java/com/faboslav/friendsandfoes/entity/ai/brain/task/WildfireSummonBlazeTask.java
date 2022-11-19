@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.entity.ai.brain.task;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.api.BlazeEntityAccess;
 import com.faboslav.friendsandfoes.entity.WildfireEntity;
 import com.faboslav.friendsandfoes.entity.ai.brain.WildfireBrain;
@@ -24,7 +25,7 @@ public class WildfireSummonBlazeTask extends Task<WildfireEntity>
 	private int summonedBlazesCount;
 
 	private final static int SUMMON_BLAZES_DURATION = 20;
-	private final static int MIN_BLAZES_TO_BE_SUMMONED = 1;
+	public final static int MIN_BLAZES_TO_BE_SUMMONED = 1;
 	private final static int MAX_BLAZES_TO_BE_SUMMONED = 2;
 
 	public WildfireSummonBlazeTask() {
@@ -48,8 +49,9 @@ public class WildfireSummonBlazeTask extends Task<WildfireEntity>
 					|| ((PlayerEntity) attackTarget).isCreative()
 				)
 			)
-			|| wildfire.getSummonedBlazesCount() >= MAX_BLAZES_TO_BE_SUMMONED
+			|| wildfire.getSummonedBlazesCount() == wildfire.MAXIMUM_SUMMONED_BLAZES_COUNT
 		) {
+			WildfireBrain.setSummonBlazeCooldown(wildfire);
 			return false;
 		}
 
@@ -68,12 +70,12 @@ public class WildfireSummonBlazeTask extends Task<WildfireEntity>
 
 		WildfireBrain.setAttackTarget(wildfire, this.attackTarget);
 
-		this.summonedBlazesCount = wildfire.getSummonedBlazesCount();
+		this.summonedBlazesCount = 0;
 	}
 
 	@Override
 	protected boolean shouldKeepRunning(ServerWorld world, WildfireEntity wildfire, long time) {
-		return this.summonedBlazesCount <= wildfire.getSummonedBlazesCount();
+		return this.summonedBlazesCount == 0;
 	}
 
 	@Override
@@ -100,6 +102,7 @@ public class WildfireSummonBlazeTask extends Task<WildfireEntity>
 			blazeEntity.initialize(serverWorld, serverWorld.getLocalDifficulty(blockPos), SpawnReason.MOB_SUMMONED, null, null);
 			serverWorld.spawnEntityAndPassengers(blazeEntity);
 
+			this.summonedBlazesCount++;
 			wildfire.setSummonedBlazesCount(wildfire.getSummonedBlazesCount() + 1);
 		}
 	}

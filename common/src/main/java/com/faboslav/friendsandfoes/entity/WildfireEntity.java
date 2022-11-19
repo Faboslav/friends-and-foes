@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.entity;
 
 import com.faboslav.friendsandfoes.entity.ai.brain.WildfireBrain;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
+import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityData;
@@ -17,6 +18,7 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.WardenBrain;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
@@ -41,6 +43,8 @@ public final class WildfireEntity extends HostileEntity
 	public static final int DEFAULT_ACTIVE_SHIELDS_COUNT = 4;
 	public static final int DEFAULT_TICKS_UNTIL_SHIELD_REGENERATION = 300;
 	public static final int DEFAULT_SUMMONED_BLAZES_COUNT = 0;
+
+	public static final int MAXIMUM_SUMMONED_BLAZES_COUNT = 2;
 
 	private static final String ACTIVE_SHIELDS_NBT_NAME = "ActiveShieldsCount";
 	private static final String TICKS_UNTIL_SHIELD_REGENERATION_NBT_NAME = "TicksUntilShieldRegeneration";
@@ -73,14 +77,8 @@ public final class WildfireEntity extends HostileEntity
 	}
 
 	@Override
-	protected Brain.Profile<?> createBrainProfile() {
-		return Brain.createProfile(WildfireBrain.MEMORY_MODULES, WildfireBrain.SENSORS);
-	}
-
-	@Override
-	@SuppressWarnings("all")
 	protected Brain<?> deserializeBrain(Dynamic<?> dynamic) {
-		return WildfireBrain.create((Brain<WildfireEntity>) this.createBrainProfile().deserialize(dynamic));
+		return WildfireBrain.create(dynamic);
 	}
 
 	@Override
@@ -274,7 +272,13 @@ public final class WildfireEntity extends HostileEntity
 		DamageSource source,
 		float amount
 	) {
-		if (source == DamageSource.IN_FIRE) {
+		if (
+			source == DamageSource.IN_FIRE
+			|| (
+				source.getAttacker() != null
+				&& source.getAttacker().getType().isIn(FriendsAndFoesTags.WILDFIRE_ALLIES)
+			)
+		) {
 			return false;
 		}
 

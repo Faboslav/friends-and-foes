@@ -169,6 +169,15 @@
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.mauler.hurt"
 	},
+	"entity.shield_debris.impact": {
+		"sounds": [
+			"friendsandfoes:entity/shield_debris/impact1",
+			"friendsandfoes:entity/shield_debris/impact2",
+			"friendsandfoes:entity/shield_debris/impact3",
+			"friendsandfoes:entity/shield_debris/impact4"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.shield_debris.impact"
+	},
 	"entity.wildfire.ambient": {
 		"sounds": [
 			"friendsandfoes:entity/wildfire/ambient1",

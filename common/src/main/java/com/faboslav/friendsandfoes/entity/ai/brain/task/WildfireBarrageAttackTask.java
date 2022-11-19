@@ -1,6 +1,8 @@
 package com.faboslav.friendsandfoes.entity.ai.brain.task;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.WildfireEntity;
+import com.faboslav.friendsandfoes.entity.WildfireShieldDebrisEntity;
 import com.faboslav.friendsandfoes.entity.ai.brain.WildfireBrain;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
 import com.google.common.collect.ImmutableMap;
@@ -10,14 +12,13 @@ import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.LookTargetUtil;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.SmallFireballEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.random.Random;
 
 public class WildfireBarrageAttackTask extends Task<WildfireEntity>
 {
-	private int fireballsFired;
-	private int fireballCooldown;
+	private int shieldDebrisFired;
+	private int shieldDebrisCooldown;
 	private boolean canDoMeeleAttack;
 	private LivingEntity attackTarget;
 	private int attackTargetIsNotVisibleTicks;
@@ -65,7 +66,7 @@ public class WildfireBarrageAttackTask extends Task<WildfireEntity>
 
 		WildfireBrain.setAttackTarget(wildfire, this.attackTarget);
 
-		this.fireballsFired = 0;
+		this.shieldDebrisFired = 0;
 		this.attackTargetIsNotVisibleTicks = 0;
 		this.canDoMeeleAttack = true;
 	}
@@ -87,7 +88,7 @@ public class WildfireBarrageAttackTask extends Task<WildfireEntity>
 					|| ((PlayerEntity) attackTarget).isCreative()
 				)
 			)
-			|| fireballsFired > MAX_FIREBALLS_TO_BE_FIRED
+			|| shieldDebrisFired > MAX_FIREBALLS_TO_BE_FIRED
 		) {
 			return false;
 		}
@@ -116,8 +117,8 @@ public class WildfireBarrageAttackTask extends Task<WildfireEntity>
 		double targetY = this.attackTarget.getBodyY(0.5) - wildfire.getBodyY(0.5);
 		double targetZ = this.attackTarget.getZ() - wildfire.getZ();
 
-		if (this.fireballCooldown > 0) {
-			this.fireballCooldown--;
+		if (this.shieldDebrisCooldown > 0) {
+			this.shieldDebrisCooldown--;
 			return;
 		}
 
@@ -147,24 +148,24 @@ public class WildfireBarrageAttackTask extends Task<WildfireEntity>
 
 		Random random = wildfire.getRandom();
 
-		for (int i = 0; i < 5; i++) {
-			SmallFireballEntity smallFireballEntity = new SmallFireballEntity(
+		for (int i = 0; i < 8; i++) {
+			WildfireShieldDebrisEntity shieldDebris = new WildfireShieldDebrisEntity(
 				world,
 				wildfire,
 				random.nextTriangular(targetX, 2.297 * h),
 				targetY,
 				random.nextTriangular(targetZ, 2.297 * h)
 			);
-			smallFireballEntity.setPosition(
-				smallFireballEntity.getX(),
+			shieldDebris.setPosition(
+				shieldDebris.getX(),
 				wildfire.getBodyY(0.5) + 0.5,
-				smallFireballEntity.getZ()
+				shieldDebris.getZ()
 			);
-			wildfire.world.spawnEntity(smallFireballEntity);
-			this.fireballsFired++;
+			wildfire.world.spawnEntity(shieldDebris);
+			this.shieldDebrisFired++;
 		}
 
-		this.fireballCooldown = 10;
+		this.shieldDebrisCooldown = 10;
 	}
 
 	@Override

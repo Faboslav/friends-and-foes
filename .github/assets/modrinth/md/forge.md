@@ -53,6 +53,12 @@
 </p>
 
 <p>
+	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/wildfire.png" width="412" height="232" />
+	<span>&emsp;&emsp;</span>
+	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/citadel.png" width="412" height="232" />
+</p>
+
+<p>
 	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/beehive.png" width="412" height="232" />
 	<span>&emsp;&emsp;</span>
 	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/copper_button.png" width="412" height="232" />

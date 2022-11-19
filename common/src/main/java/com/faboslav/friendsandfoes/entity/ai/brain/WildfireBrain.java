@@ -121,21 +121,22 @@ public final class WildfireBrain
 		));
 	}
 
-	public static void setBarrageAttackCooldown(LivingEntity wildfire) {
+	public static void setBarrageAttackCooldown(WildfireEntity wildfire) {
 		wildfire.getBrain().remember(FriendsAndFoesMemoryModuleTypes.WILDFIRE_BARRAGE_ATTACK_COOLDOWN.get(), BARRAGE_ATTACK_COOLDOWN_PROVIDER.get(wildfire.getRandom()));
+		onCooldown(wildfire);
 	}
 
-	public static void setShockwaveAttackCooldown(LivingEntity wildfire) {
+	public static void setShockwaveAttackCooldown(WildfireEntity wildfire) {
 		wildfire.getBrain().remember(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get(), SHOCKWAVE_ATTACK_COOLDOWN_PROVIDER.get(wildfire.getRandom()));
+		onCooldown(wildfire);
 	}
 
-	public static void setSummonBlazeCooldown(LivingEntity wildfire) {
+	public static void setSummonBlazeCooldown(WildfireEntity wildfire) {
 		wildfire.getBrain().remember(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SUMMON_BLAZE_COOLDOWN.get(), SUMMON_BLAZE_COOLDOWN_PROVIDER.get(wildfire.getRandom()));
+		onCooldown(wildfire);
 	}
 
-	public static void onAttacked(WildfireEntity wildfire, LivingEntity attacker) {
-		setAttackTarget(wildfire, attacker);
-
+	public static boolean shouldRunAway(WildfireEntity wildfire) {
 		if (
 			wildfire.getBrain().getOptionalMemory(FriendsAndFoesMemoryModuleTypes.WILDFIRE_BARRAGE_ATTACK_COOLDOWN.get()).isPresent()
 			&& wildfire.getBrain().getOptionalMemory(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get()).isPresent()
@@ -144,6 +145,30 @@ public final class WildfireBrain
 				|| wildfire.getSummonedBlazesCount() == WildfireEntity.MAXIMUM_SUMMONED_BLAZES_COUNT
 			)
 		) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public static void onCooldown(WildfireEntity wildfire) {
+		if (shouldRunAway(wildfire) == false) {
+			return;
+		}
+
+		LivingEntity attackTarget = wildfire.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).orElse(null);
+
+		if (attackTarget == null) {
+			return;
+		}
+
+		runAwayFrom(wildfire, attackTarget);
+	}
+
+	public static void onAttacked(WildfireEntity wildfire, LivingEntity attacker) {
+		setAttackTarget(wildfire, attacker);
+
+		if (shouldRunAway(wildfire)) {
 			runAwayFrom(wildfire, attacker);
 		}
 	}

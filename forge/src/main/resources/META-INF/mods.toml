@@ -14,7 +14,7 @@ logoFile = "icon.jpg"
 [[dependencies.friendsandfoes]]
 modId = "forge"
 mandatory = true
-versionRange = "[41.1.0,)"
+versionRange = "[43.1.0,)"
 ordering = "NONE"
 side = "BOTH"
 

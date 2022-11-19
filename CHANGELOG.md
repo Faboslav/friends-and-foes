@@ -1,9 +1,10 @@
-## mc1.19.2-1.6.0, November xx, 2022
+## mc1.19.2-1.6.0, November 19, 2022
 
 - Added Wildfire
 - Added Wildfire Crown Fragment and Wildfire Crown items
 - Added Citadel structure in the nether dimension
 - Fixed bed color in Illusioner Shack structure
+- Fixed mobs despawning in the structures
 - enableBeekeeperVillagerProfession config option will now work correctly
 
 ## mc1.19.2-1.5.12, October 31, 2022

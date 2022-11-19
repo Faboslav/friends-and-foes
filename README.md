@@ -10,8 +10,6 @@ You can check [wiki] for a detailed overview of implemented features. Also feel 
 
 ## Important links
 
----
-
 - [CurseForge (Fabric)]
 - [Modrinth (Fabric)]
 - [CurseForge (Forge)]
@@ -22,14 +20,10 @@ You can check [wiki] for a detailed overview of implemented features. Also feel 
 
 ## Support
 
----
-
 I will continue to develop my mods regardless of any support as it is my hobby and I very much enjoy it. If you want to support me anyway you can
 do that on [Patreon] or [Ko-fi], I appreciate that.
 
 ## License, source code and other resources
-
----
 
 The mod is licensed with [CC BY-NC-ND 4.0] license.
 

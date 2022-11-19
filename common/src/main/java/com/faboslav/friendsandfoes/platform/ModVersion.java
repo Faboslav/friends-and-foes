@@ -1,8 +1,7 @@
 package com.faboslav.friendsandfoes.platform;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public final class ModVersion
 {

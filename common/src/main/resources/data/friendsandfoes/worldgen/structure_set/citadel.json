@@ -1,0 +1,18 @@
+{
+	"structures": [
+		{
+			"structure": "friendsandfoes:citadel",
+			"weight": 1
+		}
+	],
+	"placement": {
+		"salt": 878514152,
+		"spacing": 16,
+		"separation": 8,
+		"type": "minecraft:random_spread",
+		"exclusion_zone": {
+			"other_set": "minecraft:nether_complexes",
+			"chunk_count": 8
+		}
+	}
+}

@@ -1,0 +1,15 @@
+{
+	"name": "friendsandfoes:citadel/base_plate",
+	"fallback": "minecraft:empty",
+	"elements": [
+		{
+			"weight": 1,
+			"element": {
+				"location": "friendsandfoes:citadel/citadel",
+				"processors": "friendsandfoes:citadel/citadel",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		}
+	]
+}

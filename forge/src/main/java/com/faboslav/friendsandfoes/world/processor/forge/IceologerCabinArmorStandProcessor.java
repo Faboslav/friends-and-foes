@@ -12,8 +12,10 @@ import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Inspired by use in Better Strongholds by
- * YUNGNICKYOUNG (https://github.com/YUNG-GANG/YUNGs-Better-Strongholds)
+ * Inspired by use in Better Strongholds mod
+ *
+ * @author YUNGNICKYOUNG
+ * <a href="https://github.com/YUNG-GANG/YUNGs-Better-Strongholds">https://github.com/YUNG-GANG/YUNGs-Better-Strongholds</a>
  */
 public final class IceologerCabinArmorStandProcessor extends StructureProcessor
 {

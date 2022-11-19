@@ -1,0 +1,41 @@
+{
+	"parent": "friendsandfoes:nether/kill_wildfire",
+	"display": {
+		"icon": {
+			"item": "friendsandfoes:wildfire_crown",
+			"nbt": "{Damage:0}"
+		},
+		"title": {
+			"translate": "advancements.nether.obtain_wildfire_crown.title"
+		},
+		"description": {
+			"translate": "advancements.nether.obtain_wildfire_crown.description"
+		},
+		"frame": "challenge",
+		"show_toast": true,
+		"announce_to_chat": true,
+		"hidden": true
+	},
+	"criteria": {
+		"wildfire_crown": {
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"friendsandfoes:wildfire_crown"
+						]
+					}
+				]
+			},
+			"trigger": "minecraft:inventory_changed"
+		}
+	},
+	"requirements": [
+		[
+			"wildfire_crown"
+		]
+	],
+	"rewards": {
+		"experience": 100
+	}
+}

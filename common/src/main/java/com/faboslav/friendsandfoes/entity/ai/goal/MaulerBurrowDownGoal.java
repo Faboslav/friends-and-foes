@@ -63,6 +63,7 @@ public final class MaulerBurrowDownGoal extends Goal
 		if (this.getBurrowedDownTicks() == 0) {
 			this.burrowedDownTicks = RandomGenerator.generateInt(600, 1200);
 		}
+
 		this.mauler.setBurrowedDown(true);
 		this.mauler.setInvulnerable(true);
 

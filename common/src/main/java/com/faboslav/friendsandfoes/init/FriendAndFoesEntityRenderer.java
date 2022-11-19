@@ -19,6 +19,7 @@ public final class FriendAndFoesEntityRenderer
 		RegistryHelper.registerEntityRenderer(FriendsAndFoesEntityTypes.ICE_CHUNK, IceologerIceChunkRenderer::new);
 		RegistryHelper.registerEntityRenderer(FriendsAndFoesEntityTypes.MAULER, MaulerEntityRenderer::new);
 		RegistryHelper.registerEntityRenderer(FriendsAndFoesEntityTypes.MOOBLOOM, MoobloomEntityRenderer::new);
+		RegistryHelper.registerEntityRenderer(FriendsAndFoesEntityTypes.WILDFIRE, WildfireEntityRenderer::new);
 	}
 
 	private FriendAndFoesEntityRenderer() {

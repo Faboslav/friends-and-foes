@@ -1,0 +1,16 @@
+package com.faboslav.friendsandfoes.api;
+
+import com.faboslav.friendsandfoes.entity.WildfireEntity;
+import com.faboslav.friendsandfoes.mixin.BlazeEntityMixin;
+import org.jetbrains.annotations.Nullable;
+
+/**
+ * @see BlazeEntityMixin
+ */
+public interface BlazeEntityAccess
+{
+	void setWildfire(WildfireEntity wildfire);
+
+	@Nullable
+	WildfireEntity getWildfire();
+}

@@ -10,6 +10,8 @@ import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.brain.Activity;
+import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.item.Item;
 import net.minecraft.sound.SoundEvent;
@@ -17,12 +19,19 @@ import net.minecraft.structure.processor.StructureProcessor;
 import net.minecraft.structure.processor.StructureProcessorType;
 import net.minecraft.util.Identifier;
 import net.minecraft.village.VillagerProfession;
+import net.minecraft.world.gen.structure.Structure;
+import net.minecraft.world.gen.structure.StructureType;
 import net.minecraft.world.poi.PointOfInterestType;
 
 import java.util.function.Supplier;
 
 public final class RegistryHelper
 {
+	@ExpectPlatform
+	public static <T extends Activity> Supplier<T> registerActivity(String name, Supplier<T> activity) {
+		throw new AssertionError();
+	}
+
 	@ExpectPlatform
 	public static <T extends Block> Supplier<T> registerBlock(String name, Supplier<T> block) {
 		throw new AssertionError();
@@ -63,6 +72,14 @@ public final class RegistryHelper
 	}
 
 	@ExpectPlatform
+	public static <T extends MemoryModuleType<?>> Supplier<T> registerMemoryModuleType(
+		String name,
+		Supplier<T> memoryModuleType
+	) {
+		throw new AssertionError();
+	}
+
+	@ExpectPlatform
 	public static <T extends PointOfInterestType> Supplier<T> registerPointOfInterestType(
 		String name,
 		Supplier<T> pointOfInterestType
@@ -98,6 +115,14 @@ public final class RegistryHelper
 		Supplier<T> block,
 		int burnChance,
 		int spreadChance
+	) {
+		throw new AssertionError();
+	}
+
+	@ExpectPlatform
+	public static <T extends Structure> void registerStructureType(
+		String name,
+		StructureType<T> structureCodec
 	) {
 		throw new AssertionError();
 	}

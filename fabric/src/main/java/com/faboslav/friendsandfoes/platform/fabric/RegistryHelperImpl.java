@@ -14,6 +14,8 @@ import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.brain.Activity;
+import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.item.Item;
 import net.minecraft.sound.SoundEvent;
@@ -22,12 +24,19 @@ import net.minecraft.structure.processor.StructureProcessorType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.village.VillagerProfession;
+import net.minecraft.world.gen.structure.Structure;
+import net.minecraft.world.gen.structure.StructureType;
 import net.minecraft.world.poi.PointOfInterestType;
 
 import java.util.function.Supplier;
 
 public final class RegistryHelperImpl
 {
+	public static <T extends Activity> Supplier<T> registerActivity(String name, Supplier<T> activity) {
+		var registry = Registry.register(Registry.ACTIVITY, FriendsAndFoes.makeID(name), activity.get());
+		return () -> registry;
+	}
+
 	public static <T extends Block> Supplier<T> registerBlock(String name, Supplier<T> block) {
 		var registry = Registry.register(Registry.BLOCK, FriendsAndFoes.makeID(name), block.get());
 		return () -> registry;
@@ -61,6 +70,14 @@ public final class RegistryHelperImpl
 
 	public static <T extends Item> Supplier<T> registerItem(String name, Supplier<T> item) {
 		var registry = Registry.register(Registry.ITEM, FriendsAndFoes.makeID(name), item.get());
+		return () -> registry;
+	}
+
+	public static <T extends MemoryModuleType<?>> Supplier<T> registerMemoryModuleType(
+		String name,
+		Supplier<T> memoryModuleType
+	) {
+		var registry = Registry.register(Registry.MEMORY_MODULE_TYPE, FriendsAndFoes.makeID(name), memoryModuleType.get());
 		return () -> registry;
 	}
 
@@ -103,5 +120,12 @@ public final class RegistryHelperImpl
 		StructureProcessorType<? extends StructureProcessor> structureProcessorType
 	) {
 		Registry.register(Registry.STRUCTURE_PROCESSOR, identifier, structureProcessorType);
+	}
+
+	public static <T extends Structure> void registerStructureType(
+		String name,
+		StructureType<T> structureType
+	) {
+		Registry.register(Registry.STRUCTURE_TYPE, FriendsAndFoes.makeID(name), structureType);
 	}
 }

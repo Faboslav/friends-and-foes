@@ -1,0 +1,133 @@
+{
+	"processors": [
+		{
+			"processor_type": "friendsandfoes:citadel_bottom_processor",
+			"target_block": {
+				"Name": "minecraft:yellow_concrete"
+			},
+			"target_block_output": {
+				"Name": "minecraft:nether_bricks"
+			}
+		},
+		{
+			"processor_type": "minecraft:rule",
+			"rules": [
+				{
+					"input_predicate": {
+						"block": "minecraft:nether_bricks",
+						"predicate_type": "minecraft:random_block_match",
+						"probability": 0.33
+					},
+					"location_predicate": {
+						"predicate_type": "minecraft:always_true"
+					},
+					"output_state": {
+						"Name": "minecraft:cracked_nether_bricks"
+					}
+				}
+			]
+		},
+		{
+			"processor_type": "minecraft:rule",
+			"rules": [
+				{
+					"input_predicate": {
+						"block": "minecraft:nether_wart",
+						"probability": 0.33,
+						"predicate_type": "minecraft:random_block_match"
+					},
+					"location_predicate": {
+						"predicate_type": "minecraft:always_true"
+					},
+					"output_state": {
+						"Properties": {
+							"age": "0"
+						},
+						"Name": "minecraft:nether_wart"
+					}
+				}
+			]
+		},
+		{
+			"processor_type": "minecraft:rule",
+			"rules": [
+				{
+					"input_predicate": {
+						"block": "minecraft:nether_wart",
+						"probability": 0.33,
+						"predicate_type": "minecraft:random_block_match"
+					},
+					"location_predicate": {
+						"predicate_type": "minecraft:always_true"
+					},
+					"output_state": {
+						"Properties": {
+							"age": "1"
+						},
+						"Name": "minecraft:nether_wart"
+					}
+				}
+			]
+		},
+		{
+			"processor_type": "minecraft:rule",
+			"rules": [
+				{
+					"input_predicate": {
+						"block": "minecraft:nether_wart",
+						"probability": 0.33,
+						"predicate_type": "minecraft:random_block_match"
+					},
+					"location_predicate": {
+						"predicate_type": "minecraft:always_true"
+					},
+					"output_state": {
+						"Properties": {
+							"age": "2"
+						},
+						"Name": "minecraft:nether_wart"
+					}
+				}
+			]
+		},
+		{
+			"processor_type": "minecraft:rule",
+			"rules": [
+				{
+					"input_predicate": {
+						"block": "minecraft:nether_wart",
+						"probability": 0.33,
+						"predicate_type": "minecraft:random_block_match"
+					},
+					"location_predicate": {
+						"predicate_type": "minecraft:always_true"
+					},
+					"output_state": {
+						"Properties": {
+							"age": "3"
+						},
+						"Name": "minecraft:nether_wart"
+					}
+				}
+			]
+		},
+		{
+			"processor_type": "minecraft:rule",
+			"rules": [
+				{
+					"input_predicate": {
+						"block": "minecraft:barrel",
+						"predicate_type": "minecraft:random_block_match",
+						"probability": 0.8
+					},
+					"location_predicate": {
+						"predicate_type": "minecraft:always_true"
+					},
+					"output_state": {
+						"Name": "minecraft:air"
+					}
+				}
+			]
+		}
+	]
+}

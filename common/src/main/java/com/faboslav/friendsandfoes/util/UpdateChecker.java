@@ -5,9 +5,10 @@ import com.faboslav.friendsandfoes.platform.ModVersion;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import net.minecraft.SharedConstants;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.io.IOException;
+import java.lang.module.ModuleDescriptor.Version;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -21,7 +22,7 @@ public final class UpdateChecker
 	public static void checkForNewUpdates() {
 		CompletableFuture.runAsync(() -> {
 			if (FriendsAndFoes.getConfig().checkForNewUpdates) {
-				String latestVersion = UpdateChecker.getLatestVersion();
+				Version latestVersion = UpdateChecker.getLatestVersion();
 
 				if (latestVersion == null) {
 					return;
@@ -33,9 +34,9 @@ public final class UpdateChecker
 					return;
 				}
 
-				if (latestVersion.equals(modVersion) == false) {
+				if (latestVersion.compareTo(Version.parse(modVersion)) > 0) {
 					FriendsAndFoes.getLogger().info(
-						"[Friends&Foes] An update is available! You're using {} version but the latest version is {}!",
+						"[Friends&Foes] An update is available! You're using {} version, but the latest version is {}.",
 						modVersion,
 						latestVersion
 					);
@@ -45,7 +46,7 @@ public final class UpdateChecker
 	}
 
 	@Nullable
-	public static String getLatestVersion() {
+	public static Version getLatestVersion() {
 		HttpClient client = HttpClient.newHttpClient();
 		HttpRequest request = HttpRequest.newBuilder(
 			URI.create("https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/versions.json")
@@ -71,7 +72,7 @@ public final class UpdateChecker
 			return null;
 		}
 
-		return json.get(gameVersion).getAsString();
+		return Version.parse(json.get(gameVersion).getAsString());
 	}
 }
 

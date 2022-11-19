@@ -2,8 +2,7 @@ package com.faboslav.friendsandfoes.platform.fabric;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import net.fabricmc.loader.api.FabricLoader;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public final class ModVersionImpl
 {

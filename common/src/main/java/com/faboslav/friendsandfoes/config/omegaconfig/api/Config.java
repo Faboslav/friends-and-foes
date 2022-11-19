@@ -3,8 +3,14 @@ package com.faboslav.friendsandfoes.config.omegaconfig.api;
 import com.faboslav.friendsandfoes.config.omegaconfig.OmegaConfig;
 
 /**
- * Originally from ΩConfig(https://github.com/Draylar/omega-config) by Draylar.
- * Inspired by use in Repurposed Structures by TelepathicGrunt(https://github.com/TelepathicGrunt/RepurposedStructures)
+ * Originally from ΩConfig
+ *
+ * @author Draylar
+ * <a href="https://github.com/Draylar/omega-config">https://github.com/Draylar/omega-config</a>
+ * <p>
+ * Inspired by use in Repurposed Structures mod
+ * @author TelepathicGrunt
+ * <a href="https://github.com/TelepathicGrunt/RepurposedStructures">https://github.com/TelepathicGrunt/RepurposedStructures</a>
  */
 @SuppressWarnings({"unchecked"})
 public interface Config

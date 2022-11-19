@@ -1,7 +1,9 @@
 package com.faboslav.friendsandfoes.init;
 
+import com.faboslav.friendsandfoes.item.FriendsAndFoesArmorMaterials;
 import com.faboslav.friendsandfoes.platform.RegistryHelper;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.*;
 
 import java.util.function.Supplier;
@@ -17,6 +19,7 @@ public final class FriendsAndFoesItems
 	public final static Supplier<Item> ILLUSIONER_SPAWN_EGG;
 	public final static Supplier<Item> MAULER_SPAWN_EGG;
 	public final static Supplier<Item> MOOBLOOM_SPAWN_EGG;
+	public final static Supplier<Item> WILDFIRE_SPAWN_EGG;
 	public static final Supplier<Item> BUTTERCUP;
 	public static final Supplier<Item> ACACIA_BEEHIVE;
 	public static final Supplier<Item> BIRCH_BEEHIVE;
@@ -41,14 +44,17 @@ public final class FriendsAndFoesItems
 	public static final Supplier<Item> WAXED_EXPOSED_LIGHTNING_ROD;
 	public static final Supplier<Item> WAXED_WEATHERED_LIGHTNING_ROD;
 	public static final Supplier<Item> WAXED_OXIDIZED_LIGHTNING_ROD;
+	public static final Supplier<Item> WILDFIRE_CROWN;
+	public static final Supplier<Item> WILDFIRE_CROWN_FRAGMENT;
 
 	static {
 		COPPER_GOLEM_SPAWN_EGG = RegistryHelper.registerItem("copper_golem_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.COPPER_GOLEM.get(), 0x9A5038, 0xE3826C, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
 		GLARE_SPAWN_EGG = RegistryHelper.registerItem("glare_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.GLARE.get(), 0x70922D, 0x6A5227, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
-		ICEOLOGER_SPAWN_EGG = RegistryHelper.registerItem("iceologer_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.ICEOLOGER.get(), 0x173873, 0x949b9b, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
-		ILLUSIONER_SPAWN_EGG = RegistryHelper.registerItem("illusioner_spawn_egg", () -> new SpawnEggItem(EntityType.ILLUSIONER, 0x603e5c, 0x888e8e, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
+		ICEOLOGER_SPAWN_EGG = RegistryHelper.registerItem("iceologer_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.ICEOLOGER.get(), 0x173873, 0x949B9B, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
+		ILLUSIONER_SPAWN_EGG = RegistryHelper.registerItem("illusioner_spawn_egg", () -> new SpawnEggItem(EntityType.ILLUSIONER, 0x603E5C, 0x888E8E, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
 		MAULER_SPAWN_EGG = RegistryHelper.registerItem("mauler_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.MAULER.get(), 0x534F25, 0x817B39, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
-		MOOBLOOM_SPAWN_EGG = RegistryHelper.registerItem("moobloom_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.MOOBLOOM.get(), 0xf7EDC1, 0xFACA00, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
+		MOOBLOOM_SPAWN_EGG = RegistryHelper.registerItem("moobloom_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.MOOBLOOM.get(), 0xF7EDC1, 0xFACA00, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
+		WILDFIRE_SPAWN_EGG = RegistryHelper.registerItem("wildfire_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.WILDFIRE.get(), 0x6C3100, 0xFFD528, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
 		BUTTERCUP = RegistryHelper.registerItem("buttercup", () -> new BlockItem(FriendsAndFoesBlocks.BUTTERCUP.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
 		ACACIA_BEEHIVE = RegistryHelper.registerItem("acacia_beehive", () -> new BlockItem(FriendsAndFoesBlocks.ACACIA_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
 		BIRCH_BEEHIVE = RegistryHelper.registerItem("birch_beehive", () -> new BlockItem(FriendsAndFoesBlocks.BIRCH_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
@@ -73,6 +79,8 @@ public final class FriendsAndFoesItems
 		WAXED_EXPOSED_LIGHTNING_ROD = RegistryHelper.registerItem("waxed_exposed_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_EXPOSED_LIGHTNING_ROD.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
 		WAXED_WEATHERED_LIGHTNING_ROD = RegistryHelper.registerItem("waxed_weathered_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_WEATHERED_LIGHTNING_ROD.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
 		WAXED_OXIDIZED_LIGHTNING_ROD = RegistryHelper.registerItem("waxed_oxidized_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
+		WILDFIRE_CROWN = RegistryHelper.registerItem("wildfire_crown", () -> new ArmorItem(FriendsAndFoesArmorMaterials.WILDFIRE, EquipmentSlot.HEAD, (new Item.Settings()).group(ItemGroup.COMBAT).fireproof()));
+		WILDFIRE_CROWN_FRAGMENT = RegistryHelper.registerItem("wildfire_crown_fragment", () -> new Item((new Item.Settings()).group(ItemGroup.MATERIALS)));
 	}
 
 	public static void init() {

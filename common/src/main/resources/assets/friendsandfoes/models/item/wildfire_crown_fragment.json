@@ -1,0 +1,6 @@
+{
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"layer0": "friendsandfoes:item/wildfire_crown_fragment"
+	}
+}

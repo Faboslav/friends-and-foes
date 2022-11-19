@@ -1,0 +1,10 @@
+{
+	"replace": false,
+	"values": [
+		"#minecraft:is_nether",
+		{
+			"id": "#c:in_nether",
+			"required": false
+		}
+	]
+}

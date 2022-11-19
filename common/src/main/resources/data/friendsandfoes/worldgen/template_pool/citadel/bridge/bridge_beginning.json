@@ -1,0 +1,42 @@
+{
+	"name": "friendsandfoes:citadel/bridge/bridge_beginning",
+	"fallback": "minecraft:empty",
+	"elements": [
+		{
+			"weight": 3,
+			"element": {
+				"location": "friendsandfoes:citadel/bridge/bridge_beginning",
+				"processors": "friendsandfoes:citadel/citadel",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		},
+		{
+			"weight": 2,
+			"element": {
+				"location": "friendsandfoes:citadel/bridge/bridge_beginning_damaged",
+				"processors": "friendsandfoes:citadel/citadel",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		},
+		{
+			"weight": 2,
+			"element": {
+				"location": "friendsandfoes:citadel/bridge/bridge_beginning_broken",
+				"processors": "friendsandfoes:citadel/citadel",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		},
+		{
+			"weight": 1,
+			"element": {
+				"location": "friendsandfoes:citadel/bridge/bridge_beginning_destroyed",
+				"processors": "friendsandfoes:citadel/citadel",
+				"projection": "rigid",
+				"element_type": "minecraft:single_pool_element"
+			}
+		}
+	]
+}

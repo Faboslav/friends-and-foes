@@ -24,7 +24,6 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
@@ -33,8 +32,6 @@ import org.jetbrains.annotations.Nullable;
 public final class WildfireEntity extends HostileEntity
 {
 	private float damageAmountCounter = 0.0F;
-	private float eyeOffset = 0.5F;
-	private int eyeOffsetCooldown;
 
 	public static final float GENERIC_ATTACK_DAMAGE = 8.0F;
 	public static final float GENERIC_FOLLOW_RANGE = 32.0F;
@@ -94,19 +91,6 @@ public final class WildfireEntity extends HostileEntity
 		this.world.getProfiler().push("wildfireActivityUpdate");
 		WildfireBrain.updateActivities(this);
 		this.world.getProfiler().pop();
-
-		--this.eyeOffsetCooldown;
-		if (this.eyeOffsetCooldown <= 0) {
-			this.eyeOffsetCooldown = 100;
-			this.eyeOffset = (float) this.random.nextTriangular(0.5, 6.891);
-		}
-
-		LivingEntity livingEntity = this.getTarget();
-		if (livingEntity != null && livingEntity.getEyeY() > this.getEyeY() + (double) this.eyeOffset && this.canTarget(livingEntity)) {
-			Vec3d vec3d = this.getVelocity();
-			this.setVelocity(this.getVelocity().add(0.0, (0.30000001192092896 - vec3d.y) * 0.30000001192092896, 0.0));
-			this.velocityDirty = true;
-		}
 
 		super.mobTick();
 	}

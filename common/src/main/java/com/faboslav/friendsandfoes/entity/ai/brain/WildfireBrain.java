@@ -1,11 +1,9 @@
 package com.faboslav.friendsandfoes.entity.ai.brain;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.WildfireEntity;
 import com.faboslav.friendsandfoes.entity.ai.brain.task.WildfireBarrageAttackTask;
 import com.faboslav.friendsandfoes.entity.ai.brain.task.WildfireShockwaveAttackTask;
 import com.faboslav.friendsandfoes.entity.ai.brain.task.WildfireSummonBlazeTask;
-import com.faboslav.friendsandfoes.init.FriendsAndFoesActivities;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -15,12 +13,10 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.task.*;
-import net.minecraft.entity.mob.WardenEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.TimeHelper;
 import net.minecraft.util.math.intprovider.UniformIntProvider;

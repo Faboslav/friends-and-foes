@@ -244,7 +244,7 @@ public final class WildfireEntity extends HostileEntity
 	}
 
 	public void tickMovement() {
-		if (this.onGround == false && this.getVelocity().y < 0.0F) {
+		if (this.isOnGround() == false && this.getVelocity().y < 0.0F) {
 			this.setVelocity(this.getVelocity().multiply(1.0F, 0.6F, 1.0F));
 		}
 
@@ -265,7 +265,7 @@ public final class WildfireEntity extends HostileEntity
 			return false;
 		}
 
-		if (this.hasActiveShields()) {
+		if (this.hasActiveShields() && source.getAttacker() != null) {
 			this.damageAmountCounter += amount;
 			float shieldBreakDamageThreshold = (float) this.getAttributeValue(EntityAttributes.GENERIC_MAX_HEALTH) * 0.25F;
 

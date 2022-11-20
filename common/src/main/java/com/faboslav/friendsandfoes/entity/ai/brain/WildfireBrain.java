@@ -96,7 +96,7 @@ public final class WildfireBrain
 			Activity.AVOID,
 			10,
 			ImmutableList.of(
-				GoToRememberedPositionTask.toEntity(MemoryModuleType.AVOID_TARGET, 1.4F, 16, true),
+				GoToRememberedPositionTask.createEntityBased(MemoryModuleType.AVOID_TARGET, 1.4F, 16, true),
 				makeRandomWanderTask()
 			),
 			MemoryModuleType.AVOID_TARGET
@@ -106,8 +106,8 @@ public final class WildfireBrain
 	private static RandomTask<WildfireEntity> makeRandomWanderTask() {
 		return new RandomTask(
 			ImmutableList.of(
-				Pair.of(new StrollTask(0.6F), 2),
-				Pair.of(new GoTowardsLookTarget(1.0F, 3), 2),
+				Pair.of(StrollTask.create(0.6F), 2),
+				Pair.of(GoTowardsLookTargetTask.create(1.0F, 3), 2),
 				Pair.of(new WaitTask(30, 60), 1)
 			)
 		);

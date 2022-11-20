@@ -18,9 +18,10 @@ public final class OxidizableButtonBlock extends CopperButtonBlock implements Ox
 
 	public OxidizableButtonBlock(
 		OxidationLevel OxidationLevel,
-		Settings settings
+		Settings settings,
+		int pressTicks
 	) {
-		super(settings);
+		super(settings, pressTicks);
 		this.OxidationLevel = OxidationLevel;
 	}
 

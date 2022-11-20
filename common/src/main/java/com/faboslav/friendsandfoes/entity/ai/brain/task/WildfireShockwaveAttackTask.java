@@ -11,6 +11,7 @@ import net.minecraft.entity.MovementType;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.LookTargetUtil;
+import net.minecraft.entity.ai.brain.task.MultiTickTask;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
@@ -19,7 +20,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
-public final class WildfireShockwaveAttackTask extends Task<WildfireEntity>
+public final class WildfireShockwaveAttackTask extends MultiTickTask<WildfireEntity>
 {
 	private final static int SHOCKWAVE_DURATION = 20;
 	private final static int SHOCKWAVE_PHASE_ONE_END_TICK = 15;

@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.client.render.entity.animation;
 
 import net.minecraft.client.model.ModelPart;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.Vec3d;
 
 public final class ModelPartAnimator
 {
@@ -19,9 +19,9 @@ public final class ModelPartAnimator
 
 	public static void setPosition(
 		ModelPart modelPart,
-		Vec3f position
+		Vec3d position
 	) {
-		modelPart.setPivot(position.getX(), position.getY(), position.getZ());
+		modelPart.setPivot((float) position.getX(), (float) position.getY(), (float) position.getZ());
 	}
 
 	public static void setXRotation(ModelPart modelPart, float x) {
@@ -38,8 +38,8 @@ public final class ModelPartAnimator
 
 	public static void setRotation(
 		ModelPart modelPart,
-		Vec3f rotation
+		Vec3d rotation
 	) {
-		modelPart.setAngles(rotation.getX(), rotation.getY(), rotation.getZ());
+		modelPart.setAngles((float) rotation.getX(), (float) rotation.getY(), (float) rotation.getZ());
 	}
 }

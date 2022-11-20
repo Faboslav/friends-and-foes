@@ -215,10 +215,6 @@ public final class IceologerIceChunkEntity extends Entity
 		}
 	}
 
-	public Packet<?> createSpawnPacket() {
-		return new EntitySpawnS2CPacket(this);
-	}
-
 	public int getTicksUntilFall() {
 		return this.dataTracker.get(TICKS_UNTIL_FALL);
 	}

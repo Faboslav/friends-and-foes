@@ -5,7 +5,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.Vec3d;
 
 @Environment(EnvType.CLIENT)
 public final class ModelAnimator
@@ -35,7 +35,7 @@ public final class ModelAnimator
 		float targetZ,
 		float progress
 	) {
-		Vec3f targetVector = new Vec3f(targetX, targetY, targetZ);
+		Vec3d targetVector = new Vec3d(targetX, targetY, targetZ);
 		this.animateWithProgress(modelPart, ModelPartAnimationType.POSITION, targetVector, progress);
 	}
 
@@ -58,20 +58,20 @@ public final class ModelAnimator
 		float targetZ,
 		float progress
 	) {
-		Vec3f targetVector = new Vec3f(targetX, targetY, targetZ);
+		Vec3d targetVector = new Vec3d(targetX, targetY, targetZ);
 		this.animateWithProgress(modelPart, ModelPartAnimationType.ROTATION, targetVector, progress);
 	}
 
 	private void animateWithProgress(
 		ModelPart modelPart,
 		ModelPartAnimationType animationType,
-		Vec3f targetVector,
+		Vec3d targetVector,
 		float progress
 	) {
 		String modelPartName = modelPart.toString();
 		ModelPartAnimationContext animationContext;
-		Vec3f animationCurrentVector;
-		Vec3f animationTargetVector;
+		Vec3d animationCurrentVector;
+		Vec3d animationTargetVector;
 
 		if (this.getAnimationContextTracker().contains(modelPartName, animationType)) {
 			animationContext = this.getAnimationContextTracker().get(modelPartName, animationType);
@@ -89,8 +89,8 @@ public final class ModelAnimator
 			}
 		} else {
 			animationCurrentVector = switch (animationType) {
-				case POSITION -> new Vec3f(modelPart.pivotX, modelPart.pivotY, modelPart.pivotZ);
-				case ROTATION -> new Vec3f(modelPart.pitch, modelPart.yaw, modelPart.roll);
+				case POSITION -> new Vec3d(modelPart.pivotX, modelPart.pivotY, modelPart.pivotZ);
+				case ROTATION -> new Vec3d(modelPart.pitch, modelPart.yaw, modelPart.roll);
 			};
 
 			animationContext = ModelPartAnimationContext.createWithProgress(
@@ -130,7 +130,7 @@ public final class ModelAnimator
 		float targetZ,
 		int ticks
 	) {
-		Vec3f targetVector = new Vec3f(targetX, targetY, targetZ);
+		Vec3d targetVector = new Vec3d(targetX, targetY, targetZ);
 		this.animateOverTicks(modelPart, ModelPartAnimationType.POSITION, targetVector, ticks);
 	}
 
@@ -153,20 +153,20 @@ public final class ModelAnimator
 		float targetZ,
 		int ticks
 	) {
-		Vec3f targetVector = new Vec3f(targetX, targetY, targetZ);
+		Vec3d targetVector = new Vec3d(targetX, targetY, targetZ);
 		this.animateOverTicks(modelPart, ModelPartAnimationType.ROTATION, targetVector, ticks);
 	}
 
 	private void animateOverTicks(
 		ModelPart modelPart,
 		ModelPartAnimationType animationType,
-		Vec3f targetVector,
+		Vec3d targetVector,
 		int ticks
 	) {
 		String modelPartName = modelPart.toString();
 		ModelPartAnimationContext animationContext;
-		Vec3f currentVector;
-		Vec3f animationTargetVector;
+		Vec3d currentVector;
+		Vec3d animationTargetVector;
 
 		if (this.getAnimationContextTracker().contains(modelPartName, animationType)) {
 			animationContext = this.getAnimationContextTracker().get(modelPartName, animationType);
@@ -195,8 +195,8 @@ public final class ModelAnimator
 			}
 		} else {
 			currentVector = switch (animationType) {
-				case POSITION -> new Vec3f(modelPart.pivotX, modelPart.pivotY, modelPart.pivotZ);
-				case ROTATION -> new Vec3f(modelPart.pitch, modelPart.yaw, modelPart.roll);
+				case POSITION -> new Vec3d(modelPart.pivotX, modelPart.pivotY, modelPart.pivotZ);
+				case ROTATION -> new Vec3d(modelPart.pitch, modelPart.yaw, modelPart.roll);
 			};
 
 			animationContext = ModelPartAnimationContext.createWithTicks(

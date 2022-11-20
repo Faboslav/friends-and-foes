@@ -2,8 +2,10 @@ package com.faboslav.friendsandfoes.init;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.platform.RegistryHelper;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.world.poi.PointOfInterestType;
 import net.minecraft.world.poi.PointOfInterestTypes;
 
@@ -43,7 +45,7 @@ public final class FriendsAndFoesPointOfInterestTypes
 
 	private static void fillMissingPointOfInterestMapValues() {
 		var acaciaBeehiveStates = PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.ACACIA_BEEHIVE.get());
-		PointOfInterestTypes.POI_STATES.addAll(acaciaBeehiveStates);
+		PointOfInterestTypes.POI_STATES_TO_TYPE.addAll(acaciaBeehiveStates);
 		acaciaBeehiveStates.forEach((state) -> {
 			PointOfInterestTypes.POI_STATES_TO_TYPE.put(
 				state,
@@ -73,9 +75,9 @@ public final class FriendsAndFoesPointOfInterestTypes
 		crimsonBeehiveStates.forEach((state) -> {
 			PointOfInterestTypes.POI_STATES_TO_TYPE.put(
 				state,
-				Registry.POINT_OF_INTEREST_TYPE.getEntry(
+				RegistryKeys.POINT_OF_INTEREST_TYPE.getEntry(
 					RegistryKey.of(
-						Registry.POINT_OF_INTEREST_TYPE_KEY, FriendsAndFoes.makeID("crimson_beehive")
+						RegistryKeys.POINT_OF_INTEREST_TYPE, FriendsAndFoes.makeID("crimson_beehive")
 					)
 				).get()
 			);

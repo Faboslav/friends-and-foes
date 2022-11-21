@@ -1,3 +1,7 @@
+## mc1.19.2-1.6.1, November 21, 2022
+
+- Fixed crash caused by wildfire taking damage from the environment
+
 ## mc1.19.2-1.6.0, November 19, 2022
 
 - Added Wildfire

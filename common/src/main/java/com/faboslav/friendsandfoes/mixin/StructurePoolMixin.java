@@ -1,20 +1,14 @@
 package com.faboslav.friendsandfoes.mixin;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.mojang.datafixers.util.Pair;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.structure.pool.StructurePool;
 import net.minecraft.structure.pool.StructurePoolElement;
-import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
-import java.util.Objects;
 
 @Mixin(StructurePool.class)
 public final class StructurePoolMixin
@@ -35,6 +29,7 @@ public final class StructurePoolMixin
 		}
 	}
 
+	/*
 	@Inject(
 		at = @At("TAIL"),
 		method = "<init>(Lnet/minecraft/util/Identifier;Lnet/minecraft/util/Identifier;Ljava/util/List;Lnet/minecraft/structure/pool/StructurePool$Projection;)V"
@@ -73,5 +68,5 @@ public final class StructurePoolMixin
 				addElement(FriendsAndFoes.makeStringID("ancient_city/city_center/copper_golem_city_center_1"), 3, projection);
 			}
 		}
-	}
+	}*/
 }

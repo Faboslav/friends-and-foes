@@ -1,7 +1,9 @@
 package com.faboslav.friendsandfoes.init;
 
+import com.faboslav.friendsandfoes.block.CopperButtonBlock;
 import com.faboslav.friendsandfoes.block.Oxidizable;
-import com.faboslav.friendsandfoes.block.*;
+import com.faboslav.friendsandfoes.block.OxidizableButtonBlock;
+import com.faboslav.friendsandfoes.block.OxidizableLightningRodBlock;
 import com.faboslav.friendsandfoes.platform.RegistryHelper;
 import net.minecraft.block.*;
 import net.minecraft.entity.effect.StatusEffects;

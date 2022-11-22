@@ -70,7 +70,8 @@ public final class WildfireBrain
 		brain.setTaskList(
 			Activity.IDLE,
 			ImmutableList.of(
-				Pair.of(0, new UpdateAttackTargetTask(wildfire -> getTarget((WildfireEntity) wildfire))),
+				// TODO migrate
+				//Pair.of(0, new UpdateAttackTargetTask(wildfire -> getTarget((WildfireEntity) wildfire))),
 				Pair.of(0, makeRandomWanderTask())
 			)
 		);

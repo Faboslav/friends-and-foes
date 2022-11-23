@@ -15,6 +15,7 @@ import net.minecraft.client.render.entity.EntityRendererFactory.Context;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RotationAxis;
 
 @Environment(EnvType.CLIENT)
 @SuppressWarnings({"rawtypes", "unchecked"})
@@ -42,8 +43,7 @@ public final class IceologerIceChunkRenderer extends EntityRenderer<IceologerIce
 			iceChunk.getSummonAnimationProgress()
 		);
 		matrixStack.push();
-		// TODO replace
-		//matrixStack.multiply(Vec3d.POSITIVE_Y.getDegreesQuaternion(180.0F - iceChunk.getYaw()));
+		matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(90.0F - 180.0F - iceChunk.getYaw()));
 		VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(this.model.getLayer(TEXTURE));
 		this.model.setAngles(iceChunk, 0.0F, 0.0F, 0.0F, iceChunk.getYaw(), iceChunk.getPitch());
 		this.model.animateModel(iceChunk, 0.0F, 0.0F, tickDelta);

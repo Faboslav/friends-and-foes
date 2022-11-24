@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes.forge;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.FriendsAndFoesClient;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesStructurePoolElements;
 import com.faboslav.friendsandfoes.platform.forge.RegistryHelperImpl;
 import com.faboslav.friendsandfoes.util.CustomRaidMember;
 import com.faboslav.friendsandfoes.util.ServerWorldSpawnersUtil;
@@ -127,5 +128,10 @@ public final class FriendsAndFoesForge
 		}
 
 		serverTickDeltaCounter.beginRenderTick(Util.getMeasuringTimeMs());
+	}
+
+	@SubscribeEvent
+	public void onServerAboutToStartEvent(ServerAboutToStartEvent event) {
+		FriendsAndFoesStructurePoolElements.init(event.getServer());
 	}
 }

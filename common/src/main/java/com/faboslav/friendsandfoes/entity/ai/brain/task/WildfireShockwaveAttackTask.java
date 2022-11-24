@@ -38,10 +38,10 @@ public final class WildfireShockwaveAttackTask extends MultiTickTask<WildfireEnt
 
 	@Override
 	protected boolean shouldRun(ServerWorld world, WildfireEntity wildfire) {
-		LivingEntity nearestTarget = wildfire.getBrain().getOptionalMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER).orElse(null);
+		LivingEntity nearestTarget = wildfire.getBrain().getOptionalRegisteredMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER).orElse(null);
 
 		if (nearestTarget == null) {
-			nearestTarget = wildfire.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).orElse(null);
+			nearestTarget = wildfire.getBrain().getOptionalRegisteredMemory(MemoryModuleType.ATTACK_TARGET).orElse(null);
 		}
 		if (
 			nearestTarget == null

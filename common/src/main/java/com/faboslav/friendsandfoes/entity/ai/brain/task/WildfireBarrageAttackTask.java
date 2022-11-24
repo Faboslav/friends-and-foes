@@ -34,7 +34,7 @@ public class WildfireBarrageAttackTask extends MultiTickTask<WildfireEntity>
 
 	@Override
 	protected boolean shouldRun(ServerWorld world, WildfireEntity wildfire) {
-		var attackTarget = wildfire.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).orElse(null);
+		var attackTarget = wildfire.getBrain().getOptionalRegisteredMemory(MemoryModuleType.ATTACK_TARGET).orElse(null);
 
 		if (
 			attackTarget == null
@@ -73,7 +73,7 @@ public class WildfireBarrageAttackTask extends MultiTickTask<WildfireEntity>
 	@Override
 	protected boolean shouldKeepRunning(ServerWorld world, WildfireEntity wildfire, long time) {
 		if (attackTarget.isAlive() == false) {
-			attackTarget = wildfire.getBrain().getOptionalMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER).orElse(null);
+			attackTarget = wildfire.getBrain().getOptionalRegisteredMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER).orElse(null);
 		}
 
 		if (
@@ -92,7 +92,7 @@ public class WildfireBarrageAttackTask extends MultiTickTask<WildfireEntity>
 			return false;
 		}
 
-		var nearestVisibleTargetablePlayer = wildfire.getBrain().getOptionalMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER).orElse(null);
+		var nearestVisibleTargetablePlayer = wildfire.getBrain().getOptionalRegisteredMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER).orElse(null);
 
 		return nearestVisibleTargetablePlayer == null
 			   || !nearestVisibleTargetablePlayer.isAlive()

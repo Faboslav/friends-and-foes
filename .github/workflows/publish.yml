@@ -19,7 +19,7 @@ env:
         qsl | depends | *
     RETRY_ATTEMPTS: 3
     RELAY_DELAY: 10000
-    VERSION_RESOLVER: latest}
+    VERSION_RESOLVER: latest
 
 jobs:
     build:

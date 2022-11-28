@@ -27,3 +27,4 @@ accessible field net/minecraft/item/ItemGroups FUNCTIONAL Lnet/minecraft/item/It
 accessible field net/minecraft/item/ItemGroups REDSTONE Lnet/minecraft/item/ItemGroup;
 accessible field net/minecraft/item/ItemGroups INGREDIENTS Lnet/minecraft/item/ItemGroup;
 accessible field net/minecraft/item/ItemGroups COMBAT Lnet/minecraft/item/ItemGroup;
+accessible method net/minecraft/sound/SoundEvent of (Lnet/minecraft/util/Identifier;)Lnet/minecraft/sound/SoundEvent;

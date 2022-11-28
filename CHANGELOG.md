@@ -1,3 +1,7 @@
+## mc1.19.3-1.6.2, December xx, 2022
+
+- Ported to 1.19.3
+
 ## mc1.19.2-1.6.1, November 21, 2022
 
 - Fixed crash caused by wildfire taking damage from the environment

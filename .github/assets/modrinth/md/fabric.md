@@ -1,7 +1,5 @@
 <img title="Friends&amp;Foes" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/title.jpg" alt="Friends&amp;Foes">
 
-<p></p>
-
 <p style="text-align: center;">
 	<a style="text-decoration: none;" href="https://ko-fi.com/faboslav">
 		<img src="https://img.shields.io/static/v1?label=&amp;message=Ko-fi&amp;color=ff5f5f&amp;labelColor=111214&amp;logoColor=white&amp;style=for-the-badge&amp;logo=ko-fi" height="28" />

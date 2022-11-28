@@ -12,8 +12,14 @@ import net.minecraft.util.Identifier;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StructurePoolHelper {
-	public static void addElementToPool(Registry<StructurePool> templatePoolRegistry, Identifier poolRL, String name, int weight) {
+public class StructurePoolHelper
+{
+	public static void addElementToPool(
+		Registry<StructurePool> templatePoolRegistry,
+		Identifier poolRL,
+		String name,
+		int weight
+	) {
 		StructurePool pool = templatePoolRegistry.get(poolRL);
 		if (pool == null) {
 			return;

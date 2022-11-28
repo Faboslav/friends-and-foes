@@ -19,7 +19,7 @@ env:
         qsl | depends | *
     RETRY_ATTEMPTS: 3
     RELAY_DELAY: 10000
-    VERSION_RESOLVER: latest}
+    VERSION_RESOLVER: latest
 
 jobs:
     build:
@@ -32,7 +32,7 @@ jobs:
                 uses: actions/checkout@v3
 
             -   name: "Set up JDK"
-                uses: actions/setup-java@v3.3.0
+                uses: actions/setup-java@v3.6.0
                 with:
                     java-version: 17
                     distribution: temurin

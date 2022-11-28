@@ -44,15 +44,15 @@ This mod would not exist in the state as it is without the following people:
 
 [wiki]: https://github.com/Faboslav/friends-and-foes/wiki
 
-[CurseForge (Fabric)]: https://www.curseforge.com/minecraft/mc-mods/friends-foes
+[CurseForge (Fabric)]: https://www.curseforge.com/minecraft/mc-mods/friends-and-foes
 
 [Modrinth (Fabric)]: https://modrinth.com/mod/friends-and-foes
 
-[CurseForge (Forge)]: https://www.curseforge.com/minecraft/mc-mods/friends-foes-forge
+[CurseForge (Forge)]: https://www.curseforge.com/minecraft/mc-mods/friends-and-foes-forge
 
 [Modrinth (Forge)]: https://modrinth.com/mod/friends-and-foes-forge
 
-[CurseForge (Quilt)]: https://www.curseforge.com/minecraft/mc-mods/friends-foes-quilt
+[CurseForge (Quilt)]: https://www.curseforge.com/minecraft/mc-mods/friends-and-foes-quilt
 
 [Modrinth (Quilt)]: https://modrinth.com/mod/friends-and-foes-quilt
 

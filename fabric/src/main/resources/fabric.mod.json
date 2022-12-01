@@ -26,6 +26,9 @@
 		"server": [
 			"com.faboslav.friendsandfoes.fabric.FriendsAndFoesFabricServer"
 		],
+		"preLaunch": [
+			"com.llamalad7.mixinextras.MixinExtrasBootstrap::init"
+		],
 		"modmenu": [
 			"com.faboslav.friendsandfoes.integrations.fabric.ModMenuIntegration"
 		]

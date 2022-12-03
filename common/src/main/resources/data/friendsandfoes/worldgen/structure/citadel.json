@@ -1,5 +1,5 @@
 {
-	"type": "friendsandfoes:lava_ocean_structure",
+	"type": "friendsandfoes:citadel_structure",
 	"start_pool": "friendsandfoes:citadel/base_plate",
 	"size": 10,
 	"biomes": "#friendsandfoes:has_structure/citadel",

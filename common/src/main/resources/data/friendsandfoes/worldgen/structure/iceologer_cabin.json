@@ -1,5 +1,5 @@
 {
-	"type": "minecraft:jigsaw",
+	"type": "friendsandfoes:iceologer_cabin_structure",
 	"start_pool": "friendsandfoes:iceologer_cabin/base_plates",
 	"size": 5,
 	"biomes": "#friendsandfoes:has_structure/iceologer_cabin",

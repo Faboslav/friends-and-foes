@@ -1,0 +1,16 @@
+{
+	"replace": false,
+	"values": [
+		"#friendsandfoes:collections/snowy_forest",
+		"#friendsandfoes:collections/snowy_mountains",
+		"#friendsandfoes:collections/snowy_plains",
+		{
+			"id": "#c:snowy",
+			"required": false
+		},
+		{
+			"id": "#c:snowy_plains",
+			"required": false
+		}
+	]
+}

@@ -1,5 +1,9 @@
 {
 	"values": [
-		"minecraft:flower_forest"
+		"minecraft:flower_forest",
+		{
+			"id": "#c:flower_forests",
+			"required": false
+		}
 	]
 }

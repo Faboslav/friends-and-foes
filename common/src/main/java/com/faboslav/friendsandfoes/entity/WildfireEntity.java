@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.entity;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.ai.brain.WildfireBrain;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
@@ -233,6 +234,10 @@ public final class WildfireEntity extends HostileEntity
 	}
 
 	public void tick() {
+		if (FriendsAndFoes.getConfig().enableWildfire == false) {
+			this.discard();
+		}
+
 		super.tick();
 
 		this.setTicksUntilShieldRegeneration(this.getTicksUntilShieldRegeneration() - 1);

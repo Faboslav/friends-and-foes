@@ -1,3 +1,8 @@
+## mc1.19.2-1.6.2, December 03, 2022
+
+- Decently improved glare performance and AI
+- Fixed crash caused by mixin plugin
+
 ## mc1.19.2-1.6.1, November 21, 2022
 
 - Fixed crash caused by wildfire taking damage from the environment

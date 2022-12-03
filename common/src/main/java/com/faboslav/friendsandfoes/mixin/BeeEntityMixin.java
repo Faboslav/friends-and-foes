@@ -49,7 +49,7 @@ public abstract class BeeEntityMixin extends AnimalEntity
 	) {
 		if (this.isInvulnerableTo(source) == false) {
 			if (
-				this.world.isClient() == false
+				this.getWorld().isClient() == false
 				&& this.pollinateMoobloomGoal != null
 			) {
 				this.pollinateMoobloomGoal.cancel();

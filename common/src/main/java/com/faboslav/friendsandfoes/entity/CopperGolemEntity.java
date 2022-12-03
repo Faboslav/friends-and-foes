@@ -238,7 +238,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 
 	@Override
 	public float getSoundPitch() {
-		return (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 2.5F;
+		return (this.getRandom().nextFloat() - this.getRandom().nextFloat()) * 0.2F + 2.5F;
 	}
 
 	@Override
@@ -263,7 +263,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 			return;
 		}
 
-		BlockState blockState = this.world.getBlockState(pos.up());
+		BlockState blockState = this.getWorld().getBlockState(pos.up());
 		BlockSoundGroup blockSoundGroup = blockState.isIn(BlockTags.INSIDE_STEP_SOUND_BLOCKS) ? blockState.getSoundGroup():state.getSoundGroup();
 		this.playSound(FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_STEP.get(), blockSoundGroup.getVolume() * 0.15F, this.getSoundPitch());
 	}
@@ -277,8 +277,10 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 			return false;
 		}
 
-		if (!this.world.isClient) {
-			this.pressButtonGoal.stop();
+		if (this.getWorld().isClient() == false) {
+			if (this.pressButtonGoal.isRunning()) {
+				this.pressButtonGoal.stop();
+			}
 		}
 
 		boolean damageResult = super.damage(source, amount);
@@ -327,7 +329,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 
 		if (interactionResult) {
 			this.emitGameEvent(GameEvent.ENTITY_INTERACT, this);
-			return ActionResult.success(this.world.isClient);
+			return ActionResult.success(this.getWorld().isClient());
 		}
 
 		return super.interactMob(player, hand);
@@ -398,7 +400,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 			this.spawnParticles(ParticleTypes.SCRAPE, 7);
 		}
 
-		if (!this.world.isClient && !player.getAbilities().creativeMode) {
+		if (this.getWorld().isClient() == false && !player.getAbilities().creativeMode) {
 			itemStack.damage(1, player, (playerEntity) -> {
 				player.sendToolBreakStatus(hand);
 			});
@@ -464,15 +466,15 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 
 		if (this.isFallFlying() == false) {
 			BlockPos blockPos = this.getVelocityAffectingPos();
-			float p = this.world.getBlockState(blockPos).getBlock().getSlipperiness();
-			float f = this.onGround ? p * 0.91F:0.91F;
+			float p = this.getWorld().getBlockState(blockPos).getBlock().getSlipperiness();
+			float f = this.isOnGround() ? p * 0.91F:0.91F;
 			Vec3d vec3d6 = this.applyMovementInput(movementInput, p);
 			double q = vec3d6.y;
 			if (this.hasStatusEffect(StatusEffects.LEVITATION)) {
 				q += (0.05 * (double) (this.getStatusEffect(StatusEffects.LEVITATION).getAmplifier() + 1) - vec3d6.y) * 0.2;
 				this.onLanding();
-			} else if (this.world.isClient && !this.world.isChunkLoaded(blockPos)) {
-				if (this.getY() > (double) this.world.getBottomY()) {
+			} else if (this.getWorld().isClient() && this.getWorld().isChunkLoaded(blockPos) == false) {
+				if (this.getY() > (double) this.getWorld().getBottomY()) {
 					q = -0.1;
 				} else {
 					q = 0.0;

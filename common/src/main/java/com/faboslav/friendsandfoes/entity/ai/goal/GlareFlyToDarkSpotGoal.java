@@ -19,6 +19,7 @@ import java.util.EnumSet;
 
 public final class GlareFlyToDarkSpotGoal extends Goal
 {
+	public boolean isRunning = false;
 	private final double DARK_SPOT_SEARCH_DISTANCE = 8.0D;
 	private final GlareEntity glare;
 	private BlockPos darkSpot;
@@ -74,6 +75,7 @@ public final class GlareFlyToDarkSpotGoal extends Goal
 
 	@Override
 	public void start() {
+		this.isRunning = true;
 		this.grumpyTicks = 0;
 		this.runTicks = 0;
 	}
@@ -89,6 +91,7 @@ public final class GlareFlyToDarkSpotGoal extends Goal
 			this.glare.generateRandomTicksUntilCanFindDarkSpot()
 		);
 		this.glare.setGrumpy(false);
+		this.isRunning = false;
 	}
 
 	@Override

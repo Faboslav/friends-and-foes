@@ -65,12 +65,12 @@ public class WildfireShieldDebrisEntity extends AbstractFireballEntity
 
 		if (
 			(entity instanceof MobEntity) == false
-			|| this.world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING)
+			|| this.getWorld().getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING)
 		) {
 			BlockPos blockPos = blockHitResult.getBlockPos().offset(blockHitResult.getSide());
 
-			if (this.world.isAir(blockPos)) {
-				this.world.setBlockState(blockPos, AbstractFireBlock.getState(this.world, blockPos));
+			if (this.getWorld().isAir(blockPos)) {
+				this.getWorld().setBlockState(blockPos, AbstractFireBlock.getState(this.getWorld(), blockPos));
 			}
 		}
 	}

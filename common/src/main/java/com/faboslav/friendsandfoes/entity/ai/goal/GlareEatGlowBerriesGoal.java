@@ -85,6 +85,7 @@ public final class GlareEatGlowBerriesGoal extends Goal
 		}
 	}
 
+	@Override
 	public void stop() {
 		ItemStack itemStack = this.glare.getEquippedStack(EquipmentSlot.MAINHAND);
 		Item itemInHand = this.glare.getEquippedStack(EquipmentSlot.MAINHAND).getItem();

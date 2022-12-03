@@ -11,6 +11,7 @@ import net.minecraft.world.WorldView;
 
 public final class GlareShakeOffGlowBerriesGoal extends MoveToTargetPosGoal
 {
+	public boolean isRunning = false;
 	private final GlareEntity glare;
 	private static final int COLLECTING_TIME = 40;
 	private static final int RANGE = 8;
@@ -53,8 +54,7 @@ public final class GlareShakeOffGlowBerriesGoal extends MoveToTargetPosGoal
 
 	@Override
 	public boolean canStart() {
-		return FriendsAndFoes.getConfig().enableGlareGriefing == false
-			   && this.glare.isLeashed() != true
+		return this.glare.isLeashed() != true
 			   && this.glare.isSitting() != true
 			   && this.glare.getRandom().nextInt(10) == 0
 			   && this.glare.isBaby() == false
@@ -63,6 +63,7 @@ public final class GlareShakeOffGlowBerriesGoal extends MoveToTargetPosGoal
 
 	@Override
 	public void start() {
+		this.isRunning = true;
 		this.timer = 0;
 		super.start();
 	}
@@ -85,16 +86,19 @@ public final class GlareShakeOffGlowBerriesGoal extends MoveToTargetPosGoal
 	}
 
 	@Override
-	public boolean shouldRunEveryTick() {
-		return false;
+	public void stop() {
+		this.isRunning = false;
 	}
 
 	private void shakeOffGlowBerries() {
-		if (this.glare.world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING) == false) {
+		if (
+			this.glare.getWorld().getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING) == false
+			|| FriendsAndFoes.getConfig().enableGlareGriefing == false
+		) {
 			return;
 		}
 
-		BlockState blockState = this.glare.world.getBlockState(this.targetPos);
+		BlockState blockState = this.glare.getWorld().getBlockState(this.targetPos);
 
 		if (CaveVines.hasBerries(blockState) == false) {
 			return;

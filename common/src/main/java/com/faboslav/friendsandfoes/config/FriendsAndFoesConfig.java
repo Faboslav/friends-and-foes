@@ -115,6 +115,9 @@ public final class FriendsAndFoesConfig implements Config
 	@Description("Enable in raids")
 	public boolean enableIceologerInRaids = true;
 
+	@Description("Generate iceologer cabin structure")
+	public boolean generateIceologerCabinStructure = true;
+
 	@Category("Illusioner")
 	@Description("Enable")
 	public boolean enableIllusioner = true;
@@ -124,6 +127,19 @@ public final class FriendsAndFoesConfig implements Config
 
 	@Description("Enable in raids")
 	public boolean enableIllusionerInRaids = true;
+
+	@Description("Generate illusioner shack structure")
+	public boolean generateIllusionerShackStructure = true;
+
+	@Description("Generate illusioner training grounds")
+	public boolean generateIllusionerTrainingGroundsStructure = true;
+
+	@Category("Wildfire")
+	@Description("Enable wildfire")
+	public boolean enableWildfire = true;
+
+	@Description("Generate citadel structure")
+	public boolean generateCitadelStructure = true;
 
 	@Category("Beekeeper")
 	@Description("Enable villager profession")

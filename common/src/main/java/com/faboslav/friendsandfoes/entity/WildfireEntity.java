@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.entity;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.ai.brain.WildfireBrain;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
@@ -85,12 +86,12 @@ public final class WildfireEntity extends HostileEntity
 
 	@Override
 	protected void mobTick() {
-		this.world.getProfiler().push("wildfireBrain");
+		this.getWorld().getProfiler().push("wildfireBrain");
 		this.getBrain().tick((ServerWorld) this.getWorld(), this);
-		this.world.getProfiler().pop();
-		this.world.getProfiler().push("wildfireActivityUpdate");
+		this.getWorld().getProfiler().pop();
+		this.getWorld().getProfiler().push("wildfireActivityUpdate");
 		WildfireBrain.updateActivities(this);
-		this.world.getProfiler().pop();
+		this.getWorld().getProfiler().pop();
 
 		super.mobTick();
 	}
@@ -135,7 +136,7 @@ public final class WildfireEntity extends HostileEntity
 			return;
 		}
 
-		BlockState blockState = this.world.getBlockState(pos.up());
+		BlockState blockState = this.getWorld().getBlockState(pos.up());
 		BlockSoundGroup blockSoundGroup = blockState.isIn(BlockTags.INSIDE_STEP_SOUND_BLOCKS) ? blockState.getSoundGroup():state.getSoundGroup();
 		this.playSound(FriendsAndFoesSoundEvents.ENTITY_WILDFIRE_STEP.get(), blockSoundGroup.getVolume() * 0.15F, blockSoundGroup.getPitch());
 	}
@@ -233,6 +234,10 @@ public final class WildfireEntity extends HostileEntity
 	}
 
 	public void tick() {
+		if (FriendsAndFoes.getConfig().enableWildfire == false) {
+			this.discard();
+		}
+
 		super.tick();
 
 		this.setTicksUntilShieldRegeneration(this.getTicksUntilShieldRegeneration() - 1);

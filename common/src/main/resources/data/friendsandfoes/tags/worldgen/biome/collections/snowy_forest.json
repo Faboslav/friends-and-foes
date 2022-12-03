@@ -1,0 +1,51 @@
+{
+	"replace": false,
+	"values": [
+		"minecraft:snowy_taiga",
+		"minecraft:grove",
+		{
+			"id": "biomesoplenty:snowy_maple_woods",
+			"required": false
+		},
+		{
+			"id": "biomesoplenty:snowy_coniferous_forest",
+			"required": false
+		},
+		{
+			"id": "biomesoplenty:muskeg",
+			"required": false
+		},
+		{
+			"id": "biomesoplenty:rainbow_hills",
+			"required": false
+		},
+		{
+			"id": "byg:frosted_taiga",
+			"required": false
+		},
+		{
+			"id": "byg:frosted_coniferous_forest",
+			"required": false
+		},
+		{
+			"id": "projectvibrantjourneys:snowy_boreal_forest",
+			"required": false
+		},
+		{
+			"id": "projectvibrantjourneys:snowy_redwoods",
+			"required": false
+		},
+		{
+			"id": "wythers:snowy_fen",
+			"required": false
+		},
+		{
+			"id": "wythers:snowy_thermal_taiga",
+			"required": false
+		},
+		{
+			"id": "wythers:deep_snowy_taiga",
+			"required": false
+		}
+	]
+}

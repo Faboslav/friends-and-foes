@@ -1,17 +1,20 @@
 package com.faboslav.friendsandfoes.entity.ai.goal;
 
 import com.faboslav.friendsandfoes.entity.GlareEntity;
-import net.minecraft.entity.ai.AboveGroundTargeting;
-import net.minecraft.entity.ai.FuzzyTargeting;
-import net.minecraft.entity.ai.NoPenaltySolidTargeting;
+import com.faboslav.friendsandfoes.entity.ai.pathing.CachedPathHolder;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.entity.ai.pathing.Path;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.world.World;
 
 import java.util.EnumSet;
 
 public final class GlareWanderAroundGoal extends Goal
 {
 	private final GlareEntity glare;
+	private CachedPathHolder cachedPathHolder;
 
 	public GlareWanderAroundGoal(
 		GlareEntity glare
@@ -39,40 +42,61 @@ public final class GlareWanderAroundGoal extends Goal
 
 	@Override
 	public void start() {
-		Vec3d randomLocation = this.getRandomLocation();
+		if (
+			this.cachedPathHolder == null
+			|| this.cachedPathHolder.pathTimer > 50
+			|| this.cachedPathHolder.cachedPath == null
+			|| (this.glare.getMovementSpeed() <= 0.05d && this.cachedPathHolder.pathTimer > 5)
+			|| this.glare.getBlockPos().getManhattanDistance(this.cachedPathHolder.cachedPath.getTarget()) <= 4
+		) {
+			BlockPos.Mutable mutable = new BlockPos.Mutable().set(glare.getBlockPos());
+			World world = glare.getWorld();
+			int currentGroundBlockPosY = this.getGroundBlockPosition().getY();
+			int blockRange;
 
-		if (randomLocation == null) {
-			return;
+			for (int attempt = 0; attempt < 10; attempt++) {
+				blockRange = 12 - attempt;
+
+				mutable.set(glare.getBlockPos()).set(
+					this.glare.getBlockPos().getX() + this.glare.getRandom().nextBetween(-blockRange, blockRange),
+					this.glare.getRandom().nextBetween(currentGroundBlockPosY - blockRange, currentGroundBlockPosY + blockRange),
+					this.glare.getBlockPos().getZ() + this.glare.getRandom().nextBetween(-blockRange, blockRange)
+				);
+
+				if (world.getBlockState(mutable).isAir()) {
+					break;
+				}
+			}
+
+			Path newPath = glare.getNavigation().findPathTo(mutable, 1);
+			glare.getNavigation().startMovingAlong(newPath, 1);
+
+			if (this.cachedPathHolder == null) {
+				this.cachedPathHolder = new CachedPathHolder();
+			}
+
+			this.cachedPathHolder.cachedPath = newPath;
+			this.cachedPathHolder.pathTimer = 0;
+		} else {
+			glare.getNavigation().startMovingAlong(this.cachedPathHolder.cachedPath, 1);
+			this.cachedPathHolder.pathTimer += 1;
 		}
-
-		var path = this.glare.getNavigation().findPathTo(
-			randomLocation.getX(),
-			randomLocation.getY(),
-			randomLocation.getZ(),
-			0
-		);
-
-		this.glare.getNavigation().startMovingAlong(
-			path,
-			this.glare.getMovementSpeed()
-		);
 	}
 
-	private Vec3d getRandomLocation() {
-		var isAboveSurfaceLevel = this.glare.getBlockPos().getY() >= 63;
-		Vec3d rotationVec = this.glare.getRotationVec(0.0F);
-		Vec3d positionVec;
+	private BlockPos getGroundBlockPosition() {
+		World world = this.glare.getWorld();
+		BlockPos.Mutable mutable = new BlockPos.Mutable().set(this.glare.getBlockPos());
+		int worldBottomY = this.glare.getWorld().getBottomY();
+		BlockState currentMutableBlockState = world.getBlockState(mutable);
 
-		if (isAboveSurfaceLevel) {
-			positionVec = AboveGroundTargeting.find(this.glare, 8, 4, rotationVec.getX(), rotationVec.getZ(), 1.5707964F, 1, 1);
-
-			if (positionVec == null) {
-				positionVec = NoPenaltySolidTargeting.find(this.glare, 8, 4, -2, rotationVec.getX(), rotationVec.getZ(), 1.5707963705062866D);
-			}
-		} else {
-			positionVec = FuzzyTargeting.find(this.glare, 8, 4);
+		while (
+			currentMutableBlockState.isAir()
+			&& mutable.getY() > worldBottomY
+		) {
+			mutable.move(Direction.DOWN);
+			currentMutableBlockState = world.getBlockState(mutable);
 		}
 
-		return positionVec;
+		return mutable;
 	}
 }

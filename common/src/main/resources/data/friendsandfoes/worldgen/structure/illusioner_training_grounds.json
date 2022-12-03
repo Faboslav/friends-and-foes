@@ -1,5 +1,5 @@
 {
-	"type": "minecraft:jigsaw",
+	"type": "friendsandfoes:illusioner_training_grounds_structure",
 	"start_pool": "friendsandfoes:illusioner_training_grounds/illusioner_training_grounds",
 	"size": 5,
 	"biomes": "#friendsandfoes:has_structure/illusioner_training_grounds",

@@ -3,7 +3,6 @@ package com.faboslav.friendsandfoes.entity;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.animation.AnimationContextTracker;
 import com.faboslav.friendsandfoes.entity.ai.goal.*;
-import com.faboslav.friendsandfoes.entity.ai.pathing.GlareNavigation;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesCriteria;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
@@ -15,6 +14,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.control.FlightMoveControl;
 import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer.Builder;
@@ -62,6 +62,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	private static final int GRUMPY_BITMASK = 2;
 	private static final float MOVEMENT_SPEED = 0.6F;
 	public static final int MIN_EYE_ANIMATION_TICK_AMOUNT = 10;
+	public static final int LIGHT_THRESHOLD = 5;
 	public static final int MIN_TICKS_UNTIL_CAN_FIND_DARK_SPOT = 200;
 	public static final int MAX_TICKS_UNTIL_CAN_FIND_DARK_SPOT = 400;
 	public static final int MIN_TICKS_UNTIL_CAN_EAT_GLOW_BERRIES = 300;
@@ -71,6 +72,10 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	private static final TrackedData<Integer> TICKS_UNTIL_CAN_FIND_DARK_SPOT;
 	private static final TrackedData<Integer> TICKS_UNTIL_CAN_EAT_GLOW_BERRIES;
 
+	public GlareEatGlowBerriesGoal eatGlowBerriesGoal;
+	public GlareShakeOffGlowBerriesGoal shakeOffGlowBerriesGoal;
+	private GlareFlyToDarkSpotGoal flyToDarkSpotGoal;
+
 	@Environment(EnvType.CLIENT)
 	private AnimationContextTracker animationTickTracker;
 
@@ -79,8 +84,6 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	private float currentLayerRoll;
 	private float currentLayerPitchAnimationProgress;
 	private float currentLayerRollAnimationProgress;
-	private GlareEatGlowBerriesGoal eatGlowBerriesGoal;
-	private GlareFlyToDarkSpotGoal flyToDarkSpotGoal;
 
 	public GlareEntity(EntityType<? extends GlareEntity> entityType, World world) {
 		super(entityType, world);
@@ -150,7 +153,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 
 		boolean isBelowSurfaceLevel = blockPos.getY() < 63;
 		boolean isSkyHidden = serverWorldAccess.isSkyVisible(blockPos) == false;
-		boolean isBlockPosLightEnough = serverWorldAccess.getBaseLightLevel(blockPos, 0) > 3;
+		boolean isBlockPosLightEnough = serverWorldAccess.getLightLevel(blockPos, 0) > LIGHT_THRESHOLD;
 		boolean isRelatedBlock = blockState.isIn(FriendsAndFoesTags.GLARES_SPAWNABLE_ON);
 
 		return isBelowSurfaceLevel
@@ -168,7 +171,8 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		this.goalSelector.add(4, new FollowParentGoal(this, 1.1));
 		this.eatGlowBerriesGoal = new GlareEatGlowBerriesGoal(this);
 		this.goalSelector.add(5, this.eatGlowBerriesGoal);
-		this.goalSelector.add(5, new GlareShakeOffGlowBerriesGoal(this));
+		this.shakeOffGlowBerriesGoal = new GlareShakeOffGlowBerriesGoal(this);
+		this.goalSelector.add(5, this.shakeOffGlowBerriesGoal);
 		this.flyToDarkSpotGoal = new GlareFlyToDarkSpotGoal(this);
 		this.goalSelector.add(6, this.flyToDarkSpotGoal);
 		this.goalSelector.add(7, new GlareWanderAroundGoal(this));
@@ -226,8 +230,8 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	}
 
 	private void dropItem(ItemStack stack) {
-		ItemEntity itemEntity = new ItemEntity(this.world, this.getX(), this.getY(), this.getZ(), stack);
-		this.world.spawnEntity(itemEntity);
+		ItemEntity itemEntity = new ItemEntity(this.getWorld(), this.getX(), this.getY(), this.getZ(), stack);
+		this.getWorld().spawnEntity(itemEntity);
 	}
 
 	protected void loot(ItemEntity item) {
@@ -309,13 +313,18 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 
 	@Override
 	protected EntityNavigation createNavigation(World world) {
-		GlareNavigation glareNavigation = new GlareNavigation(this, world);
+		BirdNavigation birdNavigation = new BirdNavigation(this, world)
+		{
+			public boolean isValidPosition(BlockPos pos) {
+				return this.world.getBlockState(pos.down()).isAir() == false;
+			}
+		};
 
-		glareNavigation.setCanPathThroughDoors(false);
-		glareNavigation.setCanSwim(true);
-		glareNavigation.setCanEnterOpenDoors(true);
+		birdNavigation.setCanPathThroughDoors(false);
+		birdNavigation.setCanSwim(false);
+		birdNavigation.setCanEnterOpenDoors(true);
 
-		return glareNavigation;
+		return birdNavigation;
 	}
 
 	@Override
@@ -411,7 +420,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 
 		if (interactionResult) {
 			this.emitGameEvent(GameEvent.ENTITY_INTERACT, this);
-			return ActionResult.success(this.world.isClient);
+			return ActionResult.success(this.getWorld().isClient());
 		}
 
 		ActionResult actionResult = super.interactMob(player, hand);
@@ -438,7 +447,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 			return false;
 		}
 
-		if (this.world.isClient) {
+		if (this.getWorld().isClient()) {
 			return true;
 		}
 
@@ -450,7 +459,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 
 		this.heal((float) glowBerries.getFoodComponent().getHunger());
 
-		if (!player.getAbilities().creativeMode) {
+		if (player.getAbilities().creativeMode == false) {
 			itemStack.decrement(1);
 		}
 
@@ -466,21 +475,21 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		PlayerEntity player,
 		ItemStack itemStack
 	) {
-		if (this.world.isClient) {
+		if (this.getWorld().isClient()) {
 			return true;
 		}
 
-		if (!player.getAbilities().creativeMode) {
+		if (player.getAbilities().creativeMode == false) {
 			itemStack.decrement(1);
 		}
 
 		this.playEatSound(itemStack);
 
-		if (this.random.nextInt(3) == 0) {
+		if (this.getRandom().nextInt(3) == 0) {
 			this.setOwner(player);
-			this.world.sendEntityStatus(this, (byte) 7);
+			this.getWorld().sendEntityStatus(this, (byte) 7);
 		} else {
-			this.world.sendEntityStatus(this, (byte) 6);
+			this.getWorld().sendEntityStatus(this, (byte) 6);
 		}
 
 		return true;
@@ -497,7 +506,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	}
 
 	public boolean isInAir() {
-		return !this.onGround;
+		return this.isOnGround() == false;
 	}
 
 	protected void swimUpward(TagKey<Fluid> tagKey) {
@@ -525,10 +534,10 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		}
 
 		for (int i = 0; i < 7; ++i) {
-			double d = this.random.nextGaussian() * 0.02D;
-			double e = this.random.nextGaussian() * 0.02D;
-			double f = this.random.nextGaussian() * 0.02D;
-			this.world.addParticle(particleEffect, this.getParticleX(1.0D), this.getRandomBodyY() + 0.5D, this.getParticleZ(1.0D), d, e, f);
+			double d = this.getRandom().nextGaussian() * 0.02D;
+			double e = this.getRandom().nextGaussian() * 0.02D;
+			double f = this.getRandom().nextGaussian() * 0.02D;
+			this.getWorld().addParticle(particleEffect, this.getParticleX(1.0D), this.getRandomBodyY() + 0.5D, this.getParticleZ(1.0D), d, e, f);
 		}
 	}
 
@@ -591,7 +600,13 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		float amount
 	) {
 		if (this.getWorld().isClient() == false) {
-			this.flyToDarkSpotGoal.stop();
+			if (this.eatGlowBerriesGoal.isRunning) {
+				this.eatGlowBerriesGoal.stop();
+			} else if (this.shakeOffGlowBerriesGoal.isRunning) {
+				this.shakeOffGlowBerriesGoal.stop();
+			} else if (this.flyToDarkSpotGoal.isRunning) {
+				this.flyToDarkSpotGoal.stop();
+			}
 		}
 
 		this.setSitting(false);

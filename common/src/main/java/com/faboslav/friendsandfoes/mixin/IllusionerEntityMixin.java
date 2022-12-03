@@ -179,8 +179,8 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 		}
 
 		if (
-			this.world.isClient()
-			|| !this.isIllusion()
+			this.getWorld().isClient()
+			|| this.isIllusion() == false
 		) {
 			return;
 		}
@@ -301,7 +301,7 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 
 	private void createIllusion(int x, int y, int z) {
 		IllusionerEntity illusioner = (IllusionerEntity) (Object) this;
-		IllusionerEntity illusion = EntityType.ILLUSIONER.create(this.world);
+		IllusionerEntity illusion = EntityType.ILLUSIONER.create(this.getWorld());
 
 		illusion.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
 		IllusionerEntityAccess illusionerAccess = (IllusionerEntityAccess) illusion;
@@ -354,7 +354,7 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 		DefaultParticleType particleType,
 		int amount
 	) {
-		if (this.world.isClient()) {
+		if (this.getWorld().isClient()) {
 			return;
 		}
 

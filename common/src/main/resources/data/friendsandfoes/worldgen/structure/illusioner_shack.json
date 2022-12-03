@@ -1,5 +1,5 @@
 {
-	"type": "minecraft:jigsaw",
+	"type": "friendsandfoes:illusioner_shack_structure",
 	"start_pool": "friendsandfoes:illusioner_shack/base_plates",
 	"size": 5,
 	"biomes": "#friendsandfoes:has_structure/illusioner_shack",

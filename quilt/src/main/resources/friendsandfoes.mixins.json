@@ -10,5 +10,6 @@
 		"AddCustomRaidMemberMixin",
 		"AddCustomSpawnGroupMixin",
 		"StructureEntityProcessorMixin"
-	]
+	],
+	"plugin": "com.faboslav.friendsandfoes.util.plugin.MixinExtrasPlugin"
 }

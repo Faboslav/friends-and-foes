@@ -39,7 +39,7 @@ import static com.faboslav.friendsandfoes.FriendsAndFoes.serverTickDeltaCounter;
 public final class FriendsAndFoesForge
 {
 	public FriendsAndFoesForge() {
-		UpdateChecker.checkForNewUpdates();
+		UpdateChecker.checkForNewUpdates(null);
 		FriendsAndFoes.init();
 
 		if (FMLEnvironment.dist == Dist.CLIENT) {

@@ -55,12 +55,12 @@ public abstract class LightningEntityMixin extends Entity
 	)
 	private void friendsandfoes_cleanLightningRodOxidation(CallbackInfo ci) {
 		BlockPos blockPos = this.getAffectedBlockPos();
-		BlockState blockState = this.world.getBlockState(blockPos);
+		BlockState blockState = this.getWorld().getBlockState(blockPos);
 
 		if (blockState.isIn(FriendsAndFoesTags.LIGHTNING_RODS)) {
-			world.setBlockState(
+			this.getWorld().setBlockState(
 				blockPos,
-				Oxidizable.getUnaffectedOxidationState(world.getBlockState(blockPos))
+				Oxidizable.getUnaffectedOxidationState(this.getWorld().getBlockState(blockPos))
 			);
 		}
 	}

@@ -133,7 +133,7 @@ public final class IceologerIceChunkEntity extends Entity
 	@Nullable
 	public LivingEntity getOwner() {
 		if (this.owner == null && this.getOwnerUuid() != null && this.getWorld().isClient() == false) {
-			Entity entity = ((ServerWorld) this.world).getEntity(this.getOwnerUuid());
+			Entity entity = ((ServerWorld) this.getWorld()).getEntity(this.getOwnerUuid());
 			if (entity instanceof LivingEntity) {
 				this.owner = (LivingEntity) entity;
 			}
@@ -154,7 +154,7 @@ public final class IceologerIceChunkEntity extends Entity
 	@Nullable
 	public LivingEntity getTarget() {
 		if (this.target == null && this.getTargetUuid() != null && this.getWorld().isClient() == false) {
-			Entity entity = ((ServerWorld) this.world).getEntity(this.getTargetUuid());
+			Entity entity = ((ServerWorld) this.getWorld()).getEntity(this.getTargetUuid());
 			if (entity instanceof LivingEntity) {
 				this.target = (LivingEntity) entity;
 			}

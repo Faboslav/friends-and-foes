@@ -1,6 +1,9 @@
-## mc1.19.3-1.6.2, December xx, 2022
+## mc1.19.2-1.6.2, December 03, 2022
 
-- Ported to 1.19.3
+- Greatly improved glare performance and AI
+- Improved overall compatibility with custom biomes from other mods/datapacks
+- All structures can now be properly disabled trough config
+- Fixed crash caused by mixin plugin
 
 ## mc1.19.2-1.6.1, November 21, 2022
 

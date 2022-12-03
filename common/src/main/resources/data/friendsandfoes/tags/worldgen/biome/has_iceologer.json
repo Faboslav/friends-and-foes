@@ -1,7 +1,6 @@
 {
+	"replace": false,
 	"values": [
-		"minecraft:snowy_taiga",
-		"minecraft:snowy_plains",
-		"minecraft:grove"
+		"#friendsandfoes:collections/snowy"
 	]
 }

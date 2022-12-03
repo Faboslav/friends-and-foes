@@ -109,7 +109,7 @@ public final class FriendsAndFoesConfig implements Config
 	@Description("Enable in raids")
 	public boolean enableIceologerInRaids = true;
 
-	@Description("Generate illusioner shack structure")
+	@Description("Generate iceologer cabin structure")
 	public boolean generateIceologerCabinStructure = true;
 
 	@Category("Illusioner")

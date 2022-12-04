@@ -28,6 +28,6 @@ public abstract class ClientPlayNetworkHandlerMixin
 			return;
 		}
 
-		UpdateChecker.checkForNewUpdates(this.client.player);
+		UpdateChecker.checkForNewUpdatesInGame(this.client.player);
 	}
 }

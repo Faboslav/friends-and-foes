@@ -20,7 +20,7 @@ public final class FriendsAndFoesFabric implements ModInitializer
 {
 	@Override
 	public void onInitialize() {
-		UpdateChecker.checkForNewUpdates(null);
+		UpdateChecker.checkForNewUpdates();
 		FriendsAndFoes.init();
 		FriendsAndFoes.postInit();
 		FriendsAndFoesPointOfInterestTypes.postInit();

@@ -1,3 +1,7 @@
+## mc1.19.2-1.6.3, December 04, 2022
+
+- Fixed server crash
+
 ## mc1.19.2-1.6.2, December 03, 2022
 
 - Greatly improved glare performance and AI

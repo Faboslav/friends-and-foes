@@ -25,44 +25,71 @@ public final class UpdateChecker
 {
 	private static final Gson gson = new Gson();
 
-	public static void checkForNewUpdates(@Nullable ClientPlayerEntity clientPlayerEntity) {
+	public static void checkForNewUpdatesInGame(ClientPlayerEntity clientPlayerEntity) {
 		CompletableFuture.runAsync(() -> {
-			if (FriendsAndFoes.getConfig().checkForNewUpdates) {
-				Version latestVersion = UpdateChecker.getLatestVersion();
-
-				if (latestVersion == null) {
-					return;
-				}
-
-				String modVersion = ModVersion.getModVersion();
-
-				if (modVersion == null) {
-					return;
-				}
-
-				if (latestVersion.compareTo(Version.parse(modVersion)) > 0) {
-					if (clientPlayerEntity != null) {
-						String updateMessageString = MessageFormat.format(
-							"Friend&Foes update is available! You are using {0} version, but the latest version is {1}. You can download it at ",
-							modVersion,
-							latestVersion.toString()
-						);
-						MutableText updateMessage = Text.literal(updateMessageString);
-						MutableText curseforgeLink = Text.literal("CurseForge").styled(arg -> arg.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, ProjectUrlProvider.getCurseForgeProjectLink())).withUnderline(true));
-						MutableText updateMessageSecondPart = Text.literal(" or ");
-						MutableText modrinthLink = Text.literal("Modrinth").styled(arg -> arg.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, ProjectUrlProvider.getModrinthProjectLink())).withUnderline(true));
-						MutableText updateMessageThirdPart = Text.literal(".");
-						updateMessage.append(curseforgeLink).append(updateMessageSecondPart).append(modrinthLink).append(updateMessageThirdPart);
-						clientPlayerEntity.sendMessage(updateMessage, false);
-					} else {
-						FriendsAndFoes.getLogger().info(
-							"[Friends&Foes] An update is available! You are using {} version, but the latest version is {}.",
-							modVersion,
-							latestVersion.toString()
-						);
-					}
-				}
+			if (FriendsAndFoes.getConfig().checkForNewUpdates == false) {
+				return;
 			}
+
+			Version latestVersion = UpdateChecker.getLatestVersion();
+			if (latestVersion == null) {
+				return;
+			}
+
+			String modVersion = ModVersion.getModVersion();
+			if (modVersion == null) {
+				return;
+			}
+
+			if (latestVersion.compareTo(Version.parse(modVersion)) <= 0) {
+				return;
+			}
+
+			String updateMessageString = MessageFormat.format(
+				"Friend&Foes update is available! You are using {0} version, but the latest version is {1}. You can download it at ",
+				modVersion,
+				latestVersion.toString()
+			);
+			MutableText updateMessage = Text.literal(updateMessageString);
+			MutableText curseforgeLink = Text.literal("CurseForge").styled(arg -> arg.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, ProjectUrlProvider.getCurseForgeProjectLink())).withUnderline(true));
+			MutableText updateMessageSecondPart = Text.literal(" or ");
+			MutableText modrinthLink = Text.literal("Modrinth").styled(arg -> arg.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, ProjectUrlProvider.getModrinthProjectLink())).withUnderline(true));
+			MutableText updateMessageThirdPart = Text.literal(".");
+			updateMessage.append(curseforgeLink).append(updateMessageSecondPart).append(modrinthLink).append(updateMessageThirdPart);
+			clientPlayerEntity.sendMessage(updateMessage, false);
+			FriendsAndFoes.getLogger().info(
+				"[Friends&Foes] An update is available! You are using {} version, but the latest version is {}.",
+				modVersion,
+				latestVersion.toString()
+			);
+		});
+	}
+
+	public static void checkForNewUpdates() {
+		CompletableFuture.runAsync(() -> {
+			if (FriendsAndFoes.getConfig().checkForNewUpdates == false) {
+				return;
+			}
+
+			Version latestVersion = UpdateChecker.getLatestVersion();
+			if (latestVersion == null) {
+				return;
+			}
+
+			String modVersion = ModVersion.getModVersion();
+			if (modVersion == null) {
+				return;
+			}
+
+			if (latestVersion.compareTo(Version.parse(modVersion)) <= 0) {
+				return;
+			}
+
+			FriendsAndFoes.getLogger().info(
+				"[Friends&Foes] An update is available! You are using {} version, but the latest version is {}.",
+				modVersion,
+				latestVersion.toString()
+			);
 		});
 	}
 

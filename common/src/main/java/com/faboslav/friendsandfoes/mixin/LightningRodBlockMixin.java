@@ -33,7 +33,6 @@ public abstract class LightningRodBlockMixin extends RodBlock implements Oxidiza
 
 	private static final Predicate<BlockState> IS_GOLEM_LIGHTNING_ROD_PREDICATE = state -> state != null && (
 		state == Blocks.LIGHTNING_ROD.getDefaultState().with(LightningRodBlock.FACING, Direction.UP)
-		/*
 		|| state == FriendsAndFoesBlocks.WEATHERED_LIGHTNING_ROD.get().getDefaultState().with(LightningRodBlock.FACING, Direction.UP)
 		|| state == FriendsAndFoesBlocks.EXPOSED_LIGHTNING_ROD.get().getDefaultState().with(LightningRodBlock.FACING, Direction.UP)
 		|| state == FriendsAndFoesBlocks.OXIDIZED_LIGHTNING_ROD.get().getDefaultState().with(LightningRodBlock.FACING, Direction.UP)
@@ -41,7 +40,6 @@ public abstract class LightningRodBlockMixin extends RodBlock implements Oxidiza
 		|| state == FriendsAndFoesBlocks.WAXED_WEATHERED_LIGHTNING_ROD.get().getDefaultState().with(LightningRodBlock.FACING, Direction.UP)
 		|| state == FriendsAndFoesBlocks.WAXED_EXPOSED_LIGHTNING_ROD.get().getDefaultState().with(LightningRodBlock.FACING, Direction.UP)
 		|| state == FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get().getDefaultState().with(LightningRodBlock.FACING, Direction.UP)
-	*/
 	);
 	private static final Predicate<BlockState> IS_GOLEM_HEAD_PREDICATE = state -> state != null && (
 		state.isOf(Blocks.CARVED_PUMPKIN)
@@ -99,7 +97,6 @@ public abstract class LightningRodBlockMixin extends RodBlock implements Oxidiza
 
 		Oxidizable.OxidationLevel lightningRodOxidationLevel;
 
-		/*
 		if (lightningRodBlockState.isOf(FriendsAndFoesBlocks.WAXED_LIGHTNING_ROD.get())) {
 			lightningRodOxidationLevel = Oxidizable.OxidationLevel.UNAFFECTED;
 		} else if (lightningRodBlockState.isOf(FriendsAndFoesBlocks.WAXED_WEATHERED_LIGHTNING_ROD.get())) {
@@ -110,7 +107,7 @@ public abstract class LightningRodBlockMixin extends RodBlock implements Oxidiza
 			lightningRodOxidationLevel = Oxidizable.OxidationLevel.OXIDIZED;
 		} else {
 			lightningRodOxidationLevel = ((LightningRodBlockMixin) lightningRodBlockState.getBlock()).getDegradationLevel();
-		}*/
+		}
 
 		Oxidizable.OxidationLevel bodyOxidationLevel;
 
@@ -126,10 +123,9 @@ public abstract class LightningRodBlockMixin extends RodBlock implements Oxidiza
 			bodyOxidationLevel = ((OxidizableBlock) bodyBlockState.getBlock()).getDegradationLevel();
 		}
 
-		/*
 		if (lightningRodOxidationLevel != bodyOxidationLevel) {
 			return;
-		}*/
+		}
 
 		for (int i = 0; i < this.friendsandfoes_getCopperGolemPattern().getHeight(); ++i) {
 			CachedBlockPosition cachedBlockPosition = patternSearchResult.translate(0, i, 0);
@@ -160,13 +156,12 @@ public abstract class LightningRodBlockMixin extends RodBlock implements Oxidiza
 
 		copperGolemEntity.setOxidationLevel(bodyOxidationLevel);
 
-		/*
 		if (lightningRodOxidationLevel != Oxidizable.OxidationLevel.OXIDIZED) {
 			boolean isHeadBlockWaxed = this.friendsandfoes_isCopperBlockWaxed(headBlockState);
 			boolean isBodyBlockWaxed = this.friendsandfoes_isCopperBlockWaxed(bodyBlockState);
 			boolean isWaxed = isHeadBlockWaxed && isBodyBlockWaxed;
 			copperGolemEntity.setIsWaxed(isWaxed);
-		}*/
+		}
 
 		for (ServerPlayerEntity serverPlayerEntity : world.getNonSpectatingEntities(
 			ServerPlayerEntity.class,
@@ -200,13 +195,11 @@ public abstract class LightningRodBlockMixin extends RodBlock implements Oxidiza
 		return blockState.isOf(Blocks.WAXED_COPPER_BLOCK)
 			   || blockState.isOf(Blocks.WAXED_WEATHERED_COPPER)
 			   || blockState.isOf(Blocks.WAXED_EXPOSED_COPPER)
-			   || blockState.isOf(Blocks.WAXED_OXIDIZED_COPPER);
-			   /*
+			   || blockState.isOf(Blocks.WAXED_OXIDIZED_COPPER)
 			   || blockState.isOf(FriendsAndFoesBlocks.WAXED_LIGHTNING_ROD.get())
 			   || blockState.isOf(FriendsAndFoesBlocks.WAXED_WEATHERED_LIGHTNING_ROD.get())
 			   || blockState.isOf(FriendsAndFoesBlocks.WAXED_EXPOSED_LIGHTNING_ROD.get())
 			   || blockState.isOf(FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get());
-			    */
 	}
 
 	@Override

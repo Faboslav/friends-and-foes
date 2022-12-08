@@ -17,6 +17,7 @@
 		"IllusionerEntityMixin",
 		"LightningEntityMixin",
 		"LightningRodBlockDegradableMixin",
+		"LightningRodBlockMixin",
 		"PatrolSpawnerAccessor",
 		"PatrolSpawnerMixin",
 		"PlayerEntityMixin",

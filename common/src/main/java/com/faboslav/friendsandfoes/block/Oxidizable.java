@@ -14,19 +14,15 @@ import java.util.function.Supplier;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public interface Oxidizable extends net.minecraft.block.Oxidizable
 {
-	Supplier<BiMap<Block, Block>> OXIDATION_LEVEL_INCREASES = Suppliers.memoize(() -> {
-		return (BiMap) ImmutableBiMap.builder()
-			.put(FriendsAndFoesBlocks.COPPER_BUTTON.get(), FriendsAndFoesBlocks.EXPOSED_COPPER_BUTTON.get())
-			.put(FriendsAndFoesBlocks.EXPOSED_COPPER_BUTTON.get(), FriendsAndFoesBlocks.WEATHERED_COPPER_BUTTON.get())
-			.put(FriendsAndFoesBlocks.WEATHERED_COPPER_BUTTON.get(), FriendsAndFoesBlocks.OXIDIZED_COPPER_BUTTON.get())
-			.put(Blocks.LIGHTNING_ROD, FriendsAndFoesBlocks.EXPOSED_LIGHTNING_ROD.get())
-			.put(FriendsAndFoesBlocks.EXPOSED_LIGHTNING_ROD.get(), FriendsAndFoesBlocks.WEATHERED_LIGHTNING_ROD.get())
-			.put(FriendsAndFoesBlocks.WEATHERED_LIGHTNING_ROD.get(), FriendsAndFoesBlocks.OXIDIZED_LIGHTNING_ROD.get())
-			.build();
-	});
-	Supplier<BiMap<Block, Block>> OXIDATION_LEVEL_DECREASES = Suppliers.memoize(() -> {
-		return ((BiMap) OXIDATION_LEVEL_INCREASES.get()).inverse();
-	});
+	Supplier<BiMap<Block, Block>> OXIDATION_LEVEL_INCREASES = Suppliers.memoize(() -> (BiMap) ImmutableBiMap.builder()
+		.put(FriendsAndFoesBlocks.COPPER_BUTTON.get(), FriendsAndFoesBlocks.EXPOSED_COPPER_BUTTON.get())
+		.put(FriendsAndFoesBlocks.EXPOSED_COPPER_BUTTON.get(), FriendsAndFoesBlocks.WEATHERED_COPPER_BUTTON.get())
+		.put(FriendsAndFoesBlocks.WEATHERED_COPPER_BUTTON.get(), FriendsAndFoesBlocks.OXIDIZED_COPPER_BUTTON.get())
+		.put(Blocks.LIGHTNING_ROD, FriendsAndFoesBlocks.EXPOSED_LIGHTNING_ROD.get())
+		.put(FriendsAndFoesBlocks.EXPOSED_LIGHTNING_ROD.get(), FriendsAndFoesBlocks.WEATHERED_LIGHTNING_ROD.get())
+		.put(FriendsAndFoesBlocks.WEATHERED_LIGHTNING_ROD.get(), FriendsAndFoesBlocks.OXIDIZED_LIGHTNING_ROD.get())
+		.build());
+	Supplier<BiMap<Block, Block>> OXIDATION_LEVEL_DECREASES = Suppliers.memoize(() -> ((BiMap) OXIDATION_LEVEL_INCREASES.get()).inverse());
 
 	static Optional<Block> getDecreasedOxidationBlock(Block block) {
 		return Optional.ofNullable((Block) ((BiMap) OXIDATION_LEVEL_DECREASES.get()).get(block));
@@ -34,7 +30,6 @@ public interface Oxidizable extends net.minecraft.block.Oxidizable
 
 	static Block getUnaffectedOxidationBlock(Block block) {
 		Block block2 = block;
-
 		for (Block block3 = (Block) ((BiMap) OXIDATION_LEVEL_DECREASES.get()).get(block); block3 != null; block3 = (Block) ((BiMap) OXIDATION_LEVEL_DECREASES.get()).get(block3)) {
 			block2 = block3;
 		}

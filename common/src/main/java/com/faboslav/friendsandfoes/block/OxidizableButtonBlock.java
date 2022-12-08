@@ -32,7 +32,6 @@ public final class OxidizableButtonBlock extends CopperButtonBlock implements Ox
 		BlockPos pos,
 		Random random
 	) {
-		super.randomTick(state, world, pos, random);
 		this.tickDegradation(state, world, pos, random);
 	}
 

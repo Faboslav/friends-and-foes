@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.platform.fabric;
 
-//import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
+import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.registry.tag.BiomeTags;
@@ -17,7 +17,6 @@ public final class BiomeModificationsImpl
 		int minGroupSize,
 		int maxGroupSize
 	) {
-		// TODO
-		//BiomeModifications.addSpawn(biomeSelector -> biomeSelector.hasTag(tag) && biomeSelector.hasTag(BiomeTags.IS_OVERWORLD), spawnGroup, entityType, weight, minGroupSize, maxGroupSize);
+		BiomeModifications.addSpawn(biomeSelector -> biomeSelector.hasTag(tag) && biomeSelector.hasTag(BiomeTags.IS_OVERWORLD), spawnGroup, entityType, weight, minGroupSize, maxGroupSize);
 	}
 }

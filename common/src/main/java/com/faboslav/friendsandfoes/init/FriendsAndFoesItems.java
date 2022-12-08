@@ -84,7 +84,10 @@ public final class FriendsAndFoesItems
 	}
 
 	public static void init() {
-		addToItemGroups();
+	}
+
+	public static void postInit() {
+		//addToItemGroups();
 	}
 
 	private static void addToItemGroups() {
@@ -126,8 +129,6 @@ public final class FriendsAndFoesItems
 
 		RegistryHelper.addToItemGroupAfter(ItemGroups.INGREDIENTS, WILDFIRE_CROWN_FRAGMENT.get(), Items.SCUTE);
 		RegistryHelper.addToItemGroupAfter(ItemGroups.COMBAT, WILDFIRE_CROWN.get(), Items.TURTLE_HELMET);
-
-
 	}
 
 	private FriendsAndFoesItems() {

@@ -29,7 +29,6 @@ public final class FriendsAndFoesItems
 	public static final Supplier<Item> MANGROVE_BEEHIVE;
 	public static final Supplier<Item> SPRUCE_BEEHIVE;
 	public static final Supplier<Item> WARPED_BEEHIVE;
-	/*
 	public static final Supplier<Item> COPPER_BUTTON;
 	public static final Supplier<Item> EXPOSED_COPPER_BUTTON;
 	public static final Supplier<Item> WEATHERED_COPPER_BUTTON;
@@ -45,7 +44,6 @@ public final class FriendsAndFoesItems
 	public static final Supplier<Item> WAXED_EXPOSED_LIGHTNING_ROD;
 	public static final Supplier<Item> WAXED_WEATHERED_LIGHTNING_ROD;
 	public static final Supplier<Item> WAXED_OXIDIZED_LIGHTNING_ROD;
-	 */
 	public static final Supplier<Item> WILDFIRE_CROWN;
 	public static final Supplier<Item> WILDFIRE_CROWN_FRAGMENT;
 
@@ -66,7 +64,6 @@ public final class FriendsAndFoesItems
 		MANGROVE_BEEHIVE = RegistryHelper.registerItem("mangrove_beehive", () -> new BlockItem(FriendsAndFoesBlocks.MANGROVE_BEEHIVE.get(), new Item.Settings().maxCount(64)));
 		SPRUCE_BEEHIVE = RegistryHelper.registerItem("spruce_beehive", () -> new BlockItem(FriendsAndFoesBlocks.SPRUCE_BEEHIVE.get(), new Item.Settings().maxCount(64)));
 		WARPED_BEEHIVE = RegistryHelper.registerItem("warped_beehive", () -> new BlockItem(FriendsAndFoesBlocks.WARPED_BEEHIVE.get(), new Item.Settings().maxCount(64)));
-		/*
 		COPPER_BUTTON = RegistryHelper.registerItem("copper_button", () -> new BlockItem(FriendsAndFoesBlocks.COPPER_BUTTON.get(), new Item.Settings().maxCount(64)));
 		EXPOSED_COPPER_BUTTON = RegistryHelper.registerItem("exposed_copper_button", () -> new BlockItem(FriendsAndFoesBlocks.EXPOSED_COPPER_BUTTON.get(), new Item.Settings().maxCount(64)));
 		WEATHERED_COPPER_BUTTON = RegistryHelper.registerItem("weathered_copper_button", () -> new BlockItem(FriendsAndFoesBlocks.WEATHERED_COPPER_BUTTON.get(), new Item.Settings().maxCount(64)));
@@ -82,7 +79,6 @@ public final class FriendsAndFoesItems
 		WAXED_EXPOSED_LIGHTNING_ROD = RegistryHelper.registerItem("waxed_exposed_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_EXPOSED_LIGHTNING_ROD.get(), new Item.Settings().maxCount(64)));
 		WAXED_WEATHERED_LIGHTNING_ROD = RegistryHelper.registerItem("waxed_weathered_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_WEATHERED_LIGHTNING_ROD.get(), new Item.Settings().maxCount(64)));
 		WAXED_OXIDIZED_LIGHTNING_ROD = RegistryHelper.registerItem("waxed_oxidized_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get(), new Item.Settings().maxCount(64)));
-		 */
 		WILDFIRE_CROWN = RegistryHelper.registerItem("wildfire_crown", () -> new ArmorItem(FriendsAndFoesArmorMaterials.WILDFIRE, EquipmentSlot.HEAD, (new Item.Settings()).fireproof()));
 		WILDFIRE_CROWN_FRAGMENT = RegistryHelper.registerItem("wildfire_crown_fragment", () -> new Item((new Item.Settings())));
 	}
@@ -111,7 +107,7 @@ public final class FriendsAndFoesItems
 		RegistryHelper.addToItemGroupAfter(ItemGroups.FUNCTIONAL, CRIMSON_BEEHIVE.get(), MANGROVE_BEEHIVE.get());
 		RegistryHelper.addToItemGroupAfter(ItemGroups.FUNCTIONAL, WARPED_BEEHIVE.get(), CRIMSON_BEEHIVE.get());
 
-		/*
+
 		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, COPPER_BUTTON.get(), Items.STONE_BUTTON);
 		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, EXPOSED_COPPER_BUTTON.get(), COPPER_BUTTON.get());
 		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WEATHERED_COPPER_BUTTON.get(), EXPOSED_COPPER_BUTTON.get());
@@ -127,7 +123,6 @@ public final class FriendsAndFoesItems
 		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WAXED_EXPOSED_LIGHTNING_ROD.get(), WAXED_LIGHTNING_ROD.get());
 		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WAXED_WEATHERED_LIGHTNING_ROD.get(), WAXED_EXPOSED_LIGHTNING_ROD.get());
 		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WAXED_OXIDIZED_LIGHTNING_ROD.get(), WAXED_WEATHERED_LIGHTNING_ROD.get());
-		*/
 
 		RegistryHelper.addToItemGroupAfter(ItemGroups.INGREDIENTS, WILDFIRE_CROWN_FRAGMENT.get(), Items.SCUTE);
 		RegistryHelper.addToItemGroupAfter(ItemGroups.COMBAT, WILDFIRE_CROWN.get(), Items.TURTLE_HELMET);

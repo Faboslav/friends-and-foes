@@ -26,7 +26,6 @@ public final class FriendsAndFoesBlocks
 	public static final Supplier<Block> MANGROVE_BEEHIVE;
 	public static final Supplier<Block> SPRUCE_BEEHIVE;
 	public static final Supplier<Block> WARPED_BEEHIVE;
-	/*
 	public static final Supplier<Block> COPPER_BUTTON;
 	public static final Supplier<Block> EXPOSED_COPPER_BUTTON;
 	public static final Supplier<Block> WEATHERED_COPPER_BUTTON;
@@ -41,7 +40,7 @@ public final class FriendsAndFoesBlocks
 	public static final Supplier<Block> WAXED_LIGHTNING_ROD;
 	public static final Supplier<Block> WAXED_EXPOSED_LIGHTNING_ROD;
 	public static final Supplier<Block> WAXED_WEATHERED_LIGHTNING_ROD;
-	public static final Supplier<Block> WAXED_OXIDIZED_LIGHTNING_ROD;*/
+	public static final Supplier<Block> WAXED_OXIDIZED_LIGHTNING_ROD;
 
 	static {
 		BUTTERCUP = RegistryHelper.registerBlock("buttercup", () -> new FlowerBlock(StatusEffects.SATURATION, 6, AbstractBlock.Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)));
@@ -54,7 +53,6 @@ public final class FriendsAndFoesBlocks
 		MANGROVE_BEEHIVE = RegistryHelper.registerBlock("mangrove_beehive", () -> new BeehiveBlock(AbstractBlock.Settings.of(Material.WOOD).mapColor(MapColor.RED).strength(0.6F).sounds(BlockSoundGroup.WOOD)));
 		SPRUCE_BEEHIVE = RegistryHelper.registerBlock("spruce_beehive", () -> new BeehiveBlock(AbstractBlock.Settings.of(Material.WOOD).mapColor(MapColor.SPRUCE_BROWN).strength(0.6F).sounds(BlockSoundGroup.WOOD)));
 		WARPED_BEEHIVE = RegistryHelper.registerBlock("warped_beehive", () -> new BeehiveBlock(AbstractBlock.Settings.of(Material.NETHER_WOOD).mapColor(MapColor.DARK_AQUA).strength(0.6F).sounds(BlockSoundGroup.WOOD)));
-		/*
 		COPPER_BUTTON = RegistryHelper.registerBlock("copper_button", () -> new OxidizableButtonBlock(Oxidizable.OxidationLevel.UNAFFECTED, AbstractBlock.Settings.of(Material.DECORATION).noCollision().strength(0.5F).sounds(BlockSoundGroup.COPPER), 10));
 		EXPOSED_COPPER_BUTTON = RegistryHelper.registerBlock("exposed_copper_button", () -> new OxidizableButtonBlock(Oxidizable.OxidationLevel.EXPOSED, AbstractBlock.Settings.of(Material.DECORATION).noCollision().strength(0.5F).sounds(BlockSoundGroup.COPPER), 7));
 		WEATHERED_COPPER_BUTTON = RegistryHelper.registerBlock("weathered_copper_button", () -> new OxidizableButtonBlock(Oxidizable.OxidationLevel.WEATHERED, AbstractBlock.Settings.of(Material.DECORATION).noCollision().strength(0.5F).sounds(BlockSoundGroup.COPPER), 4));
@@ -70,7 +68,6 @@ public final class FriendsAndFoesBlocks
 		WAXED_EXPOSED_LIGHTNING_ROD = RegistryHelper.registerBlock("waxed_exposed_lightning_rod", () -> new LightningRodBlock(AbstractBlock.Settings.copy(Blocks.LIGHTNING_ROD)));
 		WAXED_WEATHERED_LIGHTNING_ROD = RegistryHelper.registerBlock("waxed_weathered_lightning_rod", () -> new LightningRodBlock(AbstractBlock.Settings.copy(Blocks.LIGHTNING_ROD)));
 		WAXED_OXIDIZED_LIGHTNING_ROD = RegistryHelper.registerBlock("waxed_oxidized_lightning_rod", () -> new LightningRodBlock(AbstractBlock.Settings.copy(Blocks.LIGHTNING_ROD)));
-		*/
 	}
 
 	public static void init() {

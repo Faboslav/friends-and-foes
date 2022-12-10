@@ -17,7 +17,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.SoundEvent;
@@ -72,6 +74,16 @@ public final class RegistryHelperImpl
 	public static <T extends Item> Supplier<T> registerItem(String name, Supplier<T> item) {
 		var registry = Registry.register(Registries.ITEM, FriendsAndFoes.makeID(name), item.get());
 		return () -> registry;
+	}
+
+	public static <T extends Item> Supplier<T> registerSpawnEggItem(
+		String name,
+		Supplier<? extends EntityType<? extends MobEntity>> type,
+		int backgroundColor,
+		int highlightColor,
+		Item.Settings props
+	) {
+		return (Supplier<T>) registerItem(name, () -> new SpawnEggItem(type.get(), backgroundColor, highlightColor, props));
 	}
 
 	public static <T extends MemoryModuleType<?>> Supplier<T> registerMemoryModuleType(

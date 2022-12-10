@@ -13,6 +13,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.sound.SoundEvent;
@@ -84,6 +85,17 @@ public final class RegistryHelper
 
 	@ExpectPlatform
 	public static <T extends Item> Supplier<T> registerItem(String name, Supplier<T> item) {
+		throw new AssertionError();
+	}
+
+	@ExpectPlatform
+	public static <T extends Item> Supplier<T> registerSpawnEggItem(
+		String name,
+		Supplier<? extends EntityType<? extends MobEntity>> type,
+		int backgroundColor,
+		int highlightColor,
+		Item.Settings props
+	) {
 		throw new AssertionError();
 	}
 

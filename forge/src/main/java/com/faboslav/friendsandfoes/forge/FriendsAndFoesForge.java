@@ -26,7 +26,6 @@ import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -69,6 +68,7 @@ public final class FriendsAndFoesForge
 		var forgeBus = MinecraftForge.EVENT_BUS;
 		forgeBus.addListener(FriendsAndFoesForge::initSpawners);
 		forgeBus.addListener(FriendsAndFoesForge::initTickDeltaCounter);
+		forgeBus.addListener(FriendsAndFoesForge::onServerAboutToStartEvent);
 
 		MinecraftForge.EVENT_BUS.register(this);
 	}
@@ -132,8 +132,7 @@ public final class FriendsAndFoesForge
 		serverTickDeltaCounter.beginRenderTick(Util.getMeasuringTimeMs());
 	}
 
-	@SubscribeEvent
-	public void onServerAboutToStartEvent(ServerAboutToStartEvent event) {
+	public static void onServerAboutToStartEvent(ServerAboutToStartEvent event) {
 		FriendsAndFoesStructurePoolElements.init(event.getServer());
 	}
 }

@@ -48,13 +48,13 @@ public final class FriendsAndFoesItems
 	public static final Supplier<Item> WILDFIRE_CROWN_FRAGMENT;
 
 	static {
-		COPPER_GOLEM_SPAWN_EGG = RegistryHelper.registerItem("copper_golem_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.COPPER_GOLEM.get(), 0x9A5038, 0xE3826C, new Item.Settings().maxCount(64)));
-		GLARE_SPAWN_EGG = RegistryHelper.registerItem("glare_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.GLARE.get(), 0x70922D, 0x6A5227, new Item.Settings().maxCount(64)));
-		ICEOLOGER_SPAWN_EGG = RegistryHelper.registerItem("iceologer_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.ICEOLOGER.get(), 0x173873, 0x949B9B, new Item.Settings().maxCount(64)));
-		ILLUSIONER_SPAWN_EGG = RegistryHelper.registerItem("illusioner_spawn_egg", () -> new SpawnEggItem(EntityType.ILLUSIONER, 0x603E5C, 0x888E8E, new Item.Settings().maxCount(64)));
-		MAULER_SPAWN_EGG = RegistryHelper.registerItem("mauler_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.MAULER.get(), 0x534F25, 0x817B39, new Item.Settings().maxCount(64)));
-		MOOBLOOM_SPAWN_EGG = RegistryHelper.registerItem("moobloom_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.MOOBLOOM.get(), 0xF7EDC1, 0xFACA00, new Item.Settings().maxCount(64)));
-		WILDFIRE_SPAWN_EGG = RegistryHelper.registerItem("wildfire_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.WILDFIRE.get(), 0x6C3100, 0xFFD528, new Item.Settings().maxCount(64)));
+		COPPER_GOLEM_SPAWN_EGG = RegistryHelper.registerSpawnEggItem("copper_golem_spawn_egg", FriendsAndFoesEntityTypes.COPPER_GOLEM, 0x9A5038, 0xE3826C, new Item.Settings().maxCount(64));
+		GLARE_SPAWN_EGG = RegistryHelper.registerSpawnEggItem("glare_spawn_egg", FriendsAndFoesEntityTypes.GLARE, 0x70922D, 0x6A5227, new Item.Settings().maxCount(64));
+		ICEOLOGER_SPAWN_EGG = RegistryHelper.registerSpawnEggItem("iceologer_spawn_egg", FriendsAndFoesEntityTypes.ICEOLOGER, 0x173873, 0x949B9B, new Item.Settings().maxCount(64));
+		ILLUSIONER_SPAWN_EGG = RegistryHelper.registerSpawnEggItem("illusioner_spawn_egg", () -> EntityType.ILLUSIONER, 0x603E5C, 0x888E8E, new Item.Settings().maxCount(64));
+		MAULER_SPAWN_EGG = RegistryHelper.registerSpawnEggItem("mauler_spawn_egg", FriendsAndFoesEntityTypes.MAULER, 0x534F25, 0x817B39, new Item.Settings().maxCount(64));
+		MOOBLOOM_SPAWN_EGG = RegistryHelper.registerSpawnEggItem("moobloom_spawn_egg", FriendsAndFoesEntityTypes.MOOBLOOM, 0xF7EDC1, 0xFACA00, new Item.Settings().maxCount(64));
+		WILDFIRE_SPAWN_EGG = RegistryHelper.registerSpawnEggItem("wildfire_spawn_egg", FriendsAndFoesEntityTypes.WILDFIRE, 0x6C3100, 0xFFD528, new Item.Settings().maxCount(64));
 		BUTTERCUP = RegistryHelper.registerItem("buttercup", () -> new BlockItem(FriendsAndFoesBlocks.BUTTERCUP.get(), new Item.Settings().maxCount(64)));
 		ACACIA_BEEHIVE = RegistryHelper.registerItem("acacia_beehive", () -> new BlockItem(FriendsAndFoesBlocks.ACACIA_BEEHIVE.get(), new Item.Settings().maxCount(64)));
 		BIRCH_BEEHIVE = RegistryHelper.registerItem("birch_beehive", () -> new BlockItem(FriendsAndFoesBlocks.BIRCH_BEEHIVE.get(), new Item.Settings().maxCount(64)));
@@ -87,7 +87,7 @@ public final class FriendsAndFoesItems
 	}
 
 	public static void postInit() {
-		//addToItemGroups();
+		addToItemGroups();
 	}
 
 	private static void addToItemGroups() {
@@ -98,7 +98,6 @@ public final class FriendsAndFoesItems
 		RegistryHelper.addToItemGroupAfter(ItemGroups.SPAWN_EGGS, MAULER_SPAWN_EGG.get(), Items.MAGMA_CUBE_SPAWN_EGG);
 		RegistryHelper.addToItemGroupBefore(ItemGroups.SPAWN_EGGS, MOOBLOOM_SPAWN_EGG.get(), Items.MOOSHROOM_SPAWN_EGG);
 		RegistryHelper.addToItemGroupBefore(ItemGroups.SPAWN_EGGS, WILDFIRE_SPAWN_EGG.get(), Items.WITHER_SPAWN_EGG);
-
 		RegistryHelper.addToItemGroupAfter(ItemGroups.NATURAL, BUTTERCUP.get(), Items.DANDELION);
 
 		RegistryHelper.addToItemGroupAfter(ItemGroups.FUNCTIONAL, SPRUCE_BEEHIVE.get(), Items.BEEHIVE);

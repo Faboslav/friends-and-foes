@@ -1,18 +1,21 @@
 package com.faboslav.friendsandfoes.entity.ai.goal;
 
+import com.faboslav.friendsandfoes.api.ZombieHorseEntityAccess;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.*;
-import net.minecraft.entity.mob.SkeletonEntity;
-import net.minecraft.entity.mob.SkeletonHorseEntity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LightningEntity;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.entity.mob.ZombieHorseEntity;
 import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.LocalDifficulty;
 
-public class ZombieHorseTrapTriggerGoal
+public class ZombieHorseTrapTriggerGoal extends Goal
 {
 	private final ZombieHorseEntity zombieHorse;
 
@@ -25,53 +28,59 @@ public class ZombieHorseTrapTriggerGoal
 	}
 
 	public void tick() {
-		ServerWorld serverWorld = (ServerWorld)this.zombieHorse.world;
+		ServerWorld serverWorld = (ServerWorld) this.zombieHorse.world;
 		LocalDifficulty localDifficulty = serverWorld.getLocalDifficulty(this.zombieHorse.getBlockPos());
-		//this.zombieHorse.setTrapped(false);
-		//this.zombieHorse.setTame(true);
-		//this.zombieHorse.setBreedingAge(0);
-		LightningEntity lightningEntity = (LightningEntity) EntityType.LIGHTNING_BOLT.create(serverWorld);
+		((ZombieHorseEntityAccess) this.zombieHorse).setTrapped(false);
+		this.zombieHorse.setTame(true);
+		this.zombieHorse.setBreedingAge(0);
+		LightningEntity lightningEntity = EntityType.LIGHTNING_BOLT.create(serverWorld);
 		lightningEntity.refreshPositionAfterTeleport(this.zombieHorse.getX(), this.zombieHorse.getY(), this.zombieHorse.getZ());
 		lightningEntity.setCosmetic(true);
 		serverWorld.spawnEntity(lightningEntity);
-		SkeletonEntity skeletonEntity = this.getSkeleton(localDifficulty, this.zombieHorse);
-		skeletonEntity.startRiding(this.zombieHorse);
-		serverWorld.spawnEntityAndPassengers(skeletonEntity);
+		ZombieEntity zombie = this.getZombie(localDifficulty, this.zombieHorse);
+		zombie.startRiding(this.zombieHorse);
+		serverWorld.spawnEntityAndPassengers(zombie);
 
-		for(int i = 0; i < 3; ++i) {
-			AbstractHorseEntity abstractHorseEntity = this.getHorse(localDifficulty);
-			SkeletonEntity skeletonEntity2 = this.getSkeleton(localDifficulty, abstractHorseEntity);
-			skeletonEntity2.startRiding(abstractHorseEntity);
-			abstractHorseEntity.addVelocity(this.zombieHorse.getRandom().nextTriangular(0.0, 1.1485), 0.0, this.zombieHorse.getRandom().nextTriangular(0.0, 1.1485));
-			serverWorld.spawnEntityAndPassengers(abstractHorseEntity);
+		for (int i = 0; i < 3; ++i) {
+			ZombieHorseEntity zombieHorse = this.getHorse(localDifficulty);
+			ZombieEntity secondZombie = this.getZombie(localDifficulty, zombieHorse);
+			secondZombie.startRiding(zombieHorse);
+			zombieHorse.addVelocity(this.zombieHorse.getRandom().nextTriangular(0.0, 1.1485), 0.0, this.zombieHorse.getRandom().nextTriangular(0.0, 1.1485));
+			serverWorld.spawnEntityAndPassengers(zombieHorse);
 		}
 
 	}
 
-	private AbstractHorseEntity getHorse(LocalDifficulty localDifficulty) {
-		SkeletonHorseEntity skeletonHorseEntity = (SkeletonHorseEntity)EntityType.SKELETON_HORSE.create(this.zombieHorse.world);
-		skeletonHorseEntity.initialize((ServerWorld)this.zombieHorse.world, localDifficulty, SpawnReason.TRIGGERED, (EntityData)null, (NbtCompound)null);
-		skeletonHorseEntity.setPosition(this.zombieHorse.getX(), this.zombieHorse.getY(), this.zombieHorse.getZ());
-		skeletonHorseEntity.timeUntilRegen = 60;
-		skeletonHorseEntity.setPersistent();
-		skeletonHorseEntity.setTame(true);
-		skeletonHorseEntity.setBreedingAge(0);
-		return skeletonHorseEntity;
+	private ZombieHorseEntity getHorse(LocalDifficulty localDifficulty) {
+		ZombieHorseEntity zombieHorse = EntityType.ZOMBIE_HORSE.create(this.zombieHorse.world);
+		zombieHorse.initialize((ServerWorld) this.zombieHorse.world, localDifficulty, SpawnReason.TRIGGERED, null, null);
+		zombieHorse.setPosition(this.zombieHorse.getX(), this.zombieHorse.getY(), this.zombieHorse.getZ());
+		zombieHorse.timeUntilRegen = 60;
+		zombieHorse.setPersistent();
+		zombieHorse.setTame(true);
+		zombieHorse.setBreedingAge(0);
+		return zombieHorse;
 	}
 
-	private SkeletonEntity getSkeleton(LocalDifficulty localDifficulty, AbstractHorseEntity vehicle) {
-		SkeletonEntity skeletonEntity = (SkeletonEntity)EntityType.SKELETON.create(vehicle.world);
-		skeletonEntity.initialize((ServerWorld)vehicle.world, localDifficulty, SpawnReason.TRIGGERED, (EntityData)null, (NbtCompound)null);
-		skeletonEntity.setPosition(vehicle.getX(), vehicle.getY(), vehicle.getZ());
-		skeletonEntity.timeUntilRegen = 60;
-		skeletonEntity.setPersistent();
-		if (skeletonEntity.getEquippedStack(EquipmentSlot.HEAD).isEmpty()) {
-			skeletonEntity.equipStack(EquipmentSlot.HEAD, new ItemStack(Items.IRON_HELMET));
+	private ZombieEntity getZombie(LocalDifficulty localDifficulty, AbstractHorseEntity vehicle) {
+		ZombieEntity zombie = EntityType.ZOMBIE.create(vehicle.world);
+		zombie.initialize((ServerWorld) vehicle.world, localDifficulty, SpawnReason.TRIGGERED, null, null);
+		zombie.setPosition(vehicle.getX(), vehicle.getY(), vehicle.getZ());
+		zombie.timeUntilRegen = 60;
+		zombie.setPersistent();
+
+		if (zombie.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty()) {
+			zombie.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
 		}
 
-		skeletonEntity.equipStack(EquipmentSlot.MAINHAND, EnchantmentHelper.enchant(skeletonEntity.getRandom(), this.removeEnchantments(skeletonEntity.getMainHandStack()), (int)(5.0F + localDifficulty.getClampedLocalDifficulty() * (float)skeletonEntity.getRandom().nextInt(18)), false));
-		skeletonEntity.equipStack(EquipmentSlot.HEAD, EnchantmentHelper.enchant(skeletonEntity.getRandom(), this.removeEnchantments(skeletonEntity.getEquippedStack(EquipmentSlot.HEAD)), (int)(5.0F + localDifficulty.getClampedLocalDifficulty() * (float)skeletonEntity.getRandom().nextInt(18)), false));
-		return skeletonEntity;
+		if (zombie.getEquippedStack(EquipmentSlot.HEAD).isEmpty()) {
+			zombie.equipStack(EquipmentSlot.HEAD, new ItemStack(Items.CHAINMAIL_HELMET));
+		}
+
+		zombie.equipStack(EquipmentSlot.MAINHAND, EnchantmentHelper.enchant(zombie.getRandom(), this.removeEnchantments(zombie.getMainHandStack()), (int) (5.0F + localDifficulty.getClampedLocalDifficulty() * (float) zombie.getRandom().nextInt(18)), false));
+		zombie.equipStack(EquipmentSlot.HEAD, EnchantmentHelper.enchant(zombie.getRandom(), this.removeEnchantments(zombie.getEquippedStack(EquipmentSlot.HEAD)), (int) (5.0F + localDifficulty.getClampedLocalDifficulty() * (float) zombie.getRandom().nextInt(18)), false));
+
+		return zombie;
 	}
 
 	private ItemStack removeEnchantments(ItemStack stack) {

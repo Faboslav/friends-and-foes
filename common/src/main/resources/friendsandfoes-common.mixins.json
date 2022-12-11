@@ -31,7 +31,8 @@
 		"StructurePoolMixin",
 		"VillagerEntityMixin",
 		"VillagerHostilesSensorMixin",
-		"VillagerTaskListProviderMixin"
+		"VillagerTaskListProviderMixin",
+		"ZombieHorseEntityMixin"
 	],
 	"client": [
 		"ClientPlayNetworkHandlerMixin",

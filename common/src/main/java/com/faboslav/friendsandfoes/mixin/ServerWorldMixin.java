@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.mixin;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.api.ZombieHorseEntityAccess;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;
@@ -50,7 +51,7 @@ public abstract class ServerWorldMixin extends World implements StructureWorldAc
 	public void friendsandfoes_addZombieHorseSpawnEvent(
 		WorldChunk chunk, int randomTickSpeed, CallbackInfo ci
 	) {
-		if(FriendsAndFoes.getConfig().enableZombieHorseTrap) {
+		if (FriendsAndFoes.getConfig().enableZombieHorseTrap) {
 			BlockPos blockPos;
 			ChunkPos chunkPos = chunk.getPos();
 			int i = chunkPos.getStartX();
@@ -67,11 +68,11 @@ public abstract class ServerWorldMixin extends World implements StructureWorldAc
 				boolean canZombieHorseSpawn = this.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING) && this.random.nextDouble() < (double) localDifficulty.getLocalDifficulty() * 0.01 && !this.getBlockState(blockPos.down()).isIn(FriendsAndFoesTags.LIGHTNING_RODS);
 
 				if (canZombieHorseSpawn) {
-					ZombieHorseEntity zombieHorseEntity = EntityType.ZOMBIE_HORSE.create(this);
-					//zombieHorseEntity.setTrapped(true);
-					//zombieHorseEntity.setBreedingAge(0);
-					//zombieHorseEntity.setPosition(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-					this.spawnEntity(zombieHorseEntity);
+					ZombieHorseEntity zombieHorse = EntityType.ZOMBIE_HORSE.create(this);
+					((ZombieHorseEntityAccess) zombieHorse).setTrapped(true);
+					zombieHorse.setBreedingAge(0);
+					zombieHorse.setPosition(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+					this.spawnEntity(zombieHorse);
 				}
 
 				LightningEntity lightningEntity = EntityType.LIGHTNING_BOLT.create(this);

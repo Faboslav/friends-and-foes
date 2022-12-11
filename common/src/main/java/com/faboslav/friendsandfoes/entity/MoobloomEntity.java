@@ -13,17 +13,12 @@ import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.passive.AxolotlEntity;
 import net.minecraft.entity.passive.CowEntity;
-import net.minecraft.entity.passive.MooshroomEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.raid.RaiderEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -31,17 +26,12 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.concurrent.Flow;
 
 public final class MoobloomEntity extends CowEntity implements Shearable
 {
@@ -142,8 +132,8 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 	) {
 		ItemStack itemStack = player.getStackInHand(hand);
 
-		for(MoobloomEntity.Variant moobloomVariant: MoobloomEntity.Variant.values()) {
-			if(itemStack.getItem() != moobloomVariant.getFlowerBlock().asItem()) {
+		for (MoobloomEntity.Variant moobloomVariant : MoobloomEntity.Variant.values()) {
+			if (itemStack.getItem() != moobloomVariant.getFlowerBlock().asItem()) {
 				continue;
 			}
 
@@ -201,7 +191,7 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 			if (blockUnderneath == Blocks.GRASS_BLOCK && this.getWorld().isAir(this.getBlockPos())) {
 				Block flowerBlock = this.getVariant().getFlowerBlock();
 				// TODO condition if moobloom mod is loaded
-				if(this.getVariant() == Variant.BUTTERCUP) {
+				if (this.getVariant() == Variant.BUTTERCUP) {
 					// 40% chance buttercup, 40% chance dandelion, 20% chance sunflower
 					int flowerChance = RandomGenerator.generateInt(1, 100);
 
@@ -215,7 +205,7 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 						this.getWorld().setBlockState(this.getBlockPos().up(), sunflowerBlockState);
 					}
 				} else {
-					if(flowerBlock instanceof TallFlowerBlock) {
+					if (flowerBlock instanceof TallFlowerBlock) {
 						BlockState upperHalfBlockState = flowerBlock.getDefaultState().with(TallPlantBlock.HALF, DoubleBlockHalf.UPPER);
 						this.getWorld().setBlockState(this.getBlockPos(), upperHalfBlockState.cycle(Properties.DOUBLE_BLOCK_HALF));
 						this.getWorld().setBlockState(this.getBlockPos().up(), upperHalfBlockState);
@@ -248,7 +238,8 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 		VARIANT = DataTracker.registerData(MoobloomEntity.class, TrackedDataHandlerRegistry.STRING);
 	}
 
-	public enum Variant {
+	public enum Variant
+	{
 		BUTTERCUP("buttercup", (FlowerBlock) FriendsAndFoesBlocks.BUTTERCUP.get()),
 		DANDELION("dandelion", (FlowerBlock) Blocks.DANDELION);
 

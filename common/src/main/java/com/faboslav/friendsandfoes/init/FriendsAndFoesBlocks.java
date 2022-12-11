@@ -15,6 +15,7 @@ import java.util.function.Supplier;
 public final class FriendsAndFoesBlocks
 {
 	public static final Supplier<Block> BUTTERCUP;
+	public static final Supplier<Block> POTTED_BUTTERCUP;
 	public static final Supplier<Block> ACACIA_BEEHIVE;
 	public static final Supplier<Block> BIRCH_BEEHIVE;
 	public static final Supplier<Block> CRIMSON_BEEHIVE;
@@ -23,7 +24,6 @@ public final class FriendsAndFoesBlocks
 	public static final Supplier<Block> MANGROVE_BEEHIVE;
 	public static final Supplier<Block> SPRUCE_BEEHIVE;
 	public static final Supplier<Block> WARPED_BEEHIVE;
-	public static final Supplier<Block> POTTED_BUTTERCUP;
 	public static final Supplier<Block> COPPER_BUTTON;
 	public static final Supplier<Block> EXPOSED_COPPER_BUTTON;
 	public static final Supplier<Block> WEATHERED_COPPER_BUTTON;

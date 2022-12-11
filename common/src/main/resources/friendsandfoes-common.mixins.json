@@ -37,5 +37,8 @@
 		"ClientPlayNetworkHandlerMixin",
 		"IllusionerEntityRendererMixin",
 		"ModelPartAccessor"
+	],
+	"server": [
+		"ServerWorldMixin"
 	]
 }

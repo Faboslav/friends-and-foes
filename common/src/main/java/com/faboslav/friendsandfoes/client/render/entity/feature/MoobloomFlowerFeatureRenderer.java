@@ -38,9 +38,9 @@ public final class MoobloomFlowerFeatureRenderer<T extends MoobloomEntity> exten
 		float k,
 		float l
 	) {
-		if (!moobloomEntity.isBaby() && !moobloomEntity.isInvisible()) {
+		if (moobloomEntity.isBaby() == false && moobloomEntity.isInvisible() == false) {
 			BlockRenderManager blockRenderManager = MinecraftClient.getInstance().getBlockRenderManager();
-			BlockState blockState = FriendsAndFoesBlocks.BUTTERCUP.get().getDefaultState();
+			BlockState blockState = moobloomEntity.getVariant().getPlantBlock().getDefaultState();
 			int overlay = LivingEntityRenderer.getOverlay(moobloomEntity, 0.0F);
 
 			MinecraftClient minecraftClient = MinecraftClient.getInstance();

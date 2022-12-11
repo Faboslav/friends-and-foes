@@ -22,6 +22,6 @@ public final class MoobloomEntityRenderer extends MobEntityRenderer<MoobloomEnti
 
 	@Override
 	public Identifier getTexture(MoobloomEntity entity) {
-		return FriendsAndFoes.makeID("textures/entity/moobloom/moobloom.png");
+		return FriendsAndFoes.makeID("textures/entity/moobloom/moobloom_" + entity.getVariant().getName() + ".png");
 	}
 }

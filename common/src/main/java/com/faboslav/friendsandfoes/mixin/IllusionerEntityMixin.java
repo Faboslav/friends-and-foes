@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.mixin;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.api.IllusionerEntityAccess;
+import com.faboslav.friendsandfoes.entity.IllusionerEntityAccess;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;

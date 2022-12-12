@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.mixin;
 
-import com.faboslav.friendsandfoes.api.ZombieHorseEntityAccess;
+import com.faboslav.friendsandfoes.entity.ZombieHorseEntityAccess;
 import com.faboslav.friendsandfoes.entity.ai.goal.ZombieHorseTrapTriggerGoal;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.ZombieHorseEntity;

@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.mixin;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.api.ZombieHorseEntityAccess;
+import com.faboslav.friendsandfoes.entity.ZombieHorseEntityAccess;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;

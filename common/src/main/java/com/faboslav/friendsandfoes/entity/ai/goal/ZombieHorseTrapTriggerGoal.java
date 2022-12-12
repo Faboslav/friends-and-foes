@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.entity.ai.goal;
 
-import com.faboslav.friendsandfoes.api.ZombieHorseEntityAccess;
+import com.faboslav.friendsandfoes.entity.ZombieHorseEntityAccess;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;

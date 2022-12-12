@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.mixin;
 
-import com.faboslav.friendsandfoes.api.BlazeEntityAccess;
+import com.faboslav.friendsandfoes.entity.BlazeEntityAccess;
 import com.faboslav.friendsandfoes.entity.WildfireEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;

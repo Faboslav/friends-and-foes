@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes;
 
+import com.faboslav.friendsandfoes.api.MoobloomVariantFactory;
 import com.faboslav.friendsandfoes.config.FriendsAndFoesConfig;
 import com.faboslav.friendsandfoes.config.omegaconfig.OmegaConfig;
 import com.faboslav.friendsandfoes.init.*;
@@ -35,6 +36,8 @@ public final class FriendsAndFoes
 	}
 
 	public static void init() {
+		MoobloomVariantFactory.create()
+
 		FriendsAndFoesActivities.init();
 		FriendsAndFoesBlocks.init();
 		FriendsAndFoesCriteria.init();

@@ -240,18 +240,24 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 
 	public enum Variant
 	{
-		BUTTERCUP("buttercup", (FlowerBlock) FriendsAndFoesBlocks.BUTTERCUP.get()),
-		DANDELION("dandelion", (FlowerBlock) Blocks.DANDELION);
+		BUTTERCUP(0, "buttercup", (FlowerBlock) FriendsAndFoesBlocks.BUTTERCUP.get()),
 
+		private final int id;
 		private final String name;
 		private final FlowerBlock flowerBlock;
 
 		Variant(
+			int id,
 			String name,
 			FlowerBlock flowerBlock
 		) {
+			this.id = id;
 			this.name = name;
 			this.flowerBlock = flowerBlock;
+		}
+
+		public int getId() {
+			return this.id;
 		}
 
 		public String getName() {

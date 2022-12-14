@@ -53,7 +53,6 @@ public final class FriendsAndFoes
 		FriendsAndFoesEntityTypes.postInit();
 		FriendsAndFoesItems.postInit();
 		FriendsAndFoesBlockEntityTypes.postInit();
-		FriendsAndFoesStructureProcessorTypes.postInit();
 		FriendsAndFoesVillagerProfessions.postInit();
 	}
 }

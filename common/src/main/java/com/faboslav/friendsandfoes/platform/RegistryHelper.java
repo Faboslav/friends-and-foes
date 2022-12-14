@@ -19,7 +19,6 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.structure.processor.StructureProcessor;
 import net.minecraft.structure.processor.StructureProcessorType;
-import net.minecraft.util.Identifier;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.gen.structure.Structure;
 import net.minecraft.world.gen.structure.StructureType;
@@ -29,11 +28,6 @@ import java.util.function.Supplier;
 
 public final class RegistryHelper
 {
-	@ExpectPlatform
-	public static void addToItemGroup(ItemGroup itemGroup, Item item) {
-		throw new AssertionError();
-	}
-
 	@ExpectPlatform
 	public static void addToItemGroupBefore(ItemGroup itemGroup, Item item, Item before) {
 		throw new AssertionError();
@@ -156,9 +150,9 @@ public final class RegistryHelper
 	}
 
 	@ExpectPlatform
-	public static void registerStructureProcessorType(
-		Identifier identifier,
-		StructureProcessorType<? extends StructureProcessor> structureProcessorType
+	public static <T extends StructureProcessor> void registerStructureProcessorType(
+		String name,
+		StructureProcessorType<T> structureProcessorType
 	) {
 		throw new AssertionError();
 	}

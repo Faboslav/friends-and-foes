@@ -27,7 +27,6 @@ import net.minecraft.registry.Registry;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.structure.processor.StructureProcessor;
 import net.minecraft.structure.processor.StructureProcessorType;
-import net.minecraft.util.Identifier;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.gen.structure.Structure;
 import net.minecraft.world.gen.structure.StructureType;
@@ -37,12 +36,6 @@ import java.util.function.Supplier;
 
 public final class RegistryHelperImpl
 {
-	public static void addToItemGroup(ItemGroup itemGroup, Item item) {
-		ItemGroupEvents.modifyEntriesEvent(itemGroup).register((content) -> {
-			content.add(item.getDefaultStack());
-		});
-	}
-
 	public static void addToItemGroupBefore(ItemGroup itemGroup, Item item, Item before) {
 		ItemGroupEvents.modifyEntriesEvent(itemGroup).register((content) -> {
 			content.addBefore(before, item.getDefaultStack());
@@ -148,17 +141,17 @@ public final class RegistryHelperImpl
 		FlammableBlockRegistry.getInstance(fireBlock).add(block.get(), burnChance, spreadChance);
 	}
 
-	public static void registerStructureProcessorType(
-		Identifier identifier,
-		StructureProcessorType<? extends StructureProcessor> structureProcessorType
-	) {
-		Registry.register(Registries.STRUCTURE_PROCESSOR, identifier, structureProcessorType);
-	}
-
 	public static <T extends Structure> void registerStructureType(
 		String name,
 		StructureType<T> structureType
 	) {
 		Registry.register(Registries.STRUCTURE_TYPE, FriendsAndFoes.makeID(name), structureType);
+	}
+
+	public static <T extends StructureProcessor> void registerStructureProcessorType(
+		String name,
+		StructureProcessorType<T> structureProcessorType
+	) {
+		Registry.register(Registries.STRUCTURE_PROCESSOR, FriendsAndFoes.makeID(name), structureProcessorType);
 	}
 }

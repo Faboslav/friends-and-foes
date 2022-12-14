@@ -4,6 +4,7 @@ import com.faboslav.friendsandfoes.FriendsAndFoes;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.minecraft.block.Block;
@@ -19,6 +20,7 @@ import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -35,6 +37,18 @@ import java.util.function.Supplier;
 
 public final class RegistryHelperImpl
 {
+	public static void addToItemGroupBefore(ItemGroup itemGroup, Item item, Item before) {
+		ItemGroupEvents.modifyEntriesEvent(itemGroup).register((content) -> {
+			content.addBefore(before, item.getDefaultStack());
+		});
+	}
+
+	public static void addToItemGroupAfter(ItemGroup itemGroup, Item item, Item after) {
+		ItemGroupEvents.modifyEntriesEvent(itemGroup).register((content) -> {
+			content.addAfter(after, item.getDefaultStack());
+		});
+	}
+
 	public static <T extends Activity> Supplier<T> registerActivity(String name, Supplier<T> activity) {
 		var registry = Registry.register(Registries.ACTIVITY, FriendsAndFoes.makeID(name), activity.get());
 		return () -> registry;
@@ -128,17 +142,17 @@ public final class RegistryHelperImpl
 		FlammableBlockRegistry.getInstance(fireBlock).add(block.get(), burnChance, spreadChance);
 	}
 
-	public static void registerStructureProcessorType(
-		Identifier identifier,
-		StructureProcessorType<? extends StructureProcessor> structureProcessorType
-	) {
-		Registry.register(Registries.STRUCTURE_PROCESSOR, identifier, structureProcessorType);
-	}
-
 	public static <T extends Structure> void registerStructureType(
 		String name,
 		StructureType<T> structureType
 	) {
 		Registry.register(Registries.STRUCTURE_TYPE, FriendsAndFoes.makeID(name), structureType);
+	}
+
+	public static <T extends StructureProcessor> void registerStructureProcessorType(
+		String name,
+		StructureProcessorType<T> structureProcessorType
+	) {
+		Registry.register(Registries.STRUCTURE_PROCESSOR, FriendsAndFoes.makeID(name), structureProcessorType);
 	}
 }

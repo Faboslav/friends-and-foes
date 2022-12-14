@@ -17,13 +17,11 @@ import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.Item;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.structure.processor.StructureProcessor;
 import net.minecraft.structure.processor.StructureProcessorType;
-import net.minecraft.util.Identifier;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.gen.structure.Structure;
 import net.minecraft.world.gen.structure.StructureType;
@@ -32,6 +30,7 @@ import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
@@ -48,7 +47,31 @@ public final class RegistryHelperImpl
 	public static final DeferredRegister<PointOfInterestType> POINT_OF_INTEREST_TYPES = DeferredRegister.create(ForgeRegistries.POI_TYPES, FriendsAndFoes.MOD_ID);
 	public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, FriendsAndFoes.MOD_ID);
 	public static final DeferredRegister<StructureType<?>> STRUCTURE_TYPES = DeferredRegister.create(RegistryKeys.STRUCTURE_TYPE, FriendsAndFoes.MOD_ID);
+	public static final DeferredRegister<StructureProcessorType<?>> STRUCTURE_PROCESSOR_TYPES = DeferredRegister.create(RegistryKeys.STRUCTURE_PROCESSOR, FriendsAndFoes.MOD_ID);
 	public static final DeferredRegister<VillagerProfession> VILLAGER_PROFESSIONS = DeferredRegister.create(ForgeRegistries.VILLAGER_PROFESSIONS, FriendsAndFoes.MOD_ID);
+
+	public static final HashMap<ItemGroup, HashMap<Item, Item>> ITEMS_TO_ADD_BEFORE = new HashMap<>();
+	public static final HashMap<ItemGroup, HashMap<Item, Item>> ITEMS_TO_ADD_AFTER = new HashMap<>();
+
+	public static void addToItemGroupBefore(ItemGroup itemGroup, Item item, Item before) {
+		if (ITEMS_TO_ADD_BEFORE.containsKey(itemGroup)) {
+			ITEMS_TO_ADD_BEFORE.get(itemGroup).put(item, before);
+		} else {
+			HashMap<Item, Item> items = new HashMap<>();
+			items.put(item, before);
+			ITEMS_TO_ADD_BEFORE.put(itemGroup, items);
+		}
+	}
+
+	public static void addToItemGroupAfter(ItemGroup itemGroup, Item item, Item after) {
+		if (ITEMS_TO_ADD_AFTER.containsKey(itemGroup)) {
+			ITEMS_TO_ADD_AFTER.get(itemGroup).put(item, after);
+		} else {
+			HashMap<Item, Item> items = new HashMap<>();
+			items.put(item, after);
+			ITEMS_TO_ADD_AFTER.put(itemGroup, items);
+		}
+	}
 
 	public static <T extends Activity> Supplier<T> registerActivity(String name, Supplier<T> activity) {
 		return ACTIVITIES.register(name, activity);
@@ -137,11 +160,11 @@ public final class RegistryHelperImpl
 		((FireBlockAccessor) fireBlock).invokeRegisterFlammableBlock(block.get(), burnChance, spreadChance);
 	}
 
-	public static void registerStructureProcessorType(
-		Identifier identifier,
-		StructureProcessorType<? extends StructureProcessor> structureProcessorType
+	public static <T extends StructureProcessor> void registerStructureProcessorType(
+		String name,
+		StructureProcessorType<T> structureProcessorType
 	) {
-		Registry.register(Registries.STRUCTURE_PROCESSOR, identifier, structureProcessorType);
+		STRUCTURE_PROCESSOR_TYPES.register(name, () -> structureProcessorType);
 	}
 
 	public static <T extends Structure> void registerStructureType(

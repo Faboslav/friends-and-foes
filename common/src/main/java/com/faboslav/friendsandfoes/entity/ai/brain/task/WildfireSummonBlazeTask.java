@@ -12,13 +12,13 @@ import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.LookTargetUtil;
-import net.minecraft.entity.ai.brain.task.Task;
+import net.minecraft.entity.ai.brain.task.MultiTickTask;
 import net.minecraft.entity.mob.BlazeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 
-public class WildfireSummonBlazeTask extends Task<WildfireEntity>
+public class WildfireSummonBlazeTask extends MultiTickTask<WildfireEntity>
 {
 	private LivingEntity attackTarget;
 	private int summonedBlazesCount;
@@ -36,7 +36,7 @@ public class WildfireSummonBlazeTask extends Task<WildfireEntity>
 
 	@Override
 	protected boolean shouldRun(ServerWorld world, WildfireEntity wildfire) {
-		var attackTarget = wildfire.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).orElse(null);
+		var attackTarget = wildfire.getBrain().getOptionalRegisteredMemory(MemoryModuleType.ATTACK_TARGET).orElse(null);
 
 		if (
 			attackTarget == null

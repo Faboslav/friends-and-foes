@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes.forge;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.FriendsAndFoesClient;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesStructurePoolElements;
 import com.faboslav.friendsandfoes.platform.forge.RegistryHelperImpl;
 import com.faboslav.friendsandfoes.util.CustomRaidMember;
 import com.faboslav.friendsandfoes.util.ServerWorldSpawnersUtil;
@@ -13,16 +14,19 @@ import net.minecraft.SharedConstants;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Util;
 import net.minecraft.village.raid.Raid;
 import net.minecraft.world.dimension.DimensionTypes;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.ServerTickEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.level.LevelEvent;
+import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -58,14 +62,17 @@ public final class FriendsAndFoesForge
 		RegistryHelperImpl.POINT_OF_INTEREST_TYPES.register(bus);
 		RegistryHelperImpl.SOUND_EVENTS.register(bus);
 		RegistryHelperImpl.STRUCTURE_TYPES.register(bus);
+		RegistryHelperImpl.STRUCTURE_PROCESSOR_TYPES.register(bus);
 		RegistryHelperImpl.VILLAGER_PROFESSIONS.register(bus);
 
 		bus.addListener(FriendsAndFoesForge::init);
 		bus.addListener(FriendsAndFoesForge::registerEntityAttributes);
+		bus.addListener(FriendsAndFoesForge::addItemsToTabs);
 
 		var forgeBus = MinecraftForge.EVENT_BUS;
 		forgeBus.addListener(FriendsAndFoesForge::initSpawners);
 		forgeBus.addListener(FriendsAndFoesForge::initTickDeltaCounter);
+		forgeBus.addListener(FriendsAndFoesForge::onServerAboutToStartEvent);
 
 		MinecraftForge.EVENT_BUS.register(this);
 	}
@@ -98,6 +105,24 @@ public final class FriendsAndFoesForge
 		}
 	}
 
+	private static void addItemsToTabs(CreativeModeTabEvent.BuildContents event) {
+		RegistryHelperImpl.ITEMS_TO_ADD_BEFORE.forEach((itemGroup, itemPairs) -> {
+			if (event.getTab() == itemGroup) {
+				itemPairs.forEach((item, before) -> {
+					event.getEntries().putBefore(before.getDefaultStack(), item.getDefaultStack(), ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS);
+				});
+			}
+		});
+
+		RegistryHelperImpl.ITEMS_TO_ADD_AFTER.forEach((itemGroup, itemPairs) -> {
+			if (event.getTab() == itemGroup) {
+				itemPairs.forEach((item, after) -> {
+					event.getEntries().putAfter(after.getDefaultStack(), item.getDefaultStack(), ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS);
+				});
+			}
+		});
+	}
+
 	private static void initSpawners(final LevelEvent.Load event) {
 		if (
 			event.getLevel().isClient()
@@ -127,5 +152,9 @@ public final class FriendsAndFoesForge
 		}
 
 		serverTickDeltaCounter.beginRenderTick(Util.getMeasuringTimeMs());
+	}
+
+	public static void onServerAboutToStartEvent(ServerAboutToStartEvent event) {
+		FriendsAndFoesStructurePoolElements.init(event.getServer());
 	}
 }

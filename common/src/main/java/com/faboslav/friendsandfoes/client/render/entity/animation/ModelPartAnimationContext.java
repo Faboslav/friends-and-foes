@@ -3,7 +3,7 @@ package com.faboslav.friendsandfoes.client.render.entity.animation;
 import com.faboslav.friendsandfoes.util.animation.AnimationMath;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.Vec3d;
 
 @Environment(EnvType.CLIENT)
 public final class ModelPartAnimationContext
@@ -12,8 +12,8 @@ public final class ModelPartAnimationContext
 	private final int totalTicks;
 	private int currentTick;
 
-	private final Vec3f targetVector;
-	private final Vec3f currentVector;
+	private final Vec3d targetVector;
+	private Vec3d currentVector;
 
 	private float progress;
 
@@ -21,8 +21,8 @@ public final class ModelPartAnimationContext
 		int initialTick,
 		int totalTicks,
 		float progress,
-		Vec3f targetVector,
-		Vec3f currentVector
+		Vec3d targetVector,
+		Vec3d currentVector
 	) {
 		this.initialTick = initialTick;
 		this.totalTicks = totalTicks;
@@ -35,8 +35,8 @@ public final class ModelPartAnimationContext
 	public static ModelPartAnimationContext createWithTicks(
 		int initialTick,
 		int totalTicks,
-		Vec3f targetVector,
-		Vec3f currentVector
+		Vec3d targetVector,
+		Vec3d currentVector
 	) {
 		return new ModelPartAnimationContext(
 			initialTick,
@@ -49,8 +49,8 @@ public final class ModelPartAnimationContext
 
 	public static ModelPartAnimationContext createWithProgress(
 		float progress,
-		Vec3f targetVector,
-		Vec3f currentVector
+		Vec3d targetVector,
+		Vec3d currentVector
 	) {
 		return new ModelPartAnimationContext(
 			0,
@@ -74,16 +74,16 @@ public final class ModelPartAnimationContext
 		this.progress = progress;
 	}
 
-	public Vec3f getCurrentVector() {
+	public Vec3d getCurrentVector() {
 		return currentVector;
 	}
 
-	public Vec3f getTargetVector() {
+	public Vec3d getTargetVector() {
 		return targetVector;
 	}
 
 	public void recalculateCurrentVector() {
-		this.currentVector.set(
+		this.currentVector = new Vec3d(
 			recalculateCurrentX(),
 			recalculateCurrentY(),
 			recalculateCurrentZ()
@@ -103,8 +103,8 @@ public final class ModelPartAnimationContext
 	}
 
 	private float calculateNewValue(
-		float currentValue,
-		float targetValue
+		double currentValue,
+		double targetValue
 	) {
 		return AnimationMath.lerp(this.progress, currentValue, targetValue);
 	}

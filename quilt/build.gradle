@@ -54,6 +54,8 @@ processResources {
 			'modAuthor'     : rootProject.mod_author
 		])
 	}
+
+	from(project(":common").sourceSets.main.resources)
 }
 
 shadowJar {

@@ -2,11 +2,13 @@ package com.faboslav.friendsandfoes.fabric;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesPointOfInterestTypes;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesStructurePoolElements;
 import com.faboslav.friendsandfoes.util.ServerWorldSpawnersUtil;
 import com.faboslav.friendsandfoes.util.UpdateChecker;
 import com.faboslav.friendsandfoes.world.spawner.IceologerSpawner;
 import com.faboslav.friendsandfoes.world.spawner.IllusionerSpawner;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.minecraft.util.Util;
@@ -25,6 +27,7 @@ public final class FriendsAndFoesFabric implements ModInitializer
 
 		initSpawners();
 		initTickDeltaCounter();
+		addCustomStructurePoolElements();
 	}
 
 	private static void initSpawners() {
@@ -42,5 +45,9 @@ public final class FriendsAndFoesFabric implements ModInitializer
 		ServerTickEvents.START_SERVER_TICK.register((server) -> {
 			serverTickDeltaCounter.beginRenderTick(Util.getMeasuringTimeMs());
 		});
+	}
+
+	private static void addCustomStructurePoolElements() {
+		ServerLifecycleEvents.SERVER_STARTING.register(FriendsAndFoesStructurePoolElements::init);
 	}
 }

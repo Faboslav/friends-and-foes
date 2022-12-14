@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.block;
 
-import net.minecraft.block.AbstractButtonBlock;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.ButtonBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.Item;
@@ -15,17 +15,15 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class CopperButtonBlock extends AbstractButtonBlock
+public class CopperButtonBlock extends ButtonBlock
 {
-	public static final int PRESS_TICKS = 10;
-
-	public CopperButtonBlock(Settings settings) {
-		super(false, settings);
+	public CopperButtonBlock(Settings settings, int pressTicks) {
+		super(settings, pressTicks, false, SoundEvents.BLOCK_STONE_BUTTON_CLICK_OFF, SoundEvents.BLOCK_STONE_BUTTON_CLICK_ON);
 	}
 
 	@Override
 	public SoundEvent getClickSound(boolean powered) {
-		return powered ? SoundEvents.BLOCK_STONE_BUTTON_CLICK_ON:SoundEvents.BLOCK_STONE_BUTTON_CLICK_OFF;
+		return super.getClickSound(powered);
 	}
 
 	@Override

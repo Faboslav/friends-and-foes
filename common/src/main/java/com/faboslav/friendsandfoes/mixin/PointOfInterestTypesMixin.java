@@ -1,8 +1,8 @@
 package com.faboslav.friendsandfoes.mixin;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.world.poi.PointOfInterestType;
 import net.minecraft.world.poi.PointOfInterestTypes;
 import org.spongepowered.asm.mixin.Mixin;

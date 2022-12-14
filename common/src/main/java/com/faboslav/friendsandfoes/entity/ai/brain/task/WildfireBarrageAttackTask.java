@@ -9,12 +9,12 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.LookTargetUtil;
-import net.minecraft.entity.ai.brain.task.Task;
+import net.minecraft.entity.ai.brain.task.MultiTickTask;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.random.Random;
 
-public class WildfireBarrageAttackTask extends Task<WildfireEntity>
+public class WildfireBarrageAttackTask extends MultiTickTask<WildfireEntity>
 {
 	private int shieldDebrisFired;
 	private int shieldDebrisCooldown;
@@ -34,7 +34,7 @@ public class WildfireBarrageAttackTask extends Task<WildfireEntity>
 
 	@Override
 	protected boolean shouldRun(ServerWorld world, WildfireEntity wildfire) {
-		var attackTarget = wildfire.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).orElse(null);
+		var attackTarget = wildfire.getBrain().getOptionalRegisteredMemory(MemoryModuleType.ATTACK_TARGET).orElse(null);
 
 		if (
 			attackTarget == null
@@ -73,7 +73,7 @@ public class WildfireBarrageAttackTask extends Task<WildfireEntity>
 	@Override
 	protected boolean shouldKeepRunning(ServerWorld world, WildfireEntity wildfire, long time) {
 		if (attackTarget.isAlive() == false) {
-			attackTarget = wildfire.getBrain().getOptionalMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER).orElse(null);
+			attackTarget = wildfire.getBrain().getOptionalRegisteredMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER).orElse(null);
 		}
 
 		if (
@@ -92,7 +92,7 @@ public class WildfireBarrageAttackTask extends Task<WildfireEntity>
 			return false;
 		}
 
-		var nearestVisibleTargetablePlayer = wildfire.getBrain().getOptionalMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER).orElse(null);
+		var nearestVisibleTargetablePlayer = wildfire.getBrain().getOptionalRegisteredMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER).orElse(null);
 
 		return nearestVisibleTargetablePlayer == null
 			   || !nearestVisibleTargetablePlayer.isAlive()

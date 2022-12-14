@@ -1,3 +1,7 @@
+## mc1.19.3-1.7.0, December 14, 2022
+
+- Ported to 1.19.3
+
 ## mc1.19.2-1.6.3, December 04, 2022
 
 - Fixed server crash

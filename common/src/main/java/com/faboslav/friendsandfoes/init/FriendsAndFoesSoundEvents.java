@@ -86,7 +86,7 @@ public final class FriendsAndFoesSoundEvents
 
 	private static Supplier<SoundEvent> register(String type, String name) {
 		String id = type + "." + name;
-		var soundEvent = new SoundEvent(FriendsAndFoes.makeID(id));
+		var soundEvent = SoundEvent.of(FriendsAndFoes.makeID(id));
 
 		return RegistryHelper.registerSoundEvent(id, () -> soundEvent);
 	}

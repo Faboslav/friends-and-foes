@@ -11,7 +11,7 @@ import net.minecraft.entity.MovementType;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.LookTargetUtil;
-import net.minecraft.entity.ai.brain.task.Task;
+import net.minecraft.entity.ai.brain.task.MultiTickTask;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
@@ -19,7 +19,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
-public final class WildfireShockwaveAttackTask extends Task<WildfireEntity>
+public final class WildfireShockwaveAttackTask extends MultiTickTask<WildfireEntity>
 {
 	private final static int SHOCKWAVE_DURATION = 20;
 	private final static int SHOCKWAVE_PHASE_ONE_END_TICK = 15;
@@ -38,10 +38,10 @@ public final class WildfireShockwaveAttackTask extends Task<WildfireEntity>
 
 	@Override
 	protected boolean shouldRun(ServerWorld world, WildfireEntity wildfire) {
-		LivingEntity nearestTarget = wildfire.getBrain().getOptionalMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER).orElse(null);
+		LivingEntity nearestTarget = wildfire.getBrain().getOptionalRegisteredMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER).orElse(null);
 
 		if (nearestTarget == null) {
-			nearestTarget = wildfire.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).orElse(null);
+			nearestTarget = wildfire.getBrain().getOptionalRegisteredMemory(MemoryModuleType.ATTACK_TARGET).orElse(null);
 		}
 		if (
 			nearestTarget == null

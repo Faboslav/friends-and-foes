@@ -51,8 +51,8 @@ public final class FriendsAndFoes
 	public static void postInit() {
 		FriendsAndFoesBlocks.postInit();
 		FriendsAndFoesEntityTypes.postInit();
+		FriendsAndFoesItems.postInit();
 		FriendsAndFoesBlockEntityTypes.postInit();
-		FriendsAndFoesStructureProcessorTypes.postInit();
 		FriendsAndFoesVillagerProfessions.postInit();
 	}
 }

@@ -2,8 +2,9 @@ package com.faboslav.friendsandfoes.init;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.platform.RegistryHelper;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.world.poi.PointOfInterestType;
 import net.minecraft.world.poi.PointOfInterestTypes;
 
@@ -43,104 +44,96 @@ public final class FriendsAndFoesPointOfInterestTypes
 
 	private static void fillMissingPointOfInterestMapValues() {
 		var acaciaBeehiveStates = PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.ACACIA_BEEHIVE.get());
-		PointOfInterestTypes.POI_STATES.addAll(acaciaBeehiveStates);
 		acaciaBeehiveStates.forEach((state) -> {
 			PointOfInterestTypes.POI_STATES_TO_TYPE.put(
 				state,
-				Registry.POINT_OF_INTEREST_TYPE.getEntry(
+				Registries.POINT_OF_INTEREST_TYPE.getEntry(
 					RegistryKey.of(
-						Registry.POINT_OF_INTEREST_TYPE_KEY, FriendsAndFoes.makeID("acacia_beehive")
+						RegistryKeys.POINT_OF_INTEREST_TYPE, FriendsAndFoes.makeID("acacia_beehive")
 					)
 				).get()
 			);
 		});
 
 		var birchBeehiveStates = PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.BIRCH_BEEHIVE.get());
-		PointOfInterestTypes.POI_STATES.addAll(birchBeehiveStates);
 		birchBeehiveStates.forEach((state) -> {
 			PointOfInterestTypes.POI_STATES_TO_TYPE.put(
 				state,
-				Registry.POINT_OF_INTEREST_TYPE.getEntry(
+				Registries.POINT_OF_INTEREST_TYPE.getEntry(
 					RegistryKey.of(
-						Registry.POINT_OF_INTEREST_TYPE_KEY, FriendsAndFoes.makeID("birch_beehive")
+						RegistryKeys.POINT_OF_INTEREST_TYPE, FriendsAndFoes.makeID("birch_beehive")
 					)
 				).get()
 			);
 		});
 
 		var crimsonBeehiveStates = PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.CRIMSON_BEEHIVE.get());
-		PointOfInterestTypes.POI_STATES.addAll(crimsonBeehiveStates);
 		crimsonBeehiveStates.forEach((state) -> {
 			PointOfInterestTypes.POI_STATES_TO_TYPE.put(
 				state,
-				Registry.POINT_OF_INTEREST_TYPE.getEntry(
+				Registries.POINT_OF_INTEREST_TYPE.getEntry(
 					RegistryKey.of(
-						Registry.POINT_OF_INTEREST_TYPE_KEY, FriendsAndFoes.makeID("crimson_beehive")
+						RegistryKeys.POINT_OF_INTEREST_TYPE, FriendsAndFoes.makeID("crimson_beehive")
 					)
 				).get()
 			);
 		});
 
 		var darkOakBeehiveStates = PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.DARK_OAK_BEEHIVE.get());
-		PointOfInterestTypes.POI_STATES.addAll(darkOakBeehiveStates);
 		darkOakBeehiveStates.forEach((state) -> {
 			PointOfInterestTypes.POI_STATES_TO_TYPE.put(
 				state,
-				Registry.POINT_OF_INTEREST_TYPE.getEntry(
+				Registries.POINT_OF_INTEREST_TYPE.getEntry(
 					RegistryKey.of(
-						Registry.POINT_OF_INTEREST_TYPE_KEY, FriendsAndFoes.makeID("dark_oak_beehive")
+						RegistryKeys.POINT_OF_INTEREST_TYPE, FriendsAndFoes.makeID("dark_oak_beehive")
 					)
 				).get()
 			);
 		});
 
 		var jungleBeehiveStates = PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.JUNGLE_BEEHIVE.get());
-		PointOfInterestTypes.POI_STATES.addAll(jungleBeehiveStates);
 		jungleBeehiveStates.forEach((state) -> {
 			PointOfInterestTypes.POI_STATES_TO_TYPE.put(
 				state,
-				Registry.POINT_OF_INTEREST_TYPE.getEntry(
+				Registries.POINT_OF_INTEREST_TYPE.getEntry(
 					RegistryKey.of(
-						Registry.POINT_OF_INTEREST_TYPE_KEY, FriendsAndFoes.makeID("jungle_beehive")
+						RegistryKeys.POINT_OF_INTEREST_TYPE, FriendsAndFoes.makeID("jungle_beehive")
 					)
 				).get()
 			);
 		});
 
 		var mangroveBeehiveStates = PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.MANGROVE_BEEHIVE.get());
-		PointOfInterestTypes.POI_STATES.addAll(mangroveBeehiveStates);
 		mangroveBeehiveStates.forEach((state) -> {
 			PointOfInterestTypes.POI_STATES_TO_TYPE.put(
 				state,
-				Registry.POINT_OF_INTEREST_TYPE.getEntry(
+				Registries.POINT_OF_INTEREST_TYPE.getEntry(
 					RegistryKey.of(
-						Registry.POINT_OF_INTEREST_TYPE_KEY, FriendsAndFoes.makeID("mangrove_beehive")
+						RegistryKeys.POINT_OF_INTEREST_TYPE, FriendsAndFoes.makeID("mangrove_beehive")
 					)
 				).get()
 			);
 		});
 
 		var spruceBeehiveStates = PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.SPRUCE_BEEHIVE.get());
-		PointOfInterestTypes.POI_STATES.addAll(spruceBeehiveStates);
 		spruceBeehiveStates.forEach((state) -> {
 			PointOfInterestTypes.POI_STATES_TO_TYPE.put(
 				state,
-				Registry.POINT_OF_INTEREST_TYPE.getEntry(
+				Registries.POINT_OF_INTEREST_TYPE.getEntry(
 					RegistryKey.of(
-						Registry.POINT_OF_INTEREST_TYPE_KEY, FriendsAndFoes.makeID("spruce_beehive")
+						RegistryKeys.POINT_OF_INTEREST_TYPE, FriendsAndFoes.makeID("spruce_beehive")
 					)
 				).get()
 			);
 		});
 
 		var warpedBeehiveStates = PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.WARPED_BEEHIVE.get());
-		PointOfInterestTypes.POI_STATES.addAll(warpedBeehiveStates);
 		warpedBeehiveStates.forEach((state) -> {
 			PointOfInterestTypes.POI_STATES_TO_TYPE.put(
 				state,
-				Registry.POINT_OF_INTEREST_TYPE.getEntry(
+				Registries.POINT_OF_INTEREST_TYPE.getEntry(
 					RegistryKey.of(
-						Registry.POINT_OF_INTEREST_TYPE_KEY, FriendsAndFoes.makeID("warped_beehive")
+						RegistryKeys.POINT_OF_INTEREST_TYPE, FriendsAndFoes.makeID("warped_beehive")
 					)
 				).get()
 			);

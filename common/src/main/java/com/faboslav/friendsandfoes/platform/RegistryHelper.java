@@ -13,11 +13,12 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.structure.processor.StructureProcessor;
 import net.minecraft.structure.processor.StructureProcessorType;
-import net.minecraft.util.Identifier;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.gen.structure.Structure;
 import net.minecraft.world.gen.structure.StructureType;
@@ -27,6 +28,16 @@ import java.util.function.Supplier;
 
 public final class RegistryHelper
 {
+	@ExpectPlatform
+	public static void addToItemGroupBefore(ItemGroup itemGroup, Item item, Item before) {
+		throw new AssertionError();
+	}
+
+	@ExpectPlatform
+	public static void addToItemGroupAfter(ItemGroup itemGroup, Item item, Item after) {
+		throw new AssertionError();
+	}
+
 	@ExpectPlatform
 	public static <T extends Activity> Supplier<T> registerActivity(String name, Supplier<T> activity) {
 		throw new AssertionError();
@@ -68,6 +79,17 @@ public final class RegistryHelper
 
 	@ExpectPlatform
 	public static <T extends Item> Supplier<T> registerItem(String name, Supplier<T> item) {
+		throw new AssertionError();
+	}
+
+	@ExpectPlatform
+	public static <T extends Item> Supplier<T> registerSpawnEggItem(
+		String name,
+		Supplier<? extends EntityType<? extends MobEntity>> type,
+		int backgroundColor,
+		int highlightColor,
+		Item.Settings props
+	) {
 		throw new AssertionError();
 	}
 
@@ -128,9 +150,9 @@ public final class RegistryHelper
 	}
 
 	@ExpectPlatform
-	public static void registerStructureProcessorType(
-		Identifier identifier,
-		StructureProcessorType<? extends StructureProcessor> structureProcessorType
+	public static <T extends StructureProcessor> void registerStructureProcessorType(
+		String name,
+		StructureProcessorType<T> structureProcessorType
 	) {
 		throw new AssertionError();
 	}

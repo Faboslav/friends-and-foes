@@ -3,8 +3,8 @@ package com.faboslav.friendsandfoes.platform.fabric;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.tag.BiomeTags;
-import net.minecraft.tag.TagKey;
+import net.minecraft.registry.tag.BiomeTags;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.world.biome.Biome;
 
 public final class BiomeModificationsImpl

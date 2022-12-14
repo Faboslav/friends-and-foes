@@ -14,14 +14,14 @@ logoFile = "icon.jpg"
 [[dependencies.friendsandfoes]]
 modId = "forge"
 mandatory = true
-versionRange = "[43.1.0,)"
+versionRange = "[44.0.18,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.friendsandfoes]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.19,)"
+versionRange = "[1.19.3,)"
 ordering = "NONE"
 side = "BOTH"
 

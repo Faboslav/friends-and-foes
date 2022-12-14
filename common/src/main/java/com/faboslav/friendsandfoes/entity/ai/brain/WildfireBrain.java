@@ -70,7 +70,7 @@ public final class WildfireBrain
 		brain.setTaskList(
 			Activity.IDLE,
 			ImmutableList.of(
-				Pair.of(0, new UpdateAttackTargetTask(wildfire -> getTarget((WildfireEntity) wildfire))),
+				Pair.of(0, UpdateAttackTargetTask.create(wildfire -> true, WildfireBrain::getTarget)),
 				Pair.of(0, makeRandomWanderTask())
 			)
 		);
@@ -96,7 +96,7 @@ public final class WildfireBrain
 			Activity.AVOID,
 			10,
 			ImmutableList.of(
-				GoToRememberedPositionTask.toEntity(MemoryModuleType.AVOID_TARGET, 1.4F, 16, true),
+				GoToRememberedPositionTask.createEntityBased(MemoryModuleType.AVOID_TARGET, 1.4F, 16, true),
 				makeRandomWanderTask()
 			),
 			MemoryModuleType.AVOID_TARGET
@@ -106,8 +106,8 @@ public final class WildfireBrain
 	private static RandomTask<WildfireEntity> makeRandomWanderTask() {
 		return new RandomTask(
 			ImmutableList.of(
-				Pair.of(new StrollTask(0.6F), 2),
-				Pair.of(new GoTowardsLookTarget(1.0F, 3), 2),
+				Pair.of(StrollTask.create(0.6F), 2),
+				Pair.of(GoTowardsLookTargetTask.create(1.0F, 3), 2),
 				Pair.of(new WaitTask(30, 60), 1)
 			)
 		);
@@ -138,10 +138,10 @@ public final class WildfireBrain
 
 	public static boolean shouldRunAway(WildfireEntity wildfire) {
 		if (
-			wildfire.getBrain().getOptionalMemory(FriendsAndFoesMemoryModuleTypes.WILDFIRE_BARRAGE_ATTACK_COOLDOWN.get()).isPresent()
-			&& wildfire.getBrain().getOptionalMemory(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get()).isPresent()
+			wildfire.getBrain().getOptionalRegisteredMemory(FriendsAndFoesMemoryModuleTypes.WILDFIRE_BARRAGE_ATTACK_COOLDOWN.get()).isPresent()
+			&& wildfire.getBrain().getOptionalRegisteredMemory(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get()).isPresent()
 			&& (
-				wildfire.getBrain().getOptionalMemory(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SUMMON_BLAZE_COOLDOWN.get()).isPresent()
+				wildfire.getBrain().getOptionalRegisteredMemory(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SUMMON_BLAZE_COOLDOWN.get()).isPresent()
 				|| wildfire.getSummonedBlazesCount() == WildfireEntity.MAXIMUM_SUMMONED_BLAZES_COUNT
 			)
 		) {
@@ -156,7 +156,7 @@ public final class WildfireBrain
 			return;
 		}
 
-		LivingEntity attackTarget = wildfire.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).orElse(null);
+		LivingEntity attackTarget = wildfire.getBrain().getOptionalRegisteredMemory(MemoryModuleType.ATTACK_TARGET).orElse(null);
 
 		if (attackTarget == null) {
 			return;
@@ -174,7 +174,7 @@ public final class WildfireBrain
 	}
 
 	private static Optional<? extends LivingEntity> getTarget(WildfireEntity wildfire) {
-		PlayerEntity nearestVisibleTargetablePlayer = wildfire.getBrain().getOptionalMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER).orElse(
+		PlayerEntity nearestVisibleTargetablePlayer = wildfire.getBrain().getOptionalRegisteredMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER).orElse(
 			wildfire.getWorld().getClosestPlayer(VALID_TARGET_PLAYER_PREDICATE, wildfire, wildfire.getX(), wildfire.getEyeY(), wildfire.getZ())
 		);
 

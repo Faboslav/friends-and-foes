@@ -70,7 +70,6 @@ public final class WildfireBrain
 		brain.setTaskList(
 			Activity.IDLE,
 			ImmutableList.of(
-				// TODO check this
 				Pair.of(0, UpdateAttackTargetTask.create(wildfire -> true, WildfireBrain::getTarget)),
 				Pair.of(0, makeRandomWanderTask())
 			)

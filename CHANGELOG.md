@@ -74,6 +74,10 @@
 
 - Fixed bug when copper blocks can not be waxed
 
+## mc1.18.2-1.4.6, December 16, 2022
+
+- Backported important fixes from 1.5.x/1.6.x mod versions
+
 ## mc1.18.2-1.4.5, June 21, 2022
 
 - Fixed bug when copper blocks can not be waxed

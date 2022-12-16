@@ -20,8 +20,7 @@ public class AbstractButtonBlockMixin
 		if (buttonBlock instanceof CopperButtonBlock) {
 			int pressTicks = CopperButtonBlock.PRESS_TICKS;
 
-			if (buttonBlock instanceof OxidizableButtonBlock) {
-				OxidizableButtonBlock oxidizableButtonBlock = (OxidizableButtonBlock) buttonBlock;
+			if (buttonBlock instanceof OxidizableButtonBlock oxidizableButtonBlock) {
 				Oxidizable.OxidationLevel OxidationLevel = oxidizableButtonBlock.getDegradationLevel();
 
 				if (OxidationLevel == Oxidizable.OxidationLevel.EXPOSED) {

@@ -1,51 +1,51 @@
 {
-  "name": "friendsandfoes:iceologer_cabin/feature/hay_bale",
-  "fallback": "minecraft:empty",
-  "elements": [
-	{
-	  "weight": 1,
-	  "element": {
-		"location": "friendsandfoes:iceologer_cabin/feature/hay_bale1",
-		"processors": "minecraft:empty",
-		"projection": "rigid",
-		"element_type": "minecraft:legacy_single_pool_element"
-	  }
-	},
-	{
-	  "weight": 1,
-	  "element": {
-		"location": "friendsandfoes:iceologer_cabin/feature/hay_bale2",
-		"processors": "minecraft:empty",
-		"projection": "rigid",
-		"element_type": "minecraft:legacy_single_pool_element"
-	  }
-	},
-	{
-	  "weight": 1,
-	  "element": {
-		"location": "friendsandfoes:iceologer_cabin/feature/hay_bale3",
-		"processors": "minecraft:empty",
-		"projection": "rigid",
-		"element_type": "minecraft:legacy_single_pool_element"
-	  }
-	},
-	{
-	  "weight": 1,
-	  "element": {
-		"location": "friendsandfoes:iceologer_cabin/feature/hay_bale4",
-		"processors": "minecraft:empty",
-		"projection": "rigid",
-		"element_type": "minecraft:legacy_single_pool_element"
-	  }
-	},
-	{
-	  "weight": 1,
-	  "element": {
-		"location": "friendsandfoes:iceologer_cabin/feature/hay_bale5",
-		"processors": "minecraft:empty",
-		"projection": "rigid",
-		"element_type": "minecraft:legacy_single_pool_element"
-	  }
-	}
-  ]
+	"name" : "friendsandfoes:iceologer_cabin/feature/hay_bale",
+	"fallback" : "minecraft:empty",
+	"elements" : [
+		{
+			"weight" : 1,
+			"element" : {
+				"location" : "friendsandfoes:iceologer_cabin/feature/hay_bale1",
+				"processors" : "minecraft:empty",
+				"projection" : "rigid",
+				"element_type" : "minecraft:legacy_single_pool_element"
+			}
+		},
+		{
+			"weight" : 1,
+			"element" : {
+				"location" : "friendsandfoes:iceologer_cabin/feature/hay_bale2",
+				"processors" : "minecraft:empty",
+				"projection" : "rigid",
+				"element_type" : "minecraft:legacy_single_pool_element"
+			}
+		},
+		{
+			"weight" : 1,
+			"element" : {
+				"location" : "friendsandfoes:iceologer_cabin/feature/hay_bale3",
+				"processors" : "minecraft:empty",
+				"projection" : "rigid",
+				"element_type" : "minecraft:legacy_single_pool_element"
+			}
+		},
+		{
+			"weight" : 1,
+			"element" : {
+				"location" : "friendsandfoes:iceologer_cabin/feature/hay_bale4",
+				"processors" : "minecraft:empty",
+				"projection" : "rigid",
+				"element_type" : "minecraft:legacy_single_pool_element"
+			}
+		},
+		{
+			"weight" : 1,
+			"element" : {
+				"location" : "friendsandfoes:iceologer_cabin/feature/hay_bale5",
+				"processors" : "minecraft:empty",
+				"projection" : "rigid",
+				"element_type" : "minecraft:legacy_single_pool_element"
+			}
+		}
+	]
 }

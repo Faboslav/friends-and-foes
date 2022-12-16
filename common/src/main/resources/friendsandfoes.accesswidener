@@ -13,3 +13,6 @@ accessible field net/minecraft/world/poi/PointOfInterestType BLOCK_STATE_TO_POIN
 mutable field net/minecraft/world/poi/PointOfInterestType BLOCK_STATE_TO_POINT_OF_INTEREST_TYPE Ljava/util/Map;
 accessible field net/minecraft/block/entity/BlockEntityType blocks Ljava/util/Set;
 mutable field net/minecraft/block/entity/BlockEntityType blocks Ljava/util/Set;
+accessible field net/minecraft/entity/passive/BeeEntity pollinateGoal Lnet/minecraft/entity/passive/BeeEntity$PollinateGoal;
+accessible class net/minecraft/entity/passive/BeeEntity$PollinateGoal
+accessible method net/minecraft/entity/passive/BeeEntity$PollinateGoal isRunning ()Z

@@ -48,6 +48,8 @@ public final class BeePollinateMoobloomGoal extends Goal
 			return false;
 		} else if (RandomGenerator.generateRandomFloat() < 0.5F) {
 			return false;
+		} else if (this.beeEntity.pollinateGoal.isRunning()) {
+			return false;
 		}
 
 		MoobloomEntity moobloom = this.findMoobloom();
@@ -144,7 +146,7 @@ public final class BeePollinateMoobloomGoal extends Goal
 		}
 	}
 
-	protected void pollinate() {
+	private void pollinate() {
 		for (int i = 0; i < 7; ++i) {
 			double d = this.beeEntity.getRandom().nextGaussian() * 0.02D;
 			double e = this.beeEntity.getRandom().nextGaussian() * 0.02D;
@@ -169,7 +171,7 @@ public final class BeePollinateMoobloomGoal extends Goal
 			MoobloomEntity.class,
 			VALID_MOOBLOOM_PREDICATE,
 			this.beeEntity,
-			this.beeEntity.getBoundingBox().expand(16.0D)
+			this.beeEntity.getBoundingBox().expand(32.0D)
 		);
 		double d = 1.7976931348623157E308D;
 		MoobloomEntity closestMoobloomEntity = null;
@@ -193,15 +195,15 @@ public final class BeePollinateMoobloomGoal extends Goal
 		);
 	}
 
-	protected boolean completedPollination() {
+	private boolean completedPollination() {
 		return this.pollinationTicks > 200;
 	}
 
-	protected boolean isRunning() {
+	private boolean isRunning() {
 		return this.running;
 	}
 
-	protected void setIsRunning(boolean isRunning) {
+	private void setIsRunning(boolean isRunning) {
 		this.running = isRunning;
 	}
 

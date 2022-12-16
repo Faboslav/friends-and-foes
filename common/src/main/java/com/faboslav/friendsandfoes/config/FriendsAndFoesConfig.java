@@ -25,6 +25,9 @@ public final class FriendsAndFoesConfig implements Config
 	@Description("Enable spawn")
 	public boolean enableGlareSpawn = true;
 
+	@Description("Whenever will glare shake off glow berries and eat glow berries")
+	public boolean enableGlareGriefing = true;
+
 	@Description("Spawn weight")
 	public int glareSpawnWeight = 4;
 

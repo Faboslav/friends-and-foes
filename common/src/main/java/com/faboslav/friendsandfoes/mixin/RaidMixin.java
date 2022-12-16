@@ -12,9 +12,13 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Raid.class)
-public class RaidMixin
+public final class RaidMixin
 {
-	@Inject(method = "addRaider", at = @At("HEAD"), cancellable = true)
+	@Inject(
+		method = "addRaider",
+		at = @At("HEAD"),
+		cancellable = true
+	)
 	public void addRaider(
 		int wave,
 		RaiderEntity raider,
@@ -25,12 +29,16 @@ public class RaidMixin
 		if (
 			(
 				raider instanceof IllusionerEntity
-				&& FriendsAndFoes.getConfig().enableIllusioner == false
-				&& FriendsAndFoes.getConfig().enableIllusionerInRaids == false
+				&& (
+					FriendsAndFoes.getConfig().enableIllusioner == false
+					|| FriendsAndFoes.getConfig().enableIllusionerInRaids == false
+				)
 			) || (
 				raider instanceof IceologerEntity
-				&& FriendsAndFoes.getConfig().enableIceologer == false
-				&& FriendsAndFoes.getConfig().enableIceologerInRaids == false
+				&& (
+					FriendsAndFoes.getConfig().enableIceologer == false
+					|| FriendsAndFoes.getConfig().enableIceologerInRaids == false
+				)
 			)
 		) {
 			ci.cancel();

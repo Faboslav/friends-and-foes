@@ -3,7 +3,6 @@ package com.faboslav.friendsandfoes.entity;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.animation.AnimationContextTracker;
 import com.faboslav.friendsandfoes.entity.ai.goal.*;
-import com.faboslav.friendsandfoes.entity.ai.pathing.GlareNavigation;
 import com.faboslav.friendsandfoes.init.ModCriteria;
 import com.faboslav.friendsandfoes.init.ModSounds;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
@@ -15,6 +14,7 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.ai.control.FlightMoveControl;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer.Builder;
@@ -311,13 +311,18 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 
 	@Override
 	protected EntityNavigation createNavigation(World world) {
-		GlareNavigation glareNavigation = new GlareNavigation(this, world);
+		BirdNavigation birdNavigation = new BirdNavigation(this, world)
+		{
+			public boolean isValidPosition(BlockPos pos) {
+				return this.world.getBlockState(pos.down()).isAir() == false;
+			}
+		};
 
-		glareNavigation.setCanPathThroughDoors(false);
-		glareNavigation.setCanSwim(true);
-		glareNavigation.setCanEnterOpenDoors(true);
+		birdNavigation.setCanPathThroughDoors(false);
+		birdNavigation.setCanSwim(false);
+		birdNavigation.setCanEnterOpenDoors(true);
 
-		return glareNavigation;
+		return birdNavigation;
 	}
 
 	@Override

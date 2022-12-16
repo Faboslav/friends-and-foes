@@ -13,7 +13,6 @@ import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.SpawnHelper;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.Biome.Category;
 import net.minecraft.world.spawner.Spawner;
 
 import java.util.Random;
@@ -41,7 +40,7 @@ public final class IceologerSpawner implements Spawner
 			return 0;
 		}
 
-		this.cooldown += 12000 + random.nextInt(1000);
+		this.cooldown += 12000 + RandomGenerator.generateInt(0, 1000);
 		long l = world.getTimeOfDay() / 24000L;
 
 		if (
@@ -74,17 +73,19 @@ public final class IceologerSpawner implements Spawner
 		var minZ = mutable.getZ() - 10;
 		var maxX = mutable.getX() + 10;
 		var maxZ = mutable.getZ() + 10;
+
 		if (world.isRegionLoaded(minX, minZ, maxX, maxZ) == false) {
 			return 0;
 		}
 
 		RegistryEntry<Biome> registryEntry = world.getBiome(mutable);
-		Category category = Biome.getCategory(registryEntry);
+		Biome.Category category = Biome.getCategory(registryEntry);
 
 		var precipitation = registryEntry.value().getPrecipitation();
 
+
 		if (
-			category != Category.TAIGA
+			category != Biome.Category.TAIGA
 			|| precipitation != Biome.Precipitation.SNOW
 		) {
 			return 0;

@@ -1,7 +1,7 @@
 {
-  "replace": false,
-  "values": [
-	"minecraft:snowy_taiga",
-	"minecraft:grove"
-  ]
+	"replace" : false,
+	"values" : [
+		"minecraft:snowy_taiga",
+		"minecraft:grove"
+	]
 }

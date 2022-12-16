@@ -43,4 +43,3 @@ public final class GlareSitGoal extends Goal
 		this.glare.setSitting(false);
 	}
 }
-

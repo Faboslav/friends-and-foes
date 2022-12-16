@@ -3,7 +3,7 @@ package com.faboslav.friendsandfoes.api;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowerBlock;
 
-public enum MoobloomVariant
+public final class MoobloomVariant
 {
 	DANDELION("dandelion", (FlowerBlock) Blocks.DANDELION);
 

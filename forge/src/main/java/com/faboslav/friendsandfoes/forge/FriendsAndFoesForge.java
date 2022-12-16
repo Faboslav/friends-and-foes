@@ -51,7 +51,7 @@ public final class FriendsAndFoesForge
 	}
 
 	private static void expandEnums() {
-		SpawnGroup.create(ExpandedEnumValues.GLARES, FriendsAndFoes.makeStringID("glares"), 5, true, false, 128);
+		SpawnGroup.create(ExpandedEnumValues.GLARES, FriendsAndFoes.makeStringID("glares"), 15, true, false, 128);
 	}
 
 	private static void init(final FMLCommonSetupEvent event) {

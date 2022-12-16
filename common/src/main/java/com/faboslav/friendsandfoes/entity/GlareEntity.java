@@ -146,8 +146,9 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	) {
 		BlockState blockState = serverWorldAccess.getBlockState(blockPos.down());
 
+		boolean isBelowSurfaceLevel = blockPos.getY() < 63;
 		boolean isSkyVisible = serverWorldAccess.isSkyVisible(blockPos);
-		boolean isBlockPosDarkSpot = serverWorldAccess.getBaseLightLevel(blockPos, 0) <= 3;
+		boolean isBlockPosDarkSpot = serverWorldAccess.getBaseLightLevel(blockPos, 0) <= 5;
 		boolean isRelatedBlock = (
 			blockState.isOf(Blocks.MOSS_BLOCK)
 			|| blockState.isOf(Blocks.MOSS_CARPET)
@@ -159,7 +160,8 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 			|| blockState.isOf(Blocks.CLAY)
 		);
 
-		return isRelatedBlock
+		return isBelowSurfaceLevel
+			   && isRelatedBlock
 			   && isSkyVisible == false
 			   && isBlockPosDarkSpot == false;
 	}

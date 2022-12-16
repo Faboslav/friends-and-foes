@@ -26,7 +26,7 @@ public final class EarlyRiserQuilt implements Runnable
 
 		ClassTinkerers
 			.enumBuilder(SpawnGroup, String.class, int.class, boolean.class, boolean.class, int.class)
-			.addEnum(ExpandedEnumValues.GLARES, () -> new Object[]{FriendsAndFoes.makeStringID("glares"), 5, true, false, 128})
+			.addEnum(ExpandedEnumValues.GLARES, () -> new Object[]{FriendsAndFoes.makeStringID("glares"), 15, true, false, 128})
 			.build();
 	}
 }

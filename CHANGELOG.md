@@ -1,3 +1,8 @@
+## mc1.19.2-1.6.4, December 19, 2022
+
+- Added zombie horse trap
+- Prepared API for the different moobloom variants
+
 ## mc1.19.2-1.6.3, December 04, 2022
 
 - Fixed server crash

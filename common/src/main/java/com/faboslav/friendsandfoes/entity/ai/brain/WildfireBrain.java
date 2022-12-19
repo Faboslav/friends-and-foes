@@ -137,18 +137,12 @@ public final class WildfireBrain
 	}
 
 	public static boolean shouldRunAway(WildfireEntity wildfire) {
-		if (
-			wildfire.getBrain().getOptionalMemory(FriendsAndFoesMemoryModuleTypes.WILDFIRE_BARRAGE_ATTACK_COOLDOWN.get()).isPresent()
-			&& wildfire.getBrain().getOptionalMemory(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get()).isPresent()
-			&& (
-				wildfire.getBrain().getOptionalMemory(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SUMMON_BLAZE_COOLDOWN.get()).isPresent()
-				|| wildfire.getSummonedBlazesCount() == WildfireEntity.MAXIMUM_SUMMONED_BLAZES_COUNT
-			)
-		) {
-			return true;
-		}
-
-		return false;
+		return wildfire.getBrain().getOptionalMemory(FriendsAndFoesMemoryModuleTypes.WILDFIRE_BARRAGE_ATTACK_COOLDOWN.get()).isPresent()
+			   && wildfire.getBrain().getOptionalMemory(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get()).isPresent()
+			   && (
+				   wildfire.getBrain().getOptionalMemory(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SUMMON_BLAZE_COOLDOWN.get()).isPresent()
+				   || wildfire.getSummonedBlazesCount() == WildfireEntity.MAXIMUM_SUMMONED_BLAZES_COUNT
+			   );
 	}
 
 	public static void onCooldown(WildfireEntity wildfire) {

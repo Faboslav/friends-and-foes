@@ -5,8 +5,8 @@ import net.minecraft.item.Item;
 
 public final class MoobloomVariant
 {
-	private String name;
-	private FlowerBlock flowerBlock;
+	private final String name;
+	private final FlowerBlock flowerBlock;
 
 	MoobloomVariant(
 		String name,

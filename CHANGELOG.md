@@ -1,6 +1,7 @@
 ## mc1.19.2-1.6.4, December 19, 2022
 
 - Added zombie horse trap
+- Added new "Riders On The Storm" advancement
 - Prepared API for the different moobloom variants
 
 ## mc1.19.2-1.6.3, December 04, 2022

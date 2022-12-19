@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.entity;
 
-import com.faboslav.friendsandfoes.entity.WildfireEntity;
 import com.faboslav.friendsandfoes.mixin.BlazeEntityMixin;
 import org.jetbrains.annotations.Nullable;
 

@@ -1,6 +1,8 @@
 package com.faboslav.friendsandfoes.entity;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.api.MoobloomVariant;
+import com.faboslav.friendsandfoes.api.MoobloomVariants;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesBlocks;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
@@ -30,8 +32,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldEvents;
 import net.minecraft.world.event.GameEvent;
-import org.jetbrains.annotations.Nullable;
 
 public final class MoobloomEntity extends CowEntity implements Shearable
 {
@@ -61,19 +63,27 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 	@Override
 	protected void initDataTracker() {
 		super.initDataTracker();
-		this.dataTracker.startTracking(VARIANT, Variant.BUTTERCUP.getName());
+		this.dataTracker.startTracking(VARIANT, MoobloomVariants.DEFAULT_VARIANT_NAME);
 	}
 
 	@Override
 	public void writeCustomDataToNbt(NbtCompound nbt) {
 		super.writeCustomDataToNbt(nbt);
-		nbt.putString("Variant", this.getVariant().name);
+		nbt.putString("Variant", this.getVariant().getName());
+		nbt.putString("Flower", this.getVariant().getFlowerName());
 	}
 
 	@Override
 	public void readCustomDataFromNbt(NbtCompound nbt) {
 		super.readCustomDataFromNbt(nbt);
-		this.setVariant(MoobloomEntity.Variant.fromName(nbt.getString("Type")));
+
+		String variantName = MoobloomVariants.DEFAULT_VARIANT_NAME;
+
+		if (nbt.contains("Variant") && MoobloomVariants.contains(nbt.getString("Variant"))) {
+			variantName = nbt.getString("Variant");
+		}
+
+		this.setVariant(MoobloomVariants.getByName(variantName));
 	}
 
 	public void sheared(SoundCategory shearedSoundCategory) {
@@ -131,13 +141,14 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 		Hand hand
 	) {
 		ItemStack itemStack = player.getStackInHand(hand);
+		MoobloomVariant moobloomVariant = MoobloomVariants.getByFlowerItem(itemStack.getItem());
 
-		for (MoobloomEntity.Variant moobloomVariant : MoobloomEntity.Variant.values()) {
-			if (itemStack.getItem() != moobloomVariant.getFlowerBlock().asItem()) {
-				continue;
-			}
-
+		if (moobloomVariant != null && moobloomVariant != this.getVariant()) {
 			this.setVariant(moobloomVariant);
+
+			if (this.isSilent() == false) {
+				this.world.syncWorldEvent(null, WorldEvents.BONE_MEAL_USED, this.getBlockPos(), 0);
+			}
 
 			boolean isClientWorld = this.getWorld().isClient();
 
@@ -191,7 +202,7 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 			if (blockUnderneath == Blocks.GRASS_BLOCK && this.getWorld().isAir(this.getBlockPos())) {
 				Block flowerBlock = this.getVariant().getFlowerBlock();
 				// TODO condition if moobloom mod is loaded
-				if (this.getVariant() == Variant.BUTTERCUP) {
+				if (this.getVariant().getName() == MoobloomVariants.DEFAULT_VARIANT_NAME) {
 					// 40% chance buttercup, 40% chance dandelion, 20% chance sunflower
 					int flowerChance = RandomGenerator.generateInt(1, 100);
 
@@ -226,68 +237,15 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 		super.tick();
 	}
 
-	private void setVariant(MoobloomEntity.Variant type) {
-		this.dataTracker.set(VARIANT, type.name());
+	private void setVariant(MoobloomVariant variant) {
+		this.dataTracker.set(VARIANT, variant.getName());
 	}
 
-	public MoobloomEntity.Variant getVariant() {
-		return MoobloomEntity.Variant.fromName(this.dataTracker.get(VARIANT));
+	public MoobloomVariant getVariant() {
+		return MoobloomVariants.getByName(this.dataTracker.get(VARIANT));
 	}
 
 	static {
 		VARIANT = DataTracker.registerData(MoobloomEntity.class, TrackedDataHandlerRegistry.STRING);
-	}
-
-	public enum Variant
-	{
-		BUTTERCUP(0, "buttercup", (FlowerBlock) FriendsAndFoesBlocks.BUTTERCUP.get()),
-
-		private final int id;
-		private final String name;
-		private final FlowerBlock flowerBlock;
-
-		Variant(
-			int id,
-			String name,
-			FlowerBlock flowerBlock
-		) {
-			this.id = id;
-			this.name = name;
-			this.flowerBlock = flowerBlock;
-		}
-
-		public int getId() {
-			return this.id;
-		}
-
-		public String getName() {
-			return this.name;
-		}
-
-		public Block getFlowerBlock() {
-			return this.flowerBlock;
-		}
-
-		static MoobloomEntity.Variant fromName(String name) {
-			for (MoobloomEntity.Variant type : MoobloomEntity.Variant.values()) {
-				if (type.name().equals(name) == false) continue;
-				return type;
-			}
-
-			return BUTTERCUP;
-		}
-
-		@Nullable
-		static MoobloomEntity.Variant fromFlowerBlock(PlantBlock plantBlock) {
-			for (MoobloomEntity.Variant variant : MoobloomEntity.Variant.values()) {
-				if (variant.flowerBlock.equals(plantBlock) == false) {
-					continue;
-				}
-
-				return variant;
-			}
-
-			return null;
-		}
 	}
 }

@@ -21,6 +21,7 @@ public final class MaulerBurrowDownGoal extends Goal
 	private int burrowedDownTicks;
 	private Block blockUnderMauler;
 	private SoundEvent soundForBlockUnderMauler;
+	private boolean isRunning;
 
 	public MaulerBurrowDownGoal(MaulerEntity mauler) {
 		this.mauler = mauler;
@@ -57,6 +58,7 @@ public final class MaulerBurrowDownGoal extends Goal
 	}
 
 	public void start() {
+		this.isRunning = true;
 		this.mauler.getNavigation().setSpeed(0);
 		this.mauler.getNavigation().stop();
 
@@ -76,6 +78,7 @@ public final class MaulerBurrowDownGoal extends Goal
 
 	@Override
 	public void stop() {
+		this.isRunning = false;
 		this.mauler.setInvisible(false);
 		this.mauler.setInvulnerable(false);
 		this.mauler.setBurrowedDown(false);
@@ -138,5 +141,9 @@ public final class MaulerBurrowDownGoal extends Goal
 
 	public void setBurrowedDownTicks(int burrowedDownTicks) {
 		this.burrowedDownTicks = burrowedDownTicks;
+	}
+
+	public boolean isRunning() {
+		return this.isRunning;
 	}
 }

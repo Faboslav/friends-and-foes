@@ -134,6 +134,10 @@ public final class FriendsAndFoesConfig implements Config
 	@Description("Generate illusioner training grounds")
 	public boolean generateIllusionerTrainingGroundsStructure = true;
 
+	@Category("Zombie Horse")
+	@Description("Enable trap")
+	public boolean enableZombieHorseTrap = true;
+
 	@Category("Wildfire")
 	@Description("Enable wildfire")
 	public boolean enableWildfire = true;

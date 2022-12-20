@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.entity.ai.brain.task;
 
-import com.faboslav.friendsandfoes.api.BlazeEntityAccess;
+import com.faboslav.friendsandfoes.entity.BlazeEntityAccess;
 import com.faboslav.friendsandfoes.entity.WildfireEntity;
 import com.faboslav.friendsandfoes.entity.ai.brain.WildfireBrain;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;

@@ -58,8 +58,8 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	private static final float MOVEMENT_SPEED = 0.3F;
 	private static final float ATTACK_DAMAGE = 8.0F;
 	private static final int MAXIMUM_STORED_EXPERIENCE_POINTS = 1395;
-	public static final int MIN_TICKS_UNTIL_NEXT_BURROWING = 6000;
-	public static final int MAX_TICKS_UNTIL_NEXT_BURROWING = 9000;
+	public static final int MIN_TICKS_UNTIL_NEXT_BURROWING = 3000;
+	public static final int MAX_TICKS_UNTIL_NEXT_BURROWING = 6000;
 	private static final Predicate<Entity> PREY_PREDICATE_FILTER;
 
 	private static final String TYPE_NBT_NAME = "Type";
@@ -238,7 +238,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		DamageSource source,
 		float amount
 	) {
-		if (this.getWorld().isClient() == false) {
+		if (this.getWorld().isClient() == false && this.burrowDownGoal.isRunning()) {
 			this.burrowDownGoal.stop();
 		}
 

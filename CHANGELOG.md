@@ -1,6 +1,18 @@
+## mc1.19.3-1.7.1, December 20, 2022
+
+- Added zombie horse trap
+- Added new "Riders On The Storm" advancement
+- Prepared API for the different moobloom variants
+
 ## mc1.19.3-1.7.0, December 14, 2022
 
 - Ported to 1.19.3
+- 
+## mc1.19.2-1.6.4, December 20, 2022
+
+- Added zombie horse trap
+- Added new "Riders On The Storm" advancement
+- Prepared API for the different moobloom variants
 
 ## mc1.19.2-1.6.3, December 04, 2022
 
@@ -77,6 +89,10 @@
 ## mc1.19-1.5.4, June 21, 2022
 
 - Fixed bug when copper blocks can not be waxed
+
+## mc1.18.2-1.4.6, December 16, 2022
+
+- Backported important fixes from 1.5.x/1.6.x mod versions
 
 ## mc1.18.2-1.4.5, June 21, 2022
 

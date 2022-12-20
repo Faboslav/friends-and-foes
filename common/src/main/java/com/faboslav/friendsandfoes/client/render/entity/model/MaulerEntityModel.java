@@ -110,7 +110,7 @@ public final class MaulerEntityModel<T extends MaulerEntity> extends AnimatedEnt
 			&& mauler.isBurrowedDown() == false
 			&& mauler.isMoving()
 			&& mauler.isOnGround()
-			&& mauler.getVelocity().getY() <= 0.0001
+			&& mauler.getVelocity().getY() <= 0.00001
 		) {
 			float targetX = AnimationMath.toRadians(5) + AnimationMath.toRadians(-65) * AnimationMath.absSin(animationProgress, 1.0F, 0.35F);
 			float delta = AnimationMath.absSin(animationProgress);

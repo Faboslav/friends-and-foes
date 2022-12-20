@@ -30,11 +30,15 @@
 		"StructurePoolAccessor",
 		"VillagerEntityMixin",
 		"VillagerHostilesSensorMixin",
-		"VillagerTaskListProviderMixin"
+		"VillagerTaskListProviderMixin",
+		"ZombieHorseEntityMixin"
 	],
 	"client": [
 		"ClientPlayNetworkHandlerMixin",
 		"IllusionerEntityRendererMixin",
 		"ModelPartAccessor"
+	],
+	"server": [
+		"ServerWorldMixin"
 	]
 }

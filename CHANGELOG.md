@@ -1,4 +1,4 @@
-## mc1.19.2-1.6.4, December 19, 2022
+## mc1.19.2-1.6.4, December 20, 2022
 
 - Added zombie horse trap
 - Added new "Riders On The Storm" advancement

@@ -6,13 +6,13 @@ import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.mob.ZombieHorseEntity;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.profiler.Profiler;
-import net.minecraft.util.registry.RegistryEntry;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.*;
 import net.minecraft.world.chunk.WorldChunk;
 import net.minecraft.world.dimension.DimensionType;
@@ -27,9 +27,6 @@ import java.util.function.Supplier;
 @Mixin(ServerWorld.class)
 public abstract class ServerWorldMixin extends World implements StructureWorldAccess
 {
-	@Shadow
-	protected abstract BlockPos getLightningPos(BlockPos pos);
-
 	protected ServerWorldMixin(
 		MutableWorldProperties properties,
 		RegistryKey<World> registryRef,
@@ -42,6 +39,9 @@ public abstract class ServerWorldMixin extends World implements StructureWorldAc
 	) {
 		super(properties, registryRef, dimension, profiler, isClient, debugWorld, seed, maxChainedNeighborUpdates);
 	}
+
+	@Shadow
+	protected abstract BlockPos getLightningPos(BlockPos pos);
 
 	@Inject(
 		method = "tickChunk",

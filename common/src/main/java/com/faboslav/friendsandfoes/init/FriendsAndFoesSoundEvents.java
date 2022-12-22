@@ -37,6 +37,7 @@ public final class FriendsAndFoesSoundEvents
 	public static final Supplier<SoundEvent> ENTITY_MAULER_DEATH;
 	public static final Supplier<SoundEvent> ENTITY_MAULER_GROWL;
 	public static final Supplier<SoundEvent> ENTITY_MAULER_HURT;
+	public static final Supplier<SoundEvent> ENTITY_MOOBLOOM_CONVERT;
 	public static final Supplier<SoundEvent> ENTITY_WILDFIRE_SHIELD_DEBRIS_IMPACT;
 	public static final Supplier<SoundEvent> ENTITY_WILDFIRE_AMBIENT;
 	public static final Supplier<SoundEvent> ENTITY_WILDFIRE_DEATH;
@@ -73,6 +74,7 @@ public final class FriendsAndFoesSoundEvents
 		ENTITY_MAULER_DEATH = register("entity", "mauler.death");
 		ENTITY_MAULER_GROWL = register("entity", "mauler.growl");
 		ENTITY_MAULER_HURT = register("entity", "mauler.hurt");
+		ENTITY_MOOBLOOM_CONVERT = register("entity", "moobloom.convert");
 		ENTITY_WILDFIRE_SHIELD_DEBRIS_IMPACT = register("entity", "shield_debris.impact");
 		ENTITY_WILDFIRE_AMBIENT = register("entity", "wildfire.ambient");
 		ENTITY_WILDFIRE_DEATH = register("entity", "wildfire.death");

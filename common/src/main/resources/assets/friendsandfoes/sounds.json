@@ -169,6 +169,13 @@
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.mauler.hurt"
 	},
+	"entity.moobloom.convert": {
+		"sounds": [
+			"friendsandfoes:entity/moobloom/convert1",
+			"friendsandfoes:entity/moobloom/convert2"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.moobloom.convert"
+	},
 	"entity.shield_debris.impact": {
 		"sounds": [
 			"friendsandfoes:entity/shield_debris/impact1",

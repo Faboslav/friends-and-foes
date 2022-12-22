@@ -1,19 +1,19 @@
 package com.faboslav.friendsandfoes.api;
 
-import net.minecraft.block.FlowerBlock;
+import net.minecraft.block.PlantBlock;
 import net.minecraft.item.Item;
 
 public final class MoobloomVariant
 {
 	private final String name;
-	private final FlowerBlock flowerBlock;
+	private final PlantBlock flower;
 
 	MoobloomVariant(
 		String name,
-		FlowerBlock flowerBlock
+		PlantBlock flower
 	) {
 		this.name = name;
-		this.flowerBlock = flowerBlock;
+		this.flower = flower;
 	}
 
 	public String getName() {
@@ -21,14 +21,14 @@ public final class MoobloomVariant
 	}
 
 	public String getFlowerName() {
-		return this.getFlowerBlock().getName().toString();
+		return this.getFlower().getName().toString();
 	}
 
-	public FlowerBlock getFlowerBlock() {
-		return this.flowerBlock;
+	public PlantBlock getFlower() {
+		return this.flower;
 	}
 
-	public Item getFlowerBlockAsItem() {
-		return this.flowerBlock.asItem();
+	public Item getFlowerAsItem() {
+		return this.flower.asItem();
 	}
 }

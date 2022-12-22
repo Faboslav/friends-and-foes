@@ -10,7 +10,8 @@ import com.faboslav.friendsandfoes.platform.CustomSpawnGroup;
 import com.faboslav.friendsandfoes.platform.RegistryHelper;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import net.minecraft.SharedConstants;
-import net.minecraft.block.FlowerBlock;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.PlantBlock;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.SpawnRestriction;
@@ -91,7 +92,7 @@ public final class FriendsAndFoesEntityTypes
 	}
 
 	public static void addMoobloomVariants() {
-		MoobloomVariants.add("buttercup", (FlowerBlock) FriendsAndFoesBlocks.BUTTERCUP.get());
+		MoobloomVariants.add("buttercup", (PlantBlock) FriendsAndFoesBlocks.BUTTERCUP.get());
 	}
 
 	private FriendsAndFoesEntityTypes() {

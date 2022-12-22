@@ -5,6 +5,7 @@ import com.faboslav.friendsandfoes.api.MoobloomVariant;
 import com.faboslav.friendsandfoes.api.MoobloomVariants;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesBlocks;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.DoubleBlockHalf;
@@ -32,8 +33,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldEvents;
 import net.minecraft.world.event.GameEvent;
+
+import java.util.Objects;
 
 public final class MoobloomEntity extends CowEntity implements Shearable
 {
@@ -129,7 +131,7 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 					this.getX(),
 					this.getBodyY(1.0D),
 					this.getZ(),
-					new ItemStack(this.getVariant().getFlowerBlock())
+					new ItemStack(this.getVariant().getFlower())
 				)
 			);
 		}
@@ -145,10 +147,7 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 
 		if (moobloomVariant != null && moobloomVariant != this.getVariant()) {
 			this.setVariant(moobloomVariant);
-
-			if (this.isSilent() == false) {
-				this.world.syncWorldEvent(null, WorldEvents.BONE_MEAL_USED, this.getBlockPos(), 0);
-			}
+			this.playSound(FriendsAndFoesSoundEvents.ENTITY_MOOBLOOM_CONVERT.get(), 2.0F, 1.0F);
 
 			boolean isClientWorld = this.getWorld().isClient();
 
@@ -200,8 +199,8 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 			Block blockUnderneath = this.getWorld().getBlockState(new BlockPos(this.getX(), this.getY() - 1, this.getZ())).getBlock();
 
 			if (blockUnderneath == Blocks.GRASS_BLOCK && this.getWorld().isAir(this.getBlockPos())) {
-				Block flowerBlock = this.getVariant().getFlowerBlock();
-				// TODO condition if moobloom mod is loaded
+				Block flower = this.getVariant().getFlower();
+
 				if (this.getVariant().getName() == MoobloomVariants.DEFAULT_VARIANT_NAME) {
 					// 40% chance buttercup, 40% chance dandelion, 20% chance sunflower
 					int flowerChance = RandomGenerator.generateInt(1, 100);
@@ -216,12 +215,12 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 						this.getWorld().setBlockState(this.getBlockPos().up(), sunflowerBlockState);
 					}
 				} else {
-					if (flowerBlock instanceof TallFlowerBlock) {
-						BlockState upperHalfBlockState = flowerBlock.getDefaultState().with(TallPlantBlock.HALF, DoubleBlockHalf.UPPER);
+					if (flower instanceof TallFlowerBlock || flower instanceof TallPlantBlock) {
+						BlockState upperHalfBlockState = flower.getDefaultState().with(TallPlantBlock.HALF, DoubleBlockHalf.UPPER);
 						this.getWorld().setBlockState(this.getBlockPos(), upperHalfBlockState.cycle(Properties.DOUBLE_BLOCK_HALF));
 						this.getWorld().setBlockState(this.getBlockPos().up(), upperHalfBlockState);
 					} else {
-						this.getWorld().setBlockState(this.getBlockPos(), flowerBlock.getDefaultState());
+						this.getWorld().setBlockState(this.getBlockPos(), flower.getDefaultState());
 					}
 				}
 			}

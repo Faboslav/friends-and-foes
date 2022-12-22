@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.api;
 
 import net.minecraft.block.FlowerBlock;
+import net.minecraft.block.PlantBlock;
 import net.minecraft.item.Item;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,9 +24,9 @@ public final class MoobloomVariants
 	}
 
 	@Nullable
-	public static MoobloomVariant getByFlowerBlock(FlowerBlock flowerBlock) {
+	public static MoobloomVariant getByFlowerBlock(FlowerBlock flower) {
 		for (MoobloomVariant moobloomVariant : MOOBLOOM_VARIANT_MAP.values()) {
-			if (moobloomVariant.getFlowerBlock() == flowerBlock) {
+			if (moobloomVariant.getFlower() == flower) {
 				return moobloomVariant;
 			}
 		}
@@ -36,7 +37,7 @@ public final class MoobloomVariants
 	@Nullable
 	public static MoobloomVariant getByFlowerItem(Item flowerItem) {
 		for (MoobloomVariant moobloomVariant : MOOBLOOM_VARIANT_MAP.values()) {
-			if (moobloomVariant.getFlowerBlockAsItem() == flowerItem) {
+			if (moobloomVariant.getFlowerAsItem() == flowerItem) {
 				return moobloomVariant;
 			}
 		}
@@ -44,18 +45,18 @@ public final class MoobloomVariants
 		return null;
 	}
 
-	public static void add(String name, FlowerBlock flowerBlock) {
+	public static void add(String name, PlantBlock flower) {
 		if (contains(name)) {
 			throw new IllegalArgumentException(
 				String.format(
 					"Variant \"%s\" with flower block \"%s\" is already added.",
 					name,
-					flowerBlock.toString()
+					flower.toString()
 				)
 			);
 		}
 
-		MOOBLOOM_VARIANT_MAP.put(name, new MoobloomVariant(name, flowerBlock));
+		MOOBLOOM_VARIANT_MAP.put(name, new MoobloomVariant(name, flower));
 	}
 
 	public static void addMultiple(Map<String, FlowerBlock> items) {

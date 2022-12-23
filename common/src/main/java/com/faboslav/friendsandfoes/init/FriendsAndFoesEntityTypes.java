@@ -10,7 +10,6 @@ import com.faboslav.friendsandfoes.platform.CustomSpawnGroup;
 import com.faboslav.friendsandfoes.platform.RegistryHelper;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import net.minecraft.SharedConstants;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.PlantBlock;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;

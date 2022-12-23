@@ -25,7 +25,7 @@ public final class MoobloomVariants
 
 	public static MoobloomVariant getRandomVariant() {
 		Object[] values = MOOBLOOM_VARIANT_MAP.values().toArray();
-		return (MoobloomVariant) values[RandomGenerator.generateInt(0, values.length)];
+		return (MoobloomVariant) values[RandomGenerator.generateInt(0, values.length - 1)];
 	}
 
 	@Nullable

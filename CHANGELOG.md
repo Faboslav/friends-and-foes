@@ -2,7 +2,7 @@
 
 - Fixed moobloom transform sound
 - Tweaked moobloom API
-- 
+
 ## mc1.19.3-1.7.1, December 20, 2022
 
 - Added zombie horse trap

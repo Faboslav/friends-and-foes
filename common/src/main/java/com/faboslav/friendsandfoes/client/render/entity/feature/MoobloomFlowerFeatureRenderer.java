@@ -5,7 +5,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.PlantBlock;
-import net.minecraft.block.TallFlowerBlock;
 import net.minecraft.block.TallPlantBlock;
 import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.client.MinecraftClient;
@@ -55,7 +54,7 @@ public final class MoobloomFlowerFeatureRenderer<T extends MoobloomEntity> exten
 			float scaleFactor = 0.8F;
 			float yOffset = -0.5F;
 
-			if(flower instanceof TallPlantBlock) {
+			if (flower instanceof TallPlantBlock) {
 				scaleFactor = 0.6F;
 				yOffset = -0.666F;
 			}

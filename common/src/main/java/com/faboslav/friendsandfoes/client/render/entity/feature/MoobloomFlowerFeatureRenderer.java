@@ -5,6 +5,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.PlantBlock;
+import net.minecraft.block.TallFlowerBlock;
 import net.minecraft.block.TallPlantBlock;
 import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.client.MinecraftClient;
@@ -51,6 +52,13 @@ public final class MoobloomFlowerFeatureRenderer<T extends MoobloomEntity> exten
 			}
 
 			int overlay = LivingEntityRenderer.getOverlay(moobloomEntity, 0.0F);
+			float scaleFactor = 0.8F;
+			float yOffset = -0.5F;
+
+			if(flower instanceof TallPlantBlock) {
+				scaleFactor = 0.6F;
+				yOffset = -0.666F;
+			}
 
 			MinecraftClient minecraftClient = MinecraftClient.getInstance();
 			boolean renderAsModel = minecraftClient.hasOutline(moobloomEntity) && moobloomEntity.isInvisible();
@@ -60,30 +68,30 @@ public final class MoobloomFlowerFeatureRenderer<T extends MoobloomEntity> exten
 			matrixStack.push();
 			this.getContextModel().getHead().rotate(matrixStack);
 			matrixStack.translate(0.09D, -0.6D, -0.185D);
-			matrixStack.scale(-0.8F, -0.8F, 0.8F);
-			matrixStack.translate(-0.5D, -0.5D, -0.5D);
+			matrixStack.scale(-scaleFactor, -scaleFactor, scaleFactor);
+			matrixStack.translate(-0.5D, yOffset, -0.5D);
 			this.renderFlower(matrixStack, vertexConsumerProvider, light, renderAsModel, blockRenderManager, blockState, overlay, bakedModel);
 			matrixStack.pop();
 
 			// Body
 			matrixStack.push();
 			matrixStack.translate(0.22D, -0.28D, -0.06D);
-			matrixStack.scale(-0.8F, -0.8F, 0.8F);
-			matrixStack.translate(-0.5D, -0.5D, -0.5D);
+			matrixStack.scale(-scaleFactor, -scaleFactor, scaleFactor);
+			matrixStack.translate(-0.5D, yOffset, -0.5D);
 			this.renderFlower(matrixStack, vertexConsumerProvider, light, renderAsModel, blockRenderManager, blockState, overlay, bakedModel);
 			matrixStack.pop();
 
 			matrixStack.push();
 			matrixStack.translate(-0.2D, -0.22D, 0.01D);
-			matrixStack.scale(-0.8F, -0.8F, 0.8F);
-			matrixStack.translate(-0.5D, -0.5D, -0.5D);
+			matrixStack.scale(-scaleFactor, -scaleFactor, scaleFactor);
+			matrixStack.translate(-0.5D, yOffset, -0.5D);
 			this.renderFlower(matrixStack, vertexConsumerProvider, light, renderAsModel, blockRenderManager, blockState, overlay, bakedModel);
 			matrixStack.pop();
 
 			matrixStack.push();
 			matrixStack.translate(0.03D, -0.28D, 0.47D);
-			matrixStack.scale(-0.8F, -0.8F, 0.8F);
-			matrixStack.translate(-0.5D, -0.5D, -0.5D);
+			matrixStack.scale(-scaleFactor, -scaleFactor, scaleFactor);
+			matrixStack.translate(-0.5D, yOffset, -0.5D);
 			this.renderFlower(matrixStack, vertexConsumerProvider, light, renderAsModel, blockRenderManager, blockState, overlay, bakedModel);
 			matrixStack.pop();
 		}

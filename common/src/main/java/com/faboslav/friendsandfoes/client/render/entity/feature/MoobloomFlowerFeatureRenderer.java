@@ -5,7 +5,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.PlantBlock;
-import net.minecraft.block.TallFlowerBlock;
 import net.minecraft.block.TallPlantBlock;
 import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.client.MinecraftClient;
@@ -47,7 +46,7 @@ public final class MoobloomFlowerFeatureRenderer<T extends MoobloomEntity> exten
 			PlantBlock flower = moobloomEntity.getVariant().getFlower();
 			BlockState blockState = moobloomEntity.getVariant().getFlower().getDefaultState();
 
-			if (flower instanceof TallFlowerBlock || flower instanceof TallPlantBlock) {
+			if (flower instanceof TallPlantBlock) {
 				blockState = moobloomEntity.getVariant().getFlower().getDefaultState().with(TallPlantBlock.HALF, DoubleBlockHalf.UPPER);
 			}
 

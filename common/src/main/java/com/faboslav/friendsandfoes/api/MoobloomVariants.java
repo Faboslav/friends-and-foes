@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.api;
 
+import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.block.FlowerBlock;
 import net.minecraft.block.PlantBlock;
 import net.minecraft.item.Item;
@@ -16,6 +17,15 @@ public final class MoobloomVariants
 
 	public static boolean contains(String name) {
 		return MOOBLOOM_VARIANT_MAP.containsKey(name);
+	}
+
+	public static int getNumberOfVariants() {
+		return MOOBLOOM_VARIANT_MAP.size();
+	}
+
+	public static MoobloomVariant getRandomVariant() {
+		Object[] values = MOOBLOOM_VARIANT_MAP.values().toArray();
+		return (MoobloomVariant) values[RandomGenerator.generateInt(0, values.length)];
 	}
 
 	@Nullable

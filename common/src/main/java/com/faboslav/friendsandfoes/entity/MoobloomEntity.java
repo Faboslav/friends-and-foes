@@ -200,7 +200,15 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 		ServerWorld serverWorld,
 		PassiveEntity entity
 	) {
-		return FriendsAndFoesEntityTypes.MOOBLOOM.get().create(serverWorld);
+		MoobloomVariant moobloomVariant = this.getVariant();
+		if (RandomGenerator.generateInt(0, 1) == 0) {
+			moobloomVariant = ((MoobloomEntity) entity).getVariant();
+		}
+
+		MoobloomEntity moobloom = FriendsAndFoesEntityTypes.MOOBLOOM.get().create(serverWorld);
+		moobloom.setVariant(moobloomVariant);
+
+		return moobloom;
 	}
 
 	@Override

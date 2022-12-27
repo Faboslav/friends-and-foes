@@ -1,3 +1,9 @@
+## mc1.19.2-1.6.6, December 27, 2022
+
+- Fixed custom lightning rods not working as the vanilla one
+- Fixed moobloom child having random variant
+- Fixed zombie horse trap thunderstorm spawn event
+
 ## mc1.19.2-1.6.5, December 22, 2022
 
 - Fixed moobloom transform sound

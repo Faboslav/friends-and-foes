@@ -8,6 +8,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.poi.PointOfInterestType;
 
 /**
  * @see BlockTags
@@ -16,6 +17,7 @@ public final class FriendsAndFoesTags
 {
 	public static final TagKey<Block> COPPER_BUTTONS = blockTag("copper_buttons");
 	public static final TagKey<Block> LIGHTNING_RODS = blockTag("lightning_rods");
+	public static final TagKey<PointOfInterestType> LIGHTNING_ROD_POI = pointOfInterestTypeTag("lightning_rods");
 	public static final TagKey<Block> GLARES_SPAWNABLE_ON = blockTag("glares_spawnable_on");
 	public static final TagKey<Block> MAULERS_SPAWNABLE_ON = blockTag("maulers_spawnable_on");
 	public static final TagKey<Item> GLARE_FOOD_ITEMS = itemTag("glare_food_items");
@@ -45,5 +47,9 @@ public final class FriendsAndFoesTags
 
 	private static TagKey<Biome> biomeTag(String name) {
 		return TagKey.of(RegistryKeys.BIOME, FriendsAndFoes.makeID(name));
+	}
+
+	private static TagKey<PointOfInterestType> pointOfInterestTypeTag(String name) {
+		return TagKey.of(RegistryKeys.POINT_OF_INTEREST_TYPE, FriendsAndFoes.makeID(name));
 	}
 }

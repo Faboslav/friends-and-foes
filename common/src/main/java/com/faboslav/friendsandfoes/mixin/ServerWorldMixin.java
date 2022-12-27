@@ -16,12 +16,15 @@ import net.minecraft.util.profiler.Profiler;
 import net.minecraft.world.*;
 import net.minecraft.world.chunk.WorldChunk;
 import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.poi.PointOfInterestStorage;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Optional;
 import java.util.function.Supplier;
 
 @Mixin(ServerWorld.class)
@@ -45,8 +48,7 @@ public abstract class ServerWorldMixin extends World implements StructureWorldAc
 
 	@Inject(
 		method = "tickChunk",
-		at = @At("TAIL"),
-		cancellable = true
+		at = @At("TAIL")
 	)
 	public void friendsandfoes_addZombieHorseSpawnEvent(
 		WorldChunk chunk, int randomTickSpeed, CallbackInfo ci
@@ -80,6 +82,31 @@ public abstract class ServerWorldMixin extends World implements StructureWorldAc
 				lightningEntity.setCosmetic(canZombieHorseSpawn);
 
 				this.spawnEntity(lightningEntity);
+			}
+		}
+	}
+
+	@Inject(
+		method = "getLightningRodPos",
+		at = @At("TAIL"),
+		cancellable = true
+	)
+	public void friendsandfoes_getLightningRodPos(
+		BlockPos pos,
+		CallbackInfoReturnable<Optional<BlockPos>> cir
+	) {
+		if (cir.getReturnValue().isEmpty()) {
+			ServerWorld serverWorld = (ServerWorld) (Object) this;
+
+			Optional<BlockPos> optional = serverWorld.getPointOfInterestStorage().getNearestPosition((registryEntry) -> {
+				return registryEntry.isIn(FriendsAndFoesTags.LIGHTNING_ROD_POI);
+			}, (posx) -> {
+				return posx.getY() == this.getTopY(Heightmap.Type.WORLD_SURFACE, posx.getX(), posx.getZ()) - 1;
+			}, pos, 128, PointOfInterestStorage.OccupationStatus.ANY);
+
+
+			if (optional.isPresent()) {
+				cir.setReturnValue(optional.map((posx) -> posx.up(1)));
 			}
 		}
 	}

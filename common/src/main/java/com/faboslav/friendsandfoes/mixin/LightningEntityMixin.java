@@ -51,7 +51,7 @@ public abstract class LightningEntityMixin extends Entity
 			ordinal = 0,
 			shift = At.Shift.AFTER
 		),
-		method = "Lnet/minecraft/entity/LightningEntity;tick()V"
+		method = "tick()V"
 	)
 	private void friendsandfoes_cleanLightningRodOxidation(CallbackInfo ci) {
 		BlockPos blockPos = this.getAffectedBlockPos();
@@ -89,7 +89,7 @@ public abstract class LightningEntityMixin extends Entity
 			ordinal = 0,
 			shift = At.Shift.AFTER
 		),
-		method = "Lnet/minecraft/entity/LightningEntity;cleanOxidationAround(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)Ljava/util/Optional;",
+		method = "cleanOxidationAround(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)Ljava/util/Optional;",
 		locals = LocalCapture.CAPTURE_FAILSOFT
 	)
 	private static void friendsandfoes_decreaseCustomOxidationStates(

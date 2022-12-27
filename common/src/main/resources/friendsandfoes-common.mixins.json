@@ -26,6 +26,7 @@
 		"RaidMemberMixin",
 		"RaidMixin",
 		"ServerWorldAccessor",
+		"ServerWorldMixin",
 		"SpawnRestrictionAccessor",
 		"StructurePoolAccessor",
 		"VillagerEntityMixin",
@@ -37,8 +38,5 @@
 		"ClientPlayNetworkHandlerMixin",
 		"IllusionerEntityRendererMixin",
 		"ModelPartAccessor"
-	],
-	"server": [
-		"ServerWorldMixin"
 	]
 }

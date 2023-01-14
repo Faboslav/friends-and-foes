@@ -144,7 +144,7 @@ public final class RegistryHelper
 	@ExpectPlatform
 	public static <T extends Structure> void registerStructureType(
 		String name,
-		StructureType<T> structureCodec
+		StructureType<T> structureType
 	) {
 		throw new AssertionError();
 	}

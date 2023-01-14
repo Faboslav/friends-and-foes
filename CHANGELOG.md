@@ -1,3 +1,9 @@
+## mc1.19.2-1.6.7, January 14, 2023
+
+- Mooblooms can now spawn in the sunflower plains biome
+- Fixed incorrect glare spawn biomes
+- Added missing translations
+
 ## mc1.19.2-1.6.6, December 27, 2022
 
 - Fixed custom lightning rods not working as the vanilla one

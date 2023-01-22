@@ -1,3 +1,11 @@
+## mc1.19.3-1.7.5, January 22, 2023
+
+- New Copper Golem textures
+- New Glare textures
+- New Mauler textures
+- New Wildfire textures
+- Wildfire can now be hurt with snowballs
+
 ## mc1.19.3-1.7.4, January 14, 2023
 
 - Mooblooms can now spawn in the sunflower plains biome
@@ -24,6 +32,15 @@
 ## mc1.19.3-1.7.0, December 14, 2022
 
 - Ported to 1.19.3
+
+## mc1.19.2-1.6.8, January 22, 2023
+
+- New Copper Golem textures
+- New Glare textures
+- New Mauler textures
+- New Wildfire textures
+- Wildfire can now be hurt with snowballs
+- Added more modded biomes for moobloom spawn
 
 ## mc1.19.2-1.6.7, January 14, 2023
 

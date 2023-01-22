@@ -40,7 +40,6 @@
 - New Mauler textures
 - New Wildfire textures
 - Wildfire can now be hurt with snowballs
-- Added more modded biomes for moobloom spawn
 
 ## mc1.19.2-1.6.7, January 14, 2023
 

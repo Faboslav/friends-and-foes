@@ -28,6 +28,7 @@
 		"RaidMixin",
 		"ServerWorldAccessor",
 		"ServerWorldMixin",
+		"SnowballEntityMixin",
 		"SpawnRestrictionAccessor",
 		"StructurePoolMixin",
 		"VillagerEntityMixin",

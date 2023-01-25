@@ -152,8 +152,6 @@ public abstract class LightningRodBlockMixin extends RodBlock implements Oxidiza
 			(double) cachedBlockPosition.getZ() + 0.5D
 		);
 		copperGolemEntity.setSpawnYaw(copperGolemYaw);
-		world.spawnEntity(copperGolemEntity);
-
 		copperGolemEntity.setOxidationLevel(bodyOxidationLevel);
 
 		if (lightningRodOxidationLevel != Oxidizable.OxidationLevel.OXIDIZED) {
@@ -162,6 +160,8 @@ public abstract class LightningRodBlockMixin extends RodBlock implements Oxidiza
 			boolean isWaxed = isHeadBlockWaxed && isBodyBlockWaxed;
 			copperGolemEntity.setIsWaxed(isWaxed);
 		}
+
+		world.spawnEntity(copperGolemEntity);
 
 		for (ServerPlayerEntity serverPlayerEntity : world.getNonSpectatingEntities(
 			ServerPlayerEntity.class,

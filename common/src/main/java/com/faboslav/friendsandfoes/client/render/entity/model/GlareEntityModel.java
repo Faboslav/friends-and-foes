@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.client.render.entity.model;
 
-import com.faboslav.friendsandfoes.client.render.entity.animation.ModelPartAnimator;
+import com.faboslav.friendsandfoes.client.render.entity.animation.animator.ModelPartAnimator;
 import com.faboslav.friendsandfoes.entity.GlareEntity;
 import com.faboslav.friendsandfoes.util.animation.AnimationMath;
 import net.fabricmc.api.EnvType;
@@ -84,7 +84,6 @@ public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntit
 		float headPitch
 	) {
 		this.applyModelTransforms(MODEL_PART_ROOT, this.root);
-		this.modelAnimator.setEntity(glare);
 
 		this.animateEyes(glare);
 		this.animateHead(glare, animationProgress);
@@ -139,14 +138,15 @@ public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntit
 			ModelPartAnimator.setYRotation(this.root, AnimationMath.sin(animationProgress, 0.05F));
 		} else {
 			float targetPivotY = glare.isSitting() ? 3.0F:0.0F;
-			this.modelAnimator.animateYPositionOverTicks(this.root, targetPivotY, 10);
+			this.animateModelPartYPositionBasedOnTicks(glare, this.root, targetPivotY, 10);
 		}
 	}
 
 	private void animateEyes(T glare) {
 		Vec2f targetEyesPositionOffset = glare.getTargetEyesPositionOffset();
 
-		this.modelAnimator.animatePositionOverTicks(
+		this.animateModelPartPositionBasedOnTicks(
+			glare,
 			this.eyes,
 			this.eyes.pivotX + targetEyesPositionOffset.x,
 			this.eyes.pivotY + targetEyesPositionOffset.y,

@@ -4,6 +4,7 @@ accessible class net/minecraft/village/raid/Raid$Member
 accessible class net/minecraft/entity/mob/IllusionerEntity$BlindTargetGoal
 accessible class net/minecraft/entity/mob/SpellcastingIllagerEntity$Spell
 extendable class net/minecraft/world/gen/structure/JigsawStructure
+accessible class net/minecraft/client/render/entity/animation/Animation
 accessible field net/minecraft/world/poi/PointOfInterestType blockStates Ljava/util/Set;
 mutable field net/minecraft/world/poi/PointOfInterestType blockStates Ljava/util/Set;
 accessible field net/minecraft/world/poi/PointOfInterestType ticketCount I

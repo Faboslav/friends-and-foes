@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.client.render.entity.animation;
+package com.faboslav.friendsandfoes.client.render.entity.animation.animator;
 
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.util.math.Vec3f;

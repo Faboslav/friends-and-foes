@@ -1,14 +1,21 @@
 package com.faboslav.friendsandfoes.entity;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.client.render.entity.animation.AnimationContextTracker;
+import com.faboslav.friendsandfoes.client.render.entity.animation.TuffGolemAnimations;
+import com.faboslav.friendsandfoes.client.render.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.entity.ai.brain.TuffGolemBrain;
+import com.faboslav.friendsandfoes.entity.animation.AnimatedEntity;
+import com.faboslav.friendsandfoes.entity.pose.TuffGolemEntityPose;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import com.mojang.serialization.Dynamic;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.AnimationState;
+import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -17,13 +24,27 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.GolemEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.DyeItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.DyeColor;
+import net.minecraft.util.Hand;
 import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
 
 public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 {
+	private static final TrackedData<EntityPose> PREV_POSE;
+	private static final TrackedData<Boolean> SHOWING_ITEM;
+
+	private static final int TUFF_HEAL_AMOUNT = 5;
+
 	private static final TrackedData<String> COLOR;
 
 	private static final String COLOR_NBT_NAME = "Color";
@@ -73,6 +94,8 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	protected void initDataTracker() {
 		super.initDataTracker();
 		this.dataTracker.startTracking(COLOR, Color.RED.getName());
+		this.dataTracker.startTracking(PREV_POSE, TuffGolemEntityPose.DEFAULT.get());
+		this.dataTracker.startTracking(SHOWING_ITEM, false);
 	}
 
 	@Override
@@ -88,6 +111,119 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 	}
 
+	@Override
+	public ActionResult interactMob(
+		PlayerEntity player,
+		Hand hand
+	) {
+		ItemStack itemStack = player.getStackInHand(hand);
+		Item itemInHand = itemStack.getItem();
+		boolean interactionResult = false;
+
+		if (itemInHand == Items.TUFF) {
+			interactionResult = this.tryToInteractMobWithTuff(player, itemStack);
+		} else if (itemInHand instanceof DyeItem) {
+			interactionResult = this.tryToInteractMobWithDye(player, itemStack);
+		}
+
+		if (interactionResult == false) {
+			interactionResult = this.tryToInteractMobWithItem(player, itemStack);
+		}
+
+		if (interactionResult) {
+			this.emitGameEvent(GameEvent.ENTITY_INTERACT, this);
+			return ActionResult.success(this.getWorld().isClient());
+		}
+
+		return super.interactMob(player, hand);
+	}
+
+	private boolean tryToInteractMobWithTuff(
+		PlayerEntity player,
+		ItemStack itemStack
+	) {
+		if (this.getHealth() == this.getMaxHealth()) {
+			return false;
+		}
+
+		this.heal(TUFF_HEAL_AMOUNT);
+
+		if (player.getAbilities().creativeMode == false) {
+			itemStack.decrement(1);
+		}
+
+		// todo change sound
+		this.playSound(FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_REPAIR.get(), 1.0F, this.getSoundPitch() - 1.0F);
+
+		return true;
+	}
+
+	private boolean tryToInteractMobWithDye(
+		PlayerEntity player,
+		ItemStack itemStack
+	) {
+		Color usedColor = TuffGolemEntity.Color.fromDyeColor(((DyeItem) itemStack.getItem()).getColor());
+
+		if (this.getColor() == usedColor) {
+			return false;
+		}
+
+		this.setColor(usedColor);
+
+		if (player.getAbilities().creativeMode == false) {
+			itemStack.decrement(1);
+		}
+
+		this.playSound(SoundEvents.ITEM_DYE_USE, 1.0F, 1.0F);
+
+		return true;
+	}
+
+	private boolean tryToInteractMobWithItem(
+		PlayerEntity player,
+		ItemStack itemStack
+	) {
+		if (this.world.isClient() == false) {
+			return false;
+		}
+		if (
+			(
+				this.getEquippedStack(EquipmentSlot.MAINHAND).getItem() == Items.AIR
+				&& itemStack.getItem() == Items.AIR
+			) || (
+				this.world.isClient()
+				&& (
+					this.isKeyframeAnimationAtLastKeyframe(TuffGolemAnimations.SHOW_ITEM)
+					|| this.isKeyframeAnimationAtLastKeyframe(TuffGolemAnimations.HIDE_ITEM)
+				)
+			)
+		) {
+			return false;
+		}
+
+		// Pop item out
+		if (this.getEquippedStack(EquipmentSlot.MAINHAND).getItem() != Items.AIR) {
+			if (player.getAbilities().creativeMode == false) {
+				this.dropStack(this.getEquippedStack(EquipmentSlot.MAINHAND));
+			}
+
+			this.equipStack(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
+			this.setPose(TuffGolemEntityPose.DEFAULT.get());
+		} else {
+			if (player.getAbilities().creativeMode == false) {
+				itemStack.decrement(1);
+			}
+
+			ItemStack itemsStackToBeEquipped = itemStack.copy();
+			itemsStackToBeEquipped.setCount(1);
+
+			this.equipStack(EquipmentSlot.MAINHAND, itemsStackToBeEquipped);
+			this.setPose(TuffGolemEntityPose.SHOWING_ITEM.get());
+		}
+
+		return true;
+	}
+
 	public void setColor(TuffGolemEntity.Color color) {
 		this.dataTracker.set(COLOR, color.getName());
 	}
@@ -96,12 +232,79 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		return TuffGolemEntity.Color.fromName(this.dataTracker.get(COLOR));
 	}
 
+	@Override
+	public void setPose(EntityPose pose) {
+		//GrizzlyBear.getLogger().info("this is called with pose: " + pose);
+		this.setPrevPose(this.getPose());
+		super.setPose(pose);
+	}
+
+	public void setPrevPose(EntityPose pose) {
+		this.dataTracker.set(PREV_POSE, pose);
+	}
+
+	public EntityPose getPrevPose() {
+		return this.dataTracker.get(PREV_POSE);
+	}
+
 	public void tick() {
 		if (FriendsAndFoes.getConfig().enableTuffGolem == false) {
 			this.discard();
 		}
 
+		if (this.world.isClient() == false) {
+			if (this.shouldWalk()) {
+				//this.walkingAnimation.startIfNotRunning(this.age);
+			} else {
+				//this.walkingAnimation.stop();
+			}
+
+			//FriendsAndFoes.getLogger().info(String.valueOf(this.showItemAnimation.getTimeRunning()));
+
+			/*
+			if(
+				idleAnimation.isRunning() == false
+				&& runningAnimation.isRunning() == false
+				&& eatingAnimation.isRunning() == false
+				&& attackingAnimation.isRunning() == false
+				&& sitUpAnimation.isRunning() == false
+				&& sitDownAnimation.isRunning() == false
+				&& standUpAnimation.isRunning() == false
+				&& standDownAnimation.isRunning() == false
+				&& showItemAnimation.isRunning() == false
+			) {
+				this.idleAnimation.startIfNotRunning(this.age);
+			}*/
+		}
+
 		super.tick();
+	}
+
+	@Override
+	public void onTrackedDataSet(TrackedData<?> data) {
+		if (POSE.equals(data) == false) {
+			super.onTrackedDataSet(data);
+			return;
+		}
+
+		EntityPose prevPose = this.getPrevPose();
+		EntityPose pose = this.getPose();
+
+		if (pose == TuffGolemEntityPose.SHOWING_ITEM.get()) {
+			if (this.isKeyframeAnimationRunning(TuffGolemAnimations.HIDE_ITEM)) {
+				this.stopKeyframeAnimation(TuffGolemAnimations.HIDE_ITEM);
+			}
+
+			this.startKeyframeAnimation(TuffGolemAnimations.SHOW_ITEM, this.age);
+		} else {
+			this.stopKeyframeAnimation(TuffGolemAnimations.SHOW_ITEM);
+
+			if (prevPose == TuffGolemEntityPose.SHOWING_ITEM.get()) {
+				this.startKeyframeAnimation(TuffGolemAnimations.HIDE_ITEM, this.age);
+			}
+		}
+
+		super.onTrackedDataSet(data);
 	}
 
 	@Override
@@ -130,8 +333,21 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		return this.animationTickTracker;
 	}
 
+	private boolean shouldWalk() {
+		return
+			this.onGround
+			&& this.getVelocity().horizontalLengthSquared() > 1.0E-6
+			&& this.isInsideWaterOrBubbleColumn() == false;
+	}
+
+	private boolean shouldShowItem() {
+		return this.getEquippedStack(EquipmentSlot.MAINHAND).getItem() != Items.AIR;
+	}
+
 	static {
 		COLOR = DataTracker.registerData(TuffGolemEntity.class, TrackedDataHandlerRegistry.STRING);
+		PREV_POSE = DataTracker.registerData(TuffGolemEntity.class, TrackedDataHandlerRegistry.ENTITY_POSE);
+		SHOWING_ITEM = DataTracker.registerData(TuffGolemEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 	}
 
 	public enum Color

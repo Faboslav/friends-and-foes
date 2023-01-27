@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.client.render.entity.animation;
+package com.faboslav.friendsandfoes.client.render.entity.animation.animator.context;
 
 import com.faboslav.friendsandfoes.util.animation.AnimationMath;
 import net.fabricmc.api.EnvType;

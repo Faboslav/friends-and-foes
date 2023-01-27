@@ -34,7 +34,7 @@ public final class TuffGolemClothFeatureRenderer extends FeatureRenderer<TuffGol
 			return;
 		}
 
-		Identifier identifier = FriendsAndFoes.makeID("textures/entity/tuff_golem/"+tuffGolem.getColor().getName()+".png");
+		Identifier identifier = FriendsAndFoes.makeID("textures/entity/tuff_golem/" + tuffGolem.getColor().getName() + ".png");
 
 		renderModel(
 			this.getContextModel(),

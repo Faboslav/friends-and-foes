@@ -1,5 +1,7 @@
 package com.faboslav.friendsandfoes.client.render.entity.model;
 
+import com.faboslav.friendsandfoes.client.render.entity.animation.TuffGolemAnimations;
+import com.faboslav.friendsandfoes.client.render.entity.animation.animator.ModelAnimator;
 import com.faboslav.friendsandfoes.entity.TuffGolemEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -70,7 +72,6 @@ public final class TuffGolemEntityModel<T extends TuffGolemEntity> extends Anima
 		float tickDelta
 	) {
 		this.applyModelTransforms(MODEL_PART_ROOT, this.root);
-		this.modelAnimator.setEntity(tuffGolem);
 	}
 
 	@Override
@@ -82,5 +83,14 @@ public final class TuffGolemEntityModel<T extends TuffGolemEntity> extends Anima
 		float headYaw,
 		float headPitch
 	) {
+		this.updateAnimations(tuffGolem, animationProgress);
+	}
+
+	private void updateAnimations(
+		T tuffGolem,
+		float animationProgress
+	) {
+		ModelAnimator.updateKeyframeAnimations(tuffGolem, this, TuffGolemAnimations.SHOW_ITEM, animationProgress);
+		ModelAnimator.updateKeyframeAnimations(tuffGolem, this, TuffGolemAnimations.HIDE_ITEM, animationProgress);
 	}
 }

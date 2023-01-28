@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.client.render.entity.animation.animator.context;
 
+import com.faboslav.friendsandfoes.client.render.entity.animation.KeyframeAnimation;
 import com.faboslav.friendsandfoes.client.render.entity.animation.animator.ModelPartAnimationType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -14,10 +15,6 @@ public final class AnimationContextTracker
 	private final Map<String, ModelPartAnimationContext> animationPositionContext = new HashMap<>();
 	private final Map<String, ModelPartAnimationContext> animationRotationContext = new HashMap<>();
 
-	public boolean contains(String keyframeAnimationName) {
-		return this.animationKeyframeContext.containsKey(keyframeAnimationName);
-	}
-
 	public boolean contains(String modelPartName, ModelPartAnimationType type) {
 		if (type == ModelPartAnimationType.POSITION) {
 			return this.animationPositionContext.containsKey(modelPartName);
@@ -28,8 +25,16 @@ public final class AnimationContextTracker
 		}
 	}
 
-	public KeyframeAnimationContext get(String keyframeAnimationName) {
-		return this.animationKeyframeContext.get(keyframeAnimationName);
+	public KeyframeAnimationContext get(KeyframeAnimation keyframeAnimation) {
+		if (this.animationKeyframeContext.containsKey(keyframeAnimation.getName()) == false) {
+			int animationLengthInTicks = (int) Math.ceil(keyframeAnimation.getAnimation().lengthInSeconds() * 20);
+
+			this.animationKeyframeContext.put(keyframeAnimation.getName(), new KeyframeAnimationContext(
+				animationLengthInTicks
+			));
+		}
+
+		return this.animationKeyframeContext.get(keyframeAnimation.getName());
 	}
 
 	public ModelPartAnimationContext get(String modelPartName, ModelPartAnimationType type) {
@@ -42,10 +47,6 @@ public final class AnimationContextTracker
 		}
 	}
 
-	public void add(String keyframeAnimationName, KeyframeAnimationContext animationContext) {
-		this.animationKeyframeContext.put(keyframeAnimationName, animationContext);
-	}
-
 	public void add(String modelPartName, ModelPartAnimationType type, ModelPartAnimationContext animationContext) {
 		if (type == ModelPartAnimationType.POSITION) {
 			this.animationPositionContext.put(modelPartName, animationContext);
@@ -54,10 +55,6 @@ public final class AnimationContextTracker
 		} else {
 			throw new RuntimeException(String.format("Invalid animation type '%s.'", type));
 		}
-	}
-
-	public void remove(String keyframeAnimationName) {
-		this.animationKeyframeContext.remove(keyframeAnimationName);
 	}
 
 	public void remove(String modelPartName, ModelPartAnimationType type) {

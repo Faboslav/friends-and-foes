@@ -12,7 +12,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.AnimationState;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -48,6 +47,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	private static final TrackedData<String> COLOR;
 
 	private static final String COLOR_NBT_NAME = "Color";
+	private static final String POSE_NBT_NAME = "Pose";
 
 	@Environment(EnvType.CLIENT)
 	private AnimationContextTracker animationTickTracker;
@@ -57,7 +57,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		World world
 	) {
 		super(entityType, world);
-		this.stepHeight = 0.3F;
+		this.stepHeight = 1.0F;
 	}
 
 	@Override
@@ -102,6 +102,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	public void writeCustomDataToNbt(NbtCompound nbt) {
 		super.writeCustomDataToNbt(nbt);
 		nbt.putString(COLOR_NBT_NAME, this.getColor().getName());
+		nbt.putString(POSE_NBT_NAME, this.getPose().name());
 	}
 
 	@Override
@@ -109,6 +110,10 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		super.readCustomDataFromNbt(nbt);
 		this.setColor(TuffGolemEntity.Color.fromName(nbt.getString(COLOR_NBT_NAME)));
 
+		String savedPose = nbt.getString(POSE_NBT_NAME);
+		if (savedPose != "") {
+			this.setPose(EntityPose.valueOf(nbt.getString(POSE_NBT_NAME)));
+		}
 	}
 
 	@Override
@@ -183,19 +188,10 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		PlayerEntity player,
 		ItemStack itemStack
 	) {
-		if (this.world.isClient() == false) {
-			return false;
-		}
 		if (
 			(
 				this.getEquippedStack(EquipmentSlot.MAINHAND).getItem() == Items.AIR
 				&& itemStack.getItem() == Items.AIR
-			) || (
-				this.world.isClient()
-				&& (
-					this.isKeyframeAnimationAtLastKeyframe(TuffGolemAnimations.SHOW_ITEM)
-					|| this.isKeyframeAnimationAtLastKeyframe(TuffGolemAnimations.HIDE_ITEM)
-				)
 			)
 		) {
 			return false;
@@ -234,7 +230,6 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 	@Override
 	public void setPose(EntityPose pose) {
-		//GrizzlyBear.getLogger().info("this is called with pose: " + pose);
 		this.setPrevPose(this.getPose());
 		super.setPose(pose);
 	}
@@ -258,23 +253,6 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 			} else {
 				//this.walkingAnimation.stop();
 			}
-
-			//FriendsAndFoes.getLogger().info(String.valueOf(this.showItemAnimation.getTimeRunning()));
-
-			/*
-			if(
-				idleAnimation.isRunning() == false
-				&& runningAnimation.isRunning() == false
-				&& eatingAnimation.isRunning() == false
-				&& attackingAnimation.isRunning() == false
-				&& sitUpAnimation.isRunning() == false
-				&& sitDownAnimation.isRunning() == false
-				&& standUpAnimation.isRunning() == false
-				&& standDownAnimation.isRunning() == false
-				&& showItemAnimation.isRunning() == false
-			) {
-				this.idleAnimation.startIfNotRunning(this.age);
-			}*/
 		}
 
 		super.tick();
@@ -282,7 +260,10 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 	@Override
 	public void onTrackedDataSet(TrackedData<?> data) {
-		if (POSE.equals(data) == false) {
+		if (
+			POSE.equals(data) == false
+			|| this.world.isClient() == false
+		) {
 			super.onTrackedDataSet(data);
 			return;
 		}
@@ -291,10 +272,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		EntityPose pose = this.getPose();
 
 		if (pose == TuffGolemEntityPose.SHOWING_ITEM.get()) {
-			if (this.isKeyframeAnimationRunning(TuffGolemAnimations.HIDE_ITEM)) {
-				this.stopKeyframeAnimation(TuffGolemAnimations.HIDE_ITEM);
-			}
-
+			this.stopKeyframeAnimation(TuffGolemAnimations.HIDE_ITEM);
 			this.startKeyframeAnimation(TuffGolemAnimations.SHOW_ITEM, this.age);
 		} else {
 			this.stopKeyframeAnimation(TuffGolemAnimations.SHOW_ITEM);

@@ -25,19 +25,10 @@ public final class ModelAnimator
 		float animationProgress
 	) {
 		AnimationContextTracker animationContextTracker = animatedEntity.getAnimationContextTracker();
-		String keyframeAnimationName = keyframeAnimation.getName();
 		Animation animation = keyframeAnimation.getAnimation();
 		int currentTick = ((Entity) animatedEntity).age;
 
-		if (animationContextTracker.contains(keyframeAnimationName) == false) {
-			int animationLengthInTicks = (int) Math.ceil(animation.lengthInSeconds() * 20);
-
-			animationContextTracker.add(keyframeAnimationName, new KeyframeAnimationContext(
-				animationLengthInTicks
-			));
-		}
-
-		KeyframeAnimationContext keyframeAnimationContext = animationContextTracker.get(keyframeAnimationName);
+		KeyframeAnimationContext keyframeAnimationContext = animationContextTracker.get(keyframeAnimation);
 		keyframeAnimationContext.setCurrentTick(currentTick);
 		AnimationState animationState = keyframeAnimationContext.getAnimationState();
 

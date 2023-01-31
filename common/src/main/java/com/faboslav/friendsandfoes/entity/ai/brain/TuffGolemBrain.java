@@ -1,6 +1,8 @@
 package com.faboslav.friendsandfoes.entity.ai.brain;
 
 import com.faboslav.friendsandfoes.entity.TuffGolemEntity;
+import com.faboslav.friendsandfoes.entity.WildfireEntity;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
@@ -11,6 +13,7 @@ import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.task.*;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
 
 import java.util.List;
 
@@ -19,6 +22,7 @@ public final class TuffGolemBrain
 {
 	public static final List<MemoryModuleType<?>> MEMORY_MODULES;
 	public static final List<SensorType<? extends Sensor<? super TuffGolemEntity>>> SENSORS;
+	private static final UniformIntProvider SLEEP_COOLDOWN_PROVIDER;
 
 	public TuffGolemBrain() {
 	}
@@ -43,7 +47,8 @@ public final class TuffGolemBrain
 			0,
 			ImmutableList.of(
 				new LookAroundTask(45, 90),
-				new WanderAroundTask()
+				new WanderAroundTask(),
+				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.TUFF_GOLEM_SLEEP_COOLDOWN.get())
 			));
 	}
 
@@ -86,6 +91,10 @@ public final class TuffGolemBrain
 		));
 	}
 
+	public static void setSleepCooldown(TuffGolemEntity tuffGolem) {
+		tuffGolem.getBrain().remember(FriendsAndFoesMemoryModuleTypes.TUFF_GOLEM_SLEEP_COOLDOWN.get(), SLEEP_COOLDOWN_PROVIDER.get(tuffGolem.getRandom()));
+	}
+
 	static {
 		SENSORS = List.of(
 			SensorType.NEAREST_PLAYERS,
@@ -102,5 +111,6 @@ public final class TuffGolemBrain
 			MemoryModuleType.AVOID_TARGET,
 			MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE
 		);
+		SLEEP_COOLDOWN_PROVIDER = UniformIntProvider.create(2400, 6000);
 	}
 }

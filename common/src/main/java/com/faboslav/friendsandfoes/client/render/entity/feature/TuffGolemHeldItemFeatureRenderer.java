@@ -37,7 +37,7 @@ public class TuffGolemHeldItemFeatureRenderer<T extends LivingEntity, M extends 
 		float l
 	) {
 		arg.push();
-		arg.translate(0.0, 0.4000000059604645, -0.4000000059604645);
+		arg.translate(0.0, 0.75, -0.5);
 		arg.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(180.0F));
 		ItemStack itemStack = arg3.getEquippedStack(EquipmentSlot.MAINHAND);
 		this.heldItemRenderer.renderItem(arg3, itemStack, ModelTransformation.Mode.GROUND, false, arg, arg2, i);

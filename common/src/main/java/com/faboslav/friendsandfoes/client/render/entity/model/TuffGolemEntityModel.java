@@ -6,6 +6,7 @@ import com.faboslav.friendsandfoes.entity.TuffGolemEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
+import net.minecraft.util.math.MathHelper;
 
 @Environment(EnvType.CLIENT)
 public final class TuffGolemEntityModel<T extends TuffGolemEntity> extends AnimatedEntityModel<T>
@@ -72,6 +73,16 @@ public final class TuffGolemEntityModel<T extends TuffGolemEntity> extends Anima
 		float tickDelta
 	) {
 		this.applyModelTransforms(MODEL_PART_ROOT, this.root);
+
+		this.rightLeg.pitch = -1.5F * MathHelper.wrap(limbAngle, 13.0F) * limbDistance;
+		this.leftLeg.pitch = 1.5F * MathHelper.wrap(limbAngle, 13.0F) * limbDistance;
+		this.rightLeg.yaw = 0.0F;
+		this.leftLeg.yaw = 0.0F;
+
+		if(tuffGolem.isSleeping() == false && tuffGolem.isShowingItem() == false) {
+			this.leftArm.pitch = (-0.2F + 1.5F * MathHelper.wrap(limbAngle, 13.0F)) * limbDistance;
+			this.rightArm.pitch = (-0.2F - 1.5F * MathHelper.wrap(limbAngle, 13.0F)) * limbDistance;
+		}
 	}
 
 	@Override

@@ -176,6 +176,13 @@
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.moobloom.convert"
 	},
+	"entity.tuff_golem.move": {
+		"sounds": [
+			"friendsandfoes:entity/tuff_golem/move1",
+			"friendsandfoes:entity/tuff_golem/move2"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.tuff_golem.ambient"
+	},
 	"entity.shield_debris.impact": {
 		"sounds": [
 			"friendsandfoes:entity/shield_debris/impact1",

@@ -57,6 +57,12 @@ public final class AddCustomEntityPoseMixin
 		);
 		entityPoses.add(tuffGolemShowingItem);
 
+		var tuffGolemSleeping = newEntityPose(
+			TuffGolemEntityPose.SLEEPING.getName(),
+			lastEntityPose.ordinal() + 3
+		);
+		entityPoses.add(tuffGolemSleeping);
+
 		field_18083 = entityPoses.toArray(new EntityPose[0]);
 	}
 }

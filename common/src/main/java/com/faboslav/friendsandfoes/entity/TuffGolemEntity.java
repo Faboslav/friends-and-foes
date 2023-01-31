@@ -7,6 +7,7 @@ import com.faboslav.friendsandfoes.entity.ai.brain.TuffGolemBrain;
 import com.faboslav.friendsandfoes.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.entity.pose.TuffGolemEntityPose;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
+import com.faboslav.friendsandfoes.util.RandomGenerator;
 import com.mojang.serialization.Dynamic;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -24,12 +25,10 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.GolemEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.DyeItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.DyeColor;
@@ -39,15 +38,16 @@ import net.minecraft.world.event.GameEvent;
 
 public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 {
+	private static final TrackedData<String> COLOR;
 	private static final TrackedData<EntityPose> PREV_POSE;
 	private static final TrackedData<Boolean> SHOWING_ITEM;
+	private static final TrackedData<Boolean> SLEEPING;
 
 	private static final int TUFF_HEAL_AMOUNT = 5;
 
-	private static final TrackedData<String> COLOR;
-
 	private static final String COLOR_NBT_NAME = "Color";
 	private static final String POSE_NBT_NAME = "Pose";
+	private static final String SLEEPING_NBT_NAME = "Sleeping";
 
 	@Environment(EnvType.CLIENT)
 	private AnimationContextTracker animationTickTracker;
@@ -86,7 +86,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	public static DefaultAttributeContainer.Builder createAttributes() {
 		return MobEntity.createMobAttributes()
 			.add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
-			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.35F)
+			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25F)
 			.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D);
 	}
 
@@ -96,6 +96,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		this.dataTracker.startTracking(COLOR, Color.RED.getName());
 		this.dataTracker.startTracking(PREV_POSE, TuffGolemEntityPose.DEFAULT.get());
 		this.dataTracker.startTracking(SHOWING_ITEM, false);
+		this.dataTracker.startTracking(SLEEPING, false);
 	}
 
 	@Override
@@ -103,18 +104,29 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		super.writeCustomDataToNbt(nbt);
 		nbt.putString(COLOR_NBT_NAME, this.getColor().getName());
 		nbt.putString(POSE_NBT_NAME, this.getPose().name());
+		nbt.putBoolean(SLEEPING_NBT_NAME, this.isSleeping());
 	}
 
 	@Override
 	public void readCustomDataFromNbt(NbtCompound nbt) {
 		super.readCustomDataFromNbt(nbt);
 		this.setColor(TuffGolemEntity.Color.fromName(nbt.getString(COLOR_NBT_NAME)));
+		this.setSleeping(nbt.getBoolean(SLEEPING_NBT_NAME));
 
 		String savedPose = nbt.getString(POSE_NBT_NAME);
 		if (savedPose != "") {
 			this.setPose(EntityPose.valueOf(nbt.getString(POSE_NBT_NAME)));
 		}
 	}
+
+	public SoundEvent getMoveSound() {
+		return FriendsAndFoesSoundEvents.ENTITY_TUFF_GOLEM_MOVE.get();
+	}
+
+	public void playMoveSound() {
+		this.playSound(this.getMoveSound(), this.getSoundVolume(), 1.0F + this.getRandom().nextFloat() * 0.1F);
+	}
+
 
 	@Override
 	public ActionResult interactMob(
@@ -158,7 +170,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		}
 
 		// todo change sound
-		this.playSound(FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_REPAIR.get(), 1.0F, this.getSoundPitch() - 1.0F);
+		this.playSound(FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_REPAIR.get(), 1.0F, this.getSoundPitch());
 
 		return true;
 	}
@@ -192,19 +204,20 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 			(
 				this.getEquippedStack(EquipmentSlot.MAINHAND).getItem() == Items.AIR
 				&& itemStack.getItem() == Items.AIR
-			)
+			) || itemStack.getItem() instanceof SpawnEggItem
 		) {
 			return false;
 		}
 
 		// Pop item out
-		if (this.getEquippedStack(EquipmentSlot.MAINHAND).getItem() != Items.AIR) {
+		if (this.isHoldingItem()) {
 			if (player.getAbilities().creativeMode == false) {
 				this.dropStack(this.getEquippedStack(EquipmentSlot.MAINHAND));
 			}
 
 			this.equipStack(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
 			this.setPose(TuffGolemEntityPose.DEFAULT.get());
+			this.playMoveSound();
 		} else {
 			if (player.getAbilities().creativeMode == false) {
 				itemStack.decrement(1);
@@ -215,6 +228,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 			this.equipStack(EquipmentSlot.MAINHAND, itemsStackToBeEquipped);
 			this.setPose(TuffGolemEntityPose.SHOWING_ITEM.get());
+			this.playMoveSound();
 		}
 
 		return true;
@@ -240,6 +254,24 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 	public EntityPose getPrevPose() {
 		return this.dataTracker.get(PREV_POSE);
+	}
+
+	public void setSleeping(boolean isSleeping) {
+		this.dataTracker.set(SLEEPING, isSleeping);
+	}
+
+	public boolean isSleeping() {
+		return this.dataTracker.get(SLEEPING);
+	}
+
+	public boolean isHoldingItem() {
+		return this.getEquippedStack(EquipmentSlot.MAINHAND).getItem() != Items.AIR;
+	}
+
+	public boolean isShowingItem() {
+		return
+			this.isHoldingItem()
+			&& this.getPose() == TuffGolemEntityPose.SHOWING_ITEM.get();
 	}
 
 	public void tick() {
@@ -326,6 +358,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		COLOR = DataTracker.registerData(TuffGolemEntity.class, TrackedDataHandlerRegistry.STRING);
 		PREV_POSE = DataTracker.registerData(TuffGolemEntity.class, TrackedDataHandlerRegistry.ENTITY_POSE);
 		SHOWING_ITEM = DataTracker.registerData(TuffGolemEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+		SLEEPING = DataTracker.registerData(TuffGolemEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 	}
 
 	public enum Color

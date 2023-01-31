@@ -4,7 +4,7 @@ import net.minecraft.entity.EntityPose;
 
 public enum TuffGolemEntityPose
 {
-	DEFAULT,
+	STANDING,
 	SHOWING_ITEM,
 	SLEEPING;
 

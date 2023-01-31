@@ -46,7 +46,7 @@ public final class AddCustomEntityPoseMixin
 		var lastEntityPose = entityPoses.get(entityPoses.size() - 1);
 
 		var tuffGolemDefault = newEntityPose(
-			TuffGolemEntityPose.DEFAULT.getName(),
+			TuffGolemEntityPose.STANDING.getName(),
 			lastEntityPose.ordinal() + 1
 		);
 		entityPoses.add(tuffGolemDefault);

@@ -7,7 +7,6 @@ import com.faboslav.friendsandfoes.entity.ai.brain.TuffGolemBrain;
 import com.faboslav.friendsandfoes.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.entity.pose.TuffGolemEntityPose;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
-import com.faboslav.friendsandfoes.util.RandomGenerator;
 import com.mojang.serialization.Dynamic;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

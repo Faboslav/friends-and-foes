@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.entity.ai.brain;
 
 import com.faboslav.friendsandfoes.entity.TuffGolemEntity;
-import com.faboslav.friendsandfoes.entity.WildfireEntity;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;

@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.entity.ai.brain.task;
 
 import com.faboslav.friendsandfoes.entity.TuffGolemEntity;
-import com.faboslav.friendsandfoes.entity.WildfireEntity;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.Task;

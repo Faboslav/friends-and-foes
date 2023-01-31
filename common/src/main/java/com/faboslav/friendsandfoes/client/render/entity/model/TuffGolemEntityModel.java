@@ -79,7 +79,7 @@ public final class TuffGolemEntityModel<T extends TuffGolemEntity> extends Anima
 		this.rightLeg.yaw = 0.0F;
 		this.leftLeg.yaw = 0.0F;
 
-		if(tuffGolem.isSleeping() == false && tuffGolem.isShowingItem() == false) {
+		if (tuffGolem.isSleeping() == false && tuffGolem.isShowingItem() == false) {
 			this.leftArm.pitch = (-0.2F + 1.5F * MathHelper.wrap(limbAngle, 13.0F)) * limbDistance;
 			this.rightArm.pitch = (-0.2F - 1.5F * MathHelper.wrap(limbAngle, 13.0F)) * limbDistance;
 		}

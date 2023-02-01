@@ -77,14 +77,24 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	public GlareShakeOffGlowBerriesGoal shakeOffGlowBerriesGoal;
 	private GlareFlyToDarkSpotGoal flyToDarkSpotGoal;
 
-	@Environment(EnvType.CLIENT)
-	private AnimationContextTracker animationTickTracker;
-
 	private Vec2f targetEyesPositionOffset;
 	private float currentLayerPitch;
 	private float currentLayerRoll;
 	private float currentLayerPitchAnimationProgress;
 	private float currentLayerRollAnimationProgress;
+
+	@Environment(EnvType.CLIENT)
+	private AnimationContextTracker animationTickTracker;
+
+	@Override
+	@Environment(EnvType.CLIENT)
+	public AnimationContextTracker getAnimationContextTracker() {
+		if (this.animationTickTracker == null) {
+			this.animationTickTracker = new AnimationContextTracker();
+		}
+
+		return this.animationTickTracker;
+	}
 
 	public GlareEntity(EntityType<? extends GlareEntity> entityType, World world) {
 		super(entityType, world);
@@ -705,15 +715,5 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 				0.1D
 			);
 		}
-	}
-
-	@Override
-	@Environment(EnvType.CLIENT)
-	public AnimationContextTracker getAnimationContextTracker() {
-		if (this.animationTickTracker == null) {
-			this.animationTickTracker = new AnimationContextTracker();
-		}
-
-		return this.animationTickTracker;
 	}
 }

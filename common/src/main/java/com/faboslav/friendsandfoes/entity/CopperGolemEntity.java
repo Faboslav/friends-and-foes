@@ -83,9 +83,6 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 
 	public CopperGolemPressButtonGoal pressButtonGoal;
 
-	@Environment(EnvType.CLIENT)
-	private AnimationContextTracker animationTickTracker;
-
 	static {
 		OXIDATION_LEVEL = DataTracker.registerData(CopperGolemEntity.class, TrackedDataHandlerRegistry.INTEGER);
 		OXIDATION_TICKS = DataTracker.registerData(CopperGolemEntity.class, TrackedDataHandlerRegistry.INTEGER);
@@ -107,6 +104,19 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 
 			return itemInHand instanceof AxeItem && EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.test(player);
 		};
+	}
+
+	@Environment(EnvType.CLIENT)
+	private AnimationContextTracker animationTickTracker;
+
+	@Override
+	@Environment(EnvType.CLIENT)
+	public AnimationContextTracker getAnimationContextTracker() {
+		if (this.animationTickTracker == null) {
+			this.animationTickTracker = new AnimationContextTracker();
+		}
+
+		return this.animationTickTracker;
 	}
 
 	public CopperGolemEntity(
@@ -743,15 +753,5 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		this.serverHeadYaw = yaw;
 		this.prevHeadYaw = yaw;
 		this.headYaw = yaw;
-	}
-
-	@Override
-	@Environment(EnvType.CLIENT)
-	public AnimationContextTracker getAnimationContextTracker() {
-		if (this.animationTickTracker == null) {
-			this.animationTickTracker = new AnimationContextTracker();
-		}
-
-		return this.animationTickTracker;
 	}
 }

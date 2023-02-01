@@ -78,13 +78,23 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	private static final TrackedData<Integer> TICKS_UNTIL_NEXT_BURROWING_DOWN;
 	private static final TrackedData<Float> BURROWING_DOWN_ANIMATION_PROGRESS;
 
-	@Environment(EnvType.CLIENT)
-	private AnimationContextTracker animationTickTracker;
-
 	@Nullable
 	private UUID angryAt;
 
 	public MaulerBurrowDownGoal burrowDownGoal;
+
+	@Environment(EnvType.CLIENT)
+	private AnimationContextTracker animationTickTracker;
+
+	@Override
+	@Environment(EnvType.CLIENT)
+	public AnimationContextTracker getAnimationContextTracker() {
+		if (this.animationTickTracker == null) {
+			this.animationTickTracker = new AnimationContextTracker();
+		}
+
+		return this.animationTickTracker;
+	}
 
 	public MaulerEntity(EntityType<? extends MaulerEntity> entityType, World world) {
 		super(entityType, world);
@@ -549,16 +559,6 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 				1.0D
 			);
 		}
-	}
-
-	@Override
-	@Environment(EnvType.CLIENT)
-	public AnimationContextTracker getAnimationContextTracker() {
-		if (this.animationTickTracker == null) {
-			this.animationTickTracker = new AnimationContextTracker();
-		}
-
-		return this.animationTickTracker;
 	}
 
 	public enum Type

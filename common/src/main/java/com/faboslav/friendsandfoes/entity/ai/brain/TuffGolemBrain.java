@@ -1,6 +1,8 @@
 package com.faboslav.friendsandfoes.entity.ai.brain;
 
 import com.faboslav.friendsandfoes.entity.TuffGolemEntity;
+import com.faboslav.friendsandfoes.entity.ai.brain.task.TuffGolemGoToHomePositionTask;
+import com.faboslav.friendsandfoes.entity.ai.brain.task.TuffGolemSleepTask;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -32,7 +34,7 @@ public final class TuffGolemBrain
 
 		addCoreActivities(brain);
 		addIdleActivities(brain);
-		addAvoidActivities(brain);
+		addSleepActivities(brain);
 
 		brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
 		brain.setDefaultActivity(Activity.IDLE);
@@ -60,15 +62,16 @@ public final class TuffGolemBrain
 		);
 	}
 
-	private static void addAvoidActivities(Brain<TuffGolemEntity> brain) {
+	private static void addSleepActivities(
+		Brain<TuffGolemEntity> brain
+	) {
 		brain.setTaskList(
-			Activity.AVOID,
+			Activity.FIGHT,
 			10,
 			ImmutableList.of(
-				GoToRememberedPositionTask.toEntity(MemoryModuleType.AVOID_TARGET, 1.4F, 16, true),
-				makeRandomWanderTask()
-			),
-			MemoryModuleType.AVOID_TARGET
+				new TuffGolemGoToHomePositionTask(),
+				new TuffGolemSleepTask()
+			)
 		);
 	}
 
@@ -85,7 +88,6 @@ public final class TuffGolemBrain
 	public static void updateActivities(TuffGolemEntity tuffGolem) {
 		tuffGolem.getBrain().resetPossibleActivities(ImmutableList.of(
 			Activity.FIGHT,
-			Activity.AVOID,
 			Activity.IDLE
 		));
 	}
@@ -101,15 +103,13 @@ public final class TuffGolemBrain
 		);
 		MEMORY_MODULES = List.of(
 			MemoryModuleType.PATH,
-			MemoryModuleType.MOBS,
-			MemoryModuleType.VISIBLE_MOBS,
-			MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER,
 			MemoryModuleType.ATTACK_TARGET,
 			MemoryModuleType.LOOK_TARGET,
 			MemoryModuleType.WALK_TARGET,
-			MemoryModuleType.AVOID_TARGET,
-			MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE
+			MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
+			FriendsAndFoesMemoryModuleTypes.TUFF_GOLEM_SLEEP_COOLDOWN.get()
 		);
-		SLEEP_COOLDOWN_PROVIDER = UniformIntProvider.create(2400, 6000);
+		SLEEP_COOLDOWN_PROVIDER = UniformIntProvider.create(0, 200);
+		//SLEEP_COOLDOWN_PROVIDER = UniformIntProvider.create(2400, 6000);
 	}
 }

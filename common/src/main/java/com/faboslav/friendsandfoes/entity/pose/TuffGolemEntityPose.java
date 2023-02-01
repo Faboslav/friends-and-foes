@@ -15,4 +15,8 @@ public enum TuffGolemEntityPose
 	public EntityPose get() {
 		return EntityPose.valueOf(this.getName());
 	}
+
+	static {
+		EntityPose.values();
+	}
 }

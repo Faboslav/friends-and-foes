@@ -3,8 +3,6 @@ package com.faboslav.friendsandfoes.entity.animation;
 import com.faboslav.friendsandfoes.client.render.entity.animation.KeyframeAnimation;
 import com.faboslav.friendsandfoes.client.render.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.client.render.entity.animation.animator.context.KeyframeAnimationContext;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 
 public interface AnimatedEntity
 {

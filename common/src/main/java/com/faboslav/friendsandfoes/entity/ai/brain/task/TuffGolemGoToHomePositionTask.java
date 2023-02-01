@@ -1,17 +1,13 @@
 package com.faboslav.friendsandfoes.entity.ai.brain.task;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.TuffGolemEntity;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
-import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.LookTargetUtil;
 import net.minecraft.entity.ai.brain.task.Task;
-import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.GlobalPos;
 
 public class TuffGolemGoToHomePositionTask extends Task<TuffGolemEntity>
 {
@@ -28,7 +24,7 @@ public class TuffGolemGoToHomePositionTask extends Task<TuffGolemEntity>
 		ServerWorld world,
 		TuffGolemEntity tuffGolem
 	) {
-		if(
+		if (
 			tuffGolem.isGlued()
 			|| tuffGolem.isAtHome()
 		) {
@@ -61,7 +57,7 @@ public class TuffGolemGoToHomePositionTask extends Task<TuffGolemEntity>
 			1
 		);
 
-		if(tuffGolem.isAtHomePos()) {
+		if (tuffGolem.isAtHomePos()) {
 			tuffGolem.setSpawnYaw(tuffGolem.getHomeYaw());
 		}
 	}

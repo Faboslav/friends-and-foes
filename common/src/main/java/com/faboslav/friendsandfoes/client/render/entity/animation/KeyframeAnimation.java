@@ -7,8 +7,8 @@ import net.minecraft.client.render.entity.animation.Animation;
 @Environment(EnvType.CLIENT)
 public class KeyframeAnimation
 {
-	private String name;
-	private Animation animation;
+	private final String name;
+	private final Animation animation;
 
 	public KeyframeAnimation(
 		String name,

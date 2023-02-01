@@ -7,7 +7,7 @@ import net.minecraft.entity.AnimationState;
 @Environment(EnvType.CLIENT)
 public final class KeyframeAnimationContext
 {
-	private AnimationState animationState;
+	private final AnimationState animationState;
 	private final int totalTicks;
 	private int initialTick;
 	private int currentTick;

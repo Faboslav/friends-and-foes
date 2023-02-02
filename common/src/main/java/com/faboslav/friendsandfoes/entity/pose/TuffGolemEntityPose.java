@@ -5,8 +5,9 @@ import net.minecraft.entity.EntityPose;
 public enum TuffGolemEntityPose
 {
 	STANDING,
-	SHOWING_ITEM,
-	SLEEPING;
+	STANDING_WITH_ITEM,
+	SLEEPING,
+	SLEEPING_WITH_ITEM;
 
 	public String getName() {
 		return "TUFF_GOLEM_" + this.name();

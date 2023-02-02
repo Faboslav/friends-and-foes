@@ -85,6 +85,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	) {
 		super(entityType, world);
 		this.stepHeight = 1.0F;
+		this.setPose(TuffGolemEntityPose.STANDING.get());
 	}
 
 	@Override
@@ -251,11 +252,19 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		ItemStack itemStack
 	) {
 		if (this.isInSleepingPose() == false) {
-			this.startSleeping();
+			if (isHoldingItem()) {
+				FriendsAndFoes.getLogger().info("startSleepingWithItem");
+				this.startSleepingWithItem();
+			} else {
+				FriendsAndFoes.getLogger().info("startSleeping");
+				this.startSleeping();
+			}
 		} else {
 			if (isHoldingItem()) {
-				this.startShowingItem();
+				FriendsAndFoes.getLogger().info("startStandingWithItem");
+				this.startStandingWithItem();
 			} else {
+				FriendsAndFoes.getLogger().info("startStanding");
 				this.startStanding();
 			}
 		}
@@ -283,7 +292,13 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 			}
 
 			this.equipStack(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
-			this.startStanding();
+			if(this.isInSleepingPose()) {
+				FriendsAndFoes.getLogger().info("startSleeping");
+				this.startSleeping();
+			} else {
+				FriendsAndFoes.getLogger().info("startStanding");
+				this.startStanding();
+			}
 		} else {
 			if (player.getAbilities().creativeMode == false) {
 				itemStack.decrement(1);
@@ -293,7 +308,13 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 			itemsStackToBeEquipped.setCount(1);
 
 			this.equipStack(EquipmentSlot.MAINHAND, itemsStackToBeEquipped);
-			this.startShowingItem();
+			if(this.isInSleepingPose()) {
+				FriendsAndFoes.getLogger().info("startSleepingWithItem");
+				this.startSleepingWithItem();
+			} else {
+				FriendsAndFoes.getLogger().info("startStandingWithItem");
+				this.startStandingWithItem();
+			}
 		}
 
 		return true;
@@ -330,7 +351,9 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	}
 
 	public boolean isInSleepingPose() {
-		return this.getPose() == TuffGolemEntityPose.SLEEPING.get();
+		return
+			this.getPose() == TuffGolemEntityPose.SLEEPING.get()
+			|| this.getPose() == TuffGolemEntityPose.SLEEPING_WITH_ITEM.get();
 	}
 
 	public void setGlued(boolean isGlued) {
@@ -387,7 +410,10 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	public boolean isShowingItem() {
 		return
 			this.isHoldingItem()
-			&& this.getPose() == TuffGolemEntityPose.SHOWING_ITEM.get();
+			&& (
+				this.getPose() == TuffGolemEntityPose.STANDING_WITH_ITEM.get()
+				|| this.getPose() == TuffGolemEntityPose.SLEEPING_WITH_ITEM.get()
+			);
 	}
 
 	public void startSleeping() {
@@ -395,18 +421,18 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 			return;
 		}
 
-		// todo sleeping sound event
+		this.playMoveSound();
 		this.setPose(TuffGolemEntityPose.SLEEPING.get());
 		this.setPrevPoseTick(this.age);
 	}
 
-	public void startShowingItem() {
-		if (this.isInPose(TuffGolemEntityPose.SHOWING_ITEM.get())) {
+	public void startSleepingWithItem() {
+		if (this.isInPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM.get())) {
 			return;
 		}
 
 		this.playMoveSound();
-		this.setPose(TuffGolemEntityPose.SHOWING_ITEM.get());
+		this.setPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM.get());
 		this.setPrevPoseTick(this.age);
 	}
 
@@ -417,6 +443,16 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 		this.playMoveSound();
 		this.setPose(TuffGolemEntityPose.STANDING.get());
+		this.setPrevPoseTick(this.age);
+	}
+
+	public void startStandingWithItem() {
+		if (this.isInPose(TuffGolemEntityPose.STANDING_WITH_ITEM.get())) {
+			return;
+		}
+
+		this.playMoveSound();
+		this.setPose(TuffGolemEntityPose.STANDING_WITH_ITEM.get());
 		this.setPrevPoseTick(this.age);
 	}
 
@@ -456,23 +492,31 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 		// TODO handle hide item from sleep position
 		if (prevPose == TuffGolemEntityPose.STANDING.get()) {
-			if (pose == TuffGolemEntityPose.SHOWING_ITEM.get()) {
+			if (pose == TuffGolemEntityPose.STANDING_WITH_ITEM.get()) {
 				keyframeAnimationToStart = TuffGolemAnimations.SHOW_ITEM;
 			} else if (pose == TuffGolemEntityPose.SLEEPING.get()) {
 				keyframeAnimationToStart = TuffGolemAnimations.SLEEP;
 			}
-		}
-		if (prevPose == TuffGolemEntityPose.SHOWING_ITEM.get()) {
+		} else if (prevPose == TuffGolemEntityPose.STANDING_WITH_ITEM.get()) {
 			if (pose == TuffGolemEntityPose.STANDING.get()) {
 				keyframeAnimationToStart = TuffGolemAnimations.HIDE_ITEM;
-			} else if (pose == TuffGolemEntityPose.SLEEPING.get()) {
+			} else if (pose == TuffGolemEntityPose.SLEEPING_WITH_ITEM.get()) {
 				keyframeAnimationToStart = TuffGolemAnimations.SLEEP_WITH_ITEM;
 			}
-		}
-		if (prevPose == TuffGolemEntityPose.SLEEPING.get()) {
-			if (pose == TuffGolemEntityPose.STANDING.get()) {
+		} else if (prevPose == TuffGolemEntityPose.SLEEPING.get()) {
+			if (pose == TuffGolemEntityPose.SLEEPING_WITH_ITEM.get()) {
+				keyframeAnimationToStart = TuffGolemAnimations.SHOW_ITEM;
+			} else if (pose == TuffGolemEntityPose.STANDING_WITH_ITEM.get()) {
+				keyframeAnimationToStart = TuffGolemAnimations.WAKE_AND_SHOW_ITEM;
+			} else if (pose == TuffGolemEntityPose.STANDING.get()) {
 				keyframeAnimationToStart = TuffGolemAnimations.WAKE;
-			} else if (pose == TuffGolemEntityPose.SHOWING_ITEM.get()) {
+			}
+		} else if (prevPose == TuffGolemEntityPose.SLEEPING_WITH_ITEM.get()) {
+			if (pose == TuffGolemEntityPose.SLEEPING.get()) {
+				keyframeAnimationToStart = TuffGolemAnimations.HIDE_ITEM;
+			} else if (pose == TuffGolemEntityPose.STANDING.get()) {
+				keyframeAnimationToStart = TuffGolemAnimations.WAKE_AND_HIDE_ITEM;
+			} else if (pose == TuffGolemEntityPose.STANDING_WITH_ITEM.get()) {
 				keyframeAnimationToStart = TuffGolemAnimations.WAKE_WITH_ITEM;
 			}
 		}

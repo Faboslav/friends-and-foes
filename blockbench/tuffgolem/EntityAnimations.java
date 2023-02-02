@@ -1,32 +1,29 @@
-package com.faboslav.friendsandfoes.client.render.entity.animation;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.render.entity.animation.Animation;
-import net.minecraft.client.render.entity.animation.AnimationHelper;
-import net.minecraft.client.render.entity.animation.Keyframe;
-import net.minecraft.client.render.entity.animation.Transformation;
+import animation;
+import animationHelper;
+import keyframe;
+import transformation;
 
-import java.util.ArrayList;
-
-@Environment(EnvType.CLIENT)
-public final class TuffGolemAnimations
+/**
+ * Made with Blockbench %(bb_version)
+ * Exported for Minecraft version 1.18.x with Yarn mappings
+ */
+public final class EntityAnimations
 {
-	public static final KeyframeAnimation SHOW_ITEM;
-	public static final KeyframeAnimation HIDE_ITEM;
-	public static final KeyframeAnimation SLEEP;
-	public static final KeyframeAnimation SLEEP_WITH_ITEM;
-	public static final KeyframeAnimation WAKE;
-	public static final KeyframeAnimation WAKE_WITH_ITEM;
-	public static final KeyframeAnimation WAKE_AND_SHOW_ITEM;
-	public static final KeyframeAnimation WAKE_AND_HIDE_ITEM;
-	public static final ArrayList<KeyframeAnimation> ANIMATIONS;
+	public static final Animation SHOWITEM;
+	public static final Animation HIDEITEM;
+	public static final Animation SLEEP;
+	public static final Animation SLEEPWITHITEM;
+	public static final Animation WAKE;
+	public static final Animation WAKEWITHITEM;
+	public static final Animation WAKEANDHIDEITEM;
+	public static final Animation WAKEANDSHOWITEM;
 
-	public TuffGolemAnimations() {
-	}
-
-	static {
-		SHOW_ITEM = new KeyframeAnimation("showItem", Animation.Builder.create(0.4583333333333333F).addBoneAnimation("clothStand",
+    public EntityAnimations() {
+    }
+    
+    static {
+		SHOWITEM = Animation.Builder.create(0.4583333333333333F).addBoneAnimation("clothStand",
 			new Transformation(
 				Transformation.Targets.ROTATE,
 				new Keyframe(0F, AnimationHelper.createRotationalVector(90F, 0F, 0F), Transformation.Interpolations.LINEAR),
@@ -96,8 +93,8 @@ public final class TuffGolemAnimations
 				new Keyframe(0.125F, AnimationHelper.createTranslationalVector(0F, -1F, 0F), Transformation.Interpolations.LINEAR),
 				new Keyframe(0.25F, AnimationHelper.createTranslationalVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR)
 			)
-		).build());
-		HIDE_ITEM = new KeyframeAnimation("hideItem", Animation.Builder.create(0.4583333333333333F).addBoneAnimation("clothStand",
+		).build();
+		HIDEITEM = Animation.Builder.create(0.4583333333333333F).addBoneAnimation("clothStand",
 			new Transformation(
 				Transformation.Targets.ROTATE,
 				new Keyframe(0F, AnimationHelper.createRotationalVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR),
@@ -167,8 +164,8 @@ public final class TuffGolemAnimations
 				new Keyframe(0.3333F, AnimationHelper.createTranslationalVector(0F, -1F, 0F), Transformation.Interpolations.LINEAR),
 				new Keyframe(0.4167F, AnimationHelper.createTranslationalVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR)
 			)
-		).build());
-		SLEEP = new KeyframeAnimation("sleep", Animation.Builder.create(0.9166666666666666F).addBoneAnimation("leftArm",
+		).build();
+		SLEEP = Animation.Builder.create(0.9166666666666666F).addBoneAnimation("leftArm",
 			new Transformation(
 				Transformation.Targets.ROTATE,
 				new Keyframe(0F, AnimationHelper.createRotationalVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR),
@@ -201,8 +198,8 @@ public final class TuffGolemAnimations
 				new Keyframe(0F, AnimationHelper.createTranslationalVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR),
 				new Keyframe(0.2917F, AnimationHelper.createTranslationalVector(0F, -1F, 0F), Transformation.Interpolations.LINEAR)
 			)
-		).build());
-		SLEEP_WITH_ITEM = new KeyframeAnimation("sleep_with_item", Animation.Builder.create(0.9166666666666666F).addBoneAnimation("leftArm",
+		).build();
+		SLEEPWITHITEM = Animation.Builder.create(0.9166666666666666F).addBoneAnimation("leftArm",
 			new Transformation(
 				Transformation.Targets.ROTATE,
 				new Keyframe(0F, AnimationHelper.createRotationalVector(-90F, 0F, 0F), Transformation.Interpolations.LINEAR),
@@ -245,11 +242,6 @@ public final class TuffGolemAnimations
 				new Keyframe(0F, AnimationHelper.createTranslationalVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR),
 				new Keyframe(0.2917F, AnimationHelper.createTranslationalVector(0F, -1F, 0F), Transformation.Interpolations.LINEAR)
 			)
-		).addBoneAnimation("frontCloth",
-			new Transformation(
-				Transformation.Targets.SCALE,
-				new Keyframe(0F, AnimationHelper.createScalingVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR)
-			)
 		).addBoneAnimation("clothStand",
 			new Transformation(
 				Transformation.Targets.ROTATE,
@@ -266,8 +258,8 @@ public final class TuffGolemAnimations
 				new Keyframe(0.2917F, AnimationHelper.createTranslationalVector(0F, -1F, -6F), Transformation.Interpolations.LINEAR),
 				new Keyframe(0.7083F, AnimationHelper.createTranslationalVector(0F, 0F, -6F), Transformation.Interpolations.LINEAR)
 			)
-		).build());
-		WAKE = new KeyframeAnimation("wake", Animation.Builder.create(0.9166666666666666F).addBoneAnimation("leftArm",
+		).build();
+		WAKE = Animation.Builder.create(0.9166666666666666F).addBoneAnimation("leftArm",
 			new Transformation(
 				Transformation.Targets.ROTATE,
 				new Keyframe(0F, AnimationHelper.createRotationalVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR),
@@ -311,8 +303,8 @@ public final class TuffGolemAnimations
 				new Keyframe(0.2917F, AnimationHelper.createTranslationalVector(0F, -1F, 0F), Transformation.Interpolations.LINEAR),
 				new Keyframe(0.9167F, AnimationHelper.createTranslationalVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR)
 			)
-		).build());
-		WAKE_WITH_ITEM = new KeyframeAnimation("wake_with_item", Animation.Builder.create(0.9166666666666666F).addBoneAnimation("leftArm",
+		).build();
+		WAKEWITHITEM = Animation.Builder.create(0.9166666666666666F).addBoneAnimation("leftArm",
 			new Transformation(
 				Transformation.Targets.ROTATE,
 				new Keyframe(0F, AnimationHelper.createRotationalVector(-90F, 0F, 0F), Transformation.Interpolations.LINEAR),
@@ -375,96 +367,8 @@ public final class TuffGolemAnimations
 				new Keyframe(0.2917F, AnimationHelper.createTranslationalVector(0F, -1F, -6F), Transformation.Interpolations.LINEAR),
 				new Keyframe(0.7083F, AnimationHelper.createTranslationalVector(0F, 0F, -6F), Transformation.Interpolations.LINEAR)
 			)
-		).build());
-		WAKE_AND_SHOW_ITEM = new KeyframeAnimation("wake_and_show_item", Animation.Builder.create(1.375F).addBoneAnimation("leftArm",
-			new Transformation(
-				Transformation.Targets.ROTATE,
-				new Keyframe(0F, AnimationHelper.createRotationalVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR),
-				new Keyframe(0.2917F, AnimationHelper.createRotationalVector(-45F, 0F, 0F), Transformation.Interpolations.LINEAR),
-				new Keyframe(0.4167F, AnimationHelper.createRotationalVector(-50F, 0F, 0F), Transformation.Interpolations.LINEAR),
-				new Keyframe(0.7083F, AnimationHelper.createRotationalVector(5F, 0F, 0F), Transformation.Interpolations.LINEAR),
-				new Keyframe(0.9167F, AnimationHelper.createRotationalVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR),
-				new Keyframe(1.25F, AnimationHelper.createRotationalVector(-95F, 0F, 0F), Transformation.Interpolations.LINEAR),
-				new Keyframe(1.375F, AnimationHelper.createRotationalVector(-90F, 0F, 0F), Transformation.Interpolations.LINEAR)
-			)
-		).addBoneAnimation("leftArm",
-			new Transformation(
-				Transformation.Targets.TRANSLATE,
-				new Keyframe(0.4167F, AnimationHelper.createTranslationalVector(0F, -1F, 0F), Transformation.Interpolations.LINEAR),
-				new Keyframe(0.9167F, AnimationHelper.createTranslationalVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR),
-				new Keyframe(1.1667F, AnimationHelper.createTranslationalVector(0F, -2F, -1.5F), Transformation.Interpolations.LINEAR),
-				new Keyframe(1.25F, AnimationHelper.createTranslationalVector(0F, -2F, -2F), Transformation.Interpolations.LINEAR)
-			)
-		).addBoneAnimation("rightArm",
-			new Transformation(
-				Transformation.Targets.ROTATE,
-				new Keyframe(0F, AnimationHelper.createRotationalVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR),
-				new Keyframe(0.2917F, AnimationHelper.createRotationalVector(-45F, 0F, 0F), Transformation.Interpolations.LINEAR),
-				new Keyframe(0.4167F, AnimationHelper.createRotationalVector(-50F, 0F, 0F), Transformation.Interpolations.LINEAR),
-				new Keyframe(0.7083F, AnimationHelper.createRotationalVector(5F, 0F, 0F), Transformation.Interpolations.LINEAR),
-				new Keyframe(0.9167F, AnimationHelper.createRotationalVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR),
-				new Keyframe(1.25F, AnimationHelper.createRotationalVector(-95F, 0F, 0F), Transformation.Interpolations.LINEAR),
-				new Keyframe(1.375F, AnimationHelper.createRotationalVector(-90F, 0F, 0F), Transformation.Interpolations.LINEAR)
-			)
-		).addBoneAnimation("rightArm",
-			new Transformation(
-				Transformation.Targets.TRANSLATE,
-				new Keyframe(0.4167F, AnimationHelper.createTranslationalVector(0F, -1F, 0F), Transformation.Interpolations.LINEAR),
-				new Keyframe(0.9167F, AnimationHelper.createTranslationalVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR),
-				new Keyframe(1.1667F, AnimationHelper.createTranslationalVector(0F, -2F, -1.5F), Transformation.Interpolations.LINEAR),
-				new Keyframe(1.25F, AnimationHelper.createTranslationalVector(0F, -2F, -2F), Transformation.Interpolations.LINEAR)
-			)
-		).addBoneAnimation("body",
-			new Transformation(
-				Transformation.Targets.ROTATE,
-				new Keyframe(0F, AnimationHelper.createRotationalVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR),
-				new Keyframe(0.2917F, AnimationHelper.createRotationalVector(25F, 0F, 0F), Transformation.Interpolations.LINEAR),
-				new Keyframe(0.7083F, AnimationHelper.createRotationalVector(-5F, 0F, 0F), Transformation.Interpolations.LINEAR),
-				new Keyframe(0.9167F, AnimationHelper.createRotationalVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR)
-			)
-		).addBoneAnimation("body",
-			new Transformation(
-				Transformation.Targets.TRANSLATE,
-				new Keyframe(0.2917F, AnimationHelper.createTranslationalVector(0F, -1F, 0F), Transformation.Interpolations.LINEAR),
-				new Keyframe(0.9167F, AnimationHelper.createTranslationalVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR)
-			)
-		).addBoneAnimation("frontCloth",
-			new Transformation(
-				Transformation.Targets.TRANSLATE,
-				new Keyframe(1F, AnimationHelper.createTranslationalVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR),
-				new Keyframe(1.0417F, AnimationHelper.createTranslationalVector(0F, 0F, 2F), Transformation.Interpolations.LINEAR)
-			)
-		).addBoneAnimation("frontCloth",
-			new Transformation(
-				Transformation.Targets.SCALE,
-				new Keyframe(0.9167F, AnimationHelper.createScalingVector(1F, 1F, 1F), Transformation.Interpolations.LINEAR),
-				new Keyframe(1F, AnimationHelper.createScalingVector(1F, 1F, 1F), Transformation.Interpolations.LINEAR),
-				new Keyframe(1.0417F, AnimationHelper.createScalingVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR)
-			)
-		).addBoneAnimation("clothStand",
-			new Transformation(
-				Transformation.Targets.ROTATE,
-				new Keyframe(0.9167F, AnimationHelper.createRotationalVector(90F, 0F, 0F), Transformation.Interpolations.LINEAR),
-				new Keyframe(1.25F, AnimationHelper.createRotationalVector(-5F, 0F, 0F), Transformation.Interpolations.LINEAR),
-				new Keyframe(1.375F, AnimationHelper.createRotationalVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR)
-			)
-		).addBoneAnimation("clothStand",
-			new Transformation(
-				Transformation.Targets.TRANSLATE,
-				new Keyframe(0.9167F, AnimationHelper.createTranslationalVector(0F, -4F, -2F), Transformation.Interpolations.LINEAR),
-				new Keyframe(1.25F, AnimationHelper.createTranslationalVector(0F, 0F, -5.75F), Transformation.Interpolations.LINEAR),
-				new Keyframe(1.375F, AnimationHelper.createTranslationalVector(0F, 0F, -6F), Transformation.Interpolations.LINEAR)
-			)
-		).addBoneAnimation("clothStand",
-			new Transformation(
-				Transformation.Targets.SCALE,
-				new Keyframe(0.9167F, AnimationHelper.createScalingVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR),
-				new Keyframe(1F, AnimationHelper.createScalingVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR),
-				new Keyframe(1.0417F, AnimationHelper.createScalingVector(1F, 1F, 1F), Transformation.Interpolations.LINEAR),
-				new Keyframe(1.25F, AnimationHelper.createScalingVector(1F, 1F, 1F), Transformation.Interpolations.LINEAR)
-			)
-		).build());
-		WAKE_AND_HIDE_ITEM = new KeyframeAnimation("wake_and_hide_item", Animation.Builder.create(1.375F).addBoneAnimation("leftArm",
+		).build();
+		WAKEANDHIDEITEM = Animation.Builder.create(1.375F).addBoneAnimation("leftArm",
 			new Transformation(
 				Transformation.Targets.ROTATE,
 				new Keyframe(0F, AnimationHelper.createRotationalVector(-90F, 0F, 0F), Transformation.Interpolations.LINEAR),
@@ -562,17 +466,94 @@ public final class TuffGolemAnimations
 				new Keyframe(1.2917F, AnimationHelper.createScalingVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR),
 				new Keyframe(1.375F, AnimationHelper.createScalingVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR)
 			)
-		).build());
-		ANIMATIONS = new ArrayList<>()
-		{{
-			add(SHOW_ITEM);
-			add(HIDE_ITEM);
-			add(SLEEP);
-			add(SLEEP_WITH_ITEM);
-			add(WAKE);
-			add(WAKE_WITH_ITEM);
-			add(WAKE_AND_SHOW_ITEM);
-			add(WAKE_AND_HIDE_ITEM);
-		}};
-	}
+		).build();
+		WAKEANDSHOWITEM = Animation.Builder.create(1.375F).addBoneAnimation("leftArm",
+			new Transformation(
+				Transformation.Targets.ROTATE,
+				new Keyframe(0F, AnimationHelper.createRotationalVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR),
+				new Keyframe(0.2917F, AnimationHelper.createRotationalVector(-45F, 0F, 0F), Transformation.Interpolations.LINEAR),
+				new Keyframe(0.4167F, AnimationHelper.createRotationalVector(-50F, 0F, 0F), Transformation.Interpolations.LINEAR),
+				new Keyframe(0.7083F, AnimationHelper.createRotationalVector(5F, 0F, 0F), Transformation.Interpolations.LINEAR),
+				new Keyframe(0.9167F, AnimationHelper.createRotationalVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR),
+				new Keyframe(1.25F, AnimationHelper.createRotationalVector(-95F, 0F, 0F), Transformation.Interpolations.LINEAR),
+				new Keyframe(1.375F, AnimationHelper.createRotationalVector(-90F, 0F, 0F), Transformation.Interpolations.LINEAR)
+			)
+		).addBoneAnimation("leftArm",
+			new Transformation(
+				Transformation.Targets.TRANSLATE,
+				new Keyframe(0.4167F, AnimationHelper.createTranslationalVector(0F, -1F, 0F), Transformation.Interpolations.LINEAR),
+				new Keyframe(0.9167F, AnimationHelper.createTranslationalVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR),
+				new Keyframe(1.1667F, AnimationHelper.createTranslationalVector(0F, -2F, -1.5F), Transformation.Interpolations.LINEAR),
+				new Keyframe(1.25F, AnimationHelper.createTranslationalVector(0F, -2F, -2F), Transformation.Interpolations.LINEAR)
+			)
+		).addBoneAnimation("rightArm",
+			new Transformation(
+				Transformation.Targets.ROTATE,
+				new Keyframe(0F, AnimationHelper.createRotationalVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR),
+				new Keyframe(0.2917F, AnimationHelper.createRotationalVector(-45F, 0F, 0F), Transformation.Interpolations.LINEAR),
+				new Keyframe(0.4167F, AnimationHelper.createRotationalVector(-50F, 0F, 0F), Transformation.Interpolations.LINEAR),
+				new Keyframe(0.7083F, AnimationHelper.createRotationalVector(5F, 0F, 0F), Transformation.Interpolations.LINEAR),
+				new Keyframe(0.9167F, AnimationHelper.createRotationalVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR),
+				new Keyframe(1.25F, AnimationHelper.createRotationalVector(-95F, 0F, 0F), Transformation.Interpolations.LINEAR),
+				new Keyframe(1.375F, AnimationHelper.createRotationalVector(-90F, 0F, 0F), Transformation.Interpolations.LINEAR)
+			)
+		).addBoneAnimation("rightArm",
+			new Transformation(
+				Transformation.Targets.TRANSLATE,
+				new Keyframe(0.4167F, AnimationHelper.createTranslationalVector(0F, -1F, 0F), Transformation.Interpolations.LINEAR),
+				new Keyframe(0.9167F, AnimationHelper.createTranslationalVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR),
+				new Keyframe(1.1667F, AnimationHelper.createTranslationalVector(0F, -2F, -1.5F), Transformation.Interpolations.LINEAR),
+				new Keyframe(1.25F, AnimationHelper.createTranslationalVector(0F, -2F, -2F), Transformation.Interpolations.LINEAR)
+			)
+		).addBoneAnimation("body",
+			new Transformation(
+				Transformation.Targets.ROTATE,
+				new Keyframe(0F, AnimationHelper.createRotationalVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR),
+				new Keyframe(0.2917F, AnimationHelper.createRotationalVector(25F, 0F, 0F), Transformation.Interpolations.LINEAR),
+				new Keyframe(0.7083F, AnimationHelper.createRotationalVector(-5F, 0F, 0F), Transformation.Interpolations.LINEAR),
+				new Keyframe(0.9167F, AnimationHelper.createRotationalVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR)
+			)
+		).addBoneAnimation("body",
+			new Transformation(
+				Transformation.Targets.TRANSLATE,
+				new Keyframe(0.2917F, AnimationHelper.createTranslationalVector(0F, -1F, 0F), Transformation.Interpolations.LINEAR),
+				new Keyframe(0.9167F, AnimationHelper.createTranslationalVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR)
+			)
+		).addBoneAnimation("frontCloth",
+			new Transformation(
+				Transformation.Targets.TRANSLATE,
+				new Keyframe(1F, AnimationHelper.createTranslationalVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR),
+				new Keyframe(1.0417F, AnimationHelper.createTranslationalVector(0F, 0F, 2F), Transformation.Interpolations.LINEAR)
+			)
+		).addBoneAnimation("frontCloth",
+			new Transformation(
+				Transformation.Targets.SCALE,
+				new Keyframe(0.9167F, AnimationHelper.createScalingVector(1F, 1F, 1F), Transformation.Interpolations.LINEAR),
+				new Keyframe(1F, AnimationHelper.createScalingVector(1F, 1F, 1F), Transformation.Interpolations.LINEAR),
+				new Keyframe(1.0417F, AnimationHelper.createScalingVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR)
+			)
+		).addBoneAnimation("clothStand",
+			new Transformation(
+				Transformation.Targets.ROTATE,
+				new Keyframe(0.9167F, AnimationHelper.createRotationalVector(90F, 0F, 0F), Transformation.Interpolations.LINEAR),
+				new Keyframe(1.25F, AnimationHelper.createRotationalVector(-5F, 0F, 0F), Transformation.Interpolations.LINEAR),
+				new Keyframe(1.375F, AnimationHelper.createRotationalVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR)
+			)
+		).addBoneAnimation("clothStand",
+			new Transformation(
+				Transformation.Targets.TRANSLATE,
+				new Keyframe(0.9167F, AnimationHelper.createTranslationalVector(0F, -4F, -2F), Transformation.Interpolations.LINEAR),
+				new Keyframe(1.25F, AnimationHelper.createTranslationalVector(0F, 0F, -5.75F), Transformation.Interpolations.LINEAR),
+				new Keyframe(1.375F, AnimationHelper.createTranslationalVector(0F, 0F, -6F), Transformation.Interpolations.LINEAR)
+			)
+		).addBoneAnimation("clothStand",
+			new Transformation(
+				Transformation.Targets.SCALE,
+				new Keyframe(0.9167F, AnimationHelper.createScalingVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR),
+				new Keyframe(1F, AnimationHelper.createScalingVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR),
+				new Keyframe(1.0417F, AnimationHelper.createScalingVector(1F, 1F, 1F), Transformation.Interpolations.LINEAR),
+				new Keyframe(1.25F, AnimationHelper.createScalingVector(1F, 1F, 1F), Transformation.Interpolations.LINEAR)
+			)
+		).build();
+    }
 }

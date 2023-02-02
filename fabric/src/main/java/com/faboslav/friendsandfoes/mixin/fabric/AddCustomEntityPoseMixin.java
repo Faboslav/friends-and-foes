@@ -46,23 +46,29 @@ public final class AddCustomEntityPoseMixin
 		var entityPoses = new ArrayList<>(Arrays.asList(field_18083));
 		var lastEntityPose = entityPoses.get(entityPoses.size() - 1);
 
-		var tuffGolemDefault = newEntityPose(
+		var tuffGolemStanding = newEntityPose(
 			TuffGolemEntityPose.STANDING.getName(),
 			lastEntityPose.ordinal() + 1
 		);
-		entityPoses.add(tuffGolemDefault);
+		entityPoses.add(tuffGolemStanding);
 
-		var tuffGolemShowingItem = newEntityPose(
-			TuffGolemEntityPose.SHOWING_ITEM.getName(),
+		var tuffGolemStandingWithItem = newEntityPose(
+			TuffGolemEntityPose.STANDING_WITH_ITEM.getName(),
 			lastEntityPose.ordinal() + 2
 		);
-		entityPoses.add(tuffGolemShowingItem);
+		entityPoses.add(tuffGolemStandingWithItem);
 
 		var tuffGolemSleeping = newEntityPose(
 			TuffGolemEntityPose.SLEEPING.getName(),
 			lastEntityPose.ordinal() + 3
 		);
 		entityPoses.add(tuffGolemSleeping);
+
+		var tuffGolemSleepingWithItem = newEntityPose(
+			TuffGolemEntityPose.SLEEPING_WITH_ITEM.getName(),
+			lastEntityPose.ordinal() + 4
+		);
+		entityPoses.add(tuffGolemSleepingWithItem);
 
 		field_18083 = entityPoses.toArray(new EntityPose[0]);
 	}

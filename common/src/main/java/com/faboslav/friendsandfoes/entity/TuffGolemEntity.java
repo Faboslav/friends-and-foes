@@ -42,7 +42,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 {
 	private static final TrackedData<String> COLOR;
 	private static final TrackedData<EntityPose> PREV_POSE;
-	private static final TrackedData<Integer> PREV_POSE_TICK;
+	private static final TrackedData<Integer> POSE_TICKS;
 	private static final TrackedData<Boolean> IS_GLUED;
 	private static final TrackedData<NbtCompound> HOME;
 
@@ -61,22 +61,32 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	static {
 		COLOR = DataTracker.registerData(TuffGolemEntity.class, TrackedDataHandlerRegistry.STRING);
 		PREV_POSE = DataTracker.registerData(TuffGolemEntity.class, TrackedDataHandlerRegistry.ENTITY_POSE);
-		PREV_POSE_TICK = DataTracker.registerData(TuffGolemEntity.class, TrackedDataHandlerRegistry.INTEGER);
+		POSE_TICKS = DataTracker.registerData(TuffGolemEntity.class, TrackedDataHandlerRegistry.INTEGER);
 		IS_GLUED = DataTracker.registerData(TuffGolemEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 		HOME = DataTracker.registerData(TuffGolemEntity.class, TrackedDataHandlerRegistry.NBT_COMPOUND);
 	}
 
-	@Environment(EnvType.CLIENT)
-	private AnimationContextTracker animationTickTracker;
+	private AnimationContextTracker animationContextTracker;
 
 	@Override
-	@Environment(EnvType.CLIENT)
 	public AnimationContextTracker getAnimationContextTracker() {
-		if (this.animationTickTracker == null) {
-			this.animationTickTracker = new AnimationContextTracker();
+		if (this.animationContextTracker == null) {
+			this.animationContextTracker = new AnimationContextTracker();
+
+			for (KeyframeAnimation keyframeAnimation : TuffGolemAnimations.ANIMATIONS) {
+				this.animationContextTracker.add(keyframeAnimation);
+			}
 		}
 
-		return this.animationTickTracker;
+		return this.animationContextTracker;
+	}
+
+	public int getKeyframeAnimationTicks() {
+		return this.dataTracker.get(POSE_TICKS);
+	}
+
+	public void setKeyframeAnimationTicks(int keyframeAnimationTicks) {
+		this.dataTracker.set(POSE_TICKS, keyframeAnimationTicks);
 	}
 
 	public TuffGolemEntity(
@@ -136,7 +146,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		super.initDataTracker();
 		this.dataTracker.startTracking(COLOR, Color.RED.getName());
 		this.dataTracker.startTracking(PREV_POSE, TuffGolemEntityPose.STANDING.get());
-		this.dataTracker.startTracking(PREV_POSE_TICK, 0);
+		this.dataTracker.startTracking(POSE_TICKS, 0);
 		this.dataTracker.startTracking(IS_GLUED, false);
 		this.dataTracker.startTracking(HOME, new NbtCompound());
 	}
@@ -251,6 +261,10 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		PlayerEntity player,
 		ItemStack itemStack
 	) {
+		if (isAnyKeyframeAnimationRunning()) {
+			return false;
+		}
+
 		if (this.isInSleepingPose() == false) {
 			if (isHoldingItem()) {
 				FriendsAndFoes.getLogger().info("startSleepingWithItem");
@@ -281,6 +295,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 				this.getEquippedStack(EquipmentSlot.MAINHAND).getItem() == Items.AIR
 				&& itemStack.getItem() == Items.AIR
 			) || itemStack.getItem() instanceof SpawnEggItem
+			|| isAnyKeyframeAnimationRunning()
 		) {
 			return false;
 		}
@@ -292,13 +307,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 			}
 
 			this.equipStack(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
-			if(this.isInSleepingPose()) {
-				FriendsAndFoes.getLogger().info("startSleeping");
-				this.startSleeping();
-			} else {
-				FriendsAndFoes.getLogger().info("startStanding");
-				this.startStanding();
-			}
+			this.startStanding();
 		} else {
 			if (player.getAbilities().creativeMode == false) {
 				itemStack.decrement(1);
@@ -308,13 +317,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 			itemsStackToBeEquipped.setCount(1);
 
 			this.equipStack(EquipmentSlot.MAINHAND, itemsStackToBeEquipped);
-			if(this.isInSleepingPose()) {
-				FriendsAndFoes.getLogger().info("startSleepingWithItem");
-				this.startSleepingWithItem();
-			} else {
-				FriendsAndFoes.getLogger().info("startStandingWithItem");
-				this.startStandingWithItem();
-			}
+			this.startStandingWithItem();
 		}
 
 		return true;
@@ -336,14 +339,6 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 	public void setPrevPose(EntityPose pose) {
 		this.dataTracker.set(PREV_POSE, pose);
-	}
-
-	public void setPrevPoseTick(int prevPoseTick) {
-		this.dataTracker.set(PREV_POSE_TICK, prevPoseTick);
-	}
-
-	public long getPrevPoseTick() {
-		return this.age - this.dataTracker.get(PREV_POSE_TICK);
 	}
 
 	public EntityPose getPrevPose() {
@@ -423,17 +418,18 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 		this.playMoveSound();
 		this.setPose(TuffGolemEntityPose.SLEEPING.get());
-		this.setPrevPoseTick(this.age);
 	}
 
 	public void startSleepingWithItem() {
-		if (this.isInPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM.get())) {
+		if (
+			this.isInPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM.get())
+			&& this.isC
+		) {
 			return;
 		}
 
 		this.playMoveSound();
 		this.setPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM.get());
-		this.setPrevPoseTick(this.age);
 	}
 
 	public void startStanding() {
@@ -443,7 +439,6 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 		this.playMoveSound();
 		this.setPose(TuffGolemEntityPose.STANDING.get());
-		this.setPrevPoseTick(this.age);
 	}
 
 	public void startStandingWithItem() {
@@ -453,13 +448,17 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 		this.playMoveSound();
 		this.setPose(TuffGolemEntityPose.STANDING_WITH_ITEM.get());
-		this.setPrevPoseTick(this.age);
 	}
 
 	@Override
 	public void tick() {
 		if (FriendsAndFoes.getConfig().enableTuffGolem == false) {
 			this.discard();
+		}
+
+		if (this.getWorld().isClient() == false && this.isAnyKeyframeAnimationRunning()) {
+			this.setKeyframeAnimationTicks(this.getKeyframeAnimationTicks() - 1);
+			FriendsAndFoes.getLogger().info(String.valueOf(this.getKeyframeAnimationTicks()));
 		}
 
 		super.tick();
@@ -472,14 +471,11 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 			return;
 		}
 
-		super.onTrackedDataSet(data);
+		this.updateAnimations();
 
-		if (this.world.isClient()) {
-			this.updateAnimations();
-		}
+		super.onTrackedDataSet(data);
 	}
 
-	@Environment(EnvType.CLIENT)
 	private void updateAnimations() {
 		EntityPose prevPose = this.getPrevPose();
 		EntityPose pose = this.getPose();
@@ -490,7 +486,6 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 		KeyframeAnimation keyframeAnimationToStart = TuffGolemAnimations.WAKE;
 
-		// TODO handle hide item from sleep position
 		if (prevPose == TuffGolemEntityPose.STANDING.get()) {
 			if (pose == TuffGolemEntityPose.STANDING_WITH_ITEM.get()) {
 				keyframeAnimationToStart = TuffGolemAnimations.SHOW_ITEM;
@@ -527,6 +522,10 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 			}
 
 			this.stopKeyframeAnimation(keyframeAnimation);
+		}
+
+		if(this.getWorld().isClient() == false) {
+			this.setKeyframeAnimationTicks(keyframeAnimationToStart.getAnimationLengthInTicks());
 		}
 
 		this.startKeyframeAnimation(keyframeAnimationToStart, this.age);

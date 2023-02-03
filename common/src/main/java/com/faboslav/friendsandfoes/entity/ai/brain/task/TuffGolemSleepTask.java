@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.entity.ai.brain.task;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.TuffGolemEntity;
 import com.faboslav.friendsandfoes.entity.ai.brain.TuffGolemBrain;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;

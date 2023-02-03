@@ -4,7 +4,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.AnimationState;
 
-@Environment(EnvType.CLIENT)
 public final class KeyframeAnimationContext
 {
 	private final AnimationState animationState;

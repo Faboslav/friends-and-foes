@@ -4,7 +4,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.entity.animation.Animation;
 
-@Environment(EnvType.CLIENT)
 public class KeyframeAnimation
 {
 	private final String name;
@@ -20,6 +19,10 @@ public class KeyframeAnimation
 
 	public String getName() {
 		return this.name;
+	}
+
+	public int getAnimationLengthInTicks() {
+		return (int) Math.ceil(this.getAnimation().lengthInSeconds() * 20) + 1;
 	}
 
 	public Animation getAnimation() {

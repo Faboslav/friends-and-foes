@@ -8,7 +8,6 @@ import net.fabricmc.api.Environment;
 import java.util.HashMap;
 import java.util.Map;
 
-@Environment(EnvType.CLIENT)
 public final class AnimationContextTracker
 {
 	private final Map<String, KeyframeAnimationContext> animationKeyframeContext = new HashMap<>();
@@ -26,14 +25,6 @@ public final class AnimationContextTracker
 	}
 
 	public KeyframeAnimationContext get(KeyframeAnimation keyframeAnimation) {
-		if (this.animationKeyframeContext.containsKey(keyframeAnimation.getName()) == false) {
-			int animationLengthInTicks = (int) Math.ceil(keyframeAnimation.getAnimation().lengthInSeconds() * 20);
-
-			this.animationKeyframeContext.put(keyframeAnimation.getName(), new KeyframeAnimationContext(
-				animationLengthInTicks
-			));
-		}
-
 		return this.animationKeyframeContext.get(keyframeAnimation.getName());
 	}
 
@@ -45,6 +36,12 @@ public final class AnimationContextTracker
 		} else {
 			throw new RuntimeException(String.format("Invalid animation type '%s.'", type));
 		}
+	}
+
+	public void add(KeyframeAnimation keyframeAnimation) {
+		this.animationKeyframeContext.put(keyframeAnimation.getName(), new KeyframeAnimationContext(
+			keyframeAnimation.getAnimationLengthInTicks()
+		));
 	}
 
 	public void add(String modelPartName, ModelPartAnimationType type, ModelPartAnimationContext animationContext) {

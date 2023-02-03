@@ -107,16 +107,16 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 	}
 
 	@Environment(EnvType.CLIENT)
-	private AnimationContextTracker animationTickTracker;
+	private AnimationContextTracker animationContextTracker;
 
 	@Override
 	@Environment(EnvType.CLIENT)
 	public AnimationContextTracker getAnimationContextTracker() {
-		if (this.animationTickTracker == null) {
-			this.animationTickTracker = new AnimationContextTracker();
+		if (this.animationContextTracker == null) {
+			this.animationContextTracker = new AnimationContextTracker();
 		}
 
-		return this.animationTickTracker;
+		return this.animationContextTracker;
 	}
 
 	public CopperGolemEntity(

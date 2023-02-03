@@ -84,16 +84,16 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	public MaulerBurrowDownGoal burrowDownGoal;
 
 	@Environment(EnvType.CLIENT)
-	private AnimationContextTracker animationTickTracker;
+	private AnimationContextTracker animationContextTracker;
 
 	@Override
 	@Environment(EnvType.CLIENT)
 	public AnimationContextTracker getAnimationContextTracker() {
-		if (this.animationTickTracker == null) {
-			this.animationTickTracker = new AnimationContextTracker();
+		if (this.animationContextTracker == null) {
+			this.animationContextTracker = new AnimationContextTracker();
 		}
 
-		return this.animationTickTracker;
+		return this.animationContextTracker;
 	}
 
 	public MaulerEntity(EntityType<? extends MaulerEntity> entityType, World world) {

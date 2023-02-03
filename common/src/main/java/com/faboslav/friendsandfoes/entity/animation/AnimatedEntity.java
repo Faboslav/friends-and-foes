@@ -8,6 +8,18 @@ public interface AnimatedEntity
 {
 	AnimationContextTracker getAnimationContextTracker();
 
+	default int getKeyframeAnimationTicks() {
+		return 0;
+	}
+
+	default void setKeyframeAnimationTicks(int keyframeAnimationTicks) {
+
+	}
+
+	default boolean isAnyKeyframeAnimationRunning() {
+		return this.getKeyframeAnimationTicks() > 0;
+	}
+
 	default boolean isKeyframeAnimationAtLastKeyframe(KeyframeAnimation keyframeAnimation) {
 		return this.getAnimationContextTracker().get(keyframeAnimation).isAtLastKeyframe();
 	}

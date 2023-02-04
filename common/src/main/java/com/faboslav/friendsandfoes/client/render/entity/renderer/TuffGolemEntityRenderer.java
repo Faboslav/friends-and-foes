@@ -21,7 +21,7 @@ public final class TuffGolemEntityRenderer extends MobEntityRenderer<TuffGolemEn
 		super(context, new TuffGolemEntityModel(context.getPart(FriendsAndFoesEntityModelLayer.TUFF_GOLEM_LAYER)), 0.3F);
 		this.addFeature(new TuffGolemClosedEyesRenderer(this));
 		this.addFeature(new TuffGolemClothFeatureRenderer(this));
-		this.addFeature(new TuffGolemHeldItemFeatureRenderer(this, context.getHeldItemRenderer()));
+		this.addFeature(new TuffGolemHeldItemFeatureRenderer(this, context.getHeldItemRenderer(), context.getItemRenderer()));
 	}
 
 	@Override

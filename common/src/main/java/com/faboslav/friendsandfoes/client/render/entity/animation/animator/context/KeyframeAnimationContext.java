@@ -1,7 +1,5 @@
 package com.faboslav.friendsandfoes.client.render.entity.animation.animator.context;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.entity.AnimationState;
 
 public final class KeyframeAnimationContext
@@ -16,6 +14,7 @@ public final class KeyframeAnimationContext
 	) {
 		this.totalTicks = totalTicks;
 		this.initialTick = 0;
+		this.currentTick = 0;
 		this.animationState = new AnimationState();
 	}
 
@@ -28,7 +27,7 @@ public final class KeyframeAnimationContext
 	}
 
 	public boolean isRunning() {
-		return initialTick + totalTicks <= currentTick;
+		return this.initialTick != 0 && this.currentTick != 0;
 	}
 
 	public boolean isAtLastKeyframe() {

@@ -37,6 +37,7 @@ public interface AnimatedEntity
 	default void stopKeyframeAnimation(KeyframeAnimation keyframeAnimation) {
 		KeyframeAnimationContext keyframeAnimationContext = this.getAnimationContextTracker().get(keyframeAnimation);
 		keyframeAnimationContext.setInitialTick(0);
+		keyframeAnimationContext.setCurrentTick(0);
 		keyframeAnimationContext.getAnimationState().stop();
 	}
 }

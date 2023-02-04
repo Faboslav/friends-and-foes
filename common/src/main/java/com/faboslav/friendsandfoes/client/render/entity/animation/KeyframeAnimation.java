@@ -1,7 +1,5 @@
 package com.faboslav.friendsandfoes.client.render.entity.animation;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.render.entity.animation.Animation;
 
 public class KeyframeAnimation

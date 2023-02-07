@@ -181,7 +181,19 @@
 			"friendsandfoes:entity/tuff_golem/move1",
 			"friendsandfoes:entity/tuff_golem/move2"
 		],
-		"subtitle": "subtitle.entity.friendsandfoes.tuff_golem.ambient"
+		"subtitle": "subtitle.entity.friendsandfoes.tuff_golem.move"
+	},
+	"entity.tuff_golem.wake": {
+		"sounds": [
+			"friendsandfoes:entity/tuff_golem/wake"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.tuff_golem.wake"
+	},
+	"entity.tuff_golem.sleep": {
+		"sounds": [
+			"friendsandfoes:entity/tuff_golem/sleep"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.tuff_golem.sleep"
 	},
 	"entity.shield_debris.impact": {
 		"sounds": [

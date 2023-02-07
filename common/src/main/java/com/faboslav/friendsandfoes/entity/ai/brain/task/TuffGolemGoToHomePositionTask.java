@@ -1,6 +1,8 @@
 package com.faboslav.friendsandfoes.entity.ai.brain.task;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.TuffGolemEntity;
+import com.faboslav.friendsandfoes.entity.ai.brain.TuffGolemBrain;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
@@ -26,13 +28,14 @@ public class TuffGolemGoToHomePositionTask extends Task<TuffGolemEntity>
 	) {
 		if (
 			tuffGolem.isGlued()
+			|| tuffGolem.isLeashed()
 			|| tuffGolem.isAtHome()
 		) {
 			return false;
 		}
 
-		//FriendsAndFoes.getLogger().info("TuffGolemGoToHomePositionTask true");
-		return false;
+		FriendsAndFoes.getLogger().info("TuffGolemGoToHomePositionTask true");
+		return true;
 	}
 
 	@Override
@@ -41,7 +44,7 @@ public class TuffGolemGoToHomePositionTask extends Task<TuffGolemEntity>
 		TuffGolemEntity tuffGolem,
 		long time
 	) {
-		return tuffGolem.isAtHome() == false;
+		return tuffGolem.isAtHomePos() == false;
 	}
 
 	@Override
@@ -53,12 +56,21 @@ public class TuffGolemGoToHomePositionTask extends Task<TuffGolemEntity>
 		LookTargetUtil.walkTowards(
 			tuffGolem,
 			new BlockPos(tuffGolem.getHomePos()),
-			tuffGolem.getMovementSpeed(),
-			1
+			1.0F,
+			0
 		);
 
-		if (tuffGolem.isAtHomePos()) {
-			tuffGolem.setSpawnYaw(tuffGolem.getHomeYaw());
-		}
+		FriendsAndFoes.getLogger().info("walking");
+	}
+
+	@Override
+	protected void finishRunning(
+		ServerWorld world,
+		TuffGolemEntity tuffGolem,
+		long time
+	) {
+		FriendsAndFoes.getLogger().info("stop");
+		tuffGolem.getNavigation().stop();
+		tuffGolem.setSpawnYaw(tuffGolem.getHomeYaw());
 	}
 }

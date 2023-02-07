@@ -103,10 +103,10 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		@Nullable EntityData entityData,
 		@Nullable NbtCompound entityNbt
 	) {
-		this.setHome(this.getNewHome());
 		EntityData superEntityData = super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
 		this.setPrevPose(TuffGolemEntityPose.STANDING.get());
 		this.setPoseWithoutPrevPose(TuffGolemEntityPose.STANDING.get());
+		this.setHome(this.getNewHome());
 
 		return superEntityData;
 	}
@@ -184,7 +184,23 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	}
 
 	public void playMoveSound() {
-		this.playSound(this.getMoveSound(), this.getSoundVolume(), 1.0F + this.getRandom().nextFloat() * 0.1F);
+		this.playSound(this.getMoveSound(), this.getSoundVolume(), 1.05F + this.getRandom().nextFloat() * 0.05F);
+	}
+
+	public SoundEvent getWakeSound() {
+		return FriendsAndFoesSoundEvents.ENTITY_TUFF_GOLEM_WAKE.get();
+	}
+
+	public void playWakeSound() {
+		this.playSound(this.getWakeSound(), this.getSoundVolume(), 1.05F + this.getRandom().nextFloat() * 0.05F);
+	}
+
+	public SoundEvent getSleepSound() {
+		return FriendsAndFoesSoundEvents.ENTITY_TUFF_GOLEM_SLEEP.get();
+	}
+
+	public void playSleepSound() {
+		this.playSound(this.getSleepSound(), this.getSoundVolume(), 1.05F + this.getRandom().nextFloat() * 0.05F);
 	}
 
 	@Override
@@ -261,23 +277,11 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		PlayerEntity player,
 		ItemStack itemStack
 	) {
-		if (isAnyKeyframeAnimationRunning()) {
+		if(this.isGlued()) {
 			return false;
 		}
 
-		if (this.isInSleepingPose() == false) {
-			if (isHoldingItem()) {
-				this.startSleepingWithItem();
-			} else {
-				this.startSleeping();
-			}
-		} else {
-			if (isHoldingItem()) {
-				this.startStandingWithItem();
-			} else {
-				this.startStanding();
-			}
-		}
+		this.setGlued(true);
 
 		return true;
 	}
@@ -305,11 +309,12 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 			this.equipStack(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
 			this.startStanding();
 		} else {
+			ItemStack itemsStackToBeEquipped = itemStack.copy();
+
 			if (player.getAbilities().creativeMode == false) {
 				itemStack.decrement(1);
 			}
 
-			ItemStack itemsStackToBeEquipped = itemStack.copy();
 			itemsStackToBeEquipped.setCount(1);
 
 			this.equipStack(EquipmentSlot.MAINHAND, itemsStackToBeEquipped);
@@ -371,6 +376,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		home.putDouble(HOME_NBT_NAME_Z, this.getPos().getZ());
 		home.putFloat(HOME_NBT_NAME_YAW, this.bodyYaw);
 
+		FriendsAndFoes.getLogger().info(String.valueOf(home));
 		return home;
 	}
 
@@ -395,7 +401,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	}
 
 	public boolean isAtHomePos() {
-		return this.squaredDistanceTo(this.getHomePos()) < 1.0D;
+		return this.squaredDistanceTo(this.getHomePos()) < 0.5D;
 	}
 
 	public boolean isAtHome() {
@@ -420,18 +426,16 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 			return;
 		}
 
-		this.playMoveSound();
+		this.playSleepSound();
 		this.setPose(TuffGolemEntityPose.SLEEPING.get());
 	}
 
 	public void startSleepingWithItem() {
-		if (
-			this.isInPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM.get())
-		) {
+		if (this.isInPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM.get())) {
 			return;
 		}
 
-		this.playMoveSound();
+		this.playSleepSound();
 		this.setPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM.get());
 	}
 
@@ -440,7 +444,15 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 			return;
 		}
 
-		this.playMoveSound();
+		if(
+			this.isInPose(TuffGolemEntityPose.SLEEPING.get())
+			|| this.isInPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM.get())
+		) {
+			this.playWakeSound();
+		} else {
+			this.playMoveSound();
+		}
+
 		this.setPose(TuffGolemEntityPose.STANDING.get());
 	}
 
@@ -449,7 +461,15 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 			return;
 		}
 
-		this.playMoveSound();
+		if(
+			this.isInPose(TuffGolemEntityPose.SLEEPING.get())
+			|| this.isInPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM.get())
+		) {
+			this.playWakeSound();
+		} else {
+			this.playMoveSound();
+		}
+
 		this.setPose(TuffGolemEntityPose.STANDING_WITH_ITEM.get());
 	}
 
@@ -560,6 +580,8 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 			this.stopKeyframeAnimation(keyframeAnimation);
 		}
+
+		FriendsAndFoes.getLogger().info(keyframeAnimationToStart.getName());
 
 		this.startKeyframeAnimation(keyframeAnimationToStart, this.age);
 	}

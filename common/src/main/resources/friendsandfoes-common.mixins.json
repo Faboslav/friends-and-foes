@@ -33,6 +33,7 @@
     "SpawnRestrictionAccessor",
     "StrongholdGeneratorMixin",
     "StructurePoolMixin",
+    "TemptGoalMixin",
     "VillagerEntityMixin",
     "VillagerHostilesSensorMixin",
     "VillagerTaskListProviderMixin",

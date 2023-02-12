@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.entity.ai.goal;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.block.CopperButtonBlock;
 import com.faboslav.friendsandfoes.entity.CopperGolemEntity;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
@@ -138,12 +139,14 @@ public final class CopperGolemPressButtonGoal extends Goal
 			this.positionToStandOn.getZ()
 		);
 
-		this.currentPath = navigation.findPathTo(
-			this.positionToStandOn.getX(),
-			this.positionToStandOn.getY(),
-			this.positionToStandOn.getZ(),
-			0
-		);
+		if(this.currentPath == null) {
+			this.currentPath = navigation.findPathTo(
+				this.positionToStandOn.getX(),
+				this.positionToStandOn.getY(),
+				this.positionToStandOn.getZ(),
+				0
+			);
+		}
 
 		if (this.currentPath != null) {
 			this.copperGolem.getNavigation().startMovingAlong(
@@ -169,8 +172,10 @@ public final class CopperGolemPressButtonGoal extends Goal
 
 		this.standingNearToCopperButtonTicks++;
 
-		if (this.standingNearToCopperButtonTicks >= this.idleTicksBeforeButtonPress / 3 &&
-			!this.copperGolem.isPressingButton()) {
+		if (
+			this.standingNearToCopperButtonTicks >= this.idleTicksBeforeButtonPress / 3
+			&& this.copperGolem.isPressingButton() == false
+		) {
 			this.copperGolem.setIsPressingButton(true);
 		}
 
@@ -178,7 +183,7 @@ public final class CopperGolemPressButtonGoal extends Goal
 			return;
 		}
 
-		if (!this.copperButtonWasSuccessfullyPressed) {
+		if (this.copperButtonWasSuccessfullyPressed == false) {
 			this.copperButtonWasSuccessfullyPressed = this.pressCopperButton();
 		} else {
 			this.ticksAfterButtonPress++;

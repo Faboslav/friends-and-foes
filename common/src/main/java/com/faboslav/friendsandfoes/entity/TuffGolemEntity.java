@@ -174,12 +174,12 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 		String prevSavedPose = nbt.getString(PREV_POSE_NBT_NAME);
 		if (prevSavedPose != "") {
-			this.setPrevPose(TuffGolemEntityPose.valueOf(nbt.getString(PREV_POSE_NBT_NAME)));
+			this.setPrevPose(EntityPose.valueOf(nbt.getString(PREV_POSE_NBT_NAME)));
 		}
 
 		String savedPose = nbt.getString(POSE_NBT_NAME);
 		if (savedPose != "") {
-			this.setPoseWithoutPrevPose(TuffGolemEntityPose.valueOf(nbt.getString(POSE_NBT_NAME)));
+			this.setPoseWithoutPrevPose(EntityPose.valueOf(nbt.getString(POSE_NBT_NAME)));
 		}
 	}
 
@@ -345,14 +345,31 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		return TuffGolemEntity.Color.fromName(this.dataTracker.get(COLOR));
 	}
 
+	@Override
+	public void setPose(EntityPose pose) {
+		if (this.getWorld().isClient()) {
+			return;
+		}
+
+		this.setPrevPose(this.getPose());
+		super.setPose(pose);
+	}
+
 	public void setPose(TuffGolemEntityPose pose) {
 		if (this.getWorld().isClient()) {
 			return;
 		}
 
-		FriendsAndFoes.getLogger().info("prevPose: " + this.getPose() + ", current pose: " + pose);
-		this.setPrevPose(TuffGolemEntityPose.valueOf(this.getPose().name()));
+		this.setPrevPose(this.getPose());
 		super.setPose(pose.get());
+	}
+
+	public void setPoseWithoutPrevPose(EntityPose pose) {
+		if (this.getWorld().isClient()) {
+			return;
+		}
+
+		super.setPose(pose);
 	}
 
 	public void setPoseWithoutPrevPose(TuffGolemEntityPose pose) {
@@ -361,6 +378,14 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		}
 
 		super.setPose(pose.get());
+	}
+
+	public void setPrevPose(EntityPose pose) {
+		if (this.getWorld().isClient()) {
+			return;
+		}
+
+		this.dataTracker.set(PREV_POSE, pose);
 	}
 
 	public void setPrevPose(TuffGolemEntityPose pose) {

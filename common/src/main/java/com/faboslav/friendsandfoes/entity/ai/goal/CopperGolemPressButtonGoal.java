@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.entity.ai.goal;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.block.CopperButtonBlock;
 import com.faboslav.friendsandfoes.entity.CopperGolemEntity;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
@@ -139,7 +138,7 @@ public final class CopperGolemPressButtonGoal extends Goal
 			this.positionToStandOn.getZ()
 		);
 
-		if(this.currentPath == null) {
+		if (this.currentPath == null) {
 			this.currentPath = navigation.findPathTo(
 				this.positionToStandOn.getX(),
 				this.positionToStandOn.getY(),

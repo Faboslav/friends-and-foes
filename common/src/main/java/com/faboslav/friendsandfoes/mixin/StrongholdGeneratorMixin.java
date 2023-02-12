@@ -1,27 +1,21 @@
 package com.faboslav.friendsandfoes.mixin;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.TuffGolemEntity;
 import com.faboslav.friendsandfoes.entity.pose.TuffGolemEntityPose;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
-import com.google.common.collect.ImmutableList;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.mob.ShulkerEntity;
-import net.minecraft.item.EnchantedBookItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.structure.StrongholdGenerator;
 import net.minecraft.structure.StructurePiece;
 import net.minecraft.structure.StructurePieceType;
-import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Pair;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.BlockBox;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
@@ -61,7 +55,7 @@ public abstract class StrongholdGeneratorMixin extends StructurePiece
 		BlockPos pivot,
 		CallbackInfo ci
 	) {
-		if(
+		if (
 			this.isTuffGolemGenerated
 			|| random.nextFloat() > 0.75F
 		) {
@@ -72,14 +66,14 @@ public abstract class StrongholdGeneratorMixin extends StructurePiece
 
 		TuffGolemEntity tuffGolem = FriendsAndFoesEntityTypes.TUFF_GOLEM.get().create(serverWorld);
 
-		if(tuffGolem == null) {
+		if (tuffGolem == null) {
 			return;
 		}
 
 		ArrayList<Pair> possibleSpawnPositions = new ArrayList<>();
 
-		for(int x = 5; x < 8; x = x + 3) {
-			for (int y = 4; y < 12 ; y = y + 2) {
+		for (int x = 5; x < 8; x = x + 3) {
+			for (int y = 4; y < 12; y = y + 2) {
 				possibleSpawnPositions.add(new Pair(x, y));
 			}
 		}
@@ -110,12 +104,12 @@ public abstract class StrongholdGeneratorMixin extends StructurePiece
 
 		tuffGolem.equipStack(EquipmentSlot.MAINHAND, enchantedItemStack);
 
-		tuffGolem.setPrevPose(TuffGolemEntityPose.STANDING_WITH_ITEM.get());
-		tuffGolem.setPoseWithoutPrevPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM.get());
+		tuffGolem.setPrevPose(TuffGolemEntityPose.STANDING_WITH_ITEM);
+		tuffGolem.setPoseWithoutPrevPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM);
 
 		boolean isTuffGolemSpawned = world.spawnEntity(tuffGolem);
 
-		if(isTuffGolemSpawned) {
+		if (isTuffGolemSpawned) {
 			this.isTuffGolemGenerated = true;
 		}
 	}

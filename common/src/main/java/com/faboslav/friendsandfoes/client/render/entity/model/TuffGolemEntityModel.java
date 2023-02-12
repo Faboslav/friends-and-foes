@@ -7,7 +7,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3f;
 
 @Environment(EnvType.CLIENT)
 public final class TuffGolemEntityModel<T extends TuffGolemEntity> extends AnimatedEntityModel<T>
@@ -94,7 +93,7 @@ public final class TuffGolemEntityModel<T extends TuffGolemEntity> extends Anima
 	) {
 		this.applyModelTransforms(MODEL_PART_ROOT, this.root);
 
-		if(tuffGolem.isInSleepingPose() == false) {
+		if (tuffGolem.isInSleepingPose() == false) {
 			this.rightLeg.pitch = -1.5F * MathHelper.wrap(limbAngle, 13.0F) * limbDistance;
 			this.leftLeg.pitch = 1.5F * MathHelper.wrap(limbAngle, 13.0F) * limbDistance;
 			this.rightLeg.yaw = 0.0F;

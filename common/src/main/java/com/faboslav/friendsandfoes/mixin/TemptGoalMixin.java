@@ -57,13 +57,12 @@ public abstract class TemptGoalMixin extends Goal
 	private void friendsandfoes_canStart(
 		CallbackInfoReturnable<Boolean> cir
 	) {
-		if(cir.getReturnValue() == false) {
+		if (cir.getReturnValue() == false) {
 			cir.setReturnValue(this.friendsandfoes_canStartWithReturn());
 		}
 	}
 
-	private boolean friendsandfoes_canStartWithReturn()
-	{
+	private boolean friendsandfoes_canStartWithReturn() {
 		this.closestTuffGolem = this.mob.world.getClosestEntity(
 			this.mob.world.getEntitiesByClass(
 				TuffGolemEntity.class,
@@ -95,7 +94,7 @@ public abstract class TemptGoalMixin extends Goal
 						cir.setReturnValue(false);
 					}
 
-					if (Math.abs((double)this.closestTuffGolem.getPitch() - this.lastTuffGolemPitch) > 5.0 || Math.abs((double)this.closestTuffGolem.getYaw() - this.lastTuffGolemYaw) > 5.0) {
+					if (Math.abs((double) this.closestTuffGolem.getPitch() - this.lastTuffGolemPitch) > 5.0 || Math.abs((double) this.closestTuffGolem.getYaw() - this.lastTuffGolemYaw) > 5.0) {
 						cir.setReturnValue(false);
 					}
 				} else {
@@ -114,12 +113,12 @@ public abstract class TemptGoalMixin extends Goal
 
 	@Override
 	public void start() {
-		if(this.closestPlayer != null) {
+		if (this.closestPlayer != null) {
 			super.start();
 			return;
 		}
 
-		if(this.closestTuffGolem == null) {
+		if (this.closestTuffGolem == null) {
 			return;
 		}
 
@@ -141,16 +140,16 @@ public abstract class TemptGoalMixin extends Goal
 
 	@Override
 	public void tick() {
-		if(this.closestPlayer != null) {
+		if (this.closestPlayer != null) {
 			super.tick();
 			return;
 		}
 
-		if(this.closestTuffGolem == null) {
+		if (this.closestTuffGolem == null) {
 			return;
 		}
 
-		this.mob.getLookControl().lookAt(this.closestTuffGolem, (float)(this.mob.getMaxHeadRotation() + 20), (float)this.mob.getMaxLookPitchChange());
+		this.mob.getLookControl().lookAt(this.closestTuffGolem, (float) (this.mob.getMaxHeadRotation() + 20), (float) this.mob.getMaxLookPitchChange());
 		if (this.mob.squaredDistanceTo(this.closestTuffGolem) < 6.25) {
 			this.mob.getNavigation().stop();
 		} else {

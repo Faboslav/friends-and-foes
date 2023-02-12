@@ -5,7 +5,6 @@ import com.faboslav.friendsandfoes.entity.TuffGolemEntity;
 import com.faboslav.friendsandfoes.entity.ai.brain.TuffGolemBrain;
 import com.faboslav.friendsandfoes.entity.pose.TuffGolemEntityPose;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
-import com.faboslav.friendsandfoes.util.RandomGenerator;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
@@ -66,10 +65,10 @@ public class TuffGolemSleepTask extends Task<TuffGolemEntity>
 		tuffGolem.setVelocity(Vec3d.ZERO);
 		tuffGolem.velocityDirty = true;
 
-		if(tuffGolem.isInPose(TuffGolemEntityPose.STANDING.get())) {
+		if (tuffGolem.isInPose(TuffGolemEntityPose.STANDING.get())) {
 			FriendsAndFoes.getLogger().info("start startSleeping");
 			tuffGolem.startSleeping();
-		} else if(tuffGolem.isInPose(TuffGolemEntityPose.STANDING_WITH_ITEM.get())) {
+		} else if (tuffGolem.isInPose(TuffGolemEntityPose.STANDING_WITH_ITEM.get())) {
 			FriendsAndFoes.getLogger().info("start startSleepingWithItem");
 			tuffGolem.startSleepingWithItem();
 		}
@@ -93,9 +92,9 @@ public class TuffGolemSleepTask extends Task<TuffGolemEntity>
 		FriendsAndFoes.getLogger().info("stop sleeping");
 		TuffGolemBrain.setSleepCooldown(tuffGolem);
 
-		if(tuffGolem.isInPose(TuffGolemEntityPose.SLEEPING.get())) {
+		if (tuffGolem.isInPose(TuffGolemEntityPose.SLEEPING.get())) {
 			tuffGolem.startStanding();
-		} else if(tuffGolem.isInPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM.get())) {
+		} else if (tuffGolem.isInPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM.get())) {
 			tuffGolem.startStandingWithItem();
 		}
 	}

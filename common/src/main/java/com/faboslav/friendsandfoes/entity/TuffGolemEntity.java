@@ -13,7 +13,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.entity.ai.goal.PrioritizedGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.DataTracker;
@@ -169,7 +168,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		this.setGlued(nbt.getBoolean(IS_GLUED_NBT_NAME));
 		this.setHome(nbt.getCompound(HOME_NBT_NAME));
 
-		if(this.isAtHomePos()) {
+		if (this.isAtHomePos()) {
 			this.setSpawnYaw(this.getHomeYaw());
 		}
 
@@ -282,7 +281,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		PlayerEntity player,
 		ItemStack itemStack
 	) {
-		if(this.isGlued()) {
+		if (this.isGlued()) {
 			//return false;
 		}
 		float yaw = this.getHomeYaw();
@@ -347,7 +346,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	}
 
 	public void setPose(TuffGolemEntityPose pose) {
-		if(this.getWorld().isClient()) {
+		if (this.getWorld().isClient()) {
 			return;
 		}
 
@@ -357,7 +356,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	}
 
 	public void setPoseWithoutPrevPose(TuffGolemEntityPose pose) {
-		if(this.getWorld().isClient()) {
+		if (this.getWorld().isClient()) {
 			return;
 		}
 
@@ -365,7 +364,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	}
 
 	public void setPrevPose(TuffGolemEntityPose pose) {
-		if(this.getWorld().isClient()) {
+		if (this.getWorld().isClient()) {
 			return;
 		}
 
@@ -447,19 +446,13 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	}
 
 	public boolean isAtHomeYaw() {
-		if(
-			this.serverYaw != this.getHomeYaw()
-			|| this.prevYaw != this.getHomeYaw()
-			|| this.getYaw() != this.getHomeYaw()
-			|| this.prevBodyYaw != this.getHomeYaw()
-			|| this.getBodyYaw() != this.getHomeYaw()
-			|| this.prevHeadYaw != this.getHomeYaw()
-			|| this.getHeadYaw() != this.getHomeYaw()
-		) {
-			return false;
-		}
-
-		return true;
+		return this.serverYaw == this.getHomeYaw()
+			   && this.prevYaw == this.getHomeYaw()
+			   && this.getYaw() == this.getHomeYaw()
+			   && this.prevBodyYaw == this.getHomeYaw()
+			   && this.getBodyYaw() == this.getHomeYaw()
+			   && this.prevHeadYaw == this.getHomeYaw()
+			   && this.getHeadYaw() == this.getHomeYaw();
 	}
 
 	public boolean isAtHome() {
@@ -499,7 +492,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 			return;
 		}
 
-		if(this.isInSleepingPose()) {
+		if (this.isInSleepingPose()) {
 			this.playWakeSound();
 		} else {
 			this.playMoveSound();
@@ -513,7 +506,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 			return;
 		}
 
-		if(this.isInSleepingPose()) {
+		if (this.isInSleepingPose()) {
 			this.playWakeSound();
 		} else {
 			this.playMoveSound();
@@ -534,11 +527,11 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 		KeyframeAnimation keyframeAnimationToStart = this.getKeyframeAnimationByPose();
 
-		if(
+		if (
 			keyframeAnimationToStart != null
 			&& this.isKeyframeAnimationRunning(keyframeAnimationToStart) == false
 		) {
-			if(this.getWorld().isClient() == false) {
+			if (this.getWorld().isClient() == false) {
 				this.setKeyframeAnimationTicks(keyframeAnimationToStart.getAnimationLengthInTicks());
 			}
 

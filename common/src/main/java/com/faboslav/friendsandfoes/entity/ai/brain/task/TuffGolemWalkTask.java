@@ -19,16 +19,10 @@ public final class TuffGolemWalkTask extends WalkTask
 	) {
 		TuffGolemEntity tuffGolem = (TuffGolemEntity) pathAwareEntity;
 
-		if(
-			tuffGolem.isInSleepingPose()
-			|| tuffGolem.isGlued()
-			|| tuffGolem.isLeashed()
-			|| tuffGolem.hasVehicle()
-		) {
-			return false;
-		}
-
-		return true;
+		return !tuffGolem.isInSleepingPose()
+			   && !tuffGolem.isGlued()
+			   && !tuffGolem.isLeashed()
+			   && !tuffGolem.hasVehicle();
 	}
 
 	@Override
@@ -38,9 +32,9 @@ public final class TuffGolemWalkTask extends WalkTask
 		long l
 	) {
 		TuffGolemEntity tuffGolem = (TuffGolemEntity) pathAwareEntity;
-		if(tuffGolem.wasInPose(TuffGolemEntityPose.SLEEPING.get())) {
+		if (tuffGolem.wasInPose(TuffGolemEntityPose.SLEEPING)) {
 			tuffGolem.startStanding();
-		} else if(tuffGolem.wasInPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM.get())) {
+		} else if (tuffGolem.wasInPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM)) {
 			tuffGolem.startStandingWithItem();
 		}
 

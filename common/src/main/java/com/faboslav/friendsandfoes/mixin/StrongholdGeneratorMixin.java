@@ -63,7 +63,7 @@ public abstract class StrongholdGeneratorMixin extends StructurePiece
 	) {
 		if(
 			this.isTuffGolemGenerated
-			|| random.nextFloat() > 0.5F
+			|| random.nextFloat() > 0.75F
 		) {
 			return;
 		}
@@ -73,7 +73,6 @@ public abstract class StrongholdGeneratorMixin extends StructurePiece
 		TuffGolemEntity tuffGolem = FriendsAndFoesEntityTypes.TUFF_GOLEM.get().create(serverWorld);
 
 		if(tuffGolem == null) {
-			FriendsAndFoes.getLogger().info("failed creating tuff golem");
 			return;
 		}
 
@@ -97,7 +96,7 @@ public abstract class StrongholdGeneratorMixin extends StructurePiece
 			tuffGolemPos.getZ() + 0.5F
 		);
 
-		float randomSpawnYaw = (float) (Math.PI / 4.0D) * (float) random.nextBetween(1, 3);
+		float randomSpawnYaw = 90.0F * (float) random.nextBetween(1, 3);
 		tuffGolem.setSpawnYaw(randomSpawnYaw);
 
 		ItemStack itemStack = Items.BOOK.getDefaultStack();
@@ -111,16 +110,13 @@ public abstract class StrongholdGeneratorMixin extends StructurePiece
 
 		tuffGolem.equipStack(EquipmentSlot.MAINHAND, enchantedItemStack);
 
-		tuffGolem.setPrevPose(TuffGolemEntityPose.STANDING.get());
-		tuffGolem.setPoseWithoutPrevPose(TuffGolemEntityPose.STANDING_WITH_ITEM.get());
+		tuffGolem.setPrevPose(TuffGolemEntityPose.STANDING_WITH_ITEM.get());
+		tuffGolem.setPoseWithoutPrevPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM.get());
 
 		boolean isTuffGolemSpawned = world.spawnEntity(tuffGolem);
 
 		if(isTuffGolemSpawned) {
 			this.isTuffGolemGenerated = true;
-			FriendsAndFoes.getLogger().info("spawned at: " + tuffGolem.getPos());
 		}
-
-		tuffGolem.startSleepingWithItem();
 	}
 }

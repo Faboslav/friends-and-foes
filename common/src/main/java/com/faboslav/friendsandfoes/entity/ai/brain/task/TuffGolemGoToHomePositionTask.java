@@ -6,6 +6,7 @@ import com.faboslav.friendsandfoes.entity.ai.brain.TuffGolemBrain;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
+import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.LookTargetUtil;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.server.world.ServerWorld;
@@ -17,6 +18,7 @@ public class TuffGolemGoToHomePositionTask extends Task<TuffGolemEntity>
 
 	public TuffGolemGoToHomePositionTask() {
 		super(ImmutableMap.of(
+			MemoryModuleType.WALK_TARGET, MemoryModuleState.VALUE_ABSENT,
 			FriendsAndFoesMemoryModuleTypes.TUFF_GOLEM_SLEEP_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT
 		), GO_TO_SLEEP_POSITION_DURATION);
 	}
@@ -26,10 +28,11 @@ public class TuffGolemGoToHomePositionTask extends Task<TuffGolemEntity>
 		ServerWorld world,
 		TuffGolemEntity tuffGolem
 	) {
-		if (
-			tuffGolem.isGlued()
+		if(
+			tuffGolem.isInSleepingPose()
+			|| tuffGolem.isGlued()
 			|| tuffGolem.isLeashed()
-			|| tuffGolem.isAtHome()
+			|| tuffGolem.hasVehicle()
 		) {
 			return false;
 		}
@@ -39,16 +42,7 @@ public class TuffGolemGoToHomePositionTask extends Task<TuffGolemEntity>
 	}
 
 	@Override
-	protected boolean shouldKeepRunning(
-		ServerWorld world,
-		TuffGolemEntity tuffGolem,
-		long time
-	) {
-		return tuffGolem.isAtHomePos() == false;
-	}
-
-	@Override
-	protected void keepRunning(
+	protected void run(
 		ServerWorld serverWorld,
 		TuffGolemEntity tuffGolem,
 		long l
@@ -59,18 +53,31 @@ public class TuffGolemGoToHomePositionTask extends Task<TuffGolemEntity>
 			1.0F,
 			0
 		);
-
-		FriendsAndFoes.getLogger().info("walking");
 	}
 
 	@Override
-	protected void finishRunning(
+	protected boolean shouldKeepRunning(
 		ServerWorld world,
 		TuffGolemEntity tuffGolem,
 		long time
 	) {
-		FriendsAndFoes.getLogger().info("stop");
-		tuffGolem.getNavigation().stop();
-		tuffGolem.setSpawnYaw(tuffGolem.getHomeYaw());
+		if(
+			tuffGolem.isAtHome()
+			|| tuffGolem.isGlued()
+			|| tuffGolem.isLeashed()
+			|| tuffGolem.hasVehicle()
+		) {
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	protected void keepRunning(
+		ServerWorld world,
+		TuffGolemEntity tuffGolem,
+		long time
+	) {
 	}
 }

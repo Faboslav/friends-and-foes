@@ -94,10 +94,12 @@ public final class TuffGolemEntityModel<T extends TuffGolemEntity> extends Anima
 	) {
 		this.applyModelTransforms(MODEL_PART_ROOT, this.root);
 
-		this.rightLeg.pitch = -1.5F * MathHelper.wrap(limbAngle, 13.0F) * limbDistance;
-		this.leftLeg.pitch = 1.5F * MathHelper.wrap(limbAngle, 13.0F) * limbDistance;
-		this.rightLeg.yaw = 0.0F;
-		this.leftLeg.yaw = 0.0F;
+		if(tuffGolem.isInSleepingPose() == false) {
+			this.rightLeg.pitch = -1.5F * MathHelper.wrap(limbAngle, 13.0F) * limbDistance;
+			this.leftLeg.pitch = 1.5F * MathHelper.wrap(limbAngle, 13.0F) * limbDistance;
+			this.rightLeg.yaw = 0.0F;
+			this.leftLeg.yaw = 0.0F;
+		}
 
 		if (tuffGolem.isInSleepingPose() == false && tuffGolem.isShowingItem() == false) {
 			this.leftArm.pitch = (-0.2F + 1.5F * MathHelper.wrap(limbAngle, 13.0F)) * limbDistance;

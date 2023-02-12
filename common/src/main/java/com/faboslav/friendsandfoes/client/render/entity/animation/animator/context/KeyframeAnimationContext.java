@@ -27,7 +27,7 @@ public final class KeyframeAnimationContext
 	}
 
 	public boolean isRunning() {
-		return this.initialTick != 0 && this.currentTick != 0;
+		return this.initialTick != 0;
 	}
 
 	public boolean isAtLastKeyframe() {

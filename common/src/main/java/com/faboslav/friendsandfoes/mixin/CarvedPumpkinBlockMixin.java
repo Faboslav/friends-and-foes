@@ -8,11 +8,13 @@ import net.minecraft.block.*;
 import net.minecraft.block.pattern.BlockPattern;
 import net.minecraft.block.pattern.BlockPatternBuilder;
 import net.minecraft.block.pattern.CachedBlockPosition;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.item.Wearable;
 import net.minecraft.predicate.block.BlockStatePredicate;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldEvents;
 import org.jetbrains.annotations.Nullable;
@@ -102,6 +104,7 @@ public abstract class CarvedPumpkinBlockMixin extends HorizontalFacingBlock impl
 		);
 		tuffGolem.setSpawnYaw(tuffGolemYaw);
 		tuffGolem.setColor(TuffGolemEntity.Color.fromWool(woolBlockState.getBlock()));
+		tuffGolem.initialize((ServerWorldAccess) world, world.getLocalDifficulty(cachedBlockPosition), SpawnReason.TRIGGERED, null, null);
 		world.spawnEntity(tuffGolem);
 
 		for (ServerPlayerEntity serverPlayerEntity : world.getNonSpectatingEntities(

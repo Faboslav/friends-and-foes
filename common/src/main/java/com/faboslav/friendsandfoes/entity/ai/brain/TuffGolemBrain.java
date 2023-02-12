@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes.entity.ai.brain;
 import com.faboslav.friendsandfoes.entity.TuffGolemEntity;
 import com.faboslav.friendsandfoes.entity.ai.brain.task.TuffGolemGoToHomePositionTask;
 import com.faboslav.friendsandfoes.entity.ai.brain.task.TuffGolemSleepTask;
+import com.faboslav.friendsandfoes.entity.ai.brain.task.TuffGolemWalkTask;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -34,7 +35,6 @@ public final class TuffGolemBrain
 
 		addCoreActivities(brain);
 		addIdleActivities(brain);
-		addSleepActivities(brain);
 
 		brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
 		brain.setDefaultActivity(Activity.IDLE);
@@ -47,7 +47,7 @@ public final class TuffGolemBrain
 		brain.setTaskList(Activity.CORE,
 			0,
 			ImmutableList.of(
-				new LookAroundTask(45, 90),
+				new TuffGolemWalkTask(1.0F),
 				new WanderAroundTask(),
 				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.TUFF_GOLEM_SLEEP_COOLDOWN.get())
 			));
@@ -57,20 +57,9 @@ public final class TuffGolemBrain
 		brain.setTaskList(
 			Activity.IDLE,
 			ImmutableList.of(
+				Pair.of(0, new TuffGolemGoToHomePositionTask()),
+				Pair.of(0, new TuffGolemSleepTask()),
 				Pair.of(0, makeRandomWanderTask())
-			)
-		);
-	}
-
-	private static void addSleepActivities(
-		Brain<TuffGolemEntity> brain
-	) {
-		brain.setTaskList(
-			Activity.FIGHT,
-			10,
-			ImmutableList.of(
-				new TuffGolemGoToHomePositionTask(),
-				new TuffGolemSleepTask()
 			)
 		);
 	}
@@ -78,16 +67,15 @@ public final class TuffGolemBrain
 	private static RandomTask<TuffGolemEntity> makeRandomWanderTask() {
 		return new RandomTask(
 			ImmutableList.of(
-				Pair.of(new StrollTask(0.6F), 2),
-				Pair.of(new GoTowardsLookTarget(1.0F, 3), 2),
-				Pair.of(new WaitTask(30, 60), 1)
+				//Pair.of(new StrollTask(0.6F), 2),
+				//Pair.of(new GoTowardsLookTarget(1.0F, 0), 2)
+				//Pair.of(new WaitTask(30, 60), 1)
 			)
 		);
 	}
 
 	public static void updateActivities(TuffGolemEntity tuffGolem) {
 		tuffGolem.getBrain().resetPossibleActivities(ImmutableList.of(
-			Activity.FIGHT,
 			Activity.IDLE
 		));
 	}
@@ -98,17 +86,15 @@ public final class TuffGolemBrain
 
 	static {
 		SENSORS = List.of(
-			SensorType.NEAREST_PLAYERS,
-			SensorType.HURT_BY
 		);
 		MEMORY_MODULES = List.of(
 			MemoryModuleType.PATH,
-			MemoryModuleType.ATTACK_TARGET,
 			MemoryModuleType.LOOK_TARGET,
 			MemoryModuleType.WALK_TARGET,
 			MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
 			FriendsAndFoesMemoryModuleTypes.TUFF_GOLEM_SLEEP_COOLDOWN.get()
 		);
-		SLEEP_COOLDOWN_PROVIDER = UniformIntProvider.create(2400, 7200);
+		SLEEP_COOLDOWN_PROVIDER = UniformIntProvider.create(200, 400);
+		//SLEEP_COOLDOWN_PROVIDER = UniformIntProvider.create(2400, 7200);
 	}
 }

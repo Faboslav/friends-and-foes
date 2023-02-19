@@ -176,6 +176,14 @@
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.moobloom.convert"
 	},
+	"entity.tuff_golem.hurt": {
+		"sounds": [
+			"friendsandfoes:entity/tuff_golem/hurt1",
+			"friendsandfoes:entity/tuff_golem/hurt2",
+			"friendsandfoes:entity/tuff_golem/hurt3"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.tuff_golem.hurt"
+	},
 	"entity.tuff_golem.move": {
 		"sounds": [
 			"friendsandfoes:entity/tuff_golem/move1",
@@ -183,17 +191,26 @@
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.tuff_golem.move"
 	},
-	"entity.tuff_golem.wake": {
-		"sounds": [
-			"friendsandfoes:entity/tuff_golem/wake"
-		],
-		"subtitle": "subtitle.entity.friendsandfoes.tuff_golem.wake"
-	},
 	"entity.tuff_golem.sleep": {
 		"sounds": [
 			"friendsandfoes:entity/tuff_golem/sleep"
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.tuff_golem.sleep"
+	},
+	"entity.tuff_golem.step": {
+		"sounds": [
+			"friendsandfoes:entity/tuff_golem/step1",
+			"friendsandfoes:entity/tuff_golem/step2",
+			"friendsandfoes:entity/tuff_golem/step3",
+			"friendsandfoes:entity/tuff_golem/step4"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.tuff_golem.step"
+	},
+	"entity.tuff_golem.wake": {
+		"sounds": [
+			"friendsandfoes:entity/tuff_golem/wake"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.tuff_golem.wake"
 	},
 	"entity.shield_debris.impact": {
 		"sounds": [

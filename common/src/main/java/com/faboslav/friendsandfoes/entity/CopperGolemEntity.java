@@ -308,7 +308,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 
 	@Override
 	public Vec3d getLeashOffset() {
-		return new Vec3d(0.0D, this.getStandingEyeHeight() * 0.4D, 0.0D);
+		return new Vec3d(0.0D, this.getStandingEyeHeight() * 0.45D, 0.0D);
 	}
 
 	@Override

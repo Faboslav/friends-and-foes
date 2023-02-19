@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.entity.ai.brain.task;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.TuffGolemEntity;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
 import com.google.common.collect.ImmutableMap;
@@ -10,13 +9,15 @@ import net.minecraft.entity.ai.brain.task.LookTargetUtil;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 
 public class TuffGolemGoToHomePositionTask extends Task<TuffGolemEntity>
 {
-	private final static int GO_TO_SLEEP_POSITION_DURATION = 3600;
+	private final static int GO_TO_SLEEP_POSITION_DURATION = 1200;
 
 	public TuffGolemGoToHomePositionTask() {
 		super(ImmutableMap.of(
+			MemoryModuleType.LOOK_TARGET, MemoryModuleState.VALUE_ABSENT,
 			MemoryModuleType.WALK_TARGET, MemoryModuleState.VALUE_ABSENT,
 			FriendsAndFoesMemoryModuleTypes.TUFF_GOLEM_SLEEP_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT
 		), GO_TO_SLEEP_POSITION_DURATION);
@@ -29,6 +30,7 @@ public class TuffGolemGoToHomePositionTask extends Task<TuffGolemEntity>
 	) {
 		if (
 			tuffGolem.isInSleepingPose()
+			|| tuffGolem.isAtHomePos()
 			|| tuffGolem.isGlued()
 			|| tuffGolem.isLeashed()
 			|| tuffGolem.hasVehicle()
@@ -36,7 +38,6 @@ public class TuffGolemGoToHomePositionTask extends Task<TuffGolemEntity>
 			return false;
 		}
 
-		FriendsAndFoes.getLogger().info("TuffGolemGoToHomePositionTask true");
 		return true;
 	}
 
@@ -46,12 +47,7 @@ public class TuffGolemGoToHomePositionTask extends Task<TuffGolemEntity>
 		TuffGolemEntity tuffGolem,
 		long l
 	) {
-		LookTargetUtil.walkTowards(
-			tuffGolem,
-			new BlockPos(tuffGolem.getHomePos()),
-			1.0F,
-			0
-		);
+		this.walkTowardsHomePos(tuffGolem);
 	}
 
 	@Override
@@ -72,5 +68,50 @@ public class TuffGolemGoToHomePositionTask extends Task<TuffGolemEntity>
 		TuffGolemEntity tuffGolem,
 		long time
 	) {
+		if (tuffGolem.getNavigation().isIdle()) {
+			this.walkTowardsHomePos(tuffGolem);
+		}
+
+		if (
+			tuffGolem.isCloseToHomePos() == false
+			|| (int) tuffGolem.getY() != (int) tuffGolem.getHomePos().getY()
+		) {
+			return;
+		}
+
+		tuffGolem.setVelocity(
+			new Vec3d(
+				(tuffGolem.getHomePos().getX() - tuffGolem.getX()),
+				0,
+				(tuffGolem.getHomePos().getZ() - tuffGolem.getZ())
+			)
+		);
+		tuffGolem.setSpawnYaw(tuffGolem.getHomeYaw());
+	}
+
+	@Override
+	protected void finishRunning(
+		ServerWorld world,
+		TuffGolemEntity tuffGolem,
+		long time
+	) {
+		if (tuffGolem.isCloseToHomePos()) {
+			tuffGolem.setPosition(tuffGolem.getHomePos());
+		}
+
+		tuffGolem.getBrain().forget(MemoryModuleType.LOOK_TARGET);
+		tuffGolem.getBrain().forget(MemoryModuleType.WALK_TARGET);
+		tuffGolem.stopMovement();
+	}
+
+	private void walkTowardsHomePos(
+		TuffGolemEntity tuffGolem
+	) {
+		LookTargetUtil.walkTowards(
+			tuffGolem,
+			new BlockPos(tuffGolem.getHomePos()),
+			0.6F,
+			0
+		);
 	}
 }

@@ -19,10 +19,10 @@ public final class TuffGolemWalkTask extends WalkTask
 	) {
 		TuffGolemEntity tuffGolem = (TuffGolemEntity) pathAwareEntity;
 
-		return !tuffGolem.isInSleepingPose()
-			   && !tuffGolem.isGlued()
-			   && !tuffGolem.isLeashed()
-			   && !tuffGolem.hasVehicle();
+		return tuffGolem.isInSleepingPose() == false
+			   && tuffGolem.isGlued() == false
+			   && tuffGolem.isLeashed() == false
+			   && tuffGolem.hasVehicle() == false;
 	}
 
 	@Override

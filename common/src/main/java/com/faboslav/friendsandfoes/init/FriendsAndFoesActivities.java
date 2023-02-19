@@ -10,14 +10,10 @@ import java.util.function.Supplier;
  */
 public final class FriendsAndFoesActivities
 {
-	public final static Supplier<Activity> WILDFIRE_BARRAGE_ATTACK;
-	public final static Supplier<Activity> WILDFIRE_SHOCKWAVE_ATTACK;
-	public final static Supplier<Activity> SUMMON_BLAZE;
+	public final static Supplier<Activity> TUFF_GOLEM_HOME;
 
 	static {
-		WILDFIRE_BARRAGE_ATTACK = RegistryHelper.registerActivity("wildfire_barrage_attack", () -> new Activity("wildfire_barrage_attack"));
-		WILDFIRE_SHOCKWAVE_ATTACK = RegistryHelper.registerActivity("wildfire_shockwave_attack", () -> new Activity("wildfire_shockwave_attack"));
-		SUMMON_BLAZE = RegistryHelper.registerActivity("summon_blaze", () -> new Activity("summon_blaze"));
+		TUFF_GOLEM_HOME = RegistryHelper.registerActivity("tuff_golem_home", () -> new Activity("tuff_golem_home"));
 	}
 
 	public static void init() {

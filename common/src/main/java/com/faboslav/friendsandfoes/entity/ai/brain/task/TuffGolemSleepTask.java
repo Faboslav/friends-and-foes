@@ -11,8 +11,8 @@ import net.minecraft.server.world.ServerWorld;
 
 public class TuffGolemSleepTask extends Task<TuffGolemEntity>
 {
-	private final static int MIN_TICKS_TO_SLEEP = 1200;
-	private final static int MAX_TICKS_TO_SLEEP = 3600;
+	private final static int MIN_TICKS_TO_SLEEP = 1200; //1200
+	private final static int MAX_TICKS_TO_SLEEP = 3600; //3600
 
 	public TuffGolemSleepTask() {
 		super(ImmutableMap.of(
@@ -25,11 +25,7 @@ public class TuffGolemSleepTask extends Task<TuffGolemEntity>
 		ServerWorld world,
 		TuffGolemEntity tuffGolem
 	) {
-		if (tuffGolem.isAtHome() == false) {
-			return false;
-		}
-
-		return true;
+		return tuffGolem.isAtHome() != false;
 	}
 
 	@Override
@@ -51,11 +47,7 @@ public class TuffGolemSleepTask extends Task<TuffGolemEntity>
 		TuffGolemEntity tuffGolem,
 		long time
 	) {
-		if (tuffGolem.isInSleepingPose()) {
-			return true;
-		}
-
-		return false;
+		return tuffGolem.isInSleepingPose();
 	}
 
 	@Override

@@ -1,15 +1,17 @@
 package com.faboslav.friendsandfoes.entity.ai.brain;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.TuffGolemEntity;
 import com.faboslav.friendsandfoes.entity.ai.brain.task.TuffGolemGoToHomePositionTask;
 import com.faboslav.friendsandfoes.entity.ai.brain.task.TuffGolemSleepTask;
-import com.faboslav.friendsandfoes.entity.ai.brain.task.TuffGolemWalkTask;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesActivities;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Dynamic;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
@@ -50,8 +52,7 @@ public final class TuffGolemBrain
 		brain.setTaskList(Activity.CORE,
 			0,
 			ImmutableList.of(
-				new LookAroundTask(100, 200),
-				new TuffGolemWalkTask(0.6F),
+				new LookAroundTask(45, 90),
 				new WanderAroundTask(),
 				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.TUFF_GOLEM_SLEEP_COOLDOWN.get())
 			));
@@ -63,7 +64,6 @@ public final class TuffGolemBrain
 			ImmutableList.of(
 				Pair.of(0, new TuffGolemGoToHomePositionTask()),
 				Pair.of(0, new TuffGolemSleepTask())
-
 			),
 			ImmutableSet.of(
 				Pair.of(MemoryModuleType.LOOK_TARGET, MemoryModuleState.VALUE_ABSENT),
@@ -78,27 +78,20 @@ public final class TuffGolemBrain
 			Activity.IDLE,
 			ImmutableList.of(
 				Pair.of(0,
-					new ConditionalTask(
-						entity -> {
-							TuffGolemEntity tuffGolem = (TuffGolemEntity) entity;
-							return tuffGolem.isInStandingPose() && tuffGolem.isGlued() == false;
-						},
-						makeRandomWanderTask()
-					)
+						new RandomTask(
+							ImmutableMap.of(
+								MemoryModuleType.WALK_TARGET, MemoryModuleState.VALUE_ABSENT
+							),
+							ImmutableList.of(
+								Pair.of(new ConditionalTask((e) -> true, new WaitTask(60, 120)), 5),
+								Pair.of(new ConditionalTask((e) -> true, new StrollTask(0.6F)), 1),
+								Pair.of(new ConditionalTask((e) -> true, new GoTowardsLookTarget(0.6F, 2)), 1)
+							)
+						)
 				)
 			),
 			ImmutableSet.of(
 				Pair.of(FriendsAndFoesMemoryModuleTypes.TUFF_GOLEM_SLEEP_COOLDOWN.get(), MemoryModuleState.VALUE_PRESENT)
-			)
-		);
-	}
-
-	private static RandomTask<TuffGolemEntity> makeRandomWanderTask() {
-		return new RandomTask(
-			ImmutableList.of(
-				Pair.of(new StrollTask(0.6F), 2),
-				Pair.of(new GoTowardsLookTarget(1.0F, 0), 2),
-				Pair.of(new WaitTask(30, 60), 2)
 			)
 		);
 	}
@@ -117,8 +110,7 @@ public final class TuffGolemBrain
 	}
 
 	static {
-		SENSORS = List.of(
-		);
+		SENSORS = List.of();
 		MEMORY_MODULES = List.of(
 			MemoryModuleType.PATH,
 			MemoryModuleType.LOOK_TARGET,
@@ -126,6 +118,6 @@ public final class TuffGolemBrain
 			MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
 			FriendsAndFoesMemoryModuleTypes.TUFF_GOLEM_SLEEP_COOLDOWN.get()
 		);
-		SLEEP_COOLDOWN_PROVIDER = UniformIntProvider.create(2400, 7200);
+		SLEEP_COOLDOWN_PROVIDER = UniformIntProvider.create(400, 800); // 2400 - 7200
 	}
 }

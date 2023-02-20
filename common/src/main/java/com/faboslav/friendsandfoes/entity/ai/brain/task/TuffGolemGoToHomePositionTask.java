@@ -28,17 +28,11 @@ public class TuffGolemGoToHomePositionTask extends Task<TuffGolemEntity>
 		ServerWorld world,
 		TuffGolemEntity tuffGolem
 	) {
-		if (
-			tuffGolem.isInSleepingPose()
-			|| tuffGolem.isAtHomePos()
-			|| tuffGolem.isGlued()
-			|| tuffGolem.isLeashed()
-			|| tuffGolem.hasVehicle()
-		) {
-			return false;
-		}
-
-		return true;
+		return !tuffGolem.isInSleepingPose()
+			   && !tuffGolem.isAtHomePos()
+			   && !tuffGolem.isGlued()
+			   && !tuffGolem.isLeashed()
+			   && !tuffGolem.hasVehicle();
 	}
 
 	@Override

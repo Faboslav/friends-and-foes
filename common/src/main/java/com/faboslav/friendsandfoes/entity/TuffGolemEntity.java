@@ -471,7 +471,6 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		home.putDouble(HOME_NBT_NAME_Z, this.getPos().getZ());
 		home.putFloat(HOME_NBT_NAME_YAW, this.bodyYaw);
 
-		FriendsAndFoes.getLogger().info(String.valueOf(home));
 		return home;
 	}
 

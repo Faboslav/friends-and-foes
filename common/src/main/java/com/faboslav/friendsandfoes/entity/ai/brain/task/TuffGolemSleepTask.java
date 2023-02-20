@@ -11,8 +11,8 @@ import net.minecraft.server.world.ServerWorld;
 
 public class TuffGolemSleepTask extends Task<TuffGolemEntity>
 {
-	private final static int MIN_TICKS_TO_SLEEP = 1200; //1200
-	private final static int MAX_TICKS_TO_SLEEP = 3600; //3600
+	private final static int MIN_TICKS_TO_SLEEP = 400; //1200
+	private final static int MAX_TICKS_TO_SLEEP = 800; //3600
 
 	public TuffGolemSleepTask() {
 		super(ImmutableMap.of(

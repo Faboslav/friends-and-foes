@@ -86,6 +86,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		return this.animationContextTracker;
 	}
 
+	@Override
 	public int getKeyframeAnimationTicks() {
 		return this.dataTracker.get(POSE_TICKS);
 	}
@@ -526,6 +527,12 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 			&& this.isInHoldingItemPose();
 	}
 
+	public boolean isNotImmobilized() {
+		return this.getKeyframeAnimationTicks() == 0
+			   && this.isGlued() == false
+			   && this.isInSleepingPose() == false;
+	}
+
 	public void startSleeping() {
 		if (this.isInPose(TuffGolemEntityPose.SLEEPING)) {
 			return;
@@ -615,7 +622,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 	@Override
 	public float getMovementSpeed() {
-		return this.isHoldingItem() ? MOVEMENT_SPEED_WITH_ITEM : MOVEMENT_SPEED;
+		return this.isHoldingItem() ? MOVEMENT_SPEED_WITH_ITEM:MOVEMENT_SPEED;
 	}
 
 	@Override

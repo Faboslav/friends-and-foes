@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.entity.ai.brain;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.TuffGolemEntity;
 import com.faboslav.friendsandfoes.entity.ai.brain.task.TuffGolemGoToHomePositionTask;
 import com.faboslav.friendsandfoes.entity.ai.brain.task.TuffGolemSleepTask;
@@ -11,7 +10,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Dynamic;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
@@ -78,16 +76,16 @@ public final class TuffGolemBrain
 			Activity.IDLE,
 			ImmutableList.of(
 				Pair.of(0,
-						new RandomTask(
-							ImmutableMap.of(
-								MemoryModuleType.WALK_TARGET, MemoryModuleState.VALUE_ABSENT
-							),
-							ImmutableList.of(
-								Pair.of(new ConditionalTask((e) -> true, new WaitTask(60, 120)), 5),
-								Pair.of(new ConditionalTask((e) -> true, new StrollTask(0.6F)), 1),
-								Pair.of(new ConditionalTask((e) -> true, new GoTowardsLookTarget(0.6F, 2)), 1)
-							)
+					new RandomTask(
+						ImmutableMap.of(
+							MemoryModuleType.WALK_TARGET, MemoryModuleState.VALUE_ABSENT
+						),
+						ImmutableList.of(
+							Pair.of(new ConditionalTask(tuffGolem -> ((TuffGolemEntity) tuffGolem).isNotImmobilized(), new WaitTask(60, 120)), 1),
+							Pair.of(new ConditionalTask(tuffGolem -> ((TuffGolemEntity) tuffGolem).isNotImmobilized(), new StrollTask(0.6F)), 1),
+							Pair.of(new ConditionalTask(tuffGolem -> ((TuffGolemEntity) tuffGolem).isNotImmobilized(), new GoTowardsLookTarget(0.6F, 2)), 1)
 						)
+					)
 				)
 			),
 			ImmutableSet.of(

@@ -14,6 +14,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
@@ -113,6 +114,11 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	) {
 		EntityData superEntityData = super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
 
+		if (spawnReason == SpawnReason.SPAWN_EGG || spawnReason == SpawnReason.COMMAND) {
+			float randomSpawnYaw = 90.0F * (float) this.getRandom().nextBetween(1, 3);
+			this.setSpawnYaw(randomSpawnYaw);
+		}
+
 		this.setPrevPose(TuffGolemEntityPose.STANDING);
 		this.setPoseWithoutPrevPose(TuffGolemEntityPose.STANDING);
 		this.setHome(this.getNewHome());
@@ -190,6 +196,23 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		String savedPose = nbt.getString(POSE_NBT_NAME);
 		if (savedPose != "") {
 			this.setPoseWithoutPrevPose(EntityPose.valueOf(nbt.getString(POSE_NBT_NAME)));
+			EntityPose entityPose = EntityPose.valueOf(nbt.getString(POSE_NBT_NAME));
+
+			if (
+				this.getWorld().isClient() == false
+				&& (
+					entityPose == TuffGolemEntityPose.SLEEPING.get()
+					|| entityPose == TuffGolemEntityPose.SLEEPING_WITH_ITEM.get()
+				)
+			) {
+				ServerWorld serverWorld = (ServerWorld) this.getWorld();
+				this.getBrain().forget(MemoryModuleType.WALK_TARGET);
+				this.getBrain().forget(MemoryModuleType.LOOK_TARGET);
+				TuffGolemBrain.resetSleepCooldown(this);
+				TuffGolemBrain.SLEEP_TASK.tryStarting(serverWorld, this, serverWorld.getTime());
+			} else {
+				this.setPoseWithoutPrevPose(entityPose);
+			}
 		}
 	}
 

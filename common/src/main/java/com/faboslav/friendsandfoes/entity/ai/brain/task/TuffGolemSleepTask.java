@@ -25,7 +25,7 @@ public class TuffGolemSleepTask extends Task<TuffGolemEntity>
 		ServerWorld world,
 		TuffGolemEntity tuffGolem
 	) {
-		return tuffGolem.isAtHome() != false;
+		return tuffGolem.isAtHome();
 	}
 
 	@Override

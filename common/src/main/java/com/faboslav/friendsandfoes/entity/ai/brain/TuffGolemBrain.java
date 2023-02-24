@@ -27,6 +27,7 @@ public final class TuffGolemBrain
 	public static final List<MemoryModuleType<?>> MEMORY_MODULES;
 	public static final List<SensorType<? extends Sensor<? super TuffGolemEntity>>> SENSORS;
 	private static final UniformIntProvider SLEEP_COOLDOWN_PROVIDER;
+	public static final TuffGolemSleepTask SLEEP_TASK;
 
 	public TuffGolemBrain() {
 	}
@@ -61,7 +62,7 @@ public final class TuffGolemBrain
 			FriendsAndFoesActivities.TUFF_GOLEM_HOME.get(),
 			ImmutableList.of(
 				Pair.of(0, new TuffGolemGoToHomePositionTask()),
-				Pair.of(0, new TuffGolemSleepTask())
+				Pair.of(0, SLEEP_TASK)
 			),
 			ImmutableSet.of(
 				Pair.of(MemoryModuleType.LOOK_TARGET, MemoryModuleState.VALUE_ABSENT),
@@ -82,8 +83,8 @@ public final class TuffGolemBrain
 						),
 						ImmutableList.of(
 							Pair.of(new ConditionalTask(tuffGolem -> ((TuffGolemEntity) tuffGolem).isNotImmobilized(), new WaitTask(60, 120)), 1),
-							Pair.of(new ConditionalTask(tuffGolem -> ((TuffGolemEntity) tuffGolem).isNotImmobilized(), new StrollTask(0.6F)), 1),
-							Pair.of(new ConditionalTask(tuffGolem -> ((TuffGolemEntity) tuffGolem).isNotImmobilized(), new GoTowardsLookTarget(0.6F, 2)), 1)
+							Pair.of(new ConditionalTask(tuffGolem -> ((TuffGolemEntity) tuffGolem).isNotImmobilized(), new StrollTask(0.6F)), 3),
+							Pair.of(new ConditionalTask(tuffGolem -> ((TuffGolemEntity) tuffGolem).isNotImmobilized(), new GoTowardsLookTarget(0.6F, 2)), 3)
 						)
 					)
 				)
@@ -103,6 +104,10 @@ public final class TuffGolemBrain
 		);
 	}
 
+	public static void resetSleepCooldown(TuffGolemEntity tuffGolem) {
+		tuffGolem.getBrain().forget(FriendsAndFoesMemoryModuleTypes.TUFF_GOLEM_SLEEP_COOLDOWN.get());
+	}
+
 	public static void setSleepCooldown(TuffGolemEntity tuffGolem) {
 		tuffGolem.getBrain().remember(FriendsAndFoesMemoryModuleTypes.TUFF_GOLEM_SLEEP_COOLDOWN.get(), SLEEP_COOLDOWN_PROVIDER.get(tuffGolem.getRandom()));
 	}
@@ -116,6 +121,7 @@ public final class TuffGolemBrain
 			MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
 			FriendsAndFoesMemoryModuleTypes.TUFF_GOLEM_SLEEP_COOLDOWN.get()
 		);
+		SLEEP_TASK = new TuffGolemSleepTask();
 		SLEEP_COOLDOWN_PROVIDER = UniformIntProvider.create(400, 800); // 2400 - 7200
 	}
 }

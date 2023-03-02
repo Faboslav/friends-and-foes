@@ -4,6 +4,7 @@ import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesPointOfInterestTypes;
 import com.faboslav.friendsandfoes.util.ServerWorldSpawnersUtil;
 import com.faboslav.friendsandfoes.util.UpdateChecker;
+import com.faboslav.friendsandfoes.world.BiomeModification;
 import com.faboslav.friendsandfoes.world.spawner.IceologerSpawner;
 import com.faboslav.friendsandfoes.world.spawner.IllusionerSpawner;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -24,6 +25,7 @@ public final class FriendsAndFoesQuilt implements ModInitializer
 		FriendsAndFoes.postInit();
 		FriendsAndFoesPointOfInterestTypes.postInit();
 
+		BiomeModification.addFeatures();
 		initSpawners();
 		initTickDeltaCounter();
 	}

@@ -10,7 +10,7 @@ public final class StructureEntityProcessorTypes
 {
 	@ExpectPlatform
 	public static void postInit() {
-
+		throw new AssertionError();
 	}
 
 	private StructureEntityProcessorTypes() {

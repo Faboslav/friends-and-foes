@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes;
 import com.faboslav.friendsandfoes.config.FriendsAndFoesConfig;
 import com.faboslav.friendsandfoes.config.omegaconfig.OmegaConfig;
 import com.faboslav.friendsandfoes.init.*;
+import com.faboslav.friendsandfoes.platform.BiomeModifications;
 import com.faboslav.friendsandfoes.util.ServerTickDeltaCounter;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
@@ -49,6 +50,7 @@ public final class FriendsAndFoes
 	}
 
 	public static void postInit() {
+		BiomeModifications.addButtercupFeature();
 		FriendsAndFoesBlocks.postInit();
 		FriendsAndFoesEntityTypes.postInit();
 		FriendsAndFoesBlockEntityTypes.postInit();

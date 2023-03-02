@@ -13,7 +13,6 @@ public interface AnimatedEntity
 	}
 
 	default void setKeyframeAnimationTicks(int keyframeAnimationTicks) {
-
 	}
 
 	default boolean isAnyKeyframeAnimationRunning() {

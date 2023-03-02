@@ -50,8 +50,8 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	private static final TrackedData<Boolean> IS_GLUED;
 	private static final TrackedData<NbtCompound> HOME;
 
-	private static final float MOVEMENT_SPEED = 0.2F;
-	private static final float MOVEMENT_SPEED_WITH_ITEM = 0.15F;
+	private static final float MOVEMENT_SPEED = 0.225F;
+	private static final float MOVEMENT_SPEED_WITH_ITEM = 0.175F;
 	private static final int TUFF_HEAL_AMOUNT = 5;
 
 	private static final String COLOR_NBT_NAME = "Color";
@@ -63,6 +63,8 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	private static final String HOME_NBT_NAME_Y = "y";
 	private static final String HOME_NBT_NAME_Z = "z";
 	private static final String HOME_NBT_NAME_YAW = "yaw";
+
+	private int inactiveTicksAfterSpawn = 0;
 
 	static {
 		COLOR = DataTracker.registerData(TuffGolemEntity.class, TrackedDataHandlerRegistry.STRING);
@@ -123,6 +125,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		this.setPoseWithoutPrevPose(TuffGolemEntityPose.STANDING);
 		this.setHome(this.getNewHome());
 		TuffGolemBrain.setSleepCooldown(this);
+		this.inactiveTicksAfterSpawn = 100;
 
 		return superEntityData;
 	}
@@ -552,6 +555,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 	public boolean isNotImmobilized() {
 		return this.getKeyframeAnimationTicks() == 0
+			   && this.inactiveTicksAfterSpawn == 0
 			   && this.isGlued() == false
 			   && this.isInSleepingPose() == false;
 	}
@@ -608,6 +612,10 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 			this.discard();
 		}
 
+		if (this.getWorld().isClient() == false && this.inactiveTicksAfterSpawn > 0) {
+			this.inactiveTicksAfterSpawn--;
+		}
+
 		if (this.getWorld().isClient() == false && this.isAnyKeyframeAnimationRunning()) {
 			this.setKeyframeAnimationTicks(this.getKeyframeAnimationTicks() - 1);
 		}
@@ -626,6 +634,29 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		}
 
 		super.tick();
+	}
+
+	@Override
+	public boolean damage(
+		DamageSource source,
+		float amount
+	) {
+		if (source.getAttacker() instanceof LightningEntity || source == DamageSource.SWEET_BERRY_BUSH) {
+			return false;
+		}
+
+		if (
+			this.getWorld().isClient() == false
+			&& this.isInSleepingPose()
+		) {
+			if (this.isHoldingItem()) {
+				this.startStandingWithItem();
+			} else {
+				this.startStanding();
+			}
+		}
+
+		return super.damage(source, amount);
 	}
 
 	@Override

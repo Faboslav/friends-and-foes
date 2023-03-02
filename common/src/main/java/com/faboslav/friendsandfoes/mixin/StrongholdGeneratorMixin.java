@@ -19,9 +19,7 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -31,9 +29,6 @@ import java.util.ArrayList;
 @Mixin(StrongholdGenerator.Library.class)
 public abstract class StrongholdGeneratorMixin extends StructurePiece
 {
-	@Final
-	@Shadow
-	private boolean tall;
 	private boolean isTuffGolemGenerated;
 
 	protected StrongholdGeneratorMixin(StructurePieceType type, int length, BlockBox boundingBox) {

@@ -1,15 +1,16 @@
 package com.faboslav.friendsandfoes.entity.ai.brain;
 
 import com.faboslav.friendsandfoes.entity.TuffGolemEntity;
-import com.faboslav.friendsandfoes.entity.ai.brain.task.TuffGolemGoToHomePositionTask;
-import com.faboslav.friendsandfoes.entity.ai.brain.task.TuffGolemSleepTask;
+import com.faboslav.friendsandfoes.entity.ai.brain.task.tuffgolem.*;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesActivities;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Dynamic;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
@@ -78,13 +79,35 @@ public final class TuffGolemBrain
 			ImmutableList.of(
 				Pair.of(0,
 					new RandomTask(
+						ImmutableList.of(
+							Pair.of(new TimeLimitedTask(
+								new FollowMobTask(EntityType.PLAYER, 6.0F),
+								UniformIntProvider.create(30, 60)
+							), 3),
+							Pair.of(new TimeLimitedTask(
+								new FollowMobTask(FriendsAndFoesEntityTypes.COPPER_GOLEM.get(), 6.0F),
+								UniformIntProvider.create(30, 60)
+							), 2),
+							Pair.of(new TimeLimitedTask(
+								new FollowMobTask(FriendsAndFoesEntityTypes.TUFF_GOLEM.get(), 6.0F),
+								UniformIntProvider.create(30, 60)
+							), 2),
+							Pair.of(new TimeLimitedTask(
+								new FollowMobTask(EntityType.IRON_GOLEM, 12.0F),
+								UniformIntProvider.create(30, 60)
+							), 1)
+						)
+					)
+				),
+				Pair.of(1,
+					new RandomTask(
 						ImmutableMap.of(
 							MemoryModuleType.WALK_TARGET, MemoryModuleState.VALUE_ABSENT
 						),
 						ImmutableList.of(
-							Pair.of(new ConditionalTask(tuffGolem -> ((TuffGolemEntity) tuffGolem).isNotImmobilized(), new WaitTask(60, 120)), 1),
-							Pair.of(new ConditionalTask(tuffGolem -> ((TuffGolemEntity) tuffGolem).isNotImmobilized(), new StrollTask(0.6F)), 3),
-							Pair.of(new ConditionalTask(tuffGolem -> ((TuffGolemEntity) tuffGolem).isNotImmobilized(), new GoTowardsLookTarget(0.6F, 2)), 3)
+							Pair.of(new TuffGolemWaitTask(60, 80), 2),
+							Pair.of(new TuffGolemStrollTask(0.6F), 1),
+							Pair.of(new TuffGolemGoTowardsLookTarget(0.6F, 2), 1)
 						)
 					)
 				)
@@ -113,8 +136,12 @@ public final class TuffGolemBrain
 	}
 
 	static {
-		SENSORS = List.of();
+		SENSORS = List.of(
+			SensorType.NEAREST_LIVING_ENTITIES,
+			SensorType.NEAREST_PLAYERS
+		);
 		MEMORY_MODULES = List.of(
+			MemoryModuleType.VISIBLE_MOBS,
 			MemoryModuleType.PATH,
 			MemoryModuleType.LOOK_TARGET,
 			MemoryModuleType.WALK_TARGET,
@@ -122,6 +149,6 @@ public final class TuffGolemBrain
 			FriendsAndFoesMemoryModuleTypes.TUFF_GOLEM_SLEEP_COOLDOWN.get()
 		);
 		SLEEP_TASK = new TuffGolemSleepTask();
-		SLEEP_COOLDOWN_PROVIDER = UniformIntProvider.create(400, 800); // 2400 - 7200
+		SLEEP_COOLDOWN_PROVIDER = UniformIntProvider.create(2400, 7200);
 	}
 }

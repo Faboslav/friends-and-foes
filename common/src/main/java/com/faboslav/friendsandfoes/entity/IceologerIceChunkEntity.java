@@ -1,10 +1,8 @@
 package com.faboslav.friendsandfoes.entity;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
-import com.faboslav.friendsandfoes.util.animation.AnimationMath;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -45,7 +43,6 @@ public final class IceologerIceChunkEntity extends Entity
 	private static final int SUMMON_TICKS = 30;
 	private static final TrackedData<Optional<UUID>> OWNER_UUID;
 	private static final TrackedData<Optional<UUID>> TARGET_UUID;
-	private static final TrackedData<NbtCompound> TARGET_POSITION;
 	private static final TrackedData<Integer> TICKS_UNTIL_FALL;
 	private static final TrackedData<Integer> IDLE_TICKS;
 
@@ -61,7 +58,6 @@ public final class IceologerIceChunkEntity extends Entity
 	static {
 		OWNER_UUID = DataTracker.registerData(IceologerIceChunkEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
 		TARGET_UUID = DataTracker.registerData(IceologerIceChunkEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
-		TARGET_POSITION = DataTracker.registerData(IceologerIceChunkEntity.class, TrackedDataHandlerRegistry.NBT_COMPOUND);
 		TICKS_UNTIL_FALL = DataTracker.registerData(IceologerIceChunkEntity.class, TrackedDataHandlerRegistry.INTEGER);
 		IDLE_TICKS = DataTracker.registerData(IceologerIceChunkEntity.class, TrackedDataHandlerRegistry.INTEGER);
 	}
@@ -85,7 +81,6 @@ public final class IceologerIceChunkEntity extends Entity
 	protected void initDataTracker() {
 		this.dataTracker.startTracking(OWNER_UUID, Optional.empty());
 		this.dataTracker.startTracking(TARGET_UUID, Optional.empty());
-		this.dataTracker.startTracking(TARGET_POSITION, new NbtCompound());
 		this.dataTracker.startTracking(TICKS_UNTIL_FALL, RandomGenerator.generateInt(MIN_FLYING_TICKS, MAX_FLYING_TICKS));
 		this.dataTracker.startTracking(IDLE_TICKS, RandomGenerator.generateInt(MIN_IDLE_TICKS, MAX_IDLE_TICKS));
 	}
@@ -165,18 +160,8 @@ public final class IceologerIceChunkEntity extends Entity
 		return this.target;
 	}
 
-	public void setTargetPosition(NbtCompound targetPosition) {
-		dataTracker.set(TARGET_POSITION, targetPosition);
-	}
-
-	public NbtCompound getTargetPosition() {
-		return this.dataTracker.get(TARGET_POSITION);
-	}
-
 	@Override
 	public void tick() {
-		super.tick();
-
 		if (lifetimeTicks == 10) {
 			this.playSummonSound();
 		} else if (lifetimeTicks == 40) {
@@ -197,7 +182,7 @@ public final class IceologerIceChunkEntity extends Entity
 			}
 
 			if (this.getTicksUntilFall() > 0) {
-				this.setPositionAboveTarget();
+				this.moveTowardsTarget();
 			}
 		}
 
@@ -275,77 +260,23 @@ public final class IceologerIceChunkEntity extends Entity
 		this.discard();
 	}
 
-	public void setPositionAboveTarget() {
+	public void moveTowardsTarget() {
+		LivingEntity target = this.getTarget();
+
 		if (
-			this.getTarget() == null
-			|| this.getTicksUntilFall() <= 10
+			target == null
+			|| target.getVelocity().lengthSquared() < 0.0001
 		) {
 			return;
 		}
 
-		var tickDelta = FriendsAndFoes.serverTickDeltaCounter.tickDelta;
-
-		var x = this.getPos().getX();
-		var y = this.getPos().getY();
-		var z = this.getPos().getZ();
-		var height = this.getTarget().getHeight();
-
-		if (
-			this.getTargetPosition().contains("x") == false
-			|| this.getTargetPosition().contains("y") == false
-			|| this.getTargetPosition().contains("z") == false
-			|| this.getTargetPosition().contains("height") == false
-		) {
-			x = this.getTarget().getX();
-			y = this.getTarget().getY();
-			z = this.getTarget().getZ();
-		}
-
-		var yWithHeightOffset = this.getYPositionWithHeightOffset(y, height);
-		var targetX = this.getTarget().getX();
-		var targetY = this.getTarget().getY();
-		var targetZ = this.getTarget().getZ();
-		var targetYWithHeightOffset = this.getYPositionWithHeightOffset(targetY, height);
-
-		NbtCompound targetPosition = new NbtCompound();
-		targetPosition.putDouble("x", x);
-		targetPosition.putDouble("y", y);
-		targetPosition.putDouble("z", z);
-		targetPosition.putDouble("height", height);
-
 		this.setPosition(
-			AnimationMath.lerp(tickDelta, x, targetX),
-			AnimationMath.lerp(tickDelta, yWithHeightOffset, targetYWithHeightOffset),
-			AnimationMath.lerp(tickDelta, z, targetZ)
-		);
-	}
-
-	public void setPositionAboveTarget(float tickDelta) {
-		if (
-			this.getWorld().isClient() == false
-			|| (
-				this.getTargetPosition().contains("x") == false
-				|| this.getTargetPosition().contains("y") == false
-				|| this.getTargetPosition().contains("z") == false
-				|| this.getTargetPosition().contains("height") == false
-			)
-		) {
-			return;
-		}
-
-		var x = this.getPos().getX();
-		var y = this.getPos().getY();
-		var z = this.getPos().getZ();
-		var targetX = this.getTargetPosition().getDouble("x");
-		var targetY = this.getTargetPosition().getDouble("y");
-		var targetZ = this.getTargetPosition().getDouble("z");
-		var targetHeight = this.getTargetPosition().getDouble("height");
-		var targetYWithHeightOffset = this.getYPositionWithHeightOffset(targetY, targetHeight);
-
-		this.setPosition(
-			AnimationMath.lerp(tickDelta, x, targetX),
-			AnimationMath.lerp(tickDelta, y, targetYWithHeightOffset),
-			AnimationMath.lerp(tickDelta, z, targetZ)
+			target.getX(),
+			this.getYPositionWithHeightOffset(
+				target.getY(),
+				this.getTarget().getHeight()
+			),
+			target.getZ()
 		);
 	}
 

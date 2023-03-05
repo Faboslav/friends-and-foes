@@ -125,8 +125,8 @@ public abstract class CarvedPumpkinBlockMixin extends HorizontalFacingBlock impl
 			this.tuffGolemPattern = BlockPatternBuilder.start()
 				.aisle("^", "|", "#")
 				.where('^', CachedBlockPosition.matchesBlockState(IS_TUFF_GOLEM_HEAD_PREDICATE))
-				.where('|', CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(Blocks.TUFF)))
-				.where('#', CachedBlockPosition.matchesBlockState(IS_TUFF_GOLEM_WOOL_PREDICATE))
+				.where('|', CachedBlockPosition.matchesBlockState(IS_TUFF_GOLEM_WOOL_PREDICATE))
+				.where('#', CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(Blocks.TUFF)))
 				.build();
 		}
 

@@ -1,3 +1,10 @@
+## mc1.19.3-1.8.0, March xx, 2023
+
+- Added Tuff Golem
+- Improved Copper Golem performance
+- Improved Ice Chunk performance
+- Added Buttercup flower to the Flower Forest biome (Thanks to https://github.com/TelepathicGrunt)
+
 ## mc1.19.3-1.7.5, January 22, 2023
 
 - New Copper Golem textures
@@ -32,6 +39,13 @@
 ## mc1.19.3-1.7.0, December 14, 2022
 
 - Ported to 1.19.3
+
+## mc1.19.2-1.8.0, March xx, 2023
+
+- Added Tuff Golem
+- Improved Copper Golem performance
+- Improved Ice Chunk performance
+- Added Buttercup flower to the Flower Forest biome (Thanks to https://github.com/TelepathicGrunt)
 
 ## mc1.19.2-1.6.8, January 22, 2023
 

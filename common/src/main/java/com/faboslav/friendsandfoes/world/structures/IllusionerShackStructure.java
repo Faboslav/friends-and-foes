@@ -23,7 +23,7 @@ import java.util.Optional;
  * @author TelepathicGrunt
  * <a href="https://github.com/TelepathicGrunt/RepurposedStructures">https://github.com/TelepathicGrunt/RepurposedStructures</a>
  */
-public class IllusionerShackStructure extends Structure
+public final class IllusionerShackStructure extends Structure
 {
 	public static final Codec<IllusionerShackStructure> CODEC = RecordCodecBuilder.<IllusionerShackStructure>mapCodec(instance ->
 		instance.group(IllusionerShackStructure.configCodecBuilder(instance),

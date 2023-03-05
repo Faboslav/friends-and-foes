@@ -10,4 +10,7 @@ public final class ConfigDirectory
 	public static Path getConfigDirectory() {
 		throw new AssertionError();
 	}
+
+	private ConfigDirectory() {
+	}
 }

@@ -75,14 +75,13 @@ public final class MaulerEntityModel<T extends MaulerEntity> extends AnimatedEnt
 		float headPitch
 	) {
 		this.applyModelTransforms(MODEL_PART_ROOT, this.root);
-		this.modelAnimator.setEntity(mauler);
 
 		float burrowingDownAnimationProgress = mauler.getBurrowingDownAnimationProgress();
 		float maulerHeightWithOffset = 0.5625F * 16.0F + 1.0F;
 
 		if (burrowingDownAnimationProgress > 0.0F && burrowingDownAnimationProgress < 1.0F) {
 			float targetY = maulerHeightWithOffset * burrowingDownAnimationProgress;
-			this.modelAnimator.animateYPositionWithProgress(this.root, targetY, AnimationMath.absSin(animationProgress));
+			this.animateModelPartYPositionBasedOnProgress(mauler, this.root, targetY, AnimationMath.absSin(animationProgress));
 			return;
 		} else if (mauler.getBurrowingDownAnimationProgress() == 1.0F) {
 			this.root.pivotY = maulerHeightWithOffset;
@@ -114,11 +113,11 @@ public final class MaulerEntityModel<T extends MaulerEntity> extends AnimatedEnt
 		) {
 			float targetX = AnimationMath.toRadians(5) + AnimationMath.toRadians(-65) * AnimationMath.absSin(animationProgress, 1.0F, 0.35F);
 			float delta = AnimationMath.absSin(animationProgress);
-			this.modelAnimator.animateXRotationWithProgress(this.upperJaw, targetX, delta);
-			this.modelAnimator.animateXRotationOverTicks(this.lowerJaw, AnimationMath.toRadians(-5), 10);
+			this.animateModelPartXRotationBasedOnProgress(mauler, this.upperJaw, targetX, delta);
+			this.animateModelPartXRotationBasedOnTicks(mauler, this.lowerJaw, AnimationMath.toRadians(-5), 10);
 		} else {
-			this.modelAnimator.animateXRotationOverTicks(this.upperJaw, 0.0F, 10);
-			this.modelAnimator.animateXRotationOverTicks(this.lowerJaw, 0.0F, 10);
+			this.animateModelPartXRotationBasedOnTicks(mauler, this.upperJaw, 0.0F, 10);
+			this.animateModelPartXRotationBasedOnTicks(mauler, this.lowerJaw, 0.0F, 10);
 		}
 	}
 }

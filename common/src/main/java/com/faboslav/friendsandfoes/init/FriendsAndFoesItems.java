@@ -19,6 +19,7 @@ public final class FriendsAndFoesItems
 	public final static Supplier<Item> ILLUSIONER_SPAWN_EGG;
 	public final static Supplier<Item> MAULER_SPAWN_EGG;
 	public final static Supplier<Item> MOOBLOOM_SPAWN_EGG;
+	public final static Supplier<Item> TUFF_GOLEM_SPAWN_EGG;
 	public final static Supplier<Item> WILDFIRE_SPAWN_EGG;
 	public static final Supplier<Item> BUTTERCUP;
 	public static final Supplier<Item> ACACIA_BEEHIVE;
@@ -54,6 +55,7 @@ public final class FriendsAndFoesItems
 		ILLUSIONER_SPAWN_EGG = RegistryHelper.registerSpawnEggItem("illusioner_spawn_egg", () -> EntityType.ILLUSIONER, 0x603E5C, 0x888E8E, new Item.Settings().maxCount(64));
 		MAULER_SPAWN_EGG = RegistryHelper.registerSpawnEggItem("mauler_spawn_egg", FriendsAndFoesEntityTypes.MAULER, 0x534F25, 0x817B39, new Item.Settings().maxCount(64));
 		MOOBLOOM_SPAWN_EGG = RegistryHelper.registerSpawnEggItem("moobloom_spawn_egg", FriendsAndFoesEntityTypes.MOOBLOOM, 0xF7EDC1, 0xFACA00, new Item.Settings().maxCount(64));
+		TUFF_GOLEM_SPAWN_EGG = RegistryHelper.registerSpawnEggItem("tuff_golem_spawn_egg", FriendsAndFoesEntityTypes.TUFF_GOLEM, 0xA0A297, 0x5D5D52, new Item.Settings().maxCount(64));
 		WILDFIRE_SPAWN_EGG = RegistryHelper.registerSpawnEggItem("wildfire_spawn_egg", FriendsAndFoesEntityTypes.WILDFIRE, 0x6C3100, 0xFFD528, new Item.Settings().maxCount(64));
 		BUTTERCUP = RegistryHelper.registerItem("buttercup", () -> new BlockItem(FriendsAndFoesBlocks.BUTTERCUP.get(), new Item.Settings().maxCount(64)));
 		ACACIA_BEEHIVE = RegistryHelper.registerItem("acacia_beehive", () -> new BlockItem(FriendsAndFoesBlocks.ACACIA_BEEHIVE.get(), new Item.Settings().maxCount(64)));
@@ -97,6 +99,7 @@ public final class FriendsAndFoesItems
 		RegistryHelper.addToItemGroupAfter(ItemGroups.SPAWN_EGGS, ILLUSIONER_SPAWN_EGG.get(), ICEOLOGER_SPAWN_EGG.get());
 		RegistryHelper.addToItemGroupAfter(ItemGroups.SPAWN_EGGS, MAULER_SPAWN_EGG.get(), Items.MAGMA_CUBE_SPAWN_EGG);
 		RegistryHelper.addToItemGroupBefore(ItemGroups.SPAWN_EGGS, MOOBLOOM_SPAWN_EGG.get(), Items.MOOSHROOM_SPAWN_EGG);
+		RegistryHelper.addToItemGroupBefore(ItemGroups.SPAWN_EGGS, TUFF_GOLEM_SPAWN_EGG.get(), Items.WITHER_SPAWN_EGG);
 		RegistryHelper.addToItemGroupBefore(ItemGroups.SPAWN_EGGS, WILDFIRE_SPAWN_EGG.get(), Items.WITHER_SPAWN_EGG);
 		RegistryHelper.addToItemGroupAfter(ItemGroups.NATURAL, BUTTERCUP.get(), Items.DANDELION);
 

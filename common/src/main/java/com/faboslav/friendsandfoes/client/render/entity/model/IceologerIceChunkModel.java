@@ -54,16 +54,4 @@ public final class IceologerIceChunkModel<T extends IceologerIceChunkEntity> ext
 	) {
 		this.secondVerticalSlab.setAngles(0.0F, -1.5708F, 0.0F);
 	}
-
-	@Override
-	public void animateModel(
-		T iceChunk,
-		float limbAngle,
-		float limbDistance,
-		float tickDelta
-	) {
-		if (iceChunk.getTicksUntilFall() > 10) {
-			iceChunk.setPositionAboveTarget(tickDelta);
-		}
-	}
 }

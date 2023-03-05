@@ -90,7 +90,6 @@ public final class CopperGolemEntityModel<T extends CopperGolemEntity> extends A
 		}
 
 		this.applyModelTransforms(MODEL_PART_ROOT, this.root);
-		this.modelAnimator.setEntity(copperGolem);
 
 		float headSpinAnimationProgress = copperGolem.getHeadSpinAnimationProgress();
 
@@ -131,9 +130,9 @@ public final class CopperGolemEntityModel<T extends CopperGolemEntity> extends A
 			&& copperGolem.isOxidized() == false
 		) {
 			float rodPivotY = defaultRodPivotY + AnimationMath.absSin(animationProgress, 1.0F, 0.25F);
-			this.modelAnimator.animateYPositionWithProgress(this.rod, rodPivotY, AnimationMath.absSin(animationProgress));
+			this.animateModelPartYPositionBasedOnProgress(copperGolem, this.rod, rodPivotY, AnimationMath.absSin(animationProgress));
 		} else {
-			this.modelAnimator.animateYPositionOverTicks(this.rod, defaultRodPivotY, 10);
+			this.animateModelPartYPositionBasedOnTicks(copperGolem, this.rod, defaultRodPivotY, 10);
 		}
 	}
 

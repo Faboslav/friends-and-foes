@@ -1,9 +1,9 @@
 package com.faboslav.friendsandfoes.entity.ai.brain;
 
 import com.faboslav.friendsandfoes.entity.WildfireEntity;
-import com.faboslav.friendsandfoes.entity.ai.brain.task.WildfireBarrageAttackTask;
-import com.faboslav.friendsandfoes.entity.ai.brain.task.WildfireShockwaveAttackTask;
-import com.faboslav.friendsandfoes.entity.ai.brain.task.WildfireSummonBlazeTask;
+import com.faboslav.friendsandfoes.entity.ai.brain.task.wildfire.WildfireBarrageAttackTask;
+import com.faboslav.friendsandfoes.entity.ai.brain.task.wildfire.WildfireShockwaveAttackTask;
+import com.faboslav.friendsandfoes.entity.ai.brain.task.wildfire.WildfireSummonBlazeTask;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;

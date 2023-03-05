@@ -17,5 +17,14 @@ public final class BiomeModifications
 		int minGroupSize,
 		int maxGroupSize
 	) {
+		throw new AssertionError();
+	}
+
+	@ExpectPlatform
+	public static void addButtercupFeature() {
+		throw new AssertionError();
+	}
+
+	private BiomeModifications() {
 	}
 }

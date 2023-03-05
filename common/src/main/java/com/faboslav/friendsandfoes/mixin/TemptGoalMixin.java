@@ -2,10 +2,8 @@ package com.faboslav.friendsandfoes.mixin;
 
 import com.faboslav.friendsandfoes.entity.TuffGolemEntity;
 import net.minecraft.entity.ai.TargetPredicate;
-import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.entity.mob.PathAwareEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,12 +14,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(TemptGoal.class)
-public abstract class TemptGoalMixin extends Goal
+public abstract class TemptGoalMixin
 {
-	@Shadow
-	@Nullable
-	protected PlayerEntity closestPlayer;
-
 	@Shadow
 	@Final
 	private double speed;
@@ -111,21 +105,19 @@ public abstract class TemptGoalMixin extends Goal
 		}
 	}
 
-	@Override
-	public void start() {
-		if (this.closestPlayer != null) {
-			super.start();
-			return;
+	@Inject(
+		method = "start",
+		at = @At("HEAD"),
+		cancellable = true
+	)
+	public void friendsandfoes_start(CallbackInfo ci) {
+		if (this.closestTuffGolem != null) {
+			this.lastTuffGolemX = this.closestTuffGolem.getX();
+			this.lastTuffGolemY = this.closestTuffGolem.getY();
+			this.lastTuffGolemZ = this.closestTuffGolem.getZ();
+			this.active = true;
+			ci.cancel();
 		}
-
-		if (this.closestTuffGolem == null) {
-			return;
-		}
-
-		this.lastTuffGolemX = this.closestTuffGolem.getX();
-		this.lastTuffGolemY = this.closestTuffGolem.getY();
-		this.lastTuffGolemZ = this.closestTuffGolem.getZ();
-		this.active = true;
 	}
 
 	@Inject(
@@ -138,22 +130,21 @@ public abstract class TemptGoalMixin extends Goal
 		this.closestTuffGolem = null;
 	}
 
-	@Override
-	public void tick() {
-		if (this.closestPlayer != null) {
-			super.tick();
-			return;
-		}
+	@Inject(
+		at = @At("HEAD"),
+		method = "tick",
+		cancellable = true)
+	public void friendsandfoes_tick(CallbackInfo ci) {
+		if (this.closestTuffGolem != null) {
+			this.mob.getLookControl().lookAt(this.closestTuffGolem, (float) (this.mob.getMaxHeadRotation() + 20), (float) this.mob.getMaxLookPitchChange());
 
-		if (this.closestTuffGolem == null) {
-			return;
-		}
+			if (this.mob.squaredDistanceTo(this.closestTuffGolem) < 6.25) {
+				this.mob.getNavigation().stop();
+			} else {
+				this.mob.getNavigation().startMovingTo(this.closestTuffGolem, this.speed);
+			}
 
-		this.mob.getLookControl().lookAt(this.closestTuffGolem, (float) (this.mob.getMaxHeadRotation() + 20), (float) this.mob.getMaxLookPitchChange());
-		if (this.mob.squaredDistanceTo(this.closestTuffGolem) < 6.25) {
-			this.mob.getNavigation().stop();
-		} else {
-			this.mob.getNavigation().startMovingTo(this.closestTuffGolem, this.speed);
+			ci.cancel();
 		}
 	}
 }

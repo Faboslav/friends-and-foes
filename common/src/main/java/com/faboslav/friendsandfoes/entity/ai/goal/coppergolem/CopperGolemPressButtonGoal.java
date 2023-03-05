@@ -103,7 +103,7 @@ public final class CopperGolemPressButtonGoal extends Goal
 		int minIdleTicks = 20;
 		int maxIdleTicks = 40;
 		this.idleTicksBeforeButtonPress = RandomGenerator.generateInt(minIdleTicks, maxIdleTicks);
-		this.idleTicksAfterButtonPress = RandomGenerator.generateInt(minIdleTicks * 2, maxIdleTicks * 2);
+		this.idleTicksAfterButtonPress = RandomGenerator.generateInt(minIdleTicks, maxIdleTicks);
 	}
 
 	@Override

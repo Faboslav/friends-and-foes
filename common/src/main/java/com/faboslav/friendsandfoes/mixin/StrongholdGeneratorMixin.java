@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.mixin;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.TuffGolemEntity;
 import com.faboslav.friendsandfoes.entity.pose.TuffGolemEntityPose;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
@@ -51,7 +52,8 @@ public abstract class StrongholdGeneratorMixin extends StructurePiece
 		CallbackInfo ci
 	) {
 		if (
-			this.isTuffGolemGenerated
+			FriendsAndFoes.getConfig().generateTuffGolemInStronghold == false
+			|| this.isTuffGolemGenerated
 			|| random.nextFloat() > 0.75F
 		) {
 			return;

@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes.mixin;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.TuffGolemEntity;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
+import com.faboslav.friendsandfoes.util.CopperGolemBuildPatternPredicates;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.*;
 import net.minecraft.block.pattern.BlockPattern;
@@ -17,17 +18,26 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldEvents;
+import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.function.Predicate;
 
 @Mixin(CarvedPumpkinBlock.class)
 public abstract class CarvedPumpkinBlockMixin extends HorizontalFacingBlock implements Wearable
 {
+	@Nullable
+	private BlockPattern copperGolemDispenserPattern;
+
+
+	@Nullable
+	private BlockPattern tuffGolemDispenserPattern;
+
 	@Nullable
 	private BlockPattern tuffGolemPattern;
 
@@ -44,7 +54,21 @@ public abstract class CarvedPumpkinBlockMixin extends HorizontalFacingBlock impl
 		super(settings);
 	}
 
-	@Inject(method = "onBlockAdded", at = @At("HEAD"))
+	@Inject(
+		method = "canDispense",
+		at = @At("RETURN"),
+		cancellable = true
+	)
+	public void canDispense(WorldView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
+		if (cir.getReturnValue() == false) {
+			cir.setReturnValue(this.getTuffGolemDispenserPattern().searchAround(world, pos) != null || this.getCopperGolemDispenserPattern().searchAround(world, pos) != null);
+		}
+	}
+
+	@Inject(
+		method = "onBlockAdded",
+		at = @At("HEAD")
+	)
 	private void friendsandfoes_customOnBlockAdded(
 		BlockState state,
 		World world,
@@ -118,6 +142,30 @@ public abstract class CarvedPumpkinBlockMixin extends HorizontalFacingBlock impl
 			CachedBlockPosition cachedBlockPosition2 = patternSearchResult.translate(0, j, 0);
 			world.updateNeighbors(cachedBlockPosition2.getBlockPos(), Blocks.AIR);
 		}
+	}
+
+	private BlockPattern getCopperGolemDispenserPattern() {
+		if (this.copperGolemDispenserPattern == null) {
+			this.copperGolemDispenserPattern = BlockPatternBuilder.start()
+				.aisle("|", " ", "#")
+				.where('|', CachedBlockPosition.matchesBlockState(CopperGolemBuildPatternPredicates.IS_COPPER_GOLEM_LIGHTNING_ROD_PREDICATE))
+				.where('#', CachedBlockPosition.matchesBlockState(CopperGolemBuildPatternPredicates.IS_COPPER_GOLEM_BODY_PREDICATE))
+				.build();
+		}
+
+		return this.copperGolemDispenserPattern;
+	}
+
+	private BlockPattern getTuffGolemDispenserPattern() {
+		if (this.tuffGolemDispenserPattern == null) {
+			this.tuffGolemDispenserPattern = BlockPatternBuilder.start()
+				.aisle(" ", "|", "#")
+				.where('|', CachedBlockPosition.matchesBlockState(IS_TUFF_GOLEM_WOOL_PREDICATE))
+				.where('#', CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(Blocks.TUFF)))
+				.build();
+		}
+
+		return this.tuffGolemDispenserPattern;
 	}
 
 	private BlockPattern friendsandfoes_getTuffGolemPattern() {

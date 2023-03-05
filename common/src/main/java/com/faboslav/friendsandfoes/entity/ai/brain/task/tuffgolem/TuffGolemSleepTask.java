@@ -36,6 +36,9 @@ public final class TuffGolemSleepTask extends Task<TuffGolemEntity>
 		TuffGolemEntity tuffGolem,
 		long time
 	) {
+		tuffGolem.setPosition(tuffGolem.getHomePos());
+		tuffGolem.setSpawnYaw(tuffGolem.getHomeYaw());
+
 		if (tuffGolem.isInPose(TuffGolemEntityPose.STANDING.get())) {
 			tuffGolem.startSleeping();
 		} else if (tuffGolem.isInPose(TuffGolemEntityPose.STANDING_WITH_ITEM.get())) {

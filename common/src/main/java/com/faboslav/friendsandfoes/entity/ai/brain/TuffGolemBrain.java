@@ -31,7 +31,6 @@ public final class TuffGolemBrain
 	public static final List<MemoryModuleType<?>> MEMORY_MODULES;
 	public static final List<SensorType<? extends Sensor<? super TuffGolemEntity>>> SENSORS;
 	private static final UniformIntProvider SLEEP_COOLDOWN_PROVIDER;
-	public static final TuffGolemSleepTask SLEEP_TASK;
 
 	public TuffGolemBrain() {
 	}
@@ -66,7 +65,7 @@ public final class TuffGolemBrain
 			FriendsAndFoesActivities.TUFF_GOLEM_HOME.get(),
 			ImmutableList.of(
 				Pair.of(0, new TuffGolemGoToHomePositionTask()),
-				Pair.of(0, SLEEP_TASK)
+				Pair.of(1, new TuffGolemSleepTask())
 			),
 			ImmutableSet.of(
 				Pair.of(MemoryModuleType.LOOK_TARGET, MemoryModuleState.VALUE_ABSENT),
@@ -151,7 +150,6 @@ public final class TuffGolemBrain
 			MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
 			FriendsAndFoesMemoryModuleTypes.TUFF_GOLEM_SLEEP_COOLDOWN.get()
 		);
-		SLEEP_TASK = new TuffGolemSleepTask();
 		SLEEP_COOLDOWN_PROVIDER = UniformIntProvider.create(2400, 7200);
 	}
 }

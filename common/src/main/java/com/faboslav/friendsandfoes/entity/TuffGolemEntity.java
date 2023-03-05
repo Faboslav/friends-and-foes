@@ -55,6 +55,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	private static final float MOVEMENT_SPEED = 0.225F;
 	private static final float MOVEMENT_SPEED_WITH_ITEM = 0.175F;
 	private static final int TUFF_HEAL_AMOUNT = 5;
+	private static final int INACTIVE_TICKS_AFTER_SPAWN = 200;
 
 	private static final String COLOR_NBT_NAME = "Color";
 	private static final String PREV_POSE_NBT_NAME = "PrevPose";
@@ -127,7 +128,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		this.setPoseWithoutPrevPose(TuffGolemEntityPose.STANDING);
 		this.setHome(this.getNewHome());
 		TuffGolemBrain.setSleepCooldown(this);
-		this.inactiveTicksAfterSpawn = 100;
+		this.inactiveTicksAfterSpawn = INACTIVE_TICKS_AFTER_SPAWN;
 
 		return superEntityData;
 	}
@@ -210,11 +211,9 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 					|| entityPose == TuffGolemEntityPose.SLEEPING_WITH_ITEM.get()
 				)
 			) {
-				ServerWorld serverWorld = (ServerWorld) this.getWorld();
 				this.getBrain().forget(MemoryModuleType.WALK_TARGET);
 				this.getBrain().forget(MemoryModuleType.LOOK_TARGET);
 				TuffGolemBrain.resetSleepCooldown(this);
-				TuffGolemBrain.SLEEP_TASK.tryStarting(serverWorld, this, serverWorld.getTime());
 			} else {
 				this.setPoseWithoutPrevPose(entityPose);
 			}
@@ -366,7 +365,6 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 			return false;
 		}
 
-		this.stopMovement();
 		this.setGlued(true);
 
 		if (!player.getAbilities().creativeMode) {

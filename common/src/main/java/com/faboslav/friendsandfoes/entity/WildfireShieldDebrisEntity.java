@@ -18,7 +18,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 
-public class WildfireShieldDebrisEntity extends AbstractFireballEntity
+public final class WildfireShieldDebrisEntity extends AbstractFireballEntity
 {
 	public WildfireShieldDebrisEntity(
 		World world,

@@ -5,7 +5,7 @@ import net.minecraft.entity.ai.brain.task.LookAroundTask;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.server.world.ServerWorld;
 
-public class TuffGolemLookAroundTask extends LookAroundTask
+public final class TuffGolemLookAroundTask extends LookAroundTask
 {
 	public TuffGolemLookAroundTask(int minRunTime, int maxRunTime) {
 		super(minRunTime, maxRunTime);

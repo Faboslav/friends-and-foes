@@ -9,7 +9,7 @@ import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.server.world.ServerWorld;
 
-public class TuffGolemSleepTask extends Task<TuffGolemEntity>
+public final class TuffGolemSleepTask extends Task<TuffGolemEntity>
 {
 	private final static int MIN_TICKS_TO_SLEEP = 1200;
 	private final static int MAX_TICKS_TO_SLEEP = 3600;

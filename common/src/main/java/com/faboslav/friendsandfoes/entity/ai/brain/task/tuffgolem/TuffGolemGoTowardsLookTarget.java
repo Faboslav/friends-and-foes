@@ -5,7 +5,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.task.GoTowardsLookTarget;
 import net.minecraft.server.world.ServerWorld;
 
-public class TuffGolemGoTowardsLookTarget extends GoTowardsLookTarget
+public final class TuffGolemGoTowardsLookTarget extends GoTowardsLookTarget
 {
 	public TuffGolemGoTowardsLookTarget(float speed, int completionRange) {
 		super(speed, completionRange);

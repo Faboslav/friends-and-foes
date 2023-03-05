@@ -18,7 +18,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 
-public class WildfireSummonBlazeTask extends Task<WildfireEntity>
+public final class WildfireSummonBlazeTask extends Task<WildfireEntity>
 {
 	private LivingEntity attackTarget;
 	private int summonedBlazesCount;

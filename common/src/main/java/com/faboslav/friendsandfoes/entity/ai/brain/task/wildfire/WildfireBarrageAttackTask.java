@@ -14,7 +14,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.random.Random;
 
-public class WildfireBarrageAttackTask extends Task<WildfireEntity>
+public final class WildfireBarrageAttackTask extends Task<WildfireEntity>
 {
 	private int shieldDebrisFired;
 	private int shieldDebrisCooldown;

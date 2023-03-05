@@ -6,7 +6,7 @@ import net.minecraft.entity.ai.brain.task.StrollTask;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.server.world.ServerWorld;
 
-public class TuffGolemStrollTask<E extends LivingEntity> extends StrollTask
+public final class TuffGolemStrollTask<E extends LivingEntity> extends StrollTask
 {
 	public TuffGolemStrollTask(float speed) {
 		super(speed);

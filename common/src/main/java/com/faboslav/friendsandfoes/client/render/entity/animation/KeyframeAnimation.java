@@ -2,7 +2,7 @@ package com.faboslav.friendsandfoes.client.render.entity.animation;
 
 import net.minecraft.client.render.entity.animation.Animation;
 
-public class KeyframeAnimation
+public final class KeyframeAnimation
 {
 	private final String name;
 	private final Animation animation;

@@ -11,7 +11,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
-public class TuffGolemGoToHomePositionTask extends Task<TuffGolemEntity>
+public final class TuffGolemGoToHomePositionTask extends Task<TuffGolemEntity>
 {
 	private final static int GO_TO_SLEEP_POSITION_DURATION = 1200;
 

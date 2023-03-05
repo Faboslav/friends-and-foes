@@ -19,7 +19,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.LocalDifficulty;
 
-public class ZombieHorseTrapTriggerGoal extends Goal
+public final class ZombieHorseTrapTriggerGoal extends Goal
 {
 	private final ZombieHorseEntity zombieHorse;
 

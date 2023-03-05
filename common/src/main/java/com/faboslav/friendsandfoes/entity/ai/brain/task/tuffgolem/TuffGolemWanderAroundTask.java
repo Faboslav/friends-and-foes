@@ -5,7 +5,7 @@ import net.minecraft.entity.ai.brain.task.WanderAroundTask;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.server.world.ServerWorld;
 
-public class TuffGolemWanderAroundTask extends WanderAroundTask
+public final class TuffGolemWanderAroundTask extends WanderAroundTask
 {
 	@Override
 	protected boolean shouldRun(ServerWorld world, MobEntity entity) {

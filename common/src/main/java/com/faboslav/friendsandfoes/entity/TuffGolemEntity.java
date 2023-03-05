@@ -26,6 +26,8 @@ import net.minecraft.entity.passive.GolemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
@@ -219,12 +221,28 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		}
 	}
 
+	private SoundEvent getGlueSound() {
+		return FriendsAndFoesSoundEvents.ENTITY_TUFF_GOLEM_GLUE.get();
+	}
+
+	private void playGlueSound() {
+		this.playSound(this.getGlueSound(), 1.0F, 1.0F);
+	}
+
 	public SoundEvent getMoveSound() {
 		return FriendsAndFoesSoundEvents.ENTITY_TUFF_GOLEM_MOVE.get();
 	}
 
 	public void playMoveSound() {
 		this.playSound(this.getMoveSound(), 1.0F, 1.05F + this.getRandom().nextFloat() * 0.05F);
+	}
+
+	private SoundEvent getRepairSound() {
+		return FriendsAndFoesSoundEvents.ENTITY_TUFF_GOLEM_REPAIR.get();
+	}
+
+	private void playRepairSound() {
+		this.playSound(this.getRepairSound(), 1.0F, 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F);
 	}
 
 	public SoundEvent getWakeSound() {
@@ -304,7 +322,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		PlayerEntity player,
 		ItemStack itemStack
 	) {
-		if (this.getHealth() == this.getMaxHealth()) {
+		if (this.getHealth() >= this.getMaxHealth()) {
 			return false;
 		}
 
@@ -314,8 +332,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 			itemStack.decrement(1);
 		}
 
-		// todo change sound
-		this.playSound(FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_REPAIR.get(), 1.0F, this.getSoundPitch());
+		this.playRepairSound();
 
 		return true;
 	}
@@ -349,8 +366,15 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 			return false;
 		}
 
-		this.setGlued(true);
 		this.stopMovement();
+		this.setGlued(true);
+
+		if (!player.getAbilities().creativeMode) {
+			itemStack.decrement(1);
+		}
+
+		this.playGlueSound();
+		this.spawnParticles(ParticleTypes.WAX_ON, 7);
 
 		return true;
 	}
@@ -747,6 +771,31 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	@Override
 	protected int getNextAirUnderwater(int air) {
 		return air;
+	}
+
+	public void spawnParticles(
+		ParticleEffect particleEffect,
+		int amount
+	) {
+		World world = this.getWorld();
+
+		if (world.isClient()) {
+			return;
+		}
+
+		for (int i = 0; i < amount; i++) {
+			((ServerWorld) world).spawnParticles(
+				particleEffect,
+				this.getParticleX(1.0D),
+				this.getRandomBodyY() + 0.5D,
+				this.getParticleZ(1.0D),
+				1,
+				this.getRandom().nextGaussian() * 0.02D,
+				this.getRandom().nextGaussian() * 0.02D,
+				this.getRandom().nextGaussian() * 0.02D,
+				1.0D
+			);
+		}
 	}
 
 	public void setSpawnYaw(float yaw) {

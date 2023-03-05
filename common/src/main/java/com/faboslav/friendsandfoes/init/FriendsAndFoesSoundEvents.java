@@ -38,8 +38,10 @@ public final class FriendsAndFoesSoundEvents
 	public static final Supplier<SoundEvent> ENTITY_MAULER_GROWL;
 	public static final Supplier<SoundEvent> ENTITY_MAULER_HURT;
 	public static final Supplier<SoundEvent> ENTITY_MOOBLOOM_CONVERT;
+	public static final Supplier<SoundEvent> ENTITY_TUFF_GOLEM_GLUE;
 	public static final Supplier<SoundEvent> ENTITY_TUFF_GOLEM_HURT;
 	public static final Supplier<SoundEvent> ENTITY_TUFF_GOLEM_MOVE;
+	public static final Supplier<SoundEvent> ENTITY_TUFF_GOLEM_REPAIR;
 	public static final Supplier<SoundEvent> ENTITY_TUFF_GOLEM_SLEEP;
 	public static final Supplier<SoundEvent> ENTITY_TUFF_GOLEM_STEP;
 	public static final Supplier<SoundEvent> ENTITY_TUFF_GOLEM_WAKE;
@@ -80,8 +82,10 @@ public final class FriendsAndFoesSoundEvents
 		ENTITY_MAULER_GROWL = register("entity", "mauler.growl");
 		ENTITY_MAULER_HURT = register("entity", "mauler.hurt");
 		ENTITY_MOOBLOOM_CONVERT = register("entity", "moobloom.convert");
+		ENTITY_TUFF_GOLEM_GLUE = register("entity", "tuff_golem.glue");
 		ENTITY_TUFF_GOLEM_HURT = register("entity", "tuff_golem.hurt");
 		ENTITY_TUFF_GOLEM_MOVE = register("entity", "tuff_golem.move");
+		ENTITY_TUFF_GOLEM_REPAIR = register("entity", "tuff_golem.repair");
 		ENTITY_TUFF_GOLEM_SLEEP = register("entity", "tuff_golem.sleep");
 		ENTITY_TUFF_GOLEM_STEP = register("entity", "tuff_golem.step");
 		ENTITY_TUFF_GOLEM_WAKE = register("entity", "tuff_golem.wake");

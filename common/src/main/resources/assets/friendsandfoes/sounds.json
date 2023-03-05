@@ -176,6 +176,12 @@
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.moobloom.convert"
 	},
+	"entity.tuff_golem.glue": {
+		"sounds": [
+			"friendsandfoes:entity/tuff_golem/glue"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.tuff_golem.glue"
+	},
 	"entity.tuff_golem.hurt": {
 		"sounds": [
 			"friendsandfoes:entity/tuff_golem/hurt1",
@@ -190,6 +196,12 @@
 			"friendsandfoes:entity/tuff_golem/move2"
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.tuff_golem.move"
+	},
+	"entity.tuff_golem.repair": {
+		"sounds": [
+			"friendsandfoes:entity/tuff_golem/repair"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.tuff_golem.repair"
 	},
 	"entity.tuff_golem.sleep": {
 		"sounds": [

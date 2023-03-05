@@ -17,7 +17,10 @@ import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
-import net.minecraft.entity.ai.brain.task.*;
+import net.minecraft.entity.ai.brain.task.FollowMobTask;
+import net.minecraft.entity.ai.brain.task.RandomTask;
+import net.minecraft.entity.ai.brain.task.TemptationCooldownTask;
+import net.minecraft.entity.ai.brain.task.TimeLimitedTask;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 
 import java.util.List;
@@ -52,8 +55,8 @@ public final class TuffGolemBrain
 		brain.setTaskList(Activity.CORE,
 			0,
 			ImmutableList.of(
-				new LookAroundTask(45, 90),
-				new WanderAroundTask(),
+				new TuffGolemLookAroundTask(45, 90),
+				new TuffGolemWanderAroundTask(),
 				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.TUFF_GOLEM_SLEEP_COOLDOWN.get())
 			));
 	}

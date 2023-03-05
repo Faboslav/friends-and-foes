@@ -58,8 +58,8 @@ public final class TuffGolemEntityModel<T extends TuffGolemEntity> extends Anima
 		body.addChild(MODEL_PART_LEFT_ARM, ModelPartBuilder.create().uv(0, 21).cuboid(-1.0F, -2.0F, -2.0F, 2.0F, 10.0F, 4.0F, new Dilation(0.0F)), ModelTransform.pivot(-5.0F, -4.0F, 0.0F));
 		body.addChild(MODEL_PART_RIGHT_ARM, ModelPartBuilder.create().uv(0, 21).mirrored(true).cuboid(0.0F, -2.0F, -2.0F, 2.0F, 10.0F, 4.0F, new Dilation(0.0F)), ModelTransform.pivot(4.0F, -4.0F, 0.0F));
 
-		root.addChild(MODEL_PART_LEFT_LEG, ModelPartBuilder.create().uv(12, 21).cuboid(-2.0F, 0.0F, -2.0F, 4.0F, 5.0F, 4.0F, new Dilation(-0.0001F)), ModelTransform.pivot(-2.0F, 19.0F, 0.0F));
-		root.addChild(MODEL_PART_RIGHT_LEG, ModelPartBuilder.create().uv(12, 21).mirrored(true).cuboid(-2.0F, 0.0F, -2.0F, 4.0F, 5.0F, 4.0F, new Dilation(-0.0001F)), ModelTransform.pivot(2.0F, 19.0F, 0.0F));
+		root.addChild(MODEL_PART_LEFT_LEG, ModelPartBuilder.create().uv(12, 21).cuboid(-2.0F, 0.0F, -2.0F, 4.0F, 5.0F, 4.0F, new Dilation(-0.0005F)), ModelTransform.pivot(-2.0F, 19.0F, 0.0F));
+		root.addChild(MODEL_PART_RIGHT_LEG, ModelPartBuilder.create().uv(12, 21).mirrored(true).cuboid(-2.0F, 0.0F, -2.0F, 4.0F, 5.0F, 4.0F, new Dilation(-0.0005F)), ModelTransform.pivot(2.0F, 19.0F, 0.0F));
 
 		return TexturedModelData.of(modelData, 64, 64);
 	}

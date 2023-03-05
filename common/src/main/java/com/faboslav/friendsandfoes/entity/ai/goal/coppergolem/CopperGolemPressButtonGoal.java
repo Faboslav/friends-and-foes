@@ -185,10 +185,6 @@ public final class CopperGolemPressButtonGoal extends Goal
 		if (this.copperButtonWasSuccessfullyPressed == false) {
 			this.copperButtonWasSuccessfullyPressed = this.pressCopperButton();
 		} else {
-			if (RandomGenerator.generateRandomFloat() > 0.99) {
-				this.pressCopperButton();
-			}
-
 			this.ticksAfterButtonPress++;
 		}
 	}

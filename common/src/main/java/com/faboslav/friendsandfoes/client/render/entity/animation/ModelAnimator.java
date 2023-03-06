@@ -1,6 +1,10 @@
 package com.faboslav.friendsandfoes.client.render.entity.animation;
 
-import com.faboslav.friendsandfoes.entity.AnimatedEntity;
+import com.faboslav.friendsandfoes.client.render.entity.animation.animator.ModelPartAnimationType;
+import com.faboslav.friendsandfoes.client.render.entity.animation.animator.ModelPartAnimator;
+import com.faboslav.friendsandfoes.client.render.entity.animation.animator.context.AnimationContextTracker;
+import com.faboslav.friendsandfoes.client.render.entity.animation.animator.context.ModelPartAnimationContext;
+import com.faboslav.friendsandfoes.entity.animation.AnimatedEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.ModelPart;

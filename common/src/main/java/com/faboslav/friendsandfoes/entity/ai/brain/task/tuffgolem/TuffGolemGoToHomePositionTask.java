@@ -6,12 +6,13 @@ import com.google.common.collect.ImmutableMap;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.LookTargetUtil;
+import net.minecraft.entity.ai.brain.task.MultiTickTask;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
-public final class TuffGolemGoToHomePositionTask extends Task<TuffGolemEntity>
+public final class TuffGolemGoToHomePositionTask extends MultiTickTask<TuffGolemEntity>
 {
 	private final static int GO_TO_SLEEP_POSITION_DURATION = 1200;
 

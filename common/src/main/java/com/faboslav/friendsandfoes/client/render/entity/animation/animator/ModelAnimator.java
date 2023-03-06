@@ -13,7 +13,8 @@ import net.minecraft.client.render.entity.animation.Animation;
 import net.minecraft.client.render.entity.animation.AnimationHelper;
 import net.minecraft.entity.AnimationState;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.Vec3d;
+import org.joml.Vector3f;
 
 @Environment(EnvType.CLIENT)
 public final class ModelAnimator
@@ -34,7 +35,7 @@ public final class ModelAnimator
 
 		animationState.update(animationProgress, 1.0F);
 		animationState.run((state) -> {
-			AnimationHelper.animate(animatedEntityModel, animation, state.getTimeRunning(), 1.0F, new Vec3f());
+			AnimationHelper.animate(animatedEntityModel, animation, state.getTimeRunning(), 1.0F, new Vector3f());
 		});
 	}
 
@@ -94,7 +95,7 @@ public final class ModelAnimator
 		float targetZ,
 		float progress
 	) {
-		Vec3f targetVector = new Vec3f(targetX, targetY, targetZ);
+		Vec3d targetVector = new Vec3d(targetX, targetY, targetZ);
 		animateWithProgress(
 			animatedEntity,
 			modelPart,
@@ -160,7 +161,7 @@ public final class ModelAnimator
 		float targetZ,
 		float progress
 	) {
-		Vec3f targetVector = new Vec3f(targetX, targetY, targetZ);
+		Vec3d targetVector = new Vec3d(targetX, targetY, targetZ);
 		animateWithProgress(
 			animatedEntity,
 			modelPart,
@@ -174,14 +175,14 @@ public final class ModelAnimator
 		AnimatedEntity animatedEntity,
 		ModelPart modelPart,
 		ModelPartAnimationType animationType,
-		Vec3f targetVector,
+		Vec3d targetVector,
 		float progress
 	) {
 		AnimationContextTracker animationContextTracker = animatedEntity.getAnimationContextTracker();
 		String modelPartName = modelPart.toString();
 		ModelPartAnimationContext animationContext;
-		Vec3f animationCurrentVector;
-		Vec3f animationTargetVector;
+		Vec3d animationCurrentVector;
+		Vec3d animationTargetVector;
 
 		if (animationContextTracker.contains(modelPartName, animationType)) {
 			animationContext = animationContextTracker.get(modelPartName, animationType);
@@ -199,8 +200,8 @@ public final class ModelAnimator
 			}
 		} else {
 			animationCurrentVector = switch (animationType) {
-				case POSITION -> new Vec3f(modelPart.pivotX, modelPart.pivotY, modelPart.pivotZ);
-				case ROTATION -> new Vec3f(modelPart.pitch, modelPart.yaw, modelPart.roll);
+				case POSITION -> new Vec3d(modelPart.pivotX, modelPart.pivotY, modelPart.pivotZ);
+				case ROTATION -> new Vec3d(modelPart.pitch, modelPart.yaw, modelPart.roll);
 			};
 
 			animationContext = ModelPartAnimationContext.createWithProgress(
@@ -277,7 +278,7 @@ public final class ModelAnimator
 		float targetZ,
 		int ticks
 	) {
-		Vec3f targetVector = new Vec3f(targetX, targetY, targetZ);
+		Vec3d targetVector = new Vec3d(targetX, targetY, targetZ);
 		animateModelPartBasedOnTicks(
 			animatedEntity,
 			modelPart,
@@ -343,7 +344,7 @@ public final class ModelAnimator
 		float targetZ,
 		int ticks
 	) {
-		Vec3f targetVector = new Vec3f(targetX, targetY, targetZ);
+		Vec3d targetVector = new Vec3d(targetX, targetY, targetZ);
 		animateModelPartBasedOnTicks(
 			animatedEntity,
 			modelPart,
@@ -357,7 +358,7 @@ public final class ModelAnimator
 		AnimatedEntity animatedEntity,
 		ModelPart modelPart,
 		ModelPartAnimationType animationType,
-		Vec3f targetVector,
+		Vec3d targetVector,
 		int ticks
 	) {
 		AnimationContextTracker animationContextTracker = animatedEntity.getAnimationContextTracker();
@@ -365,8 +366,8 @@ public final class ModelAnimator
 
 		String modelPartName = modelPart.toString();
 		ModelPartAnimationContext animationContext;
-		Vec3f currentVector;
-		Vec3f animationTargetVector;
+		Vec3d currentVector;
+		Vec3d animationTargetVector;
 
 		if (animationContextTracker.contains(modelPartName, animationType)) {
 			animationContext = animationContextTracker.get(modelPartName, animationType);
@@ -395,8 +396,8 @@ public final class ModelAnimator
 			}
 		} else {
 			currentVector = switch (animationType) {
-				case POSITION -> new Vec3f(modelPart.pivotX, modelPart.pivotY, modelPart.pivotZ);
-				case ROTATION -> new Vec3f(modelPart.pitch, modelPart.yaw, modelPart.roll);
+				case POSITION -> new Vec3d(modelPart.pivotX, modelPart.pivotY, modelPart.pivotZ);
+				case ROTATION -> new Vec3d(modelPart.pitch, modelPart.yaw, modelPart.roll);
 			};
 
 			animationContext = ModelPartAnimationContext.createWithTicks(

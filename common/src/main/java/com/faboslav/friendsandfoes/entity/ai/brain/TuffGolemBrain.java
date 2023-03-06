@@ -17,13 +17,12 @@ import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
-import net.minecraft.entity.ai.brain.task.FollowMobTask;
-import net.minecraft.entity.ai.brain.task.RandomTask;
-import net.minecraft.entity.ai.brain.task.TemptationCooldownTask;
-import net.minecraft.entity.ai.brain.task.TimeLimitedTask;
+import net.minecraft.entity.ai.brain.task.*;
+import net.minecraft.entity.passive.CamelEntity;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public final class TuffGolemBrain
@@ -82,22 +81,10 @@ public final class TuffGolemBrain
 				Pair.of(0,
 					new RandomTask(
 						ImmutableList.of(
-							Pair.of(new TimeLimitedTask(
-								new FollowMobTask(EntityType.PLAYER, 6.0F),
-								UniformIntProvider.create(30, 60)
-							), 3),
-							Pair.of(new TimeLimitedTask(
-								new FollowMobTask(FriendsAndFoesEntityTypes.COPPER_GOLEM.get(), 6.0F),
-								UniformIntProvider.create(30, 60)
-							), 2),
-							Pair.of(new TimeLimitedTask(
-								new FollowMobTask(FriendsAndFoesEntityTypes.TUFF_GOLEM.get(), 6.0F),
-								UniformIntProvider.create(30, 60)
-							), 2),
-							Pair.of(new TimeLimitedTask(
-								new FollowMobTask(EntityType.IRON_GOLEM, 12.0F),
-								UniformIntProvider.create(30, 60)
-							), 1)
+							Pair.of(FollowMobWithIntervalTask.follow(EntityType.PLAYER, 6.0F, UniformIntProvider.create(30, 60)), 3),
+							Pair.of(FollowMobWithIntervalTask.follow(FriendsAndFoesEntityTypes.COPPER_GOLEM.get(), 6.0F, UniformIntProvider.create(30, 60)), 2),
+							Pair.of(FollowMobWithIntervalTask.follow(FriendsAndFoesEntityTypes.TUFF_GOLEM.get(), 6.0F, UniformIntProvider.create(30, 60)), 2),
+							Pair.of(FollowMobWithIntervalTask.follow(EntityType.IRON_GOLEM, 6.0F, UniformIntProvider.create(30, 60)), 1)
 						)
 					)
 				),
@@ -107,9 +94,9 @@ public final class TuffGolemBrain
 							MemoryModuleType.WALK_TARGET, MemoryModuleState.VALUE_ABSENT
 						),
 						ImmutableList.of(
-							Pair.of(new TuffGolemWaitTask(60, 80), 2),
-							Pair.of(new TuffGolemStrollTask(0.6F), 1),
-							Pair.of(new TuffGolemGoTowardsLookTarget(0.6F, 2), 1)
+							Pair.of(TaskTriggerer.runIf(TuffGolemBrain::isNotImmobilized), new TuffGolemWaitTask(60, 80), 2),
+							Pair.of(TaskTriggerer.runIf(TuffGolemBrain::isNotImmobilized), TuffGolemStrollTask.create(0.6F), 1),
+							Pair.of(TaskTriggerer.runIf(TuffGolemBrain::isNotImmobilized), GoTowardsLookTargetTask.create(0.6F, 2), 1)
 						)
 					)
 				)
@@ -135,6 +122,10 @@ public final class TuffGolemBrain
 
 	public static void setSleepCooldown(TuffGolemEntity tuffGolem) {
 		tuffGolem.getBrain().remember(FriendsAndFoesMemoryModuleTypes.TUFF_GOLEM_SLEEP_COOLDOWN.get(), SLEEP_COOLDOWN_PROVIDER.get(tuffGolem.getRandom()));
+	}
+
+	private static boolean isNotImmobilized(TuffGolemEntity tuffGolem) {
+		return tuffGolem.isNotImmobilized();
 	}
 
 	static {

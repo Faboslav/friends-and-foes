@@ -87,7 +87,7 @@ public abstract class StrongholdGeneratorMixin extends StructurePiece
 			tuffGolemPos.getZ() + 0.5F
 		);
 
-		float randomSpawnYaw = 90.0F * (float) random.nextBetween(1, 3);
+		float randomSpawnYaw = 90.0F * (float) random.nextBetween(0, 3);
 		tuffGolem.setSpawnYaw(randomSpawnYaw);
 
 		ItemStack itemStack = Items.BOOK.getDefaultStack();

@@ -100,7 +100,7 @@ public abstract class CarvedPumpkinBlockMixin extends HorizontalFacingBlock impl
 		}
 
 		BlockState headBlockState = patternSearchResult.translate(0, 0, 0).getBlockState();
-		BlockState woolBlockState = patternSearchResult.translate(0, 2, 0).getBlockState();
+		BlockState woolBlockState = patternSearchResult.translate(0, 1, 0).getBlockState();
 
 		for (int i = 0; i < this.friendsandfoes_getTuffGolemPattern().getHeight(); ++i) {
 			CachedBlockPosition cachedBlockPosition = patternSearchResult.translate(0, i, 0);

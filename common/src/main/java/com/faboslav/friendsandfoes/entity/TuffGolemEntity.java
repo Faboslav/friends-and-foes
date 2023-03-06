@@ -120,7 +120,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		EntityData superEntityData = super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
 
 		if (spawnReason == SpawnReason.SPAWN_EGG || spawnReason == SpawnReason.COMMAND) {
-			float randomSpawnYaw = 90.0F * (float) this.getRandom().nextBetween(1, 3);
+			float randomSpawnYaw = 90.0F * (float) this.getRandom().nextBetween(0, 3);
 			this.setSpawnYaw(randomSpawnYaw);
 		}
 

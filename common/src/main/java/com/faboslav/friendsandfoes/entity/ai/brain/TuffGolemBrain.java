@@ -1,7 +1,10 @@
 package com.faboslav.friendsandfoes.entity.ai.brain;
 
 import com.faboslav.friendsandfoes.entity.TuffGolemEntity;
-import com.faboslav.friendsandfoes.entity.ai.brain.task.tuffgolem.*;
+import com.faboslav.friendsandfoes.entity.ai.brain.task.tuffgolem.TuffGolemGoToHomePositionTask;
+import com.faboslav.friendsandfoes.entity.ai.brain.task.tuffgolem.TuffGolemLookAroundTask;
+import com.faboslav.friendsandfoes.entity.ai.brain.task.tuffgolem.TuffGolemSleepTask;
+import com.faboslav.friendsandfoes.entity.ai.brain.task.tuffgolem.TuffGolemWanderAroundTask;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesActivities;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
@@ -18,11 +21,9 @@ import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.task.*;
-import net.minecraft.entity.passive.CamelEntity;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public final class TuffGolemBrain
@@ -94,9 +95,9 @@ public final class TuffGolemBrain
 							MemoryModuleType.WALK_TARGET, MemoryModuleState.VALUE_ABSENT
 						),
 						ImmutableList.of(
-							Pair.of(TaskTriggerer.runIf(TuffGolemBrain::isNotImmobilized), new TuffGolemWaitTask(60, 80), 2),
-							Pair.of(TaskTriggerer.runIf(TuffGolemBrain::isNotImmobilized), TuffGolemStrollTask.create(0.6F), 1),
-							Pair.of(TaskTriggerer.runIf(TuffGolemBrain::isNotImmobilized), GoTowardsLookTargetTask.create(0.6F, 2), 1)
+							Pair.of(new WaitTask(60, 80), 2),
+							Pair.of(TaskTriggerer.runIf(TuffGolemBrain::isNotImmobilized, StrollTask.create(0.6F)), 1),
+							Pair.of(TaskTriggerer.runIf(TuffGolemBrain::isNotImmobilized, GoTowardsLookTargetTask.create(0.6F, 2)), 1)
 						)
 					)
 				)

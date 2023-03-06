@@ -18,7 +18,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 
-public final class WildfireSummonBlazeTask extends MultiTickTask<WildfireEntity> {
+public final class WildfireSummonBlazeTask extends MultiTickTask<WildfireEntity>
+{
 	private LivingEntity attackTarget;
 	private int summonedBlazesCount;
 

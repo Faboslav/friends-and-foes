@@ -10,4 +10,7 @@ public final class ModVersion
 	public static String getModVersion() {
 		throw new AssertionError();
 	}
+
+	private ModVersion() {
+	}
 }

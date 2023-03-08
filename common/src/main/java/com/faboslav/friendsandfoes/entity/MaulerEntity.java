@@ -1,8 +1,9 @@
 package com.faboslav.friendsandfoes.entity;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.client.render.entity.animation.AnimationContextTracker;
-import com.faboslav.friendsandfoes.entity.ai.goal.*;
+import com.faboslav.friendsandfoes.client.render.entity.animation.animator.context.AnimationContextTracker;
+import com.faboslav.friendsandfoes.entity.ai.goal.mauler.*;
+import com.faboslav.friendsandfoes.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
@@ -77,13 +78,23 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	private static final TrackedData<Integer> TICKS_UNTIL_NEXT_BURROWING_DOWN;
 	private static final TrackedData<Float> BURROWING_DOWN_ANIMATION_PROGRESS;
 
-	@Environment(EnvType.CLIENT)
-	private AnimationContextTracker animationTickTracker;
-
 	@Nullable
 	private UUID angryAt;
 
 	public MaulerBurrowDownGoal burrowDownGoal;
+
+	@Environment(EnvType.CLIENT)
+	private AnimationContextTracker animationContextTracker;
+
+	@Override
+	@Environment(EnvType.CLIENT)
+	public AnimationContextTracker getAnimationContextTracker() {
+		if (this.animationContextTracker == null) {
+			this.animationContextTracker = new AnimationContextTracker();
+		}
+
+		return this.animationContextTracker;
+	}
 
 	public MaulerEntity(EntityType<? extends MaulerEntity> entityType, World world) {
 		super(entityType, world);
@@ -548,16 +559,6 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 				1.0D
 			);
 		}
-	}
-
-	@Override
-	@Environment(EnvType.CLIENT)
-	public AnimationContextTracker getAnimationContextTracker() {
-		if (this.animationTickTracker == null) {
-			this.animationTickTracker = new AnimationContextTracker();
-		}
-
-		return this.animationTickTracker;
 	}
 
 	public enum Type

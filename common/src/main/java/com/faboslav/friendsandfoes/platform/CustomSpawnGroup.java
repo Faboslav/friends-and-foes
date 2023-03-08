@@ -16,4 +16,7 @@ public final class CustomSpawnGroup
 	public static SpawnGroup getGlaresCategory() {
 		throw new AssertionError();
 	}
+
+	private CustomSpawnGroup() {
+	}
 }

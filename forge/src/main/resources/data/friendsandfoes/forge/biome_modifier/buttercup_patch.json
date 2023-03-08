@@ -1,6 +1,6 @@
 {
-    "type": "forge:add_features",
-    "biomes": "#friendsandfoes:has_buttercup_patch",
-    "features": "friendsandfoes:buttercup_patch",
-    "step": "vegetal_decoration"
+	"type": "forge:add_features",
+	"biomes": "#friendsandfoes:has_buttercup_patch",
+	"features": "friendsandfoes:buttercup_patch",
+	"step": "vegetal_decoration"
 }

@@ -25,7 +25,7 @@ import java.util.Optional;
  * @author TelepathicGrunt
  * <a href="https://github.com/TelepathicGrunt/RepurposedStructures">https://github.com/TelepathicGrunt/RepurposedStructures</a>
  */
-public class CitadelStructure extends Structure
+public final class CitadelStructure extends Structure
 {
 	public static final Codec<CitadelStructure> CODEC = RecordCodecBuilder.<CitadelStructure>mapCodec(instance ->
 		instance.group(CitadelStructure.configCodecBuilder(instance),

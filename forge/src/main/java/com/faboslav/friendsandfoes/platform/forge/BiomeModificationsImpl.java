@@ -16,4 +16,7 @@ public final class BiomeModificationsImpl
 		int maxGroupSize
 	) {
 	}
+
+	public static void addButtercupFeature() {
+	}
 }

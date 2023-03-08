@@ -1,4 +1,4 @@
-## mc1.19.2-1.8.0, March xx, 2023
+## mc1.19.2-1.8.0, March 08, 2023
 
 - Added Tuff Golem
 - Improved Copper Golem performance

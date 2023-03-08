@@ -5,6 +5,7 @@ import com.faboslav.friendsandfoes.block.Oxidizable;
 import com.faboslav.friendsandfoes.entity.CopperGolemEntity;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesBlocks;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
+import com.faboslav.friendsandfoes.util.CopperGolemBuildPatternPredicates;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.*;
 import net.minecraft.block.pattern.BlockPattern;
@@ -13,7 +14,6 @@ import net.minecraft.block.pattern.CachedBlockPosition;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldEvents;
@@ -23,38 +23,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.function.Predicate;
-
 @Mixin(LightningRodBlock.class)
 public abstract class LightningRodBlockMixin extends RodBlock implements Oxidizable
 {
 	@Nullable
 	private BlockPattern copperGolemPattern;
-
-	private static final Predicate<BlockState> IS_GOLEM_LIGHTNING_ROD_PREDICATE = state -> state != null && (
-		state == Blocks.LIGHTNING_ROD.getDefaultState().with(LightningRodBlock.FACING, Direction.UP)
-		|| state == FriendsAndFoesBlocks.WEATHERED_LIGHTNING_ROD.get().getDefaultState().with(LightningRodBlock.FACING, Direction.UP)
-		|| state == FriendsAndFoesBlocks.EXPOSED_LIGHTNING_ROD.get().getDefaultState().with(LightningRodBlock.FACING, Direction.UP)
-		|| state == FriendsAndFoesBlocks.OXIDIZED_LIGHTNING_ROD.get().getDefaultState().with(LightningRodBlock.FACING, Direction.UP)
-		|| state == FriendsAndFoesBlocks.WAXED_LIGHTNING_ROD.get().getDefaultState().with(LightningRodBlock.FACING, Direction.UP)
-		|| state == FriendsAndFoesBlocks.WAXED_WEATHERED_LIGHTNING_ROD.get().getDefaultState().with(LightningRodBlock.FACING, Direction.UP)
-		|| state == FriendsAndFoesBlocks.WAXED_EXPOSED_LIGHTNING_ROD.get().getDefaultState().with(LightningRodBlock.FACING, Direction.UP)
-		|| state == FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get().getDefaultState().with(LightningRodBlock.FACING, Direction.UP)
-	);
-	private static final Predicate<BlockState> IS_GOLEM_HEAD_PREDICATE = state -> state != null && (
-		state.isOf(Blocks.CARVED_PUMPKIN)
-		|| state.isOf(Blocks.JACK_O_LANTERN)
-	);
-	private static final Predicate<BlockState> IS_GOLEM_BODY_PREDICATE = state -> state != null && (
-		state.isOf(Blocks.COPPER_BLOCK)
-		|| state.isOf(Blocks.WEATHERED_COPPER)
-		|| state.isOf(Blocks.EXPOSED_COPPER)
-		|| state.isOf(Blocks.OXIDIZED_COPPER)
-		|| state.isOf(Blocks.WAXED_COPPER_BLOCK)
-		|| state.isOf(Blocks.WAXED_WEATHERED_COPPER)
-		|| state.isOf(Blocks.WAXED_EXPOSED_COPPER)
-		|| state.isOf(Blocks.WAXED_OXIDIZED_COPPER)
-	);
 
 	public LightningRodBlockMixin(Settings settings) {
 		super(settings);
@@ -152,8 +125,6 @@ public abstract class LightningRodBlockMixin extends RodBlock implements Oxidiza
 			(double) cachedBlockPosition.getZ() + 0.5D
 		);
 		copperGolemEntity.setSpawnYaw(copperGolemYaw);
-		world.spawnEntity(copperGolemEntity);
-
 		copperGolemEntity.setOxidationLevel(bodyOxidationLevel);
 
 		if (lightningRodOxidationLevel != Oxidizable.OxidationLevel.OXIDIZED) {
@@ -162,6 +133,8 @@ public abstract class LightningRodBlockMixin extends RodBlock implements Oxidiza
 			boolean isWaxed = isHeadBlockWaxed && isBodyBlockWaxed;
 			copperGolemEntity.setIsWaxed(isWaxed);
 		}
+
+		world.spawnEntity(copperGolemEntity);
 
 		for (ServerPlayerEntity serverPlayerEntity : world.getNonSpectatingEntities(
 			ServerPlayerEntity.class,
@@ -180,9 +153,9 @@ public abstract class LightningRodBlockMixin extends RodBlock implements Oxidiza
 		if (this.copperGolemPattern == null) {
 			this.copperGolemPattern = BlockPatternBuilder.start()
 				.aisle("|", "^", "#")
-				.where('|', CachedBlockPosition.matchesBlockState(IS_GOLEM_LIGHTNING_ROD_PREDICATE))
-				.where('^', CachedBlockPosition.matchesBlockState(IS_GOLEM_HEAD_PREDICATE))
-				.where('#', CachedBlockPosition.matchesBlockState(IS_GOLEM_BODY_PREDICATE))
+				.where('|', CachedBlockPosition.matchesBlockState(CopperGolemBuildPatternPredicates.IS_COPPER_GOLEM_LIGHTNING_ROD_PREDICATE))
+				.where('^', CachedBlockPosition.matchesBlockState(CopperGolemBuildPatternPredicates.IS_GOLEM_HEAD_PREDICATE))
+				.where('#', CachedBlockPosition.matchesBlockState(CopperGolemBuildPatternPredicates.IS_COPPER_GOLEM_BODY_PREDICATE))
 				.build();
 		}
 

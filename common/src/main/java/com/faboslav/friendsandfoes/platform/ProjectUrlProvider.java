@@ -13,4 +13,7 @@ public final class ProjectUrlProvider
 	public static String getModrinthProjectLink() {
 		throw new AssertionError();
 	}
+
+	private ProjectUrlProvider() {
+	}
 }

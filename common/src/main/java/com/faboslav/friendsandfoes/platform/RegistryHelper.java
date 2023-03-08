@@ -134,4 +134,7 @@ public final class RegistryHelper
 	) {
 		throw new AssertionError();
 	}
+
+	private RegistryHelper() {
+	}
 }

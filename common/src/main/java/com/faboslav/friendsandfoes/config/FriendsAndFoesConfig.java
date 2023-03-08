@@ -132,6 +132,13 @@ public final class FriendsAndFoesConfig implements Config
 	@Description("Enable trap")
 	public boolean enableZombieHorseTrap = true;
 
+	@Category("Tuff Golem")
+	@Description("Enable tuff golem")
+	public boolean enableTuffGolem = true;
+
+	@Description("Generate tuff golem in stronghold libraries")
+	public boolean generateTuffGolemInStronghold = true;
+
 	@Category("Wildfire")
 	@Description("Enable wildfire")
 	public boolean enableWildfire = true;

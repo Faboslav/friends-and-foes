@@ -1,8 +1,9 @@
 package com.faboslav.friendsandfoes.entity;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.client.render.entity.animation.AnimationContextTracker;
-import com.faboslav.friendsandfoes.entity.ai.goal.*;
+import com.faboslav.friendsandfoes.client.render.entity.animation.animator.context.AnimationContextTracker;
+import com.faboslav.friendsandfoes.entity.ai.goal.glare.*;
+import com.faboslav.friendsandfoes.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesCriteria;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
@@ -76,14 +77,24 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	public GlareShakeOffGlowBerriesGoal shakeOffGlowBerriesGoal;
 	private GlareFlyToDarkSpotGoal flyToDarkSpotGoal;
 
-	@Environment(EnvType.CLIENT)
-	private AnimationContextTracker animationTickTracker;
-
 	private Vec2f targetEyesPositionOffset;
 	private float currentLayerPitch;
 	private float currentLayerRoll;
 	private float currentLayerPitchAnimationProgress;
 	private float currentLayerRollAnimationProgress;
+
+	@Environment(EnvType.CLIENT)
+	private AnimationContextTracker animationContextTracker;
+
+	@Override
+	@Environment(EnvType.CLIENT)
+	public AnimationContextTracker getAnimationContextTracker() {
+		if (this.animationContextTracker == null) {
+			this.animationContextTracker = new AnimationContextTracker();
+		}
+
+		return this.animationContextTracker;
+	}
 
 	public GlareEntity(EntityType<? extends GlareEntity> entityType, World world) {
 		super(entityType, world);
@@ -704,15 +715,5 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 				0.1D
 			);
 		}
-	}
-
-	@Override
-	@Environment(EnvType.CLIENT)
-	public AnimationContextTracker getAnimationContextTracker() {
-		if (this.animationTickTracker == null) {
-			this.animationTickTracker = new AnimationContextTracker();
-		}
-
-		return this.animationTickTracker;
 	}
 }

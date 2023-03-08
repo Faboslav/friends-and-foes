@@ -23,7 +23,7 @@ import java.util.Optional;
  * @author TelepathicGrunt
  * <a href="https://github.com/TelepathicGrunt/RepurposedStructures">https://github.com/TelepathicGrunt/RepurposedStructures</a>
  */
-public class IceologerCabinStructure extends Structure
+public final class IceologerCabinStructure extends Structure
 {
 	public static final Codec<IceologerCabinStructure> CODEC = RecordCodecBuilder.<IceologerCabinStructure>mapCodec(instance ->
 		instance.group(IceologerCabinStructure.configCodecBuilder(instance),

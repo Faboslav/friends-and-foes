@@ -1,8 +1,9 @@
 package com.faboslav.friendsandfoes.entity;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.client.render.entity.animation.AnimationContextTracker;
-import com.faboslav.friendsandfoes.entity.ai.goal.*;
+import com.faboslav.friendsandfoes.client.render.entity.animation.animator.context.AnimationContextTracker;
+import com.faboslav.friendsandfoes.entity.ai.goal.coppergolem.*;
+import com.faboslav.friendsandfoes.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.util.ModelAnimationHelper;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
@@ -51,11 +52,13 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 {
 	private static final float MOVEMENT_SPEED = 0.35F;
 	private static final int COPPER_INGOT_HEAL_AMOUNT = 5;
+	private static final float SPARK_CHANCE = 0.025F;
 	private static final float OXIDATION_CHANCE = 0.00002F;
 	public static final int MIN_TICKS_UNTIL_CAN_PRESS_BUTTON = 200;
-	public static final int MAX_TICKS_UNTIL_CAN_PRESS_BUTTON = 1200;
 	public static final int MIN_TICKS_UNTIL_NEXT_HEAD_SPIN = 150;
 	public static final int MAX_TICKS_UNTIL_NEXT_HEAD_SPIN = 300;
+	public static final int MIN_STRUCT_BY_LIGHTNING_TICKS = 1200;
+	public static final int MAX_STRUCT_BY_LIGHTNING_TICKS = 2400;
 
 	private static final String OXIDATION_LEVEL_NBT_NAME = "OxidationLevel";
 	private static final String IS_WAXED_NBT_NAME = "IsWaxed";
@@ -66,7 +69,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 	private static final String ENTITY_SNAPSHOT_NBT_NAME = "EntitySnapshot";
 
 	private static final TrackedData<Integer> OXIDATION_LEVEL;
-	private static final TrackedData<Integer> OXIDATION_TICKS;
+	private static final TrackedData<Integer> STRUCT_BY_LIGHTNING_TICKS;
 	private static final TrackedData<Boolean> IS_WAXED;
 	private static final TrackedData<Boolean> IS_PRESSING_BUTTON;
 	private static final TrackedData<Boolean> IS_SPINNING_HEAD;
@@ -82,12 +85,9 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 
 	public CopperGolemPressButtonGoal pressButtonGoal;
 
-	@Environment(EnvType.CLIENT)
-	private AnimationContextTracker animationTickTracker;
-
 	static {
 		OXIDATION_LEVEL = DataTracker.registerData(CopperGolemEntity.class, TrackedDataHandlerRegistry.INTEGER);
-		OXIDATION_TICKS = DataTracker.registerData(CopperGolemEntity.class, TrackedDataHandlerRegistry.INTEGER);
+		STRUCT_BY_LIGHTNING_TICKS = DataTracker.registerData(CopperGolemEntity.class, TrackedDataHandlerRegistry.INTEGER);
 		IS_WAXED = DataTracker.registerData(CopperGolemEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 		IS_PRESSING_BUTTON = DataTracker.registerData(CopperGolemEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 		TICKS_UNTIL_CAN_PRESS_BUTTON = DataTracker.registerData(CopperGolemEntity.class, TrackedDataHandlerRegistry.INTEGER);
@@ -106,6 +106,19 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 
 			return itemInHand instanceof AxeItem && EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.test(player);
 		};
+	}
+
+	@Environment(EnvType.CLIENT)
+	private AnimationContextTracker animationContextTracker;
+
+	@Override
+	@Environment(EnvType.CLIENT)
+	public AnimationContextTracker getAnimationContextTracker() {
+		if (this.animationContextTracker == null) {
+			this.animationContextTracker = new AnimationContextTracker();
+		}
+
+		return this.animationContextTracker;
 	}
 
 	public CopperGolemEntity(
@@ -136,10 +149,10 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 	protected void initDataTracker() {
 		super.initDataTracker();
 		this.dataTracker.startTracking(OXIDATION_LEVEL, Oxidizable.OxidationLevel.UNAFFECTED.ordinal());
-		this.dataTracker.startTracking(OXIDATION_TICKS, 0);
+		this.dataTracker.startTracking(STRUCT_BY_LIGHTNING_TICKS, 0);
 		this.dataTracker.startTracking(IS_WAXED, false);
 		this.dataTracker.startTracking(IS_PRESSING_BUTTON, false);
-		this.dataTracker.startTracking(TICKS_UNTIL_CAN_PRESS_BUTTON, RandomGenerator.generateInt(MIN_TICKS_UNTIL_CAN_PRESS_BUTTON, MAX_TICKS_UNTIL_CAN_PRESS_BUTTON));
+		this.dataTracker.startTracking(TICKS_UNTIL_CAN_PRESS_BUTTON, RandomGenerator.generateInt(MIN_TICKS_UNTIL_CAN_PRESS_BUTTON, MIN_TICKS_UNTIL_CAN_PRESS_BUTTON + MIN_TICKS_UNTIL_CAN_PRESS_BUTTON));
 		this.dataTracker.startTracking(IS_SPINNING_HEAD, false);
 		this.dataTracker.startTracking(IS_MOVING, false);
 		this.dataTracker.startTracking(TICKS_UNTIL_NEXT_HEAD_SPIN, RandomGenerator.generateInt(MIN_TICKS_UNTIL_NEXT_HEAD_SPIN, MAX_TICKS_UNTIL_NEXT_HEAD_SPIN));
@@ -297,7 +310,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 
 	@Override
 	public Vec3d getLeashOffset() {
-		return new Vec3d(0.0D, this.getStandingEyeHeight() * 0.4D, 0.0D);
+		return new Vec3d(0.0D, this.getStandingEyeHeight() * 0.45D, 0.0D);
 	}
 
 	@Override
@@ -307,6 +320,10 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 
 	@Override
 	public float getMovementSpeed() {
+		if (this.isStructByLightning()) {
+			return MOVEMENT_SPEED + MOVEMENT_SPEED / 2.0F;
+		}
+
 		return MOVEMENT_SPEED - this.getOxidationLevel().ordinal() * 0.05F;
 	}
 
@@ -422,6 +439,26 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 			return;
 		}
 
+		if (this.isStructByLightning() && this.getEntityWorld().isClient() == false) {
+			this.setStructByLightningTicks(this.getStructByLightningTicks() - 1);
+
+			if (RandomGenerator.generateRandomFloat() < SPARK_CHANCE) {
+				for (int i = 0; i < 7; i++) {
+					((ServerWorld) world).spawnParticles(
+						ParticleTypes.ELECTRIC_SPARK,
+						this.getParticleX(0.35D),
+						this.getRandomBodyY() + 0.25D,
+						this.getParticleZ(0.35D),
+						1,
+						this.getRandom().nextGaussian() * 0.01D,
+						this.getRandom().nextGaussian() * 0.01D,
+						this.getRandom().nextGaussian() * 0.01D,
+						0.1D
+					);
+				}
+			}
+		}
+
 		if (this.getTicksUntilCanPressButton() > 0) {
 			this.setTicksUntilCanPressButton(this.getTicksUntilCanPressButton() - 1);
 		}
@@ -507,6 +544,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 	) {
 		super.onStruckByLightning(serverWorld, lightning);
 
+		this.setFireTicks(0);
 		this.setOnFire(false);
 		this.setHealth(this.getMaxHealth());
 
@@ -514,8 +552,12 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 			this.spawnParticles(ParticleTypes.WAX_OFF, 7);
 		}
 
-		if (this.isWaxed() == false && this.getEntityWorld().isClient() == false) {
-			this.setOxidationLevel(Oxidizable.OxidationLevel.UNAFFECTED);
+		if (this.getEntityWorld().isClient() == false) {
+			this.refreshStructByLightningTicks();
+
+			if (this.isWaxed() == false) {
+				this.setOxidationLevel(Oxidizable.OxidationLevel.UNAFFECTED);
+			}
 		}
 	}
 
@@ -571,6 +613,22 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		} else if (this.isOxidized() == false && this.isAiDisabled()) {
 			this.becomeEntity();
 		}
+	}
+
+	public void setStructByLightningTicks(int structByLightningTicks) {
+		this.dataTracker.set(STRUCT_BY_LIGHTNING_TICKS, structByLightningTicks);
+	}
+
+	public int getStructByLightningTicks() {
+		return this.dataTracker.get(STRUCT_BY_LIGHTNING_TICKS);
+	}
+
+	public void refreshStructByLightningTicks() {
+		this.setStructByLightningTicks(RandomGenerator.generateInt(MIN_STRUCT_BY_LIGHTNING_TICKS, MAX_STRUCT_BY_LIGHTNING_TICKS));
+	}
+
+	public boolean isStructByLightning() {
+		return this.getStructByLightningTicks() > 0;
 	}
 
 	private void becomeStatue() {
@@ -742,15 +800,5 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		this.serverHeadYaw = yaw;
 		this.prevHeadYaw = yaw;
 		this.headYaw = yaw;
-	}
-
-	@Override
-	@Environment(EnvType.CLIENT)
-	public AnimationContextTracker getAnimationContextTracker() {
-		if (this.animationTickTracker == null) {
-			this.animationTickTracker = new AnimationContextTracker();
-		}
-
-		return this.animationTickTracker;
 	}
 }

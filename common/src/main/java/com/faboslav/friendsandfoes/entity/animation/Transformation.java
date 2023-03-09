@@ -1,7 +1,5 @@
 package com.faboslav.friendsandfoes.entity.animation;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3f;
@@ -9,7 +7,8 @@ import net.minecraft.util.math.Vec3f;
 public record Transformation(
 	Transformation.Target target,
 	Keyframe... keyframes
-) {
+)
+{
 	public Transformation(
 		Transformation.Target target,
 		Keyframe... keyframes
@@ -26,11 +25,13 @@ public record Transformation(
 		return this.keyframes;
 	}
 
-	public interface Target {
+	public interface Target
+	{
 		void apply(ModelPart modelPart, Vec3f vec3f);
 	}
 
-	public static class Interpolations {
+	public static class Interpolations
+	{
 		public static final Transformation.Interpolation LINEAR = (vec3f, delta, keyframes, start, end, f) -> {
 			Vec3f vec3f2 = keyframes[start].target();
 			Vec3f vec3f3 = keyframes[end].target();
@@ -50,7 +51,8 @@ public record Transformation(
 		}
 	}
 
-	public static class Targets {
+	public static class Targets
+	{
 		public static final Transformation.Target TRANSLATE = ModelPart::translate;
 		public static final Transformation.Target ROTATE = ModelPart::rotate;
 		public static final Transformation.Target SCALE = ModelPart::scale;
@@ -59,7 +61,8 @@ public record Transformation(
 		}
 	}
 
-	public interface Interpolation {
+	public interface Interpolation
+	{
 		Vec3f apply(Vec3f vec3f, float delta, Keyframe[] keyframes, int start, int end, float f);
 	}
 }

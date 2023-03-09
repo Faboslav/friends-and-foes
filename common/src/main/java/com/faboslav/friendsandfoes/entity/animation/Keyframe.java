@@ -6,7 +6,8 @@ public record Keyframe(
 	float timestamp,
 	Vec3f target,
 	Transformation.Interpolation interpolation
-) {
+)
+{
 	public Keyframe(float timestamp, Vec3f target, Transformation.Interpolation interpolation) {
 		this.timestamp = timestamp;
 		this.target = target;

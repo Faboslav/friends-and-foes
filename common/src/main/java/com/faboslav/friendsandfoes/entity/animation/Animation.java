@@ -1,17 +1,18 @@
 package com.faboslav.friendsandfoes.entity.animation;
 
 import com.google.common.collect.Maps;
+import org.apache.commons.compress.utils.Lists;
+
 import java.util.List;
 import java.util.Map;
-import net.fabricmc.api.EnvType;
-import org.apache.commons.compress.utils.Lists;
 
 public record Animation(
 	float lengthInSeconds,
 	boolean looping,
 	Map<String,
 		List<Transformation>> boneAnimations
-) {
+)
+{
 
 	public Animation(
 		float lengthInSeconds,
@@ -35,7 +36,8 @@ public record Animation(
 		return this.boneAnimations;
 	}
 
-	public static class Builder {
+	public static class Builder
+	{
 		private final float lengthInSeconds;
 		private final Map<String, List<Transformation>> transformations = Maps.newHashMap();
 		private boolean looping;

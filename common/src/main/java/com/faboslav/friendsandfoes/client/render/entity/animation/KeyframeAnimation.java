@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.client.render.entity.animation;
 
-import net.minecraft.client.render.entity.animation.Animation;
+import com.faboslav.friendsandfoes.entity.animation.Animation;
 
 public final class KeyframeAnimation
 {

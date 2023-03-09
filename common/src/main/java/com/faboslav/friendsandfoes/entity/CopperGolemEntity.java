@@ -7,8 +7,6 @@ import com.faboslav.friendsandfoes.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.util.ModelAnimationHelper;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Oxidizable;
 import net.minecraft.entity.*;
@@ -108,11 +106,9 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		};
 	}
 
-	@Environment(EnvType.CLIENT)
 	private AnimationContextTracker animationContextTracker;
 
 	@Override
-	@Environment(EnvType.CLIENT)
 	public AnimationContextTracker getAnimationContextTracker() {
 		if (this.animationContextTracker == null) {
 			this.animationContextTracker = new AnimationContextTracker();

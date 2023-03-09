@@ -4,6 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.util.math.Vec3d;
+import org.joml.Vector3f;
 
 @Environment(EnvType.CLIENT)
 public final class ModelPartAnimator
@@ -22,9 +23,9 @@ public final class ModelPartAnimator
 
 	public static void setPosition(
 		ModelPart modelPart,
-		Vec3d position
+		Vector3f position
 	) {
-		modelPart.setPivot((float) position.getX(), (float) position.getY(), (float) position.getZ());
+		modelPart.setPivot((float) position.x(), (float) position.y(), (float) position.z());
 	}
 
 	public static void setXRotation(ModelPart modelPart, float x) {
@@ -41,8 +42,8 @@ public final class ModelPartAnimator
 
 	public static void setRotation(
 		ModelPart modelPart,
-		Vec3d rotation
+		Vector3f rotation
 	) {
-		modelPart.setAngles((float) rotation.getX(), (float) rotation.getY(), (float) rotation.getZ());
+		modelPart.setAngles((float) rotation.x(), (float) rotation.y(), (float) rotation.z());
 	}
 }

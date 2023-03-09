@@ -7,8 +7,6 @@ import com.faboslav.friendsandfoes.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -83,11 +81,9 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 	public MaulerBurrowDownGoal burrowDownGoal;
 
-	@Environment(EnvType.CLIENT)
 	private AnimationContextTracker animationContextTracker;
 
 	@Override
-	@Environment(EnvType.CLIENT)
 	public AnimationContextTracker getAnimationContextTracker() {
 		if (this.animationContextTracker == null) {
 			this.animationContextTracker = new AnimationContextTracker();

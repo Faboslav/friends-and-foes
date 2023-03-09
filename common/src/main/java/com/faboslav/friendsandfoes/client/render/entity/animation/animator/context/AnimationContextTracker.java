@@ -11,9 +11,7 @@ import java.util.Map;
 public final class AnimationContextTracker
 {
 	private final Map<String, KeyframeAnimationContext> animationKeyframeContext = new HashMap<>();
-	@Environment(EnvType.CLIENT)
 	private final Map<String, ModelPartAnimationContext> animationPositionContext = new HashMap<>();
-	@Environment(EnvType.CLIENT)
 	private final Map<String, ModelPartAnimationContext> animationRotationContext = new HashMap<>();
 
 	public KeyframeAnimationContext get(KeyframeAnimation keyframeAnimation) {
@@ -26,7 +24,6 @@ public final class AnimationContextTracker
 		));
 	}
 
-	@Environment(EnvType.CLIENT)
 	public boolean contains(String modelPartName, ModelPartAnimationType type) {
 		if (type == ModelPartAnimationType.POSITION) {
 			return this.animationPositionContext.containsKey(modelPartName);
@@ -37,7 +34,6 @@ public final class AnimationContextTracker
 		}
 	}
 
-	@Environment(EnvType.CLIENT)
 	public ModelPartAnimationContext get(String modelPartName, ModelPartAnimationType type) {
 		if (type == ModelPartAnimationType.POSITION) {
 			return this.animationPositionContext.get(modelPartName);
@@ -48,7 +44,6 @@ public final class AnimationContextTracker
 		}
 	}
 
-	@Environment(EnvType.CLIENT)
 	public void add(String modelPartName, ModelPartAnimationType type, ModelPartAnimationContext animationContext) {
 		if (type == ModelPartAnimationType.POSITION) {
 			this.animationPositionContext.put(modelPartName, animationContext);
@@ -59,7 +54,6 @@ public final class AnimationContextTracker
 		}
 	}
 
-	@Environment(EnvType.CLIENT)
 	public void remove(String modelPartName, ModelPartAnimationType type) {
 		if (type == ModelPartAnimationType.POSITION) {
 			this.animationPositionContext.remove(modelPartName);

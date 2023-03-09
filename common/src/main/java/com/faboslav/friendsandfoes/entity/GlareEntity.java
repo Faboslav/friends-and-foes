@@ -9,8 +9,6 @@ import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.control.FlightMoveControl;
@@ -83,11 +81,9 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	private float currentLayerPitchAnimationProgress;
 	private float currentLayerRollAnimationProgress;
 
-	@Environment(EnvType.CLIENT)
 	private AnimationContextTracker animationContextTracker;
 
 	@Override
-	@Environment(EnvType.CLIENT)
 	public AnimationContextTracker getAnimationContextTracker() {
 		if (this.animationContextTracker == null) {
 			this.animationContextTracker = new AnimationContextTracker();

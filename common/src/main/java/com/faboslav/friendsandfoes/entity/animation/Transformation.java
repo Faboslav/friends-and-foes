@@ -1,33 +1,34 @@
 package com.faboslav.friendsandfoes.entity.animation;
 
-import net.minecraft.client.model.ModelPart;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3f;
 
 public record Transformation(
-	Transformation.Target target,
+	Transformation.Type type,
 	Keyframe... keyframes
 )
 {
 	public Transformation(
-		Transformation.Target target,
+		Transformation.Type type,
 		Keyframe... keyframes
 	) {
-		this.target = target;
+		this.type = type;
 		this.keyframes = keyframes;
 	}
 
-	public Transformation.Target target() {
-		return this.target;
+	public Transformation.Type type() {
+		return this.type;
 	}
 
 	public Keyframe[] keyframes() {
 		return this.keyframes;
 	}
 
-	public interface Target
+	public enum Type
 	{
-		void apply(ModelPart modelPart, Vec3f vec3f);
+		TRANSLATE,
+		ROTATE,
+		SCALE
 	}
 
 	public static class Interpolations
@@ -48,16 +49,6 @@ public record Transformation(
 		};
 
 		public Interpolations() {
-		}
-	}
-
-	public static class Targets
-	{
-		public static final Transformation.Target TRANSLATE = ModelPart::translate;
-		public static final Transformation.Target ROTATE = ModelPart::rotate;
-		public static final Transformation.Target SCALE = ModelPart::scale;
-
-		public Targets() {
 		}
 	}
 

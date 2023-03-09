@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.entity.animation;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import org.apache.commons.compress.utils.Lists;
 
 import java.util.List;
 import java.util.Map;

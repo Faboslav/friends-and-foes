@@ -6,16 +6,21 @@ import com.faboslav.friendsandfoes.client.render.entity.animation.animator.conte
 import com.faboslav.friendsandfoes.client.render.entity.animation.animator.context.ModelPartAnimationContext;
 import com.faboslav.friendsandfoes.client.render.entity.model.AnimatedEntityModel;
 import com.faboslav.friendsandfoes.entity.animation.AnimatedEntity;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+import com.faboslav.friendsandfoes.entity.animation.Animation;
+import com.faboslav.friendsandfoes.entity.animation.Keyframe;
+import com.faboslav.friendsandfoes.entity.animation.Transformation;
 import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.render.entity.animation.Animation;
-import net.minecraft.client.render.entity.animation.AnimationHelper;
+import net.minecraft.client.render.entity.model.SinglePartEntityModel;
 import net.minecraft.entity.AnimationState;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3f;
 
-@Environment(EnvType.CLIENT)
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 public final class ModelAnimator
 {
 	public static void updateKeyframeAnimations(
@@ -34,8 +39,54 @@ public final class ModelAnimator
 
 		animationState.update(animationProgress, 1.0F);
 		animationState.run((state) -> {
-			AnimationHelper.animate(animatedEntityModel, animation, state.getTimeRunning(), 1.0F, new Vec3f());
+			animateKeyframe(animatedEntityModel, animation, state.getTimeRunning(), 1.0F, new Vec3f());
 		});
+	}
+
+	public static void animateKeyframe(
+		SinglePartEntityModel<?> model,
+		Animation animation,
+		long runningTime,
+		float f,
+		Vec3f vec3f
+	) {
+		float g = getRunningSeconds(animation, runningTime);
+		Iterator var7 = animation.boneAnimations().entrySet().iterator();
+
+		while (var7.hasNext()) {
+			Map.Entry<String, List<Transformation>> entry = (Map.Entry) var7.next();
+			Optional<ModelPart> optional = model.getChild(entry.getKey());
+			List<Transformation> list = entry.getValue();
+			optional.ifPresent((part) -> {
+				list.forEach((transformation) -> {
+					Keyframe[] keyframes = transformation.keyframes();
+					int i = Math.max(0, MathHelper.binarySearch(0, keyframes.length, (index) -> {
+						return g <= keyframes[index].timestamp();
+					}) - 1);
+					int j = Math.min(keyframes.length - 1, i + 1);
+					Keyframe keyframe = keyframes[i];
+					Keyframe keyframe2 = keyframes[j];
+					float h = g - keyframe.timestamp();
+					float k = MathHelper.clamp(h / (keyframe2.timestamp() - keyframe.timestamp()), 0.0F, 1.0F);
+					keyframe2.interpolation().apply(vec3f, k, keyframes, i, j, f);
+					// TODO rework this properly
+					Transformation.Type type = transformation.type();
+					if (type == Transformation.Type.TRANSLATE) {
+						part.translate(vec3f);
+					} else if (type == Transformation.Type.ROTATE) {
+						part.rotate(vec3f);
+					} else if (type == Transformation.Type.SCALE) {
+						part.scale(vec3f);
+					}
+				});
+			});
+		}
+
+	}
+
+	private static float getRunningSeconds(Animation animation, long runningTime) {
+		float f = (float) runningTime / 1000.0F;
+		return animation.looping() ? f % animation.lengthInSeconds():f;
 	}
 
 	public static void animateModelPartXPositionWithProgress(

@@ -322,10 +322,6 @@ public final class CopperGolemPressButtonGoal extends Goal
 				}
 		}
 
-		if (positionToStandOn != null) {
-			positionToStandOn = positionToStandOn.add(0.5, 0, 0.5);
-		}
-
 		this.positionToStandOn = positionToStandOn;
 	}
 

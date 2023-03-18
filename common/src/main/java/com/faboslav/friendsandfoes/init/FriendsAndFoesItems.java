@@ -81,7 +81,7 @@ public final class FriendsAndFoesItems
 		WAXED_EXPOSED_LIGHTNING_ROD = RegistryHelper.registerItem("waxed_exposed_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_EXPOSED_LIGHTNING_ROD.get(), new Item.Settings().maxCount(64)));
 		WAXED_WEATHERED_LIGHTNING_ROD = RegistryHelper.registerItem("waxed_weathered_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_WEATHERED_LIGHTNING_ROD.get(), new Item.Settings().maxCount(64)));
 		WAXED_OXIDIZED_LIGHTNING_ROD = RegistryHelper.registerItem("waxed_oxidized_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get(), new Item.Settings().maxCount(64)));
-		WILDFIRE_CROWN = RegistryHelper.registerItem("wildfire_crown", () -> new ArmorItem(FriendsAndFoesArmorMaterials.WILDFIRE, EquipmentSlot.HEAD, (new Item.Settings()).fireproof()));
+		WILDFIRE_CROWN = RegistryHelper.registerItem("wildfire_crown", () -> new ArmorItem(FriendsAndFoesArmorMaterials.WILDFIRE, ArmorItem.Type.HELMET, (new Item.Settings()).fireproof()));
 		WILDFIRE_CROWN_FRAGMENT = RegistryHelper.registerItem("wildfire_crown_fragment", () -> new Item((new Item.Settings())));
 	}
 

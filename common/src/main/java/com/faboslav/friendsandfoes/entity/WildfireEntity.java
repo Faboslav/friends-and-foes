@@ -261,7 +261,7 @@ public final class WildfireEntity extends HostileEntity
 		float amount
 	) {
 		if (
-			source == DamageSource.IN_FIRE
+			source == this.getDamageSources().inFire()
 			|| (
 				source.getAttacker() != null
 				&& source.getAttacker().getType().isIn(FriendsAndFoesTags.WILDFIRE_ALLIES)
@@ -275,7 +275,7 @@ public final class WildfireEntity extends HostileEntity
 			float shieldBreakDamageThreshold = (float) this.getAttributeValue(EntityAttributes.GENERIC_MAX_HEALTH) * 0.25F;
 
 			if (this.damageAmountCounter >= shieldBreakDamageThreshold) {
-				source.getAttacker().damage(DamageSource.mob(this), GENERIC_ATTACK_DAMAGE);
+				source.getAttacker().damage(this.getDamageSources().mobAttack(this), GENERIC_ATTACK_DAMAGE);
 				this.breakShield();
 				this.playShieldBreakSound();
 				this.damageAmountCounter = 0;

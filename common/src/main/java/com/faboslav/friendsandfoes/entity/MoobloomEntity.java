@@ -221,7 +221,13 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 
 		// On average once per five minutes (1/6000)
 		if (this.getRandom().nextFloat() <= 0.00016666666) {
-			Block blockUnderneath = this.getWorld().getBlockState(new BlockPos(this.getX(), this.getY() - 1, this.getZ())).getBlock();
+			Block blockUnderneath = this.getWorld().getBlockState(
+				new BlockPos(
+					(int) this.getX(),
+					(int) this.getY() - 1,
+					(int) this.getZ()
+				)
+			).getBlock();
 
 			if (blockUnderneath == Blocks.GRASS_BLOCK && this.getWorld().isAir(this.getBlockPos())) {
 				Block flower = this.getVariant().getFlower();

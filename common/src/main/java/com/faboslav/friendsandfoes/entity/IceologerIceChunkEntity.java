@@ -241,7 +241,7 @@ public final class IceologerIceChunkEntity extends Entity
 			return;
 		}
 
-		hitEntity.damage(DamageSource.MAGIC, 12.0F);
+		hitEntity.damage(this.getDamageSources().magic(), 12.0F);
 
 		if (hitEntity.canFreeze()) {
 			hitEntity.setFrozenTicks(400);

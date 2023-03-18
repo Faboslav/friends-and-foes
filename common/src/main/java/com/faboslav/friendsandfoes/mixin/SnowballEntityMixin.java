@@ -30,6 +30,6 @@ public abstract class SnowballEntityMixin extends ThrownItemEntity
 	) {
 		Entity entity = entityHitResult.getEntity();
 		int i = entity instanceof WildfireEntity ? 3:0;
-		entity.damage(DamageSource.thrownProjectile(this, this.getOwner()), (float) i);
+		entity.damage(this.getDamageSources().thrown(this, this.getOwner()), (float)i);
 	}
 }

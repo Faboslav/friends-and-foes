@@ -46,6 +46,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.world.EntityView;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
@@ -97,7 +98,6 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 
 		this.moveControl = new FlightMoveControl(this, 10, true);
 		this.setPathfindingPenalty(PathNodeType.DANGER_FIRE, -1.0F);
-		this.setPathfindingPenalty(PathNodeType.DANGER_CACTUS, -1.0F);
 		this.setPathfindingPenalty(PathNodeType.WATER, -1.0F);
 		this.setPathfindingPenalty(PathNodeType.LAVA, -1.0F);
 		this.setPathfindingPenalty(PathNodeType.WATER_BORDER, 16.0F);

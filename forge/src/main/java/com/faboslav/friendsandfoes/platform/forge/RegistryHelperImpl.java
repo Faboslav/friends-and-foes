@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes.platform.forge;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.mixin.forge.FireBlockAccessor;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockSetType;
 import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderLayers;
@@ -79,6 +80,10 @@ public final class RegistryHelperImpl
 
 	public static <T extends Block> Supplier<T> registerBlock(String name, Supplier<T> block) {
 		return BLOCKS.register(name, block);
+	}
+
+	public static void registerBlockSetType(Supplier<BlockSetType> blockSetType) {
+		BlockSetType.register(blockSetType.get());
 	}
 
 	public static void registerEntityModelLayer(EntityModelLayer location, Supplier<TexturedModelData> definition) {

@@ -10,7 +10,7 @@ env:
         Java 17
         Java 18
     GAME_VERSIONS: |
-        1.19.3
+        1.19.4
     FABRIC_DEPENDENCIES: |
         fabric-api | depends | *
     QUILT_DEPENDENCIES: |

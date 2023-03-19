@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.platform.fabric;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.platform.RegistryHelper;
 import com.faboslav.friendsandfoes.world.processor.quilt.IceologerCabinArmorStandProcessor;
 import com.faboslav.friendsandfoes.world.processor.quilt.IllusionerShackItemFrameProcessor;

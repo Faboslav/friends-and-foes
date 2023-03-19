@@ -569,6 +569,11 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	}
 
 	@Override
+	public EntityView method_48926() {
+		return this.getWorld();
+	}
+
+	@Override
 	public boolean isBreedingItem(ItemStack itemStack) {
 		return TEMPT_ITEMS.test(itemStack);
 	}

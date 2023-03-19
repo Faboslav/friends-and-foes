@@ -3,7 +3,6 @@ package com.faboslav.friendsandfoes.init;
 import com.faboslav.friendsandfoes.item.FriendsAndFoesArmorMaterials;
 import com.faboslav.friendsandfoes.platform.RegistryHelper;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.*;
 
 import java.util.function.Supplier;

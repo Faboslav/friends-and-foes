@@ -209,7 +209,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		this.headYaw = this.prevHeadYaw;
 		this.lastHandSwingProgress = entitySnapshot.getFloat("lastHandSwingProgress");
 		this.handSwingProgress = this.lastHandSwingProgress;
-		((LimbAnimatorAccessor)this.limbAnimator).setPrevSpeed(entitySnapshot.getFloat("limbAnimatorPrevSpeed"));
+		((LimbAnimatorAccessor) this.limbAnimator).setPrevSpeed(entitySnapshot.getFloat("limbAnimatorPrevSpeed"));
 		this.limbAnimator.setSpeed(entitySnapshot.getFloat("limbAnimatorSpeed"));
 		((LimbAnimatorAccessor) this.limbAnimator).setPos(entitySnapshot.getFloat("limbAnimatorPos"));
 		this.prevLookDirection = entitySnapshot.getFloat("prevLookDirection");
@@ -296,7 +296,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 
 		if (this.isOxidized()) {
 			NbtCompound entitySnapshot = this.getEntitySnapshot();
-			((LimbAnimatorAccessor)this.limbAnimator).setPrevSpeed(entitySnapshot.getFloat("limbAnimatorPrevSpeed"));
+			((LimbAnimatorAccessor) this.limbAnimator).setPrevSpeed(entitySnapshot.getFloat("limbAnimatorPrevSpeed"));
 			this.limbAnimator.setSpeed(entitySnapshot.getFloat("limbAnimatorSpeed"));
 			((LimbAnimatorAccessor) this.limbAnimator).setPos(entitySnapshot.getFloat("limbAnimatorPos"));
 		}
@@ -672,7 +672,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		entitySnapshot.putDouble("serverHeadYaw", this.serverHeadYaw);
 		entitySnapshot.putFloat("prevHeadYaw", this.prevHeadYaw); // Same as headYaw
 		entitySnapshot.putFloat("lastHandSwingProgress", this.lastHandSwingProgress); // Same as handSwingProgress
-		entitySnapshot.putFloat("limbAnimatorPrevSpeed", ((LimbAnimatorAccessor)this.limbAnimator).getPresSpeed()); // Same as limbDistance
+		entitySnapshot.putFloat("limbAnimatorPrevSpeed", ((LimbAnimatorAccessor) this.limbAnimator).getPresSpeed()); // Same as limbDistance
 		entitySnapshot.putFloat("limbAnimatorSpeed", this.limbAnimator.getSpeed());
 		entitySnapshot.putFloat("limbAnimatorPos", this.limbAnimator.getPos());
 		entitySnapshot.putFloat("prevLookDirection", this.prevLookDirection); // Same as lookDirection

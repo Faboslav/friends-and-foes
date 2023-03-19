@@ -37,6 +37,7 @@ public final class FriendsAndFoes
 
 	public static void init() {
 		FriendsAndFoesActivities.init();
+		FriendsAndFoesBlockSetTypes.init();
 		FriendsAndFoesBlocks.init();
 		FriendsAndFoesCriteria.init();
 		FriendsAndFoesEntityTypes.init();

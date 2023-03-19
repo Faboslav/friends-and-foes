@@ -3,7 +3,6 @@ package com.faboslav.friendsandfoes.mixin;
 import com.faboslav.friendsandfoes.entity.WildfireEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.projectile.thrown.SnowballEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.util.hit.EntityHitResult;
@@ -30,6 +29,6 @@ public abstract class SnowballEntityMixin extends ThrownItemEntity
 	) {
 		Entity entity = entityHitResult.getEntity();
 		int i = entity instanceof WildfireEntity ? 3:0;
-		entity.damage(this.getDamageSources().thrown(this, this.getOwner()), (float)i);
+		entity.damage(this.getDamageSources().thrown(this, this.getOwner()), (float) i);
 	}
 }

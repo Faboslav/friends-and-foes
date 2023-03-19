@@ -3,7 +3,6 @@ package com.faboslav.friendsandfoes.client.render.entity.animation.animator;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.ModelPart;
-import net.minecraft.util.math.Vec3d;
 import org.joml.Vector3f;
 
 @Environment(EnvType.CLIENT)

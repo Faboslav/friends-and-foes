@@ -8,7 +8,7 @@ body:
         attributes:
             value: |
                 Thanks for taking the time to fill out this crash report! Anyhow before you take your time answering all of the question please make sure of the following:
-                  - Are you sure that there is not already reported same or similiar crash? You can try to use the [search](https://github.com/Faboslav/friends-and-foes/issues).
+                  - Are you sure that there is not already reported same or similar crash? You can try to use the [search](https://github.com/Faboslav/friends-and-foes/issues).
                   - Are you using the latest version of the mod? You can find the latest version [here](https://github.com/Faboslav/friends-and-foes/releases).
     -   type: input
         id: minecraft-version

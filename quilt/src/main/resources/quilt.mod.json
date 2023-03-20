@@ -42,7 +42,7 @@
 			},
 			{
 				"id": "minecraft",
-				"version": ">=1.19.3"
+				"version": ">=1.19.4"
 			},
 			{
 				"id": "quilt_loader",

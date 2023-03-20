@@ -1,13 +1,15 @@
 package com.faboslav.friendsandfoes.item;
 
 import com.faboslav.friendsandfoes.init.FriendsAndFoesItems;
-import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Lazy;
+import net.minecraft.util.Util;
 
+import java.util.EnumMap;
 import java.util.function.Supplier;
 
 /**
@@ -15,14 +17,32 @@ import java.util.function.Supplier;
  */
 public enum FriendsAndFoesArmorMaterials implements ArmorMaterial
 {
-	WILDFIRE("wildfire", 35, new int[]{2, 5, 7, 2}, 12, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 2.0F, 0.1F, () -> {
+	WILDFIRE(
+		"wildfire",
+		35,
+		(EnumMap) Util.make(new EnumMap(ArmorItem.Type.class), (map) -> {
+			map.put(ArmorItem.Type.BOOTS, 2);
+			map.put(ArmorItem.Type.LEGGINGS, 5);
+			map.put(ArmorItem.Type.CHESTPLATE, 7);
+			map.put(ArmorItem.Type.HELMET, 2);
+		}),
+		12,
+		SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE,
+		2.0F,
+		0.1F, () -> {
 		return Ingredient.ofItems(FriendsAndFoesItems.WILDFIRE_CROWN_FRAGMENT.get());
 	});
 
-	private static final int[] BASE_DURABILITY = new int[]{13, 15, 16, 11};
+	private static final EnumMap<ArmorItem.Type, Integer> BASE_DURABILITY = (EnumMap) Util.make(new EnumMap(ArmorItem.Type.class), (map) -> {
+		map.put(ArmorItem.Type.BOOTS, 13);
+		map.put(ArmorItem.Type.LEGGINGS, 15);
+		map.put(ArmorItem.Type.CHESTPLATE, 16);
+		map.put(ArmorItem.Type.HELMET, 11);
+	});
+
 	private final String name;
 	private final int durabilityMultiplier;
-	private final int[] protectionAmounts;
+	private final EnumMap<ArmorItem.Type, Integer> protectionAmounts;
 	private final int enchantability;
 	private final SoundEvent equipSound;
 	private final float toughness;
@@ -32,7 +52,7 @@ public enum FriendsAndFoesArmorMaterials implements ArmorMaterial
 	FriendsAndFoesArmorMaterials(
 		String name,
 		int durabilityMultiplier,
-		int[] protectionAmounts,
+		EnumMap protectionAmounts,
 		int enchantability,
 		SoundEvent equipSound,
 		float toughness,
@@ -49,12 +69,12 @@ public enum FriendsAndFoesArmorMaterials implements ArmorMaterial
 		this.repairIngredientSupplier = new Lazy(repairIngredientSupplier);
 	}
 
-	public int getDurability(EquipmentSlot slot) {
-		return BASE_DURABILITY[slot.getEntitySlotId()] * this.durabilityMultiplier;
+	public int getDurability(ArmorItem.Type type) {
+		return BASE_DURABILITY.get(type) * this.durabilityMultiplier;
 	}
 
-	public int getProtectionAmount(EquipmentSlot slot) {
-		return this.protectionAmounts[slot.getEntitySlotId()];
+	public int getProtection(ArmorItem.Type type) {
+		return (Integer) this.protectionAmounts.get(type);
 	}
 
 	public int getEnchantability() {

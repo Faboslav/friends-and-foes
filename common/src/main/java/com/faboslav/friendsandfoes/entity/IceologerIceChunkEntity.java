@@ -8,7 +8,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -241,7 +240,7 @@ public final class IceologerIceChunkEntity extends Entity
 			return;
 		}
 
-		hitEntity.damage(DamageSource.MAGIC, 12.0F);
+		hitEntity.damage(this.getDamageSources().magic(), 12.0F);
 
 		if (hitEntity.canFreeze()) {
 			hitEntity.setFrozenTicks(400);

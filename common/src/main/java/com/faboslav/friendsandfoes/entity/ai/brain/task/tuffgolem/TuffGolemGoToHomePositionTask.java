@@ -105,7 +105,11 @@ public final class TuffGolemGoToHomePositionTask extends MultiTickTask<TuffGolem
 	) {
 		LookTargetUtil.walkTowards(
 			tuffGolem,
-			new BlockPos(tuffGolem.getHomePos()),
+			new BlockPos(
+				(int) tuffGolem.getHomePos().getX(),
+				(int) tuffGolem.getHomePos().getY(),
+				(int) tuffGolem.getHomePos().getZ()
+			),
 			0.6F,
 			0
 		);

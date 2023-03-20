@@ -5,6 +5,7 @@ import com.faboslav.friendsandfoes.client.render.entity.animation.animator.conte
 import com.faboslav.friendsandfoes.entity.ai.goal.coppergolem.*;
 import com.faboslav.friendsandfoes.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
+import com.faboslav.friendsandfoes.mixin.LimbAnimatorAccessor;
 import com.faboslav.friendsandfoes.util.ModelAnimationHelper;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.block.BlockState;
@@ -122,7 +123,6 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		World world
 	) {
 		super(entityType, world);
-		this.stepHeight = 0.3F;
 	}
 
 	@Override
@@ -209,9 +209,9 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		this.headYaw = this.prevHeadYaw;
 		this.lastHandSwingProgress = entitySnapshot.getFloat("lastHandSwingProgress");
 		this.handSwingProgress = this.lastHandSwingProgress;
-		this.lastLimbDistance = entitySnapshot.getFloat("lastLimbDistance");
-		this.limbDistance = this.lastLimbDistance;
-		this.limbAngle = entitySnapshot.getFloat("limbAngle");
+		((LimbAnimatorAccessor) this.limbAnimator).setPrevSpeed(entitySnapshot.getFloat("limbAnimatorPrevSpeed"));
+		this.limbAnimator.setSpeed(entitySnapshot.getFloat("limbAnimatorSpeed"));
+		((LimbAnimatorAccessor) this.limbAnimator).setPos(entitySnapshot.getFloat("limbAnimatorPos"));
 		this.prevLookDirection = entitySnapshot.getFloat("prevLookDirection");
 		this.lookDirection = this.prevLookDirection;
 		this.age = entitySnapshot.getInt("age");
@@ -282,7 +282,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		DamageSource source,
 		float amount
 	) {
-		if (source.getAttacker() instanceof LightningEntity || source == DamageSource.SWEET_BERRY_BUSH) {
+		if (source.getAttacker() instanceof LightningEntity || source == this.getDamageSources().sweetBerryBush()) {
 			return false;
 		}
 
@@ -296,9 +296,9 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 
 		if (this.isOxidized()) {
 			NbtCompound entitySnapshot = this.getEntitySnapshot();
-			this.lastLimbDistance = entitySnapshot.getFloat("lastLimbDistance");
-			this.limbDistance = this.lastLimbDistance;
-			this.limbAngle = entitySnapshot.getFloat("limbAngle");
+			((LimbAnimatorAccessor) this.limbAnimator).setPrevSpeed(entitySnapshot.getFloat("limbAnimatorPrevSpeed"));
+			this.limbAnimator.setSpeed(entitySnapshot.getFloat("limbAnimatorSpeed"));
+			((LimbAnimatorAccessor) this.limbAnimator).setPos(entitySnapshot.getFloat("limbAnimatorPos"));
 		}
 
 		return damageResult;
@@ -672,8 +672,9 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		entitySnapshot.putDouble("serverHeadYaw", this.serverHeadYaw);
 		entitySnapshot.putFloat("prevHeadYaw", this.prevHeadYaw); // Same as headYaw
 		entitySnapshot.putFloat("lastHandSwingProgress", this.lastHandSwingProgress); // Same as handSwingProgress
-		entitySnapshot.putFloat("lastLimbDistance", this.lastLimbDistance); // Same as limbDistance
-		entitySnapshot.putFloat("limbAngle", this.limbAngle);
+		entitySnapshot.putFloat("limbAnimatorPrevSpeed", ((LimbAnimatorAccessor) this.limbAnimator).getPresSpeed()); // Same as limbDistance
+		entitySnapshot.putFloat("limbAnimatorSpeed", this.limbAnimator.getSpeed());
+		entitySnapshot.putFloat("limbAnimatorPos", this.limbAnimator.getPos());
 		entitySnapshot.putFloat("prevLookDirection", this.prevLookDirection); // Same as lookDirection
 		entitySnapshot.putInt("age", this.age);
 		entitySnapshot.putFloat("tickDelta", ModelAnimationHelper.getTickDelta());

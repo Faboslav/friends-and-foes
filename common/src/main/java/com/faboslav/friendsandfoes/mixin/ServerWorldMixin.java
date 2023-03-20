@@ -6,6 +6,7 @@ import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.mob.ZombieHorseEntity;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerWorld;
@@ -33,14 +34,15 @@ public abstract class ServerWorldMixin extends World implements StructureWorldAc
 	protected ServerWorldMixin(
 		MutableWorldProperties properties,
 		RegistryKey<World> registryRef,
-		RegistryEntry<DimensionType> dimension,
+		DynamicRegistryManager registryManager,
+		RegistryEntry<DimensionType> dimensionEntry,
 		Supplier<Profiler> profiler,
 		boolean isClient,
 		boolean debugWorld,
-		long seed,
+		long biomeAccess,
 		int maxChainedNeighborUpdates
 	) {
-		super(properties, registryRef, dimension, profiler, isClient, debugWorld, seed, maxChainedNeighborUpdates);
+		super(properties, registryRef, registryManager, dimensionEntry, profiler, isClient, debugWorld, biomeAccess, maxChainedNeighborUpdates);
 	}
 
 	@Shadow

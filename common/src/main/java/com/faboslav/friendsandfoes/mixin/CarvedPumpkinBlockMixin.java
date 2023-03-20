@@ -10,7 +10,7 @@ import net.minecraft.block.pattern.BlockPattern;
 import net.minecraft.block.pattern.BlockPatternBuilder;
 import net.minecraft.block.pattern.CachedBlockPosition;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.item.Wearable;
+import net.minecraft.item.Equipment;
 import net.minecraft.predicate.block.BlockStatePredicate;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.BlockSoundGroup;
@@ -29,7 +29,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.function.Predicate;
 
 @Mixin(CarvedPumpkinBlock.class)
-public abstract class CarvedPumpkinBlockMixin extends HorizontalFacingBlock implements Wearable
+public abstract class CarvedPumpkinBlockMixin extends HorizontalFacingBlock implements Equipment
 {
 	@Nullable
 	private BlockPattern copperGolemDispenserPattern;

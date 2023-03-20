@@ -405,7 +405,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 			return false;
 		}
 
-		return target.damage(DamageSource.mob(this), (float) this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE));
+		return target.damage(this.getDamageSources().mobAttack(this), (float) this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE));
 	}
 
 	public int getAngerTime() {

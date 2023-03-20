@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockSetType;
 import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
@@ -27,7 +28,6 @@ import net.minecraft.registry.Registry;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.structure.processor.StructureProcessor;
 import net.minecraft.structure.processor.StructureProcessorType;
-import net.minecraft.util.Identifier;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.gen.structure.Structure;
 import net.minecraft.world.gen.structure.StructureType;
@@ -57,6 +57,10 @@ public final class RegistryHelperImpl
 	public static <T extends Block> Supplier<T> registerBlock(String name, Supplier<T> block) {
 		var registry = Registry.register(Registries.BLOCK, FriendsAndFoes.makeID(name), block.get());
 		return () -> registry;
+	}
+
+	public static void registerBlockSetType(Supplier<BlockSetType> blockSetType) {
+		BlockSetType.register(blockSetType.get());
 	}
 
 	public static void registerEntityModelLayer(EntityModelLayer location, Supplier<TexturedModelData> definition) {

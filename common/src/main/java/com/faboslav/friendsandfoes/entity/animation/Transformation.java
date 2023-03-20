@@ -31,7 +31,8 @@ public record Transformation(
 		SCALE
 	}
 
-	public static class Interpolations {
+	public static class Interpolations
+	{
 		public static final Interpolation LINEAR = (vector3f, delta, keyframes, start, end, g) -> {
 			Vector3f vector3f2 = keyframes[start].target();
 			Vector3f vector3f3 = keyframes[end].target();
@@ -50,7 +51,8 @@ public record Transformation(
 		}
 	}
 
-	public interface Interpolation {
+	public interface Interpolation
+	{
 		Vector3f apply(Vector3f vector3f, float delta, Keyframe[] keyframes, int start, int end, float g);
 	}
 }

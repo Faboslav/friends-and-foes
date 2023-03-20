@@ -82,10 +82,10 @@ public final class TuffGolemBrain
 				Pair.of(0,
 					new RandomTask(
 						ImmutableList.of(
-							Pair.of(FollowMobWithIntervalTask.follow(EntityType.PLAYER, 6.0F, UniformIntProvider.create(30, 60)), 3),
-							Pair.of(FollowMobWithIntervalTask.follow(FriendsAndFoesEntityTypes.COPPER_GOLEM.get(), 6.0F, UniformIntProvider.create(30, 60)), 2),
-							Pair.of(FollowMobWithIntervalTask.follow(FriendsAndFoesEntityTypes.TUFF_GOLEM.get(), 6.0F, UniformIntProvider.create(30, 60)), 2),
-							Pair.of(FollowMobWithIntervalTask.follow(EntityType.IRON_GOLEM, 6.0F, UniformIntProvider.create(30, 60)), 1)
+							Pair.of(LookAtMobWithIntervalTask.follow(EntityType.PLAYER, 6.0F, UniformIntProvider.create(30, 60)), 3),
+							Pair.of(LookAtMobWithIntervalTask.follow(FriendsAndFoesEntityTypes.COPPER_GOLEM.get(), 6.0F, UniformIntProvider.create(30, 60)), 2),
+							Pair.of(LookAtMobWithIntervalTask.follow(FriendsAndFoesEntityTypes.TUFF_GOLEM.get(), 6.0F, UniformIntProvider.create(30, 60)), 2),
+							Pair.of(LookAtMobWithIntervalTask.follow(EntityType.IRON_GOLEM, 6.0F, UniformIntProvider.create(30, 60)), 1)
 						)
 					)
 				),

@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.block;
 
+import com.faboslav.friendsandfoes.init.FriendsAndFoesBlockSetTypes;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ButtonBlock;
 import net.minecraft.entity.player.PlayerEntity;
@@ -8,7 +9,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -18,7 +18,7 @@ import net.minecraft.world.World;
 public class CopperButtonBlock extends ButtonBlock
 {
 	public CopperButtonBlock(Settings settings, int pressTicks) {
-		super(settings, pressTicks, false, SoundEvents.BLOCK_STONE_BUTTON_CLICK_OFF, SoundEvents.BLOCK_STONE_BUTTON_CLICK_ON);
+		super(settings, FriendsAndFoesBlockSetTypes.COPPER.get(), pressTicks, false);
 	}
 
 	@Override

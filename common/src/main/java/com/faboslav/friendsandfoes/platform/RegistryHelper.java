@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.platform;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockSetType;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.render.RenderLayer;
@@ -45,6 +46,11 @@ public final class RegistryHelper
 
 	@ExpectPlatform
 	public static <T extends Block> Supplier<T> registerBlock(String name, Supplier<T> block) {
+		throw new AssertionError();
+	}
+
+	@ExpectPlatform
+	public static void registerBlockSetType(Supplier<BlockSetType> blockSetType) {
 		throw new AssertionError();
 	}
 

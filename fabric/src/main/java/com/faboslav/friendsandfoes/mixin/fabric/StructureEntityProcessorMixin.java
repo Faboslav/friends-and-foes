@@ -106,7 +106,11 @@ public final class StructureEntityProcessorMixin
 						((MobEntity) entity).initialize(
 							serverWorldAccess,
 							serverWorldAccess.getLocalDifficulty(
-								new BlockPos(vec3d)
+								new BlockPos(
+									(int) vec3d.getX(),
+									(int) vec3d.getY(),
+									(int) vec3d.getZ()
+								)
 							),
 							SpawnReason.STRUCTURE,
 							null,

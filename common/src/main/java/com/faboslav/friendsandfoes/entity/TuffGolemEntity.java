@@ -106,7 +106,6 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		World world
 	) {
 		super(entityType, world);
-		this.stepHeight = 1.0F;
 	}
 
 	@Override
@@ -663,7 +662,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		DamageSource source,
 		float amount
 	) {
-		if (source.getAttacker() instanceof LightningEntity || source == DamageSource.SWEET_BERRY_BUSH) {
+		if (source.getAttacker() instanceof LightningEntity || source == this.getDamageSources().sweetBerryBush()) {
 			return false;
 		}
 

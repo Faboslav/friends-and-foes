@@ -19,6 +19,7 @@
 		"LightningEntityMixin",
 		"LightningRodBlockDegradableMixin",
 		"LightningRodBlockMixin",
+		"LimbAnimatorAccessor",
 		"PatrolSpawnerAccessor",
 		"PatrolSpawnerMixin",
 		"PlayerEntityMixin",

@@ -1,3 +1,8 @@
+## mc1.19.3-1.8.1, April 10, 2023
+
+- Tuff Golem can now be unglued with axe
+- Fixed iceologer and illusioner spawns in raid based on the config
+
 ## mc1.19.3-1.8.0, March 08, 2023
 
 - Added Tuff Golem
@@ -39,6 +44,11 @@
 ## mc1.19.3-1.7.0, December 14, 2022
 
 - Ported to 1.19.3
+
+## mc1.19.2-1.8.1, April 10, 2023
+
+- Tuff Golem can now be unglued with axe
+- Fixed iceologer and illusioner spawns in raid based on the config
 
 ## mc1.19.2-1.8.0, March 08, 2023
 
@@ -153,6 +163,10 @@
 ## mc1.19-1.5.4, June 21, 2022
 
 - Fixed bug when copper blocks can not be waxed
+
+## mc1.18.2-1.4.7, April 10, 2023
+
+- Fixed iceologer and illusioner spawns in raid based on the config
 
 ## mc1.18.2-1.4.6, December 16, 2022
 

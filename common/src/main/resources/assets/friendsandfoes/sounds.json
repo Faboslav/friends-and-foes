@@ -176,11 +176,17 @@
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.moobloom.convert"
 	},
-	"entity.tuff_golem.glue": {
+	"entity.tuff_golem.glue_on": {
 		"sounds": [
-			"friendsandfoes:entity/tuff_golem/glue"
+			"friendsandfoes:entity/tuff_golem/glue_on"
 		],
-		"subtitle": "subtitle.entity.friendsandfoes.tuff_golem.glue"
+		"subtitle": "subtitle.entity.friendsandfoes.tuff_golem.glue_on"
+	},
+	"entity.tuff_golem.glue_off": {
+		"sounds": [
+			"friendsandfoes:entity/tuff_golem/glue_off"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.tuff_golem.glue_off"
 	},
 	"entity.tuff_golem.hurt": {
 		"sounds": [

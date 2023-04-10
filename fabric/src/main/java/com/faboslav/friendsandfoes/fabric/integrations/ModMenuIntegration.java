@@ -14,7 +14,7 @@ public final class ModMenuIntegration implements ModMenuApi
 	@Override
 	public ConfigScreenFactory<?> getModConfigScreenFactory() {
 		return (parent) -> {
-			if(FabricLoader.getInstance().isModLoaded("cloth-config") == false) {
+			if (FabricLoader.getInstance().isModLoaded("cloth-config") == false) {
 				return null;
 			}
 

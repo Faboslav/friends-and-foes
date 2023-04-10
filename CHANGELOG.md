@@ -1,3 +1,7 @@
+## mc1.18.2-1.4.7, April 10, 2023
+
+- Fixed iceologer and illusioner spawns in raid based on the config
+
 ## mc1.18.2-1.4.6, December 16, 2022
 
 - Backported important fixes from 1.5.x/1.6.x mod versions

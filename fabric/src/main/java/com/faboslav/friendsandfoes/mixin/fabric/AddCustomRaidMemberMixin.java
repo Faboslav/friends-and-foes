@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.mixin.fabric;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.util.CustomRaidMember;
 import net.minecraft.entity.EntityType;
@@ -50,23 +51,27 @@ public final class AddCustomRaidMemberMixin
 		var raidMembers = new ArrayList<>(Arrays.asList(field_16632));
 		var lastRaidMember = raidMembers.get(raidMembers.size() - 1);
 
-		var iceologerRaidMember = newRaidMember(
-			CustomRaidMember.ICEOLOGER_INTERNAL_NAME,
-			lastRaidMember.ordinal() + 1,
-			FriendsAndFoesEntityTypes.ICEOLOGER.get(),
-			CustomRaidMember.ICEOLOGER_COUNT_IN_WAVE
-		);
-		CustomRaidMember.ICEOLOGER = iceologerRaidMember;
-		raidMembers.add(iceologerRaidMember);
+		if(FriendsAndFoes.getConfig().enableIceologerInRaids) {
+			var iceologerRaidMember = newRaidMember(
+				CustomRaidMember.ICEOLOGER_INTERNAL_NAME,
+				lastRaidMember.ordinal() + 1,
+				FriendsAndFoesEntityTypes.ICEOLOGER.get(),
+				CustomRaidMember.ICEOLOGER_COUNT_IN_WAVE
+			);
+			CustomRaidMember.ICEOLOGER = iceologerRaidMember;
+			raidMembers.add(iceologerRaidMember);
+		}
 
-		var illusionerRaidMember = newRaidMember(
-			CustomRaidMember.ILLUSIONER_INTERNAL_NAME,
-			lastRaidMember.ordinal() + 2,
-			EntityType.ILLUSIONER,
-			CustomRaidMember.ILLUSIONER_COUNT_IN_WAVE
-		);
-		CustomRaidMember.ILLUSIONER = illusionerRaidMember;
-		raidMembers.add(illusionerRaidMember);
+		if(FriendsAndFoes.getConfig().enableIllusionerInRaids) {
+			var illusionerRaidMember = newRaidMember(
+				CustomRaidMember.ILLUSIONER_INTERNAL_NAME,
+				lastRaidMember.ordinal() + 2,
+				EntityType.ILLUSIONER,
+				CustomRaidMember.ILLUSIONER_COUNT_IN_WAVE
+			);
+			CustomRaidMember.ILLUSIONER = illusionerRaidMember;
+			raidMembers.add(illusionerRaidMember);
+		}
 
 		field_16632 = raidMembers.toArray(new Raid.Member[0]);
 	}

@@ -220,12 +220,20 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		}
 	}
 
-	private SoundEvent getGlueSound() {
-		return FriendsAndFoesSoundEvents.ENTITY_TUFF_GOLEM_GLUE.get();
+	private SoundEvent getGlueOnSound() {
+		return FriendsAndFoesSoundEvents.ENTITY_TUFF_GOLEM_GLUE_ON.get();
 	}
 
-	private void playGlueSound() {
-		this.playSound(this.getGlueSound(), 1.0F, 1.0F);
+	private void playGlueOnSound() {
+		this.playSound(this.getGlueOnSound(), 1.0F, 1.0F);
+	}
+
+	private SoundEvent getGlueOffSound() {
+		return FriendsAndFoesSoundEvents.ENTITY_TUFF_GOLEM_GLUE_OFF.get();
+	}
+
+	private void playGlueOffSound() {
+		this.playSound(this.getGlueOffSound(), 1.0F, 1.0F);
 	}
 
 	public SoundEvent getMoveSound() {
@@ -303,6 +311,8 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 			interactionResult = this.tryToInteractMobWithDye(player, itemStack);
 		} else if (itemInHand instanceof HoneycombItem) {
 			interactionResult = this.tryToInteractMobWithHoneycomb(player, itemStack);
+		} else if (itemInHand instanceof AxeItem) {
+			interactionResult = this.tryToInteractMobWithAxe(player, hand, itemStack);
 		}
 
 		if (interactionResult == false) {
@@ -371,8 +381,31 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 			itemStack.decrement(1);
 		}
 
-		this.playGlueSound();
+		this.playGlueOnSound();
 		this.spawnParticles(ParticleTypes.WAX_ON, 7);
+
+		return true;
+	}
+
+	private boolean tryToInteractMobWithAxe(
+		PlayerEntity player,
+		Hand hand,
+		ItemStack itemStack
+	) {
+		if (!this.isGlued()) {
+			return false;
+		}
+
+		this.setGlued(false);
+
+		this.playGlueOffSound();
+		this.spawnParticles(ParticleTypes.WAX_OFF, 7);
+
+		if (this.getWorld().isClient() == false && !player.getAbilities().creativeMode) {
+			itemStack.damage(1, player, (playerEntity) -> {
+				player.sendToolBreakStatus(hand);
+			});
+		}
 
 		return true;
 	}

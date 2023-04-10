@@ -2,8 +2,6 @@ package com.faboslav.friendsandfoes.client.render.entity.animation.animator.cont
 
 import com.faboslav.friendsandfoes.client.render.entity.animation.KeyframeAnimation;
 import com.faboslav.friendsandfoes.client.render.entity.animation.animator.ModelPartAnimationType;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 
 import java.util.HashMap;
 import java.util.Map;

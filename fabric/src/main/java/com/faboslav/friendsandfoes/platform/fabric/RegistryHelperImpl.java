@@ -18,6 +18,7 @@ import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.item.Item;
+import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.structure.processor.StructureProcessor;
 import net.minecraft.structure.processor.StructureProcessorType;
@@ -71,6 +72,10 @@ public final class RegistryHelperImpl
 	public static <T extends Item> Supplier<T> registerItem(String name, Supplier<T> item) {
 		var registry = Registry.register(Registry.ITEM, FriendsAndFoes.makeID(name), item.get());
 		return () -> registry;
+	}
+
+	public static void registerParticleType(String name, DefaultParticleType particleType) {
+		Registry.register(Registry.PARTICLE_TYPE, FriendsAndFoes.makeStringID(name), particleType);
 	}
 
 	public static <T extends MemoryModuleType<?>> Supplier<T> registerMemoryModuleType(

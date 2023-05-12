@@ -21,6 +21,7 @@ public final class FriendAndFoesEntityRenderer
 		RegistryHelper.registerEntityRenderer(FriendsAndFoesEntityTypes.MOOBLOOM, MoobloomEntityRenderer::new);
 		RegistryHelper.registerEntityRenderer(FriendsAndFoesEntityTypes.TUFF_GOLEM, TuffGolemEntityRenderer::new);
 		RegistryHelper.registerEntityRenderer(FriendsAndFoesEntityTypes.WILDFIRE, WildfireEntityRenderer::new);
+		RegistryHelper.registerEntityRenderer(FriendsAndFoesEntityTypes.PLAYER_ILLUSION, PlayerIllusionEntityRenderer::new);
 	}
 
 	private FriendAndFoesEntityRenderer() {

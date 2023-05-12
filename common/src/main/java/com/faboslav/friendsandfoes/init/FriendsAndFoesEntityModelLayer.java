@@ -24,6 +24,7 @@ public final class FriendsAndFoesEntityModelLayer
 	public static final EntityModelLayer MOOBLOOM_LAYER;
 	public static final EntityModelLayer TUFF_GOLEM_LAYER;
 	public static final EntityModelLayer WILDFIRE_LAYER;
+	public static final EntityModelLayer PLAYER_ILLUSION_LAYER;
 
 	static {
 		COPPER_GOLEM_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("copper_golem"), "main");
@@ -34,6 +35,7 @@ public final class FriendsAndFoesEntityModelLayer
 		MOOBLOOM_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("moobloom"), "main");
 		TUFF_GOLEM_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("tuff_golem"), "main");
 		WILDFIRE_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("wildfire"), "main");
+		PLAYER_ILLUSION_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("player_illusion"), "main");
 	}
 
 	public static void init() {

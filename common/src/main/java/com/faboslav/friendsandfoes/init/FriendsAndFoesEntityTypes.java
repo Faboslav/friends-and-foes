@@ -33,6 +33,7 @@ public final class FriendsAndFoesEntityTypes
 	public static final Supplier<EntityType<MoobloomEntity>> MOOBLOOM;
 	public static final Supplier<EntityType<TuffGolemEntity>> TUFF_GOLEM;
 	public static final Supplier<EntityType<WildfireEntity>> WILDFIRE;
+	public static final Supplier<EntityType<PlayerIllusionEntity>> PLAYER_ILLUSION;
 
 	static {
 		SharedConstants.useChoiceTypeRegistrations = false;
@@ -44,6 +45,7 @@ public final class FriendsAndFoesEntityTypes
 		MOOBLOOM = RegistryHelper.registerEntityType("moobloom", () -> EntityType.Builder.create(MoobloomEntity::new, SpawnGroup.CREATURE).setDimensions(0.9F, 1.4F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("moobloom")));
 		TUFF_GOLEM = RegistryHelper.registerEntityType("tuff_golem", () -> EntityType.Builder.create(TuffGolemEntity::new, SpawnGroup.MISC).setDimensions(0.75F, 1.0625F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("tuff_golem")));
 		WILDFIRE = RegistryHelper.registerEntityType("wildfire", () -> EntityType.Builder.create(WildfireEntity::new, SpawnGroup.MONSTER).setDimensions(0.7F * WildfireEntityRenderer.SCALE, 1.875F * WildfireEntityRenderer.SCALE).maxTrackingRange(10).makeFireImmune().build(FriendsAndFoes.makeStringID("wildfire")));
+		PLAYER_ILLUSION = RegistryHelper.registerEntityType("player_illusion", () -> EntityType.Builder.create(PlayerIllusionEntity::new, SpawnGroup.MISC).setDimensions(0.7F, 1.875F).maxTrackingRange(10).makeFireImmune().build(FriendsAndFoes.makeStringID("player_illusion")));
 		SharedConstants.useChoiceTypeRegistrations = previousUseChoiceTypeRegistrations;
 	}
 
@@ -65,6 +67,7 @@ public final class FriendsAndFoesEntityTypes
 		RegistryHelper.registerEntityAttribute(FriendsAndFoesEntityTypes.MOOBLOOM, MoobloomEntity::createCowAttributes);
 		RegistryHelper.registerEntityAttribute(FriendsAndFoesEntityTypes.TUFF_GOLEM, TuffGolemEntity::createAttributes);
 		RegistryHelper.registerEntityAttribute(FriendsAndFoesEntityTypes.WILDFIRE, WildfireEntity::createAttributes);
+		RegistryHelper.registerEntityAttribute(FriendsAndFoesEntityTypes.PLAYER_ILLUSION, PlayerIllusionEntity::createMobAttributes);
 	}
 
 	public static void initSpawnRestrictions() {

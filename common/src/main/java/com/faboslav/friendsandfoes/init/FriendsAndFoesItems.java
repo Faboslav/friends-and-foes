@@ -5,6 +5,7 @@ import com.faboslav.friendsandfoes.platform.RegistryHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.*;
+import net.minecraft.util.Rarity;
 
 import java.util.function.Supplier;
 
@@ -47,6 +48,8 @@ public final class FriendsAndFoesItems
 	public static final Supplier<Item> WAXED_OXIDIZED_LIGHTNING_ROD;
 	public static final Supplier<Item> WILDFIRE_CROWN;
 	public static final Supplier<Item> WILDFIRE_CROWN_FRAGMENT;
+	public static final Supplier<Item> TOTEM_OF_FREEZING;
+	public static final Supplier<Item> TOTEM_OF_ILLUSION;
 
 	static {
 		COPPER_GOLEM_SPAWN_EGG = RegistryHelper.registerItem("copper_golem_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.COPPER_GOLEM.get(), 0x9A5038, 0xE3826C, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
@@ -83,6 +86,8 @@ public final class FriendsAndFoesItems
 		WAXED_OXIDIZED_LIGHTNING_ROD = RegistryHelper.registerItem("waxed_oxidized_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
 		WILDFIRE_CROWN = RegistryHelper.registerItem("wildfire_crown", () -> new ArmorItem(FriendsAndFoesArmorMaterials.WILDFIRE, EquipmentSlot.HEAD, (new Item.Settings()).group(ItemGroup.COMBAT).fireproof()));
 		WILDFIRE_CROWN_FRAGMENT = RegistryHelper.registerItem("wildfire_crown_fragment", () -> new Item((new Item.Settings()).group(ItemGroup.MATERIALS)));
+		TOTEM_OF_FREEZING = RegistryHelper.registerItem("totem_of_freezing", () -> new Item((new Item.Settings()).maxCount(1).group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON)));
+		TOTEM_OF_ILLUSION = RegistryHelper.registerItem("totem_of_illusion", () -> new Item((new Item.Settings()).maxCount(1).group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON)));
 	}
 
 	public static void init() {

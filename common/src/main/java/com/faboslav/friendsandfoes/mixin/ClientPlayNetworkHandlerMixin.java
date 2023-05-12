@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.mixin;
 
-
 import com.faboslav.friendsandfoes.util.UpdateChecker;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

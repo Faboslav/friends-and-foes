@@ -55,6 +55,7 @@ public final class FriendsAndFoesForge
 		SharedConstants.useChoiceTypeRegistrations = FriendsAndFoesEntityTypes.previousUseChoiceTypeRegistrations;
 		RegistryHelperImpl.ITEMS.register(bus);
 		RegistryHelperImpl.MEMORY_MODULE_TYPES.register(bus);
+		RegistryHelperImpl.PARTICLE_TYPES.register(bus);
 		RegistryHelperImpl.POINT_OF_INTEREST_TYPES.register(bus);
 		RegistryHelperImpl.SOUND_EVENTS.register(bus);
 		RegistryHelperImpl.STRUCTURE_TYPES.register(bus);

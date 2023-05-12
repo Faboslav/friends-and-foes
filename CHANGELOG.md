@@ -1,3 +1,9 @@
+## mc1.19.2-1.8.2, May xx, 2023
+
+- Added Totem of Illusion
+- Added Totem of Freezing
+- Fixed raiders data tag
+
 ## mc1.19.2-1.8.1, April 10, 2023
 
 - Tuff Golem can now be unglued with axe

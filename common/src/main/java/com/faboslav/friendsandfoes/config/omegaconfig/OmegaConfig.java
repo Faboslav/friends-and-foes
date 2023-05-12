@@ -1,12 +1,11 @@
 package com.faboslav.friendsandfoes.config.omegaconfig;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.config.annotation.Description;
 import com.faboslav.friendsandfoes.config.omegaconfig.api.Config;
 import com.faboslav.friendsandfoes.platform.ConfigDirectory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -29,8 +28,6 @@ import java.util.*;
  */
 public final class OmegaConfig
 {
-	private static final Logger LOGGER = LogManager.getLogger();
-
 	public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
 	public static <T extends Config> T register(Class<T> configClass) {
@@ -57,9 +54,9 @@ public final class OmegaConfig
 					object.save();
 					return object;
 				} catch (Exception e) {
-					LOGGER.error(e);
-					LOGGER.info(String.format("Encountered an error while reading %s config, falling back to default values.", config.getName()));
-					LOGGER.info(String.format("If this problem persists, delete the config file %s and try again.", config.getName() + "." + config.getExtension()));
+					FriendsAndFoes.getLogger().error(e.toString());
+					FriendsAndFoes.getLogger().info(String.format("Encountered an error while reading %s config, falling back to default values.", config.getName()));
+					FriendsAndFoes.getLogger().info(String.format("If this problem persists, delete the config file %s and try again.", config.getName() + "." + config.getExtension()));
 				}
 			}
 
@@ -82,13 +79,13 @@ public final class OmegaConfig
 
 		// populate key -> comments map
 		for (Field field : configClass.getDeclaredFields()) {
-			addFieldComments(field, keyToComments);
+			addFieldComments(field);
 		}
 
 		// get inner-class fields
 		for (Class<?> innerClass : configClass.getDeclaredClasses()) {
 			for (Field field : innerClass.getDeclaredFields()) {
-				addFieldComments(field, keyToComments);
+				addFieldComments(field);
 			}
 		}
 
@@ -124,19 +121,17 @@ public final class OmegaConfig
 			configPath.toFile().getParentFile().mkdirs();
 			Files.write(configPath, res.toString().getBytes());
 		} catch (IOException ioException) {
-			LOGGER.error(ioException);
-			LOGGER.info(String.format("Write error, using default values for config %s.", configClass));
+			FriendsAndFoes.getLogger().error(ioException.toString());
+			FriendsAndFoes.getLogger().info(String.format("Write error, using default values for config %s.", configClass));
 		}
 	}
 
-	private static void addFieldComments(Field field, Map<String, String> keyToComments) {
-		String fieldName = field.getName();
+	private static void addFieldComments(Field field) {
 		Annotation[] annotations = field.getDeclaredAnnotations();
 
 		// Find comment
 		for (Annotation annotation : annotations) {
 			if (annotation instanceof Description) {
-				//keyToComments.put(fieldName, ((Description) annotation).value());
 				break;
 			}
 		}

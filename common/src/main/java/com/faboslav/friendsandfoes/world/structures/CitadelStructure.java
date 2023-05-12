@@ -86,7 +86,7 @@ public final class CitadelStructure extends Structure
 		);
 	}
 
-	protected boolean extraSpawningChecks(Structure.Context context, BlockPos blockPos) {
+	private boolean extraSpawningChecks(Structure.Context context, BlockPos blockPos) {
 		int checkRadius = 16;
 		BlockPos.Mutable mutable = new BlockPos.Mutable();
 

@@ -108,7 +108,7 @@ public abstract class PlayerEntityMixin extends LivingEntity
 		cancellable = true
 	)
 	public void friendsandfoes_tryUseTotems(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
-		if (this.getHealth() <= this.getMaxHealth() / 2) {
+		if (this.getHealth() <= this.getMaxHealth() / 2.0F) {
 			PlayerEntityMixin entity = this;
 
 			ItemStack offhandItemStack = entity.getStackInHand(Hand.OFF_HAND);

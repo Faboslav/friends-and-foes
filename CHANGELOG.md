@@ -1,4 +1,4 @@
-## mc1.19.2-1.8.2, May xx, 2023
+## mc1.19.2-1.8.2, May 13, 2023
 
 - Added Totem of Illusion
 - Added Totem of Freezing

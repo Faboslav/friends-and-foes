@@ -65,7 +65,7 @@ public final class PlayerIllusionEntity extends MobEntity
 		super.writeCustomDataToNbt(nbt);
 
 		nbt.putInt(TICKS_UNTIL_DESPAWN_NBT_NAME, this.getTicksUntilDespawn());
-		nbt.putUuid(PLAYER_UUID_NBT_NAME, this.getPlayerUuid().orElse(null));
+		nbt.putUuid(PLAYER_UUID_NBT_NAME, this.getPlayerUuid());
 	}
 
 	public void readCustomDataFromNbt(NbtCompound nbt) {
@@ -123,7 +123,12 @@ public final class PlayerIllusionEntity extends MobEntity
 
 	public Identifier getSkinTexture() {
 		PlayerListEntry playerListEntry = this.getPlayerListEntry();
-		UUID uuid = this.getPlayerUuid().orElse(this.getUuid());
+		UUID uuid = this.getPlayerUuid();
+
+		if (uuid == null) {
+			uuid = this.getUuid();
+		}
+
 		return playerListEntry == null ? DefaultSkinHelper.getTexture(uuid):playerListEntry.getSkinTexture();
 	}
 
@@ -140,7 +145,12 @@ public final class PlayerIllusionEntity extends MobEntity
 	@Nullable
 	private PlayerListEntry getPlayerListEntry() {
 		if (this.playerListEntry == null) {
-			UUID uuid = this.getPlayerUuid().orElse(this.getUuid());
+			UUID uuid = this.getPlayerUuid();
+
+			if (uuid == null) {
+				uuid = this.getUuid();
+			}
+
 			this.playerListEntry = MinecraftClient.getInstance().getNetworkHandler().getPlayerListEntry(uuid);
 		}
 
@@ -148,8 +158,8 @@ public final class PlayerIllusionEntity extends MobEntity
 	}
 
 	@Nullable
-	public Optional<UUID> getPlayerUuid() {
-		return this.dataTracker.get(PLAYER_UUID);
+	public UUID getPlayerUuid() {
+		return this.dataTracker.get(PLAYER_UUID).orElse(null);
 	}
 
 	public void setPlayerUuid(UUID uuid) {

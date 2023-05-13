@@ -13,9 +13,6 @@
 	<a style="text-decoration: none;" href="https://modrinth.com/mod/fabric-api">
 		<img src="https://img.shields.io/static/v1?label=&amp;message=Requires Fabric API&amp;color=c9d1d9&amp;labelColor=111214&amp;logoColor=white&amp;style=for-the-badge&amp;logo=curseforge" width="208" height="28" />
 	</a>
-	<a style="text-decoration: none;" href="https://modrinth.com/mod/architectury-api">
-		<img src="https://img.shields.io/static/v1?label=&amp;message=Requires Architectury API&amp;color=c9d1d9&amp;labelColor=111214&amp;logoColor=white&amp;style=for-the-badge&amp;logo=curseforge" width="260" height="28" />
-	</a>
 </p>
 
 <hr>

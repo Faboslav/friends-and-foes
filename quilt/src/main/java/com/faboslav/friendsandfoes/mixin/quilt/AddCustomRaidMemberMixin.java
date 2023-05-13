@@ -51,7 +51,7 @@ public final class AddCustomRaidMemberMixin
 		var raidMembers = new ArrayList<>(Arrays.asList(field_16632));
 		var lastRaidMember = raidMembers.get(raidMembers.size() - 1);
 
-		if(FriendsAndFoes.getConfig().enableIceologerInRaids) {
+		if (FriendsAndFoes.getConfig().enableIceologerInRaids) {
 			var iceologerRaidMember = newRaidMember(
 				CustomRaidMember.ICEOLOGER_INTERNAL_NAME,
 				lastRaidMember.ordinal() + 1,
@@ -62,7 +62,7 @@ public final class AddCustomRaidMemberMixin
 			raidMembers.add(iceologerRaidMember);
 		}
 
-		if(FriendsAndFoes.getConfig().enableIllusionerInRaids) {
+		if (FriendsAndFoes.getConfig().enableIllusionerInRaids) {
 			var illusionerRaidMember = newRaidMember(
 				CustomRaidMember.ILLUSIONER_INTERNAL_NAME,
 				lastRaidMember.ordinal() + 2,

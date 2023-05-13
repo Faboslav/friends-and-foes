@@ -2,13 +2,17 @@ package com.faboslav.friendsandfoes.forge;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.FriendsAndFoesClient;
+import com.faboslav.friendsandfoes.client.particle.FreezingTotemParticle;
+import com.faboslav.friendsandfoes.client.particle.IllusionTotemParticle;
 import com.faboslav.friendsandfoes.config.ConfigScreenBuilder;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesParticleTypes;
 import com.faboslav.friendsandfoes.platform.forge.RegistryHelperImpl;
 import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterLayerDefinitions;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -41,5 +45,11 @@ public final class FriendsAndFoesForgeClient
 		for (Map.Entry<EntityModelLayer, Supplier<TexturedModelData>> entry : RegistryHelperImpl.ENTITY_MODEL_LAYERS.entrySet()) {
 			event.registerLayerDefinition(entry.getKey(), entry.getValue());
 		}
+	}
+
+	@SubscribeEvent
+	public static void registerParticleFactory(RegisterParticleProvidersEvent event) {
+		event.register(FriendsAndFoesParticleTypes.TOTEM_OF_FREEZING, FreezingTotemParticle.Factory::new);
+		event.register(FriendsAndFoesParticleTypes.TOTEM_OF_ILLUSION, IllusionTotemParticle.Factory::new);
 	}
 }

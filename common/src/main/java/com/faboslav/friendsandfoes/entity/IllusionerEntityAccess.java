@@ -15,8 +15,6 @@ public interface IllusionerEntityAccess
 
 	void tickMovement();
 
-	void initDataTracker();
-
 	void writeCustomDataToNbt(NbtCompound nbt);
 
 	void readCustomDataFromNbt(NbtCompound nbt);

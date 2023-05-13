@@ -22,6 +22,7 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.SpawnEggItem;
+import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.SoundEvent;
@@ -97,6 +98,10 @@ public final class RegistryHelperImpl
 		Item.Settings props
 	) {
 		return (Supplier<T>) registerItem(name, () -> new SpawnEggItem(type.get(), backgroundColor, highlightColor, props));
+	}
+
+	public static void registerParticleType(String name, DefaultParticleType particleType) {
+		Registry.register(Registries.PARTICLE_TYPE, FriendsAndFoes.makeStringID(name), particleType);
 	}
 
 	public static <T extends MemoryModuleType<?>> Supplier<T> registerMemoryModuleType(

@@ -286,8 +286,6 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 			int y = (int) illusionerPosition.getY();
 			int z = (int) (illusionerPosition.getZ() + radius * MathHelper.sin(angle));
 
-			this.createIllusion(x, y, z);
-
 			if (randomPoint == point) {
 				boolean teleportResult = this.tryToTeleport(x, y, z);
 
@@ -295,6 +293,8 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 					this.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, INVISIBILITY_TICKS));
 					this.spawnCloudParticles();
 				}
+			} else {
+				this.createIllusion(x, y, z);
 			}
 		}
 	}

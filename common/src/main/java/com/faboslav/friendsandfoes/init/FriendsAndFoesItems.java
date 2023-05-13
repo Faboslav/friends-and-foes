@@ -5,6 +5,7 @@ import com.faboslav.friendsandfoes.platform.RegistryHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.*;
+import net.minecraft.util.Rarity;
 
 import java.util.function.Supplier;
 
@@ -47,6 +48,8 @@ public final class FriendsAndFoesItems
 	public static final Supplier<Item> WAXED_OXIDIZED_LIGHTNING_ROD;
 	public static final Supplier<Item> WILDFIRE_CROWN;
 	public static final Supplier<Item> WILDFIRE_CROWN_FRAGMENT;
+	public static final Supplier<Item> TOTEM_OF_FREEZING;
+	public static final Supplier<Item> TOTEM_OF_ILLUSION;
 
 	static {
 		COPPER_GOLEM_SPAWN_EGG = RegistryHelper.registerSpawnEggItem("copper_golem_spawn_egg", FriendsAndFoesEntityTypes.COPPER_GOLEM, 0x9A5038, 0xE3826C, new Item.Settings().maxCount(64));
@@ -83,6 +86,8 @@ public final class FriendsAndFoesItems
 		WAXED_OXIDIZED_LIGHTNING_ROD = RegistryHelper.registerItem("waxed_oxidized_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get(), new Item.Settings().maxCount(64)));
 		WILDFIRE_CROWN = RegistryHelper.registerItem("wildfire_crown", () -> new ArmorItem(FriendsAndFoesArmorMaterials.WILDFIRE, EquipmentSlot.HEAD, (new Item.Settings()).fireproof()));
 		WILDFIRE_CROWN_FRAGMENT = RegistryHelper.registerItem("wildfire_crown_fragment", () -> new Item((new Item.Settings())));
+		TOTEM_OF_FREEZING = RegistryHelper.registerItem("totem_of_freezing", () -> new Item((new Item.Settings()).maxCount(1).rarity(Rarity.UNCOMMON)));
+		TOTEM_OF_ILLUSION = RegistryHelper.registerItem("totem_of_illusion", () -> new Item((new Item.Settings()).maxCount(1).rarity(Rarity.UNCOMMON)));
 	}
 
 	public static void init() {
@@ -99,8 +104,8 @@ public final class FriendsAndFoesItems
 		RegistryHelper.addToItemGroupAfter(ItemGroups.SPAWN_EGGS, ILLUSIONER_SPAWN_EGG.get(), ICEOLOGER_SPAWN_EGG.get());
 		RegistryHelper.addToItemGroupAfter(ItemGroups.SPAWN_EGGS, MAULER_SPAWN_EGG.get(), Items.MAGMA_CUBE_SPAWN_EGG);
 		RegistryHelper.addToItemGroupBefore(ItemGroups.SPAWN_EGGS, MOOBLOOM_SPAWN_EGG.get(), Items.MOOSHROOM_SPAWN_EGG);
-		RegistryHelper.addToItemGroupBefore(ItemGroups.SPAWN_EGGS, TUFF_GOLEM_SPAWN_EGG.get(), Items.WITHER_SPAWN_EGG);
-		RegistryHelper.addToItemGroupBefore(ItemGroups.SPAWN_EGGS, WILDFIRE_SPAWN_EGG.get(), Items.WITHER_SPAWN_EGG);
+		RegistryHelper.addToItemGroupBefore(ItemGroups.SPAWN_EGGS, TUFF_GOLEM_SPAWN_EGG.get(), TUFF_GOLEM_SPAWN_EGG.get());
+		RegistryHelper.addToItemGroupBefore(ItemGroups.SPAWN_EGGS, WILDFIRE_SPAWN_EGG.get(), WILDFIRE_SPAWN_EGG.get());
 		RegistryHelper.addToItemGroupAfter(ItemGroups.NATURAL, BUTTERCUP.get(), Items.DANDELION);
 
 		RegistryHelper.addToItemGroupAfter(ItemGroups.FUNCTIONAL, SPRUCE_BEEHIVE.get(), Items.BEEHIVE);
@@ -131,6 +136,8 @@ public final class FriendsAndFoesItems
 
 		RegistryHelper.addToItemGroupAfter(ItemGroups.INGREDIENTS, WILDFIRE_CROWN_FRAGMENT.get(), Items.SCUTE);
 		RegistryHelper.addToItemGroupAfter(ItemGroups.COMBAT, WILDFIRE_CROWN.get(), Items.TURTLE_HELMET);
+		RegistryHelper.addToItemGroupAfter(ItemGroups.COMBAT, TOTEM_OF_FREEZING.get(), Items.TOTEM_OF_UNDYING);
+		RegistryHelper.addToItemGroupBefore(ItemGroups.COMBAT, TOTEM_OF_ILLUSION.get(), Items.TOTEM_OF_UNDYING);
 	}
 
 	private FriendsAndFoesItems() {

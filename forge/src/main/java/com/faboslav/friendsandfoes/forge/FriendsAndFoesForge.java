@@ -4,6 +4,7 @@ import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.FriendsAndFoesClient;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesStructurePoolElements;
+import com.faboslav.friendsandfoes.network.PacketHandler;
 import com.faboslav.friendsandfoes.platform.forge.RegistryHelperImpl;
 import com.faboslav.friendsandfoes.util.CustomRaidMember;
 import com.faboslav.friendsandfoes.util.ServerWorldSpawnersUtil;
@@ -44,6 +45,7 @@ public final class FriendsAndFoesForge
 	public FriendsAndFoesForge() {
 		UpdateChecker.checkForNewUpdates();
 		FriendsAndFoes.init();
+		PacketHandler.registerMessages();
 
 		if (FMLEnvironment.dist == Dist.CLIENT) {
 			FriendsAndFoesClient.init();
@@ -59,6 +61,7 @@ public final class FriendsAndFoesForge
 		SharedConstants.useChoiceTypeRegistrations = FriendsAndFoesEntityTypes.previousUseChoiceTypeRegistrations;
 		RegistryHelperImpl.ITEMS.register(bus);
 		RegistryHelperImpl.MEMORY_MODULE_TYPES.register(bus);
+		RegistryHelperImpl.PARTICLE_TYPES.register(bus);
 		RegistryHelperImpl.POINT_OF_INTEREST_TYPES.register(bus);
 		RegistryHelperImpl.SOUND_EVENTS.register(bus);
 		RegistryHelperImpl.STRUCTURE_TYPES.register(bus);

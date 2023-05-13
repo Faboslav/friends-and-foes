@@ -33,9 +33,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(IllusionerEntity.class)
 @SuppressWarnings({"rawtypes", "unchecked"})
@@ -72,17 +69,18 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 		this.illusioner = null;
 	}
 
-	@Inject(
-		at = @At("TAIL"),
-		method = "initDataTracker"
-	)
-	public void friendsandfoes_initDataTracker(CallbackInfo ci) {
+	@Override
+	public void initDataTracker() {
+		super.initDataTracker();
+
 		if (FriendsAndFoes.getConfig().enableIllusioner == false) {
-			this.dataTracker.startTracking(IS_ILLUSION, false);
-			this.dataTracker.startTracking(WAS_ATTACKED, false);
-			this.dataTracker.startTracking(TICKS_UNTIL_DESPAWN, 0);
-			this.dataTracker.startTracking(TICKS_UNTIL_CAN_CREATE_ILLUSIONS, 0);
+			return;
 		}
+
+		this.dataTracker.startTracking(IS_ILLUSION, false);
+		this.dataTracker.startTracking(WAS_ATTACKED, false);
+		this.dataTracker.startTracking(TICKS_UNTIL_DESPAWN, 0);
+		this.dataTracker.startTracking(TICKS_UNTIL_CAN_CREATE_ILLUSIONS, 0);
 	}
 
 	@Override

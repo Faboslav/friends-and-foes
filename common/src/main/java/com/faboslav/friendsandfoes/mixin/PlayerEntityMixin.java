@@ -227,8 +227,13 @@ public abstract class PlayerEntityMixin extends LivingEntity
 
 		playerIllusion.setHealth(this.getMaxHealth());
 		playerIllusion.copyPositionAndRotation(this);
-		playerIllusion.setYaw(360.F * this.getRandom().nextFloat());
-		playerIllusion.setPitch(360.F * this.getRandom().nextFloat());
+		float randomYaw = 360.F * this.getRandom().nextFloat();
+		playerIllusion.prevYaw = randomYaw;
+		playerIllusion.setYaw(randomYaw);
+		playerIllusion.prevBodyYaw = randomYaw;
+		playerIllusion.setBodyYaw(randomYaw);
+		playerIllusion.prevHeadYaw = randomYaw;
+		playerIllusion.setHeadYaw(randomYaw);
 		playerIllusion.setPlayerUuid(this.getUuid());
 		playerIllusion.setPlayer((PlayerEntity) (Object) this);
 		playerIllusion.setTicksUntilDespawn(ILLUSION_LIFETIME_TICKS);

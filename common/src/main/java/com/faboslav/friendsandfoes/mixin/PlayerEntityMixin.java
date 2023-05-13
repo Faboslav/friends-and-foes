@@ -19,10 +19,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.stat.Stats;
-import net.minecraft.tag.FluidTags;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -193,7 +193,10 @@ public abstract class PlayerEntityMixin extends LivingEntity
 				}
 			} else {
 				PlayerIllusionEntity createdPlayerIllusion = this.friendsandfoes_createIllusion(x, y, z);
-				createdPlayerIllusions.add(createdPlayerIllusion);
+
+				if(createdPlayerIllusion != null) {
+					createdPlayerIllusions.add(createdPlayerIllusion);
+				}
 			}
 		}
 
@@ -209,8 +212,13 @@ public abstract class PlayerEntityMixin extends LivingEntity
 		});
 	}
 
+	@Nullable
 	private PlayerIllusionEntity friendsandfoes_createIllusion(int x, int y, int z) {
 		PlayerIllusionEntity playerIllusion = FriendsAndFoesEntityTypes.PLAYER_ILLUSION.get().create(this.getWorld());
+
+		if(playerIllusion == null) {
+			return null;
+		}
 
 		playerIllusion.prevCapeX = this.prevCapeX;
 		playerIllusion.prevCapeY = this.prevCapeY;

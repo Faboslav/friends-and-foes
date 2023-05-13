@@ -57,7 +57,7 @@ public final class PlayerIllusionEntity extends MobEntity
 
 		this.dataTracker.startTracking(PLAYER_MODEL_PARTS, (byte) 0);
 		this.dataTracker.startTracking(TICKS_UNTIL_DESPAWN, 0);
-		this.dataTracker.startTracking(PLAYER_UUID, null);
+		this.dataTracker.startTracking(PLAYER_UUID, Optional.empty());
 	}
 
 	@Override

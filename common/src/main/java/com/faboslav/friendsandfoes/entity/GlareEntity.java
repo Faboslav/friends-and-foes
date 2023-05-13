@@ -494,9 +494,9 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 
 		if (this.getRandom().nextInt(3) == 0) {
 			this.setOwner(player);
-			this.getWorld().sendEntityStatus(this, (byte) 7);
+			this.getWorld().sendEntityStatus(this, EntityStatuses.ADD_POSITIVE_PLAYER_REACTION_PARTICLES);
 		} else {
-			this.getWorld().sendEntityStatus(this, (byte) 6);
+			this.getWorld().sendEntityStatus(this, EntityStatuses.ADD_NEGATIVE_PLAYER_REACTION_PARTICLES);
 		}
 
 		return true;

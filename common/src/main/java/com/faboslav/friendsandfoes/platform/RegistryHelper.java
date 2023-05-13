@@ -17,6 +17,7 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.structure.processor.StructureProcessor;
 import net.minecraft.structure.processor.StructureProcessorType;
@@ -104,6 +105,11 @@ public final class RegistryHelper
 		String name,
 		Supplier<T> memoryModuleType
 	) {
+		throw new AssertionError();
+	}
+
+	@ExpectPlatform
+	public static void registerParticleType(String name, DefaultParticleType particleType) {
 		throw new AssertionError();
 	}
 

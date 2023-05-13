@@ -25,6 +25,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.structure.processor.StructureProcessor;
 import net.minecraft.structure.processor.StructureProcessorType;
@@ -110,6 +111,10 @@ public final class RegistryHelperImpl
 	) {
 		var registry = Registry.register(Registries.MEMORY_MODULE_TYPE, FriendsAndFoes.makeID(name), memoryModuleType.get());
 		return () -> registry;
+	}
+
+	public static void registerParticleType(String name, DefaultParticleType particleType) {
+		Registry.register(Registries.PARTICLE_TYPE, FriendsAndFoes.makeStringID(name), particleType);
 	}
 
 	public static <T extends PointOfInterestType> Supplier<T> registerPointOfInterestType(

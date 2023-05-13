@@ -6,7 +6,6 @@ import com.faboslav.friendsandfoes.client.particle.FreezingTotemParticle;
 import com.faboslav.friendsandfoes.client.particle.IllusionTotemParticle;
 import com.faboslav.friendsandfoes.config.ConfigScreenBuilder;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesParticleTypes;
-import com.faboslav.friendsandfoes.network.PacketHandler;
 import com.faboslav.friendsandfoes.platform.forge.RegistryHelperImpl;
 import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
@@ -30,7 +29,6 @@ public final class FriendsAndFoesForgeClient
 	public static void clientInit(final FMLClientSetupEvent event) {
 		event.enqueueWork(() -> {
 			FriendsAndFoesClient.postInit();
-			PacketHandler.registerMessages();
 
 			if (ModList.get().isLoaded("cloth_config")) {
 				ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () ->

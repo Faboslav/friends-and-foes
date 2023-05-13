@@ -23,8 +23,8 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.UseAction;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3f;
 
 public final class PlayerIllusionEntityRenderer extends MobEntityRenderer<PlayerIllusionEntity, PlayerIllusionEntityModel<PlayerIllusionEntity>>
 {
@@ -193,7 +193,7 @@ public final class PlayerIllusionEntityRenderer extends MobEntityRenderer<Player
 			j = (float) playerIllusionEntity.getRoll() + h;
 			k = MathHelper.clamp(j * j / 100.0F, 0.0F, 1.0F);
 			if (!playerIllusionEntity.isUsingRiptide()) {
-				matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(k * (-90.0F - playerIllusionEntity.getPitch())));
+				matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(k * (-90.0F - playerIllusionEntity.getPitch())));
 			}
 
 			Vec3d vec3d = playerIllusionEntity.getRotationVec(h);
@@ -203,13 +203,13 @@ public final class PlayerIllusionEntityRenderer extends MobEntityRenderer<Player
 			if (d > 0.0 && e > 0.0) {
 				double l = (vec3d2.x * vec3d.x + vec3d2.z * vec3d.z) / Math.sqrt(d * e);
 				double m = vec3d2.x * vec3d.z - vec3d2.z * vec3d.x;
-				matrixStack.multiply(Vec3f.POSITIVE_Y.getRadialQuaternion((float) (Math.signum(m) * Math.acos(l))));
+				matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((float) (Math.signum(m) * Math.acos(l))));
 			}
 		} else if (i > 0.0F) {
 			super.setupTransforms(playerIllusionEntity, matrixStack, f, g, h);
 			j = playerIllusionEntity.isTouchingWater() ? -90.0F - playerIllusionEntity.getPitch():-90.0F;
 			k = MathHelper.lerp(i, 0.0F, j);
-			matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(k));
+			matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(k));
 			if (playerIllusionEntity.isInSwimmingPose()) {
 				matrixStack.translate(0.0, -1.0, 0.30000001192092896);
 			}

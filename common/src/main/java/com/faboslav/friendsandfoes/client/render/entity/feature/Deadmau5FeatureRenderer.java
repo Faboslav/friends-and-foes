@@ -10,7 +10,7 @@ import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.RotationAxis;
 
 public final class Deadmau5FeatureRenderer extends FeatureRenderer<PlayerIllusionEntity, PlayerIllusionEntityModel<PlayerIllusionEntity>>
 {
@@ -38,12 +38,12 @@ public final class Deadmau5FeatureRenderer extends FeatureRenderer<PlayerIllusio
 				float o = MathHelper.lerp(h, playerIllusionEntity.prevYaw, playerIllusionEntity.getYaw()) - MathHelper.lerp(h, playerIllusionEntity.prevBodyYaw, playerIllusionEntity.bodyYaw);
 				float p = MathHelper.lerp(h, playerIllusionEntity.prevPitch, playerIllusionEntity.getPitch());
 				matrixStack.push();
-				matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(o));
-				matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(p));
+				matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(o));
+				matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(p));
 				matrixStack.translate(0.375F * (float) (n * 2 - 1), 0.0, 0.0);
 				matrixStack.translate(0.0, -0.375, 0.0);
-				matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-p));
-				matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-o));
+				matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-p));
+				matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-o));
 				float q = 1.3333334F;
 				matrixStack.scale(1.3333334F, 1.3333334F, 1.3333334F);
 				this.getContextModel().renderEars(matrixStack, vertexConsumer, i, m);

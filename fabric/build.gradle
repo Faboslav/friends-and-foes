@@ -43,7 +43,6 @@ dependencies {
 	// https://www.curseforge.com/minecraft/mc-mods/starlight/files
 	modRuntimeOnly "curse.maven:starlight-521783:3835973"
 	modRuntimeOnly "curse.maven:disablecustomworldsadvice-401978:3827588"
-	modRuntimeOnly "curse.maven:structureessentialsforgefabric-832882:4429721"
 	modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.1.2")
 
 	common(project(path: ":common", configuration: "namedElements")) { transitive false }

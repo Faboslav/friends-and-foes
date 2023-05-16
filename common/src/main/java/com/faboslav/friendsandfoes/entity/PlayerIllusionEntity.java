@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.entity;
 
+import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.render.entity.PlayerModelPart;
@@ -15,7 +16,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -191,7 +191,7 @@ public final class PlayerIllusionEntity extends MobEntity
 
 	private void playMirrorSound() {
 		this.playSound(
-			SoundEvents.ENTITY_ILLUSIONER_MIRROR_MOVE,
+			FriendsAndFoesSoundEvents.ENTITY_PLAYER_MIRROR_MOVE.get(),
 			this.getSoundVolume(),
 			this.getSoundPitch()
 		);

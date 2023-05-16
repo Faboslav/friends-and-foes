@@ -176,6 +176,13 @@
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.moobloom.convert"
 	},
+	"entity.player.mirror_move": {
+		"sounds": [
+			"friendsandfoes:entity/player/mirror_move1",
+			"friendsandfoes:entity/player/mirror_move2"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.moobloom.convert"
+	},
 	"entity.tuff_golem.glue_on": {
 		"sounds": [
 			"friendsandfoes:entity/tuff_golem/glue_on"

@@ -38,6 +38,7 @@ public final class FriendsAndFoesSoundEvents
 	public static final Supplier<SoundEvent> ENTITY_MAULER_GROWL;
 	public static final Supplier<SoundEvent> ENTITY_MAULER_HURT;
 	public static final Supplier<SoundEvent> ENTITY_MOOBLOOM_CONVERT;
+	public static final Supplier<SoundEvent> ENTITY_PLAYER_MIRROR_MOVE;
 	public static final Supplier<SoundEvent> ENTITY_TUFF_GOLEM_GLUE_ON;
 	public static final Supplier<SoundEvent> ENTITY_TUFF_GOLEM_GLUE_OFF;
 	public static final Supplier<SoundEvent> ENTITY_TUFF_GOLEM_HURT;
@@ -83,6 +84,7 @@ public final class FriendsAndFoesSoundEvents
 		ENTITY_MAULER_GROWL = register("entity", "mauler.growl");
 		ENTITY_MAULER_HURT = register("entity", "mauler.hurt");
 		ENTITY_MOOBLOOM_CONVERT = register("entity", "moobloom.convert");
+		ENTITY_PLAYER_MIRROR_MOVE = register("entity", "player.mirror_move");
 		ENTITY_TUFF_GOLEM_GLUE_ON = register("entity", "tuff_golem.glue_on");
 		ENTITY_TUFF_GOLEM_GLUE_OFF = register("entity", "tuff_golem.glue_off");
 		ENTITY_TUFF_GOLEM_HURT = register("entity", "tuff_golem.hurt");

@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes.mixin;
 import com.faboslav.friendsandfoes.entity.PlayerIllusionEntity;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesItems;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.platform.TotemPacketHelper;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.advancement.criterion.Criteria;
@@ -19,10 +20,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.stat.Stats;
+import net.minecraft.tag.FluidTags;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -171,6 +172,12 @@ public abstract class PlayerEntityMixin extends LivingEntity
 	}
 
 	private void friendsandfoes_createIllusions() {
+		this.playSound(
+			FriendsAndFoesSoundEvents.ENTITY_PLAYER_MIRROR_MOVE.get(),
+			this.getSoundVolume(),
+			this.getSoundPitch()
+		);
+
 		Vec3d illusionerPosition = this.getPos();
 		float slice = 2.0F * (float) Math.PI / MAX_ILLUSIONS_COUNT;
 		int radius = 9;
@@ -194,7 +201,7 @@ public abstract class PlayerEntityMixin extends LivingEntity
 			} else {
 				PlayerIllusionEntity createdPlayerIllusion = this.friendsandfoes_createIllusion(x, y, z);
 
-				if(createdPlayerIllusion != null) {
+				if (createdPlayerIllusion != null) {
 					createdPlayerIllusions.add(createdPlayerIllusion);
 				}
 			}
@@ -216,7 +223,7 @@ public abstract class PlayerEntityMixin extends LivingEntity
 	private PlayerIllusionEntity friendsandfoes_createIllusion(int x, int y, int z) {
 		PlayerIllusionEntity playerIllusion = FriendsAndFoesEntityTypes.PLAYER_ILLUSION.get().create(this.getWorld());
 
-		if(playerIllusion == null) {
+		if (playerIllusion == null) {
 			return null;
 		}
 

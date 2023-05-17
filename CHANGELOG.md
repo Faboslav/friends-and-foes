@@ -1,4 +1,4 @@
-## mc1.19.4-1.8.2, May 13, 2023
+## mc1.19.4-1.8.2, May 17, 2023
 
 - Added Totem of Illusion
 - Added Totem of Freezing
@@ -13,7 +13,7 @@
 
 - Ported to 1.19.4
 
-## mc1.19.3-1.8.2, May 13, 2023
+## mc1.19.3-1.8.2, May 17, 2023
 
 - Added Totem of Illusion
 - Added Totem of Freezing
@@ -44,7 +44,7 @@
 - Mooblooms can now spawn in the sunflower plains biome
 - Fixed incorrect glare spawn biomes
 - Added missing translations
-- 
+
 ## mc1.19.3-1.7.3, December 27, 2022
 
 - Fixed custom lightning rods not working as the vanilla one
@@ -66,7 +66,7 @@
 
 - Ported to 1.19.3
 
-## mc1.19.2-1.8.2, May 13, 2023
+## mc1.19.2-1.8.2, May 17, 2023
 
 - Added Totem of Illusion
 - Added Totem of Freezing

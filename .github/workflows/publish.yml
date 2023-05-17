@@ -65,7 +65,7 @@ jobs:
                     name: "friends-and-foes"
 
             -   name: "Publish license to GitHub"
-                uses: AButler/upload-release-assets@v2
+                uses: AButler/upload-release-assets@v2.0.2
                 with:
                     files: 'LICENSE.txt'
                     repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -83,7 +83,7 @@ jobs:
                     name: "friends-and-foes"
 
             -   name: "Publish Fabric to GitHub"
-                uses: AButler/upload-release-assets@v2
+                uses: AButler/upload-release-assets@v2.0.2
                 with:
                     files: fabric/build/libs/friendsandfoes-fabric-${{ github.ref_name }}.jar
                     repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -101,7 +101,7 @@ jobs:
                     name: "friends-and-foes"
 
             -   name: "Publish Fabric to CurseForge"
-                uses: Kir-Antipov/mc-publish@v3
+                uses: Kir-Antipov/mc-publish@v3.2
                 with:
                     curseforge-id: 551364
                     curseforge-token: ${{ secrets.CURSEFORGE_RELEASE_TOKEN }}
@@ -131,7 +131,7 @@ jobs:
                     name: "friends-and-foes"
 
             -   name: "Publish Fabric to Modrinth"
-                uses: Kir-Antipov/mc-publish@v3
+                uses: Kir-Antipov/mc-publish@v3.2
                 with:
                     modrinth-id: POQ2i9zu
                     modrinth-featured: true
@@ -163,7 +163,7 @@ jobs:
                     name: "friends-and-foes"
 
             -   name: "Publish Forge to GitHub"
-                uses: AButler/upload-release-assets@v2
+                uses: AButler/upload-release-assets@v2.0.2
                 with:
                     files: forge/build/libs/friendsandfoes-forge-${{ github.ref_name }}.jar
                     repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -181,7 +181,7 @@ jobs:
                     name: "friends-and-foes"
 
             -   name: "Publish Forge to CurseForge"
-                uses: Kir-Antipov/mc-publish@v3
+                uses: Kir-Antipov/mc-publish@v3.2
                 with:
                     curseforge-id: 602059
                     curseforge-token: ${{ secrets.CURSEFORGE_RELEASE_TOKEN }}
@@ -210,7 +210,7 @@ jobs:
                     name: "friends-and-foes"
 
             -   name: "Publish Forge to Modrinth"
-                uses: Kir-Antipov/mc-publish@v3
+                uses: Kir-Antipov/mc-publish@v3.2
                 with:
                     modrinth-id: BOCJKD49
                     modrinth-featured: true
@@ -242,7 +242,7 @@ jobs:
                     name: "friends-and-foes"
 
             -   name: "Publish Quilt to GitHub"
-                uses: AButler/upload-release-assets@v2
+                uses: AButler/upload-release-assets@v2.0.2
                 with:
                     files: quilt/build/libs/friendsandfoes-quilt-${{ github.ref_name }}.jar
                     repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -260,7 +260,7 @@ jobs:
                     name: "friends-and-foes"
 
             -   name: "Publish Quilt to CurseForge"
-                uses: Kir-Antipov/mc-publish@v3
+                uses: Kir-Antipov/mc-publish@v3.2
                 with:
                     curseforge-id: 628248
                     curseforge-token: ${{ secrets.CURSEFORGE_RELEASE_TOKEN }}
@@ -290,7 +290,7 @@ jobs:
                     name: "friends-and-foes"
 
             -   name: "Publish Quilt to Modrinth"
-                uses: Kir-Antipov/mc-publish@v3
+                uses: Kir-Antipov/mc-publish@v3.2
                 with:
                     modrinth-id: NxP9xmhw
                     modrinth-featured: true

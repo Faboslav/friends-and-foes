@@ -1,4 +1,4 @@
-## mc1.19.3-1.8.2, May 13, 2023
+## mc1.19.3-1.8.2, May 17, 2023
 
 - Added Totem of Illusion
 - Added Totem of Freezing
@@ -51,7 +51,7 @@
 
 - Ported to 1.19.3
 
-## mc1.19.2-1.8.2, May 13, 2023
+## mc1.19.2-1.8.2, May 17, 2023
 
 - Added Totem of Illusion
 - Added Totem of Freezing

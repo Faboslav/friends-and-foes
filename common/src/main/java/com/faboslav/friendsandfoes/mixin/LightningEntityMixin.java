@@ -39,7 +39,7 @@ public abstract class LightningEntityMixin extends Entity
 	)
 	private boolean friendsandfoes_expandPowerLightningRodIsLightningRodCondition(boolean original) {
 		BlockPos blockPos = this.getAffectedBlockPos();
-		BlockState blockState = this.world.getBlockState(blockPos);
+		BlockState blockState = this.getWorld().getBlockState(blockPos);
 
 		return original || blockState.isIn(FriendsAndFoesTags.LIGHTNING_RODS);
 	}

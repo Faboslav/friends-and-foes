@@ -44,7 +44,7 @@ public final class BeePollinateMoobloomGoal extends Goal
 			return false;
 		} else if (this.beeEntity.hasNectar()) {
 			return false;
-		} else if (this.beeEntity.world.isRaining()) {
+		} else if (this.beeEntity.getWorld().isRaining()) {
 			return false;
 		} else if (RandomGenerator.generateRandomFloat() < 0.5F) {
 			return false;
@@ -151,7 +151,7 @@ public final class BeePollinateMoobloomGoal extends Goal
 			double d = this.beeEntity.getRandom().nextGaussian() * 0.02D;
 			double e = this.beeEntity.getRandom().nextGaussian() * 0.02D;
 			double f = this.beeEntity.getRandom().nextGaussian() * 0.02D;
-			((ServerWorld) this.beeEntity.world).spawnParticles(
+			((ServerWorld) this.beeEntity.getWorld()).spawnParticles(
 				ParticleTypes.HEART,
 				this.beeEntity.getParticleX(1.0D),
 				this.beeEntity.getRandomBodyY() + 0.5D,
@@ -167,7 +167,7 @@ public final class BeePollinateMoobloomGoal extends Goal
 
 	@Nullable
 	private MoobloomEntity findMoobloom() {
-		List<MoobloomEntity> moobloomEntities = this.beeEntity.world.getTargets(
+		List<MoobloomEntity> moobloomEntities = this.beeEntity.getWorld().getTargets(
 			MoobloomEntity.class,
 			VALID_MOOBLOOM_PREDICATE,
 			this.beeEntity,

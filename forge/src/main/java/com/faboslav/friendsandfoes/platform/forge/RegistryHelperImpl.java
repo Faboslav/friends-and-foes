@@ -57,7 +57,7 @@ public final class RegistryHelperImpl
 	public static final HashMap<ItemGroup, HashMap<Item, Item>> ITEMS_TO_ADD_BEFORE = new HashMap<>();
 	public static final HashMap<ItemGroup, HashMap<Item, Item>> ITEMS_TO_ADD_AFTER = new HashMap<>();
 
-	public static void addToItemGroupBefore(ItemGroup itemGroup, Item item, Item before) {
+	public static void addToItemGroupBefore(RegistryKey<ItemGroup> itemGroup, Item item, Item before) {
 		if (ITEMS_TO_ADD_BEFORE.containsKey(itemGroup)) {
 			ITEMS_TO_ADD_BEFORE.get(itemGroup).put(item, before);
 		} else {
@@ -67,7 +67,7 @@ public final class RegistryHelperImpl
 		}
 	}
 
-	public static void addToItemGroupAfter(ItemGroup itemGroup, Item item, Item after) {
+	public static void addToItemGroupAfter(RegistryKey<ItemGroup> itemGroup, Item item, Item after) {
 		if (ITEMS_TO_ADD_AFTER.containsKey(itemGroup)) {
 			ITEMS_TO_ADD_AFTER.get(itemGroup).put(item, after);
 		} else {

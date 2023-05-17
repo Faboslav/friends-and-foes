@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.integrations.fabric;
 
+/*
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.config.ConfigScreenBuilder;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
@@ -8,6 +9,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
 
+// TODO reenable
 @Environment(EnvType.CLIENT)
 public final class ModMenuIntegration implements ModMenuApi
 {
@@ -21,4 +23,4 @@ public final class ModMenuIntegration implements ModMenuApi
 			return ConfigScreenBuilder.createConfigScreen(FriendsAndFoes.getConfig(), parent);
 		};
 	}
-}
+}*/

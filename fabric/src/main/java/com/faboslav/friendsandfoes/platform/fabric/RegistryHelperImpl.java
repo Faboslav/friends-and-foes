@@ -26,6 +26,7 @@ import net.minecraft.item.SpawnEggItem;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.structure.processor.StructureProcessor;
 import net.minecraft.structure.processor.StructureProcessorType;
@@ -38,13 +39,13 @@ import java.util.function.Supplier;
 
 public final class RegistryHelperImpl
 {
-	public static void addToItemGroupBefore(ItemGroup itemGroup, Item item, Item before) {
+	public static void addToItemGroupBefore(RegistryKey<ItemGroup> itemGroup, Item item, Item before) {
 		ItemGroupEvents.modifyEntriesEvent(itemGroup).register((content) -> {
 			content.addBefore(before, item.getDefaultStack());
 		});
 	}
 
-	public static void addToItemGroupAfter(ItemGroup itemGroup, Item item, Item after) {
+	public static void addToItemGroupAfter(RegistryKey<ItemGroup> itemGroup, Item item, Item after) {
 		ItemGroupEvents.modifyEntriesEvent(itemGroup).register((content) -> {
 			content.addAfter(after, item.getDefaultStack());
 		});

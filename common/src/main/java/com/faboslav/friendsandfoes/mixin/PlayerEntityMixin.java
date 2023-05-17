@@ -256,7 +256,7 @@ public abstract class PlayerEntityMixin extends LivingEntity
 		boolean teleportResult = playerIllusion.tryToTeleport(x, y, z);
 
 		if (teleportResult) {
-			world.spawnEntity(playerIllusion);
+			getWorld().spawnEntity(playerIllusion);
 			playerIllusion.spawnCloudParticles();
 		}
 

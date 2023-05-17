@@ -285,7 +285,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	) {
 		if (
 			this.isInSleepingPose()
-			|| state.getMaterial().isLiquid()
+			|| state.isLiquid()
 		) {
 			return;
 		}

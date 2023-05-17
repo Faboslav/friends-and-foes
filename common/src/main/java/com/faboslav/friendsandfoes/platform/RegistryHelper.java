@@ -18,6 +18,7 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.particle.DefaultParticleType;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.structure.processor.StructureProcessor;
 import net.minecraft.structure.processor.StructureProcessorType;
@@ -31,12 +32,12 @@ import java.util.function.Supplier;
 public final class RegistryHelper
 {
 	@ExpectPlatform
-	public static void addToItemGroupBefore(ItemGroup itemGroup, Item item, Item before) {
+	public static void addToItemGroupBefore(RegistryKey<ItemGroup> itemGroup, Item item, Item before) {
 		throw new AssertionError();
 	}
 
 	@ExpectPlatform
-	public static void addToItemGroupAfter(ItemGroup itemGroup, Item item, Item after) {
+	public static void addToItemGroupAfter(RegistryKey<ItemGroup> itemGroup, Item item, Item after) {
 		throw new AssertionError();
 	}
 

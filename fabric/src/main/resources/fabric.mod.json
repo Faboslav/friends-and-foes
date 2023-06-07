@@ -29,6 +29,9 @@
 		],
 		"preLaunch": [
 			"com.llamalad7.mixinextras.MixinExtrasBootstrap::init"
+		],
+		"modmenu": [
+			"com.faboslav.friendsandfoes.integrations.fabric.ModMenuIntegration"
 		]
 	},
 	"mixins": [
@@ -37,7 +40,7 @@
 	],
 	"depends": {
 		"java": ">=17",
-		"minecraft": ">=1.19.4",
+		"minecraft": ">=1.20",
 		"fabric": "*",
 		"fabricloader": "*"
 	},

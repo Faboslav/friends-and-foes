@@ -45,7 +45,7 @@ public final class FriendsAndFoesBlocks
 
 	static {
 		BUTTERCUP = RegistryHelper.registerBlock("buttercup", () -> new FlowerBlock(StatusEffects.SATURATION, 6, AbstractBlock.Settings.create().mapColor(MapColor.DARK_GREEN).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)));
-		POTTED_BUTTERCUP = RegistryHelper.registerBlock("potted_buttercup", () -> new FlowerPotBlock(BUTTERCUP.get(),  AbstractBlock.Settings.create().mapColor(MapColor.DARK_GREEN).breakInstantly()));
+		POTTED_BUTTERCUP = RegistryHelper.registerBlock("potted_buttercup", () -> new FlowerPotBlock(BUTTERCUP.get(), AbstractBlock.Settings.create().mapColor(MapColor.DARK_GREEN).breakInstantly()));
 		ACACIA_BEEHIVE = RegistryHelper.registerBlock("acacia_beehive", () -> new BeehiveBlock(AbstractBlock.Settings.create().mapColor(MapColor.ORANGE).strength(0.6F).sounds(BlockSoundGroup.WOOD)));
 		BIRCH_BEEHIVE = RegistryHelper.registerBlock("birch_beehive", () -> new BeehiveBlock(AbstractBlock.Settings.create().mapColor(MapColor.PALE_YELLOW).strength(0.6F).sounds(BlockSoundGroup.WOOD)));
 		CRIMSON_BEEHIVE = RegistryHelper.registerBlock("crimson_beehive", () -> new BeehiveBlock(AbstractBlock.Settings.create().mapColor(MapColor.DULL_PINK).strength(0.6F).sounds(BlockSoundGroup.WOOD)));

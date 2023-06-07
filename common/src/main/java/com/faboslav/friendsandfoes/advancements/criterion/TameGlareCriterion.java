@@ -26,7 +26,11 @@ public final class TameGlareCriterion extends AbstractCriterion<Conditions>
 		return ID;
 	}
 
-	public TameAnimalCriterion.Conditions conditionsFromJson(JsonObject jsonObject, LootContextPredicate lootContextPredicate, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) {
+	public TameAnimalCriterion.Conditions conditionsFromJson(
+		JsonObject jsonObject,
+		LootContextPredicate lootContextPredicate,
+		AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer
+	) {
 		LootContextPredicate lootContextPredicate2 = EntityPredicate.contextPredicateFromJson(jsonObject, "entity", advancementEntityPredicateDeserializer);
 		return new TameAnimalCriterion.Conditions(lootContextPredicate, lootContextPredicate2);
 	}
@@ -38,7 +42,8 @@ public final class TameGlareCriterion extends AbstractCriterion<Conditions>
 		});
 	}
 
-	public static class Conditions extends AbstractCriterionConditions {
+	public static class Conditions extends AbstractCriterionConditions
+	{
 		private final LootContextPredicate entity;
 
 		public Conditions(LootContextPredicate player, LootContextPredicate entity) {

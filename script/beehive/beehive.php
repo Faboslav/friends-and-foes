@@ -9,6 +9,7 @@ $types = [
 	'crimson',
 	'warped',
 	'mangrove',
+	'cherry',
 ];
 
 $blocks = [
@@ -103,6 +104,15 @@ $colors = [
 		'7f4234',
 		'8b4d3a',
 	],
+	'cherry' => [
+		'cd8580',
+		'dd9d97',
+		'e1a8a1',
+		'e6b3ad',
+		'e7bab4',
+		'e7c2bb',
+		'e7cac5'
+	]
 ];
 
 foreach ( $types as $type ) {

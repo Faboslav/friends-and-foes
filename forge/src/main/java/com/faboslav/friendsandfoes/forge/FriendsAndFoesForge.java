@@ -22,7 +22,7 @@ import net.minecraft.village.raid.Raid;
 import net.minecraft.world.dimension.DimensionTypes;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.ServerTickEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
@@ -108,9 +108,9 @@ public final class FriendsAndFoesForge
 		}
 	}
 
-	private static void addItemsToTabs(CreativeModeTabEvent.BuildContents event) {
+	private static void addItemsToTabs(BuildCreativeModeTabContentsEvent event) {
 		RegistryHelperImpl.ITEMS_TO_ADD_BEFORE.forEach((itemGroup, itemPairs) -> {
-			if (event.getTab() == itemGroup) {
+			if (event.getTabKey() == itemGroup) {
 				itemPairs.forEach((item, before) -> {
 					event.getEntries().putBefore(before.getDefaultStack(), item.getDefaultStack(), ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS);
 				});
@@ -118,7 +118,7 @@ public final class FriendsAndFoesForge
 		});
 
 		RegistryHelperImpl.ITEMS_TO_ADD_AFTER.forEach((itemGroup, itemPairs) -> {
-			if (event.getTab() == itemGroup) {
+			if (event.getTabKey() == itemGroup) {
 				itemPairs.forEach((item, after) -> {
 					event.getEntries().putAfter(after.getDefaultStack(), item.getDefaultStack(), ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS);
 				});

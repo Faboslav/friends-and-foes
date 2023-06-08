@@ -160,7 +160,7 @@ public final class WildfireBarrageAttackTask extends MultiTickTask<WildfireEntit
 				wildfire.getBodyY(0.5) + 0.5,
 				shieldDebris.getZ()
 			);
-			wildfire.world.spawnEntity(shieldDebris);
+			wildfire.getWorld().spawnEntity(shieldDebris);
 			this.shieldDebrisFired++;
 		}
 

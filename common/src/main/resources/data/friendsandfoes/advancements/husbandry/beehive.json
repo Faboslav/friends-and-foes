@@ -40,6 +40,18 @@
 				]
 			}
 		},
+		"cherry_beehive": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"friendsandfoes:cherry_beehive"
+						]
+					}
+				]
+			}
+		},
 		"birch_beehive": {
 			"trigger": "minecraft:inventory_changed",
 			"conditions": {
@@ -134,6 +146,9 @@
 		],
 		[
 			"birch_beehive"
+		],
+		[
+			"cherry_beehive"
 		],
 		[
 			"crimson_beehive"

@@ -34,12 +34,12 @@ public final class IllusionerShackBrewingStandProcessor extends StructureProcess
 		StructureBlockInfo currentBlockInfo,
 		StructurePlacementData structurePlacementData
 	) {
-		if (currentBlockInfo.state.getBlock() != Blocks.BREWING_STAND) {
+		if (currentBlockInfo.state().getBlock() != Blocks.BREWING_STAND) {
 			return currentBlockInfo;
 		}
 
-		Random random = structurePlacementData.getRandom(currentBlockInfo.pos);
-		NbtCompound nbt = currentBlockInfo.nbt;
+		Random random = structurePlacementData.getRandom(currentBlockInfo.pos());
+		NbtCompound nbt = currentBlockInfo.nbt();
 		NbtList itemsListNbt = nbt.getList("Items", 10);
 
 		int randomNumber = random.nextInt(2);
@@ -59,7 +59,7 @@ public final class IllusionerShackBrewingStandProcessor extends StructureProcess
 			);
 		}
 
-		currentBlockInfo = new StructureBlockInfo(currentBlockInfo.pos, currentBlockInfo.state, nbt);
+		currentBlockInfo = new StructureBlockInfo(currentBlockInfo.pos(), currentBlockInfo.state(), nbt);
 
 		return currentBlockInfo;
 	}

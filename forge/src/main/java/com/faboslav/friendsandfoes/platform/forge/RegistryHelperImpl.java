@@ -19,9 +19,10 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.particle.ParticleType;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.structure.processor.StructureProcessor;
 import net.minecraft.structure.processor.StructureProcessorType;
@@ -54,10 +55,10 @@ public final class RegistryHelperImpl
 	public static final DeferredRegister<StructureProcessorType<?>> STRUCTURE_PROCESSOR_TYPES = DeferredRegister.create(RegistryKeys.STRUCTURE_PROCESSOR, FriendsAndFoes.MOD_ID);
 	public static final DeferredRegister<VillagerProfession> VILLAGER_PROFESSIONS = DeferredRegister.create(ForgeRegistries.VILLAGER_PROFESSIONS, FriendsAndFoes.MOD_ID);
 
-	public static final HashMap<ItemGroup, HashMap<Item, Item>> ITEMS_TO_ADD_BEFORE = new HashMap<>();
-	public static final HashMap<ItemGroup, HashMap<Item, Item>> ITEMS_TO_ADD_AFTER = new HashMap<>();
+	public static final HashMap<RegistryKey<ItemGroup>, HashMap<Item, Item>> ITEMS_TO_ADD_BEFORE = new HashMap<>();
+	public static final HashMap<RegistryKey<ItemGroup>, HashMap<Item, Item>> ITEMS_TO_ADD_AFTER = new HashMap<>();
 
-	public static void addToItemGroupBefore(ItemGroup itemGroup, Item item, Item before) {
+	public static void addToItemGroupBefore(RegistryKey<ItemGroup> itemGroup, Item item, Item before) {
 		if (ITEMS_TO_ADD_BEFORE.containsKey(itemGroup)) {
 			ITEMS_TO_ADD_BEFORE.get(itemGroup).put(item, before);
 		} else {
@@ -67,7 +68,7 @@ public final class RegistryHelperImpl
 		}
 	}
 
-	public static void addToItemGroupAfter(ItemGroup itemGroup, Item item, Item after) {
+	public static void addToItemGroupAfter(RegistryKey<ItemGroup> itemGroup, Item item, Item after) {
 		if (ITEMS_TO_ADD_AFTER.containsKey(itemGroup)) {
 			ITEMS_TO_ADD_AFTER.get(itemGroup).put(item, after);
 		} else {

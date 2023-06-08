@@ -267,7 +267,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 	) {
 		if (
 			this.isOxidized()
-			|| state.getMaterial().isLiquid()
+			|| state.isLiquid()
 		) {
 			return;
 		}
@@ -440,7 +440,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 
 			if (RandomGenerator.generateRandomFloat() < SPARK_CHANCE) {
 				for (int i = 0; i < 7; i++) {
-					((ServerWorld) world).spawnParticles(
+					((ServerWorld) this.getWorld()).spawnParticles(
 						ParticleTypes.ELECTRIC_SPARK,
 						this.getParticleX(0.35D),
 						this.getRandomBodyY() + 0.25D,

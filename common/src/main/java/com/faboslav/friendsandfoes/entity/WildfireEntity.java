@@ -132,13 +132,15 @@ public final class WildfireEntity extends HostileEntity
 
 	@Override
 	protected void playStepSound(BlockPos pos, BlockState state) {
-		if (state.getMaterial().isLiquid()) {
+		if (state.isLiquid()) {
 			return;
 		}
 
 		BlockState blockState = this.getWorld().getBlockState(pos.up());
 		BlockSoundGroup blockSoundGroup = blockState.isIn(BlockTags.INSIDE_STEP_SOUND_BLOCKS) ? blockState.getSoundGroup():state.getSoundGroup();
 		this.playSound(FriendsAndFoesSoundEvents.ENTITY_WILDFIRE_STEP.get(), blockSoundGroup.getVolume() * 0.15F, blockSoundGroup.getPitch());
+
+
 	}
 
 	public SoundEvent getShootSound() {

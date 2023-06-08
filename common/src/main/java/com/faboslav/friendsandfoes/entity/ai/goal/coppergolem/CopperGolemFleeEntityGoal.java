@@ -30,7 +30,7 @@ public final class CopperGolemFleeEntityGoal extends FleeEntityGoal
 		}
 
 		TargetPredicate withinRangePredicate = TargetPredicate.createNonAttackable().setBaseMaxDistance(this.fleeDistance).setPredicate(inclusionSelector.and(extraInclusionSelector));
-		this.targetEntity = this.mob.world.getClosestEntity(this.mob.world.getEntitiesByClass(this.classToFleeFrom, this.mob.getBoundingBox().expand(this.fleeDistance, 3.0D, this.fleeDistance), (livingEntity) -> {
+		this.targetEntity = this.mob.getWorld().getClosestEntity(this.mob.getWorld().getEntitiesByClass(this.classToFleeFrom, this.mob.getBoundingBox().expand(this.fleeDistance, 3.0D, this.fleeDistance), (livingEntity) -> {
 			return true;
 		}), withinRangePredicate, this.mob, this.mob.getX(), this.mob.getY(), this.mob.getZ());
 		if (this.targetEntity == null) {

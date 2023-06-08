@@ -20,7 +20,7 @@ public enum FriendsAndFoesArmorMaterials implements ArmorMaterial
 	WILDFIRE(
 		"wildfire",
 		35,
-		(EnumMap) Util.make(new EnumMap(ArmorItem.Type.class), (map) -> {
+		Util.make(new EnumMap(ArmorItem.Type.class), (map) -> {
 			map.put(ArmorItem.Type.BOOTS, 2);
 			map.put(ArmorItem.Type.LEGGINGS, 5);
 			map.put(ArmorItem.Type.CHESTPLATE, 7);
@@ -74,7 +74,7 @@ public enum FriendsAndFoesArmorMaterials implements ArmorMaterial
 	}
 
 	public int getProtection(ArmorItem.Type type) {
-		return (Integer) this.protectionAmounts.get(type);
+		return this.protectionAmounts.get(type);
 	}
 
 	public int getEnchantability() {

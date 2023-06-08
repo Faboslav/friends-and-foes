@@ -24,7 +24,7 @@ public final class ModelPartAnimator
 		ModelPart modelPart,
 		Vector3f position
 	) {
-		modelPart.setPivot((float) position.x(), (float) position.y(), (float) position.z());
+		modelPart.setPivot(position.x(), position.y(), position.z());
 	}
 
 	public static void setXRotation(ModelPart modelPart, float x) {
@@ -43,6 +43,6 @@ public final class ModelPartAnimator
 		ModelPart modelPart,
 		Vector3f rotation
 	) {
-		modelPart.setAngles((float) rotation.x(), (float) rotation.y(), (float) rotation.z());
+		modelPart.setAngles(rotation.x(), rotation.y(), rotation.z());
 	}
 }

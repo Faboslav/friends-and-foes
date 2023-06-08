@@ -15,6 +15,7 @@ public final class FriendsAndFoesBlockSetTypes
 {
 	public static Supplier<BlockSetType> COPPER = () -> new BlockSetType(
 		FriendsAndFoes.makeStringID("copper"),
+		true,
 		BlockSoundGroup.COPPER,
 		SoundEvents.BLOCK_COPPER_PLACE,
 		SoundEvents.BLOCK_COPPER_PLACE,

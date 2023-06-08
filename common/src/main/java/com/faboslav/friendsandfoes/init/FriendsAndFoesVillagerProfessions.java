@@ -31,6 +31,7 @@ public final class FriendsAndFoesVillagerProfessions
 				   registryEntry.matchesKey(PointOfInterestTypes.BEEHIVE)
 				   || registryEntry.value() == FriendsAndFoesPointOfInterestTypes.ACACIA_BEEHIVE.get()
 				   || registryEntry.value() == FriendsAndFoesPointOfInterestTypes.BIRCH_BEEHIVE.get()
+				   || registryEntry.value() == FriendsAndFoesPointOfInterestTypes.CHERRY_BEEHIVE.get()
 				   || registryEntry.value() == FriendsAndFoesPointOfInterestTypes.CRIMSON_BEEHIVE.get()
 				   || registryEntry.value() == FriendsAndFoesPointOfInterestTypes.DARK_OAK_BEEHIVE.get()
 				   || registryEntry.value() == FriendsAndFoesPointOfInterestTypes.JUNGLE_BEEHIVE.get()

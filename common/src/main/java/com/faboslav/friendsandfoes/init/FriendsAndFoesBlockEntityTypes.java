@@ -16,6 +16,7 @@ public final class FriendsAndFoesBlockEntityTypes
 	private static final Set<Block> BEEHIVE_BLOCKS = ImmutableList.of(
 		FriendsAndFoesBlocks.ACACIA_BEEHIVE.get(),
 		FriendsAndFoesBlocks.BIRCH_BEEHIVE.get(),
+		FriendsAndFoesBlocks.CHERRY_BEEHIVE.get(),
 		FriendsAndFoesBlocks.CRIMSON_BEEHIVE.get(),
 		FriendsAndFoesBlocks.DARK_OAK_BEEHIVE.get(),
 		FriendsAndFoesBlocks.JUNGLE_BEEHIVE.get(),

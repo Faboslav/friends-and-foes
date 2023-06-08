@@ -21,6 +21,7 @@ public final class FriendsAndFoesPointOfInterestTypes
 
 	public final static Supplier<PointOfInterestType> ACACIA_BEEHIVE;
 	public final static Supplier<PointOfInterestType> BIRCH_BEEHIVE;
+	public final static Supplier<PointOfInterestType> CHERRY_BEEHIVE;
 	public final static Supplier<PointOfInterestType> CRIMSON_BEEHIVE;
 	public final static Supplier<PointOfInterestType> DARK_OAK_BEEHIVE;
 	public final static Supplier<PointOfInterestType> JUNGLE_BEEHIVE;
@@ -39,6 +40,7 @@ public final class FriendsAndFoesPointOfInterestTypes
 		REGISTERED_POINT_OF_INTEREST_TYPES = new HashMap<>();
 		ACACIA_BEEHIVE = registerPointOfInterest("acacia_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.ACACIA_BEEHIVE.get()), 1, 1));
 		BIRCH_BEEHIVE = registerPointOfInterest("birch_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.BIRCH_BEEHIVE.get()), 1, 1));
+		CHERRY_BEEHIVE = registerPointOfInterest("cherry_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.CHERRY_BEEHIVE.get()), 1, 1));
 		CRIMSON_BEEHIVE = registerPointOfInterest("crimson_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.CRIMSON_BEEHIVE.get()), 1, 1));
 		DARK_OAK_BEEHIVE = registerPointOfInterest("dark_oak_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.DARK_OAK_BEEHIVE.get()), 1, 1));
 		JUNGLE_BEEHIVE = registerPointOfInterest("jungle_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.JUNGLE_BEEHIVE.get()), 1, 1));

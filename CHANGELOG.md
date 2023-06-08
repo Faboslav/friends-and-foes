@@ -1,3 +1,8 @@
+## mc1.20-1.9.0, June 8, 2023
+
+- Ported to 1.20
+- Added cherry beehive
+
 ## mc1.19.4-1.8.2, May 13, 2023
 
 - Added Totem of Illusion

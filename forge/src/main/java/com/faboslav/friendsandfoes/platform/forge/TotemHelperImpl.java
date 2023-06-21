@@ -2,15 +2,21 @@ package com.faboslav.friendsandfoes.platform.forge;
 
 import com.faboslav.friendsandfoes.network.PacketHandler;
 import com.faboslav.friendsandfoes.network.TotemEffectPacket;
-import com.faboslav.friendsandfoes.platform.TotemPacketHelper;
+import com.faboslav.friendsandfoes.platform.TotemHelper;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraftforge.fml.ModList;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.SlotResult;
+
+import java.util.function.Predicate;
 
 /**
- * @see TotemPacketHelper
+ * @see TotemHelper
  */
-public final class TotemPacketHelperImpl
+public final class TotemHelperImpl
 {
 	public static void sendTotemEffectPacket(ItemStack itemStack, LivingEntity livingEntity) {
 		TotemEffectPacket totemEffectPacket = new TotemEffectPacket(itemStack, livingEntity);
@@ -20,6 +26,14 @@ public final class TotemPacketHelperImpl
 		}
 
 		PacketHandler.sendToAllTracking(totemEffectPacket, livingEntity);
+	}
+
+	public static ItemStack getTotemFromModdedSlots(PlayerEntity player, Predicate<ItemStack> totemFilter) {
+		if (ModList.get().isLoaded(TotemHelper.CURIOS_MOD_ID)) {
+			return CuriosApi.getCuriosHelper().findFirstCurio(player, totemFilter).map(SlotResult::stack).orElse(null);
+		}
+
+		return null;
 	}
 }
 

@@ -22,6 +22,7 @@ public final class FriendsAndFoesTags
 	public static final TagKey<Block> MAULERS_SPAWNABLE_ON = blockTag("maulers_spawnable_on");
 	public static final TagKey<Item> GLARE_FOOD_ITEMS = itemTag("glare_food_items");
 	public static final TagKey<Item> GLARE_TEMPT_ITEMS = itemTag("glare_tempt_items");
+	public static final TagKey<Item> TOTEMS = itemTag("totems");
 	public static final TagKey<EntityType<?>> MAULER_PREY = entityTypeTag("mauler_prey");
 	public static final TagKey<EntityType<?>> WILDFIRE_ALLIES = entityTypeTag("wildfire_allies");
 	public static final TagKey<Biome> HAS_BADLANDS_MAULER = biomeTag("has_badlands_mauler");

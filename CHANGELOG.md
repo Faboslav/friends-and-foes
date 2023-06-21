@@ -1,3 +1,9 @@
+## mc1.19.2-1.8.3, May 17, 2023
+
+- Added curios/trinkets totems compatibility
+- Fixed mauler infinite experience glitch
+- Fixed maulers shadow rendering when burrowed down
+
 ## mc1.19.2-1.8.2, May 17, 2023
 
 - Added Totem of Illusion

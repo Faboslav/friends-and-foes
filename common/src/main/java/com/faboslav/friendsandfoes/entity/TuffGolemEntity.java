@@ -581,7 +581,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	}
 
 	public boolean isCloseToHomePos() {
-		return this.squaredDistanceTo(this.getHomePos()) < 0.5D;
+		return this.squaredDistanceTo(this.getHomePos()) < 1.0D;
 	}
 
 	public boolean isAtHomeYaw() {

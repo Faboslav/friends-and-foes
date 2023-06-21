@@ -3,7 +3,7 @@
 - Added curios/trinkets totems compatibility
 - Fixed mauler infinite experience glitch
 - Fixed maulers shadow rendering when burrowed down
-- Fixed tuff golem navitation when going to sleep
+- Fixed tuff golem navigation when going to sleep
 
 ## mc1.20-1.9.0, June 8, 2023
 

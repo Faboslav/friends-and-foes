@@ -243,7 +243,7 @@ jobs:
                     name: "friends-and-foes"
 
             -   name: "Publish Quilt to GitHub"
-                uses: AButler/upload-release-assets@v2
+                uses: AButler/upload-release-assets@v2.0.2
                 with:
                     files: quilt/build/libs/friendsandfoes-quilt-${{ github.ref_name }}.jar
                     repo-token: ${{ secrets.GITHUB_TOKEN }}

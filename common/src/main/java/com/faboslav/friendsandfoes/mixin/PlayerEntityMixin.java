@@ -4,7 +4,8 @@ import com.faboslav.friendsandfoes.entity.PlayerIllusionEntity;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesItems;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
-import com.faboslav.friendsandfoes.platform.TotemPacketHelper;
+import com.faboslav.friendsandfoes.platform.TotemHelper;
+import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.Entity;
@@ -114,20 +115,17 @@ public abstract class PlayerEntityMixin extends LivingEntity
 
 			ItemStack offhandItemStack = entity.getStackInHand(Hand.OFF_HAND);
 			ItemStack mainhandItemStack = entity.getStackInHand(Hand.MAIN_HAND);
+			ItemStack moddedSlotItemStack = TotemHelper.getTotemFromModdedSlots(((PlayerEntity) (Object) entity), PlayerEntityMixin::isTotem);
 
 			@Nullable
 			ItemStack totemItemStack = null;
 
-			if (
-				mainhandItemStack.getItem() == FriendsAndFoesItems.TOTEM_OF_FREEZING.get()
-				|| mainhandItemStack.getItem() == FriendsAndFoesItems.TOTEM_OF_ILLUSION.get()
-			) {
+			if (isTotem(mainhandItemStack)) {
 				totemItemStack = mainhandItemStack;
-			} else if (
-				offhandItemStack.getItem() == FriendsAndFoesItems.TOTEM_OF_FREEZING.get()
-				|| offhandItemStack.getItem() == FriendsAndFoesItems.TOTEM_OF_ILLUSION.get()
-			) {
+			} else if (isTotem(offhandItemStack)) {
 				totemItemStack = offhandItemStack;
+			} else if (moddedSlotItemStack != null) {
+				totemItemStack = moddedSlotItemStack;
 			}
 
 			if (totemItemStack != null) {
@@ -152,12 +150,16 @@ public abstract class PlayerEntityMixin extends LivingEntity
 					this.friendsandfoes_createIllusions();
 				}
 
-				TotemPacketHelper.sendTotemEffectPacket(totemItemStack, this);
+				TotemHelper.sendTotemEffectPacket(totemItemStack, this);
 				totemItemStack.decrement(1);
 
 				cir.setReturnValue(true);
 			}
 		}
+	}
+
+	private static boolean isTotem(ItemStack itemStack) {
+		return itemStack.isIn(FriendsAndFoesTags.TOTEMS);
 	}
 
 	private void friendsandfoes_freezeEntities() {

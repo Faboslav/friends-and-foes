@@ -25,6 +25,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.item.ToolItem;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
@@ -261,6 +262,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	public ActionResult interactMob(PlayerEntity player, Hand hand) {
 		ItemStack itemStack = player.getStackInHand(hand);
 		Item itemInHand = itemStack.getItem();
+
 		boolean interactionResult = false;
 
 		if (
@@ -270,7 +272,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 				|| itemInHand == Items.ENCHANTED_BOOK
 			)
 		) {
-			interactionResult = this.tryToInteractWithEnhancedItem(itemStack);
+			interactionResult = this.tryToInteractWithEnhancedItem(player, hand, itemStack);
 		} else if (this.hasAngerTime() == false && itemInHand == Items.GLASS_BOTTLE) {
 			interactionResult = this.tryToInteractWithGlassBottle(player, itemStack);
 		}
@@ -283,7 +285,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		return super.interactMob(player, hand);
 	}
 
-	private boolean tryToInteractWithEnhancedItem(ItemStack itemStack) {
+	private boolean tryToInteractWithEnhancedItem(PlayerEntity player, Hand hand, ItemStack itemStack) {
 		int storedExperiencePoints = this.getStoredExperiencePoints();
 
 		if (storedExperiencePoints >= MAXIMUM_STORED_EXPERIENCE_POINTS) {
@@ -299,7 +301,21 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 		this.setStoredExperiencePoints(recalculatedExperiencePoints);
 
-		itemStack.decrement(1);
+		if (player.getAbilities().creativeMode == false) {
+			if (itemStack.getItem() instanceof ToolItem) {
+				EquipmentSlot equipmentSlot;
+
+				if (hand == Hand.MAIN_HAND) {
+					equipmentSlot = EquipmentSlot.MAINHAND;
+				} else {
+					equipmentSlot = EquipmentSlot.OFFHAND;
+				}
+
+				player.equipStack(equipmentSlot, ItemStack.EMPTY);
+			} else {
+				itemStack.decrement(1);
+			}
+		}
 
 		this.playSound(FriendsAndFoesSoundEvents.ENTITY_MAULER_BITE.get(), 0.2F, RandomGenerator.generateFloat(0.9F, 0.95F));
 		this.spawnParticles(ParticleTypes.ENCHANT, 7);
@@ -462,7 +478,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	}
 
 	public float getSize() {
-		return 1.0F + ((float) this.getStoredExperiencePoints() / (float) MAXIMUM_STORED_EXPERIENCE_POINTS) * 0.5F;
+		return 1.0F + ((float) this.getStoredExperiencePoints() / (float) MAXIMUM_STORED_EXPERIENCE_POINTS) * 0.75F;
 	}
 
 	public boolean isMoving() {

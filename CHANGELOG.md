@@ -1,4 +1,4 @@
-## mc1.19.2-1.8.3, May 17, 2023
+## mc1.19.3-1.8.3, June 21, 2023
 
 - Added curios/trinkets totems compatibility
 - Fixed mauler infinite experience glitch

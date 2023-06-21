@@ -5,7 +5,7 @@ import com.faboslav.friendsandfoes.client.particle.FreezingTotemParticle;
 import com.faboslav.friendsandfoes.client.particle.IllusionTotemParticle;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesItems;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesParticleTypes;
-import com.faboslav.friendsandfoes.platform.TotemPacketHelper;
+import com.faboslav.friendsandfoes.platform.TotemHelper;
 import com.faboslav.friendsandfoes.util.TotemUtil;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -33,7 +33,7 @@ public final class FriendsAndFoesFabricClient implements ClientModInitializer
 	}
 
 	private void registerTotemPacket() {
-		ClientPlayNetworking.registerGlobalReceiver(TotemPacketHelper.TOTEM_EFFECT_PACKET, (client, handler, buf, responseSender) -> {
+		ClientPlayNetworking.registerGlobalReceiver(TotemHelper.TOTEM_EFFECT_PACKET, (client, handler, buf, responseSender) -> {
 			ItemStack itemStack = buf.readItemStack();
 			assert client.world != null;
 			Entity entity = client.world.getEntityById(buf.readInt());

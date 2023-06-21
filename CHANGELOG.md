@@ -1,7 +1,21 @@
+## mc1.20.1-1.9.1, June 21, 2023
+
+- Added curios/trinkets totems compatibility
+- Fixed mauler infinite experience glitch
+- Fixed maulers shadow rendering when burrowed down
+- Fixed tuff golem navitation when going to sleep
+
 ## mc1.20-1.9.0, June 8, 2023
 
 - Ported to 1.20
 - Added cherry beehive
+
+## mc1.19.4-1.8.3, June 21, 2023
+
+- Added curios/trinkets totems compatibility
+- Fixed mauler infinite experience glitch
+- Fixed maulers shadow rendering when burrowed down
+- Fixed tuff golem navitation when going to sleep
 
 ## mc1.19.4-1.8.2, May 17, 2023
 
@@ -17,6 +31,13 @@
 ## mc1.19.4-1.8.0, March 20, 2023
 
 - Ported to 1.19.4
+
+## mc1.19.3-1.8.3, June 21, 2023
+
+- Added curios/trinkets totems compatibility
+- Fixed mauler infinite experience glitch
+- Fixed maulers shadow rendering when burrowed down
+- Fixed tuff golem navitation when going to sleep
 
 ## mc1.19.3-1.8.2, May 17, 2023
 
@@ -70,6 +91,13 @@
 ## mc1.19.3-1.7.0, December 14, 2022
 
 - Ported to 1.19.3
+
+## mc1.19.2-1.8.3, June 21, 2023
+
+- Added curios/trinkets totems compatibility
+- Fixed mauler infinite experience glitch
+- Fixed maulers shadow rendering when burrowed down
+- Fixed tuff golem navitation when going to sleep
 
 ## mc1.19.2-1.8.2, May 17, 2023
 

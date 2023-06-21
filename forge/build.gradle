@@ -36,11 +36,14 @@ dependencies {
 	common(project(path: ":common", configuration: "namedElements")) { transitive false }
 	shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 
-	implementation("com.github.LlamaLad7:MixinExtras:${rootProject.mixin_extras_version}")
-	annotationProcessor("com.github.LlamaLad7:MixinExtras:${rootProject.mixin_extras_version}")
-	include("com.github.LlamaLad7:MixinExtras:${rootProject.mixin_extras_version}")
-	forgeRuntimeLibrary("com.github.LlamaLad7:MixinExtras:${rootProject.mixin_extras_version}")
+	implementation(annotationProcessor("com.github.llamalad7.mixinextras:mixinextras-common:${rootProject.mixin_extras_version}"))
+	implementation(include("com.github.llamalad7.mixinextras:mixinextras-forge:${rootProject.mixin_extras_version}"))
 
+	// Curios
+	modImplementation("top.theillusivec4.curios:curios-forge:${project.curios_version}:api")
+	modRuntimeOnly("top.theillusivec4.curios:curios-forge:${project.curios_version}");
+
+	// Cloth config
 	modImplementation("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}")
 }
 
@@ -85,6 +88,12 @@ sourcesJar {
 components.java {
 	withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
 		skip()
+	}
+}
+
+repositories {
+	maven {
+		url = "https://maven.theillusivec4.top/"
 	}
 }
 

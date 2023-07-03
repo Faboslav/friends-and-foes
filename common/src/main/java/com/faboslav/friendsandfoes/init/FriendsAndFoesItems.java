@@ -127,7 +127,7 @@ public final class FriendsAndFoesItems
 		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WAXED_COPPER_BUTTON.get(), OXIDIZED_COPPER_BUTTON.get());
 		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WAXED_EXPOSED_COPPER_BUTTON.get(), WAXED_COPPER_BUTTON.get());
 		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WAXED_WEATHERED_COPPER_BUTTON.get(), WAXED_EXPOSED_COPPER_BUTTON.get());
-		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WAXED_OXIDIZED_COPPER_BUTTON.get(), WAXED_OXIDIZED_COPPER_BUTTON.get());
+		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WAXED_OXIDIZED_COPPER_BUTTON.get(), WAXED_WEATHERED_COPPER_BUTTON.get());
 		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, EXPOSED_LIGHTNING_ROD.get(), Items.LIGHTNING_ROD);
 		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WEATHERED_LIGHTNING_ROD.get(), EXPOSED_LIGHTNING_ROD.get());
 		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, OXIDIZED_LIGHTNING_ROD.get(), WEATHERED_LIGHTNING_ROD.get());

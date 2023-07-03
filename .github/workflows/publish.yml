@@ -50,7 +50,7 @@ jobs:
                     path: |
                         fabric/build/libs/friendsandfoes-fabric-${{ github.ref_name }}.jar
                         forge/build/libs/friendsandfoes-forge-${{ github.ref_name }}.jar
-                        forge/build/libs/friendsandfoes-quilt-${{ github.ref_name }}.jar
+                        quilt/build/libs/friendsandfoes-quilt-${{ github.ref_name }}.jar
                         LICENSE.txt
 
     publish-license-to-release:

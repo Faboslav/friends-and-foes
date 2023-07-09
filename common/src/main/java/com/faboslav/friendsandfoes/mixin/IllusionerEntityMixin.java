@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes.mixin;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.IllusionerEntityAccess;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -226,11 +227,14 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 			return super.damage(source, amount);
 		}
 
+		Entity attacker = source.getAttacker();
+
 		if (
-			source.getAttacker() instanceof IllusionerEntity
+			attacker == null
+			|| attacker instanceof IllusionerEntity
 			|| (
 				this.isIllusion()
-				&& !(source.getAttacker() instanceof LivingEntity)
+				&& attacker instanceof LivingEntity == false
 			)
 		) {
 			return false;
@@ -239,9 +243,9 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 		if (
 			this.getWorld().isClient()
 			|| (
-				source.getAttacker() instanceof PlayerEntity
+				attacker instanceof PlayerEntity
 				&& !this.isIllusion()
-				&& ((PlayerEntity) source.getAttacker()).getAbilities().creativeMode
+				&& ((PlayerEntity) attacker).getAbilities().creativeMode
 			)
 		) {
 			return super.damage(source, amount);
@@ -254,8 +258,8 @@ public abstract class IllusionerEntityMixin extends SpellcastingIllagerEntity im
 
 		if (
 			(
-				source.getAttacker() instanceof PlayerEntity
-				|| source.getAttacker() instanceof IronGolemEntity
+				attacker instanceof PlayerEntity
+				|| attacker instanceof IronGolemEntity
 			)
 			&& this.getTicksUntilCanCreateIllusions() == 0) {
 			this.createIllusions();

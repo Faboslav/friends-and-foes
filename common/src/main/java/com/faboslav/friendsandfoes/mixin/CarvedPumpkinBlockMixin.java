@@ -29,11 +29,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.function.Predicate;
 
 @Mixin(CarvedPumpkinBlock.class)
-public abstract class CarvedPumpkinBlockMixin extends HorizontalFacingBlock implements Equipment
+public abstract class CarvedPumpkinBlockMixin extends HorizontalFacingBlock
 {
 	@Nullable
 	private BlockPattern copperGolemDispenserPattern;
-
 
 	@Nullable
 	private BlockPattern tuffGolemDispenserPattern;

@@ -13,7 +13,7 @@ import net.minecraft.util.math.Vec3d;
 
 public final class TuffGolemGoToHomePositionTask extends MultiTickTask<TuffGolemEntity>
 {
-	private final static int GO_TO_SLEEP_POSITION_DURATION = 1200;
+	private final static int GO_TO_SLEEP_POSITION_DURATION = 2400;
 
 	public TuffGolemGoToHomePositionTask() {
 		super(ImmutableMap.of(
@@ -69,8 +69,8 @@ public final class TuffGolemGoToHomePositionTask extends MultiTickTask<TuffGolem
 		}
 
 		if (
-			tuffGolem.isCloseToHomePos() == false
-			|| (int) tuffGolem.getY() != (int) tuffGolem.getHomePos().getY()
+			tuffGolem.isCloseToHomePos(2.0F) == false
+			|| Math.abs((int) tuffGolem.getY() - (int) tuffGolem.getHomePos().getY()) > 1
 		) {
 			return;
 		}
@@ -78,7 +78,7 @@ public final class TuffGolemGoToHomePositionTask extends MultiTickTask<TuffGolem
 		tuffGolem.setVelocity(
 			new Vec3d(
 				(tuffGolem.getHomePos().getX() - tuffGolem.getX()),
-				0,
+				(tuffGolem.getHomePos().getY() - tuffGolem.getY()),
 				(tuffGolem.getHomePos().getZ() - tuffGolem.getZ())
 			)
 		);
@@ -91,7 +91,7 @@ public final class TuffGolemGoToHomePositionTask extends MultiTickTask<TuffGolem
 		TuffGolemEntity tuffGolem,
 		long time
 	) {
-		if (tuffGolem.isCloseToHomePos()) {
+		if (tuffGolem.isCloseToHomePos(1.5F)) {
 			tuffGolem.setPosition(tuffGolem.getHomePos());
 		}
 

@@ -282,7 +282,13 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		DamageSource source,
 		float amount
 	) {
-		if (source.getAttacker() instanceof LightningEntity || source == this.getDamageSources().sweetBerryBush()) {
+		Entity attacker = source.getAttacker();
+
+		if (
+			attacker == null
+			|| attacker instanceof LightningEntity
+			|| source == this.getDamageSources().sweetBerryBush()
+		) {
 			return false;
 		}
 

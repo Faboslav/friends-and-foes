@@ -6,10 +6,7 @@ import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.EntityData;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -260,12 +257,12 @@ public final class WildfireEntity extends HostileEntity
 		DamageSource source,
 		float amount
 	) {
+		Entity attacker = source.getAttacker();
+
 		if (
 			source == DamageSource.IN_FIRE
-			|| (
-				source.getAttacker() != null
-				&& source.getAttacker().getType().isIn(FriendsAndFoesTags.WILDFIRE_ALLIES)
-			)
+			|| attacker == null
+			|| attacker.getType().isIn(FriendsAndFoesTags.WILDFIRE_ALLIES)
 		) {
 			return false;
 		}
@@ -275,7 +272,7 @@ public final class WildfireEntity extends HostileEntity
 			float shieldBreakDamageThreshold = (float) this.getAttributeValue(EntityAttributes.GENERIC_MAX_HEALTH) * 0.25F;
 
 			if (this.damageAmountCounter >= shieldBreakDamageThreshold) {
-				source.getAttacker().damage(DamageSource.mob(this), GENERIC_ATTACK_DAMAGE);
+				attacker.damage(DamageSource.mob(this), GENERIC_ATTACK_DAMAGE);
 				this.breakShield();
 				this.playShieldBreakSound();
 				this.damageAmountCounter = 0;
@@ -288,8 +285,8 @@ public final class WildfireEntity extends HostileEntity
 
 		boolean damageResult = super.damage(source, amount);
 
-		if (damageResult && source.getAttacker() instanceof LivingEntity) {
-			WildfireBrain.onAttacked(this, (LivingEntity) source.getAttacker());
+		if (damageResult && attacker instanceof LivingEntity) {
+			WildfireBrain.onAttacked(this, (LivingEntity) attacker);
 		}
 
 		return damageResult;

@@ -696,9 +696,11 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		DamageSource source,
 		float amount
 	) {
+		Entity attacker = source.getAttacker();
+
 		if (
-			source.getAttacker() == null
-			|| source.getAttacker() instanceof LightningEntity
+			attacker == null
+			|| attacker instanceof LightningEntity
 			|| source == DamageSource.SWEET_BERRY_BUSH
 		) {
 			return false;

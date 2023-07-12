@@ -267,7 +267,7 @@ public final class WildfireEntity extends HostileEntity
 			return false;
 		}
 
-		if (this.hasActiveShields() && source.getAttacker() != null) {
+		if (this.hasActiveShields()) {
 			this.damageAmountCounter += amount;
 			float shieldBreakDamageThreshold = (float) this.getAttributeValue(EntityAttributes.GENERIC_MAX_HEALTH) * 0.25F;
 

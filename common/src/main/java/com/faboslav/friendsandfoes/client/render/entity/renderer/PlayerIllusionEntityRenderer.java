@@ -53,6 +53,7 @@ public final class PlayerIllusionEntityRenderer extends MobEntityRenderer<Player
 		VertexConsumerProvider vertexConsumerProvider,
 		int i
 	) {
+		this.getModel().thinArms = playerIllusionEntity.hasThinArms();
 		this.setModelPose(playerIllusionEntity);
 		super.render(playerIllusionEntity, f, g, matrixStack, vertexConsumerProvider, i);
 	}

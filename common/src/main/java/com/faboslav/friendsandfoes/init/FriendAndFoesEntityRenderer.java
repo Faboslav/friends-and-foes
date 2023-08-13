@@ -6,12 +6,9 @@ import com.faboslav.friendsandfoes.platform.RegistryHelper;
 import com.google.common.collect.ImmutableMap;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.EntityRenderers;
-import net.minecraft.client.render.entity.PlayerEntityRenderer;
-import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.Map;
 
@@ -34,13 +31,14 @@ public final class FriendAndFoesEntityRenderer
 		RegistryHelper.registerEntityRenderer(FriendsAndFoesEntityTypes.WILDFIRE, WildfireEntityRenderer::new);
 	}
 
-	public static Map<String, EntityRenderer<? extends PlayerIllusionEntity>> reloadPlayerIllusionRenderers(EntityRendererFactory.Context ctx) {
+	public static Map<String, EntityRenderer<? extends PlayerIllusionEntity>> reloadPlayerIllusionRenderers(
+		EntityRendererFactory.Context ctx
+	) {
 		ImmutableMap.Builder builder = ImmutableMap.builder();
 		PLAYER_ILLUSION_RENDERER_FACTORIES.forEach((type, factory) -> {
 			try {
 				builder.put(type, factory.create(ctx));
-			}
-			catch (Exception exception) {
+			} catch (Exception exception) {
 				throw new IllegalArgumentException("Failed to create player illusion model for " + type, exception);
 			}
 		});

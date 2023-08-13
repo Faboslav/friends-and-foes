@@ -32,9 +32,9 @@ public abstract class EntityRenderDispatcherMixin
 		CallbackInfoReturnable<EntityRenderer<? super T>> cir
 	) {
 		if (entity instanceof PlayerIllusionEntity) {
-			String string = ((PlayerIllusionEntity)entity).getModel();
+			String string = ((PlayerIllusionEntity) entity).getModel();
 			EntityRenderer<? extends PlayerIllusionEntity> entityRenderer = this.illusionModelRenderers.get(string);
-			entityRenderer = entityRenderer != null ? entityRenderer : this.illusionModelRenderers.get("default");
+			entityRenderer = entityRenderer != null ? entityRenderer:this.illusionModelRenderers.get("default");
 			cir.setReturnValue((EntityRenderer<? super T>) entityRenderer);
 		}
 	}

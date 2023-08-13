@@ -52,7 +52,7 @@ public abstract class StrongholdGeneratorMixin extends StructurePiece
 		CallbackInfo ci
 	) {
 		if (
-			FriendsAndFoes.getConfig().generateTuffGolemInStronghold == false
+			!FriendsAndFoes.getConfig().generateTuffGolemInStronghold
 			|| this.isTuffGolemGenerated
 			|| random.nextFloat() > 0.75F
 		) {

@@ -99,7 +99,7 @@ public abstract class PlayerEntityMixin extends LivingEntity
 	private void friendsandfoes_updateWildfireCrown() {
 		ItemStack itemStack = this.getEquippedStack(EquipmentSlot.HEAD);
 
-		if (itemStack.isOf(FriendsAndFoesItems.WILDFIRE_CROWN.get()) && this.isSubmergedIn(FluidTags.LAVA) == false) {
+		if (itemStack.isOf(FriendsAndFoesItems.WILDFIRE_CROWN.get()) && !this.isSubmergedIn(FluidTags.LAVA)) {
 			this.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 300, 0, false, false, true));
 		}
 	}
@@ -164,7 +164,7 @@ public abstract class PlayerEntityMixin extends LivingEntity
 
 	private void friendsandfoes_freezeEntities() {
 		List<LivingEntity> nearbyEntities = this.getWorld().getEntitiesByClass(LivingEntity.class, this.getBoundingBox().expand(9.0), (livingEntity) -> {
-			return this.FREEZE_TARGET_PREDICATE.test(this, livingEntity);
+			return FREEZE_TARGET_PREDICATE.test(this, livingEntity);
 		});
 
 		nearbyEntities.forEach(nearbyEntity -> {
@@ -210,7 +210,7 @@ public abstract class PlayerEntityMixin extends LivingEntity
 		}
 
 		List<MobEntity> nearbyEntities = this.getWorld().getEntitiesByClass(MobEntity.class, this.getBoundingBox().expand(18.0), (mobEntity) -> {
-			return this.ATTACK_TARGET_PREDICATE.test(this, mobEntity);
+			return ATTACK_TARGET_PREDICATE.test(this, mobEntity);
 		});
 
 		nearbyEntities.forEach(nearbyEntity -> {

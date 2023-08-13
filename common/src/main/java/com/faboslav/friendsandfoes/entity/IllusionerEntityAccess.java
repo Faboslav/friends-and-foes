@@ -8,13 +8,13 @@ import net.minecraft.entity.mob.IllusionerEntity;
  */
 public interface IllusionerEntityAccess
 {
-	void setIllusioner(IllusionerEntity illusionerEntity);
+	void friendsandfoes_setIllusioner(IllusionerEntity illusionerEntity);
 
-	void setIsIllusion(boolean isIllusion);
+	void friendsandfoes_setIsIllusion(boolean isIllusion);
 
-	void setTicksUntilDespawn(int ticksUntilDespawn);
+	void friendsandfoes_setTicksUntilDespawn(int ticksUntilDespawn);
 
-	boolean tryToTeleport(int x, int y, int z);
+	boolean friendsandfoes_tryToTeleport(int x, int y, int z);
 
-	void spawnCloudParticles();
+	void friendsandfoes_spawnCloudParticles();
 }

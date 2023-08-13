@@ -6,11 +6,7 @@ import net.minecraft.entity.LivingEntity;
 
 public final class PlayerIllusionEntityModel<T extends LivingEntity> extends PlayerEntityModel<T>
 {
-	public PlayerIllusionEntityModel(ModelPart root) {
-		super(root, false);
-	}
-
-	public PlayerIllusionEntityModel(ModelPart root, boolean thinArms) {
-		super(root, thinArms);
+	public PlayerIllusionEntityModel(ModelPart root, boolean slim) {
+		super(root, slim);
 	}
 }

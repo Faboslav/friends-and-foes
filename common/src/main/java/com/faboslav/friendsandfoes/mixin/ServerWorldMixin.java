@@ -71,7 +71,7 @@ public abstract class ServerWorldMixin extends World implements StructureWorldAc
 
 				if (canZombieHorseSpawn) {
 					ZombieHorseEntity zombieHorse = EntityType.ZOMBIE_HORSE.create(this);
-					((ZombieHorseEntityAccess) zombieHorse).setTrapped(true);
+					((ZombieHorseEntityAccess) zombieHorse).friendsandfoes_setTrapped(true);
 					zombieHorse.setBreedingAge(0);
 					zombieHorse.setPosition(blockPos.getX(), blockPos.getY(), blockPos.getZ());
 					this.spawnEntity(zombieHorse);

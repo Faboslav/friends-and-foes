@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(PatrolSpawner.class)
 public final class PatrolSpawnerMixin
 {
-	boolean isBiomeSpecificIllagerSpawned = false;
+	boolean friendsandfoes_isBiomeSpecificIllagerSpawned = false;
 
 	@ModifyVariable(
 		method = "spawnPillager",
@@ -37,7 +37,7 @@ public final class PatrolSpawnerMixin
 	) {
 		RegistryEntry<Biome> biomeEntry = world.getBiome(pos);
 
-		if (this.isBiomeSpecificIllagerSpawned == false) {
+		if (!this.friendsandfoes_isBiomeSpecificIllagerSpawned) {
 			if (biomeEntry.isIn(FriendsAndFoesTags.HAS_ILLUSIONER)) {
 				patrolEntity = EntityType.ILLUSIONER.create(world);
 			} else if (biomeEntry.isIn(FriendsAndFoesTags.HAS_ICEOLOGER)) {
@@ -61,7 +61,7 @@ public final class PatrolSpawnerMixin
 		var spawnerPatrolMembersCount = callbackInfo.getReturnValue();
 
 		if (spawnerPatrolMembersCount > 0) {
-			this.isBiomeSpecificIllagerSpawned = false;
+			this.friendsandfoes_isBiomeSpecificIllagerSpawned = false;
 		}
 	}
 }

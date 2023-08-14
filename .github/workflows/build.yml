@@ -39,26 +39,28 @@ jobs:
         timeout-minutes: 30
 
         steps:
+            -   name: "Checkout repository"
+                uses: actions/checkout@v3.5.3
+                with:
+                    fetch-depth: 0
+
             -   name: "Run fabric client"
                 run: ./gradlew fabric:runClient
 
-    run-forge-client:
+    run-fabric-server:
         needs: build
         runs-on: ubuntu-latest
-        name: "Run forge client"
+        name: "Run fabric server"
         timeout-minutes: 30
 
         steps:
-            -   name: "Run forge client"
-                run: ./gradlew forge:runClient
+            -   name: "Checkout repository"
+                uses: actions/checkout@v3.5.3
+                with:
+                    fetch-depth: 0
 
+            -   name: "Accept eula"
+                run: mkdir -p fabric/run && echo "eula=true" > fabric/run/eula.txt
 
-    run-quilt-client:
-        needs: build
-        runs-on: ubuntu-latest
-        name: "Run quilt client"
-        timeout-minutes: 30
-
-        steps:
-            -   name: "Run quilt client"
-                run: ./gradlew quilt:runClient
+            -   name: "Run fabric server"
+                run: ./gradlew fabric:runClient

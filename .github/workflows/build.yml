@@ -5,9 +5,6 @@ on: [ push ]
 jobs:
     build:
         runs-on: ubuntu-latest
-        strategy:
-            matrix:
-                mod_loader: [ "fabric", "forge", "quilt" ]
         name: "Build"
         timeout-minutes: 30
 
@@ -26,7 +23,10 @@ jobs:
     run-client:
         needs: build
         runs-on: ubuntu-latest
-        name: "Run fabric client"
+        strategy:
+            matrix:
+                mod_loader: [ "fabric", "forge", "quilt" ]
+        name: "Run client"
         timeout-minutes: 30
 
         steps:
@@ -38,7 +38,7 @@ jobs:
             -   name: "Setup environment"
                 uses: ./.github/templates/setup-environment.yml
 
-            -   name: "Run fabric client"
+            -   name: "Run client"
                 uses: modmuss50/xvfb-action@v1
                 with:
                     run: ./.github/scripts/run-client.sh ${{ matrix.mod_loader }}
@@ -47,7 +47,7 @@ jobs:
     run-server:
         needs: build
         runs-on: ubuntu-latest
-        name: "Run fabric server"
+        name: "Run server"
         timeout-minutes: 30
 
         steps:
@@ -59,7 +59,7 @@ jobs:
             -   name: "Setup environment"
                 uses: ./.github/templates/setup-environment.yml
 
-            -   name: "Run fabric server"
+            -   name: "Run server"
                 uses: modmuss50/xvfb-action@v1
                 with:
                     run: ./.github/scripts/run-server.sh ${{ matrix.mod_loader }}

@@ -31,3 +31,34 @@ jobs:
 
             -   name: "Build with gradle"
                 run: ./gradlew build
+
+    run-fabric-client:
+        needs: build
+        runs-on: ubuntu-latest
+        name: "Run fabric client"
+        timeout-minutes: 30
+
+        steps:
+            -   name: "Run fabric client"
+                run: ./gradlew fabric:runClient
+
+    run-forge-client:
+        needs: build
+        runs-on: ubuntu-latest
+        name: "Run forge client"
+        timeout-minutes: 30
+
+        steps:
+            -   name: "Run forge client"
+                run: ./gradlew forge:runClient
+
+
+    run-quilt-client:
+        needs: build
+        runs-on: ubuntu-latest
+        name: "Run quilt client"
+        timeout-minutes: 30
+
+        steps:
+            -   name: "Run quilt client"
+                run: ./gradlew quilt:runClient

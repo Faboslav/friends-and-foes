@@ -20,7 +20,7 @@ jobs:
             -   name: "Build with gradle"
                 run: ./gradlew build
 
-    run-clients:
+    run-client:
         needs: build
         runs-on: ubuntu-latest
         strategy:
@@ -44,7 +44,7 @@ jobs:
                     run: ./.github/scripts/run-client.sh ${{ matrix.mod_loader }}
                     shell: bash
 
-    run-servers:
+    run-server:
         needs: build
         runs-on: ubuntu-latest
         strategy:
@@ -63,7 +63,5 @@ jobs:
                 uses: ./.github/actions/setup-environment
 
             -   name: "Run server"
-                uses: modmuss50/xvfb-action@v1
-                with:
-                    run: ./.github/scripts/run-server.sh ${{ matrix.mod_loader }}
-                    shell: bash
+                run: ./.github/scripts/run-server.sh ${{ matrix.mod_loader }}
+                shell: bash

@@ -18,4 +18,5 @@ classes/
 .settings
 *.launch
 .architectury-transformer
-.gradle_output.txt
+gradle_client_output.txt
+gradle_server_output.txt

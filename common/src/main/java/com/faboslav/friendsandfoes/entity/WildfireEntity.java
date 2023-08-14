@@ -21,6 +21,8 @@ import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -230,6 +232,7 @@ public final class WildfireEntity extends HostileEntity
 		this.playSound(this.getSummonBlazeSound(), this.getSoundVolume(), this.getSoundPitch());
 	}
 
+	@Override
 	public void tick() {
 		if (FriendsAndFoes.getConfig().enableWildfire == false) {
 			this.discard();
@@ -245,14 +248,26 @@ public final class WildfireEntity extends HostileEntity
 		}
 	}
 
+	@Override
 	public void tickMovement() {
 		if (this.isOnGround() == false && this.getVelocity().y < 0.0F) {
 			this.setVelocity(this.getVelocity().multiply(1.0F, 0.6F, 1.0F));
 		}
 
+		if (this.getWorld().isClient()) {
+			if (this.random.nextInt(24) == 0 && !this.isSilent()) {
+				this.getWorld().playSound(this.getX() + 0.5, this.getY() + 0.5, this.getZ() + 0.5, SoundEvents.ENTITY_BLAZE_BURN, this.getSoundCategory(), 1.0F + this.random.nextFloat(), this.random.nextFloat() * 0.7F + 0.3F, false);
+			}
+
+			for (int i = 0; i < 2; ++i) {
+				this.getWorld().addParticle(ParticleTypes.LARGE_SMOKE, this.getParticleX(0.5), this.getRandomBodyY(), this.getParticleZ(0.5), 0.0, 0.0, 0.0);
+			}
+		}
+
 		super.tickMovement();
 	}
 
+	@Override
 	public boolean damage(
 		DamageSource source,
 		float amount

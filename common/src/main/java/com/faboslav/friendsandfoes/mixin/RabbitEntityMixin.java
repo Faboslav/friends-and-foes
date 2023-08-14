@@ -35,7 +35,7 @@ public abstract class RabbitEntityMixin extends AnimalEntity
 			2.2,
 			2.2,
 			(entity) -> {
-				return ((MaulerEntity) entity).isBurrowedDown() == false;
+				return !((MaulerEntity) entity).isBurrowedDown();
 			}
 		));
 	}

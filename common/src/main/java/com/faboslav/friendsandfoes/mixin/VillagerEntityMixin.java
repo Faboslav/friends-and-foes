@@ -26,7 +26,7 @@ public abstract class VillagerEntityMixin
 	)
 	private void friendsandfoes_tick(CallbackInfo ci) {
 		if (
-			FriendsAndFoes.getConfig().enableBeekeeperVillagerProfession == false
+			!FriendsAndFoes.getConfig().enableBeekeeperVillagerProfession
 			&& this.getVillagerData().getProfession() == FriendsAndFoesVillagerProfessions.BEEKEEPER.get()
 		) {
 			this.setVillagerData(this.getVillagerData().withProfession(VillagerProfession.NONE));

@@ -27,20 +27,27 @@ jobs:
 
         steps:
             -   name: "Checkout repository"
-                uses: actions/checkout@v3
+                uses: actions/checkout@v3.5.3
 
             -   name: "Set up JDK"
-                uses: actions/setup-java@v3
+                uses: actions/setup-java@v3.12.0
                 with:
+                    distribution: "temurin"
                     java-version: 17
-                    distribution: temurin
-                    cache: gradle
 
-            -   name: "Make gradle wrapper executable"
-                run: chmod +x ./gradlew
+            - name: "Initialize caches"
+              uses: actions/cache@v3.3.1
+              with:
+                  path: |
+                      ~/.gradle/caches
+                      ~/.gradle/loom-cache
+                      ~/.gradle/wrapper
+                  key: ${{ runner.os }}-build-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+                  restore-keys: |
+                      ${{ runner.os }}-build-
 
             -   name: "Build with gradle"
-                run: ./gradlew clean build --no-daemon --refresh-dependencies --stacktrace
+                run: ./gradlew build
 
             -   name: "Capture build artifacts"
                 uses: actions/upload-artifact@v3

@@ -1,13 +1,6 @@
 name: "Build"
 
-on:
-    push:
-        branches:
-            - "**"
-    pull_request:
-        branches:
-            - "**"
-            - "!master"
+on: [ push ]
 
 jobs:
     build:
@@ -20,14 +13,21 @@ jobs:
                 uses: actions/checkout@v3
 
             -   name: "Set up JDK"
-                uses: actions/setup-java@v3
+                uses: actions/setup-java@v3.3.0
                 with:
+                    distribution: "temurin"
                     java-version: 17
-                    distribution: temurin
-                    cache: gradle
 
-            -   name: "Make gradle wrapper executable"
-                run: chmod +x ./gradlew
+            - name: "Initialize caches"
+              uses: actions/cache@v3
+              with:
+                  path: |
+                      ~/.gradle/caches
+                      ~/.gradle/loom-cache
+                      ~/.gradle/wrapper
+                  key: ${{ runner.os }}-build-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+                  restore-keys: |
+                      ${{ runner.os }}-build-
 
             -   name: "Build with gradle"
-                run: ./gradlew clean build --no-daemon --refresh-dependencies --stacktrace
+                run: ./gradlew build

@@ -53,7 +53,7 @@ public abstract class IllusionerEntityRendererMixin extends IllagerEntityRendere
 		method = "isVisible(Lnet/minecraft/entity/mob/IllusionerEntity;)Z",
 		cancellable = true
 	)
-	protected void isVisible(
+	protected void friendsandfoes_isVisible(
 		IllusionerEntity illusioner,
 		CallbackInfoReturnable<Boolean> callbackInfo
 	) {

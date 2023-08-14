@@ -11,11 +11,15 @@
 		"BeeEntityAccessor",
 		"BeeEntityMixin",
 		"BlazeEntityMixin",
+		"BlazeLivingEntityMixin",
 		"BlindTargetGoalFactory",
 		"CarvedPumpkinBlockMixin",
 		"ChickenEntityMixin",
 		"HoneycombItemMixin",
 		"IllusionerEntityMixin",
+		"IllusionerHostileEntityMixin",
+		"IllusionerRaiderEntityMixin",
+		"IllusionerSpellcastingIllagerEntityMixin",
 		"LightningEntityMixin",
 		"LightningRodBlockDegradableMixin",
 		"LightningRodBlockMixin",
@@ -36,10 +40,13 @@
 		"VillagerEntityMixin",
 		"VillagerHostilesSensorMixin",
 		"VillagerTaskListProviderMixin",
+		"ZombieHorseAbstractHorseEntityMixin",
+		"ZombieHorseAnimalEntityMixin",
 		"ZombieHorseEntityMixin"
 	],
 	"client": [
 		"ClientPlayNetworkHandlerMixin",
+		"EntityRenderDispatcherMixin",
 		"IllusionerEntityRendererMixin",
 		"ModelPartAccessor"
 	]

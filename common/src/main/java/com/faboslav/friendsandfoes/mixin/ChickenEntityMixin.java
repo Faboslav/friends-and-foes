@@ -35,7 +35,7 @@ public abstract class ChickenEntityMixin extends AnimalEntity
 			1.4,
 			1.4,
 			(entity) -> {
-				return ((MaulerEntity) entity).isBurrowedDown() == false;
+				return !((MaulerEntity) entity).isBurrowedDown();
 			}
 		));
 	}

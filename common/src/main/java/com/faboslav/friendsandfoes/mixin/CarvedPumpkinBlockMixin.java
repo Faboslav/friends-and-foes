@@ -32,14 +32,14 @@ import java.util.function.Predicate;
 public abstract class CarvedPumpkinBlockMixin extends HorizontalFacingBlock implements Wearable
 {
 	@Nullable
-	private BlockPattern copperGolemDispenserPattern;
+	private BlockPattern friendsandfoes_copperGolemDispenserPattern;
 
 
 	@Nullable
-	private BlockPattern tuffGolemDispenserPattern;
+	private BlockPattern friendsandfoes_tuffGolemDispenserPattern;
 
 	@Nullable
-	private BlockPattern tuffGolemPattern;
+	private BlockPattern friendsandfoes_tuffGolemPattern;
 
 	private static final Predicate<BlockState> IS_TUFF_GOLEM_HEAD_PREDICATE = state -> state != null && (
 		state.isOf(Blocks.CARVED_PUMPKIN)
@@ -59,8 +59,8 @@ public abstract class CarvedPumpkinBlockMixin extends HorizontalFacingBlock impl
 		at = @At("RETURN"),
 		cancellable = true
 	)
-	public void canDispense(WorldView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-		if (cir.getReturnValue() == false) {
+	public void friendsandfoes_canDispense(WorldView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
+		if (!cir.getReturnValue()) {
 			cir.setReturnValue(this.getTuffGolemDispenserPattern().searchAround(world, pos) != null || this.getCopperGolemDispenserPattern().searchAround(world, pos) != null);
 		}
 	}
@@ -77,7 +77,7 @@ public abstract class CarvedPumpkinBlockMixin extends HorizontalFacingBlock impl
 		boolean notify,
 		CallbackInfo ci
 	) {
-		if (oldState.isOf(state.getBlock()) == false) {
+		if (!oldState.isOf(state.getBlock())) {
 			this.friendsandfoes_tryToSpawnTuffGolem(
 				world,
 				pos
@@ -89,7 +89,7 @@ public abstract class CarvedPumpkinBlockMixin extends HorizontalFacingBlock impl
 		World world,
 		BlockPos pos
 	) {
-		if (FriendsAndFoes.getConfig().enableTuffGolem == false) {
+		if (!FriendsAndFoes.getConfig().enableTuffGolem) {
 			return;
 		}
 
@@ -145,32 +145,32 @@ public abstract class CarvedPumpkinBlockMixin extends HorizontalFacingBlock impl
 	}
 
 	private BlockPattern getCopperGolemDispenserPattern() {
-		if (this.copperGolemDispenserPattern == null) {
-			this.copperGolemDispenserPattern = BlockPatternBuilder.start()
+		if (this.friendsandfoes_copperGolemDispenserPattern == null) {
+			this.friendsandfoes_copperGolemDispenserPattern = BlockPatternBuilder.start()
 				.aisle("|", " ", "#")
 				.where('|', CachedBlockPosition.matchesBlockState(CopperGolemBuildPatternPredicates.IS_COPPER_GOLEM_LIGHTNING_ROD_PREDICATE))
 				.where('#', CachedBlockPosition.matchesBlockState(CopperGolemBuildPatternPredicates.IS_COPPER_GOLEM_BODY_PREDICATE))
 				.build();
 		}
 
-		return this.copperGolemDispenserPattern;
+		return this.friendsandfoes_copperGolemDispenserPattern;
 	}
 
 	private BlockPattern getTuffGolemDispenserPattern() {
-		if (this.tuffGolemDispenserPattern == null) {
-			this.tuffGolemDispenserPattern = BlockPatternBuilder.start()
+		if (this.friendsandfoes_tuffGolemDispenserPattern == null) {
+			this.friendsandfoes_tuffGolemDispenserPattern = BlockPatternBuilder.start()
 				.aisle(" ", "|", "#")
 				.where('|', CachedBlockPosition.matchesBlockState(IS_TUFF_GOLEM_WOOL_PREDICATE))
 				.where('#', CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(Blocks.TUFF)))
 				.build();
 		}
 
-		return this.tuffGolemDispenserPattern;
+		return this.friendsandfoes_tuffGolemDispenserPattern;
 	}
 
 	private BlockPattern friendsandfoes_getTuffGolemPattern() {
-		if (this.tuffGolemPattern == null) {
-			this.tuffGolemPattern = BlockPatternBuilder.start()
+		if (this.friendsandfoes_tuffGolemPattern == null) {
+			this.friendsandfoes_tuffGolemPattern = BlockPatternBuilder.start()
 				.aisle("^", "|", "#")
 				.where('^', CachedBlockPosition.matchesBlockState(IS_TUFF_GOLEM_HEAD_PREDICATE))
 				.where('|', CachedBlockPosition.matchesBlockState(IS_TUFF_GOLEM_WOOL_PREDICATE))
@@ -178,6 +178,6 @@ public abstract class CarvedPumpkinBlockMixin extends HorizontalFacingBlock impl
 				.build();
 		}
 
-		return this.tuffGolemPattern;
+		return this.friendsandfoes_tuffGolemPattern;
 	}
 }

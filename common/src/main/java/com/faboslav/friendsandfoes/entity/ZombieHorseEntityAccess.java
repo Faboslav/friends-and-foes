@@ -7,7 +7,7 @@ import com.faboslav.friendsandfoes.mixin.ZombieHorseEntityMixin;
  */
 public interface ZombieHorseEntityAccess
 {
-	boolean isTrapped();
+	boolean friendsandfoes_isTrapped();
 
-	void setTrapped(boolean isTrapped);
+	void friendsandfoes_setTrapped(boolean isTrapped);
 }

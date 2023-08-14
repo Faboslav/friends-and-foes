@@ -8,59 +8,59 @@ import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ZombieHorseEntity.class)
-public abstract class ZombieHorseEntityMixin extends AbstractHorseEntity implements ZombieHorseEntityAccess
+public abstract class ZombieHorseEntityMixin extends ZombieHorseAbstractHorseEntityMixin implements ZombieHorseEntityAccess
 {
-	private final ZombieHorseTrapTriggerGoal trapTriggerGoal = new ZombieHorseTrapTriggerGoal((ZombieHorseEntity) (Object) this);
-	private static final int DESPAWN_AGE = 18000;
-	private boolean isTrapped;
-	private int trapTime;
+	@Unique
+	private final ZombieHorseTrapTriggerGoal friendsandfoes_trapTriggerGoal = new ZombieHorseTrapTriggerGoal((ZombieHorseEntity) (Object) this);
+
+	@Unique
+	private boolean friendsandfoes_isTrapped;
+
+	@Unique
+	private int friendsandfoes_trapTime;
 
 	protected ZombieHorseEntityMixin(EntityType<? extends AbstractHorseEntity> entityType, World world) {
 		super(entityType, world);
 	}
 
 	@Override
-	public void writeCustomDataToNbt(NbtCompound nbt) {
-		super.writeCustomDataToNbt(nbt);
-
-		nbt.putBoolean("ZombieTrap", this.isTrapped());
-		nbt.putInt("ZombieTrapTime", this.trapTime);
+	public void friendsandfoes_writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
+		nbt.putBoolean("ZombieTrap", this.friendsandfoes_isTrapped());
+		nbt.putInt("ZombieTrapTime", this.friendsandfoes_trapTime);
 	}
 
 	@Override
-	public void readCustomDataFromNbt(NbtCompound nbt) {
-		super.readCustomDataFromNbt(nbt);
-
-		this.setTrapped(nbt.getBoolean("ZombieTrap"));
-		this.trapTime = nbt.getInt("ZombieTrapTime");
+	public void friendsandfoes_readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
+		this.friendsandfoes_setTrapped(nbt.getBoolean("ZombieTrap"));
+		this.friendsandfoes_trapTime = nbt.getInt("ZombieTrapTime");
 	}
 
 	@Override
-	public void tickMovement() {
-		super.tickMovement();
-
-		if (this.isTrapped() && this.trapTime++ >= DESPAWN_AGE) {
+	protected void friendsandfoes_tickMovement(CallbackInfo ci) {
+		if (this.friendsandfoes_isTrapped() && this.friendsandfoes_trapTime++ >= 18000) {
 			this.discard();
 		}
 	}
 
-	public boolean isTrapped() {
-		return this.isTrapped;
+	public boolean friendsandfoes_isTrapped() {
+		return this.friendsandfoes_isTrapped;
 	}
 
-	public void setTrapped(boolean isTrapped) {
-		if (isTrapped == this.isTrapped) {
+	public void friendsandfoes_setTrapped(boolean isTrapped) {
+		if (isTrapped == this.friendsandfoes_isTrapped) {
 			return;
 		}
 
-		this.isTrapped = isTrapped;
+		this.friendsandfoes_isTrapped = isTrapped;
 
 		if (isTrapped) {
-			this.goalSelector.add(1, this.trapTriggerGoal);
+			this.goalSelector.add(1, this.friendsandfoes_trapTriggerGoal);
 		} else {
-			this.goalSelector.remove(this.trapTriggerGoal);
+			this.goalSelector.remove(this.friendsandfoes_trapTriggerGoal);
 		}
 	}
 }

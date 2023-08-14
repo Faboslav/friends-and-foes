@@ -9,27 +9,8 @@ jobs:
         timeout-minutes: 30
 
         steps:
-            -   name: "Checkout repository"
-                uses: actions/checkout@v3.5.3
-                with:
-                    fetch-depth: 0
-
-            -   name: "Set up JDK"
-                uses: actions/setup-java@v3.12.0
-                with:
-                    distribution: "temurin"
-                    java-version: 17
-
-            - name: "Initialize caches"
-              uses: actions/cache@v3.3.1
-              with:
-                  path: |
-                      ~/.gradle/caches
-                      ~/.gradle/loom-cache
-                      ~/.gradle/wrapper
-                  key: ${{ runner.os }}-build-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-                  restore-keys: |
-                      ${{ runner.os }}-build-
+            -   name: "Setup environment"
+                uses: ./.github/templates/setup-environment.yml
 
             -   name: "Build with gradle"
                 run: ./gradlew build
@@ -41,33 +22,15 @@ jobs:
         timeout-minutes: 30
 
         steps:
-            -   name: "Checkout repository"
-                uses: actions/checkout@v3.5.3
-                with:
-                    fetch-depth: 0
-
-            -   name: "Set up JDK"
-                uses: actions/setup-java@v3.12.0
-                with:
-                    distribution: "temurin"
-                    java-version: 17
-
-            - name: "Initialize caches"
-              uses: actions/cache@v3.3.1
-              with:
-                  path: |
-                      ~/.gradle/caches
-                      ~/.gradle/loom-cache
-                      ~/.gradle/wrapper
-                  key: ${{ runner.os }}-build-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-                  restore-keys: |
-                      ${{ runner.os }}-build-
+            -   name: "Setup environment"
+                uses: ./.github/templates/setup-environment.yml
 
             -   name: "Run fabric client"
                 uses: modmuss50/xvfb-action@v1
                 with:
-                    run: ./.github/scripts/run-fabric-client.sh
+                    run: ./.github/scripts/run-client.sh "fabric"
                     shell: bash
+
     run-fabric-server:
         needs: build
         runs-on: ubuntu-latest
@@ -75,31 +38,76 @@ jobs:
         timeout-minutes: 30
 
         steps:
-            -   name: "Checkout repository"
-                uses: actions/checkout@v3.5.3
-                with:
-                    fetch-depth: 0
-
-            -   name: "Set up JDK"
-                uses: actions/setup-java@v3.12.0
-                with:
-                    distribution: "temurin"
-                    java-version: 17
-
-            - name: "Initialize caches"
-              uses: actions/cache@v3.3.1
-              with:
-                  path: |
-                      ~/.gradle/caches
-                      ~/.gradle/loom-cache
-                      ~/.gradle/wrapper
-                  key: ${{ runner.os }}-build-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-                  restore-keys: |
-                      ${{ runner.os }}-build-
-
-            -   name: "Accept eula"
-                run: mkdir -p fabric/run && echo "eula=true" > fabric/run/eula.txt
+            -   name: "Setup environment"
+                uses: ./.github/templates/setup-environment.yml
 
             -   name: "Run fabric server"
-                run: ./.github/scripts/run-fabric-server.sh
-                shell: bash
+                uses: modmuss50/xvfb-action@v1
+                with:
+                    run: ./.github/scripts/run-server.sh "fabric"
+                    shell: bash
+
+    run-forge-client:
+        needs: build
+        runs-on: ubuntu-latest
+        name: "Run forge client"
+        timeout-minutes: 30
+
+        steps:
+            -   name: "Setup environment"
+                uses: ./.github/templates/setup-environment.yml
+
+            -   name: "Run forge client"
+                uses: modmuss50/xvfb-action@v1
+                with:
+                    run: ./.github/scripts/run-client.sh "forge"
+                    shell: bash
+
+    run-forge-server:
+        needs: build
+        runs-on: ubuntu-latest
+        name: "Run forge server"
+        timeout-minutes: 30
+
+        steps:
+            -   name: "Setup environment"
+                uses: ./.github/templates/setup-environment.yml
+
+            -   name: "Run forge server"
+                uses: modmuss50/xvfb-action@v1
+                with:
+                    run: ./.github/scripts/run-server.sh "forge"
+                    shell: bash
+
+
+    run-quilt-client:
+        needs: build
+        runs-on: ubuntu-latest
+        name: "Run quilt client"
+        timeout-minutes: 30
+
+        steps:
+            -   name: "Setup environment"
+                uses: ./.github/templates/setup-environment.yml
+
+            -   name: "Run quilt client"
+                uses: modmuss50/xvfb-action@v1
+                with:
+                    run: ./.github/scripts/run-client.sh "quilt"
+                    shell: bash
+
+    run-quilt-server:
+        needs: build
+        runs-on: ubuntu-latest
+        name: "Run quilt server"
+        timeout-minutes: 30
+
+        steps:
+            -   name: "Setup environment"
+                uses: ./.github/templates/setup-environment.yml
+
+            -   name: "Run quilt server"
+                uses: modmuss50/xvfb-action@v1
+                with:
+                    run: ./.github/scripts/run-server.sh "quilt"
+                    shell: bash

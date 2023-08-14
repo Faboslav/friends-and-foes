@@ -1,0 +1,33 @@
+
+> Configure project :
+Architect Plugin: 3.4.146
+Architectury Loom: 1.0.326
+You are using an outdated version of Architectury Loom! This version will not receive any support, please consider updating!
+Project :quilt is using experimental mod platform QUILT. Please report any issues!
+
+> Configure project :forge
+:could not find forge mod in modImplementation but forcing: curios-forge-1.19.2-5.1.4.1-api.jar
+:could not find forge mod in modImplementation but forcing: jankson-1.2.0.jar
+:could not find forge mod in modImplementation but forcing: toml4j-0.7.2.jar
+:could not find forge mod in modImplementation but forcing: snakeyaml-1.27.jar
+:could not find forge mod in modImplementation but forcing: gson-2.8.1.jar
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Project 'fap' not found in root project 'friends-and-foes'.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+
+* Get more help at https://help.gradle.org
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 8.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+See https://docs.gradle.org/7.4/userguide/command_line_interface.html#sec:command_line_warnings
+
+BUILD FAILED in 849ms

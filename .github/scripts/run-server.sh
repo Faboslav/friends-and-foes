@@ -17,7 +17,7 @@ while [ $ELAPSED -lt $TIMEOUT ]; do
     fi
 
     for ERROR_PATTERN in "${ERROR_PATTERNS[@]}"; do
-        if grep -Eq "$ERROR_PATTERN" gradle_client_output.txt; then
+        if grep -Eq "$ERROR_PATTERN" gradle_server_output.txt; then
             pkill -P $$
             exit 1
         fi

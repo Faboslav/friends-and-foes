@@ -5,6 +5,9 @@ on: [ push ]
 jobs:
     build:
         runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                mod_loader: [ "fabric", "forge", "quilt" ]
         name: "Build"
         timeout-minutes: 30
 
@@ -20,7 +23,7 @@ jobs:
             -   name: "Build with gradle"
                 run: ./gradlew build
 
-    run-fabric-client:
+    run-client:
         needs: build
         runs-on: ubuntu-latest
         name: "Run fabric client"
@@ -38,10 +41,10 @@ jobs:
             -   name: "Run fabric client"
                 uses: modmuss50/xvfb-action@v1
                 with:
-                    run: ./.github/scripts/run-client.sh "fabric"
+                    run: ./.github/scripts/run-client.sh ${{ matrix.mod_loader }}
                     shell: bash
 
-    run-fabric-server:
+    run-server:
         needs: build
         runs-on: ubuntu-latest
         name: "Run fabric server"
@@ -59,90 +62,5 @@ jobs:
             -   name: "Run fabric server"
                 uses: modmuss50/xvfb-action@v1
                 with:
-                    run: ./.github/scripts/run-server.sh "fabric"
-                    shell: bash
-
-    run-forge-client:
-        needs: build
-        runs-on: ubuntu-latest
-        name: "Run forge client"
-        timeout-minutes: 30
-
-        steps:
-            -   name: "Checkout repository"
-                uses: actions/checkout@v3.5.3
-                with:
-                    fetch-depth: 0
-
-            -   name: "Setup environment"
-                uses: ./.github/templates/setup-environment.yml
-
-            -   name: "Run forge client"
-                uses: modmuss50/xvfb-action@v1
-                with:
-                    run: ./.github/scripts/run-client.sh "forge"
-                    shell: bash
-
-    run-forge-server:
-        needs: build
-        runs-on: ubuntu-latest
-        name: "Run forge server"
-        timeout-minutes: 30
-
-        steps:
-            -   name: "Checkout repository"
-                uses: actions/checkout@v3.5.3
-                with:
-                    fetch-depth: 0
-
-            -   name: "Setup environment"
-                uses: ./.github/templates/setup-environment.yml
-
-            -   name: "Run forge server"
-                uses: modmuss50/xvfb-action@v1
-                with:
-                    run: ./.github/scripts/run-server.sh "forge"
-                    shell: bash
-
-
-    run-quilt-client:
-        needs: build
-        runs-on: ubuntu-latest
-        name: "Run quilt client"
-        timeout-minutes: 30
-
-        steps:
-            -   name: "Checkout repository"
-                uses: actions/checkout@v3.5.3
-                with:
-                    fetch-depth: 0
-
-            -   name: "Setup environment"
-                uses: ./.github/templates/setup-environment.yml
-
-            -   name: "Run quilt client"
-                uses: modmuss50/xvfb-action@v1
-                with:
-                    run: ./.github/scripts/run-client.sh "quilt"
-                    shell: bash
-
-    run-quilt-server:
-        needs: build
-        runs-on: ubuntu-latest
-        name: "Run quilt server"
-        timeout-minutes: 30
-
-        steps:
-            -   name: "Checkout repository"
-                uses: actions/checkout@v3.5.3
-                with:
-                    fetch-depth: 0
-
-            -   name: "Setup environment"
-                uses: ./.github/templates/setup-environment.yml
-
-            -   name: "Run quilt server"
-                uses: modmuss50/xvfb-action@v1
-                with:
-                    run: ./.github/scripts/run-server.sh "quilt"
+                    run: ./.github/scripts/run-server.sh ${{ matrix.mod_loader }}
                     shell: bash

@@ -62,6 +62,9 @@ jobs:
             -   name: "Setup environment"
                 uses: ./.github/actions/setup-environment
 
+            -   name: "Accept eula"
+                run: mkdir -p ${{ matrix.mod_loader }}/run && echo "eula=true" > ${{ matrix.mod_loader }}/run/eula.txt
+
             -   name: "Run server"
                 run: ./.github/scripts/run-server.sh ${{ matrix.mod_loader }}
                 shell: bash

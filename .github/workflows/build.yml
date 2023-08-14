@@ -64,7 +64,9 @@ jobs:
                       ${{ runner.os }}-build-
 
             -   name: "Run fabric client"
-                run: ./gradlew fabric:runClient
+                uses: modmuss50/xvfb-action@v1
+                with:
+                    run: ./gradlew fabric:runClient
 
     run-fabric-server:
         needs: build
@@ -99,4 +101,4 @@ jobs:
                 run: mkdir -p fabric/run && echo "eula=true" > fabric/run/eula.txt
 
             -   name: "Run fabric server"
-                run: ./gradlew fabric:runClient
+                run: ./gradlew fabric:runServer --args="nogui"

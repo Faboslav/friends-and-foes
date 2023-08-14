@@ -36,7 +36,7 @@ jobs:
                     fetch-depth: 0
 
             -   name: "Setup environment"
-                uses: ./.github/templates/setup-environment.yml
+                uses: ./.github/actions/setup-environment
 
             -   name: "Run client"
                 uses: modmuss50/xvfb-action@v1
@@ -60,7 +60,7 @@ jobs:
                     fetch-depth: 0
 
             -   name: "Setup environment"
-                uses: ./.github/templates/setup-environment.yml
+                uses: ./.github/actions/setup-environment
 
             -   name: "Run server"
                 uses: modmuss50/xvfb-action@v1

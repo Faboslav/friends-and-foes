@@ -34,7 +34,7 @@ jobs:
                     fetch-depth: 0
 
             -   name: "Setup environment"
-                uses: ./.github/templates/setup-environment.yml
+                uses: ./.github/actions/setup-environment
 
             -   name: "Build with gradle"
                 run: ./gradlew build

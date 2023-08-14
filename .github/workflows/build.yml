@@ -15,12 +15,12 @@ jobs:
                     fetch-depth: 0
 
             -   name: "Setup environment"
-                uses: ./.github/templates/setup-environment.yml
+                uses: ./.github/actions/setup-environment
 
             -   name: "Build with gradle"
                 run: ./gradlew build
 
-    run-client:
+    run-clients:
         needs: build
         runs-on: ubuntu-latest
         strategy:
@@ -44,9 +44,12 @@ jobs:
                     run: ./.github/scripts/run-client.sh ${{ matrix.mod_loader }}
                     shell: bash
 
-    run-server:
+    run-servers:
         needs: build
         runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                mod_loader: [ "fabric", "forge", "quilt" ]
         name: "Run server"
         timeout-minutes: 30
 

@@ -1,5 +1,6 @@
 runs:
     name: "Setup environment"
+    description: "Common setup before using gradle"
     using: "composite"
     steps:
         -   name: "Checkout repository"

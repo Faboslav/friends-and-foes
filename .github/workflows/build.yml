@@ -24,6 +24,7 @@ jobs:
         needs: build
         runs-on: ubuntu-latest
         strategy:
+            fail-fast: false
             matrix:
                 mod_loader: [ "fabric", "forge", "quilt" ]
         name: "Run client"
@@ -48,6 +49,7 @@ jobs:
         needs: build
         runs-on: ubuntu-latest
         strategy:
+            fail-fast: false
             matrix:
                 mod_loader: [ "fabric", "forge", "quilt" ]
         name: "Run server"

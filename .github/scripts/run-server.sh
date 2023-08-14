@@ -3,7 +3,10 @@
 ./gradlew $1:runServer --args="nogui" > gradle_server_output.txt 2>&1 &
 
 SUCCESS_PATTERN='For help, type "help"'
-ERROR_PATTERN='Execution failed for task'
+ERROR_PATTERNS=(
+    'For more details see the full crash report file'
+    ' end of report '
+)
 TIMEOUT=1800
 ELAPSED=0
 
@@ -13,10 +16,12 @@ while [ $ELAPSED -lt $TIMEOUT ]; do
         exit 0
     fi
 
-    if grep -Eq "$ERROR_PATTERN" gradle_server_output.txt; then
-        pkill -P $$
-        exit 1
-    fi
+    for ERROR_PATTERN in "${ERROR_PATTERNS[@]}"; do
+        if grep -Eq "$ERROR_PATTERN" gradle_client_output.txt; then
+            pkill -P $$
+            exit 1
+        fi
+    done
 
     sleep 1
     ELAPSED=$((ELAPSED + 1))

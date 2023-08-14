@@ -5,13 +5,13 @@ steps:
             distribution: "temurin"
             java-version: 17
 
-    - name: "Initialize caches"
-      uses: actions/cache@v3.3.1
-      with:
-          path: |
-              ~/.gradle/caches
-              ~/.gradle/loom-cache
-              ~/.gradle/wrapper
-          key: ${{ runner.os }}-build-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-          restore-keys: |
-              ${{ runner.os }}-build-
+    -   name: "Initialize caches"
+        uses: actions/cache@v3.3.1
+        with:
+            path: |
+                ~/.gradle/caches
+                ~/.gradle/loom-cache
+                ~/.gradle/wrapper
+            key: ${{ runner.os }}-build-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+            restore-keys: |
+                ${{ runner.os }}-build-

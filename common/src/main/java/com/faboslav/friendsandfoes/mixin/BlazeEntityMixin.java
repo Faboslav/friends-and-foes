@@ -3,7 +3,6 @@ package com.faboslav.friendsandfoes.mixin;
 import com.faboslav.friendsandfoes.entity.BlazeEntityAccess;
 import com.faboslav.friendsandfoes.entity.WildfireEntity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -24,7 +23,7 @@ import java.util.UUID;
 
 @Mixin(BlazeEntity.class)
 @SuppressWarnings({"rawtypes", "unchecked"})
-public abstract class BlazeEntityMixin extends LivingEntity implements BlazeEntityAccess
+public abstract class BlazeEntityMixin extends BlazeLivingEntityMixin implements BlazeEntityAccess
 {
 	private static final String WILDFIRE_UUID_NBT_NAME = "WildfireUuid";
 	private static final TrackedData<Optional<UUID>> WILDFIRE_UUID;
@@ -46,54 +45,48 @@ public abstract class BlazeEntityMixin extends LivingEntity implements BlazeEnti
 	}
 
 	@Override
-	public void writeCustomDataToNbt(NbtCompound nbt) {
-		super.writeCustomDataToNbt(nbt);
-
-		if (this.getWildfireUuid() != null) {
-			nbt.putUuid(WILDFIRE_UUID_NBT_NAME, this.getWildfireUuid());
+	public void friendsandfoes_writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
+		if (this.friendsandfoes_getWildfireUuid() != null) {
+			nbt.putUuid(WILDFIRE_UUID_NBT_NAME, this.friendsandfoes_getWildfireUuid());
 		}
 	}
 
 	@Override
-	public void readCustomDataFromNbt(NbtCompound nbt) {
-		super.readCustomDataFromNbt(nbt);
-
+	public void friendsandfoes_readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
 		if (nbt.containsUuid(WILDFIRE_UUID_NBT_NAME)) {
-			this.setWildfireUuid(nbt.getUuid(WILDFIRE_UUID_NBT_NAME));
+			this.friendsandfoes_setWildfireUuid(nbt.getUuid(WILDFIRE_UUID_NBT_NAME));
 		}
 	}
 
 	@Override
-	public void onDeath(DamageSource damageSource) {
+	public void friendsandfoes_onDeath(DamageSource damageSource, CallbackInfo ci) {
 		if (this.getWorld() instanceof ServerWorld) {
-			WildfireEntity wildfireEntity = this.getWildfire();
+			WildfireEntity wildfireEntity = this.friendsandfoes_getWildfire();
 
 			if (wildfireEntity != null) {
 				wildfireEntity.setSummonedBlazesCount(wildfireEntity.getSummonedBlazesCount() - 1);
 			}
 		}
-
-		super.onDeath(damageSource);
 	}
 
 	@Nullable
-	public UUID getWildfireUuid() {
+	public UUID friendsandfoes_getWildfireUuid() {
 		return (UUID) ((Optional) this.dataTracker.get(WILDFIRE_UUID)).orElse(null);
 	}
 
-	public void setWildfireUuid(@Nullable UUID uuid) {
+	public void friendsandfoes_setWildfireUuid(@Nullable UUID uuid) {
 		this.dataTracker.set(WILDFIRE_UUID, Optional.ofNullable(uuid));
 	}
 
-	public void setWildfire(WildfireEntity wildfire) {
-		this.setWildfireUuid(wildfire.getUuid());
+	public void friendsandfoes_setWildfire(WildfireEntity wildfire) {
+		this.friendsandfoes_setWildfireUuid(wildfire.getUuid());
 	}
 
 	@Nullable
-	public WildfireEntity getWildfire() {
+	public WildfireEntity friendsandfoes_getWildfire() {
 		try {
 			ServerWorld serverWorld = (ServerWorld) this.getWorld();
-			UUID uUID = this.getWildfireUuid();
+			UUID uUID = this.friendsandfoes_getWildfireUuid();
 			return uUID == null ? null:(WildfireEntity) serverWorld.getEntity(uUID);
 		} catch (IllegalArgumentException var2) {
 			return null;

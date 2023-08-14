@@ -97,7 +97,7 @@ public final class WildfireSummonBlazeTask extends MultiTickTask<WildfireEntity>
 			BlazeEntity blazeEntity = EntityType.BLAZE.create(serverWorld);
 			blazeEntity.refreshPositionAndAngles(blockPos, 0.0F, 0.0F);
 			blazeEntity.setTarget(this.attackTarget);
-			((BlazeEntityAccess) blazeEntity).setWildfire(wildfire);
+			((BlazeEntityAccess) blazeEntity).friendsandfoes_setWildfire(wildfire);
 			blazeEntity.initialize(serverWorld, serverWorld.getLocalDifficulty(blockPos), SpawnReason.MOB_SUMMONED, null, null);
 			serverWorld.spawnEntityAndPassengers(blazeEntity);
 

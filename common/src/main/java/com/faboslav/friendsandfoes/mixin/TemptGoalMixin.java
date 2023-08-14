@@ -51,7 +51,7 @@ public abstract class TemptGoalMixin
 	private void friendsandfoes_canStart(
 		CallbackInfoReturnable<Boolean> cir
 	) {
-		if (cir.getReturnValue() == false) {
+		if (!cir.getReturnValue()) {
 			cir.setReturnValue(this.friendsandfoes_canStartWithReturn());
 		}
 	}
@@ -81,7 +81,7 @@ public abstract class TemptGoalMixin
 	private void friendsandfoes_shouldContinue(
 		CallbackInfoReturnable<Boolean> cir
 	) {
-		if (cir.getReturnValue() == false && this.closestTuffGolem != null) {
+		if (!cir.getReturnValue() && this.closestTuffGolem != null) {
 			if (this.canBeScared()) {
 				if (this.mob.squaredDistanceTo(this.closestTuffGolem) < 36.0) {
 					if (this.closestTuffGolem.squaredDistanceTo(this.lastTuffGolemX, this.lastTuffGolemY, this.lastTuffGolemZ) > 0.010000000000000002) {

@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(BeeEntity.class)
 public abstract class BeeEntityMixin extends AnimalEntity
 {
-	private BeePollinateMoobloomGoal pollinateMoobloomGoal;
+	private BeePollinateMoobloomGoal friendsandfoes_pollinateMoobloomGoal;
 
 	public BeeEntityMixin(
 		EntityType<? extends AnimalEntity> entityType,
@@ -34,8 +34,8 @@ public abstract class BeeEntityMixin extends AnimalEntity
 		method = "initGoals"
 	)
 	private void friendsandfoes_addPollinateMoobloomGoal(CallbackInfo ci) {
-		this.pollinateMoobloomGoal = new BeePollinateMoobloomGoal((BeeEntity) (Object) this, (BeeEntityAccessor) this);
-		this.goalSelector.add(3, this.pollinateMoobloomGoal);
+		this.friendsandfoes_pollinateMoobloomGoal = new BeePollinateMoobloomGoal((BeeEntity) (Object) this, (BeeEntityAccessor) this);
+		this.goalSelector.add(3, this.friendsandfoes_pollinateMoobloomGoal);
 	}
 
 	@Inject(
@@ -47,12 +47,12 @@ public abstract class BeeEntityMixin extends AnimalEntity
 		float amount,
 		CallbackInfoReturnable<Boolean> callbackInfo
 	) {
-		if (this.isInvulnerableTo(source) == false) {
+		if (!this.isInvulnerableTo(source)) {
 			if (
-				this.getWorld().isClient() == false
-				&& this.pollinateMoobloomGoal != null
+				!this.getWorld().isClient()
+				&& this.friendsandfoes_pollinateMoobloomGoal != null
 			) {
-				this.pollinateMoobloomGoal.cancel();
+				this.friendsandfoes_pollinateMoobloomGoal.cancel();
 			}
 		}
 	}

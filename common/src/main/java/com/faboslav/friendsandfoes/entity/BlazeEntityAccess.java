@@ -8,8 +8,8 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface BlazeEntityAccess
 {
-	void setWildfire(WildfireEntity wildfire);
+	void friendsandfoes_setWildfire(WildfireEntity wildfire);
 
 	@Nullable
-	WildfireEntity getWildfire();
+	WildfireEntity friendsandfoes_getWildfire();
 }

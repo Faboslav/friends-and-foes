@@ -27,7 +27,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class LightningRodBlockMixin extends RodBlock implements Oxidizable
 {
 	@Nullable
-	private BlockPattern copperGolemPattern;
+	private BlockPattern friendsandfoes_copperGolemPattern;
 
 	public LightningRodBlockMixin(Settings settings) {
 		super(settings);
@@ -42,7 +42,7 @@ public abstract class LightningRodBlockMixin extends RodBlock implements Oxidiza
 		boolean notify,
 		CallbackInfo ci
 	) {
-		if (oldState.isOf(state.getBlock()) == false) {
+		if (!oldState.isOf(state.getBlock())) {
 			this.friendsandfoes_tryToSpawnCopperGolem(
 				world,
 				pos
@@ -54,7 +54,7 @@ public abstract class LightningRodBlockMixin extends RodBlock implements Oxidiza
 		World world,
 		BlockPos pos
 	) {
-		if (FriendsAndFoes.getConfig().enableCopperGolem == false) {
+		if (!FriendsAndFoes.getConfig().enableCopperGolem) {
 			return;
 		}
 
@@ -150,8 +150,8 @@ public abstract class LightningRodBlockMixin extends RodBlock implements Oxidiza
 	}
 
 	private BlockPattern friendsandfoes_getCopperGolemPattern() {
-		if (this.copperGolemPattern == null) {
-			this.copperGolemPattern = BlockPatternBuilder.start()
+		if (this.friendsandfoes_copperGolemPattern == null) {
+			this.friendsandfoes_copperGolemPattern = BlockPatternBuilder.start()
 				.aisle("|", "^", "#")
 				.where('|', CachedBlockPosition.matchesBlockState(CopperGolemBuildPatternPredicates.IS_COPPER_GOLEM_LIGHTNING_ROD_PREDICATE))
 				.where('^', CachedBlockPosition.matchesBlockState(CopperGolemBuildPatternPredicates.IS_GOLEM_HEAD_PREDICATE))
@@ -159,7 +159,7 @@ public abstract class LightningRodBlockMixin extends RodBlock implements Oxidiza
 				.build();
 		}
 
-		return this.copperGolemPattern;
+		return this.friendsandfoes_copperGolemPattern;
 	}
 
 	private boolean friendsandfoes_isCopperBlockWaxed(

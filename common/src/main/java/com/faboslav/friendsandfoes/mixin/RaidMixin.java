@@ -30,14 +30,14 @@ public final class RaidMixin
 			(
 				raider instanceof IllusionerEntity
 				&& (
-					FriendsAndFoes.getConfig().enableIllusioner == false
-					|| FriendsAndFoes.getConfig().enableIllusionerInRaids == false
+					!FriendsAndFoes.getConfig().enableIllusioner
+					|| !FriendsAndFoes.getConfig().enableIllusionerInRaids
 				)
 			) || (
 				raider instanceof IceologerEntity
 				&& (
-					FriendsAndFoes.getConfig().enableIceologer == false
-					|| FriendsAndFoes.getConfig().enableIceologerInRaids == false
+					!FriendsAndFoes.getConfig().enableIceologer
+					|| !FriendsAndFoes.getConfig().enableIceologerInRaids
 				)
 			)
 		) {

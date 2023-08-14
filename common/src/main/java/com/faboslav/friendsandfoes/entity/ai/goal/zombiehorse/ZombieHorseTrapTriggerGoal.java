@@ -51,7 +51,7 @@ public final class ZombieHorseTrapTriggerGoal extends Goal
 		ServerWorld serverWorld = (ServerWorld) this.zombieHorse.getWorld();
 
 		LocalDifficulty localDifficulty = serverWorld.getLocalDifficulty(this.zombieHorse.getBlockPos());
-		((ZombieHorseEntityAccess) this.zombieHorse).setTrapped(false);
+		((ZombieHorseEntityAccess) this.zombieHorse).friendsandfoes_setTrapped(false);
 		this.zombieHorse.setTame(true);
 		this.zombieHorse.setBreedingAge(0);
 		LightningEntity lightningEntity = EntityType.LIGHTNING_BOLT.create(serverWorld);

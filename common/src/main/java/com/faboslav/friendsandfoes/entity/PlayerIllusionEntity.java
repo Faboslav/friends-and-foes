@@ -132,6 +132,19 @@ public final class PlayerIllusionEntity extends MobEntity
 		return playerListEntry == null ? DefaultSkinHelper.getTexture(uuid):playerListEntry.getSkinTexture();
 	}
 
+	public String getModel() {
+		PlayerListEntry playerListEntry = this.getPlayerListEntry();
+		UUID uuid = this.getPlayerUuid();
+
+		if (uuid == null) {
+			uuid = this.getUuid();
+		}
+
+		String model = playerListEntry == null ? DefaultSkinHelper.getModel(uuid):playerListEntry.getModel();
+
+		return model;
+	}
+
 	@Nullable
 	public Identifier getCapeTexture() {
 		PlayerListEntry playerListEntry = this.getPlayerListEntry();

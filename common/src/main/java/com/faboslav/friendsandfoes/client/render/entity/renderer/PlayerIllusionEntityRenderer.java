@@ -29,10 +29,6 @@ import net.minecraft.util.math.Vec3d;
 
 public final class PlayerIllusionEntityRenderer extends MobEntityRenderer<PlayerIllusionEntity, PlayerIllusionEntityModel<PlayerIllusionEntity>>
 {
-	public PlayerIllusionEntityRenderer(EntityRendererFactory.Context ctx) {
-		this(ctx, false);
-	}
-
 	public PlayerIllusionEntityRenderer(EntityRendererFactory.Context ctx, boolean slim) {
 		super(ctx, new PlayerIllusionEntityModel<>(ctx.getPart(slim ? EntityModelLayers.PLAYER_SLIM:EntityModelLayers.PLAYER), slim), 0.5F);
 		this.addFeature(new ArmorFeatureRenderer(this, new ArmorEntityModel(ctx.getPart(slim ? EntityModelLayers.PLAYER_SLIM_INNER_ARMOR:EntityModelLayers.PLAYER_INNER_ARMOR)), new ArmorEntityModel(ctx.getPart(slim ? EntityModelLayers.PLAYER_SLIM_OUTER_ARMOR:EntityModelLayers.PLAYER_OUTER_ARMOR)), ctx.getModelManager()));

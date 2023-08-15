@@ -39,7 +39,7 @@ jobs:
             -   name: "Setup environment"
                 uses: ./.github/actions/setup-environment
 
-            -   name: Run ${{ matrix.mod_loader }}client
+            -   name: Run ${{ matrix.mod_loader }} client
                 uses: modmuss50/xvfb-action@v1
                 with:
                     run: ./.github/scripts/run-client.sh ${{ matrix.mod_loader }}

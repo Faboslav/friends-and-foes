@@ -1,5 +1,5 @@
 plugins {
-	id "com.github.johnrengelman.shadow" version "7.1.2"
+	id "com.github.johnrengelman.shadow" version "8.1.1"
 }
 
 allprojects {
@@ -34,6 +34,10 @@ dependencies {
 	// Trinkets
 	modImplementation("dev.emi:trinkets:${rootProject.trinkets_version}")
 
+	// Fix for CCA
+	modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${project.cca_version}")
+	modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${project.cca_version}")
+
 	common(project(path: ":common", configuration: "namedElements")) { transitive false }
 	shadowCommon(project(path: ":common", configuration: "transformProductionQuilt")) { transitive false }
 }
@@ -62,18 +66,18 @@ shadowJar {
 	exclude "architectury.common.json"
 
 	configurations = [project.configurations.shadowCommon]
-	classifier "dev-shadow"
+	archiveClassifier.set("dev-shadow")
 }
 
 remapJar {
 	injectAccessWidener = true
 	input.set shadowJar.archiveFile
 	dependsOn shadowJar
-	classifier null
+	archiveClassifier.set(null)
 }
 
 jar {
-	classifier "dev"
+	archiveClassifier.set("dev")
 }
 
 sourcesJar {

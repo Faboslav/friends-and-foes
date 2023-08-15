@@ -27,7 +27,7 @@ jobs:
             fail-fast: false
             matrix:
                 mod_loader: [ "fabric", "forge", "quilt" ]
-        name: Run ${{ matrix.mod_loader^ }} client
+        name: Run ${{ matrix.mod_loader }} client
         timeout-minutes: 30
 
         steps:
@@ -39,7 +39,7 @@ jobs:
             -   name: "Setup environment"
                 uses: ./.github/actions/setup-environment
 
-            -   name: Run ${{ matrix.mod_loader^ }}client
+            -   name: Run ${{ matrix.mod_loader }}client
                 uses: modmuss50/xvfb-action@v1
                 with:
                     run: ./.github/scripts/run-client.sh ${{ matrix.mod_loader }}
@@ -52,7 +52,7 @@ jobs:
             fail-fast: false
             matrix:
                 mod_loader: [ "fabric", "forge", "quilt" ]
-        name: Run ${{ matrix.mod_loader^ }} server
+        name: Run ${{ matrix.mod_loader }} server
         timeout-minutes: 30
 
         steps:
@@ -67,6 +67,6 @@ jobs:
             -   name: "Accept eula"
                 run: mkdir -p ${{ matrix.mod_loader }}/run && echo "eula=true" > ${{ matrix.mod_loader }}/run/eula.txt
 
-            -   name: Run ${{ matrix.mod_loader^ }} server
+            -   name: Run ${{ matrix.mod_loader }} server
                 run: ./.github/scripts/run-server.sh ${{ matrix.mod_loader }}
                 shell: bash

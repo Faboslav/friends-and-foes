@@ -13,7 +13,8 @@ import net.minecraft.predicate.entity.LootContextPredicate;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
-public class TameGlareCriterion extends AbstractCriterion<TameGlareCriterion.Conditions> {
+public class TameGlareCriterion extends AbstractCriterion<TameGlareCriterion.Conditions>
+{
 	static final Identifier ID = FriendsAndFoes.makeID("tame_glare");
 
 	public TameGlareCriterion() {
@@ -23,7 +24,11 @@ public class TameGlareCriterion extends AbstractCriterion<TameGlareCriterion.Con
 		return ID;
 	}
 
-	public TameGlareCriterion.Conditions conditionsFromJson(JsonObject jsonObject, LootContextPredicate lootContextPredicate, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) {
+	public TameGlareCriterion.Conditions conditionsFromJson(
+		JsonObject jsonObject,
+		LootContextPredicate lootContextPredicate,
+		AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer
+	) {
 		LootContextPredicate lootContextPredicate2 = EntityPredicate.contextPredicateFromJson(jsonObject, "entity", advancementEntityPredicateDeserializer);
 		return new TameGlareCriterion.Conditions(lootContextPredicate, lootContextPredicate2);
 	}
@@ -35,7 +40,8 @@ public class TameGlareCriterion extends AbstractCriterion<TameGlareCriterion.Con
 		});
 	}
 
-	public static class Conditions extends AbstractCriterionConditions {
+	public static class Conditions extends AbstractCriterionConditions
+	{
 		private final LootContextPredicate entity;
 
 		public Conditions(LootContextPredicate player, LootContextPredicate entity) {

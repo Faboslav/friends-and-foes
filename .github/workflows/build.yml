@@ -51,7 +51,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                mod_loader: [ "fabric", "forge", "quilt" ]
+                mod_loader: [ "fabric", "forge" ]
         name: Run ${{ matrix.mod_loader }} server
         timeout-minutes: 30
 

@@ -50,7 +50,6 @@ jobs:
                     path: |
                         fabric/build/libs/friendsandfoes-fabric-${{ github.ref_name }}.jar
                         forge/build/libs/friendsandfoes-forge-${{ github.ref_name }}.jar
-                        quilt/build/libs/friendsandfoes-quilt-${{ github.ref_name }}.jar
                         LICENSE.txt
 
     publish-license-to-release:
@@ -228,22 +227,3 @@ jobs:
                     retry-attempts: ${{ env.RETRY_ATTEMPTS }}
                     retry-delay: ${{ env.RETRY_DELAY }}
                     version-resolver: ${{ env.VERSION_RESOLVER }}
-
-
-    publish-quilt-to-github:
-        needs: build
-        runs-on: ubuntu-latest
-        name: "Publish Quilt to GitHub"
-        timeout-minutes: 30
-
-        steps:
-            -   name: "Download artifacts"
-                uses: actions/download-artifact@v3
-                with:
-                    name: "friends-and-foes"
-
-            -   name: "Publish Quilt to GitHub"
-                uses: AButler/upload-release-assets@v2.0.2
-                with:
-                    files: quilt/build/libs/friendsandfoes-quilt-${{ github.ref_name }}.jar
-                    repo-token: ${{ secrets.GITHUB_TOKEN }}

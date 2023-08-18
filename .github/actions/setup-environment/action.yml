@@ -1,0 +1,26 @@
+name: "Setup environment"
+description: "Common setup before using gradle"
+runs:
+    using: "composite"
+    steps:
+        -   name: "Checkout repository"
+            uses: actions/checkout@v3.5.3
+            with:
+                fetch-depth: 0
+
+        -   name: "Set up JDK"
+            uses: actions/setup-java@v3.12.0
+            with:
+                distribution: "temurin"
+                java-version: 17
+
+        -   name: "Initialize caches"
+            uses: actions/cache@v3.3.1
+            with:
+                path: |
+                    ~/.gradle/caches
+                    ~/.gradle/loom-cache
+                    ~/.gradle/wrapper
+                key: ${{ runner.os }}-build-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+                restore-keys: |
+                    ${{ runner.os }}-build-

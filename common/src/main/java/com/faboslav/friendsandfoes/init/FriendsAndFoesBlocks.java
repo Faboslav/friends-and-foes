@@ -21,6 +21,7 @@ public final class FriendsAndFoesBlocks
 	public static final Supplier<Block> BUTTERCUP;
 	public static final Supplier<Block> POTTED_BUTTERCUP;
 	public static final Supplier<Block> ACACIA_BEEHIVE;
+	public static final Supplier<Block> BAMBOO_BEEHIVE;
 	public static final Supplier<Block> BIRCH_BEEHIVE;
 	public static final Supplier<Block> CHERRY_BEEHIVE;
 	public static final Supplier<Block> CRIMSON_BEEHIVE;
@@ -49,6 +50,7 @@ public final class FriendsAndFoesBlocks
 		BUTTERCUP = RegistryHelper.registerBlock("buttercup", () -> new FlowerBlock(StatusEffects.SATURATION, 6, AbstractBlock.Settings.create().mapColor(MapColor.DARK_GREEN).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS).offset(AbstractBlock.OffsetType.XZ).pistonBehavior(PistonBehavior.DESTROY)));
 		POTTED_BUTTERCUP = RegistryHelper.registerBlock("potted_buttercup", () -> new FlowerPotBlock(BUTTERCUP.get(), AbstractBlock.Settings.create().breakInstantly().nonOpaque().pistonBehavior(PistonBehavior.DESTROY)));
 		ACACIA_BEEHIVE = RegistryHelper.registerBlock("acacia_beehive", () -> new BeehiveBlock(AbstractBlock.Settings.create().mapColor(MapColor.ORANGE).strength(0.6F).sounds(BlockSoundGroup.WOOD).instrument(Instrument.BASS).burnable()));
+		BAMBOO_BEEHIVE = RegistryHelper.registerBlock("bamboo_beehive", () -> new BeehiveBlock(AbstractBlock.Settings.create().mapColor(MapColor.YELLOW).strength(0.6F).sounds(BlockSoundGroup.WOOD).instrument(Instrument.BASS).burnable()));
 		BIRCH_BEEHIVE = RegistryHelper.registerBlock("birch_beehive", () -> new BeehiveBlock(AbstractBlock.Settings.create().mapColor(MapColor.PALE_YELLOW).strength(0.6F).sounds(BlockSoundGroup.WOOD).instrument(Instrument.BASS).burnable()));
 		CHERRY_BEEHIVE = RegistryHelper.registerBlock("cherry_beehive", () -> new BeehiveBlock(AbstractBlock.Settings.create().mapColor(MapColor.TERRACOTTA_WHITE).strength(0.6F).sounds(BlockSoundGroup.WOOD).instrument(Instrument.BASS).burnable()));
 		CRIMSON_BEEHIVE = RegistryHelper.registerBlock("crimson_beehive", () -> new BeehiveBlock(AbstractBlock.Settings.create().mapColor(MapColor.DULL_PINK).strength(0.6F).sounds(BlockSoundGroup.WOOD).instrument(Instrument.BASS).burnable()));
@@ -86,6 +88,7 @@ public final class FriendsAndFoesBlocks
 		int beehiveSpreadChance = 20;
 
 		RegistryHelper.registerFlammableBlock(ACACIA_BEEHIVE, beehiveBurnChance, beehiveSpreadChance);
+		RegistryHelper.registerFlammableBlock(BAMBOO_BEEHIVE, beehiveBurnChance, beehiveSpreadChance);
 		RegistryHelper.registerFlammableBlock(BIRCH_BEEHIVE, beehiveBurnChance, beehiveSpreadChance);
 		RegistryHelper.registerFlammableBlock(CHERRY_BEEHIVE, beehiveBurnChance, beehiveSpreadChance);
 		RegistryHelper.registerFlammableBlock(CRIMSON_BEEHIVE, beehiveBurnChance, beehiveSpreadChance);

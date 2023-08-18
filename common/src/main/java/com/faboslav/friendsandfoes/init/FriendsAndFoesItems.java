@@ -23,6 +23,7 @@ public final class FriendsAndFoesItems
 	public final static Supplier<Item> WILDFIRE_SPAWN_EGG;
 	public static final Supplier<Item> BUTTERCUP;
 	public static final Supplier<Item> ACACIA_BEEHIVE;
+	public static final Supplier<Item> BAMBOO_BEEHIVE;
 	public static final Supplier<Item> BIRCH_BEEHIVE;
 	public static final Supplier<Item> CHERRY_BEEHIVE;
 	public static final Supplier<Item> CRIMSON_BEEHIVE;
@@ -62,6 +63,7 @@ public final class FriendsAndFoesItems
 		WILDFIRE_SPAWN_EGG = RegistryHelper.registerSpawnEggItem("wildfire_spawn_egg", FriendsAndFoesEntityTypes.WILDFIRE, 0x6C3100, 0xFFD528, new Item.Settings().maxCount(64));
 		BUTTERCUP = RegistryHelper.registerItem("buttercup", () -> new BlockItem(FriendsAndFoesBlocks.BUTTERCUP.get(), new Item.Settings().maxCount(64)));
 		ACACIA_BEEHIVE = RegistryHelper.registerItem("acacia_beehive", () -> new BlockItem(FriendsAndFoesBlocks.ACACIA_BEEHIVE.get(), new Item.Settings().maxCount(64)));
+		BAMBOO_BEEHIVE = RegistryHelper.registerItem("bamboo_beehive", () -> new BlockItem(FriendsAndFoesBlocks.BAMBOO_BEEHIVE.get(), new Item.Settings().maxCount(64)));
 		BIRCH_BEEHIVE = RegistryHelper.registerItem("birch_beehive", () -> new BlockItem(FriendsAndFoesBlocks.BIRCH_BEEHIVE.get(), new Item.Settings().maxCount(64)));
 		CHERRY_BEEHIVE = RegistryHelper.registerItem("cherry_beehive", () -> new BlockItem(FriendsAndFoesBlocks.CHERRY_BEEHIVE.get(), new Item.Settings().maxCount(64)));
 		CRIMSON_BEEHIVE = RegistryHelper.registerItem("crimson_beehive", () -> new BlockItem(FriendsAndFoesBlocks.CRIMSON_BEEHIVE.get(), new Item.Settings().maxCount(64)));
@@ -110,7 +112,8 @@ public final class FriendsAndFoesItems
 		RegistryHelper.addToItemGroupAfter(ItemGroups.NATURAL, BUTTERCUP.get(), Items.DANDELION);
 
 		RegistryHelper.addToItemGroupAfter(ItemGroups.FUNCTIONAL, SPRUCE_BEEHIVE.get(), Items.BEEHIVE);
-		RegistryHelper.addToItemGroupAfter(ItemGroups.FUNCTIONAL, BIRCH_BEEHIVE.get(), SPRUCE_BEEHIVE.get());
+		RegistryHelper.addToItemGroupAfter(ItemGroups.FUNCTIONAL, BAMBOO_BEEHIVE.get(), SPRUCE_BEEHIVE.get());
+		RegistryHelper.addToItemGroupAfter(ItemGroups.FUNCTIONAL, BIRCH_BEEHIVE.get(), BAMBOO_BEEHIVE.get());
 		RegistryHelper.addToItemGroupAfter(ItemGroups.FUNCTIONAL, JUNGLE_BEEHIVE.get(), BIRCH_BEEHIVE.get());
 		RegistryHelper.addToItemGroupAfter(ItemGroups.FUNCTIONAL, ACACIA_BEEHIVE.get(), JUNGLE_BEEHIVE.get());
 		RegistryHelper.addToItemGroupAfter(ItemGroups.FUNCTIONAL, DARK_OAK_BEEHIVE.get(), ACACIA_BEEHIVE.get());

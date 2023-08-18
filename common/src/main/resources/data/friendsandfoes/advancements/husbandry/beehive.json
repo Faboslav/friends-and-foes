@@ -52,6 +52,18 @@
 				]
 			}
 		},
+		"bamboo_beehive": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"friendsandfoes:bamboo_beehive"
+						]
+					}
+				]
+			}
+		},
 		"birch_beehive": {
 			"trigger": "minecraft:inventory_changed",
 			"conditions": {
@@ -143,6 +155,9 @@
 		],
 		[
 			"acacia_beehive"
+		],
+		[
+			"bamboo_beehive"
 		],
 		[
 			"birch_beehive"

@@ -2,6 +2,7 @@
 
 $types = [
 	'birch',
+	'bamboo',
 	'spruce',
 	'jungle',
 	'acacia',
@@ -31,6 +32,15 @@ $colors = [
 
 		'8a6938',
 		'987e47',
+	],
+	'bamboo' => [
+		'907e3a',
+		'998741',
+		'bba84c',
+		'b7ab49',
+		'c8b14d',
+		'c2b54e',
+		'd3bb50',
 	],
 	'birch' => [
 		'9e8b61',

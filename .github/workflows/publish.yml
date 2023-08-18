@@ -13,8 +13,12 @@ env:
         1.19.3
     FABRIC_DEPENDENCIES: |
         fabric-api | depends | *
-    QUILT_DEPENDENCIES: |
-        qsl | depends | *
+    FABRIC_LOADERS: |
+        fabric
+        quilt
+    FORGE_LOADERS: |
+        forge
+        neoforge
     RETRY_ATTEMPTS: 3
     RELAY_DELAY: 10000
     VERSION_RESOLVER: latest
@@ -28,23 +32,11 @@ jobs:
         steps:
             -   name: "Checkout repository"
                 uses: actions/checkout@v3.5.3
-
-            -   name: "Set up JDK"
-                uses: actions/setup-java@v3.12.0
                 with:
-                    distribution: "temurin"
-                    java-version: 17
+                    fetch-depth: 0
 
-            - name: "Initialize caches"
-              uses: actions/cache@v3.3.1
-              with:
-                  path: |
-                      ~/.gradle/caches
-                      ~/.gradle/loom-cache
-                      ~/.gradle/wrapper
-                  key: ${{ runner.os }}-build-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-                  restore-keys: |
-                      ${{ runner.os }}-build-
+            -   name: "Setup environment"
+                uses: ./.github/actions/setup-environment
 
             -   name: "Build with gradle"
                 run: ./gradlew build
@@ -56,7 +48,6 @@ jobs:
                     path: |
                         fabric/build/libs/friendsandfoes-fabric-${{ github.ref_name }}.jar
                         forge/build/libs/friendsandfoes-forge-${{ github.ref_name }}.jar
-                        quilt/build/libs/friendsandfoes-quilt-${{ github.ref_name }}.jar
                         LICENSE.txt
 
     publish-license-to-release:
@@ -115,7 +106,7 @@ jobs:
 
                     files-primary: fabric/build/libs/friendsandfoes-fabric-${{ github.ref_name }}.jar
                     version-type: ${{ env.VERSION_TYPE }}
-                    loaders: fabric
+                    loaders: ${{ env.FABRIC_LOADERS }}
                     game-versions: ${{ env.GAME_VERSIONS }}
                     name: Friends&Foes ${{ github.ref_name }} (Fabric)
                     dependencies: ${{ env.FABRIC_DEPENDENCIES }}
@@ -147,7 +138,7 @@ jobs:
 
                     files-primary: fabric/build/libs/friendsandfoes-fabric-${{ github.ref_name }}.jar
                     version-type: ${{ env.VERSION_TYPE }}
-                    loaders: fabric
+                    loaders: ${{ env.FABRIC_LOADERS }}
                     game-versions: ${{ env.GAME_VERSIONS }}
                     name: Friends&Foes ${{ github.ref_name }} (Fabric)
                     version: fabric-${{ github.ref_name }}
@@ -195,7 +186,7 @@ jobs:
 
                     files-primary: forge/build/libs/friendsandfoes-forge-${{ github.ref_name }}.jar
                     version-type: ${{ env.VERSION_TYPE }}
-                    loaders: forge
+                    loaders: ${{ env.FORGE_LOADERS }}
                     game-versions: ${{ env.GAME_VERSIONS }}
                     name: Friends&Foes ${{ github.ref_name }} (Forge)
                     java: ${{ env.JAVA_VERSIONS }}
@@ -226,91 +217,10 @@ jobs:
 
                     files-primary: forge/build/libs/friendsandfoes-forge-${{ github.ref_name }}.jar
                     version-type: ${{ env.VERSION_TYPE }}
-                    loaders: forge
+                    loaders: ${{ env.FORGE_LOADERS }}
                     game-versions: ${{ env.GAME_VERSIONS }}
                     name: Friends&Foes ${{ github.ref_name }} (Forge)
                     version: forge-${{ github.ref_name }}
-                    java: ${{ env.JAVA_VERSIONS }}
-                    retry-attempts: ${{ env.RETRY_ATTEMPTS }}
-                    retry-delay: ${{ env.RETRY_DELAY }}
-                    version-resolver: ${{ env.VERSION_RESOLVER }}
-
-
-    publish-quilt-to-github:
-        needs: build
-        runs-on: ubuntu-latest
-        name: "Publish Quilt to GitHub"
-        timeout-minutes: 30
-
-        steps:
-            -   name: "Download artifacts"
-                uses: actions/download-artifact@v3
-                with:
-                    name: "friends-and-foes"
-
-            -   name: "Publish Quilt to GitHub"
-                uses: AButler/upload-release-assets@v2.0.2
-                with:
-                    files: quilt/build/libs/friendsandfoes-quilt-${{ github.ref_name }}.jar
-                    repo-token: ${{ secrets.GITHUB_TOKEN }}
-
-    publish-quilt-to-curseforge:
-        needs: build
-        runs-on: ubuntu-latest
-        name: "Publish Quilt to CurseForge"
-        timeout-minutes: 30
-
-        steps:
-            -   name: "Download artifacts"
-                uses: actions/download-artifact@v3
-                with:
-                    name: "friends-and-foes"
-
-            -   name: "Publish Quilt to CurseForge"
-                uses: Kir-Antipov/mc-publish@v3.2
-                with:
-                    curseforge-id: 628248
-                    curseforge-token: ${{ secrets.CURSEFORGE_RELEASE_TOKEN }}
-
-                    files-primary: quilt/build/libs/friendsandfoes-quilt-${{ github.ref_name }}.jar
-                    version-type: ${{ env.VERSION_TYPE }}
-                    loaders: quilt
-                    game-versions: ${{ env.GAME_VERSIONS }}
-                    name: Friends&Foes ${{ github.ref_name }} (Quilt)
-                    dependencies: ${{ env.QUILT_DEPENDENCIES }}
-                    java: ${{ env.JAVA_VERSIONS }}
-
-                    retry-attempts: ${{ env.RETRY_ATTEMPTS }}
-                    retry-delay: ${{ env.RETRY_DELAY }}
-                    version-resolver: ${{ env.VERSION_RESOLVER }}
-
-    publish-quilt-to-modrinth:
-        needs: build
-        runs-on: ubuntu-latest
-        name: "Publish Quilt to Modrinth"
-        timeout-minutes: 30
-
-        steps:
-            -   name: "Download artifacts"
-                uses: actions/download-artifact@v3
-                with:
-                    name: "friends-and-foes"
-
-            -   name: "Publish Quilt to Modrinth"
-                uses: Kir-Antipov/mc-publish@v3.2
-                with:
-                    modrinth-id: NxP9xmhw
-                    modrinth-featured: true
-                    modrinth-unfeature-mode: version-intersection
-                    modrinth-token: ${{ secrets.MODRINTH_RELEASE_TOKEN }}
-
-                    files-primary: quilt/build/libs/friendsandfoes-quilt-${{ github.ref_name }}.jar
-                    version-type: ${{ env.VERSION_TYPE }}
-                    loaders: quilt
-                    game-versions: ${{ env.GAME_VERSIONS }}
-                    name: Friends&Foes ${{ github.ref_name }} (Quilt)
-                    version: quilt-${{ github.ref_name }}
-                    dependencies: ${{ env.QUILT_DEPENDENCIES }}
                     java: ${{ env.JAVA_VERSIONS }}
                     retry-attempts: ${{ env.RETRY_ATTEMPTS }}
                     retry-delay: ${{ env.RETRY_DELAY }}

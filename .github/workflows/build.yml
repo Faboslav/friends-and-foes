@@ -11,23 +11,62 @@ jobs:
         steps:
             -   name: "Checkout repository"
                 uses: actions/checkout@v3.5.3
-
-            -   name: "Set up JDK"
-                uses: actions/setup-java@v3.12.0
                 with:
-                    distribution: "temurin"
-                    java-version: 17
+                    fetch-depth: 0
 
-            - name: "Initialize caches"
-              uses: actions/cache@v3.3.1
-              with:
-                  path: |
-                      ~/.gradle/caches
-                      ~/.gradle/loom-cache
-                      ~/.gradle/wrapper
-                  key: ${{ runner.os }}-build-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-                  restore-keys: |
-                      ${{ runner.os }}-build-
+            -   name: "Setup environment"
+                uses: ./.github/actions/setup-environment
 
             -   name: "Build with gradle"
                 run: ./gradlew build
+
+    run-client:
+        needs: build
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                mod_loader: [ "fabric", "forge" ]
+        name: Run ${{ matrix.mod_loader }} client
+        timeout-minutes: 30
+
+        steps:
+            -   name: "Checkout repository"
+                uses: actions/checkout@v3.5.3
+                with:
+                    fetch-depth: 0
+
+            -   name: "Setup environment"
+                uses: ./.github/actions/setup-environment
+
+            -   name: Run ${{ matrix.mod_loader }} client
+                uses: modmuss50/xvfb-action@v1
+                with:
+                    run: ./.github/scripts/run-client.sh ${{ matrix.mod_loader }}
+                    shell: bash
+
+    run-server:
+        needs: build
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                mod_loader: [ "fabric", "forge" ]
+        name: Run ${{ matrix.mod_loader }} server
+        timeout-minutes: 30
+
+        steps:
+            -   name: "Checkout repository"
+                uses: actions/checkout@v3.5.3
+                with:
+                    fetch-depth: 0
+
+            -   name: "Setup environment"
+                uses: ./.github/actions/setup-environment
+
+            -   name: "Accept eula"
+                run: mkdir -p ${{ matrix.mod_loader }}/run && echo "eula=true" > ${{ matrix.mod_loader }}/run/eula.txt
+
+            -   name: Run ${{ matrix.mod_loader }} server
+                run: ./.github/scripts/run-server.sh ${{ matrix.mod_loader }}
+                shell: bash

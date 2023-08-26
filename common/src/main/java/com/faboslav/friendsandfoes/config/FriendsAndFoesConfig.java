@@ -132,6 +132,10 @@ public final class FriendsAndFoesConfig implements Config
 	@Description("Enable trap")
 	public boolean enableZombieHorseTrap = true;
 
+	@Category("Rascal")
+	@Description("Enable rascal")
+	public boolean enableRascal = true;
+
 	@Category("Tuff Golem")
 	@Description("Enable tuff golem")
 	public boolean enableTuffGolem = true;

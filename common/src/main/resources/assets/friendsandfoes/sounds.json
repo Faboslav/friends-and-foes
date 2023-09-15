@@ -183,6 +183,49 @@
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.moobloom.convert"
 	},
+	"entity.rascal.ambient": {
+		"sounds": [
+			"friendsandfoes:entity/rascal/ambient1",
+			"friendsandfoes:entity/rascal/ambient2",
+			"friendsandfoes:entity/rascal/ambient3",
+			"friendsandfoes:entity/rascal/ambient4",
+			"friendsandfoes:entity/rascal/ambient5"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.rascal.ambient"
+	},
+	"entity.rascal.approve": {
+		"sounds": [
+			"friendsandfoes:entity/rascal/approve1",
+			"friendsandfoes:entity/rascal/approve2",
+			"friendsandfoes:entity/rascal/approve3",
+			"friendsandfoes:entity/rascal/approve4"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.rascal.approve"
+	},
+	"entity.rascal.hurt": {
+		"sounds": [
+			"friendsandfoes:entity/rascal/hurt1",
+			"friendsandfoes:entity/rascal/hurt2",
+			"friendsandfoes:entity/rascal/hurt3",
+			"friendsandfoes:entity/rascal/hurt4"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.rascal.hurt"
+	},
+	"entity.rascal.reward": {
+		"sounds": [
+			"friendsandfoes:entity/rascal/reward1",
+			"friendsandfoes:entity/rascal/reward2"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.rascal.reward"
+	},
+	"entity.rascal.reward_bad": {
+		"sounds": [
+			"friendsandfoes:entity/rascal/reward_bad1",
+			"friendsandfoes:entity/rascal/reward_bad2",
+			"friendsandfoes:entity/rascal/reward_bad3"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.rascal.reward_bad"
+	},
 	"entity.tuff_golem.glue_on": {
 		"sounds": [
 			"friendsandfoes:entity/tuff_golem/glue_on"

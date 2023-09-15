@@ -136,6 +136,9 @@ public final class FriendsAndFoesConfig implements Config
 	@Description("Enable rascal")
 	public boolean enableRascal = true;
 
+	@Description("Enable rascal spawn")
+	public boolean enableRascalSpawn = true;
+
 	@Category("Tuff Golem")
 	@Description("Enable tuff golem")
 	public boolean enableTuffGolem = true;

@@ -15,7 +15,7 @@ import net.minecraft.util.Identifier;
 public final class RascalEntityRenderer extends MobEntityRenderer<RascalEntity, RascalEntityModel<RascalEntity>>
 {
 	public RascalEntityRenderer(EntityRendererFactory.Context context) {
-		super(context, new RascalEntityModel<RascalEntity>(context.getPart(FriendsAndFoesEntityModelLayer.RASCAL_LAYER)), 0.3F);
+		super(context, new RascalEntityModel<RascalEntity>(context.getPart(FriendsAndFoesEntityModelLayer.RASCAL_LAYER)), 0.5F);
 	}
 
 	@Override

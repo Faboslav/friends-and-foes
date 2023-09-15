@@ -39,6 +39,11 @@ public final class FriendsAndFoesSoundEvents
 	public static final Supplier<SoundEvent> ENTITY_MAULER_HURT;
 	public static final Supplier<SoundEvent> ENTITY_MOOBLOOM_CONVERT;
 	public static final Supplier<SoundEvent> ENTITY_PLAYER_MIRROR_MOVE;
+	public static final Supplier<SoundEvent> ENTITY_RASCAL_AMBIENT;
+	public static final Supplier<SoundEvent> ENTITY_RASCAL_APPROVE;
+	public static final Supplier<SoundEvent> ENTITY_RASCAL_HURT;
+	public static final Supplier<SoundEvent> ENTITY_RASCAL_REWARD;
+	public static final Supplier<SoundEvent> ENTITY_RASCAL_REWARD_BAD;
 	public static final Supplier<SoundEvent> ENTITY_TUFF_GOLEM_GLUE_ON;
 	public static final Supplier<SoundEvent> ENTITY_TUFF_GOLEM_GLUE_OFF;
 	public static final Supplier<SoundEvent> ENTITY_TUFF_GOLEM_HURT;
@@ -85,6 +90,11 @@ public final class FriendsAndFoesSoundEvents
 		ENTITY_MAULER_HURT = register("entity", "mauler.hurt");
 		ENTITY_MOOBLOOM_CONVERT = register("entity", "moobloom.convert");
 		ENTITY_PLAYER_MIRROR_MOVE = register("entity", "player.mirror_move");
+		ENTITY_RASCAL_AMBIENT = register("entity", "rascal.ambient");
+		ENTITY_RASCAL_APPROVE = register("entity", "rascal.approve");
+		ENTITY_RASCAL_HURT = register("entity", "rascal.hurt");
+		ENTITY_RASCAL_REWARD = register("entity", "rascal.reward");
+		ENTITY_RASCAL_REWARD_BAD = register("entity", "rascal.reward_bad");
 		ENTITY_TUFF_GOLEM_GLUE_ON = register("entity", "tuff_golem.glue_on");
 		ENTITY_TUFF_GOLEM_GLUE_OFF = register("entity", "tuff_golem.glue_off");
 		ENTITY_TUFF_GOLEM_HURT = register("entity", "tuff_golem.hurt");

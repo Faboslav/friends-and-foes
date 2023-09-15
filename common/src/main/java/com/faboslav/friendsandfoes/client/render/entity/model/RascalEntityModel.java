@@ -1,9 +1,12 @@
 package com.faboslav.friendsandfoes.client.render.entity.model;
 
+import com.faboslav.friendsandfoes.client.render.entity.animation.RascalAnimations;
+import com.faboslav.friendsandfoes.client.render.entity.animation.animator.ModelAnimator;
 import com.faboslav.friendsandfoes.entity.RascalEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
+import net.minecraft.util.math.MathHelper;
 
 @Environment(EnvType.CLIENT)
 public final class RascalEntityModel<T extends RascalEntity> extends AnimatedEntityModel<T>
@@ -54,21 +57,48 @@ public final class RascalEntityModel<T extends RascalEntity> extends AnimatedEnt
 	}
 
 	@Override
+	public void animateModel(
+		T radcal,
+		float limbAngle,
+		float limbDistance,
+		float tickDelta
+	) {
+		this.updateAnimations(radcal, limbAngle, limbDistance);
+	}
+
+	@Override
 	public void setAngles(
-		T rascal,
+		T radcal,
 		float limbAngle,
 		float limbDistance,
 		float animationProgress,
 		float headYaw,
 		float headPitch
 	) {
+		this.updateKeyframeAnimations(radcal, animationProgress);
 	}
 
-	public void animateModel(
-		T rascal,
+	private void updateAnimations(
+		T radcal,
 		float limbAngle,
-		float limbDistance,
-		float tickDelta
+		float limbDistance
 	) {
+		this.applyModelTransforms(MODEL_PART_ROOT, this.root);
+
+		this.rightLeg.pitch = -2.0F * MathHelper.wrap(limbAngle, 13.0F) * limbDistance;
+		this.leftLeg.pitch = 2.0F * MathHelper.wrap(limbAngle, 13.0F) * limbDistance;
+		this.rightLeg.yaw = 0.0F;
+		this.leftLeg.yaw = 0.0F;
+		this.leftArm.pitch = (-0.2F + 2.0F * MathHelper.wrap(limbAngle, 13.0F)) * limbDistance;
+		this.rightArm.pitch = (-0.2F - 2.0F * MathHelper.wrap(limbAngle, 13.0F)) * limbDistance;
+	}
+
+	private void updateKeyframeAnimations(
+		T radcal,
+		float animationProgress
+	) {
+		RascalAnimations.ANIMATIONS.forEach((keyframeAnimation -> {
+			ModelAnimator.updateKeyframeAnimations(radcal, this, keyframeAnimation, animationProgress);
+		}));
 	}
 }

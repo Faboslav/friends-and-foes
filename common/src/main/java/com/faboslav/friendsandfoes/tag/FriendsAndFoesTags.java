@@ -32,6 +32,8 @@ public final class FriendsAndFoesTags
 	public static final TagKey<Biome> HAS_ILLUSIONER = biomeTag("has_illusioner");
 	public static final TagKey<Biome> HAS_LESS_MOOBLOOMS = biomeTag("has_less_mooblooms");
 	public static final TagKey<Biome> HAS_MORE_MOOBLOOMS = biomeTag("has_more_mooblooms");
+
+	public static final TagKey<Biome> HAS_RASCAL = biomeTag("has_rascal");
 	public static final TagKey<Biome> HAS_SAVANNA_MAULER = biomeTag("has_savanna_mauler");
 
 	private static TagKey<Block> blockTag(String name) {

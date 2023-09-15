@@ -1,16 +1,19 @@
 package com.faboslav.friendsandfoes.entity.ai.brain;
 
 import com.faboslav.friendsandfoes.entity.RascalEntity;
+import com.faboslav.friendsandfoes.entity.WildfireEntity;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesActivities;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
+import net.minecraft.entity.ai.brain.task.*;
 
 import java.util.List;
 
@@ -39,6 +42,13 @@ public final class RascalBrain
 	}
 
 	private static void addCoreActivities(Brain<RascalEntity> brain) {
+		brain.setTaskList(Activity.CORE,
+			0,
+			ImmutableList.of(
+				new LookAroundTask(45, 90),
+				new WanderAroundTask()
+			)
+		);
 	}
 
 	private static void addHomeActivities(Brain<RascalEntity> brain) {
@@ -46,6 +56,12 @@ public final class RascalBrain
 	}
 
 	private static void addIdleActivities(Brain<RascalEntity> brain) {
+		brain.setTaskList(
+			Activity.IDLE,
+			ImmutableList.of(
+				Pair.of(0, makeRandomWanderTask())
+			)
+		);
 	}
 
 	public static void updateActivities(RascalEntity rascal) {
@@ -53,6 +69,16 @@ public final class RascalBrain
 			ImmutableList.of(
 				FriendsAndFoesActivities.TUFF_GOLEM_HOME.get(),
 				Activity.IDLE
+			)
+		);
+	}
+
+	private static RandomTask<RascalEntity> makeRandomWanderTask() {
+		return new RandomTask(
+			ImmutableList.of(
+				Pair.of(new StrollTask(0.6F), 2),
+				Pair.of(new GoTowardsLookTarget(1.0F, 3), 2),
+				Pair.of(new WaitTask(30, 60), 1)
 			)
 		);
 	}

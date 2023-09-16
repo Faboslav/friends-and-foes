@@ -108,6 +108,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		BURROWING_DOWN_ANIMATION_PROGRESS = DataTracker.registerData(MaulerEntity.class, TrackedDataHandlerRegistry.FLOAT);
 	}
 
+	@Override
 	protected void initDataTracker() {
 		super.initDataTracker();
 		this.dataTracker.startTracking(TYPE, Type.DESERT.name());
@@ -119,6 +120,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		this.dataTracker.startTracking(BURROWING_DOWN_ANIMATION_PROGRESS, 0.0F);
 	}
 
+	@Override
 	public void writeCustomDataToNbt(NbtCompound nbt) {
 		super.writeCustomDataToNbt(nbt);
 		this.writeAngerToNbt(nbt);
@@ -128,7 +130,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		nbt.putInt(TICKS_UNTIL_NEXT_BURROWING_DOWN_NBT_NAME, this.getTicksUntilNextBurrowingDown());
 		nbt.putFloat(BURROWING_DOWN_ANIMATION_PROGRESS_NBT_NAME, this.getBurrowingDownAnimationProgress());
 
-		if (this.isBurrowedDown() && this.burrowDownGoal.getBurrowedDownTicks() > 0) {
+		if (this.burrowDownGoal != null && this.isBurrowedDown() && this.burrowDownGoal.getBurrowedDownTicks() > 0) {
 			nbt.putInt(BURROWED_DOWN_TICKS_NBT_NAME, this.burrowDownGoal.getBurrowedDownTicks());
 		}
 	}
@@ -143,7 +145,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		this.setTicksUntilNextBurrowingDown(nbt.getInt(TICKS_UNTIL_NEXT_BURROWING_DOWN_NBT_NAME));
 		this.setBurrowingDownAnimationProgress(nbt.getFloat(BURROWING_DOWN_ANIMATION_PROGRESS_NBT_NAME));
 
-		if (this.isBurrowedDown() && nbt.contains(BURROWED_DOWN_TICKS_NBT_NAME)) {
+		if (this.burrowDownGoal != null && this.isBurrowedDown() && nbt.contains(BURROWED_DOWN_TICKS_NBT_NAME)) {
 			this.burrowDownGoal.setBurrowedDownTicks(nbt.getInt(BURROWED_DOWN_TICKS_NBT_NAME));
 			this.setInvulnerable(true);
 			this.setInvisible(true);

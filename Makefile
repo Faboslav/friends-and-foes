@@ -9,3 +9,15 @@ refresh: ## Refresh dependencies
 
 gen-sources: ## Generate sources
 	./gradlew genSources
+
+run-fabric-client: ## Runs fabric client
+	./.github/scripts/run-client.sh fabric
+
+run-fabric-server: ## Runs fabric server
+	./.github/scripts/run-server.sh fabric
+
+run-forge-client: ## Runs forge client
+	./.github/scripts/run-server.sh forge
+
+run-forge-server: ## Runs forge server
+	./.github/scripts/run-server.sh forge

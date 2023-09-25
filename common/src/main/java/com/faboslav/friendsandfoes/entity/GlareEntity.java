@@ -267,14 +267,14 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	private void updateTargetEyesPositionOffset() {
 		if (
 			this.age % MIN_EYE_ANIMATION_TICK_AMOUNT != 0
-			|| RandomGenerator.generateInt(0, 2) != 0
+			|| this.getRandom().nextBetween(0, 2) != 0
 		) {
 			return;
 		}
 
 		this.setTargetEyesPositionOffset(
-			RandomGenerator.generateFloat(-0.5F, 0.5F),
-			RandomGenerator.generateFloat(-0.4F, 0.4F)
+			-0.5F + this.getRandom().nextFloat() * (0.5F - -0.5F),
+			-0.4F + this.getRandom().nextFloat() * (0.4F - -0.4F)
 		);
 	}
 
@@ -632,7 +632,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	}
 
 	public int generateRandomTicksUntilCanFindDarkSpot() {
-		return RandomGenerator.generateInt(
+		return this.getRandom().nextBetween(
 			MIN_TICKS_UNTIL_CAN_FIND_DARK_SPOT,
 			MAX_TICKS_UNTIL_CAN_FIND_DARK_SPOT
 		);
@@ -647,7 +647,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	}
 
 	public int generateRandomTicksUntilCanEatGlowBerries() {
-		return RandomGenerator.generateInt(
+		return this.getRandom().nextBetween(
 			MIN_TICKS_UNTIL_CAN_EAT_GLOW_BERRIES,
 			MAX_TICKS_UNTIL_CAN_EAT_GLOW_BERRIES
 		);

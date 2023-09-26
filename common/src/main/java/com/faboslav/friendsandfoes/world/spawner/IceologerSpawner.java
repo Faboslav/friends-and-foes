@@ -3,7 +3,6 @@ package com.faboslav.friendsandfoes.world.spawner;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
-import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.mob.PatrolEntity;
@@ -38,13 +37,13 @@ public final class IceologerSpawner implements Spawner
 			return 0;
 		}
 
-		this.cooldown += 12000 + RandomGenerator.generateInt(0, 1000);
+		this.cooldown += 12000 + random.nextInt(1000);
 		long l = world.getTimeOfDay() / 24000L;
 
 		if (
 			l < 5L
 			|| world.isDay() == false
-			|| RandomGenerator.generateInt(0, 1) != 0
+			||  random.nextBetween(0, 1) != 0
 		) {
 			return 0;
 		}

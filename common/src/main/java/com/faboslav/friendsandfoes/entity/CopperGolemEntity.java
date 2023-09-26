@@ -7,7 +7,6 @@ import com.faboslav.friendsandfoes.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.mixin.LimbAnimatorAccessor;
 import com.faboslav.friendsandfoes.util.ModelAnimationHelper;
-import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Oxidizable;
 import net.minecraft.entity.*;
@@ -148,10 +147,10 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		this.dataTracker.startTracking(STRUCT_BY_LIGHTNING_TICKS, 0);
 		this.dataTracker.startTracking(IS_WAXED, false);
 		this.dataTracker.startTracking(IS_PRESSING_BUTTON, false);
-		this.dataTracker.startTracking(TICKS_UNTIL_CAN_PRESS_BUTTON, RandomGenerator.generateInt(MIN_TICKS_UNTIL_CAN_PRESS_BUTTON, MIN_TICKS_UNTIL_CAN_PRESS_BUTTON + MIN_TICKS_UNTIL_CAN_PRESS_BUTTON));
+		this.dataTracker.startTracking(TICKS_UNTIL_CAN_PRESS_BUTTON, this.getRandom().nextBetween(MIN_TICKS_UNTIL_CAN_PRESS_BUTTON, MIN_TICKS_UNTIL_CAN_PRESS_BUTTON + MIN_TICKS_UNTIL_CAN_PRESS_BUTTON));
 		this.dataTracker.startTracking(IS_SPINNING_HEAD, false);
 		this.dataTracker.startTracking(IS_MOVING, false);
-		this.dataTracker.startTracking(TICKS_UNTIL_NEXT_HEAD_SPIN, RandomGenerator.generateInt(MIN_TICKS_UNTIL_NEXT_HEAD_SPIN, MAX_TICKS_UNTIL_NEXT_HEAD_SPIN));
+		this.dataTracker.startTracking(TICKS_UNTIL_NEXT_HEAD_SPIN, this.getRandom().nextBetween(MIN_TICKS_UNTIL_NEXT_HEAD_SPIN, MAX_TICKS_UNTIL_NEXT_HEAD_SPIN));
 		this.dataTracker.startTracking(BUTTON_PRESS_ANIMATION_PROGRESS, 0.0F);
 		this.dataTracker.startTracking(LAST_BUTTON_PRESS_ANIMATION_PROGRESS, 0.0F);
 		this.dataTracker.startTracking(HEAD_SPIN_ANIMATION_PROGRESS, 0.0F);
@@ -444,7 +443,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		if (this.isStructByLightning() && this.getEntityWorld().isClient() == false) {
 			this.setStructByLightningTicks(this.getStructByLightningTicks() - 1);
 
-			if (RandomGenerator.generateRandomFloat() < SPARK_CHANCE) {
+			if (this.getRandom().nextFloat() < SPARK_CHANCE) {
 				for (int i = 0; i < 7; i++) {
 					((ServerWorld) world).spawnParticles(
 						ParticleTypes.ELECTRIC_SPARK,
@@ -588,7 +587,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 			return;
 		}
 
-		if (RandomGenerator.generateRandomFloat() < OXIDATION_CHANCE) {
+		if (this.getRandom().nextFloat() < OXIDATION_CHANCE) {
 			int degradedOxidationLevelOrdinal = getOxidationLevel().ordinal() + 1;
 			Oxidizable.OxidationLevel[] OxidationLevels = Oxidizable.OxidationLevel.values();
 			this.setOxidationLevel(OxidationLevels[degradedOxidationLevelOrdinal]);
@@ -626,7 +625,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 	}
 
 	public void refreshStructByLightningTicks() {
-		this.setStructByLightningTicks(RandomGenerator.generateInt(MIN_STRUCT_BY_LIGHTNING_TICKS, MAX_STRUCT_BY_LIGHTNING_TICKS));
+		this.setStructByLightningTicks(this.getRandom().nextBetween(MIN_STRUCT_BY_LIGHTNING_TICKS, MAX_STRUCT_BY_LIGHTNING_TICKS));
 	}
 
 	public boolean isStructByLightning() {

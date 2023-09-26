@@ -14,8 +14,6 @@ You can check [wiki] for a detailed overview of implemented features. Also feel 
 - [Modrinth (Fabric)]
 - [CurseForge (Forge)]
 - [Modrinth (Forge)]
-- [CurseForge (Quilt)]
-- [Modrinth (Quilt)]
 - [Discord]
 
 ## Support
@@ -51,10 +49,6 @@ This mod would not exist in the state as it is without the following people:
 [CurseForge (Forge)]: https://www.curseforge.com/minecraft/mc-mods/friends-and-foes-forge
 
 [Modrinth (Forge)]: https://modrinth.com/mod/friends-and-foes-forge
-
-[CurseForge (Quilt)]: https://www.curseforge.com/minecraft/mc-mods/friends-and-foes-quilt
-
-[Modrinth (Quilt)]: https://modrinth.com/mod/friends-and-foes-quilt
 
 [Discord]: https://discord.com/invite/QGwFvvMQCn
 

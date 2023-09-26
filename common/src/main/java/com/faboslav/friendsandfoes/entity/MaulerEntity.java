@@ -125,7 +125,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		this.dataTracker.startTracking(STORED_EXPERIENCE_POINTS, 0);
 		this.dataTracker.startTracking(IS_MOVING, false);
 		this.dataTracker.startTracking(IS_BURROWED_DOWN, false);
-		this.dataTracker.startTracking(TICKS_UNTIL_NEXT_BURROWING_DOWN, RandomGenerator.generateInt(MIN_TICKS_UNTIL_NEXT_BURROWING, MAX_TICKS_UNTIL_NEXT_BURROWING));
+		this.dataTracker.startTracking(TICKS_UNTIL_NEXT_BURROWING_DOWN, this.getRandom().nextBetween(MIN_TICKS_UNTIL_NEXT_BURROWING, MAX_TICKS_UNTIL_NEXT_BURROWING));
 		this.dataTracker.startTracking(BURROWING_DOWN_ANIMATION_PROGRESS, 0.0F);
 	}
 
@@ -435,7 +435,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	}
 
 	public void chooseRandomAngerTime() {
-		int angerTime = RandomGenerator.generateInt(400, 1000);
+		int angerTime = this.getRandom().nextBetween(400, 1000);
 		this.setAngerTime(angerTime);
 	}
 

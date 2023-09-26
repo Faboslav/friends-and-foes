@@ -2,7 +2,6 @@ package com.faboslav.friendsandfoes.mixin;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.IllusionerEntityAccess;
-import com.faboslav.friendsandfoes.util.RandomGenerator;
 import com.llamalad7.mixinextras.injector.WrapWithCondition;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -287,7 +286,7 @@ public abstract class IllusionerEntityMixin extends IllusionerSpellcastingIllage
 		Vec3d illusionerPosition = this.getPos();
 		float slice = 2.0F * (float) Math.PI / MAX_ILLUSIONS_COUNT;
 		int radius = 9;
-		int randomPoint = RandomGenerator.generateInt(0, MAX_ILLUSIONS_COUNT - 1);
+		int randomPoint = this.getRandom().nextBetween(0, MAX_ILLUSIONS_COUNT - 1);
 
 		for (int point = 0; point < MAX_ILLUSIONS_COUNT; ++point) {
 			float angle = slice * point;

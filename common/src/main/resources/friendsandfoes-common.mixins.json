@@ -10,6 +10,8 @@
 		"AxeItemMixin",
 		"BeeEntityAccessor",
 		"BeeEntityMixin",
+		"BeeEntityMoveToFlowerGoalMixin",
+		"BeeEntityMoveToHiveGoalMixin",
 		"BlazeEntityMixin",
 		"BlazeLivingEntityMixin",
 		"BlindTargetGoalFactory",

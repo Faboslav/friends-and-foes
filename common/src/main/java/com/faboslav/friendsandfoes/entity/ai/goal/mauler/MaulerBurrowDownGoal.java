@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.entity.ai.goal.mauler;
 
 import com.faboslav.friendsandfoes.entity.MaulerEntity;
-import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -33,7 +32,7 @@ public final class MaulerBurrowDownGoal extends Goal
 			this.mauler.hasAngerTime()
 			|| this.mauler.getWorld().isNight()
 			|| this.mauler.getNavigation().isFollowingPath()
-			|| RandomGenerator.generateRandomFloat() < 0.999
+			|| this.mauler.getRandom().nextFloat() < 0.999F
 			|| this.mauler.getTicksUntilNextBurrowingDown() > 0
 		) {
 			return false;
@@ -63,7 +62,7 @@ public final class MaulerBurrowDownGoal extends Goal
 		this.mauler.getNavigation().stop();
 
 		if (this.getBurrowedDownTicks() == 0) {
-			this.burrowedDownTicks = RandomGenerator.generateInt(600, 1200);
+			this.burrowedDownTicks = this.mauler.getRandom().nextBetween(600, 1200);
 		}
 
 		this.mauler.setBurrowedDown(true);
@@ -83,7 +82,7 @@ public final class MaulerBurrowDownGoal extends Goal
 		this.mauler.setInvulnerable(false);
 		this.mauler.setBurrowedDown(false);
 		this.mauler.setTicksUntilNextBurrowingDown(
-			RandomGenerator.generateInt(
+			this.mauler.getRandom().nextBetween(
 				MaulerEntity.MIN_TICKS_UNTIL_NEXT_BURROWING,
 				MaulerEntity.MAX_TICKS_UNTIL_NEXT_BURROWING
 			)

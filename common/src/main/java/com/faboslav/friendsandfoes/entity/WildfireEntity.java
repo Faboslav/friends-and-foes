@@ -257,8 +257,8 @@ public final class WildfireEntity extends HostileEntity
 		}
 
 		if (this.getWorld().isClient()) {
-			if (this.random.nextInt(24) == 0 && !this.isSilent()) {
-				this.getWorld().playSound(this.getX() + 0.5, this.getY() + 0.5, this.getZ() + 0.5, SoundEvents.ENTITY_BLAZE_BURN, this.getSoundCategory(), 1.0F + this.random.nextFloat(), this.random.nextFloat() * 0.7F + 0.3F, false);
+			if (this.getRandom().nextInt(24) == 0 && !this.isSilent()) {
+				this.getWorld().playSound(this.getX() + 0.5, this.getY() + 0.5, this.getZ() + 0.5, SoundEvents.ENTITY_BLAZE_BURN, this.getSoundCategory(), 1.0F + this.getRandom().nextFloat(), this.getRandom().nextFloat() * 0.7F + 0.3F, false);
 			}
 
 			for (int i = 0; i < 2; ++i) {

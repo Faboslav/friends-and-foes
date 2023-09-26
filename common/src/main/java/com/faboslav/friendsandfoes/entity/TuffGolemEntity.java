@@ -248,7 +248,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	}
 
 	private void playRepairSound() {
-		this.playSound(this.getRepairSound(), 1.0F, 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F);
+		this.playSound(this.getRepairSound(), 1.0F, 1.0F + (this.getRandom().nextFloat() - this.getRandom().nextFloat()) * 0.2F);
 	}
 
 	public SoundEvent getWakeSound() {

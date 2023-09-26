@@ -6,6 +6,12 @@ allprojects {
 	archivesBaseName = "${rootProject.mod_id}-fabric-mc${rootProject.minecraft_version}"
 }
 
+configurations.all {
+	resolutionStrategy {
+		force "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+	}
+}
+
 architectury {
 	platformSetupLoomIde()
 	fabric()
@@ -27,11 +33,11 @@ dependencies {
 	// Core dependencies
 	modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
 	modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
-
+	
 	// Trinkets
 	modApi("dev.emi:trinkets:${rootProject.trinkets_version}")
 
-	include(implementation(annotationProcessor("com.github.llamalad7.mixinextras:mixinextras-fabric:${rootProject.mixin_extras_version}")))
+	include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${rootProject.mixin_extras_version}")))
 
 	// Config dependencies
 	modApi("com.terraformersmc:modmenu:${project.mod_menu_version}")

@@ -109,7 +109,7 @@ jobs:
                     version-type: ${{ env.VERSION_TYPE }}
                     loaders: ${{ env.FABRIC_LOADERS }}
                     game-versions: ${{ env.GAME_VERSIONS }}
-                    name: Friends&Foes ${{ github.ref_name }} (Fabric)
+                    name: Friends&Foes ${{ github.ref_name }} (Fabric/Quilt)
                     dependencies: ${{ env.FABRIC_DEPENDENCIES }}
                     java: ${{ env.JAVA_VERSIONS }}
 
@@ -141,7 +141,7 @@ jobs:
                     version-type: ${{ env.VERSION_TYPE }}
                     loaders: ${{ env.FABRIC_LOADERS }}
                     game-versions: ${{ env.GAME_VERSIONS }}
-                    name: Friends&Foes ${{ github.ref_name }} (Fabric)
+                    name: Friends&Foes ${{ github.ref_name }} (Fabric/Quilt)
                     version: fabric-${{ github.ref_name }}
                     dependencies: ${{ env.FABRIC_DEPENDENCIES }}
                     java: ${{ env.JAVA_VERSIONS }}
@@ -189,7 +189,7 @@ jobs:
                     version-type: ${{ env.VERSION_TYPE }}
                     loaders: ${{ env.FORGE_LOADERS }}
                     game-versions: ${{ env.GAME_VERSIONS }}
-                    name: Friends&Foes ${{ github.ref_name }} (Forge)
+                    name: Friends&Foes ${{ github.ref_name }} (Forge/NeoForge)
                     java: ${{ env.JAVA_VERSIONS }}
 
                     retry-attempts: ${{ env.RETRY_ATTEMPTS }}
@@ -220,7 +220,7 @@ jobs:
                     version-type: ${{ env.VERSION_TYPE }}
                     loaders: ${{ env.FORGE_LOADERS }}
                     game-versions: ${{ env.GAME_VERSIONS }}
-                    name: Friends&Foes ${{ github.ref_name }} (Forge)
+                    name: Friends&Foes ${{ github.ref_name }} (Forge/NeoForge)
                     version: forge-${{ github.ref_name }}
                     java: ${{ env.JAVA_VERSIONS }}
                     retry-attempts: ${{ env.RETRY_ATTEMPTS }}

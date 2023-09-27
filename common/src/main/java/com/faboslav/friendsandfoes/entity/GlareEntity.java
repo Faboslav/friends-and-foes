@@ -36,16 +36,17 @@ import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.tag.TagKey;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.world.EntityView;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
@@ -97,7 +98,6 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 
 		this.moveControl = new FlightMoveControl(this, 10, true);
 		this.setPathfindingPenalty(PathNodeType.DANGER_FIRE, -1.0F);
-		this.setPathfindingPenalty(PathNodeType.DANGER_CACTUS, -1.0F);
 		this.setPathfindingPenalty(PathNodeType.WATER, -1.0F);
 		this.setPathfindingPenalty(PathNodeType.LAVA, -1.0F);
 		this.setPathfindingPenalty(PathNodeType.WATER_BORDER, 16.0F);
@@ -267,14 +267,14 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	private void updateTargetEyesPositionOffset() {
 		if (
 			this.age % MIN_EYE_ANIMATION_TICK_AMOUNT != 0
-			|| RandomGenerator.generateInt(0, 2) != 0
+			|| this.getRandom().nextBetween(0, 2) != 0
 		) {
 			return;
 		}
 
 		this.setTargetEyesPositionOffset(
-			RandomGenerator.generateFloat(-0.5F, 0.5F),
-			RandomGenerator.generateFloat(-0.4F, 0.4F)
+			-0.5F + this.getRandom().nextFloat() * (0.5F - -0.5F),
+			-0.4F + this.getRandom().nextFloat() * (0.4F - -0.4F)
 		);
 	}
 
@@ -569,6 +569,11 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	}
 
 	@Override
+	public EntityView method_48926() {
+		return this.getWorld();
+	}
+
+	@Override
 	public boolean isBreedingItem(ItemStack itemStack) {
 		return TEMPT_ITEMS.test(itemStack);
 	}
@@ -632,7 +637,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	}
 
 	public int generateRandomTicksUntilCanFindDarkSpot() {
-		return RandomGenerator.generateInt(
+		return this.getRandom().nextBetween(
 			MIN_TICKS_UNTIL_CAN_FIND_DARK_SPOT,
 			MAX_TICKS_UNTIL_CAN_FIND_DARK_SPOT
 		);
@@ -647,7 +652,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	}
 
 	public int generateRandomTicksUntilCanEatGlowBerries() {
-		return RandomGenerator.generateInt(
+		return this.getRandom().nextBetween(
 			MIN_TICKS_UNTIL_CAN_EAT_GLOW_BERRIES,
 			MAX_TICKS_UNTIL_CAN_EAT_GLOW_BERRIES
 		);

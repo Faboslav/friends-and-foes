@@ -33,7 +33,7 @@ public final class GlareFollowOwnerGoal extends Goal
 		boolean leavesAllowed
 	) {
 		this.glare = glare;
-		this.world = glare.world;
+		this.world = glare.getWorld();
 		this.speed = glare.getFastMovementSpeed();
 		this.navigation = glare.getNavigation();
 		this.minDistance = minDistance;

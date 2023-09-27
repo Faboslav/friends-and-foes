@@ -12,6 +12,7 @@ import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.render.entity.PlayerModelPart;
 import net.minecraft.client.render.entity.feature.*;
+import net.minecraft.client.render.entity.model.ArmorEntityModel;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.client.util.math.MatrixStack;
@@ -23,14 +24,14 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.UseAction;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3f;
 
 public final class PlayerIllusionEntityRenderer extends MobEntityRenderer<PlayerIllusionEntity, PlayerIllusionEntityModel<PlayerIllusionEntity>>
 {
 	public PlayerIllusionEntityRenderer(EntityRendererFactory.Context ctx, boolean slim) {
 		super(ctx, new PlayerIllusionEntityModel<>(ctx.getPart(slim ? EntityModelLayers.PLAYER_SLIM:EntityModelLayers.PLAYER), slim), 0.5F);
-		this.addFeature(new ArmorFeatureRenderer<>(this, new BipedEntityModel(ctx.getPart(slim ? EntityModelLayers.PLAYER_SLIM_INNER_ARMOR:EntityModelLayers.PLAYER_INNER_ARMOR)), new BipedEntityModel(ctx.getPart(slim ? EntityModelLayers.PLAYER_SLIM_OUTER_ARMOR:EntityModelLayers.PLAYER_OUTER_ARMOR))));
+		this.addFeature(new ArmorFeatureRenderer(this, new ArmorEntityModel(ctx.getPart(slim ? EntityModelLayers.PLAYER_SLIM_INNER_ARMOR:EntityModelLayers.PLAYER_INNER_ARMOR)), new ArmorEntityModel(ctx.getPart(slim ? EntityModelLayers.PLAYER_SLIM_OUTER_ARMOR:EntityModelLayers.PLAYER_OUTER_ARMOR)), ctx.getModelManager()));
 		this.addFeature(new PlayerHeldItemFeatureRenderer(this, ctx.getHeldItemRenderer()));
 		this.addFeature(new StuckArrowsFeatureRenderer<>(ctx, this));
 		this.addFeature(new Deadmau5FeatureRenderer(this));
@@ -189,7 +190,7 @@ public final class PlayerIllusionEntityRenderer extends MobEntityRenderer<Player
 			j = (float) playerIllusionEntity.getRoll() + h;
 			k = MathHelper.clamp(j * j / 100.0F, 0.0F, 1.0F);
 			if (!playerIllusionEntity.isUsingRiptide()) {
-				matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(k * (-90.0F - playerIllusionEntity.getPitch())));
+				matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(k * (-90.0F - playerIllusionEntity.getPitch())));
 			}
 
 			Vec3d vec3d = playerIllusionEntity.getRotationVec(h);
@@ -199,13 +200,13 @@ public final class PlayerIllusionEntityRenderer extends MobEntityRenderer<Player
 			if (d > 0.0 && e > 0.0) {
 				double l = (vec3d2.x * vec3d.x + vec3d2.z * vec3d.z) / Math.sqrt(d * e);
 				double m = vec3d2.x * vec3d.z - vec3d2.z * vec3d.x;
-				matrixStack.multiply(Vec3f.POSITIVE_Y.getRadialQuaternion((float) (Math.signum(m) * Math.acos(l))));
+				matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((float) (Math.signum(m) * Math.acos(l))));
 			}
 		} else if (i > 0.0F) {
 			super.setupTransforms(playerIllusionEntity, matrixStack, f, g, h);
 			j = playerIllusionEntity.isTouchingWater() ? -90.0F - playerIllusionEntity.getPitch():-90.0F;
 			k = MathHelper.lerp(i, 0.0F, j);
-			matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(k));
+			matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(k));
 			if (playerIllusionEntity.isInSwimmingPose()) {
 				matrixStack.translate(0.0, -1.0, 0.30000001192092896);
 			}

@@ -2,7 +2,6 @@ package com.faboslav.friendsandfoes.entity.ai.goal.coppergolem;
 
 import com.faboslav.friendsandfoes.entity.CopperGolemEntity;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
-import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.entity.ai.goal.Goal;
 
 public final class CopperGolemSpinHeadGoal extends Goal
@@ -22,7 +21,7 @@ public final class CopperGolemSpinHeadGoal extends Goal
 			return false;
 		} else if (this.copperGolem.pressButtonGoal.isRunning()) {
 			return false;
-		} else if (RandomGenerator.generateRandomFloat() < 0.95) {
+		} else if (this.copperGolem.getRandom().nextFloat() < 0.95) {
 			return false;
 		}
 
@@ -48,7 +47,7 @@ public final class CopperGolemSpinHeadGoal extends Goal
 	public void stop() {
 		this.copperGolem.setIsSpinningHead(false);
 		this.copperGolem.setTicksUntilNextHeadSpin(
-			RandomGenerator.generateInt(
+			this.copperGolem.getRandom().nextBetween(
 				CopperGolemEntity.MIN_TICKS_UNTIL_NEXT_HEAD_SPIN,
 				CopperGolemEntity.MAX_TICKS_UNTIL_NEXT_HEAD_SPIN
 			)

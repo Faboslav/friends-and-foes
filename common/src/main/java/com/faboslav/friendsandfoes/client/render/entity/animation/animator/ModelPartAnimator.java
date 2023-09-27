@@ -3,7 +3,7 @@ package com.faboslav.friendsandfoes.client.render.entity.animation.animator;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.ModelPart;
-import net.minecraft.util.math.Vec3f;
+import org.joml.Vector3f;
 
 @Environment(EnvType.CLIENT)
 public final class ModelPartAnimator
@@ -22,9 +22,9 @@ public final class ModelPartAnimator
 
 	public static void setPosition(
 		ModelPart modelPart,
-		Vec3f position
+		Vector3f position
 	) {
-		modelPart.setPivot(position.getX(), position.getY(), position.getZ());
+		modelPart.setPivot(position.x(), position.y(), position.z());
 	}
 
 	public static void setXRotation(ModelPart modelPart, float x) {
@@ -41,8 +41,8 @@ public final class ModelPartAnimator
 
 	public static void setRotation(
 		ModelPart modelPart,
-		Vec3f rotation
+		Vector3f rotation
 	) {
-		modelPart.setAngles(rotation.getX(), rotation.getY(), rotation.getZ());
+		modelPart.setAngles(rotation.x(), rotation.y(), rotation.z());
 	}
 }

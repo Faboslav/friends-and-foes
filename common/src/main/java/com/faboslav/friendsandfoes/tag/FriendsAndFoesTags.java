@@ -4,9 +4,9 @@ import com.faboslav.friendsandfoes.FriendsAndFoes;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
-import net.minecraft.tag.BlockTags;
-import net.minecraft.tag.TagKey;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.poi.PointOfInterestType;
 
@@ -37,22 +37,22 @@ public final class FriendsAndFoesTags
 	public static final TagKey<Biome> HAS_SAVANNA_MAULER = biomeTag("has_savanna_mauler");
 
 	private static TagKey<Block> blockTag(String name) {
-		return TagKey.of(Registry.BLOCK_KEY, FriendsAndFoes.makeID(name));
+		return TagKey.of(RegistryKeys.BLOCK, FriendsAndFoes.makeID(name));
 	}
 
 	private static TagKey<Item> itemTag(String name) {
-		return TagKey.of(Registry.ITEM_KEY, FriendsAndFoes.makeID(name));
+		return TagKey.of(RegistryKeys.ITEM, FriendsAndFoes.makeID(name));
 	}
 
 	private static TagKey<EntityType<?>> entityTypeTag(String name) {
-		return TagKey.of(Registry.ENTITY_TYPE_KEY, FriendsAndFoes.makeID(name));
+		return TagKey.of(RegistryKeys.ENTITY_TYPE, FriendsAndFoes.makeID(name));
 	}
 
 	private static TagKey<Biome> biomeTag(String name) {
-		return TagKey.of(Registry.BIOME_KEY, FriendsAndFoes.makeID(name));
+		return TagKey.of(RegistryKeys.BIOME, FriendsAndFoes.makeID(name));
 	}
 
 	private static TagKey<PointOfInterestType> pointOfInterestTypeTag(String name) {
-		return TagKey.of(Registry.POINT_OF_INTEREST_TYPE_KEY, FriendsAndFoes.makeID(name));
+		return TagKey.of(RegistryKeys.POINT_OF_INTEREST_TYPE, FriendsAndFoes.makeID(name));
 	}
 }

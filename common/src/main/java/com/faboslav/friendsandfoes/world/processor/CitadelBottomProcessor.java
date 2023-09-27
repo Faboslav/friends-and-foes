@@ -57,22 +57,22 @@ public final class CitadelBottomProcessor extends StructureProcessor
 		StructureTemplate.StructureBlockInfo blockInfoGlobal,
 		StructurePlacementData structurePlacementData
 	) {
-		if (blockInfoGlobal.state.isOf(this.targetBlock.getBlock())) {
+		if (blockInfoGlobal.state().isOf(this.targetBlock.getBlock())) {
 			if (
 				worldView instanceof ChunkRegion chunkRegion
-				&& chunkRegion.getCenterPos().equals(new ChunkPos(blockInfoGlobal.pos)) == false
+				&& chunkRegion.getCenterPos().equals(new ChunkPos(blockInfoGlobal.pos())) == false
 			) {
 				return blockInfoGlobal;
 			}
 
 			blockInfoGlobal = new StructureTemplate.StructureBlockInfo(
-				blockInfoGlobal.pos,
+				blockInfoGlobal.pos(),
 				targetBlockOutput,
-				blockInfoGlobal.nbt
+				blockInfoGlobal.nbt()
 			);
-			BlockPos.Mutable mutable = blockInfoGlobal.pos.mutableCopy().move(Direction.DOWN);
+			BlockPos.Mutable mutable = blockInfoGlobal.pos().mutableCopy().move(Direction.DOWN);
 			BlockState currentBlockState = worldView.getBlockState(mutable);
-			Random random = structurePlacementData.getRandom(blockInfoGlobal.pos);
+			Random random = structurePlacementData.getRandom(blockInfoGlobal.pos());
 
 			while (
 				mutable.getY() > worldView.getBottomY()

@@ -8,14 +8,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.Packet;
-import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
@@ -200,10 +197,6 @@ public final class IceologerIceChunkEntity extends Entity
 		}
 	}
 
-	public Packet<?> createSpawnPacket() {
-		return new EntitySpawnS2CPacket(this);
-	}
-
 	public int getTicksUntilFall() {
 		return this.dataTracker.get(TICKS_UNTIL_FALL);
 	}
@@ -247,7 +240,7 @@ public final class IceologerIceChunkEntity extends Entity
 			return;
 		}
 
-		hitEntity.damage(DamageSource.MAGIC, 12.0F);
+		hitEntity.damage(this.getDamageSources().magic(), 12.0F);
 
 		if (hitEntity.canFreeze()) {
 			hitEntity.setFrozenTicks(400);

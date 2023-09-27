@@ -1,14 +1,14 @@
 package com.faboslav.friendsandfoes.entity.animation;
 
-import net.minecraft.util.math.Vec3f;
+import org.joml.Vector3f;
 
 public record Keyframe(
 	float timestamp,
-	Vec3f target,
+	Vector3f target,
 	Transformation.Interpolation interpolation
 )
 {
-	public Keyframe(float timestamp, Vec3f target, Transformation.Interpolation interpolation) {
+	public Keyframe(float timestamp, Vector3f target, Transformation.Interpolation interpolation) {
 		this.timestamp = timestamp;
 		this.target = target;
 		this.interpolation = interpolation;
@@ -18,7 +18,7 @@ public record Keyframe(
 		return this.timestamp;
 	}
 
-	public Vec3f target() {
+	public Vector3f target() {
 		return this.target;
 	}
 

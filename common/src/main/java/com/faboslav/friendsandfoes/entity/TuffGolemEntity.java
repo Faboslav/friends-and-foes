@@ -28,11 +28,11 @@ import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.tag.BlockTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Hand;
@@ -106,7 +106,6 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		World world
 	) {
 		super(entityType, world);
-		this.stepHeight = 1.0F;
 	}
 
 	@Override
@@ -249,7 +248,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	}
 
 	private void playRepairSound() {
-		this.playSound(this.getRepairSound(), 1.0F, 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F);
+		this.playSound(this.getRepairSound(), 1.0F, 1.0F + (this.getRandom().nextFloat() - this.getRandom().nextFloat()) * 0.2F);
 	}
 
 	public SoundEvent getWakeSound() {
@@ -286,7 +285,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	) {
 		if (
 			this.isInSleepingPose()
-			|| state.getMaterial().isLiquid()
+			|| state.isLiquid()
 		) {
 			return;
 		}
@@ -701,7 +700,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		if (
 			attacker == null
 			|| attacker instanceof LightningEntity
-			|| source == DamageSource.SWEET_BERRY_BUSH
+			|| source == this.getDamageSources().sweetBerryBush()
 		) {
 			return false;
 		}

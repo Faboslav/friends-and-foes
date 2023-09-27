@@ -6,7 +6,6 @@ import com.faboslav.friendsandfoes.api.MoobloomVariants;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesBlocks;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
-import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -201,7 +200,7 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 		PassiveEntity entity
 	) {
 		MoobloomVariant moobloomVariant = this.getVariant();
-		if (RandomGenerator.generateInt(0, 1) == 0) {
+		if (this.getRandom().nextBetween(0, 1) == 0) {
 			moobloomVariant = ((MoobloomEntity) entity).getVariant();
 		}
 
@@ -221,14 +220,20 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 
 		// On average once per five minutes (1/6000)
 		if (this.getRandom().nextFloat() <= 0.00016666666) {
-			Block blockUnderneath = this.getWorld().getBlockState(new BlockPos(this.getX(), this.getY() - 1, this.getZ())).getBlock();
+			Block blockUnderneath = this.getWorld().getBlockState(
+				new BlockPos(
+					(int) this.getX(),
+					(int) this.getY() - 1,
+					(int) this.getZ()
+				)
+			).getBlock();
 
 			if (blockUnderneath == Blocks.GRASS_BLOCK && this.getWorld().isAir(this.getBlockPos())) {
 				Block flower = this.getVariant().getFlower();
 
 				if (MoobloomVariants.getNumberOfVariants() == 1) {
 					// 40% chance buttercup, 40% chance dandelion, 20% chance sunflower
-					int flowerChance = RandomGenerator.generateInt(1, 100);
+					int flowerChance = this.getRandom().nextBetween(1, 100);
 
 					if (flowerChance >= 0 && flowerChance < 40) {
 						this.getWorld().setBlockState(this.getBlockPos(), FriendsAndFoesBlocks.BUTTERCUP.get().getDefaultState());

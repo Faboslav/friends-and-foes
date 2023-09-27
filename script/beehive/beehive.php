@@ -2,6 +2,7 @@
 
 $types = [
 	'birch',
+	'bamboo',
 	'spruce',
 	'jungle',
 	'acacia',
@@ -9,6 +10,7 @@ $types = [
 	'crimson',
 	'warped',
 	'mangrove',
+	'cherry',
 ];
 
 $blocks = [
@@ -30,6 +32,15 @@ $colors = [
 
 		'8a6938',
 		'987e47',
+	],
+	'bamboo' => [
+		'907e3a',
+		'998741',
+		'bba84c',
+		'b7ab49',
+		'c8b14d',
+		'c2b54e',
+		'd3bb50',
 	],
 	'birch' => [
 		'9e8b61',
@@ -103,6 +114,15 @@ $colors = [
 		'7f4234',
 		'8b4d3a',
 	],
+	'cherry' => [
+		'cd8580',
+		'dd9d97',
+		'e1a8a1',
+		'e6b3ad',
+		'e7bab4',
+		'e7c2bb',
+		'e7cac5'
+	]
 ];
 
 foreach ( $types as $type ) {

@@ -33,27 +33,22 @@ dependencies {
 	// Core dependencies
 	modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
 	modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+	
+	// Trinkets
+	modApi("dev.emi:trinkets:${rootProject.trinkets_version}")
 
-	include(implementation(annotationProcessor("com.github.llamalad7.mixinextras:mixinextras-fabric:${rootProject.mixin_extras_version}")))
+	include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${rootProject.mixin_extras_version}")))
 
 	// Config dependencies
-	modImplementation("com.terraformersmc:modmenu:${project.mod_menu_version}") { transitive = false }
-	modImplementation("me.shedaniel.cloth:cloth-config:${rootProject.cloth_config_version}")
-	modImplementation("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}") { transitive = false }
-
-	// Trinkets
-	modImplementation("dev.emi:trinkets:${rootProject.trinkets_version}")
-
-	// Fix for CCA
-	modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${project.cca_version}")
-	modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${project.cca_version}")
+	modApi("com.terraformersmc:modmenu:${project.mod_menu_version}")
+	modApi("me.shedaniel.cloth:cloth-config:${rootProject.cloth_config_version}")
+	modApi("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}")
 
 	// For faster development https://www.cursemaven.com/
+	// https://www.curseforge.com/minecraft/mc-mods/lazydfu/files
 	modRuntimeOnly "curse.maven:lazydfu-433518:3821870"
-	modRuntimeOnly "curse.maven:starlight-521783:3835973"
-	modRuntimeOnly "curse.maven:disablecustomworldsadvice-401978:3827588"
-	modRuntimeOnly "curse.maven:structureessentialsforgefabric-832882:4429721"
-	modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.1.2")
+	//modRuntimeOnly "curse.maven:disablecustomworldsadvice-401978:4444372"
+	// modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.1.2")
 
 	common(project(path: ":common", configuration: "namedElements")) { transitive false }
 	shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
@@ -78,10 +73,10 @@ processResources {
 }
 
 shadowJar {
-	exclude "architectury.common.json"
+    exclude "architectury.common.json"
 
-	configurations = [project.configurations.shadowCommon]
-	archiveClassifier.set("dev-shadow")
+    configurations = [project.configurations.shadowCommon]
+    archiveClassifier.set("dev-shadow")
 }
 
 remapJar {

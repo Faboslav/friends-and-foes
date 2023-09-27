@@ -22,7 +22,7 @@ public abstract class ClientPlayNetworkHandlerMixin
 	private MinecraftClient client;
 
 	@Inject(method = "onGameJoin", at = @At("TAIL"))
-	private void friendsandfoesShowUpdateMessage(GameJoinS2CPacket arg, CallbackInfo ci) {
+	private void friendsandfoes_showUpdateMessage(GameJoinS2CPacket arg, CallbackInfo ci) {
 		if (this.client.player == null) {
 			return;
 		}

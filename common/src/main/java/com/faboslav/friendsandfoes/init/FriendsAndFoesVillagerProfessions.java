@@ -7,8 +7,8 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.item.Items;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.village.TradeOffers;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.poi.PointOfInterestType;
@@ -30,7 +30,9 @@ public final class FriendsAndFoesVillagerProfessions
 			   && (
 				   registryEntry.matchesKey(PointOfInterestTypes.BEEHIVE)
 				   || registryEntry.value() == FriendsAndFoesPointOfInterestTypes.ACACIA_BEEHIVE.get()
+				   || registryEntry.value() == FriendsAndFoesPointOfInterestTypes.BAMBOO_BEEHIVE.get()
 				   || registryEntry.value() == FriendsAndFoesPointOfInterestTypes.BIRCH_BEEHIVE.get()
+				   || registryEntry.value() == FriendsAndFoesPointOfInterestTypes.CHERRY_BEEHIVE.get()
 				   || registryEntry.value() == FriendsAndFoesPointOfInterestTypes.CRIMSON_BEEHIVE.get()
 				   || registryEntry.value() == FriendsAndFoesPointOfInterestTypes.DARK_OAK_BEEHIVE.get()
 				   || registryEntry.value() == FriendsAndFoesPointOfInterestTypes.JUNGLE_BEEHIVE.get()

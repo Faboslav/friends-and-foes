@@ -29,6 +29,7 @@ import net.minecraft.item.ToolItem;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -37,7 +38,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
@@ -117,6 +117,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		BURROWING_DOWN_ANIMATION_PROGRESS = DataTracker.registerData(MaulerEntity.class, TrackedDataHandlerRegistry.FLOAT);
 	}
 
+	@Override
 	protected void initDataTracker() {
 		super.initDataTracker();
 		this.dataTracker.startTracking(TYPE, Type.DESERT.name());
@@ -124,10 +125,11 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		this.dataTracker.startTracking(STORED_EXPERIENCE_POINTS, 0);
 		this.dataTracker.startTracking(IS_MOVING, false);
 		this.dataTracker.startTracking(IS_BURROWED_DOWN, false);
-		this.dataTracker.startTracking(TICKS_UNTIL_NEXT_BURROWING_DOWN, RandomGenerator.generateInt(MIN_TICKS_UNTIL_NEXT_BURROWING, MAX_TICKS_UNTIL_NEXT_BURROWING));
+		this.dataTracker.startTracking(TICKS_UNTIL_NEXT_BURROWING_DOWN, this.getRandom().nextBetween(MIN_TICKS_UNTIL_NEXT_BURROWING, MAX_TICKS_UNTIL_NEXT_BURROWING));
 		this.dataTracker.startTracking(BURROWING_DOWN_ANIMATION_PROGRESS, 0.0F);
 	}
 
+	@Override
 	public void writeCustomDataToNbt(NbtCompound nbt) {
 		super.writeCustomDataToNbt(nbt);
 		this.writeAngerToNbt(nbt);
@@ -137,7 +139,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		nbt.putInt(TICKS_UNTIL_NEXT_BURROWING_DOWN_NBT_NAME, this.getTicksUntilNextBurrowingDown());
 		nbt.putFloat(BURROWING_DOWN_ANIMATION_PROGRESS_NBT_NAME, this.getBurrowingDownAnimationProgress());
 
-		if (this.isBurrowedDown() && this.burrowDownGoal.getBurrowedDownTicks() > 0) {
+		if (this.burrowDownGoal != null && this.isBurrowedDown() && this.burrowDownGoal.getBurrowedDownTicks() > 0) {
 			nbt.putInt(BURROWED_DOWN_TICKS_NBT_NAME, this.burrowDownGoal.getBurrowedDownTicks());
 		}
 	}
@@ -152,7 +154,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		this.setTicksUntilNextBurrowingDown(nbt.getInt(TICKS_UNTIL_NEXT_BURROWING_DOWN_NBT_NAME));
 		this.setBurrowingDownAnimationProgress(nbt.getFloat(BURROWING_DOWN_ANIMATION_PROGRESS_NBT_NAME));
 
-		if (this.isBurrowedDown() && nbt.contains(BURROWED_DOWN_TICKS_NBT_NAME)) {
+		if (this.burrowDownGoal != null && this.isBurrowedDown() && nbt.contains(BURROWED_DOWN_TICKS_NBT_NAME)) {
 			this.burrowDownGoal.setBurrowedDownTicks(nbt.getInt(BURROWED_DOWN_TICKS_NBT_NAME));
 			this.setInvulnerable(true);
 			this.setInvisible(true);
@@ -421,7 +423,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 			return false;
 		}
 
-		return target.damage(DamageSource.mob(this), (float) this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE));
+		return target.damage(this.getDamageSources().mobAttack(this), (float) this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE));
 	}
 
 	public int getAngerTime() {
@@ -433,7 +435,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	}
 
 	public void chooseRandomAngerTime() {
-		int angerTime = RandomGenerator.generateInt(400, 1000);
+		int angerTime = this.getRandom().nextBetween(400, 1000);
 		this.setAngerTime(angerTime);
 	}
 

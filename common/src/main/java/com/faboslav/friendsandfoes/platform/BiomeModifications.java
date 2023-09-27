@@ -3,7 +3,7 @@ package com.faboslav.friendsandfoes.platform;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.tag.TagKey;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.world.biome.Biome;
 
 public final class BiomeModifications

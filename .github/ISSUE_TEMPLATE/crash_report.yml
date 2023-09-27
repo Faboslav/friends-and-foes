@@ -8,14 +8,14 @@ body:
         attributes:
             value: |
                 Thanks for taking the time to fill out this crash report! Anyhow before you take your time answering all of the question please make sure of the following:
-                  - Are you sure that there is not already reported same or similiar crash? You can try to use the [search](https://github.com/Faboslav/friends-and-foes/issues).
+                  - Are you sure that there is not already reported same or similar crash? You can try to use the [search](https://github.com/Faboslav/friends-and-foes/issues).
                   - Are you using the latest version of the mod? You can find the latest version [here](https://github.com/Faboslav/friends-and-foes/releases).
     -   type: input
         id: minecraft-version
         attributes:
             label: 'Minecraft version information'
             description: 'Please provide the exact minecraft version that you are using.'
-            placeholder: 'Example: 1.18-pre5'
+            placeholder: 'Example: 1.19.2'
         validations:
             required: true
     -   type: dropdown
@@ -25,8 +25,9 @@ body:
             description: 'Please choose the mod loader that you are using.'
             options:
                 - Fabric
-                - Forge
                 - Quilt
+                - Forge
+                - NeoForge
         validations:
             required: true
     -   type: input

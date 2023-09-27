@@ -9,7 +9,7 @@ import net.minecraft.structure.processor.StructureProcessorType;
 public final class StructureEntityProcessorTypes
 {
 	@ExpectPlatform
-	public static void postInit() {
+	public static void init() {
 		throw new AssertionError();
 	}
 

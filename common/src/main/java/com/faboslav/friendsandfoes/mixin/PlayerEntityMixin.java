@@ -6,7 +6,6 @@ import com.faboslav.friendsandfoes.init.FriendsAndFoesItems;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.platform.TotemHelper;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
-import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -21,10 +20,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.stat.Stats;
-import net.minecraft.tag.FluidTags;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -183,7 +182,7 @@ public abstract class PlayerEntityMixin extends LivingEntity
 		Vec3d illusionerPosition = this.getPos();
 		float slice = 2.0F * (float) Math.PI / MAX_ILLUSIONS_COUNT;
 		int radius = 9;
-		int randomPoint = RandomGenerator.generateInt(0, MAX_ILLUSIONS_COUNT - 1);
+		int randomPoint = this.getRandom().nextBetween(0, MAX_ILLUSIONS_COUNT - 1);
 
 		ArrayList<PlayerIllusionEntity> createdPlayerIllusions = new ArrayList<>();
 
@@ -258,7 +257,7 @@ public abstract class PlayerEntityMixin extends LivingEntity
 		boolean teleportResult = playerIllusion.tryToTeleport(x, y, z);
 
 		if (teleportResult) {
-			world.spawnEntity(playerIllusion);
+			getWorld().spawnEntity(playerIllusion);
 			playerIllusion.spawnCloudParticles();
 		}
 

@@ -4,7 +4,6 @@ import com.faboslav.friendsandfoes.entity.BlazeEntityAccess;
 import com.faboslav.friendsandfoes.entity.WildfireEntity;
 import com.faboslav.friendsandfoes.entity.ai.brain.WildfireBrain;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
-import com.faboslav.friendsandfoes.util.RandomGenerator;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -12,13 +11,13 @@ import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.LookTargetUtil;
-import net.minecraft.entity.ai.brain.task.Task;
+import net.minecraft.entity.ai.brain.task.MultiTickTask;
 import net.minecraft.entity.mob.BlazeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 
-public final class WildfireSummonBlazeTask extends Task<WildfireEntity>
+public final class WildfireSummonBlazeTask extends MultiTickTask<WildfireEntity>
 {
 	private LivingEntity attackTarget;
 	private int summonedBlazesCount;
@@ -36,7 +35,7 @@ public final class WildfireSummonBlazeTask extends Task<WildfireEntity>
 
 	@Override
 	protected boolean shouldRun(ServerWorld world, WildfireEntity wildfire) {
-		var attackTarget = wildfire.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).orElse(null);
+		var attackTarget = wildfire.getBrain().getOptionalRegisteredMemory(MemoryModuleType.ATTACK_TARGET).orElse(null);
 
 		if (
 			attackTarget == null
@@ -82,7 +81,7 @@ public final class WildfireSummonBlazeTask extends Task<WildfireEntity>
 		LookTargetUtil.lookAt(wildfire, this.attackTarget);
 
 		ServerWorld serverWorld = (ServerWorld) wildfire.getWorld();
-		int blazesToBeSummoned = Math.max(0, RandomGenerator.generateInt(MIN_BLAZES_TO_BE_SUMMONED, MAX_BLAZES_TO_BE_SUMMONED) - wildfire.getSummonedBlazesCount());
+		int blazesToBeSummoned = Math.max(0, wildfire.getRandom().nextBetween(MIN_BLAZES_TO_BE_SUMMONED, MAX_BLAZES_TO_BE_SUMMONED) - wildfire.getSummonedBlazesCount());
 
 		if (blazesToBeSummoned > 0) {
 			wildfire.playSummonBlazeSound();

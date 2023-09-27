@@ -3,7 +3,7 @@ package com.faboslav.friendsandfoes.client.render.entity.animation.animator.cont
 import com.faboslav.friendsandfoes.util.animation.AnimationMath;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.util.math.Vec3f;
+import org.joml.Vector3f;
 
 @Environment(EnvType.CLIENT)
 public final class ModelPartAnimationContext
@@ -12,8 +12,8 @@ public final class ModelPartAnimationContext
 	private final int totalTicks;
 	private int currentTick;
 
-	private final Vec3f targetVector;
-	private final Vec3f currentVector;
+	private final Vector3f targetVector;
+	private Vector3f currentVector;
 
 	private float progress;
 
@@ -21,8 +21,8 @@ public final class ModelPartAnimationContext
 		int initialTick,
 		int totalTicks,
 		float progress,
-		Vec3f targetVector,
-		Vec3f currentVector
+		Vector3f targetVector,
+		Vector3f currentVector
 	) {
 		this.initialTick = initialTick;
 		this.totalTicks = totalTicks;
@@ -35,8 +35,8 @@ public final class ModelPartAnimationContext
 	public static ModelPartAnimationContext createWithTicks(
 		int initialTick,
 		int totalTicks,
-		Vec3f targetVector,
-		Vec3f currentVector
+		Vector3f targetVector,
+		Vector3f currentVector
 	) {
 		return new ModelPartAnimationContext(
 			initialTick,
@@ -49,8 +49,8 @@ public final class ModelPartAnimationContext
 
 	public static ModelPartAnimationContext createWithProgress(
 		float progress,
-		Vec3f targetVector,
-		Vec3f currentVector
+		Vector3f targetVector,
+		Vector3f currentVector
 	) {
 		return new ModelPartAnimationContext(
 			0,
@@ -74,16 +74,16 @@ public final class ModelPartAnimationContext
 		this.progress = progress;
 	}
 
-	public Vec3f getCurrentVector() {
+	public Vector3f getCurrentVector() {
 		return currentVector;
 	}
 
-	public Vec3f getTargetVector() {
+	public Vector3f getTargetVector() {
 		return targetVector;
 	}
 
 	public void recalculateCurrentVector() {
-		this.currentVector.set(
+		this.currentVector = new Vector3f(
 			recalculateCurrentX(),
 			recalculateCurrentY(),
 			recalculateCurrentZ()
@@ -91,20 +91,20 @@ public final class ModelPartAnimationContext
 	}
 
 	private float recalculateCurrentX() {
-		return this.calculateNewValue(this.currentVector.getX(), this.targetVector.getX());
+		return this.calculateNewValue(this.currentVector.x(), this.targetVector.x());
 	}
 
 	private float recalculateCurrentY() {
-		return this.calculateNewValue(this.currentVector.getY(), this.targetVector.getY());
+		return this.calculateNewValue(this.currentVector.y(), this.targetVector.y());
 	}
 
 	private float recalculateCurrentZ() {
-		return this.calculateNewValue(this.currentVector.getZ(), this.targetVector.getZ());
+		return this.calculateNewValue(this.currentVector.z(), this.targetVector.z());
 	}
 
 	private float calculateNewValue(
-		float currentValue,
-		float targetValue
+		double currentValue,
+		double targetValue
 	) {
 		return AnimationMath.lerp(this.progress, currentValue, targetValue);
 	}

@@ -105,6 +105,7 @@ public final class GlareShakeOffGlowBerriesGoal extends MoveToTargetPosGoal
 		}
 
 		CaveVines.pickBerries(
+			this.glare,
 			blockState,
 			this.glare.getWorld(),
 			this.targetPos

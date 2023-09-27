@@ -18,11 +18,11 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -131,13 +131,15 @@ public final class WildfireEntity extends HostileEntity
 
 	@Override
 	protected void playStepSound(BlockPos pos, BlockState state) {
-		if (state.getMaterial().isLiquid()) {
+		if (state.isLiquid()) {
 			return;
 		}
 
 		BlockState blockState = this.getWorld().getBlockState(pos.up());
 		BlockSoundGroup blockSoundGroup = blockState.isIn(BlockTags.INSIDE_STEP_SOUND_BLOCKS) ? blockState.getSoundGroup():state.getSoundGroup();
 		this.playSound(FriendsAndFoesSoundEvents.ENTITY_WILDFIRE_STEP.get(), blockSoundGroup.getVolume() * 0.15F, blockSoundGroup.getPitch());
+
+
 	}
 
 	public SoundEvent getShootSound() {
@@ -255,8 +257,8 @@ public final class WildfireEntity extends HostileEntity
 		}
 
 		if (this.getWorld().isClient()) {
-			if (this.random.nextInt(24) == 0 && !this.isSilent()) {
-				this.getWorld().playSound(this.getX() + 0.5, this.getY() + 0.5, this.getZ() + 0.5, SoundEvents.ENTITY_BLAZE_BURN, this.getSoundCategory(), 1.0F + this.random.nextFloat(), this.random.nextFloat() * 0.7F + 0.3F, false);
+			if (this.getRandom().nextInt(24) == 0 && !this.isSilent()) {
+				this.getWorld().playSound(this.getX() + 0.5, this.getY() + 0.5, this.getZ() + 0.5, SoundEvents.ENTITY_BLAZE_BURN, this.getSoundCategory(), 1.0F + this.getRandom().nextFloat(), this.getRandom().nextFloat() * 0.7F + 0.3F, false);
 			}
 
 			for (int i = 0; i < 2; ++i) {
@@ -275,7 +277,7 @@ public final class WildfireEntity extends HostileEntity
 		Entity attacker = source.getAttacker();
 
 		if (
-			source == DamageSource.IN_FIRE
+			source == this.getDamageSources().inFire()
 			|| attacker == null
 			|| attacker.getType().isIn(FriendsAndFoesTags.WILDFIRE_ALLIES)
 		) {
@@ -287,7 +289,7 @@ public final class WildfireEntity extends HostileEntity
 			float shieldBreakDamageThreshold = (float) this.getAttributeValue(EntityAttributes.GENERIC_MAX_HEALTH) * 0.25F;
 
 			if (this.damageAmountCounter >= shieldBreakDamageThreshold) {
-				attacker.damage(DamageSource.mob(this), GENERIC_ATTACK_DAMAGE);
+				attacker.damage(this.getDamageSources().mobAttack(this), GENERIC_ATTACK_DAMAGE);
 				this.breakShield();
 				this.playShieldBreakSound();
 				this.damageAmountCounter = 0;

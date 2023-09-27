@@ -60,7 +60,7 @@ public final class BeekeeperWorkTask extends VillagerWorkTask
 
 	@Nullable
 	private GlobalPos getBeehiveGlobalPos(VillagerEntity entity) {
-		return entity.getBrain().getOptionalMemory(MemoryModuleType.JOB_SITE).orElse(null);
+		return entity.getBrain().getOptionalRegisteredMemory(MemoryModuleType.JOB_SITE).orElse(null);
 	}
 
 	private boolean canHarvestHoney(BlockState beehiveBlockState) {

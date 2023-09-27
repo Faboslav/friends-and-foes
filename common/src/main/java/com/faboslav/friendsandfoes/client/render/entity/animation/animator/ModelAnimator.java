@@ -14,7 +14,7 @@ import net.minecraft.client.render.entity.model.SinglePartEntityModel;
 import net.minecraft.entity.AnimationState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3f;
+import org.joml.Vector3f;
 
 import java.util.Iterator;
 import java.util.List;
@@ -39,7 +39,7 @@ public final class ModelAnimator
 
 		animationState.update(animationProgress, 1.0F);
 		animationState.run((state) -> {
-			animateKeyframe(animatedEntityModel, animation, state.getTimeRunning(), 1.0F, new Vec3f());
+			animateKeyframe(animatedEntityModel, animation, state.getTimeRunning(), 1.0F, new Vector3f());
 		});
 	}
 
@@ -48,7 +48,7 @@ public final class ModelAnimator
 		Animation animation,
 		long runningTime,
 		float f,
-		Vec3f vec3f
+		Vector3f vec3f
 	) {
 		float g = getRunningSeconds(animation, runningTime);
 		Iterator var7 = animation.boneAnimations().entrySet().iterator();
@@ -145,7 +145,7 @@ public final class ModelAnimator
 		float targetZ,
 		float progress
 	) {
-		Vec3f targetVector = new Vec3f(targetX, targetY, targetZ);
+		Vector3f targetVector = new Vector3f(targetX, targetY, targetZ);
 		animateWithProgress(
 			animatedEntity,
 			modelPart,
@@ -211,7 +211,7 @@ public final class ModelAnimator
 		float targetZ,
 		float progress
 	) {
-		Vec3f targetVector = new Vec3f(targetX, targetY, targetZ);
+		Vector3f targetVector = new Vector3f(targetX, targetY, targetZ);
 		animateWithProgress(
 			animatedEntity,
 			modelPart,
@@ -225,14 +225,14 @@ public final class ModelAnimator
 		AnimatedEntity animatedEntity,
 		ModelPart modelPart,
 		ModelPartAnimationType animationType,
-		Vec3f targetVector,
+		Vector3f targetVector,
 		float progress
 	) {
 		AnimationContextTracker animationContextTracker = animatedEntity.getAnimationContextTracker();
 		String modelPartName = modelPart.toString();
 		ModelPartAnimationContext animationContext;
-		Vec3f animationCurrentVector;
-		Vec3f animationTargetVector;
+		Vector3f animationCurrentVector;
+		Vector3f animationTargetVector;
 
 		if (animationContextTracker.contains(modelPartName, animationType)) {
 			animationContext = animationContextTracker.get(modelPartName, animationType);
@@ -250,8 +250,8 @@ public final class ModelAnimator
 			}
 		} else {
 			animationCurrentVector = switch (animationType) {
-				case POSITION -> new Vec3f(modelPart.pivotX, modelPart.pivotY, modelPart.pivotZ);
-				case ROTATION -> new Vec3f(modelPart.pitch, modelPart.yaw, modelPart.roll);
+				case POSITION -> new Vector3f(modelPart.pivotX, modelPart.pivotY, modelPart.pivotZ);
+				case ROTATION -> new Vector3f(modelPart.pitch, modelPart.yaw, modelPart.roll);
 			};
 
 			animationContext = ModelPartAnimationContext.createWithProgress(
@@ -328,7 +328,7 @@ public final class ModelAnimator
 		float targetZ,
 		int ticks
 	) {
-		Vec3f targetVector = new Vec3f(targetX, targetY, targetZ);
+		Vector3f targetVector = new Vector3f(targetX, targetY, targetZ);
 		animateModelPartBasedOnTicks(
 			animatedEntity,
 			modelPart,
@@ -394,7 +394,7 @@ public final class ModelAnimator
 		float targetZ,
 		int ticks
 	) {
-		Vec3f targetVector = new Vec3f(targetX, targetY, targetZ);
+		Vector3f targetVector = new Vector3f(targetX, targetY, targetZ);
 		animateModelPartBasedOnTicks(
 			animatedEntity,
 			modelPart,
@@ -408,7 +408,7 @@ public final class ModelAnimator
 		AnimatedEntity animatedEntity,
 		ModelPart modelPart,
 		ModelPartAnimationType animationType,
-		Vec3f targetVector,
+		Vector3f targetVector,
 		int ticks
 	) {
 		AnimationContextTracker animationContextTracker = animatedEntity.getAnimationContextTracker();
@@ -416,8 +416,8 @@ public final class ModelAnimator
 
 		String modelPartName = modelPart.toString();
 		ModelPartAnimationContext animationContext;
-		Vec3f currentVector;
-		Vec3f animationTargetVector;
+		Vector3f currentVector;
+		Vector3f animationTargetVector;
 
 		if (animationContextTracker.contains(modelPartName, animationType)) {
 			animationContext = animationContextTracker.get(modelPartName, animationType);
@@ -446,8 +446,8 @@ public final class ModelAnimator
 			}
 		} else {
 			currentVector = switch (animationType) {
-				case POSITION -> new Vec3f(modelPart.pivotX, modelPart.pivotY, modelPart.pivotZ);
-				case ROTATION -> new Vec3f(modelPart.pitch, modelPart.yaw, modelPart.roll);
+				case POSITION -> new Vector3f(modelPart.pivotX, modelPart.pivotY, modelPart.pivotZ);
+				case ROTATION -> new Vector3f(modelPart.pitch, modelPart.yaw, modelPart.roll);
 			};
 
 			animationContext = ModelPartAnimationContext.createWithTicks(

@@ -10,10 +10,9 @@ import net.minecraft.block.pattern.BlockPattern;
 import net.minecraft.block.pattern.BlockPatternBuilder;
 import net.minecraft.block.pattern.CachedBlockPosition;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.item.Wearable;
 import net.minecraft.predicate.block.BlockStatePredicate;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
@@ -29,11 +28,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.function.Predicate;
 
 @Mixin(CarvedPumpkinBlock.class)
-public abstract class CarvedPumpkinBlockMixin extends HorizontalFacingBlock implements Wearable
+public abstract class CarvedPumpkinBlockMixin extends HorizontalFacingBlock
 {
 	@Nullable
 	private BlockPattern friendsandfoes_copperGolemDispenserPattern;
-
 
 	@Nullable
 	private BlockPattern friendsandfoes_tuffGolemDispenserPattern;
@@ -47,7 +45,7 @@ public abstract class CarvedPumpkinBlockMixin extends HorizontalFacingBlock impl
 	);
 
 	private static final Predicate<BlockState> IS_TUFF_GOLEM_WOOL_PREDICATE = state -> state != null && (
-		state.getMaterial() == Material.WOOL && state.getSoundGroup() == BlockSoundGroup.WOOL
+		state.isIn(BlockTags.WOOL)
 	);
 
 	protected CarvedPumpkinBlockMixin(Settings settings) {

@@ -114,7 +114,7 @@ public final class GlareEatGlowBerriesGoal extends Goal
 
 	@Nullable
 	private ItemEntity getFoodItemToPickUp() {
-		List<ItemEntity> foodItemsToPickUp = this.glare.world.getEntitiesByClass(
+		List<ItemEntity> foodItemsToPickUp = this.glare.getWorld().getEntitiesByClass(
 			ItemEntity.class,
 			this.glare.getBoundingBox().expand(8.0D, 8.0D, 8.0D),
 			IS_PICKABLE_FOOD

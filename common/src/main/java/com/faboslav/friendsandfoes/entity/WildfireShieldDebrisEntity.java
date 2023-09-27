@@ -47,7 +47,7 @@ public final class WildfireShieldDebrisEntity extends AbstractFireballEntity
 		int i = target.getFireTicks();
 		target.setOnFireFor(5);
 
-		if (target.damage(DamageSource.fireball(this, wildfire), 5.0F) == false) {
+		if (target.damage(this.getDamageSources().fireball(this, wildfire), 5.0F) == false) {
 			target.setFireTicks(i);
 		} else if (wildfire instanceof LivingEntity) {
 			this.applyDamageEffects((LivingEntity) wildfire, target);
@@ -100,7 +100,7 @@ public final class WildfireShieldDebrisEntity extends AbstractFireballEntity
 
 	private void playImpactSound() {
 		SoundEvent soundEvent = this.getImpactSound();
-		this.playSound(soundEvent, 1.0F, RandomGenerator.generateFloat(0.95F, 1.05F));
+		this.playSound(soundEvent, 1.0F, 0.95F +  RandomGenerator.generateFloat(0.95F, 1.05F));
 	}
 }
 

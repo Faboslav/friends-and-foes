@@ -11,7 +11,8 @@
 		"homepage": "https://github.com/Faboslav/friends-and-foes",
 		"sources": "https://github.com/Faboslav/friends-and-foes",
 		"issues": "https://github.com/Faboslav/friends-and-foes/issues",
-		"wiki": "https://github.com/Faboslav/friends-and-foes/wiki"
+		"wiki": "https://github.com/Faboslav/friends-and-foes/wiki",
+		"discord": "https://discord.com/invite/QGwFvvMQCn"
 	},
 	"license": "CC-BY-NC-ND-4.0",
 	"icon": "icon.jpg",
@@ -39,7 +40,7 @@
 	],
 	"depends": {
 		"java": ">=17",
-		"minecraft": ">=1.19",
+		"minecraft": ">=1.20",
 		"fabric": "*",
 		"fabricloader": "*"
 	},

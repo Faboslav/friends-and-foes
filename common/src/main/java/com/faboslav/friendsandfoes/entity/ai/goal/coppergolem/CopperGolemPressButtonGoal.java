@@ -3,7 +3,6 @@ package com.faboslav.friendsandfoes.entity.ai.goal.coppergolem;
 import com.faboslav.friendsandfoes.block.CopperButtonBlock;
 import com.faboslav.friendsandfoes.entity.CopperGolemEntity;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
-import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.entity.ai.goal.Goal;
@@ -102,8 +101,8 @@ public final class CopperGolemPressButtonGoal extends Goal
 		this.copperButtonWasSuccessfullyPressed = false;
 		int minIdleTicks = 20;
 		int maxIdleTicks = 40;
-		this.idleTicksBeforeButtonPress = RandomGenerator.generateInt(minIdleTicks, maxIdleTicks);
-		this.idleTicksAfterButtonPress = RandomGenerator.generateInt(minIdleTicks, maxIdleTicks);
+		this.idleTicksBeforeButtonPress = this.copperGolem.getRandom().nextBetween(minIdleTicks, maxIdleTicks);
+		this.idleTicksAfterButtonPress = this.copperGolem.getRandom().nextBetween(minIdleTicks, maxIdleTicks);
 	}
 
 	@Override
@@ -124,7 +123,7 @@ public final class CopperGolemPressButtonGoal extends Goal
 		}
 
 		int maxCooldownTicks = minCooldownTicks + CopperGolemEntity.MIN_TICKS_UNTIL_CAN_PRESS_BUTTON;
-		int cooldown = RandomGenerator.generateInt(minCooldownTicks, maxCooldownTicks);
+		int cooldown = this.copperGolem.getRandom().nextBetween(minCooldownTicks, maxCooldownTicks);
 		this.copperGolem.setTicksUntilCanPressButton(cooldown);
 	}
 
@@ -258,7 +257,7 @@ public final class CopperGolemPressButtonGoal extends Goal
 			return null;
 		}
 
-		int randomCopperButtonIndex = RandomGenerator.generateInt(0, copperButtonsCount - 1);
+		int randomCopperButtonIndex = this.copperGolem.getRandom().nextBetween(0, copperButtonsCount - 1);
 
 		return copperButtons.get(randomCopperButtonIndex);
 	}
@@ -320,10 +319,6 @@ public final class CopperGolemPressButtonGoal extends Goal
 				) {
 					positionToStandOn = copperButtonToPress;
 				}
-		}
-
-		if (positionToStandOn != null) {
-			positionToStandOn = positionToStandOn.add(0.5, 0, 0.5);
 		}
 
 		this.positionToStandOn = positionToStandOn;

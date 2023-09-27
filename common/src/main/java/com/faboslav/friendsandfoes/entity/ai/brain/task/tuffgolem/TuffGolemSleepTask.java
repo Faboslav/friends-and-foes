@@ -6,10 +6,10 @@ import com.faboslav.friendsandfoes.entity.pose.TuffGolemEntityPose;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
-import net.minecraft.entity.ai.brain.task.Task;
+import net.minecraft.entity.ai.brain.task.MultiTickTask;
 import net.minecraft.server.world.ServerWorld;
 
-public final class TuffGolemSleepTask extends Task<TuffGolemEntity>
+public final class TuffGolemSleepTask extends MultiTickTask<TuffGolemEntity>
 {
 	private final static int MIN_TICKS_TO_SLEEP = 2400;
 	private final static int MAX_TICKS_TO_SLEEP = 4800;

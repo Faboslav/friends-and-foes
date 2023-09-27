@@ -57,8 +57,8 @@ public abstract class TemptGoalMixin
 	}
 
 	private boolean friendsandfoes_canStartWithReturn() {
-		this.closestTuffGolem = this.mob.world.getClosestEntity(
-			this.mob.world.getEntitiesByClass(
+		this.closestTuffGolem = this.mob.getWorld().getClosestEntity(
+			this.mob.getWorld().getEntitiesByClass(
 				TuffGolemEntity.class,
 				this.mob.getBoundingBox().expand(16.0F, 3.0D, 16.0F), (livingEntity) -> {
 					return true;

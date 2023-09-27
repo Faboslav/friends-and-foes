@@ -3,8 +3,9 @@ package com.faboslav.friendsandfoes.init;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.platform.RegistryHelper;
 import net.minecraft.block.Block;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.world.poi.PointOfInterestType;
 import net.minecraft.world.poi.PointOfInterestTypes;
 
@@ -19,7 +20,9 @@ public final class FriendsAndFoesPointOfInterestTypes
 	private static final HashMap<String, Supplier<PointOfInterestType>> REGISTERED_POINT_OF_INTEREST_TYPES;
 
 	public final static Supplier<PointOfInterestType> ACACIA_BEEHIVE;
+	public final static Supplier<PointOfInterestType> BAMBOO_BEEHIVE;
 	public final static Supplier<PointOfInterestType> BIRCH_BEEHIVE;
+	public final static Supplier<PointOfInterestType> CHERRY_BEEHIVE;
 	public final static Supplier<PointOfInterestType> CRIMSON_BEEHIVE;
 	public final static Supplier<PointOfInterestType> DARK_OAK_BEEHIVE;
 	public final static Supplier<PointOfInterestType> JUNGLE_BEEHIVE;
@@ -37,7 +40,9 @@ public final class FriendsAndFoesPointOfInterestTypes
 	static {
 		REGISTERED_POINT_OF_INTEREST_TYPES = new HashMap<>();
 		ACACIA_BEEHIVE = registerPointOfInterest("acacia_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.ACACIA_BEEHIVE.get()), 1, 1));
+		BAMBOO_BEEHIVE = registerPointOfInterest("bamboo_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.BAMBOO_BEEHIVE.get()), 1, 1));
 		BIRCH_BEEHIVE = registerPointOfInterest("birch_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.BIRCH_BEEHIVE.get()), 1, 1));
+		CHERRY_BEEHIVE = registerPointOfInterest("cherry_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.CHERRY_BEEHIVE.get()), 1, 1));
 		CRIMSON_BEEHIVE = registerPointOfInterest("crimson_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.CRIMSON_BEEHIVE.get()), 1, 1));
 		DARK_OAK_BEEHIVE = registerPointOfInterest("dark_oak_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.DARK_OAK_BEEHIVE.get()), 1, 1));
 		JUNGLE_BEEHIVE = registerPointOfInterest("jungle_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.JUNGLE_BEEHIVE.get()), 1, 1));
@@ -79,13 +84,12 @@ public final class FriendsAndFoesPointOfInterestTypes
 		Block pointOfInterestBlock
 	) {
 		var blockStates = PointOfInterestTypes.getStatesOfBlock(pointOfInterestBlock);
-		PointOfInterestTypes.POI_STATES.addAll(blockStates);
 		blockStates.forEach((state) -> {
 			PointOfInterestTypes.POI_STATES_TO_TYPE.put(
 				state,
-				Registry.POINT_OF_INTEREST_TYPE.getEntry(
+				Registries.POINT_OF_INTEREST_TYPE.getEntry(
 					RegistryKey.of(
-						Registry.POINT_OF_INTEREST_TYPE_KEY, FriendsAndFoes.makeID(name)
+						RegistryKeys.POINT_OF_INTEREST_TYPE, FriendsAndFoes.makeID(name)
 					)
 				).get()
 			);

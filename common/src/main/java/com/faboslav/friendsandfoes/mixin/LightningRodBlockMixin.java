@@ -34,7 +34,7 @@ public abstract class LightningRodBlockMixin extends RodBlock implements Oxidiza
 	}
 
 	@Inject(method = "onBlockAdded", at = @At("HEAD"))
-	private void friendsandfoes_customOnBlockAdded(
+	private void friendsandfoes_onBlockAdded(
 		BlockState state,
 		World world,
 		BlockPos pos,
@@ -182,12 +182,11 @@ public abstract class LightningRodBlockMixin extends RodBlock implements Oxidiza
 		BlockPos pos,
 		Random random
 	) {
-		super.randomTick(state, world, pos, random);
 		this.tickDegradation(state, world, pos, random);
 	}
 
 	@Override
 	public boolean hasRandomTicks(BlockState state) {
-		return Oxidizable.getIncreasedOxidationBlock(state.getBlock()).isPresent();
+		return true;
 	}
 }

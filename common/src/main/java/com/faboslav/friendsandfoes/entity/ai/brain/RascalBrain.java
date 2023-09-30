@@ -161,7 +161,7 @@ public final class RascalBrain
 			MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
 			FriendsAndFoesMemoryModuleTypes.RASCAL_NOD_COOLDOWN.get()
 		);
-		NOD_COOLDOWN_PROVIDER = TimeHelper.betweenSeconds(30, 40);
+		NOD_COOLDOWN_PROVIDER = TimeHelper.betweenSeconds(25, 30);
 		AVOID_MEMORY_DURATION = TimeHelper.betweenSeconds(20, 30);
 	}
 }

@@ -193,14 +193,14 @@
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.rascal.ambient"
 	},
-	"entity.rascal.approve": {
+	"entity.rascal.nod": {
 		"sounds": [
-			"friendsandfoes:entity/rascal/approve1",
-			"friendsandfoes:entity/rascal/approve2",
-			"friendsandfoes:entity/rascal/approve3",
-			"friendsandfoes:entity/rascal/approve4"
+			"friendsandfoes:entity/rascal/nod1",
+			"friendsandfoes:entity/rascal/nod2",
+			"friendsandfoes:entity/rascal/nod3",
+			"friendsandfoes:entity/rascal/nod4"
 		],
-		"subtitle": "subtitle.entity.friendsandfoes.rascal.approve"
+		"subtitle": "subtitle.entity.friendsandfoes.rascal.nod"
 	},
 	"entity.rascal.hurt": {
 		"sounds": [

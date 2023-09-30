@@ -43,7 +43,7 @@ public final class IceologerSpawner implements Spawner
 		if (
 			l < 5L
 			|| world.isDay() == false
-			||  random.nextBetween(0, 1) != 0
+			|| random.nextBetween(0, 1) != 0
 		) {
 			return 0;
 		}

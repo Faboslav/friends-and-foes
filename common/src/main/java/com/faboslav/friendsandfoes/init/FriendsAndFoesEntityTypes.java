@@ -3,7 +3,6 @@ package com.faboslav.friendsandfoes.init;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.api.MoobloomVariants;
 import com.faboslav.friendsandfoes.client.render.entity.renderer.WildfireEntityRenderer;
-import com.faboslav.friendsandfoes.config.annotation.Description;
 import com.faboslav.friendsandfoes.entity.*;
 import com.faboslav.friendsandfoes.mixin.SpawnRestrictionAccessor;
 import com.faboslav.friendsandfoes.platform.BiomeModifications;
@@ -15,14 +14,7 @@ import net.minecraft.block.PlantBlock;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.SpawnRestriction;
-import net.minecraft.tag.BiomeTags;
-import net.minecraft.tag.StructureTags;
-import net.minecraft.tag.TagKey;
-import net.minecraft.util.registry.BuiltinRegistries;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Heightmap;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.structure.Structure;
 
 import java.util.function.Supplier;
 
@@ -107,7 +99,7 @@ public final class FriendsAndFoesEntityTypes
 			BiomeModifications.addMobSpawn(FriendsAndFoesTags.HAS_MORE_MOOBLOOMS, MOOBLOOM.get(), SpawnGroup.CREATURE, config.moobloomMeadowSpawnWeight, config.moobloomMeadowSpawnMinGroupSize, config.moobloomMeadowSpawnMaxGroupSize);
 		}
 
-		if(config.enableRascal && config.enableRascalSpawn) {
+		if (config.enableRascal && config.enableRascalSpawn) {
 			BiomeModifications.addMobSpawn(FriendsAndFoesTags.HAS_RASCAL, RASCAL.get(), CustomSpawnGroup.getRascalsCategory(), 4, 1, 1);
 		}
 	}

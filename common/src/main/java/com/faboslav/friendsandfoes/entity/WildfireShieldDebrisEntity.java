@@ -100,7 +100,7 @@ public final class WildfireShieldDebrisEntity extends AbstractFireballEntity
 
 	private void playImpactSound() {
 		SoundEvent soundEvent = this.getImpactSound();
-		this.playSound(soundEvent, 1.0F, 0.95F +  RandomGenerator.generateFloat(0.95F, 1.05F));
+		this.playSound(soundEvent, 1.0F, 0.95F + RandomGenerator.generateFloat(0.95F, 1.05F));
 	}
 }
 

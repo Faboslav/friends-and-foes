@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.mixin.fabric;
+package com.faboslav.friendsandfoes.mixin;
 
 import com.faboslav.friendsandfoes.entity.pose.TuffGolemEntityPose;
 import net.minecraft.entity.EntityPose;

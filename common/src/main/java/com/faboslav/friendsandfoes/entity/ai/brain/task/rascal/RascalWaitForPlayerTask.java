@@ -18,6 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 
 public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
@@ -71,10 +72,20 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 	protected void run(ServerWorld world, RascalEntity rascal, long time) {
 		FriendsAndFoesCriteria.COMPLETE_HIDE_AND_SEEK_GAME.trigger((ServerPlayerEntity) this.nearestTarget, rascal);
 		rascal.getBrain().forget(MemoryModuleType.WALK_TARGET);
+		rascal.getNavigation().setSpeed(0);
 		rascal.getNavigation().stop();
+		rascal.getNavigation().tick();
+		rascal.getMoveControl().tick();
+
+		rascal.setMovementSpeed(0.0F);
+		rascal.prevHorizontalSpeed = 0.0F;
+		rascal.horizontalSpeed = 0.0F;
+		rascal.sidewaysSpeed = 0.0F;
+		rascal.upwardSpeed = 0.0F;
 
 		LookTargetUtil.lookAt(rascal, this.nearestTarget);
 		rascal.getLookControl().lookAt(this.nearestTarget);
+		rascal.getLookControl().tick();
 
 		this.nodTicks = 0;
 		rascal.addToCaughtCount();
@@ -87,7 +98,7 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 
 	@Override
 	protected void keepRunning(ServerWorld world, RascalEntity rascal, long time) {
-		rascal.getLookControl().lookAt(this.nearestTarget);
+		//rascal.getLookControl().lookAt(this.nearestTarget);
 		rascal.playNodSound();
 
 		if (nodTicks == 30) {

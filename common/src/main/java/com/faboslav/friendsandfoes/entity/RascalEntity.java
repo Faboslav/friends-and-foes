@@ -3,14 +3,18 @@ package com.faboslav.friendsandfoes.entity;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.animation.KeyframeAnimation;
 import com.faboslav.friendsandfoes.client.render.entity.animation.RascalAnimations;
+import com.faboslav.friendsandfoes.client.render.entity.animation.TuffGolemAnimations;
 import com.faboslav.friendsandfoes.client.render.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.entity.ai.brain.RascalBrain;
 import com.faboslav.friendsandfoes.entity.animation.AnimatedEntity;
+import com.faboslav.friendsandfoes.entity.pose.RascalEntityPose;
+import com.faboslav.friendsandfoes.entity.pose.TuffGolemEntityPose;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.brain.Brain;
@@ -40,7 +44,8 @@ import org.jetbrains.annotations.Nullable;
 public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 {
 	private AnimationContextTracker animationContextTracker;
-
+	private static final TrackedData<Integer> POSE_TICKS;
+	private static final String POSE_NBT_NAME = "Pose";
 	private static final TrackedData<Integer> CAUGHT_COUNT;
 
 	public RascalEntity(EntityType<? extends PassiveEntity> entityType, World world) {
@@ -91,6 +96,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 	@Override
 	protected void initDataTracker() {
 		super.initDataTracker();
+		this.dataTracker.startTracking(POSE_TICKS, 0);
 		this.dataTracker.startTracking(CAUGHT_COUNT, 0);
 	}
 
@@ -136,7 +142,71 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 			this.discard();
 		}
 
+		if (this.getWorld().isClient() == false && this.isAnyKeyframeAnimationRunning()) {
+			this.setKeyframeAnimationTicks(this.getKeyframeAnimationTicks() - 1);
+		}
+
+		KeyframeAnimation keyframeAnimationToStart = this.getKeyframeAnimationByPose();
+
+		if (
+			keyframeAnimationToStart != null
+			&& this.isKeyframeAnimationRunning(keyframeAnimationToStart) == false
+		) {
+			if (this.getWorld().isClient() == false) {
+				this.setKeyframeAnimationTicks(keyframeAnimationToStart.getAnimationLengthInTicks());
+			}
+
+			this.startKeyframeAnimation(keyframeAnimationToStart);
+		}
+
 		super.tick();
+	}
+
+	@Nullable
+	private KeyframeAnimation getKeyframeAnimationByPose() {
+		KeyframeAnimation keyframeAnimation = null;
+
+		if (this.isInPose(RascalEntityPose.NOD)) {
+			keyframeAnimation = RascalAnimations.NOD;
+		} else if(this.isInPose(RascalEntityPose.GIVE_REWARD)) {
+			keyframeAnimation = RascalAnimations.GIVE_REWARD;
+		}
+
+		return keyframeAnimation;
+	}
+
+	private void startKeyframeAnimation(KeyframeAnimation keyframeAnimationToStart) {
+		for (KeyframeAnimation keyframeAnimation : TuffGolemAnimations.ANIMATIONS) {
+			if (keyframeAnimation == keyframeAnimationToStart) {
+				continue;
+			}
+
+			this.stopKeyframeAnimation(keyframeAnimation);
+		}
+
+		this.startKeyframeAnimation(keyframeAnimationToStart, this.age);
+	}
+
+
+	@Override
+	public void setPose(EntityPose pose) {
+		if (this.getWorld().isClient()) {
+			return;
+		}
+
+		super.setPose(pose);
+	}
+
+	public void setPose(RascalEntityPose pose) {
+		if (this.getWorld().isClient()) {
+			return;
+		}
+
+		super.setPose(pose.get());
+	}
+
+	public boolean isInPose(RascalEntityPose pose) {
+		return this.getPose() == pose.get();
 	}
 
 	@Override
@@ -271,6 +341,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 	}
 
 	static {
+		POSE_TICKS = DataTracker.registerData(RascalEntity.class, TrackedDataHandlerRegistry.INTEGER);
 		CAUGHT_COUNT = DataTracker.registerData(RascalEntity.class, TrackedDataHandlerRegistry.INTEGER);
 	}
 }

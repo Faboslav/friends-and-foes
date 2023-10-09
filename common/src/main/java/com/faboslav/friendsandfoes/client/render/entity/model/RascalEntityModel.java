@@ -58,28 +58,28 @@ public final class RascalEntityModel<T extends RascalEntity> extends AnimatedEnt
 
 	@Override
 	public void animateModel(
-		T radcal,
+		T rascal,
 		float limbAngle,
 		float limbDistance,
 		float tickDelta
 	) {
-		this.updateAnimations(radcal, limbAngle, limbDistance);
+		this.updateAnimations(rascal, limbAngle, limbDistance);
 	}
 
 	@Override
 	public void setAngles(
-		T radcal,
+		T rascal,
 		float limbAngle,
 		float limbDistance,
 		float animationProgress,
 		float headYaw,
 		float headPitch
 	) {
-		this.updateKeyframeAnimations(radcal, animationProgress);
+		this.updateKeyframeAnimations(rascal, animationProgress);
 	}
 
 	private void updateAnimations(
-		T radcal,
+		T rascal,
 		float limbAngle,
 		float limbDistance
 	) {
@@ -94,11 +94,11 @@ public final class RascalEntityModel<T extends RascalEntity> extends AnimatedEnt
 	}
 
 	private void updateKeyframeAnimations(
-		T radcal,
+		T rascal,
 		float animationProgress
 	) {
 		RascalAnimations.ANIMATIONS.forEach((keyframeAnimation -> {
-			ModelAnimator.updateKeyframeAnimations(radcal, this, keyframeAnimation, animationProgress);
+			ModelAnimator.updateKeyframeAnimations(rascal, this, keyframeAnimation, animationProgress);
 		}));
 	}
 }

@@ -1,11 +1,12 @@
 package com.faboslav.friendsandfoes.entity.ai.brain.task.rascal;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.RascalEntity;
 import com.faboslav.friendsandfoes.entity.ai.brain.RascalBrain;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesCriteria;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
 import com.google.common.collect.ImmutableMap;
-import net.minecraft.enchantment.EnchantmentHelper;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
@@ -15,15 +16,18 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.loot.LootManager;
+import net.minecraft.loot.LootTable;
+import net.minecraft.loot.context.LootContextParameterSet;
+import net.minecraft.loot.context.LootContextParameters;
+import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.random.Random;
 
 public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 {
-	private final static int NOD_DURATION = 60;
+	private final static int NOD_DURATION = 90;
 	public final static float NOD_RANGE = 3.0F;
 
 	private int nodTicks;
@@ -39,6 +43,10 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 
 	@Override
 	protected boolean shouldRun(ServerWorld world, RascalEntity rascal) {
+		if (rascal.hasCustomName()) {
+			return false;
+		}
+
 		LivingEntity nearestTarget = rascal.getBrain().getOptionalRegisteredMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER).orElse(null);
 
 		if (nearestTarget == null) {
@@ -89,6 +97,7 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 
 		this.nodTicks = 0;
 		rascal.addToCaughtCount();
+		rascal.disableAmbientSounds();
 	}
 
 	@Override
@@ -98,22 +107,32 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 
 	@Override
 	protected void keepRunning(ServerWorld world, RascalEntity rascal, long time) {
-		//rascal.getLookControl().lookAt(this.nearestTarget);
-		rascal.playNodSound();
+		if (nodTicks == 20) {
+			rascal.startNodAnimation();
+			rascal.getLookControl().lookAt(this.nearestTarget);
+		}
 
-		if (nodTicks == 30) {
-			if (rascal.shouldGiveReward()) {
-				rascal.playRewardSound();
-				Random random = rascal.getRandom();
-				ItemStack itemStack = Items.IRON_PICKAXE.getDefaultStack();
-				ItemStack enchantedItemStack = EnchantmentHelper.enchant(
-					random,
-					itemStack,
-					rascal.getRandom().nextBetween(15, 19),
-					true
+		if (nodTicks == 40 && rascal.shouldGiveReward()) {
+			rascal.startGiveRewardAnimation();
+		}
+
+		if (nodTicks == 62 && rascal.shouldGiveReward()) {
+			Vec3d targetPos = nearestTarget.getPos().add(0.0, 1.0, 0.0);
+			LootManager lootManager = world.getServer().getLootManager();
+
+			if (lootManager != null) {
+				LootTable rascalGoodItemsLootTable = lootManager.getLootTable(
+					FriendsAndFoes.makeID("rewards/rascal_good_reward")
 				);
+				LootContextParameterSet lootContextParameterSet = new LootContextParameterSet.Builder(world)
+					.add(LootContextParameters.ORIGIN, targetPos)
+					.add(LootContextParameters.THIS_ENTITY, this.nearestTarget)
+					.build(LootContextTypes.GIFT);
+				ObjectArrayList<ItemStack> rascalGoodRewards = rascalGoodItemsLootTable.generateLoot(lootContextParameterSet);
 
-				LookTargetUtil.give(rascal, enchantedItemStack, nearestTarget.getPos().add(0.0, 1.0, 0.0));
+				for (ItemStack rascalReward : rascalGoodRewards) {
+					LookTargetUtil.give(rascal, rascalReward, nearestTarget.getPos().add(0.0, 1.0, 0.0));
+				}
 			}
 		}
 
@@ -122,14 +141,16 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 
 	@Override
 	protected void finishRunning(ServerWorld world, RascalEntity rascal, long time) {
-		if (rascal.shouldGiveReward() && rascal.hasCustomName() == false) {
-			rascal.spawnCloudParticles();
+		rascal.spawnCloudParticles();
+
+		if (rascal.shouldGiveReward()) {
 			rascal.playAmbientSound();
 			rascal.discard();
+			return;
 		}
 
-		rascal.spawnCloudParticles();
 		rascal.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 400));
 		RascalBrain.setNodCooldown(rascal);
+		rascal.enableAmbientSounds();
 	}
 }

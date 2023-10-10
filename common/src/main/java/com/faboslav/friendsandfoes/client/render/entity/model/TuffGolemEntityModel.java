@@ -105,13 +105,4 @@ public final class TuffGolemEntityModel<T extends TuffGolemEntity> extends Anima
 			this.rightArm.pitch = (-0.2F - 2.0F * MathHelper.wrap(limbAngle, 13.0F)) * limbDistance;
 		}
 	}
-
-	private void updateKeyframeAnimations(
-		T tuffGolem,
-		float animationProgress
-	) {
-		TuffGolemAnimations.ANIMATIONS.forEach((keyframeAnimation -> {
-			ModelAnimator.updateKeyframeAnimations(tuffGolem, this, keyframeAnimation, animationProgress);
-		}));
-	}
 }

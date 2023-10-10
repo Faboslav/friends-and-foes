@@ -9,15 +9,16 @@ import java.util.ArrayList;
 
 public final class RascalAnimations
 {
+	public static final KeyframeAnimation DEFAULT;
 	public static final KeyframeAnimation NOD;
 	public static final KeyframeAnimation GIVE_REWARD;
-
 	public static final ArrayList<KeyframeAnimation> ANIMATIONS;
 
 	public RascalAnimations() {
 	}
 
 	static {
+		DEFAULT = new KeyframeAnimation("default", Animation.Builder.create(0.0f).build());
 		NOD = new KeyframeAnimation("nod", Animation.Builder.create(0.4167f)
 			.addBoneAnimation("head",
 				new Transformation(Transformation.Type.TRANSLATE,
@@ -292,11 +293,9 @@ public final class RascalAnimations
 					new Keyframe(1.5f, VectorHelper.createTranslationalVector(0f, 0f, 0f),
 						Transformation.Interpolations.LINEAR))).build()
 		);
-	}
-
-	static {
 		ANIMATIONS = new ArrayList<>()
 		{{
+			add(DEFAULT);
 			add(NOD);
 			add(GIVE_REWARD);
 		}};

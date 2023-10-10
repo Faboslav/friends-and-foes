@@ -38,10 +38,11 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.StructureAccessor;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+
 public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 {
 	private AnimationContextTracker animationContextTracker;
-	private static final TrackedData<EntityPose> PREV_POSE;
 	private static final TrackedData<Integer> POSE_TICKS;
 	private static final TrackedData<Integer> CAUGHT_COUNT;
 	private boolean ambientSounds;
@@ -65,7 +66,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 		EntityData superEntityData = super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
 
 		this.setPose(RascalEntityPose.DEFAULT);
-		//RascalBrain.setNodCooldown(this);
+		RascalBrain.setNodCooldown(this);
 
 		return superEntityData;
 	}
@@ -100,12 +101,17 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 		if (this.animationContextTracker == null) {
 			this.animationContextTracker = new AnimationContextTracker();
 
-			for (KeyframeAnimation keyframeAnimation : RascalAnimations.ANIMATIONS) {
+			for (KeyframeAnimation keyframeAnimation : this.getAnimations()) {
 				this.animationContextTracker.add(keyframeAnimation);
 			}
 		}
 
 		return this.animationContextTracker;
+	}
+
+	@Override
+	public ArrayList<KeyframeAnimation> getAnimations() {
+		return RascalAnimations.ANIMATIONS;
 	}
 
 	@Override
@@ -120,7 +126,6 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 	@Override
 	protected void initDataTracker() {
 		super.initDataTracker();
-		this.dataTracker.startTracking(PREV_POSE, RascalEntityPose.DEFAULT.get());
 		this.dataTracker.startTracking(POSE_TICKS, 0);
 		this.dataTracker.startTracking(CAUGHT_COUNT, 0);
 	}
@@ -189,16 +194,11 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 
 	@Nullable
 	private KeyframeAnimation getKeyframeAnimationByPose() {
-		EntityPose prevPose = this.getPrevPose();
-		EntityPose pose = this.getPose();
-
-		if (pose == prevPose) {
-			return null;
-		}
-
 		KeyframeAnimation keyframeAnimation = null;
 
-		if (this.isInPose(RascalEntityPose.NOD)) {
+		if (this.isInPose(RascalEntityPose.DEFAULT)) {
+			keyframeAnimation = RascalAnimations.DEFAULT;
+		} else if (this.isInPose(RascalEntityPose.NOD)) {
 			keyframeAnimation = RascalAnimations.NOD;
 		} else if (this.isInPose(RascalEntityPose.GIVE_REWARD)) {
 			keyframeAnimation = RascalAnimations.GIVE_REWARD;
@@ -226,7 +226,6 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 			return;
 		}
 
-		this.setPrevPose(this.getPose());
 		super.setPose(pose);
 	}
 
@@ -235,32 +234,11 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 			return;
 		}
 
-		this.setPrevPose(this.getPose());
 		super.setPose(pose.get());
 	}
 
 	public boolean isInPose(RascalEntityPose pose) {
 		return this.getPose() == pose.get();
-	}
-
-	public void setPrevPose(EntityPose pose) {
-		if (this.getWorld().isClient()) {
-			return;
-		}
-
-		this.dataTracker.set(PREV_POSE, pose);
-	}
-
-	public void setPrevPose(RascalEntityPose pose) {
-		if (this.getWorld().isClient()) {
-			return;
-		}
-
-		this.dataTracker.set(PREV_POSE, pose.get());
-	}
-
-	public EntityPose getPrevPose() {
-		return this.dataTracker.get(PREV_POSE);
 	}
 
 	public void startNodAnimation() {
@@ -379,7 +357,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 	}
 
 	public boolean shouldGiveReward() {
-		return this.getCaughtCount() >= 1;
+		return this.getCaughtCount() >= 3;
 	}
 
 	public boolean disableAmbientSounds() {
@@ -421,7 +399,6 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 	}
 
 	static {
-		PREV_POSE = DataTracker.registerData(RascalEntity.class, TrackedDataHandlerRegistry.ENTITY_POSE);
 		POSE_TICKS = DataTracker.registerData(RascalEntity.class, TrackedDataHandlerRegistry.INTEGER);
 		CAUGHT_COUNT = DataTracker.registerData(RascalEntity.class, TrackedDataHandlerRegistry.INTEGER);
 	}

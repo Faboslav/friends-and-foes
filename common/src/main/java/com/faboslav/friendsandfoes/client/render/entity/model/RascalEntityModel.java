@@ -92,13 +92,4 @@ public final class RascalEntityModel<T extends RascalEntity> extends AnimatedEnt
 		this.leftArm.pitch = (-0.2F + 2.0F * MathHelper.wrap(limbAngle, 13.0F)) * limbDistance;
 		this.rightArm.pitch = (-0.2F - 2.0F * MathHelper.wrap(limbAngle, 13.0F)) * limbDistance;
 	}
-
-	private void updateKeyframeAnimations(
-		T rascal,
-		float animationProgress
-	) {
-		RascalAnimations.ANIMATIONS.forEach((keyframeAnimation -> {
-			ModelAnimator.updateKeyframeAnimations(rascal, this, keyframeAnimation, animationProgress);
-		}));
-	}
 }

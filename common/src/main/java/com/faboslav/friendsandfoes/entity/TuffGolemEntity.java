@@ -44,6 +44,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+
 public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 {
 	private static final TrackedData<String> COLOR;
@@ -84,12 +86,17 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		if (this.animationContextTracker == null) {
 			this.animationContextTracker = new AnimationContextTracker();
 
-			for (KeyframeAnimation keyframeAnimation : TuffGolemAnimations.ANIMATIONS) {
+			for (KeyframeAnimation keyframeAnimation : this.getAnimations()) {
 				this.animationContextTracker.add(keyframeAnimation);
 			}
 		}
 
 		return this.animationContextTracker;
+	}
+
+	@Override
+	public ArrayList<KeyframeAnimation> getAnimations() {
+		return TuffGolemAnimations.ANIMATIONS;
 	}
 
 	@Override

@@ -288,4 +288,13 @@ public abstract class AnimatedEntityModel<E extends Entity> extends BaseEntityMo
 			ticks
 		);
 	}
+
+	protected void updateKeyframeAnimations(
+		AnimatedEntity animatedEntity,
+		float animationProgress
+	) {
+		animatedEntity.getAnimations().forEach((keyframeAnimation -> {
+			ModelAnimator.updateKeyframeAnimations(animatedEntity, this, keyframeAnimation, animationProgress);
+		}));
+	}
 }

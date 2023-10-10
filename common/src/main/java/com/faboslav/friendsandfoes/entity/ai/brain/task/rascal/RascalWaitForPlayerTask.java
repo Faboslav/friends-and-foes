@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes.entity.ai.brain.task.rascal;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.RascalEntity;
 import com.faboslav.friendsandfoes.entity.ai.brain.RascalBrain;
+import com.faboslav.friendsandfoes.entity.pose.RascalEntityPose;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesCriteria;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
 import com.google.common.collect.ImmutableMap;
@@ -12,8 +13,6 @@ import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.LookTargetUtil;
 import net.minecraft.entity.ai.brain.task.MultiTickTask;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootManager;
@@ -28,7 +27,7 @@ import net.minecraft.util.math.Vec3d;
 public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 {
 	private final static int NOD_DURATION = 90;
-	public final static float NOD_RANGE = 3.0F;
+	public final static float NOD_RANGE = 3.5F;
 
 	private int nodTicks;
 	private LivingEntity nearestTarget;
@@ -65,9 +64,6 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 				)
 			)
 		) {
-
-			if (nearestTarget == null) {
-			}
 			return false;
 		}
 
@@ -78,7 +74,6 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 
 	@Override
 	protected void run(ServerWorld world, RascalEntity rascal, long time) {
-		FriendsAndFoesCriteria.COMPLETE_HIDE_AND_SEEK_GAME.trigger((ServerPlayerEntity) this.nearestTarget, rascal);
 		rascal.getBrain().forget(MemoryModuleType.WALK_TARGET);
 		rascal.getNavigation().setSpeed(0);
 		rascal.getNavigation().stop();
@@ -134,6 +129,8 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 					LookTargetUtil.give(rascal, rascalReward, nearestTarget.getPos().add(0.0, 1.0, 0.0));
 				}
 			}
+
+			FriendsAndFoesCriteria.COMPLETE_HIDE_AND_SEEK_GAME.trigger((ServerPlayerEntity) this.nearestTarget, rascal);
 		}
 
 		this.nodTicks++;
@@ -149,7 +146,8 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 			return;
 		}
 
-		rascal.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 400));
+		rascal.setPose(RascalEntityPose.DEFAULT);
+		//rascal.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 400));
 		RascalBrain.setNodCooldown(rascal);
 		rascal.enableAmbientSounds();
 	}

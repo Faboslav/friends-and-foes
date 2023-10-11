@@ -15,7 +15,6 @@ import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.LookTargetUtil;
 import net.minecraft.entity.ai.brain.task.MultiTickTask;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BundleItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootManager;
@@ -130,7 +129,7 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 
 				for (ItemStack rascalReward : rascalGoodRewards) {
 					ItemStack bundleItemStack = Items.BUNDLE.getDefaultStack();
-					((BundleItemAccessor)bundleItemStack.getItem()).invokeAddToBundle(bundleItemStack, rascalReward);
+					((BundleItemAccessor) bundleItemStack.getItem()).invokeAddToBundle(bundleItemStack, rascalReward);
 					LookTargetUtil.give(rascal, bundleItemStack, nearestTarget.getPos().add(0.0, 1.0, 0.0));
 				}
 			}

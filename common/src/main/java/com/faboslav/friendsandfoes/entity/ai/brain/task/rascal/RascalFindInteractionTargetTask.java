@@ -17,7 +17,7 @@ public final class RascalFindInteractionTargetTask
 			return context.group(context.queryMemoryOptional(MemoryModuleType.LOOK_TARGET), context.queryMemoryAbsent(MemoryModuleType.INTERACTION_TARGET), context.queryMemoryValue(MemoryModuleType.VISIBLE_MOBS)).apply(context, (lookTarget, interactionTarget, visibleMobs) -> {
 				return (world, entity, time) -> {
 					Optional<LivingEntity> optional = context.getValue(visibleMobs).findFirst((target) -> {
-						return target.squaredDistanceTo(entity) <= (double)squaredMaxDistance && target instanceof PlayerEntity && !target.isSpectator() && !((PlayerEntity) target).isCreative();
+						return target.squaredDistanceTo(entity) <= (double) squaredMaxDistance && target instanceof PlayerEntity && !target.isSpectator() && !((PlayerEntity) target).isCreative();
 					});
 
 					if (optional.isEmpty()) {

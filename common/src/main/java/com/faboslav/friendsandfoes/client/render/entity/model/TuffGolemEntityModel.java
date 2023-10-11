@@ -1,7 +1,5 @@
 package com.faboslav.friendsandfoes.client.render.entity.model;
 
-import com.faboslav.friendsandfoes.client.render.entity.animation.TuffGolemAnimations;
-import com.faboslav.friendsandfoes.client.render.entity.animation.animator.ModelAnimator;
 import com.faboslav.friendsandfoes.entity.TuffGolemEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

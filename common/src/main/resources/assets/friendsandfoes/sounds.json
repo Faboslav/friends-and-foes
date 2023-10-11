@@ -181,7 +181,7 @@
 			"friendsandfoes:entity/player/mirror_move1",
 			"friendsandfoes:entity/player/mirror_move2"
 		],
-		"subtitle": "subtitle.entity.friendsandfoes.moobloom.convert"
+		"subtitle": "subtitle.entity.friendsandfoes.player.mirror_move"
 	},
 	"entity.rascal.ambient": {
 		"sounds": [

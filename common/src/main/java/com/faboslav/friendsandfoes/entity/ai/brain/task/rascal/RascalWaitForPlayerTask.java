@@ -6,6 +6,7 @@ import com.faboslav.friendsandfoes.entity.ai.brain.RascalBrain;
 import com.faboslav.friendsandfoes.entity.pose.RascalEntityPose;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesCriteria;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
+import com.faboslav.friendsandfoes.mixin.BundleItemAccessor;
 import com.google.common.collect.ImmutableMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.entity.LivingEntity;
@@ -14,7 +15,9 @@ import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.LookTargetUtil;
 import net.minecraft.entity.ai.brain.task.MultiTickTask;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BundleItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.loot.LootManager;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.context.LootContextParameterSet;
@@ -35,7 +38,7 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 	public RascalWaitForPlayerTask() {
 		super(ImmutableMap.of(
 			MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER, MemoryModuleState.REGISTERED,
-			MemoryModuleType.NEAREST_PLAYERS, MemoryModuleState.REGISTERED,
+			MemoryModuleType.INTERACTION_TARGET, MemoryModuleState.VALUE_PRESENT,
 			FriendsAndFoesMemoryModuleTypes.RASCAL_NOD_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT
 		), NOD_DURATION);
 	}
@@ -126,7 +129,9 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 				ObjectArrayList<ItemStack> rascalGoodRewards = rascalGoodItemsLootTable.generateLoot(lootContextParameterSet);
 
 				for (ItemStack rascalReward : rascalGoodRewards) {
-					LookTargetUtil.give(rascal, rascalReward, nearestTarget.getPos().add(0.0, 1.0, 0.0));
+					ItemStack bundleItemStack = Items.BUNDLE.getDefaultStack();
+					((BundleItemAccessor)bundleItemStack.getItem()).invokeAddToBundle(bundleItemStack, rascalReward);
+					LookTargetUtil.give(rascal, bundleItemStack, nearestTarget.getPos().add(0.0, 1.0, 0.0));
 				}
 			}
 

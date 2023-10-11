@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.entity.ai.brain;
 
 import com.faboslav.friendsandfoes.entity.RascalEntity;
+import com.faboslav.friendsandfoes.entity.ai.brain.task.rascal.RascalFindInteractionTargetTask;
 import com.faboslav.friendsandfoes.entity.ai.brain.task.rascal.RascalWaitForPlayerTask;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesActivities;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
@@ -64,7 +65,7 @@ public final class RascalBrain
 		brain.setTaskList(
 			Activity.IDLE,
 			ImmutableList.of(
-				Pair.of(0, FindInteractionTargetTask.create(EntityType.PLAYER, 8)),
+				Pair.of(0, RascalFindInteractionTargetTask.create(8)),
 				Pair.of(0, makeRandomWanderTask())
 			)
 		);
@@ -161,7 +162,9 @@ public final class RascalBrain
 			MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
 			FriendsAndFoesMemoryModuleTypes.RASCAL_NOD_COOLDOWN.get()
 		);
-		NOD_COOLDOWN_PROVIDER = TimeHelper.betweenSeconds(25, 30);
-		AVOID_MEMORY_DURATION = TimeHelper.betweenSeconds(20, 30);
+		//NOD_COOLDOWN_PROVIDER = TimeHelper.betweenSeconds(25, 30);
+		NOD_COOLDOWN_PROVIDER = TimeHelper.betweenSeconds(10, 11);
+		//AVOID_MEMORY_DURATION = TimeHelper.betweenSeconds(20, 30);
+		AVOID_MEMORY_DURATION = TimeHelper.betweenSeconds(5, 10);
 	}
 }

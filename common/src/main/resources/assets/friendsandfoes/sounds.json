@@ -193,14 +193,12 @@
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.rascal.ambient"
 	},
-	"entity.rascal.nod": {
+	"entity.rascal.disappear": {
 		"sounds": [
-			"friendsandfoes:entity/rascal/nod1",
-			"friendsandfoes:entity/rascal/nod2",
-			"friendsandfoes:entity/rascal/nod3",
-			"friendsandfoes:entity/rascal/nod4"
+			"friendsandfoes:entity/rascal/disappear1",
+			"friendsandfoes:entity/rascal/disappear2"
 		],
-		"subtitle": "subtitle.entity.friendsandfoes.rascal.nod"
+		"subtitle": "subtitle.entity.friendsandfoes.rascal.disappear"
 	},
 	"entity.rascal.hurt": {
 		"sounds": [
@@ -210,6 +208,22 @@
 			"friendsandfoes:entity/rascal/hurt4"
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.rascal.hurt"
+	},
+	"entity.rascal.nod": {
+		"sounds": [
+			"friendsandfoes:entity/rascal/nod1",
+			"friendsandfoes:entity/rascal/nod2",
+			"friendsandfoes:entity/rascal/nod3",
+			"friendsandfoes:entity/rascal/nod4"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.rascal.nod"
+	},
+	"entity.rascal.reappear": {
+		"sounds": [
+			"friendsandfoes:entity/rascal/reappear1",
+			"friendsandfoes:entity/rascal/reappear2"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.rascal.reappear"
 	},
 	"entity.rascal.reward": {
 		"sounds": [

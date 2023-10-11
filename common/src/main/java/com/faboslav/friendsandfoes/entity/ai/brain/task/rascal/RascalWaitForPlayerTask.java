@@ -14,6 +14,8 @@ import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.LookTargetUtil;
 import net.minecraft.entity.ai.brain.task.MultiTickTask;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -29,7 +31,7 @@ import net.minecraft.util.math.Vec3d;
 public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 {
 	private final static int NOD_DURATION = 90;
-	public final static float NOD_RANGE = 3.5F;
+	public final static float NOD_RANGE = 4F;
 
 	private int nodTicks;
 	private LivingEntity nearestTarget;
@@ -145,14 +147,15 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 		rascal.spawnCloudParticles();
 
 		if (rascal.shouldGiveReward()) {
-			rascal.playAmbientSound();
+			rascal.playDisappearSound();
 			rascal.discard();
 			return;
 		}
 
 		rascal.setPose(RascalEntityPose.DEFAULT);
-		//rascal.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 400));
+		rascal.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 400));
 		RascalBrain.setNodCooldown(rascal);
+		rascal.playDisappearSound();
 		rascal.enableAmbientSounds();
 	}
 }

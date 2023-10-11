@@ -21,6 +21,9 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -172,6 +175,12 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 			this.discard();
 		}
 
+		StatusEffectInstance invisibilityStatusEffect = this.getStatusEffect(StatusEffects.INVISIBILITY);
+
+		if(this.isHidden() && invisibilityStatusEffect != null && invisibilityStatusEffect.getDuration() == 1) {
+			this.playReappearSound();
+		}
+
 		if (this.getWorld().isClient() == false && this.isAnyKeyframeAnimationRunning()) {
 			this.setKeyframeAnimationTicks(this.getKeyframeAnimationTicks() - 1);
 		}
@@ -273,6 +282,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 		}
 
 		this.playHurtSound(source);
+		this.playDisappearSound();
 		this.spawnCloudParticles();
 		this.discard();
 
@@ -327,6 +337,24 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 	protected void playHurtSound(DamageSource source) {
 		this.ambientSoundChance = -this.getMinAmbientSoundDelay();
 		this.playSound(this.getHurtSound(source), 1.0F, RandomGenerator.generateFloat(1.15F, 1.3F));
+	}
+
+	public SoundEvent getDisappearSound() {
+		return FriendsAndFoesSoundEvents.ENTITY_RASCAL_DISAPPEAR.get();
+	}
+
+	public void playDisappearSound() {
+		SoundEvent soundEvent = this.getDisappearSound();
+		this.playSound(soundEvent, 1.0F, RandomGenerator.generateFloat(1.5F, 1.6F));
+	}
+
+	public SoundEvent getReappearSound() {
+		return FriendsAndFoesSoundEvents.ENTITY_RASCAL_REAPPEAR.get();
+	}
+
+	public void playReappearSound() {
+		SoundEvent soundEvent = this.getReappearSound();
+		this.playSound(soundEvent, 1.0F, RandomGenerator.generateFloat(1.5F, 1.6F));
 	}
 
 	@Override

@@ -24,9 +24,13 @@ import net.minecraft.loot.LootTable;
 import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootContextTypes;
+import net.minecraft.registry.tag.StructureTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.gen.StructureAccessor;
 
 public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 {
@@ -144,18 +148,50 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 
 	@Override
 	protected void finishRunning(ServerWorld world, RascalEntity rascal, long time) {
+		if (rascal.hasCustomName()) {
+			RascalBrain.setNodCooldown(rascal);
+			return;
+		}
+
 		rascal.spawnCloudParticles();
+		rascal.playDisappearSound();
 
 		if (rascal.shouldGiveReward()) {
-			rascal.playDisappearSound();
 			rascal.discard();
 			return;
 		}
 
 		rascal.setPose(RascalEntityPose.DEFAULT);
-		rascal.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 400));
+		rascal.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, RascalBrain.NOD_COOLDOWN * 20));
+		this.tryToTeleport(world, rascal);
 		RascalBrain.setNodCooldown(rascal);
-		rascal.playDisappearSound();
 		rascal.enableAmbientSounds();
+	}
+
+	private void tryToTeleport(ServerWorld world, RascalEntity rascal) {
+		StructureAccessor structureAccessor = world.getStructureAccessor();
+
+		for (int i = 0; i < 32; ++i) {
+			double x = rascal.getX() + (rascal.getRandom().nextDouble() - 0.5) * 24.0;
+			double y = MathHelper.clamp(rascal.getY() + (double) (rascal.getRandom().nextInt(16) - 8), world.getBottomY(), world.getBottomY() + world.getLogicalHeight() - 1);
+			double z = rascal.getZ() + (rascal.getRandom().nextDouble() - 0.5) * 24.0;
+
+			if (structureAccessor.getStructureContaining(
+				new BlockPos((int) x, (int) y, (int) z),
+				StructureTags.MINESHAFT
+			).hasChildren() == false) {
+				continue;
+			}
+
+			if (rascal.hasVehicle()) {
+				rascal.stopRiding();
+			}
+
+			boolean teleportResult = rascal.teleport(x, y, z, false);
+
+			if (teleportResult) {
+				return;
+			}
+		}
 	}
 }

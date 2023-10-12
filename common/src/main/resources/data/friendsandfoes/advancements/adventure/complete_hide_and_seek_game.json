@@ -2,7 +2,7 @@
 	"parent": "minecraft:adventure/root",
 	"display": {
 		"icon": {
-			"item": "minecraft:compass"
+			"item": "minecraft:bundle"
 		},
 		"title": {
 			"translate": "advancements.adventure.complete_hide_and_seek_game.title"

@@ -26,6 +26,7 @@ public final class RascalBrain
 {
 	public static final List<MemoryModuleType<?>> MEMORY_MODULES;
 	public static final List<SensorType<? extends Sensor<? super RascalEntity>>> SENSORS;
+	public final static int NOD_COOLDOWN = 10;
 	private static final UniformIntProvider NOD_COOLDOWN_PROVIDER;
 	private static final UniformIntProvider AVOID_MEMORY_DURATION;
 
@@ -87,8 +88,7 @@ public final class RascalBrain
 			Activity.AVOID,
 			10,
 			ImmutableList.of(
-				GoToRememberedPositionTask.createEntityBased(MemoryModuleType.AVOID_TARGET, 0.9F, 32, true),
-				makeRandomWanderTask()
+				GoToRememberedPositionTask.createEntityBased(MemoryModuleType.AVOID_TARGET, 1.0F, 32, true)
 			),
 			MemoryModuleType.AVOID_TARGET
 		);
@@ -108,7 +108,6 @@ public final class RascalBrain
 		return new RandomTask(
 			ImmutableList.of(
 				Pair.of(StrollTask.create(0.6F), 2),
-				Pair.of(GoTowardsLookTargetTask.create(1.0F, 3), 2),
 				Pair.of(new WaitTask(30, 60), 1)
 			)
 		);
@@ -125,6 +124,10 @@ public final class RascalBrain
 
 	public static void onCooldown(RascalEntity rascal) {
 		if (shouldRunAway(rascal) == false) {
+			return;
+		}
+
+		if (rascal.hasCustomName()) {
 			return;
 		}
 
@@ -161,7 +164,7 @@ public final class RascalBrain
 			MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
 			FriendsAndFoesMemoryModuleTypes.RASCAL_NOD_COOLDOWN.get()
 		);
-		NOD_COOLDOWN_PROVIDER = TimeHelper.betweenSeconds(20, 20);
-		AVOID_MEMORY_DURATION = TimeHelper.betweenSeconds(20, 20);
+		NOD_COOLDOWN_PROVIDER = TimeHelper.betweenSeconds(NOD_COOLDOWN, NOD_COOLDOWN);
+		AVOID_MEMORY_DURATION = TimeHelper.betweenSeconds(NOD_COOLDOWN, NOD_COOLDOWN);
 	}
 }

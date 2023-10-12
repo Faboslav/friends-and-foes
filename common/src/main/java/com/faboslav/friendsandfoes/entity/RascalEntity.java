@@ -21,7 +21,6 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.MobEntity;
@@ -34,6 +33,7 @@ import net.minecraft.registry.tag.StructureTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -42,6 +42,7 @@ import net.minecraft.world.gen.StructureAccessor;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 {
@@ -55,7 +56,8 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 		this.enableAmbientSounds();
 		this.setPathfindingPenalty(PathNodeType.RAIL, 0.0F);
 		this.setPathfindingPenalty(PathNodeType.UNPASSABLE_RAIL, 0.0F);
-		this.setPathfindingPenalty(PathNodeType.DAMAGE_OTHER, -1.0F);
+		this.setPathfindingPenalty(PathNodeType.WATER, 0.0F);
+		this.setPathfindingPenalty(PathNodeType.WATER_BORDER, 0.0F);
 	}
 
 	@Override
@@ -82,16 +84,23 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 		Random random
 	) {
 		if (spawnReason == SpawnReason.NATURAL) {
-			StructureAccessor structureAccessor = serverWorldAccess.toServerWorld().getStructureAccessor();
+			ServerWorld serverWorld = serverWorldAccess.toServerWorld();
+			StructureAccessor structureAccessor = serverWorld.getStructureAccessor();
 
-			if (
-				structureAccessor.getStructureContaining(
-					blockPos,
-					StructureTags.MINESHAFT
-				).hasChildren()
-				&& blockPos.getY() < 63
-				&& serverWorldAccess.isSkyVisible(blockPos) == false
-			) {
+			if (structureAccessor.getStructureContaining(
+				blockPos,
+				StructureTags.MINESHAFT
+			).hasChildren() == false) {
+				return false;
+			}
+
+			List<RascalEntity> nearbyRascals = serverWorld.getEntitiesByClass(RascalEntity.class, new Box(blockPos).expand(32.0F), (rascalEntity) -> true);
+
+			if (nearbyRascals.isEmpty() == false) {
+				return false;
+			}
+
+			if (blockPos.getY() < 63 && serverWorldAccess.isSkyVisible(blockPos) == false) {
 				return true;
 			}
 		}
@@ -164,7 +173,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 
 	public static DefaultAttributeContainer.Builder createAttributes() {
 		return MobEntity.createMobAttributes()
-			.add(EntityAttributes.GENERIC_MAX_HEALTH, 10.0D)
+			.add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
 			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.55D)
 			.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D);
 	}
@@ -177,7 +186,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 
 		StatusEffectInstance invisibilityStatusEffect = this.getStatusEffect(StatusEffects.INVISIBILITY);
 
-		if(this.isHidden() && invisibilityStatusEffect != null && invisibilityStatusEffect.getDuration() == 1) {
+		if (this.isHidden() && invisibilityStatusEffect != null && invisibilityStatusEffect.getDuration() == 1) {
 			this.playReappearSound();
 		}
 
@@ -325,7 +334,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 		}
 
 		SoundEvent soundEvent = this.getAmbientSound();
-		this.playSound(soundEvent, 1.0F, RandomGenerator.generateFloat(1.15F, 1.3F));
+		this.playSound(soundEvent, 1.5F, RandomGenerator.generateFloat(1.15F, 1.3F));
 	}
 
 	@Override
@@ -345,7 +354,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 
 	public void playDisappearSound() {
 		SoundEvent soundEvent = this.getDisappearSound();
-		this.playSound(soundEvent, 1.0F, RandomGenerator.generateFloat(1.5F, 1.6F));
+		this.playSound(soundEvent, 1.5F, RandomGenerator.generateFloat(1.5F, 1.6F));
 	}
 
 	public SoundEvent getReappearSound() {
@@ -354,7 +363,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 
 	public void playReappearSound() {
 		SoundEvent soundEvent = this.getReappearSound();
-		this.playSound(soundEvent, 1.0F, RandomGenerator.generateFloat(1.5F, 1.6F));
+		this.playSound(soundEvent, 1.5F, RandomGenerator.generateFloat(1.5F, 1.6F));
 	}
 
 	@Override

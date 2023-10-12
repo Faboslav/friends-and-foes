@@ -1,0 +1,33 @@
+{
+	"parent": "minecraft:adventure/root",
+	"display": {
+		"icon": {
+			"item": "minecraft:bundle"
+		},
+		"title": {
+			"translate": "advancements.adventure.complete_hide_and_seek_game.title"
+		},
+		"description": {
+			"translate": "advancements.adventure.complete_hide_and_seek_game.description"
+		},
+		"frame": "task",
+		"show_toast": true,
+		"announce_to_chat": true,
+		"hidden": false
+	},
+	"criteria": {
+		"friendsandfoes:complete_hide_and_seek_game": {
+			"trigger": "friendsandfoes:complete_hide_and_seek_game",
+			"conditions": {
+				"entity": {
+					"type": "friendsandfoes:rascal"
+				}
+			}
+		}
+	},
+	"requirements": [
+		[
+			"friendsandfoes:complete_hide_and_seek_game"
+		]
+	]
+}

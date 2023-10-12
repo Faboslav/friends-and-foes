@@ -65,7 +65,7 @@ public final class RascalBrain
 		brain.setTaskList(
 			Activity.IDLE,
 			ImmutableList.of(
-				Pair.of(0, RascalFindInteractionTargetTask.create(6)),
+				Pair.of(0, new RascalFindInteractionTargetTask(6)),
 				Pair.of(0, makeRandomWanderTask())
 			)
 		);
@@ -88,7 +88,7 @@ public final class RascalBrain
 			Activity.AVOID,
 			10,
 			ImmutableList.of(
-				GoToRememberedPositionTask.createEntityBased(MemoryModuleType.AVOID_TARGET, 1.0F, 32, true)
+				GoToRememberedPositionTask.toEntity(MemoryModuleType.AVOID_TARGET, 1.0F, 32, true)
 			),
 			MemoryModuleType.AVOID_TARGET
 		);
@@ -107,7 +107,7 @@ public final class RascalBrain
 	private static RandomTask<RascalEntity> makeRandomWanderTask() {
 		return new RandomTask(
 			ImmutableList.of(
-				Pair.of(StrollTask.create(0.6F), 2),
+				Pair.of(new StrollTask(0.6F), 2),
 				Pair.of(new WaitTask(30, 60), 1)
 			)
 		);
@@ -119,7 +119,7 @@ public final class RascalBrain
 	}
 
 	public static boolean shouldRunAway(RascalEntity rascal) {
-		return rascal.getBrain().getOptionalRegisteredMemory(FriendsAndFoesMemoryModuleTypes.RASCAL_NOD_COOLDOWN.get()).isPresent();
+		return rascal.getBrain().getOptionalMemory(FriendsAndFoesMemoryModuleTypes.RASCAL_NOD_COOLDOWN.get()).isPresent();
 	}
 
 	public static void onCooldown(RascalEntity rascal) {
@@ -131,7 +131,7 @@ public final class RascalBrain
 			return;
 		}
 
-		LivingEntity nearestTarget = rascal.getBrain().getOptionalRegisteredMemory(MemoryModuleType.INTERACTION_TARGET).orElse(null);
+		LivingEntity nearestTarget = rascal.getBrain().getOptionalMemory(MemoryModuleType.INTERACTION_TARGET).orElse(null);
 
 		if (nearestTarget == null) {
 			return;

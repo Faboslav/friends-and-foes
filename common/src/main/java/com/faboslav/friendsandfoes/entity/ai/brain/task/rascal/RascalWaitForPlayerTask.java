@@ -13,7 +13,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.LookTargetUtil;
-import net.minecraft.entity.ai.brain.task.MultiTickTask;
+import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,18 +21,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootManager;
 import net.minecraft.loot.LootTable;
-import net.minecraft.loot.context.LootContextParameterSet;
+import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootContextTypes;
-import net.minecraft.registry.tag.StructureTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.tag.StructureTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.gen.StructureAccessor;
 
-public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
+public final class RascalWaitForPlayerTask extends Task<RascalEntity>
 {
 	private final static int NOD_DURATION = 90;
 	public final static float NOD_RANGE = 4F;
@@ -54,10 +54,10 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 			return false;
 		}
 
-		LivingEntity nearestTarget = rascal.getBrain().getOptionalRegisteredMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER).orElse(null);
+		LivingEntity nearestTarget = rascal.getBrain().getOptionalMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER).orElse(null);
 
 		if (nearestTarget == null) {
-			nearestTarget = rascal.getBrain().getOptionalRegisteredMemory(MemoryModuleType.INTERACTION_TARGET).orElse(null);
+			nearestTarget = rascal.getBrain().getOptionalMemory(MemoryModuleType.INTERACTION_TARGET).orElse(null);
 		}
 
 		if (
@@ -124,12 +124,12 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 			LootManager lootManager = world.getServer().getLootManager();
 
 			if (lootManager != null) {
-				LootTable rascalGoodItemsLootTable = lootManager.getLootTable(
+				LootTable rascalGoodItemsLootTable = lootManager.getTable(
 					FriendsAndFoes.makeID("rewards/rascal_good_reward")
 				);
-				LootContextParameterSet lootContextParameterSet = new LootContextParameterSet.Builder(world)
-					.add(LootContextParameters.ORIGIN, targetPos)
-					.add(LootContextParameters.THIS_ENTITY, this.nearestTarget)
+				LootContext lootContextParameterSet = new LootContext.Builder(world)
+					.parameter(LootContextParameters.ORIGIN, targetPos)
+					.parameter(LootContextParameters.THIS_ENTITY, this.nearestTarget)
 					.build(LootContextTypes.GIFT);
 				ObjectArrayList<ItemStack> rascalGoodRewards = rascalGoodItemsLootTable.generateLoot(lootContextParameterSet);
 

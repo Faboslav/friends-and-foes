@@ -29,9 +29,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.tag.StructureTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.tag.StructureTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.random.Random;
@@ -100,9 +100,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 				return false;
 			}
 
-			if (blockPos.getY() < 63 && serverWorldAccess.isSkyVisible(blockPos) == false) {
-				return true;
-			}
+            return blockPos.getY() < 63 && serverWorldAccess.isSkyVisible(blockPos) == false;
 		}
 
 		return false;
@@ -373,7 +371,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 	) {
 		if (
 			this.isHidden()
-			|| state.isLiquid()
+			|| state.getMaterial().isLiquid()
 		) {
 			return;
 		}
@@ -382,7 +380,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 	}
 
 	public boolean isHidden() {
-		return this.getBrain().getOptionalRegisteredMemory(MemoryModuleType.AVOID_TARGET).orElse(null) instanceof PlayerEntity;
+		return this.getBrain().getOptionalMemory(MemoryModuleType.AVOID_TARGET).orElse(null) instanceof PlayerEntity;
 	}
 
 	public int getCaughtCount() {

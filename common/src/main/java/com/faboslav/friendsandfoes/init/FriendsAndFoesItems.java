@@ -59,7 +59,7 @@ public final class FriendsAndFoesItems
 		ILLUSIONER_SPAWN_EGG = RegistryHelper.registerItem("illusioner_spawn_egg", () -> new SpawnEggItem(EntityType.ILLUSIONER, 0x603E5C, 0x888E8E, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
 		MAULER_SPAWN_EGG = RegistryHelper.registerItem("mauler_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.MAULER.get(), 0x534F25, 0x817B39, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
 		MOOBLOOM_SPAWN_EGG = RegistryHelper.registerItem("moobloom_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.MOOBLOOM.get(), 0xF7EDC1, 0xFACA00, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
-		RASCAL_SPAWN_EGG = RegistryHelper.registerSpawnEggItem("rascal_spawn_egg", FriendsAndFoesEntityTypes.RASCAL, 0x05736A, 0x8A521C, new Item.Settings().maxCount(64));
+		RASCAL_SPAWN_EGG = RegistryHelper.registerItem("rascal_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.RASCAL.get(), 0x05736A, 0x8A521C, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
 		TUFF_GOLEM_SPAWN_EGG = RegistryHelper.registerItem("tuff_golem_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.TUFF_GOLEM.get(), 0xA0A297, 0x5D5D52, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
 		WILDFIRE_SPAWN_EGG = RegistryHelper.registerItem("wildfire_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.WILDFIRE.get(), 0x6C3100, 0xFFD528, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
 		BUTTERCUP = RegistryHelper.registerItem("buttercup", () -> new BlockItem(FriendsAndFoesBlocks.BUTTERCUP.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));

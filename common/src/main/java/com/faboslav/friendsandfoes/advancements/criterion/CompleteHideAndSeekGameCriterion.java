@@ -9,7 +9,7 @@ import net.minecraft.loot.context.LootContext;
 import net.minecraft.predicate.entity.AdvancementEntityPredicateDeserializer;
 import net.minecraft.predicate.entity.AdvancementEntityPredicateSerializer;
 import net.minecraft.predicate.entity.EntityPredicate;
-import net.minecraft.predicate.entity.LootContextPredicate;
+import net.minecraft.predicate.entity.EntityPredicate.Extended;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
@@ -26,10 +26,10 @@ public final class CompleteHideAndSeekGameCriterion extends AbstractCriterion<Co
 
 	public CompleteHideAndSeekGameCriterion.Conditions conditionsFromJson(
 		JsonObject jsonObject,
-		LootContextPredicate extended,
+		Extended extended,
 		AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer
 	) {
-		LootContextPredicate extended2 = EntityPredicate.contextPredicateFromJson(jsonObject, "rascal", advancementEntityPredicateDeserializer);
+		Extended extended2 = Extended.getInJson(jsonObject, "rascal", advancementEntityPredicateDeserializer);
 
 		return new CompleteHideAndSeekGameCriterion.Conditions(extended, extended2);
 	}
@@ -43,19 +43,19 @@ public final class CompleteHideAndSeekGameCriterion extends AbstractCriterion<Co
 
 	public static class Conditions extends AbstractCriterionConditions
 	{
-		private final LootContextPredicate entity;
+		private final Extended entity;
 
-		public Conditions(LootContextPredicate player, LootContextPredicate entity) {
+		public Conditions(Extended player, Extended entity) {
 			super(CompleteHideAndSeekGameCriterion.ID, player);
 			this.entity = entity;
 		}
 
 		public static CompleteHideAndSeekGameCriterion.Conditions any() {
-			return new CompleteHideAndSeekGameCriterion.Conditions(LootContextPredicate.EMPTY, LootContextPredicate.EMPTY);
+			return new CompleteHideAndSeekGameCriterion.Conditions(Extended.EMPTY, Extended.EMPTY);
 		}
 
 		public static CompleteHideAndSeekGameCriterion.Conditions create(EntityPredicate entity) {
-			return new CompleteHideAndSeekGameCriterion.Conditions(LootContextPredicate.EMPTY, EntityPredicate.asLootContextPredicate(entity));
+			return new CompleteHideAndSeekGameCriterion.Conditions(Extended.EMPTY, Extended.ofLegacy(entity));
 		}
 
 		public boolean matches(LootContext entityContext) {

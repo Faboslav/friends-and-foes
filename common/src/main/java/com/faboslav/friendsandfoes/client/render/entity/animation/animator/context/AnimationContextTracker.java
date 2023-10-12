@@ -13,7 +13,13 @@ public final class AnimationContextTracker
 	private final Map<String, ModelPartAnimationContext> animationRotationContext = new HashMap<>();
 
 	public KeyframeAnimationContext get(KeyframeAnimation keyframeAnimation) {
-		return this.animationKeyframeContext.get(keyframeAnimation.getName());
+		KeyframeAnimationContext keyframeAnimationContext = this.animationKeyframeContext.get(keyframeAnimation.getName());
+
+		if (keyframeAnimationContext == null) {
+			throw new RuntimeException(String.format("Keyframe animation '%s' is not added.", keyframeAnimation.getName()));
+		}
+
+		return keyframeAnimationContext;
 	}
 
 	public void add(KeyframeAnimation keyframeAnimation) {

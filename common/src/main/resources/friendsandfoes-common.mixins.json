@@ -8,6 +8,7 @@
 	},
 	"mixins": [
 		"AbstractButtonBlockMixin",
+		"AddCustomEntityPoseMixin",
 		"AxeItemMixin",
 		"BeeEntityAccessor",
 		"BeeEntityMixin",
@@ -16,6 +17,7 @@
 		"BlazeEntityMixin",
 		"BlazeLivingEntityMixin",
 		"BlindTargetGoalFactory",
+		"BundleItemAccessor",
 		"CarvedPumpkinBlockMixin",
 		"ChickenEntityMixin",
 		"HoneycombItemMixin",

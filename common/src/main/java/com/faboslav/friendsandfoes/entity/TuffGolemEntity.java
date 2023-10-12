@@ -28,11 +28,11 @@ import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.tag.BlockTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Hand;
@@ -43,6 +43,8 @@ import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
 
 public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 {
@@ -84,12 +86,17 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		if (this.animationContextTracker == null) {
 			this.animationContextTracker = new AnimationContextTracker();
 
-			for (KeyframeAnimation keyframeAnimation : TuffGolemAnimations.ANIMATIONS) {
+			for (KeyframeAnimation keyframeAnimation : this.getAnimations()) {
 				this.animationContextTracker.add(keyframeAnimation);
 			}
 		}
 
 		return this.animationContextTracker;
+	}
+
+	@Override
+	public ArrayList<KeyframeAnimation> getAnimations() {
+		return TuffGolemAnimations.ANIMATIONS;
 	}
 
 	@Override
@@ -106,7 +113,6 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		World world
 	) {
 		super(entityType, world);
-		this.stepHeight = 1.0F;
 	}
 
 	@Override
@@ -286,7 +292,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	) {
 		if (
 			this.isInSleepingPose()
-			|| state.getMaterial().isLiquid()
+			|| state.isLiquid()
 		) {
 			return;
 		}
@@ -701,7 +707,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		if (
 			attacker == null
 			|| attacker instanceof LightningEntity
-			|| source == DamageSource.SWEET_BERRY_BUSH
+			|| source == this.getDamageSources().sweetBerryBush()
 		) {
 			return false;
 		}
@@ -961,4 +967,3 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		}
 	}
 }
-

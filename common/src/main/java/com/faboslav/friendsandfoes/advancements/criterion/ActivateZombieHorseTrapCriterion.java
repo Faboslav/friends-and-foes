@@ -9,7 +9,7 @@ import net.minecraft.loot.context.LootContext;
 import net.minecraft.predicate.entity.AdvancementEntityPredicateDeserializer;
 import net.minecraft.predicate.entity.AdvancementEntityPredicateSerializer;
 import net.minecraft.predicate.entity.EntityPredicate;
-import net.minecraft.predicate.entity.LootContextPredicate;
+import net.minecraft.predicate.entity.EntityPredicate.Extended;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
@@ -26,10 +26,10 @@ public final class ActivateZombieHorseTrapCriterion extends AbstractCriterion<Ac
 
 	public ActivateZombieHorseTrapCriterion.Conditions conditionsFromJson(
 		JsonObject jsonObject,
-		LootContextPredicate extended,
+		EntityPredicate.Extended extended,
 		AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer
 	) {
-		LootContextPredicate extended2 = EntityPredicate.contextPredicateFromJson(jsonObject, "lightning", advancementEntityPredicateDeserializer);
+		EntityPredicate.Extended extended2 = Extended.getInJson(jsonObject, "lightning", advancementEntityPredicateDeserializer);
 
 		return new ActivateZombieHorseTrapCriterion.Conditions(extended, extended2);
 	}
@@ -44,15 +44,15 @@ public final class ActivateZombieHorseTrapCriterion extends AbstractCriterion<Ac
 
 	public static class Conditions extends AbstractCriterionConditions
 	{
-		private final LootContextPredicate lightning;
+		private final EntityPredicate.Extended lightning;
 
-		public Conditions(LootContextPredicate player, LootContextPredicate lightning) {
+		public Conditions(EntityPredicate.Extended player, EntityPredicate.Extended lightning) {
 			super(ActivateZombieHorseTrapCriterion.ID, player);
 			this.lightning = lightning;
 		}
 
 		public static ActivateZombieHorseTrapCriterion.Conditions create(EntityPredicate lightning) {
-			return new ActivateZombieHorseTrapCriterion.Conditions(LootContextPredicate.EMPTY, EntityPredicate.asLootContextPredicate(lightning));
+			return new ActivateZombieHorseTrapCriterion.Conditions(Extended.EMPTY, Extended.ofLegacy(lightning));
 		}
 
 		public boolean test(LootContext lightning) {

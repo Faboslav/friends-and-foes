@@ -1,9 +1,9 @@
 package com.faboslav.friendsandfoes.config;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.config.annotation.Category;
-import com.faboslav.friendsandfoes.config.annotation.Description;
-import com.faboslav.friendsandfoes.config.omegaconfig.api.Config;
+	import com.faboslav.friendsandfoes.FriendsAndFoes;
+	import com.faboslav.friendsandfoes.config.annotation.Category;
+	import com.faboslav.friendsandfoes.config.annotation.Description;
+	import com.faboslav.friendsandfoes.config.omegaconfig.api.Config;
 
 public final class FriendsAndFoesConfig implements Config
 {
@@ -18,14 +18,8 @@ public final class FriendsAndFoesConfig implements Config
 	@Description("Generate copper golem area structure in villages")
 	public boolean generateCopperGolemAreaStructure = true;
 
-	@Description("Copper Golem area structure spawn chance")
-	public int copperGolemAreaStructureWeight = 1;
-
 	@Description("Occasionally generate copper golem in the center piece in the ancient cities")
 	public boolean generateCopperGolemInAncientCity = true;
-
-	@Description("Copper Golem in ancient cities spawn chance")
-	public int copperGolemAncientCityCenterWeight = 3;
 
 	@Category("Glare")
 	@Description("Enable")
@@ -165,9 +159,6 @@ public final class FriendsAndFoesConfig implements Config
 
 	@Description("Generate beekeeper area structure in villages")
 	public boolean generateBeekeeperAreaStructure = true;
-
-	@Description("Beekeeper area structure spawn chance")
-	public int beekeeperAreaStructureWeight = 2;
 
 	@Override
 	public String getName() {

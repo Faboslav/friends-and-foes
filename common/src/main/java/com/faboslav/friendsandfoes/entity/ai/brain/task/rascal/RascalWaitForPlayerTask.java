@@ -171,10 +171,10 @@ public final class RascalWaitForPlayerTask extends Task<RascalEntity>
 	private void tryToTeleport(ServerWorld world, RascalEntity rascal) {
 		StructureAccessor structureAccessor = world.getStructureAccessor();
 
-		for (int i = 0; i < 32; ++i) {
-			double x = rascal.getX() + (rascal.getRandom().nextDouble() - 0.5) * 24.0;
-			double y = MathHelper.clamp(rascal.getY() + (double) (rascal.getRandom().nextInt(16) - 8), world.getBottomY(), world.getBottomY() + world.getLogicalHeight() - 1);
-			double z = rascal.getZ() + (rascal.getRandom().nextDouble() - 0.5) * 24.0;
+		for (int i = 0; i < 64; ++i) {
+			double x = rascal.getX() + (rascal.getRandom().nextDouble() - 0.5) * 16.0;
+			double y = MathHelper.clamp(rascal.getY() + (double) (rascal.getRandom().nextInt(8) - 4), world.getBottomY(), world.getBottomY() + world.getLogicalHeight() - 1);
+			double z = rascal.getZ() + (rascal.getRandom().nextDouble() - 0.5) * 16.0;
 
 			if (structureAccessor.getStructureContaining(
 				new BlockPos((int) x, (int) y, (int) z),
@@ -189,7 +189,7 @@ public final class RascalWaitForPlayerTask extends Task<RascalEntity>
 
 			boolean teleportResult = rascal.teleport(x, y, z, false);
 
-			if (teleportResult) {
+			if (teleportResult && rascal.distanceTo(this.nearestTarget) > 10.0) {
 				return;
 			}
 		}

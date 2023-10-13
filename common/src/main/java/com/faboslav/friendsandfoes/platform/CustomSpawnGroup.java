@@ -14,7 +14,7 @@ public final class CustomSpawnGroup
 
 	public static final String RASCALS_INTERNAL_NAME = "RASCALS";
 	public static final String RASCALS_NAME = "rascals";
-	public static final int RASCALS_SPAWN_CAP = 3;
+	public static final int RASCALS_SPAWN_CAP = 1;
 	public static final boolean RASCALS_PEACEFUL = true;
 	public static final boolean RASCALS_RARE = false;
 	public static final int RASCALS_IMMEDIATE_DESPAWN_RANGE = 128;

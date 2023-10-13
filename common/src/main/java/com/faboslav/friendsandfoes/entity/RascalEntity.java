@@ -94,7 +94,9 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 				return false;
 			}
 
-			List<RascalEntity> nearbyRascals = serverWorld.getEntitiesByClass(RascalEntity.class, new Box(blockPos).expand(32.0F), (rascalEntity) -> true);
+			List<LivingEntity> nearbyRascals = serverWorld.getEntitiesByClass(LivingEntity.class, new Box(blockPos).expand(32.0F), (livingEntity) -> {
+				return livingEntity instanceof RascalEntity || livingEntity instanceof PlayerEntity;
+			});
 
 			if (nearbyRascals.isEmpty() == false) {
 				return false;
@@ -352,7 +354,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 
 	public void playDisappearSound() {
 		SoundEvent soundEvent = this.getDisappearSound();
-		this.playSound(soundEvent, 1.5F, RandomGenerator.generateFloat(1.5F, 1.6F));
+		this.playSound(soundEvent, 2.0F, RandomGenerator.generateFloat(1.5F, 1.6F));
 	}
 
 	public SoundEvent getReappearSound() {
@@ -361,7 +363,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 
 	public void playReappearSound() {
 		SoundEvent soundEvent = this.getReappearSound();
-		this.playSound(soundEvent, 1.5F, RandomGenerator.generateFloat(1.5F, 1.6F));
+		this.playSound(soundEvent, 2.0F, RandomGenerator.generateFloat(1.5F, 1.6F));
 	}
 
 	@Override

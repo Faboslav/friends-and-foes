@@ -100,7 +100,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 				return false;
 			}
 
-            return blockPos.getY() < 63 && serverWorldAccess.isSkyVisible(blockPos) == false;
+			return blockPos.getY() < 63 && serverWorldAccess.isSkyVisible(blockPos) == false;
 		}
 
 		return false;

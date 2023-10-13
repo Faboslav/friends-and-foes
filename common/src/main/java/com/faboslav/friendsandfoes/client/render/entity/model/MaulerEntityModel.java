@@ -113,11 +113,11 @@ public final class MaulerEntityModel<T extends MaulerEntity> extends AnimatedEnt
 		) {
 			float targetX = AnimationMath.toRadians(5) + AnimationMath.toRadians(-65) * AnimationMath.absSin(animationProgress, 1.0F, 0.35F);
 			float delta = AnimationMath.absSin(animationProgress);
-			this.animateModelPartXRotationBasedOnProgress(mauler, this.upperJaw, targetX, delta);
-			this.animateModelPartXRotationBasedOnTicks(mauler, this.lowerJaw, AnimationMath.toRadians(-5), 10);
+			animateModelPartXRotationBasedOnProgress(mauler, this.upperJaw, targetX, delta);
+			animateModelPartXRotationBasedOnTicks(mauler, this.lowerJaw, AnimationMath.toRadians(-5), 10);
 		} else {
-			this.animateModelPartXRotationBasedOnTicks(mauler, this.upperJaw, 0.0F, 10);
-			this.animateModelPartXRotationBasedOnTicks(mauler, this.lowerJaw, 0.0F, 10);
+			animateModelPartXRotationBasedOnTicks(mauler, this.upperJaw, 0.0F, 10);
+			animateModelPartXRotationBasedOnTicks(mauler, this.lowerJaw, 0.0F, 10);
 		}
 	}
 }

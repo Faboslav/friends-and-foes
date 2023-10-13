@@ -11,9 +11,11 @@ import java.util.function.Supplier;
 public final class FriendsAndFoesActivities
 {
 	public final static Supplier<Activity> TUFF_GOLEM_HOME;
+	public final static Supplier<Activity> RASCAL_WAIT;
 
 	static {
 		TUFF_GOLEM_HOME = RegistryHelper.registerActivity("tuff_golem_home", () -> new Activity("tuff_golem_home"));
+		RASCAL_WAIT = RegistryHelper.registerActivity("rascal_wait", () -> new Activity("rascal_wait"));
 	}
 
 	public static void init() {

@@ -47,7 +47,7 @@ public final class WildfireSummonBlazeTask extends Task<WildfireEntity>
 					|| ((PlayerEntity) attackTarget).isCreative()
 				)
 			)
-			|| wildfire.getSummonedBlazesCount() == wildfire.MAXIMUM_SUMMONED_BLAZES_COUNT
+			|| wildfire.getSummonedBlazesCount() == WildfireEntity.MAXIMUM_SUMMONED_BLAZES_COUNT
 		) {
 			WildfireBrain.setSummonBlazeCooldown(wildfire);
 			return false;

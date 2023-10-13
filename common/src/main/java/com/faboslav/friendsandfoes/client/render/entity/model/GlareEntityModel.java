@@ -138,14 +138,14 @@ public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntit
 			ModelPartAnimator.setYRotation(this.root, AnimationMath.sin(animationProgress, 0.05F));
 		} else {
 			float targetPivotY = glare.isSitting() ? 3.0F:0.0F;
-			this.animateModelPartYPositionBasedOnTicks(glare, this.root, targetPivotY, 10);
+			animateModelPartYPositionBasedOnTicks(glare, this.root, targetPivotY, 10);
 		}
 	}
 
 	private void animateEyes(T glare) {
 		Vec2f targetEyesPositionOffset = glare.getTargetEyesPositionOffset();
 
-		this.animateModelPartPositionBasedOnTicks(
+		animateModelPartPositionBasedOnTicks(
 			glare,
 			this.eyes,
 			this.eyes.pivotX + targetEyesPositionOffset.x,

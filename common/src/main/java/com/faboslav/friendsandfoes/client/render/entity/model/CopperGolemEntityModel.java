@@ -132,7 +132,7 @@ public final class CopperGolemEntityModel<T extends CopperGolemEntity> extends A
 			float rodPivotY = defaultRodPivotY + AnimationMath.absSin(animationProgress, 1.0F, 0.25F);
 			this.animateModelPartYPositionBasedOnProgress(copperGolem, this.rod, rodPivotY, AnimationMath.absSin(animationProgress));
 		} else {
-			this.animateModelPartYPositionBasedOnTicks(copperGolem, this.rod, defaultRodPivotY, 10);
+			animateModelPartYPositionBasedOnTicks(copperGolem, this.rod, defaultRodPivotY, 10);
 		}
 	}
 

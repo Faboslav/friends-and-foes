@@ -4,9 +4,15 @@ import com.faboslav.friendsandfoes.client.render.entity.animation.KeyframeAnimat
 import com.faboslav.friendsandfoes.client.render.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.client.render.entity.animation.animator.context.KeyframeAnimationContext;
 
+import java.util.ArrayList;
+
 public interface AnimatedEntity
 {
 	AnimationContextTracker getAnimationContextTracker();
+
+	default ArrayList<KeyframeAnimation> getAnimations() {
+		return new ArrayList<>();
+	}
 
 	default int getKeyframeAnimationTicks() {
 		return 0;
@@ -31,6 +37,20 @@ public interface AnimatedEntity
 		KeyframeAnimationContext keyframeAnimationContext = this.getAnimationContextTracker().get(keyframeAnimation);
 		keyframeAnimationContext.setInitialTick(initialTick);
 		keyframeAnimationContext.getAnimationState().startIfNotRunning(initialTick);
+	}
+
+	default void forceStartKeyframeAnimation(KeyframeAnimation keyframeAnimation, int initialTick) {
+		KeyframeAnimationContext keyframeAnimationContext = this.getAnimationContextTracker().get(keyframeAnimation);
+		keyframeAnimationContext.setInitialTick(initialTick);
+		keyframeAnimationContext.getAnimationState().start(initialTick);
+	}
+
+	default void stopRunningKeyframeAnimations() {
+		for (KeyframeAnimation keyframeAnimation : this.getAnimations()) {
+			if (this.getAnimationContextTracker().get(keyframeAnimation).isRunning() == false) {
+				this.stopKeyframeAnimation(keyframeAnimation);
+			}
+		}
 	}
 
 	default void stopKeyframeAnimation(KeyframeAnimation keyframeAnimation) {

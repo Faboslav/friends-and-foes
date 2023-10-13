@@ -54,14 +54,26 @@ public final class AddCustomSpawnGroupMixin
 		var glaresSpawnGroup = newSpawnGroup(
 			CustomSpawnGroup.GLARES_INTERNAL_NAME,
 			lastSpawnGroup.ordinal() + 1,
-			CustomSpawnGroup.NAME,
-			CustomSpawnGroup.SPAWN_CAP,
-			CustomSpawnGroup.PEACEFUL,
-			CustomSpawnGroup.RARE,
-			CustomSpawnGroup.IMMEDIATE_DESPAWN_RANGE
+			CustomSpawnGroup.GLARES_NAME,
+			CustomSpawnGroup.GLARES_SPAWN_CAP,
+			CustomSpawnGroup.GLARES_PEACEFUL,
+			CustomSpawnGroup.GLARES_RARE,
+			CustomSpawnGroup.GLARES_IMMEDIATE_DESPAWN_RANGE
 		);
 		CustomSpawnGroupImpl.GLARES = glaresSpawnGroup;
 		spawnGroups.add(glaresSpawnGroup);
+
+		var rascalsSpawnGroup = newSpawnGroup(
+			CustomSpawnGroup.RASCALS_INTERNAL_NAME,
+			lastSpawnGroup.ordinal() + 2,
+			CustomSpawnGroup.RASCALS_NAME,
+			CustomSpawnGroup.RASCALS_SPAWN_CAP,
+			CustomSpawnGroup.RASCALS_PEACEFUL,
+			CustomSpawnGroup.RASCALS_RARE,
+			CustomSpawnGroup.RASCALS_IMMEDIATE_DESPAWN_RANGE
+		);
+		CustomSpawnGroupImpl.RASCALS = rascalsSpawnGroup;
+		spawnGroups.add(rascalsSpawnGroup);
 
 		field_6301 = spawnGroups.toArray(new SpawnGroup[0]);
 	}

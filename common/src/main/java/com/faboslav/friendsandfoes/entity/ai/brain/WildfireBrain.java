@@ -63,7 +63,8 @@ public final class WildfireBrain
 				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.WILDFIRE_BARRAGE_ATTACK_COOLDOWN.get()),
 				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get()),
 				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SUMMON_BLAZE_COOLDOWN.get())
-			));
+			)
+		);
 	}
 
 	private static void addIdleActivities(Brain<WildfireEntity> brain) {

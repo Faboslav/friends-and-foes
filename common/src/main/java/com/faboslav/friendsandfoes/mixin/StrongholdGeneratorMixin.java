@@ -95,7 +95,7 @@ public abstract class StrongholdGeneratorMixin extends StructurePiece
 		ItemStack enchantedItemStack = EnchantmentHelper.enchant(
 			random,
 			itemStack,
-			random.nextBetween(1, 3),
+			random.nextBetween(1, 30),
 			true
 		);
 

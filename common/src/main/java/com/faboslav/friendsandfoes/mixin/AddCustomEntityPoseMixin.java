@@ -1,5 +1,6 @@
-package com.faboslav.friendsandfoes.mixin.fabric;
+package com.faboslav.friendsandfoes.mixin;
 
+import com.faboslav.friendsandfoes.entity.pose.RascalEntityPose;
 import com.faboslav.friendsandfoes.entity.pose.TuffGolemEntityPose;
 import net.minecraft.entity.EntityPose;
 import org.objectweb.asm.Opcodes;
@@ -44,30 +45,25 @@ public final class AddCustomEntityPoseMixin
 	private static void friendsandfoes_addCustomEntityPoses(CallbackInfo ci) {
 		var entityPoses = new ArrayList<>(Arrays.asList(field_18083));
 		var lastEntityPose = entityPoses.get(entityPoses.size() - 1);
+		var nextEntityPoseIndex = lastEntityPose.ordinal();
 
-		var tuffGolemStanding = newEntityPose(
-			TuffGolemEntityPose.STANDING.getName(),
-			lastEntityPose.ordinal() + 1
-		);
-		entityPoses.add(tuffGolemStanding);
+		for (TuffGolemEntityPose tuffGolemEntityPose : TuffGolemEntityPose.values()) {
+			var newEntityPose = newEntityPose(
+				tuffGolemEntityPose.getName(),
+				nextEntityPoseIndex++
+			);
 
-		var tuffGolemStandingWithItem = newEntityPose(
-			TuffGolemEntityPose.STANDING_WITH_ITEM.getName(),
-			lastEntityPose.ordinal() + 2
-		);
-		entityPoses.add(tuffGolemStandingWithItem);
+			entityPoses.add(newEntityPose);
+		}
 
-		var tuffGolemSleeping = newEntityPose(
-			TuffGolemEntityPose.SLEEPING.getName(),
-			lastEntityPose.ordinal() + 3
-		);
-		entityPoses.add(tuffGolemSleeping);
+		for (RascalEntityPose rascalEntityPose : RascalEntityPose.values()) {
+			var newEntityPose = newEntityPose(
+				rascalEntityPose.getName(),
+				nextEntityPoseIndex++
+			);
 
-		var tuffGolemSleepingWithItem = newEntityPose(
-			TuffGolemEntityPose.SLEEPING_WITH_ITEM.getName(),
-			lastEntityPose.ordinal() + 4
-		);
-		entityPoses.add(tuffGolemSleepingWithItem);
+			entityPoses.add(newEntityPose);
+		}
 
 		field_18083 = entityPoses.toArray(new EntityPose[0]);
 	}

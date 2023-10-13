@@ -1,7 +1,5 @@
 package com.faboslav.friendsandfoes.client.render.entity.model;
 
-import com.faboslav.friendsandfoes.client.render.entity.animation.TuffGolemAnimations;
-import com.faboslav.friendsandfoes.client.render.entity.animation.animator.ModelAnimator;
 import com.faboslav.friendsandfoes.entity.TuffGolemEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -104,14 +102,5 @@ public final class TuffGolemEntityModel<T extends TuffGolemEntity> extends Anima
 			this.leftArm.pitch = (-0.2F + 2.0F * MathHelper.wrap(limbAngle, 13.0F)) * limbDistance;
 			this.rightArm.pitch = (-0.2F - 2.0F * MathHelper.wrap(limbAngle, 13.0F)) * limbDistance;
 		}
-	}
-
-	private void updateKeyframeAnimations(
-		T tuffGolem,
-		float animationProgress
-	) {
-		TuffGolemAnimations.ANIMATIONS.forEach((keyframeAnimation -> {
-			ModelAnimator.updateKeyframeAnimations(tuffGolem, this, keyframeAnimation, animationProgress);
-		}));
 	}
 }

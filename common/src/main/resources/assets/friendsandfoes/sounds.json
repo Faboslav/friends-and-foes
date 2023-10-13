@@ -181,7 +181,64 @@
 			"friendsandfoes:entity/player/mirror_move1",
 			"friendsandfoes:entity/player/mirror_move2"
 		],
-		"subtitle": "subtitle.entity.friendsandfoes.moobloom.convert"
+		"subtitle": "subtitle.entity.friendsandfoes.player.mirror_move"
+	},
+	"entity.rascal.ambient": {
+		"sounds": [
+			"friendsandfoes:entity/rascal/ambient1",
+			"friendsandfoes:entity/rascal/ambient2",
+			"friendsandfoes:entity/rascal/ambient3",
+			"friendsandfoes:entity/rascal/ambient4",
+			"friendsandfoes:entity/rascal/ambient5"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.rascal.ambient"
+	},
+	"entity.rascal.disappear": {
+		"sounds": [
+			"friendsandfoes:entity/rascal/disappear1",
+			"friendsandfoes:entity/rascal/disappear2"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.rascal.disappear"
+	},
+	"entity.rascal.hurt": {
+		"sounds": [
+			"friendsandfoes:entity/rascal/hurt1",
+			"friendsandfoes:entity/rascal/hurt2",
+			"friendsandfoes:entity/rascal/hurt3",
+			"friendsandfoes:entity/rascal/hurt4"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.rascal.hurt"
+	},
+	"entity.rascal.nod": {
+		"sounds": [
+			"friendsandfoes:entity/rascal/nod1",
+			"friendsandfoes:entity/rascal/nod2",
+			"friendsandfoes:entity/rascal/nod3",
+			"friendsandfoes:entity/rascal/nod4"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.rascal.nod"
+	},
+	"entity.rascal.reappear": {
+		"sounds": [
+			"friendsandfoes:entity/rascal/reappear1",
+			"friendsandfoes:entity/rascal/reappear2"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.rascal.reappear"
+	},
+	"entity.rascal.reward": {
+		"sounds": [
+			"friendsandfoes:entity/rascal/reward1",
+			"friendsandfoes:entity/rascal/reward2"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.rascal.reward"
+	},
+	"entity.rascal.reward_bad": {
+		"sounds": [
+			"friendsandfoes:entity/rascal/reward_bad1",
+			"friendsandfoes:entity/rascal/reward_bad2",
+			"friendsandfoes:entity/rascal/reward_bad3"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.rascal.reward_bad"
 	},
 	"entity.tuff_golem.glue_on": {
 		"sounds": [

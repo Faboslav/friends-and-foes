@@ -273,7 +273,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		}
 
 		this.setTargetEyesPositionOffset(
-			-0.5F + this.getRandom().nextFloat() * (0.5F - -0.5F),
+			-0.5F + this.getRandom().nextFloat(),
 			-0.4F + this.getRandom().nextFloat() * (0.4F - -0.4F)
 		);
 	}

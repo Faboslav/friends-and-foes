@@ -11,10 +11,19 @@ public final class CustomSpawnGroupImpl
 
 	public static SpawnGroup GLARES;
 
+	public static SpawnGroup RASCALS;
+
 	/**
 	 * @see CustomSpawnGroup#getGlaresCategory()
 	 */
 	public static SpawnGroup getGlaresCategory() {
 		return GLARES;
+	}
+
+	/**
+	 * @see CustomSpawnGroup#getRascalsCategory()
+	 */
+	public static SpawnGroup getRascalsCategory() {
+		return RASCALS;
 	}
 }

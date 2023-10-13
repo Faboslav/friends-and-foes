@@ -22,6 +22,7 @@ public final class FriendsAndFoesEntityModelLayer
 	public static final EntityModelLayer ICEOLOGER_ICE_CHUNK_LAYER;
 	public static final EntityModelLayer MAULER_LAYER;
 	public static final EntityModelLayer MOOBLOOM_LAYER;
+	public static final EntityModelLayer RASCAL_LAYER;
 	public static final EntityModelLayer TUFF_GOLEM_LAYER;
 	public static final EntityModelLayer WILDFIRE_LAYER;
 	public static final EntityModelLayer PLAYER_ILLUSION_LAYER;
@@ -33,6 +34,7 @@ public final class FriendsAndFoesEntityModelLayer
 		ICEOLOGER_ICE_CHUNK_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("iceologer_ice_chunk"), "main");
 		MAULER_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("mauler"), "main");
 		MOOBLOOM_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("moobloom"), "main");
+		RASCAL_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("rascal"), "main");
 		TUFF_GOLEM_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("tuff_golem"), "main");
 		WILDFIRE_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("wildfire"), "main");
 		PLAYER_ILLUSION_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("player_illusion"), "main");
@@ -45,6 +47,7 @@ public final class FriendsAndFoesEntityModelLayer
 		RegistryHelper.registerEntityModelLayer(ICEOLOGER_ICE_CHUNK_LAYER, IceologerIceChunkModel::getTexturedModelData);
 		RegistryHelper.registerEntityModelLayer(MAULER_LAYER, MaulerEntityModel::getTexturedModelData);
 		RegistryHelper.registerEntityModelLayer(MOOBLOOM_LAYER, CowEntityModel::getTexturedModelData);
+		RegistryHelper.registerEntityModelLayer(RASCAL_LAYER, RascalEntityModel::getTexturedModelData);
 		RegistryHelper.registerEntityModelLayer(TUFF_GOLEM_LAYER, TuffGolemEntityModel::getTexturedModelData);
 		RegistryHelper.registerEntityModelLayer(WILDFIRE_LAYER, WildfireEntityModel::getTexturedModelData);
 	}

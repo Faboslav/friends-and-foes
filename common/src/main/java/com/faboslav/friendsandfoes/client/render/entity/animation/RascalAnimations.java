@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public final class RascalAnimations
 {
-	public static final KeyframeAnimation DEFAULT;
+	public static final KeyframeAnimation IDLE;
 	public static final KeyframeAnimation NOD;
 	public static final KeyframeAnimation GIVE_REWARD;
 	public static final ArrayList<KeyframeAnimation> ANIMATIONS;
@@ -18,7 +18,72 @@ public final class RascalAnimations
 	}
 
 	static {
-		DEFAULT = new KeyframeAnimation("default", Animation.Builder.create(0.0f).build());
+		IDLE = new KeyframeAnimation("idle", Animation.Builder.create(3f).looping()
+			.addBoneAnimation("head",
+				new Transformation(Transformation.Type.TRANSLATE,
+					new Keyframe(0f, VectorHelper.createTranslationalVector(0f, 0f, 0f),
+						Transformation.Interpolations.LINEAR),
+					new Keyframe(1.75f, VectorHelper.createTranslationalVector(0f, 0.25f, 0f),
+						Transformation.Interpolations.LINEAR),
+					new Keyframe(3f, VectorHelper.createTranslationalVector(0f, 0f, 0f),
+						Transformation.Interpolations.LINEAR)))
+			.addBoneAnimation("head",
+				new Transformation(Transformation.Type.ROTATE,
+					new Keyframe(0f, VectorHelper.createRotationalVector(0f, 0f, 0f),
+						Transformation.Interpolations.LINEAR),
+					new Keyframe(1.75f, VectorHelper.createRotationalVector(1.5f, 0f, 0f),
+						Transformation.Interpolations.LINEAR),
+					new Keyframe(3f, VectorHelper.createRotationalVector(0f, 0f, 0f),
+						Transformation.Interpolations.LINEAR)))
+			.addBoneAnimation("leftArm",
+				new Transformation(Transformation.Type.TRANSLATE,
+					new Keyframe(0f, VectorHelper.createTranslationalVector(0f, 0f, 0f),
+						Transformation.Interpolations.LINEAR),
+					new Keyframe(1.75f, VectorHelper.createTranslationalVector(0f, 0.25f, 0f),
+						Transformation.Interpolations.LINEAR),
+					new Keyframe(3f, VectorHelper.createTranslationalVector(0f, 0f, 0f),
+						Transformation.Interpolations.LINEAR)))
+			.addBoneAnimation("rightArm",
+				new Transformation(Transformation.Type.TRANSLATE,
+					new Keyframe(0f, VectorHelper.createTranslationalVector(0f, 0f, 0f),
+						Transformation.Interpolations.LINEAR),
+					new Keyframe(1.75f, VectorHelper.createTranslationalVector(0f, 0.25f, 0f),
+						Transformation.Interpolations.LINEAR),
+					new Keyframe(3f, VectorHelper.createTranslationalVector(0f, 0f, 0f),
+						Transformation.Interpolations.LINEAR)))
+			.addBoneAnimation("bag",
+				new Transformation(Transformation.Type.TRANSLATE,
+					new Keyframe(0f, VectorHelper.createTranslationalVector(0f, 0f, 0f),
+						Transformation.Interpolations.LINEAR),
+					new Keyframe(1.75f, VectorHelper.createTranslationalVector(0f, 0.25f, 0f),
+						Transformation.Interpolations.LINEAR),
+					new Keyframe(3f, VectorHelper.createTranslationalVector(0f, 0f, 0f),
+						Transformation.Interpolations.LINEAR)))
+			.addBoneAnimation("bag",
+				new Transformation(Transformation.Type.ROTATE,
+					new Keyframe(0f, VectorHelper.createRotationalVector(0f, 0f, 0f),
+						Transformation.Interpolations.LINEAR),
+					new Keyframe(1.75f, VectorHelper.createRotationalVector(1f, 0f, 0f),
+						Transformation.Interpolations.LINEAR),
+					new Keyframe(3f, VectorHelper.createRotationalVector(0f, 0f, 0f),
+						Transformation.Interpolations.LINEAR)))
+			.addBoneAnimation("body",
+				new Transformation(Transformation.Type.TRANSLATE,
+					new Keyframe(0f, VectorHelper.createTranslationalVector(0f, 0f, 0f),
+						Transformation.Interpolations.LINEAR),
+					new Keyframe(1.75f, VectorHelper.createTranslationalVector(0f, 0.25f, 0f),
+						Transformation.Interpolations.LINEAR),
+					new Keyframe(3f, VectorHelper.createTranslationalVector(0f, 0f, 0f),
+						Transformation.Interpolations.LINEAR)))
+			.addBoneAnimation("body",
+				new Transformation(Transformation.Type.ROTATE,
+					new Keyframe(0f, VectorHelper.createRotationalVector(0f, 0f, 0f),
+						Transformation.Interpolations.LINEAR),
+					new Keyframe(1.75f, VectorHelper.createRotationalVector(0.5f, 0f, 0f),
+						Transformation.Interpolations.LINEAR),
+					new Keyframe(3f, VectorHelper.createRotationalVector(0f, 0f, 0f),
+						Transformation.Interpolations.LINEAR))).build()
+		);
 		NOD = new KeyframeAnimation("nod", Animation.Builder.create(0.4167f)
 			.addBoneAnimation("head",
 				new Transformation(Transformation.Type.TRANSLATE,
@@ -295,7 +360,7 @@ public final class RascalAnimations
 		);
 		ANIMATIONS = new ArrayList<>()
 		{{
-			add(DEFAULT);
+			add(IDLE);
 			add(NOD);
 			add(GIVE_REWARD);
 		}};

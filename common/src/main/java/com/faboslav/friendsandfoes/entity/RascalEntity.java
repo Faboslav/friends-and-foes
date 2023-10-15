@@ -70,7 +70,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 	) {
 		EntityData superEntityData = super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
 
-		this.setPose(RascalEntityPose.DEFAULT);
+		this.setPose(RascalEntityPose.IDLE);
 		RascalBrain.setNodCooldown(this);
 
 		return superEntityData;
@@ -214,8 +214,8 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 	private KeyframeAnimation getKeyframeAnimationByPose() {
 		KeyframeAnimation keyframeAnimation = null;
 
-		if (this.isInPose(RascalEntityPose.DEFAULT)) {
-			keyframeAnimation = RascalAnimations.DEFAULT;
+		if (this.isInPose(RascalEntityPose.IDLE)) {
+			keyframeAnimation = RascalAnimations.IDLE;
 		} else if (this.isInPose(RascalEntityPose.NOD)) {
 			keyframeAnimation = RascalAnimations.NOD;
 		} else if (this.isInPose(RascalEntityPose.GIVE_REWARD)) {

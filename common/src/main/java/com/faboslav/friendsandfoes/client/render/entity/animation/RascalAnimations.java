@@ -534,7 +534,6 @@ public final class RascalAnimations
 			add(IDLE);
 			add(NOD);
 			add(GIVE_REWARD);
-			add(WALK);
 		}};
 	}
 }

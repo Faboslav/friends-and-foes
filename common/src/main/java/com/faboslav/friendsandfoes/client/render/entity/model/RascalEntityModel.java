@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.client.render.entity.model;
 
+import com.faboslav.friendsandfoes.client.render.entity.animation.RascalAnimations;
 import com.faboslav.friendsandfoes.entity.RascalEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -73,6 +74,7 @@ public final class RascalEntityModel<T extends RascalEntity> extends AnimatedEnt
 		float headYaw,
 		float headPitch
 	) {
+		this.updateMovementKeyframeAnimations(rascal, RascalAnimations.WALK, limbAngle, limbDistance, 1.0F, 1.5F);
 		this.updateKeyframeAnimations(rascal, animationProgress);
 	}
 

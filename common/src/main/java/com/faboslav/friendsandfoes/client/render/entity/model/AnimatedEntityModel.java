@@ -1,7 +1,9 @@
 package com.faboslav.friendsandfoes.client.render.entity.model;
 
+import com.faboslav.friendsandfoes.client.render.entity.animation.KeyframeAnimation;
 import com.faboslav.friendsandfoes.client.render.entity.animation.animator.ModelAnimator;
 import com.faboslav.friendsandfoes.entity.animation.AnimatedEntity;
+import com.faboslav.friendsandfoes.entity.animation.Animation;
 import com.faboslav.friendsandfoes.mixin.ModelPartAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -296,5 +298,18 @@ public abstract class AnimatedEntityModel<E extends Entity> extends BaseEntityMo
 		animatedEntity.getAnimations().forEach((keyframeAnimation -> {
 			ModelAnimator.updateKeyframeAnimations(animatedEntity, this, keyframeAnimation, animationProgress);
 		}));
+	}
+
+	protected void updateMovementKeyframeAnimations(
+		AnimatedEntity animatedEntity,
+		KeyframeAnimation keyframeAnimation,
+		float limbAngle,
+		float limbDistance,
+		float limbAngleScale,
+		float limbDistanceScale
+	) {
+		long l = (long)(limbAngle * 50.0F * limbAngleScale);
+		float f = Math.min(limbDistance * limbDistanceScale, 1.0F);
+		ModelAnimator.updateKeyframeAnimations(animatedEntity, this, keyframeAnimation, l, f, TEMP);
 	}
 }

@@ -242,8 +242,7 @@ public abstract class IllusionerEntityMixin extends IllusionerSpellcastingIllage
 			Entity attacker = source.getAttacker();
 
 			if (
-				attacker == null
-				|| attacker instanceof IllusionerEntity
+				attacker instanceof IllusionerEntity
 				|| (
 					this.friendsandfoes_isIllusion()
 					&& !(attacker instanceof LivingEntity)

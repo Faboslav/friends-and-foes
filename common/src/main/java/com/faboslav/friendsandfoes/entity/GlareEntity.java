@@ -9,6 +9,7 @@ import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
+import com.faboslav.friendsandfoes.util.particle.ParticleSpawner;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.control.FlightMoveControl;
@@ -473,7 +474,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		this.playEatSound(itemStack);
 
 		ItemStackParticleEffect particleEffect = new ItemStackParticleEffect(ParticleTypes.ITEM, itemStack);
-		this.spawnParticles(particleEffect, 7);
+		ParticleSpawner.spawnParticles(this, particleEffect, 7, 0.1D);
 
 		return true;
 	}
@@ -686,30 +687,5 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 
 	public boolean isMoving() {
 		return this.isOnGround() == false && this.getVelocity().lengthSquared() >= 0.0001;
-	}
-
-	public void spawnParticles(
-		ParticleEffect particleEffect,
-		int amount
-	) {
-		World world = this.getWorld();
-
-		if (world.isClient()) {
-			return;
-		}
-
-		for (int i = 0; i < amount; i++) {
-			((ServerWorld) world).spawnParticles(
-				particleEffect,
-				this.getParticleX(1.0D),
-				this.getRandomBodyY() + 0.5D,
-				this.getParticleZ(1.0D),
-				1,
-				this.getRandom().nextGaussian() * 0.02D,
-				this.getRandom().nextGaussian() * 0.02D,
-				this.getRandom().nextGaussian() * 0.02D,
-				0.1D
-			);
-		}
 	}
 }

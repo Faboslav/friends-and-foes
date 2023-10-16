@@ -9,6 +9,7 @@ import com.faboslav.friendsandfoes.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.entity.pose.RascalEntityPose;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
+import com.faboslav.friendsandfoes.util.particle.ParticleSpawner;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
@@ -27,7 +28,6 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
@@ -407,33 +407,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 	}
 
 	public void spawnCloudParticles() {
-		this.spawnParticles(ParticleTypes.CLOUD, 16, 0.1D);
-	}
-
-	public void spawnParticles(
-		ParticleEffect particleEffect,
-		int amount,
-		double speed
-	) {
-		World world = this.getWorld();
-
-		if (world.isClient()) {
-			return;
-		}
-
-		for (int i = 0; i < amount; i++) {
-			((ServerWorld) world).spawnParticles(
-				particleEffect,
-				this.getParticleX(1.0D),
-				this.getRandomBodyY() + 0.5D,
-				this.getParticleZ(1.0D),
-				1,
-				this.getRandom().nextGaussian() * 0.02D,
-				this.getRandom().nextGaussian() * 0.02D,
-				this.getRandom().nextGaussian() * 0.02D,
-				speed
-			);
-		}
+		ParticleSpawner.spawnParticles(this, ParticleTypes.CLOUD, 16, 0.1D);
 	}
 
 	static {

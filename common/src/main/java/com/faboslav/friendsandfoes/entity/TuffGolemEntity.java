@@ -677,6 +677,12 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 			this.inactiveTicksAfterSpawn--;
 		}
 
+		this.updateKeyframeAnimations();
+
+		super.tick();
+	}
+
+	private void updateKeyframeAnimations() {
 		if (this.getWorld().isClient() == false && this.isAnyKeyframeAnimationRunning()) {
 			this.setKeyframeAnimationTicks(this.getKeyframeAnimationTicks() - 1);
 		}
@@ -693,8 +699,6 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 			this.startKeyframeAnimation(keyframeAnimationToStart);
 		}
-
-		super.tick();
 	}
 
 	@Override
@@ -705,8 +709,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		Entity attacker = source.getAttacker();
 
 		if (
-			attacker == null
-			|| attacker instanceof LightningEntity
+			attacker instanceof LightningEntity
 			|| source == DamageSource.SWEET_BERRY_BUSH
 		) {
 			return false;

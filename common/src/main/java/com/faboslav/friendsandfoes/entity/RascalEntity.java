@@ -116,6 +116,8 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 			for (KeyframeAnimation keyframeAnimation : this.getAnimations()) {
 				this.animationContextTracker.add(keyframeAnimation);
 			}
+
+			this.animationContextTracker.add(RascalAnimations.WALK);
 		}
 
 		return this.animationContextTracker;
@@ -124,6 +126,11 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 	@Override
 	public ArrayList<KeyframeAnimation> getAnimations() {
 		return RascalAnimations.ANIMATIONS;
+	}
+
+	@Override
+	public KeyframeAnimation getMovementAnimation() {
+		return RascalAnimations.WALK;
 	}
 
 	@Override
@@ -226,7 +233,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 	}
 
 	private void startKeyframeAnimation(KeyframeAnimation keyframeAnimationToStart) {
-		for (KeyframeAnimation keyframeAnimation : RascalAnimations.ANIMATIONS) {
+		for (KeyframeAnimation keyframeAnimation : this.getAnimations()) {
 			if (keyframeAnimation == keyframeAnimationToStart) {
 				continue;
 			}

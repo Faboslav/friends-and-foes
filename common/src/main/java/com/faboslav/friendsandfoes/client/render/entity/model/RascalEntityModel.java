@@ -62,7 +62,7 @@ public final class RascalEntityModel<T extends RascalEntity> extends AnimatedEnt
 		float limbDistance,
 		float tickDelta
 	) {
-		this.updateAnimations(rascal, limbAngle, limbDistance);
+		//this.updateAnimations(rascal, limbAngle, limbDistance);
 	}
 
 	@Override
@@ -74,7 +74,8 @@ public final class RascalEntityModel<T extends RascalEntity> extends AnimatedEnt
 		float headYaw,
 		float headPitch
 	) {
-		this.updateMovementKeyframeAnimations(rascal, RascalAnimations.WALK, limbAngle, limbDistance, 1.0F, 1.5F);
+		this.getPart().traverse().forEach(ModelPart::resetTransform);
+		this.updateMovementKeyframeAnimations(rascal, limbAngle, limbDistance, 1.5F, 2.5F);
 		this.updateKeyframeAnimations(rascal, animationProgress);
 	}
 

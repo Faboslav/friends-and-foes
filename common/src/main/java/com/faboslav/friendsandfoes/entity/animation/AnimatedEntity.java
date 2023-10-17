@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes.entity.animation;
 import com.faboslav.friendsandfoes.client.render.entity.animation.KeyframeAnimation;
 import com.faboslav.friendsandfoes.client.render.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.client.render.entity.animation.animator.context.KeyframeAnimationContext;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
@@ -10,10 +11,24 @@ public interface AnimatedEntity
 {
 	AnimationContextTracker getAnimationContextTracker();
 
+	/**
+	 * This is temporarily empty array until all the mobs have keyframe animations
+	 */
 	default ArrayList<KeyframeAnimation> getAnimations() {
 		return new ArrayList<>();
 	}
 
+	/**
+	 * This is temporarily nullable until all the mobs have keyframe animations
+	 */
+	@Nullable
+	default KeyframeAnimation getMovementAnimation() {
+		return null;
+	}
+
+	/**
+	 * This is temporarily 0 until all the mobs have keyframe animations
+	 */
 	default int getKeyframeAnimationTicks() {
 		return 0;
 	}

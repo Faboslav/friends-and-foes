@@ -43,25 +43,21 @@ public final class ModelAnimator
 		});
 	}
 
-	public static void updateKeyframeAnimations(
+	public static void updateMovementKeyframeAnimations(
 		AnimatedEntity animatedEntity,
 		AnimatedEntityModel animatedEntityModel,
-		KeyframeAnimation keyframeAnimation,
 		long runningTime,
-		float f,
-		Vec3f vec3f
+		float f
 	) {
 		AnimationContextTracker animationContextTracker = animatedEntity.getAnimationContextTracker();
+		KeyframeAnimation keyframeAnimation = animatedEntity.getMovementAnimation();
 		Animation animation = keyframeAnimation.getAnimation();
 		int currentTick = ((Entity) animatedEntity).age;
 
 		KeyframeAnimationContext keyframeAnimationContext = animationContextTracker.get(keyframeAnimation);
 		keyframeAnimationContext.setCurrentTick(currentTick);
-		AnimationState animationState = keyframeAnimationContext.getAnimationState();
 
-		animationState.run((state) -> {
-			animateKeyframe(animatedEntityModel, animation, state.getTimeRunning(), 1.0F, new Vec3f());
-		});
+		animateKeyframe(animatedEntityModel, animation, runningTime, f, new Vec3f());
 	}
 
 	public static void animateKeyframe(

@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.mixin;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.pose.RascalEntityPose;
 import com.faboslav.friendsandfoes.entity.pose.TuffGolemEntityPose;
 import net.minecraft.entity.EntityPose;
@@ -50,7 +51,7 @@ public final class AddCustomEntityPoseMixin
 		for (TuffGolemEntityPose tuffGolemEntityPose : TuffGolemEntityPose.values()) {
 			var newEntityPose = newEntityPose(
 				tuffGolemEntityPose.getName(),
-				nextEntityPoseIndex++
+				++nextEntityPoseIndex
 			);
 
 			entityPoses.add(newEntityPose);
@@ -59,7 +60,7 @@ public final class AddCustomEntityPoseMixin
 		for (RascalEntityPose rascalEntityPose : RascalEntityPose.values()) {
 			var newEntityPose = newEntityPose(
 				rascalEntityPose.getName(),
-				nextEntityPoseIndex++
+				++nextEntityPoseIndex
 			);
 
 			entityPoses.add(newEntityPose);

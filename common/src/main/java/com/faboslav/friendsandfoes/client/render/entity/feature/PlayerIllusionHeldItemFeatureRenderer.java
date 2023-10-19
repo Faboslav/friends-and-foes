@@ -62,14 +62,14 @@ public final class PlayerIllusionHeldItemFeatureRenderer<T extends PlayerIllusio
 		int light
 	) {
 		matrices.push();
-		ModelPart modelPart = ((ModelWithHead) this.getContextModel()).getHead();
+		ModelPart modelPart = this.getContextModel().getHead();
 		float f = modelPart.pitch;
 		modelPart.pitch = MathHelper.clamp(modelPart.pitch, -0.5235988F, 1.5707964F);
 		modelPart.rotate(matrices);
 		modelPart.pitch = f;
 		HeadFeatureRenderer.translate(matrices, false);
 		boolean bl = arm == Arm.LEFT;
-		matrices.translate((double) ((bl ? -2.5F:2.5F) / 16.0F), -0.0625, 0.0);
+		matrices.translate((bl ? -2.5F:2.5F) / 16.0F, -0.0625, 0.0);
 		this.playerHeldItemRenderer.renderItem(entity, stack, Mode.HEAD, false, matrices, vertexConsumers, light);
 		matrices.pop();
 	}

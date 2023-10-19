@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.client.render.entity.model;
 
-import com.faboslav.friendsandfoes.client.render.entity.animation.RascalAnimations;
 import com.faboslav.friendsandfoes.entity.RascalEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

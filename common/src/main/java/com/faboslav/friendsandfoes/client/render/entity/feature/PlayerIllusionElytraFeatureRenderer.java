@@ -48,8 +48,7 @@ public class PlayerIllusionElytraFeatureRenderer<T extends LivingEntity, M exten
 		ItemStack itemStack = livingEntity.getEquippedStack(EquipmentSlot.CHEST);
 		if (itemStack.isOf(Items.ELYTRA)) {
 			Identifier identifier;
-			if (livingEntity instanceof PlayerIllusionEntity) {
-				PlayerIllusionEntity playerIllusionEntity = (PlayerIllusionEntity) livingEntity;
+			if (livingEntity instanceof PlayerIllusionEntity playerIllusionEntity) {
 				if (playerIllusionEntity.canRenderElytraTexture() && playerIllusionEntity.getElytraTexture() != null) {
 					identifier = playerIllusionEntity.getElytraTexture();
 				} else if (playerIllusionEntity.canRenderCapeTexture() && playerIllusionEntity.getCapeTexture() != null && playerIllusionEntity.isPartVisible(PlayerModelPart.CAPE)) {

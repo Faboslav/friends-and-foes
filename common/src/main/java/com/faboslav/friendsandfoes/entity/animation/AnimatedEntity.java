@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.entity.animation;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.animation.KeyframeAnimation;
 import com.faboslav.friendsandfoes.client.render.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.client.render.entity.animation.animator.context.KeyframeAnimationContext;

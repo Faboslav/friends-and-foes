@@ -49,14 +49,8 @@ public final class ModelAnimator
 		long runningTime,
 		float f
 	) {
-		AnimationContextTracker animationContextTracker = animatedEntity.getAnimationContextTracker();
 		KeyframeAnimation keyframeAnimation = animatedEntity.getMovementAnimation();
 		Animation animation = keyframeAnimation.getAnimation();
-		int currentTick = ((Entity) animatedEntity).age;
-
-		KeyframeAnimationContext keyframeAnimationContext = animationContextTracker.get(keyframeAnimation);
-		keyframeAnimationContext.setCurrentTick(currentTick);
-
 		animateKeyframe(animatedEntityModel, animation, runningTime, f, new Vec3f());
 	}
 

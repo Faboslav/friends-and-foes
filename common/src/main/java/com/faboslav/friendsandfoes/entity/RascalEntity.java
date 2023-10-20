@@ -117,7 +117,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 				this.animationContextTracker.add(keyframeAnimation);
 			}
 
-			this.animationContextTracker.add(RascalAnimations.WALK);
+			this.animationContextTracker.add(this.getMovementAnimation());
 		}
 
 		return this.animationContextTracker;
@@ -197,21 +197,14 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 			this.playReappearSound();
 		}
 
-		if (this.getWorld().isClient() == false && this.isAnyKeyframeAnimationRunning()) {
-			this.setKeyframeAnimationTicks(this.getKeyframeAnimationTicks() - 1);
+		if (this.getWorld().isClient() == false) {
+			this.updateKeyframeAnimationTicks();
 		}
 
 		KeyframeAnimation keyframeAnimationToStart = this.getKeyframeAnimationByPose();
 
-		if (
-			keyframeAnimationToStart != null
-			&& this.isKeyframeAnimationRunning(keyframeAnimationToStart) == false
-		) {
-			if (this.getWorld().isClient() == false) {
-				this.setKeyframeAnimationTicks(keyframeAnimationToStart.getAnimationLengthInTicks());
-			}
-
-			this.startKeyframeAnimation(keyframeAnimationToStart);
+		if (keyframeAnimationToStart != null) {
+			this.tryToStartKeyframeAnimation(keyframeAnimationToStart);
 		}
 
 		super.tick();
@@ -221,7 +214,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 	private KeyframeAnimation getKeyframeAnimationByPose() {
 		KeyframeAnimation keyframeAnimation = null;
 
-		if (this.isInPose(RascalEntityPose.IDLE)) {
+		if (this.isInPose(RascalEntityPose.IDLE) && this.isMoving() == false) {
 			keyframeAnimation = RascalAnimations.IDLE;
 		} else if (this.isInPose(RascalEntityPose.NOD)) {
 			keyframeAnimation = RascalAnimations.NOD;
@@ -230,6 +223,18 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 		}
 
 		return keyframeAnimation;
+	}
+
+	private void tryToStartKeyframeAnimation(KeyframeAnimation keyframeAnimationToStart) {
+		if (this.isKeyframeAnimationRunning(keyframeAnimationToStart)) {
+			return;
+		}
+
+		if (this.getWorld().isClient() == false) {
+			this.setKeyframeAnimationTicks(keyframeAnimationToStart.getAnimationLengthInTicks());
+		}
+
+		this.startKeyframeAnimation(keyframeAnimationToStart);
 	}
 
 	private void startKeyframeAnimation(KeyframeAnimation keyframeAnimationToStart) {
@@ -391,6 +396,10 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 
 	public boolean isHidden() {
 		return this.getBrain().getOptionalMemory(MemoryModuleType.AVOID_TARGET).orElse(null) instanceof PlayerEntity;
+	}
+
+	public boolean isMoving() {
+		return this.isOnGround() && this.getVelocity().lengthSquared() >= 0.0001;
 	}
 
 	public int getCaughtCount() {

@@ -1,7 +1,5 @@
 package com.faboslav.friendsandfoes.client.render.entity.model;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.client.render.entity.animation.KeyframeAnimation;
 import com.faboslav.friendsandfoes.client.render.entity.animation.animator.ModelAnimator;
 import com.faboslav.friendsandfoes.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.mixin.ModelPartAccessor;

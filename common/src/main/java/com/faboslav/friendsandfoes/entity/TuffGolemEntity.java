@@ -2,7 +2,6 @@ package com.faboslav.friendsandfoes.entity;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.animation.KeyframeAnimation;
-import com.faboslav.friendsandfoes.client.render.entity.animation.RascalAnimations;
 import com.faboslav.friendsandfoes.client.render.entity.animation.TuffGolemAnimations;
 import com.faboslav.friendsandfoes.client.render.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.entity.ai.brain.TuffGolemBrain;
@@ -28,7 +27,6 @@ import net.minecraft.entity.passive.GolemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
@@ -103,7 +101,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 	@Override
 	public KeyframeAnimation getMovementAnimation() {
-		if(this.isHoldingItem()) {
+		if (this.isHoldingItem()) {
 			return TuffGolemAnimations.WALK_WITH_ITEM;
 		}
 
@@ -831,10 +829,6 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		this.horizontalSpeed = 0.0F;
 		this.sidewaysSpeed = 0.0F;
 		this.upwardSpeed = 0.0F;
-	}
-
-	public boolean isMoving() {
-		return this.isOnGround() && this.getVelocity().lengthSquared() >= 0.0001;
 	}
 
 	public enum Color

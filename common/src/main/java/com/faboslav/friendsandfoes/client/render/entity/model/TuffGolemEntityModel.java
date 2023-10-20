@@ -1,11 +1,9 @@
 package com.faboslav.friendsandfoes.client.render.entity.model;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.TuffGolemEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
-import net.minecraft.util.math.MathHelper;
 
 @Environment(EnvType.CLIENT)
 public final class TuffGolemEntityModel<T extends TuffGolemEntity> extends AnimatedEntityModel<T>
@@ -72,15 +70,6 @@ public final class TuffGolemEntityModel<T extends TuffGolemEntity> extends Anima
 		float headYaw,
 		float headPitch
 	) {
-		/*
-		if(tuffGolem.isHoldingItem() && tuffGolem.hurtTime != 0) {
-			limbDistance = 1.0F;
-			limbAngle = 1.0F;
-		}
-
-		FriendsAndFoes.getLogger().info(String.valueOf(limbDistance));
-		FriendsAndFoes.getLogger().info(String.valueOf(limbAngle));*/
-
 		this.getPart().traverse().forEach(ModelPart::resetTransform);
 		this.updateMovementKeyframeAnimations(tuffGolem, limbAngle, limbDistance, 4.0F, 4F);
 		this.updateKeyframeAnimations(tuffGolem, animationProgress);

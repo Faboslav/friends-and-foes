@@ -64,10 +64,10 @@ public final class ModelAnimator
 		float f = getRunningSeconds(animation, runningTime);
 		Iterator var7 = animation.boneAnimations().entrySet().iterator();
 
-		while(var7.hasNext()) {
-			Map.Entry<String, List<Transformation>> entry = (Map.Entry)var7.next();
-			Optional<ModelPart> optional = model.getChild((String)entry.getKey());
-			List<Transformation> list = (List)entry.getValue();
+		while (var7.hasNext()) {
+			Map.Entry<String, List<Transformation>> entry = (Map.Entry) var7.next();
+			Optional<ModelPart> optional = model.getChild((String) entry.getKey());
+			List<Transformation> list = (List) entry.getValue();
 			optional.ifPresent((part) -> {
 				list.forEach((transformation) -> {
 					Keyframe[] keyframes = transformation.keyframes();

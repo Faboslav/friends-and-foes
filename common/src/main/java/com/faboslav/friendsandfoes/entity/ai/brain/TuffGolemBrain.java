@@ -150,6 +150,6 @@ public final class TuffGolemBrain
 			MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
 			FriendsAndFoesMemoryModuleTypes.TUFF_GOLEM_SLEEP_COOLDOWN.get()
 		);
-		SLEEP_COOLDOWN_PROVIDER = UniformIntProvider.create(2400, 7200);
+		SLEEP_COOLDOWN_PROVIDER = UniformIntProvider.create(6000, 8000);
 	}
 }

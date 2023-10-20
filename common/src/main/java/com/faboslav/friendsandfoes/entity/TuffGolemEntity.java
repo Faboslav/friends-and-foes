@@ -2,12 +2,14 @@ package com.faboslav.friendsandfoes.entity;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.animation.KeyframeAnimation;
+import com.faboslav.friendsandfoes.client.render.entity.animation.RascalAnimations;
 import com.faboslav.friendsandfoes.client.render.entity.animation.TuffGolemAnimations;
 import com.faboslav.friendsandfoes.client.render.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.entity.ai.brain.TuffGolemBrain;
 import com.faboslav.friendsandfoes.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.entity.pose.TuffGolemEntityPose;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
+import com.faboslav.friendsandfoes.util.particle.ParticleSpawner;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -97,6 +99,15 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	@Override
 	public ArrayList<KeyframeAnimation> getAnimations() {
 		return TuffGolemAnimations.ANIMATIONS;
+	}
+
+	@Override
+	public KeyframeAnimation getMovementAnimation() {
+		if(this.isHoldingItem()) {
+			return TuffGolemAnimations.WALK_WITH_ITEM;
+		}
+
+		return TuffGolemAnimations.WALK;
 	}
 
 	@Override
@@ -388,7 +399,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		}
 
 		this.playGlueOnSound();
-		this.spawnParticles(ParticleTypes.WAX_ON, 7);
+		ParticleSpawner.spawnParticles(this, ParticleTypes.WAX_ON, 7, 1.0F);
 
 		return true;
 	}
@@ -405,7 +416,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		this.setGlued(false);
 
 		this.playGlueOffSound();
-		this.spawnParticles(ParticleTypes.WAX_OFF, 7);
+		ParticleSpawner.spawnParticles(this, ParticleTypes.WAX_OFF, 7, 1.0F);
 
 		if (this.getWorld().isClient() == false && !player.getAbilities().creativeMode) {
 			itemStack.damage(1, player, (playerEntity) -> {
@@ -430,7 +441,8 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 			return false;
 		}
 
-		// Pop item out
+		this.stopMovement();
+
 		if (this.isHoldingItem()) {
 			if (player.getAbilities().creativeMode == false) {
 				this.dropStack(this.getEquippedStack(EquipmentSlot.MAINHAND));
@@ -658,8 +670,8 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	}
 
 	private void updateKeyframeAnimations() {
-		if (this.getWorld().isClient() == false && this.isAnyKeyframeAnimationRunning()) {
-			this.setKeyframeAnimationTicks(this.getKeyframeAnimationTicks() - 1);
+		if (this.getWorld().isClient() == false) {
+			this.updateKeyframeAnimationTicks();
 		}
 
 		KeyframeAnimation keyframeAnimationToStart = this.getKeyframeAnimationByPose();
@@ -674,63 +686,6 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 			this.startKeyframeAnimation(keyframeAnimationToStart);
 		}
-	}
-
-	@Override
-	public boolean damage(
-		DamageSource source,
-		float amount
-	) {
-		Entity attacker = source.getAttacker();
-
-		if (
-			attacker instanceof LightningEntity
-			|| source == DamageSource.SWEET_BERRY_BUSH
-		) {
-			return false;
-		}
-
-		if (
-			this.getWorld().isClient() == false
-			&& this.isInSleepingPose()
-		) {
-			if (this.isHoldingItem()) {
-				this.startStandingWithItem();
-			} else {
-				this.startStanding();
-			}
-		}
-
-		return super.damage(source, amount);
-	}
-
-	@Override
-	public boolean canBeLeashedBy(PlayerEntity player) {
-		return super.canBeLeashedBy(player) && this.isInSleepingPose() == false;
-	}
-
-	@Override
-	public Vec3d getLeashOffset() {
-		return new Vec3d(0.0D, this.getStandingEyeHeight() * 0.45D, 0.0D);
-	}
-
-	@Override
-	protected float getActiveEyeHeight(EntityPose poseIn, EntityDimensions sizeIn) {
-		return 0.8F;
-	}
-
-	@Override
-	public float getMovementSpeed() {
-		return this.isHoldingItem() ? MOVEMENT_SPEED_WITH_ITEM:MOVEMENT_SPEED;
-	}
-
-	@Override
-	protected void dropLoot(DamageSource source, boolean causedByPlayer) {
-		if (this.isHoldingItem()) {
-			this.dropStack(this.getEquippedStack(EquipmentSlot.MAINHAND));
-		}
-
-		super.dropLoot(source, causedByPlayer);
 	}
 
 	@Nullable
@@ -790,33 +745,65 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	}
 
 	@Override
-	protected int getNextAirUnderwater(int air) {
-		return air;
+	public boolean damage(
+		DamageSource source,
+		float amount
+	) {
+		Entity attacker = source.getAttacker();
+
+		if (
+			attacker instanceof LightningEntity
+			|| source == DamageSource.SWEET_BERRY_BUSH
+		) {
+			return false;
+		}
+
+		if (
+			this.getWorld().isClient() == false
+			&& this.isInSleepingPose()
+		) {
+			if (this.isHoldingItem()) {
+				this.startStandingWithItem();
+			} else {
+				this.startStanding();
+			}
+		}
+
+		return super.damage(source, amount);
 	}
 
-	public void spawnParticles(
-		ParticleEffect particleEffect,
-		int amount
-	) {
-		World world = this.getWorld();
+	@Override
+	public boolean canBeLeashedBy(PlayerEntity player) {
+		return super.canBeLeashedBy(player) && this.isInSleepingPose() == false;
+	}
 
-		if (world.isClient()) {
-			return;
+	@Override
+	public Vec3d getLeashOffset() {
+		return new Vec3d(0.0D, this.getStandingEyeHeight() * 0.45D, 0.0D);
+	}
+
+	@Override
+	protected float getActiveEyeHeight(EntityPose poseIn, EntityDimensions sizeIn) {
+		return 0.8F;
+	}
+
+	@Override
+	public float getMovementSpeed() {
+		return this.isHoldingItem() ? MOVEMENT_SPEED_WITH_ITEM:MOVEMENT_SPEED;
+	}
+
+	@Override
+	protected void dropLoot(DamageSource source, boolean causedByPlayer) {
+		if (this.isHoldingItem()) {
+			this.dropStack(this.getEquippedStack(EquipmentSlot.MAINHAND));
 		}
 
-		for (int i = 0; i < amount; i++) {
-			((ServerWorld) world).spawnParticles(
-				particleEffect,
-				this.getParticleX(1.0D),
-				this.getRandomBodyY() + 0.5D,
-				this.getParticleZ(1.0D),
-				1,
-				this.getRandom().nextGaussian() * 0.02D,
-				this.getRandom().nextGaussian() * 0.02D,
-				this.getRandom().nextGaussian() * 0.02D,
-				1.0D
-			);
-		}
+		super.dropLoot(source, causedByPlayer);
+	}
+
+	@Override
+	protected int getNextAirUnderwater(int air) {
+		return air;
 	}
 
 	public void setSpawnYaw(float yaw) {
@@ -844,6 +831,10 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		this.horizontalSpeed = 0.0F;
 		this.sidewaysSpeed = 0.0F;
 		this.upwardSpeed = 0.0F;
+	}
+
+	public boolean isMoving() {
+		return this.isOnGround() && this.getVelocity().lengthSquared() >= 0.0001;
 	}
 
 	public enum Color

@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.client.render.entity.model;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.TuffGolemEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -63,16 +64,6 @@ public final class TuffGolemEntityModel<T extends TuffGolemEntity> extends Anima
 	}
 
 	@Override
-	public void animateModel(
-		T tuffGolem,
-		float limbAngle,
-		float limbDistance,
-		float tickDelta
-	) {
-		this.updateAnimations(tuffGolem, limbAngle, limbDistance);
-	}
-
-	@Override
 	public void setAngles(
 		T tuffGolem,
 		float limbAngle,
@@ -81,26 +72,17 @@ public final class TuffGolemEntityModel<T extends TuffGolemEntity> extends Anima
 		float headYaw,
 		float headPitch
 	) {
+		/*
+		if(tuffGolem.isHoldingItem() && tuffGolem.hurtTime != 0) {
+			limbDistance = 1.0F;
+			limbAngle = 1.0F;
+		}
+
+		FriendsAndFoes.getLogger().info(String.valueOf(limbDistance));
+		FriendsAndFoes.getLogger().info(String.valueOf(limbAngle));*/
+
+		this.getPart().traverse().forEach(ModelPart::resetTransform);
+		this.updateMovementKeyframeAnimations(tuffGolem, limbAngle, limbDistance, 4.0F, 4F);
 		this.updateKeyframeAnimations(tuffGolem, animationProgress);
-	}
-
-	private void updateAnimations(
-		T tuffGolem,
-		float limbAngle,
-		float limbDistance
-	) {
-		this.applyModelTransforms(MODEL_PART_ROOT, this.root);
-
-		if (tuffGolem.isInSleepingPose() == false) {
-			this.rightLeg.pitch = -2.0F * MathHelper.wrap(limbAngle, 13.0F) * limbDistance;
-			this.leftLeg.pitch = 2.0F * MathHelper.wrap(limbAngle, 13.0F) * limbDistance;
-			this.rightLeg.yaw = 0.0F;
-			this.leftLeg.yaw = 0.0F;
-		}
-
-		if (tuffGolem.isInSleepingPose() == false && tuffGolem.isShowingItem() == false) {
-			this.leftArm.pitch = (-0.2F + 2.0F * MathHelper.wrap(limbAngle, 13.0F)) * limbDistance;
-			this.rightArm.pitch = (-0.2F - 2.0F * MathHelper.wrap(limbAngle, 13.0F)) * limbDistance;
-		}
 	}
 }

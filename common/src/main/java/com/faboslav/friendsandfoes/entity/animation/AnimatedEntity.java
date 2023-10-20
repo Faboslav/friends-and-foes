@@ -37,6 +37,32 @@ public interface AnimatedEntity
 	default void setKeyframeAnimationTicks(int keyframeAnimationTicks) {
 	}
 
+	default void updateKeyframeAnimationTicks() {
+		if (this.isAnyKeyframeAnimationRunning() == false) {
+			return;
+		}
+
+
+		this.setKeyframeAnimationTicks(this.getKeyframeAnimationTicks() - 1);
+
+		if (this.getKeyframeAnimationTicks() != 1) {
+			return;
+		}
+
+		for (KeyframeAnimation keyframeAnimation : this.getAnimations()) {
+			if (keyframeAnimation.getAnimation().looping() == false) {
+				continue;
+			}
+
+			var keyframeAnimationContext = this.getAnimationContextTracker().get(keyframeAnimation);
+			if (keyframeAnimationContext.isRunning() == false) {
+				continue;
+			}
+
+			this.setKeyframeAnimationTicks(keyframeAnimation.getAnimationLengthInTicks());
+		}
+	}
+
 	default boolean isAnyKeyframeAnimationRunning() {
 		return this.getKeyframeAnimationTicks() > 0;
 	}

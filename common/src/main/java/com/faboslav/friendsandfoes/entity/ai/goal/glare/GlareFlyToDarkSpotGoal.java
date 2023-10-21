@@ -1,12 +1,14 @@
 package com.faboslav.friendsandfoes.entity.ai.goal.glare;
 
 import com.faboslav.friendsandfoes.entity.GlareEntity;
+import com.faboslav.friendsandfoes.util.particle.ParticleSpawner;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.ai.pathing.Path;
 import net.minecraft.particle.BlockStateParticleEffect;
+import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
@@ -147,10 +149,8 @@ public final class GlareFlyToDarkSpotGoal extends Goal
 		}
 
 		if (grumpyTicks % 10 == 0) {
-			this.glare.spawnParticles(
-				new BlockStateParticleEffect(ParticleTypes.BLOCK, Blocks.AZALEA.getDefaultState()),
-				7
-			);
+			ParticleEffect particleEffect = new BlockStateParticleEffect(ParticleTypes.BLOCK, Blocks.AZALEA.getDefaultState());
+			ParticleSpawner.spawnParticles(this.glare, particleEffect, 7, 0.1D);
 		}
 
 		this.glare.getLookControl().lookAt(owner.getPos());

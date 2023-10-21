@@ -297,4 +297,16 @@ public abstract class AnimatedEntityModel<E extends Entity> extends BaseEntityMo
 			ModelAnimator.updateKeyframeAnimations(animatedEntity, this, keyframeAnimation, animationProgress);
 		}));
 	}
+
+	protected void updateMovementKeyframeAnimations(
+		AnimatedEntity animatedEntity,
+		float limbAngle,
+		float limbDistance,
+		float limbAngleScale,
+		float limbDistanceScale
+	) {
+		long l = (long) (limbAngle * 50.0F * limbAngleScale);
+		float f = Math.min(limbDistance * limbDistanceScale, 1.0F);
+		ModelAnimator.updateMovementKeyframeAnimations(animatedEntity, this, l, f);
+	}
 }

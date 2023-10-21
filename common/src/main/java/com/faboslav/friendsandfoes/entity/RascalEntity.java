@@ -9,6 +9,7 @@ import com.faboslav.friendsandfoes.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.entity.pose.RascalEntityPose;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
+import com.faboslav.friendsandfoes.util.particle.ParticleSpawner;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
@@ -27,7 +28,6 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.tag.StructureTags;
 import net.minecraft.server.world.ServerWorld;
@@ -53,6 +53,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 
 	public RascalEntity(EntityType<? extends PassiveEntity> entityType, World world) {
 		super(entityType, world);
+		this.setPose(RascalEntityPose.IDLE);
 		this.enableAmbientSounds();
 		this.setPathfindingPenalty(PathNodeType.RAIL, 0.0F);
 		this.setPathfindingPenalty(PathNodeType.UNPASSABLE_RAIL, 0.0F);
@@ -70,7 +71,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 	) {
 		EntityData superEntityData = super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
 
-		this.setPose(RascalEntityPose.DEFAULT);
+		this.setPose(RascalEntityPose.IDLE);
 		RascalBrain.setNodCooldown(this);
 
 		return superEntityData;
@@ -116,6 +117,8 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 			for (KeyframeAnimation keyframeAnimation : this.getAnimations()) {
 				this.animationContextTracker.add(keyframeAnimation);
 			}
+
+			this.animationContextTracker.add(this.getMovementAnimation());
 		}
 
 		return this.animationContextTracker;
@@ -124,6 +127,11 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 	@Override
 	public ArrayList<KeyframeAnimation> getAnimations() {
 		return RascalAnimations.ANIMATIONS;
+	}
+
+	@Override
+	public KeyframeAnimation getMovementAnimation() {
+		return RascalAnimations.WALK;
 	}
 
 	@Override
@@ -190,21 +198,14 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 			this.playReappearSound();
 		}
 
-		if (this.getWorld().isClient() == false && this.isAnyKeyframeAnimationRunning()) {
-			this.setKeyframeAnimationTicks(this.getKeyframeAnimationTicks() - 1);
+		if (this.getWorld().isClient() == false) {
+			this.updateKeyframeAnimationTicks();
 		}
 
 		KeyframeAnimation keyframeAnimationToStart = this.getKeyframeAnimationByPose();
 
-		if (
-			keyframeAnimationToStart != null
-			&& this.isKeyframeAnimationRunning(keyframeAnimationToStart) == false
-		) {
-			if (this.getWorld().isClient() == false) {
-				this.setKeyframeAnimationTicks(keyframeAnimationToStart.getAnimationLengthInTicks());
-			}
-
-			this.startKeyframeAnimation(keyframeAnimationToStart);
+		if (keyframeAnimationToStart != null) {
+			this.tryToStartKeyframeAnimation(keyframeAnimationToStart);
 		}
 
 		super.tick();
@@ -214,8 +215,8 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 	private KeyframeAnimation getKeyframeAnimationByPose() {
 		KeyframeAnimation keyframeAnimation = null;
 
-		if (this.isInPose(RascalEntityPose.DEFAULT)) {
-			keyframeAnimation = RascalAnimations.DEFAULT;
+		if (this.isInPose(RascalEntityPose.IDLE) && this.isMoving() == false) {
+			keyframeAnimation = RascalAnimations.IDLE;
 		} else if (this.isInPose(RascalEntityPose.NOD)) {
 			keyframeAnimation = RascalAnimations.NOD;
 		} else if (this.isInPose(RascalEntityPose.GIVE_REWARD)) {
@@ -225,8 +226,20 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 		return keyframeAnimation;
 	}
 
+	private void tryToStartKeyframeAnimation(KeyframeAnimation keyframeAnimationToStart) {
+		if (this.isKeyframeAnimationRunning(keyframeAnimationToStart)) {
+			return;
+		}
+
+		if (this.getWorld().isClient() == false) {
+			this.setKeyframeAnimationTicks(keyframeAnimationToStart.getAnimationLengthInTicks());
+		}
+
+		this.startKeyframeAnimation(keyframeAnimationToStart);
+	}
+
 	private void startKeyframeAnimation(KeyframeAnimation keyframeAnimationToStart) {
-		for (KeyframeAnimation keyframeAnimation : RascalAnimations.ANIMATIONS) {
+		for (KeyframeAnimation keyframeAnimation : this.getAnimations()) {
 			if (keyframeAnimation == keyframeAnimationToStart) {
 				continue;
 			}
@@ -386,6 +399,10 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 		return this.getBrain().getOptionalMemory(MemoryModuleType.AVOID_TARGET).orElse(null) instanceof PlayerEntity;
 	}
 
+	public boolean isMoving() {
+		return this.isOnGround() && this.getVelocity().lengthSquared() >= 0.0001;
+	}
+
 	public int getCaughtCount() {
 		return this.dataTracker.get(CAUGHT_COUNT);
 	}
@@ -407,33 +424,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 	}
 
 	public void spawnCloudParticles() {
-		this.spawnParticles(ParticleTypes.CLOUD, 16, 0.1D);
-	}
-
-	public void spawnParticles(
-		ParticleEffect particleEffect,
-		int amount,
-		double speed
-	) {
-		World world = this.getWorld();
-
-		if (world.isClient()) {
-			return;
-		}
-
-		for (int i = 0; i < amount; i++) {
-			((ServerWorld) world).spawnParticles(
-				particleEffect,
-				this.getParticleX(1.0D),
-				this.getRandomBodyY() + 0.5D,
-				this.getParticleZ(1.0D),
-				1,
-				this.getRandom().nextGaussian() * 0.02D,
-				this.getRandom().nextGaussian() * 0.02D,
-				this.getRandom().nextGaussian() * 0.02D,
-				speed
-			);
-		}
+		ParticleSpawner.spawnParticles(this, ParticleTypes.CLOUD, 16, 0.1D);
 	}
 
 	static {

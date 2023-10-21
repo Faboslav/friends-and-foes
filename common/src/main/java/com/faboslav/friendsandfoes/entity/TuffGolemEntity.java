@@ -799,6 +799,14 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		super.dropLoot(source, causedByPlayer);
 	}
 
+	public float getMovementSpeedModifier() {
+		if(this.isHoldingItem()) {
+			return 1.0F;
+		}
+
+		return MOVEMENT_SPEED_WITH_ITEM/MOVEMENT_SPEED;
+	}
+
 	@Override
 	protected int getNextAirUnderwater(int air) {
 		return air;

@@ -71,7 +71,7 @@ public final class TuffGolemEntityModel<T extends TuffGolemEntity> extends Anima
 		float headPitch
 	) {
 		this.getPart().traverse().forEach(ModelPart::resetTransform);
-		this.updateMovementKeyframeAnimations(tuffGolem, limbAngle, limbDistance, 4.0F, 4F);
+		this.updateMovementKeyframeAnimations(tuffGolem, limbAngle, limbDistance, 4.0F * tuffGolem.getMovementSpeedModifier(), 4.0F * tuffGolem.getMovementSpeedModifier());
 		this.updateKeyframeAnimations(tuffGolem, animationProgress);
 	}
 }

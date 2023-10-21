@@ -4,7 +4,7 @@ import net.minecraft.entity.EntityPose;
 
 public enum RascalEntityPose
 {
-	DEFAULT,
+	IDLE,
 	NOD,
 	GIVE_REWARD;
 

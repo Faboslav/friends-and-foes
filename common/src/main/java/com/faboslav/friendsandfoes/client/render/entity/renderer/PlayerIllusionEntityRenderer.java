@@ -1,7 +1,9 @@
 package com.faboslav.friendsandfoes.client.render.entity.renderer;
 
-import com.faboslav.friendsandfoes.client.render.entity.feature.CapeFeatureRenderer;
-import com.faboslav.friendsandfoes.client.render.entity.feature.Deadmau5FeatureRenderer;
+import com.faboslav.friendsandfoes.client.render.entity.feature.PlayerIllusionCapeFeatureRenderer;
+import com.faboslav.friendsandfoes.client.render.entity.feature.PlayerIllusionDeadmau5FeatureRenderer;
+import com.faboslav.friendsandfoes.client.render.entity.feature.PlayerIllusionElytraFeatureRenderer;
+import com.faboslav.friendsandfoes.client.render.entity.feature.PlayerIllusionHeldItemFeatureRenderer;
 import com.faboslav.friendsandfoes.client.render.entity.model.PlayerIllusionEntityModel;
 import com.faboslav.friendsandfoes.entity.PlayerIllusionEntity;
 import net.minecraft.client.model.ModelPart;
@@ -32,12 +34,12 @@ public final class PlayerIllusionEntityRenderer extends MobEntityRenderer<Player
 	public PlayerIllusionEntityRenderer(EntityRendererFactory.Context ctx, boolean slim) {
 		super(ctx, new PlayerIllusionEntityModel<>(ctx.getPart(slim ? EntityModelLayers.PLAYER_SLIM:EntityModelLayers.PLAYER), slim), 0.5F);
 		this.addFeature(new ArmorFeatureRenderer(this, new ArmorEntityModel(ctx.getPart(slim ? EntityModelLayers.PLAYER_SLIM_INNER_ARMOR:EntityModelLayers.PLAYER_INNER_ARMOR)), new ArmorEntityModel(ctx.getPart(slim ? EntityModelLayers.PLAYER_SLIM_OUTER_ARMOR:EntityModelLayers.PLAYER_OUTER_ARMOR)), ctx.getModelManager()));
-		this.addFeature(new PlayerHeldItemFeatureRenderer(this, ctx.getHeldItemRenderer()));
+		this.addFeature(new PlayerIllusionHeldItemFeatureRenderer<>(this, ctx.getHeldItemRenderer()));
 		this.addFeature(new StuckArrowsFeatureRenderer<>(ctx, this));
-		this.addFeature(new Deadmau5FeatureRenderer(this));
-		this.addFeature(new CapeFeatureRenderer(this));
+		this.addFeature(new PlayerIllusionDeadmau5FeatureRenderer(this));
+		this.addFeature(new PlayerIllusionCapeFeatureRenderer(this));
 		this.addFeature(new HeadFeatureRenderer<>(this, ctx.getModelLoader(), ctx.getHeldItemRenderer()));
-		this.addFeature(new ElytraFeatureRenderer<>(this, ctx.getModelLoader()));
+		this.addFeature(new PlayerIllusionElytraFeatureRenderer<>(this, ctx.getModelLoader()));
 		this.addFeature(new TridentRiptideFeatureRenderer(this, ctx.getModelLoader()));
 		this.addFeature(new StuckStingersFeatureRenderer<>(this));
 	}

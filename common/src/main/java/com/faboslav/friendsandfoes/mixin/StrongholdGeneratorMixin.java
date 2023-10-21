@@ -101,8 +101,8 @@ public abstract class StrongholdGeneratorMixin extends StructurePiece
 
 		tuffGolem.equipStack(EquipmentSlot.MAINHAND, enchantedItemStack);
 
-		tuffGolem.setPrevPose(TuffGolemEntityPose.STANDING_WITH_ITEM);
-		tuffGolem.setPoseWithoutPrevPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM);
+		tuffGolem.setPrevPose(TuffGolemEntityPose.STANDING_WITH_ITEM.get());
+		tuffGolem.setPoseWithoutPrevPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM.get());
 
 		boolean isTuffGolemSpawned = world.spawnEntity(tuffGolem);
 

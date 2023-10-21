@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.client.render.entity.feature;
 
-
 import com.faboslav.friendsandfoes.client.render.entity.model.PlayerIllusionEntityModel;
 import com.faboslav.friendsandfoes.entity.PlayerIllusionEntity;
 import net.fabricmc.api.EnvType;
@@ -20,9 +19,9 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
 
 @Environment(EnvType.CLIENT)
-public final class CapeFeatureRenderer extends FeatureRenderer<PlayerIllusionEntity, PlayerIllusionEntityModel<PlayerIllusionEntity>>
+public final class PlayerIllusionCapeFeatureRenderer extends FeatureRenderer<PlayerIllusionEntity, PlayerIllusionEntityModel<PlayerIllusionEntity>>
 {
-	public CapeFeatureRenderer(FeatureRendererContext<PlayerIllusionEntity, PlayerIllusionEntityModel<PlayerIllusionEntity>> featureRendererContext) {
+	public PlayerIllusionCapeFeatureRenderer(FeatureRendererContext<PlayerIllusionEntity, PlayerIllusionEntityModel<PlayerIllusionEntity>> featureRendererContext) {
 		super(featureRendererContext);
 	}
 

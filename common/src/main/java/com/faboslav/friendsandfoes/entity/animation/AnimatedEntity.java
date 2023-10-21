@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes.entity.animation;
 import com.faboslav.friendsandfoes.client.render.entity.animation.KeyframeAnimation;
 import com.faboslav.friendsandfoes.client.render.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.client.render.entity.animation.animator.context.KeyframeAnimationContext;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
@@ -10,15 +11,54 @@ public interface AnimatedEntity
 {
 	AnimationContextTracker getAnimationContextTracker();
 
+	/**
+	 * This is temporarily empty array until all the mobs have keyframe animations
+	 */
 	default ArrayList<KeyframeAnimation> getAnimations() {
 		return new ArrayList<>();
 	}
 
+	/**
+	 * This is temporarily nullable until all the mobs have keyframe animations
+	 */
+	@Nullable
+	default KeyframeAnimation getMovementAnimation() {
+		return null;
+	}
+
+	/**
+	 * This is temporarily 0 until all the mobs have keyframe animations
+	 */
 	default int getKeyframeAnimationTicks() {
 		return 0;
 	}
 
 	default void setKeyframeAnimationTicks(int keyframeAnimationTicks) {
+	}
+
+	default void updateKeyframeAnimationTicks() {
+		if (this.isAnyKeyframeAnimationRunning() == false) {
+			return;
+		}
+
+		this.setKeyframeAnimationTicks(this.getKeyframeAnimationTicks() - 1);
+
+		if (this.getKeyframeAnimationTicks() != 1) {
+			return;
+		}
+
+		for (KeyframeAnimation keyframeAnimation : this.getAnimations()) {
+			if (keyframeAnimation.getAnimation().looping() == false) {
+				continue;
+			}
+
+			var keyframeAnimationContext = this.getAnimationContextTracker().get(keyframeAnimation);
+			if (keyframeAnimationContext.isRunning() == false) {
+				continue;
+			}
+
+			this.setKeyframeAnimationTicks(keyframeAnimation.getAnimationLengthInTicks());
+		}
 	}
 
 	default boolean isAnyKeyframeAnimationRunning() {

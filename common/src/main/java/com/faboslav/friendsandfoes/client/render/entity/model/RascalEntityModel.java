@@ -4,7 +4,6 @@ import com.faboslav.friendsandfoes.entity.RascalEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
-import net.minecraft.util.math.MathHelper;
 
 @Environment(EnvType.CLIENT)
 public final class RascalEntityModel<T extends RascalEntity> extends AnimatedEntityModel<T>
@@ -55,16 +54,6 @@ public final class RascalEntityModel<T extends RascalEntity> extends AnimatedEnt
 	}
 
 	@Override
-	public void animateModel(
-		T rascal,
-		float limbAngle,
-		float limbDistance,
-		float tickDelta
-	) {
-		this.updateAnimations(rascal, limbAngle, limbDistance);
-	}
-
-	@Override
 	public void setAngles(
 		T rascal,
 		float limbAngle,
@@ -73,21 +62,8 @@ public final class RascalEntityModel<T extends RascalEntity> extends AnimatedEnt
 		float headYaw,
 		float headPitch
 	) {
+		this.getPart().traverse().forEach(ModelPart::resetTransform);
+		this.updateMovementKeyframeAnimations(rascal, limbAngle, limbDistance, 1.5F, 2.5F);
 		this.updateKeyframeAnimations(rascal, animationProgress);
-	}
-
-	private void updateAnimations(
-		T rascal,
-		float limbAngle,
-		float limbDistance
-	) {
-		this.applyModelTransforms(MODEL_PART_ROOT, this.root);
-
-		this.rightLeg.pitch = -2.0F * MathHelper.wrap(limbAngle, 13.0F) * limbDistance;
-		this.leftLeg.pitch = 2.0F * MathHelper.wrap(limbAngle, 13.0F) * limbDistance;
-		this.rightLeg.yaw = 0.0F;
-		this.leftLeg.yaw = 0.0F;
-		this.leftArm.pitch = (-0.2F + 2.0F * MathHelper.wrap(limbAngle, 13.0F)) * limbDistance;
-		this.rightArm.pitch = (-0.2F - 2.0F * MathHelper.wrap(limbAngle, 13.0F)) * limbDistance;
 	}
 }

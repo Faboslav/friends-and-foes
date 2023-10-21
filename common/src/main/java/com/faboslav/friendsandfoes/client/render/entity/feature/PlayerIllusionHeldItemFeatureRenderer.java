@@ -12,8 +12,7 @@ import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.model.ModelWithArms;
 import net.minecraft.client.render.entity.model.ModelWithHead;
 import net.minecraft.client.render.item.HeldItemRenderer;
-import net.minecraft.client.render.model.json.ModelTransformation;
-import net.minecraft.client.render.model.json.ModelTransformation.Mode;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -39,7 +38,7 @@ public final class PlayerIllusionHeldItemFeatureRenderer<T extends PlayerIllusio
 	protected void renderItem(
 		LivingEntity entity,
 		ItemStack stack,
-		ModelTransformation.Mode transformationMode,
+		ModelTransformationMode transformationMode,
 		Arm arm,
 		MatrixStack matrices,
 		VertexConsumerProvider vertexConsumers,
@@ -70,7 +69,7 @@ public final class PlayerIllusionHeldItemFeatureRenderer<T extends PlayerIllusio
 		HeadFeatureRenderer.translate(matrices, false);
 		boolean bl = arm == Arm.LEFT;
 		matrices.translate((bl ? -2.5F:2.5F) / 16.0F, -0.0625, 0.0);
-		this.playerHeldItemRenderer.renderItem(entity, stack, Mode.HEAD, false, matrices, vertexConsumers, light);
+		this.playerHeldItemRenderer.renderItem(entity, stack, ModelTransformationMode.HEAD, false, matrices, vertexConsumers, light);
 		matrices.pop();
 	}
 }

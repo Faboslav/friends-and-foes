@@ -23,6 +23,8 @@ import java.util.Optional;
 
 public final class ModelAnimator
 {
+	private static final Vec3f TEMP = new Vec3f();
+
 	public static void updateKeyframeAnimations(
 		AnimatedEntity animatedEntity,
 		AnimatedEntityModel animatedEntityModel,
@@ -39,7 +41,7 @@ public final class ModelAnimator
 
 		animationState.update(animationProgress, 1.0F);
 		animationState.run((state) -> {
-			animateKeyframe(animatedEntityModel, animation, state.getTimeRunning(), 1.0F, new Vec3f());
+			animateKeyframe(animatedEntityModel, animation, state.getTimeRunning(), 1.0F, TEMP);
 		});
 	}
 
@@ -51,7 +53,7 @@ public final class ModelAnimator
 	) {
 		KeyframeAnimation keyframeAnimation = animatedEntity.getMovementAnimation();
 		Animation animation = keyframeAnimation.getAnimation();
-		animateKeyframe(animatedEntityModel, animation, runningTime, f, new Vec3f());
+		animateKeyframe(animatedEntityModel, animation, runningTime, f, TEMP);
 	}
 
 	public static void animateKeyframe(

@@ -751,7 +751,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 		if (
 			attacker instanceof LightningEntity
-			|| source == DamageSource.SWEET_BERRY_BUSH
+			|| source == this.getDamageSources().sweetBerryBush()
 		) {
 			return false;
 		}

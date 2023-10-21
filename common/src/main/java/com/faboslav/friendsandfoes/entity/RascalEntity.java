@@ -53,6 +53,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 
 	public RascalEntity(EntityType<? extends PassiveEntity> entityType, World world) {
 		super(entityType, world);
+		this.setPose(RascalEntityPose.IDLE);
 		this.enableAmbientSounds();
 		this.setPathfindingPenalty(PathNodeType.RAIL, 0.0F);
 		this.setPathfindingPenalty(PathNodeType.UNPASSABLE_RAIL, 0.0F);

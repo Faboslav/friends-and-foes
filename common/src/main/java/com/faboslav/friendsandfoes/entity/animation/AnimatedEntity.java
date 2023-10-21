@@ -41,7 +41,6 @@ public interface AnimatedEntity
 			return;
 		}
 
-
 		this.setKeyframeAnimationTicks(this.getKeyframeAnimationTicks() - 1);
 
 		if (this.getKeyframeAnimationTicks() != 1) {

@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.entity.ai.goal.glare;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.GlareEntity;
+import com.faboslav.friendsandfoes.util.particle.ParticleSpawner;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.ai.goal.Goal;
@@ -97,7 +98,7 @@ public final class GlareEatGlowBerriesGoal extends Goal
 			ItemStackParticleEffect particleEffect = new ItemStackParticleEffect(ParticleTypes.ITEM, itemStack);
 			this.glare.heal(itemStack.getItem().getFoodComponent().getHunger());
 			this.glare.playEatSound(itemStack);
-			this.glare.spawnParticles(particleEffect, 7);
+			ParticleSpawner.spawnParticles(this.glare, particleEffect, 7, 0.1D);
 			this.glare.equipStack(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
 		}
 

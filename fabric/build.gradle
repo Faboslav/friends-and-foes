@@ -6,12 +6,6 @@ allprojects {
 	archivesBaseName = "${rootProject.mod_id}-fabric-mc${rootProject.minecraft_version}"
 }
 
-configurations.all {
-	resolutionStrategy {
-		force "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-	}
-}
-
 architectury {
 	platformSetupLoomIde()
 	fabric()

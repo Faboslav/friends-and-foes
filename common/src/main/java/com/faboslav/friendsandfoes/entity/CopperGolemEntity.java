@@ -7,6 +7,7 @@ import com.faboslav.friendsandfoes.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.mixin.LimbAnimatorAccessor;
 import com.faboslav.friendsandfoes.util.ModelAnimationHelper;
+import com.faboslav.friendsandfoes.util.particle.ParticleSpawner;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Oxidizable;
 import net.minecraft.entity.*;
@@ -28,7 +29,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.recipe.Ingredient;
@@ -284,17 +284,14 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		Entity attacker = source.getAttacker();
 
 		if (
-			attacker == null
-			|| attacker instanceof LightningEntity
+			attacker instanceof LightningEntity
 			|| source == this.getDamageSources().sweetBerryBush()
 		) {
 			return false;
 		}
 
-		if (this.getWorld().isClient() == false) {
-			if (this.pressButtonGoal.isRunning()) {
-				this.pressButtonGoal.stop();
-			}
+		if (this.getWorld().isClient() == false && this.pressButtonGoal.isRunning()) {
+			this.pressButtonGoal.stop();
 		}
 
 		boolean damageResult = super.damage(source, amount);
@@ -387,7 +384,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		}
 
 		this.playSound(SoundEvents.ITEM_HONEYCOMB_WAX_ON, 1.0F, 1.0F);
-		this.spawnParticles(ParticleTypes.WAX_ON, 7);
+		ParticleSpawner.spawnParticles(this, ParticleTypes.WAX_ON, 7, 1.0);
 
 		return true;
 	}
@@ -405,7 +402,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 			this.setIsWaxed(false);
 
 			this.playSound(SoundEvents.ITEM_AXE_WAX_OFF, 1.0F, 1.0F);
-			this.spawnParticles(ParticleTypes.WAX_OFF, 7);
+			ParticleSpawner.spawnParticles(this, ParticleTypes.WAX_OFF, 7, 1.0);
 
 		} else if (isDegraded()) {
 			if (!this.getEntityWorld().isClient()) {
@@ -415,7 +412,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 			}
 
 			this.playSound(SoundEvents.ITEM_AXE_SCRAPE, 1.0F, 1.0F);
-			this.spawnParticles(ParticleTypes.SCRAPE, 7);
+			ParticleSpawner.spawnParticles(this, ParticleTypes.SCRAPE, 7, 1.0);
 		}
 
 		if (this.getWorld().isClient() == false && !player.getAbilities().creativeMode) {
@@ -550,7 +547,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		this.setHealth(this.getMaxHealth());
 
 		if (this.isDegraded()) {
-			this.spawnParticles(ParticleTypes.WAX_OFF, 7);
+			ParticleSpawner.spawnParticles(this, ParticleTypes.WAX_OFF, 7, 1.0);
 		}
 
 		if (this.getEntityWorld().isClient() == false) {
@@ -766,31 +763,6 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 
 	public void setLastHeadSpinAnimationProgress(float lastHeadSpinAnimationProgress) {
 		this.dataTracker.set(LAST_HEAD_SPIN_ANIMATION_PROGRESS, lastHeadSpinAnimationProgress);
-	}
-
-	public void spawnParticles(
-		ParticleEffect particleEffect,
-		int amount
-	) {
-		World world = this.getWorld();
-
-		if (world.isClient()) {
-			return;
-		}
-
-		for (int i = 0; i < amount; i++) {
-			((ServerWorld) world).spawnParticles(
-				particleEffect,
-				this.getParticleX(1.0D),
-				this.getRandomBodyY() + 0.5D,
-				this.getParticleZ(1.0D),
-				1,
-				this.getRandom().nextGaussian() * 0.02D,
-				this.getRandom().nextGaussian() * 0.02D,
-				this.getRandom().nextGaussian() * 0.02D,
-				1.0D
-			);
-		}
 	}
 
 	public void setSpawnYaw(float yaw) {

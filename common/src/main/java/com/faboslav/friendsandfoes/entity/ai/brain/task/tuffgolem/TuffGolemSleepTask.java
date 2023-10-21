@@ -11,8 +11,8 @@ import net.minecraft.server.world.ServerWorld;
 
 public final class TuffGolemSleepTask extends MultiTickTask<TuffGolemEntity>
 {
-	private final static int MIN_TICKS_TO_SLEEP = 2400;
-	private final static int MAX_TICKS_TO_SLEEP = 4800;
+	private final static int MIN_TICKS_TO_SLEEP = 6000;
+	private final static int MAX_TICKS_TO_SLEEP = 12000;
 
 	public TuffGolemSleepTask() {
 		super(ImmutableMap.of(

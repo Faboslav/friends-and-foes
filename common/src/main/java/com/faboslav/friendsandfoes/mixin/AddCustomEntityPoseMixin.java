@@ -50,7 +50,7 @@ public final class AddCustomEntityPoseMixin
 		for (TuffGolemEntityPose tuffGolemEntityPose : TuffGolemEntityPose.values()) {
 			var newEntityPose = newEntityPose(
 				tuffGolemEntityPose.getName(),
-				nextEntityPoseIndex++
+				++nextEntityPoseIndex
 			);
 
 			entityPoses.add(newEntityPose);
@@ -59,7 +59,7 @@ public final class AddCustomEntityPoseMixin
 		for (RascalEntityPose rascalEntityPose : RascalEntityPose.values()) {
 			var newEntityPose = newEntityPose(
 				rascalEntityPose.getName(),
-				nextEntityPoseIndex++
+				++nextEntityPoseIndex
 			);
 
 			entityPoses.add(newEntityPose);

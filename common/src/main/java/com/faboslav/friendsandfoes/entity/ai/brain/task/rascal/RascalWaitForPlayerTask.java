@@ -161,7 +161,7 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 			return;
 		}
 
-		rascal.setPose(RascalEntityPose.DEFAULT);
+		rascal.setPose(RascalEntityPose.IDLE);
 		rascal.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, RascalBrain.NOD_COOLDOWN * 20));
 		this.tryToTeleport(world, rascal);
 		RascalBrain.setNodCooldown(rascal);

@@ -4,7 +4,6 @@ import com.faboslav.friendsandfoes.entity.TuffGolemEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
-import net.minecraft.util.math.MathHelper;
 
 @Environment(EnvType.CLIENT)
 public final class TuffGolemEntityModel<T extends TuffGolemEntity> extends AnimatedEntityModel<T>
@@ -63,16 +62,6 @@ public final class TuffGolemEntityModel<T extends TuffGolemEntity> extends Anima
 	}
 
 	@Override
-	public void animateModel(
-		T tuffGolem,
-		float limbAngle,
-		float limbDistance,
-		float tickDelta
-	) {
-		this.updateAnimations(tuffGolem, limbAngle, limbDistance);
-	}
-
-	@Override
 	public void setAngles(
 		T tuffGolem,
 		float limbAngle,
@@ -81,26 +70,8 @@ public final class TuffGolemEntityModel<T extends TuffGolemEntity> extends Anima
 		float headYaw,
 		float headPitch
 	) {
+		this.getPart().traverse().forEach(ModelPart::resetTransform);
+		this.updateMovementKeyframeAnimations(tuffGolem, limbAngle, limbDistance, 4.0F * tuffGolem.getMovementSpeedModifier(), 4.0F * tuffGolem.getMovementSpeedModifier());
 		this.updateKeyframeAnimations(tuffGolem, animationProgress);
-	}
-
-	private void updateAnimations(
-		T tuffGolem,
-		float limbAngle,
-		float limbDistance
-	) {
-		this.applyModelTransforms(MODEL_PART_ROOT, this.root);
-
-		if (tuffGolem.isInSleepingPose() == false) {
-			this.rightLeg.pitch = -2.0F * MathHelper.wrap(limbAngle, 13.0F) * limbDistance;
-			this.leftLeg.pitch = 2.0F * MathHelper.wrap(limbAngle, 13.0F) * limbDistance;
-			this.rightLeg.yaw = 0.0F;
-			this.leftLeg.yaw = 0.0F;
-		}
-
-		if (tuffGolem.isInSleepingPose() == false && tuffGolem.isShowingItem() == false) {
-			this.leftArm.pitch = (-0.2F + 2.0F * MathHelper.wrap(limbAngle, 13.0F)) * limbDistance;
-			this.rightArm.pitch = (-0.2F - 2.0F * MathHelper.wrap(limbAngle, 13.0F)) * limbDistance;
-		}
 	}
 }

@@ -151,6 +151,16 @@ public final class PlayerIllusionEntity extends MobEntity
 		return playerListEntry == null ? null:playerListEntry.getCapeTexture();
 	}
 
+	public boolean canRenderElytraTexture() {
+		return this.getPlayerListEntry() != null;
+	}
+
+	@Nullable
+	public Identifier getElytraTexture() {
+		PlayerListEntry playerListEntry = this.getPlayerListEntry();
+		return playerListEntry == null ? null:playerListEntry.getElytraTexture();
+	}
+
 	public boolean canRenderCapeTexture() {
 		return this.getPlayerListEntry() != null;
 	}

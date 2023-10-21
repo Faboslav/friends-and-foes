@@ -14,7 +14,6 @@ import net.minecraft.client.render.entity.model.SinglePartEntityModel;
 import net.minecraft.entity.AnimationState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import org.joml.Vector3f;
 
 import java.util.Iterator;
@@ -24,6 +23,8 @@ import java.util.Optional;
 
 public final class ModelAnimator
 {
+	private static final Vector3f TEMP = new Vector3f();
+
 	public static void updateKeyframeAnimations(
 		AnimatedEntity animatedEntity,
 		AnimatedEntityModel animatedEntityModel,
@@ -40,7 +41,7 @@ public final class ModelAnimator
 
 		animationState.update(animationProgress, 1.0F);
 		animationState.run((state) -> {
-			animateKeyframe(animatedEntityModel, animation, state.getTimeRunning(), 1.0F, new Vec3d());
+			animateKeyframe(animatedEntityModel, animation, state.getTimeRunning(), 1.0F, TEMP);
 		});
 	}
 
@@ -52,7 +53,7 @@ public final class ModelAnimator
 	) {
 		KeyframeAnimation keyframeAnimation = animatedEntity.getMovementAnimation();
 		Animation animation = keyframeAnimation.getAnimation();
-		animateKeyframe(animatedEntityModel, animation, runningTime, f, new Vec3d());
+		animateKeyframe(animatedEntityModel, animation, runningTime, f, TEMP);
 	}
 
 	public static void animateKeyframe(
@@ -60,7 +61,7 @@ public final class ModelAnimator
 		Animation animation,
 		long runningTime,
 		float scale,
-		Vec3d vec3f
+		Vector3f vec3f
 	) {
 		float f = getRunningSeconds(animation, runningTime);
 		Iterator var7 = animation.boneAnimations().entrySet().iterator();

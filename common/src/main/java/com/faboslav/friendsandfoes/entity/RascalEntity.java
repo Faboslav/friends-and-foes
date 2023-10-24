@@ -297,8 +297,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 		Entity attacker = source.getAttacker();
 
 		if (
-			attacker == null
-			|| attacker instanceof PlayerEntity == false
+			attacker instanceof PlayerEntity == false
 			|| this.hasCustomName()
 		) {
 			return super.damage(source, amount);

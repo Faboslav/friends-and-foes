@@ -1,4 +1,11 @@
-<img title="Friends&amp;Foes" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/title.jpg" alt="Friends&amp;Foes">
+<p><br></p>
+<p><br></p>
+
+<p style="text-align: center;">
+	<img title="Friends&amp;Foes" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/page/logo.png" alt="Friends&amp;Foes" width="743" height="110">
+</p>
+
+<hr>
 
 <p style="text-align: center;">
 	<a style="text-decoration: none;" href="https://ko-fi.com/faboslav">
@@ -15,147 +22,48 @@
 	</a>
 </p>
 
+<br>
+
+<p>
+	<span>Friends&amp;Foes adds outvoted and forgotten mobs from the mob vote. One of the main goals is to also further expand upon original concepts and add new vanilla like features related to all the mobs.</span>
+</p>
+<p>
+	<span>You can check <a title="wiki" href="https://github.com/Faboslav/friends-and-foes/wiki">wiki</a> for a detailed overview of implemented mobs and features. Looking for the <a href="https://modrinth.com/mod/friends-and-foes-forge">Forge</a> or <a href="https://modrinth.com/mod/friends-and-foes-quilt">Quilt</a> version?</span>
+</p>
+
+<p><br></p>
+
+<table style="text-align: center;">
+	<tbody>
+		<tr>
+			<td><img title="Copper Golem" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/page/copper_golem.gif" alt="Copper Golem" width="40"></td>
+			<td>&emsp;</td>		
+			<td><span style="font-size: 28px;color:#e5e5e5">Copper Golem</span></td>
+		</tr>
+	</tbody>
+</table>
+
 <hr>
 
 <p>
-	<span style="font-size: 14px;">Friends&amp;Foes adds outvoted and forgotten mobs from the mob vote. One of the main goals is to also further expand upon original concepts and add new vanilla like features related to all the mobs.</span>
-</p>
-<p>
-	<span style="font-size: 14px;">You can check <a style="font-size: 14px;" title="wiki" href="https://github.com/Faboslav/friends-and-foes/wiki" target="_blank" rel="noopener noreferrer">wiki</a> for a detailed overview of implemented mobs and features. Looking for the <a style="font-size: 14px;" href="https://modrinth.com/mod/friends-and-foes-forge">Forge</a> or <a style="font-size: 14px;" href="https://modrinth.com/mod/friends-and-foes-quilt">Quilt</a> version?</span>
-</p>
-
-<hr>
-
-<p>
-	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/copper_golem.png" width="412" height="232" />
-	<span>&emsp;&emsp;</span>
-	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/glare.png" width="412" height="232" />
+	Meet the <a href="https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem">Copper Golem</a>, a pocket-sized, comedic marvel that finds joy in randomly pressing copper buttons.
+	Like any other copper creations it will <a href="https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem#oxidation">oxidize</a> over time, but do not worry, maintenance is a breeze! For a quick makeover, grab an <a href="https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem#scraping">axe</a> or a <a href="https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem#waxing">honeycomb</a>.
+	If you want to <a href="https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem#creation">build</a> this little creature, gather a copper block, a pumpkin, and a lightning rod..
 </p>
 
-<p>
-	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/moobloom.png" width="412" height="232" />
-	<span>&emsp;&emsp;</span>
-	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/beekeeper.png" width="412" height="232" />
-</p>
+<table>
+	<tbody>
+		<tr>
+			<td><img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/page/copper_golem_1.webp"></td>
+			<td>&emsp;</td>
+			<td><img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/page/copper_golem_2.webp"></td>
+		</tr>
+	</tbody>
+</table>
 
-<p>
-	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/iceologer.png" width="412" height="232" />
-	<span>&emsp;&emsp;</span>
-	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/iceologer_cabin.png" width="412" height="232" />
-</p>
-
-<p>
-	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/illusioner.png" width="412" height="232" />
-	<span>&emsp;&emsp;</span>
-	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/illusioner_shack.png" width="412" height="232" />
-</p>
-
-<p>
-	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/wildfire.png" width="412" height="232" />
-	<span>&emsp;&emsp;</span>
-	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/citadel.png" width="412" height="232" />
-</p>
-
-<p>
-	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/beehive.png" width="412" height="232" />
-	<span>&emsp;&emsp;</span>
-	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/copper_button.png" width="412" height="232" />
-</p>
-
-<p>
-	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/copper_golem_workstation.png" width="412" height="232" />
-	<span>&emsp;&emsp;</span>
-	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/images/mauler.png" width="412" height="232" />
-</p>
-
-<br>
-
-<h2>Features</h2>
-
-<p>
-	<span style="font-size: 14px;">Following features are currently already fully working in the game, you can check <a style="font-size: 14px;" title="wiki" href="https://github.com/Faboslav/friends-and-foes/wiki" target="_blank" rel="noopener noreferrer">wiki</a> for more info or click on the links to the specific wiki pages for the full description.</a>
-</p>
-
-<h3><strong>Friends:</strong></h3>
-
+<p>There is also plenty of other features related to the copper golem added to the game:</p>
 <ul>
-	<li><span style="font-size: 14px;"><a style="font-size: 14px;" href="https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem">Copper Golem</a></span></li>
-	<li><span style="font-size: 14px;"><a style="font-size: 14px;" href="https://github.com/Faboslav/friends-and-foes/wiki/Glare">Glare </a></span></li>
-	<li><span style="font-size: 14px;"><a style="font-size: 14px;" href="https://github.com/Faboslav/friends-and-foes/wiki/Moobloom">Moobloom</a></span></li>
+	<li>All copper variants of <a href="https://github.com/Faboslav/friends-and-foes/wiki/Copper-Button">Copper Buttons</a></li>
+	<li>All copper variants of <a href="https://github.com/Faboslav/friends-and-foes/wiki/Lightning-Rod">Lightning Rods</a></li>
+	<li><a href="https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem-Workstation">Copper Golem Workstation</a> village structure</li>
 </ul>
-
-<br>
-
-<h3><strong>Foes:</strong></h3>
-
-<ul>
-	<li><a style="font-size: 14px;" href="https://github.com/Faboslav/friends-and-foes/wiki/Iceologer">Iceologer</a></li>
-	<li><a style="font-size: 14px;" href="https://github.com/Faboslav/friends-and-foes/wiki/Illusioner">Illusioner</a></li>
-	<li><span style="font-size: 14px;"><a style="font-size: 14px;" href="https://github.com/Faboslav/friends-and-foes/wiki/Mauler-%28Great-Hunger%29">Mauler (Great Hunger)</a></span></li>
-	<li><a style="font-size: 14px;" href="https://github.com/Faboslav/friends-and-foes/wiki/Wildfire">Wildfire</a></li>
-</ul>
-
-<br>
-
-<h3><strong>Block/Items:</strong></h3>
-
-<ul>
-	<li><span style="font-size: 14px;"><a style="font-size: 14px;" href="https://github.com/Faboslav/friends-and-foes/wiki/Beehives">Beehives</a></span></li>
-	<li><span style="font-size: 14px;"><a style="font-size: 14px;" href="https://github.com/Faboslav/friends-and-foes/wiki/Buttercup">Buttercup</a></span></li>
-	<li><span style="font-size: 14px;"><a style="font-size: 14px;" href="https://github.com/Faboslav/friends-and-foes/wiki/Copper-Button">Copper Button</a></span></li>
-	<li><span style="font-size: 14px;"><a style="font-size: 14px;" href="https://github.com/Faboslav/friends-and-foes/wiki/Lightning-Rod">Lightning Rod</a></span></li>
-</ul>
-
-<br>
-
-<h3><strong>Structures:</strong></h3>
-
-<ul>
-	<li><span style="font-size: 14px;"><a style="font-size: 14px;" href="https://github.com/Faboslav/friends-and-foes/wiki/Beekeeper-Area">Beekeeper Area</a></span></li>
-	<li><span style="font-size: 14px;"><a style="font-size: 14px;" href="https://github.com/Faboslav/friends-and-foes/wiki/Citadel">Citadel</a></span></li>
-	<li><span style="font-size: 14px;"><a style="font-size: 14px;" href="https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem-Workstation">Copper Golem Workstation</a></span></li>
-	<li><span style="font-size: 14px;"><a style="font-size: 14px;" href="https://github.com/Faboslav/friends-and-foes/wiki/Iceologer-Cabin">Iceologer Cabin</a></span></li>
-	<li><span style="font-size: 14px;"><a style="font-size: 14px;" href="https://github.com/Faboslav/friends-and-foes/wiki/Illusioner-Shack">Illusioner Shack</a></span></li>
-	<li><span style="font-size: 14px;"><a style="font-size: 14px;" href="https://github.com/Faboslav/friends-and-foes/wiki/Illusioner-Training-Grounds">Illusioner Training Grounds</a></span></li>
-</ul>
-
-<br>
-
-<h3><strong>Village/Villagers:</strong></h3>
-
-<ul>
-	<li><span style="font-size: 14px;"><a style="font-size: 14px;" href="https://github.com/Faboslav/friends-and-foes/wiki/Beekeeper">Beekeeper</a></span></li>
-</ul>
-
-<br>
-
-<h2>Roadmap</h2>
-
-<p>
-	<span style="font-size: 14px;">I am currently working on the Tuff Golem. Following mobs are planned to be implemented:</span>
-</p>
-
-<ul>
-	<li><span style="font-size: 14px;">Rascal</span></li>
-	<li><span style="font-size: 14px;">Barnacle</span></li>
-</ul>
-
-<br>
-
-<h2>Support</h2>
-
-<p><span style="font-size: 14px;">I will continue to develop my mods regardless of any support as it is my hobby, although most of my free time goes into development of my mods. So if you want to support me anyway, you can do that via <a style="font-size: 14px;" href="https://www.patreon.com/Faboslav">Patreon</a> or <a style="font-size: 14px;" href="https://ko-fi.com/faboslav">Ko-fi</a>. I appreciate that.</span></p>
-
-<br>
-
-<h2>License</h2>
-
-<p>
-	<span style="font-size: 14px;">The mod is licensed with <a style="font-size: 14px;" href="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/LICENSE.txt">CC BY-NC-ND 4.0</a> license.</span>
-</p>
-<p>
-	<span style="font-size: 14px;">Feel free to look over my code for examples of how i have implemented and solved various problems while writing this mod, incorporate snippets into your own code.&nbsp;Also feel free to use this mod in any modpack (although credit/link back to this page will be greatly appreciated).</span>
-</p>
-<p>
-	<span style="font-size: 14px;">You can also look into the <a style="font-size: 14px;" href="https://github.com/Faboslav/friends-and-foes/tree/master/blockbench">blockbench directory</a> which contains all the models &amp; palettes and into the <a style="font-size: 14px;" href="https://github.com/Faboslav/friends-and-foes/tree/master/common/src/main/resources/assets/friendsandfoes/textures">textures directory</a> for textures. Get inspired, but please don't just copy &amp; paste any of it as your own.</span>
-</p>

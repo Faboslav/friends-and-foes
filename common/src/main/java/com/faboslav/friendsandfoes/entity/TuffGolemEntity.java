@@ -800,11 +800,11 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	}
 
 	public float getMovementSpeedModifier() {
-		if(this.isHoldingItem()) {
+		if (this.isHoldingItem()) {
 			return 1.0F;
 		}
 
-		return MOVEMENT_SPEED_WITH_ITEM/MOVEMENT_SPEED;
+		return MOVEMENT_SPEED_WITH_ITEM / MOVEMENT_SPEED;
 	}
 
 	@Override

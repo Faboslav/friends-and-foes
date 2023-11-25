@@ -72,7 +72,7 @@ public final class WildfireBrain
 			Activity.IDLE,
 			ImmutableList.of(
 				Pair.of(0, new UpdateAttackTargetTask(wildfire -> getTarget((WildfireEntity) wildfire))),
-				Pair.of(0, makeRandomWanderTask())
+				Pair.of(1, makeRandomWanderTask())
 			)
 		);
 	}

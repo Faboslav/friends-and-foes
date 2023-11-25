@@ -23,7 +23,7 @@ import java.util.Optional;
 
 public final class ModelAnimator
 {
-	private static final Vec3f TEMP = new Vec3f();
+	protected static final Vec3f TEMP = new Vec3f();
 
 	public static void updateKeyframeAnimations(
 		AnimatedEntity animatedEntity,

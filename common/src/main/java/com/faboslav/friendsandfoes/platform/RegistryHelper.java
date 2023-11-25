@@ -12,6 +12,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
+import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.item.Item;
 import net.minecraft.particle.DefaultParticleType;
@@ -76,6 +77,14 @@ public final class RegistryHelper
 	public static <T extends MemoryModuleType<?>> Supplier<T> registerMemoryModuleType(
 		String name,
 		Supplier<T> memoryModuleType
+	) {
+		throw new AssertionError();
+	}
+
+	@ExpectPlatform
+	public static <T extends SensorType<?>> Supplier<T> registerSensorType(
+		String name,
+		Supplier<T> sensorType
 	) {
 		throw new AssertionError();
 	}

@@ -250,7 +250,6 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 		this.startKeyframeAnimation(keyframeAnimationToStart, this.age);
 	}
 
-
 	@Override
 	public void setPose(EntityPose pose) {
 		if (this.getWorld().isClient()) {

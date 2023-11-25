@@ -26,6 +26,8 @@
 		"IllusionerRaiderEntityMixin",
 		"IllusionerSpellcastingIllagerEntityMixin",
 		"LightningEntityMixin",
+		"LightningRodAbstractBlockMixin",
+		"LightningRodBlockBlockMixin",
 		"LightningRodBlockDegradableMixin",
 		"LightningRodBlockMixin",
 		"PatrolSpawnerAccessor",

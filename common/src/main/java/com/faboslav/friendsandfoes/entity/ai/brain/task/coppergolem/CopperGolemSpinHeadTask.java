@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.entity.ai.brain.task.coppergolem;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.animation.CopperGolemAnimations;
 import com.faboslav.friendsandfoes.entity.CopperGolemEntity;
 import com.faboslav.friendsandfoes.entity.ai.brain.CopperGolemBrain;
@@ -35,7 +34,6 @@ public final class CopperGolemSpinHeadTask extends Task<CopperGolemEntity>
 
 	@Override
 	protected void run(ServerWorld world, CopperGolemEntity copperGolem, long time) {
-		FriendsAndFoes.getLogger().info("CopperGolemSpinHeadTask");
 		this.spinHeadTicks = 0;
 		this.maxSpinHeadTicks = CopperGolemAnimations.getSpinHeadKeyframeAnimation(copperGolem.getAnimationSpeedModifier()).getAnimationLengthInTicks();
 		copperGolem.startSpinHeadAnimation();

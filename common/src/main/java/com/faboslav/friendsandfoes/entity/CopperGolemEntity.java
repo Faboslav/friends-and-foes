@@ -60,8 +60,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 	private static final float MOVEMENT_SPEED = 0.2F;
 	private static final int COPPER_INGOT_HEAL_AMOUNT = 5;
 	private static final float SPARK_CHANCE = 0.025F;
-	private static final float OXIDATION_CHANCE = 0.01F;
-	//private static final float OXIDATION_CHANCE = 0.00002F;
+	private static final float OXIDATION_CHANCE = 0.00002F;
 	public static final int MIN_STRUCT_BY_LIGHTNING_TICKS = 1200;
 	public static final int MAX_STRUCT_BY_LIGHTNING_TICKS = 2400;
 
@@ -144,6 +143,10 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		@Nullable NbtCompound entityNbt
 	) {
 		EntityData superEntityData = super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
+
+		if (spawnReason == SpawnReason.STRUCTURE) {
+			return superEntityData;
+		}
 
 		this.setPose(CopperGolemEntityPose.IDLE);
 		CopperGolemBrain.setSpinHeadCooldown(this);
@@ -232,25 +235,28 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 			return;
 		}
 
-		this.serverYaw = entitySnapshot.getDouble("serverYaw");
-		this.prevYaw = entitySnapshot.getFloat("prevYaw");
-		this.setYaw(this.prevYaw);
+		if (this.hasVehicle() == false) {
+			this.serverYaw = entitySnapshot.getDouble("serverYaw");
+			this.prevYaw = entitySnapshot.getFloat("prevYaw");
+			this.setYaw(this.prevYaw);
+			this.prevBodyYaw = entitySnapshot.getFloat("prevBodyYaw");
+			this.bodyYaw = this.prevBodyYaw;
+			this.serverHeadYaw = entitySnapshot.getDouble("serverHeadYaw");
+			this.prevHeadYaw = entitySnapshot.getFloat("prevHeadYaw");
+			this.headYaw = this.prevHeadYaw;
+			this.prevLookDirection = entitySnapshot.getFloat("prevLookDirection");
+			this.lookDirection = this.prevLookDirection;
+		}
+
 		this.prevPitch = entitySnapshot.getFloat("prevPitch");
 		this.serverPitch = this.prevPitch;
 		this.setPitch(this.prevPitch);
 		this.roll = entitySnapshot.getInt("roll");
-		this.prevBodyYaw = entitySnapshot.getFloat("prevBodyYaw");
-		this.bodyYaw = this.prevBodyYaw;
-		this.serverHeadYaw = entitySnapshot.getDouble("serverHeadYaw");
-		this.prevHeadYaw = entitySnapshot.getFloat("prevHeadYaw");
-		this.headYaw = this.prevHeadYaw;
 		this.lastHandSwingProgress = entitySnapshot.getFloat("lastHandSwingProgress");
 		this.handSwingProgress = this.lastHandSwingProgress;
 		this.lastLimbDistance = entitySnapshot.getFloat("lastLimbDistance");
 		this.limbDistance = this.lastLimbDistance;
 		this.limbAngle = entitySnapshot.getFloat("limbAngle");
-		this.prevLookDirection = entitySnapshot.getFloat("prevLookDirection");
-		this.lookDirection = this.prevLookDirection;
 		this.prevStepBobbingAmount = entitySnapshot.getFloat("prevStepBobbingAmount");
 		this.stepBobbingAmount = this.prevStepBobbingAmount;
 	}

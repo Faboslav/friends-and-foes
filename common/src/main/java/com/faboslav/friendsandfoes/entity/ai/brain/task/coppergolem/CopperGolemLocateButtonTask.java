@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.entity.ai.brain.task.coppergolem;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.CopperGolemEntity;
 import com.faboslav.friendsandfoes.entity.ai.brain.CopperGolemBrain;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
@@ -31,21 +30,19 @@ public final class CopperGolemLocateButtonTask extends Task<CopperGolemEntity>
 
 	@Override
 	protected void run(ServerWorld world, CopperGolemEntity copperGolem, long time) {
-		FriendsAndFoes.getLogger().info("CopperGolemLocateButtonTask");
-		BlockPos buttonBlockPos = this.findNearestRandomButton(world, copperGolem);
+		BlockPos buttonBlockPos = this.findNearestRandomButton(copperGolem);
 
 		if (buttonBlockPos == null) {
 			CopperGolemBrain.setPressButtonCooldown(copperGolem, TimeHelper.betweenSeconds(10, 10));
 			return;
 		}
 
-		FriendsAndFoes.getLogger().info("CopperGolemLocateButtonTask - done");
 		RegistryKey<World> registryKey = copperGolem.getWorld().getRegistryKey();
 		copperGolem.getBrain().remember(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_BUTTON_POS.get(), GlobalPos.create(registryKey, buttonBlockPos));
 	}
 
-	private BlockPos findNearestRandomButton(ServerWorld world, CopperGolemEntity copperGolem) {
-		int horizontalRange = 8;
+	private BlockPos findNearestRandomButton(CopperGolemEntity copperGolem) {
+		int horizontalRange = 16;
 		int verticalRange = 8;
 
 		List<BlockPos> buttons = this.findAllButtonsInRange(copperGolem.getBlockPos(), horizontalRange, verticalRange, (blockPos) -> {

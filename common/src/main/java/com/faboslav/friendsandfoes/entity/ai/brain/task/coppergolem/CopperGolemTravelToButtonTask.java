@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.entity.ai.brain.task.coppergolem;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.CopperGolemEntity;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
@@ -41,7 +40,6 @@ public final class CopperGolemTravelToButtonTask extends Task<CopperGolemEntity>
 
 	@Override
 	protected void run(ServerWorld world, CopperGolemEntity copperGolem, long time) {
-		FriendsAndFoes.getLogger().info("CopperGolemTravelToButtonTask");
 		this.walkTowardsButton(copperGolem);
 	}
 
@@ -69,14 +67,11 @@ public final class CopperGolemTravelToButtonTask extends Task<CopperGolemEntity>
 			return;
 		}
 
-		FriendsAndFoes.getLogger().info("CopperGolemTravelToButtonTask");
-
 		this.walkTowardsButton(copperGolem);
 	}
 
 	@Override
 	protected void finishRunning(ServerWorld world, CopperGolemEntity copperGolem, long time) {
-		FriendsAndFoes.getLogger().info("CopperGolemTravelToButtonTask - finished");
 		copperGolem.getBrain().forget(MemoryModuleType.WALK_TARGET);
 		GlobalPos buttonPos = copperGolem.getButtonPos();
 

@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.entity.ai.brain.task.coppergolem;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.animation.CopperGolemAnimations;
 import com.faboslav.friendsandfoes.entity.CopperGolemEntity;
 import com.faboslav.friendsandfoes.entity.ai.brain.CopperGolemBrain;
@@ -117,7 +116,6 @@ public final class CopperGolemPressButtonTask extends Task<CopperGolemEntity>
 		}
 
 		this.wasButtonPressed = this.tryToPressButton(copperGolem, buttonPos.getPos());
-		FriendsAndFoes.getLogger().info("pressing button");
 	}
 
 	@Override

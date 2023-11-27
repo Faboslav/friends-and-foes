@@ -2,7 +2,10 @@ package com.faboslav.friendsandfoes.mixin;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.block.Oxidizable;
+import com.faboslav.friendsandfoes.client.render.entity.animation.KeyframeAnimation;
 import com.faboslav.friendsandfoes.entity.CopperGolemEntity;
+import com.faboslav.friendsandfoes.entity.ai.brain.CopperGolemBrain;
+import com.faboslav.friendsandfoes.entity.pose.CopperGolemEntityPose;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesBlocks;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.util.CopperGolemBuildPatternPredicates;
@@ -22,16 +25,15 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.ArrayList;
 
 @Mixin(LightningRodBlock.class)
-public abstract class LightningRodBlockMixin extends RodBlock implements Oxidizable
+public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin implements Oxidizable
 {
 	@Nullable
 	private BlockPattern friendsandfoes_copperGolemPattern;
-
-	public LightningRodBlockMixin(Settings settings) {
-		super(settings);
-	}
 
 	@Inject(method = "onBlockAdded", at = @At("HEAD"))
 	private void friendsandfoes_onBlockAdded(
@@ -79,7 +81,7 @@ public abstract class LightningRodBlockMixin extends RodBlock implements Oxidiza
 		} else if (lightningRodBlockState.isOf(FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get())) {
 			lightningRodOxidationLevel = Oxidizable.OxidationLevel.OXIDIZED;
 		} else {
-			lightningRodOxidationLevel = ((LightningRodBlockMixin) lightningRodBlockState.getBlock()).getDegradationLevel();
+			lightningRodOxidationLevel = ((Oxidizable) lightningRodBlockState.getBlock()).getDegradationLevel();
 		}
 
 		Oxidizable.OxidationLevel bodyOxidationLevel;
@@ -117,30 +119,50 @@ public abstract class LightningRodBlockMixin extends RodBlock implements Oxidiza
 		BlockPos cachedBlockPosition = patternSearchResult.translate(0, 2, 0).getBlockPos();
 		float copperGolemYaw = headBlockState.get(CarvedPumpkinBlock.FACING).asRotation();
 
-		CopperGolemEntity copperGolemEntity = FriendsAndFoesEntityTypes.COPPER_GOLEM.get().create(world);
+		CopperGolemEntity copperGolem = FriendsAndFoesEntityTypes.COPPER_GOLEM.get().create(world);
 
-		copperGolemEntity.setPosition(
+		copperGolem.setPosition(
 			(double) cachedBlockPosition.getX() + 0.5D,
 			(double) cachedBlockPosition.getY() + 0.05D,
 			(double) cachedBlockPosition.getZ() + 0.5D
 		);
-		copperGolemEntity.setSpawnYaw(copperGolemYaw);
-		copperGolemEntity.setOxidationLevel(bodyOxidationLevel);
+		copperGolem.setSpawnYaw(copperGolemYaw);
+		copperGolem.setOxidationLevel(bodyOxidationLevel);
 
-		if (lightningRodOxidationLevel != Oxidizable.OxidationLevel.OXIDIZED) {
+		if (lightningRodOxidationLevel == Oxidizable.OxidationLevel.OXIDIZED) {
+			ArrayList<CopperGolemEntityPose> possiblePoses = new ArrayList<>()
+			{{
+				add(CopperGolemEntityPose.SPIN_HEAD);
+				add(CopperGolemEntityPose.PRESS_BUTTON_UP);
+				add(CopperGolemEntityPose.PRESS_BUTTON_DOWN);
+			}};
+			int randomPoseIndex = copperGolem.getRandom().nextInt(possiblePoses.size());
+			CopperGolemEntityPose randomPose = possiblePoses.get(randomPoseIndex);
+			copperGolem.setPose(randomPose);
+			KeyframeAnimation keyframeAnimation = copperGolem.getKeyframeAnimationByPose();
+
+			if (keyframeAnimation != null) {
+				int keyFrameAnimationLengthInTicks = keyframeAnimation.getAnimationLengthInTicks();
+				int randomKeyframeAnimationTick = copperGolem.getRandom().nextBetween(keyFrameAnimationLengthInTicks / 6, keyFrameAnimationLengthInTicks - (keyFrameAnimationLengthInTicks / 6));
+				copperGolem.setKeyframeAnimationTicks(randomKeyframeAnimationTick);
+			}
+		} else {
 			boolean isHeadBlockWaxed = this.friendsandfoes_isCopperBlockWaxed(headBlockState);
 			boolean isBodyBlockWaxed = this.friendsandfoes_isCopperBlockWaxed(bodyBlockState);
 			boolean isWaxed = isHeadBlockWaxed && isBodyBlockWaxed;
-			copperGolemEntity.setIsWaxed(isWaxed);
+			copperGolem.setIsWaxed(isWaxed);
 		}
 
-		world.spawnEntity(copperGolemEntity);
+		CopperGolemBrain.setSpinHeadCooldown(copperGolem);
+		CopperGolemBrain.setPressButtonCooldown(copperGolem);
+
+		world.spawnEntity(copperGolem);
 
 		for (ServerPlayerEntity serverPlayerEntity : world.getNonSpectatingEntities(
 			ServerPlayerEntity.class,
-			copperGolemEntity.getBoundingBox().expand(5.0D)
+			copperGolem.getBoundingBox().expand(5.0D)
 		)) {
-			Criteria.SUMMONED_ENTITY.trigger(serverPlayerEntity, copperGolemEntity);
+			Criteria.SUMMONED_ENTITY.trigger(serverPlayerEntity, copperGolem);
 		}
 
 		for (int j = 0; j < this.friendsandfoes_getCopperGolemPattern().getHeight(); ++j) {
@@ -176,17 +198,38 @@ public abstract class LightningRodBlockMixin extends RodBlock implements Oxidiza
 	}
 
 	@Override
-	public void randomTick(
+	public void friendsandfoes_neighborUpdate(
+		BlockState state,
+		World world,
+		BlockPos pos,
+		Block sourceBlock,
+		BlockPos sourcePos,
+		boolean notify,
+		CallbackInfo ci
+	) {
+		this.friendsandfoes_tryToSpawnCopperGolem(
+			world,
+			pos
+		);
+	}
+
+	@Override
+	public void friendsandfoes_randomTick(
 		BlockState state,
 		ServerWorld world,
 		BlockPos pos,
-		Random random
+		Random random,
+		CallbackInfo ci
 	) {
 		this.tickDegradation(state, world, pos, random);
 	}
 
 	@Override
-	public boolean hasRandomTicks(BlockState state) {
-		return true;
+	public void friendsandfoes_hasRandomTicks(
+		BlockState state, CallbackInfoReturnable<Boolean> cir
+	) {
+		if (cir.getReturnValue() == false) {
+			cir.setReturnValue(Oxidizable.getIncreasedOxidationBlock(state.getBlock()).isPresent());
+		}
 	}
 }

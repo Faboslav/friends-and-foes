@@ -9,7 +9,7 @@ version = "${modVersion}"
 displayName = "${modName}"
 authors = "${modAuthor}"
 description = "${modDescription}"
-logoFile = "icon.jpg"
+logoFile = "icon.png"
 
 [[dependencies.friendsandfoes]]
 modId = "forge"
@@ -31,3 +31,8 @@ mandatory = false
 versionRange = "[7,)"
 ordering = "NONE"
 side = "CLIENT"
+
+[modproperties.friendsandfoes]
+catalogueImageIcon = "catalogue_icon.png"
+catalogueBackground = "catalogue_logo.png"
+configuredBackground = "catalogue_background.png"

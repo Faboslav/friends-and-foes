@@ -43,7 +43,7 @@ public interface AnimatedEntity
 
 		this.setKeyframeAnimationTicks(this.getKeyframeAnimationTicks() - 1);
 
-		if (this.getKeyframeAnimationTicks() != 1) {
+		if (this.getKeyframeAnimationTicks() > 1) {
 			return;
 		}
 
@@ -76,7 +76,7 @@ public interface AnimatedEntity
 	default void startKeyframeAnimation(KeyframeAnimation keyframeAnimation, int initialTick) {
 		KeyframeAnimationContext keyframeAnimationContext = this.getAnimationContextTracker().get(keyframeAnimation);
 		keyframeAnimationContext.setInitialTick(initialTick);
-		keyframeAnimationContext.getAnimationState().startIfNotRunning(initialTick);
+		keyframeAnimationContext.getAnimationState().start(initialTick);
 	}
 
 	default void forceStartKeyframeAnimation(KeyframeAnimation keyframeAnimation, int initialTick) {

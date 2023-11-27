@@ -14,7 +14,7 @@
 		"wiki": "https://github.com/Faboslav/friends-and-foes/wiki"
 	},
 	"license": "CC-BY-NC-ND-4.0",
-	"icon": "icon.jpg",
+	"icon": "icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
@@ -22,9 +22,6 @@
 		],
 		"client": [
 			"com.faboslav.friendsandfoes.fabric.FriendsAndFoesFabricClient"
-		],
-		"server": [
-			"com.faboslav.friendsandfoes.fabric.FriendsAndFoesFabricServer"
 		],
 		"preLaunch": [
 			"com.llamalad7.mixinextras.MixinExtrasBootstrap::init"
@@ -46,9 +43,20 @@
 	"custom": {
 		"modmenu": {
 			"links": {
+				"modmenu.discord": "https://discord.com/invite/QGwFvvMQCn",
 				"Discord": "https://discord.com/invite/QGwFvvMQCn",
-				"Wiki": "https://github.com/Faboslav/friends-and-foes/wiki"
+				"Wiki": "https://github.com/Faboslav/friends-and-foes/wiki",
+				"CurseForge": "https://www.curseforge.com/minecraft/mc-mods/friends-and-foes",
+				"Modrinth": "https://modrinth.com/mod/friends-and-foes"
 			}
+		},
+		"catalogue": {
+			"configFactory": "com.faboslav.friendsandfoes.integrations.fabric.CatalogueIntegration",
+			"icon": {
+				"image": "catalogue_icon.png"
+			},
+			"banner": "catalogue_logo.png",
+			"background": "catalogue_background.png"
 		}
 	}
 }

@@ -50,6 +50,9 @@ dependencies {
 	modRuntimeOnly "curse.maven:disablecustomworldsadvice-401978:3827588"
 	modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.1.2")
 
+	// Optional dependency catalogue
+	modRuntimeOnly "curse.maven:catalogue-fabric-667377:4171031"
+
 	common(project(path: ":common", configuration: "namedElements")) { transitive false }
 	shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 }

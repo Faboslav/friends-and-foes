@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.mixin;
 
+import com.faboslav.friendsandfoes.entity.pose.CopperGolemEntityPose;
 import com.faboslav.friendsandfoes.entity.pose.RascalEntityPose;
 import com.faboslav.friendsandfoes.entity.pose.TuffGolemEntityPose;
 import net.minecraft.entity.EntityPose;
@@ -47,9 +48,9 @@ public final class AddCustomEntityPoseMixin
 		var lastEntityPose = entityPoses.get(entityPoses.size() - 1);
 		var nextEntityPoseIndex = lastEntityPose.ordinal();
 
-		for (TuffGolemEntityPose tuffGolemEntityPose : TuffGolemEntityPose.values()) {
+		for (CopperGolemEntityPose entityPose : CopperGolemEntityPose.values()) {
 			var newEntityPose = newEntityPose(
-				tuffGolemEntityPose.getName(),
+				entityPose.getName(),
 				++nextEntityPoseIndex
 			);
 
@@ -59,6 +60,15 @@ public final class AddCustomEntityPoseMixin
 		for (RascalEntityPose rascalEntityPose : RascalEntityPose.values()) {
 			var newEntityPose = newEntityPose(
 				rascalEntityPose.getName(),
+				++nextEntityPoseIndex
+			);
+
+			entityPoses.add(newEntityPose);
+		}
+
+		for (TuffGolemEntityPose tuffGolemEntityPose : TuffGolemEntityPose.values()) {
+			var newEntityPose = newEntityPose(
+				tuffGolemEntityPose.getName(),
 				++nextEntityPoseIndex
 			);
 

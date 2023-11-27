@@ -1,3 +1,4 @@
+/*
 package com.faboslav.friendsandfoes.entity.ai.goal.coppergolem;
 
 import com.faboslav.friendsandfoes.block.CopperButtonBlock;
@@ -52,8 +53,6 @@ public final class CopperGolemPressButtonGoal extends Goal
 		if (this.copperGolem.isOxidized()) {
 			return false;
 		} else if (this.copperGolem.getNavigation().isFollowingPath()) {
-			return false;
-		} else if (this.copperGolem.isSpinningHead()) {
 			return false;
 		}
 
@@ -363,3 +362,4 @@ public final class CopperGolemPressButtonGoal extends Goal
 		return this.isRunning;
 	}
 }
+*/

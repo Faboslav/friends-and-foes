@@ -49,6 +49,9 @@ dependencies {
 	//modRuntimeOnly "curse.maven:structureessentialsforgefabric-832882:4429721"
 	//modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.1.2")
 
+	// Optional dependency catalogue
+	modRuntimeOnly "curse.maven:catalogue-fabric-667377:4171029"
+
 	common(project(path: ":common", configuration: "namedElements")) { transitive false }
 	shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 }

@@ -2,9 +2,9 @@ package com.faboslav.friendsandfoes.util;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.platform.ModVersion;
+import com.faboslav.friendsandfoes.platform.Platform;
 import com.faboslav.friendsandfoes.platform.ProjectUrlProvider;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.text.ClickEvent;
@@ -19,6 +19,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public final class UpdateChecker
@@ -97,7 +99,7 @@ public final class UpdateChecker
 	public static Version getLatestVersion() {
 		HttpClient client = HttpClient.newHttpClient();
 		HttpRequest request = HttpRequest.newBuilder(
-			URI.create("https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/versions.json")
+			URI.create("https://api.modrinth.com/v2/project/" + Platform.getProjectSlug() + "/version")
 		).build();
 
 		HttpResponse<String> response;
@@ -112,15 +114,36 @@ public final class UpdateChecker
 			return null;
 		}
 
-		JsonObject json = gson.fromJson(response.body(), JsonObject.class);
+		Map<String, String> releases = new HashMap<>();
 
-		String gameVersion = SharedConstants.getGameVersion().getName();
+		try {
+			JsonArray jsonArray = gson.fromJson(response.body(), JsonArray.class);
 
-		if (json.has(gameVersion) == false) {
+			for (int i = 0; i < jsonArray.size(); i++) {
+				JsonObject versionObject = jsonArray.get(i).getAsJsonObject();
+				String versionNumber = versionObject.get("version_number").getAsString();
+				String modVersion = versionNumber.substring(versionNumber.lastIndexOf('-') + 1);
+				JsonArray gameVersions = versionObject.getAsJsonArray("game_versions");
+
+				for (JsonElement gameVersion : gameVersions) {
+					if (releases.containsKey(gameVersion.getAsString())) {
+						continue;
+					}
+
+					releases.put(gameVersion.getAsString(), modVersion);
+				}
+			}
+		} catch (JsonSyntaxException e) {
 			return null;
 		}
 
-		return Version.parse(json.get(gameVersion).getAsString());
+		String gameVersion = SharedConstants.getGameVersion().getName();
+
+		if (releases.containsKey(gameVersion) == false) {
+			return null;
+		}
+
+		return Version.parse(releases.get(gameVersion));
 	}
 }
 

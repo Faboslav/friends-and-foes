@@ -45,6 +45,9 @@ dependencies {
 
 	// Cloth config
 	modImplementation("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}")
+
+	// Catalogue (https://www.curseforge.com/minecraft/mc-mods/catalogue)
+	modRuntimeOnly "curse.maven:catalogue-459701:4496718"
 }
 
 processResources {
@@ -95,6 +98,10 @@ repositories {
 	maven {
 		url = "https://maven.theillusivec4.top/"
 	}
+
+	maven { url "https://www.cursemaven.com" }
+
+	maven { url = "https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1" }
 }
 
 publishing {

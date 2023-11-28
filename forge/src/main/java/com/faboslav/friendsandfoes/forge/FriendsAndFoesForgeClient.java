@@ -49,7 +49,7 @@ public final class FriendsAndFoesForgeClient
 
 	@SubscribeEvent
 	public static void registerParticleFactory(RegisterParticleProvidersEvent event) {
-		event.register(FriendsAndFoesParticleTypes.TOTEM_OF_FREEZING, FreezingTotemParticle.Factory::new);
-		event.register(FriendsAndFoesParticleTypes.TOTEM_OF_ILLUSION, IllusionTotemParticle.Factory::new);
+		event.registerSpriteSet(FriendsAndFoesParticleTypes.TOTEM_OF_FREEZING, FreezingTotemParticle.Factory::new);
+		event.registerSpriteSet(FriendsAndFoesParticleTypes.TOTEM_OF_ILLUSION, IllusionTotemParticle.Factory::new);
 	}
 }

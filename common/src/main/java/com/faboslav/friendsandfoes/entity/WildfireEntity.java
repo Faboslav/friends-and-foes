@@ -276,8 +276,7 @@ public final class WildfireEntity extends HostileEntity
 
 		if (
 			source == this.getDamageSources().inFire()
-			|| attacker == null
-			|| attacker.getType().isIn(FriendsAndFoesTags.WILDFIRE_ALLIES)
+			|| (attacker != null && attacker.getType().isIn(FriendsAndFoesTags.WILDFIRE_ALLIES))
 		) {
 			return false;
 		}

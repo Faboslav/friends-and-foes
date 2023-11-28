@@ -4,7 +4,7 @@ import net.minecraft.entity.AnimationState;
 
 public final class KeyframeAnimationContext
 {
-	private final AnimationState animationState;
+	private AnimationState animationState;
 	private final int totalTicks;
 	private int initialTick;
 	private int currentTick;
@@ -32,6 +32,10 @@ public final class KeyframeAnimationContext
 
 	public boolean isAtLastKeyframe() {
 		return initialTick + totalTicks > currentTick;
+	}
+
+	public void setAnimationState(AnimationState animationState) {
+		this.animationState = animationState;
 	}
 
 	public AnimationState getAnimationState() {

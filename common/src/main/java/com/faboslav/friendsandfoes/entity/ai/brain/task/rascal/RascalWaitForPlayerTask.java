@@ -135,7 +135,8 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 
 				for (ItemStack rascalReward : rascalGoodRewards) {
 					ItemStack bundleItemStack = Items.BUNDLE.getDefaultStack();
-					((BundleItemAccessor) bundleItemStack.getItem()).invokeAddToBundle(bundleItemStack, rascalReward);
+					BundleItemAccessor.callAddToBundle(bundleItemStack, rascalReward);
+
 					LookTargetUtil.give(rascal, bundleItemStack, nearestTarget.getPos().add(0.0, 1.0, 0.0));
 				}
 			}

@@ -774,8 +774,6 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		this.horizontalSpeed = 0.0F;
 		this.sidewaysSpeed = 0.0F;
 		this.upwardSpeed = 0.0F;
-		this.setVelocity(Vec3d.ZERO);
-		this.velocityDirty = true;
 	}
 
 	private NbtCompound takeEntitySnapshot() {

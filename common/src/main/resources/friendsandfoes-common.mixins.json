@@ -29,6 +29,7 @@
 		"LightningRodBlockBlockMixin",
 		"LightningRodBlockDegradableMixin",
 		"LightningRodBlockMixin",
+		"LightningRodBlockOxidizableMixin",
 		"PatrolSpawnerAccessor",
 		"PatrolSpawnerMixin",
 		"PlayerEntityMixin",

@@ -9,7 +9,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
 import net.minecraft.entity.AnimationState;
-import net.minecraft.nbt.NbtCompound;
 
 @Environment(EnvType.CLIENT)
 public final class CopperGolemEntityModel<T extends CopperGolemEntity> extends AnimatedEntityModel<T>

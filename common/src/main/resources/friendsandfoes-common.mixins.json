@@ -29,6 +29,7 @@
 		"LightningRodBlockBlockMixin",
 		"LightningRodBlockDegradableMixin",
 		"LightningRodBlockMixin",
+		"LightningRodBlockOxidizableMixin",
 		"LimbAnimatorAccessor",
 		"PatrolSpawnerAccessor",
 		"PatrolSpawnerMixin",

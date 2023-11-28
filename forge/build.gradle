@@ -46,8 +46,8 @@ dependencies {
 	// Cloth config
 	modImplementation("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}")
 
-	// Optional dependency catalogue
-	modRuntimeOnly "curse.maven:catalogue-459701:4171024"
+	// Catalogue
+	modRuntimeOnly "curse.maven:catalogue-459701:4171025"
 }
 
 processResources {

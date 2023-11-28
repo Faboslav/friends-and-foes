@@ -117,7 +117,7 @@ public final class RegistryHelperImpl
 		String name,
 		Supplier<T> sensorType
 	) {
-		var registry = Registry.register(Registry.SENSOR_TYPE, FriendsAndFoes.makeID(name), sensorType.get());
+		var registry = Registry.register(Registries.SENSOR_TYPE, FriendsAndFoes.makeID(name), sensorType.get());
 		return () -> registry;
 	}
 

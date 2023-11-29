@@ -1,7 +1,7 @@
-package com.faboslav.friendsandfoes.platform.neoforge;
+package com.faboslav.friendsandfoes.platform.forge;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.mixin.neoforge.FireBlockAccessor;
+import com.faboslav.friendsandfoes.mixin.forge.FireBlockAccessor;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSetType;
 import net.minecraft.client.model.TexturedModelData;

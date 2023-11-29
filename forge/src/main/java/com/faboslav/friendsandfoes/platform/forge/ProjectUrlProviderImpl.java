@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.platform.neoforge;
+package com.faboslav.friendsandfoes.platform.forge;
 
 public final class ProjectUrlProviderImpl
 {

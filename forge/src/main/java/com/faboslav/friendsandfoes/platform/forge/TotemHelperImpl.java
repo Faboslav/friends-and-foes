@@ -1,7 +1,7 @@
-package com.faboslav.friendsandfoes.platform.neoforge;
+package com.faboslav.friendsandfoes.platform.forge;
 
-import com.faboslav.friendsandfoes.network.neoforge.PacketHandler;
-import com.faboslav.friendsandfoes.network.neoforge.TotemEffectPacket;
+import com.faboslav.friendsandfoes.network.PacketHandler;
+import com.faboslav.friendsandfoes.network.TotemEffectPacket;
 import com.faboslav.friendsandfoes.platform.TotemHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;

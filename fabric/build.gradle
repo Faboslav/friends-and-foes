@@ -29,7 +29,9 @@ dependencies {
 	modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
 
 	// Trinkets
-	modApi("dev.emi:trinkets:${rootProject.trinkets_version}")
+	modApi("dev.emi:trinkets:${project.trinkets_version}")
+	modImplementation include("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${project.cca_version}")
+	modImplementation include("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${project.cca_version}")
 
 	include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${rootProject.mixin_extras_version}")))
 
@@ -45,7 +47,7 @@ dependencies {
 	modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.1.2")
 
 	// Catalogue (https://www.curseforge.com/minecraft/mc-mods/catalogue-fabric)
-	modRuntimeOnly "curse.maven:catalogue-fabric-667377:4766089"
+	// modRuntimeOnly "curse.maven:catalogue-fabric-667377:4766089"
 
 	common(project(path: ":common", configuration: "namedElements")) { transitive false }
 	shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }

@@ -9,6 +9,8 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.EntityRenderers;
+import net.minecraft.client.render.entity.PlayerEntityRenderer;
+import net.minecraft.client.util.SkinTextures;
 
 import java.util.Map;
 
@@ -18,7 +20,11 @@ import java.util.Map;
 @Environment(EnvType.CLIENT)
 public final class FriendAndFoesEntityRenderer
 {
-	private static final Map<String, EntityRendererFactory<PlayerIllusionEntity>> PLAYER_ILLUSION_RENDERER_FACTORIES = ImmutableMap.of("default", context -> new PlayerIllusionEntityRenderer(context, false), "slim", context -> new PlayerIllusionEntityRenderer(context, true));
+	private static final Map<SkinTextures.Model, EntityRendererFactory<PlayerIllusionEntity>> PLAYER_ILLUSION_RENDERER_FACTORIES = Map.of(SkinTextures.Model.WIDE, (context) -> {
+		return new PlayerIllusionEntityRenderer(context, false);
+	}, SkinTextures.Model.SLIM, (context) -> {
+		return new PlayerIllusionEntityRenderer(context, true);
+	});
 
 	public static void postInit() {
 		RegistryHelper.registerEntityRenderer(FriendsAndFoesEntityTypes.COPPER_GOLEM, CopperGolemEntityRenderer::new);
@@ -32,15 +38,15 @@ public final class FriendAndFoesEntityRenderer
 		RegistryHelper.registerEntityRenderer(FriendsAndFoesEntityTypes.WILDFIRE, WildfireEntityRenderer::new);
 	}
 
-	public static Map<String, EntityRenderer<? extends PlayerIllusionEntity>> reloadPlayerIllusionRenderers(
+	public static Map<SkinTextures.Model, EntityRenderer<? extends PlayerIllusionEntity>> reloadPlayerIllusionRenderers(
 		EntityRendererFactory.Context ctx
 	) {
 		ImmutableMap.Builder builder = ImmutableMap.builder();
-		PLAYER_ILLUSION_RENDERER_FACTORIES.forEach((type, factory) -> {
+		PLAYER_ILLUSION_RENDERER_FACTORIES.forEach((model, factory) -> {
 			try {
-				builder.put(type, factory.create(ctx));
+				builder.put(model, factory.create(ctx));
 			} catch (Exception exception) {
-				throw new IllegalArgumentException("Failed to create player illusion model for " + type, exception);
+				throw new IllegalArgumentException("Failed to create player illusion model for " + model, exception);
 			}
 		});
 		return builder.build();

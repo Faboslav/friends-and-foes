@@ -17,6 +17,7 @@ import net.minecraft.client.render.entity.feature.*;
 import net.minecraft.client.render.entity.model.ArmorEntityModel;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
+import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.ItemStack;
@@ -61,7 +62,7 @@ public final class PlayerIllusionEntityRenderer extends MobEntityRenderer<Player
 	}
 
 	private void setModelPose(PlayerIllusionEntity player) {
-		PlayerIllusionEntityModel<PlayerIllusionEntity> playerEntityModel = this.getModel();
+		PlayerEntityModel<PlayerIllusionEntity> playerEntityModel = this.getModel();
 		if (player.isSpectator()) {
 			playerEntityModel.setVisible(false);
 			playerEntityModel.head.visible = true;
@@ -122,16 +123,16 @@ public final class PlayerIllusionEntityRenderer extends MobEntityRenderer<Player
 				if (useAction == UseAction.TOOT_HORN) {
 					return BipedEntityModel.ArmPose.TOOT_HORN;
 				}
+
+				if (useAction == UseAction.BRUSH) {
+					return BipedEntityModel.ArmPose.BRUSH;
+				}
 			} else if (!player.handSwinging && itemStack.isOf(Items.CROSSBOW) && CrossbowItem.isCharged(itemStack)) {
 				return BipedEntityModel.ArmPose.CROSSBOW_HOLD;
 			}
 
 			return BipedEntityModel.ArmPose.ITEM;
 		}
-	}
-
-	public Identifier getTexture(PlayerIllusionEntity playerIllusionEntity) {
-		return playerIllusionEntity.getSkinTexture();
 	}
 
 	protected void scale(PlayerIllusionEntity playerIllusionEntity, MatrixStack matrixStack, float f) {
@@ -165,16 +166,17 @@ public final class PlayerIllusionEntityRenderer extends MobEntityRenderer<Player
 		ModelPart arm,
 		ModelPart sleeve
 	) {
-		PlayerIllusionEntityModel<PlayerIllusionEntity> playerEntityModel = this.getModel();
+		PlayerEntityModel<PlayerIllusionEntity> playerEntityModel = this.getModel();
 		this.setModelPose(player);
 		playerEntityModel.handSwingProgress = 0.0F;
 		playerEntityModel.sneaking = false;
 		playerEntityModel.leaningPitch = 0.0F;
 		playerEntityModel.setAngles(player, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
 		arm.pitch = 0.0F;
-		arm.render(matrices, vertexConsumers.getBuffer(RenderLayer.getEntitySolid(player.getSkinTexture())), light, OverlayTexture.DEFAULT_UV);
+		Identifier identifier = player.getSkinTextures().texture();
+		arm.render(matrices, vertexConsumers.getBuffer(RenderLayer.getEntitySolid(identifier)), light, OverlayTexture.DEFAULT_UV);
 		sleeve.pitch = 0.0F;
-		sleeve.render(matrices, vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(player.getSkinTexture())), light, OverlayTexture.DEFAULT_UV);
+		sleeve.render(matrices, vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(identifier)), light, OverlayTexture.DEFAULT_UV);
 	}
 
 	protected void setupTransforms(
@@ -185,36 +187,42 @@ public final class PlayerIllusionEntityRenderer extends MobEntityRenderer<Player
 		float h
 	) {
 		float i = playerIllusionEntity.getLeaningPitch(h);
-		float j;
+		float j = playerIllusionEntity.getPitch(h);
 		float k;
+		float l;
 		if (playerIllusionEntity.isFallFlying()) {
 			super.setupTransforms(playerIllusionEntity, matrixStack, f, g, h);
-			j = (float) playerIllusionEntity.getRoll() + h;
-			k = MathHelper.clamp(j * j / 100.0F, 0.0F, 1.0F);
+			k = (float) playerIllusionEntity.getRoll() + h;
+			l = MathHelper.clamp(k * k / 100.0F, 0.0F, 1.0F);
 			if (!playerIllusionEntity.isUsingRiptide()) {
-				matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(k * (-90.0F - playerIllusionEntity.getPitch())));
+				matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(l * (-90.0F - j)));
 			}
 
 			Vec3d vec3d = playerIllusionEntity.getRotationVec(h);
-			Vec3d vec3d2 = playerIllusionEntity.getVelocity();
+			Vec3d vec3d2 = playerIllusionEntity.lerpVelocity(h);
 			double d = vec3d2.horizontalLengthSquared();
 			double e = vec3d.horizontalLengthSquared();
 			if (d > 0.0 && e > 0.0) {
-				double l = (vec3d2.x * vec3d.x + vec3d2.z * vec3d.z) / Math.sqrt(d * e);
-				double m = vec3d2.x * vec3d.z - vec3d2.z * vec3d.x;
-				matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((float) (Math.signum(m) * Math.acos(l))));
+				double m = (vec3d2.x * vec3d.x + vec3d2.z * vec3d.z) / Math.sqrt(d * e);
+				double n = vec3d2.x * vec3d.z - vec3d2.z * vec3d.x;
+				matrixStack.multiply(RotationAxis.POSITIVE_Y.rotation((float) (Math.signum(n) * Math.acos(m))));
 			}
 		} else if (i > 0.0F) {
 			super.setupTransforms(playerIllusionEntity, matrixStack, f, g, h);
-			j = playerIllusionEntity.isTouchingWater() ? -90.0F - playerIllusionEntity.getPitch():-90.0F;
-			k = MathHelper.lerp(i, 0.0F, j);
-			matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(k));
+			k = playerIllusionEntity.isTouchingWater() ? -90.0F - j:-90.0F;
+			l = MathHelper.lerp(i, 0.0F, k);
+			matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(l));
 			if (playerIllusionEntity.isInSwimmingPose()) {
-				matrixStack.translate(0.0, -1.0, 0.30000001192092896);
+				matrixStack.translate(0.0F, -1.0F, 0.3F);
 			}
 		} else {
 			super.setupTransforms(playerIllusionEntity, matrixStack, f, g, h);
 		}
 
 	}
+
+	public Identifier getTexture(PlayerIllusionEntity playerIllusionEntity) {
+		return playerIllusionEntity.getSkinTextures().texture();
+	}
+
 }

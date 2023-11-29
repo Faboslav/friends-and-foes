@@ -53,6 +53,7 @@
 		"ZombieHorseEntityMixin"
 	],
 	"client": [
+		"ClientCommonNetworkHandlerAccessor",
 		"ClientPlayNetworkHandlerMixin",
 		"EntityRenderDispatcherMixin",
 		"IllusionerEntityRendererMixin",

@@ -5,6 +5,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.render.entity.PlayerModelPart;
 import net.minecraft.client.util.DefaultSkinHelper;
+import net.minecraft.client.util.SkinTextures;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
@@ -18,6 +19,7 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -116,53 +118,24 @@ public final class PlayerIllusionEntity extends MobEntity
 		return (this.getDataTracker().get(PLAYER_MODEL_PARTS) & modelPart.getBitFlag()) == modelPart.getBitFlag();
 	}
 
-	public boolean hasSkinTexture() {
+	public SkinTextures getSkinTextures() {
 		PlayerListEntry playerListEntry = this.getPlayerListEntry();
-		return playerListEntry != null && playerListEntry.hasSkinTexture();
-	}
 
-	public Identifier getSkinTexture() {
-		PlayerListEntry playerListEntry = this.getPlayerListEntry();
+		if(playerListEntry != null) {
+			return playerListEntry.getSkinTextures();
+		}
+
 		UUID uuid = this.getPlayerUuid();
 
 		if (uuid == null) {
 			uuid = this.getUuid();
 		}
 
-		return playerListEntry == null ? DefaultSkinHelper.getTexture(uuid):playerListEntry.getSkinTexture();
+		return DefaultSkinHelper.getSkinTextures(uuid);
 	}
 
-	public String getModel() {
-		PlayerListEntry playerListEntry = this.getPlayerListEntry();
-		UUID uuid = this.getPlayerUuid();
-
-		if (uuid == null) {
-			uuid = this.getUuid();
-		}
-
-		String model = playerListEntry == null ? DefaultSkinHelper.getModel(uuid):playerListEntry.getModel();
-
-		return model;
-	}
-
-	@Nullable
-	public Identifier getCapeTexture() {
-		PlayerListEntry playerListEntry = this.getPlayerListEntry();
-		return playerListEntry == null ? null:playerListEntry.getCapeTexture();
-	}
-
-	public boolean canRenderElytraTexture() {
-		return this.getPlayerListEntry() != null;
-	}
-
-	@Nullable
-	public Identifier getElytraTexture() {
-		PlayerListEntry playerListEntry = this.getPlayerListEntry();
-		return playerListEntry == null ? null:playerListEntry.getElytraTexture();
-	}
-
-	public boolean canRenderCapeTexture() {
-		return this.getPlayerListEntry() != null;
+	public Vec3d lerpVelocity(float tickDelta) {
+		return Vec3d.ZERO.lerp(this.getVelocity(), tickDelta);
 	}
 
 	@Nullable

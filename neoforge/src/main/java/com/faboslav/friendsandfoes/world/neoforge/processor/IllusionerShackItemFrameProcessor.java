@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.world.processor.neoforge;
+package com.faboslav.friendsandfoes.world.neoforge.processor;
 
 import com.faboslav.friendsandfoes.platform.neoforge.StructureEntityProcessorTypesImpl;
 import com.faboslav.friendsandfoes.util.world.processor.IllusionerShackItemFrameProcessorHelper;

@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.platform.neoforge;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.mixin.neoforge.FireBlockAccessor;
+import com.faboslav.friendsandfoes.mixin.forge.FireBlockAccessor;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSetType;
 import net.minecraft.client.model.TexturedModelData;
@@ -34,7 +34,6 @@ import net.minecraft.world.gen.structure.StructureType;
 import net.minecraft.world.poi.PointOfInterestType;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -32,10 +32,6 @@ dependencies {
 
 	implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:${rootProject.mixin_extras_version}"))
 	implementation(include("io.github.llamalad7:mixinextras-neoforge:${rootProject.mixin_extras_version}"))
-
-	// Curios
-	modImplementation("top.theillusivec4.curios:curios-forge:${project.curios_version}:api")
-	modRuntimeOnly("top.theillusivec4.curios:curios-forge:${project.curios_version}");
 }
 
 processResources {
@@ -87,10 +83,5 @@ repositories {
 	maven {
 		name = 'NeoForged'
 		url = 'https://maven.neoforged.net/'
-	}
-
-	// CuriosApi
-	maven {
-		url = "https://maven.theillusivec4.top/"
 	}
 }

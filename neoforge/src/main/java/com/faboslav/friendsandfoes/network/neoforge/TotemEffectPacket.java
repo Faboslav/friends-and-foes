@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.network;
+package com.faboslav.friendsandfoes.network.neoforge;
 
 import com.faboslav.friendsandfoes.init.FriendsAndFoesItems;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesParticleTypes;
@@ -9,8 +9,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.neoforge.network.NetworkEvent;
-
-import java.util.function.Supplier;
 
 @SuppressWarnings({"removal"})
 public class TotemEffectPacket
@@ -34,13 +32,13 @@ public class TotemEffectPacket
 		buf.writeInt(entity.getId());
 	}
 
-	public void handle(Supplier<NetworkEvent.Context> context) {
-		if (itemStack.getItem() == FriendsAndFoesItems.TOTEM_OF_FREEZING.get()) {
-			context.get().enqueueWork(() -> net.neoforged.fml.DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> TotemUtil.playActivateAnimation(itemStack, entity, FriendsAndFoesParticleTypes.TOTEM_OF_FREEZING)));
-		} else if (itemStack.getItem() == FriendsAndFoesItems.TOTEM_OF_ILLUSION.get()) {
-			context.get().enqueueWork(() -> net.neoforged.fml.DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> TotemUtil.playActivateAnimation(itemStack, entity, FriendsAndFoesParticleTypes.TOTEM_OF_ILLUSION)));
+	public static void handle(TotemEffectPacket msg, NetworkEvent.ClientCustomPayloadEvent.Context ctx) {
+		if (msg.itemStack.getItem() == FriendsAndFoesItems.TOTEM_OF_FREEZING.get()) {
+			ctx.enqueueWork(() -> net.neoforged.fml.DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> TotemUtil.playActivateAnimation(msg.itemStack, msg.entity, FriendsAndFoesParticleTypes.TOTEM_OF_FREEZING)));
+		} else if (msg.itemStack.getItem() == FriendsAndFoesItems.TOTEM_OF_ILLUSION.get()) {
+			ctx.enqueueWork(() -> net.neoforged.fml.DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> TotemUtil.playActivateAnimation(msg.itemStack, msg.entity, FriendsAndFoesParticleTypes.TOTEM_OF_ILLUSION)));
 		}
 
-		context.get().setPacketHandled(true);
+		ctx.setPacketHandled(true);
 	}
 }

@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.mixin.neoforge;
+package com.faboslav.friendsandfoes.mixin.forge;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.FireBlock;

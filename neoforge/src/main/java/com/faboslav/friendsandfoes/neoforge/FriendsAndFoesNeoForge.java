@@ -4,7 +4,7 @@ import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.FriendsAndFoesClient;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesStructurePoolElements;
-import com.faboslav.friendsandfoes.network.PacketHandler;
+import com.faboslav.friendsandfoes.network.neoforge.PacketHandler;
 import com.faboslav.friendsandfoes.platform.neoforge.RegistryHelperImpl;
 import com.faboslav.friendsandfoes.util.CustomRaidMember;
 import com.faboslav.friendsandfoes.util.ServerWorldSpawnersUtil;
@@ -68,11 +68,9 @@ public final class FriendsAndFoesNeoForge
 		bus.addListener(FriendsAndFoesNeoForge::registerEntityAttributes);
 		bus.addListener(FriendsAndFoesNeoForge::addItemsToTabs);
 
-		var forgeBus = NeoForge.EVENT_BUS;
-		forgeBus.addListener(FriendsAndFoesNeoForge::initSpawners);
-		forgeBus.addListener(FriendsAndFoesNeoForge::onServerAboutToStartEvent);
-
-		NeoForge.EVENT_BUS.register(this);
+		var neoForgeBus = NeoForge.EVENT_BUS;
+		neoForgeBus.addListener(FriendsAndFoesNeoForge::initSpawners);
+		neoForgeBus.addListener(FriendsAndFoesNeoForge::onServerAboutToStartEvent);
 	}
 
 	private static void init(final FMLCommonSetupEvent event) {

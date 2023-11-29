@@ -18,10 +18,6 @@ subprojects {
 		minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
 		mappings "net.fabricmc:yarn:${rootProject.yarn_mappings}"
 	}
-
-	repositories {
-		maven { url "https://maven.neoforged.net/releases/" }
-	}
 }
 
 allprojects {

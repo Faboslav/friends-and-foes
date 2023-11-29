@@ -8,9 +8,8 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(BundleItem.class)
 public interface BundleItemAccessor
 {
-	@Invoker("addToBundle")
-	int invokeAddToBundle(
-		ItemStack bundle,
-		ItemStack stack
-	);
+	@Invoker
+	static int callAddToBundle(ItemStack bundle, ItemStack stack) {
+		throw new UnsupportedOperationException();
+	}
 }

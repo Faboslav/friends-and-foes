@@ -28,10 +28,14 @@ dependencies {
 	neoForge "net.neoforged:neoforge:${rootProject.neoforge_version}"
 
 	common(project(path: ":common", configuration: "namedElements")) { transitive false }
-	shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
+	shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
 
 	implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:${rootProject.mixin_extras_version}"))
 	implementation(include("io.github.llamalad7:mixinextras-neoforge:${rootProject.mixin_extras_version}"))
+
+	// Curios
+	modImplementation("top.theillusivec4.curios:curios-forge:${project.curios_version}:api")
+	modRuntimeOnly("top.theillusivec4.curios:curios-forge:${project.curios_version}");
 }
 
 processResources {
@@ -83,5 +87,10 @@ repositories {
 	maven {
 		name = 'NeoForged'
 		url = 'https://maven.neoforged.net/'
+	}
+
+	// CuriosApi
+	maven {
+		url = "https://maven.theillusivec4.top/"
 	}
 }

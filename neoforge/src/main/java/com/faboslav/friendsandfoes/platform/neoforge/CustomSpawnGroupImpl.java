@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.platform.forge;
+package com.faboslav.friendsandfoes.platform.neoforge;
 
 import com.faboslav.friendsandfoes.platform.CustomSpawnGroup;
 import net.minecraft.entity.SpawnGroup;

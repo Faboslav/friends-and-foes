@@ -1,0 +1,26 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+license = "CC-BY-NC-ND-4.0"
+issueTrackerURL = "https://github.com/Faboslav/friends-and-foes/issues"
+
+[[mods]]
+	modId = "friendsandfoes"
+	version = "${modVersion}"
+	displayName = "${modName}"
+	authors = "${modAuthor}"
+	description = "${modDescription}"
+	logoFile = "icon.png"
+
+
+[[mixins]]
+	config = "friendsandfoes-neoforge.mixins.json"
+
+[[mixins]]
+	config = "friendsandfoes-common.mixins.json"
+
+[[dependencies.friendsandfoes]]
+	modId = "minecraft"
+	mandatory = true
+	versionRange = "[1.20.2,)"
+	ordering = "NONE"
+	side = "BOTH"

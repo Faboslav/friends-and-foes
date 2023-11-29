@@ -1,7 +1,7 @@
-package com.faboslav.friendsandfoes.platform.forge;
+package com.faboslav.friendsandfoes.platform.neoforge;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import net.minecraftforge.fml.ModList;
+import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.Nullable;
 
 public final class ModVersionImpl

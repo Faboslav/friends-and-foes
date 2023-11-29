@@ -1,0 +1,11 @@
+{
+	"type": "forge:add_spawns",
+	"biomes": "#friendsandfoes:has_badlands_mauler",
+	"spawners": {
+		"type": "friendsandfoes:mauler",
+		"minCount": 1,
+		"maxCount": 1,
+		"weight": 16
+	},
+	"category": "creature"
+}

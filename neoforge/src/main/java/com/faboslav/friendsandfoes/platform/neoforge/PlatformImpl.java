@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.platform.forge;
+package com.faboslav.friendsandfoes.platform.neoforge;
 
 public final class PlatformImpl
 {

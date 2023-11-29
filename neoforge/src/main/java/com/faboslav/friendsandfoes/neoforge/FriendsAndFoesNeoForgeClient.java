@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.forge;
+package com.faboslav.friendsandfoes.neoforge;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.FriendsAndFoesClient;
@@ -6,24 +6,24 @@ import com.faboslav.friendsandfoes.client.particle.FreezingTotemParticle;
 import com.faboslav.friendsandfoes.client.particle.IllusionTotemParticle;
 import com.faboslav.friendsandfoes.config.ConfigScreenBuilder;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesParticleTypes;
-import com.faboslav.friendsandfoes.platform.forge.RegistryHelperImpl;
+import com.faboslav.friendsandfoes.platform.neoforge.RegistryHelperImpl;
 import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.ConfigScreenHandler;
-import net.minecraftforge.client.event.EntityRenderersEvent.RegisterLayerDefinitions;
-import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.ConfigScreenHandler;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 
 import java.util.Map;
 import java.util.function.Supplier;
 
 @Mod.EventBusSubscriber(modid = FriendsAndFoes.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public final class FriendsAndFoesForgeClient
+public final class FriendsAndFoesNeoForgeClient
 {
 	@SubscribeEvent
 	public static void clientInit(final FMLClientSetupEvent event) {
@@ -41,7 +41,7 @@ public final class FriendsAndFoesForgeClient
 	}
 
 	@SubscribeEvent
-	public static void registerLayerDefinitions(RegisterLayerDefinitions event) {
+	public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
 		for (Map.Entry<EntityModelLayer, Supplier<TexturedModelData>> entry : RegistryHelperImpl.ENTITY_MODEL_LAYERS.entrySet()) {
 			event.registerLayerDefinition(entry.getKey(), entry.getValue());
 		}

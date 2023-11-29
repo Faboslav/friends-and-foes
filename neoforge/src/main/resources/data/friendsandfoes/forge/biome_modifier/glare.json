@@ -1,0 +1,11 @@
+{
+	"type": "forge:add_spawns",
+	"biomes": "#friendsandfoes:has_glare",
+	"spawners": {
+		"type": "friendsandfoes:glare",
+		"minCount": 1,
+		"maxCount": 1,
+		"weight": 4
+	},
+	"category": "glares"
+}

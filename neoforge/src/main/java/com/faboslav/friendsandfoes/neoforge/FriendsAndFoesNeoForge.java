@@ -1,11 +1,11 @@
-package com.faboslav.friendsandfoes.forge;
+package com.faboslav.friendsandfoes.neoforge;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.FriendsAndFoesClient;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesStructurePoolElements;
 import com.faboslav.friendsandfoes.network.PacketHandler;
-import com.faboslav.friendsandfoes.platform.forge.RegistryHelperImpl;
+import com.faboslav.friendsandfoes.platform.neoforge.RegistryHelperImpl;
 import com.faboslav.friendsandfoes.util.CustomRaidMember;
 import com.faboslav.friendsandfoes.util.ServerWorldSpawnersUtil;
 import com.faboslav.friendsandfoes.util.UpdateChecker;
@@ -19,25 +19,25 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.village.raid.Raid;
 import net.minecraft.world.dimension.DimensionTypes;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
-import net.minecraftforge.event.level.LevelEvent;
-import net.minecraftforge.event.server.ServerAboutToStartEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
+import net.neoforged.neoforge.event.level.LevelEvent;
+import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 
 import java.util.Map;
 import java.util.function.Supplier;
 
 @Mod(FriendsAndFoes.MOD_ID)
-public final class FriendsAndFoesForge
+public final class FriendsAndFoesNeoForge
 {
-	public FriendsAndFoesForge() {
+	public FriendsAndFoesNeoForge() {
 		UpdateChecker.checkForNewUpdates();
 		FriendsAndFoes.init();
 		PacketHandler.registerMessages();
@@ -64,15 +64,15 @@ public final class FriendsAndFoesForge
 		RegistryHelperImpl.STRUCTURE_PROCESSOR_TYPES.register(bus);
 		RegistryHelperImpl.VILLAGER_PROFESSIONS.register(bus);
 
-		bus.addListener(FriendsAndFoesForge::init);
-		bus.addListener(FriendsAndFoesForge::registerEntityAttributes);
-		bus.addListener(FriendsAndFoesForge::addItemsToTabs);
+		bus.addListener(FriendsAndFoesNeoForge::init);
+		bus.addListener(FriendsAndFoesNeoForge::registerEntityAttributes);
+		bus.addListener(FriendsAndFoesNeoForge::addItemsToTabs);
 
-		var forgeBus = MinecraftForge.EVENT_BUS;
-		forgeBus.addListener(FriendsAndFoesForge::initSpawners);
-		forgeBus.addListener(FriendsAndFoesForge::onServerAboutToStartEvent);
+		var forgeBus = NeoForge.EVENT_BUS;
+		forgeBus.addListener(FriendsAndFoesNeoForge::initSpawners);
+		forgeBus.addListener(FriendsAndFoesNeoForge::onServerAboutToStartEvent);
 
-		MinecraftForge.EVENT_BUS.register(this);
+		NeoForge.EVENT_BUS.register(this);
 	}
 
 	private static void init(final FMLCommonSetupEvent event) {

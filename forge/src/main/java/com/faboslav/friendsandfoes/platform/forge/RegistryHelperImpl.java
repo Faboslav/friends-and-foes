@@ -39,6 +39,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
+@SuppressWarnings("removal")
 public final class RegistryHelperImpl
 {
 	public static final DeferredRegister<Activity> ACTIVITIES = DeferredRegister.create(ForgeRegistries.ACTIVITIES, FriendsAndFoes.MOD_ID);

@@ -43,10 +43,6 @@ dependencies {
 	modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${project.cca_version}")
 
 	// For faster development https://www.cursemaven.com/
-	// https://www.curseforge.com/minecraft/mc-mods/lazydfu/files
-	modRuntimeOnly "curse.maven:lazydfu-433518:3821870"
-	// https://www.curseforge.com/minecraft/mc-mods/starlight/files
-	modRuntimeOnly "curse.maven:starlight-521783:3835973"
 	modRuntimeOnly "curse.maven:disablecustomworldsadvice-401978:3827588"
 	modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.1.2")
 

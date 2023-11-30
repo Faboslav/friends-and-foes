@@ -3,7 +3,7 @@ package com.faboslav.friendsandfoes.forge;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.FriendsAndFoesClient;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
-import com.faboslav.friendsandfoes.network.PacketHandler;
+import com.faboslav.friendsandfoes.network.forge.PacketHandler;
 import com.faboslav.friendsandfoes.platform.forge.RegistryHelperImpl;
 import com.faboslav.friendsandfoes.util.CustomRaidMember;
 import com.faboslav.friendsandfoes.util.ServerWorldSpawnersUtil;

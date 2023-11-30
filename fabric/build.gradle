@@ -39,15 +39,11 @@ dependencies {
 	modImplementation("dev.emi:trinkets:${rootProject.trinkets_version}")
 
 	// Fix for CCA
-	modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${project.cca_version}")
-	modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${project.cca_version}")
+	modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${rootProject.cca_version}")
+	modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${rootProject.cca_version}")
 
 	// For faster development https://www.cursemaven.com/
-	modRuntimeOnly "curse.maven:disablecustomworldsadvice-401978:3827588"
-	modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.1.2")
-
-	// Catalogue (https://www.curseforge.com/minecraft/mc-mods/catalogue-fabric)
-	modRuntimeOnly "curse.maven:catalogue-fabric-667377:4171029"
+	modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:${rootProject.devauth_version}")
 
 	common(project(path: ":common", configuration: "namedElements")) { transitive false }
 	shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
@@ -59,6 +55,9 @@ processResources {
 	inputs.property 'modDescription', rootProject.mod_description
 	inputs.property 'modVersion', rootProject.mod_version
 	inputs.property 'modAuthor', rootProject.mod_author
+	inputs.property "minecraftVersion", rootProject.minecraft_version
+	inputs.property "fabricLoaderVersion", rootProject.fabric_loader_version
+	inputs.property "fabricApiVersion", rootProject.fabric_api_version
 
 	filesMatching("fabric.mod.json") {
 		expand([
@@ -66,7 +65,10 @@ processResources {
 			'modName'       : rootProject.mod_name,
 			'modDescription': rootProject.mod_description,
 			'modVersion'    : rootProject.mod_version,
-			'modAuthor'     : rootProject.mod_author
+			'modAuthor'     : rootProject.mod_author,
+			"minecraftVersion": rootProject.minecraft_version,
+			"fabricLoaderVersion": rootProject.fabric_loader_version,
+			"fabricApiVersion": rootProject.fabric_api_version
 		])
 	}
 }
@@ -129,16 +131,4 @@ repositories {
 	maven { url "https://www.cursemaven.com" }
 
 	maven { url = "https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1" }
-}
-
-publishing {
-	publications {
-		mavenFabric(MavenPublication) {
-			artifactId = rootProject.mod_id + "-" + project.name
-			from components.java
-		}
-	}
-
-	repositories {
-	}
 }

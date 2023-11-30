@@ -1,12 +1,11 @@
-package com.faboslav.friendsandfoes.world.processor.fabric;
+package com.faboslav.friendsandfoes.world.fabric.processor;
 
 import com.faboslav.friendsandfoes.platform.fabric.StructureEntityProcessorTypesImpl;
-import com.faboslav.friendsandfoes.util.world.processor.IllusionerShackItemFrameProcessorHelper;
+import com.faboslav.friendsandfoes.util.world.processor.IceologerCabinArmorStandProcessorHelper;
 import com.faboslav.friendsandfoes.world.processor.StructureEntityProcessor;
 import com.mojang.serialization.Codec;
 import net.minecraft.structure.StructurePlacementData;
 import net.minecraft.structure.StructureTemplate;
-import net.minecraft.structure.StructureTemplate.StructureEntityInfo;
 import net.minecraft.structure.processor.StructureProcessorType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ServerWorldAccess;
@@ -19,21 +18,21 @@ import org.jetbrains.annotations.Nullable;
  * @author YUNGNICKYOUNG
  * <a href="https://github.com/YUNG-GANG/YUNGs-Better-Strongholds">https://github.com/YUNG-GANG/YUNGs-Better-Strongholds</a>
  */
-public final class IllusionerShackItemFrameProcessor extends StructureEntityProcessor
+public final class IceologerCabinArmorStandProcessor extends StructureEntityProcessor
 {
-	public static final IllusionerShackItemFrameProcessor INSTANCE = new IllusionerShackItemFrameProcessor();
-	public static final Codec<IllusionerShackItemFrameProcessor> CODEC = Codec.unit(() -> INSTANCE);
+	public static final IceologerCabinArmorStandProcessor INSTANCE = new IceologerCabinArmorStandProcessor();
+	public static final Codec<IceologerCabinArmorStandProcessor> CODEC = Codec.unit(() -> INSTANCE);
 
 	@Override
-	public StructureEntityInfo processEntity(
+	public StructureTemplate.StructureEntityInfo processEntity(
 		ServerWorldAccess serverWorldAccess,
 		BlockPos structurePiecePos,
 		BlockPos structurePieceBottomCenterPos,
-		StructureEntityInfo localEntityInfo,
-		StructureEntityInfo globalEntityInfo,
+		StructureTemplate.StructureEntityInfo localEntityInfo,
+		StructureTemplate.StructureEntityInfo globalEntityInfo,
 		StructurePlacementData structurePlacementData
 	) {
-		return IllusionerShackItemFrameProcessorHelper.processEntity(
+		return IceologerCabinArmorStandProcessorHelper.processEntity(
 			globalEntityInfo,
 			structurePlacementData
 		);
@@ -54,6 +53,6 @@ public final class IllusionerShackItemFrameProcessor extends StructureEntityProc
 
 	@Override
 	protected StructureProcessorType<?> getType() {
-		return StructureEntityProcessorTypesImpl.ILLUSIONER_SHACK_ITEM_FRAME_PROCESSOR;
+		return StructureEntityProcessorTypesImpl.ICEOLOGER_CABIN_ARMOR_STAND_PROCESSOR;
 	}
 }

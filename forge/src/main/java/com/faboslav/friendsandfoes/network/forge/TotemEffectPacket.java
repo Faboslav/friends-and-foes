@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.network;
+package com.faboslav.friendsandfoes.network.forge;
 
 import com.faboslav.friendsandfoes.init.FriendsAndFoesItems;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesParticleTypes;

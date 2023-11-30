@@ -21,7 +21,7 @@ side = "BOTH"
 [[dependencies.friendsandfoes]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.20,)"
+versionRange = "[1.20.2,)"
 ordering = "NONE"
 side = "BOTH"
 

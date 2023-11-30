@@ -32,6 +32,7 @@ import net.minecraft.world.poi.PointOfInterestType;
 
 import java.util.function.Supplier;
 
+@SuppressWarnings("unsafe")
 public final class RegistryHelperImpl
 {
 	public static <T extends Activity> Supplier<T> registerActivity(String name, Supplier<T> activity) {

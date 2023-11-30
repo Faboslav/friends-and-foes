@@ -1,6 +1,6 @@
 {
 	"schemaVersion": 1,
-	"id": "friendsandfoes",
+	"id": "${modId}",
 	"version": "${modVersion}",
 	"name": "${modName}",
 	"description": "${modDescription}",
@@ -32,13 +32,13 @@
 	},
 	"mixins": [
 		"friendsandfoes-common.mixins.json",
-		"friendsandfoes.mixins.json"
+		"friendsandfoes-fabric.mixins.json"
 	],
 	"depends": {
 		"java": ">=17",
-		"minecraft": ">=1.19.3",
-		"fabric": "*",
-		"fabricloader": "*"
+		"minecraft": ">=${minecraftVersion}",
+		"fabricloader": ">=${fabricLoaderVersion}",
+		"fabric": ">=${fabricApiVersion}"
 	},
 	"custom": {
 		"modmenu": {

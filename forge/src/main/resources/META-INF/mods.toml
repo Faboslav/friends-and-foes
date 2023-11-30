@@ -1,36 +1,26 @@
 modLoader = "javafml"
-loaderVersion = "[40,)"
+loaderVersion = "*"
 license = "CC-BY-NC-ND-4.0"
+displayURL = "https://github.com/Faboslav/friends-and-foes"
 issueTrackerURL = "https://github.com/Faboslav/friends-and-foes/issues"
 
 [[mods]]
-modId = "friendsandfoes"
+modId = "${modId}"
 version = "${modVersion}"
 displayName = "${modName}"
 authors = "${modAuthor}"
 description = "${modDescription}"
 logoFile = "icon.png"
 
-[[dependencies.friendsandfoes]]
+[[dependencies.${ modId }]]
 modId = "forge"
 mandatory = true
-versionRange = "[44.0.18,)"
-ordering = "NONE"
-side = "BOTH"
+versionRange = "[${forgeVersion},)"
 
-[[dependencies.friendsandfoes]]
+[[dependencies.${ modId }]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.19.3,)"
-ordering = "NONE"
-side = "BOTH"
-
-[[dependencies.friendsandfoes]]
-modId = "cloth_config"
-mandatory = false
-versionRange = "[7,)"
-ordering = "NONE"
-side = "CLIENT"
+versionRange = "[${minecraftVersion},)"
 
 [modproperties.friendsandfoes]
 catalogueImageIcon = "catalogue_icon.png"

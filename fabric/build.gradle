@@ -61,14 +61,14 @@ processResources {
 
 	filesMatching("fabric.mod.json") {
 		expand([
-			'modId'         : rootProject.mod_id,
-			'modName'       : rootProject.mod_name,
-			'modDescription': rootProject.mod_description,
-			'modVersion'    : rootProject.mod_version,
-			'modAuthor'     : rootProject.mod_author,
-			"minecraftVersion": rootProject.minecraft_version,
+			'modId'              : rootProject.mod_id,
+			'modName'            : rootProject.mod_name,
+			'modDescription'     : rootProject.mod_description,
+			'modVersion'         : rootProject.mod_version,
+			'modAuthor'          : rootProject.mod_author,
+			"minecraftVersion"   : rootProject.minecraft_version,
 			"fabricLoaderVersion": rootProject.fabric_loader_version,
-			"fabricApiVersion": rootProject.fabric_api_version
+			"fabricApiVersion"   : rootProject.fabric_api_version
 		])
 	}
 }

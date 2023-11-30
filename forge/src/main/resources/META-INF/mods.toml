@@ -5,24 +5,24 @@ displayURL = "https://github.com/Faboslav/friends-and-foes"
 issueTrackerURL = "https://github.com/Faboslav/friends-and-foes/issues"
 
 [[mods]]
-	modId = "${modId}"
-	version = "${modVersion}"
-	displayName = "${modName}"
-	authors = "${modAuthor}"
-	description = "${modDescription}"
-	logoFile = "icon.png"
+modId = "${modId}"
+version = "${modVersion}"
+displayName = "${modName}"
+authors = "${modAuthor}"
+description = "${modDescription}"
+logoFile = "icon.png"
 
 [[dependencies.${ modId }]]
-	modId = "forge"
-	mandatory = true
-	versionRange = "[${forgeVersion},)"
+modId = "forge"
+mandatory = true
+versionRange = "[${forgeVersion},)"
 
 [[dependencies.${ modId }]]
-	modId = "minecraft"
-	mandatory = true
-	versionRange = "[${minecraftVersion},)"
+modId = "minecraft"
+mandatory = true
+versionRange = "[${minecraftVersion},)"
 
 [modproperties.friendsandfoes]
-	catalogueImageIcon="catalogue_icon.png"
-	catalogueBackground="catalogue_logo.png"
-	configuredBackground="catalogue_background.png"
+catalogueImageIcon = "catalogue_icon.png"
+catalogueBackground = "catalogue_logo.png"
+configuredBackground = "catalogue_background.png"

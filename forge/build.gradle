@@ -43,7 +43,7 @@ dependencies {
 	modImplementation("top.theillusivec4.curios:curios-forge:${rootProject.minecraft_version}-${project.curios_version}:api")
 	modRuntimeOnly("top.theillusivec4.curios:curios-forge:${rootProject.minecraft_version}-${project.curios_version}");
 
-	// Cloth config
+	// Cloth config (https://www.curseforge.com/minecraft/mc-mods/cloth-config)
 	modImplementation("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}")
 
 	// Catalogue (https://www.curseforge.com/minecraft/mc-mods/catalogue)

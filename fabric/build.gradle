@@ -44,8 +44,6 @@ dependencies {
 
 	// For faster development
 	modRuntimeOnly "curse.maven:disablecustomworldsadvice-401978:4444372"
-
-	// Auth (for testing totems)
 	modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.1.2")
 
 	// Catalogue (https://www.curseforge.com/minecraft/mc-mods/catalogue-fabric)

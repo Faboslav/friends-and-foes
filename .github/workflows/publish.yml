@@ -16,9 +16,6 @@ env:
     FABRIC_LOADERS: |
         fabric
         quilt
-    FORGE_LOADERS: |
-        forge
-        neoforge
     RETRY_ATTEMPTS: 3
     RELAY_DELAY: 10000
     VERSION_RESOLVER: latest
@@ -186,9 +183,9 @@ jobs:
 
                     files-primary: forge/build/libs/friendsandfoes-forge-${{ github.ref_name }}.jar
                     version-type: ${{ env.VERSION_TYPE }}
-                    loaders: ${{ env.FORGE_LOADERS }}
+                    loaders: "forge"
                     game-versions: ${{ env.GAME_VERSIONS }}
-                    name: Friends&Foes ${{ github.ref_name }} (Forge/NeoForge)
+                    name: Friends&Foes ${{ github.ref_name }} (Forge)
                     java: ${{ env.JAVA_VERSIONS }}
 
                     retry-attempts: ${{ env.RETRY_ATTEMPTS }}
@@ -217,10 +214,87 @@ jobs:
 
                     files-primary: forge/build/libs/friendsandfoes-forge-${{ github.ref_name }}.jar
                     version-type: ${{ env.VERSION_TYPE }}
-                    loaders: ${{ env.FORGE_LOADERS }}
+                    loaders: "forge"
                     game-versions: ${{ env.GAME_VERSIONS }}
-                    name: Friends&Foes ${{ github.ref_name }} (Forge/NeoForge)
+                    name: Friends&Foes ${{ github.ref_name }} (Forge)
                     version: forge-${{ github.ref_name }}
+                    java: ${{ env.JAVA_VERSIONS }}
+                    retry-attempts: ${{ env.RETRY_ATTEMPTS }}
+                    retry-delay: ${{ env.RETRY_DELAY }}
+                    version-resolver: ${{ env.VERSION_RESOLVER }}
+
+    publish-neoforge-to-github:
+        needs: build
+        runs-on: ubuntu-latest
+        name: "Publish NeoForge to GitHub"
+        timeout-minutes: 30
+
+        steps:
+            -   name: "Download artifacts"
+                uses: actions/download-artifact@v3
+                with:
+                    name: "friends-and-foes"
+
+            -   name: "Publish NeoForge to GitHub"
+                uses: AButler/upload-release-assets@v2.0.2
+                with:
+                    files: neoforge/build/libs/friendsandfoes-neoforge-${{ github.ref_name }}.jar
+                    repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+    publish-neoforge-to-curseforge:
+        needs: build
+        runs-on: ubuntu-latest
+        name: "Publish NeoForge to CurseForge"
+        timeout-minutes: 30
+
+        steps:
+            -   name: "Download artifacts"
+                uses: actions/download-artifact@v3
+                with:
+                    name: "friends-and-foes"
+
+            -   name: "Publish NeoForge to CurseForge"
+                uses: Kir-Antipov/mc-publish@v3.2
+                with:
+                    curseforge-id: 602059
+                    curseforge-token: ${{ secrets.CURSEFORGE_RELEASE_TOKEN }}
+
+                    files-primary: neoforge/build/libs/friendsandfoes-neoforge-${{ github.ref_name }}.jar
+                    version-type: ${{ env.VERSION_TYPE }}
+                    loaders: "neoforge"
+                    game-versions: ${{ env.GAME_VERSIONS }}
+                    name: Friends&Foes ${{ github.ref_name }} (NeoForge)
+                    java: ${{ env.JAVA_VERSIONS }}
+                    retry-attempts: ${{ env.RETRY_ATTEMPTS }}
+                    retry-delay: ${{ env.RETRY_DELAY }}
+                    version-resolver: ${{ env.VERSION_RESOLVER }}
+
+    publish-neoforge-to-modrinth:
+        needs: build
+        runs-on: ubuntu-latest
+        name: "Publish NeoForge to Modrinth"
+        timeout-minutes: 30
+
+        steps:
+            -   name: "Download artifacts"
+                uses: actions/download-artifact@v3
+                with:
+                    name: "friends-and-foes"
+
+            -   name: "Publish NeoForge to Modrinth"
+                uses: Kir-Antipov/mc-publish@v3.2
+                with:
+                    modrinth-id: BOCJKD49
+                    modrinth-featured: true
+                    modrinth-unfeature-mode: version-intersection
+                    modrinth-token: ${{ secrets.MODRINTH_RELEASE_TOKEN }}
+
+                    files-primary: neoforge/build/libs/friendsandfoes-neoforge-${{ github.ref_name }}.jar
+                    version-type: ${{ env.VERSION_TYPE }}
+                    loaders: "neoforge"
+                    game-versions: ${{ env.GAME_VERSIONS }}
+                    name: Friends&Foes ${{ github.ref_name }} (NeoForge)
+                    version: neoforge-${{ github.ref_name }}
                     java: ${{ env.JAVA_VERSIONS }}
                     retry-attempts: ${{ env.RETRY_ATTEMPTS }}
                     retry-delay: ${{ env.RETRY_DELAY }}

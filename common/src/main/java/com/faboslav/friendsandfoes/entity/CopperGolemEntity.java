@@ -35,7 +35,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
@@ -265,6 +264,26 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		return this.dataTracker.get(ENTITY_SNAPSHOT);
 	}
 
+	private NbtCompound takeEntitySnapshot() {
+		NbtCompound entitySnapshot = new NbtCompound();
+
+		entitySnapshot.putDouble("serverYaw", this.serverYaw);
+		entitySnapshot.putFloat("prevYaw", this.prevYaw); // Same as serverYaw and yaw
+		entitySnapshot.putDouble("serverPitch", this.serverPitch);
+		entitySnapshot.putFloat("prevPitch", this.prevPitch); // Same as pitch
+		entitySnapshot.putInt("roll", this.getRoll());
+		entitySnapshot.putFloat("prevBodyYaw", this.prevBodyYaw); // Same as bodyYaw
+		entitySnapshot.putDouble("serverHeadYaw", this.serverHeadYaw);
+		entitySnapshot.putFloat("prevHeadYaw", this.prevHeadYaw); // Same as headYaw
+		entitySnapshot.putFloat("lastHandSwingProgress", this.lastHandSwingProgress); // Same as handSwingProgress
+		entitySnapshot.putFloat("limbAnimatorPrevSpeed", ((LimbAnimatorAccessor) this.limbAnimator).getPresSpeed()); // Same as limbDistance
+		entitySnapshot.putFloat("limbAnimatorSpeed", this.limbAnimator.getSpeed());
+		entitySnapshot.putFloat("limbAnimatorPos", this.limbAnimator.getPos());
+		entitySnapshot.putFloat("prevLookDirection", this.prevLookDirection); // Same as lookDirection
+		entitySnapshot.putFloat("prevStepBobbingAmount", this.prevStepBobbingAmount); // Same as stepBobbingAmount
+
+		return entitySnapshot;
+	}
 	@Override
 	protected int getNextAirUnderwater(int air) {
 		return air;
@@ -774,27 +793,6 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		this.horizontalSpeed = 0.0F;
 		this.sidewaysSpeed = 0.0F;
 		this.upwardSpeed = 0.0F;
-	}
-
-	private NbtCompound takeEntitySnapshot() {
-		NbtCompound entitySnapshot = new NbtCompound();
-
-		entitySnapshot.putDouble("serverYaw", this.serverYaw);
-		entitySnapshot.putFloat("prevYaw", this.prevYaw); // Same as serverYaw and yaw
-		entitySnapshot.putDouble("serverPitch", this.serverPitch);
-		entitySnapshot.putFloat("prevPitch", this.prevPitch); // Same as pitch
-		entitySnapshot.putInt("roll", this.getRoll());
-		entitySnapshot.putFloat("prevBodyYaw", this.prevBodyYaw); // Same as bodyYaw
-		entitySnapshot.putDouble("serverHeadYaw", this.serverHeadYaw);
-		entitySnapshot.putFloat("prevHeadYaw", this.prevHeadYaw); // Same as headYaw
-		entitySnapshot.putFloat("lastHandSwingProgress", this.lastHandSwingProgress); // Same as handSwingProgress
-		entitySnapshot.putFloat("limbAnimatorPrevSpeed", ((LimbAnimatorAccessor) this.limbAnimator).getPresSpeed()); // Same as limbDistance
-		entitySnapshot.putFloat("limbAnimatorSpeed", this.limbAnimator.getSpeed());
-		entitySnapshot.putFloat("limbAnimatorPos", this.limbAnimator.getPos());
-		entitySnapshot.putFloat("prevLookDirection", this.prevLookDirection); // Same as lookDirection
-		entitySnapshot.putFloat("prevStepBobbingAmount", this.prevStepBobbingAmount); // Same as stepBobbingAmount
-
-		return entitySnapshot;
 	}
 
 	public boolean isWaxed() {

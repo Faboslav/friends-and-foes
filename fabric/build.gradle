@@ -46,7 +46,7 @@ dependencies {
 	modRuntimeOnly "curse.maven:disablecustomworldsadvice-401978:3827588"
 	modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.1.2")
 
-	// Optional dependency catalogue
+	// Catalogue (https://www.curseforge.com/minecraft/mc-mods/catalogue-fabric)
 	modRuntimeOnly "curse.maven:catalogue-fabric-667377:4171029"
 
 	common(project(path: ":common", configuration: "namedElements")) { transitive false }

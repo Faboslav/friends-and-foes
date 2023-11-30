@@ -1,7 +1,7 @@
-package com.faboslav.friendsandfoes.world.processor.forge;
+package com.faboslav.friendsandfoes.world.forge.processor;
 
 import com.faboslav.friendsandfoes.platform.forge.StructureEntityProcessorTypesImpl;
-import com.faboslav.friendsandfoes.util.world.processor.IceologerCabinArmorStandProcessorHelper;
+import com.faboslav.friendsandfoes.util.world.processor.IllusionerShackItemFrameProcessorHelper;
 import com.mojang.serialization.Codec;
 import net.minecraft.structure.StructurePlacementData;
 import net.minecraft.structure.StructureTemplate;
@@ -17,10 +17,10 @@ import org.jetbrains.annotations.Nullable;
  * @author YUNGNICKYOUNG
  * <a href="https://github.com/YUNG-GANG/YUNGs-Better-Strongholds">https://github.com/YUNG-GANG/YUNGs-Better-Strongholds</a>
  */
-public final class IceologerCabinArmorStandProcessor extends StructureProcessor
+public final class IllusionerShackItemFrameProcessor extends StructureProcessor
 {
-	public static final IceologerCabinArmorStandProcessor INSTANCE = new IceologerCabinArmorStandProcessor();
-	public static final Codec<IceologerCabinArmorStandProcessor> CODEC = Codec.unit(() -> INSTANCE);
+	public static final IllusionerShackItemFrameProcessor INSTANCE = new IllusionerShackItemFrameProcessor();
+	public static final Codec<IllusionerShackItemFrameProcessor> CODEC = Codec.unit(() -> INSTANCE);
 
 	@Override
 	public StructureTemplate.StructureEntityInfo processEntity(
@@ -31,7 +31,7 @@ public final class IceologerCabinArmorStandProcessor extends StructureProcessor
 		StructurePlacementData placementSettings,
 		StructureTemplate template
 	) {
-		return IceologerCabinArmorStandProcessorHelper.processEntity(
+		return IllusionerShackItemFrameProcessorHelper.processEntity(
 			entityInfo,
 			placementSettings
 		);
@@ -52,6 +52,6 @@ public final class IceologerCabinArmorStandProcessor extends StructureProcessor
 
 	@Override
 	protected StructureProcessorType<?> getType() {
-		return StructureEntityProcessorTypesImpl.ICEOLOGER_CABIN_ARMOR_STAND_PROCESSOR;
+		return StructureEntityProcessorTypesImpl.ILLUSIONER_SHACK_ITEM_FRAME_PROCESSOR;
 	}
 }

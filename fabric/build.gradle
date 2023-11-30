@@ -28,29 +28,25 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
 	modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
 
-	// Trinkets
-	modApi("dev.emi:trinkets:${rootProject.trinkets_version}")
-
+	// Mixin extras (https://github.com/LlamaLad7/MixinExtras)
 	include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${rootProject.mixin_extras_version}")))
 
-	// Config dependencies
-	modApi("com.terraformersmc:modmenu:${project.mod_menu_version}")
-	modApi("me.shedaniel.cloth:cloth-config:${rootProject.cloth_config_version}")
-	modApi("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}")
+	// Mod menu (https://modrinth.com/mod/modmenu)
+	modImplementation("com.terraformersmc:modmenu:${project.mod_menu_version}") { transitive = false }
 
-	// For faster development
-	modRuntimeOnly "curse.maven:disablecustomworldsadvice-401978:4444372"
-	modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.1.2")
+	// Cloth config (https://www.curseforge.com/minecraft/mc-mods/cloth-config)
+	modImplementation("me.shedaniel.cloth:cloth-config:${rootProject.cloth_config_version}")
+	modImplementation("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}") { transitive = false }
 
-	// Trinkets
+	// Trinkets (https://www.curseforge.com/minecraft/mc-mods/trinkets)
 	modImplementation("dev.emi:trinkets:${rootProject.trinkets_version}")
 
-	// Fix for CCA
+	// Fix for CCA (https://github.com/Ladysnake/Cardinal-Components-API)
 	modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${project.cca_version}")
 	modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${project.cca_version}")
 
-	// Catalogue (https://www.curseforge.com/minecraft/mc-mods/catalogue-fabric)
-	modRuntimeOnly "curse.maven:catalogue-fabric-667377:4766089"
+	// Auth (https://github.com/DJtheRedstoner/DevAuth)
+	modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:${rootProject.devauth_version}")
 
 	common(project(path: ":common", configuration: "namedElements")) { transitive false }
 	shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
@@ -62,14 +58,20 @@ processResources {
 	inputs.property 'modDescription', rootProject.mod_description
 	inputs.property 'modVersion', rootProject.mod_version
 	inputs.property 'modAuthor', rootProject.mod_author
+	inputs.property "minecraftVersion", rootProject.minecraft_version
+	inputs.property "fabricLoaderVersion", rootProject.fabric_loader_version
+	inputs.property "fabricApiVersion", rootProject.fabric_api_version
 
 	filesMatching("fabric.mod.json") {
 		expand([
-			'modId'         : rootProject.mod_id,
-			'modName'       : rootProject.mod_name,
-			'modDescription': rootProject.mod_description,
-			'modVersion'    : rootProject.mod_version,
-			'modAuthor'     : rootProject.mod_author
+			'modId'              : rootProject.mod_id,
+			'modName'            : rootProject.mod_name,
+			'modDescription'     : rootProject.mod_description,
+			'modVersion'         : rootProject.mod_version,
+			'modAuthor'          : rootProject.mod_author,
+			"minecraftVersion"   : rootProject.minecraft_version,
+			"fabricLoaderVersion": rootProject.fabric_loader_version,
+			"fabricApiVersion"   : rootProject.fabric_api_version
 		])
 	}
 }
@@ -132,16 +134,4 @@ repositories {
 	maven { url "https://www.cursemaven.com" }
 
 	maven { url = "https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1" }
-}
-
-publishing {
-	publications {
-		mavenFabric(MavenPublication) {
-			artifactId = rootProject.mod_id + "-" + project.name
-			from components.java
-		}
-	}
-
-	repositories {
-	}
 }

@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.network;
+package com.faboslav.friendsandfoes.network.forge;
 
 import com.faboslav.friendsandfoes.platform.TotemHelper;
 import net.minecraft.entity.LivingEntity;

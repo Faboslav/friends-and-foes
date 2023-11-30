@@ -174,7 +174,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 		this.setPersistent();
 		this.setType(type);
-		this.setSize(false);
+		this.setSize();
 
 		return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
 	}
@@ -212,6 +212,8 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		if (FriendsAndFoes.getConfig().enableMauler == false) {
 			this.discard();
 		}
+
+		this.setSize();
 
 		super.tick();
 
@@ -463,24 +465,20 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	public void setStoredExperiencePoints(int storedExperiencePoints) {
 		this.dataTracker.set(STORED_EXPERIENCE_POINTS, storedExperiencePoints);
 		this.experiencePoints = storedExperiencePoints;
-		this.setSize(false);
 	}
 
-	public void setSize(boolean heal) {
+	public void setSize() {
 		float size = this.getSize();
 
 		this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue((int) (HEALTH * size));
+		this.setHealth(this.getMaxHealth());
 		this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue(ATTACK_DAMAGE * (size / 2.0F));
 		this.calculateDimensions();
 		this.calculateBoundingBox();
-
-		if (heal) {
-			this.setHealth(this.getMaxHealth());
-		}
 	}
 
 	public float getSize() {
-		return 1.0F + ((float) this.getStoredExperiencePoints() / (float) MAXIMUM_STORED_EXPERIENCE_POINTS) * 0.75F;
+		return 1.0F + ((float) this.getStoredExperiencePoints() / (float) MAXIMUM_STORED_EXPERIENCE_POINTS) * 1.25F;
 	}
 
 	public boolean isMoving() {

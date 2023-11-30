@@ -42,7 +42,7 @@ dependencies {
 	modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${rootProject.cca_version}")
 	modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${rootProject.cca_version}")
 
-	// For faster development https://www.cursemaven.com/
+	// Auth
 	modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:${rootProject.devauth_version}")
 
 	common(project(path: ":common", configuration: "namedElements")) { transitive false }

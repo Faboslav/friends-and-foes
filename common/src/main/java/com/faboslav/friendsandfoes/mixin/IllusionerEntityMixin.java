@@ -232,20 +232,20 @@ public abstract class IllusionerEntityMixin extends IllusionerSpellcastingIllage
 				return;
 			}
 
-			if (!this.getWorld().isClient() && !(
-				attacker instanceof PlayerEntity
-				&& this.friendsandfoes_isIllusion()
-				&& ((PlayerEntity) attacker).getAbilities().creativeMode
-			)) {
-				if (this.friendsandfoes_isIllusion()) {
-					this.friendsandfoes_discardIllusion();
-					cir.setReturnValue(false);
-					return;
-				}
+			if (!this.getWorld().isClient()) {
+				if (attacker instanceof PlayerEntity || attacker instanceof IronGolemEntity) {
+					if(this.friendsandfoes_isIllusion()) {
+						this.friendsandfoes_discardIllusion();
+						cir.setReturnValue(false);
+						return;
+					}
 
-				if ((attacker instanceof PlayerEntity || attacker instanceof IronGolemEntity) &&
-					this.friendsandfoes_getTicksUntilCanCreateIllusions() == 0) {
-					this.friendsandfoes_createIllusions();
+					if(
+						this.friendsandfoes_getTicksUntilCanCreateIllusions() == 0
+						&& !((PlayerEntity) source.getAttacker()).getAbilities().creativeMode
+					) {
+						this.friendsandfoes_createIllusions();
+					}
 				}
 			}
 		}

@@ -28,7 +28,7 @@ jobs:
     build:
         runs-on: ubuntu-latest
         name: "Build"
-        timeout-minutes: 30
+        timeout-minutes: 15
 
         steps:
             -   name: "Checkout repository"
@@ -55,7 +55,7 @@ jobs:
         needs: build
         runs-on: ubuntu-latest
         name: "Publish license to GitHub"
-        timeout-minutes: 30
+        timeout-minutes: 15
 
         steps:
             -   name: "Download artifacts"
@@ -73,7 +73,7 @@ jobs:
         needs: build
         runs-on: ubuntu-latest
         name: "Publish Fabric to GitHub"
-        timeout-minutes: 30
+        timeout-minutes: 15
 
         steps:
             -   name: "Download artifacts"
@@ -91,7 +91,7 @@ jobs:
         needs: build
         runs-on: ubuntu-latest
         name: "Publish Fabric to CurseForge"
-        timeout-minutes: 30
+        timeout-minutes: 15
 
         steps:
             -   name: "Download artifacts"
@@ -121,7 +121,7 @@ jobs:
         needs: build
         runs-on: ubuntu-latest
         name: "Publish Fabric to Modrinth"
-        timeout-minutes: 30
+        timeout-minutes: 15
 
         steps:
             -   name: "Download artifacts"
@@ -153,7 +153,7 @@ jobs:
         needs: build
         runs-on: ubuntu-latest
         name: "Publish Forge to GitHub"
-        timeout-minutes: 30
+        timeout-minutes: 15
 
         steps:
             -   name: "Download artifacts"
@@ -171,7 +171,7 @@ jobs:
         needs: build
         runs-on: ubuntu-latest
         name: "Publish Forge to CurseForge"
-        timeout-minutes: 30
+        timeout-minutes: 15
 
         steps:
             -   name: "Download artifacts"
@@ -200,7 +200,7 @@ jobs:
         needs: build
         runs-on: ubuntu-latest
         name: "Publish Forge to Modrinth"
-        timeout-minutes: 30
+        timeout-minutes: 15
 
         steps:
             -   name: "Download artifacts"

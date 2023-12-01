@@ -24,7 +24,7 @@ public final class CopperGolemAnimations
 	}
 
 	public static KeyframeAnimation getWalkKeyframeAnimation(float speedModifier) {
-		return new KeyframeAnimation("walk", Animation.Builder.create(speedModifier).looping()
+		return new KeyframeAnimation("walk", Animation.Builder.create(1.0f * speedModifier).looping()
 			.addBoneAnimation("body",
 				new Transformation(Transformation.Type.ROTATE,
 					new Keyframe(0f * speedModifier, VectorHelper.createRotationalVector(0f, 0f, 0f),
@@ -51,7 +51,7 @@ public final class CopperGolemAnimations
 						Transformation.Interpolations.LINEAR),
 					new Keyframe(0.9167666f * speedModifier, VectorHelper.createRotationalVector(-0.5f, 0f, 0f),
 						Transformation.Interpolations.LINEAR),
-					new Keyframe(speedModifier, VectorHelper.createRotationalVector(0f, 0f, 0f),
+					new Keyframe(1f * speedModifier, VectorHelper.createRotationalVector(0f, 0f, 0f),
 						Transformation.Interpolations.LINEAR)))
 			.addBoneAnimation("frontCloth",
 				new Transformation(Transformation.Type.ROTATE,
@@ -79,7 +79,7 @@ public final class CopperGolemAnimations
 						Transformation.Interpolations.LINEAR),
 					new Keyframe(0.9167f * speedModifier, VectorHelper.createRotationalVector(0f, 0f, 0f),
 						Transformation.Interpolations.LINEAR),
-					new Keyframe(speedModifier, VectorHelper.createRotationalVector(0f, 0f, 0f),
+					new Keyframe(1f * speedModifier, VectorHelper.createRotationalVector(0f, 0f, 0f),
 						Transformation.Interpolations.LINEAR)))
 			.addBoneAnimation("backCloth",
 				new Transformation(Transformation.Type.ROTATE,
@@ -107,7 +107,7 @@ public final class CopperGolemAnimations
 						Transformation.Interpolations.LINEAR),
 					new Keyframe(0.9167f * speedModifier, VectorHelper.createRotationalVector(0.5f, 0f, 0f),
 						Transformation.Interpolations.LINEAR),
-					new Keyframe(speedModifier, VectorHelper.createRotationalVector(0f, 0f, 0f),
+					new Keyframe(1f * speedModifier, VectorHelper.createRotationalVector(0f, 0f, 0f),
 						Transformation.Interpolations.LINEAR)))
 			.addBoneAnimation("leftArm",
 				new Transformation(Transformation.Type.ROTATE,
@@ -135,7 +135,7 @@ public final class CopperGolemAnimations
 						Transformation.Interpolations.LINEAR),
 					new Keyframe(0.9167f * speedModifier, VectorHelper.createRotationalVector(-10f, 0f, 0f),
 						Transformation.Interpolations.LINEAR),
-					new Keyframe(speedModifier, VectorHelper.createRotationalVector(0f, 0f, 0f),
+					new Keyframe(1f * speedModifier, VectorHelper.createRotationalVector(0f, 0f, 0f),
 						Transformation.Interpolations.LINEAR)))
 			.addBoneAnimation("rightArm",
 				new Transformation(Transformation.Type.ROTATE,
@@ -163,7 +163,7 @@ public final class CopperGolemAnimations
 						Transformation.Interpolations.LINEAR),
 					new Keyframe(0.9167f * speedModifier, VectorHelper.createRotationalVector(10f, 0f, 0f),
 						Transformation.Interpolations.LINEAR),
-					new Keyframe(speedModifier, VectorHelper.createRotationalVector(0f, 0f, 0f),
+					new Keyframe(1f * speedModifier, VectorHelper.createRotationalVector(0f, 0f, 0f),
 						Transformation.Interpolations.LINEAR)))
 			.addBoneAnimation("leftLeg",
 				new Transformation(Transformation.Type.ROTATE,
@@ -191,7 +191,7 @@ public final class CopperGolemAnimations
 						Transformation.Interpolations.LINEAR),
 					new Keyframe(0.9167f * speedModifier, VectorHelper.createRotationalVector(5f, 0f, 0f),
 						Transformation.Interpolations.LINEAR),
-					new Keyframe(speedModifier, VectorHelper.createRotationalVector(0f, 0f, 0f),
+					new Keyframe(1f * speedModifier, VectorHelper.createRotationalVector(0f, 0f, 0f),
 						Transformation.Interpolations.LINEAR)))
 			.addBoneAnimation("rightLeg",
 				new Transformation(Transformation.Type.ROTATE,
@@ -219,7 +219,7 @@ public final class CopperGolemAnimations
 						Transformation.Interpolations.LINEAR),
 					new Keyframe(0.9167f * speedModifier, VectorHelper.createRotationalVector(-5f, 0f, 0f),
 						Transformation.Interpolations.LINEAR),
-					new Keyframe(speedModifier, VectorHelper.createRotationalVector(0f, 0f, 0f),
+					new Keyframe(1f * speedModifier, VectorHelper.createRotationalVector(0f, 0f, 0f),
 						Transformation.Interpolations.LINEAR)))
 			.addBoneAnimation("head",
 				new Transformation(Transformation.Type.TRANSLATE,
@@ -229,7 +229,7 @@ public final class CopperGolemAnimations
 						Transformation.Interpolations.LINEAR),
 					new Keyframe(0.5f * speedModifier, VectorHelper.createTranslationalVector(0f, 0f, 0f),
 						Transformation.Interpolations.LINEAR),
-					new Keyframe(speedModifier, VectorHelper.createTranslationalVector(0f, 0f, 0f),
+					new Keyframe(1f * speedModifier, VectorHelper.createTranslationalVector(0f, 0f, 0f),
 						Transformation.Interpolations.LINEAR)))
 			.addBoneAnimation("head",
 				new Transformation(Transformation.Type.ROTATE,
@@ -257,7 +257,7 @@ public final class CopperGolemAnimations
 						Transformation.Interpolations.LINEAR),
 					new Keyframe(0.9167666f * speedModifier, VectorHelper.createRotationalVector(-0.5f, 0f, 0f),
 						Transformation.Interpolations.LINEAR),
-					new Keyframe(speedModifier, VectorHelper.createRotationalVector(0f, 0f, 0f),
+					new Keyframe(1f * speedModifier, VectorHelper.createRotationalVector(0f, 0f, 0f),
 						Transformation.Interpolations.LINEAR)))
 			.addBoneAnimation("rod",
 				new Transformation(Transformation.Type.TRANSLATE,
@@ -279,7 +279,7 @@ public final class CopperGolemAnimations
 						Transformation.Interpolations.LINEAR),
 					new Keyframe(0.8343334f * speedModifier, VectorHelper.createTranslationalVector(0f, 0f, 0f),
 						Transformation.Interpolations.LINEAR),
-					new Keyframe(speedModifier, VectorHelper.createTranslationalVector(0f, 0f, 0f),
+					new Keyframe(1f * speedModifier, VectorHelper.createTranslationalVector(0f, 0f, 0f),
 						Transformation.Interpolations.LINEAR))).build()
 		);
 	}
@@ -369,7 +369,7 @@ public final class CopperGolemAnimations
 						Transformation.Interpolations.LINEAR),
 					new Keyframe(0.9583434f * speedModifier, VectorHelper.createRotationalVector(-180f, 0f, 0f),
 						Transformation.Interpolations.LINEAR),
-					new Keyframe(speedModifier, VectorHelper.createRotationalVector(-170f, 0f, 0f),
+					new Keyframe(1f * speedModifier, VectorHelper.createRotationalVector(-170f, 0f, 0f),
 						Transformation.Interpolations.LINEAR),
 					new Keyframe(1.0416767f * speedModifier, VectorHelper.createRotationalVector(-130f, 0f, 0f),
 						Transformation.Interpolations.LINEAR),
@@ -419,7 +419,7 @@ public final class CopperGolemAnimations
 						Transformation.Interpolations.LINEAR),
 					new Keyframe(0.9583434f * speedModifier, VectorHelper.createRotationalVector(-170f, 0f, 0f),
 						Transformation.Interpolations.LINEAR),
-					new Keyframe(speedModifier, VectorHelper.createRotationalVector(-180f, 0f, 0f),
+					new Keyframe(1f * speedModifier, VectorHelper.createRotationalVector(-180f, 0f, 0f),
 						Transformation.Interpolations.LINEAR),
 					new Keyframe(1.0834333f * speedModifier, VectorHelper.createRotationalVector(-180f, 0f, 0f),
 						Transformation.Interpolations.LINEAR),
@@ -508,7 +508,7 @@ public final class CopperGolemAnimations
 						Transformation.Interpolations.LINEAR),
 					new Keyframe(0.9583434f * speedModifier, VectorHelper.createRotationalVector(-140f, 0f, 0f),
 						Transformation.Interpolations.LINEAR),
-					new Keyframe(speedModifier, VectorHelper.createRotationalVector(-130f, 0f, 0f),
+					new Keyframe(1f * speedModifier, VectorHelper.createRotationalVector(-130f, 0f, 0f),
 						Transformation.Interpolations.LINEAR),
 					new Keyframe(1.0416767f * speedModifier, VectorHelper.createRotationalVector(-90f, 0f, 0f),
 						Transformation.Interpolations.LINEAR),
@@ -558,7 +558,7 @@ public final class CopperGolemAnimations
 						Transformation.Interpolations.LINEAR),
 					new Keyframe(0.9583434f * speedModifier, VectorHelper.createRotationalVector(-130f, 0f, 0f),
 						Transformation.Interpolations.LINEAR),
-					new Keyframe(speedModifier, VectorHelper.createRotationalVector(-140f, 0f, 0f),
+					new Keyframe(1f * speedModifier, VectorHelper.createRotationalVector(-140f, 0f, 0f),
 						Transformation.Interpolations.LINEAR),
 					new Keyframe(1.0834333f * speedModifier, VectorHelper.createRotationalVector(-140f, 0f, 0f),
 						Transformation.Interpolations.LINEAR),

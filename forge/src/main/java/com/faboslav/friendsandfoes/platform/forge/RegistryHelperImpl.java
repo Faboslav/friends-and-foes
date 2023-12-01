@@ -40,7 +40,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
-@SuppressWarnings({"unsafe", "unchecked"})
+@SuppressWarnings({"unchecked, unsafe", "deprecation"})
 public final class RegistryHelperImpl
 {
 	public static final DeferredRegister<Activity> ACTIVITIES = DeferredRegister.create(ForgeRegistries.ACTIVITIES, FriendsAndFoes.MOD_ID);

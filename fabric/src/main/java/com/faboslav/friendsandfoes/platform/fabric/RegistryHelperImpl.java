@@ -18,6 +18,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
+import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.Item;
@@ -37,6 +38,7 @@ import net.minecraft.world.poi.PointOfInterestType;
 
 import java.util.function.Supplier;
 
+@SuppressWarnings({"unsafe", "unchecked"})
 public final class RegistryHelperImpl
 {
 	public static void addToItemGroupBefore(RegistryKey<ItemGroup> itemGroup, Item item, Item before) {
@@ -115,6 +117,14 @@ public final class RegistryHelperImpl
 		Supplier<T> memoryModuleType
 	) {
 		var registry = Registry.register(Registries.MEMORY_MODULE_TYPE, FriendsAndFoes.makeID(name), memoryModuleType.get());
+		return () -> registry;
+	}
+
+	public static <T extends SensorType<?>> Supplier<T> registerSensorType(
+		String name,
+		Supplier<T> sensorType
+	) {
+		var registry = Registry.register(Registries.SENSOR_TYPE, FriendsAndFoes.makeID(name), sensorType.get());
 		return () -> registry;
 	}
 

@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.init;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.advancements.criterion.ActivateZombieHorseTrapCriterion;
 import com.faboslav.friendsandfoes.advancements.criterion.CompleteHideAndSeekGameCriterion;
 import com.faboslav.friendsandfoes.advancements.criterion.TameGlareCriterion;
@@ -13,13 +14,13 @@ public final class FriendsAndFoesCriteria
 	public static final CompleteHideAndSeekGameCriterion COMPLETE_HIDE_AND_SEEK_GAME;
 
 	static {
-		TAME_GLARE = register(new TameGlareCriterion());
-		ACTIVATE_ZOMBIE_HORSE_TRAP = register(new ActivateZombieHorseTrapCriterion());
-		COMPLETE_HIDE_AND_SEEK_GAME = register(new CompleteHideAndSeekGameCriterion());
+		TAME_GLARE = register("tame_glare", new TameGlareCriterion());
+		ACTIVATE_ZOMBIE_HORSE_TRAP = register("activate_zombie_horse_trap", new ActivateZombieHorseTrapCriterion());
+		COMPLETE_HIDE_AND_SEEK_GAME = register("complete_hide_and_seek_game", new CompleteHideAndSeekGameCriterion());
 	}
 
-	private static <T extends Criterion<?>> T register(T criterion) {
-		return Criteria.register(criterion);
+	private static <T extends Criterion<?>> T register(String name, T criterion) {
+		return Criteria.register(FriendsAndFoes.makeStringID(name), criterion);
 	}
 
 	public static void init() {

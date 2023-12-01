@@ -11,6 +11,7 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.PlayerModelPart;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
+import net.minecraft.client.util.SkinTextures;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -19,17 +20,17 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
 
 @Environment(EnvType.CLIENT)
-public final class PlayerIllusionCapeFeatureRenderer extends FeatureRenderer<PlayerIllusionEntity, PlayerIllusionEntityModel<PlayerIllusionEntity>>
+public class PlayerIllusionCapeFeatureRenderer extends FeatureRenderer<PlayerIllusionEntity, PlayerIllusionEntityModel<PlayerIllusionEntity>>
 {
-	public PlayerIllusionCapeFeatureRenderer(FeatureRendererContext<PlayerIllusionEntity, PlayerIllusionEntityModel<PlayerIllusionEntity>> featureRendererContext) {
-		super(featureRendererContext);
+	public PlayerIllusionCapeFeatureRenderer(FeatureRendererContext<PlayerIllusionEntity, PlayerIllusionEntityModel<PlayerIllusionEntity>> arg) {
+		super(arg);
 	}
 
 	public void render(
-		MatrixStack matrixStack,
-		VertexConsumerProvider vertexConsumerProvider,
+		MatrixStack arg,
+		VertexConsumerProvider arg2,
 		int i,
-		PlayerIllusionEntity playerIllusionEntity,
+		PlayerIllusionEntity arg3,
 		float f,
 		float g,
 		float h,
@@ -37,39 +38,42 @@ public final class PlayerIllusionCapeFeatureRenderer extends FeatureRenderer<Pla
 		float k,
 		float l
 	) {
-		if (playerIllusionEntity.canRenderCapeTexture() && !playerIllusionEntity.isInvisible() && playerIllusionEntity.isPartVisible(PlayerModelPart.CAPE) && playerIllusionEntity.getCapeTexture() != null) {
-			ItemStack itemStack = playerIllusionEntity.getEquippedStack(EquipmentSlot.CHEST);
-			if (!itemStack.isOf(Items.ELYTRA)) {
-				matrixStack.push();
-				matrixStack.translate(0.0, 0.0, 0.125);
-				double d = MathHelper.lerp(h, playerIllusionEntity.prevCapeX, playerIllusionEntity.capeX) - MathHelper.lerp(h, playerIllusionEntity.prevX, playerIllusionEntity.getX());
-				double e = MathHelper.lerp(h, playerIllusionEntity.prevCapeY, playerIllusionEntity.capeY) - MathHelper.lerp(h, playerIllusionEntity.prevY, playerIllusionEntity.getY());
-				double m = MathHelper.lerp(h, playerIllusionEntity.prevCapeZ, playerIllusionEntity.capeZ) - MathHelper.lerp(h, playerIllusionEntity.prevZ, playerIllusionEntity.getZ());
-				float n = playerIllusionEntity.prevBodyYaw + (playerIllusionEntity.bodyYaw - playerIllusionEntity.prevBodyYaw);
-				double o = MathHelper.sin(n * 0.017453292F);
-				double p = -MathHelper.cos(n * 0.017453292F);
-				float q = (float) e * 10.0F;
-				q = MathHelper.clamp(q, -6.0F, 32.0F);
-				float r = (float) (d * o + m * p) * 100.0F;
-				r = MathHelper.clamp(r, 0.0F, 150.0F);
-				float s = (float) (d * p - m * o) * 100.0F;
-				s = MathHelper.clamp(s, -20.0F, 20.0F);
-				if (r < 0.0F) {
-					r = 0.0F;
-				}
+		if (!arg3.isInvisible() && arg3.isPartVisible(PlayerModelPart.CAPE)) {
+			SkinTextures skinTextures = arg3.getSkinTextures();
+			if (skinTextures.capeTexture() != null) {
+				ItemStack itemStack = arg3.getEquippedStack(EquipmentSlot.CHEST);
+				if (!itemStack.isOf(Items.ELYTRA)) {
+					arg.push();
+					arg.translate(0.0F, 0.0F, 0.125F);
+					double d = MathHelper.lerp(h, arg3.prevCapeX, arg3.capeX) - MathHelper.lerp(h, arg3.prevX, arg3.getX());
+					double e = MathHelper.lerp(h, arg3.prevCapeY, arg3.capeY) - MathHelper.lerp(h, arg3.prevY, arg3.getY());
+					double m = MathHelper.lerp(h, arg3.prevCapeZ, arg3.capeZ) - MathHelper.lerp(h, arg3.prevZ, arg3.getZ());
+					float n = MathHelper.lerpAngleDegrees(h, arg3.prevBodyYaw, arg3.bodyYaw);
+					double o = MathHelper.sin(n * 0.017453292F);
+					double p = -MathHelper.cos(n * 0.017453292F);
+					float q = (float) e * 10.0F;
+					q = MathHelper.clamp(q, -6.0F, 32.0F);
+					float r = (float) (d * o + m * p) * 100.0F;
+					r = MathHelper.clamp(r, 0.0F, 150.0F);
+					float s = (float) (d * p - m * o) * 100.0F;
+					s = MathHelper.clamp(s, -20.0F, 20.0F);
+					if (r < 0.0F) {
+						r = 0.0F;
+					}
 
-				float t = MathHelper.lerp(h, playerIllusionEntity.prevStrideDistance, playerIllusionEntity.strideDistance);
-				q += MathHelper.sin(MathHelper.lerp(h, playerIllusionEntity.prevHorizontalSpeed, playerIllusionEntity.horizontalSpeed) * 6.0F) * 32.0F * t;
-				if (playerIllusionEntity.isInSneakingPose()) {
-					q += 25.0F;
-				}
+					float t = MathHelper.lerp(h, arg3.prevStrideDistance, arg3.strideDistance);
+					q += MathHelper.sin(MathHelper.lerp(h, arg3.prevHorizontalSpeed, arg3.horizontalSpeed) * 6.0F) * 32.0F * t;
+					if (arg3.isInSneakingPose()) {
+						q += 25.0F;
+					}
 
-				matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(6.0F + r / 2.0F + q));
-				matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(s / 2.0F));
-				matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0F - s / 2.0F));
-				VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntitySolid(playerIllusionEntity.getCapeTexture()));
-				this.getContextModel().renderCape(matrixStack, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
-				matrixStack.pop();
+					arg.multiply(RotationAxis.POSITIVE_X.rotationDegrees(6.0F + r / 2.0F + q));
+					arg.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(s / 2.0F));
+					arg.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0F - s / 2.0F));
+					VertexConsumer vertexConsumer = arg2.getBuffer(RenderLayer.getEntitySolid(skinTextures.capeTexture()));
+					this.getContextModel().renderCape(arg, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
+					arg.pop();
+				}
 			}
 		}
 	}

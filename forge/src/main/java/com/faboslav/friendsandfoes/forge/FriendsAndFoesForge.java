@@ -4,7 +4,7 @@ import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.FriendsAndFoesClient;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesStructurePoolElements;
-import com.faboslav.friendsandfoes.network.PacketHandler;
+import com.faboslav.friendsandfoes.network.forge.PacketHandler;
 import com.faboslav.friendsandfoes.platform.forge.RegistryHelperImpl;
 import com.faboslav.friendsandfoes.util.CustomRaidMember;
 import com.faboslav.friendsandfoes.util.ServerWorldSpawnersUtil;
@@ -17,14 +17,11 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Util;
 import net.minecraft.village.raid.Raid;
 import net.minecraft.world.dimension.DimensionTypes;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.TickEvent.ServerTickEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
@@ -36,8 +33,6 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 
 import java.util.Map;
 import java.util.function.Supplier;
-
-import static com.faboslav.friendsandfoes.FriendsAndFoes.serverTickDeltaCounter;
 
 @Mod(FriendsAndFoes.MOD_ID)
 public final class FriendsAndFoesForge
@@ -61,6 +56,7 @@ public final class FriendsAndFoesForge
 		SharedConstants.useChoiceTypeRegistrations = FriendsAndFoesEntityTypes.previousUseChoiceTypeRegistrations;
 		RegistryHelperImpl.ITEMS.register(bus);
 		RegistryHelperImpl.MEMORY_MODULE_TYPES.register(bus);
+		RegistryHelperImpl.SENSOR_TYPES.register(bus);
 		RegistryHelperImpl.PARTICLE_TYPES.register(bus);
 		RegistryHelperImpl.POINT_OF_INTEREST_TYPES.register(bus);
 		RegistryHelperImpl.SOUND_EVENTS.register(bus);
@@ -74,7 +70,6 @@ public final class FriendsAndFoesForge
 
 		var forgeBus = MinecraftForge.EVENT_BUS;
 		forgeBus.addListener(FriendsAndFoesForge::initSpawners);
-		forgeBus.addListener(FriendsAndFoesForge::initTickDeltaCounter);
 		forgeBus.addListener(FriendsAndFoesForge::onServerAboutToStartEvent);
 
 		MinecraftForge.EVENT_BUS.register(this);
@@ -147,14 +142,6 @@ public final class FriendsAndFoesForge
 
 		ServerWorldSpawnersUtil.register(world, new IceologerSpawner());
 		ServerWorldSpawnersUtil.register(world, new IllusionerSpawner());
-	}
-
-	private static void initTickDeltaCounter(final ServerTickEvent event) {
-		if (event.phase != TickEvent.Phase.START) {
-			return;
-		}
-
-		serverTickDeltaCounter.beginRenderTick(Util.getMeasuringTimeMs());
 	}
 
 	public static void onServerAboutToStartEvent(ServerAboutToStartEvent event) {

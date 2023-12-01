@@ -2,6 +2,8 @@ package com.faboslav.friendsandfoes.client.render.entity.feature;
 
 import com.faboslav.friendsandfoes.client.render.entity.model.PlayerIllusionEntityModel;
 import com.faboslav.friendsandfoes.entity.PlayerIllusionEntity;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -12,17 +14,18 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
 
-public final class PlayerIllusionDeadmau5FeatureRenderer extends FeatureRenderer<PlayerIllusionEntity, PlayerIllusionEntityModel<PlayerIllusionEntity>>
+@Environment(EnvType.CLIENT)
+public class PlayerIllusionDeadmau5FeatureRenderer extends FeatureRenderer<PlayerIllusionEntity, PlayerIllusionEntityModel<PlayerIllusionEntity>>
 {
-	public PlayerIllusionDeadmau5FeatureRenderer(FeatureRendererContext<PlayerIllusionEntity, PlayerIllusionEntityModel<PlayerIllusionEntity>> featureRendererContext) {
-		super(featureRendererContext);
+	public PlayerIllusionDeadmau5FeatureRenderer(FeatureRendererContext<PlayerIllusionEntity, PlayerIllusionEntityModel<PlayerIllusionEntity>> arg) {
+		super(arg);
 	}
 
 	public void render(
-		MatrixStack matrixStack,
-		VertexConsumerProvider vertexConsumerProvider,
+		MatrixStack arg,
+		VertexConsumerProvider arg2,
 		int i,
-		PlayerIllusionEntity playerIllusionEntity,
+		PlayerIllusionEntity arg3,
 		float f,
 		float g,
 		float h,
@@ -30,24 +33,24 @@ public final class PlayerIllusionDeadmau5FeatureRenderer extends FeatureRenderer
 		float k,
 		float l
 	) {
-		if ("deadmau5".equals(playerIllusionEntity.getName().getString()) && playerIllusionEntity.hasSkinTexture() && !playerIllusionEntity.isInvisible()) {
-			VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntitySolid(playerIllusionEntity.getSkinTexture()));
-			int m = LivingEntityRenderer.getOverlay(playerIllusionEntity, 0.0F);
+		if ("deadmau5".equals(arg3.getName().getString()) && !arg3.isInvisible()) {
+			VertexConsumer vertexConsumer = arg2.getBuffer(RenderLayer.getEntitySolid(arg3.getSkinTextures().texture()));
+			int m = LivingEntityRenderer.getOverlay(arg3, 0.0F);
 
 			for (int n = 0; n < 2; ++n) {
-				float o = MathHelper.lerp(h, playerIllusionEntity.prevYaw, playerIllusionEntity.getYaw()) - MathHelper.lerp(h, playerIllusionEntity.prevBodyYaw, playerIllusionEntity.bodyYaw);
-				float p = MathHelper.lerp(h, playerIllusionEntity.prevPitch, playerIllusionEntity.getPitch());
-				matrixStack.push();
-				matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(o));
-				matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(p));
-				matrixStack.translate(0.375F * (float) (n * 2 - 1), 0.0, 0.0);
-				matrixStack.translate(0.0, -0.375, 0.0);
-				matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-p));
-				matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-o));
+				float o = MathHelper.lerp(h, arg3.prevYaw, arg3.getYaw()) - MathHelper.lerp(h, arg3.prevBodyYaw, arg3.bodyYaw);
+				float p = MathHelper.lerp(h, arg3.prevPitch, arg3.getPitch());
+				arg.push();
+				arg.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(o));
+				arg.multiply(RotationAxis.POSITIVE_X.rotationDegrees(p));
+				arg.translate(0.375F * (float) (n * 2 - 1), 0.0F, 0.0F);
+				arg.translate(0.0F, -0.375F, 0.0F);
+				arg.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-p));
+				arg.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-o));
 				float q = 1.3333334F;
-				matrixStack.scale(1.3333334F, 1.3333334F, 1.3333334F);
-				this.getContextModel().renderEars(matrixStack, vertexConsumer, i, m);
-				matrixStack.pop();
+				arg.scale(1.3333334F, 1.3333334F, 1.3333334F);
+				this.getContextModel().renderEars(arg, vertexConsumer, i, m);
+				arg.pop();
 			}
 
 		}

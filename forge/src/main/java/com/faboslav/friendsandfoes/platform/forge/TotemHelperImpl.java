@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.platform.forge;
 
-import com.faboslav.friendsandfoes.network.PacketHandler;
-import com.faboslav.friendsandfoes.network.TotemEffectPacket;
+import com.faboslav.friendsandfoes.network.forge.PacketHandler;
+import com.faboslav.friendsandfoes.network.forge.TotemEffectPacket;
 import com.faboslav.friendsandfoes.platform.TotemHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -16,6 +16,7 @@ import java.util.function.Predicate;
 /**
  * @see TotemHelper
  */
+@SuppressWarnings({"deprecation"})
 public final class TotemHelperImpl
 {
 	public static void sendTotemEffectPacket(ItemStack itemStack, LivingEntity livingEntity) {

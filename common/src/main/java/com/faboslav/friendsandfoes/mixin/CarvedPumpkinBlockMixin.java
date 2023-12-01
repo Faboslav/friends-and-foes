@@ -54,12 +54,12 @@ public abstract class CarvedPumpkinBlockMixin extends HorizontalFacingBlock
 
 	@Inject(
 		method = "canDispense",
-		at = @At("RETURN"),
+		at = @At("HEAD"),
 		cancellable = true
 	)
 	public void friendsandfoes_canDispense(WorldView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-		if (!cir.getReturnValue()) {
-			cir.setReturnValue(this.getTuffGolemDispenserPattern().searchAround(world, pos) != null || this.getCopperGolemDispenserPattern().searchAround(world, pos) != null);
+		if (this.getTuffGolemDispenserPattern().searchAround(world, pos) != null || this.getCopperGolemDispenserPattern().searchAround(world, pos) != null) {
+			cir.setReturnValue(true);
 		}
 	}
 

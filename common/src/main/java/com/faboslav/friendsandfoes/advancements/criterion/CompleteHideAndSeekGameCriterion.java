@@ -1,37 +1,28 @@
 package com.faboslav.friendsandfoes.advancements.criterion;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.entity.GlareEntity;
 import com.faboslav.friendsandfoes.entity.RascalEntity;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesCriteria;
 import com.google.gson.JsonObject;
+import net.minecraft.advancement.AdvancementCriterion;
 import net.minecraft.advancement.criterion.AbstractCriterion;
 import net.minecraft.advancement.criterion.AbstractCriterionConditions;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.predicate.entity.AdvancementEntityPredicateDeserializer;
-import net.minecraft.predicate.entity.AdvancementEntityPredicateSerializer;
 import net.minecraft.predicate.entity.EntityPredicate;
 import net.minecraft.predicate.entity.LootContextPredicate;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Identifier;
+
+import java.util.Optional;
 
 public final class CompleteHideAndSeekGameCriterion extends AbstractCriterion<CompleteHideAndSeekGameCriterion.Conditions>
 {
-	static final Identifier ID = FriendsAndFoes.makeID("complete_hide_and_seek_game");
-
 	public CompleteHideAndSeekGameCriterion() {
 	}
 
-	public Identifier getId() {
-		return ID;
-	}
-
-	public CompleteHideAndSeekGameCriterion.Conditions conditionsFromJson(
-		JsonObject jsonObject,
-		LootContextPredicate extended,
-		AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer
-	) {
-		LootContextPredicate extended2 = EntityPredicate.contextPredicateFromJson(jsonObject, "rascal", advancementEntityPredicateDeserializer);
-
-		return new CompleteHideAndSeekGameCriterion.Conditions(extended, extended2);
+	public CompleteHideAndSeekGameCriterion.Conditions conditionsFromJson(JsonObject jsonObject, Optional<LootContextPredicate> optional, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) {
+		Optional<LootContextPredicate> optional2 = EntityPredicate.contextPredicateFromJson(jsonObject, "entity", advancementEntityPredicateDeserializer);
+		return new CompleteHideAndSeekGameCriterion.Conditions(optional, optional2);
 	}
 
 	public void trigger(ServerPlayerEntity player, RascalEntity entity) {
@@ -41,30 +32,31 @@ public final class CompleteHideAndSeekGameCriterion extends AbstractCriterion<Co
 		});
 	}
 
-	public static class Conditions extends AbstractCriterionConditions
-	{
-		private final LootContextPredicate entity;
+	public static class Conditions extends AbstractCriterionConditions {
+		private final Optional<LootContextPredicate> entity;
 
-		public Conditions(LootContextPredicate player, LootContextPredicate entity) {
-			super(CompleteHideAndSeekGameCriterion.ID, player);
+		public Conditions(Optional<LootContextPredicate> playerPredicate, Optional<LootContextPredicate> entity) {
+			super(playerPredicate);
 			this.entity = entity;
 		}
 
-		public static CompleteHideAndSeekGameCriterion.Conditions any() {
-			return new CompleteHideAndSeekGameCriterion.Conditions(LootContextPredicate.EMPTY, LootContextPredicate.EMPTY);
+		public static AdvancementCriterion<CompleteHideAndSeekGameCriterion.Conditions> any() {
+			return FriendsAndFoesCriteria.COMPLETE_HIDE_AND_SEEK_GAME.create(new CompleteHideAndSeekGameCriterion.Conditions(Optional.empty(), Optional.empty()));
 		}
 
-		public static CompleteHideAndSeekGameCriterion.Conditions create(EntityPredicate entity) {
-			return new CompleteHideAndSeekGameCriterion.Conditions(LootContextPredicate.EMPTY, EntityPredicate.asLootContextPredicate(entity));
+		public static AdvancementCriterion<CompleteHideAndSeekGameCriterion.Conditions> create(EntityPredicate.Builder builder) {
+			return FriendsAndFoesCriteria.COMPLETE_HIDE_AND_SEEK_GAME.create(new CompleteHideAndSeekGameCriterion.Conditions(Optional.empty(), Optional.of(EntityPredicate.contextPredicateFromEntityPredicate(builder))));
 		}
 
-		public boolean matches(LootContext entityContext) {
-			return this.entity.test(entityContext);
+		public boolean matches(LootContext entity) {
+			return this.entity.isEmpty() || this.entity.get().test(entity);
 		}
 
-		public JsonObject toJson(AdvancementEntityPredicateSerializer predicateSerializer) {
-			JsonObject jsonObject = super.toJson(predicateSerializer);
-			jsonObject.add("entity", this.entity.toJson(predicateSerializer));
+		public JsonObject toJson() {
+			JsonObject jsonObject = super.toJson();
+			this.entity.ifPresent((lootContextPredicate) -> {
+				jsonObject.add("entity", lootContextPredicate.toJson());
+			});
 			return jsonObject;
 		}
 	}

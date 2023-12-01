@@ -13,7 +13,7 @@ jobs:
     build:
         runs-on: ubuntu-latest
         name: "Build"
-        timeout-minutes: 30
+        timeout-minutes: 10
 
         steps:
             -   name: "Checkout repository"
@@ -35,7 +35,7 @@ jobs:
             matrix:
                 mod_loader: [ "fabric", "forge" ]
         name: Run ${{ matrix.mod_loader }} client
-        timeout-minutes: 30
+        timeout-minutes: 10
 
         steps:
             -   name: "Checkout repository"
@@ -60,7 +60,7 @@ jobs:
             matrix:
                 mod_loader: [ "fabric", "forge" ]
         name: Run ${{ matrix.mod_loader }} server
-        timeout-minutes: 30
+        timeout-minutes: 10
 
         steps:
             -   name: "Checkout repository"

@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[1,)"
+loaderVersion = "*"
 license = "CC-BY-NC-ND-4.0"
 displayURL = "https://github.com/Faboslav/friends-and-foes"
 issueTrackerURL = "https://github.com/Faboslav/friends-and-foes/issues"
@@ -24,7 +24,7 @@ modId = "minecraft"
 mandatory = true
 versionRange = "[${minecraftVersion},)"
 
-[[dependencies.${ modId }]]
+[modproperties.${ modId }]
 catalogueImageIcon = "catalogue_icon.png"
 catalogueBackground = "catalogue_logo.png"
 configuredBackground = "catalogue_background.png"

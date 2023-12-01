@@ -22,8 +22,14 @@ run-fabric-client: ## Runs fabric client
 run-forge-client: ## Runs forge client
 	./gradlew forge:runClient
 
+run-neoforge-client: ## Runs neoforge client
+	./gradlew neoforge:runClient
+
 run-fabric-server: ## Runs fabric server
 	./gradlew fabric:runServer
 
 run-forge-server: ## Runs forge server
 	./gradlew forge:runServer
+
+run-neoforge-server: ## Runs neoforge server
+	./gradlew neoforge:runServer

@@ -22,7 +22,7 @@ modId = "minecraft"
 mandatory = true
 versionRange = "[${minecraftVersion},)"
 
-[[dependencies.${ modId }]]
+[modproperties.${ modId }]
 catalogueImageIcon = "catalogue_icon.png"
 catalogueBackground = "catalogue_logo.png"
 configuredBackground = "catalogue_background.png"

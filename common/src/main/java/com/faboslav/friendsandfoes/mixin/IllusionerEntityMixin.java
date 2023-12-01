@@ -50,11 +50,11 @@ public abstract class IllusionerEntityMixin extends IllusionerSpellcastingIllage
 	private static final String TICKS_UNTIL_DESPAWN_NBT_NAME = "TicksUntilDespawn";
 	private static final String TICKS_UNTIL_CAN_CREATE_ILLUSIONS_NBT_NAME = "TicksUntilCanCreateIllusions";
 
-	private IllusionerEntity friendsandfoes_illusioner;
-	private boolean friendsandfoes_isIllusion;
-	private boolean friendsandfoes_wasAttacked;
-	private int friendsandfoes_ticksUntilDespawn;
-	private int friendsandfoes_ticksUntilCanCreateIllusion;
+	private IllusionerEntity friendsandfoes_illusioner = null;
+	private boolean friendsandfoes_isIllusion = false;
+	private boolean friendsandfoes_wasAttacked = false;
+	private int friendsandfoes_ticksUntilDespawn = 0;
+	private int friendsandfoes_ticksUntilCanCreateIllusion = 0;
 
 	protected IllusionerEntityMixin(
 		EntityType<? extends SpellcastingIllagerEntity> entityType,

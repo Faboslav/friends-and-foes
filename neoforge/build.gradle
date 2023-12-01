@@ -30,8 +30,12 @@ dependencies {
 	common(project(path: ":common", configuration: "namedElements")) { transitive false }
 	shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
 
+	// Mixin extras (https://github.com/LlamaLad7/MixinExtras)
 	implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:${rootProject.mixin_extras_version}"))
 	implementation(include("io.github.llamalad7:mixinextras-neoforge:${rootProject.mixin_extras_version}"))
+
+	// Cloth config (https://www.curseforge.com/minecraft/mc-mods/cloth-config)
+	modImplementation("me.shedaniel.cloth:cloth-config-neoforge:${rootProject.cloth_config_version}")
 }
 
 processResources {
@@ -90,4 +94,12 @@ repositories {
 		name = 'NeoForged'
 		url = 'https://maven.neoforged.net/'
 	}
+
+	maven {
+		url = "https://maven.theillusivec4.top/"
+	}
+
+	maven { url "https://www.cursemaven.com" }
+
+
 }

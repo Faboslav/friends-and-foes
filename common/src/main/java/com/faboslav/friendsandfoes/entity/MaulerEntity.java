@@ -471,7 +471,6 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		float size = this.getSize();
 
 		this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue((int) (HEALTH * size));
-		this.setHealth(this.getMaxHealth());
 		this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue(ATTACK_DAMAGE * (size / 2.0F));
 		this.calculateDimensions();
 		this.calculateBoundingBox();

@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.neoforge;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.FriendsAndFoesClient;
+import com.faboslav.friendsandfoes.events.lifecycle.RegisterReloadListenerEvent;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesStructurePoolElements;
 import com.faboslav.friendsandfoes.network.neoforge.PacketHandler;
@@ -26,6 +27,7 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
@@ -71,6 +73,7 @@ public final class FriendsAndFoesNeoForge
 		var neoForgeBus = NeoForge.EVENT_BUS;
 		neoForgeBus.addListener(FriendsAndFoesNeoForge::initSpawners);
 		neoForgeBus.addListener(FriendsAndFoesNeoForge::onServerAboutToStartEvent);
+		neoForgeBus.addListener(FriendsAndFoesNeoForge::onAddReloadListeners);
 	}
 
 	private static void init(final FMLCommonSetupEvent event) {
@@ -117,6 +120,10 @@ public final class FriendsAndFoesNeoForge
 				});
 			}
 		});
+	}
+
+	private static void onAddReloadListeners(AddReloadListenerEvent event) {
+		RegisterReloadListenerEvent.EVENT.invoke(new RegisterReloadListenerEvent((id, listener) -> event.addListener(listener)));
 	}
 
 	private static void initSpawners(final LevelEvent.Load event) {

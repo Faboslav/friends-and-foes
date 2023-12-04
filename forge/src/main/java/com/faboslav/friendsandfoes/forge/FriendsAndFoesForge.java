@@ -124,7 +124,6 @@ public final class FriendsAndFoesForge
 		});
 	}
 
-
 	private static void onAddReloadListeners(AddReloadListenerEvent event) {
 		RegisterReloadListenerEvent.EVENT.invoke(new RegisterReloadListenerEvent((id, listener) -> event.addListener(listener)));
 	}

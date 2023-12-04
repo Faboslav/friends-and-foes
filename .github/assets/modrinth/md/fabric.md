@@ -48,7 +48,7 @@
 <p>
 	Meet the <a href="https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem">Copper Golem</a>, a pocket-sized, comedic marvel that finds joy in randomly pressing copper buttons.
 	Like any other copper creations it will <a href="https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem#oxidation">oxidize</a> over time, but do not worry, maintenance is a breeze! For a quick makeover, grab an <a href="https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem#scraping">axe</a> or a <a href="https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem#waxing">honeycomb</a>.
-	If you want to <a href="https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem#creation">build</a> this little creature, gather a copper block, a pumpkin, and a lightning rod..
+	If you want to <a href="https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem#creation">build</a> this little creature, gather a copper block, a pumpkin, and a lightning rod.
 </p>
 
 <table>
@@ -67,3 +67,42 @@
 	<li>All copper variants of <a href="https://github.com/Faboslav/friends-and-foes/wiki/Lightning-Rod">Lightning Rods</a></li>
 	<li><a href="https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem-Workstation">Copper Golem Workstation</a> village structure</li>
 </ul>
+
+
+<h2>⚙️ Compatibility</h2>
+
+<hr>
+<p>
+	Friends&Foes is designed to be fully compatible with all other mods, and it currently offers enhanced compatibility with the Waystones mod.
+</p>
+<p>&nbsp;</p>
+<h2>💬 Community</h2>
+<hr />
+<p>Feel free to <a href="https://discord.gg/QGwFvvMQCn">join our community at the discord server</a> to chat, share your creations, ask any question or to simply be updated about the latest development of the mod and notified when the new release is out. Also don't hesitate to <a href="https://github.com/Faboslav/friends-and-foes/issues">report any crash or bug via GitHub issues</a>.</p>
+<p>&nbsp;</p>
+
+<h2>👋 Support</h2>
+
+<hr>
+
+<p>
+	I will continue developing my mods as a hobby because I truly enjoy it. If you'd like to support me, you can do so on <a href="https://www.patreon.com/Faboslav">Patreon</a> or <a href="https://ko-fi.com/faboslav">Ko-fi</a>. Your support is greatly appreciated.
+</p>
+
+<br>
+
+<h2>📜 License</h2>
+
+<hr>
+
+<p>
+	The mod is licensed with <a href="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/LICENSE.txt">CC BY-NC-ND 4.0</a> license.
+</p>
+
+<p>
+	Please feel free to explore my code for examples of how I've tackled and solved various challenges while developing this mod. You're welcome to incorporate code snippets into your own projects. Also feel free to use this mod in any modpack (although credit/link back to this page will be greatly appreciated).
+</p>
+
+<p>
+	You can also look into the <a href="https://github.com/Faboslav/friends-and-foes/tree/master/blockbench">blockbench directory</a> which contains all the models &amp; palettes and into the <a href="https://github.com/Faboslav/friends-and-foes/tree/master/common/src/main/resources/assets/friendsandfoes/textures">textures directory</a> for textures. Get inspired, but please don't just copy &amp; paste any of it as your own.
+</p>

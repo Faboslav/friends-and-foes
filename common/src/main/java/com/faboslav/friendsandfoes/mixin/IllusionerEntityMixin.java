@@ -242,7 +242,10 @@ public abstract class IllusionerEntityMixin extends IllusionerSpellcastingIllage
 
 					if (
 						this.friendsandfoes_getTicksUntilCanCreateIllusions() == 0
-						&& !((PlayerEntity) source.getAttacker()).getAbilities().creativeMode
+						&& (
+							attacker instanceof PlayerEntity
+							&& !((PlayerEntity) source.getAttacker()).getAbilities().creativeMode
+						)
 					) {
 						this.friendsandfoes_createIllusions();
 					}

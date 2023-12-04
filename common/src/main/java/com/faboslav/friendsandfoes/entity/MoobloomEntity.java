@@ -2,7 +2,7 @@ package com.faboslav.friendsandfoes.entity;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.api.MoobloomVariant;
-import com.faboslav.friendsandfoes.api.MoobloomVariants;
+import com.faboslav.friendsandfoes.api.MoobloomVariantManager;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesBlocks;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
@@ -38,6 +38,9 @@ import org.jetbrains.annotations.Nullable;
 
 public final class MoobloomEntity extends CowEntity implements Shearable
 {
+	public static final String VARIANT_NBT_NAME = "Variant";
+	public static final String FLOWER_NBT_NAME = "Flower";
+
 	private static final TrackedData<String> VARIANT;
 
 	public MoobloomEntity(
@@ -59,19 +62,27 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 
 	@Override
 	public EntityData initialize(
-		ServerWorldAccess world,
+		ServerWorldAccess serverWorldAccess,
 		LocalDifficulty difficulty,
 		SpawnReason spawnReason,
 		@Nullable EntityData entityData,
 		@Nullable NbtCompound entityNbt
 	) {
 		if (
-			MoobloomVariants.getNumberOfVariants() > 1
+			MoobloomVariantManager.getMoobloomVariants().size() > 1
 			&& spawnReason != SpawnReason.COMMAND) {
-			this.setVariant(MoobloomVariants.getRandomVariant());
+			this.setVariant(MoobloomVariantManager.getRandomMoobloomVariant(world.getRandom()));
 		}
 
-		return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
+		MoobloomVariant possibleMoobloomVariant = MoobloomVariantManager.getRandomBiomeSpecificMoobloomVariant(serverWorldAccess, this.getBlockPos());
+
+		if (possibleMoobloomVariant != null) {
+			this.setVariant(possibleMoobloomVariant);
+		} else {
+			this.setVariant(MoobloomVariantManager.getRandomMoobloomVariant(world.getRandom()));
+		}
+
+		return super.initialize(serverWorldAccess, difficulty, spawnReason, entityData, entityNbt);
 	}
 
 	public boolean isShearable() {
@@ -81,27 +92,28 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 	@Override
 	protected void initDataTracker() {
 		super.initDataTracker();
-		this.dataTracker.startTracking(VARIANT, MoobloomVariants.DEFAULT_VARIANT_NAME);
+		this.dataTracker.startTracking(VARIANT, MoobloomVariantManager.getDefaultMoobloomVariant().getName());
 	}
 
 	@Override
 	public void writeCustomDataToNbt(NbtCompound nbt) {
 		super.writeCustomDataToNbt(nbt);
-		nbt.putString("Variant", this.getVariant().getName());
-		nbt.putString("Flower", this.getVariant().getFlowerName());
+
+		nbt.putString(VARIANT_NBT_NAME, this.getVariant().getName());
+		nbt.putString(FLOWER_NBT_NAME, this.getVariant().getFlowerName());
 	}
 
 	@Override
 	public void readCustomDataFromNbt(NbtCompound nbt) {
 		super.readCustomDataFromNbt(nbt);
 
-		String variantName = MoobloomVariants.DEFAULT_VARIANT_NAME;
+		MoobloomVariant moobloomVariant = MoobloomVariantManager.getMoobloomVariantByName(nbt.getString(VARIANT_NBT_NAME));
 
-		if (nbt.contains("Variant") && MoobloomVariants.contains(nbt.getString("Variant"))) {
-			variantName = nbt.getString("Variant");
+		if (moobloomVariant == null) {
+			moobloomVariant = MoobloomVariantManager.getDefaultMoobloomVariant();
 		}
 
-		this.setVariant(MoobloomVariants.getByName(variantName));
+		this.setVariant(moobloomVariant);
 	}
 
 	public void sheared(SoundCategory shearedSoundCategory) {
@@ -159,7 +171,7 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 		Hand hand
 	) {
 		ItemStack itemStack = player.getStackInHand(hand);
-		MoobloomVariant moobloomVariant = MoobloomVariants.getByFlowerItem(itemStack.getItem());
+		MoobloomVariant moobloomVariant = MoobloomVariantManager.getByFlowerItem(itemStack.getItem());
 
 		if (moobloomVariant != null && moobloomVariant != this.getVariant()) {
 			this.setVariant(moobloomVariant);
@@ -231,7 +243,7 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 			if (blockUnderneath == Blocks.GRASS_BLOCK && this.getWorld().isAir(this.getBlockPos())) {
 				Block flower = this.getVariant().getFlower();
 
-				if (MoobloomVariants.getNumberOfVariants() == 1) {
+				if (MoobloomVariantManager.getMoobloomVariants().size() == 1) {
 					// 40% chance buttercup, 40% chance dandelion, 20% chance sunflower
 					int flowerChance = this.getRandom().nextBetween(1, 100);
 
@@ -271,7 +283,7 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 	}
 
 	public MoobloomVariant getVariant() {
-		return MoobloomVariants.getByName(this.dataTracker.get(VARIANT));
+		return MoobloomVariantManager.getMoobloomVariantByName(this.dataTracker.get(VARIANT));
 	}
 
 	static {

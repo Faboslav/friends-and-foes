@@ -21,14 +21,14 @@ public enum FriendsAndFoesArmorMaterials implements ArmorMaterial
 		"wildfire",
 		35,
 		Util.make(new EnumMap(ArmorItem.Type.class), (map) -> {
-			map.put(ArmorItem.Type.BOOTS, 2);
+			map.put(ArmorItem.Type.BOOTS, 1);
 			map.put(ArmorItem.Type.LEGGINGS, 5);
 			map.put(ArmorItem.Type.CHESTPLATE, 7);
-			map.put(ArmorItem.Type.HELMET, 2);
+			map.put(ArmorItem.Type.HELMET, 1);
 		}),
 		12,
 		SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE,
-		2.0F,
+		1.0F,
 		0.1F, () -> {
 		return Ingredient.ofItems(FriendsAndFoesItems.WILDFIRE_CROWN_FRAGMENT.get());
 	});

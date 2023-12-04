@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.forge;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.FriendsAndFoesClient;
+import com.faboslav.friendsandfoes.events.lifecycle.RegisterReloadListenerEvent;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesStructurePoolElements;
 import com.faboslav.friendsandfoes.network.forge.PacketHandler;
@@ -22,6 +23,7 @@ import net.minecraft.world.dimension.DimensionTypes;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
@@ -71,6 +73,7 @@ public final class FriendsAndFoesForge
 		var forgeBus = MinecraftForge.EVENT_BUS;
 		forgeBus.addListener(FriendsAndFoesForge::initSpawners);
 		forgeBus.addListener(FriendsAndFoesForge::onServerAboutToStartEvent);
+		forgeBus.addListener(FriendsAndFoesForge::onAddReloadListeners);
 
 		MinecraftForge.EVENT_BUS.register(this);
 	}
@@ -119,6 +122,11 @@ public final class FriendsAndFoesForge
 				});
 			}
 		});
+	}
+
+
+	private static void onAddReloadListeners(AddReloadListenerEvent event) {
+		RegisterReloadListenerEvent.EVENT.invoke(new RegisterReloadListenerEvent((id, listener) -> event.addListener(listener)));
 	}
 
 	private static void initSpawners(final LevelEvent.Load event) {

@@ -38,7 +38,7 @@ import net.minecraft.world.poi.PointOfInterestType;
 
 import java.util.function.Supplier;
 
-@SuppressWarnings("unsafe")
+@SuppressWarnings({"unsafe", "unchecked"})
 public final class RegistryHelperImpl
 {
 	public static void addToItemGroupBefore(RegistryKey<ItemGroup> itemGroup, Item item, Item before) {

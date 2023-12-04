@@ -81,23 +81,14 @@ public final class FriendsAndFoesConfig implements Config
 	@Description("Enable spawn")
 	public boolean enableMoobloomSpawn = true;
 
-	@Description("Spawn weight in flower forest biome")
-	public int moobloomFlowerForestSpawnWeight = 32;
+	@Description("Spawn weight")
+	public int moobloomSpawnWeight = 4;
 
-	@Description("Minimal spawn group size in flower forest biome")
-	public int moobloomFlowerForestSpawnMinGroupSize = 2;
+	@Description("Minimal spawn group size")
+	public int moobloomSpawnMinGroupSize = 2;
 
-	@Description("Maximal spawn group size in flower forest biome")
-	public int moobloomFlowerForestSpawnMaxGroupSize = 4;
-
-	@Description("Spawn weight in meadow biome")
-	public int moobloomMeadowSpawnWeight = 2;
-
-	@Description("Minimal spawn group size in meadow biome")
-	public int moobloomMeadowSpawnMinGroupSize = 2;
-
-	@Description("Maximal spawn group size in meadow biome")
-	public int moobloomMeadowSpawnMaxGroupSize = 4;
+	@Description("Maximal spawn group size")
+	public int moobloomSpawnMaxGroupSize = 4;
 
 	@Category("Iceologer")
 	@Description("Enable")

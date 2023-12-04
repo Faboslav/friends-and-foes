@@ -1,7 +1,9 @@
 package com.faboslav.friendsandfoes;
 
+import com.faboslav.friendsandfoes.api.MoobloomVariantManager;
 import com.faboslav.friendsandfoes.config.FriendsAndFoesConfig;
 import com.faboslav.friendsandfoes.config.omegaconfig.OmegaConfig;
+import com.faboslav.friendsandfoes.events.lifecycle.RegisterReloadListenerEvent;
 import com.faboslav.friendsandfoes.init.*;
 import com.faboslav.friendsandfoes.platform.BiomeModifications;
 import net.minecraft.util.Identifier;
@@ -47,6 +49,8 @@ public final class FriendsAndFoes
 		FriendsAndFoesStructureProcessorTypes.init();
 		FriendsAndFoesStructureTypes.init();
 		FriendsAndFoesVillagerProfessions.init();
+
+		RegisterReloadListenerEvent.EVENT.addListener(FriendsAndFoes::registerServerDataListeners);
 	}
 
 	public static void postInit() {
@@ -56,5 +60,9 @@ public final class FriendsAndFoes
 		FriendsAndFoesBlockEntityTypes.postInit();
 		FriendsAndFoesStructureProcessorTypes.postInit();
 		FriendsAndFoesVillagerProfessions.postInit();
+	}
+
+	public static void registerServerDataListeners(final RegisterReloadListenerEvent event) {
+		event.register(FriendsAndFoes.makeID("moobloom_variants"), MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER);
 	}
 }

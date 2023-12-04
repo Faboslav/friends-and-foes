@@ -98,8 +98,8 @@ public abstract class PlayerEntityMixin extends LivingEntity
 	private void friendsandfoes_updateWildfireCrown() {
 		ItemStack itemStack = this.getEquippedStack(EquipmentSlot.HEAD);
 
-		if (itemStack.isOf(FriendsAndFoesItems.WILDFIRE_CROWN.get()) && !this.isSubmergedIn(FluidTags.LAVA)) {
-			this.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 300, 0, false, false, true));
+		if (itemStack.isOf(FriendsAndFoesItems.WILDFIRE_CROWN.get()) && (!this.isSubmergedIn(FluidTags.LAVA) && !this.isOnFire())) {
+			this.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 160, 0, false, false, true));
 		}
 	}
 

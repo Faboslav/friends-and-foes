@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.init;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.api.MoobloomVariants;
 import com.faboslav.friendsandfoes.client.render.entity.renderer.WildfireEntityRenderer;
 import com.faboslav.friendsandfoes.entity.*;
 import com.faboslav.friendsandfoes.mixin.SpawnRestrictionAccessor;
@@ -10,7 +9,6 @@ import com.faboslav.friendsandfoes.platform.CustomSpawnGroup;
 import com.faboslav.friendsandfoes.platform.RegistryHelper;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import net.minecraft.SharedConstants;
-import net.minecraft.block.PlantBlock;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.SpawnRestriction;
@@ -58,7 +56,6 @@ public final class FriendsAndFoesEntityTypes
 	public static void postInit() {
 		initSpawnRestrictions();
 		addSpawns();
-		addMoobloomVariants();
 	}
 
 	public static void createMobAttributes() {
@@ -95,17 +92,12 @@ public final class FriendsAndFoesEntityTypes
 		}
 
 		if (config.enableMoobloom && config.enableMoobloomSpawn) {
-			BiomeModifications.addMobSpawn(FriendsAndFoesTags.HAS_LESS_MOOBLOOMS, MOOBLOOM.get(), SpawnGroup.CREATURE, config.moobloomFlowerForestSpawnWeight, config.moobloomFlowerForestSpawnMinGroupSize, config.moobloomFlowerForestSpawnMaxGroupSize);
-			BiomeModifications.addMobSpawn(FriendsAndFoesTags.HAS_MORE_MOOBLOOMS, MOOBLOOM.get(), SpawnGroup.CREATURE, config.moobloomMeadowSpawnWeight, config.moobloomMeadowSpawnMinGroupSize, config.moobloomMeadowSpawnMaxGroupSize);
+			BiomeModifications.addMobSpawn(FriendsAndFoesTags.HAS_MOOBLOOMS, MOOBLOOM.get(), SpawnGroup.CREATURE, config.moobloomSpawnWeight, config.moobloomSpawnMinGroupSize, config.moobloomSpawnMaxGroupSize);
 		}
 
 		if (config.enableRascal && config.enableRascalSpawn) {
 			BiomeModifications.addMobSpawn(FriendsAndFoesTags.HAS_RASCAL, RASCAL.get(), CustomSpawnGroup.getRascalsCategory(), 4, 1, 1);
 		}
-	}
-
-	public static void addMoobloomVariants() {
-		MoobloomVariants.add("buttercup", (PlantBlock) FriendsAndFoesBlocks.BUTTERCUP.get());
 	}
 
 	private FriendsAndFoesEntityTypes() {

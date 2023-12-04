@@ -68,18 +68,12 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 		@Nullable EntityData entityData,
 		@Nullable NbtCompound entityNbt
 	) {
-		if (
-			MoobloomVariantManager.getMoobloomVariants().size() > 1
-			&& spawnReason != SpawnReason.COMMAND) {
-			this.setVariant(MoobloomVariantManager.getRandomMoobloomVariant(world.getRandom()));
-		}
-
 		MoobloomVariant possibleMoobloomVariant = MoobloomVariantManager.getRandomBiomeSpecificMoobloomVariant(serverWorldAccess, this.getBlockPos());
 
 		if (possibleMoobloomVariant != null) {
 			this.setVariant(possibleMoobloomVariant);
 		} else {
-			this.setVariant(MoobloomVariantManager.getRandomMoobloomVariant(world.getRandom()));
+			this.setVariant(MoobloomVariantManager.getRandomMoobloomVariant(serverWorldAccess.getRandom()));
 		}
 
 		return super.initialize(serverWorldAccess, difficulty, spawnReason, entityData, entityNbt);

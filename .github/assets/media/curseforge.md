@@ -1,13 +1,17 @@
-<p style="text-align: center;">
+<br>
+
+<p align="center" style="text-align: center;">
 	<img title="Friends&amp;Foes" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/page/logo.png" alt="Friends&amp;Foes" width="743" height="110">
 </p>
 
-<p style="text-align: center;">
+<br>
+
+<p align="center" style="text-align: center;">
 	<a style="text-decoration: none;" href="https://ko-fi.com/faboslav">
-		<img src="https://img.shields.io/static/v1?label=&message=Ko-fi&color=5b9c51&labelColor=5b9c51&logoColor=ffffff&style=for-the-badge&logo=ko-fi" alt="Ko-fi">
+		<img src="https://img.shields.io/static/v1?label=Support me on&message=Ko-fi&color=5b9c51&labelColor=5b9c51&logoColor=ffffff&style=for-the-badge&logo=ko-fi" alt="Ko-fi">
 	</a>
 	<a style="text-decoration: none;" href="https://www.patreon.com/Faboslav">
-		<img src="https://img.shields.io/endpoint.svg?color=5b9c51&label=&labelColor=5b9c51&logoColor=ffffff&url=https://shieldsio-patreon.vercel.app/api?username=Faboslav&type=patrons&style=for-the-badge" alt="Patreon">
+		<img src="https://img.shields.io/endpoint.svg?color=5b9c51&label=Support me on&labelColor=5b9c51&logoColor=ffffff&url=https://shieldsio-patreon.vercel.app/api?username=Faboslav&type=patrons&style=for-the-badge" alt="Patreon">
 	</a>
 	<a style="text-decoration: none;" href="https://discord.gg/QGwFvvMQCn">
 		<img src="https://img.shields.io/discord/924964658169913404?style=for-the-badge&logo=discord&logoColor=ffffff&label=Community&labelColor=5b9c51&color=5b9c51" alt="Discord">
@@ -19,13 +23,15 @@
 
 <br>
 
-<p>
-	<span style="font-size: 18px;">Friends&amp;Foes adds outvoted and forgotten mobs from the mob vote. One of the main goals is to also further expand upon original concepts and add new vanilla like features related to all the mobs.</span>
-</p>
-<p>
-	<span style="font-size: 18px;">You can check <a title="wiki" href="https://github.com/Faboslav/friends-and-foes/wiki">wiki</a> for a detailed overview of implemented mobs and features. Looking for the <a href="https://modrinth.com/mod/friends-and-foes-forge">Forge</a> version?</span>
+<p style="font-size: 18px;">
+	Friends&amp;Foes adds outvoted and forgotten mobs from the mob vote. One of the main goals is to also further expand upon original concepts and add new vanilla like features related to all the mobs.
 </p>
 
+<p style="font-size: 18px;">
+	You can check <a title="wiki" href="https://github.com/Faboslav/friends-and-foes/wiki">wiki</a> for a detailed overview of implemented mobs and features.
+</p>
+
+<br>
 <br>
 
 <table style="text-align: center;">
@@ -38,18 +44,17 @@
 	</tbody>
 </table>
 
-<hr>
+<p style="font-size: 18px;">
+	Tuff Golem – a statuesque mob, which can hold and display any item you give it, but be careful when it is not sleeping it loves to take spontaneous strolls.
+	Want your tuff golem to stay put? Stick it in place with a honeycomb. If you want to build this sleeping beauty, gather a tuff block, a wool block, and a pumpkin.
+</p>
 
-<table>
-	<tbody>
-		<tr>
-			<td><img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/tuff_golem_1.webp"></td>
-			<td>&emsp;</td>
-			<td><img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/tuff_golem_2.webp"></td>
-		</tr>
-	</tbody>
-</table>
+<p align="center" style="text-align: center;">
+	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/tuff_golem_1.webp" width="49.4%">
+	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/tuff_golem_2.webp" width="49.4%">
+</p>
 
+<br>
 <br>
 
 <table style="text-align: center;">
@@ -64,20 +69,24 @@
 
 <hr>
 
-<table>
-	<tbody>
-		<tr>
-			<td><img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/rascal_1.webp"></td>
-			<td>&emsp;</td>
-			<td><img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/rascal_2.webp"></td>
-		</tr>
-	</tbody>
-</table>
+<p style="font-size: 18px;">[crash-2023-12-04_21.08.54-server.txt](..%2F..%2F..%2F..%2F..%2F..%2FDownloads%2Fcrash-2023-12-04_21.08.54-server.txt)
+	Rascal is a mischievous little creature located in the mines, that finds joy in the game of hide-and-seek.
+	It’s both playful and helpful, giving you hints as you search for it.
+	Find it three times and it will reward you with the bundle of your dreams!
+</p>
+
+<p align="center" style="text-align: center;">
+	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/rascal_1.webp" width="49.4%">
+	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/rascal_2.webp" width="49.4%">
+</p>
+
+<br>
+<br>
 
 <table style="text-align: center;">
 	<tbody>
 		<tr>
-			<td><img title="Copper Golem" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/page/copper_golem.gif" alt="Copper Golem" width="40"></td>
+			<td><img title="Copper Golem" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/copper_golem.gif" alt="Copper Golem" width="40"></td>
 			<td>&emsp;</td>		
 			<td><span style="font-size: 28px;color:#e5e5e5">Copper Golem</span></td>
 		</tr>
@@ -86,28 +95,28 @@
 
 <hr>
 
-<p>
+<p style="font-size: 18px;">
 	Meet the <a href="https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem">Copper Golem</a>, a pocket-sized, comedic marvel that finds joy in randomly pressing copper buttons.
 	Like any other copper creations it will <a href="https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem#oxidation">oxidize</a> over time, but do not worry, maintenance is a breeze! For a quick makeover, grab an <a href="https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem#scraping">axe</a> or a <a href="https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem#waxing">honeycomb</a>.
 	If you want to <a href="https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem#creation">build</a> this little creature, gather a copper block, a pumpkin, and a lightning rod.
 </p>
 
-<table>
-	<tbody>
-		<tr>
-			<td><img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/copper_golem_1.webp"></td>
-			<td>&emsp;</td>
-			<td><img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/copper_golem_2.webp"></td>
-		</tr>
-	</tbody>
-</table>
+<p align="center" style="text-align: center;">
+	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/copper_golem_1.webp" width="49.4%">
+	<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/copper_golem_2.webp" width="49.4%">
+</p>
 
-<p>There is also plenty of other features related to the copper golem added to the game:</p>
-<ul>
+<p style="font-size: 18px;">
+	There is also plenty of other features related to the copper golem added to the game:
+</p>
+<ul style="font-size: 18px;">
 	<li><a href="https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem-Workstation">Copper Golem Workstation</a> village structure</li>
 	<li>All copper variants of <a href="https://github.com/Faboslav/friends-and-foes/wiki/Copper-Button">Copper Buttons</a></li>
 	<li>All copper variants of <a href="https://github.com/Faboslav/friends-and-foes/wiki/Lightning-Rod">Lightning Rods</a></li>
 </ul>
+
+<br>
+<br>
 
 <table style="text-align: center;">
 	<tbody>

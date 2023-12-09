@@ -3,7 +3,6 @@ package com.faboslav.friendsandfoes.api;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesBlocks;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
-import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -42,8 +41,8 @@ public final class MoobloomVariantManager extends JsonDataLoader
 	@Override
 	protected void apply(Map<Identifier, JsonElement> loader, ResourceManager manager, Profiler profiler) {
 		moobloomVariants.clear();
-		moobloomVariants.add(DEFAULT_MOOBLOOM_VARIANT);
-		ImmutableList.Builder<MoobloomVariant> builder = ImmutableList.builder();
+		List<MoobloomVariant> parsedMoobloomVariants = new ArrayList<>();
+		parsedMoobloomVariants.add(DEFAULT_MOOBLOOM_VARIANT);
 
 		loader.forEach((fileIdentifier, jsonElement) -> {
 			try {
@@ -55,18 +54,17 @@ public final class MoobloomVariantManager extends JsonDataLoader
 					String biomes = jsonObject.get("biomes").getAsString();
 
 					TagKey<Biome> biomesValue = TagKey.of(Registry.BIOME_KEY, new Identifier(biomes.replaceFirst("#", "")));
-					builder.add(new MoobloomVariant(name, flowerBlock, biomesValue));
+					parsedMoobloomVariants.add(new MoobloomVariant(name, flowerBlock, biomesValue));
 				}
 			} catch (Exception e) {
 				FriendsAndFoes.getLogger().error("Friends&Foes Error: Couldn't parse moobloom variant {}", fileIdentifier, e);
 			}
 		});
 
-		this.setMoobloomVariants(builder.build());
+		this.setMoobloomVariants(parsedMoobloomVariants);
 	}
 
 	public void setMoobloomVariants(List<MoobloomVariant> moobloomVariants) {
-		FriendsAndFoes.getLogger().info(String.valueOf(moobloomVariants));
 		this.moobloomVariants = moobloomVariants;
 	}
 

@@ -42,8 +42,8 @@ dependencies {
 	modImplementation("dev.emi:trinkets:${rootProject.trinkets_version}")
 
 	// Fix for CCA (https://github.com/Ladysnake/Cardinal-Components-API)
-	modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${rootProject.cca_version}")
-	modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${rootProject.cca_version}")
+	modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${rootProject.cca_version}") { transitive = false }
+	modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${rootProject.cca_version}") { transitive = false }
 
 	// Auth (https://github.com/DJtheRedstoner/DevAuth)
 	modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:${rootProject.devauth_version}")

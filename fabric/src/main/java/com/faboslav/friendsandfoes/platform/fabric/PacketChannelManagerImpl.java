@@ -14,7 +14,8 @@ import net.minecraft.util.Identifier;
 
 public final class PacketChannelManagerImpl
 {
-	private PacketChannelManagerImpl() {}
+	private PacketChannelManagerImpl() {
+	}
 
 	public static void registerChannel(Identifier channel) {
 	}
@@ -30,7 +31,12 @@ public final class PacketChannelManagerImpl
 		}
 	}
 
-	public static <T extends Packet<T>> void registerC2SPacket(Identifier channel, Identifier id, PacketHandler<T> handler, Class<T> packetClass) {
+	public static <T extends Packet<T>> void registerC2SPacket(
+		Identifier channel,
+		Identifier id,
+		PacketHandler<T> handler,
+		Class<T> packetClass
+	) {
 		ServerPlayNetworking.registerGlobalReceiver(createChannelLocation(channel, id), (server, player, handler1, buf, responseSender) -> {
 			T decode = handler.decode(buf);
 			server.execute(() -> handler.handle(decode).apply(player, player.getWorld()));

@@ -117,8 +117,7 @@ public final class FriendsAndFoesForge
 		if (FMLEnvironment.dist.isDedicatedServer()) {
 			if (event.getPlayer() != null) {
 				DatapackSyncEvent.EVENT.invoke(new DatapackSyncEvent(event.getPlayer()));
-			}
-			else {
+			} else {
 				event.getPlayerList().getPlayerList().forEach(player -> DatapackSyncEvent.EVENT.invoke(new DatapackSyncEvent(player)));
 			}
 		}

@@ -3,8 +3,12 @@ package com.faboslav.friendsandfoes;
 import com.faboslav.friendsandfoes.api.MoobloomVariantManager;
 import com.faboslav.friendsandfoes.config.FriendsAndFoesConfig;
 import com.faboslav.friendsandfoes.config.omegaconfig.OmegaConfig;
+import com.faboslav.friendsandfoes.events.lifecycle.DatapackSyncEvent;
 import com.faboslav.friendsandfoes.events.lifecycle.RegisterReloadListenerEvent;
+import com.faboslav.friendsandfoes.events.lifecycle.SetupEvent;
 import com.faboslav.friendsandfoes.init.*;
+import com.faboslav.friendsandfoes.network.MessageHandler;
+import com.faboslav.friendsandfoes.network.packet.MoobloomVariantsSyncPacket;
 import com.faboslav.friendsandfoes.platform.BiomeModifications;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
@@ -51,6 +55,8 @@ public final class FriendsAndFoes
 		FriendsAndFoesVillagerProfessions.init();
 
 		RegisterReloadListenerEvent.EVENT.addListener(FriendsAndFoes::registerServerDataListeners);
+		SetupEvent.EVENT.addListener(FriendsAndFoes::setup);
+		DatapackSyncEvent.EVENT.addListener(MoobloomVariantsSyncPacket::sendToClient);
 	}
 
 	public static void postInit() {
@@ -62,7 +68,11 @@ public final class FriendsAndFoes
 		FriendsAndFoesVillagerProfessions.postInit();
 	}
 
-	public static void registerServerDataListeners(final RegisterReloadListenerEvent event) {
+	private static void registerServerDataListeners(final RegisterReloadListenerEvent event) {
 		event.register(FriendsAndFoes.makeID("moobloom_variants"), MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER);
+	}
+
+	private static void setup(final SetupEvent event) {
+		MessageHandler.init();
 	}
 }

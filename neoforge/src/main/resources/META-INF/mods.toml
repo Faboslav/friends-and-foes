@@ -11,7 +11,7 @@ displayName = "${modName}"
 authors = "${modAuthor}"
 description = "${modDescription}"
 logoFile = "icon.png"
-logoBlur=false
+logoBlur = false
 
 [[mixins]]
 config = "friendsandfoes-neoforge.mixins.json"

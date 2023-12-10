@@ -2,7 +2,9 @@ package com.faboslav.friendsandfoes.neoforge;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.FriendsAndFoesClient;
+import com.faboslav.friendsandfoes.events.lifecycle.DatapackSyncEvent;
 import com.faboslav.friendsandfoes.events.lifecycle.RegisterReloadListenerEvent;
+import com.faboslav.friendsandfoes.events.lifecycle.SetupEvent;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesStructurePoolElements;
 import com.faboslav.friendsandfoes.network.neoforge.PacketHandler;
@@ -29,6 +31,7 @@ import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
@@ -48,32 +51,33 @@ public final class FriendsAndFoesNeoForge
 			FriendsAndFoesClient.init();
 		}
 
-		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-		RegistryHelperImpl.ACTIVITIES.register(bus);
-		RegistryHelperImpl.BLOCKS.register(bus);
+		RegistryHelperImpl.ACTIVITIES.register(modEventBus);
+		RegistryHelperImpl.BLOCKS.register(modEventBus);
 		FriendsAndFoesEntityTypes.previousUseChoiceTypeRegistrations = SharedConstants.useChoiceTypeRegistrations;
 		SharedConstants.useChoiceTypeRegistrations = false;
-		RegistryHelperImpl.ENTITY_TYPES.register(bus);
+		RegistryHelperImpl.ENTITY_TYPES.register(modEventBus);
 		SharedConstants.useChoiceTypeRegistrations = FriendsAndFoesEntityTypes.previousUseChoiceTypeRegistrations;
-		RegistryHelperImpl.ITEMS.register(bus);
-		RegistryHelperImpl.MEMORY_MODULE_TYPES.register(bus);
-		RegistryHelperImpl.SENSOR_TYPES.register(bus);
-		RegistryHelperImpl.PARTICLE_TYPES.register(bus);
-		RegistryHelperImpl.POINT_OF_INTEREST_TYPES.register(bus);
-		RegistryHelperImpl.SOUND_EVENTS.register(bus);
-		RegistryHelperImpl.STRUCTURE_TYPES.register(bus);
-		RegistryHelperImpl.STRUCTURE_PROCESSOR_TYPES.register(bus);
-		RegistryHelperImpl.VILLAGER_PROFESSIONS.register(bus);
+		RegistryHelperImpl.ITEMS.register(modEventBus);
+		RegistryHelperImpl.MEMORY_MODULE_TYPES.register(modEventBus);
+		RegistryHelperImpl.SENSOR_TYPES.register(modEventBus);
+		RegistryHelperImpl.PARTICLE_TYPES.register(modEventBus);
+		RegistryHelperImpl.POINT_OF_INTEREST_TYPES.register(modEventBus);
+		RegistryHelperImpl.SOUND_EVENTS.register(modEventBus);
+		RegistryHelperImpl.STRUCTURE_TYPES.register(modEventBus);
+		RegistryHelperImpl.STRUCTURE_PROCESSOR_TYPES.register(modEventBus);
+		RegistryHelperImpl.VILLAGER_PROFESSIONS.register(modEventBus);
 
-		bus.addListener(FriendsAndFoesNeoForge::init);
-		bus.addListener(FriendsAndFoesNeoForge::registerEntityAttributes);
-		bus.addListener(FriendsAndFoesNeoForge::addItemsToTabs);
+		modEventBus.addListener(FriendsAndFoesNeoForge::init);
+		modEventBus.addListener(FriendsAndFoesNeoForge::registerEntityAttributes);
+		modEventBus.addListener(FriendsAndFoesNeoForge::addItemsToTabs);
 
-		var neoForgeBus = NeoForge.EVENT_BUS;
-		neoForgeBus.addListener(FriendsAndFoesNeoForge::initSpawners);
-		neoForgeBus.addListener(FriendsAndFoesNeoForge::onServerAboutToStartEvent);
-		neoForgeBus.addListener(FriendsAndFoesNeoForge::onAddReloadListeners);
+		var eventBus = NeoForge.EVENT_BUS;
+		eventBus.addListener(FriendsAndFoesNeoForge::initSpawners);
+		eventBus.addListener(FriendsAndFoesNeoForge::onServerAboutToStartEvent);
+		eventBus.addListener(FriendsAndFoesNeoForge::onAddReloadListeners);
+		eventBus.addListener(FriendsAndFoesNeoForge::onDatapackSync);
 	}
 
 	private static void init(final FMLCommonSetupEvent event) {
@@ -124,6 +128,18 @@ public final class FriendsAndFoesNeoForge
 
 	private static void onAddReloadListeners(AddReloadListenerEvent event) {
 		RegisterReloadListenerEvent.EVENT.invoke(new RegisterReloadListenerEvent((id, listener) -> event.addListener(listener)));
+	}
+
+	private static void onSetup(FMLCommonSetupEvent event) {
+		SetupEvent.EVENT.invoke(new SetupEvent(event::enqueueWork));
+	}
+
+	private static void onDatapackSync(OnDatapackSyncEvent event) {
+		if (event.getPlayer() != null) {
+			DatapackSyncEvent.EVENT.invoke(new DatapackSyncEvent(event.getPlayer()));
+		} else {
+			event.getPlayerList().getPlayerList().forEach(player -> DatapackSyncEvent.EVENT.invoke(new DatapackSyncEvent(player)));
+		}
 	}
 
 	private static void initSpawners(final LevelEvent.Load event) {

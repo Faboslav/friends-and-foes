@@ -3,7 +3,7 @@ package com.faboslav.friendsandfoes.platform.forge;
 import com.faboslav.friendsandfoes.network.base.Packet;
 import com.faboslav.friendsandfoes.network.base.PacketHandler;
 import com.faboslav.friendsandfoes.platform.ModVersion;
-import net.minecraft.client.MinecraftClient;
+import com.faboslav.friendsandfoes.util.client.PlayerProvider;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
@@ -47,7 +47,7 @@ public class PacketChannelManagerImpl
 			NetworkEvent.Context context = ctx.get();
 			PlayerEntity player = null;
 			if (context.getSender() == null) {
-				player = MinecraftClient.getInstance().player;
+				player = PlayerProvider.getClientPlayer();
 			}
 
 			if (player != null) {

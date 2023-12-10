@@ -53,6 +53,8 @@ public final class FriendsAndFoesNeoForge
 
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
+		modEventBus.addListener(FriendsAndFoesNeoForge::onSetup);
+
 		RegistryHelperImpl.ACTIVITIES.register(modEventBus);
 		RegistryHelperImpl.BLOCKS.register(modEventBus);
 		FriendsAndFoesEntityTypes.previousUseChoiceTypeRegistrations = SharedConstants.useChoiceTypeRegistrations;

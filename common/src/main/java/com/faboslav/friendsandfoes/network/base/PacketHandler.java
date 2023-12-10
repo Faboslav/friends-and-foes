@@ -7,7 +7,6 @@ import net.minecraft.network.PacketByteBuf;
  *
  * @author TelepathicGrunt
  * <a href="https://github.com/TelepathicGrunt/Bumblezone">https://github.com/TelepathicGrunt/Bumblezone</a>
- *
  * @author ThatGravyBoat
  * <a href="https://github.com/Team-Resourceful/ResourcefulLib">https://github.com/Team-Resourceful/ResourcefulLib</a>
  */

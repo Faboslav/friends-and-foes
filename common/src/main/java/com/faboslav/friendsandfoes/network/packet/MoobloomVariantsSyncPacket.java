@@ -26,11 +26,11 @@ import java.util.List;
  *
  * @author TelepathicGrunt
  * <a href="https://github.com/TelepathicGrunt/Bumblezone">https://github.com/TelepathicGrunt/Bumblezone</a>
- *
  * @author ThatGravyBoat
  * <a href="https://github.com/Team-Resourceful/ResourcefulLib">https://github.com/Team-Resourceful/ResourcefulLib</a>
  */
-public record MoobloomVariantsSyncPacket(List<MoobloomVariant> moobloomVariants) implements Packet<MoobloomVariantsSyncPacket>
+public record MoobloomVariantsSyncPacket(
+	List<MoobloomVariant> moobloomVariants) implements Packet<MoobloomVariantsSyncPacket>
 {
 	public static Gson gson = new GsonBuilder().create();
 

@@ -2,7 +2,7 @@ package com.faboslav.friendsandfoes.platform.forge;
 
 import com.faboslav.friendsandfoes.network.base.Packet;
 import com.faboslav.friendsandfoes.network.base.PacketHandler;
-import net.minecraft.client.MinecraftClient;
+import com.faboslav.friendsandfoes.util.client.PlayerProvider;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
@@ -43,7 +43,7 @@ public class PacketChannelManagerImpl
 		channel.channel.messageBuilder(packetClass).encoder(handler::encode).decoder(handler::decode).consumerNetworkThread((msg, ctx) -> {
 			PlayerEntity player = null;
 			if (ctx.getSender() == null) {
-				player = MinecraftClient.getInstance().player;
+				player = PlayerProvider.getClientPlayer();
 			}
 
 			if (player != null) {

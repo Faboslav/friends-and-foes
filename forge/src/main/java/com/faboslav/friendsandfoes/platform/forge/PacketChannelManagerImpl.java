@@ -15,6 +15,15 @@ import net.minecraftforge.network.simple.SimpleChannel;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Network related is code based on The Bumblezone/Resourceful Lib mods with permissions from the authors
+ *
+ * @author TelepathicGrunt
+ * <a href="https://github.com/TelepathicGrunt/Bumblezone">https://github.com/TelepathicGrunt/Bumblezone</a>
+ *
+ * @author ThatGravyBoat
+ * <a href="https://github.com/Team-Resourceful/ResourcefulLib">https://github.com/Team-Resourceful/ResourcefulLib</a>
+ */
 public class PacketChannelManagerImpl
 {
 	public static final Map<Identifier, Channel> CHANNELS = new HashMap<>();

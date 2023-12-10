@@ -5,16 +5,17 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.PlantBlock;
 import net.minecraft.item.Item;
-import net.minecraft.tag.TagKey;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.world.biome.Biome;
 
 public final class MoobloomVariant
 {
 	public static final Codec<MoobloomVariant> CODEC = RecordCodecBuilder.create((instance) -> instance.group(
 		Codec.STRING.fieldOf("name").forGetter(MoobloomVariant::getName),
-		Registry.BLOCK.getCodec().fieldOf("flower").forGetter(MoobloomVariant::getFlower),
-		TagKey.codec(Registry.BIOME_KEY).fieldOf("biomes").forGetter(MoobloomVariant::getBiomes)
+		Registries.BLOCK.getCodec().fieldOf("flower").forGetter(MoobloomVariant::getFlower),
+		TagKey.codec(RegistryKeys.BIOME).fieldOf("biomes").forGetter(MoobloomVariant::getBiomes)
 	).apply(instance, instance.stable(MoobloomVariant::new)));
 
 	private final String name;

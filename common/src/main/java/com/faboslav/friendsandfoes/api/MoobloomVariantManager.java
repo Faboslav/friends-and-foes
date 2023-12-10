@@ -9,14 +9,15 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.block.PlantBlock;
 import net.minecraft.item.Item;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.resource.JsonDataLoader;
 import net.minecraft.resource.ResourceManager;
-import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.profiler.Profiler;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.Nullable;
@@ -50,10 +51,10 @@ public final class MoobloomVariantManager extends JsonDataLoader
 				if (jsonObject != null) {
 					String name = jsonObject.get("name").getAsString();
 					String flowerBlockRaw = jsonObject.get("flower_block").getAsString();
-					PlantBlock flowerBlock = (PlantBlock) Registry.BLOCK.get(new Identifier(flowerBlockRaw));
+					PlantBlock flowerBlock = (PlantBlock) Registries.BLOCK.get(new Identifier(flowerBlockRaw));
 					String biomes = jsonObject.get("biomes").getAsString();
 
-					TagKey<Biome> biomesValue = TagKey.of(Registry.BIOME_KEY, new Identifier(biomes.replaceFirst("#", "")));
+					TagKey<Biome> biomesValue = TagKey.of(RegistryKeys.BIOME, new Identifier(biomes.replaceFirst("#", "")));
 					parsedMoobloomVariants.add(new MoobloomVariant(name, flowerBlock, biomesValue));
 				}
 			} catch (Exception e) {

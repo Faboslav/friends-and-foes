@@ -13,6 +13,7 @@ runs:
             with:
                 distribution: "temurin"
                 java-version: 17
+                cache: gradle
 
         -   name: "Initialize caches"
             uses: actions/cache@v3.3.1

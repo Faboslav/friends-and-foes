@@ -70,7 +70,9 @@ public final class StructurePoolMixin
 
 		if (FriendsAndFoes.getConfig().generateCopperGolemInAncientCity) {
 			if (Objects.equals(id.getPath(), "ancient_city/city_center")) {
-				addElement(FriendsAndFoes.makeStringID("ancient_city/city_center/copper_golem_city_center_1"), 3, projection);
+				addElement(FriendsAndFoes.makeStringID("ancient_city/city_center/city_center_1"), 10, projection);
+				addElement(FriendsAndFoes.makeStringID("ancient_city/city_center/city_center_2"), 10, projection);
+				addElement(FriendsAndFoes.makeStringID("ancient_city/city_center/city_center_3"), 10, projection);
 			}
 		}
 	}

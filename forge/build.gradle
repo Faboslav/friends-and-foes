@@ -31,7 +31,7 @@ configurations {
 }
 
 dependencies {
-	forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
+	forge "net.minecraftforge:forge:${rootProject.forge_mc_version}-${rootProject.forge_version}"
 
 	common(project(path: ":common", configuration: "namedElements")) { transitive false }
 	shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
@@ -55,6 +55,7 @@ processResources {
 	inputs.property "modDescription", rootProject.mod_description
 	inputs.property "modAuthor", rootProject.mod_author
 	inputs.property "minecraftVersion", rootProject.minecraft_version
+	inputs.property "forgeMcVersion", rootProject.forge_mc_version
 	inputs.property "forgeVersion", rootProject.forge_version
 
 	filesMatching("META-INF/mods.toml") {
@@ -64,6 +65,7 @@ processResources {
 			"modDescription": rootProject.mod_description,
 			"modAuthor": rootProject.mod_author,
 			"minecraftVersion": rootProject.minecraft_version,
+			"forgeMcVersion": rootProject.forge_mc_version,
 			"forgeVersion": rootProject.forge_version
 	}
 }

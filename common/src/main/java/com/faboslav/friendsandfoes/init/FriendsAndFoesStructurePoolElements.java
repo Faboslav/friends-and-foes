@@ -36,7 +36,9 @@ public final class FriendsAndFoesStructurePoolElements
 		}
 
 		if (FriendsAndFoes.getConfig().generateCopperGolemInAncientCity) {
-			StructurePoolHelper.addElementToPool(templatePoolRegistry, ancientCityCenterPoolLocation, "ancient_city/city_center/copper_golem_city_center_1", FriendsAndFoes.getConfig().copperGolemAncientCityCenterWeight);
+			StructurePoolHelper.addElementToPool(templatePoolRegistry, ancientCityCenterPoolLocation, "ancient_city/city_center/city_center_1", FriendsAndFoes.getConfig().copperGolemAncientCityCenterWeight);
+			StructurePoolHelper.addElementToPool(templatePoolRegistry, ancientCityCenterPoolLocation, "ancient_city/city_center/city_center_2", FriendsAndFoes.getConfig().copperGolemAncientCityCenterWeight);
+			StructurePoolHelper.addElementToPool(templatePoolRegistry, ancientCityCenterPoolLocation, "ancient_city/city_center/city_center_3", FriendsAndFoes.getConfig().copperGolemAncientCityCenterWeight);
 		}
 	}
 

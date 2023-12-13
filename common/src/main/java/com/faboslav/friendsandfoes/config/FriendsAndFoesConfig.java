@@ -25,7 +25,7 @@ public final class FriendsAndFoesConfig implements Config
 	public boolean generateCopperGolemInAncientCity = true;
 
 	@Description("Copper Golem in ancient cities spawn chance")
-	public int copperGolemAncientCityCenterWeight = 3;
+	public int copperGolemAncientCityCenterWeight = 10;
 
 	@Category("Glare")
 	@Description("Enable")

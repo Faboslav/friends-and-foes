@@ -18,8 +18,14 @@ public final class FriendsAndFoesConfig implements Config
 	@Description("Generate copper golem area structure in villages")
 	public boolean generateCopperGolemAreaStructure = true;
 
-	@Description("Occasionally generate copper golem in the center piece in the ancient cities")
+	@Description("Copper Golem area structure spawn chance")
+	public int copperGolemAreaStructureWeight = 1;
+
+	@Description("Generate copper golem in the center piece in the ancient cities")
 	public boolean generateCopperGolemInAncientCity = true;
+
+	@Description("Generate copper golem in the center piece in the ancient cities spawn chance")
+	public int copperGolemAncientCityCenterWeight = 10;
 
 	@Category("Glare")
 	@Description("Enable")
@@ -150,6 +156,9 @@ public final class FriendsAndFoesConfig implements Config
 
 	@Description("Generate beekeeper area structure in villages")
 	public boolean generateBeekeeperAreaStructure = true;
+
+	@Description("Beekeeper area structure spawn chance")
+	public int beekeeperAreaStructureWeight = 2;
 
 	@Override
 	public String getName() {

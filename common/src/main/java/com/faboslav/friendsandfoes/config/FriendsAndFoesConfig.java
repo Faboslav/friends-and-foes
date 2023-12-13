@@ -21,11 +21,11 @@ public final class FriendsAndFoesConfig implements Config
 	@Description("Copper Golem area structure spawn chance")
 	public int copperGolemAreaStructureWeight = 1;
 
-	@Description("Occasionally generate copper golem in the center piece in the ancient cities")
+	@Description("Generate copper golem in the center piece in the ancient cities")
 	public boolean generateCopperGolemInAncientCity = true;
 
-	@Description("Copper Golem in ancient cities spawn chance")
-	public int copperGolemAncientCityCenterWeight = 3;
+	@Description("Generate copper golem in the center piece in the ancient cities spawn chance")
+	public int copperGolemAncientCityCenterWeight = 10;
 
 	@Category("Glare")
 	@Description("Enable")

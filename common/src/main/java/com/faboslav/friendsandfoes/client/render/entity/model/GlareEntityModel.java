@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.client.render.entity.model;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.animation.animator.ModelPartAnimator;
 import com.faboslav.friendsandfoes.entity.GlareEntity;
 import com.faboslav.friendsandfoes.util.animation.AnimationMath;
@@ -9,8 +10,10 @@ import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.decoration.LeashKnotEntity;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec2f;
+import net.minecraft.util.math.Vec3d;
 
 @Environment(EnvType.CLIENT)
 public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntityModel<T>
@@ -83,11 +86,51 @@ public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntit
 		float headYaw,
 		float headPitch
 	) {
-		this.applyModelTransforms(MODEL_PART_ROOT, this.root);
+		this.getPart().traverse().forEach(ModelPart::resetTransform);
 
 		this.animateEyes(glare);
 		this.animateHead(glare, animationProgress);
-		this.animateLayers(glare, animationProgress);
+
+		float movementForce = MathHelper.sin(limbAngle * 0.1F) * limbDistance * 0.75F;
+		float absMovementForce = Math.abs(movementForce);
+
+		this.head.pitch = AnimationMath.toRadians(40 * absMovementForce);
+		this.head.roll = AnimationMath.toRadians(15 * movementForce);
+
+		for (ModelPart layer : this.layers) {
+			layer.pitch = AnimationMath.toRadians(20 * absMovementForce);
+			layer.roll = AnimationMath.toRadians(10 * movementForce);
+		}
+
+		//Vec3d velocity = glare.changeLookDirection();
+
+		//var xVelocity = velocity.getComponentAlongAxis(Direction.Axis.X);
+		//var zVelocity = velocity.getComponentAlongAxis(Direction.Axis.Z);
+
+		//this.head.pitch = AnimationMath.toRadians(180 * velocity.x);
+		//this.head.roll = AnimationMath.toRadians(-1* (180 * velocity.z));
+		//this.head.roll = AnimationMath.toRadians(10* (Math.min(AnimationMath.lerp(animationProgress, glare.prevHeadYaw, glare.getHeadYaw()), 1)));
+
+		//FriendsAndFoes.getLogger().info("pitch: " + String.valueOf(glare.getPitch()));
+		//FriendsAndFoes.getLogger().info("prevpitch: " + String.valueOf(glare.prevPitch));
+
+
+		//FriendsAndFoes.getLogger().info(String.valueOf(glare.getMovementDirection()));
+		//FriendsAndFoes.getLogger().info("limbAngle: "+ limbAngle);
+		//FriendsAndFoes.getLogger().info("limbDistance: "+ limbDistance);
+
+		//FriendsAndFoes.getLogger().info(String.valueOf(velocity.x));
+		float speed = 1.0F;
+		float degree = 2.0F;
+
+		//this.head.pitch = AnimationMath.toRadians(45 * Math.abs(AnimationMath.cos((limbAngle * 0.1F) * limbDistance * 0.1F + 17)));
+
+		for (ModelPart layer : this.layers) {
+			//layer.pitch = (float) (Math.cos(limbAngle));
+				//layer.roll = currentRollLayerAnimationProgress * glare.getCurrentLayersRoll();
+		}
+		//this.animateHead(glare, animationProgress);
+		//this.animateLayers(glare, animationProgress);
 	}
 
 	@Override
@@ -137,7 +180,7 @@ public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntit
 			ModelPartAnimator.setYPosition(this.root, AnimationMath.absSin(animationProgress, 0.1F));
 			ModelPartAnimator.setYRotation(this.root, AnimationMath.sin(animationProgress, 0.05F));
 		} else {
-			float targetPivotY = glare.isSitting() ? 3.0F:0.0F;
+			float targetPivotY = glare.isSitting() ? 3.0F : 0.0F;
 			animateModelPartYPositionBasedOnTicks(glare, this.root, targetPivotY, 10);
 		}
 	}
@@ -193,19 +236,5 @@ public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntit
 
 		glare.setCurrentLayerPitchAnimationProgress(currentPitchLayerAnimationProgress);
 		glare.setCurrentLayerRollAnimationProgress(currentRollLayerAnimationProgress);
-	}
-
-	@Override
-	public void render(
-		MatrixStack matrices,
-		VertexConsumer vertices,
-		int light,
-		int overlay,
-		float red,
-		float green,
-		float blue,
-		float alpha
-	) {
-		this.getPart().render(matrices, vertices, light, overlay, red, green, blue, alpha);
 	}
 }

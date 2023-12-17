@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.entity;
 
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
-import net.minecraft.client.MinecraftClient;
+import com.faboslav.friendsandfoes.util.client.PlayerProvider;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.render.entity.PlayerModelPart;
 import net.minecraft.client.util.DefaultSkinHelper;
@@ -174,7 +174,7 @@ public final class PlayerIllusionEntity extends MobEntity
 				uuid = this.getUuid();
 			}
 
-			this.playerListEntry = MinecraftClient.getInstance().getNetworkHandler().getPlayerListEntry(uuid);
+			this.playerListEntry = PlayerProvider.getClientPlayerListEntry(uuid);
 		}
 
 		return this.playerListEntry;

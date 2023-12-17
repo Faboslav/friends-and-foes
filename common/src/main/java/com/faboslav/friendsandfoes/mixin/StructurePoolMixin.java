@@ -48,29 +48,31 @@ public final class StructurePoolMixin
 	) {
 		if (FriendsAndFoes.getConfig().generateBeekeeperAreaStructure) {
 			if (Objects.equals(id.getPath(), "village/plains/houses")) {
-				addElement(FriendsAndFoes.makeStringID("village/plains/houses/plains_beekeeper_area"), 2, projection);
+				addElement(FriendsAndFoes.makeStringID("village/plains/houses/plains_beekeeper_area"), FriendsAndFoes.getConfig().beekeeperAreaStructureWeight, projection);
 			} else if (Objects.equals(id.getPath(), "village/savanna/houses")) {
-				addElement(FriendsAndFoes.makeStringID("village/savanna/houses/savanna_beekeeper_area"), 2, projection);
+				addElement(FriendsAndFoes.makeStringID("village/savanna/houses/savanna_beekeeper_area"), FriendsAndFoes.getConfig().beekeeperAreaStructureWeight, projection);
 			} else if (Objects.equals(id.getPath(), "village/taiga/houses")) {
-				addElement(FriendsAndFoes.makeStringID("village/taiga/houses/taiga_beekeeper_area"), 2, projection);
+				addElement(FriendsAndFoes.makeStringID("village/taiga/houses/taiga_beekeeper_area"), FriendsAndFoes.getConfig().beekeeperAreaStructureWeight, projection);
 			}
 		}
 
 		if (FriendsAndFoes.getConfig().generateCopperGolemAreaStructure) {
 			if (Objects.equals(id.getPath(), "village/desert/houses")) {
-				addElement(FriendsAndFoes.makeStringID("village/desert/houses/desert_copper_golem_area"), 1, projection);
+				addElement(FriendsAndFoes.makeStringID("village/desert/houses/desert_copper_golem_area"), FriendsAndFoes.getConfig().copperGolemAreaStructureWeight, projection);
 			} else if (Objects.equals(id.getPath(), "village/plains/houses")) {
-				addElement(FriendsAndFoes.makeStringID("village/plains/houses/plains_copper_golem_area"), 1, projection);
+				addElement(FriendsAndFoes.makeStringID("village/plains/houses/plains_copper_golem_area"), FriendsAndFoes.getConfig().copperGolemAreaStructureWeight, projection);
 			} else if (Objects.equals(id.getPath(), "village/savanna/houses")) {
-				addElement(FriendsAndFoes.makeStringID("village/savanna/houses/savanna_copper_golem_area"), 1, projection);
+				addElement(FriendsAndFoes.makeStringID("village/savanna/houses/savanna_copper_golem_area"), FriendsAndFoes.getConfig().copperGolemAreaStructureWeight, projection);
 			} else if (Objects.equals(id.getPath(), "village/taiga/houses")) {
-				addElement(FriendsAndFoes.makeStringID("village/taiga/houses/taiga_copper_golem_area"), 1, projection);
+				addElement(FriendsAndFoes.makeStringID("village/taiga/houses/taiga_copper_golem_area"), FriendsAndFoes.getConfig().copperGolemAreaStructureWeight, projection);
 			}
 		}
 
 		if (FriendsAndFoes.getConfig().generateCopperGolemInAncientCity) {
 			if (Objects.equals(id.getPath(), "ancient_city/city_center")) {
-				addElement(FriendsAndFoes.makeStringID("ancient_city/city_center/copper_golem_city_center_1"), 3, projection);
+				addElement(FriendsAndFoes.makeStringID("ancient_city/city_center/city_center_1"), FriendsAndFoes.getConfig().copperGolemAncientCityCenterWeight, projection);
+				addElement(FriendsAndFoes.makeStringID("ancient_city/city_center/city_center_2"), FriendsAndFoes.getConfig().copperGolemAncientCityCenterWeight, projection);
+				addElement(FriendsAndFoes.makeStringID("ancient_city/city_center/city_center_3"), FriendsAndFoes.getConfig().copperGolemAncientCityCenterWeight, projection);
 			}
 		}
 	}

@@ -32,7 +32,12 @@ public final class MoobloomVariantManager extends JsonDataLoader
 	private static final MoobloomVariant DEFAULT_MOOBLOOM_VARIANT = new MoobloomVariant("buttercup", FriendsAndFoesBlocks.BUTTERCUP.get(), FriendsAndFoesTags.HAS_MOOBLOOMS);
 	public static final MoobloomVariantManager MOOBLOOM_VARIANT_MANAGER = new MoobloomVariantManager();
 
-	private List<MoobloomVariant> moobloomVariants = new ArrayList<>();
+	private List<MoobloomVariant> moobloomVariants = new ArrayList<>()
+	{
+		{
+			add(DEFAULT_MOOBLOOM_VARIANT);
+		}
+	};
 
 	private MoobloomVariantManager() {
 		super(GSON, "moobloom_variants");
@@ -40,7 +45,6 @@ public final class MoobloomVariantManager extends JsonDataLoader
 
 	@Override
 	protected void apply(Map<Identifier, JsonElement> loader, ResourceManager manager, Profiler profiler) {
-		moobloomVariants.clear();
 		List<MoobloomVariant> parsedMoobloomVariants = new ArrayList<>();
 		parsedMoobloomVariants.add(DEFAULT_MOOBLOOM_VARIANT);
 

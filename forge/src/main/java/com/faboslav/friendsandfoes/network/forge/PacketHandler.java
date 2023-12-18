@@ -3,7 +3,10 @@ package com.faboslav.friendsandfoes.network.forge;
 import com.faboslav.friendsandfoes.platform.TotemHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraftforge.network.*;
+import net.minecraftforge.network.ChannelBuilder;
+import net.minecraftforge.network.NetworkDirection;
+import net.minecraftforge.network.PacketDistributor;
+import net.minecraftforge.network.SimpleChannel;
 
 public final class PacketHandler
 {

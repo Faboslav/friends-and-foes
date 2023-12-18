@@ -6,7 +6,9 @@ import com.faboslav.friendsandfoes.util.client.PlayerProvider;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
-import net.minecraftforge.network.*;
+import net.minecraftforge.network.ChannelBuilder;
+import net.minecraftforge.network.PacketDistributor;
+import net.minecraftforge.network.SimpleChannel;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,15 +43,18 @@ public class PacketChannelManagerImpl
 
 		++channel.packets;
 		channel.channel.messageBuilder(packetClass).encoder(handler::encode).decoder(handler::decode).consumerNetworkThread((msg, ctx) -> {
-			PlayerEntity player = null;
-			if (ctx.getSender() == null) {
-				player = PlayerProvider.getClientPlayer();
-			}
+			ctx.enqueueWork(() -> {
+				PlayerEntity player = null;
+				if (ctx.getSender() == null) {
+					player = PlayerProvider.getClientPlayer();
+				}
 
-			if (player != null) {
-				PlayerEntity finalPlayer = player;
-				ctx.enqueueWork(() -> handler.handle(msg).apply(finalPlayer, finalPlayer.getWorld()));
-			}
+				if (player != null) {
+					PlayerEntity finalPlayer = player;
+					handler.handle(msg).apply(finalPlayer, finalPlayer.getWorld());
+				}
+			});
+
 			ctx.setPacketHandled(true);
 		}).add();
 	}

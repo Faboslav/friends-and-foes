@@ -45,15 +45,19 @@ public class PacketChannelManagerImpl
 		}
 		channel.channel.registerMessage(++channel.packets, packetClass, handler::encode, handler::decode, (msg, ctx) -> {
 			NetworkEvent.Context context = ctx.get();
-			PlayerEntity player = null;
-			if (context.getSender() == null) {
-				player = PlayerProvider.getClientPlayer();
-			}
+			
+			context.enqueueWork(() -> {
+				PlayerEntity player = null;
+				if (context.getSender() == null) {
+					player = PlayerProvider.getClientPlayer();
+				}
 
-			if (player != null) {
-				PlayerEntity finalPlayer = player;
-				context.enqueueWork(() -> handler.handle(msg).apply(finalPlayer, finalPlayer.getWorld()));
-			}
+				if (player != null) {
+					PlayerEntity finalPlayer = player;
+					handler.handle(msg).apply(finalPlayer, finalPlayer.getWorld());
+				}
+			});
+
 			context.setPacketHandled(true);
 		});
 	}

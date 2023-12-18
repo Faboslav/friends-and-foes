@@ -127,5 +127,6 @@
 	"subtitle.entity.friendsandfoes.wildfire.shockwave": "Wilsfire shockwaves",
 	"subtitle.entity.friendsandfoes.wildfire.shoot": "Wildfire shoots",
 	"subtitle.entity.friendsandfoes.wildfire.step": "Footsteps",
-	"subtitle.entity.friendsandfoes.wildfire.summon_blaze": "Wildfire summons blazes"
+	"subtitle.entity.friendsandfoes.wildfire.summon_blaze": "Wildfire summons blazes",
+	"trinkets.slot.charm.charm": "Charm"
 }

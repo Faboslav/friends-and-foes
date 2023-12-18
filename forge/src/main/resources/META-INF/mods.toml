@@ -15,7 +15,7 @@ logoFile = "icon.png"
 [[dependencies.${ modId }]]
 modId = "forge"
 mandatory = true
-versionRange="[${forgeVersion},)"
+versionRange = "[${forgeVersion},)"
 
 [[dependencies.${ modId }]]
 modId = "minecraft"

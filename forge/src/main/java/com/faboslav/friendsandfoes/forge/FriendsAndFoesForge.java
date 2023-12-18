@@ -24,8 +24,8 @@ import net.minecraft.village.raid.Raid;
 import net.minecraft.world.dimension.DimensionTypes;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.AddReloadListenerEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.level.LevelEvent;
@@ -140,10 +140,12 @@ public final class FriendsAndFoesForge
 	}
 
 	private static void onDatapackSync(OnDatapackSyncEvent event) {
-		if (event.getPlayer() != null) {
-			DatapackSyncEvent.EVENT.invoke(new DatapackSyncEvent(event.getPlayer()));
-		} else {
-			event.getPlayerList().getPlayerList().forEach(player -> DatapackSyncEvent.EVENT.invoke(new DatapackSyncEvent(player)));
+		if (FMLEnvironment.dist.isDedicatedServer()) {
+			if (event.getPlayer() != null) {
+				DatapackSyncEvent.EVENT.invoke(new DatapackSyncEvent(event.getPlayer()));
+			} else {
+				event.getPlayerList().getPlayerList().forEach(player -> DatapackSyncEvent.EVENT.invoke(new DatapackSyncEvent(player)));
+			}
 		}
 	}
 

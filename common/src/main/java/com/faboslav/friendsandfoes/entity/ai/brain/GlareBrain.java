@@ -66,7 +66,7 @@ public final class GlareBrain
 				new TemptationCooldownTask(MemoryModuleType.TEMPTATION_COOLDOWN_TICKS),
 				new TemptationCooldownTask(MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS),
 				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.GLARE_LOCATING_GLOW_BERRIES_COOLDOWN.get()),
-				new ConditionalTask<TameableEntity>(TameableEntity::isTamed, new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_LOCATING_COOLDOWN.get()), true)
+				new ConditionalTask<>(GlareBrain::isReady, new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_LOCATING_COOLDOWN.get()), true)
 			)
 		);
 	}
@@ -138,8 +138,7 @@ public final class GlareBrain
 				Pair.of(3, new RandomTask(
 					ImmutableList.of(
 						Pair.of(new GlareWanderAroundTask(), 2),
-						Pair.of(new GoTowardsLookTarget(1.0F, 3), 2),
-						Pair.of(new WaitTask(30, 60), 1)
+						Pair.of(new WaitTask(20, 40), 1)
 					)
 				))
 			),
@@ -161,6 +160,10 @@ public final class GlareBrain
 		}
 
 		return Optional.of(new EntityLookTarget(glare.getOwner(), true));
+	}
+
+	public static boolean isReady(GlareEntity glare) {
+		return glare.isTamed() && glare.isBaby() == false;
 	}
 
 	public static void updateActivities(GlareEntity glare) {

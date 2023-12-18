@@ -45,7 +45,7 @@ public class GlareWanderAroundTask extends Task<GlareEntity>
     public void updateCachedPathHolder(GlareEntity glare) {
 		if (
 			glare.cachedPathHolder == null
-			|| glare.cachedPathHolder.pathTimer > 50
+			|| glare.cachedPathHolder.pathTimer > 25
 			|| glare.cachedPathHolder.cachedPath == null
 			|| (glare.getMovementSpeed() <= 0.05d && glare.cachedPathHolder.pathTimer > 5)
 			|| glare.getBlockPos().getManhattanDistance(glare.cachedPathHolder.cachedPath.getTarget()) <= 4
@@ -55,8 +55,8 @@ public class GlareWanderAroundTask extends Task<GlareEntity>
 			int currentGroundBlockPosY = this.getGroundBlockPosition(glare).getY();
 			int blockRange;
 
-			for (int attempt = 0; attempt < 12; attempt++) {
-				blockRange = 16 - attempt;
+			for (int attempt = 0; attempt < 10; attempt++) {
+				blockRange = 10 - attempt;
 
 				mutable.set(glare.getBlockPos()).set(
 					glare.getBlockPos().getX() + glare.getRandom().nextBetween(-blockRange, blockRange),

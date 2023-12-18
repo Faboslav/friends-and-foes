@@ -44,6 +44,10 @@ public final class GlareBeGrumpyAtDarkSpotTask extends Task<GlareEntity>
 			|| glare.isSitting()
 			|| glare.isBaby()
 			|| glare.getOwner() == null
+			|| (
+				world.isDay()
+				&& world.isSkyVisible(glare.getBlockPos())
+			)
 			|| darkSpotPos == null
 			|| glare.isDarkSpotDark(darkSpotPos.getPos()) == false
 			|| darkSpotPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE) == false

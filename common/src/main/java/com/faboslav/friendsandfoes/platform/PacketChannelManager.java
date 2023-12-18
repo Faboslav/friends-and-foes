@@ -49,6 +49,4 @@ public final class PacketChannelManager
 	public static <T extends Packet<T>> void sendToPlayer(Identifier channel, T packet, PlayerEntity player) {
 		throw new NotImplementedException();
 	}
-
-
 }

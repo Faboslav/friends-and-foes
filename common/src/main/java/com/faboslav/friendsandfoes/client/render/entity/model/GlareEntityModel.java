@@ -61,20 +61,20 @@ public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntit
 		root.addChild(MODEL_PART_HEAD, ModelPartBuilder.create().uv(0, 0).cuboid(-6.0F, 0.0F, -3.0F, 12.0F, 9.0F, 9.0F, new Dilation(-0.02F)), ModelTransform.pivot(0.0F, 1.0F, 0.0F));
 
 		ModelPartData head = root.getChild(MODEL_PART_HEAD);
-		head.addChild(MODEL_PART_EYES, ModelPartBuilder.create().uv(36, 0).cuboid(2.0F, -1.0F, -0.3F, 2.0F, 2.0F, 1.0F, new Dilation(-0.29F)).uv(36, 0).cuboid(-4.0F, -1.0F, -0.3F, 2.0F, 2.0F, 1.0F, new Dilation(-0.29F)), ModelTransform.pivot(0.0F, 5.0F, -3.0F));
-		head.addChild(MODEL_TOP_AZALEA, ModelPartBuilder.create().uv(72, 0).cuboid(-7.0F, 0.0F, -7.0F, 14.0F, 8.0F, 14.0F, new Dilation(0.01F)), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
-		head.addChild(MODEL_BOTTOM_AZALEA, ModelPartBuilder.create().uv(0, 114).cuboid(-7.0F, 0.75F, -7.0F, 14.0F, 0.0F, 14.0F, new Dilation(-0.01F)).uv(72, 22).cuboid(-7.0F, -4.0F, -7.0F, 14.0F, 10.0F, 14.0F, new Dilation(0.01F)), ModelTransform.pivot(0.0F, 8.0F, 0.0F));
+		head.addChild(MODEL_PART_EYES, ModelPartBuilder.create().uv(33, 0).cuboid(2.0F, -1.0F, -0.3F, 2.0F, 2.0F, 1.0F, new Dilation(-0.2F)).uv(33, 0).cuboid(-4.0F, -1.0F, -0.3F, 2.0F, 2.0F, 1.0F, new Dilation(-0.2F)), ModelTransform.pivot(0.0F, 5.0F, -3.0F));
+		head.addChild(MODEL_TOP_AZALEA,ModelPartBuilder.create().uv(0, 18).cuboid(-7.0F, 0.0F, -7.0F, 14.0F, 8.0F, 14.0F, new Dilation(0.01F)), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
+		head.addChild(MODEL_BOTTOM_AZALEA, ModelPartBuilder.create().uv(18, 101).mirrored().cuboid(-7.0F, 0.75F, -7.0F, 14.0F, 0.0F, 14.0F, new Dilation(-0.01F)).mirrored(false).uv(0, 40).cuboid(-7.0F, -4.0F, -7.0F, 14.0F, 10.0F, 14.0F, new Dilation(0.01F)), ModelTransform.pivot(0.0F, 8.0F, 0.0F));
 
 		ModelPartData bottomAzalea = head.getChild(MODEL_BOTTOM_AZALEA);
-		bottomAzalea.addChild(MODEL_SECOND_LAYER, ModelPartBuilder.create().uv(80, 46).cuboid(-6.0F, 0.0F, -6.0F, 12.0F, 7.0F, 12.0F, new Dilation(0.01F)), ModelTransform.pivot(0.0F, 1.0F, 0.0F));
+		bottomAzalea.addChild(MODEL_SECOND_LAYER, ModelPartBuilder.create().uv(0, 64).cuboid(-6.0F, 0.0F, -6.0F, 12.0F, 7.0F, 12.0F, new Dilation(0.01F)), ModelTransform.pivot(0.0F, 1.0F, 0.0F));
 
 		ModelPartData secondLayer = bottomAzalea.getChild(MODEL_SECOND_LAYER);
-		secondLayer.addChild(MODEL_THIRD_LAYER, ModelPartBuilder.create().uv(88, 65).cuboid(-5.0F, 0.0F, -5.0F, 10.0F, 7.0F, 10.0F), ModelTransform.pivot(0.0F, 2.0F, 0.0F));
+		secondLayer.addChild(MODEL_THIRD_LAYER, ModelPartBuilder.create().uv(0, 83).cuboid(-5.0F, 0.0F, -5.0F, 10.0F, 7.0F, 10.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 2.0F, 0.0F));
 
 		ModelPartData thirdLayer = secondLayer.getChild(MODEL_THIRD_LAYER);
-		thirdLayer.addChild(MODEL_FOURTH_LAYER, ModelPartBuilder.create().uv(96, 82).cuboid(-4.0F, 0.0F, -4.0F, 8.0F, 7.0F, 8.0F), ModelTransform.pivot(0.0F, 2.0F, 0.0F));
+		thirdLayer.addChild(MODEL_FOURTH_LAYER, ModelPartBuilder.create().uv(0, 100).cuboid(-4.0F, 0.0F, -4.0F, 8.0F, 7.0F, 8.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 2.0F, 0.0F));
 
-		return TexturedModelData.of(modelData, 128, 128);
+		return TexturedModelData.of(modelData, 64, 128);
 	}
 
 	@Override
@@ -100,6 +100,10 @@ public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntit
 		for (ModelPart layer : this.layers) {
 			layer.pitch = AnimationMath.toRadians(20 * absMovementForce);
 			layer.roll = AnimationMath.toRadians(10 * movementForce);
+		}
+
+		if(glare.isMoving()) {
+
 		}
 
 		//Vec3d velocity = glare.changeLookDirection();
@@ -180,8 +184,11 @@ public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntit
 			ModelPartAnimator.setYPosition(this.root, AnimationMath.absSin(animationProgress, 0.1F));
 			ModelPartAnimator.setYRotation(this.root, AnimationMath.sin(animationProgress, 0.05F));
 		} else {
-			float targetPivotY = glare.isSitting() ? 3.0F : 0.0F;
+			float targetPivotY = glare.isSitting() ? 3.0F : 0.11F;
 			animateModelPartYPositionBasedOnTicks(glare, this.root, targetPivotY, 10);
+
+			float floatingProgress = AnimationMath.sin(animationProgress * 0.05F) * (glare.isSitting() ? 0.1F : 1.0F);
+			this.head.pivotY = floatingProgress;
 		}
 	}
 

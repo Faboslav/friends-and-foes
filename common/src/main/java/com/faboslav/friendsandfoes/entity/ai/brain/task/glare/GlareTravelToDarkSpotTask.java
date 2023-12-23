@@ -30,13 +30,18 @@ public final class GlareTravelToDarkSpotTask extends Task<GlareEntity>
 	protected boolean shouldRun(ServerWorld world, GlareEntity glare) {
 		GlobalPos darkSpotPos = glare.getDarkSpotPos();
 
-        return FriendsAndFoes.getConfig().enableGlareGriefing != false
-                && !glare.isLeashed()
-                && !glare.isSitting()
-                && !glare.isBaby()
-                && glare.isDarkSpotDark(darkSpotPos.getPos()) != false
-                && darkSpotPos != null
-                && !darkSpotPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE);
+		if(
+			glare.isLeashed()
+			|| glare.isSitting()
+			|| glare.isBaby()
+			|| darkSpotPos == null
+			|| glare.isDarkSpotDark(darkSpotPos.getPos()) == false
+			|| darkSpotPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE)
+		) {
+			return false;
+		}
+
+		return true;
     }
 
 	@Override
@@ -49,14 +54,14 @@ public final class GlareTravelToDarkSpotTask extends Task<GlareEntity>
 		GlobalPos darkSpotPos = glare.getDarkSpotPos();
 
 		if (
-			darkSpotPos == null
+			glare.isLeashed()
+			|| glare.isSitting()
+			|| darkSpotPos == null
 			|| glare.isDarkSpotDark(darkSpotPos.getPos()) == false
 			|| (
 				darkSpotPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE)
 				&& glare.getNavigation().isFollowingPath() == false
 			)
-			|| glare.isLeashed() == true
-			|| glare.isSitting() == true
 		) {
 			return false;
 		}

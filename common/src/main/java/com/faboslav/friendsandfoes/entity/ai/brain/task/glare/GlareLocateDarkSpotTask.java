@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.entity.ai.brain.task.glare;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.GlareEntity;
 import com.faboslav.friendsandfoes.entity.ai.brain.GlareBrain;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
@@ -29,9 +28,15 @@ public final class GlareLocateDarkSpotTask extends Task<GlareEntity>
 
 	@Override
 	protected boolean shouldRun(ServerWorld world, GlareEntity glare) {
-        return !glare.isLeashed()
-                && !glare.isSitting()
-                && !glare.isBaby();
+		if(
+			glare.isLeashed()
+			|| glare.isSitting()
+			|| glare.isBaby()
+		) {
+			return false;
+		}
+
+		return true;
     }
 
 	@Override
@@ -39,7 +44,6 @@ public final class GlareLocateDarkSpotTask extends Task<GlareEntity>
 		BlockPos darkSpotPos = this.findRandomDarkSpot(glare);
 
 		if (darkSpotPos == null) {
-			FriendsAndFoes.getLogger().info("not found setting cd");
 			GlareBrain.setDarkSpotLocatingCooldown(glare, TimeHelper.betweenSeconds(10, 10));
 			return;
 		}

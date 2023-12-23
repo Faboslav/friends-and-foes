@@ -15,9 +15,9 @@ import net.minecraft.world.World;
 
 import java.util.Map;
 
-public class GlareWanderAroundTask extends Task<GlareEntity>
+public class GlareStrollTask extends Task<GlareEntity>
 {
-    public GlareWanderAroundTask() {
+    public GlareStrollTask() {
         super(
 			Map.of(
 				MemoryModuleType.WALK_TARGET, MemoryModuleState.VALUE_ABSENT
@@ -27,12 +27,11 @@ public class GlareWanderAroundTask extends Task<GlareEntity>
 
 	@Override
 	protected boolean shouldRun(ServerWorld world, GlareEntity glare) {
-		return glare.getNavigation().isIdle() && glare.getRandom().nextInt(10) == 0;
+		return glare.getNavigation().isIdle();
 	}
 
 	@Override
 	protected void run(ServerWorld world, GlareEntity glare, long time) {
-		FriendsAndFoes.getLogger().info("starting!");
 		this.updateCachedPathHolder(glare);
 		glare.getNavigation().startMovingAlong(glare.cachedPathHolder.cachedPath, 1);
 	}
@@ -45,7 +44,7 @@ public class GlareWanderAroundTask extends Task<GlareEntity>
     public void updateCachedPathHolder(GlareEntity glare) {
 		if (
 			glare.cachedPathHolder == null
-			|| glare.cachedPathHolder.pathTimer > 25
+			|| glare.cachedPathHolder.pathTimer > 50
 			|| glare.cachedPathHolder.cachedPath == null
 			|| (glare.getMovementSpeed() <= 0.05d && glare.cachedPathHolder.pathTimer > 5)
 			|| glare.getBlockPos().getManhattanDistance(glare.cachedPathHolder.cachedPath.getTarget()) <= 4
@@ -55,8 +54,8 @@ public class GlareWanderAroundTask extends Task<GlareEntity>
 			int currentGroundBlockPosY = this.getGroundBlockPosition(glare).getY();
 			int blockRange;
 
-			for (int attempt = 0; attempt < 10; attempt++) {
-				blockRange = 10 - attempt;
+			for (int attempt = 0; attempt < 12; attempt++) {
+				blockRange = 24 - attempt;
 
 				mutable.set(glare.getBlockPos()).set(
 					glare.getBlockPos().getX() + glare.getRandom().nextBetween(-blockRange, blockRange),

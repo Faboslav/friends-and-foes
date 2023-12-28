@@ -17,7 +17,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -121,7 +120,7 @@ public final class PlayerIllusionEntity extends MobEntity
 	public SkinTextures getSkinTextures() {
 		PlayerListEntry playerListEntry = this.getPlayerListEntry();
 
-		if(playerListEntry != null) {
+		if (playerListEntry != null) {
 			return playerListEntry.getSkinTextures();
 		}
 

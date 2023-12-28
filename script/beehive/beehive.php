@@ -125,9 +125,9 @@ $colors = [
 	]
 ];
 
-foreach ( $types as $type ) {
-	foreach ( $blocks as $block ) {
-		$blockPath = __DIR__.'/input/'.$block;
+foreach ($types as $type) {
+	foreach ($blocks as $block) {
+		$blockPath = __DIR__ . '/input/' . $block;
 		$im = imagecreatefrompng($blockPath);
 		imagealphablending($im, false);
 		for ($x = imagesx($im); $x--;) {
@@ -142,11 +142,11 @@ foreach ( $types as $type ) {
 					$currentColorRGB['blue']
 				);
 
-				if(in_array($currentColorHEX, $colors['oak'])) {
+				if (in_array($currentColorHEX, $colors['oak'])) {
 					// handle inconsistent colors
-					if($currentColorHEX == '8a6938') {
-						$newColorHEX = $colors[ 'oak' ][ 1 ];
-						$newColorRGB = list( $r, $g, $b ) = sscanf( $newColorHEX, "%02x%02x%02x" );
+					if ($currentColorHEX == '8a6938') {
+						$newColorHEX = $colors['oak'][1];
+						$newColorRGB = list($r, $g, $b) = sscanf($newColorHEX, "%02x%02x%02x");
 
 						$currentColorRGBSubtract = min($currentColorRGB);
 						$newColorRGBSubtract = min($newColorRGB);
@@ -167,8 +167,8 @@ foreach ( $types as $type ) {
 						$greenDifference = $currentColorSubtracted[1] - $newColorRGB[1];
 						$blueDifference = $currentColorSubtracted[2] - $newColorRGB[2];
 
-						$newColorHEX = $colors[ $type ][ 1 ];
-						$newColorRGB = list( $r, $g, $b ) = sscanf( $newColorHEX, "%02x%02x%02x" );
+						$newColorHEX = $colors[$type][1];
+						$newColorRGB = list($r, $g, $b) = sscanf($newColorHEX, "%02x%02x%02x");
 
 						$newColorRGB = [
 							$newColorRGB[0] + $redDifference,
@@ -176,11 +176,11 @@ foreach ( $types as $type ) {
 							$newColorRGB[2] + $blueDifference,
 						];
 
-						$colorB = imagecolorallocatealpha( $im, $newColorRGB[ 0 ], $newColorRGB[ 1 ], $newColorRGB[ 2 ], $currentColorRGB[ 'alpha' ] );
-						imagesetpixel( $im, $x, $y, $colorB );
-					} elseif($currentColorHEX == '987e47') {
-						$newColorHEX = $colors[ 'oak' ][ 1 ];
-						$newColorRGB = list( $r, $g, $b ) = sscanf( $newColorHEX, "%02x%02x%02x" );
+						$colorB = imagecolorallocatealpha($im, $newColorRGB[0], $newColorRGB[1], $newColorRGB[2], $currentColorRGB['alpha']);
+						imagesetpixel($im, $x, $y, $colorB);
+					} elseif ($currentColorHEX == '987e47') {
+						$newColorHEX = $colors['oak'][1];
+						$newColorRGB = list($r, $g, $b) = sscanf($newColorHEX, "%02x%02x%02x");
 
 						$currentColorRGBSubtract = min($currentColorRGB);
 						$newColorRGBSubtract = min($newColorRGB);
@@ -201,8 +201,8 @@ foreach ( $types as $type ) {
 						$greenDifference = $currentColorSubtracted[1] - $newColorRGB[1];
 						$blueDifference = $currentColorSubtracted[2] - $newColorRGB[2];
 
-						$newColorHEX = $colors[ $type ][ 1 ];
-						$newColorRGB = list( $r, $g, $b ) = sscanf( $newColorHEX, "%02x%02x%02x" );
+						$newColorHEX = $colors[$type][1];
+						$newColorRGB = list($r, $g, $b) = sscanf($newColorHEX, "%02x%02x%02x");
 
 						$newColorRGB = [
 							$newColorRGB[0] + $redDifference,
@@ -210,14 +210,14 @@ foreach ( $types as $type ) {
 							$newColorRGB[2] + $blueDifference,
 						];
 
-						$colorB = imagecolorallocatealpha( $im, $newColorRGB[ 0 ], $newColorRGB[ 1 ], $newColorRGB[ 2 ], $currentColorRGB[ 'alpha' ] );
-						imagesetpixel( $im, $x, $y, $colorB );
+						$colorB = imagecolorallocatealpha($im, $newColorRGB[0], $newColorRGB[1], $newColorRGB[2], $currentColorRGB['alpha']);
+						imagesetpixel($im, $x, $y, $colorB);
 					} else {
-						$index = array_search( $currentColorHEX, $colors[ 'oak' ] );
-						$newColorHEX = $colors[ $type ][ $index ];
-						$newColorRGB = list( $r, $g, $b ) = sscanf( $newColorHEX, "%02x%02x%02x" );
-						$colorB = imagecolorallocatealpha( $im, $newColorRGB[ 0 ], $newColorRGB[ 1 ], $newColorRGB[ 2 ], $currentColorRGB[ 'alpha' ] );
-						imagesetpixel( $im, $x, $y, $colorB );
+						$index = array_search($currentColorHEX, $colors['oak']);
+						$newColorHEX = $colors[$type][$index];
+						$newColorRGB = list($r, $g, $b) = sscanf($newColorHEX, "%02x%02x%02x");
+						$colorB = imagecolorallocatealpha($im, $newColorRGB[0], $newColorRGB[1], $newColorRGB[2], $currentColorRGB['alpha']);
+						imagesetpixel($im, $x, $y, $colorB);
 					}
 				}
 			}
@@ -230,7 +230,7 @@ foreach ( $types as $type ) {
 		imagepng($im);
 		$imageString = ob_get_clean();
 		file_put_contents(
-			__DIR__.'/output/'.$type . '_' . $block,
+			__DIR__ . '/output/' . $type . '_' . $block,
 			$imageString,
 		);
 

@@ -3,10 +3,14 @@ package com.faboslav.friendsandfoes.mixin;
 import com.faboslav.friendsandfoes.block.Oxidizable;
 import com.faboslav.friendsandfoes.util.WaxableBlocksMap;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemUsageContext;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
@@ -18,7 +22,7 @@ public abstract class AxeItemMixin
 {
 	@ModifyVariable(
 		method = "useOnBlock",
-		ordinal = 1,
+		ordinal = 0,
 		at = @At(
 			value = "STORE"
 		)
@@ -33,30 +37,34 @@ public abstract class AxeItemMixin
 
 		World world = context.getWorld();
 		BlockPos blockPos = context.getBlockPos();
-		BlockState blockState = world.getBlockState(blockPos);
+		PlayerEntity playerEntity = context.getPlayer();
+		BlockState state = world.getBlockState(blockPos);
 
-		return Oxidizable.getDecreasedOxidationState(blockState);
+		return this.friendsandfoes_tryStrip(world, blockPos, playerEntity, state);
 	}
 
-	@ModifyVariable(
-		method = "useOnBlock",
-		ordinal = 2,
-		at = @At(
-			value = "STORE"
-		)
-	)
-	private Optional<BlockState> friendsandfoes_modifyWaxedBlock(
-		Optional<BlockState> originalBlockState,
-		ItemUsageContext context
+	private Optional<BlockState> friendsandfoes_tryStrip(
+		World world,
+		BlockPos pos,
+		@Nullable PlayerEntity player,
+		BlockState state
 	) {
-		if (originalBlockState.isPresent()) {
-			return originalBlockState;
+		Optional<BlockState> decreasedOxidationState = Oxidizable.getDecreasedOxidationState(state);
+
+		if (decreasedOxidationState.isPresent()) {
+			world.playSound(player, pos, SoundEvents.ITEM_AXE_SCRAPE, SoundCategory.BLOCKS, 1.0F, 1.0F);
+			world.syncWorldEvent(player, 3005, pos, 0);
+			return decreasedOxidationState;
 		}
 
-		World world = context.getWorld();
-		BlockPos blockPos = context.getBlockPos();
-		BlockState blockState = world.getBlockState(blockPos);
+		Optional<BlockState> unwaxedState = Optional.ofNullable(WaxableBlocksMap.WAXED_TO_UNWAXED_BLOCKS.get().get(state.getBlock())).map((block) -> block.getStateWithProperties(state));
 
-		return Optional.ofNullable(WaxableBlocksMap.WAXED_TO_UNWAXED_BLOCKS.get().get(blockState.getBlock())).map((block) -> block.getStateWithProperties(blockState));
+		if (unwaxedState.isPresent()) {
+			world.playSound(player, pos, SoundEvents.ITEM_AXE_WAX_OFF, SoundCategory.BLOCKS, 1.0F, 1.0F);
+			world.syncWorldEvent(player, 3004, pos, 0);
+			return unwaxedState;
+		}
+
+		return Optional.empty();
 	}
 }

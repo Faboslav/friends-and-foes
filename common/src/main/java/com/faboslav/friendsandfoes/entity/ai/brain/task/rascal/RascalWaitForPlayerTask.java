@@ -139,7 +139,7 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 
 					LookTargetUtil.give(rascal, bundleItemStack, nearestTarget.getPos().add(0.0, 1.0, 0.0));
 
-					FriendsAndFoesCriteria.COMPLETE_HIDE_AND_SEEK_GAME.trigger((ServerPlayerEntity) this.nearestTarget, rascal, bundleItemStack);
+					FriendsAndFoesCriteria.COMPLETE_HIDE_AND_SEEK_GAME.get().trigger((ServerPlayerEntity) this.nearestTarget, rascal, bundleItemStack);
 				}
 			}
 		}

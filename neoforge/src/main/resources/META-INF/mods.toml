@@ -21,7 +21,7 @@ config = "friendsandfoes-common.mixins.json"
 
 [[dependencies.${ modId }]]
 modId = "minecraft"
-mandatory = true
+required = true
 versionRange = "[${minecraftVersion},)"
 
 [modproperties.${ modId }]

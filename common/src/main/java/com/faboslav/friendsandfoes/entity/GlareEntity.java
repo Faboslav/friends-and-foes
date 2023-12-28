@@ -565,7 +565,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		this.setOwnerUuid(owner.getUuid());
 
 		if (owner instanceof ServerPlayerEntity) {
-			FriendsAndFoesCriteria.TAME_GLARE.trigger((ServerPlayerEntity) owner, this);
+			FriendsAndFoesCriteria.TAME_GLARE.get().trigger((ServerPlayerEntity) owner, this);
 		}
 	}
 

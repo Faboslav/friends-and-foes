@@ -7,6 +7,8 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
+import net.minecraft.advancement.criterion.Criteria;
+import net.minecraft.advancement.criterion.Criterion;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSetType;
 import net.minecraft.client.model.TexturedModelData;
@@ -174,5 +176,10 @@ public final class RegistryHelperImpl
 		StructureProcessorType<T> structureProcessorType
 	) {
 		Registry.register(Registries.STRUCTURE_PROCESSOR, FriendsAndFoes.makeID(name), structureProcessorType);
+	}
+
+	public static <T extends Criterion<?>> Supplier<T> registerCriterion(String name, T criterion) {
+		var registry = Criteria.register(FriendsAndFoes.makeStringID(name), criterion);
+		return () -> registry;
 	}
 }

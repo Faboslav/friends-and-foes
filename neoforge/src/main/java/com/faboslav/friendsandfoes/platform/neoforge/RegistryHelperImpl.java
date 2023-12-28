@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.platform.neoforge;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.mixin.forge.FireBlockAccessor;
+import net.minecraft.advancement.criterion.Criterion;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSetType;
 import net.minecraft.client.model.TexturedModelData;
@@ -57,6 +58,7 @@ public final class RegistryHelperImpl
 	public static final DeferredRegister<StructureType<?>> STRUCTURE_TYPES = DeferredRegister.create(RegistryKeys.STRUCTURE_TYPE, FriendsAndFoes.MOD_ID);
 	public static final DeferredRegister<StructureProcessorType<?>> STRUCTURE_PROCESSOR_TYPES = DeferredRegister.create(RegistryKeys.STRUCTURE_PROCESSOR, FriendsAndFoes.MOD_ID);
 	public static final DeferredRegister<VillagerProfession> VILLAGER_PROFESSIONS = DeferredRegister.create(Registries.VILLAGER_PROFESSION, FriendsAndFoes.MOD_ID);
+	public static final DeferredRegister<Criterion<?>> CRITERIA = DeferredRegister.create(RegistryKeys.CRITERION, FriendsAndFoes.MOD_ID);
 
 	public static final HashMap<RegistryKey<ItemGroup>, HashMap<Item, Item>> ITEMS_TO_ADD_BEFORE = new HashMap<>();
 	public static final HashMap<RegistryKey<ItemGroup>, HashMap<Item, Item>> ITEMS_TO_ADD_AFTER = new HashMap<>();
@@ -195,5 +197,9 @@ public final class RegistryHelperImpl
 		StructureType<T> structureType
 	) {
 		STRUCTURE_TYPES.register(name, () -> structureType);
+	}
+
+	public static <T extends Criterion<?>> Supplier<T> registerCriterion(String name, T criterion) {
+		return CRITERIA.register(name, () -> criterion);
 	}
 }

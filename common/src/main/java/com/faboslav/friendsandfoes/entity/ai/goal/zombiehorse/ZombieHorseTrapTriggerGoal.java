@@ -72,7 +72,7 @@ public final class ZombieHorseTrapTriggerGoal extends Goal
 			serverWorld.spawnEntityAndPassengers(zombieHorse);
 		}
 
-		FriendsAndFoesCriteria.ACTIVATE_ZOMBIE_HORSE_TRAP.trigger((ServerPlayerEntity) closestPlayer, lightningEntity, List.of());
+		FriendsAndFoesCriteria.ACTIVATE_ZOMBIE_HORSE_TRAP.get().trigger((ServerPlayerEntity) closestPlayer, lightningEntity, List.of());
 	}
 
 	private ZombieHorseEntity getHorse(LocalDifficulty localDifficulty) {

@@ -70,6 +70,7 @@ public final class FriendsAndFoesForge
 		RegistryHelperImpl.STRUCTURE_TYPES.register(modEventBus);
 		RegistryHelperImpl.STRUCTURE_PROCESSOR_TYPES.register(modEventBus);
 		RegistryHelperImpl.VILLAGER_PROFESSIONS.register(modEventBus);
+		RegistryHelperImpl.CRITERIA.register(modEventBus);
 
 		modEventBus.addListener(FriendsAndFoesForge::init);
 		modEventBus.addListener(FriendsAndFoesForge::registerEntityAttributes);

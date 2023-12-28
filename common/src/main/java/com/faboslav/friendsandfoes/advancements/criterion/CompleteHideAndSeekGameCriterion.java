@@ -41,11 +41,11 @@ public final class CompleteHideAndSeekGameCriterion extends AbstractCriterion<Co
 		});
 
 		public static AdvancementCriterion<Conditions> any() {
-			return FriendsAndFoesCriteria.COMPLETE_HIDE_AND_SEEK_GAME.create(new CompleteHideAndSeekGameCriterion.Conditions(Optional.empty(), Optional.empty(), Optional.empty()));
+			return FriendsAndFoesCriteria.COMPLETE_HIDE_AND_SEEK_GAME.get().create(new CompleteHideAndSeekGameCriterion.Conditions(Optional.empty(), Optional.empty(), Optional.empty()));
 		}
 
 		public static AdvancementCriterion<Conditions> create(EntityPredicate.Builder playerPredicate) {
-			return FriendsAndFoesCriteria.COMPLETE_HIDE_AND_SEEK_GAME.create(new CompleteHideAndSeekGameCriterion.Conditions(Optional.of(EntityPredicate.contextPredicateFromEntityPredicate(playerPredicate)), Optional.empty(), Optional.empty()));
+			return FriendsAndFoesCriteria.COMPLETE_HIDE_AND_SEEK_GAME.get().create(new CompleteHideAndSeekGameCriterion.Conditions(Optional.of(EntityPredicate.contextPredicateFromEntityPredicate(playerPredicate)), Optional.empty(), Optional.empty()));
 		}
 
 		public boolean matches(LootContext rascal, ItemStack stack) {

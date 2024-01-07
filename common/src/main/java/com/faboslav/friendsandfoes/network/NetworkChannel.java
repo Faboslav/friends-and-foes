@@ -29,7 +29,6 @@ public final class NetworkChannel
 
 	public NetworkChannel(String modid, String channel) {
 		this.channel = new Identifier(modid, channel);
-
 		PacketChannelManager.registerChannel(this.channel);
 	}
 

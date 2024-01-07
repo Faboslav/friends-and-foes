@@ -1,15 +1,19 @@
 package com.faboslav.friendsandfoes.platform.neoforge;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.network.base.Packet;
 import com.faboslav.friendsandfoes.network.base.PacketHandler;
-import com.faboslav.friendsandfoes.platform.ModVersion;
-import com.faboslav.friendsandfoes.util.client.PlayerProvider;
+import com.google.common.base.Preconditions;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.NetworkSide;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
-import net.neoforged.neoforge.network.NetworkRegistry;
 import net.neoforged.neoforge.network.PacketDistributor;
-import net.neoforged.neoforge.network.simple.SimpleChannel;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlerEvent;
+import net.neoforged.neoforge.network.handling.PlayPayloadContext;
+import net.neoforged.neoforge.network.registration.IPayloadRegistrar;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,14 +26,21 @@ import java.util.Map;
  * @author ThatGravyBoat
  * <a href="https://github.com/Team-Resourceful/ResourcefulLib">https://github.com/Team-Resourceful/ResourcefulLib</a>
  */
-public class PacketChannelManagerImpl
+public final class PacketChannelManagerImpl
 {
-	public static final Map<Identifier, Channel> CHANNELS = new HashMap<>();
+	private static final Map<Identifier, PacketRegistration<?>> PACKETS = new HashMap<>();
+	private static boolean frozen = false;
 
 	public static void registerChannel(Identifier name) {
-		String protocolVersion = ModVersion.getModVersion();
-		Channel channel = new Channel(0, NetworkRegistry.newSimpleChannel(name, () -> protocolVersion, protocolVersion::equals, protocolVersion::equals));
-		CHANNELS.put(name, channel);
+	}
+
+	public static void registerPayloads(RegisterPayloadHandlerEvent event) {
+		frozen = true;
+
+		var registrar = event.registrar(FriendsAndFoes.MOD_ID);
+		for (var registration : PACKETS.values()) {
+			registration.register(registrar);
+		}
 	}
 
 	public static <T extends Packet<T>> void registerS2CPacket(
@@ -38,25 +49,9 @@ public class PacketChannelManagerImpl
 		PacketHandler<T> handler,
 		Class<T> packetClass
 	) {
-		Channel channel = CHANNELS.get(name);
-		if (channel == null) {
-			throw new IllegalStateException("Channel " + name + " not registered");
-		}
-		channel.channel.registerMessage(++channel.packets, packetClass, handler::encode, handler::decode, (msg, ctx) -> {
-			ctx.enqueueWork(() -> {
-				PlayerEntity player = null;
-				if (ctx.getSender() == null) {
-					player = PlayerProvider.getClientPlayer();
-				}
-
-				if (player != null) {
-					PlayerEntity finalPlayer = player;
-					ctx.enqueueWork(() -> handler.handle(msg).apply(finalPlayer, finalPlayer.getWorld()));
-				}
-			});
-
-			ctx.setPacketHandled(true);
-		});
+		Preconditions.checkState(!frozen, "Packets were already registered with the platform");
+		Preconditions.checkState(!PACKETS.containsKey(id), "Duplicate packet id %s", id);
+		PACKETS.put(id, new PacketRegistration<>(id, handler, packetClass, NetworkSide.CLIENTBOUND));
 	}
 
 	public static <T extends Packet<T>> void registerC2SPacket(
@@ -65,45 +60,63 @@ public class PacketChannelManagerImpl
 		PacketHandler<T> handler,
 		Class<T> packetClass
 	) {
-		Channel channel = CHANNELS.get(name);
-		if (channel == null) {
-			throw new IllegalStateException("Channel " + name + " not registered");
-		}
-		channel.channel.registerMessage(++channel.packets, packetClass, handler::encode, handler::decode, (msg, ctx) -> {
-			PlayerEntity player = ctx.getSender();
-			if (player != null) {
-				ctx.enqueueWork(() -> handler.handle(msg).apply(player, player.getWorld()));
-			}
-			ctx.setPacketHandled(true);
-		});
+		Preconditions.checkState(!frozen, "Packets were already registered with the platform");
+		Preconditions.checkState(!PACKETS.containsKey(id), "Duplicate packet id %s", id);
+		PACKETS.put(id, new PacketRegistration<>(id, handler, packetClass, NetworkSide.SERVERBOUND));
 	}
 
 	public static <T extends Packet<T>> void sendToServer(Identifier name, T packet) {
-		Channel channel = CHANNELS.get(name);
-		if (channel == null) {
-			throw new IllegalStateException("Channel " + name + " not registered");
-		}
-		channel.channel.sendToServer(packet);
+		PacketDistributor.SERVER.noArg().send(new PayloadWrapper<>(packet));
 	}
 
 	public static <T extends Packet<T>> void sendToPlayer(Identifier name, T packet, PlayerEntity player) {
-		Channel channel = CHANNELS.get(name);
-		if (channel == null) {
-			throw new IllegalStateException("Channel " + name + " not registered");
-		}
 		if (player instanceof ServerPlayerEntity serverPlayer) {
-			channel.channel.send(PacketDistributor.PLAYER.with(() -> serverPlayer), packet);
+			PacketDistributor.PLAYER.with(serverPlayer).send(new PayloadWrapper<>(packet));
 		}
 	}
 
-	private static final class Channel
+	private record PacketRegistration<T extends Packet<T>>(
+		Identifier packetId,
+		PacketHandler<T> packetHandler,
+		Class<T> packetClass,
+		NetworkSide side
+	)
 	{
-		private int packets;
-		private final SimpleChannel channel;
+		public void register(IPayloadRegistrar registrar) {
+			registrar.play(packetId, this::decode, builder -> {
+				if (side.isClientbound()) {
+					builder.client(this::handlePacketOnMainThread);
+				} else if (side.isServerbound()) {
+					builder.server(this::handlePacketOnMainThread);
+				}
+			});
+		}
 
-		private Channel(int packets, SimpleChannel channel) {
-			this.packets = packets;
-			this.channel = channel;
+		private PayloadWrapper<T> decode(PacketByteBuf buffer) {
+			return new PayloadWrapper<>(packetHandler.decode(buffer));
+		}
+
+		private void handlePacketOnMainThread(PayloadWrapper<T> payload, PlayPayloadContext context) {
+			var player = context.player().orElse(null);
+			var level = context.level().orElse(null);
+
+			context.workHandler().execute(() -> {
+				var packet = payload.packet();
+				packet.getHandler().handle(packet).apply(player, level);
+			});
+		}
+	}
+
+	private record PayloadWrapper<T extends Packet<T>>(T packet) implements CustomPayload
+	{
+		@Override
+		public void write(PacketByteBuf buffer) {
+			packet.getHandler().encode(packet, buffer);
+		}
+
+		@Override
+		public Identifier id() {
+			return packet.getID();
 		}
 	}
 }

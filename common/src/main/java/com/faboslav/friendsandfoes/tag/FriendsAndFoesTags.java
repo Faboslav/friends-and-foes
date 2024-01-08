@@ -31,7 +31,7 @@ public final class FriendsAndFoesTags
 	public static final TagKey<Biome> HAS_GLARE = biomeTag("has_glare");
 	public static final TagKey<Biome> HAS_ICEOLOGER = biomeTag("has_iceologer");
 	public static final TagKey<Biome> HAS_ILLUSIONER = biomeTag("has_illusioner");
-	public static final TagKey<Biome> HAS_MOOBLOOMS = biomeTag("has_mooblooms/any");
+	public static final TagKey<Biome> HAS_MOOBLOOMS = biomeTag("has_moobloom/any");
 	public static final TagKey<Biome> HAS_RASCAL = biomeTag("has_rascal");
 	public static final TagKey<Biome> HAS_SAVANNA_MAULER = biomeTag("has_savanna_mauler");
 

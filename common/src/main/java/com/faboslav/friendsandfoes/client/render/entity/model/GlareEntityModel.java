@@ -91,6 +91,12 @@ public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntit
 		this.animateEyes(glare);
 		this.animateHead(glare, animationProgress);
 
+		if(limbAngle < 0.1F && limbDistance < 0.1F) {
+			//FriendsAndFoes.getLogger().info("yas");
+			//limbAngle = 0.1F;
+			//limbDistance = 0.1F;
+		}
+
 		float movementForce = MathHelper.sin(limbAngle * 0.1F) * limbDistance * 0.75F;
 		float absMovementForce = Math.abs(movementForce);
 
@@ -187,8 +193,13 @@ public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntit
 			float targetPivotY = glare.isSitting() ? 3.0F : 0.11F;
 			animateModelPartYPositionBasedOnTicks(glare, this.root, targetPivotY, 10);
 
-			float floatingProgress = AnimationMath.sin(animationProgress * 0.05F) * (glare.isSitting() ? 0.1F : 1.0F);
-			this.head.pivotY = floatingProgress;
+			float verticalFloatingProgress = AnimationMath.sin(animationProgress * 0.1F) * (glare.isSitting() ? 0.5F : 1.0F);
+			float horizontalFloatingProgress = AnimationMath.cos(animationProgress * 0.05F) * (glare.isSitting() ? 0.5F : 2.0F);
+
+			FriendsAndFoes.getLogger().info(String.valueOf(horizontalFloatingProgress));
+
+			this.head.pivotY = verticalFloatingProgress;
+			this.head.pivotX = horizontalFloatingProgress;
 		}
 	}
 
@@ -203,45 +214,5 @@ public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntit
 			this.eyes.pivotZ,
 			GlareEntity.MIN_EYE_ANIMATION_TICK_AMOUNT
 		);
-	}
-
-	private void animateLayers(
-		T glare,
-		float animationProgress
-	) {
-		float layerAnimationProgress = (animationProgress * 0.1F);
-		float targetPitchLayerAnimationProgress = (float) Math.sin(layerAnimationProgress);
-		float targetRollLayerAnimationProgress = (float) Math.cos(layerAnimationProgress);
-
-		if (glare.isMoving()) {
-			targetPitchLayerAnimationProgress = Math.abs(targetPitchLayerAnimationProgress);
-			targetRollLayerAnimationProgress = Math.abs(targetRollLayerAnimationProgress);
-		} else if (glare.isSitting()) {
-			targetPitchLayerAnimationProgress = 0;
-			targetRollLayerAnimationProgress = 0;
-		}
-
-		float currentPitchLayerAnimationProgress = MathHelper.lerp(
-			(float) Math.abs(Math.sin(animationProgress)) * 0.1f,
-			glare.getCurrentLayerPitchAnimationProgress(),
-			targetPitchLayerAnimationProgress
-		);
-		float currentRollLayerAnimationProgress = MathHelper.lerp(
-			(float) Math.abs(Math.sin(animationProgress)) * 0.1F,
-			glare.getCurrentLayerRollAnimationProgress(),
-			targetRollLayerAnimationProgress
-		);
-
-		for (ModelPart layer : this.layers) {
-			layer.pitch = currentPitchLayerAnimationProgress * glare.getCurrentLayersPitch();
-			layer.roll = currentRollLayerAnimationProgress * glare.getCurrentLayersRoll();
-		}
-
-		if (glare.isMoving()) {
-			this.root.pitch = currentPitchLayerAnimationProgress * glare.getCurrentLayersPitch();
-		}
-
-		glare.setCurrentLayerPitchAnimationProgress(currentPitchLayerAnimationProgress);
-		glare.setCurrentLayerRollAnimationProgress(currentRollLayerAnimationProgress);
 	}
 }

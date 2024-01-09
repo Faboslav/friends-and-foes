@@ -89,7 +89,7 @@ public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntit
 		this.getPart().traverse().forEach(ModelPart::resetTransform);
 
 		this.animateEyes(glare);
-		this.animateHead(glare, animationProgress);
+		this.animateFloating(glare, animationProgress);
 
 		if(limbAngle < 0.1F && limbDistance < 0.1F) {
 			//FriendsAndFoes.getLogger().info("yas");
@@ -181,7 +181,7 @@ public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntit
 		glare.setCurrentLayerRoll(layerRoll);
 	}
 
-	private void animateHead(
+	private void animateFloating(
 		T glare,
 		float animationProgress
 	) {
@@ -193,10 +193,8 @@ public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntit
 			float targetPivotY = glare.isSitting() ? 3.0F : 0.11F;
 			animateModelPartYPositionBasedOnTicks(glare, this.root, targetPivotY, 10);
 
-			float verticalFloatingProgress = AnimationMath.sin(animationProgress * 0.1F) * (glare.isSitting() ? 0.5F : 1.0F);
-			float horizontalFloatingProgress = AnimationMath.cos(animationProgress * 0.05F) * (glare.isSitting() ? 0.5F : 2.0F);
-
-			FriendsAndFoes.getLogger().info(String.valueOf(horizontalFloatingProgress));
+			float verticalFloatingProgress = AnimationMath.sin(animationProgress * 0.1F) * (glare.isSitting() ? 0.5F : 1.5F);
+			float horizontalFloatingProgress = AnimationMath.cos(animationProgress * 0.05F) * (glare.isSitting() ? 0.5F : 1.0F);
 
 			this.head.pivotY = verticalFloatingProgress;
 			this.head.pivotX = horizontalFloatingProgress;

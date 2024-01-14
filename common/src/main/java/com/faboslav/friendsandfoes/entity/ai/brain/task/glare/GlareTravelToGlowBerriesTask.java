@@ -29,15 +29,14 @@ public final class GlareTravelToGlowBerriesTask extends Task<GlareEntity>
 	protected boolean shouldRun(ServerWorld world, GlareEntity glare) {
 		GlobalPos glowBerriesPos = glare.getGlowBerriesPos();
 
-        return FriendsAndFoes.getConfig().enableGlareGriefing != false
-                && !glare.isLeashed()
-                && !glare.isSitting()
-                && !glare.isBaby()
-                && glare.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty() != false
-                && glare.canEatGlowBerriesAt(glowBerriesPos.getPos()) != false
-                && glowBerriesPos != null
-                && !glowBerriesPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE);
-    }
+		return FriendsAndFoes.getConfig().enableGlareGriefing != false
+			   && !glare.isLeashed()
+			   && !glare.isSitting()
+			   && glare.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty() != false
+			   && glare.canEatGlowBerriesAt(glowBerriesPos.getPos()) != false
+			   && glowBerriesPos != null
+			   && !glowBerriesPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE);
+	}
 
 	@Override
 	protected void run(ServerWorld world, GlareEntity glare, long time) {

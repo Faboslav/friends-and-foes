@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.entity.ai.brain.task.glare;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.GlareEntity;
 import com.faboslav.friendsandfoes.entity.ai.pathing.CachedPathHolder;
 import net.minecraft.block.BlockState;
@@ -17,13 +16,13 @@ import java.util.Map;
 
 public class GlareStrollTask extends Task<GlareEntity>
 {
-    public GlareStrollTask() {
-        super(
+	public GlareStrollTask() {
+		super(
 			Map.of(
 				MemoryModuleType.WALK_TARGET, MemoryModuleState.VALUE_ABSENT
 			)
 		);
-    }
+	}
 
 	@Override
 	protected boolean shouldRun(ServerWorld world, GlareEntity glare) {
@@ -41,7 +40,7 @@ public class GlareStrollTask extends Task<GlareEntity>
 		return glare.getNavigation().isFollowingPath();
 	}
 
-    public void updateCachedPathHolder(GlareEntity glare) {
+	public void updateCachedPathHolder(GlareEntity glare) {
 		if (
 			glare.cachedPathHolder == null
 			|| glare.cachedPathHolder.pathTimer > 50
@@ -53,21 +52,36 @@ public class GlareStrollTask extends Task<GlareEntity>
 			World world = glare.getWorld();
 			int currentGroundBlockPosY = this.getGroundBlockPosition(glare).getY();
 			int blockRange;
+			boolean isSkyVisible = world.isSkyVisible(glare.getBlockPos());
+			boolean isCloseToGround = Math.abs(currentGroundBlockPosY - glare.getY()) < 3;
 
-			for (int attempt = 0; attempt < 12; attempt++) {
-				blockRange = 24 - attempt;
+			for (int attempt = 0; attempt < 10; attempt++) {
+				blockRange = 12 - attempt;
 
-				mutable.set(glare.getBlockPos()).set(
-					glare.getBlockPos().getX() + glare.getRandom().nextBetween(-blockRange, blockRange),
-					glare.getRandom().nextBetween(currentGroundBlockPosY - blockRange/2, currentGroundBlockPosY + blockRange/2),
-					glare.getBlockPos().getZ() + glare.getRandom().nextBetween(-blockRange, blockRange)
-				);
+				int x = glare.getBlockPos().getX() + glare.getRandom().nextBetween(-blockRange, blockRange);
+				int y;
+				int z = glare.getBlockPos().getZ() + glare.getRandom().nextBetween(-blockRange, blockRange);
+
+				if (isSkyVisible) {
+					if (isCloseToGround) {
+						y = glare.getRandom().nextBetween(currentGroundBlockPosY, currentGroundBlockPosY + blockRange / 2);
+					} else {
+						y = glare.getRandom().nextBetween(currentGroundBlockPosY - blockRange / 4, currentGroundBlockPosY + blockRange / 4);
+					}
+				} else {
+					if (isCloseToGround) {
+						y = glare.getRandom().nextBetween(currentGroundBlockPosY, currentGroundBlockPosY + blockRange);
+					} else {
+						y = glare.getRandom().nextBetween(currentGroundBlockPosY - blockRange / 2, currentGroundBlockPosY + blockRange / 2);
+					}
+				}
+
+				mutable.set(glare.getBlockPos()).set(x, y, z);
 
 				if (world.getBlockState(mutable).isAir()) {
 					break;
 				}
 			}
-
 			Path newPath = glare.getNavigation().findPathTo(mutable, 1);
 
 			if (glare.cachedPathHolder == null) {
@@ -79,7 +93,7 @@ public class GlareStrollTask extends Task<GlareEntity>
 		} else {
 			glare.cachedPathHolder.pathTimer += 1;
 		}
-    }
+	}
 
 	private BlockPos getGroundBlockPosition(GlareEntity glare) {
 		World world = glare.getWorld();

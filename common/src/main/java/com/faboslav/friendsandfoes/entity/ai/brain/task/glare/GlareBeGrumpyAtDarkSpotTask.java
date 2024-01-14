@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.entity.ai.brain.task.glare;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.GlareEntity;
 import com.faboslav.friendsandfoes.entity.ai.brain.GlareBrain;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
@@ -27,6 +26,7 @@ public final class GlareBeGrumpyAtDarkSpotTask extends Task<GlareEntity>
 	private static final int MAX_GRUMPY_TICKS = 200;
 	private final static float WITHING_DISTANCE = 2.0F;
 	private int grumpyTicks;
+	private final ParticleEffect particleEffect = new BlockStateParticleEffect(ParticleTypes.BLOCK, Blocks.AZALEA.getDefaultState());
 
 	public GlareBeGrumpyAtDarkSpotTask() {
 		super(
@@ -40,24 +40,15 @@ public final class GlareBeGrumpyAtDarkSpotTask extends Task<GlareEntity>
 	protected boolean shouldRun(ServerWorld world, GlareEntity glare) {
 		GlobalPos darkSpotPos = glare.getDarkSpotPos();
 
-		if(
-			glare.isLeashed()
-			|| glare.isSitting()
-			|| glare.isBaby()
-			|| glare.getOwner() == null
-			|| (
-				world.isDay()
-				&& world.isSkyVisible(glare.getBlockPos())
-			)
-			|| darkSpotPos == null
-			|| glare.isDarkSpotDark(darkSpotPos.getPos()) == false
+		if (
+			GlareBeGrumpyAtDarkSpotTask.canBeGrumpyAtDarkSpot(glare) == false
 			|| darkSpotPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE) == false
 		) {
 			return false;
 		}
 
 		return true;
-    }
+	}
 
 	@Override
 	protected void run(ServerWorld world, GlareEntity glare, long time) {
@@ -71,20 +62,15 @@ public final class GlareBeGrumpyAtDarkSpotTask extends Task<GlareEntity>
 	protected boolean shouldKeepRunning(ServerWorld world, GlareEntity glare, long time) {
 		GlobalPos darkSpotPos = glare.getDarkSpotPos();
 
-		if(
-			glare.isLeashed()
-			|| glare.isSitting()
-			|| glare.isBaby()
-			|| glare.getOwner() == null
-			|| darkSpotPos == null
-			|| glare.isDarkSpotDark(darkSpotPos.getPos()) == false
+		if (
+			GlareBeGrumpyAtDarkSpotTask.canBeGrumpyAtDarkSpot(glare) == false
 			|| darkSpotPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE) == false
 		) {
 			return false;
 		}
 
 		return true;
-    }
+	}
 
 	protected void keepRunning(ServerWorld world, GlareEntity glare, long time) {
 		this.grumpyTicks++;
@@ -98,13 +84,13 @@ public final class GlareBeGrumpyAtDarkSpotTask extends Task<GlareEntity>
 			glare.playGrumpinessSound();
 		}
 
-		if (grumpyTicks % 5 == 0) {
+		if (grumpyTicks % 3 == 0 && glare.getRandom().nextBoolean()) {
 			glare.playRustleSound();
 		}
 
-		if (grumpyTicks % 10 == 0) {
+		if (grumpyTicks % 2 == 0 && glare.getRandom().nextBoolean()) {
 			ParticleEffect particleEffect = new BlockStateParticleEffect(ParticleTypes.BLOCK, Blocks.AZALEA.getDefaultState());
-			ParticleSpawner.spawnParticles(glare, particleEffect, 7, 0.1D);
+			ParticleSpawner.spawnParticles(glare, particleEffect, glare.getRandom().nextBetween(4, 10), 0.1D);
 		}
 	}
 
@@ -113,7 +99,6 @@ public final class GlareBeGrumpyAtDarkSpotTask extends Task<GlareEntity>
 		glare.setGrumpy(false);
 		glare.getBrain().forget(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_POS.get());
 		GlareBrain.setDarkSpotLocatingCooldown(glare);
-		FriendsAndFoes.getLogger().info("Setting cooldown");
 	}
 
 	private void applyGlowToHostileEntities(GlareEntity glare) {
@@ -127,5 +112,16 @@ public final class GlareBeGrumpyAtDarkSpotTask extends Task<GlareEntity>
 
 	private void applyGlowToEntity(HostileEntity entity) {
 		entity.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, MAX_GRUMPY_TICKS));
+	}
+
+	public static boolean canBeGrumpyAtDarkSpot(GlareEntity glare) {
+		if (
+			GlareTravelToDarkSpotTask.canTravelToDarkSpot(glare) == false
+			|| glare.getOwner() == null
+		) {
+			return false;
+		}
+
+		return true;
 	}
 }

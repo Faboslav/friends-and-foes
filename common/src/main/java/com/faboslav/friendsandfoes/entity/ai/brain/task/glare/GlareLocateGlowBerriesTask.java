@@ -32,12 +32,11 @@ public final class GlareLocateGlowBerriesTask extends Task<GlareEntity>
 
 	@Override
 	protected boolean shouldRun(ServerWorld world, GlareEntity glare) {
-        return FriendsAndFoes.getConfig().enableGlareGriefing != false
-                && !glare.isLeashed()
-                && !glare.isSitting()
-                && !glare.isBaby()
-                && glare.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty() != false;
-    }
+		return FriendsAndFoes.getConfig().enableGlareGriefing != false
+			   && !glare.isLeashed()
+			   && !glare.isSitting()
+			   && glare.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty() != false;
+	}
 
 	@Override
 	protected void run(ServerWorld world, GlareEntity glare, long time) {

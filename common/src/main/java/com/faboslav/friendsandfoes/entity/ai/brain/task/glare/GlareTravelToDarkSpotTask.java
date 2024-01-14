@@ -1,10 +1,7 @@
 package com.faboslav.friendsandfoes.entity.ai.brain.task.glare;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.GlareEntity;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
-import com.mojang.datafixers.util.Pair;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.LookTargetUtil;
@@ -30,19 +27,15 @@ public final class GlareTravelToDarkSpotTask extends Task<GlareEntity>
 	protected boolean shouldRun(ServerWorld world, GlareEntity glare) {
 		GlobalPos darkSpotPos = glare.getDarkSpotPos();
 
-		if(
-			glare.isLeashed()
-			|| glare.isSitting()
-			|| glare.isBaby()
-			|| darkSpotPos == null
-			|| glare.isDarkSpotDark(darkSpotPos.getPos()) == false
+		if (
+			GlareTravelToDarkSpotTask.canTravelToDarkSpot(glare) == false
 			|| darkSpotPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE)
 		) {
 			return false;
 		}
 
 		return true;
-    }
+	}
 
 	@Override
 	protected void run(ServerWorld world, GlareEntity glare, long time) {
@@ -54,10 +47,7 @@ public final class GlareTravelToDarkSpotTask extends Task<GlareEntity>
 		GlobalPos darkSpotPos = glare.getDarkSpotPos();
 
 		if (
-			glare.isLeashed()
-			|| glare.isSitting()
-			|| darkSpotPos == null
-			|| glare.isDarkSpotDark(darkSpotPos.getPos()) == false
+			GlareTravelToDarkSpotTask.canTravelToDarkSpot(glare) == false
 			|| (
 				darkSpotPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE)
 				&& glare.getNavigation().isFollowingPath() == false
@@ -106,5 +96,22 @@ public final class GlareTravelToDarkSpotTask extends Task<GlareEntity>
 			1.0F,
 			0
 		);
+	}
+
+	public static boolean canTravelToDarkSpot(GlareEntity glare) {
+		if (GlareLocateDarkSpotTask.canLocateDarkSpot(glare) == false) {
+			return false;
+		}
+
+		GlobalPos darkSpotPos = glare.getDarkSpotPos();
+
+		if (
+			darkSpotPos == null
+			|| glare.isDarkSpotDark(darkSpotPos.getPos()) == false
+		) {
+			return false;
+		}
+
+		return true;
 	}
 }

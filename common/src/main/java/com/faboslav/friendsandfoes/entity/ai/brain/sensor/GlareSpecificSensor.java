@@ -21,7 +21,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TimeHelper;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 
-import java.util.*;
+import java.util.Set;
 import java.util.function.Predicate;
 
 public class GlareSpecificSensor extends Sensor<GlareEntity>
@@ -50,7 +50,7 @@ public class GlareSpecificSensor extends Sensor<GlareEntity>
 		LivingTargetCache livingTargetCache = brain.getOptionalMemory(MemoryModuleType.VISIBLE_MOBS).orElse(LivingTargetCache.empty());
 		LivingEntity firstHostileEntity = livingTargetCache.findFirst(livingEntity -> livingEntity instanceof HostileEntity).orElse(null);
 
-		if(firstHostileEntity == null) {
+		if (firstHostileEntity == null) {
 			return;
 		}
 

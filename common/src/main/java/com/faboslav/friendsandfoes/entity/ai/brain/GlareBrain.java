@@ -61,7 +61,7 @@ public final class GlareBrain
 				new TemptationCooldownTask(MemoryModuleType.TEMPTATION_COOLDOWN_TICKS),
 				new TemptationCooldownTask(MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS),
 				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.GLARE_LOCATING_GLOW_BERRIES_COOLDOWN.get()),
-				new ConditionalTask<>(GlareBrain::canLocateDarkSpots, new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_LOCATING_COOLDOWN.get()), true)
+				new ConditionalTask<>(GlareLocateDarkSpotTask::canLocateDarkSpot, new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_LOCATING_COOLDOWN.get()), true)
 			)
 		);
 	}
@@ -128,12 +128,12 @@ public final class GlareBrain
 				Pair.of(0, new TemptTask(glare -> 1.25f)),
 				Pair.of(1, new BreedTask(FriendsAndFoesEntityTypes.GLARE.get(), 1.0f)),
 				Pair.of(2, new WalkTowardClosestAdultTask(UniformIntProvider.create(5, 16), 1.25f)),
-				Pair.of(2, new WalkTowardsLookTargetTask(glare -> getOwner((GlareEntity) glare), 4, 16, 2.0f)),
-				Pair.of(3, new TimeLimitedTask<LivingEntity>(new FollowMobTask(allay -> true, 6.0f), UniformIntProvider.create(30, 60))),
-				Pair.of(3, new RandomTask(
+				Pair.of(3, new WalkTowardsLookTargetTask(glare -> getOwner((GlareEntity) glare), 4, 16, 2.0f)),
+				Pair.of(4, new TimeLimitedTask<LivingEntity>(new FollowMobTask(glare -> true, 3.0f), UniformIntProvider.create(30, 60))),
+				Pair.of(5, new RandomTask(
 					ImmutableList.of(
+						Pair.of(new GoTowardsLookTarget(1.0F, 3), 3),
 						Pair.of(new GlareStrollTask(), 2),
-						Pair.of(new GoTowardsLookTarget(1.0F, 3), 2),
 						Pair.of(new WaitTask(30, 60), 1)
 					)
 				))
@@ -148,7 +148,7 @@ public final class GlareBrain
 	}
 
 	private static Optional<LookTarget> getOwner(GlareEntity glare) {
-		if(
+		if (
 			glare.isTamed() == false
 			|| glare.getOwner() == null
 		) {
@@ -156,10 +156,6 @@ public final class GlareBrain
 		}
 
 		return Optional.of(new EntityLookTarget(glare.getOwner(), true));
-	}
-
-	private static boolean canLocateDarkSpots(GlareEntity glare) {
-		return glare.isTamed() && glare.isBaby() == false;
 	}
 
 	public static void updateActivities(GlareEntity glare) {
@@ -174,7 +170,7 @@ public final class GlareBrain
 	}
 
 	public static void updateMemories(GlareEntity glare) {
-		if(
+		if (
 			glare.isSitting()
 			|| glare.isLeashed()
 		) {
@@ -183,7 +179,7 @@ public final class GlareBrain
 			glare.getBrain().forget(FriendsAndFoesMemoryModuleTypes.GLARE_IS_IDLE.get());
 		}
 
-		if(glare.isTamed()) {
+		if (glare.isTamed()) {
 			glare.getBrain().remember(FriendsAndFoesMemoryModuleTypes.GLARE_IS_TAMED.get(), true);
 		} else {
 			glare.getBrain().forget(FriendsAndFoesMemoryModuleTypes.GLARE_IS_TAMED.get());
@@ -244,7 +240,7 @@ public final class GlareBrain
 			FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_LOCATING_COOLDOWN.get(),
 			FriendsAndFoesMemoryModuleTypes.GLARE_LOCATING_GLOW_BERRIES_COOLDOWN.get()
 		);
-		DARK_SPOT_LOCATING_COOLDOWN_PROVIDER = TimeHelper.betweenSeconds(30, 60);
+		DARK_SPOT_LOCATING_COOLDOWN_PROVIDER = TimeHelper.betweenSeconds(15, 30);
 		EAT_GLOW_BERRIES_COOLDOWN_PROVIDER = TimeHelper.betweenSeconds(30, 60);
 	}
 }

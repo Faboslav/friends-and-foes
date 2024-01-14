@@ -33,16 +33,15 @@ public final class GlareShakeGlowBerriesTask extends Task<GlareEntity>
 	protected boolean shouldRun(ServerWorld world, GlareEntity glare) {
 		GlobalPos glowBerriesPos = glare.getGlowBerriesPos();
 
-        return glare.getWorld().getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING) != false
-                && FriendsAndFoes.getConfig().enableGlareGriefing != false
-                && !glare.isLeashed()
-                && !glare.isSitting()
-                && !glare.isBaby()
-                && glare.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty() != false
-                && glowBerriesPos != null
-                && glare.canEatGlowBerriesAt(glowBerriesPos.getPos()) != false
-                && glowBerriesPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE) != false;
-    }
+		return glare.getWorld().getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING) != false
+			   && FriendsAndFoes.getConfig().enableGlareGriefing != false
+			   && !glare.isLeashed()
+			   && !glare.isSitting()
+			   && glare.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty() != false
+			   && glowBerriesPos != null
+			   && glare.canEatGlowBerriesAt(glowBerriesPos.getPos()) != false
+			   && glowBerriesPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE) != false;
+	}
 
 	@Override
 	protected void run(ServerWorld world, GlareEntity glare, long time) {
@@ -53,17 +52,16 @@ public final class GlareShakeGlowBerriesTask extends Task<GlareEntity>
 	protected boolean shouldKeepRunning(ServerWorld world, GlareEntity glare, long time) {
 		GlobalPos glowBerriesPos = glare.getGlowBerriesPos();
 
-        return glare.getWorld().getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING) != false
-                && FriendsAndFoes.getConfig().enableGlareGriefing != false
-                && !glare.getDamageTracker().hasDamage()
-                && !glare.isLeashed()
-                && !glare.isSitting()
-                && !glare.isBaby()
-                && glare.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty() != false
-                && glowBerriesPos != null
-                && glare.canEatGlowBerriesAt(glowBerriesPos.getPos()) != false
-                && glowBerriesPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE) != false;
-    }
+		return glare.getWorld().getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING) != false
+			   && FriendsAndFoes.getConfig().enableGlareGriefing != false
+			   && !glare.getDamageTracker().hasDamage()
+			   && !glare.isLeashed()
+			   && !glare.isSitting()
+			   && glare.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty() != false
+			   && glowBerriesPos != null
+			   && glare.canEatGlowBerriesAt(glowBerriesPos.getPos()) != false
+			   && glowBerriesPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE) != false;
+	}
 
 	protected void keepRunning(ServerWorld world, GlareEntity glare, long time) {
 		this.shakingTicks++;

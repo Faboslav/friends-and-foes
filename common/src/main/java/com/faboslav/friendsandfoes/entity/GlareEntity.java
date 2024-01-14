@@ -19,8 +19,6 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
-import net.minecraft.entity.ai.brain.task.Task;
-import net.minecraft.entity.ai.brain.task.TemptationCooldownTask;
 import net.minecraft.entity.ai.control.FlightMoveControl;
 import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
@@ -76,10 +74,6 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	private static final TrackedData<Byte> GLARE_FLAGS;
 
 	private Vec2f targetEyesPositionOffset;
-	private float currentLayerPitch;
-	private float currentLayerRoll;
-	private float currentLayerPitchAnimationProgress;
-	private float currentLayerRollAnimationProgress;
 
 	public CachedPathHolder cachedPathHolder = null;
 	private AnimationContextTracker animationContextTracker;
@@ -96,7 +90,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	public GlareEntity(EntityType<? extends GlareEntity> entityType, World world) {
 		super(entityType, world);
 
-		this.moveControl = new GlareMoveControl(this, 5, true);
+		this.moveControl = new GlareMoveControl(this, 24, true);
 		this.setPathfindingPenalty(PathNodeType.DANGER_FIRE, -1.0F);
 		this.setPathfindingPenalty(PathNodeType.DANGER_CACTUS, -1.0F);
 		this.setPathfindingPenalty(PathNodeType.WATER, -1.0F);
@@ -107,10 +101,6 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		this.setCanPickUpLoot(true);
 
 		this.targetEyesPositionOffset = new Vec2f(0.0F, 0.0F);
-		this.currentLayerPitch = 0.0F;
-		this.currentLayerRoll = 0.0F;
-		this.currentLayerPitchAnimationProgress = 0.0F;
-		this.currentLayerRollAnimationProgress = 0.0F;
 	}
 
 	@Override
@@ -121,13 +111,11 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		@Nullable EntityData entityData,
 		@Nullable NbtCompound entityNbt
 	) {
-		EntityData superEntityData = super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
-
 		GlareBrain.setDarkSpotLocatingCooldown(this);
 		GlareBrain.setLocatingGlowBerriesCooldown(this);
 		GlareBrain.setItemPickupCooldown(this);
 
-		return superEntityData;
+		return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
 	}
 
 	static {
@@ -252,7 +240,6 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	private void dropItem(ItemStack stack) {
 		ItemEntity itemEntity = new ItemEntity(this.getWorld(), this.getX(), this.getY(), this.getZ(), stack);
 		this.getWorld().spawnEntity(itemEntity);
-		FriendsAndFoes.getLogger().info("dropping real");
 	}
 
 	@Override
@@ -295,38 +282,6 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 			-0.5F + this.getRandom().nextFloat(),
 			-0.4F + this.getRandom().nextFloat() * (0.4F - -0.4F)
 		);
-	}
-
-	public float getCurrentLayersPitch() {
-		return this.currentLayerPitch;
-	}
-
-	public void setCurrentLayerPitch(float currentLayersPitch) {
-		this.currentLayerPitch = currentLayersPitch;
-	}
-
-	public float getCurrentLayersRoll() {
-		return this.currentLayerRoll;
-	}
-
-	public void setCurrentLayerRoll(float currentLayersRoll) {
-		this.currentLayerRoll = currentLayersRoll;
-	}
-
-	public float getCurrentLayerPitchAnimationProgress() {
-		return this.currentLayerPitchAnimationProgress;
-	}
-
-	public void setCurrentLayerPitchAnimationProgress(float currentLayersPitchAnimationProgress) {
-		this.currentLayerPitchAnimationProgress = currentLayersPitchAnimationProgress;
-	}
-
-	public float getCurrentLayerRollAnimationProgress() {
-		return this.currentLayerRollAnimationProgress;
-	}
-
-	public void setCurrentLayerRollAnimationProgress(float currentLayersRollAnimationProgress) {
-		this.currentLayerRollAnimationProgress = currentLayersRollAnimationProgress;
 	}
 
 	public static Builder createAttributes() {
@@ -468,7 +423,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		) {
 			this.setSitting(!this.isSitting());
 
-			if(this.isSitting()) {
+			if (this.isSitting()) {
 				this.stopMovement();
 			}
 
@@ -657,6 +612,10 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		glareEntity.setOwnerUuid(this.getOwnerUuid());
 		glareEntity.setTamed(true);
 
+		GlareBrain.setDarkSpotLocatingCooldown(this);
+		GlareBrain.setLocatingGlowBerriesCooldown(this);
+		GlareBrain.setItemPickupCooldown(this);
+
 		return glareEntity;
 	}
 
@@ -678,7 +637,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		DamageSource source,
 		float amount
 	) {
-		if(this.getWorld().isClient() == false) {
+		if (this.getWorld().isClient() == false) {
 			this.setSitting(false);
 			this.getNavigation().setSpeed(0);
 			this.getNavigation().stop();

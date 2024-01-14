@@ -28,16 +28,8 @@ public final class GlareLocateDarkSpotTask extends Task<GlareEntity>
 
 	@Override
 	protected boolean shouldRun(ServerWorld world, GlareEntity glare) {
-		if(
-			glare.isLeashed()
-			|| glare.isSitting()
-			|| glare.isBaby()
-		) {
-			return false;
-		}
-
-		return true;
-    }
+		return GlareLocateDarkSpotTask.canLocateDarkSpot(glare);
+	}
 
 	@Override
 	protected void run(ServerWorld world, GlareEntity glare, long time) {
@@ -101,5 +93,22 @@ public final class GlareLocateDarkSpotTask extends Task<GlareEntity>
 		}
 
 		return darkSpots.get(glare.getRandom().nextInt(darkSpots.size()));
+	}
+
+	public static boolean canLocateDarkSpot(GlareEntity glare) {
+		if (
+			glare.isLeashed()
+			|| glare.isSitting()
+			|| glare.isTamed() == false
+			|| glare.isBaby()
+			|| (
+				glare.getWorld().isDay()
+				&& glare.getWorld().isSkyVisible(glare.getBlockPos())
+			)
+		) {
+			return false;
+		}
+
+		return true;
 	}
 }

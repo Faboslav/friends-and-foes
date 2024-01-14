@@ -19,10 +19,6 @@ import org.jetbrains.annotations.ApiStatus;
 @ApiStatus.Internal
 public final class PacketChannelManager
 {
-	@ExpectPlatform
-	public static void registerChannel(Identifier name) {
-		throw new NotImplementedException();
-	}
 
 	@ExpectPlatform
 	public static <T extends Packet<T>> void registerS2CPacket(

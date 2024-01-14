@@ -31,9 +31,6 @@ public final class PacketChannelManagerImpl
 	private static final Map<Identifier, PacketRegistration<?>> PACKETS = new HashMap<>();
 	private static boolean frozen = false;
 
-	public static void registerChannel(Identifier name) {
-	}
-
 	public static void registerPayloads(RegisterPayloadHandlerEvent event) {
 		frozen = true;
 

@@ -12,20 +12,29 @@ on:
 jobs:
     build:
         runs-on: ubuntu-latest
+
         name: "Build"
-        timeout-minutes: 15
+        timeout-minutes: 10
 
         steps:
             -   name: "Checkout repository"
-                uses: actions/checkout@v3.5.3
+                uses: actions/checkout@v4.1.1
                 with:
                     fetch-depth: 0
 
-            -   name: "Setup environment"
-                uses: ./.github/actions/setup-environment
+            -   name: "Set up JDK"
+                uses: actions/setup-java@v4.0.0
+                with:
+                    java-version: 17
+                    distribution: temurin
 
-            -   name: "Build with gradle"
-                run: ./gradlew build
+            - name: "Setup Gradle"
+              uses: gradle/gradle-build-action@v2.11.1
+              with:
+                  cache-read-only: false
+
+            - name: "Run Gradle build"
+              run: ./gradlew build --no-daemon
 
     run-client:
         needs: build
@@ -35,7 +44,7 @@ jobs:
             matrix:
                 mod_loader: [ "fabric", "forge" ]
         name: Run ${{ matrix.mod_loader }} client
-        timeout-minutes: 15
+        timeout-minutes: 10
 
         steps:
             -   name: "Checkout repository"
@@ -60,7 +69,7 @@ jobs:
             matrix:
                 mod_loader: [ "fabric", "forge" ]
         name: Run ${{ matrix.mod_loader }} server
-        timeout-minutes: 15
+        timeout-minutes: 10
 
         steps:
             -   name: "Checkout repository"

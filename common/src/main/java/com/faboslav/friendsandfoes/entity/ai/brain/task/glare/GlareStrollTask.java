@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.entity.ai.brain.task.glare;
 
 import com.faboslav.friendsandfoes.entity.GlareEntity;
-import com.faboslav.friendsandfoes.entity.ai.pathing.CachedPathHolder;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
@@ -42,8 +41,7 @@ public class GlareStrollTask extends Task<GlareEntity>
 
 	public void updateCachedPathHolder(GlareEntity glare) {
 		if (
-			glare.cachedPathHolder == null
-			|| glare.cachedPathHolder.pathTimer > 50
+			glare.cachedPathHolder.pathTimer > 20
 			|| glare.cachedPathHolder.cachedPath == null
 			|| (glare.getMovementSpeed() <= 0.05d && glare.cachedPathHolder.pathTimer > 5)
 			|| glare.getBlockPos().getManhattanDistance(glare.cachedPathHolder.cachedPath.getTarget()) <= 4
@@ -82,11 +80,8 @@ public class GlareStrollTask extends Task<GlareEntity>
 					break;
 				}
 			}
-			Path newPath = glare.getNavigation().findPathTo(mutable, 1);
 
-			if (glare.cachedPathHolder == null) {
-				glare.cachedPathHolder = new CachedPathHolder();
-			}
+			Path newPath = glare.getNavigation().findPathTo(mutable, 1);
 
 			glare.cachedPathHolder.cachedPath = newPath;
 			glare.cachedPathHolder.pathTimer = 0;

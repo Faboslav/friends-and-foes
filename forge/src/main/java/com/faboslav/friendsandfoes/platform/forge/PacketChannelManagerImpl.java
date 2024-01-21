@@ -45,7 +45,7 @@ public class PacketChannelManagerImpl
 		}
 		channel.channel.registerMessage(++channel.packets, packetClass, handler::encode, handler::decode, (msg, ctx) -> {
 			NetworkEvent.Context context = ctx.get();
-			
+
 			context.enqueueWork(() -> {
 				PlayerEntity player = null;
 				if (context.getSender() == null) {

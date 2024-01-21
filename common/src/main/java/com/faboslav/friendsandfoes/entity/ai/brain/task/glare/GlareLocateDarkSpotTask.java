@@ -23,7 +23,7 @@ public final class GlareLocateDarkSpotTask extends Task<GlareEntity>
 		super(Map.of(
 			FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_LOCATING_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT,
 			FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_POS.get(), MemoryModuleState.VALUE_ABSENT
-		));
+		), 1);
 	}
 
 	@Override

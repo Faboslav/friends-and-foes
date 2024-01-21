@@ -75,7 +75,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 
 	private Vec2f targetEyesPositionOffset;
 
-	public CachedPathHolder cachedPathHolder = null;
+	public CachedPathHolder cachedPathHolder = new CachedPathHolder();
 	private AnimationContextTracker animationContextTracker;
 
 	@Override
@@ -189,11 +189,11 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		this.getWorld().getProfiler().push("glareBrain");
 		this.getBrain().tick((ServerWorld) this.getWorld(), this);
 		this.getWorld().getProfiler().pop();
-		this.getWorld().getProfiler().push("glareActivityUpdate");
-		GlareBrain.updateActivities(this);
-		this.getWorld().getProfiler().pop();
 		this.getWorld().getProfiler().push("glareMemoryUpdate");
 		GlareBrain.updateMemories(this);
+		this.getWorld().getProfiler().pop();
+		this.getWorld().getProfiler().push("glareActivityUpdate");
+		GlareBrain.updateActivities(this);
 		this.getWorld().getProfiler().pop();
 
 		super.mobTick();
@@ -297,7 +297,9 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		BirdNavigation birdNavigation = new BirdNavigation(this, world)
 		{
 			public boolean isValidPosition(BlockPos pos) {
-				return this.world.getBlockState(pos.down()).isAir() == false;
+				boolean isValidPos = this.world.getBlockState(pos.down()).isAir() == false && this.world.getBlockState(pos.down()).getMaterial().isLiquid() == false;
+
+				return isValidPos;
 			}
 		};
 
@@ -358,6 +360,15 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 
 	public void playRustleSound() {
 		SoundEvent soundEvent = this.getRustleSound();
+		this.playSound(soundEvent, 0.1F, 0.1F);
+	}
+
+	private SoundEvent getShakeSound() {
+		return FriendsAndFoesSoundEvents.ENTITY_GLARE_SHAKE.get();
+	}
+
+	public void playShakeSound() {
+		SoundEvent soundEvent = this.getShakeSound();
 		this.playSound(soundEvent, 0.1F, 0.1F);
 	}
 
@@ -653,7 +664,11 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 
 	@Override
 	protected float getActiveEyeHeight(EntityPose poseIn, EntityDimensions sizeIn) {
-		return 1.1F;
+		if (this.isBaby()) {
+			return 0.5F;
+		}
+
+		return 1.0F;
 	}
 
 	@Override
@@ -665,20 +680,12 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		return MOVEMENT_SPEED;
 	}
 
-	public float getFastMovementSpeed() {
-		return MOVEMENT_SPEED * 1.25F;
-	}
-
 	public void setGrumpy(boolean grumpy) {
 		this.setGlareFlag(GRUMPY_BITMASK, grumpy);
 	}
 
 	public boolean isGrumpy() {
 		return this.hasGlareFlag(GRUMPY_BITMASK);
-	}
-
-	public boolean isMoving() {
-		return this.isOnGround() == false && this.getVelocity().lengthSquared() >= 0.0001;
 	}
 
 	final class GlareMoveControl extends FlightMoveControl

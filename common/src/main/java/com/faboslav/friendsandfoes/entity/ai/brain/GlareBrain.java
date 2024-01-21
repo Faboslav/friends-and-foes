@@ -171,6 +171,13 @@ public final class GlareBrain
 
 	public static void updateMemories(GlareEntity glare) {
 		if (
+			glare.isBaby()
+			&& glare.getBrain().isMemoryInState(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_LOCATING_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT)
+		) {
+			GlareBrain.setDarkSpotLocatingCooldown(glare);
+		}
+
+		if (
 			glare.isSitting()
 			|| glare.isLeashed()
 		) {

@@ -82,6 +82,14 @@
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.glare.rustle"
 	},
+	"entity.glare.shake": {
+		"sounds": [
+			"friendsandfoes:entity/glare/shake1",
+			"friendsandfoes:entity/glare/shake2",
+			"friendsandfoes:entity/glare/shake3"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.glare.shake"
+	},
 	"entity.ice_chunk.ambient": {
 		"sounds": [
 			"friendsandfoes:entity/ice_chunk/ambient"

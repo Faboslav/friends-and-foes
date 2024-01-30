@@ -12,68 +12,54 @@ on:
 jobs:
     build:
         runs-on: ubuntu-latest
-        name: "Build"
-        timeout-minutes: 15
-
-        steps:
-            -   name: "Checkout repository"
-                uses: actions/checkout@v3.5.3
-                with:
-                    fetch-depth: 0
-
-            -   name: "Setup environment"
-                uses: ./.github/actions/setup-environment
-
-            -   name: "Build with gradle"
-                run: ./gradlew build
-
-    run-client:
-        needs: build
-        runs-on: ubuntu-latest
         strategy:
             fail-fast: false
             matrix:
-                mod_loader: [ "fabric", "forge", "neoforge" ]
-        name: Run ${{ matrix.mod_loader }} client
+                mod_loader: [fabric, forge, neoforge]
+                script: [client, server]
+
+        name: Run ${{ matrix.mod_loader }} ${{ matrix.script }}
         timeout-minutes: 15
 
         steps:
             -   name: "Checkout repository"
-                uses: actions/checkout@v3.5.3
+                uses: actions/checkout@v4.1.1
                 with:
                     fetch-depth: 0
 
-            -   name: "Setup environment"
-                uses: ./.github/actions/setup-environment
+            -   name: "Check if the mod loader is supported"
+                id: check-mod-loader
+                run: |
+                    if [ -d ${{ matrix.mod_loader }} ]; then
+                        echo "Mod loader is supported"
+                        echo "is_mod_loader_supported=true" >> $GITHUB_OUTPUT
+                    else
+                        echo "Mod loader is not supported"
+                        echo "is_mod_loader_supported=false" >> $GITHUB_OUTPUT
+                    fi
 
-            -   name: Run ${{ matrix.mod_loader }} client
-                uses: modmuss50/xvfb-action@v1
+            -   name: "Set up JDK"
+                if: steps.check-mod-loader.outputs.is_mod_loader_supported == 'true'
+                uses: actions/setup-java@v4.0.0
                 with:
-                    run: ./.github/scripts/run-client.sh ${{ matrix.mod_loader }}
-                    shell: bash
+                    java-version: 17
+                    distribution: temurin
 
-    run-server:
-        needs: build
-        runs-on: ubuntu-latest
-        strategy:
-            fail-fast: false
-            matrix:
-                mod_loader: [ "fabric", "forge", "neoforge" ]
-        name: Run ${{ matrix.mod_loader }} server
-        timeout-minutes: 15
-
-        steps:
-            -   name: "Checkout repository"
-                uses: actions/checkout@v3.5.3
+            -   name: "Setup Gradle and run build"
+                if: steps.check-mod-loader.outputs.is_mod_loader_supported == 'true'
+                uses: gradle/gradle-build-action@v2.11.1
                 with:
-                    fetch-depth: 0
-
-            -   name: "Setup environment"
-                uses: ./.github/actions/setup-environment
+                    cache-read-only: false
+                    gradle-version: wrapper
+                    arguments: ${{ matrix.mod_loader }}:build
 
             -   name: "Accept eula"
+                if: steps.check-mod-loader.outputs.is_mod_loader_supported == 'true'
                 run: mkdir -p ${{ matrix.mod_loader }}/run && echo "eula=true" > ${{ matrix.mod_loader }}/run/eula.txt
 
-            -   name: Run ${{ matrix.mod_loader }} server
-                run: ./.github/scripts/run-server.sh ${{ matrix.mod_loader }}
-                shell: bash
+            -   name: Run ${{ matrix.mod_loader }} ${{ matrix.script }}
+                if: steps.check-mod-loader.outputs.is_mod_loader_supported == 'true'
+                uses: modmuss50/xvfb-action@v1
+                with:
+                    run: ./.github/scripts/run-${{ matrix.script }}.sh ${{ matrix.mod_loader }}
+                    shell: bash

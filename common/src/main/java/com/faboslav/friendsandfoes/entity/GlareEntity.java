@@ -2,18 +2,24 @@ package com.faboslav.friendsandfoes.entity;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.animation.animator.context.AnimationContextTracker;
-import com.faboslav.friendsandfoes.entity.ai.goal.glare.*;
+import com.faboslav.friendsandfoes.entity.ai.brain.GlareBrain;
+import com.faboslav.friendsandfoes.entity.ai.pathing.CachedPathHolder;
 import com.faboslav.friendsandfoes.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesCriteria;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import com.faboslav.friendsandfoes.util.particle.ParticleSpawner;
+import com.mojang.serialization.Dynamic;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.CaveVines;
 import net.minecraft.entity.*;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.MemoryModuleState;
+import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.control.FlightMoveControl;
-import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.ai.pathing.PathNodeType;
@@ -23,7 +29,6 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
@@ -33,10 +38,10 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.recipe.Ingredient;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -44,12 +49,11 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.world.EntityView;
-import net.minecraft.world.ServerWorldAccess;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
@@ -59,30 +63,16 @@ import java.util.function.Predicate;
 public final class GlareEntity extends TameableEntity implements Flutterer, AnimatedEntity
 {
 	public static final Predicate<ItemEntity> PICKABLE_FOOD_FILTER;
-	private static final Ingredient TEMPT_ITEMS = Ingredient.fromTag(FriendsAndFoesTags.GLARE_TEMPT_ITEMS);
 	private static final int GRUMPY_BITMASK = 2;
-	private static final float MOVEMENT_SPEED = 0.6F;
+	private static final float MOVEMENT_SPEED = 0.1F;
 	public static final int MIN_EYE_ANIMATION_TICK_AMOUNT = 10;
 	public static final int LIGHT_THRESHOLD = 5;
-	public static final int MIN_TICKS_UNTIL_CAN_FIND_DARK_SPOT = 200;
-	public static final int MAX_TICKS_UNTIL_CAN_FIND_DARK_SPOT = 400;
-	public static final int MIN_TICKS_UNTIL_CAN_EAT_GLOW_BERRIES = 300;
-	public static final int MAX_TICKS_UNTIL_CAN_EAT_GLOW_BERRIES = 600;
 
 	private static final TrackedData<Byte> GLARE_FLAGS;
-	private static final TrackedData<Integer> TICKS_UNTIL_CAN_FIND_DARK_SPOT;
-	private static final TrackedData<Integer> TICKS_UNTIL_CAN_EAT_GLOW_BERRIES;
-
-	public GlareEatGlowBerriesGoal eatGlowBerriesGoal;
-	public GlareShakeOffGlowBerriesGoal shakeOffGlowBerriesGoal;
-	private GlareFlyToDarkSpotGoal flyToDarkSpotGoal;
 
 	private Vec2f targetEyesPositionOffset;
-	private float currentLayerPitch;
-	private float currentLayerRoll;
-	private float currentLayerPitchAnimationProgress;
-	private float currentLayerRollAnimationProgress;
 
+	public CachedPathHolder cachedPathHolder = new CachedPathHolder();
 	private AnimationContextTracker animationContextTracker;
 
 	@Override
@@ -97,7 +87,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	public GlareEntity(EntityType<? extends GlareEntity> entityType, World world) {
 		super(entityType, world);
 
-		this.moveControl = new FlightMoveControl(this, 10, true);
+		this.moveControl = new GlareMoveControl(this, 24, true);
 		this.setPathfindingPenalty(PathNodeType.DANGER_FIRE, -1.0F);
 		this.setPathfindingPenalty(PathNodeType.WATER, -1.0F);
 		this.setPathfindingPenalty(PathNodeType.LAVA, -1.0F);
@@ -107,16 +97,25 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		this.setCanPickUpLoot(true);
 
 		this.targetEyesPositionOffset = new Vec2f(0.0F, 0.0F);
-		this.currentLayerPitch = 0.0F;
-		this.currentLayerRoll = 0.0F;
-		this.currentLayerPitchAnimationProgress = 0.0F;
-		this.currentLayerRollAnimationProgress = 0.0F;
+	}
+
+	@Override
+	public EntityData initialize(
+		ServerWorldAccess world,
+		LocalDifficulty difficulty,
+		SpawnReason spawnReason,
+		@Nullable EntityData entityData,
+		@Nullable NbtCompound entityNbt
+	) {
+		GlareBrain.setDarkSpotLocatingCooldown(this);
+		GlareBrain.setLocatingGlowBerriesCooldown(this);
+		GlareBrain.setItemPickupCooldown(this);
+
+		return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
 	}
 
 	static {
 		GLARE_FLAGS = DataTracker.registerData(GlareEntity.class, TrackedDataHandlerRegistry.BYTE);
-		TICKS_UNTIL_CAN_EAT_GLOW_BERRIES = DataTracker.registerData(GlareEntity.class, TrackedDataHandlerRegistry.INTEGER);
-		TICKS_UNTIL_CAN_FIND_DARK_SPOT = DataTracker.registerData(GlareEntity.class, TrackedDataHandlerRegistry.INTEGER);
 		PICKABLE_FOOD_FILTER = (itemEntity) -> {
 			return itemEntity.getStack().isIn(FriendsAndFoesTags.GLARE_FOOD_ITEMS) && itemEntity.isAlive() && itemEntity.cannotPickup() == false;
 		};
@@ -126,14 +125,6 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	protected void initDataTracker() {
 		super.initDataTracker();
 		this.dataTracker.startTracking(GLARE_FLAGS, (byte) 0);
-		this.dataTracker.startTracking(
-			TICKS_UNTIL_CAN_FIND_DARK_SPOT,
-			this.generateRandomTicksUntilCanFindDarkSpot()
-		);
-		this.dataTracker.startTracking(
-			TICKS_UNTIL_CAN_EAT_GLOW_BERRIES,
-			this.generateRandomTicksUntilCanEatGlowBerries()
-		);
 	}
 
 	private boolean hasGlareFlag(int bitmask) {
@@ -170,27 +161,10 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 			   && isBlockPosLightEnough;
 	}
 
-	protected void initGoals() {
-		this.goalSelector.add(1, new GlareSitGoal(this));
-		this.goalSelector.add(2, new GlareFollowOwnerGoal(this, 8.0F, 2.0F, false));
-		this.goalSelector.add(3, new GlareAvoidMonsterGoal(this, HostileEntity.class, 16.0F));
-		this.goalSelector.add(4, new AnimalMateGoal(this, 1.0));
-		this.goalSelector.add(4, new TemptGoal(this, 1.2, TEMPT_ITEMS, false));
-		this.goalSelector.add(4, new FollowParentGoal(this, 1.1));
-		this.eatGlowBerriesGoal = new GlareEatGlowBerriesGoal(this);
-		this.goalSelector.add(5, this.eatGlowBerriesGoal);
-		this.shakeOffGlowBerriesGoal = new GlareShakeOffGlowBerriesGoal(this);
-		this.goalSelector.add(5, this.shakeOffGlowBerriesGoal);
-		this.flyToDarkSpotGoal = new GlareFlyToDarkSpotGoal(this);
-		this.goalSelector.add(6, this.flyToDarkSpotGoal);
-		this.goalSelector.add(7, new GlareWanderAroundGoal(this));
-		this.goalSelector.add(8, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
-		this.goalSelector.add(9, new SwimGoal(this));
-	}
-
 	@Override
 	public void tickMovement() {
 		super.tickMovement();
+
 		if (this.getWorld().isClient() == false && this.isAlive() && this.age % 10 == 0) {
 			this.heal(1.0F);
 		}
@@ -203,38 +177,61 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		}
 
 		super.tick();
-
-		if (this.getTicksUntilCanFindDarkSpot() > 0) {
-			this.setTicksUntilCanFindDarkSpot(this.getTicksUntilCanFindDarkSpot() - 1);
-		}
-
-		if (this.getTicksUntilCanEatGlowBerries() > 0) {
-			this.setTicksUntilCanEatGlowBerries(this.getTicksUntilCanEatGlowBerries() - 1);
-		} else if (
-			!this.getWorld().isClient()
-			&& !this.eatGlowBerriesGoal.isRunning
-			&& this.getTicksUntilCanEatGlowBerries() == 0
-			&& !this.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty()
-		) {
-			this.dropItem(this.getMainHandStack().getItem());
-			this.equipStack(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
-		}
-
 		this.updateTargetEyesPositionOffset();
 	}
 
-	public boolean canEquip(ItemStack stack) {
-		EquipmentSlot equipmentSlot = MobEntity.getPreferredEquipmentSlot(stack);
-		if (!this.getEquippedStack(equipmentSlot).isEmpty()) {
-			return false;
-		} else {
-			return equipmentSlot == EquipmentSlot.MAINHAND && super.canEquip(stack);
-		}
+	@Override
+	protected void mobTick() {
+		this.getWorld().getProfiler().push("glareBrain");
+		this.getBrain().tick((ServerWorld) this.getWorld(), this);
+		this.getWorld().getProfiler().pop();
+		this.getWorld().getProfiler().push("glareMemoryUpdate");
+		GlareBrain.updateMemories(this);
+		this.getWorld().getProfiler().pop();
+		this.getWorld().getProfiler().push("glareActivityUpdate");
+		GlareBrain.updateActivities(this);
+		this.getWorld().getProfiler().pop();
+
+		super.mobTick();
 	}
 
-	public boolean canPickupItem(ItemStack stack) {
-		return this.eatGlowBerriesGoal.isRunning
-			   && this.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty();
+	@Override
+	public void travel(Vec3d movementInput) {
+		if (this.isLogicalSideForUpdatingMovement()) {
+			if (this.isTouchingWater()) {
+				this.updateVelocity(0.02F, movementInput);
+				this.move(MovementType.SELF, this.getVelocity());
+				this.setVelocity(this.getVelocity().multiply(0.800000011920929));
+			} else if (this.isInLava()) {
+				this.updateVelocity(0.02F, movementInput);
+				this.move(MovementType.SELF, this.getVelocity());
+				this.setVelocity(this.getVelocity().multiply(0.5));
+			} else {
+				this.updateVelocity(this.getMovementSpeed(), movementInput);
+				this.move(MovementType.SELF, this.getVelocity());
+				this.setVelocity(this.getVelocity().multiply(0.9100000262260437));
+			}
+		}
+
+		this.updateLimbs(false);
+	}
+
+	@Override
+	public boolean canPickUpLoot() {
+		return !this.isItemPickupCoolingDown() && !this.isHoldingItem();
+	}
+
+	public boolean isHoldingItem() {
+		return !this.getStackInHand(Hand.MAIN_HAND).isEmpty();
+	}
+
+	@Override
+	public boolean canEquip(ItemStack stack) {
+		return false;
+	}
+
+	private boolean isItemPickupCoolingDown() {
+		return this.getBrain().isMemoryInState(MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS, MemoryModuleState.VALUE_PRESENT);
 	}
 
 	private void dropItem(ItemStack stack) {
@@ -242,17 +239,22 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		this.getWorld().spawnEntity(itemEntity);
 	}
 
+	@Override
 	protected void loot(ItemEntity item) {
 		ItemStack itemStack = item.getStack();
+
 		if (this.canPickupItem(itemStack) && PICKABLE_FOOD_FILTER.test(item)) {
 			int i = itemStack.getCount();
 			if (i > 1) {
 				this.dropItem(itemStack.split(i - 1));
 			}
 
-			this.triggerItemPickedUpByEntityCriteria(item);
-			this.equipStack(EquipmentSlot.MAINHAND, itemStack.split(1));
-			this.sendPickup(item, itemStack.getCount());
+			ItemStackParticleEffect particleEffect = new ItemStackParticleEffect(ParticleTypes.ITEM, itemStack);
+			this.heal(itemStack.getItem().getFoodComponent().getHunger());
+			this.playEatSound(itemStack);
+			ParticleSpawner.spawnParticles(this, particleEffect, 7, 0.1D);
+			GlareBrain.setItemPickupCooldown(this);
+
 			item.discard();
 		}
 	}
@@ -279,43 +281,11 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		);
 	}
 
-	public float getCurrentLayersPitch() {
-		return this.currentLayerPitch;
-	}
-
-	public void setCurrentLayerPitch(float currentLayersPitch) {
-		this.currentLayerPitch = currentLayersPitch;
-	}
-
-	public float getCurrentLayersRoll() {
-		return this.currentLayerRoll;
-	}
-
-	public void setCurrentLayerRoll(float currentLayersRoll) {
-		this.currentLayerRoll = currentLayersRoll;
-	}
-
-	public float getCurrentLayerPitchAnimationProgress() {
-		return this.currentLayerPitchAnimationProgress;
-	}
-
-	public void setCurrentLayerPitchAnimationProgress(float currentLayersPitchAnimationProgress) {
-		this.currentLayerPitchAnimationProgress = currentLayersPitchAnimationProgress;
-	}
-
-	public float getCurrentLayerRollAnimationProgress() {
-		return this.currentLayerRollAnimationProgress;
-	}
-
-	public void setCurrentLayerRollAnimationProgress(float currentLayersRollAnimationProgress) {
-		this.currentLayerRollAnimationProgress = currentLayersRollAnimationProgress;
-	}
-
 	public static Builder createAttributes() {
 		return MobEntity.createMobAttributes()
 			.add(EntityAttributes.GENERIC_MAX_HEALTH, 10.0D)
 			.add(EntityAttributes.GENERIC_FLYING_SPEED, MOVEMENT_SPEED)
-			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, MOVEMENT_SPEED * 0.5F)
+			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, MOVEMENT_SPEED)
 			.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 48.0D);
 	}
 
@@ -324,7 +294,9 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		BirdNavigation birdNavigation = new BirdNavigation(this, world)
 		{
 			public boolean isValidPosition(BlockPos pos) {
-				return this.world.getBlockState(pos.down()).isAir() == false;
+				boolean isValidPos = this.world.getBlockState(pos.down()).isAir() == false && this.world.getBlockState(pos.down()).isLiquid() == false;
+
+				return isValidPos;
 			}
 		};
 
@@ -333,6 +305,17 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		birdNavigation.setCanEnterOpenDoors(true);
 
 		return birdNavigation;
+	}
+
+	@Override
+	protected Brain<?> deserializeBrain(Dynamic<?> dynamic) {
+		return GlareBrain.create(dynamic);
+	}
+
+	@Override
+	@SuppressWarnings("all")
+	public Brain<GlareEntity> getBrain() {
+		return (Brain<GlareEntity>) super.getBrain();
 	}
 
 	@Override
@@ -374,6 +357,15 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 
 	public void playRustleSound() {
 		SoundEvent soundEvent = this.getRustleSound();
+		this.playSound(soundEvent, 0.1F, 0.1F);
+	}
+
+	private SoundEvent getShakeSound() {
+		return FriendsAndFoesSoundEvents.ENTITY_GLARE_SHAKE.get();
+	}
+
+	public void playShakeSound() {
+		SoundEvent soundEvent = this.getShakeSound();
 		this.playSound(soundEvent, 0.1F, 0.1F);
 	}
 
@@ -436,11 +428,13 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		if (
 			this.isOwner(player)
 			&& actionResult.isAccepted() == false
-			&& this.isGrumpy() == false
 		) {
 			this.setSitting(!this.isSitting());
-			this.getNavigation().setSpeed(0);
-			this.getNavigation().stop();
+
+			if (this.isSitting()) {
+				this.stopMovement();
+			}
+
 			return ActionResult.SUCCESS;
 		}
 
@@ -513,6 +507,46 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		super.setInSittingPose(isSitting);
 	}
 
+	public void stopMovement() {
+		this.getBrain().forget(MemoryModuleType.AVOID_TARGET);
+		this.getBrain().forget(MemoryModuleType.WALK_TARGET);
+		this.getBrain().forget(MemoryModuleType.LOOK_TARGET);
+
+		this.getNavigation().setSpeed(0);
+		this.getNavigation().stop();
+		this.getMoveControl().moveTo(this.getX(), this.getY(), this.getZ(), 0);
+		this.getMoveControl().tick();
+		this.getLookControl().lookAt(this.getLookControl().getLookX(), this.getLookControl().getLookY(), this.getLookControl().getLookZ());
+		this.getLookControl().lookAt(Vec3d.ZERO);
+		this.getLookControl().tick();
+
+		this.setJumping(false);
+		this.setMovementSpeed(0.0F);
+		this.prevHorizontalSpeed = 0.0F;
+		this.horizontalSpeed = 0.0F;
+		this.sidewaysSpeed = 0.0F;
+		this.upwardSpeed = 0.0F;
+	}
+
+	@Nullable
+	public GlobalPos getGlowBerriesPos() {
+		return this.getBrain().getOptionalMemory(FriendsAndFoesMemoryModuleTypes.GLARE_GLOW_BERRIES_POS.get()).orElse(null);
+	}
+
+	public boolean canEatGlowBerriesAt(BlockPos pos) {
+		BlockState blockState = this.getWorld().getBlockState(pos);
+		return CaveVines.hasBerries(blockState);
+	}
+
+	@Nullable
+	public GlobalPos getDarkSpotPos() {
+		return this.getBrain().getOptionalMemory(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_POS.get()).orElse(null);
+	}
+
+	public boolean isDarkSpotDark(BlockPos pos) {
+		return this.getWorld().getLightLevel(LightType.BLOCK, pos) == 0;
+	}
+
 	public boolean isInAir() {
 		return this.isOnGround() == false;
 	}
@@ -576,7 +610,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 
 	@Override
 	public boolean isBreedingItem(ItemStack itemStack) {
-		return TEMPT_ITEMS.test(itemStack);
+		return GlareBrain.getTemptItems().test(itemStack);
 	}
 
 	@Override
@@ -590,6 +624,10 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 
 		glareEntity.setOwnerUuid(this.getOwnerUuid());
 		glareEntity.setTamed(true);
+
+		GlareBrain.setDarkSpotLocatingCooldown(this);
+		GlareBrain.setLocatingGlowBerriesCooldown(this);
+		GlareBrain.setItemPickupCooldown(this);
 
 		return glareEntity;
 	}
@@ -613,50 +651,12 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		float amount
 	) {
 		if (this.getWorld().isClient() == false) {
-			if (this.eatGlowBerriesGoal.isRunning) {
-				this.eatGlowBerriesGoal.stop();
-			} else if (this.shakeOffGlowBerriesGoal.isRunning) {
-				this.shakeOffGlowBerriesGoal.stop();
-			} else if (this.flyToDarkSpotGoal.isRunning) {
-				this.flyToDarkSpotGoal.stop();
-			}
+			this.setSitting(false);
+			this.getNavigation().setSpeed(0);
+			this.getNavigation().stop();
 		}
 
-		this.setSitting(false);
-		this.getNavigation().setSpeed(0);
-		this.getNavigation().stop();
-
 		return super.damage(source, amount);
-	}
-
-	public int getTicksUntilCanFindDarkSpot() {
-		return this.dataTracker.get(TICKS_UNTIL_CAN_FIND_DARK_SPOT);
-	}
-
-	public void setTicksUntilCanFindDarkSpot(int ticksUntilCanFindDarkSpot) {
-		this.dataTracker.set(TICKS_UNTIL_CAN_FIND_DARK_SPOT, ticksUntilCanFindDarkSpot);
-	}
-
-	public int generateRandomTicksUntilCanFindDarkSpot() {
-		return this.getRandom().nextBetween(
-			MIN_TICKS_UNTIL_CAN_FIND_DARK_SPOT,
-			MAX_TICKS_UNTIL_CAN_FIND_DARK_SPOT
-		);
-	}
-
-	public int getTicksUntilCanEatGlowBerries() {
-		return this.dataTracker.get(TICKS_UNTIL_CAN_EAT_GLOW_BERRIES);
-	}
-
-	public void setTicksUntilCanEatGlowBerries(int ticksUntilCanEatGlowBerries) {
-		this.dataTracker.set(TICKS_UNTIL_CAN_EAT_GLOW_BERRIES, ticksUntilCanEatGlowBerries);
-	}
-
-	public int generateRandomTicksUntilCanEatGlowBerries() {
-		return this.getRandom().nextBetween(
-			MIN_TICKS_UNTIL_CAN_EAT_GLOW_BERRIES,
-			MAX_TICKS_UNTIL_CAN_EAT_GLOW_BERRIES
-		);
 	}
 
 	@Override
@@ -666,7 +666,11 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 
 	@Override
 	protected float getActiveEyeHeight(EntityPose poseIn, EntityDimensions sizeIn) {
-		return 1.1F;
+		if (this.isBaby()) {
+			return 0.5F;
+		}
+
+		return 1.0F;
 	}
 
 	@Override
@@ -678,10 +682,6 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		return MOVEMENT_SPEED;
 	}
 
-	public float getFastMovementSpeed() {
-		return MOVEMENT_SPEED * 1.25F;
-	}
-
 	public void setGrumpy(boolean grumpy) {
 		this.setGlareFlag(GRUMPY_BITMASK, grumpy);
 	}
@@ -690,7 +690,19 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		return this.hasGlareFlag(GRUMPY_BITMASK);
 	}
 
-	public boolean isMoving() {
-		return this.isOnGround() == false && this.getVelocity().lengthSquared() >= 0.0001;
+	final class GlareMoveControl extends FlightMoveControl
+	{
+		public GlareMoveControl(GlareEntity glare, int maxPitchChange, boolean noGravity) {
+			super(glare, maxPitchChange, noGravity);
+		}
+
+		@Override
+		public void tick() {
+			if (GlareEntity.this.isSitting()) {
+				return;
+			}
+
+			super.tick();
+		}
 	}
 }

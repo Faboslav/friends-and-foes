@@ -17,11 +17,6 @@ public final class TotemHelper
 	public static final String CURIOS_MOD_ID = "curios";
 
 	@ExpectPlatform
-	public static void sendTotemEffectPacket(ItemStack itemStack, LivingEntity livingEntity) {
-		throw new AssertionError();
-	}
-
-	@ExpectPlatform
 	@Nullable
 	public static ItemStack getTotemFromModdedSlots(PlayerEntity player, Predicate<ItemStack> totemFilter) {
 		throw new AssertionError();

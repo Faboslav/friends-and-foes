@@ -24,20 +24,6 @@ import java.util.function.Predicate;
  */
 public final class TotemHelperImpl
 {
-	public static void sendTotemEffectPacket(ItemStack itemStack, LivingEntity livingEntity) {
-		PacketByteBuf buf = PacketByteBufs.create();
-		buf.writeItemStack(itemStack);
-		buf.writeInt(livingEntity.getId());
-
-		if (livingEntity instanceof ServerPlayerEntity player) {
-			ServerPlayNetworking.send(player, TotemHelper.TOTEM_EFFECT_PACKET, buf);
-		}
-
-		for (ServerPlayerEntity player : PlayerLookup.tracking((ServerWorld) livingEntity.getEntityWorld(), livingEntity.getBlockPos())) {
-			ServerPlayNetworking.send(player, TotemHelper.TOTEM_EFFECT_PACKET, buf);
-		}
-	}
-
 	@Nullable
 	public static ItemStack getTotemFromModdedSlots(PlayerEntity player, Predicate<ItemStack> totemFilter) {
 		if (FabricLoader.getInstance().isModLoaded(TotemHelper.TRINKETS_MOD_ID)) {
@@ -50,4 +36,3 @@ public final class TotemHelperImpl
 		return null;
 	}
 }
-

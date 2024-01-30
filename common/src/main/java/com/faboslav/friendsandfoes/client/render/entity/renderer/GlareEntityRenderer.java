@@ -17,17 +17,17 @@ import net.minecraft.util.Identifier;
 public final class GlareEntityRenderer extends MobEntityRenderer<GlareEntity, GlareEntityModel<GlareEntity>>
 {
 	public GlareEntityRenderer(EntityRendererFactory.Context context) {
-		super(context, new GlareEntityModel(context.getPart(FriendsAndFoesEntityModelLayer.GLARE_LAYER)), 0.45F);
+		super(context, new GlareEntityModel(context.getPart(FriendsAndFoesEntityModelLayer.GLARE_LAYER)), 0.4F);
 		this.addFeature(new GlareFlowerFeatureRenderer(this));
 	}
 
 	@Override
 	protected void scale(GlareEntity glare, MatrixStack matrixStack, float amount) {
 		if (glare.isBaby() == false) {
-			return;
+			matrixStack.scale(0.8F, 0.8F, 0.8F);
+		} else {
+			matrixStack.scale(0.4F, 0.4F, 0.4F);
 		}
-
-		matrixStack.scale(0.5F, 0.5F, 0.5F);
 	}
 
 	@Override

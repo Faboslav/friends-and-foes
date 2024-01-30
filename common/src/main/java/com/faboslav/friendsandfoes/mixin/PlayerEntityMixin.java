@@ -151,7 +151,7 @@ public abstract class PlayerEntityMixin extends LivingEntity
 				}
 
 				TotemEffectPacket.sendToClient(((PlayerEntity) (Object) entity), totemItemStack);
-				//totemItemStack.decrement(1);
+				totemItemStack.decrement(1);
 
 				cir.setReturnValue(true);
 			}

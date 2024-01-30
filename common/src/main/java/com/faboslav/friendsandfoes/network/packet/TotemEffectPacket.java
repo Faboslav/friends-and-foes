@@ -79,3 +79,4 @@ public record TotemEffectPacket(ItemStack itemStack, int entityId) implements Pa
 		}
 	}
 }
+

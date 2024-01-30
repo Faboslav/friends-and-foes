@@ -4,6 +4,7 @@ import com.faboslav.friendsandfoes.entity.PlayerIllusionEntity;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesItems;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
+import com.faboslav.friendsandfoes.network.packet.TotemEffectPacket;
 import com.faboslav.friendsandfoes.platform.TotemHelper;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import net.minecraft.advancement.criterion.Criteria;
@@ -149,7 +150,7 @@ public abstract class PlayerEntityMixin extends LivingEntity
 					this.friendsandfoes_createIllusions();
 				}
 
-				TotemHelper.sendTotemEffectPacket(totemItemStack, this);
+				TotemEffectPacket.sendToClient(((PlayerEntity) (Object) entity), totemItemStack);
 				totemItemStack.decrement(1);
 
 				cir.setReturnValue(true);

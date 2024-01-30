@@ -1,6 +1,6 @@
 #!/bin/bash
 
-./gradlew $1:runClient > gradle_client_output.txt 2>&1 &
+./gradlew $1:runClient --no-daemon 2>&1 | tee gradle_client_output.txt &
 
 SUCCESS_PATTERN='minecraft:textures/atlas/mob_effects\.png-atlas'
 ERROR_PATTERNS=(

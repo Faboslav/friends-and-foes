@@ -197,12 +197,6 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		GlareBrain.updateActivities(this);
 		this.getWorld().getProfiler().pop();
 
-		for (var runningTask : this.getBrain().getRunningTasks()) {
-			if (runningTask.getStatus() == Task.Status.RUNNING) {
-				FriendsAndFoes.getLogger().info(runningTask.toString());
-			}
-		}
-
 		super.mobTick();
 	}
 

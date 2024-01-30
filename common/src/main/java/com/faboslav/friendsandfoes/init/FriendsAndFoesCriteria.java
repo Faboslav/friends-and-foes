@@ -1,26 +1,22 @@
 package com.faboslav.friendsandfoes.init;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.advancements.criterion.ActivateZombieHorseTrapCriterion;
 import com.faboslav.friendsandfoes.advancements.criterion.CompleteHideAndSeekGameCriterion;
-import com.faboslav.friendsandfoes.advancements.criterion.TameGlareCriterion;
-import net.minecraft.advancement.criterion.Criteria;
-import net.minecraft.advancement.criterion.Criterion;
+import com.faboslav.friendsandfoes.platform.RegistryHelper;
+import net.minecraft.advancement.criterion.LightningStrikeCriterion;
+import net.minecraft.advancement.criterion.TameAnimalCriterion;
+
+import java.util.function.Supplier;
 
 public final class FriendsAndFoesCriteria
 {
-	public static final TameGlareCriterion TAME_GLARE;
-	public static final ActivateZombieHorseTrapCriterion ACTIVATE_ZOMBIE_HORSE_TRAP;
-	public static final CompleteHideAndSeekGameCriterion COMPLETE_HIDE_AND_SEEK_GAME;
+	public static final Supplier<TameAnimalCriterion> TAME_GLARE;
+	public static final Supplier<LightningStrikeCriterion> ACTIVATE_ZOMBIE_HORSE_TRAP;
+	public static final Supplier<CompleteHideAndSeekGameCriterion> COMPLETE_HIDE_AND_SEEK_GAME;
 
 	static {
-		TAME_GLARE = register("tame_glare", new TameGlareCriterion());
-		ACTIVATE_ZOMBIE_HORSE_TRAP = register("activate_zombie_horse_trap", new ActivateZombieHorseTrapCriterion());
-		COMPLETE_HIDE_AND_SEEK_GAME = register("complete_hide_and_seek_game", new CompleteHideAndSeekGameCriterion());
-	}
-
-	private static <T extends Criterion<?>> T register(String name, T criterion) {
-		return Criteria.register(FriendsAndFoes.makeStringID(name), criterion);
+		TAME_GLARE = RegistryHelper.registerCriterion("tame_glare", new TameAnimalCriterion());
+		ACTIVATE_ZOMBIE_HORSE_TRAP = RegistryHelper.registerCriterion("activate_zombie_horse_trap", new LightningStrikeCriterion());
+		COMPLETE_HIDE_AND_SEEK_GAME = RegistryHelper.registerCriterion("complete_hide_and_seek_game", new CompleteHideAndSeekGameCriterion());
 	}
 
 	public static void init() {

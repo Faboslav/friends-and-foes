@@ -12,9 +12,9 @@ import net.minecraft.util.math.BlockPos.Mutable;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.SpawnHelper;
-import net.minecraft.world.spawner.Spawner;
+import net.minecraft.world.spawner.SpecialSpawner;
 
-public final class IllusionerSpawner implements Spawner
+public final class IllusionerSpawner implements SpecialSpawner
 {
 	private int cooldown;
 

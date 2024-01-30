@@ -25,9 +25,6 @@ public final class PacketChannelManagerImpl
 	private PacketChannelManagerImpl() {
 	}
 
-	public static void registerChannel(Identifier channel) {
-	}
-
 	public static <T extends Packet<T>> void registerS2CPacket(
 		Identifier channel,
 		Identifier id,

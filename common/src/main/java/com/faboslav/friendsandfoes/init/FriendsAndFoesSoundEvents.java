@@ -24,6 +24,7 @@ public final class FriendsAndFoesSoundEvents
 	public static final Supplier<SoundEvent> ENTITY_GLARE_GRUMPINESS_SHORT;
 	public static final Supplier<SoundEvent> ENTITY_GLARE_HURT;
 	public static final Supplier<SoundEvent> ENTITY_GLARE_RUSTLE;
+	public static final Supplier<SoundEvent> ENTITY_GLARE_SHAKE;
 	public static final Supplier<SoundEvent> ENTITY_ICE_CHUNK_AMBIENT;
 	public static final Supplier<SoundEvent> ENTITY_ICE_CHUNK_HIT;
 	public static final Supplier<SoundEvent> ENTITY_ICE_CHUNK_SUMMON;
@@ -77,6 +78,7 @@ public final class FriendsAndFoesSoundEvents
 		ENTITY_GLARE_GRUMPINESS_SHORT = register("entity", "glare.grumpiness_short");
 		ENTITY_GLARE_HURT = register("entity", "glare.hurt");
 		ENTITY_GLARE_RUSTLE = register("entity", "glare.rustle");
+		ENTITY_GLARE_SHAKE = register("entity", "glare.shake");
 		ENTITY_ICE_CHUNK_AMBIENT = register("entity", "ice_chunk.ambient");
 		ENTITY_ICE_CHUNK_HIT = register("entity", "ice_chunk.hit");
 		ENTITY_ICE_CHUNK_SUMMON = register("entity", "ice_chunk.summon");

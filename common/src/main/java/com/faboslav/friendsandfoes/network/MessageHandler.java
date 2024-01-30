@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes.network;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.network.base.NetworkDirection;
 import com.faboslav.friendsandfoes.network.packet.MoobloomVariantsSyncPacket;
+import com.faboslav.friendsandfoes.network.packet.TotemEffectPacket;
 
 /**
  * Network related is code based on The Bumblezone/Resourceful Lib mods with permissions from the authors
@@ -18,5 +19,6 @@ public final class MessageHandler
 
 	public static void init() {
 		DEFAULT_CHANNEL.registerPacket(NetworkDirection.SERVER_TO_CLIENT, MoobloomVariantsSyncPacket.ID, MoobloomVariantsSyncPacket.HANDLER, MoobloomVariantsSyncPacket.class);
+		DEFAULT_CHANNEL.registerPacket(NetworkDirection.SERVER_TO_CLIENT, TotemEffectPacket.ID, TotemEffectPacket.HANDLER, TotemEffectPacket.class);
 	}
 }

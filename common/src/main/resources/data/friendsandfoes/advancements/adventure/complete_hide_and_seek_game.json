@@ -17,12 +17,7 @@
 	},
 	"criteria": {
 		"friendsandfoes:complete_hide_and_seek_game": {
-			"trigger": "friendsandfoes:complete_hide_and_seek_game",
-			"conditions": {
-				"entity": {
-					"type": "friendsandfoes:rascal"
-				}
-			}
+			"trigger": "friendsandfoes:complete_hide_and_seek_game"
 		}
 	},
 	"requirements": [

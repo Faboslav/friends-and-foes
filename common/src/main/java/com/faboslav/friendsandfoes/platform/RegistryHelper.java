@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.platform;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
+import net.minecraft.advancement.criterion.Criterion;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSetType;
 import net.minecraft.block.Blocks;
@@ -176,6 +177,11 @@ public final class RegistryHelper
 		String name,
 		StructureProcessorType<T> structureProcessorType
 	) {
+		throw new AssertionError();
+	}
+
+	@ExpectPlatform
+	public static <T extends Criterion<?>> Supplier<T> registerCriterion(String name, T criterion) {
 		throw new AssertionError();
 	}
 

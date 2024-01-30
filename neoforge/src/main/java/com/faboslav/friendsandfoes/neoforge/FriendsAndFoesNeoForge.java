@@ -7,7 +7,7 @@ import com.faboslav.friendsandfoes.events.lifecycle.RegisterReloadListenerEvent;
 import com.faboslav.friendsandfoes.events.lifecycle.SetupEvent;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesStructurePoolElements;
-import com.faboslav.friendsandfoes.network.neoforge.PacketHandler;
+import com.faboslav.friendsandfoes.platform.neoforge.PacketChannelManagerImpl;
 import com.faboslav.friendsandfoes.platform.neoforge.RegistryHelperImpl;
 import com.faboslav.friendsandfoes.util.CustomRaidMember;
 import com.faboslav.friendsandfoes.util.ServerWorldSpawnersUtil;
@@ -26,7 +26,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
@@ -39,19 +38,19 @@ import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import java.util.Map;
 import java.util.function.Supplier;
 
+@SuppressWarnings({"deprecation", "removal"})
 @Mod(FriendsAndFoes.MOD_ID)
 public final class FriendsAndFoesNeoForge
 {
 	public FriendsAndFoesNeoForge() {
 		UpdateChecker.checkForNewUpdates();
 		FriendsAndFoes.init();
-		PacketHandler.registerMessages();
 
 		if (FMLEnvironment.dist == Dist.CLIENT) {
 			FriendsAndFoesClient.init();
 		}
 
-		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+		IEventBus modEventBus = net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext.get().getModEventBus();
 
 		modEventBus.addListener(FriendsAndFoesNeoForge::onSetup);
 
@@ -70,10 +69,12 @@ public final class FriendsAndFoesNeoForge
 		RegistryHelperImpl.STRUCTURE_TYPES.register(modEventBus);
 		RegistryHelperImpl.STRUCTURE_PROCESSOR_TYPES.register(modEventBus);
 		RegistryHelperImpl.VILLAGER_PROFESSIONS.register(modEventBus);
+		RegistryHelperImpl.CRITERIA.register(modEventBus);
 
 		modEventBus.addListener(FriendsAndFoesNeoForge::init);
 		modEventBus.addListener(FriendsAndFoesNeoForge::registerEntityAttributes);
 		modEventBus.addListener(FriendsAndFoesNeoForge::addItemsToTabs);
+		modEventBus.addListener(PacketChannelManagerImpl::registerPayloads);
 
 		var eventBus = NeoForge.EVENT_BUS;
 		eventBus.addListener(FriendsAndFoesNeoForge::initSpawners);

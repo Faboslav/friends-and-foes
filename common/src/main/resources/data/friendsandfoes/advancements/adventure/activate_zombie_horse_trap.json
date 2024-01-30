@@ -17,26 +17,8 @@
 	},
 	"criteria": {
 		"friendsandfoes:activate_zombie_horse_trap": {
-			"trigger": "friendsandfoes:activate_zombie_horse_trap",
-			"conditions": {
-				"lightning": [
-					{
-						"condition": "minecraft:entity_properties",
-						"entity": "this",
-						"predicate": {
-							"distance": {
-								"absolute": {
-									"max": 10.0
-								}
-							},
-							"type_specific": {
-								"type": "lightning",
-								"blocks_set_on_fire": 0
-							}
-						}
-					}
-				]
-			}
+			"conditions": {},
+			"trigger": "friendsandfoes:activate_zombie_horse_trap"
 		}
 	},
 	"requirements": [

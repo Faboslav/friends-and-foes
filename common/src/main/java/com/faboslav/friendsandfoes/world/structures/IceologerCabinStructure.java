@@ -7,6 +7,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.structure.pool.StructurePool;
 import net.minecraft.structure.pool.StructurePoolBasedGenerator;
+import net.minecraft.structure.pool.alias.StructurePoolAliasLookup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Heightmap;
@@ -77,7 +78,8 @@ public final class IceologerCabinStructure extends Structure
 			blockPos,
 			false,
 			this.projectStartToHeightmap,
-			this.maxDistanceFromCenter
+			this.maxDistanceFromCenter,
+			StructurePoolAliasLookup.EMPTY
 		);
 	}
 

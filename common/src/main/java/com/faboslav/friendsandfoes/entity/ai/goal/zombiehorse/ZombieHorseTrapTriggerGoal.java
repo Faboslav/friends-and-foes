@@ -19,6 +19,8 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.LocalDifficulty;
 
+import java.util.List;
+
 public final class ZombieHorseTrapTriggerGoal extends Goal
 {
 	private final ZombieHorseEntity zombieHorse;
@@ -70,7 +72,7 @@ public final class ZombieHorseTrapTriggerGoal extends Goal
 			serverWorld.spawnEntityAndPassengers(zombieHorse);
 		}
 
-		FriendsAndFoesCriteria.ACTIVATE_ZOMBIE_HORSE_TRAP.trigger((ServerPlayerEntity) closestPlayer, lightningEntity);
+		FriendsAndFoesCriteria.ACTIVATE_ZOMBIE_HORSE_TRAP.get().trigger((ServerPlayerEntity) closestPlayer, lightningEntity, List.of());
 	}
 
 	private ZombieHorseEntity getHorse(LocalDifficulty localDifficulty) {

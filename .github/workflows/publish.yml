@@ -1,302 +1,165 @@
 name: "Publish"
 
 on:
-    release:
-        types: [ published ]
-
-env:
-    VERSION_TYPE: release
-    JAVA_VERSIONS: |
-        Java 17
-        Java 18
-    GAME_VERSIONS: |
-        1.20.2
-    FABRIC_DEPENDENCIES: |
-        fabric-api | depends | *
-    FABRIC_LOADERS: |
-        fabric
-        quilt
-    RETRY_ATTEMPTS: 3
-    RELAY_DELAY: 10000
-    VERSION_RESOLVER: latest
+    workflow_dispatch:
+        inputs:
+            mod_loaders:
+                description: 'List of mod loaders to be published'
+                required: true
+                default: "['fabric', 'forge', 'neoforge']"
+                type: string
+            branches:
+                description: 'List of branches to be published'
+                required: true
+                default: "['1.19.2', '1.19.3', '1.19.4', '1.20.1', '1.20.2', '1.20.4']"
+                type: string
 
 jobs:
-    build:
+    publish:
         runs-on: ubuntu-latest
-        name: "Build"
-        timeout-minutes: 15
+        name: Publish ${{ matrix.branch }} ${{ matrix.mod_loader }}
+        timeout-minutes: 60
+        strategy:
+            max-parallel: 3
+            fail-fast: false
+            matrix:
+                branch: ${{ fromJson(inputs.branches) }}
+                mod_loader: ${{ fromJson(inputs.mod_loaders) }}
+                include:
+                    -   mod_loader: "fabric"
+                        supported_mod_loaders: ["fabric", "quilt"]
+                        secondary_game_version: ""
+                        curseforge_id: ${{ vars.CURSEFORGE_FABRIC_PROJECT_ID }}
+                        modrinth_id: ${{ vars.MODRINTH_FABRIC_PROJECT_ID }}
+
+                    -   mod_loader: "forge"
+                        supported_mod_loaders: ["forge"]
+                        secondary_game_version: ""
+                        curseforge_id: ${{ vars.CURSEFORGE_FORGE_PROJECT_ID }}
+                        modrinth_id: ${{ vars.MODRINTH_FORGE_PROJECT_ID }}
+
+                    -   mod_loader: "neoforge"
+                        supported_mod_loaders: ["neoforge"]
+                        secondary_game_version: ""
+                        curseforge_id: ${{ vars.CURSEFORGE_FORGE_PROJECT_ID }}
+                        modrinth_id: ${{ vars.MODRINTH_FORGE_PROJECT_ID }}
+
+                    -   branch: "1.20.1"
+                        mod_loader: "forge"
+                        supported_mod_loaders: ["forge", "neoforge"]
+                        secondary_game_version: "1.20"
+                        curseforge_id: ${{ vars.CURSEFORGE_FORGE_PROJECT_ID }}
+                        modrinth_id: ${{ vars.MODRINTH_FORGE_PROJECT_ID }}
+
+                    -   branch: "1.20.1"
+                        secondary_game_version: "1.20"
+
+                    -   branch: "1.20.4"
+                        secondary_game_version: "1.20.3"
 
         steps:
             -   name: "Checkout repository"
-                uses: actions/checkout@v3.5.3
+                uses: actions/checkout@v4.1.1
                 with:
+                    ref:  ${{ matrix.branch }}
                     fetch-depth: 0
 
-            -   name: "Setup environment"
-                uses: ./.github/actions/setup-environment
+            -   name: "Check if the mod loader is supported"
+                id: check-mod-loader
+                run: |
+                    if [ -d ${{ matrix.mod_loader }} ]; then
+                        echo "Mod loader is supported"
+                        echo "is_mod_loader_supported=true" >> $GITHUB_OUTPUT
+                    else
+                        echo "Mod loader is not supported"
+                        echo "is_mod_loader_supported=false" >> $GITHUB_OUTPUT
+                    fi
 
-            -   name: "Build with gradle"
-                run: ./gradlew build
-
-            -   name: "Capture build artifacts"
-                uses: actions/upload-artifact@v3
+            -   name: "Set up JDK"
+                if: steps.check-mod-loader.outputs.is_mod_loader_supported == 'true'
+                uses: actions/setup-java@v4.0.0
                 with:
-                    name: "friends-and-foes"
-                    path: |
-                        fabric/build/libs/friendsandfoes-fabric-${{ github.ref_name }}.jar
-                        forge/build/libs/friendsandfoes-forge-${{ github.ref_name }}.jar
-                        neoforge/build/libs/friendsandfoes-neoforge-${{ github.ref_name }}.jar
-                        LICENSE.txt
+                    java-version: 17
+                    distribution: temurin
 
-    publish-license-to-release:
-        needs: build
-        runs-on: ubuntu-latest
-        name: "Publish license to GitHub"
-        timeout-minutes: 15
+            -   name: "Parse gradle properties"
+                if: steps.check-mod-loader.outputs.is_mod_loader_supported == 'true'
+                id: gradle-properties
+                run: |
+                    while IFS='=' read -r key value; do
+                      key=$(echo $key | awk '{$1=$1;print}')
+                        value=$(echo $value | awk '{$1=$1;print}')
+                    
+                        case "$key" in
+                          minecraft_version) echo "MINECRAFT_VERSION=$value" >> $GITHUB_OUTPUT ;;
+                          mod_name) echo "MOD_NAME=$value" >> $GITHUB_OUTPUT ;;
+                          mod_version) echo "MOD_VERSION=$value" >> $GITHUB_OUTPUT ;;
+                        esac
+                    done < gradle.properties
 
-        steps:
-            -   name: "Download artifacts"
-                uses: actions/download-artifact@v3
+            -   name: "Parse changelog"
+                if: steps.check-mod-loader.outputs.is_mod_loader_supported == 'true'
+                id: parse-changelog
+                run: |
+                    changelog=$(cat CHANGELOG.md)
+                    tag=${{ steps.gradle-properties.outputs.MOD_VERSION }}
+
+                    list=$(echo "$changelog" | sed -n "/^## $tag/,/^## [0-9]/p" | sed -e '1d;$d' -e '/^$/d')
+
+                    echo "$list" > RELEASE_CHANGELOG.md
+
+            -   name: "Create github release"
+                if: steps.check-mod-loader.outputs.is_mod_loader_supported == 'true'
+                continue-on-error: true
+                uses: ncipollo/release-action@v1
                 with:
-                    name: "friends-and-foes"
+                    skipIfReleaseExists: true
+                    allowUpdates: true
+                    omitNameDuringUpdate: true
+                    omitBodyDuringUpdate: true
+                    tag: mc${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}-${{ steps.gradle-properties.outputs.MOD_VERSION }}
+                    name: ${{ steps.gradle-properties.outputs.MOD_NAME }} ${{ steps.gradle-properties.outputs.MOD_VERSION }} for Minecraft ${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}
+                    bodyFile: RELEASE_CHANGELOG.md
 
-            -   name: "Publish license to GitHub"
-                uses: AButler/upload-release-assets@v2.0.2
+            -   name: "Setup gradle and run build"
+                if: steps.check-mod-loader.outputs.is_mod_loader_supported == 'true'
+                uses: gradle/gradle-build-action@v2.11.1
                 with:
-                    files: 'LICENSE.txt'
-                    repo-token: ${{ secrets.GITHUB_TOKEN }}
+                    cache-read-only: true
+                    generate-job-summary: false
+                    gradle-version: wrapper
+                    arguments: ${{ matrix.mod_loader }}:build
 
-    publish-fabric-to-github:
-        needs: build
-        runs-on: ubuntu-latest
-        name: "Publish Fabric to GitHub"
-        timeout-minutes: 15
-
-        steps:
-            -   name: "Download artifacts"
-                uses: actions/download-artifact@v3
+            -   name: Publish ${{ matrix.mod_loader }}
+                if: steps.check-mod-loader.outputs.is_mod_loader_supported == 'true'
+                uses: Kir-Antipov/mc-publish@v3.3.0
                 with:
-                    name: "friends-and-foes"
+                    github-token: ${{ secrets.GITHUB_TOKEN }}
+                    github-tag: mc${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}-${{ steps.gradle-properties.outputs.MOD_VERSION }}
 
-            -   name: "Publish Fabric to GitHub"
-                uses: AButler/upload-release-assets@v2.0.2
-                with:
-                    files: fabric/build/libs/friendsandfoes-fabric-${{ github.ref_name }}.jar
-                    repo-token: ${{ secrets.GITHUB_TOKEN }}
-
-    publish-fabric-to-curseforge:
-        needs: build
-        runs-on: ubuntu-latest
-        name: "Publish Fabric to CurseForge"
-        timeout-minutes: 15
-
-        steps:
-            -   name: "Download artifacts"
-                uses: actions/download-artifact@v3
-                with:
-                    name: "friends-and-foes"
-
-            -   name: "Publish Fabric to CurseForge"
-                uses: Kir-Antipov/mc-publish@v3.2
-                with:
-                    curseforge-id: 551364
+                    curseforge-id: ${{ matrix.curseforge_id }}
                     curseforge-token: ${{ secrets.CURSEFORGE_RELEASE_TOKEN }}
 
-                    files-primary: fabric/build/libs/friendsandfoes-fabric-${{ github.ref_name }}.jar
-                    version-type: ${{ env.VERSION_TYPE }}
-                    loaders: ${{ env.FABRIC_LOADERS }}
-                    game-versions: ${{ env.GAME_VERSIONS }}
-                    name: Friends&Foes ${{ github.ref_name }} (Fabric/Quilt)
-                    dependencies: ${{ env.FABRIC_DEPENDENCIES }}
-                    java: ${{ env.JAVA_VERSIONS }}
-
-                    retry-attempts: ${{ env.RETRY_ATTEMPTS }}
-                    retry-delay: ${{ env.RETRY_DELAY }}
-                    version-resolver: ${{ env.VERSION_RESOLVER }}
-
-    publish-fabric-to-modrinth:
-        needs: build
-        runs-on: ubuntu-latest
-        name: "Publish Fabric to Modrinth"
-        timeout-minutes: 15
-
-        steps:
-            -   name: "Download artifacts"
-                uses: actions/download-artifact@v3
-                with:
-                    name: "friends-and-foes"
-
-            -   name: "Publish Fabric to Modrinth"
-                uses: Kir-Antipov/mc-publish@v3.2
-                with:
-                    modrinth-id: POQ2i9zu
+                    modrinth-id: ${{ matrix.modrinth_id }}
                     modrinth-featured: true
-                    modrinth-unfeature-mode: version-intersection
                     modrinth-token: ${{ secrets.MODRINTH_RELEASE_TOKEN }}
 
-                    files-primary: fabric/build/libs/friendsandfoes-fabric-${{ github.ref_name }}.jar
-                    version-type: ${{ env.VERSION_TYPE }}
-                    loaders: ${{ env.FABRIC_LOADERS }}
-                    game-versions: ${{ env.GAME_VERSIONS }}
-                    name: Friends&Foes ${{ github.ref_name }} (Fabric/Quilt)
-                    version: fabric-${{ github.ref_name }}
-                    dependencies: ${{ env.FABRIC_DEPENDENCIES }}
-                    java: ${{ env.JAVA_VERSIONS }}
-                    retry-attempts: ${{ env.RETRY_ATTEMPTS }}
-                    retry-delay: ${{ env.RETRY_DELAY }}
-                    version-resolver: ${{ env.VERSION_RESOLVER }}
+                    name: ${{ steps.gradle-properties.outputs.MOD_NAME }} ${{ steps.gradle-properties.outputs.MOD_VERSION }}
+                    version: ${{ matrix.mod_loader }}-mc${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}-${{ steps.gradle-properties.outputs.MOD_VERSION }}
+                    loaders: ${{ join(matrix.supported_mod_loaders, ' ') }}
+                    game-versions: "${{ matrix.branch }}\n${{ matrix.secondary_game_version }}"
+                    changelog-file: RELEASE_CHANGELOG.md
+                    files: |
+                        ${{ matrix.mod_loader }}/build/libs/!(*-@(dev|dev-shadow|sources|javadoc)).jar
 
-    publish-forge-to-github:
-        needs: build
+    clear-cache:
+        needs: publish
         runs-on: ubuntu-latest
-        name: "Publish Forge to GitHub"
-        timeout-minutes: 15
-
+        name: "Clear cache"
+        timeout-minutes: 60
         steps:
-            -   name: "Download artifacts"
-                uses: actions/download-artifact@v3
+            -   uses: MyAlbum/purge-cache@v2
                 with:
-                    name: "friends-and-foes"
-
-            -   name: "Publish Forge to GitHub"
-                uses: AButler/upload-release-assets@v2.0.2
-                with:
-                    files: forge/build/libs/friendsandfoes-forge-${{ github.ref_name }}.jar
-                    repo-token: ${{ secrets.GITHUB_TOKEN }}
-
-    publish-forge-to-curseforge:
-        needs: build
-        runs-on: ubuntu-latest
-        name: "Publish Forge to CurseForge"
-        timeout-minutes: 15
-
-        steps:
-            -   name: "Download artifacts"
-                uses: actions/download-artifact@v3
-                with:
-                    name: "friends-and-foes"
-
-            -   name: "Publish Forge to CurseForge"
-                uses: Kir-Antipov/mc-publish@v3.2
-                with:
-                    curseforge-id: 602059
-                    curseforge-token: ${{ secrets.CURSEFORGE_RELEASE_TOKEN }}
-
-                    files-primary: forge/build/libs/friendsandfoes-forge-${{ github.ref_name }}.jar
-                    version-type: ${{ env.VERSION_TYPE }}
-                    loaders: "forge"
-                    game-versions: ${{ env.GAME_VERSIONS }}
-                    name: Friends&Foes ${{ github.ref_name }} (Forge)
-                    java: ${{ env.JAVA_VERSIONS }}
-
-                    retry-attempts: ${{ env.RETRY_ATTEMPTS }}
-                    retry-delay: ${{ env.RETRY_DELAY }}
-                    version-resolver: ${{ env.VERSION_RESOLVER }}
-
-    publish-forge-to-modrinth:
-        needs: build
-        runs-on: ubuntu-latest
-        name: "Publish Forge to Modrinth"
-        timeout-minutes: 15
-
-        steps:
-            -   name: "Download artifacts"
-                uses: actions/download-artifact@v3
-                with:
-                    name: "friends-and-foes"
-
-            -   name: "Publish Forge to Modrinth"
-                uses: Kir-Antipov/mc-publish@v3.2
-                with:
-                    modrinth-id: BOCJKD49
-                    modrinth-featured: true
-                    modrinth-unfeature-mode: version-intersection
-                    modrinth-token: ${{ secrets.MODRINTH_RELEASE_TOKEN }}
-
-                    files-primary: forge/build/libs/friendsandfoes-forge-${{ github.ref_name }}.jar
-                    version-type: ${{ env.VERSION_TYPE }}
-                    loaders: "forge"
-                    game-versions: ${{ env.GAME_VERSIONS }}
-                    name: Friends&Foes ${{ github.ref_name }} (Forge)
-                    version: forge-${{ github.ref_name }}
-                    java: ${{ env.JAVA_VERSIONS }}
-                    retry-attempts: ${{ env.RETRY_ATTEMPTS }}
-                    retry-delay: ${{ env.RETRY_DELAY }}
-                    version-resolver: ${{ env.VERSION_RESOLVER }}
-
-    publish-neoforge-to-github:
-        needs: build
-        runs-on: ubuntu-latest
-        name: "Publish NeoForge to GitHub"
-        timeout-minutes: 15
-
-        steps:
-            -   name: "Download artifacts"
-                uses: actions/download-artifact@v3
-                with:
-                    name: "friends-and-foes"
-
-            -   name: "Publish NeoForge to GitHub"
-                uses: AButler/upload-release-assets@v2.0.2
-                with:
-                    files: neoforge/build/libs/friendsandfoes-neoforge-${{ github.ref_name }}.jar
-                    repo-token: ${{ secrets.GITHUB_TOKEN }}
-
-    publish-neoforge-to-curseforge:
-        needs: build
-        runs-on: ubuntu-latest
-        name: "Publish NeoForge to CurseForge"
-        timeout-minutes: 15
-
-        steps:
-            -   name: "Download artifacts"
-                uses: actions/download-artifact@v3
-                with:
-                    name: "friends-and-foes"
-
-            -   name: "Publish NeoForge to CurseForge"
-                uses: Kir-Antipov/mc-publish@v3.2
-                with:
-                    curseforge-id: 602059
-                    curseforge-token: ${{ secrets.CURSEFORGE_RELEASE_TOKEN }}
-
-                    files-primary: neoforge/build/libs/friendsandfoes-neoforge-${{ github.ref_name }}.jar
-                    version-type: ${{ env.VERSION_TYPE }}
-                    loaders: "neoforge"
-                    game-versions: ${{ env.GAME_VERSIONS }}
-                    name: Friends&Foes ${{ github.ref_name }} (NeoForge)
-                    java: ${{ env.JAVA_VERSIONS }}
-                    retry-attempts: ${{ env.RETRY_ATTEMPTS }}
-                    retry-delay: ${{ env.RETRY_DELAY }}
-                    version-resolver: ${{ env.VERSION_RESOLVER }}
-
-    publish-neoforge-to-modrinth:
-        needs: build
-        runs-on: ubuntu-latest
-        name: "Publish NeoForge to Modrinth"
-        timeout-minutes: 15
-
-        steps:
-            -   name: "Download artifacts"
-                uses: actions/download-artifact@v3
-                with:
-                    name: "friends-and-foes"
-
-            -   name: "Publish NeoForge to Modrinth"
-                uses: Kir-Antipov/mc-publish@v3.2
-                with:
-                    modrinth-id: BOCJKD49
-                    modrinth-featured: true
-                    modrinth-unfeature-mode: version-intersection
-                    modrinth-token: ${{ secrets.MODRINTH_RELEASE_TOKEN }}
-
-                    files-primary: neoforge/build/libs/friendsandfoes-neoforge-${{ github.ref_name }}.jar
-                    version-type: ${{ env.VERSION_TYPE }}
-                    loaders: "neoforge"
-                    game-versions: ${{ env.GAME_VERSIONS }}
-                    name: Friends&Foes ${{ github.ref_name }} (NeoForge)
-                    version: neoforge-${{ github.ref_name }}
-                    java: ${{ env.JAVA_VERSIONS }}
-                    retry-attempts: ${{ env.RETRY_ATTEMPTS }}
-                    retry-delay: ${{ env.RETRY_DELAY }}
-                    version-resolver: ${{ env.VERSION_RESOLVER }}
+                    accessed: true
+                    created: true
+                    max-age: 21600

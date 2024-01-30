@@ -18,7 +18,7 @@ import net.minecraft.world.World;
 public class CopperButtonBlock extends ButtonBlock
 {
 	public CopperButtonBlock(Settings settings, int pressTicks) {
-		super(settings, FriendsAndFoesBlockSetTypes.COPPER.get(), pressTicks, false);
+		super(FriendsAndFoesBlockSetTypes.COPPER.get(), pressTicks, settings);
 	}
 
 	@Override

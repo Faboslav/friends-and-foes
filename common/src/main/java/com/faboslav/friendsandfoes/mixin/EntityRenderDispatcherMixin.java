@@ -35,7 +35,7 @@ public abstract class EntityRenderDispatcherMixin
 		if (entity instanceof PlayerIllusionEntity) {
 			SkinTextures.Model model = ((PlayerIllusionEntity) entity).getSkinTextures().model();
 			EntityRenderer<? extends PlayerIllusionEntity> entityRenderer = this.illusionModelRenderers.get(model);
-			entityRenderer = entityRenderer != null ? entityRenderer : this.illusionModelRenderers.get(SkinTextures.Model.WIDE);
+			entityRenderer = entityRenderer != null ? entityRenderer:this.illusionModelRenderers.get(SkinTextures.Model.WIDE);
 			cir.setReturnValue((EntityRenderer<? super T>) entityRenderer);
 		}
 	}

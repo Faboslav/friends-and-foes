@@ -103,6 +103,7 @@ public final class GlareShakeGlowBerriesTask extends MultiTickTask<GlareEntity>
 		}
 
 		CaveVines.pickBerries(
+			glare,
 			blockState,
 			glare.getWorld(),
 			glowBerriesPos.getPos()

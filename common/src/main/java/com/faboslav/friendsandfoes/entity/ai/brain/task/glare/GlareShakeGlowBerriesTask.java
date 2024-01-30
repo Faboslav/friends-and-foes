@@ -54,7 +54,6 @@ public final class GlareShakeGlowBerriesTask extends MultiTickTask<GlareEntity>
 
 		return glare.getWorld().getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING) != false
 			   && FriendsAndFoes.getConfig().enableGlareGriefing != false
-			   && !glare.getDamageTracker().hasDamage()
 			   && !glare.isLeashed()
 			   && !glare.isSitting()
 			   && glare.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty() != false

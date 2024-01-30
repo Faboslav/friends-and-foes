@@ -294,7 +294,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		BirdNavigation birdNavigation = new BirdNavigation(this, world)
 		{
 			public boolean isValidPosition(BlockPos pos) {
-				boolean isValidPos = this.world.getBlockState(pos.down()).isAir() == false && this.world.getBlockState(pos.down()).getMaterial().isLiquid() == false;
+				boolean isValidPos = this.world.getBlockState(pos.down()).isAir() == false && this.world.getBlockState(pos.down()).isLiquid() == false;
 
 				return isValidPos;
 			}

@@ -2,7 +2,6 @@ package com.faboslav.friendsandfoes.platform;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
@@ -15,11 +14,6 @@ public final class TotemHelper
 	public static final Identifier TOTEM_EFFECT_PACKET = FriendsAndFoes.makeID("totem_effect_packet");
 	public static final String TRINKETS_MOD_ID = "trinkets";
 	public static final String CURIOS_MOD_ID = "curios";
-
-	@ExpectPlatform
-	public static void sendTotemEffectPacket(ItemStack itemStack, LivingEntity livingEntity) {
-		throw new AssertionError();
-	}
 
 	@ExpectPlatform
 	@Nullable

@@ -285,6 +285,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 
 		return entitySnapshot;
 	}
+
 	@Override
 	protected int getNextAirUnderwater(int air) {
 		return air;

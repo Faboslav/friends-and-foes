@@ -6,9 +6,6 @@ import com.faboslav.friendsandfoes.util.animation.AnimationMath;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.decoration.LeashKnotEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec2f;
 
@@ -58,20 +55,20 @@ public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntit
 		root.addChild(MODEL_PART_HEAD, ModelPartBuilder.create().uv(0, 0).cuboid(-6.0F, 0.0F, -3.0F, 12.0F, 9.0F, 9.0F, new Dilation(-0.02F)), ModelTransform.pivot(0.0F, 1.0F, 0.0F));
 
 		ModelPartData head = root.getChild(MODEL_PART_HEAD);
-		head.addChild(MODEL_PART_EYES, ModelPartBuilder.create().uv(36, 0).cuboid(2.0F, -1.0F, -0.3F, 2.0F, 2.0F, 1.0F, new Dilation(-0.29F)).uv(36, 0).cuboid(-4.0F, -1.0F, -0.3F, 2.0F, 2.0F, 1.0F, new Dilation(-0.29F)), ModelTransform.pivot(0.0F, 5.0F, -3.0F));
-		head.addChild(MODEL_TOP_AZALEA, ModelPartBuilder.create().uv(72, 0).cuboid(-7.0F, 0.0F, -7.0F, 14.0F, 8.0F, 14.0F, new Dilation(0.01F)), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
-		head.addChild(MODEL_BOTTOM_AZALEA, ModelPartBuilder.create().uv(0, 114).cuboid(-7.0F, 0.75F, -7.0F, 14.0F, 0.0F, 14.0F, new Dilation(-0.01F)).uv(72, 22).cuboid(-7.0F, -4.0F, -7.0F, 14.0F, 10.0F, 14.0F, new Dilation(0.01F)), ModelTransform.pivot(0.0F, 8.0F, 0.0F));
+		head.addChild(MODEL_PART_EYES, ModelPartBuilder.create().uv(33, 0).cuboid(2.0F, -1.0F, -0.3F, 2.0F, 2.0F, 1.0F, new Dilation(-0.2F)).uv(33, 0).cuboid(-4.0F, -1.0F, -0.3F, 2.0F, 2.0F, 1.0F, new Dilation(-0.2F)), ModelTransform.pivot(0.0F, 5.0F, -3.0F));
+		head.addChild(MODEL_TOP_AZALEA, ModelPartBuilder.create().uv(0, 18).cuboid(-7.0F, 0.0F, -7.0F, 14.0F, 8.0F, 14.0F, new Dilation(0.01F)), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
+		head.addChild(MODEL_BOTTOM_AZALEA, ModelPartBuilder.create().uv(18, 101).mirrored().cuboid(-7.0F, 0.75F, -7.0F, 14.0F, 0.0F, 14.0F, new Dilation(-0.01F)).mirrored(false).uv(0, 40).cuboid(-7.0F, -4.0F, -7.0F, 14.0F, 10.0F, 14.0F, new Dilation(0.01F)), ModelTransform.pivot(0.0F, 8.0F, 0.0F));
 
 		ModelPartData bottomAzalea = head.getChild(MODEL_BOTTOM_AZALEA);
-		bottomAzalea.addChild(MODEL_SECOND_LAYER, ModelPartBuilder.create().uv(80, 46).cuboid(-6.0F, 0.0F, -6.0F, 12.0F, 7.0F, 12.0F, new Dilation(0.01F)), ModelTransform.pivot(0.0F, 1.0F, 0.0F));
+		bottomAzalea.addChild(MODEL_SECOND_LAYER, ModelPartBuilder.create().uv(0, 64).cuboid(-6.0F, 0.0F, -6.0F, 12.0F, 7.0F, 12.0F, new Dilation(0.01F)), ModelTransform.pivot(0.0F, 1.0F, 0.0F));
 
 		ModelPartData secondLayer = bottomAzalea.getChild(MODEL_SECOND_LAYER);
-		secondLayer.addChild(MODEL_THIRD_LAYER, ModelPartBuilder.create().uv(88, 65).cuboid(-5.0F, 0.0F, -5.0F, 10.0F, 7.0F, 10.0F), ModelTransform.pivot(0.0F, 2.0F, 0.0F));
+		secondLayer.addChild(MODEL_THIRD_LAYER, ModelPartBuilder.create().uv(0, 83).cuboid(-5.0F, 0.0F, -5.0F, 10.0F, 7.0F, 10.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 2.0F, 0.0F));
 
 		ModelPartData thirdLayer = secondLayer.getChild(MODEL_THIRD_LAYER);
-		thirdLayer.addChild(MODEL_FOURTH_LAYER, ModelPartBuilder.create().uv(96, 82).cuboid(-4.0F, 0.0F, -4.0F, 8.0F, 7.0F, 8.0F), ModelTransform.pivot(0.0F, 2.0F, 0.0F));
+		thirdLayer.addChild(MODEL_FOURTH_LAYER, ModelPartBuilder.create().uv(0, 100).cuboid(-4.0F, 0.0F, -4.0F, 8.0F, 7.0F, 8.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 2.0F, 0.0F));
 
-		return TexturedModelData.of(modelData, 128, 128);
+		return TexturedModelData.of(modelData, 64, 128);
 	}
 
 	@Override
@@ -83,11 +80,31 @@ public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntit
 		float headYaw,
 		float headPitch
 	) {
-		this.applyModelTransforms(MODEL_PART_ROOT, this.root);
+		this.getPart().traverse().forEach(ModelPart::resetTransform);
 
 		this.animateEyes(glare);
-		this.animateHead(glare, animationProgress);
-		this.animateLayers(glare, animationProgress);
+		this.animateFloating(glare, animationProgress);
+
+		float movementForce = MathHelper.sin(limbAngle * 0.1F) * limbDistance * 0.75F;
+		float absMovementForce = Math.abs(movementForce);
+
+		if (absMovementForce >= 0.001F) {
+			this.head.pitch = AnimationMath.toRadians(40 * absMovementForce);
+			this.head.roll = AnimationMath.toRadians(15 * movementForce);
+
+			for (ModelPart layer : this.layers) {
+				layer.pitch = AnimationMath.toRadians(30 * absMovementForce);
+				layer.roll = AnimationMath.toRadians(15 * movementForce);
+			}
+		} else {
+			this.head.pitch = AnimationMath.toRadians(0.5F * AnimationMath.sin(animationProgress * 0.125F));
+			this.head.roll = AnimationMath.toRadians(0.5F * AnimationMath.cos(animationProgress * 0.125F));
+
+			for (ModelPart layer : this.layers) {
+				layer.pitch = AnimationMath.toRadians(0.75F * AnimationMath.sin(animationProgress * 0.1F));
+				layer.roll = AnimationMath.toRadians(0.75F * AnimationMath.cos(animationProgress * 0.1F));
+			}
+		}
 	}
 
 	@Override
@@ -97,49 +114,41 @@ public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntit
 		float limbDistance,
 		float tickDelta
 	) {
-		float targetLayerPitch;
-		float targetLayerRoll;
 
-		if (
-			glare.isMoving()
-			&& (glare.getHoldingEntity() instanceof LeashKnotEntity) == false
-			&& glare.isGrumpy() == false
-		) {
-			targetLayerPitch = (float) Math.toRadians(10);
-			targetLayerRoll = (float) Math.toRadians(1);
-		} else {
-			targetLayerPitch = (float) Math.toRadians(1);
-			targetLayerRoll = (float) Math.toRadians(1);
-		}
-
-		tickDelta = (float) Math.abs(Math.sin(tickDelta)) * 0.1f;
-
-		float layerPitch = MathHelper.lerp(
-			tickDelta,
-			glare.getCurrentLayersPitch(),
-			targetLayerPitch
-		);
-		float layerRoll = MathHelper.lerp(tickDelta,
-			glare.getCurrentLayersRoll(),
-			targetLayerRoll
-		);
-
-		glare.setCurrentLayerPitch(layerPitch);
-		glare.setCurrentLayerRoll(layerRoll);
 	}
 
-	private void animateHead(
+	private void animateFloating(
 		T glare,
 		float animationProgress
 	) {
+		float verticalFloatingSpeed = glare.isGrumpy() ? 0.3F:0.1F;
+		float horizontalFloatingSpeed = glare.isGrumpy() ? 0.15F:0.05F;
+
+		float verticalFloatingOffset;
+		float horizontalFloatingOffset;
+
+		if (glare.isSitting()) {
+			verticalFloatingOffset = 0.5F;
+			horizontalFloatingOffset = 0.5F;
+		} else {
+			verticalFloatingOffset = 1.5F;
+			horizontalFloatingOffset = 1.0F;
+		}
+
+		float targetPivotY = glare.isSitting() ? 3.0F:0.11F;
+		animateModelPartYPositionBasedOnTicks(glare, this.root, targetPivotY, 10);
+
 		if (glare.isGrumpy()) {
 			ModelPartAnimator.setXPosition(this.root, AnimationMath.sin(animationProgress, 0.5F));
 			ModelPartAnimator.setYPosition(this.root, AnimationMath.absSin(animationProgress, 0.1F));
 			ModelPartAnimator.setYRotation(this.root, AnimationMath.sin(animationProgress, 0.05F));
-		} else {
-			float targetPivotY = glare.isSitting() ? 3.0F:0.0F;
-			animateModelPartYPositionBasedOnTicks(glare, this.root, targetPivotY, 10);
 		}
+
+		float verticalFloatingProgress = AnimationMath.sin(animationProgress * verticalFloatingSpeed) * verticalFloatingOffset;
+		float horizontalFloatingProgress = AnimationMath.cos(animationProgress * horizontalFloatingSpeed) * horizontalFloatingOffset;
+
+		this.head.pivotY = verticalFloatingProgress;
+		this.head.pivotX = horizontalFloatingProgress;
 	}
 
 	private void animateEyes(T glare) {
@@ -153,59 +162,5 @@ public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntit
 			this.eyes.pivotZ,
 			GlareEntity.MIN_EYE_ANIMATION_TICK_AMOUNT
 		);
-	}
-
-	private void animateLayers(
-		T glare,
-		float animationProgress
-	) {
-		float layerAnimationProgress = (animationProgress * 0.1F);
-		float targetPitchLayerAnimationProgress = (float) Math.sin(layerAnimationProgress);
-		float targetRollLayerAnimationProgress = (float) Math.cos(layerAnimationProgress);
-
-		if (glare.isMoving()) {
-			targetPitchLayerAnimationProgress = Math.abs(targetPitchLayerAnimationProgress);
-			targetRollLayerAnimationProgress = Math.abs(targetRollLayerAnimationProgress);
-		} else if (glare.isSitting()) {
-			targetPitchLayerAnimationProgress = 0;
-			targetRollLayerAnimationProgress = 0;
-		}
-
-		float currentPitchLayerAnimationProgress = MathHelper.lerp(
-			(float) Math.abs(Math.sin(animationProgress)) * 0.1f,
-			glare.getCurrentLayerPitchAnimationProgress(),
-			targetPitchLayerAnimationProgress
-		);
-		float currentRollLayerAnimationProgress = MathHelper.lerp(
-			(float) Math.abs(Math.sin(animationProgress)) * 0.1F,
-			glare.getCurrentLayerRollAnimationProgress(),
-			targetRollLayerAnimationProgress
-		);
-
-		for (ModelPart layer : this.layers) {
-			layer.pitch = currentPitchLayerAnimationProgress * glare.getCurrentLayersPitch();
-			layer.roll = currentRollLayerAnimationProgress * glare.getCurrentLayersRoll();
-		}
-
-		if (glare.isMoving()) {
-			this.root.pitch = currentPitchLayerAnimationProgress * glare.getCurrentLayersPitch();
-		}
-
-		glare.setCurrentLayerPitchAnimationProgress(currentPitchLayerAnimationProgress);
-		glare.setCurrentLayerRollAnimationProgress(currentRollLayerAnimationProgress);
-	}
-
-	@Override
-	public void render(
-		MatrixStack matrices,
-		VertexConsumer vertices,
-		int light,
-		int overlay,
-		float red,
-		float green,
-		float blue,
-		float alpha
-	) {
-		this.getPart().render(matrices, vertices, light, overlay, red, green, blue, alpha);
 	}
 }

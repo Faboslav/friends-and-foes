@@ -16,7 +16,7 @@ import java.util.function.Predicate;
 /**
  * @see TotemHelper
  */
-@SuppressWarnings({"deprecation"})
+@SuppressWarnings({"all"})
 public final class TotemHelperImpl
 {
 	public static void sendTotemEffectPacket(ItemStack itemStack, LivingEntity livingEntity) {

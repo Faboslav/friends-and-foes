@@ -2,7 +2,6 @@ package com.faboslav.friendsandfoes.platform;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;

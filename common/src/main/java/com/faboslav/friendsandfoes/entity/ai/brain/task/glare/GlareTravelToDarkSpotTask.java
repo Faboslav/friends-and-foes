@@ -1,12 +1,14 @@
 package com.faboslav.friendsandfoes.entity.ai.brain.task.glare;
 
 import com.faboslav.friendsandfoes.entity.GlareEntity;
+import com.faboslav.friendsandfoes.entity.ai.brain.GlareBrain;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.LookTargetUtil;
 import net.minecraft.entity.ai.brain.task.MultiTickTask;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.TimeHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.GlobalPos;
 
@@ -14,7 +16,7 @@ import java.util.Map;
 
 public final class GlareTravelToDarkSpotTask extends MultiTickTask<GlareEntity>
 {
-	private static final int MAX_TRAVELLING_TICKS = 600;
+	private static final int MAX_TRAVELLING_TICKS = 300;
 	private final static float WITHING_DISTANCE = 1.5F;
 
 	public GlareTravelToDarkSpotTask() {
@@ -80,6 +82,7 @@ public final class GlareTravelToDarkSpotTask extends MultiTickTask<GlareEntity>
 			)
 		) {
 			glare.getBrain().forget(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_POS.get());
+			GlareBrain.setDarkSpotLocatingCooldown(glare, TimeHelper.betweenSeconds(10, 20));
 		}
 	}
 

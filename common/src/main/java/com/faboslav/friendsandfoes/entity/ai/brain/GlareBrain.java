@@ -11,7 +11,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Dynamic;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.*;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
@@ -128,9 +127,10 @@ public final class GlareBrain
 				Pair.of(0, new TemptTask(glare -> 1.25f)),
 				Pair.of(1, new BreedTask(FriendsAndFoesEntityTypes.GLARE.get(), 1.0f)),
 				Pair.of(2, WalkTowardClosestAdultTask.create(UniformIntProvider.create(5, 16), 1.25f)),
-				Pair.of(3, WalkTowardsLookTargetTask.create(glare -> getOwner((GlareEntity) glare), 4, 16, 2.0f)),
-				Pair.of(4, FollowMobWithIntervalTask.follow(6.0F, UniformIntProvider.create(30, 60))),
-				Pair.of(5, new RandomTask(
+				Pair.of(3, new GlareTeleportToOwnerTask()),
+				Pair.of(4, WalkTowardsLookTargetTask.create(glare -> getOwner((GlareEntity) glare), 4, 16, 2.0f)),
+				Pair.of(5, FollowMobWithIntervalTask.follow(3.0f, UniformIntProvider.create(30, 60))),
+				Pair.of(6, new RandomTask(
 					ImmutableList.of(
 						Pair.of(GoTowardsLookTargetTask.create(1.0F, 3), 3),
 						Pair.of(new GlareStrollTask(), 2),
@@ -247,7 +247,7 @@ public final class GlareBrain
 			FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_LOCATING_COOLDOWN.get(),
 			FriendsAndFoesMemoryModuleTypes.GLARE_LOCATING_GLOW_BERRIES_COOLDOWN.get()
 		);
-		DARK_SPOT_LOCATING_COOLDOWN_PROVIDER = TimeHelper.betweenSeconds(15, 30);
+		DARK_SPOT_LOCATING_COOLDOWN_PROVIDER = TimeHelper.betweenSeconds(20, 40);
 		EAT_GLOW_BERRIES_COOLDOWN_PROVIDER = TimeHelper.betweenSeconds(30, 60);
 	}
 }

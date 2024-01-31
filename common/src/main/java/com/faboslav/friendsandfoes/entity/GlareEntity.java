@@ -19,6 +19,8 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
+import net.minecraft.entity.ai.brain.task.MultiTickTask;
+import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.ai.control.FlightMoveControl;
 import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
@@ -48,10 +50,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.GlobalPos;
-import net.minecraft.util.math.Vec2f;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.LightType;
 import net.minecraft.world.LocalDifficulty;
@@ -65,6 +64,7 @@ import java.util.function.Predicate;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public final class GlareEntity extends TameableEntity implements Flutterer, AnimatedEntity
 {
+	private static final Vec3i ITEM_PICKUP_RANGE_EXPANDER = new Vec3i(1, 1, 1);
 	public static final Predicate<ItemEntity> PICKABLE_FOOD_FILTER;
 	private static final int GRUMPY_BITMASK = 2;
 	private static final float MOVEMENT_SPEED = 0.1F;
@@ -196,6 +196,12 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		GlareBrain.updateActivities(this);
 		this.getWorld().getProfiler().pop();
 
+		for (var runningTask : this.getBrain().getRunningTasks()) {
+			if (runningTask.getStatus() == MultiTickTask.Status.RUNNING) {
+				FriendsAndFoes.getLogger().info(runningTask.toString());
+			}
+		}
+
 		super.mobTick();
 	}
 
@@ -217,6 +223,16 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 			}
 		}
 		this.updateLimbs(this, false);
+	}
+
+	@Override
+	protected Vec3i getItemPickUpRangeExpander() {
+		return ITEM_PICKUP_RANGE_EXPANDER;
+	}
+
+	@Override
+	public boolean canGather(ItemStack itemStack) {
+		return itemStack.isEmpty() == false && itemStack.getItem() == Items.GLOW_BERRIES && super.canGather(itemStack);
 	}
 
 	@Override

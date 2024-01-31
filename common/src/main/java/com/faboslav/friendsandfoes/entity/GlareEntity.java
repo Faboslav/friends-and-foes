@@ -19,8 +19,6 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
-import net.minecraft.entity.ai.brain.task.MultiTickTask;
-import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.ai.control.FlightMoveControl;
 import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
@@ -195,12 +193,6 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		this.getWorld().getProfiler().push("glareActivityUpdate");
 		GlareBrain.updateActivities(this);
 		this.getWorld().getProfiler().pop();
-
-		for (var runningTask : this.getBrain().getRunningTasks()) {
-			if (runningTask.getStatus() == MultiTickTask.Status.RUNNING) {
-				FriendsAndFoes.getLogger().info(runningTask.toString());
-			}
-		}
 
 		super.mobTick();
 	}

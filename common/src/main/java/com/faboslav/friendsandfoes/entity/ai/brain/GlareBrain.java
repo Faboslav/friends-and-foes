@@ -129,7 +129,7 @@ public final class GlareBrain
 				Pair.of(1, new BreedTask(FriendsAndFoesEntityTypes.GLARE.get(), 1.0f)),
 				Pair.of(2, new WalkTowardClosestAdultTask(UniformIntProvider.create(5, 16), 1.25f)),
 				Pair.of(3, new GlareTeleportToOwnerTask()),
-				Pair.of(4, new WalkTowardsLookTargetTask(glare -> getOwner((GlareEntity) glare), 4, 16, 2.0f)),
+				Pair.of(4, new WalkTowardsLookTargetTask(glare -> getOwner((GlareEntity) glare), 3, 8, 2.0f)),
 				Pair.of(5, new TimeLimitedTask<LivingEntity>(new FollowMobTask(glare -> true, 3.0f), UniformIntProvider.create(30, 60))),
 				Pair.of(6, new RandomTask(
 					ImmutableList.of(

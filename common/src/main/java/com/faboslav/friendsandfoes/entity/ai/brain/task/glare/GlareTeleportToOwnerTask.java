@@ -25,7 +25,7 @@ public final class GlareTeleportToOwnerTask extends MultiTickTask<GlareEntity>
 			|| glare.isLeashed()
 			|| glare.isSitting()
 			|| glare.hasVehicle()
-			|| glare.squaredDistanceTo(owner) < 256.0D
+			|| glare.squaredDistanceTo(owner) < 1024.0D
 		) {
 			return false;
 		}

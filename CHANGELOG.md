@@ -1,3 +1,7 @@
+## 2.0.9
+
+- Fixed Glare follow logic when tamed
+
 ## 2.0.8
 
 - Reworked Glare AI to use brain/tasks instead of goals

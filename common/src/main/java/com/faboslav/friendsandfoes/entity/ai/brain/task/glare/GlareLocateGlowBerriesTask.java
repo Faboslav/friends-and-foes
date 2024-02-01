@@ -35,6 +35,7 @@ public final class GlareLocateGlowBerriesTask extends Task<GlareEntity>
 		return FriendsAndFoes.getConfig().enableGlareGriefing != false
 			   && !glare.isLeashed()
 			   && !glare.isSitting()
+			   && !glare.hasVehicle()
 			   && glare.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty() != false;
 	}
 

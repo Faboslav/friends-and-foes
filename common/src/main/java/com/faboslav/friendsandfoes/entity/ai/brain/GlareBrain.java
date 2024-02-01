@@ -116,6 +116,7 @@ public final class GlareBrain
 			),
 			ImmutableSet.of(
 				Pair.of(MemoryModuleType.AVOID_TARGET, MemoryModuleState.VALUE_PRESENT),
+				Pair.of(FriendsAndFoesMemoryModuleTypes.GLARE_IS_TAMED.get(), MemoryModuleState.VALUE_ABSENT),
 				Pair.of(FriendsAndFoesMemoryModuleTypes.GLARE_IS_IDLE.get(), MemoryModuleState.VALUE_ABSENT)
 			)
 		);
@@ -173,8 +174,8 @@ public final class GlareBrain
 	public static void updateMemories(GlareEntity glare) {
 		if (
 			(
-				glare.isBaby()
-				|| (glare.isBaby() == false && glare.isTamed() == false)
+				(glare.isBaby() == false && glare.isTamed() == false)
+				|| GlareLocateDarkSpotTask.canLocateDarkSpot(glare) == false
 			)
 			&& glare.getBrain().isMemoryInState(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_LOCATING_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT)
 		) {
@@ -184,6 +185,7 @@ public final class GlareBrain
 		if (
 			glare.isSitting()
 			|| glare.isLeashed()
+			|| glare.hasVehicle()
 		) {
 			glare.getBrain().remember(FriendsAndFoesMemoryModuleTypes.GLARE_IS_IDLE.get(), true);
 		} else {

@@ -214,6 +214,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 				this.setVelocity(this.getVelocity().multiply(0.91f));
 			}
 		}
+
 		this.updateLimbs(this, false);
 	}
 

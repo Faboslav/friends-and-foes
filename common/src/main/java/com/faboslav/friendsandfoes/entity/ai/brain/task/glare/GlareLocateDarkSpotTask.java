@@ -99,6 +99,7 @@ public final class GlareLocateDarkSpotTask extends MultiTickTask<GlareEntity>
 		if (
 			glare.isLeashed()
 			|| glare.isSitting()
+			|| glare.hasVehicle()
 			|| glare.isTamed() == false
 			|| glare.isBaby()
 			|| (

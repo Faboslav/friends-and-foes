@@ -50,7 +50,7 @@ public class GlareSpecificSensor extends Sensor<GlareEntity>
 		LivingTargetCache livingTargetCache = brain.getOptionalMemory(MemoryModuleType.VISIBLE_MOBS).orElse(LivingTargetCache.empty());
 		LivingEntity firstHostileEntity = livingTargetCache.findFirst(livingEntity -> livingEntity instanceof HostileEntity).orElse(null);
 
-		if (firstHostileEntity == null) {
+		if (firstHostileEntity == null || glare.isTamed()) {
 			return;
 		}
 

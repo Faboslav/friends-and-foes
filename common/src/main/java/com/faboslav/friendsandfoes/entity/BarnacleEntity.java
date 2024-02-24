@@ -8,10 +8,7 @@ import com.faboslav.friendsandfoes.entity.ai.brain.BarnacleBrain;
 import com.faboslav.friendsandfoes.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.entity.pose.BarnacleEntityPose;
 import com.mojang.serialization.Dynamic;
-import net.minecraft.entity.EntityData;
-import net.minecraft.entity.EntityPose;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -19,13 +16,20 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.mob.DrownedEntity;
+import net.minecraft.entity.mob.GuardianEntity;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.world.LocalDifficulty;
-import net.minecraft.world.ServerWorldAccess;
-import net.minecraft.world.World;
+import net.minecraft.tag.BiomeTags;
+import net.minecraft.tag.FluidTags;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.world.*;
+import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -146,9 +150,47 @@ public final class BarnacleEntity extends HostileEntity implements AnimatedEntit
 	}
 
 	@Override
+	public float getPathfindingFavor(BlockPos pos, WorldView world) {
+		if (world.getFluidState(pos).isIn(FluidTags.WATER)) {
+			return 10.0f + world.getPhototaxisFavor(pos);
+		}
+		return super.getPathfindingFavor(pos, world);
+	}
+
+	public static boolean canSpawn(EntityType<BarnacleEntity> type, ServerWorldAccess world, SpawnReason spawnReason, BlockPos pos, Random random) {
+		if (
+			world.getFluidState(pos.down()).isIn(FluidTags.WATER) == false
+			|| random.nextInt(10) != 0
+			//|| pos.getY() < world.getSeaLevel() - 3 == false
+		) {
+			return false;
+		}
+
+		FriendsAndFoes.getLogger().info("chance of spawn");
+		return true;
+	}
+
+	@Override
+	public int getMaxLookPitchChange() {
+		return 180;
+	}
+
+	@Override
+	public void travel(Vec3d movementInput) {
+		if (this.canMoveVoluntarily() && this.isTouchingWater()) {
+			this.updateVelocity(this.getMovementSpeed(), movementInput);
+			this.move(MovementType.SELF, this.getVelocity());
+			this.setVelocity(this.getVelocity().multiply(0.9));
+		} else {
+			super.travel(movementInput);
+		}
+	}
+
+	@Override
 	public boolean canBreatheInWater() {
 		return true;
 	}
+
 
 	@Nullable
 	private KeyframeAnimation getKeyframeAnimationByPose() {

@@ -28,6 +28,7 @@ public final class FriendsAndFoesTags
 	public static final TagKey<EntityType<?>> WILDFIRE_ALLIES = entityTypeTag("wildfire_allies");
 	public static final TagKey<Biome> HAS_BADLANDS_MAULER = biomeTag("has_badlands_mauler");
 	public static final TagKey<Biome> HAS_DESERT_MAULER = biomeTag("has_desert_mauler");
+	public static final TagKey<Biome> HAS_BARNACLE = biomeTag("has_barnacle");
 	public static final TagKey<Biome> HAS_GLARE = biomeTag("has_glare");
 	public static final TagKey<Biome> HAS_ICEOLOGER = biomeTag("has_iceologer");
 	public static final TagKey<Biome> HAS_ILLUSIONER = biomeTag("has_illusioner");

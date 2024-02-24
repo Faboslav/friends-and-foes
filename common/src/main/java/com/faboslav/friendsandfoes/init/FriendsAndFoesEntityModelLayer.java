@@ -16,6 +16,7 @@ import net.minecraft.client.render.entity.model.IllagerEntityModel;
 @Environment(EnvType.CLIENT)
 public final class FriendsAndFoesEntityModelLayer
 {
+	public static final EntityModelLayer BARNACLE_LAYER;
 	public static final EntityModelLayer COPPER_GOLEM_LAYER;
 	public static final EntityModelLayer GLARE_LAYER;
 	public static final EntityModelLayer ICEOLOGER_LAYER;
@@ -28,6 +29,7 @@ public final class FriendsAndFoesEntityModelLayer
 	public static final EntityModelLayer PLAYER_ILLUSION_LAYER;
 
 	static {
+		BARNACLE_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("barnacle"), "main");
 		COPPER_GOLEM_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("copper_golem"), "main");
 		GLARE_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("glare"), "main");
 		ICEOLOGER_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("iceologer"), "main");
@@ -41,6 +43,7 @@ public final class FriendsAndFoesEntityModelLayer
 	}
 
 	public static void init() {
+		RegistryHelper.registerEntityModelLayer(BARNACLE_LAYER, BarnacleEntityModel::getTexturedModelData);
 		RegistryHelper.registerEntityModelLayer(COPPER_GOLEM_LAYER, CopperGolemEntityModel::getTexturedModelData);
 		RegistryHelper.registerEntityModelLayer(GLARE_LAYER, GlareEntityModel::getTexturedModelData);
 		RegistryHelper.registerEntityModelLayer(ICEOLOGER_LAYER, IllagerEntityModel::getTexturedModelData);

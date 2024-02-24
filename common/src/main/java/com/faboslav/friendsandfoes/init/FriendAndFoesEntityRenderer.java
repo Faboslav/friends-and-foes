@@ -21,6 +21,7 @@ public final class FriendAndFoesEntityRenderer
 	private static final Map<String, EntityRendererFactory<PlayerIllusionEntity>> PLAYER_ILLUSION_RENDERER_FACTORIES = ImmutableMap.of("default", context -> new PlayerIllusionEntityRenderer(context, false), "slim", context -> new PlayerIllusionEntityRenderer(context, true));
 
 	public static void postInit() {
+		RegistryHelper.registerEntityRenderer(FriendsAndFoesEntityTypes.BARNACLE, BarnacleEntityRenderer::new);
 		RegistryHelper.registerEntityRenderer(FriendsAndFoesEntityTypes.COPPER_GOLEM, CopperGolemEntityRenderer::new);
 		RegistryHelper.registerEntityRenderer(FriendsAndFoesEntityTypes.GLARE, GlareEntityRenderer::new);
 		RegistryHelper.registerEntityRenderer(FriendsAndFoesEntityTypes.ICEOLOGER, IceologerEntityRenderer::new);

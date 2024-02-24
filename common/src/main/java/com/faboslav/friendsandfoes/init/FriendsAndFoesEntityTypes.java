@@ -23,6 +23,7 @@ public final class FriendsAndFoesEntityTypes
 {
 	public static boolean previousUseChoiceTypeRegistrations = SharedConstants.useChoiceTypeRegistrations;
 
+	public static final Supplier<EntityType<BarnacleEntity>> BARNACLE;
 	public static final Supplier<EntityType<CopperGolemEntity>> COPPER_GOLEM;
 	public static final Supplier<EntityType<GlareEntity>> GLARE;
 	public static final Supplier<EntityType<IceologerEntity>> ICEOLOGER;
@@ -36,6 +37,7 @@ public final class FriendsAndFoesEntityTypes
 
 	static {
 		SharedConstants.useChoiceTypeRegistrations = false;
+		BARNACLE = RegistryHelper.registerEntityType("barnacle", () -> EntityType.Builder.create(BarnacleEntity::new, SpawnGroup.MONSTER).setDimensions(0.75F, 1.375F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("barnacle")));
 		COPPER_GOLEM = RegistryHelper.registerEntityType("copper_golem", () -> EntityType.Builder.create(CopperGolemEntity::new, SpawnGroup.MISC).setDimensions(0.75F, 1.375F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("copper_golem")));
 		GLARE = RegistryHelper.registerEntityType("glare", () -> EntityType.Builder.create(GlareEntity::new, CustomSpawnGroup.getGlaresCategory()).setDimensions(0.875F, 1.1875F).maxTrackingRange(8).trackingTickInterval(2).build(FriendsAndFoes.makeStringID("glare")));
 		ICEOLOGER = RegistryHelper.registerEntityType("iceologer", () -> EntityType.Builder.create(IceologerEntity::new, SpawnGroup.MONSTER).setDimensions(0.6F, 1.95F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("iceologer")));
@@ -59,6 +61,7 @@ public final class FriendsAndFoesEntityTypes
 	}
 
 	public static void createMobAttributes() {
+		RegistryHelper.registerEntityAttribute(FriendsAndFoesEntityTypes.BARNACLE, BarnacleEntity::createAttributes);
 		RegistryHelper.registerEntityAttribute(FriendsAndFoesEntityTypes.COPPER_GOLEM, CopperGolemEntity::createAttributes);
 		RegistryHelper.registerEntityAttribute(FriendsAndFoesEntityTypes.GLARE, GlareEntity::createAttributes);
 		RegistryHelper.registerEntityAttribute(FriendsAndFoesEntityTypes.ICEOLOGER, IceologerEntity::createAttributes);
@@ -80,6 +83,10 @@ public final class FriendsAndFoesEntityTypes
 
 	public static void addSpawns() {
 		var config = FriendsAndFoes.getConfig();
+
+		if (config.enableBarnacle && config.enableBarnacleSpawn) {
+			BiomeModifications.addMobSpawn(FriendsAndFoesTags.HAS_BARNACLE, BARNACLE.get(), SpawnGroup.MONSTER, config.barnacleSpawnWeight, config.barnacleSpawnMinGroupSize, config.barnacleSpawnMaxGroupSize);
+		}
 
 		if (config.enableGlare && config.enableGlareSpawn) {
 			BiomeModifications.addMobSpawn(FriendsAndFoesTags.HAS_GLARE, GLARE.get(), CustomSpawnGroup.getGlaresCategory(), config.glareSpawnWeight, config.glareSpawnMinGroupSize, config.glareSpawnMaxGroupSize);

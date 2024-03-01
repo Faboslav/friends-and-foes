@@ -9,7 +9,6 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
 
 @Environment(EnvType.CLIENT)
-
 public final class ModMenuIntegration implements ModMenuApi
 {
 	@Override

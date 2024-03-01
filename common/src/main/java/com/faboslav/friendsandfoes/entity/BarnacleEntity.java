@@ -10,6 +10,8 @@ import com.faboslav.friendsandfoes.entity.pose.BarnacleEntityPose;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.control.AquaticMoveControl;
+import net.minecraft.entity.ai.control.YawAdjustingLookControl;
 import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -41,6 +43,9 @@ public final class BarnacleEntity extends HostileEntity implements AnimatedEntit
 
 	public BarnacleEntity(EntityType<? extends HostileEntity> entityType, World world) {
 		super(entityType, world);
+		this.moveControl = new AquaticMoveControl(this, 85, 10, 0.1f, 0.5f, false);
+		this.lookControl = new YawAdjustingLookControl(this, 20);
+
 		this.setPathfindingPenalty(PathNodeType.WATER, 0.0f);
 		this.setPose(BarnacleEntityPose.IDLE);
 	}

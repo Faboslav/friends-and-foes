@@ -1,7 +1,6 @@
 modLoader = "javafml"
 loaderVersion = "*"
 license = "CC-BY-NC-ND-4.0"
-displayURL = "https://github.com/Faboslav/friends-and-foes"
 issueTrackerURL = "https://github.com/Faboslav/friends-and-foes/issues"
 
 [[mods]]
@@ -11,6 +10,7 @@ displayName = "${modName}"
 authors = "${modAuthor}"
 description = "${modDescription}"
 logoFile = "icon.png"
+displayURL = "https://github.com/Faboslav/friends-and-foes"
 
 [[dependencies.${ modId }]]
 modId = "forge"
@@ -24,5 +24,5 @@ versionRange = "[${minecraftVersion},)"
 
 [modproperties.${ modId }]
 catalogueImageIcon = "catalogue_icon.png"
-catalogueBackground = "catalogue_logo.png"
+catalogueBackground = "catalogue_background.png"
 configuredBackground = "catalogue_background.png"

@@ -12,17 +12,16 @@ import net.minecraftforge.fml.InterModComms;
 import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotResult;
-import top.theillusivec4.curios.api.SlotTypeMessage;
-import top.theillusivec4.curios.api.SlotTypePreset;
 import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
 import java.util.EnumSet;
 import java.util.function.Predicate;
 
+@SuppressWarnings({"all"})
 public final class CuriosCompat implements ModCompat
 {
 	public CuriosCompat() {
-		InterModComms.sendTo("curios", SlotTypeMessage.REGISTER_TYPE, () -> SlotTypePreset.CHARM.getMessageBuilder().build());
+		InterModComms.sendTo("curios", top.theillusivec4.curios.api.SlotTypeMessage.REGISTER_TYPE, () -> top.theillusivec4.curios.api.SlotTypePreset.CHARM.getMessageBuilder().build());
 		ClientSetupEvent.EVENT.addListener(CuriosCompat::registerRenderers);
 	}
 

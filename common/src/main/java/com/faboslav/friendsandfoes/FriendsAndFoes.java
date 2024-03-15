@@ -7,6 +7,7 @@ import com.faboslav.friendsandfoes.events.lifecycle.DatapackSyncEvent;
 import com.faboslav.friendsandfoes.events.lifecycle.RegisterReloadListenerEvent;
 import com.faboslav.friendsandfoes.events.lifecycle.SetupEvent;
 import com.faboslav.friendsandfoes.init.*;
+import com.faboslav.friendsandfoes.modcompat.ModChecker;
 import com.faboslav.friendsandfoes.network.MessageHandler;
 import com.faboslav.friendsandfoes.network.packet.MoobloomVariantsSyncPacket;
 import com.faboslav.friendsandfoes.platform.BiomeModifications;
@@ -40,6 +41,8 @@ public final class FriendsAndFoes
 	}
 
 	public static void init() {
+		ModChecker.setupModCompat();
+
 		FriendsAndFoesActivities.init();
 		FriendsAndFoesBlocks.init();
 		FriendsAndFoesCriteria.init();

@@ -8,5 +8,10 @@ public final class Platform
 	public static String getProjectSlug() {
 		throw new AssertionError();
 	}
+
+	@ExpectPlatform
+	public static boolean isModLoaded(String modId) {
+		throw new AssertionError();
+	}
 }
 

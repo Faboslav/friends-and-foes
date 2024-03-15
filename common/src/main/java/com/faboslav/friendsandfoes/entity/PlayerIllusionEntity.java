@@ -1,7 +1,9 @@
 package com.faboslav.friendsandfoes.entity;
 
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
-import com.faboslav.friendsandfoes.util.client.PlayerProvider;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.render.entity.PlayerModelPart;
 import net.minecraft.client.util.DefaultSkinHelper;
@@ -112,15 +114,18 @@ public final class PlayerIllusionEntity extends MobEntity
 		return true;
 	}
 
+	@Environment(value = EnvType.CLIENT)
 	public boolean isPartVisible(PlayerModelPart modelPart) {
 		return (this.getDataTracker().get(PLAYER_MODEL_PARTS) & modelPart.getBitFlag()) == modelPart.getBitFlag();
 	}
 
+	@Environment(value = EnvType.CLIENT)
 	public boolean hasSkinTexture() {
 		PlayerListEntry playerListEntry = this.getPlayerListEntry();
 		return playerListEntry != null && playerListEntry.hasSkinTexture();
 	}
 
+	@Environment(value = EnvType.CLIENT)
 	public Identifier getSkinTexture() {
 		PlayerListEntry playerListEntry = this.getPlayerListEntry();
 		UUID uuid = this.getPlayerUuid();
@@ -132,6 +137,7 @@ public final class PlayerIllusionEntity extends MobEntity
 		return playerListEntry == null ? DefaultSkinHelper.getTexture(uuid):playerListEntry.getSkinTexture();
 	}
 
+	@Environment(value = EnvType.CLIENT)
 	public String getModel() {
 		PlayerListEntry playerListEntry = this.getPlayerListEntry();
 		UUID uuid = this.getPlayerUuid();
@@ -146,11 +152,13 @@ public final class PlayerIllusionEntity extends MobEntity
 	}
 
 	@Nullable
+	@Environment(value = EnvType.CLIENT)
 	public Identifier getCapeTexture() {
 		PlayerListEntry playerListEntry = this.getPlayerListEntry();
 		return playerListEntry == null ? null:playerListEntry.getCapeTexture();
 	}
 
+	@Environment(value = EnvType.CLIENT)
 	public boolean canRenderElytraTexture() {
 		return this.getPlayerListEntry() != null;
 	}
@@ -161,10 +169,12 @@ public final class PlayerIllusionEntity extends MobEntity
 		return playerListEntry == null ? null:playerListEntry.getElytraTexture();
 	}
 
+	@Environment(value = EnvType.CLIENT)
 	public boolean canRenderCapeTexture() {
 		return this.getPlayerListEntry() != null;
 	}
 
+	@Environment(value = EnvType.CLIENT)
 	@Nullable
 	private PlayerListEntry getPlayerListEntry() {
 		if (this.playerListEntry == null) {
@@ -174,7 +184,7 @@ public final class PlayerIllusionEntity extends MobEntity
 				uuid = this.getUuid();
 			}
 
-			this.playerListEntry = PlayerProvider.getClientPlayerListEntry(uuid);
+			this.playerListEntry = MinecraftClient.getInstance().getNetworkHandler().getPlayerListEntry(uuid);
 		}
 
 		return this.playerListEntry;

@@ -28,7 +28,7 @@
 			"com.llamalad7.mixinextras.MixinExtrasBootstrap::init"
 		],
 		"modmenu": [
-			"com.faboslav.friendsandfoes.integrations.fabric.ModMenuIntegration"
+			"com.faboslav.friendsandfoes.modcompat.fabric.ModMenuCompat"
 		]
 	},
 	"mixins": [
@@ -44,7 +44,6 @@
 	"custom": {
 		"modmenu": {
 			"links": {
-				"modmenu.discord": "https://discord.com/invite/QGwFvvMQCn",
 				"Discord": "https://discord.com/invite/QGwFvvMQCn",
 				"Wiki": "https://github.com/Faboslav/friends-and-foes/wiki",
 				"CurseForge": "https://www.curseforge.com/minecraft/mc-mods/friends-and-foes",
@@ -52,7 +51,7 @@
 			}
 		},
 		"catalogue": {
-			"configFactory": "com.faboslav.friendsandfoes.integrations.fabric.CatalogueIntegration",
+			"configFactory": "com.faboslav.friendsandfoes.modcompat.fabric.CatalogueCompat",
 			"icon": {
 				"image": "catalogue_icon.png"
 			},

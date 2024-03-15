@@ -29,13 +29,14 @@ import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.StructureTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
@@ -87,7 +88,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 	) {
 		if (spawnReason == SpawnReason.NATURAL) {
 			ServerWorld serverWorld = serverWorldAccess.toServerWorld();
-			Registry<Structure> structureRegistry = serverWorldAccess.getRegistryManager().get(Registry.STRUCTURE_KEY);
+			Registry<Structure> structureRegistry = serverWorldAccess.getRegistryManager().get(RegistryKeys.STRUCTURE);
 			StructureAccessor structureAccessor = serverWorld.getStructureAccessor();
 
 			if (

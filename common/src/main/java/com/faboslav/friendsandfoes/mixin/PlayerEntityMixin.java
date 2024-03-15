@@ -115,7 +115,6 @@ public abstract class PlayerEntityMixin extends LivingEntity
 	public void friendsandfoes_tryUseTotems(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
 		PlayerEntityMixin entity = this;
 		PlayerEntity player = (PlayerEntity) (Object) this;
-		Entity attacker = source.getAttacker();
 
 		if (
 			player.isAlive()

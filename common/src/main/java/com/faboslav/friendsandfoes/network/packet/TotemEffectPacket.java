@@ -69,7 +69,6 @@ public record TotemEffectPacket(ItemStack itemStack, int entityId) implements Pa
 		}
 
 		public TotemEffectPacket decode(final PacketByteBuf buf) {
-			FriendsAndFoes.getLogger().info(String.valueOf(buf));
 			return new TotemEffectPacket(buf.readItemStack(), buf.readInt());
 		}
 

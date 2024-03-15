@@ -1,16 +1,12 @@
-package com.faboslav.friendsandfoes.integrations.fabric;
+package com.faboslav.friendsandfoes.modcompat.fabric;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.config.ConfigScreenBuilder;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
 
-@Environment(EnvType.CLIENT)
-
-public final class ModMenuIntegration implements ModMenuApi
+public final class ModMenuCompat implements ModMenuApi
 {
 	@Override
 	public ConfigScreenFactory<?> getModConfigScreenFactory() {

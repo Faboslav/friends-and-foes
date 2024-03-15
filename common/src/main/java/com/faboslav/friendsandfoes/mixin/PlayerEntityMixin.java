@@ -15,6 +15,7 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.MobEntity;
@@ -115,13 +116,13 @@ public abstract class PlayerEntityMixin extends LivingEntity
 	public void friendsandfoes_tryUseTotems(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
 		PlayerEntityMixin entity = this;
 		PlayerEntity player = (PlayerEntity) (Object) this;
-		Entity attacker = source.getAttacker();
 
 		if (
 			player.isAlive()
-			&& source.isFire() == false
-			&& source.isFromFalling() == false
-			&& source.isFallingBlock() == false
+			&& source.isOf(DamageTypes.IN_FIRE) == false
+			&& source.isOf(DamageTypes.ON_FIRE) == false
+			&& source.isOf(DamageTypes.FALL) == false
+			&& source.isOf(DamageTypes.FALLING_BLOCK) == false
 			&& source.getAttacker() != null
 			&& this.getHealth() <= this.getMaxHealth() / 2.0F
 		) {

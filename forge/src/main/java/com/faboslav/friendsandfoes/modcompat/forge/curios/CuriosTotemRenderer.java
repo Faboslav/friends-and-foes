@@ -6,6 +6,7 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.model.json.ModelTransformation;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -40,11 +41,12 @@ public class CuriosTotemRenderer implements ICurioRenderer
 
 		MinecraftClient.getInstance().getItemRenderer().renderItem(
 			itemStack,
-			ModelTransformation.Mode.FIXED,
+			ModelTransformationMode.FIXED,
 			light,
 			OverlayTexture.DEFAULT_UV,
 			matrices,
 			vertexConsumers,
+			null,
 			0
 		);
 	}

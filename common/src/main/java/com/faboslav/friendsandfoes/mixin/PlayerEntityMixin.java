@@ -19,6 +19,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.particle.ParticleTypes;
@@ -142,17 +143,17 @@ public abstract class PlayerEntityMixin extends LivingEntity
 					Criteria.USED_TOTEM.trigger(serverPlayerEntity, totemItemStack);
 				}
 
+				Item totemItem = totemItemStack.getItem();
 				this.clearStatusEffects();
-
-				if (totemItemStack.getItem() == FriendsAndFoesItems.TOTEM_OF_FREEZING.get()) {
-					this.friendsandfoes_freezeEntities();
-					this.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, POSITIVE_EFFECT_TICKS, 1));
-				} else if (totemItemStack.getItem() == FriendsAndFoesItems.TOTEM_OF_ILLUSION.get()) {
-					this.friendsandfoes_createIllusions();
-				}
-
 				TotemEffectPacket.sendToClient(((PlayerEntity) (Object) entity), totemItemStack);
 				totemItemStack.decrement(1);
+
+				if (totemItem == FriendsAndFoesItems.TOTEM_OF_FREEZING.get()) {
+					this.friendsandfoes_freezeEntities();
+					this.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, POSITIVE_EFFECT_TICKS, 1));
+				} else if (totemItem == FriendsAndFoesItems.TOTEM_OF_ILLUSION.get()) {
+					this.friendsandfoes_createIllusions();
+				}
 
 				cir.setReturnValue(true);
 			}

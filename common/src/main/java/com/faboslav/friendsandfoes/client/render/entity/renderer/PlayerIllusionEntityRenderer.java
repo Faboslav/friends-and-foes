@@ -6,6 +6,8 @@ import com.faboslav.friendsandfoes.client.render.entity.feature.PlayerIllusionEl
 import com.faboslav.friendsandfoes.client.render.entity.feature.PlayerIllusionHeldItemFeatureRenderer;
 import com.faboslav.friendsandfoes.client.render.entity.model.PlayerIllusionEntityModel;
 import com.faboslav.friendsandfoes.entity.PlayerIllusionEntity;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
@@ -30,6 +32,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
 
+@Environment(value = EnvType.CLIENT)
 public final class PlayerIllusionEntityRenderer extends MobEntityRenderer<PlayerIllusionEntity, PlayerIllusionEntityModel<PlayerIllusionEntity>>
 {
 	public PlayerIllusionEntityRenderer(EntityRendererFactory.Context ctx, boolean slim) {

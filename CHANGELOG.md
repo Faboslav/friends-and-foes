@@ -1,3 +1,15 @@
+## 2.0.10
+
+- Fixed crash related to rascal spawns in mineshafts
+- Added anger particles to rascal to indicate that hitting it is not an option
+- Added missing charm slot for curios
+- Added missing translations for BetterF3 mod
+- Improved trigger logic for totems
+- Improved compatibility with the curios mod and other totems
+- Improved compatibility with the trinkets mod and other totems
+- Improved catalogue compatibility
+- Updated translations
+
 ## 2.0.9
 
 - Fixed Glare follow logic when tamed

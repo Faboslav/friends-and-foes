@@ -14,8 +14,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
 
-@Environment(EnvType.CLIENT)
-public class PlayerIllusionDeadmau5FeatureRenderer extends FeatureRenderer<PlayerIllusionEntity, PlayerIllusionEntityModel<PlayerIllusionEntity>>
+@Environment(value = EnvType.CLIENT)
+public final class PlayerIllusionDeadmau5FeatureRenderer extends FeatureRenderer<PlayerIllusionEntity, PlayerIllusionEntityModel<PlayerIllusionEntity>>
 {
 	public PlayerIllusionDeadmau5FeatureRenderer(FeatureRendererContext<PlayerIllusionEntity, PlayerIllusionEntityModel<PlayerIllusionEntity>> arg) {
 		super(arg);

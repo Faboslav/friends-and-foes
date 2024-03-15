@@ -2,10 +2,12 @@ package com.faboslav.friendsandfoes.platform.forge;
 
 import com.faboslav.friendsandfoes.network.base.Packet;
 import com.faboslav.friendsandfoes.network.base.PacketHandler;
-import com.faboslav.friendsandfoes.util.client.PlayerProvider;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.ChannelBuilder;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.SimpleChannel;
@@ -44,19 +46,20 @@ public class PacketChannelManagerImpl
 		++channel.packets;
 		channel.channel.messageBuilder(packetClass).encoder(handler::encode).decoder(handler::decode).consumerNetworkThread((msg, ctx) -> {
 			ctx.enqueueWork(() -> {
-				PlayerEntity player = null;
-				if (ctx.getSender() == null) {
-					player = PlayerProvider.getClientPlayer();
-				}
+				PlayerEntity player = ctx.getSender() == null ? getPlayer():null;
 
 				if (player != null) {
-					PlayerEntity finalPlayer = player;
-					handler.handle(msg).apply(finalPlayer, finalPlayer.getWorld());
+					handler.handle(msg).apply(player, player.getWorld());
 				}
 			});
 
 			ctx.setPacketHandled(true);
 		}).add();
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	private static PlayerEntity getPlayer() {
+		return MinecraftClient.getInstance().player;
 	}
 
 	public static <T extends Packet<T>> void registerC2SPacket(

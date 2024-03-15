@@ -7,7 +7,6 @@ import com.faboslav.friendsandfoes.events.lifecycle.RegisterReloadListenerEvent;
 import com.faboslav.friendsandfoes.events.lifecycle.SetupEvent;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesStructurePoolElements;
-import com.faboslav.friendsandfoes.network.neoforge.PacketHandler;
 import com.faboslav.friendsandfoes.platform.neoforge.RegistryHelperImpl;
 import com.faboslav.friendsandfoes.util.CustomRaidMember;
 import com.faboslav.friendsandfoes.util.ServerWorldSpawnersUtil;
@@ -45,7 +44,6 @@ public final class FriendsAndFoesNeoForge
 	public FriendsAndFoesNeoForge() {
 		UpdateChecker.checkForNewUpdates();
 		FriendsAndFoes.init();
-		PacketHandler.registerMessages();
 
 		if (FMLEnvironment.dist == Dist.CLIENT) {
 			FriendsAndFoesClient.init();

@@ -1,7 +1,9 @@
 package com.faboslav.friendsandfoes.entity;
 
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
-import com.faboslav.friendsandfoes.util.client.PlayerProvider;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.render.entity.PlayerModelPart;
 import net.minecraft.client.util.DefaultSkinHelper;
@@ -17,7 +19,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -114,10 +115,12 @@ public final class PlayerIllusionEntity extends MobEntity
 		return true;
 	}
 
+	@Environment(EnvType.CLIENT)
 	public boolean isPartVisible(PlayerModelPart modelPart) {
 		return (this.getDataTracker().get(PLAYER_MODEL_PARTS) & modelPart.getBitFlag()) == modelPart.getBitFlag();
 	}
 
+	@Environment(EnvType.CLIENT)
 	public SkinTextures getSkinTextures() {
 		PlayerListEntry playerListEntry = this.getPlayerListEntry();
 
@@ -134,10 +137,12 @@ public final class PlayerIllusionEntity extends MobEntity
 		return DefaultSkinHelper.getSkinTextures(uuid);
 	}
 
+	@Environment(EnvType.CLIENT)
 	public Vec3d lerpVelocity(float tickDelta) {
 		return Vec3d.ZERO.lerp(this.getVelocity(), tickDelta);
 	}
 
+	@Environment(EnvType.CLIENT)
 	@Nullable
 	private PlayerListEntry getPlayerListEntry() {
 		if (this.playerListEntry == null) {
@@ -147,7 +152,7 @@ public final class PlayerIllusionEntity extends MobEntity
 				uuid = this.getUuid();
 			}
 
-			this.playerListEntry = PlayerProvider.getClientPlayerListEntry(uuid);
+			this.playerListEntry = MinecraftClient.getInstance().getNetworkHandler().getPlayerListEntry(uuid);
 		}
 
 		return this.playerListEntry;

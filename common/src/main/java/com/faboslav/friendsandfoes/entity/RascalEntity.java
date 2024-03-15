@@ -33,16 +33,17 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.tag.StructureTags;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.StructureAccessor;
+import net.minecraft.world.gen.structure.Structure;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 {
@@ -86,27 +87,26 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 	) {
 		if (spawnReason == SpawnReason.NATURAL) {
 			ServerWorld serverWorld = serverWorldAccess.toServerWorld();
+			Registry<Structure> structureRegistry = serverWorldAccess.getRegistryManager().get(Registry.STRUCTURE_KEY);
 			StructureAccessor structureAccessor = serverWorld.getStructureAccessor();
 
-			if (structureAccessor.getStructureContaining(
-				blockPos,
-				StructureTags.MINESHAFT
-			).hasChildren() == false) {
+			if (
+				blockPos.getY() > 63
+				|| serverWorldAccess.isSkyVisible(blockPos)
+			) {
 				return false;
 			}
 
-			List<LivingEntity> nearbyRascals = serverWorld.getEntitiesByClass(LivingEntity.class, new Box(blockPos).expand(32.0F), (livingEntity) -> {
-				return livingEntity instanceof RascalEntity || livingEntity instanceof PlayerEntity;
-			});
-
-			if (nearbyRascals.isEmpty() == false) {
-				return false;
+			for (RegistryEntry<Structure> structure : structureRegistry.getOrCreateEntryList(StructureTags.MINESHAFT)) {
+				if (structureAccessor.getStructureAt(blockPos, structure.value()).hasChildren()) {
+					return true;
+				}
 			}
 
-			return blockPos.getY() < 63 && serverWorldAccess.isSkyVisible(blockPos) == false;
+			return false;
 		}
 
-		return false;
+		return true;
 	}
 
 	@Override
@@ -305,6 +305,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 		this.playHurtSound(source);
 		this.playDisappearSound();
 		this.spawnCloudParticles();
+		this.spawnAngerParticles();
 		this.discard();
 
 		return false;
@@ -423,6 +424,10 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 
 	public void spawnCloudParticles() {
 		ParticleSpawner.spawnParticles(this, ParticleTypes.CLOUD, 16, 0.1D);
+	}
+
+	public void spawnAngerParticles() {
+		ParticleSpawner.spawnParticles(this, ParticleTypes.ANGRY_VILLAGER, 16, 0.1D);
 	}
 
 	static {

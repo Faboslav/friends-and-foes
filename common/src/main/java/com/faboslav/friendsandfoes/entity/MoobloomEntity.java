@@ -271,7 +271,13 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 	}
 
 	public MoobloomVariant getVariant() {
-		return MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.getMoobloomVariantByName(this.dataTracker.get(VARIANT));
+		MoobloomVariant moobloomVariant = MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.getMoobloomVariantByName(this.dataTracker.get(VARIANT));
+
+		if (moobloomVariant == null) {
+			moobloomVariant = MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.getDefaultMoobloomVariant();
+		}
+
+		return moobloomVariant;
 	}
 
 	static {

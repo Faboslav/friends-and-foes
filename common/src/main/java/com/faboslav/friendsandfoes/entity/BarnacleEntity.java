@@ -7,6 +7,8 @@ import com.faboslav.friendsandfoes.client.render.entity.animation.animator.conte
 import com.faboslav.friendsandfoes.entity.ai.brain.BarnacleBrain;
 import com.faboslav.friendsandfoes.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.entity.pose.BarnacleEntityPose;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
+import com.faboslav.friendsandfoes.util.RandomGenerator;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.Brain;
@@ -20,6 +22,7 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.DrownedEntity;
 import net.minecraft.entity.mob.GuardianEntity;
 import net.minecraft.entity.mob.HostileEntity;
@@ -27,9 +30,12 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.AxolotlSwimNavigation;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.BiomeTags;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.RegistryEntry;
@@ -206,6 +212,32 @@ public final class BarnacleEntity extends HostileEntity implements AnimatedEntit
 	@Override
 	public int getMaxLookPitchChange() {
 		return 180;
+	}
+
+	@Override
+	protected Entity.MoveEffect getMoveEffect() {
+		return Entity.MoveEffect.EVENTS;
+	}
+
+	@Override
+	protected float getActiveEyeHeight(EntityPose poseIn, EntityDimensions sizeIn) {
+		return 0.5F;
+	}
+
+	@Override
+	public int getMinAmbientSoundDelay() {
+		return 160;
+	}
+
+	@Override
+	protected SoundEvent getAmbientSound() {
+		return this.isInsideWaterOrBubbleColumn() ? FriendsAndFoesSoundEvents.ENTITY_BARNACLE_AMBIENT.get() : SoundEvents.ENTITY_GUARDIAN_AMBIENT_LAND;
+	}
+
+	@Override
+	public void playAmbientSound() {
+		SoundEvent soundEvent = this.getAmbientSound();
+		this.playSound(soundEvent, 0.5F, RandomGenerator.generateFloat(1.25F, 1.45F));
 	}
 
 	@Override

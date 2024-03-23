@@ -12,6 +12,7 @@ import java.util.function.Supplier;
  */
 public final class FriendsAndFoesSoundEvents
 {
+	public static final Supplier<SoundEvent> ENTITY_BARNACLE_AMBIENT;
 	public static final Supplier<SoundEvent> ENTITY_COPPER_GOLEM_DEATH;
 	public static final Supplier<SoundEvent> ENTITY_COPPER_GOLEM_HEAD_SPIN;
 	public static final Supplier<SoundEvent> ENTITY_COPPER_GOLEM_HURT;
@@ -66,6 +67,7 @@ public final class FriendsAndFoesSoundEvents
 	public static final Supplier<SoundEvent> ENTITY_WILDFIRE_SUMMON_BLAZE;
 
 	static {
+		ENTITY_BARNACLE_AMBIENT = register("entity", "barnacle.ambient");
 		ENTITY_COPPER_GOLEM_DEATH = register("entity", "copper_golem.death");
 		ENTITY_COPPER_GOLEM_HEAD_SPIN = register("entity", "copper_golem.head_spin");
 		ENTITY_COPPER_GOLEM_HURT = register("entity", "copper_golem.hurt");

@@ -37,7 +37,7 @@ public final class FriendsAndFoesEntityTypes
 
 	static {
 		SharedConstants.useChoiceTypeRegistrations = false;
-		BARNACLE = RegistryHelper.registerEntityType("barnacle", () -> EntityType.Builder.create(BarnacleEntity::new, SpawnGroup.MONSTER).setDimensions(1.375F, 1.375F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("barnacle")));
+		BARNACLE = RegistryHelper.registerEntityType("barnacle", () -> EntityType.Builder.create(BarnacleEntity::new, SpawnGroup.MONSTER).setDimensions(1.69125F, 0.75F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("barnacle")));
 		COPPER_GOLEM = RegistryHelper.registerEntityType("copper_golem", () -> EntityType.Builder.create(CopperGolemEntity::new, SpawnGroup.MISC).setDimensions(0.75F, 1.375F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("copper_golem")));
 		GLARE = RegistryHelper.registerEntityType("glare", () -> EntityType.Builder.create(GlareEntity::new, CustomSpawnGroup.getGlaresCategory()).setDimensions(0.875F, 1.1875F).maxTrackingRange(8).trackingTickInterval(2).build(FriendsAndFoes.makeStringID("glare")));
 		ICEOLOGER = RegistryHelper.registerEntityType("iceologer", () -> EntityType.Builder.create(IceologerEntity::new, SpawnGroup.MONSTER).setDimensions(0.6F, 1.95F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("iceologer")));

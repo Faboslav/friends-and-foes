@@ -1,4 +1,13 @@
 {
+	"entity.barnacle.ambient": {
+		"sounds": [
+			"friendsandfoes:entity/barnacle/ambient1",
+			"friendsandfoes:entity/barnacle/ambient2",
+			"friendsandfoes:entity/barnacle/ambient3",
+			"friendsandfoes:entity/barnacle/ambient4"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.barnacle.ambient"
+	},
 	"entity.copper_golem.death": {
 		"sounds": [
 			"friendsandfoes:entity/copper_golem/death"

@@ -14,6 +14,7 @@ import java.util.function.Supplier;
  */
 public final class FriendsAndFoesItems
 {
+	public final static Supplier<Item> BARNACLE_SPAWN_EGG;
 	public final static Supplier<Item> COPPER_GOLEM_SPAWN_EGG;
 	public final static Supplier<Item> GLARE_SPAWN_EGG;
 	public final static Supplier<Item> ICEOLOGER_SPAWN_EGG;
@@ -53,6 +54,7 @@ public final class FriendsAndFoesItems
 	public static final Supplier<Item> TOTEM_OF_ILLUSION;
 
 	static {
+		BARNACLE_SPAWN_EGG = RegistryHelper.registerItem("barnacle_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.BARNACLE.get(), 0x56847E, 0x27514B, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
 		COPPER_GOLEM_SPAWN_EGG = RegistryHelper.registerItem("copper_golem_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.COPPER_GOLEM.get(), 0x9A5038, 0xE3826C, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
 		GLARE_SPAWN_EGG = RegistryHelper.registerItem("glare_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.GLARE.get(), 0x70922D, 0x6A5227, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
 		ICEOLOGER_SPAWN_EGG = RegistryHelper.registerItem("iceologer_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.ICEOLOGER.get(), 0x173873, 0x949B9B, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));

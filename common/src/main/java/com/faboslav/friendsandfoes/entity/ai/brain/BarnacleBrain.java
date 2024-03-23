@@ -68,8 +68,8 @@ public final class BarnacleBrain
 	private static RandomTask<BarnacleEntity> makeRandomWanderTask() {
 		return new RandomTask(
 			ImmutableList.of(
-				Pair.of(new StrollTask(0.6F), 2),
-				Pair.of(new WaitTask(30, 60), 1)
+				Pair.of(new StrollTask(0.6F), 2)
+				//Pair.of(new WaitTask(30, 60), 1)
 			)
 		);
 	}

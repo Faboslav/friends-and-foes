@@ -131,5 +131,7 @@
 	"subtitle.entity.friendsandfoes.wildfire.shoot": "Wildfire shoots",
 	"subtitle.entity.friendsandfoes.wildfire.step": "Footsteps",
 	"subtitle.entity.friendsandfoes.wildfire.summon_blaze": "Wildfire summons blazes",
-	"trinkets.slot.charm.charm": "Charm"
+	"trinkets.slot.charm.charm": "Charm",
+	"text.betterf3.line.glares": "Glares",
+	"text.betterf3.line.rascals": "Rascals"
 }

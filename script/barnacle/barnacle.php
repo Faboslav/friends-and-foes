@@ -7,17 +7,31 @@ $blocks = [
 $colors = [
 	'input' => [
 		'4b6762',
-		'506e6a',
 		'567c71',
+		'506e6a',
 		'61877a',
-		'688d80'
+
+		// eyes
+		'000000',
+		'ffffff',
+
+		// tooth
+		'b4afa6',
+		'ebe9e6'
 	],
 	'output' => [
+		'27514b',
 		'3b5e5d',
-		'506e6a',
 		'49726c',
-		'56847e',
-		''
+		'49726c',
+		//'56847e',
+
+		// eyes
+		'000000',
+		'ffffff',
+		// tooth
+		'65e0de',
+		'8ff2d7'
 	],
 ];
 
@@ -53,6 +67,28 @@ foreach ( $colors as $type => $typeColors ) {
 					}
 
 					imagesetpixel( $im, $x, $y, $colorB );
+				} else {
+					$newColorHEX = '56847e';
+					$random = rand(1, 50);
+
+					if($random == 1) {
+						$newColorHEX = '54b972';
+					} else if($random == 2) {
+						$newColorHEX = '4ca682';
+					} else if($random == 10 || $random == 11 || $random == 12) {
+						$newColorHEX = '49726c';
+					} else if($random == 20 || $random == 21 || $random == 22) {
+						$newColorHEX = '3b5e5d';
+					}
+
+					$newColorRGB = list( $r, $g, $b ) = sscanf( $newColorHEX, "%02x%02x%02x" );
+					$colorB = imagecolorallocatealpha( $im, $newColorRGB[ 0 ], $newColorRGB[ 1 ], $newColorRGB[ 2 ], $currentColorRGB[ 'alpha' ] );
+
+					if($colorB === false) {
+						continue;
+					}
+
+					imagesetpixel( $im, $x, $y, $colorB );
 				}
 			}
 		}
@@ -64,7 +100,7 @@ foreach ( $colors as $type => $typeColors ) {
 		imagepng($im);
 		$imageString = ob_get_clean();
 		file_put_contents(
-			__DIR__.'/output/'.$type.'.png',
+			__DIR__.'/output/'.$type.'2.png',
 			$imageString,
 		);
 

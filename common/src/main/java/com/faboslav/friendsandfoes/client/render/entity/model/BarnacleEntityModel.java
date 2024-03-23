@@ -14,6 +14,7 @@ public final class BarnacleEntityModel<T extends BarnacleEntity> extends Animate
 	private static final String MODEL_PART_TOP_RIGHT_MOUTH = "topRightMouth";
 	private static final String MODEL_PART_BOTTOM_LEFT_MOUTH = "bottomLeftMouth";
 	private static final String MODEL_PART_BOTTOM_RIGHT_MOUTH = "bottomRightMouth";
+	private static final String MODEL_PART_KELP = "kelp";
 
 	private final ModelPart head;
 	private final ModelPart tentacle;
@@ -21,6 +22,7 @@ public final class BarnacleEntityModel<T extends BarnacleEntity> extends Animate
 	private final ModelPart topRightMouth;
 	private final ModelPart bottomLeftMouth;
 	private final ModelPart bottomRightMouth;
+	private final ModelPart kelp;
 
 	public BarnacleEntityModel(ModelPart root) {
 		super(root);
@@ -30,18 +32,20 @@ public final class BarnacleEntityModel<T extends BarnacleEntity> extends Animate
 		this.topRightMouth = this.root.getChild(MODEL_PART_TOP_RIGHT_MOUTH);
 		this.bottomLeftMouth = this.root.getChild(MODEL_PART_BOTTOM_LEFT_MOUTH);
 		this.bottomRightMouth = this.root.getChild(MODEL_PART_BOTTOM_RIGHT_MOUTH);
+		this.kelp = this.root.getChild(MODEL_PART_KELP);
 	}
 
 	public static TexturedModelData getTexturedModelData() {
 		ModelData modelData = new ModelData();
 		ModelPartData root = modelData.getRoot();
 
-		root.addChild(MODEL_PART_HEAD, ModelPartBuilder.create().uv(0, 28).cuboid(-4.0F, -8.0F, -4.5F, 8.0F, 8.0F, 9.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
+		root.addChild(MODEL_PART_HEAD, ModelPartBuilder.create().uv(0, 28).cuboid(-4.0F, -8.0F, -4.5F, 8.0F, 8.0F, 9.0F, new Dilation(0.01F)), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
 		root.addChild(MODEL_PART_TENTACLE, ModelPartBuilder.create().uv(34, 0).cuboid(-2.5F, -0.5F, -5.5F, 1.0F, 1.0F, 1.0F, new Dilation(0.0F)), ModelTransform.pivot(2.0F, 20.0F, 0.0F));
-		root.addChild(MODEL_PART_TOP_LEFT_MOUTH, ModelPartBuilder.create().uv(0, 0).mirrored().cuboid(0.0F, -4.0F, -22.0F, 6.0F, 6.0F, 22.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(4.0F, 20.0F, -4.0F, 0.0F, 0.0F, -1.5708F));
-		root.addChild(MODEL_PART_TOP_RIGHT_MOUTH, ModelPartBuilder.create().uv(0, 0).cuboid(-6.0F, -4.0F, -22.0F, 6.0F, 6.0F, 22.0F, new Dilation(0.0F)), ModelTransform.of(-4.0F, 20.0F, -4.0F, 0.0F, 0.0F, 1.5708F));
-		root.addChild(MODEL_PART_BOTTOM_LEFT_MOUTH, ModelPartBuilder.create().uv(0, 0).mirrored().cuboid(-4.0F, 0.0F, -22.0F, 6.0F, 6.0F, 22.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(4.0F, 20.0F, -4.0F));
-		root.addChild(MODEL_PART_BOTTOM_RIGHT_MOUTH, ModelPartBuilder.create().uv(0, 0).cuboid(-2.0F, 0.0F, -22.0F, 6.0F, 6.0F, 22.0F, new Dilation(0.0F)), ModelTransform.pivot(-4.0F, 20.0F, -4.0F));
+		root.addChild(MODEL_PART_TOP_LEFT_MOUTH, ModelPartBuilder.create().uv(0, 0).mirrored().cuboid(0.0F, -4.0F, -22.0F, 6.0F, 6.0F, 22.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(4.0F, 20.0F, -4.5F, 0.0F, 0.0F, -1.5708F));
+		root.addChild(MODEL_PART_TOP_RIGHT_MOUTH, ModelPartBuilder.create().uv(0, 0).uv(0, 0).cuboid(-6.0F, -4.0F, -22.0F, 6.0F, 6.0F, 22.0F, new Dilation(0.0F)), ModelTransform.of(-4.0F, 20.0F, -4.5F, 0.0F, 0.0F, 1.5708F));
+		root.addChild(MODEL_PART_BOTTOM_LEFT_MOUTH, ModelPartBuilder.create().uv(0, 0).mirrored().cuboid(-4.0F, 0.0F, -22.0F, 6.0F, 6.0F, 22.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(4.0F, 20.0F, -4.5F));
+		root.addChild(MODEL_PART_BOTTOM_RIGHT_MOUTH, ModelPartBuilder.create().uv(0, 0).cuboid(-2.0F, 0.0F, -22.0F, 6.0F, 6.0F, 22.0F, new Dilation(0.0F)), ModelTransform.pivot(-4.0F, 20.0F, -4.5F));
+		root.addChild(MODEL_PART_KELP, ModelPartBuilder.create().uv(0, 45).cuboid(-4.0F, -8.0F, 4.5F, 8.0F, 8.0F, 10.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
 
 		return TexturedModelData.of(modelData, 64, 64);
 	}

@@ -4,8 +4,9 @@ import com.faboslav.friendsandfoes.entity.PlayerIllusionEntity;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesItems;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
+import com.faboslav.friendsandfoes.modcompat.ModChecker;
+import com.faboslav.friendsandfoes.modcompat.ModCompat;
 import com.faboslav.friendsandfoes.network.packet.TotemEffectPacket;
-import com.faboslav.friendsandfoes.platform.TotemHelper;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.Entity;
@@ -18,6 +19,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.particle.ParticleTypes;
@@ -38,7 +40,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 @Mixin(PlayerEntity.class)
@@ -105,28 +109,26 @@ public abstract class PlayerEntityMixin extends LivingEntity
 	}
 
 	@Inject(
-		at = @At("HEAD"),
+		at = @At("TAIL"),
 		method = "damage",
 		cancellable = true
 	)
 	public void friendsandfoes_tryUseTotems(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
-		if (this.getHealth() <= this.getMaxHealth() / 2.0F) {
-			PlayerEntityMixin entity = this;
+		PlayerEntityMixin entity = this;
+		PlayerEntity player = (PlayerEntity) (Object) this;
 
-			ItemStack offhandItemStack = entity.getStackInHand(Hand.OFF_HAND);
-			ItemStack mainhandItemStack = entity.getStackInHand(Hand.MAIN_HAND);
-			ItemStack moddedSlotItemStack = TotemHelper.getTotemFromModdedSlots(((PlayerEntity) (Object) entity), PlayerEntityMixin::isTotem);
-
-			@Nullable
-			ItemStack totemItemStack = null;
-
-			if (isTotem(mainhandItemStack)) {
-				totemItemStack = mainhandItemStack;
-			} else if (isTotem(offhandItemStack)) {
-				totemItemStack = offhandItemStack;
-			} else if (moddedSlotItemStack != null) {
-				totemItemStack = moddedSlotItemStack;
-			}
+		if (
+			player.isAlive()
+			&& source.isFire() == false
+			&& source.isFromFalling() == false
+			&& source.isFallingBlock() == false
+			&& source.getAttacker() != null
+			&& this.getHealth() <= this.getMaxHealth() / 2.0F
+		) {
+			ItemStack totemItemStack = friendsandfoes_getTotem(
+				friendsandfoes_getTotemFromHands(player),
+				friendsandfoes_getTotemFromCustomEquipmentSlots(player)
+			);
 
 			if (totemItemStack != null) {
 				if ((Object) this instanceof ServerPlayerEntity) {
@@ -141,24 +143,55 @@ public abstract class PlayerEntityMixin extends LivingEntity
 					Criteria.USED_TOTEM.trigger(serverPlayerEntity, totemItemStack);
 				}
 
+				Item totemItem = totemItemStack.getItem();
 				this.clearStatusEffects();
-
-				if (totemItemStack.getItem() == FriendsAndFoesItems.TOTEM_OF_FREEZING.get()) {
-					this.friendsandfoes_freezeEntities();
-					this.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, POSITIVE_EFFECT_TICKS, 1));
-				} else if (totemItemStack.getItem() == FriendsAndFoesItems.TOTEM_OF_ILLUSION.get()) {
-					this.friendsandfoes_createIllusions();
-				}
-
 				TotemEffectPacket.sendToClient(((PlayerEntity) (Object) entity), totemItemStack);
 				totemItemStack.decrement(1);
+
+				if (totemItem == FriendsAndFoesItems.TOTEM_OF_FREEZING.get()) {
+					this.friendsandfoes_freezeEntities();
+					this.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, POSITIVE_EFFECT_TICKS, 1));
+				} else if (totemItem == FriendsAndFoesItems.TOTEM_OF_ILLUSION.get()) {
+					this.friendsandfoes_createIllusions();
+				}
 
 				cir.setReturnValue(true);
 			}
 		}
 	}
 
-	private static boolean isTotem(ItemStack itemStack) {
+	@Nullable
+	private static ItemStack friendsandfoes_getTotem(ItemStack... itemStacks) {
+		return Arrays.stream(itemStacks).filter(Objects::nonNull).toList().stream().findFirst().orElse(null);
+	}
+
+	@Nullable
+	private static ItemStack friendsandfoes_getTotemFromHands(PlayerEntity player) {
+		for (Hand hand : Hand.values()) {
+			ItemStack itemStack = player.getStackInHand(hand);
+
+			if (friendsandfoes_isTotem(itemStack)) {
+				return itemStack;
+			}
+		}
+
+		return null;
+	}
+
+	@Nullable
+	private static ItemStack friendsandfoes_getTotemFromCustomEquipmentSlots(PlayerEntity player) {
+		for (ModCompat compat : ModChecker.CUSTOM_EQUIPMENT_SLOTS_COMPATS) {
+			ItemStack itemStack = compat.getEquippedItemFromCustomSlots(player, PlayerEntityMixin::friendsandfoes_isTotem);
+
+			if (itemStack != null) {
+				return itemStack;
+			}
+		}
+
+		return null;
+	}
+
+	private static boolean friendsandfoes_isTotem(ItemStack itemStack) {
 		return itemStack.isIn(FriendsAndFoesTags.TOTEMS);
 	}
 

@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.client.render.entity.renderer;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.client.render.entity.feature.BarnacleKelpFeatureRenderer;
 import com.faboslav.friendsandfoes.client.render.entity.model.BarnacleEntityModel;
 import com.faboslav.friendsandfoes.entity.BarnacleEntity;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityModelLayer;
@@ -16,6 +17,7 @@ public final class BarnacleEntityRenderer extends MobEntityRenderer<BarnacleEnti
 {
 	public BarnacleEntityRenderer(EntityRendererFactory.Context context) {
 		super(context, new BarnacleEntityModel<BarnacleEntity>(context.getPart(FriendsAndFoesEntityModelLayer.BARNACLE_LAYER)), 0.5F);
+		this.addFeature(new BarnacleKelpFeatureRenderer(this));
 	}
 
 	@Override

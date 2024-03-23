@@ -16,7 +16,6 @@ import net.minecraft.world.poi.PointOfInterestType;
 public final class FriendsAndFoesTags
 {
 	public static final TagKey<Block> COPPER_BUTTONS = blockTag("copper_buttons");
-	public static final TagKey<Block> GLOW_BERRIES = blockTag("glow_berries");
 	public static final TagKey<Block> LIGHTNING_RODS = blockTag("lightning_rods");
 	public static final TagKey<PointOfInterestType> LIGHTNING_ROD_POI = pointOfInterestTypeTag("lightning_rods");
 	public static final TagKey<Block> GLARES_SPAWNABLE_ON = blockTag("glares_spawnable_on");

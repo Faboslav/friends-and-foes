@@ -20,7 +20,6 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.DrownedEntity;
 import net.minecraft.entity.mob.GuardianEntity;
 import net.minecraft.entity.mob.HostileEntity;
@@ -31,7 +30,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.tag.BiomeTags;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.RegistryEntry;
@@ -208,69 +206,6 @@ public final class BarnacleEntity extends HostileEntity implements AnimatedEntit
 	@Override
 	public int getMaxLookPitchChange() {
 		return 180;
-	}
-
-	@Override
-	protected Entity.MoveEffect getMoveEffect() {
-		return Entity.MoveEffect.EVENTS;
-	}
-
-	@Override
-	public void tickMovement() {
-		super.tickMovement();
-		this.prevTiltAngle = this.tiltAngle;
-		this.prevRollAngle = this.rollAngle;
-		this.prevThrustTimer = this.thrustTimer;
-		this.prevTentacleAngle = this.tentacleAngle;
-		this.thrustTimer += this.thrustTimerSpeed;
-		if ((double)this.thrustTimer > Math.PI * 2) {
-			if (this.world.isClient) {
-				this.thrustTimer = (float)Math.PI * 2;
-			} else {
-				this.thrustTimer -= (float)Math.PI * 2;
-				if (this.random.nextInt(10) == 0) {
-					this.thrustTimerSpeed = 1.0f / (this.random.nextFloat() + 1.0f) * 0.2f;
-				}
-				this.world.sendEntityStatus(this, EntityStatuses.RESET_SQUID_THRUST_TIMER);
-			}
-		}
-		if (this.isInsideWaterOrBubbleColumn()) {
-			if (this.thrustTimer < (float)Math.PI) {
-				float f = this.thrustTimer / (float)Math.PI;
-				this.tentacleAngle = MathHelper.sin(f * f * (float)Math.PI) * (float)Math.PI * 0.25f;
-				if ((double)f > 0.75) {
-					this.swimVelocityScale = 1.0f;
-					this.turningSpeed = 1.0f;
-				} else {
-					this.turningSpeed *= 0.8f;
-				}
-			} else {
-				this.tentacleAngle = 0.0f;
-				this.swimVelocityScale *= 0.9f;
-				this.turningSpeed *= 0.99f;
-			}
-			if (!this.world.isClient) {
-				this.setVelocity(this.swimX * this.swimVelocityScale, this.swimY * this.swimVelocityScale, this.swimZ * this.swimVelocityScale);
-			}
-			Vec3d vec3d = this.getVelocity();
-			double d = vec3d.horizontalLength();
-			this.bodyYaw += (-((float)MathHelper.atan2(vec3d.x, vec3d.z)) * 57.295776f - this.bodyYaw) * 0.1f;
-			this.setYaw(this.bodyYaw);
-			this.rollAngle += (float)Math.PI * this.turningSpeed * 1.5f;
-			this.tiltAngle += (-((float)MathHelper.atan2(d, vec3d.y)) * 57.295776f - this.tiltAngle) * 0.1f;
-		} else {
-			this.tentacleAngle = MathHelper.abs(MathHelper.sin(this.thrustTimer)) * (float)Math.PI * 0.25f;
-			if (!this.world.isClient) {
-				double e = this.getVelocity().y;
-				if (this.hasStatusEffect(StatusEffects.LEVITATION)) {
-					e = 0.05 * (double)(this.getStatusEffect(StatusEffects.LEVITATION).getAmplifier() + 1);
-				} else if (!this.hasNoGravity()) {
-					e -= 0.08;
-				}
-				this.setVelocity(0.0, e * (double)0.98f, 0.0);
-			}
-			this.tiltAngle += (-90.0f - this.tiltAngle) * 0.02f;
-		}
 	}
 
 	@Override

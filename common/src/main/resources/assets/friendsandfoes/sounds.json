@@ -8,6 +8,15 @@
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.barnacle.ambient"
 	},
+	"entity.barnacle.hurt": {
+		"sounds": [
+			"friendsandfoes:entity/barnacle/hurt1",
+			"friendsandfoes:entity/barnacle/hurt2",
+			"friendsandfoes:entity/barnacle/hurt3",
+			"friendsandfoes:entity/barnacle/hurt4"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.barnacle.hurt"
+	},
 	"entity.copper_golem.death": {
 		"sounds": [
 			"friendsandfoes:entity/copper_golem/death"

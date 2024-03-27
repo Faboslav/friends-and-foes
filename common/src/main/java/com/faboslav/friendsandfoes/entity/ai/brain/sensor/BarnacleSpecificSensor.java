@@ -3,21 +3,21 @@
  */
 package com.faboslav.friendsandfoes.entity.ai.brain.sensor;
 
-import com.faboslav.friendsandfoes.entity.GlareEntity;
+import com.faboslav.friendsandfoes.entity.BarnacleEntity;
+import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.LivingTargetCache;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
-import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.TimeHelper;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 
 import java.util.Set;
 
-public class GlareSpecificSensor extends Sensor<GlareEntity>
+public class BarnacleSpecificSensor extends Sensor<BarnacleEntity>
 {
 	private static final UniformIntProvider AVOID_MEMORY_DURATION;
 
@@ -31,16 +31,16 @@ public class GlareSpecificSensor extends Sensor<GlareEntity>
 	}
 
 	@Override
-	protected void sense(ServerWorld world, GlareEntity glare) {
-		Brain<?> brain = glare.getBrain();
+	protected void sense(ServerWorld world, BarnacleEntity barnacle) {
+		Brain<?> brain = barnacle.getBrain();
 		LivingTargetCache livingTargetCache = brain.getOptionalMemory(MemoryModuleType.VISIBLE_MOBS).orElse(LivingTargetCache.empty());
-		LivingEntity firstHostileEntity = livingTargetCache.findFirst(livingEntity -> livingEntity instanceof HostileEntity).orElse(null);
+		LivingEntity firstEntityToBeAvoided = livingTargetCache.findFirst(livingEntity -> livingEntity.getType().isIn(FriendsAndFoesTags.BARNACLE_AVOID_TARGETS)).orElse(null);
 
-		if (firstHostileEntity == null || glare.isTamed()) {
+		if (firstEntityToBeAvoided == null) {
 			return;
 		}
 
-		brain.remember(MemoryModuleType.AVOID_TARGET, firstHostileEntity, AVOID_MEMORY_DURATION.get(glare.getRandom()));
+		brain.remember(MemoryModuleType.AVOID_TARGET, firstEntityToBeAvoided, AVOID_MEMORY_DURATION.get(barnacle.getRandom()));
 	}
 }
 

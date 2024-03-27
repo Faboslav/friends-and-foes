@@ -1,13 +1,19 @@
+## 2.1.0
+
+- Added Barnacle
+- Smoothed out Iceologers Ice Chunk movement
+- Mooblooms and Iceologers should now work with Fresh Animations by default
+
 ## 2.0.10
 
-- Fixed crash related to rascal spawns in mineshafts
+- Fixed crash related to Rascal spawns in mineshafts
 - Added anger particles to rascal to indicate that hitting it is not an option
-- Added missing charm slot for curios
+- Added missing Charm slot for curios
 - Added missing translations for BetterF3 mod
 - Improved trigger logic for totems
-- Improved compatibility with the curios mod and other totems
-- Improved compatibility with the trinkets mod and other totems
-- Improved catalogue compatibility
+- Improved compatibility with the Curios mod and other totems
+- Improved compatibility with the Trinkets mod and other totems
+- Improved Catalogue compatibility
 - Updated translations
 
 ## 2.0.9

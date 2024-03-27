@@ -8,6 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
+import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -21,6 +22,7 @@ import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -162,6 +164,8 @@ public final class IceologerIceChunkEntity extends Entity
 
 	@Override
 	public void tick() {
+		super.tick();
+
 		if (lifetimeTicks == 10) {
 			this.playSummonSound();
 		} else if (lifetimeTicks == 40) {
@@ -198,6 +202,11 @@ public final class IceologerIceChunkEntity extends Entity
 			this.damageHitEntities();
 			this.customDiscard();
 		}
+	}
+
+	@Override
+	public boolean damage(DamageSource source, float amount) {
+		return false;
 	}
 
 	public Packet<?> createSpawnPacket() {
@@ -265,12 +274,13 @@ public final class IceologerIceChunkEntity extends Entity
 
 		if (
 			target == null
+			|| target.isAlive() == false
 			|| target.getVelocity().lengthSquared() < 0.0001
 		) {
 			return;
 		}
 
-		this.setPosition(
+		Vec3d targetPosition = new Vec3d(
 			target.getX(),
 			this.getYPositionWithHeightOffset(
 				target.getY(),
@@ -278,6 +288,9 @@ public final class IceologerIceChunkEntity extends Entity
 			),
 			target.getZ()
 		);
+		Vec3d targetDirection = targetPosition.subtract(this.getPos()).normalize();
+		this.setVelocity(targetDirection.multiply(0.2));
+		this.move(MovementType.SELF, this.getVelocity());
 	}
 
 	private double getYPositionWithHeightOffset(double y, double height) {

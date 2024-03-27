@@ -12,9 +12,9 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
-public final class BarnacleKelpFeatureRenderer extends FeatureRenderer<BarnacleEntity, BarnacleEntityModel<BarnacleEntity>>
+public final class BarnacleKelpHeadFeatureRenderer extends FeatureRenderer<BarnacleEntity, BarnacleEntityModel<BarnacleEntity>>
 {
-	public BarnacleKelpFeatureRenderer(FeatureRendererContext<BarnacleEntity, BarnacleEntityModel<BarnacleEntity>> featureRendererContext) {
+	public BarnacleKelpHeadFeatureRenderer(FeatureRendererContext<BarnacleEntity, BarnacleEntityModel<BarnacleEntity>> featureRendererContext) {
 		super(featureRendererContext);
 	}
 
@@ -34,7 +34,7 @@ public final class BarnacleKelpFeatureRenderer extends FeatureRenderer<BarnacleE
 			return;
 		}
 
-		Identifier identifier = FriendsAndFoes.makeID("textures/entity/barnacle/barnacle_kelp.png");
+		Identifier identifier = FriendsAndFoes.makeID("textures/entity/barnacle/barnacle_kelp_head_1.png");
 
 		renderModel(
 			this.getContextModel(),

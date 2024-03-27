@@ -19,28 +19,24 @@ import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.entity.ai.pathing.SwimNavigation;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.DrownedEntity;
-import net.minecraft.entity.mob.GuardianEntity;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.passive.AxolotlSwimNavigation;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.tag.BiomeTags;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.util.registry.RegistryEntry;
-import net.minecraft.world.*;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -177,7 +173,13 @@ public final class BarnacleEntity extends HostileEntity implements AnimatedEntit
 		return new SwimNavigation(this, world);
 	}
 
-	public static boolean canSpawn(EntityType<BarnacleEntity> type, ServerWorldAccess world, SpawnReason spawnReason, BlockPos pos, Random random) {
+	public static boolean canSpawn(
+		EntityType<BarnacleEntity> type,
+		ServerWorldAccess world,
+		SpawnReason spawnReason,
+		BlockPos pos,
+		Random random
+	) {
 		if (
 			random.nextInt(10) != 0
 			|| pos.getY() < world.getSeaLevel() - 3 == false
@@ -231,13 +233,24 @@ public final class BarnacleEntity extends HostileEntity implements AnimatedEntit
 
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return this.isInsideWaterOrBubbleColumn() ? FriendsAndFoesSoundEvents.ENTITY_BARNACLE_AMBIENT.get() : SoundEvents.ENTITY_GUARDIAN_AMBIENT_LAND;
+		return FriendsAndFoesSoundEvents.ENTITY_BARNACLE_AMBIENT.get();
 	}
 
 	@Override
 	public void playAmbientSound() {
 		SoundEvent soundEvent = this.getAmbientSound();
 		this.playSound(soundEvent, 0.5F, RandomGenerator.generateFloat(1.25F, 1.45F));
+	}
+
+	@Override
+	protected SoundEvent getHurtSound(DamageSource source) {
+		return FriendsAndFoesSoundEvents.ENTITY_BARNACLE_HURT.get();
+	}
+
+	@Override
+	protected void playHurtSound(DamageSource source) {
+		this.ambientSoundChance = -this.getMinAmbientSoundDelay();
+		this.playSound(this.getHurtSound(source), 0.5F, RandomGenerator.generateFloat(1.25F, 1.45F));
 	}
 
 	@Override

@@ -36,6 +36,7 @@ public final class BarnacleBrain
 		Brain<BarnacleEntity> brain = profile.deserialize(dynamic);
 
 		addCoreActivities(brain);
+		addFightActivities(brain);
 		addAvoidActivities(brain);
 		addIdleActivities(brain);
 
@@ -56,6 +57,19 @@ public final class BarnacleBrain
 		);
 	}
 
+	private static void addFightActivities(Brain<BarnacleEntity> brain) {
+		brain.setTaskList(
+			Activity.FIGHT,
+			0,
+			ImmutableList.of(
+				new RangedApproachTask(0.6F),
+				new MeleeAttackTask(20),
+				new ForgetTask<>(LookTargetUtil::hasBreedTarget, MemoryModuleType.ATTACK_TARGET)
+			),
+			MemoryModuleType.ATTACK_TARGET
+		);
+	}
+
 	private static void addIdleActivities(Brain<BarnacleEntity> brain) {
 		brain.setTaskList(
 			Activity.IDLE,
@@ -73,7 +87,7 @@ public final class BarnacleBrain
 		brain.setTaskList(
 			Activity.AVOID,
 			ImmutableList.of(
-				Pair.of(0, GoToRememberedPositionTask.toEntity(MemoryModuleType.AVOID_TARGET, 1.25F, 16, false))
+				Pair.of(0, GoToRememberedPositionTask.toEntity(MemoryModuleType.AVOID_TARGET, 0.8F, 16, false))
 			),
 			ImmutableSet.of(
 				Pair.of(MemoryModuleType.AVOID_TARGET, MemoryModuleState.VALUE_PRESENT)
@@ -84,6 +98,7 @@ public final class BarnacleBrain
 	public static void updateActivities(BarnacleEntity barnacle) {
 		barnacle.getBrain().resetPossibleActivities(
 			ImmutableList.of(
+				Activity.FIGHT,
 				Activity.AVOID,
 				Activity.IDLE
 			)
@@ -93,7 +108,7 @@ public final class BarnacleBrain
 	private static RandomTask<BarnacleEntity> makeRandomWanderTask() {
 		return new RandomTask(
 			ImmutableList.of(
-				Pair.of(new StrollTask(0.6F, true), 2),
+				Pair.of(new AquaticStrollTask(0.6F), 2),
 				Pair.of(new GoTowardsLookTarget(1.0F, 3), 2),
 				Pair.of(new WaitTask(30, 60), 1)
 			)

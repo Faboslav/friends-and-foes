@@ -16,7 +16,6 @@ import net.minecraft.entity.ai.control.AquaticMoveControl;
 import net.minecraft.entity.ai.control.YawAdjustingLookControl;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.ai.pathing.PathNodeType;
-import net.minecraft.entity.ai.pathing.SwimNavigation;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
@@ -25,18 +24,15 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.passive.AxolotlSwimNavigation;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.world.LocalDifficulty;
-import net.minecraft.world.ServerWorldAccess;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldView;
+import net.minecraft.world.*;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -160,17 +156,23 @@ public final class BarnacleEntity extends HostileEntity implements AnimatedEntit
 		super.tick();
 	}
 
+	/*
 	@Override
 	public float getPathfindingFavor(BlockPos pos, WorldView world) {
 		if (world.getFluidState(pos).isIn(FluidTags.WATER)) {
 			return 10.0f + world.getPhototaxisFavor(pos);
 		}
 		return super.getPathfindingFavor(pos, world);
+	}*/
+
+	@Override
+	public float getPathfindingFavor(BlockPos pos, WorldView world) {
+		return 0.0f;
 	}
 
 	@Override
 	protected EntityNavigation createNavigation(World world) {
-		return new SwimNavigation(this, world);
+		return new AxolotlSwimNavigation(this, world);
 	}
 
 	public static boolean canSpawn(
@@ -181,14 +183,18 @@ public final class BarnacleEntity extends HostileEntity implements AnimatedEntit
 		Random random
 	) {
 		if (
-			random.nextInt(10) != 0
-			|| pos.getY() < world.getSeaLevel() - 3 == false
+			!world.getFluidState(pos.down()).isIn(FluidTags.WATER)
+			|| !isValidSpawnDepth(world, pos)
+			|| random.nextInt(40) != 0
 		) {
 			return false;
 		}
 
-		FriendsAndFoes.getLogger().info("chance of spawn");
 		return true;
+	}
+
+	private static boolean isValidSpawnDepth(WorldAccess world, BlockPos pos) {
+		return pos.getY() < world.getSeaLevel() - 5;
 	}
 
 	@Override

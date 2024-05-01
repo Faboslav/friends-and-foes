@@ -35,8 +35,8 @@ dependencies {
 	implementation(include("io.github.llamalad7:mixinextras-neoforge:${rootProject.mixin_extras_version}"))
 
 	// Curios (https://www.curseforge.com/minecraft/mc-mods/curios)
-	modImplementation("top.theillusivec4.curios:curios-neoforge:${project.curios_version}+${rootProject.minecraft_version}:api")
-	modRuntimeOnly("top.theillusivec4.curios:curios-neoforge:${project.curios_version}+${rootProject.minecraft_version}");
+	// modImplementation("top.theillusivec4.curios:curios-neoforge:${project.curios_version}+${rootProject.minecraft_version}:api")
+	// modRuntimeOnly("top.theillusivec4.curios:curios-neoforge:${project.curios_version}+${rootProject.minecraft_version}");
 
 	// Cloth config (https://www.curseforge.com/minecraft/mc-mods/cloth-config)
 	modImplementation("me.shedaniel.cloth:cloth-config-neoforge:${rootProject.cloth_config_version}")

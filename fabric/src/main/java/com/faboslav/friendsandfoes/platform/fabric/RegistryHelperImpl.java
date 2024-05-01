@@ -26,7 +26,7 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.SpawnEggItem;
-import net.minecraft.particle.DefaultParticleType;
+import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -110,7 +110,7 @@ public final class RegistryHelperImpl
 		return (Supplier<T>) registerItem(name, () -> new SpawnEggItem(type.get(), backgroundColor, highlightColor, props));
 	}
 
-	public static void registerParticleType(String name, DefaultParticleType particleType) {
+	public static void registerParticleType(String name, SimpleParticleType particleType) {
 		Registry.register(Registries.PARTICLE_TYPE, FriendsAndFoes.makeStringID(name), particleType);
 	}
 

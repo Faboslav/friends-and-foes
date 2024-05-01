@@ -35,9 +35,9 @@ public final class GlareTravelToGlowBerriesTask extends MultiTickTask<GlareEntit
 			   && !glare.isLeashed()
 			   && !glare.isSitting()
 			   && glare.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty() != false
-			   && glare.canEatGlowBerriesAt(glowBerriesPos.getPos()) != false
+			   && glare.canEatGlowBerriesAt(glowBerriesPos.pos()) != false
 			   && glowBerriesPos != null
-			   && !glowBerriesPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE);
+			   && !glowBerriesPos.pos().isWithinDistance(glare.getPos(), WITHING_DISTANCE);
 	}
 
 	@Override
@@ -51,9 +51,9 @@ public final class GlareTravelToGlowBerriesTask extends MultiTickTask<GlareEntit
 
 		if (
 			glowBerriesPos == null
-			|| glare.canEatGlowBerriesAt(glowBerriesPos.getPos()) == false
+			|| glare.canEatGlowBerriesAt(glowBerriesPos.pos()) == false
 			|| (
-				glowBerriesPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE)
+				glowBerriesPos.pos().isWithinDistance(glare.getPos(), WITHING_DISTANCE)
 				&& glare.getNavigation().isFollowingPath() == false
 			)
 			|| FriendsAndFoes.getConfig().enableGlareGriefing == false
@@ -83,8 +83,8 @@ public final class GlareTravelToGlowBerriesTask extends MultiTickTask<GlareEntit
 		if (
 			glowBerriesPos != null &&
 			(
-				glowBerriesPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE) == false
-				|| glare.canEatGlowBerriesAt(glowBerriesPos.getPos()) == false
+				glowBerriesPos.pos().isWithinDistance(glare.getPos(), WITHING_DISTANCE) == false
+				|| glare.canEatGlowBerriesAt(glowBerriesPos.pos()) == false
 			)
 		) {
 			glare.getBrain().forget(FriendsAndFoesMemoryModuleTypes.GLARE_GLOW_BERRIES_POS.get());
@@ -101,7 +101,7 @@ public final class GlareTravelToGlowBerriesTask extends MultiTickTask<GlareEntit
 
 		LookTargetUtil.walkTowards(
 			glare,
-			new BlockPos(glowBerriesPos.getPos()),
+			new BlockPos(glowBerriesPos.pos()),
 			1.0F,
 			0
 		);

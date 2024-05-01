@@ -15,6 +15,8 @@ import com.faboslav.friendsandfoes.util.particle.ParticleSpawner;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CaveVines;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
@@ -85,6 +87,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	public GlareEntity(EntityType<? extends GlareEntity> entityType, World world) {
 		super(entityType, world);
 
+		this.setTamed(false, false);
 		this.moveControl = new GlareMoveControl(this, 24, true);
 		this.setPathfindingPenalty(PathNodeType.DANGER_FIRE, -1.0F);
 		this.setPathfindingPenalty(PathNodeType.WATER, -1.0F);
@@ -102,14 +105,13 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		ServerWorldAccess world,
 		LocalDifficulty difficulty,
 		SpawnReason spawnReason,
-		@Nullable EntityData entityData,
-		@Nullable NbtCompound entityNbt
+		@Nullable EntityData entityData
 	) {
 		GlareBrain.setDarkSpotLocatingCooldown(this);
 		GlareBrain.setLocatingGlowBerriesCooldown(this);
 		GlareBrain.setItemPickupCooldown(this);
 
-		return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
+		return super.initialize(world, difficulty, spawnReason, entityData);
 	}
 
 	static {
@@ -120,9 +122,10 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	}
 
 	@Override
-	protected void initDataTracker() {
-		super.initDataTracker();
-		this.dataTracker.startTracking(GLARE_FLAGS, (byte) 0);
+	protected void initDataTracker(DataTracker.Builder builder) {
+		super.initDataTracker(builder);
+
+		builder.add(GLARE_FLAGS, (byte) 0);
 	}
 
 	private boolean hasGlareFlag(int bitmask) {
@@ -258,7 +261,9 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 			}
 
 			ItemStackParticleEffect particleEffect = new ItemStackParticleEffect(ParticleTypes.ITEM, itemStack);
-			this.heal(itemStack.getItem().getFoodComponent().getHunger());
+			FoodComponent foodComponent = itemStack.get(DataComponentTypes.FOOD);
+			float foodNutritionMultiplier = foodComponent != null ? (float)foodComponent.nutrition() : 1.0F;
+			this.heal(2.0F * foodNutritionMultiplier);
 			this.playEatSound(itemStack);
 			ParticleSpawner.spawnParticles(this, particleEffect, 7, 0.1D);
 			GlareBrain.setItemPickupCooldown(this);
@@ -461,19 +466,14 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 			return true;
 		}
 
-		Item glowBerries = itemStack.getItem();
-
-		if (glowBerries.getFoodComponent() == null) {
+		FoodComponent foodComponent = itemStack.get(DataComponentTypes.FOOD);
+		if (foodComponent == null) {
 			return false;
 		}
 
-		this.heal((float) glowBerries.getFoodComponent().getHunger());
-
-		if (player.getAbilities().creativeMode == false) {
-			itemStack.decrement(1);
-		}
-
+		this.heal(2.0F * foodComponent.nutrition());
 		this.playEatSound(itemStack);
+		itemStack.decrementUnlessCreative(1, player);
 
 		ItemStackParticleEffect particleEffect = new ItemStackParticleEffect(ParticleTypes.ITEM, itemStack);
 		ParticleSpawner.spawnParticles(this, particleEffect, 7, 0.1D);
@@ -591,11 +591,10 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		}
 	}
 
-	public void setTamed(boolean tamed) {
-		super.setTamed(tamed);
-
-		if (tamed) {
-			this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(20.0D);
+	@Override
+	protected void updateAttributesForTamed() {
+		if (this.isTamed()) {
+			this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(30.0D);
 			this.setHealth(this.getMaxHealth());
 		} else {
 			this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(10.0D);
@@ -603,7 +602,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	}
 
 	public void setOwner(PlayerEntity owner) {
-		this.setTamed(true);
+		this.setTamed(true, true);
 		this.setOwnerUuid(owner.getUuid());
 
 		if (owner instanceof ServerPlayerEntity) {
@@ -631,7 +630,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		}
 
 		glareEntity.setOwnerUuid(this.getOwnerUuid());
-		glareEntity.setTamed(true);
+		glareEntity.setTamed(true, true);
 
 		GlareBrain.setDarkSpotLocatingCooldown(this);
 		GlareBrain.setLocatingGlowBerriesCooldown(this);
@@ -672,6 +671,8 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		return new Vec3d(0.0D, this.getStandingEyeHeight() * 0.6D, 0.0D);
 	}
 
+	// TODO resolve
+	/*
 	@Override
 	protected float getActiveEyeHeight(EntityPose poseIn, EntityDimensions sizeIn) {
 		if (this.isBaby()) {
@@ -679,7 +680,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		}
 
 		return 1.0F;
-	}
+	} */
 
 	@Override
 	public float getMovementSpeed() {

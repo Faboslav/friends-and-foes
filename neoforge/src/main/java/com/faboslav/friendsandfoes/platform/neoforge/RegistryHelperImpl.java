@@ -21,7 +21,7 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.particle.DefaultParticleType;
+import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.particle.ParticleType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
@@ -148,7 +148,7 @@ public final class RegistryHelperImpl
 		return SENSOR_TYPES.register(name, sensorType);
 	}
 
-	public static void registerParticleType(String name, DefaultParticleType particleType) {
+	public static void registerParticleType(String name, SimpleParticleType particleType) {
 		PARTICLE_TYPES.register(name, () -> particleType);
 	}
 

@@ -118,15 +118,16 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	}
 
 	@Override
-	protected void initDataTracker() {
-		super.initDataTracker();
-		this.dataTracker.startTracking(TYPE, Type.DESERT.name());
-		this.dataTracker.startTracking(ANGER_TIME, 0);
-		this.dataTracker.startTracking(STORED_EXPERIENCE_POINTS, 0);
-		this.dataTracker.startTracking(IS_MOVING, false);
-		this.dataTracker.startTracking(IS_BURROWED_DOWN, false);
-		this.dataTracker.startTracking(TICKS_UNTIL_NEXT_BURROWING_DOWN, this.getRandom().nextBetween(MIN_TICKS_UNTIL_NEXT_BURROWING, MAX_TICKS_UNTIL_NEXT_BURROWING));
-		this.dataTracker.startTracking(BURROWING_DOWN_ANIMATION_PROGRESS, 0.0F);
+	protected void initDataTracker(DataTracker.Builder builder) {
+		super.initDataTracker(builder);
+
+		builder.add(TYPE, Type.DESERT.name());
+		builder.add(ANGER_TIME, 0);
+		builder.add(STORED_EXPERIENCE_POINTS, 0);
+		builder.add(IS_MOVING, false);
+		builder.add(IS_BURROWED_DOWN, false);
+		builder.add(TICKS_UNTIL_NEXT_BURROWING_DOWN, this.getRandom().nextBetween(MIN_TICKS_UNTIL_NEXT_BURROWING, MAX_TICKS_UNTIL_NEXT_BURROWING));
+		builder.add(BURROWING_DOWN_ANIMATION_PROGRESS, 0.0F);
 	}
 
 	@Override
@@ -166,8 +167,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		ServerWorldAccess world,
 		LocalDifficulty difficulty,
 		SpawnReason spawnReason,
-		@Nullable EntityData entityData,
-		@Nullable NbtCompound entityNbt
+		@Nullable EntityData entityData
 	) {
 		RegistryKey<Biome> biomeKey = world.getBiome(this.getBlockPos()).getKey().orElse(BiomeKeys.SAVANNA);
 		Type type = Type.getTypeByBiome(biomeKey);
@@ -176,7 +176,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		this.setType(type);
 		this.setSize();
 
-		return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
+		return super.initialize(world, difficulty, spawnReason, entityData);
 	}
 
 	@Override

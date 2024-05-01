@@ -68,10 +68,9 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 		ServerWorldAccess world,
 		LocalDifficulty difficulty,
 		SpawnReason spawnReason,
-		@Nullable EntityData entityData,
-		@Nullable NbtCompound entityNbt
+		@Nullable EntityData entityData
 	) {
-		EntityData superEntityData = super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
+		EntityData superEntityData = super.initialize(world, difficulty, spawnReason, entityData);
 
 		this.setPose(RascalEntityPose.IDLE);
 		RascalBrain.setNodCooldown(this);
@@ -145,10 +144,11 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 	}
 
 	@Override
-	protected void initDataTracker() {
-		super.initDataTracker();
-		this.dataTracker.startTracking(POSE_TICKS, 0);
-		this.dataTracker.startTracking(CAUGHT_COUNT, 0);
+	protected void initDataTracker(DataTracker.Builder builder) {
+		super.initDataTracker(builder);
+
+		builder.add(POSE_TICKS, 0);
+		builder.add(CAUGHT_COUNT, 0);
 	}
 
 	@Nullable

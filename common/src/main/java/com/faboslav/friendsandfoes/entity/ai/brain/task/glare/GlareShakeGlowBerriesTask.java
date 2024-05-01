@@ -39,8 +39,8 @@ public final class GlareShakeGlowBerriesTask extends MultiTickTask<GlareEntity>
 			   && !glare.isSitting()
 			   && glare.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty() != false
 			   && glowBerriesPos != null
-			   && glare.canEatGlowBerriesAt(glowBerriesPos.getPos()) != false
-			   && glowBerriesPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE) != false;
+			   && glare.canEatGlowBerriesAt(glowBerriesPos.pos()) != false
+			   && glowBerriesPos.pos().isWithinDistance(glare.getPos(), WITHING_DISTANCE) != false;
 	}
 
 	@Override
@@ -58,8 +58,8 @@ public final class GlareShakeGlowBerriesTask extends MultiTickTask<GlareEntity>
 			   && !glare.isSitting()
 			   && glare.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty() != false
 			   && glowBerriesPos != null
-			   && glare.canEatGlowBerriesAt(glowBerriesPos.getPos()) != false
-			   && glowBerriesPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE) != false;
+			   && glare.canEatGlowBerriesAt(glowBerriesPos.pos()) != false
+			   && glowBerriesPos.pos().isWithinDistance(glare.getPos(), WITHING_DISTANCE) != false;
 	}
 
 	protected void keepRunning(ServerWorld world, GlareEntity glare, long time) {
@@ -95,7 +95,7 @@ public final class GlareShakeGlowBerriesTask extends MultiTickTask<GlareEntity>
 			return;
 		}
 
-		BlockState blockState = glare.getWorld().getBlockState(glowBerriesPos.getPos());
+		BlockState blockState = glare.getWorld().getBlockState(glowBerriesPos.pos());
 
 		if (CaveVines.hasBerries(blockState) == false) {
 			return;
@@ -105,7 +105,7 @@ public final class GlareShakeGlowBerriesTask extends MultiTickTask<GlareEntity>
 			glare,
 			blockState,
 			glare.getWorld(),
-			glowBerriesPos.getPos()
+			glowBerriesPos.pos()
 		);
 	}
 }

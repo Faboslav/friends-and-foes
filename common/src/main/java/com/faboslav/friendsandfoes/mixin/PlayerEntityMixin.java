@@ -22,7 +22,7 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.particle.DefaultParticleType;
+import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -321,8 +321,8 @@ public abstract class PlayerEntityMixin extends LivingEntity
 		this.friendsandfoes_spawnParticles(ParticleTypes.CLOUD, 16);
 	}
 
-	private void friendsandfoes_spawnParticles(
-		DefaultParticleType particleType,
+	private <T extends ParticleEffect> void friendsandfoes_spawnParticles(
+		T particleType,
 		int amount
 	) {
 		if (this.getWorld().isClient()) {

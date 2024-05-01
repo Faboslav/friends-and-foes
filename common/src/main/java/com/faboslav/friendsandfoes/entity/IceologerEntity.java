@@ -3,7 +3,6 @@ package com.faboslav.friendsandfoes.entity;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.*;
@@ -18,6 +17,7 @@ import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.raid.RaiderEntity;
+import net.minecraft.registry.tag.EntityTypeTags;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.world.World;
 
@@ -60,13 +60,14 @@ public final class IceologerEntity extends SpellcastingIllagerEntity
 		return FriendsAndFoesSoundEvents.ENTITY_ICEOLOGER_AMBIENT.get();
 	}
 
+	// TODO add illager friends to json
 	public boolean isTeammate(Entity other) {
 		if (super.isTeammate(other)) {
 			return true;
-		} else if (other instanceof LivingEntity && ((LivingEntity) other).getGroup() == EntityGroup.ILLAGER) {
-			return this.getScoreboardTeam() == null && other.getScoreboardTeam() == null;
-		} else {
+		} else if (!other.getType().isIn(EntityTypeTags.ILLAGER_FRIENDS)) {
 			return false;
+		} else {
+			return this.getScoreboardTeam() == null && other.getScoreboardTeam() == null;
 		}
 	}
 

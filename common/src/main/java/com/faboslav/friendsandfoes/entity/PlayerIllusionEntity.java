@@ -16,7 +16,7 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.DefaultParticleType;
+import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.MathHelper;
@@ -55,12 +55,12 @@ public final class PlayerIllusionEntity extends MobEntity
 	}
 
 	@Override
-	protected void initDataTracker() {
-		super.initDataTracker();
+	protected void initDataTracker(DataTracker.Builder builder) {
+		super.initDataTracker(builder);
 
-		this.dataTracker.startTracking(PLAYER_MODEL_PARTS, (byte) 0);
-		this.dataTracker.startTracking(TICKS_UNTIL_DESPAWN, 0);
-		this.dataTracker.startTracking(PLAYER_UUID, Optional.empty());
+		builder.add(PLAYER_MODEL_PARTS, (byte) 0);
+		builder.add(TICKS_UNTIL_DESPAWN, 0);
+		builder.add(PLAYER_UUID, Optional.empty());
 	}
 
 	@Override
@@ -219,8 +219,8 @@ public final class PlayerIllusionEntity extends MobEntity
 		this.spawnParticles(ParticleTypes.CLOUD, 16);
 	}
 
-	private void spawnParticles(
-		DefaultParticleType particleType,
+	private <T extends ParticleEffect> void spawnParticles(
+		T particleType,
 		int amount
 	) {
 		if (this.getWorld().isClient()) {

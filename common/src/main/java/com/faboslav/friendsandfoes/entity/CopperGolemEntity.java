@@ -52,6 +52,7 @@ import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public final class CopperGolemEntity extends GolemEntity implements AnimatedEntity
 {
@@ -139,10 +140,9 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		ServerWorldAccess world,
 		LocalDifficulty difficulty,
 		SpawnReason spawnReason,
-		@Nullable EntityData entityData,
-		@Nullable NbtCompound entityNbt
+		@Nullable EntityData entityData
 	) {
-		EntityData superEntityData = super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
+		EntityData superEntityData = super.initialize(world, difficulty, spawnReason, entityData);
 
 		if (spawnReason == SpawnReason.STRUCTURE) {
 			return superEntityData;
@@ -156,14 +156,15 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 	}
 
 	@Override
-	protected void initDataTracker() {
-		super.initDataTracker();
-		this.dataTracker.startTracking(POSE_TICKS, 0);
-		this.dataTracker.startTracking(OXIDATION_LEVEL, Oxidizable.OxidationLevel.UNAFFECTED.ordinal());
-		this.dataTracker.startTracking(STRUCT_BY_LIGHTNING_TICKS, 0);
-		this.dataTracker.startTracking(WAS_STATUE, false);
-		this.dataTracker.startTracking(IS_WAXED, false);
-		this.dataTracker.startTracking(ENTITY_SNAPSHOT, new NbtCompound());
+	protected void initDataTracker(DataTracker.Builder builder) {
+		super.initDataTracker(builder);
+
+		builder.add(POSE_TICKS, 0);
+		builder.add(OXIDATION_LEVEL, Oxidizable.OxidationLevel.UNAFFECTED.ordinal());
+		builder.add(STRUCT_BY_LIGHTNING_TICKS, 0);
+		builder.add(WAS_STATUE, false);
+		builder.add(IS_WAXED, false);
+		builder.add(ENTITY_SNAPSHOT, new NbtCompound());
 	}
 
 	@Override
@@ -251,7 +252,8 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		this.prevPitch = entitySnapshot.getFloat("prevPitch");
 		this.serverPitch = this.prevPitch;
 		this.setPitch(this.prevPitch);
-		this.roll = entitySnapshot.getInt("roll");
+		// TODO maybe cache model parts instead?
+		// this.roll = entitySnapshot.getInt("roll");
 		this.lastHandSwingProgress = entitySnapshot.getFloat("lastHandSwingProgress");
 		this.handSwingProgress = this.lastHandSwingProgress;
 		((LimbAnimatorAccessor) this.limbAnimator).setPrevSpeed(entitySnapshot.getFloat("limbAnimatorPrevSpeed"));
@@ -272,7 +274,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		entitySnapshot.putFloat("prevYaw", this.prevYaw); // Same as serverYaw and yaw
 		entitySnapshot.putDouble("serverPitch", this.serverPitch);
 		entitySnapshot.putFloat("prevPitch", this.prevPitch); // Same as pitch
-		entitySnapshot.putInt("roll", this.getRoll());
+		//entitySnapshot.putInt("roll", this.getRoll());
 		entitySnapshot.putFloat("prevBodyYaw", this.prevBodyYaw); // Same as bodyYaw
 		entitySnapshot.putDouble("serverHeadYaw", this.serverHeadYaw);
 		entitySnapshot.putFloat("prevHeadYaw", this.prevHeadYaw); // Same as headYaw
@@ -345,10 +347,12 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		return new Vec3d(0.0D, this.getStandingEyeHeight() * 0.45D, 0.0D);
 	}
 
+	// TODO somehow fix
+	/*
 	@Override
 	protected float getActiveEyeHeight(EntityPose poseIn, EntityDimensions sizeIn) {
 		return 0.75F;
-	}
+	} */
 
 	public float getMovementSpeedModifier() {
 		if (this.isStructByLightning()) {
@@ -404,11 +408,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		}
 
 		this.heal(COPPER_INGOT_HEAL_AMOUNT);
-
-		if (!player.getAbilities().creativeMode) {
-			itemStack.decrement(1);
-		}
-
+		itemStack.decrementUnlessCreative(1, player);
 		this.playSound(FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_REPAIR.get(), 1.0F, this.getSoundPitch() - 1.0F);
 
 		return true;
@@ -461,9 +461,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		}
 
 		if (this.getWorld().isClient() == false && !player.getAbilities().creativeMode) {
-			itemStack.damage(1, player, (playerEntity) -> {
-				player.sendToolBreakStatus(hand);
-			});
+			itemStack.damage(1, player, PlayerEntity.getSlotForHand(hand));
 		}
 
 		return true;

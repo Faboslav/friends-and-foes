@@ -8,6 +8,7 @@ import net.minecraft.item.Items;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.village.TradeOffer;
 import net.minecraft.village.TradeOffers;
+import net.minecraft.village.TradedItem;
 
 public final class TradeOffersUtil
 {
@@ -38,7 +39,7 @@ public final class TradeOffersUtil
 		}
 
 		public TradeOffer create(Entity entity, Random random) {
-			return new TradeOffer(new ItemStack(Items.EMERALD, this.price), new ItemStack(this.sell.getItem(), this.count), this.maxUses, this.experience, this.multiplier);
+			return new TradeOffer(new TradedItem(Items.EMERALD, this.price), new ItemStack(this.sell.getItem(), this.count), this.maxUses, this.experience, this.multiplier);
 		}
 	}
 
@@ -60,7 +61,7 @@ public final class TradeOffersUtil
 
 		public TradeOffer create(Entity entity, Random random) {
 			ItemStack itemStack = new ItemStack(this.buy, this.price);
-			return new TradeOffer(itemStack, new ItemStack(Items.EMERALD), this.maxUses, this.experience, this.multiplier);
+			return new TradeOffer(new TradedItem(itemStack.getItem(), 1), new ItemStack(Items.EMERALD), this.maxUses, this.experience, this.multiplier);
 		}
 	}
 

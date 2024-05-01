@@ -64,12 +64,11 @@ public final class WildfireEntity extends HostileEntity
 		ServerWorldAccess world,
 		LocalDifficulty difficulty,
 		SpawnReason spawnReason,
-		@Nullable EntityData entityData,
-		@Nullable NbtCompound entityNbt
+		@Nullable EntityData entityData
 	) {
 		this.setActiveShieldsCount(DEFAULT_ACTIVE_SHIELDS_COUNT);
 		this.setSummonedBlazesCount(DEFAULT_SUMMONED_BLAZES_COUNT);
-		return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
+		return super.initialize(world, difficulty, spawnReason, entityData);
 	}
 
 	@Override
@@ -106,11 +105,12 @@ public final class WildfireEntity extends HostileEntity
 	}
 
 	@Override
-	protected void initDataTracker() {
-		super.initDataTracker();
-		this.dataTracker.startTracking(ACTIVE_SHIELDS_COUNT, DEFAULT_ACTIVE_SHIELDS_COUNT);
-		this.dataTracker.startTracking(TICKS_UNTIL_SHIELD_REGENERATION, DEFAULT_TICKS_UNTIL_SHIELD_REGENERATION);
-		this.dataTracker.startTracking(SUMMONED_BLAZES_COUNT, DEFAULT_SUMMONED_BLAZES_COUNT);
+	protected void initDataTracker(DataTracker.Builder builder) {
+		super.initDataTracker(builder);
+
+		builder.add(ACTIVE_SHIELDS_COUNT, DEFAULT_ACTIVE_SHIELDS_COUNT);
+		builder.add(TICKS_UNTIL_SHIELD_REGENERATION, DEFAULT_TICKS_UNTIL_SHIELD_REGENERATION);
+		builder.add(SUMMONED_BLAZES_COUNT, DEFAULT_SUMMONED_BLAZES_COUNT);
 	}
 
 	@Override

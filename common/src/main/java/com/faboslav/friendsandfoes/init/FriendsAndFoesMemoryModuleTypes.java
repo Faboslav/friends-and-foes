@@ -17,6 +17,7 @@ public final class FriendsAndFoesMemoryModuleTypes
 	public static final Supplier<MemoryModuleType<GlobalPos>> COPPER_GOLEM_BUTTON_POS;
 	public final static Supplier<MemoryModuleType<Integer>> COPPER_GOLEM_SPIN_HEAD_COOLDOWN;
 	public final static Supplier<MemoryModuleType<Integer>> COPPER_GOLEM_PRESS_BUTTON_COOLDOWN;
+	public final static Supplier<MemoryModuleType<Integer>> CRAB_WAVE_COOLDOWN;
 	public static final Supplier<MemoryModuleType<GlobalPos>> GLARE_DARK_SPOT_POS;
 	public static final Supplier<MemoryModuleType<GlobalPos>> GLARE_GLOW_BERRIES_POS;
 	public static final Supplier<MemoryModuleType<Boolean>> GLARE_IS_IDLE;
@@ -40,6 +41,7 @@ public final class FriendsAndFoesMemoryModuleTypes
 		GLARE_DARK_SPOT_LOCATING_COOLDOWN = RegistryHelper.registerMemoryModuleType("glare_dark_spot_locating_cooldown", () -> new MemoryModuleType<>(Optional.of(Codec.INT)));
 		GLARE_LOCATING_GLOW_BERRIES_COOLDOWN = RegistryHelper.registerMemoryModuleType("glare_locating_glow_berries_cooldown", () -> new MemoryModuleType<>(Optional.of(Codec.INT)));
 		COPPER_GOLEM_PRESS_BUTTON_COOLDOWN = RegistryHelper.registerMemoryModuleType("copper_golem_press_button_cooldown", () -> new MemoryModuleType<>(Optional.of(Codec.INT)));
+		CRAB_WAVE_COOLDOWN = RegistryHelper.registerMemoryModuleType("crab_wave_cooldown", () -> new MemoryModuleType<>(Optional.of(Codec.INT)));
 		WILDFIRE_BARRAGE_ATTACK_COOLDOWN = RegistryHelper.registerMemoryModuleType("wildfire_barrage_attack_cooldown", () -> new MemoryModuleType<>(Optional.of(Codec.INT)));
 		WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN = RegistryHelper.registerMemoryModuleType("wildfire_shockwave_attack_cooldown", () -> new MemoryModuleType<>(Optional.of(Codec.INT)));
 		WILDFIRE_SUMMON_BLAZE_COOLDOWN = RegistryHelper.registerMemoryModuleType("wildfire_summon_blazes_cooldown", () -> new MemoryModuleType<>(Optional.of(Codec.INT)));

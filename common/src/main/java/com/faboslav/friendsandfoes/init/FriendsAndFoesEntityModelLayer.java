@@ -16,6 +16,7 @@ public final class FriendsAndFoesEntityModelLayer
 {
 	public static final EntityModelLayer BARNACLE_LAYER;
 	public static final EntityModelLayer COPPER_GOLEM_LAYER;
+	public static final EntityModelLayer CRAB_LAYER;
 	public static final EntityModelLayer GLARE_LAYER;
 	public static final EntityModelLayer ICEOLOGER_ICE_CHUNK_LAYER;
 	public static final EntityModelLayer MAULER_LAYER;
@@ -26,6 +27,7 @@ public final class FriendsAndFoesEntityModelLayer
 	static {
 		BARNACLE_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("barnacle"), "main");
 		COPPER_GOLEM_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("copper_golem"), "main");
+		CRAB_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("crab"), "main");
 		GLARE_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("glare"), "main");
 		ICEOLOGER_ICE_CHUNK_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("iceologer_ice_chunk"), "main");
 		MAULER_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("mauler"), "main");
@@ -37,6 +39,7 @@ public final class FriendsAndFoesEntityModelLayer
 	public static void init() {
 		RegistryHelper.registerEntityModelLayer(BARNACLE_LAYER, BarnacleEntityModel::getTexturedModelData);
 		RegistryHelper.registerEntityModelLayer(COPPER_GOLEM_LAYER, CopperGolemEntityModel::getTexturedModelData);
+		RegistryHelper.registerEntityModelLayer(CRAB_LAYER, CrabEntityModel::getTexturedModelData);
 		RegistryHelper.registerEntityModelLayer(GLARE_LAYER, GlareEntityModel::getTexturedModelData);
 		RegistryHelper.registerEntityModelLayer(ICEOLOGER_ICE_CHUNK_LAYER, IceologerIceChunkModel::getTexturedModelData);
 		RegistryHelper.registerEntityModelLayer(MAULER_LAYER, MaulerEntityModel::getTexturedModelData);

@@ -45,7 +45,7 @@ public final class BarnacleEntity extends HostileEntity implements AnimatedEntit
 	public BarnacleEntity(EntityType<? extends HostileEntity> entityType, World world) {
 		super(entityType, world);
 		this.moveControl = new AquaticMoveControl(this, 85, 10, 0.1f, 0.5f, false);
-		this.lookControl = new YawAdjustingLookControl(this, 20);
+		this.lookControl = new YawAdjustingLookControl(this, 10);
 		this.stepHeight = 1.0f;
 
 		this.setPathfindingPenalty(PathNodeType.WATER, 0.0f);
@@ -133,6 +133,7 @@ public final class BarnacleEntity extends HostileEntity implements AnimatedEntit
 	public static DefaultAttributeContainer.Builder createAttributes() {
 		return MobEntity.createMobAttributes()
 			.add(EntityAttributes.GENERIC_MAX_HEALTH, 40.0D)
+			.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 4.0F)
 			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.55D)
 			.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D);
 	}
@@ -154,6 +155,21 @@ public final class BarnacleEntity extends HostileEntity implements AnimatedEntit
 		}
 
 		super.tick();
+	}
+
+	@Override
+	public boolean damage(
+		DamageSource source,
+		float amount
+	) {
+		Entity attacker = source.getAttacker();
+		boolean damageResult = super.damage(source, amount);
+
+		if (damageResult && attacker instanceof LivingEntity) {
+			BarnacleBrain.onAttacked(this, (LivingEntity) attacker);
+		}
+
+		return damageResult;
 	}
 
 	/*
@@ -190,6 +206,7 @@ public final class BarnacleEntity extends HostileEntity implements AnimatedEntit
 			return false;
 		}
 
+		FriendsAndFoes.getLogger().info("Spawning Barnacle");
 		return true;
 	}
 

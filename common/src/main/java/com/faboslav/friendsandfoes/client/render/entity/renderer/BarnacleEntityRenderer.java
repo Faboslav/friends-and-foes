@@ -17,10 +17,10 @@ import net.minecraft.util.Identifier;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public final class BarnacleEntityRenderer extends MobEntityRenderer<BarnacleEntity, BarnacleEntityModel<BarnacleEntity>>
 {
-	public static final float SCALE = 1.3F;
+	public static final float SCALE = 1.6F;
 
 	public BarnacleEntityRenderer(EntityRendererFactory.Context context) {
-		super(context, new BarnacleEntityModel<BarnacleEntity>(context.getPart(FriendsAndFoesEntityModelLayer.BARNACLE_LAYER)), 0.5F);
+		super(context, new BarnacleEntityModel<>(context.getPart(FriendsAndFoesEntityModelLayer.BARNACLE_LAYER)), 0.5F);
 		this.addFeature(new BarnacleKelpFeatureRenderer(this));
 		this.addFeature(new BarnacleKelpHeadFeatureRenderer(this));
 	}

@@ -63,8 +63,7 @@ public final class BarnacleBrain
 			0,
 			ImmutableList.of(
 				new RangedApproachTask(0.6F),
-				new MeleeAttackTask(20),
-				new ForgetTask<>(LookTargetUtil::hasBreedTarget, MemoryModuleType.ATTACK_TARGET)
+				new MeleeAttackTask(20)
 			),
 			MemoryModuleType.ATTACK_TARGET
 		);
@@ -74,8 +73,8 @@ public final class BarnacleBrain
 		brain.setTaskList(
 			Activity.IDLE,
 			ImmutableList.of(
-				Pair.of(0, new UpdateAttackTargetTask(barnacle -> getTarget((BarnacleEntity) barnacle))),
-				Pair.of(0, makeRandomWanderTask())
+				Pair.of(0, new UpdateAttackTargetTask(barnacle -> getAttackTarget((BarnacleEntity) barnacle))),
+				Pair.of(1, makeRandomWanderTask())
 			),
 			ImmutableSet.of(
 				Pair.of(MemoryModuleType.AVOID_TARGET, MemoryModuleState.VALUE_ABSENT)
@@ -115,28 +114,34 @@ public final class BarnacleBrain
 		);
 	}
 
-	private static Optional<? extends LivingEntity> getTarget(BarnacleEntity barnacle) {
+	public static void onAttacked(BarnacleEntity barnacle, LivingEntity attacker) {
+		setAttackTarget(barnacle, attacker);
+	}
+
+	public static void setAttackTarget(BarnacleEntity barnacle, LivingEntity target) {
+		barnacle.getBrain().forget(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE);
+		barnacle.getBrain().remember(MemoryModuleType.ATTACK_TARGET, target, 200L);
+	}
+
+	private static Optional<? extends LivingEntity> getAttackTarget(BarnacleEntity barnacle) {
 		PlayerEntity nearestVisibleTargetablePlayer = barnacle.getBrain().getOptionalMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER).orElse(
 			barnacle.getWorld().getClosestPlayer(VALID_TARGET_PLAYER_PREDICATE, barnacle, barnacle.getX(), barnacle.getEyeY(), barnacle.getZ())
 		);
 
-		if (nearestVisibleTargetablePlayer == null) {
-			return Optional.empty();
+		if (nearestVisibleTargetablePlayer != null) {
+			return Optional.of(nearestVisibleTargetablePlayer);
 		}
 
-		return Optional.of(nearestVisibleTargetablePlayer);
-	}
-
-	public static void setAttackTarget(WildfireEntity wildfire, LivingEntity target) {
-		wildfire.getBrain().forget(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE);
-		wildfire.getBrain().remember(MemoryModuleType.ATTACK_TARGET, target, 200L);
+		return barnacle.getBrain().getOptionalMemory(MemoryModuleType.NEAREST_ATTACKABLE);
 	}
 
 	static {
 		SENSORS = List.of(
 			SensorType.NEAREST_LIVING_ENTITIES,
 			SensorType.NEAREST_PLAYERS,
-			FriendsAndFoesMemorySensorType.BARNACLE_SPECIFIC_SENSOR.get()
+			SensorType.HURT_BY,
+			FriendsAndFoesMemorySensorType.BARNACLE_SPECIFIC_SENSOR.get(),
+			FriendsAndFoesMemorySensorType.BARNACLE_ATTACKABLE_SENSOR.get()
 		);
 		MEMORY_MODULES = List.of(
 			MemoryModuleType.VISIBLE_MOBS,
@@ -144,10 +149,14 @@ public final class BarnacleBrain
 			MemoryModuleType.LOOK_TARGET,
 			MemoryModuleType.WALK_TARGET,
 			MemoryModuleType.AVOID_TARGET,
+			MemoryModuleType.ATTACK_TARGET,
 			MemoryModuleType.INTERACTION_TARGET,
 			MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER,
+			MemoryModuleType.NEAREST_ATTACKABLE,
 			MemoryModuleType.NEAREST_PLAYERS,
-			MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE
+			MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
+			MemoryModuleType.HAS_HUNTING_COOLDOWN,
+			MemoryModuleType.ATTACK_COOLING_DOWN
 		);
 		VALID_TARGET_PLAYER_PREDICATE = TargetPredicate.createAttackable().setBaseMaxDistance(WildfireEntity.GENERIC_FOLLOW_RANGE);
 	}

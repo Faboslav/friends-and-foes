@@ -23,6 +23,7 @@ public final class FriendAndFoesEntityRenderer
 	public static void postInit() {
 		RegistryHelper.registerEntityRenderer(FriendsAndFoesEntityTypes.BARNACLE, BarnacleEntityRenderer::new);
 		RegistryHelper.registerEntityRenderer(FriendsAndFoesEntityTypes.COPPER_GOLEM, CopperGolemEntityRenderer::new);
+		RegistryHelper.registerEntityRenderer(FriendsAndFoesEntityTypes.CRAB, CrabEntityRenderer::new);
 		RegistryHelper.registerEntityRenderer(FriendsAndFoesEntityTypes.GLARE, GlareEntityRenderer::new);
 		RegistryHelper.registerEntityRenderer(FriendsAndFoesEntityTypes.ICEOLOGER, IceologerEntityRenderer::new);
 		RegistryHelper.registerEntityRenderer(FriendsAndFoesEntityTypes.ICE_CHUNK, IceologerIceChunkRenderer::new);

@@ -54,6 +54,16 @@
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.copper_golem.step"
 	},
+	"entity.crab.step": {
+		"sounds": [
+			"friendsandfoes:entity/crab/step1",
+			"friendsandfoes:entity/crab/step2",
+			"friendsandfoes:entity/crab/step3",
+			"friendsandfoes:entity/crab/step4",
+			"friendsandfoes:entity/crab/step5"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.crab.step"
+	},
 	"entity.glare.ambient": {
 		"sounds": [
 			"friendsandfoes:entity/glare/ambient1",

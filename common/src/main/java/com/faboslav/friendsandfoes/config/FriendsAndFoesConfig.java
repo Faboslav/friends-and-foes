@@ -43,6 +43,19 @@ public final class FriendsAndFoesConfig implements Config
 	@Description("Generate copper golem in the center piece in the ancient cities spawn chance")
 	public int copperGolemAncientCityCenterWeight = 10;
 
+	@Category("Crab")
+	@Description("Enable")
+	public boolean enableCrab = true;
+
+	@Description("Enable spawn")
+	public boolean enableCrabSpawn = true;
+
+	@Description("Spawn weight in less frequent spawn biomes")
+	public int crabLessFrequentSpawnWeight = 2;
+
+	@Description("Spawn weight in more frequent spawn biomes")
+	public int crabMoreFrequentSpawnWeight = 4;
+
 	@Category("Glare")
 	@Description("Enable")
 	public boolean enableGlare = true;

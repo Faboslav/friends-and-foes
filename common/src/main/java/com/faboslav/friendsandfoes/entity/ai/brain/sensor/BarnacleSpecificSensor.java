@@ -35,12 +35,15 @@ public class BarnacleSpecificSensor extends Sensor<BarnacleEntity>
 		Brain<?> brain = barnacle.getBrain();
 		LivingTargetCache livingTargetCache = brain.getOptionalMemory(MemoryModuleType.VISIBLE_MOBS).orElse(LivingTargetCache.empty());
 		LivingEntity firstEntityToBeAvoided = livingTargetCache.findFirst(livingEntity -> livingEntity.getType().isIn(FriendsAndFoesTags.BARNACLE_AVOID_TARGETS)).orElse(null);
+		LivingEntity firstEntityToBeHunted = livingTargetCache.findFirst(livingEntity -> livingEntity.getType().isIn(FriendsAndFoesTags.BARNACLE_PREY)).orElse(null);
 
-		if (firstEntityToBeAvoided == null) {
-			return;
+		if (firstEntityToBeAvoided != null) {
+			brain.remember(MemoryModuleType.AVOID_TARGET, firstEntityToBeAvoided, AVOID_MEMORY_DURATION.get(barnacle.getRandom()));
 		}
 
-		brain.remember(MemoryModuleType.AVOID_TARGET, firstEntityToBeAvoided, AVOID_MEMORY_DURATION.get(barnacle.getRandom()));
+		if (firstEntityToBeHunted != null) {
+			//brain.remember(MemoryModuleType.ATTACK_TARGET, firstEntityToBeAvoided, AVOID_MEMORY_DURATION.get(barnacle.getRandom()));
+		}
 	}
 }
 

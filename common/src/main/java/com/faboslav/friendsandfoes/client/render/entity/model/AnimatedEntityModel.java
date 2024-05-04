@@ -305,8 +305,8 @@ public abstract class AnimatedEntityModel<E extends Entity> extends BaseEntityMo
 		float limbAngleScale,
 		float limbDistanceScale
 	) {
-		long l = (long) (limbAngle * 50.0F * limbAngleScale);
-		float f = Math.min(limbDistance * limbDistanceScale, 1.0F);
-		ModelAnimator.updateMovementKeyframeAnimations(animatedEntity, this, l, f);
+		long runningTime = (long) (limbAngle * 50.0F * limbAngleScale);
+		float scale = Math.min(limbDistance * limbDistanceScale, 1.0F);
+		ModelAnimator.updateMovementKeyframeAnimations(animatedEntity, this, runningTime, scale);
 	}
 }

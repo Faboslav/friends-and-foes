@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.init;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.client.render.entity.renderer.BarnacleEntityRenderer;
 import com.faboslav.friendsandfoes.client.render.entity.renderer.WildfireEntityRenderer;
 import com.faboslav.friendsandfoes.entity.*;
 import com.faboslav.friendsandfoes.mixin.SpawnRestrictionAccessor;
@@ -25,6 +26,7 @@ public final class FriendsAndFoesEntityTypes
 
 	public static final Supplier<EntityType<BarnacleEntity>> BARNACLE;
 	public static final Supplier<EntityType<CopperGolemEntity>> COPPER_GOLEM;
+	public static final Supplier<EntityType<CrabEntity>> CRAB;
 	public static final Supplier<EntityType<GlareEntity>> GLARE;
 	public static final Supplier<EntityType<IceologerEntity>> ICEOLOGER;
 	public static final Supplier<EntityType<IceologerIceChunkEntity>> ICE_CHUNK;
@@ -37,8 +39,9 @@ public final class FriendsAndFoesEntityTypes
 
 	static {
 		SharedConstants.useChoiceTypeRegistrations = false;
-		BARNACLE = RegistryHelper.registerEntityType("barnacle", () -> EntityType.Builder.create(BarnacleEntity::new, SpawnGroup.MONSTER).setDimensions(1.69125F, 0.75F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("barnacle")));
+		BARNACLE = RegistryHelper.registerEntityType("barnacle", () -> EntityType.Builder.create(BarnacleEntity::new, SpawnGroup.MONSTER).setDimensions(1.69125F * BarnacleEntityRenderer.SCALE, 0.75F * BarnacleEntityRenderer.SCALE).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("barnacle")));
 		COPPER_GOLEM = RegistryHelper.registerEntityType("copper_golem", () -> EntityType.Builder.create(CopperGolemEntity::new, SpawnGroup.MISC).setDimensions(0.75F, 1.375F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("copper_golem")));
+		CRAB = RegistryHelper.registerEntityType("crab", () -> EntityType.Builder.create(CrabEntity::new, SpawnGroup.CREATURE).setDimensions(0.875F, 0.5625F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("crab")));
 		GLARE = RegistryHelper.registerEntityType("glare", () -> EntityType.Builder.create(GlareEntity::new, CustomSpawnGroup.getGlaresCategory()).setDimensions(0.875F, 1.1875F).maxTrackingRange(8).trackingTickInterval(2).build(FriendsAndFoes.makeStringID("glare")));
 		ICEOLOGER = RegistryHelper.registerEntityType("iceologer", () -> EntityType.Builder.create(IceologerEntity::new, SpawnGroup.MONSTER).setDimensions(0.6F, 1.95F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("iceologer")));
 		ICE_CHUNK = RegistryHelper.registerEntityType("ice_chunk", () -> EntityType.Builder.create(IceologerIceChunkEntity::new, SpawnGroup.MISC).makeFireImmune().setDimensions(2.5F, 1.0F).maxTrackingRange(6).build(FriendsAndFoes.makeStringID("ice_chunk")));
@@ -63,6 +66,7 @@ public final class FriendsAndFoesEntityTypes
 	public static void createMobAttributes() {
 		RegistryHelper.registerEntityAttribute(FriendsAndFoesEntityTypes.BARNACLE, BarnacleEntity::createAttributes);
 		RegistryHelper.registerEntityAttribute(FriendsAndFoesEntityTypes.COPPER_GOLEM, CopperGolemEntity::createAttributes);
+		RegistryHelper.registerEntityAttribute(FriendsAndFoesEntityTypes.CRAB, CrabEntity::createCrabAttributes);
 		RegistryHelper.registerEntityAttribute(FriendsAndFoesEntityTypes.GLARE, GlareEntity::createAttributes);
 		RegistryHelper.registerEntityAttribute(FriendsAndFoesEntityTypes.ICEOLOGER, IceologerEntity::createAttributes);
 		RegistryHelper.registerEntityAttribute(FriendsAndFoesEntityTypes.MAULER, MaulerEntity::createAttributes);
@@ -75,6 +79,7 @@ public final class FriendsAndFoesEntityTypes
 
 	public static void initSpawnRestrictions() {
 		SpawnRestrictionAccessor.callRegister(BARNACLE.get(), SpawnRestriction.Location.IN_WATER, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, BarnacleEntity::canSpawn);
+		SpawnRestrictionAccessor.callRegister(CRAB.get(), SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, CrabEntity::canSpawn);
 		SpawnRestrictionAccessor.callRegister(GLARE.get(), SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, GlareEntity::canSpawn);
 		SpawnRestrictionAccessor.callRegister(ICEOLOGER.get(), SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, IceologerEntity::canSpawn);
 		SpawnRestrictionAccessor.callRegister(MAULER.get(), SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MaulerEntity::canSpawn);
@@ -87,6 +92,11 @@ public final class FriendsAndFoesEntityTypes
 
 		if (config.enableBarnacle && config.enableBarnacleSpawn) {
 			BiomeModifications.addMobSpawn(FriendsAndFoesTags.HAS_BARNACLE, BARNACLE.get(), SpawnGroup.MONSTER, config.barnacleSpawnWeight, config.barnacleSpawnMinGroupSize, config.barnacleSpawnMaxGroupSize);
+		}
+
+		if (config.enableCrab && config.enableCrabSpawn) {
+			BiomeModifications.addMobSpawn(FriendsAndFoesTags.HAS_LESS_FREQUENT_CRAB, CRAB.get(), SpawnGroup.CREATURE, config.crabLessFrequentSpawnWeight, 1, 1);
+			BiomeModifications.addMobSpawn(FriendsAndFoesTags.HAS_MORE_FREQUENT_CRAB, CRAB.get(), SpawnGroup.CREATURE, config.crabMoreFrequentSpawnWeight, 1, 1);
 		}
 
 		if (config.enableGlare && config.enableGlareSpawn) {

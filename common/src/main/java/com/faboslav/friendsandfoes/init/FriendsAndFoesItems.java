@@ -26,6 +26,7 @@ public final class FriendsAndFoesItems
 	public final static Supplier<Item> TUFF_GOLEM_SPAWN_EGG;
 	public final static Supplier<Item> WILDFIRE_SPAWN_EGG;
 	public static final Supplier<Item> BUTTERCUP;
+	public static final Supplier<Item> CRAB_CLAW;
 	public static final Supplier<Item> ACACIA_BEEHIVE;
 	public static final Supplier<Item> BIRCH_BEEHIVE;
 	public static final Supplier<Item> CRIMSON_BEEHIVE;
@@ -67,6 +68,7 @@ public final class FriendsAndFoesItems
 		TUFF_GOLEM_SPAWN_EGG = RegistryHelper.registerItem("tuff_golem_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.TUFF_GOLEM.get(), 0xA0A297, 0x5D5D52, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
 		WILDFIRE_SPAWN_EGG = RegistryHelper.registerItem("wildfire_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.WILDFIRE.get(), 0x6C3100, 0xFFD528, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
 		BUTTERCUP = RegistryHelper.registerItem("buttercup", () -> new BlockItem(FriendsAndFoesBlocks.BUTTERCUP.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
+		CRAB_CLAW = RegistryHelper.registerItem("crab_claw", () -> new Item((new Item.Settings()).group(ItemGroup.BREWING)));
 		ACACIA_BEEHIVE = RegistryHelper.registerItem("acacia_beehive", () -> new BlockItem(FriendsAndFoesBlocks.ACACIA_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
 		BIRCH_BEEHIVE = RegistryHelper.registerItem("birch_beehive", () -> new BlockItem(FriendsAndFoesBlocks.BIRCH_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
 		CRIMSON_BEEHIVE = RegistryHelper.registerItem("crimson_beehive", () -> new BlockItem(FriendsAndFoesBlocks.CRIMSON_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));

@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.init;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.entity.effect.LongReachEffect;
 import com.faboslav.friendsandfoes.init.registry.RegistryEntry;
 import com.faboslav.friendsandfoes.init.registry.ResourcefulRegistries;
 import com.faboslav.friendsandfoes.init.registry.ResourcefulRegistry;
@@ -15,5 +16,5 @@ public final class FriendsAndFoesStatusEffects
 {
 	public static final ResourcefulRegistry<StatusEffect> STATUS_EFFECTS = ResourcefulRegistries.create(Registry.STATUS_EFFECT, FriendsAndFoes.MOD_ID);
 
-	public static final RegistryEntry<StatusEffect> CRABS_REACH = STATUS_EFFECTS.register("crabs_reach", () -> new StatusEffect(StatusEffectCategory.BENEFICIAL, 3364735));
+	public static final RegistryEntry<StatusEffect> LONG_REACH = STATUS_EFFECTS.register("long_reach", () -> new LongReachEffect(StatusEffectCategory.BENEFICIAL, 3364735));
 }

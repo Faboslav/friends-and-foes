@@ -51,6 +51,7 @@ public final class FriendsAndFoes
 		FriendsAndFoesMemoryModuleTypes.MEMORY_MODULE_TYPES.init();
 		FriendsAndFoesParticleTypes.PARTICLE_TYPES.init();
 		FriendsAndFoesPointOfInterestTypes.POINT_OF_INTEREST_TYPES.init();
+		FriendsAndFoesPotions.POTIONS.init();
 		FriendsAndFoesSensorTypes.SENSOR_TYPES.init();
 		FriendsAndFoesSoundEvents.SOUND_EVENTS.init();
 		FriendsAndFoesStatusEffects.STATUS_EFFECTS.init();
@@ -81,6 +82,10 @@ public final class FriendsAndFoes
 	}
 
 	private static void setup(final SetupEvent event) {
+		event.enqueueWork(() -> {
+			FriendsAndFoesRecipes.registerBrewingRecipes();
+		});
+
 		MessageHandler.init();
 	}
 }

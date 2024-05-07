@@ -9,6 +9,10 @@
 	"mixins": [
 		"AddCustomRaidMemberMixin",
 		"AddCustomSpawnGroupMixin",
+		"PointOfInterestTypesAccessor",
 		"StructureEntityProcessorMixin"
+	],
+	"client": [
+		"ParticleManagerMixin"
 	]
 }

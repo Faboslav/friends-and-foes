@@ -3,7 +3,7 @@ package com.faboslav.friendsandfoes.client.render.entity.renderer;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.model.CopperGolemEntityModel;
 import com.faboslav.friendsandfoes.entity.CopperGolemEntity;
-import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityModelLayer;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityModelLayers;
 import com.google.common.collect.ImmutableMap;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -32,7 +32,7 @@ public final class CopperGolemEntityRenderer extends MobEntityRenderer<CopperGol
 	public CopperGolemEntityRenderer(EntityRendererFactory.Context context) {
 		super(
 			context,
-			new CopperGolemEntityModel(context.getPart(FriendsAndFoesEntityModelLayer.COPPER_GOLEM_LAYER)),
+			new CopperGolemEntityModel(context.getPart(FriendsAndFoesEntityModelLayers.COPPER_GOLEM_LAYER)),
 			0.35f
 		);
 	}

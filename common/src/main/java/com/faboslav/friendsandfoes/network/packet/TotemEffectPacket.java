@@ -61,9 +61,9 @@ public record TotemEffectPacket(ItemStack itemStack, int entityId) implements Pa
 				}
 
 				if (packet.itemStack.getItem() == FriendsAndFoesItems.TOTEM_OF_FREEZING.get()) {
-					TotemUtil.playActivateAnimation(packet.itemStack, entity, FriendsAndFoesParticleTypes.TOTEM_OF_FREEZING);
+					TotemUtil.playActivateAnimation(packet.itemStack, entity, FriendsAndFoesParticleTypes.TOTEM_OF_FREEZING.get());
 				} else if (packet.itemStack.getItem() == FriendsAndFoesItems.TOTEM_OF_ILLUSION.get()) {
-					TotemUtil.playActivateAnimation(packet.itemStack, entity, FriendsAndFoesParticleTypes.TOTEM_OF_FREEZING);
+					TotemUtil.playActivateAnimation(packet.itemStack, entity, FriendsAndFoesParticleTypes.TOTEM_OF_FREEZING.get());
 				}
 			};
 		}

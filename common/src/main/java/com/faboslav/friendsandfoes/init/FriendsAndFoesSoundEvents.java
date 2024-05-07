@@ -1,139 +1,79 @@
 package com.faboslav.friendsandfoes.init;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.platform.RegistryHelper;
+import com.faboslav.friendsandfoes.init.registry.RegistryEntry;
+import com.faboslav.friendsandfoes.init.registry.ResourcefulRegistries;
+import com.faboslav.friendsandfoes.init.registry.ResourcefulRegistry;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-
-import java.util.function.Supplier;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
 /**
  * @see SoundEvents
  */
 public final class FriendsAndFoesSoundEvents
 {
-	public static final Supplier<SoundEvent> ENTITY_BARNACLE_AMBIENT;
-	public static final Supplier<SoundEvent> ENTITY_BARNACLE_HURT;
-	public static final Supplier<SoundEvent> ENTITY_COPPER_GOLEM_DEATH;
-	public static final Supplier<SoundEvent> ENTITY_COPPER_GOLEM_HEAD_SPIN;
-	public static final Supplier<SoundEvent> ENTITY_COPPER_GOLEM_HURT;
-	public static final Supplier<SoundEvent> ENTITY_COPPER_GOLEM_REPAIR;
-	public static final Supplier<SoundEvent> ENTITY_COPPER_GOLEM_STEP;
-	public static final Supplier<SoundEvent> ENTITY_CRAB_STEP;
-	public static final Supplier<SoundEvent> ENTITY_GLARE_AMBIENT;
-	public static final Supplier<SoundEvent> ENTITY_GLARE_DEATH;
-	public static final Supplier<SoundEvent> ENTITY_GLARE_EAT;
-	public static final Supplier<SoundEvent> ENTITY_GLARE_GRUMPINESS;
-	public static final Supplier<SoundEvent> ENTITY_GLARE_GRUMPINESS_SHORT;
-	public static final Supplier<SoundEvent> ENTITY_GLARE_HURT;
-	public static final Supplier<SoundEvent> ENTITY_GLARE_RUSTLE;
-	public static final Supplier<SoundEvent> ENTITY_GLARE_SHAKE;
-	public static final Supplier<SoundEvent> ENTITY_ICE_CHUNK_AMBIENT;
-	public static final Supplier<SoundEvent> ENTITY_ICE_CHUNK_HIT;
-	public static final Supplier<SoundEvent> ENTITY_ICE_CHUNK_SUMMON;
-	public static final Supplier<SoundEvent> ENTITY_ICEOLOGER_AMBIENT;
-	public static final Supplier<SoundEvent> ENTITY_ICEOLOGER_CAST_SPELL;
-	public static final Supplier<SoundEvent> ENTITY_ICEOLOGER_DEATH;
-	public static final Supplier<SoundEvent> ENTITY_ICEOLOGER_HURT;
-	public static final Supplier<SoundEvent> ENTITY_ICEOLOGER_PREPARE_SLOWNESS;
-	public static final Supplier<SoundEvent> ENTITY_ICEOLOGER_PREPARE_SUMMON;
-	public static final Supplier<SoundEvent> ENTITY_MAULER_BITE;
-	public static final Supplier<SoundEvent> ENTITY_MAULER_DEATH;
-	public static final Supplier<SoundEvent> ENTITY_MAULER_GROWL;
-	public static final Supplier<SoundEvent> ENTITY_MAULER_HURT;
-	public static final Supplier<SoundEvent> ENTITY_MOOBLOOM_CONVERT;
-	public static final Supplier<SoundEvent> ENTITY_PLAYER_MIRROR_MOVE;
-	public static final Supplier<SoundEvent> ENTITY_RASCAL_AMBIENT;
-	public static final Supplier<SoundEvent> ENTITY_RASCAL_DISAPPEAR;
-	public static final Supplier<SoundEvent> ENTITY_RASCAL_HURT;
-	public static final Supplier<SoundEvent> ENTITY_RASCAL_NOD;
-	public static final Supplier<SoundEvent> ENTITY_RASCAL_REAPPEAR;
-	public static final Supplier<SoundEvent> ENTITY_RASCAL_REWARD;
-	public static final Supplier<SoundEvent> ENTITY_RASCAL_REWARD_BAD;
-	public static final Supplier<SoundEvent> ENTITY_TUFF_GOLEM_GLUE_ON;
-	public static final Supplier<SoundEvent> ENTITY_TUFF_GOLEM_GLUE_OFF;
-	public static final Supplier<SoundEvent> ENTITY_TUFF_GOLEM_HURT;
-	public static final Supplier<SoundEvent> ENTITY_TUFF_GOLEM_MOVE;
-	public static final Supplier<SoundEvent> ENTITY_TUFF_GOLEM_REPAIR;
-	public static final Supplier<SoundEvent> ENTITY_TUFF_GOLEM_SLEEP;
-	public static final Supplier<SoundEvent> ENTITY_TUFF_GOLEM_STEP;
-	public static final Supplier<SoundEvent> ENTITY_TUFF_GOLEM_WAKE;
-	public static final Supplier<SoundEvent> ENTITY_WILDFIRE_SHIELD_DEBRIS_IMPACT;
-	public static final Supplier<SoundEvent> ENTITY_WILDFIRE_AMBIENT;
-	public static final Supplier<SoundEvent> ENTITY_WILDFIRE_DEATH;
-	public static final Supplier<SoundEvent> ENTITY_WILDFIRE_HURT;
-	public static final Supplier<SoundEvent> ENTITY_WILDFIRE_SHIELD_BREAK;
-	public static final Supplier<SoundEvent> ENTITY_WILDFIRE_SHOCKWAVE;
-	public static final Supplier<SoundEvent> ENTITY_WILDFIRE_SHOOT;
-	public static final Supplier<SoundEvent> ENTITY_WILDFIRE_STEP;
-	public static final Supplier<SoundEvent> ENTITY_WILDFIRE_SUMMON_BLAZE;
+	public static final ResourcefulRegistry<SoundEvent> SOUND_EVENTS = ResourcefulRegistries.create(Registry.SOUND_EVENT, FriendsAndFoes.MOD_ID);
 
-	static {
-		ENTITY_BARNACLE_AMBIENT = register("entity", "barnacle.ambient");
-		ENTITY_BARNACLE_HURT = register("entity", "barnacle.hurt");
-		ENTITY_COPPER_GOLEM_DEATH = register("entity", "copper_golem.death");
-		ENTITY_COPPER_GOLEM_HEAD_SPIN = register("entity", "copper_golem.head_spin");
-		ENTITY_COPPER_GOLEM_HURT = register("entity", "copper_golem.hurt");
-		ENTITY_COPPER_GOLEM_REPAIR = register("entity", "copper_golem.repair");
-		ENTITY_COPPER_GOLEM_STEP = register("entity", "copper_golem.step");
-		ENTITY_CRAB_STEP = register("entity", "crab.step");
-		ENTITY_GLARE_AMBIENT = register("entity", "glare.ambient");
-		ENTITY_GLARE_DEATH = register("entity", "glare.death");
-		ENTITY_GLARE_EAT = register("entity", "glare.eat");
-		ENTITY_GLARE_GRUMPINESS = register("entity", "glare.grumpiness");
-		ENTITY_GLARE_GRUMPINESS_SHORT = register("entity", "glare.grumpiness_short");
-		ENTITY_GLARE_HURT = register("entity", "glare.hurt");
-		ENTITY_GLARE_RUSTLE = register("entity", "glare.rustle");
-		ENTITY_GLARE_SHAKE = register("entity", "glare.shake");
-		ENTITY_ICE_CHUNK_AMBIENT = register("entity", "ice_chunk.ambient");
-		ENTITY_ICE_CHUNK_HIT = register("entity", "ice_chunk.hit");
-		ENTITY_ICE_CHUNK_SUMMON = register("entity", "ice_chunk.summon");
-		ENTITY_ICEOLOGER_AMBIENT = register("entity", "iceologer.ambient");
-		ENTITY_ICEOLOGER_CAST_SPELL = register("entity", "iceologer.cast_spell");
-		ENTITY_ICEOLOGER_DEATH = register("entity", "iceologer.death");
-		ENTITY_ICEOLOGER_HURT = register("entity", "iceologer.hurt");
-		ENTITY_ICEOLOGER_PREPARE_SLOWNESS = register("entity", "iceologer.prepare_slowness");
-		ENTITY_ICEOLOGER_PREPARE_SUMMON = register("entity", "iceologer.prepare_summon");
-		ENTITY_MAULER_BITE = register("entity", "mauler.bite");
-		ENTITY_MAULER_DEATH = register("entity", "mauler.death");
-		ENTITY_MAULER_GROWL = register("entity", "mauler.growl");
-		ENTITY_MAULER_HURT = register("entity", "mauler.hurt");
-		ENTITY_MOOBLOOM_CONVERT = register("entity", "moobloom.convert");
-		ENTITY_PLAYER_MIRROR_MOVE = register("entity", "player.mirror_move");
-		ENTITY_RASCAL_AMBIENT = register("entity", "rascal.ambient");
-		ENTITY_RASCAL_DISAPPEAR = register("entity", "rascal.disappear");
-		ENTITY_RASCAL_HURT = register("entity", "rascal.hurt");
-		ENTITY_RASCAL_NOD = register("entity", "rascal.nod");
-		ENTITY_RASCAL_REAPPEAR = register("entity", "rascal.reappear");
-		ENTITY_RASCAL_REWARD = register("entity", "rascal.reward");
-		ENTITY_RASCAL_REWARD_BAD = register("entity", "rascal.reward_bad");
-		ENTITY_TUFF_GOLEM_GLUE_ON = register("entity", "tuff_golem.glue_on");
-		ENTITY_TUFF_GOLEM_GLUE_OFF = register("entity", "tuff_golem.glue_off");
-		ENTITY_TUFF_GOLEM_HURT = register("entity", "tuff_golem.hurt");
-		ENTITY_TUFF_GOLEM_MOVE = register("entity", "tuff_golem.move");
-		ENTITY_TUFF_GOLEM_REPAIR = register("entity", "tuff_golem.repair");
-		ENTITY_TUFF_GOLEM_SLEEP = register("entity", "tuff_golem.sleep");
-		ENTITY_TUFF_GOLEM_STEP = register("entity", "tuff_golem.step");
-		ENTITY_TUFF_GOLEM_WAKE = register("entity", "tuff_golem.wake");
-		ENTITY_WILDFIRE_SHIELD_DEBRIS_IMPACT = register("entity", "shield_debris.impact");
-		ENTITY_WILDFIRE_AMBIENT = register("entity", "wildfire.ambient");
-		ENTITY_WILDFIRE_DEATH = register("entity", "wildfire.death");
-		ENTITY_WILDFIRE_HURT = register("entity", "wildfire.hurt");
-		ENTITY_WILDFIRE_SHIELD_BREAK = register("entity", "wildfire.shield_break");
-		ENTITY_WILDFIRE_SHOCKWAVE = register("entity", "wildfire.shockwave");
-		ENTITY_WILDFIRE_SHOOT = register("entity", "wildfire.shoot");
-		ENTITY_WILDFIRE_STEP = register("entity", "wildfire.step");
-		ENTITY_WILDFIRE_SUMMON_BLAZE = register("entity", "wildfire.summon_blaze");
-	}
+	public static final RegistryEntry<SoundEvent> ENTITY_BARNACLE_AMBIENT = registerSoundEvent("entity.barnacle.ambient");
+	public static final RegistryEntry<SoundEvent> ENTITY_BARNACLE_HURT = registerSoundEvent("entity.barnacle.hurt");
+	public static final RegistryEntry<SoundEvent> ENTITY_COPPER_GOLEM_DEATH = registerSoundEvent("entity.copper_golem.death");
+	public static final RegistryEntry<SoundEvent> ENTITY_COPPER_GOLEM_HEAD_SPIN = registerSoundEvent("entity.copper_golem.head_spin");
+	public static final RegistryEntry<SoundEvent> ENTITY_COPPER_GOLEM_HURT = registerSoundEvent("entity.copper_golem.hurt");
+	public static final RegistryEntry<SoundEvent> ENTITY_COPPER_GOLEM_REPAIR = registerSoundEvent("entity.copper_golem.repair");
+	public static final RegistryEntry<SoundEvent> ENTITY_COPPER_GOLEM_STEP = registerSoundEvent("entity.copper_golem.step");
+	public static final RegistryEntry<SoundEvent> ENTITY_CRAB_STEP = registerSoundEvent("entity.crab.step");
+	public static final RegistryEntry<SoundEvent> ENTITY_GLARE_AMBIENT = registerSoundEvent("entity.glare.ambient");
+	public static final RegistryEntry<SoundEvent> ENTITY_GLARE_DEATH = registerSoundEvent("entity.glare.death");
+	public static final RegistryEntry<SoundEvent> ENTITY_GLARE_EAT = registerSoundEvent("entity.glare.eat");
+	public static final RegistryEntry<SoundEvent> ENTITY_GLARE_GRUMPINESS = registerSoundEvent("entity.glare.grumpiness");
+	public static final RegistryEntry<SoundEvent> ENTITY_GLARE_GRUMPINESS_SHORT = registerSoundEvent("entity.glare.grumpiness_short");
+	public static final RegistryEntry<SoundEvent> ENTITY_GLARE_HURT = registerSoundEvent("entity.glare.hurt");
+	public static final RegistryEntry<SoundEvent> ENTITY_GLARE_RUSTLE = registerSoundEvent("entity.glare.rustle");
+	public static final RegistryEntry<SoundEvent> ENTITY_GLARE_SHAKE = registerSoundEvent("entity.glare.shake");
+	public static final RegistryEntry<SoundEvent> ENTITY_ICE_CHUNK_AMBIENT = registerSoundEvent("entity.ice_chunk.ambient");
+	public static final RegistryEntry<SoundEvent> ENTITY_ICE_CHUNK_HIT = registerSoundEvent("entity.ice_chunk.hit");
+	public static final RegistryEntry<SoundEvent> ENTITY_ICE_CHUNK_SUMMON = registerSoundEvent("entity.ice_chunk.summon");
+	public static final RegistryEntry<SoundEvent> ENTITY_ICEOLOGER_AMBIENT = registerSoundEvent("entity.iceologer.ambient");
+	public static final RegistryEntry<SoundEvent> ENTITY_ICEOLOGER_CAST_SPELL = registerSoundEvent("entity.iceologer.cast_spell");
+	public static final RegistryEntry<SoundEvent> ENTITY_ICEOLOGER_DEATH = registerSoundEvent("entity.iceologer.death");
+	public static final RegistryEntry<SoundEvent> ENTITY_ICEOLOGER_HURT = registerSoundEvent("entity.iceologer.hurt");
+	public static final RegistryEntry<SoundEvent> ENTITY_ICEOLOGER_PREPARE_SLOWNESS = registerSoundEvent("entity.iceologer.prepare_slowness");
+	public static final RegistryEntry<SoundEvent> ENTITY_ICEOLOGER_PREPARE_SUMMON = registerSoundEvent("entity.iceologer.prepare_summon");
+	public static final RegistryEntry<SoundEvent> ENTITY_MAULER_BITE = registerSoundEvent("entity.mauler.bite");
+	public static final RegistryEntry<SoundEvent> ENTITY_MAULER_DEATH = registerSoundEvent("entity.mauler.death");
+	public static final RegistryEntry<SoundEvent> ENTITY_MAULER_GROWL = registerSoundEvent("entity.mauler.growl");
+	public static final RegistryEntry<SoundEvent> ENTITY_MAULER_HURT = registerSoundEvent("entity.mauler.hurt");
+	public static final RegistryEntry<SoundEvent> ENTITY_MOOBLOOM_CONVERT = registerSoundEvent("entity.moobloom.convert");
+	public static final RegistryEntry<SoundEvent> ENTITY_PLAYER_MIRROR_MOVE = registerSoundEvent("entity.player.mirror_move");
+	public static final RegistryEntry<SoundEvent> ENTITY_RASCAL_AMBIENT = registerSoundEvent("entity.rascal.ambient");
+	public static final RegistryEntry<SoundEvent> ENTITY_RASCAL_DISAPPEAR = registerSoundEvent("entity.rascal.disappear");
+	public static final RegistryEntry<SoundEvent> ENTITY_RASCAL_HURT = registerSoundEvent("entity.rascal.hurt");
+	public static final RegistryEntry<SoundEvent> ENTITY_RASCAL_NOD = registerSoundEvent("entity.rascal.nod");
+	public static final RegistryEntry<SoundEvent> ENTITY_RASCAL_REAPPEAR = registerSoundEvent("entity.rascal.reappear");
+	public static final RegistryEntry<SoundEvent> ENTITY_RASCAL_REWARD = registerSoundEvent("entity.rascal.reward");
+	public static final RegistryEntry<SoundEvent> ENTITY_RASCAL_REWARD_BAD = registerSoundEvent("entity.rascal.reward_bad");
+	public static final RegistryEntry<SoundEvent> ENTITY_TUFF_GOLEM_GLUE_ON = registerSoundEvent("entity.tuff_golem.glue_on");
+	public static final RegistryEntry<SoundEvent> ENTITY_TUFF_GOLEM_GLUE_OFF = registerSoundEvent("entity.tuff_golem.glue_off");
+	public static final RegistryEntry<SoundEvent> ENTITY_TUFF_GOLEM_HURT = registerSoundEvent("entity.tuff_golem.hurt");
+	public static final RegistryEntry<SoundEvent> ENTITY_TUFF_GOLEM_MOVE = registerSoundEvent("entity.tuff_golem.move");
+	public static final RegistryEntry<SoundEvent> ENTITY_TUFF_GOLEM_REPAIR = registerSoundEvent("entity.tuff_golem.repair");
+	public static final RegistryEntry<SoundEvent> ENTITY_TUFF_GOLEM_SLEEP = registerSoundEvent("entity.tuff_golem.sleep");
+	public static final RegistryEntry<SoundEvent> ENTITY_TUFF_GOLEM_STEP = registerSoundEvent("entity.tuff_golem.step");
+	public static final RegistryEntry<SoundEvent> ENTITY_TUFF_GOLEM_WAKE = registerSoundEvent("entity.tuff_golem.wake");
+	public static final RegistryEntry<SoundEvent> ENTITY_WILDFIRE_SHIELD_DEBRIS_IMPACT = registerSoundEvent("entity.shield_debris.impact");
+	public static final RegistryEntry<SoundEvent> ENTITY_WILDFIRE_AMBIENT = registerSoundEvent("entity.wildfire.ambient");
+	public static final RegistryEntry<SoundEvent> ENTITY_WILDFIRE_DEATH = registerSoundEvent("entity.wildfire.death");
+	public static final RegistryEntry<SoundEvent> ENTITY_WILDFIRE_HURT = registerSoundEvent("entity.wildfire.hurt");
+	public static final RegistryEntry<SoundEvent> ENTITY_WILDFIRE_SHIELD_BREAK = registerSoundEvent("entity.wildfire.shield_break");
+	public static final RegistryEntry<SoundEvent> ENTITY_WILDFIRE_SHOCKWAVE = registerSoundEvent("entity.wildfire.shockwave");
+	public static final RegistryEntry<SoundEvent> ENTITY_WILDFIRE_SHOOT = registerSoundEvent("entity.wildfire.shoot");
+	public static final RegistryEntry<SoundEvent> ENTITY_WILDFIRE_STEP = registerSoundEvent("entity.wildfire.step");
+	public static final RegistryEntry<SoundEvent> ENTITY_WILDFIRE_SUMMON_BLAZE = registerSoundEvent("entity.wildfire.summon_blaze");
 
-	private static Supplier<SoundEvent> register(String type, String name) {
-		String id = type + "." + name;
-		var soundEvent = new SoundEvent(FriendsAndFoes.makeID(id));
-
-		return RegistryHelper.registerSoundEvent(id, () -> soundEvent);
-	}
-
-	public static void init() {
+	private static RegistryEntry<SoundEvent> registerSoundEvent(String path) {
+		return SOUND_EVENTS.register(path, () -> new SoundEvent(new Identifier(FriendsAndFoes.MOD_ID, path)));
 	}
 
 	private FriendsAndFoesSoundEvents() {

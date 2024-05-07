@@ -1,14 +1,14 @@
 package com.faboslav.friendsandfoes.init;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.platform.RegistryHelper;
+import com.faboslav.friendsandfoes.init.registry.ResourcefulRegistries;
+import com.faboslav.friendsandfoes.init.registry.ResourcefulRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.poi.PointOfInterestType;
 import net.minecraft.world.poi.PointOfInterestTypes;
 
-import java.util.HashMap;
 import java.util.function.Supplier;
 
 /**
@@ -16,7 +16,7 @@ import java.util.function.Supplier;
  */
 public final class FriendsAndFoesPointOfInterestTypes
 {
-	private static final HashMap<String, Supplier<PointOfInterestType>> REGISTERED_POINT_OF_INTEREST_TYPES;
+	public static final ResourcefulRegistry<PointOfInterestType> POINT_OF_INTEREST_TYPES = ResourcefulRegistries.create(Registry.POINT_OF_INTEREST_TYPE, FriendsAndFoes.MOD_ID);
 
 	public final static Supplier<PointOfInterestType> ACACIA_BEEHIVE;
 	public final static Supplier<PointOfInterestType> BIRCH_BEEHIVE;
@@ -35,43 +35,30 @@ public final class FriendsAndFoesPointOfInterestTypes
 	public static final Supplier<PointOfInterestType> WAXED_OXIDIZED_LIGHTNING_ROD;
 
 	static {
-		REGISTERED_POINT_OF_INTEREST_TYPES = new HashMap<>();
-		ACACIA_BEEHIVE = registerPointOfInterest("acacia_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.ACACIA_BEEHIVE.get()), 1, 1));
-		BIRCH_BEEHIVE = registerPointOfInterest("birch_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.BIRCH_BEEHIVE.get()), 1, 1));
-		CRIMSON_BEEHIVE = registerPointOfInterest("crimson_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.CRIMSON_BEEHIVE.get()), 1, 1));
-		DARK_OAK_BEEHIVE = registerPointOfInterest("dark_oak_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.DARK_OAK_BEEHIVE.get()), 1, 1));
-		JUNGLE_BEEHIVE = registerPointOfInterest("jungle_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.JUNGLE_BEEHIVE.get()), 1, 1));
-		MANGROVE_BEEHIVE = registerPointOfInterest("mangrove_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.MANGROVE_BEEHIVE.get()), 1, 1));
-		SPRUCE_BEEHIVE = registerPointOfInterest("spruce_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.SPRUCE_BEEHIVE.get()), 1, 1));
-		WARPED_BEEHIVE = registerPointOfInterest("warped_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.WARPED_BEEHIVE.get()), 1, 1));
-		EXPOSED_LIGHTNING_ROD = registerPointOfInterest("exposed_lightning_rod", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.EXPOSED_LIGHTNING_ROD.get()), 0, 1));
-		WEATHERED_LIGHTNING_ROD = registerPointOfInterest("weathered_lightning_rod", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.WEATHERED_LIGHTNING_ROD.get()), 0, 1));
-		OXIDIZED_LIGHTNING_ROD = registerPointOfInterest("oxidized_lightning_rod", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.OXIDIZED_LIGHTNING_ROD.get()), 0, 1));
-		WAXED_LIGHTNING_ROD = registerPointOfInterest("waxed_lightning_rod", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.WAXED_LIGHTNING_ROD.get()), 0, 1));
-		WAXED_EXPOSED_LIGHTNING_ROD = registerPointOfInterest("waxed_exposed_lightning_rod", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.WAXED_EXPOSED_LIGHTNING_ROD.get()), 0, 1));
-		WAXED_WEATHERED_LIGHTNING_ROD = registerPointOfInterest("waxed_weathered_lightning_rod", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.WAXED_WEATHERED_LIGHTNING_ROD.get()), 0, 1));
-		WAXED_OXIDIZED_LIGHTNING_ROD = registerPointOfInterest("waxed_oxidized_lightning_rod", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get()), 0, 1));
+		ACACIA_BEEHIVE = POINT_OF_INTEREST_TYPES.register("acacia_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.ACACIA_BEEHIVE.get()), 1, 1));
+		BIRCH_BEEHIVE = POINT_OF_INTEREST_TYPES.register("birch_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.BIRCH_BEEHIVE.get()), 1, 1));
+		CRIMSON_BEEHIVE = POINT_OF_INTEREST_TYPES.register("crimson_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.CRIMSON_BEEHIVE.get()), 1, 1));
+		DARK_OAK_BEEHIVE = POINT_OF_INTEREST_TYPES.register("dark_oak_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.DARK_OAK_BEEHIVE.get()), 1, 1));
+		JUNGLE_BEEHIVE = POINT_OF_INTEREST_TYPES.register("jungle_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.JUNGLE_BEEHIVE.get()), 1, 1));
+		MANGROVE_BEEHIVE = POINT_OF_INTEREST_TYPES.register("mangrove_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.MANGROVE_BEEHIVE.get()), 1, 1));
+		SPRUCE_BEEHIVE = POINT_OF_INTEREST_TYPES.register("spruce_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.SPRUCE_BEEHIVE.get()), 1, 1));
+		WARPED_BEEHIVE = POINT_OF_INTEREST_TYPES.register("warped_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.WARPED_BEEHIVE.get()), 1, 1));
+		EXPOSED_LIGHTNING_ROD = POINT_OF_INTEREST_TYPES.register("exposed_lightning_rod", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.EXPOSED_LIGHTNING_ROD.get()), 0, 1));
+		WEATHERED_LIGHTNING_ROD = POINT_OF_INTEREST_TYPES.register("weathered_lightning_rod", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.WEATHERED_LIGHTNING_ROD.get()), 0, 1));
+		OXIDIZED_LIGHTNING_ROD = POINT_OF_INTEREST_TYPES.register("oxidized_lightning_rod", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.OXIDIZED_LIGHTNING_ROD.get()), 0, 1));
+		WAXED_LIGHTNING_ROD = POINT_OF_INTEREST_TYPES.register("waxed_lightning_rod", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.WAXED_LIGHTNING_ROD.get()), 0, 1));
+		WAXED_EXPOSED_LIGHTNING_ROD = POINT_OF_INTEREST_TYPES.register("waxed_exposed_lightning_rod", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.WAXED_EXPOSED_LIGHTNING_ROD.get()), 0, 1));
+		WAXED_WEATHERED_LIGHTNING_ROD = POINT_OF_INTEREST_TYPES.register("waxed_weathered_lightning_rod", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.WAXED_WEATHERED_LIGHTNING_ROD.get()), 0, 1));
+		WAXED_OXIDIZED_LIGHTNING_ROD = POINT_OF_INTEREST_TYPES.register("waxed_oxidized_lightning_rod", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get()), 0, 1));
 	}
 
-	public static void init() {
-	}
-
-	public static void postInit() {
+	public static void lateInit() {
 		fillMissingPointOfInterestMapValues();
 	}
 
-	private static Supplier<PointOfInterestType> registerPointOfInterest(
-		String name,
-		Supplier<PointOfInterestType> pointOfInterestType
-	) {
-		REGISTERED_POINT_OF_INTEREST_TYPES.put(name, pointOfInterestType);
-		return RegistryHelper.registerPointOfInterestType(name, pointOfInterestType);
-	}
-
 	private static void fillMissingPointOfInterestMapValues() {
-		REGISTERED_POINT_OF_INTEREST_TYPES.forEach((name, pointOfInterestType) -> {
-			fillMissingPointOfInterestMapValueForBlock(name, pointOfInterestType.get().blockStates().iterator().next().getBlock());
-		});
+		FriendsAndFoesPointOfInterestTypes.POINT_OF_INTEREST_TYPES.stream()
+			.forEach(pointOfInterestType -> fillMissingPointOfInterestMapValueForBlock(pointOfInterestType.getId().getPath(), pointOfInterestType.get().blockStates().iterator().next().getBlock()));
 	}
 
 	private static void fillMissingPointOfInterestMapValueForBlock(

@@ -83,6 +83,6 @@ public final class IllusionerTrainingGroundsStructure extends Structure
 
 	@Override
 	public StructureType<?> getType() {
-		return FriendsAndFoesStructureTypes.ILLUSIONER_TRAINING_GROUNDS_STRUCTURE;
+		return FriendsAndFoesStructureTypes.ILLUSIONER_TRAINING_GROUNDS_STRUCTURE.get();
 	}
 }

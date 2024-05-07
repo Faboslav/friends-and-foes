@@ -1,105 +1,64 @@
 package com.faboslav.friendsandfoes.init;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.init.registry.RegistryEntry;
+import com.faboslav.friendsandfoes.init.registry.ResourcefulRegistries;
+import com.faboslav.friendsandfoes.init.registry.ResourcefulRegistry;
+import com.faboslav.friendsandfoes.item.DispenserAddedSpawnEgg;
 import com.faboslav.friendsandfoes.item.FriendsAndFoesArmorMaterials;
-import com.faboslav.friendsandfoes.platform.RegistryHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.*;
 import net.minecraft.util.Rarity;
-
-import java.util.function.Supplier;
+import net.minecraft.util.registry.Registry;
 
 /**
  * @see Items
  */
 public final class FriendsAndFoesItems
 {
-	public final static Supplier<Item> BARNACLE_SPAWN_EGG;
-	public final static Supplier<Item> COPPER_GOLEM_SPAWN_EGG;
-	public final static Supplier<Item> CRAB_SPAWN_EGG;
-	public final static Supplier<Item> GLARE_SPAWN_EGG;
-	public final static Supplier<Item> ICEOLOGER_SPAWN_EGG;
-	public final static Supplier<Item> ILLUSIONER_SPAWN_EGG;
-	public final static Supplier<Item> MAULER_SPAWN_EGG;
-	public final static Supplier<Item> MOOBLOOM_SPAWN_EGG;
-	public final static Supplier<Item> RASCAL_SPAWN_EGG;
-	public final static Supplier<Item> TUFF_GOLEM_SPAWN_EGG;
-	public final static Supplier<Item> WILDFIRE_SPAWN_EGG;
-	public static final Supplier<Item> BUTTERCUP;
-	public static final Supplier<Item> CRAB_CLAW;
-	public static final Supplier<Item> ACACIA_BEEHIVE;
-	public static final Supplier<Item> BIRCH_BEEHIVE;
-	public static final Supplier<Item> CRIMSON_BEEHIVE;
-	public static final Supplier<Item> DARK_OAK_BEEHIVE;
-	public static final Supplier<Item> JUNGLE_BEEHIVE;
-	public static final Supplier<Item> MANGROVE_BEEHIVE;
-	public static final Supplier<Item> SPRUCE_BEEHIVE;
-	public static final Supplier<Item> WARPED_BEEHIVE;
-	public static final Supplier<Item> COPPER_BUTTON;
-	public static final Supplier<Item> EXPOSED_COPPER_BUTTON;
-	public static final Supplier<Item> WEATHERED_COPPER_BUTTON;
-	public static final Supplier<Item> OXIDIZED_COPPER_BUTTON;
-	public static final Supplier<Item> WAXED_COPPER_BUTTON;
-	public static final Supplier<Item> WAXED_EXPOSED_COPPER_BUTTON;
-	public static final Supplier<Item> WAXED_WEATHERED_COPPER_BUTTON;
-	public static final Supplier<Item> WAXED_OXIDIZED_COPPER_BUTTON;
-	public static final Supplier<Item> EXPOSED_LIGHTNING_ROD;
-	public static final Supplier<Item> WEATHERED_LIGHTNING_ROD;
-	public static final Supplier<Item> OXIDIZED_LIGHTNING_ROD;
-	public static final Supplier<Item> WAXED_LIGHTNING_ROD;
-	public static final Supplier<Item> WAXED_EXPOSED_LIGHTNING_ROD;
-	public static final Supplier<Item> WAXED_WEATHERED_LIGHTNING_ROD;
-	public static final Supplier<Item> WAXED_OXIDIZED_LIGHTNING_ROD;
-	public static final Supplier<Item> WILDFIRE_CROWN;
-	public static final Supplier<Item> WILDFIRE_CROWN_FRAGMENT;
-	public static final Supplier<Item> TOTEM_OF_FREEZING;
-	public static final Supplier<Item> TOTEM_OF_ILLUSION;
+	public static final ResourcefulRegistry<Item> ITEMS = ResourcefulRegistries.create(Registry.ITEM, FriendsAndFoes.MOD_ID);
 
-	static {
-		BARNACLE_SPAWN_EGG = RegistryHelper.registerItem("barnacle_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.BARNACLE.get(), 0x56847E, 0x27514B, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
-		COPPER_GOLEM_SPAWN_EGG = RegistryHelper.registerItem("copper_golem_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.COPPER_GOLEM.get(), 0x9A5038, 0xE3826C, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
-		CRAB_SPAWN_EGG = RegistryHelper.registerItem("crab_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.CRAB.get(), 0x333077, 0xFE984B, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
-		GLARE_SPAWN_EGG = RegistryHelper.registerItem("glare_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.GLARE.get(), 0x70922D, 0x6A5227, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
-		ICEOLOGER_SPAWN_EGG = RegistryHelper.registerItem("iceologer_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.ICEOLOGER.get(), 0x173873, 0x949B9B, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
-		ILLUSIONER_SPAWN_EGG = RegistryHelper.registerItem("illusioner_spawn_egg", () -> new SpawnEggItem(EntityType.ILLUSIONER, 0x603E5C, 0x888E8E, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
-		MAULER_SPAWN_EGG = RegistryHelper.registerItem("mauler_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.MAULER.get(), 0x534F25, 0x817B39, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
-		MOOBLOOM_SPAWN_EGG = RegistryHelper.registerItem("moobloom_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.MOOBLOOM.get(), 0xF7EDC1, 0xFACA00, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
-		RASCAL_SPAWN_EGG = RegistryHelper.registerItem("rascal_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.RASCAL.get(), 0x05736A, 0x8A521C, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
-		TUFF_GOLEM_SPAWN_EGG = RegistryHelper.registerItem("tuff_golem_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.TUFF_GOLEM.get(), 0xA0A297, 0x5D5D52, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
-		WILDFIRE_SPAWN_EGG = RegistryHelper.registerItem("wildfire_spawn_egg", () -> new SpawnEggItem(FriendsAndFoesEntityTypes.WILDFIRE.get(), 0x6C3100, 0xFFD528, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
-		BUTTERCUP = RegistryHelper.registerItem("buttercup", () -> new BlockItem(FriendsAndFoesBlocks.BUTTERCUP.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
-		CRAB_CLAW = RegistryHelper.registerItem("crab_claw", () -> new Item((new Item.Settings()).group(ItemGroup.BREWING)));
-		ACACIA_BEEHIVE = RegistryHelper.registerItem("acacia_beehive", () -> new BlockItem(FriendsAndFoesBlocks.ACACIA_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
-		BIRCH_BEEHIVE = RegistryHelper.registerItem("birch_beehive", () -> new BlockItem(FriendsAndFoesBlocks.BIRCH_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
-		CRIMSON_BEEHIVE = RegistryHelper.registerItem("crimson_beehive", () -> new BlockItem(FriendsAndFoesBlocks.CRIMSON_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
-		DARK_OAK_BEEHIVE = RegistryHelper.registerItem("dark_oak_beehive", () -> new BlockItem(FriendsAndFoesBlocks.DARK_OAK_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
-		JUNGLE_BEEHIVE = RegistryHelper.registerItem("jungle_beehive", () -> new BlockItem(FriendsAndFoesBlocks.JUNGLE_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
-		MANGROVE_BEEHIVE = RegistryHelper.registerItem("mangrove_beehive", () -> new BlockItem(FriendsAndFoesBlocks.MANGROVE_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
-		SPRUCE_BEEHIVE = RegistryHelper.registerItem("spruce_beehive", () -> new BlockItem(FriendsAndFoesBlocks.SPRUCE_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
-		WARPED_BEEHIVE = RegistryHelper.registerItem("warped_beehive", () -> new BlockItem(FriendsAndFoesBlocks.WARPED_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
-		COPPER_BUTTON = RegistryHelper.registerItem("copper_button", () -> new BlockItem(FriendsAndFoesBlocks.COPPER_BUTTON.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
-		EXPOSED_COPPER_BUTTON = RegistryHelper.registerItem("exposed_copper_button", () -> new BlockItem(FriendsAndFoesBlocks.EXPOSED_COPPER_BUTTON.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
-		WEATHERED_COPPER_BUTTON = RegistryHelper.registerItem("weathered_copper_button", () -> new BlockItem(FriendsAndFoesBlocks.WEATHERED_COPPER_BUTTON.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
-		OXIDIZED_COPPER_BUTTON = RegistryHelper.registerItem("oxidized_copper_button", () -> new BlockItem(FriendsAndFoesBlocks.OXIDIZED_COPPER_BUTTON.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
-		WAXED_COPPER_BUTTON = RegistryHelper.registerItem("waxed_copper_button", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_COPPER_BUTTON.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
-		WAXED_EXPOSED_COPPER_BUTTON = RegistryHelper.registerItem("waxed_exposed_copper_button", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_EXPOSED_COPPER_BUTTON.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
-		WAXED_WEATHERED_COPPER_BUTTON = RegistryHelper.registerItem("waxed_weathered_copper_button", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_WEATHERED_COPPER_BUTTON.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
-		WAXED_OXIDIZED_COPPER_BUTTON = RegistryHelper.registerItem("waxed_oxidized_copper_button", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_OXIDIZED_COPPER_BUTTON.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
-		EXPOSED_LIGHTNING_ROD = RegistryHelper.registerItem("exposed_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.EXPOSED_LIGHTNING_ROD.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
-		WEATHERED_LIGHTNING_ROD = RegistryHelper.registerItem("weathered_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.WEATHERED_LIGHTNING_ROD.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
-		OXIDIZED_LIGHTNING_ROD = RegistryHelper.registerItem("oxidized_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.OXIDIZED_LIGHTNING_ROD.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
-		WAXED_LIGHTNING_ROD = RegistryHelper.registerItem("waxed_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_LIGHTNING_ROD.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
-		WAXED_EXPOSED_LIGHTNING_ROD = RegistryHelper.registerItem("waxed_exposed_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_EXPOSED_LIGHTNING_ROD.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
-		WAXED_WEATHERED_LIGHTNING_ROD = RegistryHelper.registerItem("waxed_weathered_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_WEATHERED_LIGHTNING_ROD.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
-		WAXED_OXIDIZED_LIGHTNING_ROD = RegistryHelper.registerItem("waxed_oxidized_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
-		WILDFIRE_CROWN = RegistryHelper.registerItem("wildfire_crown", () -> new ArmorItem(FriendsAndFoesArmorMaterials.WILDFIRE, EquipmentSlot.HEAD, (new Item.Settings()).group(ItemGroup.COMBAT).fireproof()));
-		WILDFIRE_CROWN_FRAGMENT = RegistryHelper.registerItem("wildfire_crown_fragment", () -> new Item((new Item.Settings()).group(ItemGroup.MATERIALS).fireproof()));
-		TOTEM_OF_FREEZING = RegistryHelper.registerItem("totem_of_freezing", () -> new Item((new Item.Settings()).maxCount(1).group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON)));
-		TOTEM_OF_ILLUSION = RegistryHelper.registerItem("totem_of_illusion", () -> new Item((new Item.Settings()).maxCount(1).group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON)));
-	}
-
-	public static void init() {
-	}
+	public final static RegistryEntry<Item> BARNACLE_SPAWN_EGG = ITEMS.register("barnacle_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.BARNACLE, 0x56847E, 0x27514B, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
+	public final static RegistryEntry<Item> COPPER_GOLEM_SPAWN_EGG = ITEMS.register("copper_golem_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.COPPER_GOLEM, 0x9A5038, 0xE3826C, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
+	public final static RegistryEntry<Item> CRAB_SPAWN_EGG = ITEMS.register("crab_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.CRAB, 0x333077, 0xFE984B, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
+	public final static RegistryEntry<Item> GLARE_SPAWN_EGG = ITEMS.register("glare_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.GLARE, 0x70922D, 0x6A5227, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
+	public final static RegistryEntry<Item> ICEOLOGER_SPAWN_EGG = ITEMS.register("iceologer_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.ICEOLOGER, 0x173873, 0x949B9B, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
+	public final static RegistryEntry<Item> ILLUSIONER_SPAWN_EGG = ITEMS.register("illusioner_spawn_egg", () -> new DispenserAddedSpawnEgg(() -> EntityType.ILLUSIONER, 0x603E5C, 0x888E8E, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
+	public final static RegistryEntry<Item> MAULER_SPAWN_EGG = ITEMS.register("mauler_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.MAULER, 0x534F25, 0x817B39, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
+	public final static RegistryEntry<Item> MOOBLOOM_SPAWN_EGG = ITEMS.register("moobloom_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.MOOBLOOM, 0xF7EDC1, 0xFACA00, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
+	public final static RegistryEntry<Item> RASCAL_SPAWN_EGG = ITEMS.register("rascal_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.RASCAL, 0x05736A, 0x8A521C, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
+	public final static RegistryEntry<Item> TUFF_GOLEM_SPAWN_EGG = ITEMS.register("tuff_golem_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.TUFF_GOLEM, 0xA0A297, 0x5D5D52, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
+	public final static RegistryEntry<Item> WILDFIRE_SPAWN_EGG = ITEMS.register("wildfire_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.WILDFIRE, 0x6C3100, 0xFFD528, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
+	public final static RegistryEntry<Item> BUTTERCUP = ITEMS.register("buttercup", () -> new BlockItem(FriendsAndFoesBlocks.BUTTERCUP.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
+	public final static RegistryEntry<Item> CRAB_CLAW = ITEMS.register("crab_claw", () -> new Item((new Item.Settings()).group(ItemGroup.BREWING)));
+	public final static RegistryEntry<Item> ACACIA_BEEHIVE = ITEMS.register("acacia_beehive", () -> new BlockItem(FriendsAndFoesBlocks.ACACIA_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
+	public final static RegistryEntry<Item> BIRCH_BEEHIVE = ITEMS.register("birch_beehive", () -> new BlockItem(FriendsAndFoesBlocks.BIRCH_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
+	public final static RegistryEntry<Item> CRIMSON_BEEHIVE = ITEMS.register("crimson_beehive", () -> new BlockItem(FriendsAndFoesBlocks.CRIMSON_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
+	public final static RegistryEntry<Item> DARK_OAK_BEEHIVE = ITEMS.register("dark_oak_beehive", () -> new BlockItem(FriendsAndFoesBlocks.DARK_OAK_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
+	public final static RegistryEntry<Item> JUNGLE_BEEHIVE = ITEMS.register("jungle_beehive", () -> new BlockItem(FriendsAndFoesBlocks.JUNGLE_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
+	public final static RegistryEntry<Item> MANGROVE_BEEHIVE = ITEMS.register("mangrove_beehive", () -> new BlockItem(FriendsAndFoesBlocks.MANGROVE_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
+	public final static RegistryEntry<Item> SPRUCE_BEEHIVE = ITEMS.register("spruce_beehive", () -> new BlockItem(FriendsAndFoesBlocks.SPRUCE_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
+	public final static RegistryEntry<Item> WARPED_BEEHIVE = ITEMS.register("warped_beehive", () -> new BlockItem(FriendsAndFoesBlocks.WARPED_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
+	public final static RegistryEntry<Item> COPPER_BUTTON = ITEMS.register("copper_button", () -> new BlockItem(FriendsAndFoesBlocks.COPPER_BUTTON.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
+	public final static RegistryEntry<Item> EXPOSED_COPPER_BUTTON = ITEMS.register("exposed_copper_button", () -> new BlockItem(FriendsAndFoesBlocks.EXPOSED_COPPER_BUTTON.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
+	public final static RegistryEntry<Item> WEATHERED_COPPER_BUTTON = ITEMS.register("weathered_copper_button", () -> new BlockItem(FriendsAndFoesBlocks.WEATHERED_COPPER_BUTTON.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
+	public final static RegistryEntry<Item> OXIDIZED_COPPER_BUTTON = ITEMS.register("oxidized_copper_button", () -> new BlockItem(FriendsAndFoesBlocks.OXIDIZED_COPPER_BUTTON.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
+	public final static RegistryEntry<Item> WAXED_COPPER_BUTTON = ITEMS.register("waxed_copper_button", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_COPPER_BUTTON.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
+	public final static RegistryEntry<Item> WAXED_EXPOSED_COPPER_BUTTON = ITEMS.register("waxed_exposed_copper_button", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_EXPOSED_COPPER_BUTTON.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
+	public final static RegistryEntry<Item> WAXED_WEATHERED_COPPER_BUTTON = ITEMS.register("waxed_weathered_copper_button", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_WEATHERED_COPPER_BUTTON.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
+	public final static RegistryEntry<Item> WAXED_OXIDIZED_COPPER_BUTTON = ITEMS.register("waxed_oxidized_copper_button", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_OXIDIZED_COPPER_BUTTON.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
+	public final static RegistryEntry<Item> EXPOSED_LIGHTNING_ROD = ITEMS.register("exposed_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.EXPOSED_LIGHTNING_ROD.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
+	public final static RegistryEntry<Item> WEATHERED_LIGHTNING_ROD = ITEMS.register("weathered_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.WEATHERED_LIGHTNING_ROD.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
+	public final static RegistryEntry<Item> OXIDIZED_LIGHTNING_ROD = ITEMS.register("oxidized_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.OXIDIZED_LIGHTNING_ROD.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
+	public final static RegistryEntry<Item> WAXED_LIGHTNING_ROD = ITEMS.register("waxed_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_LIGHTNING_ROD.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
+	public final static RegistryEntry<Item> WAXED_EXPOSED_LIGHTNING_ROD = ITEMS.register("waxed_exposed_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_EXPOSED_LIGHTNING_ROD.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
+	public final static RegistryEntry<Item> WAXED_WEATHERED_LIGHTNING_ROD = ITEMS.register("waxed_weathered_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_WEATHERED_LIGHTNING_ROD.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
+	public final static RegistryEntry<Item> WAXED_OXIDIZED_LIGHTNING_ROD = ITEMS.register("waxed_oxidized_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get(), new Item.Settings().group(ItemGroup.REDSTONE).maxCount(64)));
+	public final static RegistryEntry<Item> WILDFIRE_CROWN = ITEMS.register("wildfire_crown", () -> new ArmorItem(FriendsAndFoesArmorMaterials.WILDFIRE, EquipmentSlot.HEAD, (new Item.Settings()).group(ItemGroup.COMBAT).fireproof()));
+	public final static RegistryEntry<Item> WILDFIRE_CROWN_FRAGMENT = ITEMS.register("wildfire_crown_fragment", () -> new Item((new Item.Settings()).group(ItemGroup.MATERIALS).fireproof()));
+	public final static RegistryEntry<Item> TOTEM_OF_FREEZING = ITEMS.register("totem_of_freezing", () -> new Item((new Item.Settings()).maxCount(1).group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON)));
+	public final static RegistryEntry<Item> TOTEM_OF_ILLUSION = ITEMS.register("totem_of_illusion", () -> new Item((new Item.Settings()).maxCount(1).group(ItemGroup.COMBAT).rarity(Rarity.UNCOMMON)));
 
 	private FriendsAndFoesItems() {
 	}

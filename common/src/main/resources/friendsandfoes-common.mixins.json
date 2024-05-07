@@ -41,7 +41,7 @@
 		"ServerWorldAccessor",
 		"ServerWorldMixin",
 		"SnowballEntityMixin",
-		"SpawnRestrictionAccessor",
+		"SpawnEggItemAccessor",
 		"StrongholdGeneratorMixin",
 		"StructurePoolMixin",
 		"TemptGoalMixin",

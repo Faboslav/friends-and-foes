@@ -5,7 +5,7 @@ import com.faboslav.friendsandfoes.client.render.entity.feature.BarnacleKelpFeat
 import com.faboslav.friendsandfoes.client.render.entity.feature.BarnacleKelpHeadFeatureRenderer;
 import com.faboslav.friendsandfoes.client.render.entity.model.BarnacleEntityModel;
 import com.faboslav.friendsandfoes.entity.BarnacleEntity;
-import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityModelLayer;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityModelLayers;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.entity.EntityRendererFactory;
@@ -20,7 +20,7 @@ public final class BarnacleEntityRenderer extends MobEntityRenderer<BarnacleEnti
 	public static final float SCALE = 1.6F;
 
 	public BarnacleEntityRenderer(EntityRendererFactory.Context context) {
-		super(context, new BarnacleEntityModel<>(context.getPart(FriendsAndFoesEntityModelLayer.BARNACLE_LAYER)), 0.5F);
+		super(context, new BarnacleEntityModel<>(context.getPart(FriendsAndFoesEntityModelLayers.BARNACLE_LAYER)), 0.5F);
 		this.addFeature(new BarnacleKelpFeatureRenderer(this));
 		this.addFeature(new BarnacleKelpHeadFeatureRenderer(this));
 	}

@@ -1,29 +1,31 @@
 package com.faboslav.friendsandfoes.init;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.platform.RegistryHelper;
-import com.faboslav.friendsandfoes.platform.StructureEntityProcessorTypes;
+import com.faboslav.friendsandfoes.init.registry.RegistryEntry;
+import com.faboslav.friendsandfoes.init.registry.ResourcefulRegistries;
+import com.faboslav.friendsandfoes.init.registry.ResourcefulRegistry;
 import com.faboslav.friendsandfoes.world.processor.CitadelBottomProcessor;
 import com.faboslav.friendsandfoes.world.processor.IllusionerShackBrewingStandProcessor;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.structure.processor.StructureProcessorType;
+import net.minecraft.util.registry.Registry;
+import org.apache.commons.lang3.NotImplementedException;
 
 /**
  * @see StructureProcessorType
  */
 public final class FriendsAndFoesStructureProcessorTypes
 {
-	public static StructureProcessorType<IllusionerShackBrewingStandProcessor> ILLUSIONER_SHACK_BREWING_STAND_PROCESSOR = () -> IllusionerShackBrewingStandProcessor.CODEC;
-	public static StructureProcessorType<CitadelBottomProcessor> CITADEL_BOTTOM_PROCESSOR = () -> CitadelBottomProcessor.CODEC;
+	public static final ResourcefulRegistry<StructureProcessorType<?>> STRUCTURE_PROCESSOR = ResourcefulRegistries.create(Registry.STRUCTURE_PROCESSOR, FriendsAndFoes.MOD_ID);
 
-	public static void init() {
-	}
-
-	public static void postInit() {
-		RegistryHelper.registerStructureProcessorType(FriendsAndFoes.makeID("illusioner_shack_brewing_stand_processor"), ILLUSIONER_SHACK_BREWING_STAND_PROCESSOR);
-		RegistryHelper.registerStructureProcessorType(FriendsAndFoes.makeID("citadel_bottom_processor"), CITADEL_BOTTOM_PROCESSOR);
-		StructureEntityProcessorTypes.postInit();
-	}
+	public static final RegistryEntry<StructureProcessorType<CitadelBottomProcessor>> CITADEL_BOTTOM_PROCESSOR = STRUCTURE_PROCESSOR.register("citadel_bottom_processor", () -> () -> CitadelBottomProcessor.CODEC);
+	public static final RegistryEntry<StructureProcessorType<IllusionerShackBrewingStandProcessor>> ILLUSIONER_SHACK_BREWING_STAND_PROCESSOR = STRUCTURE_PROCESSOR.register("illusioner_shack_brewing_stand_processor", () -> () -> IllusionerShackBrewingStandProcessor.CODEC);
 
 	private FriendsAndFoesStructureProcessorTypes() {
+	}
+
+	@ExpectPlatform
+	public static void init() {
+		throw new NotImplementedException();
 	}
 }

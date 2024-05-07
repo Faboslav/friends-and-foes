@@ -109,6 +109,6 @@ public final class CitadelStructure extends Structure
 
 	@Override
 	public StructureType<?> getType() {
-		return FriendsAndFoesStructureTypes.CITADEL_STRUCTURE;
+		return FriendsAndFoesStructureTypes.CITADEL_STRUCTURE.get();
 	}
 }

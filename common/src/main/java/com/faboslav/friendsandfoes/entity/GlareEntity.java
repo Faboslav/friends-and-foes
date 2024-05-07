@@ -5,7 +5,7 @@ import com.faboslav.friendsandfoes.client.render.entity.animation.animator.conte
 import com.faboslav.friendsandfoes.entity.ai.brain.GlareBrain;
 import com.faboslav.friendsandfoes.entity.ai.pathing.CachedPathHolder;
 import com.faboslav.friendsandfoes.entity.animation.AnimatedEntity;
-import com.faboslav.friendsandfoes.init.FriendsAndFoesCriteria;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesCriterias;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
@@ -293,7 +293,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		);
 	}
 
-	public static Builder createAttributes() {
+	public static Builder createGlareAttributes() {
 		return MobEntity.createMobAttributes()
 			.add(EntityAttributes.GENERIC_MAX_HEALTH, 10.0D)
 			.add(EntityAttributes.GENERIC_FLYING_SPEED, MOVEMENT_SPEED)
@@ -611,7 +611,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		this.setOwnerUuid(owner.getUuid());
 
 		if (owner instanceof ServerPlayerEntity) {
-			FriendsAndFoesCriteria.TAME_GLARE.trigger((ServerPlayerEntity) owner, this);
+			FriendsAndFoesCriterias.TAME_GLARE.trigger((ServerPlayerEntity) owner, this);
 		}
 	}
 

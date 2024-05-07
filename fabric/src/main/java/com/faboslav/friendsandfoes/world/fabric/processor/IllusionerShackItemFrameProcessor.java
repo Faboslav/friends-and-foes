@@ -1,9 +1,9 @@
 package com.faboslav.friendsandfoes.world.fabric.processor;
 
-import com.faboslav.friendsandfoes.platform.fabric.StructureEntityProcessorTypesImpl;
+import com.faboslav.friendsandfoes.init.fabric.FriendsAndFoesStructureProcessorTypesImpl;
 import com.faboslav.friendsandfoes.util.world.processor.IllusionerShackItemFrameProcessorHelper;
-import com.faboslav.friendsandfoes.world.processor.StructureEntityProcessor;
 import com.mojang.serialization.Codec;
+import com.yungnickyoung.minecraft.yungsapi.world.processor.StructureEntityProcessor;
 import net.minecraft.structure.StructurePlacementData;
 import net.minecraft.structure.StructureTemplate;
 import net.minecraft.structure.StructureTemplate.StructureEntityInfo;
@@ -54,6 +54,6 @@ public final class IllusionerShackItemFrameProcessor extends StructureEntityProc
 
 	@Override
 	protected StructureProcessorType<?> getType() {
-		return StructureEntityProcessorTypesImpl.ILLUSIONER_SHACK_ITEM_FRAME_PROCESSOR;
+		return FriendsAndFoesStructureProcessorTypesImpl.ILLUSIONER_SHACK_ITEM_FRAME_PROCESSOR.get();
 	}
 }

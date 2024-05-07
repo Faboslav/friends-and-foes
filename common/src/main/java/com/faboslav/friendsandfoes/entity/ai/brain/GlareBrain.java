@@ -5,7 +5,7 @@ import com.faboslav.friendsandfoes.entity.ai.brain.task.glare.*;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesActivities;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
-import com.faboslav.friendsandfoes.init.FriendsAndFoesMemorySensorType;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesSensorTypes;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -229,8 +229,8 @@ public final class GlareBrain
 			SensorType.NEAREST_PLAYERS,
 			SensorType.NEAREST_ITEMS,
 			SensorType.NEAREST_ADULT,
-			FriendsAndFoesMemorySensorType.GLARE_TEMPTATIONS.get(),
-			FriendsAndFoesMemorySensorType.GLARE_SPECIFIC_SENSOR.get()
+			FriendsAndFoesSensorTypes.GLARE_TEMPTATIONS.get(),
+			FriendsAndFoesSensorTypes.GLARE_SPECIFIC_SENSOR.get()
 		);
 		MEMORY_MODULES = List.of(
 			MemoryModuleType.TEMPTING_PLAYER,

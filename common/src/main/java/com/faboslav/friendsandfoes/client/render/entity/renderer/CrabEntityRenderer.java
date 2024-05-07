@@ -3,7 +3,7 @@ package com.faboslav.friendsandfoes.client.render.entity.renderer;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.model.CrabEntityModel;
 import com.faboslav.friendsandfoes.entity.CrabEntity;
-import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityModelLayer;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityModelLayers;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -19,7 +19,7 @@ public final class CrabEntityRenderer extends MobEntityRenderer<CrabEntity, Crab
 	private static final float SHADOW_RADIUS = 0.5F;
 
 	public CrabEntityRenderer(EntityRendererFactory.Context context) {
-		super(context, new CrabEntityModel<>(context.getPart(FriendsAndFoesEntityModelLayer.CRAB_LAYER)), SHADOW_RADIUS);
+		super(context, new CrabEntityModel<>(context.getPart(FriendsAndFoesEntityModelLayers.CRAB_LAYER)), SHADOW_RADIUS);
 	}
 
 	@Override

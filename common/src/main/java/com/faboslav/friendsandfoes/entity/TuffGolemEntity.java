@@ -171,7 +171,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		super.mobTick();
 	}
 
-	public static DefaultAttributeContainer.Builder createAttributes() {
+	public static DefaultAttributeContainer.Builder createTuffGolemAttributes() {
 		return MobEntity.createMobAttributes()
 			.add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
 			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, MOVEMENT_SPEED)

@@ -5,6 +5,8 @@ accessible class net/minecraft/entity/mob/IllusionerEntity$BlindTargetGoal
 accessible class net/minecraft/entity/mob/SpellcastingIllagerEntity$Spell
 extendable class net/minecraft/world/gen/structure/JigsawStructure
 accessible class net/minecraft/client/render/entity/animation/Animation
+accessible class net/minecraft/client/particle/ParticleManager$SimpleSpriteProvider
+accessible method net/minecraft/client/particle/ParticleManager$SimpleSpriteProvider <init> ()V
 accessible field net/minecraft/world/poi/PointOfInterestType blockStates Ljava/util/Set;
 mutable field net/minecraft/world/poi/PointOfInterestType blockStates Ljava/util/Set;
 accessible field net/minecraft/world/poi/PointOfInterestType ticketCount I
@@ -25,3 +27,4 @@ accessible method net/minecraft/entity/ai/brain/Activity <init> (Ljava/lang/Stri
 accessible method net/minecraft/particle/DefaultParticleType <init> (Z)V
 accessible method net/minecraft/block/AbstractButtonBlock getClickSound (Z)Lnet/minecraft/sound/SoundEvent;
 accessible method net/minecraft/entity/ai/brain/sensor/SensorType <init> (Ljava/util/function/Supplier;)V
+accessible method net/minecraft/entity/effect/StatusEffect <init> (Lnet/minecraft/entity/effect/StatusEffectCategory;I)V

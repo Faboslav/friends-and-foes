@@ -89,6 +89,6 @@ public final class CitadelBottomProcessor extends StructureProcessor
 	}
 
 	protected StructureProcessorType<?> getType() {
-		return FriendsAndFoesStructureProcessorTypes.CITADEL_BOTTOM_PROCESSOR;
+		return FriendsAndFoesStructureProcessorTypes.CITADEL_BOTTOM_PROCESSOR.get();
 	}
 }

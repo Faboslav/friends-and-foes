@@ -3,7 +3,7 @@ package com.faboslav.friendsandfoes.client.render.entity.renderer;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.model.MaulerEntityModel;
 import com.faboslav.friendsandfoes.entity.MaulerEntity;
-import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityModelLayer;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityModelLayers;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -19,7 +19,7 @@ public final class MaulerEntityRenderer extends MobEntityRenderer<MaulerEntity, 
 	private static final float SHADOW_RADIUS = 0.35F;
 
 	public MaulerEntityRenderer(EntityRendererFactory.Context context) {
-		super(context, new MaulerEntityModel(context.getPart(FriendsAndFoesEntityModelLayer.MAULER_LAYER)), SHADOW_RADIUS);
+		super(context, new MaulerEntityModel(context.getPart(FriendsAndFoesEntityModelLayers.MAULER_LAYER)), SHADOW_RADIUS);
 	}
 
 	@Override

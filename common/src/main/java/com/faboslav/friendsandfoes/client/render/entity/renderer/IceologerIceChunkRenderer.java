@@ -3,7 +3,7 @@ package com.faboslav.friendsandfoes.client.render.entity.renderer;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.model.IceologerIceChunkModel;
 import com.faboslav.friendsandfoes.entity.IceologerIceChunkEntity;
-import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityModelLayer;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityModelLayers;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -26,7 +26,7 @@ public final class IceologerIceChunkRenderer extends EntityRenderer<IceologerIce
 
 	public IceologerIceChunkRenderer(Context context) {
 		super(context);
-		this.model = new IceologerIceChunkModel(context.getPart(FriendsAndFoesEntityModelLayer.ICEOLOGER_ICE_CHUNK_LAYER));
+		this.model = new IceologerIceChunkModel(context.getPart(FriendsAndFoesEntityModelLayers.ICEOLOGER_ICE_CHUNK_LAYER));
 	}
 
 	public void render(

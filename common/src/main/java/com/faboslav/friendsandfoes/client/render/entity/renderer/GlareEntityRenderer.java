@@ -4,7 +4,7 @@ import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.feature.GlareFlowerFeatureRenderer;
 import com.faboslav.friendsandfoes.client.render.entity.model.GlareEntityModel;
 import com.faboslav.friendsandfoes.entity.GlareEntity;
-import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityModelLayer;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityModelLayers;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.entity.EntityRendererFactory;
@@ -17,7 +17,7 @@ import net.minecraft.util.Identifier;
 public final class GlareEntityRenderer extends MobEntityRenderer<GlareEntity, GlareEntityModel<GlareEntity>>
 {
 	public GlareEntityRenderer(EntityRendererFactory.Context context) {
-		super(context, new GlareEntityModel(context.getPart(FriendsAndFoesEntityModelLayer.GLARE_LAYER)), 0.4F);
+		super(context, new GlareEntityModel(context.getPart(FriendsAndFoesEntityModelLayers.GLARE_LAYER)), 0.4F);
 		this.addFeature(new GlareFlowerFeatureRenderer(this));
 	}
 

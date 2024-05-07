@@ -179,7 +179,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 		super.mobTick();
 	}
 
-	public static DefaultAttributeContainer.Builder createAttributes() {
+	public static DefaultAttributeContainer.Builder createRascalAttributes() {
 		return MobEntity.createMobAttributes()
 			.add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
 			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.55D)

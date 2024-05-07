@@ -1,35 +1,26 @@
 package com.faboslav.friendsandfoes.init;
 
-import com.faboslav.friendsandfoes.platform.RegistryHelper;
+import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.init.registry.RegistryEntry;
+import com.faboslav.friendsandfoes.init.registry.ResourcefulRegistries;
+import com.faboslav.friendsandfoes.init.registry.ResourcefulRegistry;
 import net.minecraft.entity.ai.brain.Activity;
-
-import java.util.function.Supplier;
+import net.minecraft.util.registry.Registry;
 
 /**
  * @see Activity
  */
 public final class FriendsAndFoesActivities
 {
-	public final static Supplier<Activity> COPPER_GOLEM_SPIN_HEAD;
-	public final static Supplier<Activity> COPPER_GOLEM_PRESS_BUTTON;
-	public final static Supplier<Activity> CRAB_WAVE;
-	public final static Supplier<Activity> GLARE_EAT_GLOW_BERRIES;
-	public final static Supplier<Activity> GLARE_SHOW_DARK_SPOT;
-	public final static Supplier<Activity> TUFF_GOLEM_HOME;
-	public final static Supplier<Activity> RASCAL_WAIT;
+	public static final ResourcefulRegistry<Activity> ACTIVITIES = ResourcefulRegistries.create(Registry.ACTIVITY, FriendsAndFoes.MOD_ID);
 
-	static {
-		COPPER_GOLEM_SPIN_HEAD = RegistryHelper.registerActivity("copper_golem_spin_head", () -> new Activity("copper_golem_spin_head"));
-		COPPER_GOLEM_PRESS_BUTTON = RegistryHelper.registerActivity("copper_golem_press_button", () -> new Activity("copper_golem_press_button"));
-		CRAB_WAVE = RegistryHelper.registerActivity("crab_wave", () -> new Activity("crab_wave"));
-		GLARE_EAT_GLOW_BERRIES = RegistryHelper.registerActivity("glare_eat_glow_berries", () -> new Activity("glare_eat_glow_berries"));
-		GLARE_SHOW_DARK_SPOT = RegistryHelper.registerActivity("glare_show_dark_spot", () -> new Activity("glare_dark_spot"));
-		TUFF_GOLEM_HOME = RegistryHelper.registerActivity("tuff_golem_home", () -> new Activity("tuff_golem_home"));
-		RASCAL_WAIT = RegistryHelper.registerActivity("rascal_wait", () -> new Activity("rascal_wait"));
-	}
-
-	public static void init() {
-	}
+	public final static RegistryEntry<Activity> COPPER_GOLEM_SPIN_HEAD = ACTIVITIES.register("copper_golem_spin_head", () -> new Activity("copper_golem_spin_head"));
+	public final static RegistryEntry<Activity> COPPER_GOLEM_PRESS_BUTTON = ACTIVITIES.register("copper_golem_press_button", () -> new Activity("copper_golem_press_button"));
+	public final static RegistryEntry<Activity> CRAB_WAVE = ACTIVITIES.register("crab_wave", () -> new Activity("crab_wave"));
+	public final static RegistryEntry<Activity> GLARE_EAT_GLOW_BERRIES = ACTIVITIES.register("glare_eat_glow_berries", () -> new Activity("glare_eat_glow_berries"));
+	public final static RegistryEntry<Activity> GLARE_SHOW_DARK_SPOT = ACTIVITIES.register("glare_show_dark_spot", () -> new Activity("glare_dark_spot"));
+	public final static RegistryEntry<Activity> TUFF_GOLEM_HOME = ACTIVITIES.register("tuff_golem_home", () -> new Activity("tuff_golem_home"));
+	public final static RegistryEntry<Activity> RASCAL_WAIT = ACTIVITIES.register("rascal_wait", () -> new Activity("rascal_wait"));
 
 	private FriendsAndFoesActivities() {
 	}

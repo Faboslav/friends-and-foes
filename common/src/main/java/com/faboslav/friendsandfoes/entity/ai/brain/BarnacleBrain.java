@@ -2,7 +2,7 @@ package com.faboslav.friendsandfoes.entity.ai.brain;
 
 import com.faboslav.friendsandfoes.entity.BarnacleEntity;
 import com.faboslav.friendsandfoes.entity.WildfireEntity;
-import com.faboslav.friendsandfoes.init.FriendsAndFoesMemorySensorType;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesSensorTypes;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
@@ -140,8 +140,8 @@ public final class BarnacleBrain
 			SensorType.NEAREST_LIVING_ENTITIES,
 			SensorType.NEAREST_PLAYERS,
 			SensorType.HURT_BY,
-			FriendsAndFoesMemorySensorType.BARNACLE_SPECIFIC_SENSOR.get(),
-			FriendsAndFoesMemorySensorType.BARNACLE_ATTACKABLE_SENSOR.get()
+			FriendsAndFoesSensorTypes.BARNACLE_SPECIFIC_SENSOR.get(),
+			FriendsAndFoesSensorTypes.BARNACLE_ATTACKABLE_SENSOR.get()
 		);
 		MEMORY_MODULES = List.of(
 			MemoryModuleType.VISIBLE_MOBS,

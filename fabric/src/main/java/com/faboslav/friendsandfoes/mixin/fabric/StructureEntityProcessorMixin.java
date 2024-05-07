@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.mixin.fabric;
 
-import com.faboslav.friendsandfoes.world.processor.StructureEntityProcessor;
+import com.yungnickyoung.minecraft.yungsapi.world.processor.StructureEntityProcessor;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;

@@ -130,7 +130,7 @@ public final class BarnacleEntity extends HostileEntity implements AnimatedEntit
 		super.mobTick();
 	}
 
-	public static DefaultAttributeContainer.Builder createAttributes() {
+	public static DefaultAttributeContainer.Builder createBarnacleAttributes() {
 		return MobEntity.createMobAttributes()
 			.add(EntityAttributes.GENERIC_MAX_HEALTH, 40.0D)
 			.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 4.0F)

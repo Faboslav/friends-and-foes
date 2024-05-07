@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.init;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.block.Oxidizable;
 import com.faboslav.friendsandfoes.block.*;
 import com.faboslav.friendsandfoes.events.client.RegisterRenderLayersEvent;
 import com.faboslav.friendsandfoes.events.lifecycle.RegisterFlammabilityEvent;

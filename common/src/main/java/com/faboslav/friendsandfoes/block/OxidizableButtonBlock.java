@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.block;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Oxidizable;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.server.world.ServerWorld;
@@ -14,14 +15,14 @@ import net.minecraft.world.World;
 @SuppressWarnings("deprecation")
 public final class OxidizableButtonBlock extends CopperButtonBlock implements Oxidizable
 {
-	private final OxidationLevel OxidationLevel;
+	private final OxidationLevel oxidationLevel;
 
 	public OxidizableButtonBlock(
-		OxidationLevel OxidationLevel,
+		OxidationLevel oxidationLevel,
 		Settings settings
 	) {
 		super(settings);
-		this.OxidationLevel = OxidationLevel;
+		this.oxidationLevel = oxidationLevel;
 	}
 
 	@Override
@@ -31,7 +32,6 @@ public final class OxidizableButtonBlock extends CopperButtonBlock implements Ox
 		BlockPos pos,
 		Random random
 	) {
-		super.randomTick(state, world, pos, random);
 		this.tickDegradation(state, world, pos, random);
 	}
 
@@ -40,8 +40,9 @@ public final class OxidizableButtonBlock extends CopperButtonBlock implements Ox
 		return Oxidizable.getIncreasedOxidationBlock(state.getBlock()).isPresent();
 	}
 
+	@Override
 	public OxidationLevel getDegradationLevel() {
-		return this.OxidationLevel;
+		return this.oxidationLevel;
 	}
 
 	@Override

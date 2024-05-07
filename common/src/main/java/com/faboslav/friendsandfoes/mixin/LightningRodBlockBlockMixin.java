@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(Block.class)
+@Mixin(value = Block.class, priority = 10000)
 public abstract class LightningRodBlockBlockMixin extends LightningRodAbstractBlockMixin
 {
 	@Inject(

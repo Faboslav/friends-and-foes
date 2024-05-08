@@ -68,8 +68,8 @@ public final class ModelAnimator
 
 		while (var7.hasNext()) {
 			Map.Entry<String, List<Transformation>> entry = (Map.Entry) var7.next();
-			Optional<ModelPart> optional = model.getChild((String) entry.getKey());
-			List<Transformation> list = (List) entry.getValue();
+			Optional<ModelPart> optional = model.getChild(entry.getKey());
+			List<Transformation> list = entry.getValue();
 			optional.ifPresent((part) -> {
 				list.forEach((transformation) -> {
 					Keyframe[] keyframes = transformation.keyframes();

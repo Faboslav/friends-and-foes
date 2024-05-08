@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.entity.ai.brain;
 
 import com.faboslav.friendsandfoes.entity.CrabEntity;
-import com.faboslav.friendsandfoes.entity.RascalEntity;
 import com.faboslav.friendsandfoes.entity.ai.brain.task.crab.CrabWaveTask;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesActivities;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
@@ -115,8 +114,7 @@ public final class CrabBrain
 			MemoryModuleType.NEAREST_VISIBLE_WANTED_ITEM,
 			FriendsAndFoesMemoryModuleTypes.CRAB_WAVE_COOLDOWN.get()
 		);
-		WAVE_COOLDOWN_PROVIDER = TimeHelper.betweenSeconds(5, 10);
-		//WAVE_COOLDOWN_PROVIDER = TimeHelper.betweenSeconds(20, 40);
+		WAVE_COOLDOWN_PROVIDER = TimeHelper.betweenSeconds(20, 40);
 	}
 }
 

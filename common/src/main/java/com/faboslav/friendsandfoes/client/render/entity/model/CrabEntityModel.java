@@ -128,11 +128,7 @@ public final class CrabEntityModel<T extends CrabEntity> extends AnimatedEntityM
 		float headPitch
 	) {
 		this.getPart().traverse().forEach(ModelPart::resetTransform);
-
-		if(crab.isMoving()) {
-			// this.updateMovementKeyframeAnimations(crab, limbAngle, limbDistance, 2.5F, 4.5F);
-		}
-
+		this.updateMovementKeyframeAnimations(crab, limbAngle, limbDistance, 2.5F, 4.5F);
 		this.updateKeyframeAnimations(crab, animationProgress);
 
 

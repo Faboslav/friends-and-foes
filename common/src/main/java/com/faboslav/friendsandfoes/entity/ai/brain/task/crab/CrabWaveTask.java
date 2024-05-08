@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.entity.ai.brain.task.crab;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.animation.CrabAnimations;
 import com.faboslav.friendsandfoes.entity.CrabEntity;
 import com.faboslav.friendsandfoes.entity.ai.brain.CrabBrain;
@@ -28,11 +27,9 @@ public final class CrabWaveTask extends Task<CrabEntity>
 	@Override
 	protected boolean shouldRun(ServerWorld world, CrabEntity crab) {
 		if (crab.getNavigation().isFollowingPath()) {
-			FriendsAndFoes.getLogger().info("no");
 			return false;
 		}
 
-		FriendsAndFoes.getLogger().info("should run");
 		return true;
 	}
 
@@ -58,7 +55,6 @@ public final class CrabWaveTask extends Task<CrabEntity>
 
 	@Override
 	protected void finishRunning(ServerWorld world, CrabEntity crab, long time) {
-		FriendsAndFoes.getLogger().info("finished");
 		crab.setPose(CrabEntityPose.IDLE);
 		CrabBrain.setWaveCooldown(crab);
 	}

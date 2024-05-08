@@ -3,14 +3,11 @@ package com.faboslav.friendsandfoes.entity;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.animation.CrabAnimations;
 import com.faboslav.friendsandfoes.client.render.entity.animation.KeyframeAnimation;
-import com.faboslav.friendsandfoes.client.render.entity.animation.RascalAnimations;
 import com.faboslav.friendsandfoes.client.render.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.entity.ai.brain.CrabBrain;
-import com.faboslav.friendsandfoes.entity.ai.brain.RascalBrain;
 import com.faboslav.friendsandfoes.entity.ai.control.WallClimbNavigation;
 import com.faboslav.friendsandfoes.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.entity.pose.CrabEntityPose;
-import com.faboslav.friendsandfoes.entity.pose.RascalEntityPose;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import com.mojang.serialization.Dynamic;
@@ -240,7 +237,7 @@ public class CrabEntity extends AnimalEntity implements AnimatedEntity
 
 		if (this.isInPose(CrabEntityPose.IDLE) && this.isMoving() == false) {
 			keyframeAnimation = CrabAnimations.IDLE;
-		} else if(this.isInPose(CrabEntityPose.WAVE)) {
+		} else if (this.isInPose(CrabEntityPose.WAVE)) {
 			keyframeAnimation = CrabAnimations.WAVE;
 		}
 

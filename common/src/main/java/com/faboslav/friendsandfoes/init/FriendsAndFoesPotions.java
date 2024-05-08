@@ -1,14 +1,10 @@
 package com.faboslav.friendsandfoes.init;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.entity.effect.LongReachEffect;
 import com.faboslav.friendsandfoes.init.registry.RegistryEntry;
 import com.faboslav.friendsandfoes.init.registry.ResourcefulRegistries;
 import com.faboslav.friendsandfoes.init.registry.ResourcefulRegistry;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.registry.Registry;
 

@@ -1,6 +1,8 @@
 package com.faboslav.friendsandfoes.entity.ai.brain;
 
 import com.faboslav.friendsandfoes.entity.CrabEntity;
+import com.faboslav.friendsandfoes.entity.RascalEntity;
+import com.faboslav.friendsandfoes.entity.ai.brain.task.crab.CrabWaveTask;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesActivities;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
 import com.google.common.collect.ImmutableList;
@@ -31,7 +33,7 @@ public final class CrabBrain
 
 		addCoreActivities(brain);
 		addIdleActivities(brain);
-		//addWaveActivities(brain);
+		addWaveActivities(brain);
 
 		brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
 		brain.setDefaultActivity(Activity.IDLE);
@@ -58,7 +60,7 @@ public final class CrabBrain
 		brain.setTaskList(
 			FriendsAndFoesActivities.CRAB_WAVE.get(),
 			ImmutableList.of(
-
+				Pair.of(0, new CrabWaveTask())
 			),
 			ImmutableSet.of(
 				Pair.of(FriendsAndFoesMemoryModuleTypes.CRAB_WAVE_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT)
@@ -79,17 +81,21 @@ public final class CrabBrain
 				)
 			),
 			ImmutableSet.of(
-				//Pair.of(FriendsAndFoesMemoryModuleTypes.CRAB_WAVE_COOLDOWN.get(), MemoryModuleState.VALUE_PRESENT)
+				Pair.of(FriendsAndFoesMemoryModuleTypes.CRAB_WAVE_COOLDOWN.get(), MemoryModuleState.VALUE_PRESENT)
 			));
 	}
 
 	public static void updateActivities(CrabEntity crab) {
 		crab.getBrain().resetPossibleActivities(
 			ImmutableList.of(
-				//FriendsAndFoesActivities.CRAB_WAVE.get(),
+				FriendsAndFoesActivities.CRAB_WAVE.get(),
 				Activity.IDLE
 			)
 		);
+	}
+
+	public static void setWaveCooldown(CrabEntity crab) {
+		crab.getBrain().remember(FriendsAndFoesMemoryModuleTypes.CRAB_WAVE_COOLDOWN.get(), WAVE_COOLDOWN_PROVIDER.get(crab.getRandom()));
 	}
 
 	static {
@@ -109,7 +115,8 @@ public final class CrabBrain
 			MemoryModuleType.NEAREST_VISIBLE_WANTED_ITEM,
 			FriendsAndFoesMemoryModuleTypes.CRAB_WAVE_COOLDOWN.get()
 		);
-		WAVE_COOLDOWN_PROVIDER = TimeHelper.betweenSeconds(20, 40);
+		WAVE_COOLDOWN_PROVIDER = TimeHelper.betweenSeconds(5, 10);
+		//WAVE_COOLDOWN_PROVIDER = TimeHelper.betweenSeconds(20, 40);
 	}
 }
 

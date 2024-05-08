@@ -3,18 +3,19 @@ package com.faboslav.friendsandfoes.entity;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.animation.CrabAnimations;
 import com.faboslav.friendsandfoes.client.render.entity.animation.KeyframeAnimation;
+import com.faboslav.friendsandfoes.client.render.entity.animation.RascalAnimations;
 import com.faboslav.friendsandfoes.client.render.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.entity.ai.brain.CrabBrain;
+import com.faboslav.friendsandfoes.entity.ai.brain.RascalBrain;
 import com.faboslav.friendsandfoes.entity.ai.control.WallClimbNavigation;
 import com.faboslav.friendsandfoes.entity.animation.AnimatedEntity;
+import com.faboslav.friendsandfoes.entity.pose.CrabEntityPose;
+import com.faboslav.friendsandfoes.entity.pose.RascalEntityPose;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.EntityData;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -52,6 +53,7 @@ public class CrabEntity extends AnimalEntity implements AnimatedEntity
 	public CrabEntity(EntityType<? extends CrabEntity> entityType, World world) {
 		super(entityType, world);
 
+		this.setPose(CrabEntityPose.IDLE);
 		this.stepHeight = 0.0F;
 	}
 
@@ -66,6 +68,8 @@ public class CrabEntity extends AnimalEntity implements AnimatedEntity
 		EntityData superEntityData = super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
 
 		this.setSize(CrabSize.getRandomCrabSize(world.getRandom()));
+		this.setPose(CrabEntityPose.IDLE);
+		CrabBrain.setWaveCooldown(this);
 
 		return superEntityData;
 	}
@@ -234,8 +238,10 @@ public class CrabEntity extends AnimalEntity implements AnimatedEntity
 	private KeyframeAnimation getKeyframeAnimationByPose() {
 		KeyframeAnimation keyframeAnimation = null;
 
-		if (this.isMoving() == false && this.isClimbing() == false) {
+		if (this.isInPose(CrabEntityPose.IDLE) && this.isMoving() == false) {
 			keyframeAnimation = CrabAnimations.IDLE;
+		} else if(this.isInPose(CrabEntityPose.WAVE)) {
+			keyframeAnimation = CrabAnimations.WAVE;
 		}
 
 		return keyframeAnimation;
@@ -266,6 +272,35 @@ public class CrabEntity extends AnimalEntity implements AnimatedEntity
 	}
 
 	@Override
+	public void setPose(EntityPose pose) {
+		if (this.getWorld().isClient()) {
+			return;
+		}
+
+		super.setPose(pose);
+	}
+
+	public void setPose(CrabEntityPose pose) {
+		if (this.getWorld().isClient()) {
+			return;
+		}
+
+		super.setPose(pose.get());
+	}
+
+	public boolean isInPose(CrabEntityPose pose) {
+		return this.getPose() == pose.get();
+	}
+
+	public void startWaveAnimation() {
+		if (this.isInPose(CrabEntityPose.WAVE)) {
+			return;
+		}
+
+		this.setPose(CrabEntityPose.WAVE);
+	}
+
+	@Override
 	protected void mobTick() {
 		this.getWorld().getProfiler().push("crabBrain");
 		this.getBrain().tick((ServerWorld) this.world, this);
@@ -277,7 +312,7 @@ public class CrabEntity extends AnimalEntity implements AnimatedEntity
 	}
 
 	public boolean isMoving() {
-		return this.isOnGround() && this.getVelocity().lengthSquared() >= 0.0001;
+		return (this.isOnGround() || this.isClimbing()) && this.getVelocity().lengthSquared() >= 0.0001;
 	}
 
 	public static boolean canSpawn(
@@ -315,8 +350,8 @@ public class CrabEntity extends AnimalEntity implements AnimatedEntity
 	public enum CrabSize
 	{
 		SMALL("small", 0.8F),
-		MEDIUM("medium", 0.9F),
-		BIG("big", 1.0F);
+		MEDIUM("medium", 1.0F),
+		BIG("big", 1.2F);
 
 		private final String name;
 		private final float scaleModifier;
@@ -346,7 +381,7 @@ public class CrabEntity extends AnimalEntity implements AnimatedEntity
 		}
 
 		public static CrabSize getDefaultCrabSize() {
-			return CrabSize.BIG;
+			return CrabSize.MEDIUM;
 		}
 
 		public static CrabSize getRandomCrabSize(Random random) {

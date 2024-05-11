@@ -3,7 +3,10 @@ package com.faboslav.friendsandfoes.entity.ai.brain;
 import com.faboslav.friendsandfoes.entity.CrabEntity;
 import com.faboslav.friendsandfoes.entity.ai.brain.task.crab.CrabWaveTask;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesActivities;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesSensorTypes;
+import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
@@ -15,6 +18,7 @@ import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.task.*;
+import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.TimeHelper;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 
@@ -50,6 +54,7 @@ public final class CrabBrain
 				new WalkTask(2.0f),
 				new LookAroundTask(45, 90),
 				new WanderAroundTask(),
+				new TemptationCooldownTask(MemoryModuleType.TEMPTATION_COOLDOWN_TICKS),
 				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.CRAB_WAVE_COOLDOWN.get())
 			)
 		);
@@ -62,6 +67,8 @@ public final class CrabBrain
 				Pair.of(0, new CrabWaveTask())
 			),
 			ImmutableSet.of(
+				Pair.of(MemoryModuleType.BREED_TARGET, MemoryModuleState.VALUE_ABSENT),
+				Pair.of(MemoryModuleType.TEMPTING_PLAYER, MemoryModuleState.VALUE_ABSENT),
 				Pair.of(FriendsAndFoesMemoryModuleTypes.CRAB_WAVE_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT)
 			)
 		);
@@ -71,8 +78,10 @@ public final class CrabBrain
 		brain.setTaskList(
 			Activity.IDLE,
 			ImmutableList.of(
-				//Pair.of(0, new TimeLimitedTask<LivingEntity>(new FollowMobTask(EntityType.PLAYER, 6.0f), UniformIntProvider.create(30, 60))),
-				Pair.of(0, new RandomTask(
+				Pair.of(0, new TemptTask(crab -> 1.25f)),
+				Pair.of(1, new BreedTask(FriendsAndFoesEntityTypes.CRAB.get(), 1.0f)),
+				Pair.of(2, new WalkTowardClosestAdultTask(UniformIntProvider.create(5, 16), 1.25f)),
+				Pair.of(3, new RandomTask(
 					ImmutableList.of(
 						Pair.of(new StrollTask(1.0f), 2),
 						Pair.of(new GoTowardsLookTarget(1.0f, 3), 2),
@@ -97,19 +106,26 @@ public final class CrabBrain
 		crab.getBrain().remember(FriendsAndFoesMemoryModuleTypes.CRAB_WAVE_COOLDOWN.get(), WAVE_COOLDOWN_PROVIDER.get(crab.getRandom()));
 	}
 
+	public static Ingredient getTemptItems() {
+		return Ingredient.fromTag(FriendsAndFoesTags.CRAB_TEMPT_ITEMS);
+	}
+
 	static {
 		SENSORS = List.of(
 			SensorType.NEAREST_LIVING_ENTITIES,
-			SensorType.NEAREST_PLAYERS
+			SensorType.NEAREST_PLAYERS,
+			SensorType.NEAREST_ADULT,
+			FriendsAndFoesSensorTypes.CRAB_TEMPTATIONS.get()
 		);
 		MEMORY_MODULES = List.of(
+			MemoryModuleType.TEMPTING_PLAYER,
+			MemoryModuleType.TEMPTATION_COOLDOWN_TICKS,
+			MemoryModuleType.IS_TEMPTED,
 			MemoryModuleType.VISIBLE_MOBS,
 			MemoryModuleType.PATH,
 			MemoryModuleType.LOOK_TARGET,
 			MemoryModuleType.WALK_TARGET,
-			MemoryModuleType.ATE_RECENTLY,
 			MemoryModuleType.BREED_TARGET,
-			MemoryModuleType.AVOID_TARGET,
 			MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
 			MemoryModuleType.NEAREST_VISIBLE_WANTED_ITEM,
 			FriendsAndFoesMemoryModuleTypes.CRAB_WAVE_COOLDOWN.get()

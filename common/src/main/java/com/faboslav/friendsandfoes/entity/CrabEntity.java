@@ -5,9 +5,12 @@ import com.faboslav.friendsandfoes.client.render.entity.animation.CrabAnimations
 import com.faboslav.friendsandfoes.client.render.entity.animation.KeyframeAnimation;
 import com.faboslav.friendsandfoes.client.render.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.entity.ai.brain.CrabBrain;
+import com.faboslav.friendsandfoes.entity.ai.brain.GlareBrain;
 import com.faboslav.friendsandfoes.entity.ai.control.WallClimbNavigation;
 import com.faboslav.friendsandfoes.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.entity.pose.CrabEntityPose;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesItems;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import com.mojang.serialization.Dynamic;
@@ -15,6 +18,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
+import net.minecraft.entity.ai.pathing.MobNavigation;
+import net.minecraft.entity.ai.pathing.PathNodeType;
+import net.minecraft.entity.ai.pathing.SwimNavigation;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.DataTracker;
@@ -24,15 +30,14 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.FrogEntity;
 import net.minecraft.entity.passive.PassiveEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.world.LocalDifficulty;
-import net.minecraft.world.ServerWorldAccess;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
+import net.minecraft.world.*;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -47,11 +52,17 @@ public class CrabEntity extends AnimalEntity implements AnimatedEntity
 	private static final TrackedData<Boolean> IS_CLIMBING_WALL = DataTracker.registerData(CrabEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 	private static final TrackedData<String> SIZE = DataTracker.registerData(CrabEntity.class, TrackedDataHandlerRegistry.STRING);
 
+	private final SwimNavigation waterNavigation;
+	private final WallClimbNavigation landNavigation;
+
 	public CrabEntity(EntityType<? extends CrabEntity> entityType, World world) {
 		super(entityType, world);
 
 		this.setPose(CrabEntityPose.IDLE);
 		this.stepHeight = 0.0F;
+		this.setPathfindingPenalty(PathNodeType.WATER, 0.0F);
+		this.waterNavigation = new SwimNavigation(this, world);
+		this.landNavigation = new WallClimbNavigation(this, world);
 	}
 
 	@Override
@@ -111,6 +122,39 @@ public class CrabEntity extends AnimalEntity implements AnimatedEntity
 	}
 
 	@Override
+	public boolean isPushedByFluids() {
+		return !this.isSwimming();
+	}
+
+	@Override
+	public void travel(Vec3d movementInput) {
+		if (this.canMoveVoluntarily() && this.isTouchingWater()) {
+			this.updateVelocity(0.01F, movementInput);
+			this.move(MovementType.SELF, this.getVelocity());
+			this.setVelocity(this.getVelocity().multiply(0.9));
+		} else {
+			super.travel(movementInput);
+		}
+	}
+
+	@Override
+	public void updateSwimming() {
+		if (!this.getWorld().isClient()) {
+			if (this.canMoveVoluntarily() && this.isTouchingWater()) {
+				this.navigation = this.waterNavigation;
+				this.setSwimming(true);
+			} else {
+				this.navigation = this.landNavigation;
+				this.setSwimming(false);
+			}
+		}
+	}
+
+	public boolean canBreatheInWater() {
+		return true;
+	}
+
+	@Override
 	public int getKeyframeAnimationTicks() {
 		return this.dataTracker.get(POSE_TICKS);
 	}
@@ -165,11 +209,6 @@ public class CrabEntity extends AnimalEntity implements AnimatedEntity
 	}
 
 	@Override
-	protected EntityNavigation createNavigation(World world) {
-		return new WallClimbNavigation(this, world);
-	}
-
-	@Override
 	protected float calculateNextStepSoundDistance() {
 		return this.distanceTraveled + 0.175f;
 	}
@@ -207,6 +246,7 @@ public class CrabEntity extends AnimalEntity implements AnimatedEntity
 		}
 
 		this.updateKeyframeAnimations();
+		this.calculateSize();
 		super.tick();
 
 		if (!this.getWorld().isClient()) {
@@ -308,6 +348,15 @@ public class CrabEntity extends AnimalEntity implements AnimatedEntity
 		super.mobTick();
 	}
 
+	@Override
+	protected void onGrowUp() {
+		super.onGrowUp();
+
+		if (!this.isBaby() && this.getWorld().getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) {
+			this.dropItem(FriendsAndFoesItems.CRAB_CLAW.get(), 1);
+		}
+	}
+
 	public boolean isMoving() {
 		return (this.isOnGround() || this.isClimbing()) && this.getVelocity().lengthSquared() >= 0.0001;
 	}
@@ -323,19 +372,26 @@ public class CrabEntity extends AnimalEntity implements AnimatedEntity
 	}
 
 	@Override
-	public boolean canBreedWith(AnimalEntity other) {
-		return false;
+	public boolean isBreedingItem(ItemStack itemStack) {
+		return CrabBrain.getTemptItems().test(itemStack);
 	}
 
 	@Override
 	@Nullable
 	public PassiveEntity createChild(ServerWorld serverWorld, PassiveEntity entity) {
-		return null;
+		CrabEntity crab = FriendsAndFoesEntityTypes.CRAB.get().create(serverWorld);
+
+		CrabBrain.setWaveCooldown(crab);
+
+		return crab;
 	}
 
 	private void setSize(CrabSize size) {
 		this.dataTracker.set(SIZE, size.getName());
+		this.calculateSize();
+	}
 
+	private void calculateSize() {
 		this.calculateDimensions();
 		this.calculateBoundingBox();
 	}
@@ -344,11 +400,16 @@ public class CrabEntity extends AnimalEntity implements AnimatedEntity
 		return CrabSize.getCrabSizeByName(this.dataTracker.get(SIZE));
 	}
 
+	@Override
+	public EntityDimensions getDimensions(EntityPose pose) {
+		return super.getDimensions(pose).scaled(this.getSize().scaleModifier);
+	}
+
 	public enum CrabSize
 	{
 		SMALL("small", 0.8F),
-		MEDIUM("medium", 1.0F),
-		BIG("big", 1.2F);
+		MEDIUM("medium", 0.9F),
+		BIG("big", 1.0F);
 
 		private final String name;
 		private final float scaleModifier;
@@ -378,7 +439,7 @@ public class CrabEntity extends AnimalEntity implements AnimatedEntity
 		}
 
 		public static CrabSize getDefaultCrabSize() {
-			return CrabSize.MEDIUM;
+			return CrabSize.BIG;
 		}
 
 		public static CrabSize getRandomCrabSize(Random random) {

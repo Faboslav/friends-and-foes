@@ -37,6 +37,11 @@ public final class CrabEntityRenderer extends MobEntityRenderer<CrabEntity, Crab
 		int i
 	) {
 		this.shadowRadius = SHADOW_RADIUS * crab.getSize().getScaleModifier();
+
+		if (crab.isBaby()) {
+			this.shadowRadius *= 0.5F;
+		}
+
 		super.render(crab, f, tickDelta, matrixStack, vertexConsumerProvider, i);
 	}
 
@@ -45,5 +50,11 @@ public final class CrabEntityRenderer extends MobEntityRenderer<CrabEntity, Crab
 		CrabEntity.CrabSize size = crab.getSize();
 		float scaleModifier = size.getScaleModifier();
 		matrixStack.scale(scaleModifier, scaleModifier, scaleModifier);
+
+		if (crab.isBaby() == false) {
+			matrixStack.scale(scaleModifier, scaleModifier, scaleModifier);
+		} else {
+			matrixStack.scale(scaleModifier * 0.3F, scaleModifier * 0.3F, scaleModifier * 0.3F);
+		}
 	}
 }

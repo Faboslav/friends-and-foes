@@ -131,10 +131,11 @@ public final class CrabEntityModel<T extends CrabEntity> extends AnimatedEntityM
 		this.updateMovementKeyframeAnimations(crab, limbAngle, limbDistance, 2.5F, 4.5F);
 		this.updateKeyframeAnimations(crab, animationProgress);
 
+		float scaleModifier = crab.getSize().getScaleModifier();
 
 		float pivotX = 0.0F;
-		float pivotY = crab.isClimbing() ? 17.0F:24.0F;
-		float pivotZ = crab.isClimbing() ? -5.0F:0.0F;
+		float pivotY = crab.isClimbing() ? 17.0F * scaleModifier : 24.0F;
+		float pivotZ = crab.isClimbing() ? -5.0F * scaleModifier : 0.0F;
 		float pitch = -1.5708F;
 		float yaw = crab.isClimbing() ? 0.0F:-1.5708F;
 		float roll = 1.5708F;

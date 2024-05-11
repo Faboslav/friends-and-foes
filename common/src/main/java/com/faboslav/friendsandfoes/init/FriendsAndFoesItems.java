@@ -6,6 +6,7 @@ import com.faboslav.friendsandfoes.init.registry.ResourcefulRegistries;
 import com.faboslav.friendsandfoes.init.registry.ResourcefulRegistry;
 import com.faboslav.friendsandfoes.item.DispenserAddedSpawnEgg;
 import com.faboslav.friendsandfoes.item.FriendsAndFoesArmorMaterials;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.*;
@@ -32,6 +33,7 @@ public final class FriendsAndFoesItems
 	public final static RegistryEntry<Item> WILDFIRE_SPAWN_EGG = ITEMS.register("wildfire_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.WILDFIRE, 0x6C3100, 0xFFD528, new Item.Settings().maxCount(64).group(ItemGroup.MISC)));
 	public final static RegistryEntry<Item> BUTTERCUP = ITEMS.register("buttercup", () -> new BlockItem(FriendsAndFoesBlocks.BUTTERCUP.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
 	public final static RegistryEntry<Item> CRAB_CLAW = ITEMS.register("crab_claw", () -> new Item((new Item.Settings()).group(ItemGroup.BREWING)));
+	public final static RegistryEntry<Item> CRAB_EGG = ITEMS.register("crab_egg", () -> new BlockItem(FriendsAndFoesBlocks.CRAB_EGG.get(), new Item.Settings().group(ItemGroup.MISC).maxCount(64)));
 	public final static RegistryEntry<Item> ACACIA_BEEHIVE = ITEMS.register("acacia_beehive", () -> new BlockItem(FriendsAndFoesBlocks.ACACIA_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
 	public final static RegistryEntry<Item> BIRCH_BEEHIVE = ITEMS.register("birch_beehive", () -> new BlockItem(FriendsAndFoesBlocks.BIRCH_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));
 	public final static RegistryEntry<Item> CRIMSON_BEEHIVE = ITEMS.register("crimson_beehive", () -> new BlockItem(FriendsAndFoesBlocks.CRIMSON_BEEHIVE.get(), new Item.Settings().group(ItemGroup.DECORATIONS).maxCount(64)));

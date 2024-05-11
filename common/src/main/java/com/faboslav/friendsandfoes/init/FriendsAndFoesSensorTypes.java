@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.init;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.ai.brain.CopperGolemBrain;
+import com.faboslav.friendsandfoes.entity.ai.brain.CrabBrain;
 import com.faboslav.friendsandfoes.entity.ai.brain.GlareBrain;
 import com.faboslav.friendsandfoes.entity.ai.brain.sensor.BarnacleAttackableSensor;
 import com.faboslav.friendsandfoes.entity.ai.brain.sensor.BarnacleSpecificSensor;
@@ -32,6 +33,9 @@ public final class FriendsAndFoesSensorTypes
 	}));
 	public static final RegistryEntry<SensorType<CopperGolemSpecificSensor>> COPPER_GOLEM_SPECIFIC_SENSOR = SENSOR_TYPES.register("copper_golem_specific_sensor", () -> new SensorType<>(() -> {
 		return new CopperGolemSpecificSensor();
+	}));
+	public static final RegistryEntry<SensorType<TemptationsSensor>> CRAB_TEMPTATIONS = SENSOR_TYPES.register("crab_temptations", () -> new SensorType<>(() -> {
+		return new TemptationsSensor(CrabBrain.getTemptItems());
 	}));
 	public static final RegistryEntry<SensorType<TemptationsSensor>> GLARE_TEMPTATIONS = SENSOR_TYPES.register("glare_temptations", () -> new SensorType<>(() -> {
 		return new TemptationsSensor(GlareBrain.getTemptItems());

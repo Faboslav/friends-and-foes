@@ -98,7 +98,7 @@ public final class IllusionerSpawner implements SpecialSpawner
 		illusioner.setPatrolLeader(false);
 		illusioner.setRandomPatrolTarget();
 		illusioner.setPosition(mutable.getX(), mutable.getY(), mutable.getZ());
-		illusioner.initialize(world, world.getLocalDifficulty(mutable), SpawnReason.PATROL, null, null);
+		illusioner.initialize(world, world.getLocalDifficulty(mutable), SpawnReason.PATROL, null);
 		world.spawnEntityAndPassengers(illusioner);
 		return 1;
 	}

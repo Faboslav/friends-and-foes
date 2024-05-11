@@ -31,7 +31,7 @@ public final class GlareTravelToDarkSpotTask extends MultiTickTask<GlareEntity>
 
 		if (
 			GlareTravelToDarkSpotTask.canTravelToDarkSpot(glare) == false
-			|| darkSpotPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE)
+			|| darkSpotPos.pos().isWithinDistance(glare.getPos(), WITHING_DISTANCE)
 		) {
 			return false;
 		}
@@ -51,7 +51,7 @@ public final class GlareTravelToDarkSpotTask extends MultiTickTask<GlareEntity>
 		if (
 			GlareTravelToDarkSpotTask.canTravelToDarkSpot(glare) == false
 			|| (
-				darkSpotPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE)
+				darkSpotPos.pos().isWithinDistance(glare.getPos(), WITHING_DISTANCE)
 				&& glare.getNavigation().isFollowingPath() == false
 			)
 		) {
@@ -77,8 +77,8 @@ public final class GlareTravelToDarkSpotTask extends MultiTickTask<GlareEntity>
 		if (
 			darkSpotPos != null &&
 			(
-				darkSpotPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE) == false
-				|| glare.isDarkSpotDark(darkSpotPos.getPos()) == false
+				darkSpotPos.pos().isWithinDistance(glare.getPos(), WITHING_DISTANCE) == false
+				|| glare.isDarkSpotDark(darkSpotPos.pos()) == false
 			)
 		) {
 			glare.getBrain().forget(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_POS.get());
@@ -95,7 +95,7 @@ public final class GlareTravelToDarkSpotTask extends MultiTickTask<GlareEntity>
 
 		LookTargetUtil.walkTowards(
 			glare,
-			new BlockPos(darkSpotPos.getPos()),
+			new BlockPos(darkSpotPos.pos()),
 			1.0F,
 			0
 		);
@@ -110,7 +110,7 @@ public final class GlareTravelToDarkSpotTask extends MultiTickTask<GlareEntity>
 
 		if (
 			darkSpotPos == null
-			|| glare.isDarkSpotDark(darkSpotPos.getPos()) == false
+			|| glare.isDarkSpotDark(darkSpotPos.pos()) == false
 		) {
 			return false;
 		}

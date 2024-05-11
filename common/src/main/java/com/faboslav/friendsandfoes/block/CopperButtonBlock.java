@@ -27,14 +27,7 @@ public class CopperButtonBlock extends ButtonBlock
 	}
 
 	@Override
-	public ActionResult onUse(
-		BlockState state,
-		World world,
-		BlockPos pos,
-		PlayerEntity player,
-		Hand hand,
-		BlockHitResult hit
-	) {
+	protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
 		ItemStack itemStack = player.getStackInHand(hand);
 		Item itemInHand = itemStack.getItem();
 

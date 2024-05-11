@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 /**
  * @see net.minecraft.item.ArmorMaterials
  */
-public enum FriendsAndFoesArmorMaterials implements ArmorMaterial
+public enum FriendsAndFoesArmorMaterials extends ArmorMaterial
 {
 	WILDFIRE(
 		"wildfire",
@@ -27,7 +27,7 @@ public enum FriendsAndFoesArmorMaterials implements ArmorMaterial
 			map.put(ArmorItem.Type.HELMET, 1);
 		}),
 		12,
-		SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE,
+		SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE.value(),
 		1.0F,
 		0.1F, () -> {
 		return Ingredient.ofItems(FriendsAndFoesItems.WILDFIRE_CROWN_FRAGMENT.get());

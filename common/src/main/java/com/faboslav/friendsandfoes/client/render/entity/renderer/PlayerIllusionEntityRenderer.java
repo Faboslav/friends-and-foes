@@ -182,44 +182,38 @@ public final class PlayerIllusionEntityRenderer extends MobEntityRenderer<Player
 		sleeve.render(matrices, vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(identifier)), light, OverlayTexture.DEFAULT_UV);
 	}
 
-	protected void setupTransforms(
-		PlayerIllusionEntity playerIllusionEntity,
-		MatrixStack matrixStack,
-		float f,
-		float g,
-		float h
-	) {
-		float i = playerIllusionEntity.getLeaningPitch(h);
-		float j = playerIllusionEntity.getPitch(h);
-		float k;
+	protected void setupTransforms(PlayerIllusionEntity playerIllusion, MatrixStack matrixStack, float f, float g, float h, float i) {
+		float j = playerIllusion.getLeaningPitch(h);
+		float k = playerIllusion.getPitch(h);
 		float l;
-		if (playerIllusionEntity.isFallFlying()) {
-			super.setupTransforms(playerIllusionEntity, matrixStack, f, g, h);
-			k = (float) playerIllusionEntity.getRoll() + h;
-			l = MathHelper.clamp(k * k / 100.0F, 0.0F, 1.0F);
-			if (!playerIllusionEntity.isUsingRiptide()) {
-				matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(l * (-90.0F - j)));
+		float m;
+		if (playerIllusion.isFallFlying()) {
+			super.setupTransforms(playerIllusion, matrixStack, f, g, h, i);
+			l = (float)playerIllusion.getFallFlyingTicks() + h;
+			m = MathHelper.clamp(l * l / 100.0F, 0.0F, 1.0F);
+			if (!playerIllusion.isUsingRiptide()) {
+				matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(m * (-90.0F - k)));
 			}
 
-			Vec3d vec3d = playerIllusionEntity.getRotationVec(h);
-			Vec3d vec3d2 = playerIllusionEntity.lerpVelocity(h);
+			Vec3d vec3d = playerIllusion.getRotationVec(h);
+			Vec3d vec3d2 = playerIllusion.lerpVelocity(h);
 			double d = vec3d2.horizontalLengthSquared();
 			double e = vec3d.horizontalLengthSquared();
 			if (d > 0.0 && e > 0.0) {
-				double m = (vec3d2.x * vec3d.x + vec3d2.z * vec3d.z) / Math.sqrt(d * e);
-				double n = vec3d2.x * vec3d.z - vec3d2.z * vec3d.x;
-				matrixStack.multiply(RotationAxis.POSITIVE_Y.rotation((float) (Math.signum(n) * Math.acos(m))));
+				double n = (vec3d2.x * vec3d.x + vec3d2.z * vec3d.z) / Math.sqrt(d * e);
+				double o = vec3d2.x * vec3d.z - vec3d2.z * vec3d.x;
+				matrixStack.multiply(RotationAxis.POSITIVE_Y.rotation((float)(Math.signum(o) * Math.acos(n))));
 			}
-		} else if (i > 0.0F) {
-			super.setupTransforms(playerIllusionEntity, matrixStack, f, g, h);
-			k = playerIllusionEntity.isTouchingWater() ? -90.0F - j:-90.0F;
-			l = MathHelper.lerp(i, 0.0F, k);
-			matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(l));
-			if (playerIllusionEntity.isInSwimmingPose()) {
+		} else if (j > 0.0F) {
+			super.setupTransforms(playerIllusion, matrixStack, f, g, h, i);
+			l = playerIllusion.isTouchingWater() ? -90.0F - k : -90.0F;
+			m = MathHelper.lerp(j, 0.0F, l);
+			matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(m));
+			if (playerIllusion.isInSwimmingPose()) {
 				matrixStack.translate(0.0F, -1.0F, 0.3F);
 			}
 		} else {
-			super.setupTransforms(playerIllusionEntity, matrixStack, f, g, h);
+			super.setupTransforms(playerIllusion, matrixStack, f, g, h, i);
 		}
 
 	}

@@ -126,7 +126,7 @@ public final class GlareBrain
 			Activity.IDLE,
 			ImmutableList.of(
 				Pair.of(0, new TemptTask(glare -> 1.25f)),
-				Pair.of(1, new BreedTask(FriendsAndFoesEntityTypes.GLARE.get(), 1.0f)),
+				Pair.of(1, new BreedTask(FriendsAndFoesEntityTypes.GLARE.get())),
 				Pair.of(2, WalkTowardClosestAdultTask.create(UniformIntProvider.create(5, 16), 1.25f)),
 				Pair.of(3, new GlareTeleportToOwnerTask()),
 				Pair.of(4, WalkTowardsLookTargetTask.create(glare -> getOwner((GlareEntity) glare), (glare) -> true, 3, 8, 2.0f)),

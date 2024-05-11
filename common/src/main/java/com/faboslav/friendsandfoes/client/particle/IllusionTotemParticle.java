@@ -7,7 +7,7 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleFactory;
 import net.minecraft.client.particle.SpriteProvider;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.particle.DefaultParticleType;
+import net.minecraft.particle.SimpleParticleType;
 
 @Environment(EnvType.CLIENT)
 public final class IllusionTotemParticle extends AnimatedParticle
@@ -39,7 +39,7 @@ public final class IllusionTotemParticle extends AnimatedParticle
 	}
 
 	@Environment(EnvType.CLIENT)
-	public static class Factory implements ParticleFactory<DefaultParticleType>
+	public static class Factory implements ParticleFactory<SimpleParticleType>
 	{
 		private final SpriteProvider spriteProvider;
 
@@ -48,7 +48,7 @@ public final class IllusionTotemParticle extends AnimatedParticle
 		}
 
 		public Particle createParticle(
-			DefaultParticleType defaultParticleType,
+			SimpleParticleType defaultParticleType,
 			ClientWorld clientWorld,
 			double d,
 			double e,

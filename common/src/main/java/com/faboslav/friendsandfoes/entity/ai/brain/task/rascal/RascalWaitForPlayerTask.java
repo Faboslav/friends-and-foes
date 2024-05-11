@@ -19,11 +19,12 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.loot.LootManager;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootContextTypes;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.StructureTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -121,12 +122,7 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 
 		if (nodTicks == 62 && rascal.shouldGiveReward()) {
 			Vec3d targetPos = nearestTarget.getPos().add(0.0, 1.0, 0.0);
-			LootManager lootManager = world.getServer().getLootManager();
-
-			if (lootManager != null) {
-				LootTable rascalGoodItemsLootTable = lootManager.getLootTable(
-					FriendsAndFoes.makeID("rewards/rascal_good_reward")
-				);
+				LootTable rascalGoodItemsLootTable = world.getServer().getReloadableRegistries().getLootTable(RegistryKey.of(RegistryKeys.LOOT_TABLE, FriendsAndFoes.makeID("rewards/rascal_good_reward")));
 				LootContextParameterSet lootContextParameterSet = new LootContextParameterSet.Builder(world)
 					.add(LootContextParameters.ORIGIN, targetPos)
 					.add(LootContextParameters.THIS_ENTITY, this.nearestTarget)
@@ -141,7 +137,6 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 
 					FriendsAndFoesCriteria.COMPLETE_HIDE_AND_SEEK_GAME.get().trigger((ServerPlayerEntity) this.nearestTarget, rascal, bundleItemStack);
 				}
-			}
 		}
 
 		this.nodTicks++;

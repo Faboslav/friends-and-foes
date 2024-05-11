@@ -142,7 +142,7 @@ public final class FriendsAndFoesItems
 		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WAXED_WEATHERED_LIGHTNING_ROD.get(), WAXED_EXPOSED_LIGHTNING_ROD.get());
 		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WAXED_OXIDIZED_LIGHTNING_ROD.get(), WAXED_WEATHERED_LIGHTNING_ROD.get());
 
-		RegistryHelper.addToItemGroupAfter(ItemGroups.INGREDIENTS, WILDFIRE_CROWN_FRAGMENT.get(), Items.SCUTE);
+		RegistryHelper.addToItemGroupAfter(ItemGroups.INGREDIENTS, WILDFIRE_CROWN_FRAGMENT.get(), Items.TURTLE_SCUTE);
 		RegistryHelper.addToItemGroupAfter(ItemGroups.COMBAT, WILDFIRE_CROWN.get(), Items.TURTLE_HELMET);
 		RegistryHelper.addToItemGroupAfter(ItemGroups.COMBAT, TOTEM_OF_FREEZING.get(), Items.TOTEM_OF_UNDYING);
 		RegistryHelper.addToItemGroupBefore(ItemGroups.COMBAT, TOTEM_OF_ILLUSION.get(), Items.TOTEM_OF_UNDYING);

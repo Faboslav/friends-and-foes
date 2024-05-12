@@ -17,6 +17,7 @@ import com.mojang.serialization.Dynamic;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.control.YawAdjustingLookControl;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.ai.pathing.MobNavigation;
 import net.minecraft.entity.ai.pathing.PathNodeType;
@@ -28,6 +29,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.AxolotlEntity;
 import net.minecraft.entity.passive.FrogEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.item.ItemStack;
@@ -46,6 +48,7 @@ import java.util.Objects;
 public class CrabEntity extends AnimalEntity implements AnimatedEntity
 {
 	public static final String SIZE_NBT_NAME = "Size";
+	public static final float MOVEMENT_SPEED = 0.225F;
 
 	private AnimationContextTracker animationContextTracker;
 	private static final TrackedData<Integer> POSE_TICKS = DataTracker.registerData(CrabEntity.class, TrackedDataHandlerRegistry.INTEGER);
@@ -54,6 +57,7 @@ public class CrabEntity extends AnimalEntity implements AnimatedEntity
 
 	private final SwimNavigation waterNavigation;
 	private final WallClimbNavigation landNavigation;
+	private int climbingTicks = 0;
 
 	public CrabEntity(EntityType<? extends CrabEntity> entityType, World world) {
 		super(entityType, world);
@@ -61,6 +65,7 @@ public class CrabEntity extends AnimalEntity implements AnimatedEntity
 		this.setPose(CrabEntityPose.IDLE);
 		this.stepHeight = 0.0F;
 		this.setPathfindingPenalty(PathNodeType.WATER, 0.0F);
+		this.lookControl = new CrabLookControl(this, 10);
 		this.waterNavigation = new SwimNavigation(this, world);
 		this.landNavigation = new WallClimbNavigation(this, world);
 	}
@@ -108,20 +113,6 @@ public class CrabEntity extends AnimalEntity implements AnimatedEntity
 	}
 
 	@Override
-	public void updateLimbs(LivingEntity entity, boolean flutter) {
-		double f;
-		double e;
-		entity.lastLimbDistance = entity.limbDistance;
-		double d = entity.getX() - entity.prevX;
-		float g = (float) Math.sqrt(d * d + (e = entity.getY() - entity.prevY) * e + (f = entity.getZ() - entity.prevZ) * f) * 4.0f;
-		if (g > 1.0f) {
-			g = 1.0f;
-		}
-		entity.limbDistance += (g - entity.limbDistance) * 0.4f;
-		entity.limbAngle += entity.limbDistance;
-	}
-
-	@Override
 	public boolean isPushedByFluids() {
 		return !this.isSwimming();
 	}
@@ -129,12 +120,16 @@ public class CrabEntity extends AnimalEntity implements AnimatedEntity
 	@Override
 	public void travel(Vec3d movementInput) {
 		if (this.canMoveVoluntarily() && this.isTouchingWater()) {
-			this.updateVelocity(0.01F, movementInput);
+			this.updateVelocity(this.getMovementSpeed() * 0.5F, movementInput);
 			this.move(MovementType.SELF, this.getVelocity());
 			this.setVelocity(this.getVelocity().multiply(0.9));
 		} else {
 			super.travel(movementInput);
 		}
+	}
+
+	@Override
+	protected void jump() {
 	}
 
 	@Override
@@ -148,6 +143,15 @@ public class CrabEntity extends AnimalEntity implements AnimatedEntity
 				this.setSwimming(false);
 			}
 		}
+	}
+
+	@Override
+	public float getMovementSpeed() {
+		if (this.isBaby()) {
+			return MOVEMENT_SPEED / 2.0F;
+		}
+
+		return MOVEMENT_SPEED;
 	}
 
 	public boolean canBreatheInWater() {
@@ -205,7 +209,7 @@ public class CrabEntity extends AnimalEntity implements AnimatedEntity
 
 
 	public static DefaultAttributeContainer.Builder createCrabAttributes() {
-		return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 15.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.225f).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 2.0);
+		return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 15.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, MOVEMENT_SPEED).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 2.0);
 	}
 
 	@Override
@@ -215,7 +219,7 @@ public class CrabEntity extends AnimalEntity implements AnimatedEntity
 
 	@Override
 	public boolean isClimbing() {
-		return this.isClimbingWall();
+		return this.climbingTicks > 5 && this.isClimbingWall();
 	}
 
 	public boolean isClimbingWall() {
@@ -253,7 +257,13 @@ public class CrabEntity extends AnimalEntity implements AnimatedEntity
 			this.setClimbingWall(this.horizontalCollision);
 		}
 
-		if (this.horizontalCollision && this.isClimbing()) {
+		if(this.isClimbingWall()) {
+			this.climbingTicks++;
+		} else {
+			this.climbingTicks = 0;
+		}
+
+		if (this.isClimbing()) {
 			Vec3d velocity = this.getVelocity();
 			this.setVelocity(velocity.x, velocity.y * 0.5F, velocity.z);
 		}
@@ -447,6 +457,18 @@ public class CrabEntity extends AnimalEntity implements AnimatedEntity
 			int min = 0;
 			int max = values.length - 1;
 			return (CrabSize) values[random.nextInt((max - min) + 1) + min];
+		}
+	}
+
+	class CrabLookControl extends YawAdjustingLookControl {
+		public CrabLookControl(CrabEntity crab, int yawAdjustThreshold) {
+			super(crab, yawAdjustThreshold);
+		}
+
+		public void tick() {
+			if (!CrabEntity.this.isClimbing()) {
+				super.tick();
+			}
 		}
 	}
 }

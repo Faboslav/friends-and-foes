@@ -11,6 +11,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Dynamic;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
@@ -50,7 +51,6 @@ public final class CrabBrain
 			Activity.CORE,
 			0,
 			ImmutableList.of(
-				new StayAboveWaterTask(0.8f),
 				new WalkTask(2.0f),
 				new LookAroundTask(45, 90),
 				new WanderAroundTask(),
@@ -78,11 +78,13 @@ public final class CrabBrain
 		brain.setTaskList(
 			Activity.IDLE,
 			ImmutableList.of(
-				Pair.of(0, new TemptTask(crab -> 1.25f)),
-				Pair.of(1, new BreedTask(FriendsAndFoesEntityTypes.CRAB.get(), 1.0f)),
-				Pair.of(2, new WalkTowardClosestAdultTask(UniformIntProvider.create(5, 16), 1.25f)),
-				Pair.of(3, new RandomTask(
+				Pair.of(0, new TimeLimitedTask<>(new FollowMobTask(EntityType.PLAYER, 6.0F), UniformIntProvider.create(30, 60))),
+				Pair.of(1, new TemptTask(crab -> 1.25f)),
+				Pair.of(2, new BreedTask(FriendsAndFoesEntityTypes.CRAB.get(), 1.0f)),
+				Pair.of(3, new WalkTowardClosestAdultTask(UniformIntProvider.create(5, 16), 1.25f)),
+				Pair.of(4, new RandomTask(
 					ImmutableList.of(
+						//Pair.of(new NoPenaltyStrollTask(1.0f), 2),
 						Pair.of(new StrollTask(1.0f), 2),
 						Pair.of(new GoTowardsLookTarget(1.0f, 3), 2),
 						Pair.of(new WaitTask(30, 60), 1)))

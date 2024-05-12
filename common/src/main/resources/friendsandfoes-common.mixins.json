@@ -19,7 +19,9 @@
 		"BrewingRecipeRegistryMixin",
 		"BundleItemAccessor",
 		"CarvedPumpkinBlockMixin",
+		"ChestStateManagerMixin",
 		"ChickenEntityMixin",
+		"ForgingScreenHandlerMixin",
 		"HoneycombItemMixin",
 		"IllusionerEntityMixin",
 		"IllusionerHostileEntityMixin",
@@ -38,6 +40,9 @@
 		"RabbitEntityMixin",
 		"RaidMemberMixin",
 		"RaidMixin",
+		"ScreenHandlerMixin",
+		"ServerPlayerInteractionManagerMixin",
+		"ServerPlayNetworkHandlerMixin",
 		"ServerWorldAccessor",
 		"ServerWorldMixin",
 		"SnowballEntityMixin",
@@ -53,8 +58,10 @@
 		"ZombieHorseEntityMixin"
 	],
 	"client": [
+		"ClientPlayerInteractionManagerMixin",
 		"ClientPlayNetworkHandlerMixin",
 		"EntityRenderDispatcherMixin",
+		"GameRendererMixin",
 		"IllusionerEntityRendererMixin",
 		"ModelPartAccessor"
 	]

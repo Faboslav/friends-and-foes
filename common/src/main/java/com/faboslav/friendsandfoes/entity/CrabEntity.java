@@ -128,7 +128,7 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 
 	@Override
 	public boolean hasNoDrag() {
-		if(this.isSwimming()) {
+		if (this.isSwimming()) {
 			FriendsAndFoes.getLogger().info("swimming");
 			return true;
 		} else {

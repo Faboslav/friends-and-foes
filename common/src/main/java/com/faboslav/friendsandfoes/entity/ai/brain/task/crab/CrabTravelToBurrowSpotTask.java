@@ -42,9 +42,9 @@ public final class CrabTravelToBurrowSpotTask extends Task<CrabEntity>
 
 	@Override
 	protected boolean shouldKeepRunning(ServerWorld world, CrabEntity crab, long time) {
-		GlobalPos sandSpotPos = crab.getBurrowSpotPos();
+		GlobalPos burrowSpotPos = crab.getBurrowSpotPos();
 
-		if (sandSpotPos == null || !crab.isBurrowSpotAccessible(sandSpotPos.getPos())) {
+		if (burrowSpotPos == null || !crab.isBurrowSpotAccessible(burrowSpotPos.getPos())) {
 			return false;
 		}
 
@@ -62,13 +62,13 @@ public final class CrabTravelToBurrowSpotTask extends Task<CrabEntity>
 	@Override
 	protected void finishRunning(ServerWorld world, CrabEntity crab, long time) {
 		crab.getBrain().forget(MemoryModuleType.WALK_TARGET);
-		GlobalPos sandSpotPos = crab.getBurrowSpotPos();
+		GlobalPos burrowSpotPos = crab.getBurrowSpotPos();
 
 		if (
-			sandSpotPos != null &&
+			burrowSpotPos != null &&
 			(
-				sandSpotPos.getPos().isWithinDistance(crab.getPos(), WITHING_DISTANCE) == false
-				|| crab.isBurrowSpotAccessible(sandSpotPos.getPos()) == false
+				burrowSpotPos.getPos().isWithinDistance(crab.getPos(), WITHING_DISTANCE) == false
+				|| crab.isBurrowSpotAccessible(burrowSpotPos.getPos()) == false
 			)
 		) {
 			crab.setHasEgg(false);

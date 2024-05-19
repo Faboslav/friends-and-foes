@@ -16,7 +16,7 @@ import java.util.Map;
 
 public final class CrabWaveTask extends Task<CrabEntity>
 {
-	private final static int WAVE_DURATION = CrabAnimations.WALK.getAnimationLengthInTicks() ;
+	private final static int WAVE_DURATION = CrabAnimations.WALK.getAnimationLengthInTicks();
 
 	private LivingEntity nearestTarget;
 	private int waveTicks = 0;

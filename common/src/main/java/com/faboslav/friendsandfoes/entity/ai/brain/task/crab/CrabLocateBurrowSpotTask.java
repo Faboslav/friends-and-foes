@@ -58,17 +58,17 @@ public final class CrabLocateBurrowSpotTask extends Task<CrabEntity>
 			for (int j = 0; (double) j < searchDistance; ++j) {
 				for (int k = 0; k <= j; k = k > 0 ? -k:1 - k) {
 					for (int l = k < j && k > -j ? j:0; l <= j; l = l > 0 ? -l:1 - l) {
-						BlockPos.Mutable possibleSandSpotBlockPos = new BlockPos.Mutable();
-						possibleSandSpotBlockPos.set(blockPos, k, i - 1, l);
+						BlockPos.Mutable possibleBurrowSpotBlockPos = new BlockPos.Mutable();
+						possibleBurrowSpotBlockPos.set(blockPos, k, i - 1, l);
 
 						boolean isBlockWithinDistance = blockPos.isWithinDistance(
-							possibleSandSpotBlockPos,
+							possibleBurrowSpotBlockPos,
 							searchDistance
 						);
 
 
-						if (isBlockWithinDistance && crab.isBurrowSpotAccessible(possibleSandSpotBlockPos)) {
-							darkSpots.add(possibleSandSpotBlockPos);
+						if (isBlockWithinDistance && crab.isBurrowSpotAccessible(possibleBurrowSpotBlockPos)) {
+							darkSpots.add(possibleBurrowSpotBlockPos);
 						}
 					}
 				}
@@ -80,12 +80,12 @@ public final class CrabLocateBurrowSpotTask extends Task<CrabEntity>
 
 	@Nullable
 	private BlockPos findRandomBurrowSpot(CrabEntity crab) {
-		ArrayList<BlockPos> sandSpots = this.findBurrowSpots(crab);
+		ArrayList<BlockPos> burrowSpots = this.findBurrowSpots(crab);
 
-		if (sandSpots.isEmpty()) {
+		if (burrowSpots.isEmpty()) {
 			return null;
 		}
 
-		return sandSpots.get(crab.getRandom().nextInt(sandSpots.size()));
+		return burrowSpots.get(crab.getRandom().nextInt(burrowSpots.size()));
 	}
 }

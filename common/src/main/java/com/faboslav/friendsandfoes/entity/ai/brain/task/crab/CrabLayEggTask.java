@@ -52,22 +52,24 @@ public final class CrabLayEggTask extends Task<CrabEntity>
 
 	@Override
 	protected void keepRunning(ServerWorld world, CrabEntity crab, long time) {
-		var sandSpot = crab.getBurrowSpotPos();
+		var burrowSpotPos = crab.getBurrowSpotPos();
 
-		if (sandSpot == null || time % 5 != 0) {
+		if (burrowSpotPos == null || time % 5 != 0) {
 			return;
 		}
 
-		world.syncWorldEvent(WorldEvents.BLOCK_BROKEN, sandSpot.getPos(), Block.getRawIdFromState(world.getBlockState(sandSpot.getPos().down())));
+		// TODO animation
+		world.syncWorldEvent(WorldEvents.BLOCK_BROKEN, burrowSpotPos.getPos(), Block.getRawIdFromState(world.getBlockState(burrowSpotPos.getPos().down())));
 	}
 
 	@Override
 	protected void finishRunning(ServerWorld world, CrabEntity crab, long time) {
-		var sandSpot = crab.getBurrowSpotPos();
+		var burrowSpotPos = crab.getBurrowSpotPos();
 
-		if (sandSpot != null) {
-			world.playSound(null, sandSpot.getPos(), SoundEvents.ENTITY_TURTLE_LAY_EGG, SoundCategory.BLOCKS, 0.3f, 0.9f + world.random.nextFloat() * 0.2f);
-			world.setBlockState(sandSpot.getPos(), FriendsAndFoesBlocks.CRAB_EGG.get().getDefaultState().with(TurtleEggBlock.EGGS, crab.getRandom().nextInt(4) + 1), Block.NOTIFY_ALL);
+		if (burrowSpotPos != null) {
+			// TODO change sound
+			world.playSound(null, burrowSpotPos.getPos(), SoundEvents.ENTITY_TURTLE_LAY_EGG, SoundCategory.BLOCKS, 0.3f, 0.9f + world.random.nextFloat() * 0.2f);
+			world.setBlockState(burrowSpotPos.getPos(), FriendsAndFoesBlocks.CRAB_EGG.get().getDefaultState().with(TurtleEggBlock.EGGS, crab.getRandom().nextInt(4) + 1), Block.NOTIFY_ALL);
 		}
 
 		crab.setHasEgg(false);

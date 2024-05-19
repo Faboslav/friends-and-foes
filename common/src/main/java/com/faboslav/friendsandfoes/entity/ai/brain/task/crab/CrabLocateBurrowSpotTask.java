@@ -1,0 +1,91 @@
+package com.faboslav.friendsandfoes.entity.ai.brain.task.crab;
+
+import com.faboslav.friendsandfoes.entity.CrabEntity;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
+import net.minecraft.entity.ai.brain.MemoryModuleState;
+import net.minecraft.entity.ai.brain.task.Task;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.GlobalPos;
+import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.Map;
+
+public final class CrabLocateBurrowSpotTask extends Task<CrabEntity>
+{
+	public CrabLocateBurrowSpotTask() {
+		super(Map.of(
+			FriendsAndFoesMemoryModuleTypes.CRAB_HAS_EGG.get(), MemoryModuleState.VALUE_PRESENT,
+			FriendsAndFoesMemoryModuleTypes.CRAB_BURROW_POS.get(), MemoryModuleState.VALUE_ABSENT
+		));
+	}
+
+	@Override
+	protected boolean shouldRun(
+		ServerWorld world,
+		CrabEntity crab
+	) {
+		if (!crab.isCloseToHomePos(6.0F)) {
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	protected void run(ServerWorld world, CrabEntity crab, long time) {
+		BlockPos burrowSpotPos = this.findRandomBurrowSpot(crab);
+
+		if (burrowSpotPos == null) {
+			crab.setHasEgg(false);
+			crab.setLoveTicks(600);
+			return;
+		}
+
+		RegistryKey<World> registryKey = crab.getWorld().getRegistryKey();
+		crab.getBrain().remember(FriendsAndFoesMemoryModuleTypes.CRAB_BURROW_POS.get(), GlobalPos.create(registryKey, burrowSpotPos));
+	}
+
+	private ArrayList<BlockPos> findBurrowSpots(CrabEntity crab) {
+		BlockPos blockPos = crab.getBlockPos();
+		ArrayList<BlockPos> darkSpots = new ArrayList<>();
+		int searchDistance = 16;
+
+		for (int i = 0; (double) i <= searchDistance; i = i > 0 ? -i:1 - i) {
+			for (int j = 0; (double) j < searchDistance; ++j) {
+				for (int k = 0; k <= j; k = k > 0 ? -k:1 - k) {
+					for (int l = k < j && k > -j ? j:0; l <= j; l = l > 0 ? -l:1 - l) {
+						BlockPos.Mutable possibleSandSpotBlockPos = new BlockPos.Mutable();
+						possibleSandSpotBlockPos.set(blockPos, k, i - 1, l);
+
+						boolean isBlockWithinDistance = blockPos.isWithinDistance(
+							possibleSandSpotBlockPos,
+							searchDistance
+						);
+
+
+						if (isBlockWithinDistance && crab.isBurrowSpotAccessible(possibleSandSpotBlockPos)) {
+							darkSpots.add(possibleSandSpotBlockPos);
+						}
+					}
+				}
+			}
+		}
+
+		return darkSpots;
+	}
+
+	@Nullable
+	private BlockPos findRandomBurrowSpot(CrabEntity crab) {
+		ArrayList<BlockPos> sandSpots = this.findBurrowSpots(crab);
+
+		if (sandSpots.isEmpty()) {
+			return null;
+		}
+
+		return sandSpots.get(crab.getRandom().nextInt(sandSpots.size()));
+	}
+}

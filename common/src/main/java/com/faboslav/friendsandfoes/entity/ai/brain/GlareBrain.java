@@ -233,6 +233,7 @@ public final class GlareBrain
 			FriendsAndFoesSensorTypes.GLARE_SPECIFIC_SENSOR.get()
 		);
 		MEMORY_MODULES = List.of(
+			MemoryModuleType.IS_PANICKING,
 			MemoryModuleType.TEMPTING_PLAYER,
 			MemoryModuleType.TEMPTATION_COOLDOWN_TICKS,
 			MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS,

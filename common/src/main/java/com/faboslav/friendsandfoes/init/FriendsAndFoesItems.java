@@ -6,7 +6,6 @@ import com.faboslav.friendsandfoes.init.registry.ResourcefulRegistries;
 import com.faboslav.friendsandfoes.init.registry.ResourcefulRegistry;
 import com.faboslav.friendsandfoes.item.DispenserAddedSpawnEgg;
 import com.faboslav.friendsandfoes.item.FriendsAndFoesArmorMaterials;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.*;

@@ -21,6 +21,8 @@ public final class FriendsAndFoesMemoryModuleTypes
 	public static final RegistryEntry<MemoryModuleType<Boolean>> COPPER_GOLEM_IS_OXIDIZED = MEMORY_MODULE_TYPES.register("copper_golem_is_oxidized", () -> new MemoryModuleType<>(Optional.of(Codec.BOOL)));
 	public static final RegistryEntry<MemoryModuleType<GlobalPos>> COPPER_GOLEM_BUTTON_POS = MEMORY_MODULE_TYPES.register("copper_golem_button_pos", () -> new MemoryModuleType<>(Optional.of(GlobalPos.CODEC)));
 	public static final RegistryEntry<MemoryModuleType<Integer>> COPPER_GOLEM_SPIN_HEAD_COOLDOWN = MEMORY_MODULE_TYPES.register("copper_golem_spin_head_cooldown", () -> new MemoryModuleType<>(Optional.of(Codec.INT)));
+	public static final RegistryEntry<MemoryModuleType<Boolean>> CRAB_HAS_EGG = MEMORY_MODULE_TYPES.register("crab_has_egg", () -> new MemoryModuleType<>(Optional.of(Codec.BOOL)));
+	public static final RegistryEntry<MemoryModuleType<GlobalPos>> CRAB_BURROW_POS = MEMORY_MODULE_TYPES.register("crab_burrow_pos", () -> new MemoryModuleType<>(Optional.of(GlobalPos.CODEC)));
 	public static final RegistryEntry<MemoryModuleType<GlobalPos>> GLARE_DARK_SPOT_POS = MEMORY_MODULE_TYPES.register("glare_dark_spot_pos", () -> new MemoryModuleType<>(Optional.of(GlobalPos.CODEC)));
 	public static final RegistryEntry<MemoryModuleType<GlobalPos>> GLARE_GLOW_BERRIES_POS = MEMORY_MODULE_TYPES.register("glare_glow_berries_pos", () -> new MemoryModuleType<>(Optional.of(GlobalPos.CODEC)));
 	public static final RegistryEntry<MemoryModuleType<Boolean>> GLARE_IS_IDLE = MEMORY_MODULE_TYPES.register("glare_is_idle", () -> new MemoryModuleType<>(Optional.of(Codec.BOOL)));

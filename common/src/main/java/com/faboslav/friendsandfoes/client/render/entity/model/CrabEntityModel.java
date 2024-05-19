@@ -134,8 +134,8 @@ public final class CrabEntityModel<T extends CrabEntity> extends AnimatedEntityM
 		float scaleModifier = crab.getSize().getScaleModifier();
 
 		float pivotX = 0.0F;
-		float pivotY = crab.isClimbing() ? 17.0F * scaleModifier : 24.0F;
-		float pivotZ = crab.isClimbing() ? -5.0F * scaleModifier : 0.0F;
+		float pivotY = crab.isClimbing() ? 17.0F * scaleModifier:24.0F;
+		float pivotZ = crab.isClimbing() ? -9.0F * scaleModifier:0.0F;
 		float pitch = -1.5708F;
 		float yaw = crab.isClimbing() ? 0.0F:-1.5708F;
 		float roll = 1.5708F;
@@ -146,7 +146,7 @@ public final class CrabEntityModel<T extends CrabEntity> extends AnimatedEntityM
 			pivotX,
 			pivotY,
 			pivotZ,
-			10
+			20
 		);
 		animateModelPartRotationBasedOnTicks(
 			crab,
@@ -154,7 +154,7 @@ public final class CrabEntityModel<T extends CrabEntity> extends AnimatedEntityM
 			pitch,
 			yaw,
 			roll,
-			10
+			20
 		);
 	}
 }

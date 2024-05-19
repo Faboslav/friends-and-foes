@@ -674,6 +674,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	@Override
 	protected float getActiveEyeHeight(EntityPose poseIn, EntityDimensions sizeIn) {
 		if (this.isBaby()) {
+			// TODO use size modifier
 			return 0.5F;
 		}
 

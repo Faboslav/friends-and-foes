@@ -51,10 +51,10 @@ public final class CrabEntityRenderer extends MobEntityRenderer<CrabEntity, Crab
 		float scaleModifier = size.getScaleModifier();
 		matrixStack.scale(scaleModifier, scaleModifier, scaleModifier);
 
-		if (crab.isBaby() == false) {
-			matrixStack.scale(scaleModifier, scaleModifier, scaleModifier);
-		} else {
+		if (crab.isBaby()) {
 			matrixStack.scale(scaleModifier * 0.3F, scaleModifier * 0.3F, scaleModifier * 0.3F);
+		} else {
+			matrixStack.scale(scaleModifier, scaleModifier, scaleModifier);
 		}
 	}
 }

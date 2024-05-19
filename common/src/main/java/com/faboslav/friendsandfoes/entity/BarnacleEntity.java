@@ -206,7 +206,6 @@ public final class BarnacleEntity extends HostileEntity implements AnimatedEntit
 			return false;
 		}
 
-		FriendsAndFoes.getLogger().info("Spawning Barnacle");
 		return true;
 	}
 

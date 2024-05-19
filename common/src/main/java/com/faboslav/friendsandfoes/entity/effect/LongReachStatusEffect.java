@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.entity.effect;
 
 import com.faboslav.friendsandfoes.init.FriendsAndFoesStatusEffects;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
@@ -45,11 +44,24 @@ public final class LongReachStatusEffect extends StatusEffect
 		return reachDistance * reachDistance;
 	}
 
-	public static List<PlayerEntity> getPlayersWithinReach(final World world, final int x, final int y, final int z, final double baseReachDistance) {
+	public static List<PlayerEntity> getPlayersWithinReach(
+		final World world,
+		final int x,
+		final int y,
+		final int z,
+		final double baseReachDistance
+	) {
 		return getPlayersWithinReach(player -> true, world, x, y, z, baseReachDistance);
 	}
 
-	public static List<PlayerEntity> getPlayersWithinReach(final Predicate<PlayerEntity> viewerPredicate, final World world, final int x, final int y, final int z, final double baseReachDistance) {
+	public static List<PlayerEntity> getPlayersWithinReach(
+		final Predicate<PlayerEntity> viewerPredicate,
+		final World world,
+		final int x,
+		final int y,
+		final int z,
+		final double baseReachDistance
+	) {
 		final List<PlayerEntity> playersWithinReach = new ArrayList<>(0);
 		for (final PlayerEntity player : world.getPlayers()) {
 			if (viewerPredicate.test(player)) {

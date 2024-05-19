@@ -4,7 +4,10 @@ package com.faboslav.friendsandfoes.block;
 import com.faboslav.friendsandfoes.entity.CrabEntity;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesBlocks;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
-import net.minecraft.block.*;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -91,11 +94,11 @@ public final class CrabEggBlock extends Block
 				world.playSound(null, pos, SoundEvents.ENTITY_TURTLE_EGG_HATCH, SoundCategory.BLOCKS, 0.7F, 0.9F + random.nextFloat() * 0.2F);
 				world.removeBlock(pos, false);
 
-				for(int j = 0; j < state.get(EGGS); ++j) {
+				for (int j = 0; j < state.get(EGGS); ++j) {
 					world.syncWorldEvent(2001, pos, Block.getRawIdFromState(state));
 					CrabEntity crab = FriendsAndFoesEntityTypes.CRAB.get().create(world);
 					crab.setBreedingAge(-24000);
-					crab.refreshPositionAndAngles((double)pos.getX() + 0.3 + (double)j * 0.2, pos.getY(), (double)pos.getZ() + 0.3, 0.0F, 0.0F);
+					crab.refreshPositionAndAngles((double) pos.getX() + 0.3 + (double) j * 0.2, pos.getY(), (double) pos.getZ() + 0.3, 0.0F, 0.0F);
 					world.spawnEntity(crab);
 				}
 			}
@@ -120,30 +123,37 @@ public final class CrabEggBlock extends Block
 
 	private boolean shouldHatchProgress(World world) {
 		float f = world.getSkyAngle(1.0F);
-		if ((double)f < 0.69 && (double)f > 0.65) {
+		if ((double) f < 0.69 && (double) f > 0.65) {
 			return true;
 		} else {
 			return world.random.nextInt(500) == 0;
 		}
 	}
 
-	public void afterBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack stack) {
+	public void afterBreak(
+		World world,
+		PlayerEntity player,
+		BlockPos pos,
+		BlockState state,
+		@Nullable BlockEntity blockEntity,
+		ItemStack stack
+	) {
 		super.afterBreak(world, player, pos, state, blockEntity, stack);
 		this.breakEgg(world, pos, state);
 	}
 
 	public boolean canReplace(BlockState state, ItemPlacementContext context) {
-		return !context.shouldCancelInteraction() && context.getStack().isOf(this.asItem()) && state.get(EGGS) < 4 ? true : super.canReplace(state, context);
+		return !context.shouldCancelInteraction() && context.getStack().isOf(this.asItem()) && state.get(EGGS) < 4 ? true:super.canReplace(state, context);
 	}
 
 	@Nullable
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
 		BlockState blockState = ctx.getWorld().getBlockState(ctx.getBlockPos());
-		return blockState.isOf(this) ? blockState.with(EGGS, Math.min(4, (Integer)blockState.get(EGGS) + 1)): super.getPlacementState(ctx);
+		return blockState.isOf(this) ? blockState.with(EGGS, Math.min(4, (Integer) blockState.get(EGGS) + 1)):super.getPlacementState(ctx);
 	}
 
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-		return state.get(EGGS) > 1 ? LARGE_SHAPE : SMALL_SHAPE;
+		return state.get(EGGS) > 1 ? LARGE_SHAPE:SMALL_SHAPE;
 	}
 
 	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {

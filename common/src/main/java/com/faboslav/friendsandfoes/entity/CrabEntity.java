@@ -34,7 +34,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.stat.Stats;
-import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.Vec3d;
@@ -291,7 +290,7 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 			this.climbingTicks++;
 
 			var blockStateAtPos = this.getBlockStateAtPos();
-			if(this.isMoving() && !blockStateAtPos.getMaterial().isLiquid() && this.climbingTicks % 6 == 0) {
+			if (this.isMoving() && !blockStateAtPos.getMaterial().isLiquid() && this.climbingTicks % 6 == 0) {
 				this.playStepSound(this.getBlockPos(), blockStateAtPos);
 			}
 		} else {

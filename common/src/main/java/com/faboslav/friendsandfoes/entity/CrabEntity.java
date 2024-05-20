@@ -269,7 +269,7 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 			return;
 		}
 
-		this.playSound(FriendsAndFoesSoundEvents.ENTITY_CRAB_STEP.get(), 0.15f, 0.8f + this.random.nextFloat() * 0.2f);
+		this.playSound(FriendsAndFoesSoundEvents.ENTITY_CRAB_STEP.get(), 0.15f, 1.0f + this.random.nextFloat() * 0.2f);
 	}
 
 	@Override
@@ -289,6 +289,11 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 
 		if (this.isClimbingWall()) {
 			this.climbingTicks++;
+
+			var blockStateAtPos = this.getBlockStateAtPos();
+			if(this.isMoving() && !blockStateAtPos.getMaterial().isLiquid() && this.climbingTicks % 6 == 0) {
+				this.playStepSound(this.getBlockPos(), blockStateAtPos);
+			}
 		} else {
 			this.climbingTicks = 0;
 		}
@@ -462,7 +467,7 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 
 	public boolean isBurrowSpotAccessible(BlockPos pos) {
 		var world = this.getWorld();
-		boolean isBlockSand = world.getBlockState(pos.down()).isIn(BlockTags.SAND);
+		boolean isBlockSand = world.getBlockState(pos.down()).isIn(FriendsAndFoesTags.CRAB_BURROW_SPOT_BLOCKS);
 		boolean isBlockAccessible = world.isAir(pos) && world.isAir(pos.up());
 
 		return isBlockSand && isBlockAccessible;
@@ -531,8 +536,8 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 
 	public enum CrabSize
 	{
-		SMALL("small", 0.8F),
-		MEDIUM("medium", 0.9F),
+		SMALL("small", 0.9F),
+		MEDIUM("medium", 0.95F),
 		BIG("big", 1.0F);
 
 		private final String name;

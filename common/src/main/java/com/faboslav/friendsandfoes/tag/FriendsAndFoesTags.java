@@ -22,6 +22,7 @@ public final class FriendsAndFoesTags
 	public static final TagKey<Block> CRABS_SPAWNABLE_ON = blockTag("crabs_spawnable_on");
 	public static final TagKey<Block> CRAB_BURROW_SPOT_BLOCKS = blockTag("crab_burrow_spot_blocks");
 	public static final TagKey<Block> GLARES_SPAWNABLE_ON = blockTag("glares_spawnable_on");
+	public static final TagKey<Block> PENGUIN_SPAWNABLE_ON = blockTag("penguin_spawnable_on");
 	public static final TagKey<Block> MAULERS_SPAWNABLE_ON = blockTag("maulers_spawnable_on");
 	public static final TagKey<Item> GLARE_FOOD_ITEMS = itemTag("glare_food_items");
 	public static final TagKey<Item> GLARE_TEMPT_ITEMS = itemTag("glare_tempt_items");
@@ -36,6 +37,7 @@ public final class FriendsAndFoesTags
 	public static final TagKey<Biome> HAS_DESERT_MAULER = biomeTag("has_desert_mauler");
 	public static final TagKey<Biome> HAS_BARNACLE = biomeTag("has_barnacle");
 	public static final TagKey<Biome> HAS_GLARE = biomeTag("has_glare");
+	public static final TagKey<Biome> HAS_PENGUIN = biomeTag("has_penguin");
 	public static final TagKey<Biome> HAS_ICEOLOGER = biomeTag("has_iceologer");
 	public static final TagKey<Biome> HAS_ILLUSIONER = biomeTag("has_illusioner");
 	public static final TagKey<Biome> HAS_MOOBLOOMS = biomeTag("has_moobloom/any");

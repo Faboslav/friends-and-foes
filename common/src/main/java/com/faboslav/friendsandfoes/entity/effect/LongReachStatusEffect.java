@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.entity.effect;
 
 import com.faboslav.friendsandfoes.init.FriendsAndFoesStatusEffects;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
@@ -28,6 +29,12 @@ public final class LongReachStatusEffect extends StatusEffect
 
 	@Override
 	public void applyUpdateEffect(LivingEntity entity, int amplifier) {
+		double reachModifier = LongReachStatusEffect.REACH_MODIFIER + (float) amplifier;
+	}
+
+	@ExpectPlatform
+	public String applyUpdateEffect() {
+		throw new AssertionError();
 	}
 
 	public static double getModifiedReachDistance(@Nullable LivingEntity entity, double currentReachDistance) {

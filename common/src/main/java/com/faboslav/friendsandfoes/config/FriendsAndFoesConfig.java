@@ -75,6 +75,22 @@ public final class FriendsAndFoesConfig implements Config
 	@Description("Maximal spawn group size")
 	public int glareSpawnMaxGroupSize = 1;
 
+	@Category("Penguin")
+	@Description("Enable")
+	public boolean enablePenguin = true;
+
+	@Description("Enable spawn")
+	public boolean enablePenguinSpawn = true;
+
+	@Description("Spawn weight")
+	public int penguinSpawnWeight = 4;
+
+	@Description("Minimal spawn group size")
+	public int penguinSpawnMinGroupSize = 2;
+
+	@Description("Maximal spawn group size")
+	public int penguinSpawnMaxGroupSize = 4;
+
 	@Category("Mauler")
 	@Description("Enable")
 	public boolean enableMauler = true;

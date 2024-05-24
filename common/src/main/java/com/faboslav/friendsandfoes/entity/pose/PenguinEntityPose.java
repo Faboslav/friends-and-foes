@@ -2,13 +2,12 @@ package com.faboslav.friendsandfoes.entity.pose;
 
 import net.minecraft.entity.EntityPose;
 
-public enum CrabEntityPose implements CustomEntityPose
+public enum PenguinEntityPose
 {
-	IDLE,
-	WAVE;
+	IDLE;
 
 	public String getName() {
-		return "CRAB_" + this.name();
+		return "PENGUIN_" + this.name();
 	}
 
 	public EntityPose get() {

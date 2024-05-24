@@ -32,6 +32,8 @@ public final class FriendsAndFoesSoundEvents
 	public static final RegistryEntry<SoundEvent> ENTITY_GLARE_HURT = registerSoundEvent("entity.glare.hurt");
 	public static final RegistryEntry<SoundEvent> ENTITY_GLARE_RUSTLE = registerSoundEvent("entity.glare.rustle");
 	public static final RegistryEntry<SoundEvent> ENTITY_GLARE_SHAKE = registerSoundEvent("entity.glare.shake");
+	public static final RegistryEntry<SoundEvent> ENTITY_PENGUIN_AMBIENT = registerSoundEvent("entity.penguin.ambient");
+	public static final RegistryEntry<SoundEvent> ENTITY_PENGUIN_STEP = registerSoundEvent("entity.penguin.step");
 	public static final RegistryEntry<SoundEvent> ENTITY_ICE_CHUNK_AMBIENT = registerSoundEvent("entity.ice_chunk.ambient");
 	public static final RegistryEntry<SoundEvent> ENTITY_ICE_CHUNK_HIT = registerSoundEvent("entity.ice_chunk.hit");
 	public static final RegistryEntry<SoundEvent> ENTITY_ICE_CHUNK_SUMMON = registerSoundEvent("entity.ice_chunk.summon");

@@ -91,6 +91,15 @@ public final class AddCustomEntityPoseMixin
 			entityPoses.add(newEntityPose);
 		}
 
+		for (PenguinEntityPose penguinEntityPose : PenguinEntityPose.values()) {
+			var newEntityPose = newEntityPose(
+				penguinEntityPose.getName(),
+				++nextEntityPoseIndex
+			);
+
+			entityPoses.add(newEntityPose);
+		}
+
 		field_18083 = entityPoses.toArray(new EntityPose[0]);
 	}
 }

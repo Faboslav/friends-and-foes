@@ -161,10 +161,10 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 	@Override
 	protected void mobTick() {
-		this.getWorld().getProfiler().push("tuffgolemBrain");
+		this.getWorld().getProfiler().push("tuffGolemBrain");
 		this.getBrain().tick((ServerWorld) this.getWorld(), this);
 		this.getWorld().getProfiler().pop();
-		this.getWorld().getProfiler().push("tuffgolemActivityUpdate");
+		this.getWorld().getProfiler().push("tuffGolemActivityUpdate");
 		TuffGolemBrain.updateActivities(this);
 		this.getWorld().getProfiler().pop();
 

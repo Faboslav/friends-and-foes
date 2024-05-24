@@ -31,6 +31,9 @@ dependencies {
 	// Mixin extras (https://github.com/LlamaLad7/MixinExtras)
 	include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${rootProject.mixin_extras_version}")))
 
+	// Reach entity attributes (https://github.com/JamiesWhiteShirt/reach-entity-attributes)
+	include modImplementation("com.jamieswhiteshirt:reach-entity-attributes:${project.reach_entity_attributes_version}")
+
 	// Mod menu (https://modrinth.com/mod/modmenu)
 	modImplementation("com.terraformersmc:modmenu:${project.mod_menu_version}") { transitive = false }
 
@@ -134,4 +137,11 @@ repositories {
 	maven { url "https://www.cursemaven.com" }
 
 	maven { url = "https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1" }
+
+	maven {
+		url "https://maven.jamieswhiteshirt.com/libs-release"
+		content {
+			includeGroup "com.jamieswhiteshirt"
+		}
+	}
 }

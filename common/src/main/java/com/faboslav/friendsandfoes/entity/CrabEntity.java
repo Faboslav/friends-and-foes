@@ -44,7 +44,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntity
+public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntity, PoseableEntity<CrabEntityPose>
 {
 	private static final float MOVEMENT_SPEED = 0.225F;
 
@@ -350,27 +350,6 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 		}
 
 		this.startKeyframeAnimation(keyframeAnimationToStart, this.age);
-	}
-
-	@Override
-	public void setPose(EntityPose pose) {
-		if (this.getWorld().isClient()) {
-			return;
-		}
-
-		super.setPose(pose);
-	}
-
-	public void setPose(CrabEntityPose pose) {
-		if (this.getWorld().isClient()) {
-			return;
-		}
-
-		super.setPose(pose.get());
-	}
-
-	public boolean isInPose(CrabEntityPose pose) {
-		return this.getPose() == pose.get();
 	}
 
 	public void startWaveAnimation() {

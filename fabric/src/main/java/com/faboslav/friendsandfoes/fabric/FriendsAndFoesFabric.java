@@ -3,7 +3,7 @@ package com.faboslav.friendsandfoes.fabric;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.events.RegisterVillagerTradesEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.*;
-import com.faboslav.friendsandfoes.events.fabric.FabricReloadListener;
+import com.faboslav.friendsandfoes.fabric.events.FabricReloadListener;
 import com.faboslav.friendsandfoes.common.util.ServerWorldSpawnersUtil;
 import com.faboslav.friendsandfoes.common.util.UpdateChecker;
 import com.faboslav.friendsandfoes.common.world.spawner.IceologerSpawner;

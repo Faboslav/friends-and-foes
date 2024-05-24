@@ -1,19 +1,19 @@
 {
 	"required": true,
-	"package": "com.faboslav.friendsandfoes.mixin.fabric",
+	"package": "com.faboslav.friendsandfoes.fabric.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"minVersion": "0.8",
 	"injectors": {
 		"defaultRequire": 1
 	},
 	"mixins": [
-		"AddCustomRaidMemberMixin",
-		"AddCustomSpawnGroupMixin",
-		"OxidizableMixin",
-		"PointOfInterestTypesAccessor",
-		"StructureEntityProcessorMixin"
+      "AddCustomRaidMemberMixin",
+      "AddCustomSpawnGroupMixin",
+      "OxidizableMixin",
+      "PointOfInterestTypesAccessor",
+      "StructureEntityProcessorMixin"
 	],
 	"client": [
-		"ParticleManagerMixin"
+      "ParticleManagerMixin"
 	]
 }

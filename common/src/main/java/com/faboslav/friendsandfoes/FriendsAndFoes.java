@@ -1,16 +1,16 @@
 package com.faboslav.friendsandfoes;
 
-import com.faboslav.friendsandfoes.api.MoobloomVariantManager;
-import com.faboslav.friendsandfoes.config.FriendsAndFoesConfig;
-import com.faboslav.friendsandfoes.config.omegaconfig.OmegaConfig;
-import com.faboslav.friendsandfoes.events.RegisterVillagerTradesEvent;
-import com.faboslav.friendsandfoes.events.lifecycle.*;
-import com.faboslav.friendsandfoes.init.*;
-import com.faboslav.friendsandfoes.item.DispenserAddedSpawnEgg;
-import com.faboslav.friendsandfoes.modcompat.ModChecker;
-import com.faboslav.friendsandfoes.network.MessageHandler;
-import com.faboslav.friendsandfoes.network.packet.MoobloomVariantsSyncPacket;
-import com.faboslav.friendsandfoes.platform.BiomeModifications;
+import com.faboslav.friendsandfoes.common.api.MoobloomVariantManager;
+import com.faboslav.friendsandfoes.common.config.FriendsAndFoesConfig;
+import com.faboslav.friendsandfoes.common.config.omegaconfig.OmegaConfig;
+import com.faboslav.friendsandfoes.common.events.RegisterVillagerTradesEvent;
+import com.faboslav.friendsandfoes.common.events.lifecycle.*;
+import com.faboslav.friendsandfoes.common.init.*;
+import com.faboslav.friendsandfoes.common.item.DispenserAddedSpawnEgg;
+import com.faboslav.friendsandfoes.common.modcompat.ModChecker;
+import com.faboslav.friendsandfoes.common.network.MessageHandler;
+import com.faboslav.friendsandfoes.common.network.packet.MoobloomVariantsSyncPacket;
+import com.faboslav.friendsandfoes.common.platform.BiomeModifications;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

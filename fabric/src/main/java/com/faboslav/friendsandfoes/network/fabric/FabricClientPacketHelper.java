@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.network.fabric;
 
-import com.faboslav.friendsandfoes.network.base.Packet;
-import com.faboslav.friendsandfoes.network.base.PacketHandler;
+import com.faboslav.friendsandfoes.common.network.base.Packet;
+import com.faboslav.friendsandfoes.common.network.base.PacketHandler;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

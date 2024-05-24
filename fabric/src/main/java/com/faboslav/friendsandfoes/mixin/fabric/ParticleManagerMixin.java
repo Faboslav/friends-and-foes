@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.mixin.fabric;
 
-import com.faboslav.friendsandfoes.events.client.RegisterParticlesEvent;
+import com.faboslav.friendsandfoes.common.events.client.RegisterParticlesEvent;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.client.particle.ParticleFactory;
 import net.minecraft.client.particle.ParticleManager;

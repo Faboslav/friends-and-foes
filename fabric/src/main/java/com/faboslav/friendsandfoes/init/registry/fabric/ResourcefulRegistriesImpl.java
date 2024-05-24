@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.init.registry.fabric;
 
-import com.faboslav.friendsandfoes.init.registry.CustomRegistryLookup;
-import com.faboslav.friendsandfoes.init.registry.ResourcefulRegistry;
+import com.faboslav.friendsandfoes.common.init.registry.CustomRegistryLookup;
+import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.fabricmc.fabric.api.event.registry.RegistryAttribute;
 import net.minecraft.util.registry.Registry;

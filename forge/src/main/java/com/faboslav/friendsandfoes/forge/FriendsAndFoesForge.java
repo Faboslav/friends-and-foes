@@ -1,17 +1,17 @@
 package com.faboslav.friendsandfoes.forge;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.events.RegisterVillagerTradesEvent;
-import com.faboslav.friendsandfoes.events.lifecycle.*;
-import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
+import com.faboslav.friendsandfoes.common.events.RegisterVillagerTradesEvent;
+import com.faboslav.friendsandfoes.common.events.lifecycle.*;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.registry.forge.ResourcefulRegistriesImpl;
 import com.faboslav.friendsandfoes.mixin.forge.FireBlockAccessor;
-import com.faboslav.friendsandfoes.util.CustomRaidMember;
-import com.faboslav.friendsandfoes.util.ServerWorldSpawnersUtil;
-import com.faboslav.friendsandfoes.util.UpdateChecker;
+import com.faboslav.friendsandfoes.common.util.CustomRaidMember;
+import com.faboslav.friendsandfoes.common.util.ServerWorldSpawnersUtil;
+import com.faboslav.friendsandfoes.common.util.UpdateChecker;
 import com.faboslav.friendsandfoes.world.MobSpawnBiomeModifier;
-import com.faboslav.friendsandfoes.world.spawner.IceologerSpawner;
-import com.faboslav.friendsandfoes.world.spawner.IllusionerSpawner;
+import com.faboslav.friendsandfoes.common.world.spawner.IceologerSpawner;
+import com.faboslav.friendsandfoes.common.world.spawner.IllusionerSpawner;
 import com.mojang.serialization.Codec;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;

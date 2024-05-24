@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.mixin.fabric;
 
-import com.faboslav.friendsandfoes.platform.CustomSpawnGroup;
+import com.faboslav.friendsandfoes.common.platform.CustomSpawnGroup;
 import com.faboslav.friendsandfoes.platform.fabric.CustomSpawnGroupImpl;
 import net.minecraft.entity.SpawnGroup;
 import org.objectweb.asm.Opcodes;

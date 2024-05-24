@@ -1,8 +1,8 @@
 package com.faboslav.friendsandfoes.init.registry.forge;
 
-import com.faboslav.friendsandfoes.init.registry.RegistryEntries;
-import com.faboslav.friendsandfoes.init.registry.RegistryEntry;
-import com.faboslav.friendsandfoes.init.registry.ResourcefulRegistry;
+import com.faboslav.friendsandfoes.common.init.registry.RegistryEntries;
+import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
+import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;

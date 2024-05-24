@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.init.registry.fabric;
 
-import com.faboslav.friendsandfoes.init.registry.CustomRegistryLookup;
+import com.faboslav.friendsandfoes.common.init.registry.CustomRegistryLookup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.NotNull;

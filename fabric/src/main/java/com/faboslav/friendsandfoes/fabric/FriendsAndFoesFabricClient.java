@@ -1,11 +1,11 @@
 package com.faboslav.friendsandfoes.fabric;
 
 import com.faboslav.friendsandfoes.FriendsAndFoesClient;
-import com.faboslav.friendsandfoes.events.client.RegisterEntityLayersEvent;
-import com.faboslav.friendsandfoes.events.client.RegisterEntityRenderersEvent;
-import com.faboslav.friendsandfoes.events.client.RegisterItemColorEvent;
-import com.faboslav.friendsandfoes.events.client.RegisterRenderLayersEvent;
-import com.faboslav.friendsandfoes.events.lifecycle.ClientSetupEvent;
+import com.faboslav.friendsandfoes.common.events.client.RegisterEntityLayersEvent;
+import com.faboslav.friendsandfoes.common.events.client.RegisterEntityRenderersEvent;
+import com.faboslav.friendsandfoes.common.events.client.RegisterItemColorEvent;
+import com.faboslav.friendsandfoes.common.events.client.RegisterRenderLayersEvent;
+import com.faboslav.friendsandfoes.common.events.lifecycle.ClientSetupEvent;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

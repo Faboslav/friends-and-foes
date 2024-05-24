@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.init.registry.forge;
 
-import com.faboslav.friendsandfoes.init.registry.CustomRegistryLookup;
+import com.faboslav.friendsandfoes.common.init.registry.CustomRegistryLookup;
 import net.minecraft.util.Identifier;
 import net.minecraftforge.registries.IForgeRegistry;
 import org.jetbrains.annotations.NotNull;

@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.world.forge.processor;
 
 import com.faboslav.friendsandfoes.init.forge.FriendsAndFoesStructureProcessorTypesImpl;
-import com.faboslav.friendsandfoes.util.world.processor.IceologerCabinArmorStandProcessorHelper;
+import com.faboslav.friendsandfoes.common.util.world.processor.IceologerCabinArmorStandProcessorHelper;
 import com.mojang.serialization.Codec;
 import net.minecraft.structure.StructurePlacementData;
 import net.minecraft.structure.StructureTemplate;

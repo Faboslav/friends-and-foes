@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.platform.fabric;
 
-import com.faboslav.friendsandfoes.platform.ConfigDirectory;
+import com.faboslav.friendsandfoes.common.platform.ConfigDirectory;
 import net.fabricmc.loader.api.FabricLoader;
 
 import java.nio.file.Path;

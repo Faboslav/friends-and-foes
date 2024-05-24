@@ -2,7 +2,7 @@ package com.faboslav.friendsandfoes.modcompat.forge;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 
-import static com.faboslav.friendsandfoes.modcompat.ModChecker.loadModCompat;
+import static com.faboslav.friendsandfoes.common.modcompat.ModChecker.loadModCompat;
 
 public class ModCheckerImpl
 {

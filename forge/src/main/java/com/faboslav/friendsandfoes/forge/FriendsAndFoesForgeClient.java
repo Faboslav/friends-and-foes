@@ -2,12 +2,12 @@ package com.faboslav.friendsandfoes.forge;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.FriendsAndFoesClient;
-import com.faboslav.friendsandfoes.config.ConfigScreenBuilder;
-import com.faboslav.friendsandfoes.events.client.*;
-import com.faboslav.friendsandfoes.events.lifecycle.ClientSetupEvent;
-import com.faboslav.friendsandfoes.init.FriendsAndFoesItems;
-import com.faboslav.friendsandfoes.init.registry.RegistryEntry;
-import com.faboslav.friendsandfoes.item.DispenserAddedSpawnEgg;
+import com.faboslav.friendsandfoes.common.config.ConfigScreenBuilder;
+import com.faboslav.friendsandfoes.common.events.client.*;
+import com.faboslav.friendsandfoes.common.events.lifecycle.ClientSetupEvent;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesItems;
+import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
+import com.faboslav.friendsandfoes.common.item.DispenserAddedSpawnEgg;
 import net.minecraft.client.particle.ParticleFactory;
 import net.minecraft.client.particle.SpriteProvider;
 import net.minecraft.client.render.RenderLayers;

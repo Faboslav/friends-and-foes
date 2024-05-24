@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.asm;
 
-import com.faboslav.friendsandfoes.util.OxidizableBlocksProvider;
+import com.faboslav.friendsandfoes.common.util.OxidizableBlocksProvider;
 import com.google.common.collect.ImmutableBiMap;
 import net.minecraft.block.Block;
 

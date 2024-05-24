@@ -9,5 +9,5 @@
 	"mixins": [
 		"FireBlockAccessor"
 	],
-	"plugin": "com.faboslav.friendsandfoes.util.plugin.MixinExtrasPlugin"
+	"plugin": "com.faboslav.friendsandfoes.common.util.plugin.MixinExtrasPlugin"
 }

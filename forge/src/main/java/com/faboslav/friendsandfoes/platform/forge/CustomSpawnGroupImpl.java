@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.platform.forge;
 
-import com.faboslav.friendsandfoes.platform.CustomSpawnGroup;
+import com.faboslav.friendsandfoes.common.platform.CustomSpawnGroup;
 import net.minecraft.entity.SpawnGroup;
 
 public final class CustomSpawnGroupImpl

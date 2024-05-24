@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.mixin.fabric;
 
-import com.faboslav.friendsandfoes.util.OxidizableBlocksProvider;
+import com.faboslav.friendsandfoes.common.util.OxidizableBlocksProvider;
 import com.google.common.collect.ImmutableBiMap;
 import com.llamalad7.mixinextras.injector.ModifyReceiver;
 import net.minecraft.block.Oxidizable;

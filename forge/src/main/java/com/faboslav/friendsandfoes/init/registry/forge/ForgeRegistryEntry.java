@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.init.registry.forge;
 
-import com.faboslav.friendsandfoes.init.registry.RegistryEntry;
+import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import net.minecraftforge.registries.RegistryObject;
 

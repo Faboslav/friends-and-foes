@@ -1,9 +1,9 @@
 package com.faboslav.friendsandfoes.init.registry.fabric;
 
-import com.faboslav.friendsandfoes.init.registry.BasicRegistryEntry;
-import com.faboslav.friendsandfoes.init.registry.RegistryEntries;
-import com.faboslav.friendsandfoes.init.registry.RegistryEntry;
-import com.faboslav.friendsandfoes.init.registry.ResourcefulRegistry;
+import com.faboslav.friendsandfoes.common.init.registry.BasicRegistryEntry;
+import com.faboslav.friendsandfoes.common.init.registry.RegistryEntries;
+import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
+import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
 import com.faboslav.friendsandfoes.mixin.fabric.PointOfInterestTypesAccessor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;

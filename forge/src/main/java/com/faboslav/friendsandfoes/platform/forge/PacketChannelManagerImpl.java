@@ -1,8 +1,8 @@
 package com.faboslav.friendsandfoes.platform.forge;
 
-import com.faboslav.friendsandfoes.network.base.Packet;
-import com.faboslav.friendsandfoes.network.base.PacketHandler;
-import com.faboslav.friendsandfoes.platform.ModVersion;
+import com.faboslav.friendsandfoes.common.network.base.Packet;
+import com.faboslav.friendsandfoes.common.network.base.PacketHandler;
+import com.faboslav.friendsandfoes.common.platform.ModVersion;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;

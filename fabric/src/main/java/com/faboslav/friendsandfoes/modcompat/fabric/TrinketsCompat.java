@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.modcompat.fabric;
 
-import com.faboslav.friendsandfoes.modcompat.ModCompat;
+import com.faboslav.friendsandfoes.common.modcompat.ModCompat;
 import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.TrinketsApi;
 import net.minecraft.entity.Entity;

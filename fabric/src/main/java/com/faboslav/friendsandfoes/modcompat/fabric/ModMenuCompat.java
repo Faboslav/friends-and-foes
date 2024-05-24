@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.modcompat.fabric;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.config.ConfigScreenBuilder;
+import com.faboslav.friendsandfoes.common.config.ConfigScreenBuilder;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
 import net.fabricmc.loader.api.FabricLoader;

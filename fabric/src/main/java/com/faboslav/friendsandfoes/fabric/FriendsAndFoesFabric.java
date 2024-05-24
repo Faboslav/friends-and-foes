@@ -1,13 +1,13 @@
 package com.faboslav.friendsandfoes.fabric;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.events.RegisterVillagerTradesEvent;
+import com.faboslav.friendsandfoes.common.events.RegisterVillagerTradesEvent;
+import com.faboslav.friendsandfoes.common.events.lifecycle.*;
 import com.faboslav.friendsandfoes.events.fabric.FabricReloadListener;
-import com.faboslav.friendsandfoes.events.lifecycle.*;
-import com.faboslav.friendsandfoes.util.ServerWorldSpawnersUtil;
-import com.faboslav.friendsandfoes.util.UpdateChecker;
-import com.faboslav.friendsandfoes.world.spawner.IceologerSpawner;
-import com.faboslav.friendsandfoes.world.spawner.IllusionerSpawner;
+import com.faboslav.friendsandfoes.common.util.ServerWorldSpawnersUtil;
+import com.faboslav.friendsandfoes.common.util.UpdateChecker;
+import com.faboslav.friendsandfoes.common.world.spawner.IceologerSpawner;
+import com.faboslav.friendsandfoes.common.world.spawner.IllusionerSpawner;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.fabricmc.api.ModInitializer;

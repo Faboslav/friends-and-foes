@@ -1,9 +1,9 @@
 package com.faboslav.friendsandfoes.common.network;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.network.base.NetworkDirection;
 import com.faboslav.friendsandfoes.common.network.packet.MoobloomVariantsSyncPacket;
 import com.faboslav.friendsandfoes.common.network.packet.TotemEffectPacket;
-import com.faboslav.friendsandfoes.common.network.base.NetworkDirection;
 
 /**
  * Network related is code based on The Bumblezone/Resourceful Lib mods with permissions from the authors

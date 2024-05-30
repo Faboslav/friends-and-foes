@@ -2,11 +2,11 @@ package com.faboslav.friendsandfoes.common.init;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.block.*;
+import com.faboslav.friendsandfoes.common.events.client.RegisterRenderLayersEvent;
+import com.faboslav.friendsandfoes.common.events.lifecycle.RegisterFlammabilityEvent;
 import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistries;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
-import com.faboslav.friendsandfoes.common.events.client.RegisterRenderLayersEvent;
-import com.faboslav.friendsandfoes.common.events.lifecycle.RegisterFlammabilityEvent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.*;

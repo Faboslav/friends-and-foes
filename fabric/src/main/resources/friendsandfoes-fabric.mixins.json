@@ -7,13 +7,13 @@
 		"defaultRequire": 1
 	},
 	"mixins": [
-      "AddCustomRaidMemberMixin",
-      "AddCustomSpawnGroupMixin",
-      "OxidizableMixin",
-      "PointOfInterestTypesAccessor",
-      "StructureEntityProcessorMixin"
+		"AddCustomRaidMemberMixin",
+		"AddCustomSpawnGroupMixin",
+		"OxidizableMixin",
+		"PointOfInterestTypesAccessor",
+		"StructureEntityProcessorMixin"
 	],
 	"client": [
-      "ParticleManagerMixin"
+		"ParticleManagerMixin"
 	]
 }

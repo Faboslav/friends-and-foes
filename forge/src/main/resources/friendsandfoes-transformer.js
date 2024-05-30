@@ -30,7 +30,7 @@ function initializeCoreMod() {
 
                 if (builderStartIndex !== -1 && builderEndIndex !== -1) {
                     var methodInstructions = new InsnList();
-                    methodInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "com/faboslav/friendsandfoes/asm/OxidizableTransformer", "injectCustomOxidizableBlocks", "(Lcom/google/common/collect/ImmutableBiMap$Builder;)Lcom/google/common/collect/ImmutableBiMap$Builder;", false));
+                    methodInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "com/faboslav/friendsandfoes/forge/asm/OxidizableTransformer", "injectCustomOxidizableBlocks", "(Lcom/google/common/collect/ImmutableBiMap$Builder;)Lcom/google/common/collect/ImmutableBiMap$Builder;", false));
                     instructions.insertBefore(instructions.get(builderEndIndex), methodInstructions);
                 }
 

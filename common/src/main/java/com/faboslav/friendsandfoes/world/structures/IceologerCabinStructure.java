@@ -83,6 +83,6 @@ public final class IceologerCabinStructure extends Structure
 
 	@Override
 	public StructureType<?> getType() {
-		return FriendsAndFoesStructureTypes.ICEOLOGER_CABIN_STRUCTURE;
+		return FriendsAndFoesStructureTypes.ICEOLOGER_CABIN_STRUCTURE.get();
 	}
 }

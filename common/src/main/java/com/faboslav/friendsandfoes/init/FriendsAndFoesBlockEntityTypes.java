@@ -1,7 +1,8 @@
 package com.faboslav.friendsandfoes.init;
 
-import com.google.common.collect.ImmutableList;
+import com.faboslav.friendsandfoes.init.registry.RegistryEntry;
 import com.google.common.collect.ImmutableSet;
+import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
 
@@ -13,21 +14,13 @@ import java.util.Set;
  */
 public final class FriendsAndFoesBlockEntityTypes
 {
-	private static final Set<Block> BEEHIVE_BLOCKS = ImmutableList.of(
-		FriendsAndFoesBlocks.ACACIA_BEEHIVE.get(),
-		FriendsAndFoesBlocks.BIRCH_BEEHIVE.get(),
-		FriendsAndFoesBlocks.CRIMSON_BEEHIVE.get(),
-		FriendsAndFoesBlocks.DARK_OAK_BEEHIVE.get(),
-		FriendsAndFoesBlocks.JUNGLE_BEEHIVE.get(),
-		FriendsAndFoesBlocks.MANGROVE_BEEHIVE.get(),
-		FriendsAndFoesBlocks.SPRUCE_BEEHIVE.get(),
-		FriendsAndFoesBlocks.WARPED_BEEHIVE.get()
-	).stream().collect(ImmutableSet.toImmutableSet());
-
-	public static void postInit() {
-		Set<Block> beehiveBlocks = new HashSet<>();
-		beehiveBlocks.addAll(BlockEntityType.BEEHIVE.blocks);
-		beehiveBlocks.addAll(BEEHIVE_BLOCKS);
+	public static void lateInit() {
+		Set<Block> beehiveBlocks = new HashSet<>(BlockEntityType.BEEHIVE.blocks);
+		Set<Block> modBeehiveBlocks = FriendsAndFoesBlocks.BLOCKS.stream()
+			.map(RegistryEntry::get)
+			.filter(item -> item instanceof BeehiveBlock)
+			.map(block -> (BeehiveBlock) block).collect(ImmutableSet.toImmutableSet());
+		beehiveBlocks.addAll(modBeehiveBlocks);
 		BlockEntityType.BEEHIVE.blocks = beehiveBlocks;
 	}
 

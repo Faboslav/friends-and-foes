@@ -9,7 +9,6 @@
 	"mixins": [
 		"AbstractButtonBlockMixin",
 		"AddCustomEntityPoseMixin",
-		"AxeItemMixin",
 		"BeeEntityAccessor",
 		"BeeEntityMixin",
 		"BeeEntityMoveToFlowerGoalMixin",
@@ -17,9 +16,12 @@
 		"BlazeEntityMixin",
 		"BlazeLivingEntityMixin",
 		"BlindTargetGoalFactory",
+		"BrewingRecipeRegistryMixin",
 		"BundleItemAccessor",
 		"CarvedPumpkinBlockMixin",
+		"ChestStateManagerMixin",
 		"ChickenEntityMixin",
+		"ForgingScreenHandlerMixin",
 		"HoneycombItemMixin",
 		"IllusionerEntityMixin",
 		"IllusionerHostileEntityMixin",
@@ -38,10 +40,13 @@
 		"RabbitEntityMixin",
 		"RaidMemberMixin",
 		"RaidMixin",
+		"ScreenHandlerMixin",
+		"ServerPlayerInteractionManagerMixin",
+		"ServerPlayNetworkHandlerMixin",
 		"ServerWorldAccessor",
 		"ServerWorldMixin",
 		"SnowballEntityMixin",
-		"SpawnRestrictionAccessor",
+		"SpawnEggItemAccessor",
 		"StrongholdGeneratorMixin",
 		"StructurePoolMixin",
 		"TemptGoalMixin",
@@ -53,8 +58,10 @@
 		"ZombieHorseEntityMixin"
 	],
 	"client": [
+		"ClientPlayerInteractionManagerMixin",
 		"ClientPlayNetworkHandlerMixin",
 		"EntityRenderDispatcherMixin",
+		"GameRendererMixin",
 		"IllusionerEntityRendererMixin",
 		"ModelPartAccessor"
 	]

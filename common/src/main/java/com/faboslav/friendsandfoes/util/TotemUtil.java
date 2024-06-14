@@ -5,13 +5,14 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.ParticleType;
 import net.minecraft.sound.SoundEvents;
 
 public final class TotemUtil
 {
-	public static void playActivateAnimation(ItemStack itemStack, Entity entity, ParticleEffect particleEffect) {
+	public static void playActivateAnimation(ItemStack itemStack, Entity entity, ParticleType<?> particleType) {
 		MinecraftClient minecraftClient = MinecraftClient.getInstance();
-		minecraftClient.particleManager.addEmitter(entity, particleEffect, 30);
+		minecraftClient.particleManager.addEmitter(entity, (ParticleEffect) particleType, 30);
 
 		ClientWorld clientWorld = minecraftClient.world;
 

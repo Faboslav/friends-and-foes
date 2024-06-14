@@ -7,7 +7,7 @@ import com.faboslav.friendsandfoes.entity.ai.brain.task.coppergolem.CopperGolemS
 import com.faboslav.friendsandfoes.entity.ai.brain.task.coppergolem.CopperGolemTravelToButtonTask;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesActivities;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
-import com.faboslav.friendsandfoes.init.FriendsAndFoesMemorySensorType;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesSensorTypes;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
@@ -164,8 +164,8 @@ public final class CopperGolemBrain
 
 	static {
 		SENSORS = List.of(
-			FriendsAndFoesMemorySensorType.COPPER_GOLEM_TEMPTATIONS.get(),
-			FriendsAndFoesMemorySensorType.COPPER_GOLEM_SPECIFIC_SENSOR.get()
+			FriendsAndFoesSensorTypes.COPPER_GOLEM_TEMPTATIONS.get(),
+			FriendsAndFoesSensorTypes.COPPER_GOLEM_SPECIFIC_SENSOR.get()
 		);
 		MEMORY_MODULES = List.of(
 			MemoryModuleType.TEMPTING_PLAYER,

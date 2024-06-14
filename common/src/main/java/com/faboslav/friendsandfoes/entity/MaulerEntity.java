@@ -359,7 +359,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		return false;
 	}
 
-	public static Builder createAttributes() {
+	public static Builder createMaulerAttributes() {
 		return MobEntity.createMobAttributes()
 			.add(EntityAttributes.GENERIC_MAX_HEALTH, HEALTH)
 			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, MOVEMENT_SPEED)

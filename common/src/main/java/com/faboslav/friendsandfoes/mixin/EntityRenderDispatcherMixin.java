@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.mixin;
 
+import com.faboslav.friendsandfoes.client.render.entity.renderer.PlayerIllusionEntityRenderer;
 import com.faboslav.friendsandfoes.entity.PlayerIllusionEntity;
-import com.faboslav.friendsandfoes.init.FriendAndFoesEntityRenderer;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
@@ -19,6 +19,8 @@ import java.util.Map;
 @Mixin(EntityRenderDispatcher.class)
 public abstract class EntityRenderDispatcherMixin
 {
+	private static final Map<String, EntityRendererFactory<PlayerIllusionEntity>> PLAYER_ILLUSION_RENDERER_FACTORIES = ImmutableMap.of("default", context -> new PlayerIllusionEntityRenderer(context, false), "slim", context -> new PlayerIllusionEntityRenderer(context, true));
+
 	@Unique
 	private Map<String, EntityRenderer<? extends PlayerIllusionEntity>> illusionModelRenderers = ImmutableMap.of();
 
@@ -49,7 +51,23 @@ public abstract class EntityRenderDispatcherMixin
 	public EntityRendererFactory.Context friendsandfoes_reload(
 		EntityRendererFactory.Context context
 	) {
-		this.illusionModelRenderers = FriendAndFoesEntityRenderer.reloadPlayerIllusionRenderers(context);
+		this.illusionModelRenderers = EntityRenderDispatcherMixin.friendsandfoes_reloadPlayerIllusionRenderers(context);
 		return context;
+	}
+
+	private static Map<String, EntityRenderer<? extends PlayerIllusionEntity>> friendsandfoes_reloadPlayerIllusionRenderers(
+		EntityRendererFactory.Context ctx
+	) {
+		ImmutableMap.Builder builder = ImmutableMap.builder();
+
+		PLAYER_ILLUSION_RENDERER_FACTORIES.forEach((type, factory) -> {
+			try {
+				builder.put(type, factory.create(ctx));
+			} catch (Exception exception) {
+				throw new IllegalArgumentException("Failed to create player illusion model for " + type, exception);
+			}
+		});
+
+		return builder.build();
 	}
 }

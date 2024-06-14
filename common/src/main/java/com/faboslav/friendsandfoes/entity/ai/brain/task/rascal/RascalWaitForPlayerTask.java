@@ -4,7 +4,7 @@ import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.RascalEntity;
 import com.faboslav.friendsandfoes.entity.ai.brain.RascalBrain;
 import com.faboslav.friendsandfoes.entity.pose.RascalEntityPose;
-import com.faboslav.friendsandfoes.init.FriendsAndFoesCriteria;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesCriterias;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.mixin.BundleItemAccessor;
 import com.google.common.collect.ImmutableMap;
@@ -141,7 +141,7 @@ public final class RascalWaitForPlayerTask extends Task<RascalEntity>
 				}
 			}
 
-			FriendsAndFoesCriteria.COMPLETE_HIDE_AND_SEEK_GAME.trigger((ServerPlayerEntity) this.nearestTarget, rascal);
+			FriendsAndFoesCriterias.COMPLETE_HIDE_AND_SEEK_GAME.trigger((ServerPlayerEntity) this.nearestTarget, rascal);
 		}
 
 		this.nodTicks++;

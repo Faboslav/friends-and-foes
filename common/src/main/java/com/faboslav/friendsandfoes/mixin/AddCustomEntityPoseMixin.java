@@ -1,8 +1,6 @@
 package com.faboslav.friendsandfoes.mixin;
 
-import com.faboslav.friendsandfoes.entity.pose.CopperGolemEntityPose;
-import com.faboslav.friendsandfoes.entity.pose.RascalEntityPose;
-import com.faboslav.friendsandfoes.entity.pose.TuffGolemEntityPose;
+import com.faboslav.friendsandfoes.entity.pose.*;
 import net.minecraft.entity.EntityPose;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
@@ -48,6 +46,15 @@ public final class AddCustomEntityPoseMixin
 		var lastEntityPose = entityPoses.get(entityPoses.size() - 1);
 		var nextEntityPoseIndex = lastEntityPose.ordinal();
 
+		for (BarnacleEntityPose barnacleEntityPose : BarnacleEntityPose.values()) {
+			var newEntityPose = newEntityPose(
+				barnacleEntityPose.getName(),
+				++nextEntityPoseIndex
+			);
+
+			entityPoses.add(newEntityPose);
+		}
+
 		for (CopperGolemEntityPose entityPose : CopperGolemEntityPose.values()) {
 			var newEntityPose = newEntityPose(
 				entityPose.getName(),
@@ -69,6 +76,15 @@ public final class AddCustomEntityPoseMixin
 		for (TuffGolemEntityPose tuffGolemEntityPose : TuffGolemEntityPose.values()) {
 			var newEntityPose = newEntityPose(
 				tuffGolemEntityPose.getName(),
+				++nextEntityPoseIndex
+			);
+
+			entityPoses.add(newEntityPose);
+		}
+
+		for (CrabEntityPose crabEntityPose : CrabEntityPose.values()) {
+			var newEntityPose = newEntityPose(
+				crabEntityPose.getName(),
 				++nextEntityPoseIndex
 			);
 

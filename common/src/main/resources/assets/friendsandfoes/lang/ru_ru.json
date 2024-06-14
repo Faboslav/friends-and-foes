@@ -128,5 +128,7 @@
 	"subtitle.entity.friendsandfoes.wildfire.shoot": "Инферно стреляет",
 	"subtitle.entity.friendsandfoes.wildfire.step": "Шаги",
 	"subtitle.entity.friendsandfoes.wildfire.summon_blaze": "Инферно призывает всполохов",
-	"trinkets.slot.charm.charm": "Амулет"
+	"trinkets.slot.charm.charm": "Амулет",
+	"text.betterf3.line.glares": "Остроликие",
+	"text.betterf3.line.rascals": "Негодники"
 }

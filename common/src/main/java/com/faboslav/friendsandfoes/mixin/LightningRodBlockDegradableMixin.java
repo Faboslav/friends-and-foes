@@ -5,7 +5,7 @@ import net.minecraft.block.LightningRodBlock;
 import net.minecraft.block.Oxidizable;
 import org.spongepowered.asm.mixin.Mixin;
 
-@Mixin(LightningRodBlock.class)
+@Mixin(value = LightningRodBlock.class, priority = 10000)
 public abstract class LightningRodBlockDegradableMixin implements Degradable
 {
 	@Override

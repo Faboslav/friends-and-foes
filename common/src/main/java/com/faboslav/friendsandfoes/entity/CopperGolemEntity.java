@@ -206,7 +206,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		}
 	}
 
-	public static DefaultAttributeContainer.Builder createAttributes() {
+	public static DefaultAttributeContainer.Builder createCopperGolemAttributes() {
 		return MobEntity.createMobAttributes()
 			.add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
 			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, MOVEMENT_SPEED)

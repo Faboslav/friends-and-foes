@@ -52,7 +52,7 @@ public final class IceologerEntity extends SpellcastingIllagerEntity
 		this.targetSelector.add(5, (new ActiveTargetGoal(this, GlowSquidEntity.class, false)).setMaxTimeWithoutVisibility(300));
 	}
 
-	public static Builder createAttributes() {
+	public static Builder createIceologerAttributes() {
 		return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.5D).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 18.0D).add(EntityAttributes.GENERIC_MAX_HEALTH, 40.0D);
 	}
 

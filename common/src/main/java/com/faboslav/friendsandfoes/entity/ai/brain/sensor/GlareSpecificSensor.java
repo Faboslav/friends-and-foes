@@ -11,31 +11,17 @@ import net.minecraft.entity.ai.brain.LivingTargetCache;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.AxeItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Hand;
 import net.minecraft.util.TimeHelper;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 
 import java.util.Set;
-import java.util.function.Predicate;
 
 public class GlareSpecificSensor extends Sensor<GlareEntity>
 {
-	private static final Predicate<PlayerEntity> NOTICEABLE_PLAYER_FILTER;
 	private static final UniformIntProvider AVOID_MEMORY_DURATION;
 
 	static {
-		NOTICEABLE_PLAYER_FILTER = (player) -> {
-			ItemStack itemStack = player.getStackInHand(Hand.MAIN_HAND);
-			Item itemInHand = itemStack.getItem();
-
-			return itemInHand instanceof AxeItem && EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.test(player);
-		};
 		AVOID_MEMORY_DURATION = TimeHelper.betweenSeconds(5, 10);
 	}
 

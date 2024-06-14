@@ -83,6 +83,6 @@ public final class IllusionerShackStructure extends Structure
 
 	@Override
 	public StructureType<?> getType() {
-		return FriendsAndFoesStructureTypes.ILLUSIONER_SHACK_STRUCTURE;
+		return FriendsAndFoesStructureTypes.ILLUSIONER_SHACK_STRUCTURE.get();
 	}
 }

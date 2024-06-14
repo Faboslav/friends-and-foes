@@ -11,6 +11,22 @@ public final class FriendsAndFoesConfig implements Config
 	@Description("Check if the new update of mod is available (when enabled, info is in the console)")
 	public boolean checkForNewUpdates = true;
 
+	@Category("Barnacle")
+	@Description("Enable barnacle")
+	public boolean enableBarnacle = true;
+
+	@Description("Enable barnacle spawn")
+	public boolean enableBarnacleSpawn = true;
+
+	@Description("Barnacle spawn weight")
+	public int barnacleSpawnWeight = 4;
+
+	@Description("Minimal barnacle spawn group size")
+	public int barnacleSpawnMinGroupSize = 1;
+
+	@Description("Maximal barnacle spawn group size")
+	public int barnacleSpawnMaxGroupSize = 1;
+
 	@Category("Copper Golem")
 	@Description("Enable")
 	public boolean enableCopperGolem = true;
@@ -26,6 +42,19 @@ public final class FriendsAndFoesConfig implements Config
 
 	@Description("Generate copper golem in the center piece in the ancient cities spawn chance")
 	public int copperGolemAncientCityCenterWeight = 10;
+
+	@Category("Crab")
+	@Description("Enable")
+	public boolean enableCrab = true;
+
+	@Description("Enable spawn")
+	public boolean enableCrabSpawn = true;
+
+	@Description("Spawn weight in less frequent spawn biomes")
+	public int crabLessFrequentSpawnWeight = 2;
+
+	@Description("Spawn weight in more frequent spawn biomes")
+	public int crabMoreFrequentSpawnWeight = 4;
 
 	@Category("Glare")
 	@Description("Enable")

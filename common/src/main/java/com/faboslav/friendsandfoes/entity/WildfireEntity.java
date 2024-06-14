@@ -95,7 +95,7 @@ public final class WildfireEntity extends HostileEntity
 		super.mobTick();
 	}
 
-	public static DefaultAttributeContainer.Builder createAttributes() {
+	public static DefaultAttributeContainer.Builder createWildfireAttributes() {
 		return HostileEntity.createHostileAttributes()
 			.add(EntityAttributes.GENERIC_MAX_HEALTH, 120.0F)
 			.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.0F)

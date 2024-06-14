@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.entity.ai.goal.zombiehorse;
 
 import com.faboslav.friendsandfoes.entity.ZombieHorseEntityAccess;
-import com.faboslav.friendsandfoes.init.FriendsAndFoesCriteria;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesCriterias;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -70,7 +70,7 @@ public final class ZombieHorseTrapTriggerGoal extends Goal
 			serverWorld.spawnEntityAndPassengers(zombieHorse);
 		}
 
-		FriendsAndFoesCriteria.ACTIVATE_ZOMBIE_HORSE_TRAP.trigger((ServerPlayerEntity) closestPlayer, lightningEntity);
+		FriendsAndFoesCriterias.ACTIVATE_ZOMBIE_HORSE_TRAP.trigger((ServerPlayerEntity) closestPlayer, lightningEntity);
 	}
 
 	private ZombieHorseEntity getHorse(LocalDifficulty localDifficulty) {

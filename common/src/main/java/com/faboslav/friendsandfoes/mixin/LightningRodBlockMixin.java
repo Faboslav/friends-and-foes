@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.mixin;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.block.Oxidizable;
 import com.faboslav.friendsandfoes.client.render.entity.animation.KeyframeAnimation;
 import com.faboslav.friendsandfoes.entity.CopperGolemEntity;
 import com.faboslav.friendsandfoes.entity.ai.brain.CopperGolemBrain;
@@ -26,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
 
-@Mixin(LightningRodBlock.class)
+@Mixin(value = LightningRodBlock.class, priority = 10000)
 public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 {
 	@Nullable

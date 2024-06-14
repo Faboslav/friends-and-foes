@@ -3,7 +3,7 @@ package com.faboslav.friendsandfoes.client.render.entity.renderer;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.model.WildfireEntityModel;
 import com.faboslav.friendsandfoes.entity.WildfireEntity;
-import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityModelLayer;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityModelLayers;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.entity.EntityRendererFactory;
@@ -19,7 +19,7 @@ public final class WildfireEntityRenderer extends MobEntityRenderer<WildfireEnti
 	public static final float SCALE = 1.6F;
 
 	public WildfireEntityRenderer(EntityRendererFactory.Context context) {
-		super(context, new WildfireEntityModel(context.getPart(FriendsAndFoesEntityModelLayer.WILDFIRE_LAYER)), 0.35F);
+		super(context, new WildfireEntityModel(context.getPart(FriendsAndFoesEntityModelLayers.WILDFIRE_LAYER)), 0.35F);
 	}
 
 	@Override

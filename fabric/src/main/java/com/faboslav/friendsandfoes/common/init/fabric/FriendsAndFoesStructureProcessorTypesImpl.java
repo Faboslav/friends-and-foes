@@ -6,6 +6,9 @@ import com.faboslav.friendsandfoes.fabric.world.processor.IceologerCabinArmorSta
 import com.faboslav.friendsandfoes.fabric.world.processor.IllusionerShackItemFrameProcessor;
 import net.minecraft.structure.processor.StructureProcessorType;
 
+/**
+ * @see FriendsAndFoesStructureProcessorTypes
+ */
 public class FriendsAndFoesStructureProcessorTypesImpl
 {
 	public static final RegistryEntry<StructureProcessorType<IllusionerShackItemFrameProcessor>> ILLUSIONER_SHACK_ITEM_FRAME_PROCESSOR = FriendsAndFoesStructureProcessorTypes.STRUCTURE_PROCESSOR.register("illusioner_shack_item_frame_processor", () -> () -> IllusionerShackItemFrameProcessor.CODEC);

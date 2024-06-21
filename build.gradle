@@ -28,6 +28,26 @@ allprojects {
 	version = rootProject.mod_version
 	archivesBaseName = "${rootProject.mod_id}-mc${rootProject.minecraft_version}"
 
+	processResources {
+		def expandProps = [
+			'modId'              : mod_id,
+			'modName'            : mod_name,
+			'modDescription'     : mod_description,
+			'modVersion'         : mod_version,
+			'modAuthor'          : mod_author,
+			"minecraftVersion"   : minecraft_version,
+			"fabricLoaderVersion": fabric_loader_version,
+			"fabricApiVersion"   : fabric_api_version,
+			"forgeVersion"	     : forge_version
+		]
+
+		filesMatching(['pack.mcmeta', 'fabric.mod.json', 'META-INF/mods.toml', '*.mixins.json']) {
+			expand expandProps
+		}
+
+		inputs.properties(expandProps)
+	}
+
 	repositories {
 		maven {
 			name = "Jitpack"

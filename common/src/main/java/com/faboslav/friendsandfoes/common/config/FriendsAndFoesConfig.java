@@ -56,6 +56,9 @@ public final class FriendsAndFoesConfig implements Config
 	@Description("Spawn weight in more frequent spawn biomes")
 	public int crabMoreFrequentSpawnWeight = 4;
 
+	@Description("Long Reach status effect modifier")
+	public float longReachStatusEffectModifier = 1.0F;
+
 	@Category("Glare")
 	@Description("Enable")
 	public boolean enableGlare = true;

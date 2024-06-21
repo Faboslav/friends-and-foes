@@ -1,23 +1,29 @@
 package com.faboslav.friendsandfoes.common.entity.effect;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.config.FriendsAndFoesConfig;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStatusEffects;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.AttributeContainer;
+import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.attribute.EntityAttributeInstance;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.NotImplementedException;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 
-public final class LongReachStatusEffect extends StatusEffect
+public class LongReachStatusEffect extends StatusEffect
 {
-	public static final double REACH_MODIFIER = 1.0F;
-
 	public LongReachStatusEffect(StatusEffectCategory statusEffectCategory, int color) {
 		super(statusEffectCategory, color);
 	}
@@ -29,12 +35,30 @@ public final class LongReachStatusEffect extends StatusEffect
 
 	@Override
 	public void applyUpdateEffect(LivingEntity entity, int amplifier) {
-		double reachModifier = LongReachStatusEffect.REACH_MODIFIER + (float) amplifier;
+		double reachModifier = FriendsAndFoes.getConfig().longReachStatusEffectModifier + (float) amplifier;
+	}
+
+	@Override
+	public void onRemoved(LivingEntity entity, AttributeContainer attributes, int amplifier) {
+		super.onRemoved(entity, attributes, amplifier);
+		customOnRemoved(entity, attributes, amplifier);
+	}
+
+	@Override
+	@ExpectPlatform
+	public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
+		super.onApplied(entity, attributes, amplifier);
+		customOnApplied(entity, attributes, amplifier);
 	}
 
 	@ExpectPlatform
-	public String applyUpdateEffect() {
-		throw new AssertionError();
+	public static void customOnRemoved(LivingEntity entity, AttributeContainer attributes, int amplifier) {
+		throw new NotImplementedException();
+	}
+
+	@ExpectPlatform
+	public static void customOnApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
+		throw new NotImplementedException();
 	}
 
 	public static double getModifiedReachDistance(@Nullable LivingEntity entity, double currentReachDistance) {
@@ -49,38 +73,5 @@ public final class LongReachStatusEffect extends StatusEffect
 	public static double getModifiedSquaredReachDistance(@Nullable LivingEntity entity, double currentReachDistance) {
 		double reachDistance = getModifiedReachDistance(entity, Math.sqrt(currentReachDistance));
 		return reachDistance * reachDistance;
-	}
-
-	public static List<PlayerEntity> getPlayersWithinReach(
-		final World world,
-		final int x,
-		final int y,
-		final int z,
-		final double baseReachDistance
-	) {
-		return getPlayersWithinReach(player -> true, world, x, y, z, baseReachDistance);
-	}
-
-	public static List<PlayerEntity> getPlayersWithinReach(
-		final Predicate<PlayerEntity> viewerPredicate,
-		final World world,
-		final int x,
-		final int y,
-		final int z,
-		final double baseReachDistance
-	) {
-		final List<PlayerEntity> playersWithinReach = new ArrayList<>(0);
-		for (final PlayerEntity player : world.getPlayers()) {
-			if (viewerPredicate.test(player)) {
-				final var reach = getModifiedReachDistance(player, baseReachDistance);
-				final var dx = (x + 0.5) - player.getX();
-				final var dy = (y + 0.5) - player.getEyeY();
-				final var dz = (z + 0.5) - player.getZ();
-				if (((dx * dx) + (dy * dy) + (dz * dz)) <= (reach * reach)) {
-					playersWithinReach.add(player);
-				}
-			}
-		}
-		return playersWithinReach;
 	}
 }

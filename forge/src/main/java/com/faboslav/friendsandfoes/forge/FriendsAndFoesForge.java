@@ -5,35 +5,36 @@ import com.faboslav.friendsandfoes.FriendsAndFoesClient;
 import com.faboslav.friendsandfoes.events.lifecycle.DatapackSyncEvent;
 import com.faboslav.friendsandfoes.events.lifecycle.RegisterReloadListenerEvent;
 import com.faboslav.friendsandfoes.events.lifecycle.SetupEvent;
+import com.faboslav.friendsandfoes.forge.world.MobSpawnBiomeModifier;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
-import com.faboslav.friendsandfoes.init.FriendsAndFoesStructurePoolElements;
 import com.faboslav.friendsandfoes.platform.forge.RegistryHelperImpl;
 import com.faboslav.friendsandfoes.util.CustomRaidMember;
 import com.faboslav.friendsandfoes.util.ServerWorldSpawnersUtil;
 import com.faboslav.friendsandfoes.util.UpdateChecker;
 import com.faboslav.friendsandfoes.world.spawner.IceologerSpawner;
 import com.faboslav.friendsandfoes.world.spawner.IllusionerSpawner;
+import com.mojang.serialization.Codec;
 import net.minecraft.SharedConstants;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.village.raid.Raid;
 import net.minecraft.world.dimension.DimensionTypes;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.event.AddReloadListenerEvent;
-import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.level.LevelEvent;
-import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Map;
 import java.util.function.Supplier;
@@ -43,13 +44,19 @@ public final class FriendsAndFoesForge
 {
 	public FriendsAndFoesForge() {
 		UpdateChecker.checkForNewUpdates();
+
+		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+		IEventBus eventBus = MinecraftForge.EVENT_BUS;
+
+		final DeferredRegister<Codec<? extends BiomeModifier>> biomeModifiers = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, FriendsAndFoes.MOD_ID);
+		biomeModifiers.register(modEventBus);
+		biomeModifiers.register("faf_mob_spawns", MobSpawnBiomeModifier::makeCodec);
+
 		FriendsAndFoes.init();
 
 		if (FMLEnvironment.dist == Dist.CLIENT) {
 			FriendsAndFoesClient.init();
 		}
-
-		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
 		modEventBus.addListener(FriendsAndFoesForge::onSetup);
 
@@ -66,16 +73,12 @@ public final class FriendsAndFoesForge
 		RegistryHelperImpl.POINT_OF_INTEREST_TYPES.register(modEventBus);
 		RegistryHelperImpl.SOUND_EVENTS.register(modEventBus);
 		RegistryHelperImpl.STRUCTURE_TYPES.register(modEventBus);
-		RegistryHelperImpl.STRUCTURE_PROCESSOR_TYPES.register(modEventBus);
 		RegistryHelperImpl.VILLAGER_PROFESSIONS.register(modEventBus);
 
 		modEventBus.addListener(FriendsAndFoesForge::init);
 		modEventBus.addListener(FriendsAndFoesForge::registerEntityAttributes);
-		modEventBus.addListener(FriendsAndFoesForge::addItemsToTabs);
 
-		var eventBus = MinecraftForge.EVENT_BUS;
 		eventBus.addListener(FriendsAndFoesForge::initSpawners);
-		eventBus.addListener(FriendsAndFoesForge::onServerAboutToStartEvent);
 		eventBus.addListener(FriendsAndFoesForge::onAddReloadListeners);
 		eventBus.addListener(FriendsAndFoesForge::onDatapackSync);
 
@@ -109,25 +112,6 @@ public final class FriendsAndFoesForge
 			event.put(entry.getKey().get(), entry.getValue().get().build());
 		}
 	}
-
-	private static void addItemsToTabs(CreativeModeTabEvent.BuildContents event) {
-		RegistryHelperImpl.ITEMS_TO_ADD_BEFORE.forEach((itemGroup, itemPairs) -> {
-			if (event.getTab() == itemGroup) {
-				itemPairs.forEach((item, before) -> {
-					event.getEntries().putBefore(before.getDefaultStack(), item.getDefaultStack(), ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS);
-				});
-			}
-		});
-
-		RegistryHelperImpl.ITEMS_TO_ADD_AFTER.forEach((itemGroup, itemPairs) -> {
-			if (event.getTab() == itemGroup) {
-				itemPairs.forEach((item, after) -> {
-					event.getEntries().putAfter(after.getDefaultStack(), item.getDefaultStack(), ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS);
-				});
-			}
-		});
-	}
-
 
 	private static void onAddReloadListeners(AddReloadListenerEvent event) {
 		RegisterReloadListenerEvent.EVENT.invoke(new RegisterReloadListenerEvent((id, listener) -> event.addListener(listener)));
@@ -168,9 +152,5 @@ public final class FriendsAndFoesForge
 
 		ServerWorldSpawnersUtil.register(world, new IceologerSpawner());
 		ServerWorldSpawnersUtil.register(world, new IllusionerSpawner());
-	}
-
-	public static void onServerAboutToStartEvent(ServerAboutToStartEvent event) {
-		FriendsAndFoesStructurePoolElements.init(event.getServer());
 	}
 }

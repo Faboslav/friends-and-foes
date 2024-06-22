@@ -8,7 +8,6 @@
 	},
 	"mixins": [
 		"AddCustomEntityPoseMixin",
-		"AxeItemMixin",
 		"BeeEntityAccessor",
 		"BeeEntityMixin",
 		"BeeEntityMoveToFlowerGoalMixin",

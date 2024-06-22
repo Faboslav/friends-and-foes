@@ -1,6 +1,6 @@
 plugins {
 	id "architectury-plugin" version "3.4-SNAPSHOT"
-	id "dev.architectury.loom" version "1.4-SNAPSHOT" apply false
+	id 'dev.architectury.loom' version '1.6-SNAPSHOT' apply false
 }
 
 architectury {
@@ -28,6 +28,26 @@ allprojects {
 	version = rootProject.mod_version
 	archivesBaseName = "${rootProject.mod_id}-mc${rootProject.minecraft_version}"
 
+	processResources {
+		def expandProps = [
+			'modId'              : mod_id,
+			'modName'            : mod_name,
+			'modDescription'     : mod_description,
+			'modVersion'         : mod_version,
+			'modAuthor'          : mod_author,
+			"minecraftVersion"   : minecraft_version,
+			"fabricLoaderVersion": fabric_loader_version,
+			"fabricApiVersion"   : fabric_api_version,
+			"forgeVersion"	     : forge_version
+		]
+
+		filesMatching(['fabric.mod.json', 'META-INF/mods.toml']) {
+			expand expandProps
+		}
+
+		inputs.properties(expandProps)
+	}
+
 	repositories {
 		maven {
 			name = "Jitpack"
@@ -35,12 +55,14 @@ allprojects {
 		}
 	}
 
-	tasks.withType(JavaCompile) {
-		options.encoding = "UTF-8"
-		options.release = 17
+	tasks.withType(JavaCompile).configureEach {
+		it.options.release = 17
 	}
 
 	java {
 		withSourcesJar()
+
+		sourceCompatibility = JavaVersion.VERSION_17
+		targetCompatibility = JavaVersion.VERSION_17
 	}
 }

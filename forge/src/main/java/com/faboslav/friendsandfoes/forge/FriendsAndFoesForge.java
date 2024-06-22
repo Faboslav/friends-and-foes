@@ -7,6 +7,7 @@ import com.faboslav.friendsandfoes.events.lifecycle.RegisterReloadListenerEvent;
 import com.faboslav.friendsandfoes.events.lifecycle.SetupEvent;
 import com.faboslav.friendsandfoes.forge.world.MobSpawnBiomeModifier;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesStructurePoolElements;
 import com.faboslav.friendsandfoes.platform.forge.RegistryHelperImpl;
 import com.faboslav.friendsandfoes.util.CustomRaidMember;
 import com.faboslav.friendsandfoes.util.ServerWorldSpawnersUtil;
@@ -30,6 +31,7 @@ import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.level.LevelEvent;
+import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -75,12 +77,15 @@ public final class FriendsAndFoesForge
 		RegistryHelperImpl.POINT_OF_INTEREST_TYPES.register(modEventBus);
 		RegistryHelperImpl.SOUND_EVENTS.register(modEventBus);
 		RegistryHelperImpl.STRUCTURE_TYPES.register(modEventBus);
+		RegistryHelperImpl.STRUCTURE_PROCESSOR_TYPES.register(modEventBus);
 		RegistryHelperImpl.VILLAGER_PROFESSIONS.register(modEventBus);
 
 		modEventBus.addListener(FriendsAndFoesForge::init);
 		modEventBus.addListener(FriendsAndFoesForge::registerEntityAttributes);
+		modEventBus.addListener(FriendsAndFoesForge::addItemsToTabs);
 
 		eventBus.addListener(FriendsAndFoesForge::initSpawners);
+		eventBus.addListener(FriendsAndFoesForge::onServerAboutToStartEvent);
 		eventBus.addListener(FriendsAndFoesForge::onAddReloadListeners);
 		eventBus.addListener(FriendsAndFoesForge::onDatapackSync);
 
@@ -172,5 +177,9 @@ public final class FriendsAndFoesForge
 
 		ServerWorldSpawnersUtil.register(world, new IceologerSpawner());
 		ServerWorldSpawnersUtil.register(world, new IllusionerSpawner());
+	}
+
+	public static void onServerAboutToStartEvent(ServerAboutToStartEvent event) {
+		FriendsAndFoesStructurePoolElements.init(event.getServer());
 	}
 }

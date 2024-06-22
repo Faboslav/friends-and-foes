@@ -1,9 +1,9 @@
 package com.faboslav.friendsandfoes.mixin;
 
-import com.faboslav.friendsandfoes.block.Oxidizable;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Oxidizable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;

@@ -48,26 +48,6 @@ dependencies {
 	modImplementation("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}")
 }
 
-processResources {
-	inputs.property "modId", rootProject.mod_id
-	inputs.property "modVersion", rootProject.mod_version
-	inputs.property "modName", rootProject.mod_name
-	inputs.property "modDescription", rootProject.mod_description
-	inputs.property "modAuthor", rootProject.mod_author
-	inputs.property "minecraftVersion", rootProject.minecraft_version
-	inputs.property "forgeVersion", rootProject.forge_version
-
-	filesMatching("META-INF/mods.toml") {
-		expand "modId": rootProject.mod_id,
-			"modVersion": rootProject.mod_version,
-			"modName": rootProject.mod_name,
-			"modDescription": rootProject.mod_description,
-			"modAuthor": rootProject.mod_author,
-			"minecraftVersion": rootProject.minecraft_version,
-			"forgeVersion": rootProject.forge_version
-	}
-}
-
 shadowJar {
 	exclude "fabric.mod.json"
 	exclude "architectury.common.json"

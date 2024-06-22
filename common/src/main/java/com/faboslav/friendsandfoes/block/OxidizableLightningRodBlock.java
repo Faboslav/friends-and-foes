@@ -2,17 +2,18 @@ package com.faboslav.friendsandfoes.block;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LightningRodBlock;
+import net.minecraft.block.Oxidizable;
 
 public final class OxidizableLightningRodBlock extends LightningRodBlock implements Oxidizable
 {
-	private final OxidationLevel OxidationLevel;
+	private final OxidationLevel oxidationLevel;
 
 	public OxidizableLightningRodBlock(
-		OxidationLevel OxidationLevel,
+		OxidationLevel oxidationLevel,
 		Settings settings
 	) {
 		super(settings);
-		this.OxidationLevel = OxidationLevel;
+		this.oxidationLevel = oxidationLevel;
 	}
 
 	@Override
@@ -22,6 +23,6 @@ public final class OxidizableLightningRodBlock extends LightningRodBlock impleme
 
 	@Override
 	public OxidationLevel getDegradationLevel() {
-		return this.OxidationLevel;
+		return this.oxidationLevel;
 	}
 }

@@ -17,8 +17,8 @@ import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.minecraft.registry.tag.BiomeTags;
 import net.minecraft.resource.ResourceType;
-import net.minecraft.tag.BiomeTags;
 import net.minecraft.world.dimension.DimensionTypes;
 
 public final class FriendsAndFoesFabric implements ModInitializer

@@ -1,15 +1,14 @@
-package com.faboslav.friendsandfoes.neoforge;
+package com.faboslav.friendsandfoes.forge;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.FriendsAndFoesClient;
 import com.faboslav.friendsandfoes.events.lifecycle.DatapackSyncEvent;
 import com.faboslav.friendsandfoes.events.lifecycle.RegisterReloadListenerEvent;
 import com.faboslav.friendsandfoes.events.lifecycle.SetupEvent;
+import com.faboslav.friendsandfoes.forge.world.MobSpawnBiomeModifier;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesStructurePoolElements;
-import com.faboslav.friendsandfoes.neoforge.world.MobSpawnBiomeModifier;
-import com.faboslav.friendsandfoes.platform.neoforge.PacketChannelManagerImpl;
-import com.faboslav.friendsandfoes.platform.neoforge.RegistryHelperImpl;
+import com.faboslav.friendsandfoes.platform.forge.RegistryHelperImpl;
 import com.faboslav.friendsandfoes.util.CustomRaidMember;
 import com.faboslav.friendsandfoes.util.ServerWorldSpawnersUtil;
 import com.faboslav.friendsandfoes.util.UpdateChecker;
@@ -24,39 +23,38 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.village.raid.Raid;
 import net.minecraft.world.dimension.DimensionTypes;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.fml.loading.FMLEnvironment;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.common.world.BiomeModifier;
-import net.neoforged.neoforge.event.AddReloadListenerEvent;
-import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-import net.neoforged.neoforge.event.OnDatapackSyncEvent;
-import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
-import net.neoforged.neoforge.event.level.LevelEvent;
-import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
-import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.world.BiomeModifier;
+import net.minecraftforge.event.AddReloadListenerEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+import net.minecraftforge.event.OnDatapackSyncEvent;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.event.level.LevelEvent;
+import net.minecraftforge.event.server.ServerAboutToStartEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Map;
 import java.util.function.Supplier;
 
-@SuppressWarnings({"deprecation", "removal"})
 @Mod(FriendsAndFoes.MOD_ID)
-public final class FriendsAndFoesNeoForge
+public final class FriendsAndFoesForge
 {
-	public FriendsAndFoesNeoForge() {
+	public FriendsAndFoesForge() {
 		UpdateChecker.checkForNewUpdates();
 
-		var eventBus = NeoForge.EVENT_BUS;
-		IEventBus modEventBus = net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext.get().getModEventBus();
+		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+		IEventBus eventBus = MinecraftForge.EVENT_BUS;
 
-		final DeferredRegister<Codec<? extends BiomeModifier>> biomeModifiers = DeferredRegister.create(NeoForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, FriendsAndFoes.MOD_ID);
+		final DeferredRegister<Codec<? extends BiomeModifier>> biomeModifiers = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, FriendsAndFoes.MOD_ID);
 		biomeModifiers.register(modEventBus);
 		biomeModifiers.register("faf_mob_spawns", MobSpawnBiomeModifier::makeCodec);
-
 
 		FriendsAndFoes.init();
 
@@ -64,7 +62,7 @@ public final class FriendsAndFoesNeoForge
 			FriendsAndFoesClient.init();
 		}
 
-		modEventBus.addListener(FriendsAndFoesNeoForge::onSetup);
+		modEventBus.addListener(FriendsAndFoesForge::onSetup);
 
 		RegistryHelperImpl.ACTIVITIES.register(modEventBus);
 		RegistryHelperImpl.BLOCKS.register(modEventBus);
@@ -81,17 +79,17 @@ public final class FriendsAndFoesNeoForge
 		RegistryHelperImpl.STRUCTURE_TYPES.register(modEventBus);
 		RegistryHelperImpl.STRUCTURE_PROCESSOR_TYPES.register(modEventBus);
 		RegistryHelperImpl.VILLAGER_PROFESSIONS.register(modEventBus);
-		RegistryHelperImpl.CRITERIA.register(modEventBus);
 
-		modEventBus.addListener(FriendsAndFoesNeoForge::init);
-		modEventBus.addListener(FriendsAndFoesNeoForge::registerEntityAttributes);
-		modEventBus.addListener(FriendsAndFoesNeoForge::addItemsToTabs);
-		modEventBus.addListener(PacketChannelManagerImpl::registerPayloads);
+		modEventBus.addListener(FriendsAndFoesForge::init);
+		modEventBus.addListener(FriendsAndFoesForge::registerEntityAttributes);
+		modEventBus.addListener(FriendsAndFoesForge::addItemsToTabs);
 
-		eventBus.addListener(FriendsAndFoesNeoForge::initSpawners);
-		eventBus.addListener(FriendsAndFoesNeoForge::onServerAboutToStartEvent);
-		eventBus.addListener(FriendsAndFoesNeoForge::onAddReloadListeners);
-		eventBus.addListener(FriendsAndFoesNeoForge::onDatapackSync);
+		eventBus.addListener(FriendsAndFoesForge::initSpawners);
+		eventBus.addListener(FriendsAndFoesForge::onServerAboutToStartEvent);
+		eventBus.addListener(FriendsAndFoesForge::onAddReloadListeners);
+		eventBus.addListener(FriendsAndFoesForge::onDatapackSync);
+
+		MinecraftForge.EVENT_BUS.register(this);
 	}
 
 	private static void init(final FMLCommonSetupEvent event) {
@@ -149,10 +147,12 @@ public final class FriendsAndFoesNeoForge
 	}
 
 	private static void onDatapackSync(OnDatapackSyncEvent event) {
-		if (event.getPlayer() != null) {
-			DatapackSyncEvent.EVENT.invoke(new DatapackSyncEvent(event.getPlayer()));
-		} else {
-			event.getPlayerList().getPlayerList().forEach(player -> DatapackSyncEvent.EVENT.invoke(new DatapackSyncEvent(player)));
+		if (FMLEnvironment.dist.isDedicatedServer()) {
+			if (event.getPlayer() != null) {
+				DatapackSyncEvent.EVENT.invoke(new DatapackSyncEvent(event.getPlayer()));
+			} else {
+				event.getPlayerList().getPlayerList().forEach(player -> DatapackSyncEvent.EVENT.invoke(new DatapackSyncEvent(player)));
+			}
 		}
 	}
 

@@ -1,13 +1,14 @@
 {
 	"required": true,
-	"package": "com.faboslav.friendsandfoes.mixin.forge",
+	"package": "com.faboslav.friendsandfoes.mixin.neoforge",
 	"compatibilityLevel": "JAVA_17",
 	"minVersion": "0.8",
 	"injectors": {
 		"defaultRequire": 1
 	},
 	"mixins": [
-		"FireBlockAccessor"
+      "FireBlockAccessor",
+      "OxidizableMixin"
 	],
 	"plugin": "com.faboslav.friendsandfoes.util.plugin.MixinExtrasPlugin"
 }

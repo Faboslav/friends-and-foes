@@ -38,7 +38,8 @@ allprojects {
 			"minecraftVersion"   : minecraft_version,
 			"fabricLoaderVersion": fabric_loader_version,
 			"fabricApiVersion"   : fabric_api_version,
-			"forgeVersion"	     : forge_version
+			"forgeVersion"	     : forge_version,
+			"neoForgeVersion"	 : neoforge_version
 		]
 
 		filesMatching(['fabric.mod.json', 'META-INF/mods.toml']) {

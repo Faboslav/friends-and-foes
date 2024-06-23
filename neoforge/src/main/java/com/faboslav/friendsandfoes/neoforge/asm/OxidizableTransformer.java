@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.forge.asm;
+package com.faboslav.friendsandfoes.neoforge.asm;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.util.OxidizableBlocksProvider;

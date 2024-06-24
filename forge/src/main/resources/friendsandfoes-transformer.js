@@ -14,24 +14,34 @@ function initializeCoreMod() {
             'transformer': function(method) {
                 var instructions = method.instructions;
                 var builderStartIndex = -1;
+                var buildEndIndex = -1;
 
                 for (var i = 0; i < instructions.size(); i++) {
                     var instruction = instructions.get(i);
 
-                    if (instruction instanceof MethodInsnNode && instruction.name.equals("builder")) {
-                        builderStartIndex = i;
-                    }
+                    if (instruction instanceof MethodInsnNode) {
+                        if (instruction.name.equals("builder") && instruction.owner.equals("com/google/common/collect/ImmutableBiMap")) {
+                            builderStartIndex = i;
+                        }
 
-                    if (instruction instanceof MethodInsnNode && instruction.name.equals("build")) {
-                        builderEndIndex = i;
-                        break;
+                        if (builderStartIndex !== -1 && instruction.name.equals("build") && instruction.owner.equals("com/google/common/collect/ImmutableBiMap$Builder")) {
+                            buildEndIndex = i;
+                            break;
+                        }
                     }
                 }
 
-                if (builderStartIndex !== -1 && builderEndIndex !== -1) {
+                if (builderStartIndex !== -1 && buildEndIndex !== -1) {
                     var methodInstructions = new InsnList();
-                    methodInstructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "com/faboslav/friendsandfoes/forge/asm/OxidizableTransformer", "injectCustomOxidizableBlocks", "(Lcom/google/common/collect/ImmutableBiMap$Builder;)Lcom/google/common/collect/ImmutableBiMap$Builder;", false));
-                    instructions.insertBefore(instructions.get(builderEndIndex), methodInstructions);
+                    methodInstructions.add(new MethodInsnNode(
+                        Opcodes.INVOKESTATIC,
+                        "com/faboslav/friendsandfoes/forge/asm/OxidizableTransformer",
+                        "createMutableMap",
+                        "(Lcom/google/common/collect/BiMap;)Lcom/google/common/collect/BiMap;",
+                        false
+                    ));
+
+                    instructions.insert(instructions.get(buildEndIndex), methodInstructions);
                 }
 
                 return method;

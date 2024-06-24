@@ -3,10 +3,7 @@ package com.faboslav.friendsandfoes;
 import com.faboslav.friendsandfoes.api.MoobloomVariantManager;
 import com.faboslav.friendsandfoes.config.FriendsAndFoesConfig;
 import com.faboslav.friendsandfoes.config.omegaconfig.OmegaConfig;
-import com.faboslav.friendsandfoes.events.lifecycle.AddSpawnBiomeModificationsEvent;
-import com.faboslav.friendsandfoes.events.lifecycle.DatapackSyncEvent;
-import com.faboslav.friendsandfoes.events.lifecycle.RegisterReloadListenerEvent;
-import com.faboslav.friendsandfoes.events.lifecycle.SetupEvent;
+import com.faboslav.friendsandfoes.events.lifecycle.*;
 import com.faboslav.friendsandfoes.init.*;
 import com.faboslav.friendsandfoes.modcompat.ModChecker;
 import com.faboslav.friendsandfoes.network.MessageHandler;
@@ -60,6 +57,7 @@ public final class FriendsAndFoes
 		FriendsAndFoesVillagerProfessions.init();
 
 		RegisterReloadListenerEvent.EVENT.addListener(FriendsAndFoes::registerServerDataListeners);
+		RegisterOxidizablesEvent.EVENT.addListener(FriendsAndFoesBlocks::registerOxidizables);
 		AddSpawnBiomeModificationsEvent.EVENT.addListener(FriendsAndFoesEntityTypes::addSpawnBiomeModifications);
 		SetupEvent.EVENT.addListener(FriendsAndFoes::setup);
 		DatapackSyncEvent.EVENT.addListener(MoobloomVariantsSyncPacket::sendToClient);

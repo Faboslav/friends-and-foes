@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes.init;
 import com.faboslav.friendsandfoes.block.CopperButtonBlock;
 import com.faboslav.friendsandfoes.block.OxidizableButtonBlock;
 import com.faboslav.friendsandfoes.block.OxidizableLightningRodBlock;
+import com.faboslav.friendsandfoes.events.lifecycle.RegisterOxidizablesEvent;
 import com.faboslav.friendsandfoes.platform.RegistryHelper;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.Instrument;
@@ -80,6 +81,15 @@ public final class FriendsAndFoesBlocks
 
 	public static void postInit() {
 		registerFlammableBlocks();
+	}
+
+	public static void registerOxidizables(RegisterOxidizablesEvent event) {
+		event.register(FriendsAndFoesBlocks.COPPER_BUTTON.get(), FriendsAndFoesBlocks.EXPOSED_COPPER_BUTTON.get());
+		event.register(FriendsAndFoesBlocks.EXPOSED_COPPER_BUTTON.get(), FriendsAndFoesBlocks.WEATHERED_COPPER_BUTTON.get());
+		event.register(FriendsAndFoesBlocks.WEATHERED_COPPER_BUTTON.get(), FriendsAndFoesBlocks.OXIDIZED_COPPER_BUTTON.get());
+		event.register(Blocks.LIGHTNING_ROD, FriendsAndFoesBlocks.EXPOSED_LIGHTNING_ROD.get());
+		event.register(FriendsAndFoesBlocks.EXPOSED_LIGHTNING_ROD.get(), FriendsAndFoesBlocks.WEATHERED_LIGHTNING_ROD.get());
+		event.register(FriendsAndFoesBlocks.WEATHERED_LIGHTNING_ROD.get(), FriendsAndFoesBlocks.OXIDIZED_LIGHTNING_ROD.get());
 	}
 
 	private static void registerFlammableBlocks() {

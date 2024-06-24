@@ -19,7 +19,11 @@ public final class ActivateZombieHorseTrapCriterion extends AbstractCriterion<Ac
 	public ActivateZombieHorseTrapCriterion() {
 	}
 
-	public ActivateZombieHorseTrapCriterion.Conditions conditionsFromJson(JsonObject jsonObject, Optional<LootContextPredicate> optional, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) {
+	public ActivateZombieHorseTrapCriterion.Conditions conditionsFromJson(
+		JsonObject jsonObject,
+		Optional<LootContextPredicate> optional,
+		AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer
+	) {
 		Optional<LootContextPredicate> optional2 = EntityPredicate.contextPredicateFromJson(jsonObject, "lightning", advancementEntityPredicateDeserializer);
 		return new ActivateZombieHorseTrapCriterion.Conditions(optional, optional2);
 	}
@@ -31,7 +35,8 @@ public final class ActivateZombieHorseTrapCriterion extends AbstractCriterion<Ac
 		});
 	}
 
-	public static class Conditions extends AbstractCriterionConditions {
+	public static class Conditions extends AbstractCriterionConditions
+	{
 		private final Optional<LootContextPredicate> lightning;
 
 		public Conditions(Optional<LootContextPredicate> playerPredicate, Optional<LootContextPredicate> entity) {

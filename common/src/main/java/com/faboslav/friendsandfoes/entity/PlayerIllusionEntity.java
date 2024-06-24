@@ -124,7 +124,7 @@ public final class PlayerIllusionEntity extends MobEntity
 	public SkinTextures getSkinTextures() {
 		PlayerListEntry playerListEntry = this.getPlayerListEntry();
 
-		if(playerListEntry != null) {
+		if (playerListEntry != null) {
 			return playerListEntry.getSkinTextures();
 		}
 

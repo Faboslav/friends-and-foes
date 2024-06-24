@@ -7,8 +7,7 @@
 		"defaultRequire": 1
 	},
 	"mixins": [
-      "FireBlockAccessor",
-      "OxidizableMixin"
+		"FireBlockAccessor"
 	],
 	"plugin": "com.faboslav.friendsandfoes.util.plugin.MixinExtrasPlugin"
 }

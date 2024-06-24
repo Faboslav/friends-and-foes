@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.advancements.criterion;
 
-import com.faboslav.friendsandfoes.entity.GlareEntity;
 import com.faboslav.friendsandfoes.entity.RascalEntity;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesCriteria;
 import com.google.gson.JsonObject;
@@ -20,7 +19,11 @@ public final class CompleteHideAndSeekGameCriterion extends AbstractCriterion<Co
 	public CompleteHideAndSeekGameCriterion() {
 	}
 
-	public CompleteHideAndSeekGameCriterion.Conditions conditionsFromJson(JsonObject jsonObject, Optional<LootContextPredicate> optional, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) {
+	public CompleteHideAndSeekGameCriterion.Conditions conditionsFromJson(
+		JsonObject jsonObject,
+		Optional<LootContextPredicate> optional,
+		AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer
+	) {
 		Optional<LootContextPredicate> optional2 = EntityPredicate.contextPredicateFromJson(jsonObject, "entity", advancementEntityPredicateDeserializer);
 		return new CompleteHideAndSeekGameCriterion.Conditions(optional, optional2);
 	}
@@ -32,7 +35,8 @@ public final class CompleteHideAndSeekGameCriterion extends AbstractCriterion<Co
 		});
 	}
 
-	public static class Conditions extends AbstractCriterionConditions {
+	public static class Conditions extends AbstractCriterionConditions
+	{
 		private final Optional<LootContextPredicate> entity;
 
 		public Conditions(Optional<LootContextPredicate> playerPredicate, Optional<LootContextPredicate> entity) {

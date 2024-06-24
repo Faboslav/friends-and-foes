@@ -5,7 +5,6 @@ import com.faboslav.friendsandfoes.client.render.entity.renderer.WildfireEntityR
 import com.faboslav.friendsandfoes.entity.*;
 import com.faboslav.friendsandfoes.events.lifecycle.AddSpawnBiomeModificationsEvent;
 import com.faboslav.friendsandfoes.mixin.SpawnRestrictionAccessor;
-import com.faboslav.friendsandfoes.platform.BiomeModifications;
 import com.faboslav.friendsandfoes.platform.CustomSpawnGroup;
 import com.faboslav.friendsandfoes.platform.RegistryHelper;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;

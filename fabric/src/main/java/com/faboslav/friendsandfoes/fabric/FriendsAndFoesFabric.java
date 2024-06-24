@@ -2,10 +2,7 @@ package com.faboslav.friendsandfoes.fabric;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.events.fabric.FabricReloadListener;
-import com.faboslav.friendsandfoes.events.lifecycle.AddSpawnBiomeModificationsEvent;
-import com.faboslav.friendsandfoes.events.lifecycle.DatapackSyncEvent;
-import com.faboslav.friendsandfoes.events.lifecycle.RegisterReloadListenerEvent;
-import com.faboslav.friendsandfoes.events.lifecycle.SetupEvent;
+import com.faboslav.friendsandfoes.events.lifecycle.*;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesPointOfInterestTypes;
 import com.faboslav.friendsandfoes.util.ServerWorldSpawnersUtil;
 import com.faboslav.friendsandfoes.util.UpdateChecker;
@@ -15,6 +12,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
+import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.tag.BiomeTags;
@@ -45,6 +43,8 @@ public final class FriendsAndFoesFabric implements ModInitializer
 		AddSpawnBiomeModificationsEvent.EVENT.invoke(new AddSpawnBiomeModificationsEvent((tag, spawnGroup, entityType, weight, minGroupSize, maxGroupSize) -> {
 			BiomeModifications.addSpawn(biomeSelector -> biomeSelector.hasTag(tag) && biomeSelector.hasTag(BiomeTags.IS_OVERWORLD), spawnGroup, entityType, weight, minGroupSize, maxGroupSize);
 		}));
+
+		RegisterOxidizablesEvent.EVENT.invoke(new RegisterOxidizablesEvent(OxidizableBlocksRegistry::registerOxidizableBlockPair));
 
 		ServerWorldEvents.LOAD.register(((server, world) -> {
 			if (world.isClient() || world.getDimensionKey() != DimensionTypes.OVERWORLD) {

@@ -115,16 +115,8 @@ public final class FriendsAndFoesForge
 				);
 			}
 
-			try {
-				RegisterOxidizablesEvent.EVENT.invoke(new RegisterOxidizablesEvent(OxidizableBlocksRegistry::registerOxidizableBlockPair));
-				//RegisterWaxablesEvent.EVENT.invoke(new RegisterWaxablesEvent(WaxableBlocksRegistry::registerWaxableBlockPair));
-			} catch (Exception e) {
-				FriendsAndFoes.getLogger().error(e.toString());
-				FriendsAndFoes.getLogger().error(e.getMessage());
-				FriendsAndFoes.getLogger().error(e.getStackTrace().toString());
-			}
-
-			FriendsAndFoes.getLogger().error(Oxidizable.OXIDATION_LEVEL_INCREASES.get().toString());
+			RegisterOxidizablesEvent.EVENT.invoke(new RegisterOxidizablesEvent(OxidizableBlocksRegistry::registerOxidizableBlockPair));
+			RegisterWaxablesEvent.EVENT.invoke(new RegisterWaxablesEvent(WaxableBlocksRegistry::registerWaxableBlockPair));
 		});
 	}
 

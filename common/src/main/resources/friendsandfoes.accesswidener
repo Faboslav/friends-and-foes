@@ -32,3 +32,5 @@ accessible method net/minecraft/particle/DefaultParticleType <init> (Z)V
 accessible method net/minecraft/block/ButtonBlock getClickSound (Z)Lnet/minecraft/sound/SoundEvent;
 accessible method net/minecraft/entity/ai/brain/sensor/SensorType <init> (Ljava/util/function/Supplier;)V
 accessible method net/minecraft/advancement/criterion/Criteria register (Ljava/lang/String;Lnet/minecraft/advancement/criterion/Criterion;)Lnet/minecraft/advancement/criterion/Criterion;
+accessible    field    net/minecraft/block/Oxidizable    OXIDATION_LEVEL_INCREASES    Ljava/util/function/Supplier;
+accessible    field    net/minecraft/block/Oxidizable    OXIDATION_LEVEL_DECREASES    Ljava/util/function/Supplier;

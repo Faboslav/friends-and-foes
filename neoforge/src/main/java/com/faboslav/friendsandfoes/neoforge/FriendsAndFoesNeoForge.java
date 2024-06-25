@@ -28,6 +28,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.world.BiomeModifier;
@@ -50,13 +51,12 @@ public final class FriendsAndFoesNeoForge
 	public FriendsAndFoesNeoForge() {
 		UpdateChecker.checkForNewUpdates();
 
+		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 		var eventBus = NeoForge.EVENT_BUS;
-		IEventBus modEventBus = net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext.get().getModEventBus();
 
 		final DeferredRegister<Codec<? extends BiomeModifier>> biomeModifiers = DeferredRegister.create(NeoForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, FriendsAndFoes.MOD_ID);
 		biomeModifiers.register(modEventBus);
-		biomeModifiers.register("faf_mob_spawns", MobSpawnBiomeModifier::makeCodec);
-
+		biomeModifiers.register("mob_spawns", MobSpawnBiomeModifier::makeCodec);
 
 		FriendsAndFoes.init();
 

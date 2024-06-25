@@ -1,26 +1,38 @@
 package com.faboslav.friendsandfoes.mixin;
 
-import com.faboslav.friendsandfoes.init.FriendsAndFoesBlocks;
-import com.google.common.collect.ImmutableBiMap;
-import com.llamalad7.mixinextras.injector.ModifyReceiver;
-import net.minecraft.block.Blocks;
+import com.faboslav.friendsandfoes.util.WaxableBlocksMap;
+import com.google.common.collect.BiMap;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.item.HoneycombItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(value = HoneycombItem.class, priority = 10000)
-@SuppressWarnings({"rawtypes", "unchecked"})
+import java.util.Optional;
+
+@Mixin(HoneycombItem.class)
+@SuppressWarnings({"rawtypes"})
 public abstract class HoneycombItemMixin
 {
-	@ModifyReceiver(method = "method_34723", at = @At(value = "INVOKE", target = "Lcom/google/common/collect/ImmutableBiMap$Builder;build()Lcom/google/common/collect/ImmutableBiMap;"))
-	private static ImmutableBiMap.Builder inject(ImmutableBiMap.Builder receiver) {
-		return receiver.put(FriendsAndFoesBlocks.COPPER_BUTTON.get(), FriendsAndFoesBlocks.WAXED_COPPER_BUTTON.get())
-			.put(FriendsAndFoesBlocks.EXPOSED_COPPER_BUTTON.get(), FriendsAndFoesBlocks.WAXED_EXPOSED_COPPER_BUTTON.get())
-			.put(FriendsAndFoesBlocks.WEATHERED_COPPER_BUTTON.get(), FriendsAndFoesBlocks.WAXED_WEATHERED_COPPER_BUTTON.get())
-			.put(FriendsAndFoesBlocks.OXIDIZED_COPPER_BUTTON.get(), FriendsAndFoesBlocks.WAXED_OXIDIZED_COPPER_BUTTON.get())
-			.put(Blocks.LIGHTNING_ROD, FriendsAndFoesBlocks.WAXED_LIGHTNING_ROD.get())
-			.put(FriendsAndFoesBlocks.EXPOSED_LIGHTNING_ROD.get(), FriendsAndFoesBlocks.WAXED_EXPOSED_LIGHTNING_ROD.get())
-			.put(FriendsAndFoesBlocks.WEATHERED_LIGHTNING_ROD.get(), FriendsAndFoesBlocks.WAXED_WEATHERED_LIGHTNING_ROD.get())
-			.put(FriendsAndFoesBlocks.OXIDIZED_LIGHTNING_ROD.get(), FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get());
+	@Inject(
+		method = "getWaxedState",
+		at = @At("RETURN"),
+		cancellable = true
+	)
+	private static void friendsandfoes_getWaxedState(
+		BlockState state,
+		CallbackInfoReturnable<Optional<BlockState>> callbackInfo
+	) {
+		var blockState = callbackInfo.getReturnValue();
+
+		if (blockState.isEmpty()) {
+			blockState = Optional.ofNullable((Block) ((BiMap) WaxableBlocksMap.UNWAXED_TO_WAXED_BUTTON_BLOCKS.get()).get(state.getBlock())).map((block) -> {
+				return block.getStateWithProperties(state);
+			});
+
+			callbackInfo.setReturnValue(blockState);
+		}
 	}
 }

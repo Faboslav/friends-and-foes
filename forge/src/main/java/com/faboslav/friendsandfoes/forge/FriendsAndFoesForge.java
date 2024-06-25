@@ -3,8 +3,6 @@ package com.faboslav.friendsandfoes.forge;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.FriendsAndFoesClient;
 import com.faboslav.friendsandfoes.events.lifecycle.*;
-import com.faboslav.friendsandfoes.forge.util.OxidizableBlocksRegistry;
-import com.faboslav.friendsandfoes.forge.util.WaxableBlocksRegistry;
 import com.faboslav.friendsandfoes.forge.world.MobSpawnBiomeModifier;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.platform.forge.RegistryHelperImpl;
@@ -15,7 +13,6 @@ import com.faboslav.friendsandfoes.world.spawner.IceologerSpawner;
 import com.faboslav.friendsandfoes.world.spawner.IllusionerSpawner;
 import com.mojang.serialization.Codec;
 import net.minecraft.SharedConstants;
-import net.minecraft.block.Oxidizable;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -114,9 +111,6 @@ public final class FriendsAndFoesForge
 					CustomRaidMember.ILLUSIONER_COUNT_IN_WAVE
 				);
 			}
-
-			RegisterOxidizablesEvent.EVENT.invoke(new RegisterOxidizablesEvent(OxidizableBlocksRegistry::registerOxidizableBlockPair));
-			RegisterWaxablesEvent.EVENT.invoke(new RegisterWaxablesEvent(WaxableBlocksRegistry::registerWaxableBlockPair));
 		});
 	}
 

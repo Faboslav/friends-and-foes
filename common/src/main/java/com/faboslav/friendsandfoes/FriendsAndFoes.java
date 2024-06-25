@@ -56,8 +56,6 @@ public final class FriendsAndFoes
 		FriendsAndFoesVillagerProfessions.init();
 
 		RegisterReloadListenerEvent.EVENT.addListener(FriendsAndFoes::registerServerDataListeners);
-		RegisterOxidizablesEvent.EVENT.addListener(FriendsAndFoesBlocks::registerOxidizables);
-		RegisterWaxablesEvent.EVENT.addListener(FriendsAndFoesBlocks::registerWaxables);
 		AddSpawnBiomeModificationsEvent.EVENT.addListener(FriendsAndFoesEntityTypes::addSpawnBiomeModifications);
 		SetupEvent.EVENT.addListener(FriendsAndFoes::setup);
 		DatapackSyncEvent.EVENT.addListener(MoobloomVariantsSyncPacket::sendToClient);

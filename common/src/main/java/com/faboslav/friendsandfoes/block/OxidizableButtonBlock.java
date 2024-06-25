@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.block;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Oxidizable;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.server.world.ServerWorld;

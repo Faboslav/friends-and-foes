@@ -45,6 +45,7 @@ public final class FriendsAndFoesFabric implements ModInitializer
 		}));
 
 		RegisterOxidizablesEvent.EVENT.invoke(new RegisterOxidizablesEvent(OxidizableBlocksRegistry::registerOxidizableBlockPair));
+		RegisterWaxablesEvent.EVENT.invoke(new RegisterWaxablesEvent(OxidizableBlocksRegistry::registerWaxableBlockPair));
 
 		ServerWorldEvents.LOAD.register(((server, world) -> {
 			if (world.isClient() || world.getDimensionKey() != DimensionTypes.OVERWORLD) {

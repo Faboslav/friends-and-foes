@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.init;
 
 import com.faboslav.friendsandfoes.block.*;
 import com.faboslav.friendsandfoes.events.lifecycle.RegisterOxidizablesEvent;
+import com.faboslav.friendsandfoes.events.lifecycle.RegisterWaxablesEvent;
 import com.faboslav.friendsandfoes.platform.RegistryHelper;
 import net.minecraft.block.*;
 import net.minecraft.entity.effect.StatusEffects;
@@ -82,6 +83,17 @@ public final class FriendsAndFoesBlocks
 		event.register(Blocks.LIGHTNING_ROD, FriendsAndFoesBlocks.EXPOSED_LIGHTNING_ROD.get());
 		event.register(FriendsAndFoesBlocks.EXPOSED_LIGHTNING_ROD.get(), FriendsAndFoesBlocks.WEATHERED_LIGHTNING_ROD.get());
 		event.register(FriendsAndFoesBlocks.WEATHERED_LIGHTNING_ROD.get(), FriendsAndFoesBlocks.OXIDIZED_LIGHTNING_ROD.get());
+	}
+
+	public static void registerWaxables(RegisterWaxablesEvent event) {
+		event.register(FriendsAndFoesBlocks.COPPER_BUTTON.get(), FriendsAndFoesBlocks.WAXED_COPPER_BUTTON.get());
+		event.register(FriendsAndFoesBlocks.EXPOSED_COPPER_BUTTON.get(), FriendsAndFoesBlocks.WAXED_EXPOSED_COPPER_BUTTON.get());
+		event.register(FriendsAndFoesBlocks.WEATHERED_COPPER_BUTTON.get(), FriendsAndFoesBlocks.WAXED_WEATHERED_COPPER_BUTTON.get());
+		event.register(FriendsAndFoesBlocks.OXIDIZED_COPPER_BUTTON.get(), FriendsAndFoesBlocks.WAXED_OXIDIZED_COPPER_BUTTON.get());
+		event.register(Blocks.LIGHTNING_ROD, FriendsAndFoesBlocks.WAXED_LIGHTNING_ROD.get());
+		event.register(FriendsAndFoesBlocks.EXPOSED_LIGHTNING_ROD.get(), FriendsAndFoesBlocks.WAXED_EXPOSED_LIGHTNING_ROD.get());
+		event.register(FriendsAndFoesBlocks.WEATHERED_LIGHTNING_ROD.get(), FriendsAndFoesBlocks.WAXED_WEATHERED_LIGHTNING_ROD.get());
+		event.register(FriendsAndFoesBlocks.OXIDIZED_LIGHTNING_ROD.get(), FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get());
 	}
 
 	private static void registerFlammableBlocks() {

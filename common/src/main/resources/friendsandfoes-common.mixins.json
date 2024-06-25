@@ -19,7 +19,6 @@
 		"BundleItemAccessor",
 		"CarvedPumpkinBlockMixin",
 		"ChickenEntityMixin",
-		"HoneycombItemMixin",
 		"IllusionerEntityMixin",
 		"IllusionerHostileEntityMixin",
 		"IllusionerRaiderEntityMixin",

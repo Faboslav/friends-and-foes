@@ -3,10 +3,8 @@ package com.faboslav.friendsandfoes.forge;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.FriendsAndFoesClient;
 import com.faboslav.friendsandfoes.events.lifecycle.DatapackSyncEvent;
-import com.faboslav.friendsandfoes.events.lifecycle.RegisterOxidizablesEvent;
 import com.faboslav.friendsandfoes.events.lifecycle.RegisterReloadListenerEvent;
 import com.faboslav.friendsandfoes.events.lifecycle.SetupEvent;
-import com.faboslav.friendsandfoes.forge.util.OxidizableBlocksRegistry;
 import com.faboslav.friendsandfoes.forge.world.MobSpawnBiomeModifier;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesStructurePoolElements;
@@ -53,18 +51,17 @@ public final class FriendsAndFoesForge
 
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 		IEventBus eventBus = MinecraftForge.EVENT_BUS;
+		modEventBus.addListener(FriendsAndFoesForge::onSetup);
 
 		final DeferredRegister<Codec<? extends BiomeModifier>> biomeModifiers = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, FriendsAndFoes.MOD_ID);
 		biomeModifiers.register(modEventBus);
-		biomeModifiers.register("faf_mob_spawns", MobSpawnBiomeModifier::makeCodec);
+		biomeModifiers.register("mob_spawns", MobSpawnBiomeModifier::makeCodec);
 
 		FriendsAndFoes.init();
 
 		if (FMLEnvironment.dist == Dist.CLIENT) {
 			FriendsAndFoesClient.init();
 		}
-
-		modEventBus.addListener(FriendsAndFoesForge::onSetup);
 
 		RegistryHelperImpl.ACTIVITIES.register(modEventBus);
 		RegistryHelperImpl.BLOCKS.register(modEventBus);
@@ -82,7 +79,6 @@ public final class FriendsAndFoesForge
 		RegistryHelperImpl.STRUCTURE_PROCESSOR_TYPES.register(modEventBus);
 		RegistryHelperImpl.VILLAGER_PROFESSIONS.register(modEventBus);
 
-		modEventBus.addListener(FriendsAndFoesForge::init);
 		modEventBus.addListener(FriendsAndFoesForge::registerEntityAttributes);
 		modEventBus.addListener(FriendsAndFoesForge::addItemsToTabs);
 
@@ -94,10 +90,21 @@ public final class FriendsAndFoesForge
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 
-	private static void init(final FMLCommonSetupEvent event) {
-		event.enqueueWork(() -> {
-			FriendsAndFoes.postInit();
+	private static void registerEntityAttributes(EntityAttributeCreationEvent event) {
+		for (Map.Entry<Supplier<? extends EntityType<? extends LivingEntity>>, Supplier<DefaultAttributeContainer.Builder>> entry : RegistryHelperImpl.ENTITY_ATTRIBUTES.entrySet()) {
+			event.put(entry.getKey().get(), entry.getValue().get().build());
+		}
+	}
 
+	private static void onAddReloadListeners(AddReloadListenerEvent event) {
+		RegisterReloadListenerEvent.EVENT.invoke(new RegisterReloadListenerEvent((id, listener) -> event.addListener(listener)));
+	}
+
+	private static void onSetup(FMLCommonSetupEvent event) {
+		SetupEvent.EVENT.invoke(new SetupEvent(event::enqueueWork));
+		FriendsAndFoes.postInit();
+
+		event.enqueueWork(() -> {
 			if (FriendsAndFoes.getConfig().enableIceologer && FriendsAndFoes.getConfig().enableIceologerInRaids) {
 				Raid.Member.create(
 					CustomRaidMember.ICEOLOGER_INTERNAL_NAME,
@@ -113,15 +120,7 @@ public final class FriendsAndFoesForge
 					CustomRaidMember.ILLUSIONER_COUNT_IN_WAVE
 				);
 			}
-
-			RegisterOxidizablesEvent.EVENT.invoke(new RegisterOxidizablesEvent(OxidizableBlocksRegistry::registerOxidizableBlockPair));
 		});
-	}
-
-	private static void registerEntityAttributes(EntityAttributeCreationEvent event) {
-		for (Map.Entry<Supplier<? extends EntityType<? extends LivingEntity>>, Supplier<DefaultAttributeContainer.Builder>> entry : RegistryHelperImpl.ENTITY_ATTRIBUTES.entrySet()) {
-			event.put(entry.getKey().get(), entry.getValue().get().build());
-		}
 	}
 
 	private static void addItemsToTabs(BuildCreativeModeTabContentsEvent event) {
@@ -140,14 +139,6 @@ public final class FriendsAndFoesForge
 				});
 			}
 		});
-	}
-
-	private static void onAddReloadListeners(AddReloadListenerEvent event) {
-		RegisterReloadListenerEvent.EVENT.invoke(new RegisterReloadListenerEvent((id, listener) -> event.addListener(listener)));
-	}
-
-	private static void onSetup(FMLCommonSetupEvent event) {
-		SetupEvent.EVENT.invoke(new SetupEvent(event::enqueueWork));
 	}
 
 	private static void onDatapackSync(OnDatapackSyncEvent event) {

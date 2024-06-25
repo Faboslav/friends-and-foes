@@ -3,12 +3,10 @@ package com.faboslav.friendsandfoes.neoforge;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.FriendsAndFoesClient;
 import com.faboslav.friendsandfoes.events.lifecycle.DatapackSyncEvent;
-import com.faboslav.friendsandfoes.events.lifecycle.RegisterOxidizablesEvent;
 import com.faboslav.friendsandfoes.events.lifecycle.RegisterReloadListenerEvent;
 import com.faboslav.friendsandfoes.events.lifecycle.SetupEvent;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesStructurePoolElements;
-import com.faboslav.friendsandfoes.neoforge.util.OxidizableBlocksRegistry;
 import com.faboslav.friendsandfoes.neoforge.world.MobSpawnBiomeModifier;
 import com.faboslav.friendsandfoes.platform.neoforge.RegistryHelperImpl;
 import com.faboslav.friendsandfoes.util.CustomRaidMember;
@@ -112,8 +110,6 @@ public final class FriendsAndFoesNeoForge
 					CustomRaidMember.ILLUSIONER_COUNT_IN_WAVE
 				);
 			}
-
-			RegisterOxidizablesEvent.EVENT.invoke(new RegisterOxidizablesEvent(OxidizableBlocksRegistry::registerOxidizableBlockPair));
 		});
 	}
 

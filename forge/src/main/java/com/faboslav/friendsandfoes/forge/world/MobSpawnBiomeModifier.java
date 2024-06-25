@@ -13,7 +13,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class MobSpawnBiomeModifier implements BiomeModifier
 {
-	private static final RegistryObject<Codec<? extends BiomeModifier>> SERIALIZER = RegistryObject.create(FriendsAndFoes.makeID("faf_mob_spawns"), ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, FriendsAndFoes.MOD_ID);
+	private static final RegistryObject<Codec<? extends BiomeModifier>> SERIALIZER = RegistryObject.create(FriendsAndFoes.makeID("mob_spawns"), ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, FriendsAndFoes.MOD_ID);
 
 	public MobSpawnBiomeModifier() {
 	}

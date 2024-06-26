@@ -120,36 +120,36 @@
 			"entries": [
 				{
 					"type": "minecraft:item",
+					"name": "minecraft:potion",
 					"weight": 1,
 					"functions": [
 						{
-							"function": "minecraft:set_nbt",
-							"tag": "{Potion:\"minecraft:water\"}"
+							"function": "minecraft:set_potion",
+							"id": "minecraft:water"
 						}
-					],
-					"name": "minecraft:potion"
+					]
 				},
 				{
 					"type": "minecraft:item",
+					"name": "minecraft:potion",
 					"weight": 1,
 					"functions": [
 						{
-							"function": "minecraft:set_nbt",
-							"tag": "{Potion:\"minecraft:night_vision\"}"
+							"function": "minecraft:set_potion",
+							"id": "minecraft:night_vision"
 						}
-					],
-					"name": "minecraft:potion"
+					]
 				},
 				{
 					"type": "minecraft:item",
+					"name": "minecraft:potion",
 					"weight": 1,
 					"functions": [
 						{
-							"function": "minecraft:set_nbt",
-							"tag": "{Potion:\"minecraft:invisibility\"}"
+							"function": "minecraft:set_potion",
+							"id": "minecraft:invisibility"
 						}
-					],
-					"name": "minecraft:potion"
+					]
 				}
 			]
 		},

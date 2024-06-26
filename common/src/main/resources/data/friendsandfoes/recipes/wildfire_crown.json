@@ -1,16 +1,17 @@
 {
-	"type": "crafting_shaped",
-	"pattern": [
-		"ccc",
-		"c c"
-	],
+	"type": "minecraft:crafting_shaped",
+	"category": "misc",
 	"key": {
-		"c": {
+		"C": {
 			"item": "friendsandfoes:wildfire_crown_fragment"
 		}
 	},
+	"pattern": [
+		"CCC",
+		"C C"
+	],
 	"result": {
-		"item": "friendsandfoes:wildfire_crown",
-		"count": 1
+		"count": 1,
+		"id": "friendsandfoes:wildfire_crown"
 	}
 }

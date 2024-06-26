@@ -25,8 +25,6 @@ accessible method net/minecraft/block/BlockSetType register (Lnet/minecraft/bloc
 accessible method net/minecraft/block/ButtonBlock getClickSound (Z)Lnet/minecraft/sound/SoundEvent;
 accessible method net/minecraft/entity/ai/brain/sensor/SensorType <init> (Ljava/util/function/Supplier;)V
 accessible method net/minecraft/advancement/criterion/Criteria register (Ljava/lang/String;Lnet/minecraft/advancement/criterion/Criterion;)Lnet/minecraft/advancement/criterion/Criterion;
-accessible method net/minecraft/entity/Entity getDimensions (Lnet/minecraft/entity/EntityPose;)Lnet/minecraft/entity/EntityDimensions;
-accessible method net/minecraft/entity/LivingEntity getDimensions (Lnet/minecraft/entity/EntityPose;)Lnet/minecraft/entity/EntityDimensions;
 accessible method net/minecraft/particle/SimpleParticleType <init> (Z)V
 accessible field net/minecraft/item/ItemGroups SPAWN_EGGS Lnet/minecraft/registry/RegistryKey;
 accessible field net/minecraft/item/ItemGroups NATURAL Lnet/minecraft/registry/RegistryKey;
@@ -34,3 +32,4 @@ accessible field net/minecraft/item/ItemGroups FUNCTIONAL Lnet/minecraft/registr
 accessible field net/minecraft/item/ItemGroups REDSTONE Lnet/minecraft/registry/RegistryKey;
 accessible field net/minecraft/item/ItemGroups INGREDIENTS Lnet/minecraft/registry/RegistryKey;
 accessible field net/minecraft/item/ItemGroups COMBAT Lnet/minecraft/registry/RegistryKey;
+accessible method net/minecraft/entity/EntityPose <init> (Ljava/lang/String;II)V

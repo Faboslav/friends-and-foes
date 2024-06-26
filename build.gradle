@@ -31,6 +31,26 @@ allprojects {
 	version = rootProject.mod_version
 	archivesBaseName = "${rootProject.mod_id}-mc${rootProject.minecraft_version}"
 
+	processResources {
+		def expandProps = [
+			'modId'              : mod_id,
+			'modName'            : mod_name,
+			'modDescription'     : mod_description,
+			'modVersion'         : mod_version,
+			'modAuthor'          : mod_author,
+			"minecraftVersion"   : minecraft_version,
+			"fabricLoaderVersion": fabric_loader_version,
+			"fabricApiVersion"   : fabric_api_version,
+			"neoForgeVersion"	 : neoforge_version
+		]
+
+		filesMatching(['fabric.mod.json', 'META-INF/neoforge.mods.toml']) {
+			expand expandProps
+		}
+
+		inputs.properties(expandProps)
+	}
+
 	repositories {
 		maven {
 			name = "Jitpack"
@@ -38,12 +58,14 @@ allprojects {
 		}
 	}
 
-	tasks.withType(JavaCompile) {
-		options.encoding = "UTF-8"
-		options.release = 21
+	tasks.withType(JavaCompile).configureEach {
+		it.options.release = 21
 	}
 
 	java {
 		withSourcesJar()
+
+		sourceCompatibility = JavaVersion.VERSION_21
+		targetCompatibility = JavaVersion.VERSION_21
 	}
 }

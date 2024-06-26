@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 @SuppressWarnings("deprecation")
 public final class OxidizableButtonBlock extends CopperButtonBlock implements Oxidizable
 {
-	private final OxidationLevel OxidationLevel;
+	private final OxidationLevel oxidationLevel;
 
 	public OxidizableButtonBlock(
 		OxidationLevel OxidationLevel,
@@ -22,7 +22,7 @@ public final class OxidizableButtonBlock extends CopperButtonBlock implements Ox
 		int pressTicks
 	) {
 		super(settings, pressTicks);
-		this.OxidationLevel = OxidationLevel;
+		this.oxidationLevel = OxidationLevel;
 	}
 
 	@Override
@@ -41,18 +41,18 @@ public final class OxidizableButtonBlock extends CopperButtonBlock implements Ox
 	}
 
 	public OxidationLevel getDegradationLevel() {
-		return this.OxidationLevel;
+		return this.oxidationLevel;
 	}
 
 	@Override
-	public ActionResult onUse(
+	protected ActionResult onUse(
 		BlockState state,
 		World world,
 		BlockPos pos,
 		PlayerEntity player,
-		Hand hand,
 		BlockHitResult hit
 	) {
+		Hand hand = Hand.MAIN_HAND;
 		ItemStack itemStack = player.getStackInHand(hand);
 		Item itemInHand = itemStack.getItem();
 		ItemUsageContext itemUsageContext = new ItemUsageContext(player, hand, hit);
@@ -65,6 +65,6 @@ public final class OxidizableButtonBlock extends CopperButtonBlock implements Ox
 			}
 		}
 
-		return super.onUse(state, world, pos, player, hand, hit);
+		return super.onUse(state, world, pos, player, hit);
 	}
 }

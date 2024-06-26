@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes.world.structures;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesStructureTypes;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.BlockState;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -28,7 +29,7 @@ import java.util.Optional;
  */
 public final class CitadelStructure extends Structure
 {
-	public static final Codec<CitadelStructure> CODEC = RecordCodecBuilder.<CitadelStructure>mapCodec(instance ->
+	public static final MapCodec<CitadelStructure> CODEC = RecordCodecBuilder.mapCodec(instance ->
 		instance.group(CitadelStructure.configCodecBuilder(instance),
 			StructurePool.REGISTRY_CODEC.fieldOf("start_pool").forGetter(structure -> structure.startPool),
 			Identifier.CODEC.optionalFieldOf("start_jigsaw_name").forGetter(structure -> structure.startJigsawName),
@@ -36,7 +37,7 @@ public final class CitadelStructure extends Structure
 			HeightProvider.CODEC.fieldOf("start_height").forGetter(structure -> structure.startHeight),
 			Heightmap.Type.CODEC.optionalFieldOf("project_start_to_heightmap").forGetter(structure -> structure.projectStartToHeightmap),
 			Codec.intRange(1, 128).fieldOf("max_distance_from_center").forGetter(structure -> structure.maxDistanceFromCenter)
-		).apply(instance, CitadelStructure::new)).codec();
+		).apply(instance, CitadelStructure::new));
 
 	private final RegistryEntry<StructurePool> startPool;
 	private final Optional<Identifier> startJigsawName;

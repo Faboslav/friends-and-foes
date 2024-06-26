@@ -3,8 +3,8 @@ package com.faboslav.friendsandfoes.init;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.client.render.entity.renderer.WildfireEntityRenderer;
 import com.faboslav.friendsandfoes.entity.*;
+import com.faboslav.friendsandfoes.events.lifecycle.AddSpawnBiomeModificationsEvent;
 import com.faboslav.friendsandfoes.mixin.SpawnRestrictionAccessor;
-import com.faboslav.friendsandfoes.platform.BiomeModifications;
 import com.faboslav.friendsandfoes.platform.CustomSpawnGroup;
 import com.faboslav.friendsandfoes.platform.RegistryHelper;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
@@ -56,7 +56,6 @@ public final class FriendsAndFoesEntityTypes
 
 	public static void postInit() {
 		initSpawnRestrictions();
-		addSpawns();
 	}
 
 	public static void createMobAttributes() {
@@ -79,25 +78,25 @@ public final class FriendsAndFoesEntityTypes
 		SpawnRestrictionAccessor.callRegister(RASCAL.get(), SpawnLocationTypes.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, RascalEntity::canSpawn);
 	}
 
-	public static void addSpawns() {
+	public static void addSpawnBiomeModifications(AddSpawnBiomeModificationsEvent event) {
 		var config = FriendsAndFoes.getConfig();
 
 		if (config.enableGlare && config.enableGlareSpawn) {
-			BiomeModifications.addMobSpawn(FriendsAndFoesTags.HAS_GLARE, GLARE.get(), CustomSpawnGroup.getGlaresCategory(), config.glareSpawnWeight, config.glareSpawnMinGroupSize, config.glareSpawnMaxGroupSize);
+			event.add(FriendsAndFoesTags.HAS_GLARE, CustomSpawnGroup.getGlaresCategory(), GLARE.get(), config.glareSpawnWeight, config.glareSpawnMinGroupSize, config.glareSpawnMaxGroupSize);
 		}
 
 		if (config.enableMauler && config.enableMaulerSpawn) {
-			BiomeModifications.addMobSpawn(FriendsAndFoesTags.HAS_BADLANDS_MAULER, MAULER.get(), SpawnGroup.CREATURE, config.maulerBadlandsSpawnWeight, config.maulerBadlandsSpawnMinGroupSize, config.maulerBadlandsSpawnMaxGroupSize);
-			BiomeModifications.addMobSpawn(FriendsAndFoesTags.HAS_DESERT_MAULER, MAULER.get(), SpawnGroup.CREATURE, config.maulerDesertSpawnWeight, config.maulerDesertSpawnMinGroupSize, config.maulerDesertSpawnMaxGroupSize);
-			BiomeModifications.addMobSpawn(FriendsAndFoesTags.HAS_SAVANNA_MAULER, MAULER.get(), SpawnGroup.CREATURE, config.maulerSavannaSpawnWeight, config.maulerSavannaSpawnMinGroupSize, config.maulerSavannaSpawnMaxGroupSize);
+			event.add(FriendsAndFoesTags.HAS_BADLANDS_MAULER, SpawnGroup.CREATURE, MAULER.get(), config.maulerBadlandsSpawnWeight, config.maulerBadlandsSpawnMinGroupSize, config.maulerBadlandsSpawnMaxGroupSize);
+			event.add(FriendsAndFoesTags.HAS_DESERT_MAULER, SpawnGroup.CREATURE, MAULER.get(), config.maulerDesertSpawnWeight, config.maulerDesertSpawnMinGroupSize, config.maulerDesertSpawnMaxGroupSize);
+			event.add(FriendsAndFoesTags.HAS_SAVANNA_MAULER, SpawnGroup.CREATURE, MAULER.get(), config.maulerSavannaSpawnWeight, config.maulerSavannaSpawnMinGroupSize, config.maulerSavannaSpawnMaxGroupSize);
 		}
 
 		if (config.enableMoobloom && config.enableMoobloomSpawn) {
-			BiomeModifications.addMobSpawn(FriendsAndFoesTags.HAS_MOOBLOOMS, MOOBLOOM.get(), SpawnGroup.CREATURE, config.moobloomSpawnWeight, config.moobloomSpawnMinGroupSize, config.moobloomSpawnMaxGroupSize);
+			event.add(FriendsAndFoesTags.HAS_MOOBLOOMS, SpawnGroup.CREATURE, MOOBLOOM.get(), config.moobloomSpawnWeight, config.moobloomSpawnMinGroupSize, config.moobloomSpawnMaxGroupSize);
 		}
 
 		if (config.enableRascal && config.enableRascalSpawn) {
-			BiomeModifications.addMobSpawn(FriendsAndFoesTags.HAS_RASCAL, RASCAL.get(), CustomSpawnGroup.getRascalsCategory(), 4, 1, 1);
+			event.add(FriendsAndFoesTags.HAS_RASCAL, CustomSpawnGroup.getRascalsCategory(), RASCAL.get(), 4, 1, 1);
 		}
 	}
 

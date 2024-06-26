@@ -2,9 +2,7 @@ package com.faboslav.friendsandfoes.fabric;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.events.fabric.FabricReloadListener;
-import com.faboslav.friendsandfoes.events.lifecycle.DatapackSyncEvent;
-import com.faboslav.friendsandfoes.events.lifecycle.RegisterReloadListenerEvent;
-import com.faboslav.friendsandfoes.events.lifecycle.SetupEvent;
+import com.faboslav.friendsandfoes.events.lifecycle.*;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesPointOfInterestTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesStructurePoolElements;
 import com.faboslav.friendsandfoes.util.ServerWorldSpawnersUtil;
@@ -12,9 +10,12 @@ import com.faboslav.friendsandfoes.util.UpdateChecker;
 import com.faboslav.friendsandfoes.world.spawner.IceologerSpawner;
 import com.faboslav.friendsandfoes.world.spawner.IllusionerSpawner;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
+import net.fabricmc.fabric.api.registry.OxidizableBlocksRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.minecraft.registry.tag.BiomeTags;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.world.dimension.DimensionTypes;
 
@@ -41,8 +42,14 @@ public final class FriendsAndFoesFabric implements ModInitializer
 		ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register((player, joined) ->
 			DatapackSyncEvent.EVENT.invoke(new DatapackSyncEvent(player)));
 
+		AddSpawnBiomeModificationsEvent.EVENT.invoke(new AddSpawnBiomeModificationsEvent((tag, spawnGroup, entityType, weight, minGroupSize, maxGroupSize) -> {
+			BiomeModifications.addSpawn(biomeSelector -> biomeSelector.hasTag(tag) && biomeSelector.hasTag(BiomeTags.IS_OVERWORLD), spawnGroup, entityType, weight, minGroupSize, maxGroupSize);
+		}));
+
+		RegisterOxidizablesEvent.EVENT.invoke(new RegisterOxidizablesEvent(OxidizableBlocksRegistry::registerOxidizableBlockPair));
+
 		ServerWorldEvents.LOAD.register(((server, world) -> {
-			if (world.isClient() || world.getDimensionKey() != DimensionTypes.OVERWORLD) {
+			if (world.isClient() || world.getDimensionEntry() != DimensionTypes.OVERWORLD) {
 				return;
 			}
 

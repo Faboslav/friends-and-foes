@@ -6,7 +6,7 @@ import com.faboslav.friendsandfoes.init.FriendsAndFoesItems;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.modcompat.ModChecker;
 import com.faboslav.friendsandfoes.modcompat.ModCompat;
-import com.faboslav.friendsandfoes.network.packet.TotemEffectPacket;
+import com.faboslav.friendsandfoes.packets.TotemEffectPacket;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.Entity;

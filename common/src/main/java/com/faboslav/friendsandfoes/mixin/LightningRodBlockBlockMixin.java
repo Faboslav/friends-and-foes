@@ -10,13 +10,4 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Block.class)
 public abstract class LightningRodBlockBlockMixin extends LightningRodAbstractBlockMixin
 {
-	@Inject(
-		method = "hasRandomTicks",
-		at = @At("TAIL"),
-		cancellable = true
-	)
-	public void friendsandfoes_hasRandomTicks(
-		BlockState state, CallbackInfoReturnable<Boolean> cir
-	) {
-	}
 }

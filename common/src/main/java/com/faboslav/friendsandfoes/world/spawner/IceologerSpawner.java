@@ -98,7 +98,7 @@ public final class IceologerSpawner implements SpecialSpawner
 		iceologer.setPatrolLeader(false);
 		iceologer.setRandomPatrolTarget();
 		iceologer.setPosition(mutable.getX(), mutable.getY(), mutable.getZ());
-		iceologer.initialize(world, world.getLocalDifficulty(mutable), SpawnReason.PATROL, null, null);
+		iceologer.initialize(world, world.getLocalDifficulty(mutable), SpawnReason.PATROL, null);
 		world.spawnEntityAndPassengers(iceologer);
 		return 1;
 	}

@@ -22,10 +22,7 @@ import java.util.Arrays;
 public final class AddCustomEntityPoseMixin
 {
 	@Invoker("<init>")
-	private static EntityPose newEntityPose(
-		String internalName,
-		int internalId
-	) {
+	private static EntityPose newEntityPose(String internalName, int internalIndex, int index) {
 		throw new AssertionError();
 	}
 
@@ -46,32 +43,39 @@ public final class AddCustomEntityPoseMixin
 	private static void friendsandfoes_addCustomEntityPoses(CallbackInfo ci) {
 		var entityPoses = new ArrayList<>(Arrays.asList(field_18083));
 		var lastEntityPose = entityPoses.get(entityPoses.size() - 1);
-		var nextEntityPoseIndex = lastEntityPose.ordinal();
+		var nextEntityPoseInternalIndex = lastEntityPose.ordinal();
+		var nextEntityPoseIndex = lastEntityPose.getIndex();
 
-		for (CopperGolemEntityPose entityPose : CopperGolemEntityPose.values()) {
+		for (CopperGolemEntityPose copperGolemEntityPose : CopperGolemEntityPose.values()) {
 			var newEntityPose = newEntityPose(
-				entityPose.getName(),
+				copperGolemEntityPose.getName(),
+				++nextEntityPoseInternalIndex,
 				++nextEntityPoseIndex
 			);
 
+			copperGolemEntityPose.setIndex(nextEntityPoseIndex);
 			entityPoses.add(newEntityPose);
 		}
 
 		for (RascalEntityPose rascalEntityPose : RascalEntityPose.values()) {
 			var newEntityPose = newEntityPose(
 				rascalEntityPose.getName(),
+				++nextEntityPoseInternalIndex,
 				++nextEntityPoseIndex
 			);
 
+			rascalEntityPose.setIndex(nextEntityPoseIndex);
 			entityPoses.add(newEntityPose);
 		}
 
 		for (TuffGolemEntityPose tuffGolemEntityPose : TuffGolemEntityPose.values()) {
 			var newEntityPose = newEntityPose(
 				tuffGolemEntityPose.getName(),
+				++nextEntityPoseInternalIndex,
 				++nextEntityPoseIndex
 			);
 
+			tuffGolemEntityPose.setIndex(nextEntityPoseIndex);
 			entityPoses.add(newEntityPose);
 		}
 

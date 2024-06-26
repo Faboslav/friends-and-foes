@@ -138,6 +138,7 @@ jobs:
                 with:
                     github-token: ${{ secrets.GITHUB_TOKEN }}
                     github-tag: mc${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}-${{ steps.gradle-properties.outputs.MOD_VERSION }}
+                    github-commitish: ${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}
 
                     curseforge-id: ${{ matrix.curseforge_id }}
                     curseforge-token: ${{ secrets.CURSEFORGE_RELEASE_TOKEN }}

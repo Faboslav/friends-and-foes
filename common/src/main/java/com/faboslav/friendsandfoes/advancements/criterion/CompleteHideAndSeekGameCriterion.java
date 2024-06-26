@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes.advancements.criterion;
 import com.faboslav.friendsandfoes.entity.RascalEntity;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesCriteria;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.advancement.AdvancementCriterion;
 import net.minecraft.advancement.criterion.AbstractCriterion;
@@ -37,7 +38,7 @@ public final class CompleteHideAndSeekGameCriterion extends AbstractCriterion<Co
 							 Optional<ItemPredicate> item) implements AbstractCriterion.Conditions
 	{
 		public static final Codec<CompleteHideAndSeekGameCriterion.Conditions> CODEC = RecordCodecBuilder.create((instance) -> {
-			return instance.group(Codecs.createStrictOptionalFieldCodec(EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC, "player").forGetter(CompleteHideAndSeekGameCriterion.Conditions::player), Codecs.createStrictOptionalFieldCodec(EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC, "rascal").forGetter(CompleteHideAndSeekGameCriterion.Conditions::rascal), Codecs.createStrictOptionalFieldCodec(ItemPredicate.CODEC, "item").forGetter(CompleteHideAndSeekGameCriterion.Conditions::item)).apply(instance, CompleteHideAndSeekGameCriterion.Conditions::new);
+			return instance.group(EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC.optionalFieldOf("player").forGetter(CompleteHideAndSeekGameCriterion.Conditions::player), EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC.optionalFieldOf("rascal").forGetter(CompleteHideAndSeekGameCriterion.Conditions::rascal), ItemPredicate.CODEC.optionalFieldOf( "item").forGetter(CompleteHideAndSeekGameCriterion.Conditions::item)).apply(instance, CompleteHideAndSeekGameCriterion.Conditions::new);
 		});
 
 		public static AdvancementCriterion<Conditions> any() {

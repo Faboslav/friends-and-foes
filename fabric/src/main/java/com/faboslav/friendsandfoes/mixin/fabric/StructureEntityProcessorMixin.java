@@ -113,8 +113,7 @@ public final class StructureEntityProcessorMixin
 								)
 							),
 							SpawnReason.STRUCTURE,
-							null,
-							compoundTag
+							null
 						);
 					}
 

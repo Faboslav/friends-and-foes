@@ -8,6 +8,5 @@
 	},
 	"mixins": [
 		"FireBlockAccessor"
-	],
-	"plugin": "com.faboslav.friendsandfoes.util.plugin.MixinExtrasPlugin"
+	]
 }

@@ -2,7 +2,7 @@
 	"parent": "minecraft:nether/root",
 	"display": {
 		"icon": {
-			"item": "minecraft:red_nether_bricks"
+			"id": "minecraft:red_nether_bricks"
 		},
 		"title": {
 			"translate": "advancements.nether.find_citadel.title"

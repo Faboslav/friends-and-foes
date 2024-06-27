@@ -8,7 +8,7 @@
 			"translate": "advancements.husbandry.beehive.description"
 		},
 		"icon": {
-			"item": "minecraft:beehive"
+			"id": "minecraft:beehive"
 		},
 		"frame": "task",
 		"show_toast": true,

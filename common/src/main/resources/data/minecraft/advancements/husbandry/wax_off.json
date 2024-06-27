@@ -3,7 +3,7 @@
 	"parent": "minecraft:husbandry/wax_on",
 	"display": {
 		"icon": {
-			"item": "minecraft:stone_axe",
+			"id": "minecraft:stone_axe",
 			"nbt": "{Damage:0}"
 		},
 		"title": {

@@ -2,7 +2,7 @@
 	"parent": "minecraft:adventure/voluntary_exile",
 	"display": {
 		"icon": {
-			"item": "minecraft:bow"
+			"id": "minecraft:bow"
 		},
 		"title": {
 			"translate": "advancements.adventure.kill_illusioner.title"

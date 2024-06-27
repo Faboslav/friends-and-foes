@@ -2,7 +2,7 @@
 	"parent": "minecraft:husbandry/root",
 	"display": {
 		"icon": {
-			"item": "minecraft:glow_berries"
+			"id": "minecraft:glow_berries"
 		},
 		"title": {
 			"translate": "advancements.husbandry.tame_a_glare.title"

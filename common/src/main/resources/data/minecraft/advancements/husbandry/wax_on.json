@@ -3,7 +3,7 @@
 	"parent": "minecraft:husbandry/safely_harvest_honey",
 	"display": {
 		"icon": {
-			"item": "minecraft:honeycomb"
+			"id": "minecraft:honeycomb"
 		},
 		"title": {
 			"translate": "advancements.husbandry.wax_on.title"

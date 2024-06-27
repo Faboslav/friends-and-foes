@@ -45,6 +45,7 @@ public final class FriendsAndFoes
 		ModChecker.setupModCompat();
 
 		FriendsAndFoesActivities.init();
+		FriendsAndFoesBlockSetTypes.init();
 		FriendsAndFoesBlocks.init();
 		FriendsAndFoesCriteria.init();
 		FriendsAndFoesEntityTypes.init();
@@ -68,8 +69,8 @@ public final class FriendsAndFoes
 		BiomeModifications.addButtercupFeature();
 		FriendsAndFoesBlocks.postInit();
 		FriendsAndFoesEntityTypes.postInit();
+		FriendsAndFoesItems.postInit();
 		FriendsAndFoesBlockEntityTypes.postInit();
-		FriendsAndFoesStructureProcessorTypes.postInit();
 		FriendsAndFoesVillagerProfessions.postInit();
 	}
 

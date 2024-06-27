@@ -3,7 +3,10 @@ package com.faboslav.friendsandfoes;
 import com.faboslav.friendsandfoes.api.MoobloomVariantManager;
 import com.faboslav.friendsandfoes.config.FriendsAndFoesConfig;
 import com.faboslav.friendsandfoes.config.omegaconfig.OmegaConfig;
-import com.faboslav.friendsandfoes.events.lifecycle.*;
+import com.faboslav.friendsandfoes.events.lifecycle.AddSpawnBiomeModificationsEvent;
+import com.faboslav.friendsandfoes.events.lifecycle.DatapackSyncEvent;
+import com.faboslav.friendsandfoes.events.lifecycle.RegisterReloadListenerEvent;
+import com.faboslav.friendsandfoes.events.lifecycle.SetupEvent;
 import com.faboslav.friendsandfoes.init.*;
 import com.faboslav.friendsandfoes.modcompat.ModChecker;
 import com.faboslav.friendsandfoes.network.MessageHandler;
@@ -42,7 +45,6 @@ public final class FriendsAndFoes
 		ModChecker.setupModCompat();
 
 		FriendsAndFoesActivities.init();
-		FriendsAndFoesBlockSetTypes.init();
 		FriendsAndFoesBlocks.init();
 		FriendsAndFoesCriteria.init();
 		FriendsAndFoesEntityTypes.init();
@@ -66,8 +68,8 @@ public final class FriendsAndFoes
 		BiomeModifications.addButtercupFeature();
 		FriendsAndFoesBlocks.postInit();
 		FriendsAndFoesEntityTypes.postInit();
-		FriendsAndFoesItems.postInit();
 		FriendsAndFoesBlockEntityTypes.postInit();
+		FriendsAndFoesStructureProcessorTypes.postInit();
 		FriendsAndFoesVillagerProfessions.postInit();
 	}
 

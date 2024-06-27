@@ -55,7 +55,6 @@ jobs:
             -   name: "Run gradle build"
                 uses: gradle/gradle-build-action@v3
                 with:
-                    cache-write-only: true
                     generate-job-summary: false
                     gradle-version: wrapper
                     arguments: build

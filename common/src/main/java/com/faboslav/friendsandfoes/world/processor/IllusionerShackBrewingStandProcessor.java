@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.world.processor;
 
 import com.faboslav.friendsandfoes.init.FriendsAndFoesStructureProcessorTypes;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.Blocks;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
@@ -22,8 +23,10 @@ import net.minecraft.world.WorldView;
  */
 public final class IllusionerShackBrewingStandProcessor extends StructureProcessor
 {
-	public static final IllusionerShackBrewingStandProcessor INSTANCE = new IllusionerShackBrewingStandProcessor();
-	public static final Codec<IllusionerShackBrewingStandProcessor> CODEC = Codec.unit(() -> INSTANCE);
+	public static final MapCodec<IllusionerShackBrewingStandProcessor> CODEC = MapCodec.unit(IllusionerShackBrewingStandProcessor::new);
+
+	private IllusionerShackBrewingStandProcessor() {
+	}
 
 	@Override
 	public StructureBlockInfo process(

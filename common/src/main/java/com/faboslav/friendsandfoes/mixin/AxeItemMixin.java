@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.mixin;
 
+
 import com.faboslav.friendsandfoes.block.Oxidizable;
 import com.faboslav.friendsandfoes.util.WaxableBlocksMap;
 import net.minecraft.block.BlockState;

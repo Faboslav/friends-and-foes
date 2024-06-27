@@ -65,8 +65,7 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 		ServerWorldAccess serverWorldAccess,
 		LocalDifficulty difficulty,
 		SpawnReason spawnReason,
-		@Nullable EntityData entityData,
-		@Nullable NbtCompound entityNbt
+		@Nullable EntityData entityData
 	) {
 		MoobloomVariant possibleMoobloomVariant = MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.getRandomBiomeSpecificMoobloomVariant(serverWorldAccess, this.getBlockPos());
 
@@ -76,7 +75,7 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 			this.setVariant(MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.getRandomMoobloomVariant(serverWorldAccess.getRandom()));
 		}
 
-		return super.initialize(serverWorldAccess, difficulty, spawnReason, entityData, entityNbt);
+		return super.initialize(serverWorldAccess, difficulty, spawnReason, entityData);
 	}
 
 	public boolean isShearable() {
@@ -84,9 +83,10 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 	}
 
 	@Override
-	protected void initDataTracker() {
-		super.initDataTracker();
-		this.dataTracker.startTracking(VARIANT, MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.getDefaultMoobloomVariant().getName());
+	protected void initDataTracker(DataTracker.Builder builder) {
+		super.initDataTracker(builder);
+
+		builder.add(VARIANT, MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.getDefaultMoobloomVariant().getName());
 	}
 
 	@Override
@@ -174,9 +174,7 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 			boolean isClientWorld = this.getWorld().isClient();
 
 			if (isClientWorld == false) {
-				itemStack.damage(1, player, (playerx) -> {
-					playerx.sendToolBreakStatus(hand);
-				});
+				itemStack.decrementUnlessCreative(1, player);
 			}
 
 			return ActionResult.success(isClientWorld);
@@ -189,9 +187,7 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 			boolean isClientWorld = this.getWorld().isClient();
 
 			if (isClientWorld == false) {
-				itemStack.damage(1, player, (playerx) -> {
-					playerx.sendToolBreakStatus(hand);
-				});
+				itemStack.damage(1, player, PlayerEntity.getSlotForHand(hand));
 			}
 
 			return ActionResult.success(isClientWorld);

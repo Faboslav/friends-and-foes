@@ -8,6 +8,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.structure.StrongholdGenerator;
 import net.minecraft.structure.StructurePiece;
@@ -92,7 +93,10 @@ public abstract class StrongholdGeneratorMixin extends StructurePiece
 
 		ItemStack itemStack = Items.BOOK.getDefaultStack();
 		itemStack.setCount(1);
+
+		FeatureSet featureSet = tuffGolem.getWorld().getEnabledFeatures();
 		ItemStack enchantedItemStack = EnchantmentHelper.enchant(
+			featureSet,
 			random,
 			itemStack,
 			random.nextBetween(1, 30),

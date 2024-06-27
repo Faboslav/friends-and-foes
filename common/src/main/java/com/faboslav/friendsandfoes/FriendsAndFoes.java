@@ -3,13 +3,14 @@ package com.faboslav.friendsandfoes;
 import com.faboslav.friendsandfoes.api.MoobloomVariantManager;
 import com.faboslav.friendsandfoes.config.FriendsAndFoesConfig;
 import com.faboslav.friendsandfoes.config.omegaconfig.OmegaConfig;
+import com.faboslav.friendsandfoes.events.lifecycle.AddSpawnBiomeModificationsEvent;
 import com.faboslav.friendsandfoes.events.lifecycle.DatapackSyncEvent;
 import com.faboslav.friendsandfoes.events.lifecycle.RegisterReloadListenerEvent;
 import com.faboslav.friendsandfoes.events.lifecycle.SetupEvent;
 import com.faboslav.friendsandfoes.init.*;
 import com.faboslav.friendsandfoes.modcompat.ModChecker;
-import com.faboslav.friendsandfoes.network.MessageHandler;
-import com.faboslav.friendsandfoes.network.packet.MoobloomVariantsSyncPacket;
+import com.faboslav.friendsandfoes.packets.MessageHandler;
+import com.faboslav.friendsandfoes.packets.MoobloomVariantsSyncPacket;
 import com.faboslav.friendsandfoes.platform.BiomeModifications;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
@@ -44,6 +45,7 @@ public final class FriendsAndFoes
 		ModChecker.setupModCompat();
 
 		FriendsAndFoesActivities.init();
+		FriendsAndFoesArmorMaterials.init();
 		FriendsAndFoesBlockSetTypes.init();
 		FriendsAndFoesBlocks.init();
 		FriendsAndFoesCriteria.init();
@@ -59,6 +61,7 @@ public final class FriendsAndFoes
 		FriendsAndFoesVillagerProfessions.init();
 
 		RegisterReloadListenerEvent.EVENT.addListener(FriendsAndFoes::registerServerDataListeners);
+		AddSpawnBiomeModificationsEvent.EVENT.addListener(FriendsAndFoesEntityTypes::addSpawnBiomeModifications);
 		SetupEvent.EVENT.addListener(FriendsAndFoes::setup);
 		DatapackSyncEvent.EVENT.addListener(MoobloomVariantsSyncPacket::sendToClient);
 	}

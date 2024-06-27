@@ -23,13 +23,15 @@ import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.SpawnEggItem;
-import net.minecraft.particle.DefaultParticleType;
+import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.structure.processor.StructureProcessor;
 import net.minecraft.structure.processor.StructureProcessorType;
@@ -110,7 +112,7 @@ public final class RegistryHelperImpl
 		return (Supplier<T>) registerItem(name, () -> new SpawnEggItem(type.get(), backgroundColor, highlightColor, props));
 	}
 
-	public static void registerParticleType(String name, DefaultParticleType particleType) {
+	public static void registerParticleType(String name, SimpleParticleType particleType) {
 		Registry.register(Registries.PARTICLE_TYPE, FriendsAndFoes.makeStringID(name), particleType);
 	}
 
@@ -181,5 +183,13 @@ public final class RegistryHelperImpl
 	public static <T extends Criterion<?>> Supplier<T> registerCriterion(String name, T criterion) {
 		var registry = Criteria.register(FriendsAndFoes.makeStringID(name), criterion);
 		return () -> registry;
+	}
+
+	public static <T extends ArmorMaterial> RegistryEntry<ArmorMaterial> registerArmorMaterial(
+		String name,
+		Supplier<T> armorMaterial
+	) {
+		var registry = Registry.register(Registries.ARMOR_MATERIAL, FriendsAndFoes.makeID(name), armorMaterial.get());
+		return Registries.ARMOR_MATERIAL.getEntry(registry);
 	}
 }

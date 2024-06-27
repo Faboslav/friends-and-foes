@@ -41,8 +41,8 @@ public final class CopperGolemPressButtonTask extends MultiTickTask<CopperGolemE
 	protected boolean shouldRun(ServerWorld world, CopperGolemEntity copperGolem) {
 		if (
 			copperGolem.getButtonPos() == null
-			|| copperGolem.isButtonValidToBePressed(copperGolem.getButtonPos().getPos()) == false
-			|| copperGolem.getButtonPos().getPos().isWithinDistance(copperGolem.getPos(), WITHING_DISTANCE) == false
+			|| copperGolem.isButtonValidToBePressed(copperGolem.getButtonPos().pos()) == false
+			|| copperGolem.getButtonPos().pos().isWithinDistance(copperGolem.getPos(), WITHING_DISTANCE) == false
 			|| copperGolem.getNavigation().isFollowingPath()
 		) {
 			return false;
@@ -62,7 +62,7 @@ public final class CopperGolemPressButtonTask extends MultiTickTask<CopperGolemE
 			return;
 		}
 
-		this.heightDifference = buttonPos.getPos().getY() - copperGolem.getBlockPos().getY();
+		this.heightDifference = buttonPos.pos().getY() - copperGolem.getBlockPos().getY();
 
 		if (this.heightDifference >= 1) {
 			this.maxPressButtonTicks = CopperGolemAnimations.getPressButtonUpKeyframeAnimation(copperGolem.getAnimationSpeedModifier()).getAnimationLengthInTicks();
@@ -115,7 +115,7 @@ public final class CopperGolemPressButtonTask extends MultiTickTask<CopperGolemE
 			return;
 		}
 
-		this.wasButtonPressed = this.tryToPressButton(copperGolem, buttonPos.getPos());
+		this.wasButtonPressed = this.tryToPressButton(copperGolem, buttonPos.pos());
 	}
 
 	@Override

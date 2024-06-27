@@ -25,39 +25,21 @@ loom {
 }
 
 dependencies {
-	neoForge "net.neoforged:neoforge:${rootProject.neoforge_version}"
+	neoForge "net.neoforged:neoforge:${neoforge_version}"
 
 	common(project(path: ":common", configuration: "namedElements")) { transitive false }
 	shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
 
 	// Mixin extras (https://github.com/LlamaLad7/MixinExtras)
-	implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:${rootProject.mixin_extras_version}"))
-	implementation(include("io.github.llamalad7:mixinextras-neoforge:${rootProject.mixin_extras_version}"))
+	implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixin_extras_version}"))
+	implementation(include("io.github.llamalad7:mixinextras-neoforge:${mixin_extras_version}"))
 
 	// Curios (https://www.curseforge.com/minecraft/mc-mods/curios)
-	modImplementation("top.theillusivec4.curios:curios-neoforge:${project.curios_version}+${rootProject.minecraft_version}:api")
-	modRuntimeOnly("top.theillusivec4.curios:curios-neoforge:${project.curios_version}+${rootProject.minecraft_version}");
+	modCompileOnly("top.theillusivec4.curios:curios-neoforge:${project.curios_version}+${minecraft_version}:api")
+	modRuntimeOnly("top.theillusivec4.curios:curios-neoforge:${project.curios_version}+${minecraft_version}");
 
 	// Cloth config (https://www.curseforge.com/minecraft/mc-mods/cloth-config)
 	modImplementation("me.shedaniel.cloth:cloth-config-neoforge:${rootProject.cloth_config_version}")
-}
-
-processResources {
-	inputs.property "modId", rootProject.mod_id
-	inputs.property "modVersion", rootProject.mod_version
-	inputs.property "modName", rootProject.mod_name
-	inputs.property "modDescription", rootProject.mod_description
-	inputs.property "modAuthor", rootProject.mod_author
-	inputs.property "minecraftVersion", rootProject.minecraft_version
-
-	filesMatching("META-INF/mods.toml") {
-		expand "modId": rootProject.mod_id,
-			"modVersion": rootProject.mod_version,
-			"modName": rootProject.mod_name,
-			"modDescription": rootProject.mod_description,
-			"modAuthor": rootProject.mod_author,
-			"minecraftVersion": rootProject.minecraft_version
-	}
 }
 
 shadowJar {
@@ -72,7 +54,7 @@ remapJar {
 	inputFile.set shadowJar.archiveFile
 	dependsOn shadowJar
 	archiveClassifier.set(null)
-	atAccessWideners.add("${rootProject.mod_id}.accesswidener")
+	atAccessWideners.add("${mod_id}.accesswidener")
 }
 
 jar {
@@ -102,6 +84,4 @@ repositories {
 	}
 
 	maven { url "https://www.cursemaven.com" }
-
-
 }

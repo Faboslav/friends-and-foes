@@ -1,19 +1,21 @@
 {
 	"type": "minecraft:crafting_shaped",
+	"category": "misc",
+	"key": {
+		"H": {
+			"item": "minecraft:honeycomb"
+		},
+		"P": {
+			"tag": "minecraft:oak_planks"
+		}
+	},
 	"pattern": [
 		"PPP",
 		"HHH",
 		"PPP"
 	],
-	"key": {
-		"P": {
-			"item": "minecraft:oak_planks"
-		},
-		"H": {
-			"item": "minecraft:honeycomb"
-		}
-	},
 	"result": {
-		"item": "minecraft:beehive"
+		"count": 1,
+		"id": "minecraft:beehive"
 	}
 }

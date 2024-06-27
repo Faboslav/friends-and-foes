@@ -2,7 +2,7 @@
 	"parent": "minecraft:adventure/root",
 	"display": {
 		"icon": {
-			"item": "minecraft:chainmail_helmet"
+			"id": "minecraft:chainmail_helmet"
 		},
 		"title": {
 			"translate": "advancements.survival.activate_zombie_horse_trap.title"

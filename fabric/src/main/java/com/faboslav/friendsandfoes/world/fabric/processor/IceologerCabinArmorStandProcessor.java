@@ -4,6 +4,7 @@ import com.faboslav.friendsandfoes.platform.fabric.StructureEntityProcessorTypes
 import com.faboslav.friendsandfoes.util.world.processor.IceologerCabinArmorStandProcessorHelper;
 import com.faboslav.friendsandfoes.world.processor.StructureEntityProcessor;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.structure.StructurePlacementData;
 import net.minecraft.structure.StructureTemplate;
 import net.minecraft.structure.processor.StructureProcessorType;
@@ -20,8 +21,10 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class IceologerCabinArmorStandProcessor extends StructureEntityProcessor
 {
-	public static final IceologerCabinArmorStandProcessor INSTANCE = new IceologerCabinArmorStandProcessor();
-	public static final Codec<IceologerCabinArmorStandProcessor> CODEC = Codec.unit(() -> INSTANCE);
+	public static final MapCodec<IceologerCabinArmorStandProcessor> CODEC = MapCodec.unit(IceologerCabinArmorStandProcessor::new);
+
+	private IceologerCabinArmorStandProcessor() {
+	}
 
 	@Override
 	public StructureTemplate.StructureEntityInfo processEntity(

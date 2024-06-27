@@ -2,7 +2,7 @@
 	"parent": "friendsandfoes:nether/kill_wildfire",
 	"display": {
 		"icon": {
-			"item": "friendsandfoes:wildfire_crown",
+			"id": "friendsandfoes:wildfire_crown",
 			"nbt": "{Damage:0}"
 		},
 		"title": {

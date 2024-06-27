@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.network.base;
 
-import net.minecraft.util.Identifier;
+import com.faboslav.friendsandfoes.network.Packet;
 
 /**
  * Network related is code based on The Bumblezone/Resourceful Lib mods with permissions from the authors
@@ -10,9 +10,7 @@ import net.minecraft.util.Identifier;
  * @author ThatGravyBoat
  * <a href="https://github.com/Team-Resourceful/ResourcefulLib">https://github.com/Team-Resourceful/ResourcefulLib</a>
  */
-public interface Packet<T extends Packet<T>>
+public interface ClientboundPacketType<T extends Packet<T>> extends PacketType<T>
 {
-	Identifier getID();
-
-	PacketHandler<T> getHandler();
+    Runnable handle(T message);
 }

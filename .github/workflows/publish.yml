@@ -57,6 +57,8 @@ jobs:
                     -   branch: "1.20.4"
                         secondary_game_version: "1.20.3"
 
+                    -   branch: "1.20.5"
+                        secondary_game_version: "1.20.6"
         steps:
             -   name: "Checkout repository"
                 uses: actions/checkout@v4.1.1
@@ -136,6 +138,7 @@ jobs:
                 with:
                     github-token: ${{ secrets.GITHUB_TOKEN }}
                     github-tag: mc${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}-${{ steps.gradle-properties.outputs.MOD_VERSION }}
+                    github-commitish: ${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}
 
                     curseforge-id: ${{ matrix.curseforge_id }}
                     curseforge-token: ${{ secrets.CURSEFORGE_RELEASE_TOKEN }}

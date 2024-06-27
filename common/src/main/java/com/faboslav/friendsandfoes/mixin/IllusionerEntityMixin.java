@@ -21,7 +21,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.DefaultParticleType;
+import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
@@ -340,8 +340,8 @@ public abstract class IllusionerEntityMixin extends IllusionerSpellcastingIllage
 		this.friendsandfoes_spawnParticles(ParticleTypes.CLOUD, 16);
 	}
 
-	private void friendsandfoes_spawnParticles(
-		DefaultParticleType particleType,
+	private <T extends ParticleEffect> void friendsandfoes_spawnParticles(
+		T particleType,
 		int amount
 	) {
 		if (this.getWorld().isClient()) {

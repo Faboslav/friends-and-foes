@@ -17,10 +17,12 @@ import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.particle.DefaultParticleType;
+import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.structure.processor.StructureProcessor;
 import net.minecraft.structure.processor.StructureProcessorType;
@@ -120,7 +122,7 @@ public final class RegistryHelper
 	}
 
 	@ExpectPlatform
-	public static void registerParticleType(String name, DefaultParticleType particleType) {
+	public static void registerParticleType(String name, SimpleParticleType particleType) {
 		throw new AssertionError();
 	}
 
@@ -182,6 +184,14 @@ public final class RegistryHelper
 
 	@ExpectPlatform
 	public static <T extends Criterion<?>> Supplier<T> registerCriterion(String name, T criterion) {
+		throw new AssertionError();
+	}
+
+	@ExpectPlatform
+	public static <T extends ArmorMaterial> RegistryEntry<T> registerArmorMaterial(
+		String name,
+		Supplier<T> armorMaterial
+	) {
 		throw new AssertionError();
 	}
 

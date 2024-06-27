@@ -30,7 +30,7 @@ public final class CopperGolemTravelToButtonTask extends MultiTickTask<CopperGol
 
 		if (
 			buttonPos == null
-			|| copperGolem.isButtonValidToBePressed(buttonPos.getPos()) == false
+			|| copperGolem.isButtonValidToBePressed(buttonPos.pos()) == false
 		) {
 			return false;
 		}
@@ -49,9 +49,9 @@ public final class CopperGolemTravelToButtonTask extends MultiTickTask<CopperGol
 
 		if (
 			buttonPos == null
-			|| copperGolem.isButtonValidToBePressed(buttonPos.getPos()) == false
+			|| copperGolem.isButtonValidToBePressed(buttonPos.pos()) == false
 			|| (
-				buttonPos.getPos().isWithinDistance(copperGolem.getPos(), WITHING_DISTANCE)
+				buttonPos.pos().isWithinDistance(copperGolem.getPos(), WITHING_DISTANCE)
 				&& copperGolem.getNavigation().isFollowingPath() == false
 			)
 			|| copperGolem.isOxidized()
@@ -78,8 +78,8 @@ public final class CopperGolemTravelToButtonTask extends MultiTickTask<CopperGol
 		if (
 			buttonPos != null &&
 			(
-				buttonPos.getPos().isWithinDistance(copperGolem.getPos(), WITHING_DISTANCE) == false
-				|| copperGolem.isButtonValidToBePressed(buttonPos.getPos()) == false
+				buttonPos.pos().isWithinDistance(copperGolem.getPos(), WITHING_DISTANCE) == false
+				|| copperGolem.isButtonValidToBePressed(buttonPos.pos()) == false
 			)
 		) {
 			copperGolem.getBrain().forget(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_BUTTON_POS.get());
@@ -95,7 +95,7 @@ public final class CopperGolemTravelToButtonTask extends MultiTickTask<CopperGol
 
 		LookTargetUtil.walkTowards(
 			copperGolem,
-			new BlockPos(buttonPos.getPos()),
+			new BlockPos(buttonPos.pos()),
 			1.0F,
 			0
 		);

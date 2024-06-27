@@ -7,7 +7,9 @@ import com.faboslav.friendsandfoes.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.block.BlockState;
+import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
@@ -30,6 +32,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -46,6 +49,7 @@ import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Predicate;
@@ -118,15 +122,16 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	}
 
 	@Override
-	protected void initDataTracker() {
-		super.initDataTracker();
-		this.dataTracker.startTracking(TYPE, Type.DESERT.name());
-		this.dataTracker.startTracking(ANGER_TIME, 0);
-		this.dataTracker.startTracking(STORED_EXPERIENCE_POINTS, 0);
-		this.dataTracker.startTracking(IS_MOVING, false);
-		this.dataTracker.startTracking(IS_BURROWED_DOWN, false);
-		this.dataTracker.startTracking(TICKS_UNTIL_NEXT_BURROWING_DOWN, this.getRandom().nextBetween(MIN_TICKS_UNTIL_NEXT_BURROWING, MAX_TICKS_UNTIL_NEXT_BURROWING));
-		this.dataTracker.startTracking(BURROWING_DOWN_ANIMATION_PROGRESS, 0.0F);
+	protected void initDataTracker(DataTracker.Builder builder) {
+		super.initDataTracker(builder);
+
+		builder.add(TYPE, Type.DESERT.name());
+		builder.add(ANGER_TIME, 0);
+		builder.add(STORED_EXPERIENCE_POINTS, 0);
+		builder.add(IS_MOVING, false);
+		builder.add(IS_BURROWED_DOWN, false);
+		builder.add(TICKS_UNTIL_NEXT_BURROWING_DOWN, this.getRandom().nextBetween(MIN_TICKS_UNTIL_NEXT_BURROWING, MAX_TICKS_UNTIL_NEXT_BURROWING));
+		builder.add(BURROWING_DOWN_ANIMATION_PROGRESS, 0.0F);
 	}
 
 	@Override
@@ -166,8 +171,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		ServerWorldAccess world,
 		LocalDifficulty difficulty,
 		SpawnReason spawnReason,
-		@Nullable EntityData entityData,
-		@Nullable NbtCompound entityNbt
+		@Nullable EntityData entityData
 	) {
 		RegistryKey<Biome> biomeKey = world.getBiome(this.getBlockPos()).getKey().orElse(BiomeKeys.SAVANNA);
 		Type type = Type.getTypeByBiome(biomeKey);
@@ -176,7 +180,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		this.setType(type);
 		this.setSize();
 
-		return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
+		return super.initialize(world, difficulty, spawnReason, entityData);
 	}
 
 	@Override
@@ -361,6 +365,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 	public static Builder createAttributes() {
 		return MobEntity.createMobAttributes()
+			.add(EntityAttributes.GENERIC_SCALE, 1.0F)
 			.add(EntityAttributes.GENERIC_MAX_HEALTH, HEALTH)
 			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, MOVEMENT_SPEED)
 			.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, ATTACK_DAMAGE);
@@ -470,6 +475,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	public void setSize() {
 		float size = this.getSize();
 
+		this.getAttributeInstance(EntityAttributes.GENERIC_SCALE).setBaseValue(this.getSize());
 		this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue((int) (HEALTH * size));
 		this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue(ATTACK_DAMAGE * (size / 2.0F));
 		this.calculateDimensions();
@@ -520,31 +526,24 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		}
 	}
 
-	@Override
-	public EntityDimensions getDimensions(EntityPose pose) {
-		return super.getDimensions(pose).scaled(this.getSize());
-	}
-
 	public Vec3d getLeashOffset() {
 		return new Vec3d(0.0D, 0.6F * this.getStandingEyeHeight(), this.getWidth() * 0.4F);
 	}
 
 	private int getExperiencePoints(ItemStack stack) {
-		int experiencePoints = 0;
-		Map<Enchantment, Integer> mappedEnchantments = EnchantmentHelper.get(stack);
+		int i = 0;
+		ItemEnchantmentsComponent itemEnchantmentsComponent = EnchantmentHelper.getEnchantments(stack);
 
-		for (Map.Entry<Enchantment, Integer> enchantmentItem : mappedEnchantments.entrySet()) {
-			Enchantment enchantment = enchantmentItem.getKey();
-			Integer enchantmentExperiencePoints = enchantmentItem.getValue();
-
-			if (enchantmentItem.getKey().isCursed()) {
-				continue;
+		for (Object2IntMap.Entry<RegistryEntry<Enchantment>> registryEntryEntry : itemEnchantmentsComponent.getEnchantmentsMap()) {
+			Object2IntMap.Entry<RegistryEntry<Enchantment>> entry = registryEntryEntry;
+			Enchantment enchantment = (Enchantment) ((RegistryEntry) entry.getKey()).value();
+			int j = entry.getIntValue();
+			if (!enchantment.isCursed()) {
+				i += enchantment.getMinPower(j);
 			}
-
-			experiencePoints += enchantment.getMinPower(enchantmentExperiencePoints);
 		}
 
-		return experiencePoints;
+		return i;
 	}
 
 	public void spawnParticles(

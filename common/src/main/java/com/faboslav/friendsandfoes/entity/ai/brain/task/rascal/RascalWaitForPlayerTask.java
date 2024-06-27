@@ -6,9 +6,10 @@ import com.faboslav.friendsandfoes.entity.ai.brain.RascalBrain;
 import com.faboslav.friendsandfoes.entity.pose.RascalEntityPose;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesCriteria;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesMemoryModuleTypes;
-import com.faboslav.friendsandfoes.mixin.BundleItemAccessor;
 import com.google.common.collect.ImmutableMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.BundleContentsComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
@@ -19,11 +20,12 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.loot.LootManager;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootContextTypes;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.StructureTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -121,27 +123,29 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 
 		if (nodTicks == 62 && rascal.shouldGiveReward()) {
 			Vec3d targetPos = nearestTarget.getPos().add(0.0, 1.0, 0.0);
-			LootManager lootManager = world.getServer().getLootManager();
-
-			if (lootManager != null) {
-				LootTable rascalGoodItemsLootTable = lootManager.getLootTable(
-					FriendsAndFoes.makeID("rewards/rascal_good_reward")
-				);
+				LootTable rascalGoodItemsLootTable = world.getServer().getReloadableRegistries().getLootTable(RegistryKey.of(RegistryKeys.LOOT_TABLE, FriendsAndFoes.makeID("rewards/rascal_good_reward")));
 				LootContextParameterSet lootContextParameterSet = new LootContextParameterSet.Builder(world)
 					.add(LootContextParameters.ORIGIN, targetPos)
 					.add(LootContextParameters.THIS_ENTITY, this.nearestTarget)
 					.build(LootContextTypes.GIFT);
 				ObjectArrayList<ItemStack> rascalGoodRewards = rascalGoodItemsLootTable.generateLoot(lootContextParameterSet);
 
+
 				for (ItemStack rascalReward : rascalGoodRewards) {
 					ItemStack bundleItemStack = Items.BUNDLE.getDefaultStack();
-					BundleItemAccessor.callAddToBundle(bundleItemStack, rascalReward);
+					BundleContentsComponent bundleContentsComponent = bundleItemStack.get(DataComponentTypes.BUNDLE_CONTENTS);
 
+					if (bundleContentsComponent == null) {
+						break;
+					}
+
+					BundleContentsComponent.Builder builder = new BundleContentsComponent.Builder(bundleContentsComponent);
+					builder.add(rascalReward);
+					bundleItemStack.set(DataComponentTypes.BUNDLE_CONTENTS, builder.build());
 					LookTargetUtil.give(rascal, bundleItemStack, nearestTarget.getPos().add(0.0, 1.0, 0.0));
 
 					FriendsAndFoesCriteria.COMPLETE_HIDE_AND_SEEK_GAME.get().trigger((ServerPlayerEntity) this.nearestTarget, rascal, bundleItemStack);
 				}
-			}
 		}
 
 		this.nodTicks++;

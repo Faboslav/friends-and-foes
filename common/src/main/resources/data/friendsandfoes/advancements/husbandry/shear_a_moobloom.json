@@ -2,7 +2,7 @@
 	"parent": "minecraft:husbandry/root",
 	"display": {
 		"icon": {
-			"item": "minecraft:shears"
+			"id": "minecraft:shears"
 		},
 		"title": {
 			"translate": "advancements.husbandry.shear_a_moobloom.title"

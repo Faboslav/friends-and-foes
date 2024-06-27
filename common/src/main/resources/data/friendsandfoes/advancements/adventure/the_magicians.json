@@ -2,7 +2,7 @@
 	"parent": "minecraft:adventure/voluntary_exile",
 	"display": {
 		"icon": {
-			"item": "minecraft:emerald"
+			"id": "minecraft:emerald"
 		},
 		"title": {
 			"translate": "advancements.adventure.the_magicians.title"

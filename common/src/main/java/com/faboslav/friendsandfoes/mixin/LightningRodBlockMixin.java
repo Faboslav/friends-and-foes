@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.mixin;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.block.Oxidizable;
 import com.faboslav.friendsandfoes.client.render.entity.animation.KeyframeAnimation;
 import com.faboslav.friendsandfoes.entity.CopperGolemEntity;
 import com.faboslav.friendsandfoes.entity.ai.brain.CopperGolemBrain;
@@ -15,7 +14,9 @@ import net.minecraft.block.pattern.BlockPattern;
 import net.minecraft.block.pattern.BlockPatternBuilder;
 import net.minecraft.block.pattern.CachedBlockPosition;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldEvents;
 import org.jetbrains.annotations.Nullable;
@@ -23,6 +24,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
 
@@ -192,5 +194,23 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 			   || blockState.isOf(FriendsAndFoesBlocks.WAXED_WEATHERED_LIGHTNING_ROD.get())
 			   || blockState.isOf(FriendsAndFoesBlocks.WAXED_EXPOSED_LIGHTNING_ROD.get())
 			   || blockState.isOf(FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get());
+	}
+
+	@Override
+	public void friendsandfoes_hasRandomTicks(
+		BlockState state, CallbackInfoReturnable<Boolean> cir
+	) {
+		cir.setReturnValue(Oxidizable.getIncreasedOxidationBlock(state.getBlock()).isPresent());
+	}
+
+	@Override
+	public void friendsandfoes_randomTick(
+		BlockState state,
+		ServerWorld world,
+		BlockPos pos,
+		Random random,
+		CallbackInfo ci
+	) {
+		((Degradable) this).tickDegradation(state, world, pos, random);
 	}
 }

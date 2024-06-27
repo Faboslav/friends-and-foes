@@ -36,7 +36,7 @@
 		"friendsandfoes-fabric.mixins.json"
 	],
 	"depends": {
-		"java": ">=17",
+		"java": ">=21",
 		"minecraft": ">=${minecraftVersion}",
 		"fabricloader": ">=${fabricLoaderVersion}",
 		"fabric": ">=${fabricApiVersion}"

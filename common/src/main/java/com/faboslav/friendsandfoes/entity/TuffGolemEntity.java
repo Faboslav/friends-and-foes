@@ -129,10 +129,9 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		ServerWorldAccess world,
 		LocalDifficulty difficulty,
 		SpawnReason spawnReason,
-		@Nullable EntityData entityData,
-		@Nullable NbtCompound entityNbt
+		@Nullable EntityData entityData
 	) {
-		EntityData superEntityData = super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
+		EntityData superEntityData = super.initialize(world, difficulty, spawnReason, entityData);
 
 		if (spawnReason == SpawnReason.SPAWN_EGG || spawnReason == SpawnReason.COMMAND) {
 			float randomSpawnYaw = 90.0F * (float) this.getRandom().nextBetween(0, 3);
@@ -179,13 +178,14 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	}
 
 	@Override
-	protected void initDataTracker() {
-		super.initDataTracker();
-		this.dataTracker.startTracking(COLOR, Color.RED.getName());
-		this.dataTracker.startTracking(PREV_POSE, TuffGolemEntityPose.STANDING.get());
-		this.dataTracker.startTracking(POSE_TICKS, 0);
-		this.dataTracker.startTracking(IS_GLUED, false);
-		this.dataTracker.startTracking(HOME, new NbtCompound());
+	protected void initDataTracker(DataTracker.Builder builder) {
+		super.initDataTracker(builder);
+
+		builder.add(COLOR, Color.RED.getName());
+		builder.add(PREV_POSE, TuffGolemEntityPose.STANDING.get());
+		builder.add(POSE_TICKS, 0);
+		builder.add(IS_GLUED, false);
+		builder.add(HOME, new NbtCompound());
 	}
 
 	@Override
@@ -417,9 +417,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		ParticleSpawner.spawnParticles(this, ParticleTypes.WAX_OFF, 7, 1.0F);
 
 		if (this.getWorld().isClient() == false && !player.getAbilities().creativeMode) {
-			itemStack.damage(1, player, (playerEntity) -> {
-				player.sendToolBreakStatus(hand);
-			});
+			itemStack.damage(1, player, PlayerEntity.getSlotForHand(hand));
 		}
 
 		return true;
@@ -780,10 +778,13 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		return new Vec3d(0.0D, this.getStandingEyeHeight() * 0.45D, 0.0D);
 	}
 
+	// TODO fix eyes
+	/*
 	@Override
 	protected float getActiveEyeHeight(EntityPose poseIn, EntityDimensions sizeIn) {
 		return 0.8F;
 	}
+	 */
 
 	@Override
 	public float getMovementSpeed() {

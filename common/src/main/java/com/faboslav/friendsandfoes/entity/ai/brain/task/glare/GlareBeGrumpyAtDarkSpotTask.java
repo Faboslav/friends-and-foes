@@ -42,7 +42,7 @@ public final class GlareBeGrumpyAtDarkSpotTask extends MultiTickTask<GlareEntity
 
 		if (
 			GlareBeGrumpyAtDarkSpotTask.canBeGrumpyAtDarkSpot(glare) == false
-			|| darkSpotPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE) == false
+			|| darkSpotPos.pos().isWithinDistance(glare.getPos(), WITHING_DISTANCE) == false
 		) {
 			return false;
 		}
@@ -64,7 +64,7 @@ public final class GlareBeGrumpyAtDarkSpotTask extends MultiTickTask<GlareEntity
 
 		if (
 			GlareBeGrumpyAtDarkSpotTask.canBeGrumpyAtDarkSpot(glare) == false
-			|| darkSpotPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE) == false
+			|| darkSpotPos.pos().isWithinDistance(glare.getPos(), WITHING_DISTANCE) == false
 		) {
 			return false;
 		}

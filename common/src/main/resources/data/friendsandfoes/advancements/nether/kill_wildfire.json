@@ -2,7 +2,7 @@
 	"parent": "friendsandfoes:nether/find_citadel",
 	"display": {
 		"icon": {
-			"item": "friendsandfoes:wildfire_crown_fragment"
+			"id": "friendsandfoes:wildfire_crown_fragment"
 		},
 		"title": {
 			"translate": "advancements.nether.kill_wildfire.title"

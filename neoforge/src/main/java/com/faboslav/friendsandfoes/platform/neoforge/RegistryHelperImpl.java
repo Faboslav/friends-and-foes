@@ -19,13 +19,16 @@ import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.particle.DefaultParticleType;
+import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.particle.ParticleType;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.structure.processor.StructureProcessor;
 import net.minecraft.structure.processor.StructureProcessorType;
@@ -59,6 +62,7 @@ public final class RegistryHelperImpl
 	public static final DeferredRegister<StructureProcessorType<?>> STRUCTURE_PROCESSOR_TYPES = DeferredRegister.create(RegistryKeys.STRUCTURE_PROCESSOR, FriendsAndFoes.MOD_ID);
 	public static final DeferredRegister<VillagerProfession> VILLAGER_PROFESSIONS = DeferredRegister.create(Registries.VILLAGER_PROFESSION, FriendsAndFoes.MOD_ID);
 	public static final DeferredRegister<Criterion<?>> CRITERIA = DeferredRegister.create(RegistryKeys.CRITERION, FriendsAndFoes.MOD_ID);
+	public static final DeferredRegister<ArmorMaterial> ARMOR_MATERIAL = DeferredRegister.create(RegistryKeys.ARMOR_MATERIAL, FriendsAndFoes.MOD_ID);
 
 	public static final HashMap<RegistryKey<ItemGroup>, HashMap<Item, Item>> ITEMS_TO_ADD_BEFORE = new HashMap<>();
 	public static final HashMap<RegistryKey<ItemGroup>, HashMap<Item, Item>> ITEMS_TO_ADD_AFTER = new HashMap<>();
@@ -148,7 +152,7 @@ public final class RegistryHelperImpl
 		return SENSOR_TYPES.register(name, sensorType);
 	}
 
-	public static void registerParticleType(String name, DefaultParticleType particleType) {
+	public static void registerParticleType(String name, SimpleParticleType particleType) {
 		PARTICLE_TYPES.register(name, () -> particleType);
 	}
 
@@ -201,5 +205,12 @@ public final class RegistryHelperImpl
 
 	public static <T extends Criterion<?>> Supplier<T> registerCriterion(String name, T criterion) {
 		return CRITERIA.register(name, () -> criterion);
+	}
+
+	public static <T extends ArmorMaterial> RegistryEntry<ArmorMaterial> registerArmorMaterial(
+		String name,
+		Supplier<T> armorMaterial
+	) {
+		return ARMOR_MATERIAL.register(name, armorMaterial);
 	}
 }

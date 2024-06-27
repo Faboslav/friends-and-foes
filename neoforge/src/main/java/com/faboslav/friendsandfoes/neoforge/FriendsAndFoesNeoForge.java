@@ -7,13 +7,16 @@ import com.faboslav.friendsandfoes.events.lifecycle.RegisterReloadListenerEvent;
 import com.faboslav.friendsandfoes.events.lifecycle.SetupEvent;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesStructurePoolElements;
-import com.faboslav.friendsandfoes.platform.neoforge.PacketChannelManagerImpl;
+import com.faboslav.friendsandfoes.neoforge.init.FriendsAndFoesBiomeModifiers;
+import com.faboslav.friendsandfoes.neoforge.world.MobSpawnBiomeModifier;
+import com.faboslav.friendsandfoes.network.neoforge.NeoForgeNetworking;
 import com.faboslav.friendsandfoes.platform.neoforge.RegistryHelperImpl;
 import com.faboslav.friendsandfoes.util.CustomRaidMember;
 import com.faboslav.friendsandfoes.util.ServerWorldSpawnersUtil;
 import com.faboslav.friendsandfoes.util.UpdateChecker;
 import com.faboslav.friendsandfoes.world.spawner.IceologerSpawner;
 import com.faboslav.friendsandfoes.world.spawner.IllusionerSpawner;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.SharedConstants;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -24,16 +27,21 @@ import net.minecraft.village.raid.Raid;
 import net.minecraft.world.dimension.DimensionTypes;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 import java.util.Map;
 import java.util.function.Supplier;
@@ -42,15 +50,23 @@ import java.util.function.Supplier;
 @Mod(FriendsAndFoes.MOD_ID)
 public final class FriendsAndFoesNeoForge
 {
-	public FriendsAndFoesNeoForge() {
+	public FriendsAndFoesNeoForge(ModContainer modContainer, IEventBus modEventBus) {
 		UpdateChecker.checkForNewUpdates();
+
+		var eventBus = NeoForge.EVENT_BUS;
 		FriendsAndFoes.init();
 
-		if (FMLEnvironment.dist == Dist.CLIENT) {
-			FriendsAndFoesClient.init();
-		}
+		FriendsAndFoesBiomeModifiers.BIOME_MODIFIERS.register(modEventBus);
 
-		IEventBus modEventBus = net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext.get().getModEventBus();
+		/*
+		final DeferredRegister<MapCodec<? extends BiomeModifier>> biomeModifiers = DeferredRegister.create(NeoForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, FriendsAndFoes.MOD_ID);
+		biomeModifiers.register(modEventBus);
+		biomeModifiers.register("mob_spawns", MobSpawnBiomeModifier::makeCodec);
+		 */
+
+		if (FMLEnvironment.dist == Dist.CLIENT) {
+			FriendsAndFoesNeoForgeClient.init(modEventBus, eventBus);
+		}
 
 		modEventBus.addListener(FriendsAndFoesNeoForge::onSetup);
 
@@ -70,13 +86,13 @@ public final class FriendsAndFoesNeoForge
 		RegistryHelperImpl.STRUCTURE_PROCESSOR_TYPES.register(modEventBus);
 		RegistryHelperImpl.VILLAGER_PROFESSIONS.register(modEventBus);
 		RegistryHelperImpl.CRITERIA.register(modEventBus);
+		RegistryHelperImpl.ARMOR_MATERIAL.register(modEventBus);
 
 		modEventBus.addListener(FriendsAndFoesNeoForge::init);
 		modEventBus.addListener(FriendsAndFoesNeoForge::registerEntityAttributes);
 		modEventBus.addListener(FriendsAndFoesNeoForge::addItemsToTabs);
-		modEventBus.addListener(PacketChannelManagerImpl::registerPayloads);
+		modEventBus.addListener(FriendsAndFoesNeoForge::onNetworkSetup);
 
-		var eventBus = NeoForge.EVENT_BUS;
 		eventBus.addListener(FriendsAndFoesNeoForge::initSpawners);
 		eventBus.addListener(FriendsAndFoesNeoForge::onServerAboutToStartEvent);
 		eventBus.addListener(FriendsAndFoesNeoForge::onAddReloadListeners);
@@ -145,10 +161,14 @@ public final class FriendsAndFoesNeoForge
 		}
 	}
 
+	public static void onNetworkSetup(RegisterPayloadHandlersEvent event) {
+		NeoForgeNetworking.setupNetwork(event);
+	}
+
 	private static void initSpawners(final LevelEvent.Load event) {
 		if (
 			event.getLevel().isClient()
-			|| ((ServerWorld) event.getLevel()).getDimensionKey() != DimensionTypes.OVERWORLD) {
+			|| ((ServerWorld) event.getLevel()).getDimensionEntry() != DimensionTypes.OVERWORLD) {
 			return;
 		}
 

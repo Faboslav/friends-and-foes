@@ -39,41 +39,17 @@ dependencies {
 	modImplementation("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}") { transitive = false }
 
 	// Trinkets (https://www.curseforge.com/minecraft/mc-mods/trinkets)
-	modImplementation("dev.emi:trinkets:${project.trinkets_version}")
+	modCompileOnly("dev.emi:trinkets:${project.trinkets_version}") { transitive false }
 
 	// Fix for CCA (https://github.com/Ladysnake/Cardinal-Components-API)
-	modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${project.cca_version}") { transitive = false }
-	modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${project.cca_version}") { transitive = false }
+	modCompileOnly("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${project.cca_version}") { transitive = false }
+	modCompileOnly("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${project.cca_version}") { transitive = false }
 
 	// Auth (https://github.com/DJtheRedstoner/DevAuth)
 	modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:${rootProject.devauth_version}")
 
 	common(project(path: ":common", configuration: "namedElements")) { transitive false }
 	shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
-}
-
-processResources {
-	inputs.property 'modId', rootProject.mod_id
-	inputs.property 'modName', rootProject.mod_name
-	inputs.property 'modDescription', rootProject.mod_description
-	inputs.property 'modVersion', rootProject.mod_version
-	inputs.property 'modAuthor', rootProject.mod_author
-	inputs.property "minecraftVersion", rootProject.minecraft_version
-	inputs.property "fabricLoaderVersion", rootProject.fabric_loader_version
-	inputs.property "fabricApiVersion", rootProject.fabric_api_version
-
-	filesMatching("fabric.mod.json") {
-		expand([
-			'modId'              : rootProject.mod_id,
-			'modName'            : rootProject.mod_name,
-			'modDescription'     : rootProject.mod_description,
-			'modVersion'         : rootProject.mod_version,
-			'modAuthor'          : rootProject.mod_author,
-			"minecraftVersion"   : rootProject.minecraft_version,
-			"fabricLoaderVersion": rootProject.fabric_loader_version,
-			"fabricApiVersion"   : rootProject.fabric_api_version
-		])
-	}
 }
 
 shadowJar {

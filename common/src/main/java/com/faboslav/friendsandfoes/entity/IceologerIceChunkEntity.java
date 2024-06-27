@@ -74,12 +74,12 @@ public final class IceologerIceChunkEntity extends Entity
 		this.playSummonSound();
 	}
 
-	@Override
-	protected void initDataTracker() {
-		this.dataTracker.startTracking(OWNER_UUID, Optional.empty());
-		this.dataTracker.startTracking(TARGET_UUID, Optional.empty());
-		this.dataTracker.startTracking(TICKS_UNTIL_FALL, RandomGenerator.generateInt(MIN_FLYING_TICKS, MAX_FLYING_TICKS));
-		this.dataTracker.startTracking(IDLE_TICKS, RandomGenerator.generateInt(MIN_IDLE_TICKS, MAX_IDLE_TICKS));
+
+	protected void initDataTracker(DataTracker.Builder builder) {
+		builder.add(OWNER_UUID, Optional.empty());
+		builder.add(TARGET_UUID, Optional.empty());
+		builder.add(TICKS_UNTIL_FALL, RandomGenerator.generateInt(MIN_FLYING_TICKS, MAX_FLYING_TICKS));
+		builder.add(IDLE_TICKS, RandomGenerator.generateInt(MIN_IDLE_TICKS, MAX_IDLE_TICKS));
 	}
 
 	@Override

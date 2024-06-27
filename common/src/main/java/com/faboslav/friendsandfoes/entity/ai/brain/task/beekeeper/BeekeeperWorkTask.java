@@ -30,7 +30,7 @@ public final class BeekeeperWorkTask extends VillagerWorkTask
 			return;
 		}
 
-		BlockState beehiveBlockState = serverWorld.getBlockState(beehiveGlobalPos.getPos());
+		BlockState beehiveBlockState = serverWorld.getBlockState(beehiveGlobalPos.pos());
 		if (this.canHarvestHoney(beehiveBlockState) == false) {
 			return;
 		}
@@ -50,7 +50,7 @@ public final class BeekeeperWorkTask extends VillagerWorkTask
 			return;
 		}
 
-		BlockState beehiveBlockState = serverWorld.getBlockState(beehiveGlobalPos.getPos());
+		BlockState beehiveBlockState = serverWorld.getBlockState(beehiveGlobalPos.pos());
 		if (this.canHarvestHoney(beehiveBlockState) == false) {
 			return;
 		}
@@ -70,7 +70,7 @@ public final class BeekeeperWorkTask extends VillagerWorkTask
 	}
 
 	private void harvestHoney(ServerWorld world, GlobalPos globalPos, BlockState beehiveState) {
-		BlockPos blockPos = globalPos.getPos();
+		BlockPos blockPos = globalPos.pos();
 		world.setBlockState(blockPos, beehiveState.with(BeehiveBlock.HONEY_LEVEL, 0), 3);
 		world.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.BLOCK_BEEHIVE_SHEAR, SoundCategory.NEUTRAL, 1.0F, 1.0F);
 		BeehiveBlock.dropHoneycomb(world, blockPos);

@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.world.processor;
 
 import com.faboslav.friendsandfoes.init.FriendsAndFoesStructureProcessorTypes;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.BlockState;
 import net.minecraft.structure.StructurePlacementData;
@@ -23,7 +24,7 @@ import net.minecraft.world.WorldView;
  */
 public final class CitadelBottomProcessor extends StructureProcessor
 {
-	public static final Codec<CitadelBottomProcessor> CODEC = RecordCodecBuilder.create(instance -> instance
+	public static final MapCodec<CitadelBottomProcessor> CODEC = RecordCodecBuilder.mapCodec(instance -> instance
 		.group(
 			BlockState.CODEC.fieldOf("target_block").forGetter(config -> config.targetBlock),
 			BlockState.CODEC.fieldOf("target_block_output").forGetter(config -> config.targetBlockOutput),

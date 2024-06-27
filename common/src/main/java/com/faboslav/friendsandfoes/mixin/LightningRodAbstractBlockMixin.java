@@ -1,16 +1,15 @@
 package com.faboslav.friendsandfoes.mixin;
 
 import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AbstractBlock.class)
 public abstract class LightningRodAbstractBlockMixin
@@ -29,17 +28,12 @@ public abstract class LightningRodAbstractBlockMixin
 	}
 
 	@Inject(
-		method = "neighborUpdate",
-		at = @At("TAIL")
+		method = "hasRandomTicks",
+		at = @At("TAIL"),
+		cancellable = true
 	)
-	public void friendsandfoes_neighborUpdate(
-		BlockState state,
-		World world,
-		BlockPos pos,
-		Block sourceBlock,
-		BlockPos sourcePos,
-		boolean notify,
-		CallbackInfo ci
+	public void friendsandfoes_hasRandomTicks(
+		BlockState state, CallbackInfoReturnable<Boolean> cir
 	) {
 	}
 }

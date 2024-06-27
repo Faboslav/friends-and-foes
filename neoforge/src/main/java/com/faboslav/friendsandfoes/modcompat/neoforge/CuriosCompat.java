@@ -40,7 +40,7 @@ public final class CuriosCompat implements ModCompat
 	@Nullable
 	public ItemStack getEquippedItemFromCustomSlots(Entity entity, Predicate<ItemStack> itemStackPredicate) {
 		if (entity instanceof PlayerEntity player) {
-			return CuriosApi.getCuriosHelper().findFirstCurio(player, itemStackPredicate).map(SlotResult::stack).orElse(null);
+			return CuriosApi.getCuriosInventory(player).map(i -> i.findFirstCurio(itemStackPredicate).map(SlotResult::stack).orElse(null)).get();
 		}
 
 		return null;

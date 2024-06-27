@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes.forge;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.FriendsAndFoesClient;
 import com.faboslav.friendsandfoes.events.lifecycle.*;
+import com.faboslav.friendsandfoes.forge.init.FriendsAndFoesBiomeModifiers;
 import com.faboslav.friendsandfoes.forge.world.MobSpawnBiomeModifier;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesStructurePoolElements;
@@ -49,11 +50,8 @@ public final class FriendsAndFoesForge
 		IEventBus eventBus = MinecraftForge.EVENT_BUS;
 		modEventBus.addListener(FriendsAndFoesForge::onSetup);
 
-		final DeferredRegister<Codec<? extends BiomeModifier>> biomeModifiers = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, FriendsAndFoes.MOD_ID);
-		biomeModifiers.register(modEventBus);
-		biomeModifiers.register("faf_mob_spawns", MobSpawnBiomeModifier::makeCodec);
-
 		FriendsAndFoes.init();
+		FriendsAndFoesBiomeModifiers.BIOME_MODIFIERS.register(modEventBus);
 
 		if (FMLEnvironment.dist == Dist.CLIENT) {
 			FriendsAndFoesClient.init();

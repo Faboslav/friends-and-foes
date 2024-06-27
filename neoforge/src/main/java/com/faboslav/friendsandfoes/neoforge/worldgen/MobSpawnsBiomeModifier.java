@@ -1,25 +1,19 @@
-package com.faboslav.friendsandfoes.neoforge.world;
+package com.faboslav.friendsandfoes.neoforge.worldgen;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.events.lifecycle.AddSpawnBiomeModificationsEvent;
+import com.faboslav.friendsandfoes.neoforge.init.FriendsAndFoesBiomeModifiers;
 import com.mojang.serialization.Codec;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.SpawnSettings;
 import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.common.world.ModifiableBiomeInfo;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
-public class MobSpawnBiomeModifier implements BiomeModifier
+public class MobSpawnsBiomeModifier implements BiomeModifier
 {
-	public static final DeferredRegister<Codec<? extends BiomeModifier>> BIOME_MODIFIER_SERIALIZERS =
-		DeferredRegister.create(NeoForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, FriendsAndFoes.MOD_ID);
+	public static final Codec<MobSpawnsBiomeModifier> CODEC = Codec.unit(MobSpawnsBiomeModifier::new);
 
-	DeferredHolder<Codec<? extends BiomeModifier>, Codec<MobSpawnBiomeModifier>> SERIALIZER = BIOME_MODIFIER_SERIALIZERS.register("mob_spawns", () -> Codec.unit(MobSpawnBiomeModifier::new));
-
-	public MobSpawnBiomeModifier() {
+	public MobSpawnsBiomeModifier() {
 	}
 
 	public void modify(RegistryEntry<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
@@ -33,10 +27,6 @@ public class MobSpawnBiomeModifier implements BiomeModifier
 	}
 
 	public Codec<? extends BiomeModifier> codec() {
-		return SERIALIZER.get();
-	}
-
-	public static Codec<MobSpawnBiomeModifier> makeCodec() {
-		return Codec.unit(MobSpawnBiomeModifier::new);
+		return FriendsAndFoesBiomeModifiers.BIOME_MODIFIER.get();
 	}
 }

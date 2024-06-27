@@ -48,8 +48,6 @@ public final class FriendsAndFoesFabric implements ModInitializer
 			BiomeModifications.addSpawn(biomeSelector -> biomeSelector.hasTag(tag) && biomeSelector.hasTag(BiomeTags.IS_OVERWORLD), spawnGroup, entityType, weight, minGroupSize, maxGroupSize);
 		}));
 
-		RegisterOxidizablesEvent.EVENT.invoke(new RegisterOxidizablesEvent(OxidizableBlocksRegistry::registerOxidizableBlockPair));
-
 		ServerWorldEvents.LOAD.register(((server, world) -> {
 			if (world.isClient() || world.getDimensionKey() != DimensionTypes.OVERWORLD) {
 				return;

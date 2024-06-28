@@ -1,14 +1,12 @@
 package com.faboslav.friendsandfoes.neoforge;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.FriendsAndFoesClient;
 import com.faboslav.friendsandfoes.events.lifecycle.DatapackSyncEvent;
 import com.faboslav.friendsandfoes.events.lifecycle.RegisterReloadListenerEvent;
 import com.faboslav.friendsandfoes.events.lifecycle.SetupEvent;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesStructurePoolElements;
 import com.faboslav.friendsandfoes.neoforge.init.FriendsAndFoesBiomeModifiers;
-import com.faboslav.friendsandfoes.neoforge.world.MobSpawnBiomeModifier;
 import com.faboslav.friendsandfoes.network.neoforge.NeoForgeNetworking;
 import com.faboslav.friendsandfoes.platform.neoforge.RegistryHelperImpl;
 import com.faboslav.friendsandfoes.util.CustomRaidMember;
@@ -16,7 +14,6 @@ import com.faboslav.friendsandfoes.util.ServerWorldSpawnersUtil;
 import com.faboslav.friendsandfoes.util.UpdateChecker;
 import com.faboslav.friendsandfoes.world.spawner.IceologerSpawner;
 import com.faboslav.friendsandfoes.world.spawner.IllusionerSpawner;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.SharedConstants;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -32,7 +29,6 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
@@ -40,13 +36,10 @@ import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
-import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 import java.util.Map;
 import java.util.function.Supplier;
 
-@SuppressWarnings({"deprecation", "removal"})
 @Mod(FriendsAndFoes.MOD_ID)
 public final class FriendsAndFoesNeoForge
 {
@@ -54,15 +47,9 @@ public final class FriendsAndFoesNeoForge
 		UpdateChecker.checkForNewUpdates();
 
 		var eventBus = NeoForge.EVENT_BUS;
+
 		FriendsAndFoes.init();
-
 		FriendsAndFoesBiomeModifiers.BIOME_MODIFIERS.register(modEventBus);
-
-		/*
-		final DeferredRegister<MapCodec<? extends BiomeModifier>> biomeModifiers = DeferredRegister.create(NeoForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, FriendsAndFoes.MOD_ID);
-		biomeModifiers.register(modEventBus);
-		biomeModifiers.register("mob_spawns", MobSpawnBiomeModifier::makeCodec);
-		 */
 
 		if (FMLEnvironment.dist == Dist.CLIENT) {
 			FriendsAndFoesNeoForgeClient.init(modEventBus, eventBus);

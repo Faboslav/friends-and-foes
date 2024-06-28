@@ -123,29 +123,29 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 
 		if (nodTicks == 62 && rascal.shouldGiveReward()) {
 			Vec3d targetPos = nearestTarget.getPos().add(0.0, 1.0, 0.0);
-				LootTable rascalGoodItemsLootTable = world.getServer().getReloadableRegistries().getLootTable(RegistryKey.of(RegistryKeys.LOOT_TABLE, FriendsAndFoes.makeID("rewards/rascal_good_reward")));
-				LootContextParameterSet lootContextParameterSet = new LootContextParameterSet.Builder(world)
-					.add(LootContextParameters.ORIGIN, targetPos)
-					.add(LootContextParameters.THIS_ENTITY, this.nearestTarget)
-					.build(LootContextTypes.GIFT);
-				ObjectArrayList<ItemStack> rascalGoodRewards = rascalGoodItemsLootTable.generateLoot(lootContextParameterSet);
+			LootTable rascalGoodItemsLootTable = world.getServer().getReloadableRegistries().getLootTable(RegistryKey.of(RegistryKeys.LOOT_TABLE, FriendsAndFoes.makeID("rewards/rascal_good_reward")));
+			LootContextParameterSet lootContextParameterSet = new LootContextParameterSet.Builder(world)
+				.add(LootContextParameters.ORIGIN, targetPos)
+				.add(LootContextParameters.THIS_ENTITY, this.nearestTarget)
+				.build(LootContextTypes.GIFT);
+			ObjectArrayList<ItemStack> rascalGoodRewards = rascalGoodItemsLootTable.generateLoot(lootContextParameterSet);
 
 
-				for (ItemStack rascalReward : rascalGoodRewards) {
-					ItemStack bundleItemStack = Items.BUNDLE.getDefaultStack();
-					BundleContentsComponent bundleContentsComponent = bundleItemStack.get(DataComponentTypes.BUNDLE_CONTENTS);
+			for (ItemStack rascalReward : rascalGoodRewards) {
+				ItemStack bundleItemStack = Items.BUNDLE.getDefaultStack();
+				BundleContentsComponent bundleContentsComponent = bundleItemStack.get(DataComponentTypes.BUNDLE_CONTENTS);
 
-					if (bundleContentsComponent == null) {
-						break;
-					}
-
-					BundleContentsComponent.Builder builder = new BundleContentsComponent.Builder(bundleContentsComponent);
-					builder.add(rascalReward);
-					bundleItemStack.set(DataComponentTypes.BUNDLE_CONTENTS, builder.build());
-					LookTargetUtil.give(rascal, bundleItemStack, nearestTarget.getPos().add(0.0, 1.0, 0.0));
-
-					FriendsAndFoesCriteria.COMPLETE_HIDE_AND_SEEK_GAME.get().trigger((ServerPlayerEntity) this.nearestTarget, rascal, bundleItemStack);
+				if (bundleContentsComponent == null) {
+					break;
 				}
+
+				BundleContentsComponent.Builder builder = new BundleContentsComponent.Builder(bundleContentsComponent);
+				builder.add(rascalReward);
+				bundleItemStack.set(DataComponentTypes.BUNDLE_CONTENTS, builder.build());
+				LookTargetUtil.give(rascal, bundleItemStack, nearestTarget.getPos().add(0.0, 1.0, 0.0));
+
+				FriendsAndFoesCriteria.COMPLETE_HIDE_AND_SEEK_GAME.get().trigger((ServerPlayerEntity) this.nearestTarget, rascal, bundleItemStack);
+			}
 		}
 
 		this.nodTicks++;

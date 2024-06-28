@@ -5,6 +5,7 @@ import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.function.Consumer;
 
-public interface ServerboundPacketType<T extends Packet<T>> extends PacketType<T> {
-    Consumer<PlayerEntity> handle(T message);
+public interface ServerboundPacketType<T extends Packet<T>> extends PacketType<T>
+{
+	Consumer<PlayerEntity> handle(T message);
 }

@@ -33,6 +33,7 @@ import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.tag.EnchantmentTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -50,7 +51,6 @@ import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Iterator;
-import java.util.Map;
 import java.util.UUID;
 import java.util.function.Predicate;
 
@@ -530,16 +530,20 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		return new Vec3d(0.0D, 0.6F * this.getStandingEyeHeight(), this.getWidth() * 0.4F);
 	}
 
+	/**
+	 * @see net.minecraft.screen.GrindstoneScreenHandler
+	 */
 	private int getExperiencePoints(ItemStack stack) {
 		int i = 0;
 		ItemEnchantmentsComponent itemEnchantmentsComponent = EnchantmentHelper.getEnchantments(stack);
+		Iterator var4 = itemEnchantmentsComponent.getEnchantmentEntries().iterator();
 
-		for (Object2IntMap.Entry<RegistryEntry<Enchantment>> registryEntryEntry : itemEnchantmentsComponent.getEnchantmentsMap()) {
-			Object2IntMap.Entry<RegistryEntry<Enchantment>> entry = registryEntryEntry;
-			Enchantment enchantment = (Enchantment) ((RegistryEntry) entry.getKey()).value();
+		while (var4.hasNext()) {
+			Object2IntMap.Entry<RegistryEntry<Enchantment>> entry = (Object2IntMap.Entry) var4.next();
+			RegistryEntry<Enchantment> registryEntry = entry.getKey();
 			int j = entry.getIntValue();
-			if (!enchantment.isCursed()) {
-				i += enchantment.getMinPower(j);
+			if (!registryEntry.isIn(EnchantmentTags.CURSE)) {
+				i += registryEntry.value().getMinPower(j);
 			}
 		}
 

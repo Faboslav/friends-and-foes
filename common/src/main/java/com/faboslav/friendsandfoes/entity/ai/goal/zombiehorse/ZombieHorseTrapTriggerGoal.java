@@ -11,7 +11,6 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.mob.SkeletonEntity;
 import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.entity.mob.ZombieHorseEntity;
 import net.minecraft.entity.passive.AbstractHorseEntity;
@@ -19,7 +18,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.predicate.entity.EntityPredicates;
-import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.LocalDifficulty;
@@ -110,7 +108,7 @@ public final class ZombieHorseTrapTriggerGoal extends Goal
 		this.enchantEquipment(zombie, EquipmentSlot.MAINHAND, localDifficulty);
 		this.enchantEquipment(zombie, EquipmentSlot.HEAD, localDifficulty);
 
-        return zombie;
+		return zombie;
 	}
 
 	private void enchantEquipment(ZombieEntity rider, EquipmentSlot slot, LocalDifficulty localDifficulty) {

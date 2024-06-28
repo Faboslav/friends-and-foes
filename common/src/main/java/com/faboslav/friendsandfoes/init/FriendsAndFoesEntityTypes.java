@@ -12,7 +12,6 @@ import net.minecraft.SharedConstants;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.SpawnLocationTypes;
-import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.world.Heightmap;
 
 import java.util.function.Supplier;

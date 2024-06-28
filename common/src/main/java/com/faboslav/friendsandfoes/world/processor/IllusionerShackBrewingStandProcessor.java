@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.world.processor;
 
 import com.faboslav.friendsandfoes.init.FriendsAndFoesStructureProcessorTypes;
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.Blocks;
 import net.minecraft.nbt.NbtCompound;

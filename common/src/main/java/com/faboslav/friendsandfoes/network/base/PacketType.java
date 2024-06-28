@@ -19,24 +19,24 @@ import org.jetbrains.annotations.ApiStatus;
 @ApiStatus.NonExtendable
 public interface PacketType<T extends Packet<T>>
 {
-    Class<T> type();
+	Class<T> type();
 
-    Identifier id();
+	Identifier id();
 
-    void encode(T message, RegistryByteBuf buffer);
+	void encode(T message, RegistryByteBuf buffer);
 
-    T decode(RegistryByteBuf buffer);
+	T decode(RegistryByteBuf buffer);
 
-    @ApiStatus.Internal
-    default PacketCodec<RegistryByteBuf, NetworkPacketPayload<T>> codec(CustomPayload.Id<NetworkPacketPayload<T>> id) {
-        return PacketCodec.of(
-                (NetworkPacketPayload<T> payload, RegistryByteBuf buf) -> encode(payload.packet(), buf),
-                (RegistryByteBuf buf) -> new NetworkPacketPayload<>(decode(buf), id)
-        );
-    }
+	@ApiStatus.Internal
+	default PacketCodec<RegistryByteBuf, NetworkPacketPayload<T>> codec(CustomPayload.Id<NetworkPacketPayload<T>> id) {
+		return PacketCodec.of(
+			(NetworkPacketPayload<T> payload, RegistryByteBuf buf) -> encode(payload.packet(), buf),
+			(RegistryByteBuf buf) -> new NetworkPacketPayload<>(decode(buf), id)
+		);
+	}
 
-    @ApiStatus.Internal
-    default CustomPayload.Id<NetworkPacketPayload<T>> type(Identifier channel) {
-        return new CustomPayload.Id<>(channel.withSuffixedPath("/" + this.id().getNamespace() + "/" + this.id().getPath()));
-    }
+	@ApiStatus.Internal
+	default CustomPayload.Id<NetworkPacketPayload<T>> type(Identifier channel) {
+		return new CustomPayload.Id<>(channel.withSuffixedPath("/" + this.id().getNamespace() + "/" + this.id().getPath()));
+	}
 }

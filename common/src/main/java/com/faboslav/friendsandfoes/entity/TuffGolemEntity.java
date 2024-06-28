@@ -769,8 +769,8 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	}
 
 	@Override
-	public boolean canBeLeashedBy(PlayerEntity player) {
-		return super.canBeLeashedBy(player) && this.isInSleepingPose() == false;
+	public boolean canBeLeashed() {
+		return super.canBeLeashed() && this.isInSleepingPose() == false;
 	}
 
 	@Override

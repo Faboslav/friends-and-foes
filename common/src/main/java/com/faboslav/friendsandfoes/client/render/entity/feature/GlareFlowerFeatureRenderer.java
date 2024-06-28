@@ -50,9 +50,7 @@ public final class GlareFlowerFeatureRenderer extends FeatureRenderer<GlareEntit
 				vertexConsumerProvider,
 				light,
 				glare,
-				1.0F,
-				1.0F,
-				1.0F
+				-1
 			);
 		}
 	}

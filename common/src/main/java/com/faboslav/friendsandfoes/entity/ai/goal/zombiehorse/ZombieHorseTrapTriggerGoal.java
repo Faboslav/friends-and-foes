@@ -5,11 +5,13 @@ import com.faboslav.friendsandfoes.init.FriendsAndFoesCriteria;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.provider.EnchantmentProviders;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.mob.SkeletonEntity;
 import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.entity.mob.ZombieHorseEntity;
 import net.minecraft.entity.passive.AbstractHorseEntity;
@@ -105,15 +107,16 @@ public final class ZombieHorseTrapTriggerGoal extends Goal
 			zombie.equipStack(EquipmentSlot.HEAD, new ItemStack(Items.CHAINMAIL_HELMET));
 		}
 
-		FeatureSet featureSet = vehicle.getWorld().getEnabledFeatures();
-		zombie.equipStack(EquipmentSlot.MAINHAND, EnchantmentHelper.enchant(featureSet, zombie.getRandom(), this.removeEnchantments(zombie.getMainHandStack()), (int)(5.0F + localDifficulty.getClampedLocalDifficulty() * (float)zombie.getRandom().nextInt(18)), false));
-		zombie.equipStack(EquipmentSlot.HEAD, EnchantmentHelper.enchant(featureSet, zombie.getRandom(), this.removeEnchantments(zombie.getEquippedStack(EquipmentSlot.HEAD)), (int)(5.0F + localDifficulty.getClampedLocalDifficulty() * (float)zombie.getRandom().nextInt(18)), false));
+		this.enchantEquipment(zombie, EquipmentSlot.MAINHAND, localDifficulty);
+		this.enchantEquipment(zombie, EquipmentSlot.HEAD, localDifficulty);
 
         return zombie;
-}
+	}
 
-	private ItemStack removeEnchantments(ItemStack stack) {
-		stack.set(DataComponentTypes.ENCHANTMENTS, ItemEnchantmentsComponent.DEFAULT);
-		return stack;
+	private void enchantEquipment(ZombieEntity rider, EquipmentSlot slot, LocalDifficulty localDifficulty) {
+		ItemStack itemStack = rider.getEquippedStack(slot);
+		itemStack.set(DataComponentTypes.ENCHANTMENTS, ItemEnchantmentsComponent.DEFAULT);
+		EnchantmentHelper.applyEnchantmentProvider(itemStack, rider.getWorld().getRegistryManager(), EnchantmentProviders.MOB_SPAWN_EQUIPMENT, localDifficulty, rider.getRandom());
+		rider.equipStack(slot, itemStack);
 	}
 }

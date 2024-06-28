@@ -43,9 +43,7 @@ public final class TuffGolemClothFeatureRenderer extends FeatureRenderer<TuffGol
 			vertexConsumerProvider,
 			light,
 			tuffGolem,
-			1.0F,
-			1.0F,
-			1.0F
+			-1
 		);
 	}
 }

@@ -38,7 +38,7 @@ public final class IceologerIceChunkRenderer extends EntityRenderer<IceologerIce
 		int i
 	) {
 		var summonAnimationProgress = MathHelper.lerp(
-			MinecraftClient.getInstance().getTickDelta(),
+			MinecraftClient.getInstance().getRenderTickCounter().getTickDelta(true),
 			iceChunk.getLastSummonAnimationProgress(),
 			iceChunk.getSummonAnimationProgress()
 		);
@@ -48,7 +48,7 @@ public final class IceologerIceChunkRenderer extends EntityRenderer<IceologerIce
 		this.model.setAngles(iceChunk, 0.0F, 0.0F, 0.0F, iceChunk.getYaw(), iceChunk.getPitch());
 		this.model.animateModel(iceChunk, 0.0F, 0.0F, tickDelta);
 		matrixStack.scale(summonAnimationProgress, summonAnimationProgress, summonAnimationProgress);
-		this.model.render(matrixStack, vertexConsumer, i, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+		this.model.render(matrixStack, vertexConsumer, i, OverlayTexture.DEFAULT_UV, -1);
 		matrixStack.pop();
 		super.render(iceChunk, f, tickDelta, matrixStack, vertexConsumerProvider, i);
 	}

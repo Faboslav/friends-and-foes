@@ -12,6 +12,7 @@ import net.minecraft.entity.ai.brain.task.LookTargetUtil;
 import net.minecraft.entity.ai.brain.task.MultiTickTask;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 
 public final class WildfireBarrageAttackTask extends MultiTickTask<WildfireEntity>
@@ -151,9 +152,11 @@ public final class WildfireBarrageAttackTask extends MultiTickTask<WildfireEntit
 			WildfireShieldDebrisEntity shieldDebris = new WildfireShieldDebrisEntity(
 				world,
 				wildfire,
-				random.nextTriangular(targetX, 2.297 * h),
-				targetY,
-				random.nextTriangular(targetZ, 2.297 * h)
+				new Vec3d(
+					random.nextTriangular(targetX, 2.297 * h),
+					targetY,
+					random.nextTriangular(targetZ, 2.297 * h)
+				)
 			);
 			shieldDebris.setPosition(
 				shieldDebris.getX(),

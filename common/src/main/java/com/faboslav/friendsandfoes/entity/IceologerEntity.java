@@ -18,6 +18,7 @@ import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.raid.RaiderEntity;
 import net.minecraft.registry.tag.EntityTypeTags;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.world.World;
 
@@ -58,6 +59,9 @@ public final class IceologerEntity extends SpellcastingIllagerEntity
 
 	public SoundEvent getCelebratingSound() {
 		return FriendsAndFoesSoundEvents.ENTITY_ICEOLOGER_AMBIENT.get();
+	}
+
+	public void addBonusForWave(ServerWorld world, int wave, boolean unused) {
 	}
 
 	// TODO add illager friends to json

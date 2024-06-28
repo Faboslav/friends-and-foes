@@ -43,9 +43,7 @@ public final class TuffGolemClosedEyesRenderer extends FeatureRenderer<TuffGolem
 			vertexConsumerProvider,
 			light,
 			tuffGolem,
-			1.0F,
-			1.0F,
-			1.0F
+			-1
 		);
 	}
 }

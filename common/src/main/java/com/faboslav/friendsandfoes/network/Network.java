@@ -40,7 +40,7 @@ public class Network implements Networking
 
     @Deprecated
     public Network(String modid, int protocolVersion, String channel, boolean optional) {
-        this.networking = getNetwork(new Identifier(modid, channel), protocolVersion, optional);
+        this.networking = getNetwork(Identifier.of(modid, channel), protocolVersion, optional);
         this.optional = optional;
     }
 
@@ -86,7 +86,7 @@ public class Network implements Networking
     public final <T extends Packet<T>> void sendToAllLoaded(T message, World level, BlockPos pos) {
         WorldChunk chunk = level.getWorldChunk(pos);
         if (chunk != null && level.getChunkManager() instanceof ServerChunkManager serverCache) {
-            serverCache.threadedAnvilChunkStorage.getPlayersWatchingChunk(chunk.getPos(), false).forEach(player -> sendToPlayer(message, player));
+            serverCache.chunkLoadingManager.getPlayersWatchingChunk(chunk.getPos(), false).forEach(player -> sendToPlayer(message, player));
         }
     }
 

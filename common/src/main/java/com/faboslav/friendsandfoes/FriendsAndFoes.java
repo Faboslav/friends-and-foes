@@ -23,7 +23,7 @@ public final class FriendsAndFoes
 	public static final String MOD_ID = "friendsandfoes";
 
 	public static Identifier makeID(String path) {
-		return new Identifier(
+		return Identifier.of(
 			MOD_ID,
 			path
 		);

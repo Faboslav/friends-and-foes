@@ -9,7 +9,6 @@ import com.faboslav.friendsandfoes.init.FriendsAndFoesStructurePoolElements;
 import com.faboslav.friendsandfoes.neoforge.init.FriendsAndFoesBiomeModifiers;
 import com.faboslav.friendsandfoes.network.neoforge.NeoForgeNetworking;
 import com.faboslav.friendsandfoes.platform.neoforge.RegistryHelperImpl;
-import com.faboslav.friendsandfoes.util.CustomRaidMember;
 import com.faboslav.friendsandfoes.util.ServerWorldSpawnersUtil;
 import com.faboslav.friendsandfoes.util.UpdateChecker;
 import com.faboslav.friendsandfoes.world.spawner.IceologerSpawner;
@@ -20,7 +19,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.village.raid.Raid;
 import net.minecraft.world.dimension.DimensionTypes;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -89,22 +87,6 @@ public final class FriendsAndFoesNeoForge
 	private static void init(final FMLCommonSetupEvent event) {
 		event.enqueueWork(() -> {
 			FriendsAndFoes.postInit();
-
-			if (FriendsAndFoes.getConfig().enableIceologer && FriendsAndFoes.getConfig().enableIceologerInRaids) {
-				Raid.Member.create(
-					CustomRaidMember.ICEOLOGER_INTERNAL_NAME,
-					FriendsAndFoesEntityTypes.ICEOLOGER.get(),
-					CustomRaidMember.ICEOLOGER_COUNT_IN_WAVE
-				);
-			}
-
-			if (FriendsAndFoes.getConfig().enableIllusioner && FriendsAndFoes.getConfig().enableIllusionerInRaids) {
-				Raid.Member.create(
-					CustomRaidMember.ILLUSIONER_INTERNAL_NAME,
-					EntityType.ILLUSIONER,
-					CustomRaidMember.ILLUSIONER_COUNT_IN_WAVE
-				);
-			}
 		});
 	}
 

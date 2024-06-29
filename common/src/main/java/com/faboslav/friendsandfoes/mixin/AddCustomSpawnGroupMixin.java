@@ -1,7 +1,6 @@
-package com.faboslav.friendsandfoes.mixin.fabric;
+package com.faboslav.friendsandfoes.mixin;
 
 import com.faboslav.friendsandfoes.platform.CustomSpawnGroup;
-import com.faboslav.friendsandfoes.platform.fabric.CustomSpawnGroupImpl;
 import net.minecraft.entity.SpawnGroup;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
@@ -60,7 +59,7 @@ public final class AddCustomSpawnGroupMixin
 			CustomSpawnGroup.GLARES_RARE,
 			CustomSpawnGroup.GLARES_IMMEDIATE_DESPAWN_RANGE
 		);
-		CustomSpawnGroupImpl.GLARES = glaresSpawnGroup;
+		CustomSpawnGroup.GLARES = glaresSpawnGroup;
 		spawnGroups.add(glaresSpawnGroup);
 
 		var rascalsSpawnGroup = newSpawnGroup(
@@ -72,7 +71,7 @@ public final class AddCustomSpawnGroupMixin
 			CustomSpawnGroup.RASCALS_RARE,
 			CustomSpawnGroup.RASCALS_IMMEDIATE_DESPAWN_RANGE
 		);
-		CustomSpawnGroupImpl.RASCALS = rascalsSpawnGroup;
+		CustomSpawnGroup.RASCALS = rascalsSpawnGroup;
 		spawnGroups.add(rascalsSpawnGroup);
 
 		field_6301 = spawnGroups.toArray(new SpawnGroup[0]);

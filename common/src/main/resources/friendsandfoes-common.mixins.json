@@ -8,6 +8,8 @@
 	},
 	"mixins": [
 		"AddCustomEntityPoseMixin",
+		"AddCustomRaidMemberMixin",
+		"AddCustomSpawnGroupMixin",
 		"AxeItemMixin",
 		"BeeEntityAccessor",
 		"BeeEntityMixin",

@@ -1,10 +1,12 @@
 package com.faboslav.friendsandfoes.platform;
 
-import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.entity.SpawnGroup;
 
 public final class CustomSpawnGroup
 {
+	public static SpawnGroup GLARES;
+	public static SpawnGroup RASCALS;
+
 	public static final String GLARES_INTERNAL_NAME = "GLARES";
 	public static final String GLARES_NAME = "glares";
 	public static final int GLARES_SPAWN_CAP = 15;
@@ -19,14 +21,12 @@ public final class CustomSpawnGroup
 	public static final boolean RASCALS_RARE = false;
 	public static final int RASCALS_IMMEDIATE_DESPAWN_RANGE = 128;
 
-	@ExpectPlatform
 	public static SpawnGroup getGlaresCategory() {
-		throw new AssertionError();
+		return GLARES;
 	}
 
-	@ExpectPlatform
 	public static SpawnGroup getRascalsCategory() {
-		throw new AssertionError();
+		return RASCALS;
 	}
 
 	private CustomSpawnGroup() {

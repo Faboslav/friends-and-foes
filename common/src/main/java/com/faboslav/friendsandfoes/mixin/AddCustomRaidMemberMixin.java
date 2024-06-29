@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.mixin.fabric;
+package com.faboslav.friendsandfoes.mixin;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;

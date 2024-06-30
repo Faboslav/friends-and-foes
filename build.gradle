@@ -17,8 +17,8 @@ subprojects {
 	dependencies {
 		minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
 		mappings loom.layered {
-			it.mappings("net.fabricmc:yarn:${rootProject.yarn_mappings}")
-			it.mappings("dev.architectury:yarn-mappings-patch-neoforge:1.20.5+build.3")
+			it.mappings "net.fabricmc:yarn:${rootProject.yarn_mappings}"
+			it.mappings "dev.architectury:yarn-mappings-patch-neoforge:${rootProject.yarn_mappings_patch}"
 		}
 	}
 }

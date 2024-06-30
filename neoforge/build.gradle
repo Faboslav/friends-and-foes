@@ -39,7 +39,7 @@ dependencies {
 	modRuntimeOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}+${minecraft_version}");
 
 	// Cloth config (https://www.curseforge.com/minecraft/mc-mods/cloth-config)
-	modImplementation("me.shedaniel.cloth:cloth-config-neoforge:${rootProject.cloth_config_version}")
+	modImplementation("me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}")
 }
 
 shadowJar {

@@ -3,7 +3,7 @@ plugins {
 }
 
 allprojects {
-	archivesBaseName = "${rootProject.mod_id}-neoforge-mc${rootProject.minecraft_version}"
+	archivesBaseName = "${mod_id}-neoforge-mc${minecraft_version}"
 }
 
 architectury {
@@ -35,11 +35,11 @@ dependencies {
 	implementation(include("io.github.llamalad7:mixinextras-neoforge:${mixin_extras_version}"))
 
 	// Curios (https://www.curseforge.com/minecraft/mc-mods/curios)
-	//modCompileOnly("top.theillusivec4.curios:curios-neoforge:${project.curios_version}+${minecraft_version}:api")
-	//modRuntimeOnly("top.theillusivec4.curios:curios-neoforge:${project.curios_version}+${minecraft_version}");
+	// modCompileOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}+${minecraft_version}:api")
+	// modRuntimeOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}+${minecraft_version}")
 
 	// Cloth config (https://www.curseforge.com/minecraft/mc-mods/cloth-config)
-	modImplementation("me.shedaniel.cloth:cloth-config-neoforge:${rootProject.cloth_config_version}")
+	modImplementation("me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}")
 }
 
 shadowJar {

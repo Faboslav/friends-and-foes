@@ -41,7 +41,7 @@ dependencies {
 	implementation(include("io.github.llamalad7:mixinextras-forge:${mixin_extras_version}"))
 
 	// Curios (https://www.curseforge.com/minecraft/mc-mods/curios)
-	modImplementation("top.theillusivec4.curios:curios-forge:${minecraft_version}-${project.curios_version}:api")
+	modCompileOnly("top.theillusivec4.curios:curios-forge:${minecraft_version}-${project.curios_version}:api")
 	modRuntimeOnly("top.theillusivec4.curios:curios-forge:${minecraft_version}-${project.curios_version}");
 
 	// Cloth config (https://www.curseforge.com/minecraft/mc-mods/cloth-config)

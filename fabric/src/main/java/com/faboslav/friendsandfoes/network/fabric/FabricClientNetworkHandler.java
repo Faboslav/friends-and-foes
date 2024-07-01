@@ -10,16 +10,20 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
-public class FabricClientNetworkHandler {
+public class FabricClientNetworkHandler
+{
 
-    public static <T extends Packet<T>> void register(CustomPayload.Id<NetworkPacketPayload<T>> payloadType, ClientboundPacketType<T> type) {
-        ClientPlayNetworking.registerGlobalReceiver(
-            payloadType,
-            (payload, context) -> type.handle(payload.packet()).run()
-        );
-    }
+	public static <T extends Packet<T>> void register(
+		CustomPayload.Id<NetworkPacketPayload<T>> payloadType,
+		ClientboundPacketType<T> type
+	) {
+		ClientPlayNetworking.registerGlobalReceiver(
+			payloadType,
+			(payload, context) -> type.handle(payload.packet()).run()
+		);
+	}
 
-    public static <T extends Packet<T>> void send(Identifier channel, T message) {
-        ClientPlayNetworking.send(new NetworkPacketPayload<>(message, channel));
-    }
+	public static <T extends Packet<T>> void send(Identifier channel, T message) {
+		ClientPlayNetworking.send(new NetworkPacketPayload<>(message, channel));
+	}
 }

@@ -120,12 +120,12 @@ public abstract class PlayerEntityMixin extends LivingEntity
 
 		if (
 			player.isAlive()
-			&& source.isOf(DamageTypes.IN_FIRE) == false
-			&& source.isOf(DamageTypes.ON_FIRE) == false
-			&& source.isOf(DamageTypes.FALL) == false
-			&& source.isOf(DamageTypes.FALLING_BLOCK) == false
-			&& source.getAttacker() != null
-			&& this.getHealth() <= this.getMaxHealth() / 2.0F
+			//&& source.isOf(DamageTypes.IN_FIRE) == false
+			//&& source.isOf(DamageTypes.ON_FIRE) == false
+			//&& source.isOf(DamageTypes.FALL) == false
+			//&& source.isOf(DamageTypes.FALLING_BLOCK) == false
+			//&& source.getAttacker() != null
+			//&& this.getHealth() <= this.getMaxHealth() / 2.0F
 		) {
 			ItemStack totemItemStack = friendsandfoes_getTotem(
 				friendsandfoes_getTotemFromHands(player),
@@ -148,7 +148,7 @@ public abstract class PlayerEntityMixin extends LivingEntity
 				Item totemItem = totemItemStack.getItem();
 				this.clearStatusEffects();
 				TotemEffectPacket.sendToClient(((PlayerEntity) (Object) entity), totemItemStack);
-				totemItemStack.decrement(1);
+				//totemItemStack.decrement(1);
 
 				if (totemItem == FriendsAndFoesItems.TOTEM_OF_FREEZING.get()) {
 					this.friendsandfoes_freezeEntities();

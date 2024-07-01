@@ -1,10 +1,9 @@
 package com.faboslav.friendsandfoes.network.defaults;
 
 import com.faboslav.friendsandfoes.network.Packet;
+import java.util.function.Supplier;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.util.Identifier;
-
-import java.util.function.Supplier;
 
 public abstract class DatalessPacketType<T extends Packet<T>> extends AbstractPacketType<T> {
 

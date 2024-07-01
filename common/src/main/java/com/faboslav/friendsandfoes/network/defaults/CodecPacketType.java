@@ -1,15 +1,10 @@
 package com.faboslav.friendsandfoes.network.defaults;
 
-/*
 import com.faboslav.friendsandfoes.network.Packet;
-import com.teamresourceful.bytecodecs.base.ByteCodec;
-import com.teamresourceful.resourcefullib.common.bytecodecs.StreamCodecByteCodec;
-import com.teamresourceful.resourcefullib.common.network.Packet;
+import com.faboslav.friendsandfoes.network.bytecodecs.StreamCodecByteCodec;
+import com.faboslav.friendsandfoes.network.bytecodecs.base.ByteCodec;
 import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Identifier;
 
 public abstract class CodecPacketType<T extends Packet<T>> extends AbstractPacketType<T> {
@@ -34,4 +29,4 @@ public abstract class CodecPacketType<T extends Packet<T>> extends AbstractPacke
     public T decode(RegistryByteBuf buffer) {
         return codec.decode(buffer);
     }
-}*/
+}

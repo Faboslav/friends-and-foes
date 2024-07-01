@@ -8,8 +8,9 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
-public class FriendsAndFoesBiomeModifiers {
-    public static final DeferredRegister<MapCodec<? extends BiomeModifier>> BIOME_MODIFIERS = DeferredRegister.create(NeoForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, FriendsAndFoes.MOD_ID);
+public class FriendsAndFoesBiomeModifiers
+{
+	public static final DeferredRegister<MapCodec<? extends BiomeModifier>> BIOME_MODIFIERS = DeferredRegister.create(NeoForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, FriendsAndFoes.MOD_ID);
 
-    public static final DeferredHolder<MapCodec<? extends BiomeModifier>, MapCodec<MobSpawnsBiomeModifier>> BIOME_MODIFIER = BIOME_MODIFIERS.register("mob_spawns", () -> MobSpawnsBiomeModifier.CODEC);
+	public static final DeferredHolder<MapCodec<? extends BiomeModifier>, MapCodec<MobSpawnsBiomeModifier>> BIOME_MODIFIER = BIOME_MODIFIERS.register("mob_spawns", () -> MobSpawnsBiomeModifier.CODEC);
 }

@@ -7,10 +7,16 @@ import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
 public record NetworkPacketPayload<T extends Packet<T>>(
-	T packet,
-	CustomPayload.Id<NetworkPacketPayload<T>> getId
+        T packet,
+        Id<NetworkPacketPayload<T>> type
 ) implements CustomPayload {
-	public NetworkPacketPayload(T packet, Identifier channel) {
-		this(packet, packet.type().type(channel));
+
+    public NetworkPacketPayload(T packet, Identifier channel) {
+        this(packet, packet.type().type(channel));
+    }
+
+	@Override
+	public Id<? extends CustomPayload> getId() {
+		return this.type;
 	}
 }

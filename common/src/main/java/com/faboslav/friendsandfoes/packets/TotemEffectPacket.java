@@ -6,12 +6,15 @@ import com.faboslav.friendsandfoes.init.FriendsAndFoesParticleTypes;
 import com.faboslav.friendsandfoes.network.Packet;
 import com.faboslav.friendsandfoes.network.base.ClientboundPacketType;
 import com.faboslav.friendsandfoes.network.base.PacketType;
+import com.faboslav.friendsandfoes.network.bytecodecs.ExtraByteCodecs;
 import com.faboslav.friendsandfoes.util.TotemUtil;
+import io.netty.handler.codec.EncoderException;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.util.Identifier;
 
 /**
@@ -28,6 +31,7 @@ public record TotemEffectPacket(ItemStack itemStack, int entityId) implements Pa
 	public static final ClientboundPacketType<TotemEffectPacket> TYPE = new TotemEffectPacket.Handler();
 
 	public static void sendToClient(PlayerEntity player, ItemStack itemStack) {
+		FriendsAndFoes.getLogger().info(itemStack.toString());
 		TotemEffectPacket totemEffectPacket = new TotemEffectPacket(itemStack, player.getId());
 		MessageHandler.DEFAULT_CHANNEL.sendToPlayer(totemEffectPacket, player);
 		MessageHandler.DEFAULT_CHANNEL.sendToAllLoaded(totemEffectPacket, player.getWorld(), player.getBlockPos());
@@ -66,12 +70,18 @@ public record TotemEffectPacket(ItemStack itemStack, int entityId) implements Pa
 		}
 
 		public TotemEffectPacket decode(final RegistryByteBuf buf) {
-			return new TotemEffectPacket(ItemStack.PACKET_CODEC.decode(buf), buf.readInt());
+			ItemStack test = ExtraByteCodecs.ITEM_STACK.decode(buf);
+			return new TotemEffectPacket(ExtraByteCodecs.ITEM_STACK.decode(buf), buf.readVarInt());
 		}
 
 		public void encode(final TotemEffectPacket packet, final RegistryByteBuf buf) {
-			ItemStack.PACKET_CODEC.encode(buf, packet.itemStack);
-			buf.writeInt(packet.entityId);
+			FriendsAndFoes.getLogger().info(packet.toString());
+			if (packet.itemStack.isEmpty()) {
+				throw new EncoderException("Empty ItemStack not allowed");
+			} else {
+				ExtraByteCodecs.ITEM_STACK.encode(packet.itemStack, buf);
+				buf.writeInt(packet.entityId);
+			}
 		}
 	}
 }

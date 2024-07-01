@@ -18,8 +18,7 @@ import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Collection;
 
-public class Network implements Networking
-{
+public class Network implements Networking {
 
     private final Networking networking;
     private final boolean optional;

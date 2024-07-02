@@ -6,33 +6,22 @@ import com.faboslav.friendsandfoes.init.FriendsAndFoesParticleTypes;
 import com.faboslav.friendsandfoes.network.Packet;
 import com.faboslav.friendsandfoes.network.base.ClientboundPacketType;
 import com.faboslav.friendsandfoes.network.base.PacketType;
-import com.faboslav.friendsandfoes.network.bytecodecs.ExtraByteCodecs;
 import com.faboslav.friendsandfoes.util.TotemUtil;
-import io.netty.handler.codec.EncoderException;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.Item;
 import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
-/**
- * Network related is code based on The Bumblezone/Resourceful Lib mods with permissions from the authors
- *
- * @author TelepathicGrunt
- * <a href="https://github.com/TelepathicGrunt/Bumblezone">https://github.com/TelepathicGrunt/Bumblezone</a>
- * @author ThatGravyBoat
- * <a href="https://github.com/Team-Resourceful/ResourcefulLib">https://github.com/Team-Resourceful/ResourcefulLib</a>
- */
-public record TotemEffectPacket(ItemStack itemStack, int entityId) implements Packet<TotemEffectPacket>
+public record TotemEffectPacket(Item item, int entityId) implements Packet<TotemEffectPacket>
 {
 	public static final Identifier ID = FriendsAndFoes.makeID("totem_effect_packet");
 	public static final ClientboundPacketType<TotemEffectPacket> TYPE = new TotemEffectPacket.Handler();
 
-	public static void sendToClient(PlayerEntity player, ItemStack itemStack) {
-		FriendsAndFoes.getLogger().info(itemStack.toString());
-		TotemEffectPacket totemEffectPacket = new TotemEffectPacket(itemStack, player.getId());
+	public static void sendToClient(PlayerEntity player, Item totem) {
+		TotemEffectPacket totemEffectPacket = new TotemEffectPacket(totem, player.getId());
 		MessageHandler.DEFAULT_CHANNEL.sendToPlayer(totemEffectPacket, player);
 		MessageHandler.DEFAULT_CHANNEL.sendToAllLoaded(totemEffectPacket, player.getWorld(), player.getBlockPos());
 	}
@@ -60,28 +49,24 @@ public record TotemEffectPacket(ItemStack itemStack, int entityId) implements Pa
 				Entity entity = MinecraftClient.getInstance().world.getEntityById(packet.entityId());
 
 				if (entity instanceof Entity) {
-					if (packet.itemStack.getItem() == FriendsAndFoesItems.TOTEM_OF_FREEZING.get()) {
-						TotemUtil.playActivateAnimation(packet.itemStack, entity, FriendsAndFoesParticleTypes.TOTEM_OF_FREEZING);
-					} else if (packet.itemStack.getItem() == FriendsAndFoesItems.TOTEM_OF_ILLUSION.get()) {
-						TotemUtil.playActivateAnimation(packet.itemStack, entity, FriendsAndFoesParticleTypes.TOTEM_OF_FREEZING);
+					var item = packet.item;
+					var itemStack = item.getDefaultStack();
+					if (item == FriendsAndFoesItems.TOTEM_OF_FREEZING.get()) {
+						TotemUtil.playActivateAnimation(itemStack, entity, FriendsAndFoesParticleTypes.TOTEM_OF_FREEZING);
+					} else if (item == FriendsAndFoesItems.TOTEM_OF_ILLUSION.get()) {
+						TotemUtil.playActivateAnimation(itemStack, entity, FriendsAndFoesParticleTypes.TOTEM_OF_FREEZING);
 					}
 				}
 			};
 		}
 
 		public TotemEffectPacket decode(final RegistryByteBuf buf) {
-			ItemStack test = ExtraByteCodecs.ITEM_STACK.decode(buf);
-			return new TotemEffectPacket(ExtraByteCodecs.ITEM_STACK.decode(buf), buf.readVarInt());
+			return new TotemEffectPacket(Registries.ITEM.getEntry(buf.readIdentifier()).get().value(), buf.readInt());
 		}
 
 		public void encode(final TotemEffectPacket packet, final RegistryByteBuf buf) {
-			FriendsAndFoes.getLogger().info(packet.toString());
-			if (packet.itemStack.isEmpty()) {
-				throw new EncoderException("Empty ItemStack not allowed");
-			} else {
-				ExtraByteCodecs.ITEM_STACK.encode(packet.itemStack, buf);
-				buf.writeInt(packet.entityId);
-			}
+			buf.writeIdentifier(Registries.ITEM.getId(packet.item));
+			buf.writeInt(packet.entityId);
 		}
 	}
 }

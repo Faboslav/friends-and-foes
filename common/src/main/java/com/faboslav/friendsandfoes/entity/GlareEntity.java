@@ -40,7 +40,6 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
@@ -262,7 +261,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 
 			ItemStackParticleEffect particleEffect = new ItemStackParticleEffect(ParticleTypes.ITEM, itemStack);
 			FoodComponent foodComponent = itemStack.get(DataComponentTypes.FOOD);
-			float foodNutritionMultiplier = foodComponent != null ? (float)foodComponent.nutrition() : 1.0F;
+			float foodNutritionMultiplier = foodComponent != null ? (float) foodComponent.nutrition():1.0F;
 			this.heal(2.0F * foodNutritionMultiplier);
 			this.playEatSound(itemStack);
 			ParticleSpawner.spawnParticles(this, particleEffect, 7, 0.1D);

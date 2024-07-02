@@ -15,7 +15,6 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.MobEntity;
@@ -147,7 +146,7 @@ public abstract class PlayerEntityMixin extends LivingEntity
 
 				Item totemItem = totemItemStack.getItem();
 				this.clearStatusEffects();
-				TotemEffectPacket.sendToClient(((PlayerEntity) (Object) entity), totemItemStack);
+				TotemEffectPacket.sendToClient(((PlayerEntity) (Object) entity), totemItem);
 				//totemItemStack.decrement(1);
 
 				if (totemItem == FriendsAndFoesItems.TOTEM_OF_FREEZING.get()) {
@@ -218,7 +217,6 @@ public abstract class PlayerEntityMixin extends LivingEntity
 		Vec3d illusionerPosition = this.getPos();
 		float slice = 2.0F * (float) Math.PI / MAX_ILLUSIONS_COUNT;
 		int radius = 9;
-		int randomPoint = this.getRandom().nextBetween(0, MAX_ILLUSIONS_COUNT - 1);
 
 		ArrayList<PlayerIllusionEntity> createdPlayerIllusions = new ArrayList<>();
 
@@ -228,19 +226,10 @@ public abstract class PlayerEntityMixin extends LivingEntity
 			int y = (int) illusionerPosition.getY();
 			int z = (int) (illusionerPosition.getZ() + radius * MathHelper.sin(angle));
 
-			if (randomPoint == point) {
-				boolean teleportResult = this.friendsandfoes_tryToTeleport(x, y, z);
+			PlayerIllusionEntity createdPlayerIllusion = this.friendsandfoes_createIllusion(x, y, z);
 
-				if (teleportResult) {
-					this.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, POSITIVE_EFFECT_TICKS));
-					this.friendsandfoes_spawnCloudParticles();
-				}
-			} else {
-				PlayerIllusionEntity createdPlayerIllusion = this.friendsandfoes_createIllusion(x, y, z);
-
-				if (createdPlayerIllusion != null) {
-					createdPlayerIllusions.add(createdPlayerIllusion);
-				}
+			if (createdPlayerIllusion != null) {
+				createdPlayerIllusions.add(createdPlayerIllusion);
 			}
 		}
 
@@ -254,6 +243,17 @@ public abstract class PlayerEntityMixin extends LivingEntity
 				nearbyEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, NEGATIVE_EFFECT_TICKS, 1));
 			}
 		});
+
+		var illusionToReplace = createdPlayerIllusions.get(this.getRandom().nextInt(createdPlayerIllusions.size()));
+		this.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, POSITIVE_EFFECT_TICKS));
+		boolean teleportResult = this.friendsandfoes_tryToTeleport(illusionToReplace.getBlockX(), illusionToReplace.getBlockY(), illusionToReplace.getBlockZ());
+
+		if (teleportResult) {
+			this.friendsandfoes_spawnCloudParticles();
+		}
+
+		illusionToReplace.discard();
+
 	}
 
 	@Nullable

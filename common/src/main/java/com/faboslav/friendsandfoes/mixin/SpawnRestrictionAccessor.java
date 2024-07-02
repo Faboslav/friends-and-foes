@@ -2,7 +2,6 @@ package com.faboslav.friendsandfoes.mixin;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnLocation;
-import net.minecraft.entity.SpawnLocationTypes;
 import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.world.Heightmap;

@@ -24,12 +24,10 @@ public final class TrinketsCompat implements ModCompat
 	@Nullable
 	public ItemStack getEquippedItemFromCustomSlots(Entity entity, Predicate<ItemStack> itemStackPredicate) {
 		if (entity instanceof PlayerEntity player) {
-			/*
 			return TrinketsApi.getTrinketComponent(player).map(component -> {
 				List<Pair<SlotReference, ItemStack>> res = component.getEquipped(itemStackPredicate);
 				return !res.isEmpty() ? res.get(0).getRight():null;
-			}).orElse(null);*/
-			return null;
+			}).orElse(null);
 		}
 
 		return null;

@@ -106,11 +106,11 @@ public final class ZombieHorseTrapTriggerGoal extends Goal
 		}
 
 		FeatureSet featureSet = vehicle.getWorld().getEnabledFeatures();
-		zombie.equipStack(EquipmentSlot.MAINHAND, EnchantmentHelper.enchant(featureSet, zombie.getRandom(), this.removeEnchantments(zombie.getMainHandStack()), (int)(5.0F + localDifficulty.getClampedLocalDifficulty() * (float)zombie.getRandom().nextInt(18)), false));
-		zombie.equipStack(EquipmentSlot.HEAD, EnchantmentHelper.enchant(featureSet, zombie.getRandom(), this.removeEnchantments(zombie.getEquippedStack(EquipmentSlot.HEAD)), (int)(5.0F + localDifficulty.getClampedLocalDifficulty() * (float)zombie.getRandom().nextInt(18)), false));
+		zombie.equipStack(EquipmentSlot.MAINHAND, EnchantmentHelper.enchant(featureSet, zombie.getRandom(), this.removeEnchantments(zombie.getMainHandStack()), (int) (5.0F + localDifficulty.getClampedLocalDifficulty() * (float) zombie.getRandom().nextInt(18)), false));
+		zombie.equipStack(EquipmentSlot.HEAD, EnchantmentHelper.enchant(featureSet, zombie.getRandom(), this.removeEnchantments(zombie.getEquippedStack(EquipmentSlot.HEAD)), (int) (5.0F + localDifficulty.getClampedLocalDifficulty() * (float) zombie.getRandom().nextInt(18)), false));
 
-        return zombie;
-}
+		return zombie;
+	}
 
 	private ItemStack removeEnchantments(ItemStack stack) {
 		stack.set(DataComponentTypes.ENCHANTMENTS, ItemEnchantmentsComponent.DEFAULT);

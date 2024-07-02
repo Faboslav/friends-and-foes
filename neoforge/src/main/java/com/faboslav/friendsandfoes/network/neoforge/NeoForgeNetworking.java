@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.network.neoforge;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.network.Packet;
 import com.faboslav.friendsandfoes.network.base.ClientboundPacketType;
 import com.faboslav.friendsandfoes.network.base.Networking;
@@ -18,6 +17,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
+/**
+ * Network related is code based on The Bumblezone/Resourceful Lib mods with permissions from the authors
+ *
+ * @author TelepathicGrunt
+ * <a href="https://github.com/TelepathicGrunt/Bumblezone">https://github.com/TelepathicGrunt/Bumblezone</a>
+ * @author ThatGravyBoat
+ * <a href="https://github.com/Team-Resourceful/ResourcefulLib">https://github.com/Team-Resourceful/ResourcefulLib</a>
+ */
 public class NeoForgeNetworking implements Networking
 {
 	private static final List<Consumer<RegisterPayloadHandlersEvent>> LISTENERS = Collections.synchronizedList(new ArrayList<>());

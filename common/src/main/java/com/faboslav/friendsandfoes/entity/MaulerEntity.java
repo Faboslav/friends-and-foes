@@ -49,8 +49,6 @@ import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Iterator;
-import java.util.Map;
 import java.util.UUID;
 import java.util.function.Predicate;
 

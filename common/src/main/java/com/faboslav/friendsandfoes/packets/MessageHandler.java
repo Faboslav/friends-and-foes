@@ -13,7 +13,7 @@ import com.faboslav.friendsandfoes.network.Network;
  */
 public final class MessageHandler
 {
-	public static final Network DEFAULT_CHANNEL = new Network(FriendsAndFoes.makeID( "networking"), 1);
+	public static final Network DEFAULT_CHANNEL = new Network(FriendsAndFoes.makeID("networking"), 1);
 
 	public static void init() {
 		DEFAULT_CHANNEL.register(MoobloomVariantsSyncPacket.TYPE);

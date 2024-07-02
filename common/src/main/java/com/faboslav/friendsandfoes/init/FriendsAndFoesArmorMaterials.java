@@ -4,7 +4,6 @@ import com.faboslav.friendsandfoes.platform.RegistryHelper;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -21,19 +20,19 @@ import java.util.function.Supplier;
 public class FriendsAndFoesArmorMaterials
 {
 	public final static RegistryEntry<ArmorMaterial> WILDFIRE = RegistryHelper.registerArmorMaterial("wildfire", () -> createArmorMaterial(
-				"bee_material",
-				Util.make(new EnumMap<>(ArmorItem.Type.class), enumMap -> {
-					enumMap.put(ArmorItem.Type.BOOTS, 3);
-					enumMap.put(ArmorItem.Type.LEGGINGS, 6);
-					enumMap.put(ArmorItem.Type.CHESTPLATE, 8);
-					enumMap.put(ArmorItem.Type.HELMET, 3);
-					enumMap.put(ArmorItem.Type.BODY, 11);
-				}),
-				25,
-				SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE,
-				1.0F,
-				0.0F,
-				() -> Ingredient.ofItems(FriendsAndFoesItems.WILDFIRE_CROWN_FRAGMENT.get())));
+		"bee_material",
+		Util.make(new EnumMap<>(ArmorItem.Type.class), enumMap -> {
+			enumMap.put(ArmorItem.Type.BOOTS, 3);
+			enumMap.put(ArmorItem.Type.LEGGINGS, 6);
+			enumMap.put(ArmorItem.Type.CHESTPLATE, 8);
+			enumMap.put(ArmorItem.Type.HELMET, 3);
+			enumMap.put(ArmorItem.Type.BODY, 11);
+		}),
+		25,
+		SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE,
+		1.0F,
+		0.0F,
+		() -> Ingredient.ofItems(FriendsAndFoesItems.WILDFIRE_CROWN_FRAGMENT.get())));
 
 	private static ArmorMaterial createArmorMaterial(
 		String layerName,
@@ -46,7 +45,7 @@ public class FriendsAndFoesArmorMaterials
 	) {
 		EnumMap<ArmorItem.Type, Integer> defenseMap = new EnumMap<>(ArmorItem.Type.class);
 
-		for(ArmorItem.Type type : ArmorItem.Type.values()) {
+		for (ArmorItem.Type type : ArmorItem.Type.values()) {
 			defenseMap.put(type, enumMap.get(type));
 		}
 

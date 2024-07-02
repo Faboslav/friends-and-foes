@@ -28,10 +28,12 @@ public interface PacketType<T extends Packet<T>>
 	T decode(RegistryByteBuf buffer);
 
 	@ApiStatus.Internal
-	default PacketCodec<RegistryByteBuf, NetworkPacketPayload<T>> codec(CustomPayload.Id<NetworkPacketPayload<T>> id) {
-		return PacketCodec.of(
-			(NetworkPacketPayload<T> payload, RegistryByteBuf buf) -> encode(payload.packet(), buf),
-			(RegistryByteBuf buf) -> new NetworkPacketPayload<>(decode(buf), id)
+	default PacketCodec<RegistryByteBuf, NetworkPacketPayload<T>> codec(CustomPayload.Id<NetworkPacketPayload<T>> type) {
+		return PacketCodec.ofStatic(
+			(buf, payload) -> {
+				encode(payload.packet(), buf);
+			},
+			(buf) -> new NetworkPacketPayload<>(decode(buf), type)
 		);
 	}
 

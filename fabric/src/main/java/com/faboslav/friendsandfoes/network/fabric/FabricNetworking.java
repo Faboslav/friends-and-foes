@@ -13,9 +13,16 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
+/**
+ * Network related is code based on The Bumblezone/Resourceful Lib mods with permissions from the authors
+ *
+ * @author TelepathicGrunt
+ * <a href="https://github.com/TelepathicGrunt/Bumblezone">https://github.com/TelepathicGrunt/Bumblezone</a>
+ * @author ThatGravyBoat
+ * <a href="https://github.com/Team-Resourceful/ResourcefulLib">https://github.com/Team-Resourceful/ResourcefulLib</a>
+ */
 public class FabricNetworking implements Networking
 {
-
 	private static final boolean IS_CLIENT = FabricLoader.getInstance().getEnvironmentType().equals(EnvType.CLIENT);
 
 	private final Identifier channel;
@@ -57,5 +64,4 @@ public class FabricNetworking implements Networking
 	public boolean canSendToPlayer(ServerPlayerEntity player, PacketType<?> type) {
 		return ServerPlayNetworking.canSend(player, type.type(this.channel));
 	}
-
 }

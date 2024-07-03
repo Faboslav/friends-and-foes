@@ -3,6 +3,7 @@
 - 1.20.6/1.20.1 port
 - Fixed not working mob config settings on forge
 - Refactored internal oxidizatiton/waxable system
+- Added pl_pl translations (Thanks to DarkKnightComes)
 
 ## 2.0.10
 

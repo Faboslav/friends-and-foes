@@ -4,6 +4,7 @@
 - Fixed not working mob config settings on forge/neoforge
 - Refactored internal oxidizatiton/waxable system
 - Added pl_pl translations (Thanks to DarkKnightComes)
+- Added tr_tr translations (Thanks to EgeK)
 
 ## 2.0.10
 

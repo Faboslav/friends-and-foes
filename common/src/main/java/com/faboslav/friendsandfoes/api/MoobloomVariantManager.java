@@ -55,10 +55,10 @@ public final class MoobloomVariantManager extends JsonDataLoader
 				if (jsonObject != null) {
 					String name = jsonObject.get("name").getAsString();
 					String flowerBlockRaw = jsonObject.get("flower_block").getAsString();
-					PlantBlock flowerBlock = (PlantBlock) Registries.BLOCK.get(new Identifier(flowerBlockRaw));
+					PlantBlock flowerBlock = (PlantBlock) Registries.BLOCK.get(Identifier.of(flowerBlockRaw));
 					String biomes = jsonObject.get("biomes").getAsString();
 
-					TagKey<Biome> biomesValue = TagKey.of(RegistryKeys.BIOME, new Identifier(biomes.replaceFirst("#", "")));
+					TagKey<Biome> biomesValue = TagKey.of(RegistryKeys.BIOME, Identifier.of(biomes.replaceFirst("#", "")));
 					parsedMoobloomVariants.add(new MoobloomVariant(name, flowerBlock, biomesValue));
 				}
 			} catch (Exception e) {

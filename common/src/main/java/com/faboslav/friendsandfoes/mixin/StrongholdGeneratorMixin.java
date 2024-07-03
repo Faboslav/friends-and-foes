@@ -4,11 +4,13 @@ import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.entity.TuffGolemEntity;
 import com.faboslav.friendsandfoes.entity.pose.TuffGolemEntityPose;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.provider.EnchantmentProviders;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.structure.StrongholdGenerator;
 import net.minecraft.structure.StructurePiece;
@@ -91,19 +93,13 @@ public abstract class StrongholdGeneratorMixin extends StructurePiece
 		float randomSpawnYaw = 90.0F * (float) random.nextBetween(0, 3);
 		tuffGolem.setSpawnYaw(randomSpawnYaw);
 
-		ItemStack itemStack = Items.BOOK.getDefaultStack();
-		itemStack.setCount(1);
+		ItemStack book = Items.BOOK.getDefaultStack();
+		book.setCount(1);
 
-		FeatureSet featureSet = tuffGolem.getWorld().getEnabledFeatures();
-		ItemStack enchantedItemStack = EnchantmentHelper.enchant(
-			featureSet,
-			random,
-			itemStack,
-			random.nextBetween(1, 30),
-			true
-		);
+		book.set(DataComponentTypes.ENCHANTMENTS, ItemEnchantmentsComponent.DEFAULT);
+		EnchantmentHelper.applyEnchantmentProvider(book, serverWorld.getRegistryManager(), EnchantmentProviders.MOB_SPAWN_EQUIPMENT, serverWorld.getLocalDifficulty(tuffGolem.getBlockPos()), random);
 
-		tuffGolem.equipStack(EquipmentSlot.MAINHAND, enchantedItemStack);
+		tuffGolem.equipStack(EquipmentSlot.MAINHAND, book);
 
 		tuffGolem.setPrevPose(TuffGolemEntityPose.STANDING_WITH_ITEM.get());
 		tuffGolem.setPoseWithoutPrevPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM.get());

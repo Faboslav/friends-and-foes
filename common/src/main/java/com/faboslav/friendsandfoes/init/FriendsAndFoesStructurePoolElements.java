@@ -16,11 +16,11 @@ public final class FriendsAndFoesStructurePoolElements
 	public static void init(MinecraftServer server) {
 		Registry<StructurePool> templatePoolRegistry = server.getRegistryManager().get(RegistryKeys.TEMPLATE_POOL);
 
-		Identifier plainsPoolLocation = new Identifier("minecraft:village/plains/houses");
-		Identifier desertPoolLocation = new Identifier("minecraft:village/desert/houses");
-		Identifier savannaPoolLocation = new Identifier("minecraft:village/savanna/houses");
-		Identifier taigaPoolLocation = new Identifier("minecraft:village/taiga/houses");
-		Identifier ancientCityCenterPoolLocation = new Identifier("minecraft:ancient_city/city_center");
+		Identifier plainsPoolLocation = Identifier.of("minecraft:village/plains/houses");
+		Identifier desertPoolLocation = Identifier.of("minecraft:village/desert/houses");
+		Identifier savannaPoolLocation = Identifier.of("minecraft:village/savanna/houses");
+		Identifier taigaPoolLocation = Identifier.of("minecraft:village/taiga/houses");
+		Identifier ancientCityCenterPoolLocation = Identifier.of("minecraft:ancient_city/city_center");
 
 		if (FriendsAndFoes.getConfig().generateBeekeeperAreaStructure) {
 			StructurePoolHelper.addElementToPool(templatePoolRegistry, plainsPoolLocation, "village/plains/houses/plains_beekeeper_area", FriendsAndFoes.getConfig().beekeeperAreaStructureWeight);

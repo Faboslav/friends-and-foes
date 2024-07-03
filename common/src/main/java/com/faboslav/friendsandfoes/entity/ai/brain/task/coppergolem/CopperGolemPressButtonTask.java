@@ -140,7 +140,8 @@ public final class CopperGolemPressButtonTask extends MultiTickTask<CopperGolemE
 		buttonBlock.powerOn(
 			buttonBlockState,
 			copperGolem.getWorld(),
-			buttonPos
+			buttonPos,
+			null
 		);
 		copperGolem.getEntityWorld().playSound(null,
 			buttonPos,

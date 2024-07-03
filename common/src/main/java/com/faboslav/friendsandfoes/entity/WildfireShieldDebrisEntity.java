@@ -4,17 +4,20 @@ import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.util.RandomGenerator;
 import net.minecraft.block.AbstractFireBlock;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.projectile.AbstractFireballEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 
@@ -23,11 +26,9 @@ public final class WildfireShieldDebrisEntity extends AbstractFireballEntity
 	public WildfireShieldDebrisEntity(
 		World world,
 		LivingEntity owner,
-		double velocityX,
-		double velocityY,
-		double velocityZ
+		Vec3d velocity
 	) {
-		super(EntityType.SMALL_FIREBALL, owner, velocityX, velocityY, velocityZ, world);
+		super(EntityType.SMALL_FIREBALL, owner, velocity, world);
 	}
 
 	protected void onEntityHit(EntityHitResult entityHitResult) {
@@ -44,13 +45,15 @@ public final class WildfireShieldDebrisEntity extends AbstractFireballEntity
 		}
 
 		Entity wildfire = this.getOwner();
-		int i = target.getFireTicks();
-		target.setOnFireFor(5);
 
-		if (target.damage(this.getDamageSources().fireball(this, wildfire), 5.0F) == false) {
+		int i = target.getFireTicks();
+		target.setOnFireFor(5.0F);
+
+		DamageSource damageSource = this.getDamageSources().fireball(this, wildfire);
+		if (!target.damage(damageSource, 5.0F)) {
 			target.setFireTicks(i);
-		} else if (wildfire instanceof LivingEntity) {
-			this.applyDamageEffects((LivingEntity) wildfire, target);
+		} else {
+			EnchantmentHelper.onTargetDamaged((ServerWorld) this.getWorld(), target, damageSource);
 		}
 	}
 

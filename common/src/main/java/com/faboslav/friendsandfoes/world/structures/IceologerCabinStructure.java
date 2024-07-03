@@ -14,6 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.gen.HeightContext;
 import net.minecraft.world.gen.heightprovider.HeightProvider;
+import net.minecraft.world.gen.structure.JigsawStructure;
 import net.minecraft.world.gen.structure.Structure;
 import net.minecraft.world.gen.structure.StructureType;
 
@@ -27,7 +28,7 @@ import java.util.Optional;
  */
 public final class IceologerCabinStructure extends Structure
 {
-	public static final MapCodec<IceologerCabinStructure> CODEC = RecordCodecBuilder.<IceologerCabinStructure>mapCodec(instance ->
+	public static final MapCodec<IceologerCabinStructure> CODEC = RecordCodecBuilder.mapCodec(instance ->
 		instance.group(IceologerCabinStructure.configCodecBuilder(instance),
 			StructurePool.REGISTRY_CODEC.fieldOf("start_pool").forGetter(structure -> structure.startPool),
 			Identifier.CODEC.optionalFieldOf("start_jigsaw_name").forGetter(structure -> structure.startJigsawName),
@@ -80,7 +81,9 @@ public final class IceologerCabinStructure extends Structure
 			false,
 			this.projectStartToHeightmap,
 			this.maxDistanceFromCenter,
-			StructurePoolAliasLookup.EMPTY
+			StructurePoolAliasLookup.EMPTY,
+			JigsawStructure.DEFAULT_DIMENSION_PADDING,
+			JigsawStructure.DEFAULT_LIQUID_SETTINGS
 		);
 	}
 

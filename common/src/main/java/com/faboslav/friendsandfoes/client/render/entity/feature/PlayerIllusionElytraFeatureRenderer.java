@@ -7,7 +7,6 @@ import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.PlayerModelPart;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.ElytraEntityModel;
@@ -19,6 +18,7 @@ import net.minecraft.client.util.SkinTextures;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerModelPart;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
@@ -26,7 +26,7 @@ import net.minecraft.util.Identifier;
 @Environment(EnvType.CLIENT)
 public class PlayerIllusionElytraFeatureRenderer<T extends LivingEntity, M extends EntityModel<T>> extends FeatureRenderer<T, M>
 {
-	private static final Identifier SKIN = new Identifier("textures/entity/elytra.png");
+	private static final Identifier SKIN = Identifier.ofVanilla("textures/entity/elytra.png");
 	private final ElytraEntityModel<T> elytra;
 
 	public PlayerIllusionElytraFeatureRenderer(FeatureRendererContext<T, M> context, EntityModelLoader loader) {
@@ -35,10 +35,10 @@ public class PlayerIllusionElytraFeatureRenderer<T extends LivingEntity, M exten
 	}
 
 	public void render(
-		MatrixStack arg,
-		VertexConsumerProvider arg2,
+		MatrixStack matrixStack,
+		VertexConsumerProvider vertexConsumerProvider,
 		int i,
-		T arg3,
+		T livingEntity,
 		float f,
 		float g,
 		float h,
@@ -46,38 +46,29 @@ public class PlayerIllusionElytraFeatureRenderer<T extends LivingEntity, M exten
 		float k,
 		float l
 	) {
-		ItemStack itemstack = arg3.getEquippedStack(EquipmentSlot.CHEST);
-		if (this.shouldRender(itemstack, arg3)) {
-			Identifier resourcelocation;
-			if (arg3 instanceof PlayerIllusionEntity playerIllusion) {
-				SkinTextures playerskin = playerIllusion.getSkinTextures();
-				if (playerskin.elytraTexture() != null) {
-					resourcelocation = playerskin.elytraTexture();
-				} else if (playerskin.capeTexture() != null && playerIllusion.isPartVisible(PlayerModelPart.CAPE)) {
-					resourcelocation = playerskin.capeTexture();
+		ItemStack itemStack = livingEntity.getEquippedStack(EquipmentSlot.CHEST);
+		if (itemStack.isOf(Items.ELYTRA)) {
+			Identifier identifier;
+			if (livingEntity instanceof PlayerIllusionEntity playerIllusionEntity) {
+				SkinTextures skinTextures = playerIllusionEntity.getSkinTextures();
+				if (skinTextures.elytraTexture() != null) {
+					identifier = skinTextures.elytraTexture();
+				} else if (skinTextures.capeTexture() != null && playerIllusionEntity.isPartVisible(PlayerModelPart.CAPE)) {
+					identifier = skinTextures.capeTexture();
 				} else {
-					resourcelocation = this.getElytraTexture(itemstack, arg3);
+					identifier = SKIN;
 				}
 			} else {
-				resourcelocation = this.getElytraTexture(itemstack, arg3);
+				identifier = SKIN;
 			}
 
-			arg.push();
-			arg.translate(0.0F, 0.0F, 0.125F);
+			matrixStack.push();
+			matrixStack.translate(0.0F, 0.0F, 0.125F);
 			this.getContextModel().copyStateTo(this.elytra);
-			this.elytra.setAngles(arg3, f, g, j, k, l);
-			VertexConsumer vertexconsumer = ItemRenderer.getArmorGlintConsumer(arg2, RenderLayer.getArmorCutoutNoCull(resourcelocation), false, itemstack.hasGlint());
-			this.elytra.render(arg, vertexconsumer, i, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
-			arg.pop();
+			this.elytra.setAngles(livingEntity, f, g, j, k, l);
+			VertexConsumer vertexConsumer = ItemRenderer.getArmorGlintConsumer(vertexConsumerProvider, RenderLayer.getArmorCutoutNoCull(identifier), itemStack.hasGlint());
+			this.elytra.render(matrixStack, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
+			matrixStack.pop();
 		}
-
-	}
-
-	public boolean shouldRender(ItemStack stack, T entity) {
-		return stack.getItem() == Items.ELYTRA;
-	}
-
-	public Identifier getElytraTexture(ItemStack stack, T entity) {
-		return SKIN;
 	}
 }

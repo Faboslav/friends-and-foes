@@ -40,7 +40,6 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
@@ -52,7 +51,10 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.world.*;
+import net.minecraft.world.LightType;
+import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
+import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
@@ -262,7 +264,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 
 			ItemStackParticleEffect particleEffect = new ItemStackParticleEffect(ParticleTypes.ITEM, itemStack);
 			FoodComponent foodComponent = itemStack.get(DataComponentTypes.FOOD);
-			float foodNutritionMultiplier = foodComponent != null ? (float)foodComponent.nutrition() : 1.0F;
+			float foodNutritionMultiplier = foodComponent != null ? (float) foodComponent.nutrition():1.0F;
 			this.heal(2.0F * foodNutritionMultiplier);
 			this.playEatSound(itemStack);
 			ParticleSpawner.spawnParticles(this, particleEffect, 7, 0.1D);
@@ -608,11 +610,6 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		if (owner instanceof ServerPlayerEntity) {
 			FriendsAndFoesCriteria.TAME_GLARE.get().trigger((ServerPlayerEntity) owner, this);
 		}
-	}
-
-	@Override
-	public EntityView method_48926() {
-		return this.getWorld();
 	}
 
 	@Override

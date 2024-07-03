@@ -14,6 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.gen.HeightContext;
 import net.minecraft.world.gen.heightprovider.HeightProvider;
+import net.minecraft.world.gen.structure.JigsawStructure;
 import net.minecraft.world.gen.structure.Structure;
 import net.minecraft.world.gen.structure.StructureType;
 
@@ -80,7 +81,9 @@ public final class IllusionerShackStructure extends Structure
 			false,
 			this.projectStartToHeightmap,
 			this.maxDistanceFromCenter,
-			StructurePoolAliasLookup.EMPTY
+			StructurePoolAliasLookup.EMPTY,
+			JigsawStructure.DEFAULT_DIMENSION_PADDING,
+			JigsawStructure.DEFAULT_LIQUID_SETTINGS
 		);
 	}
 

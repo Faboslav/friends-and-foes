@@ -52,7 +52,6 @@ import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 public final class CopperGolemEntity extends GolemEntity implements AnimatedEntity
 {

@@ -78,15 +78,27 @@ jobs:
                 with:
                     fetch-depth: 0
 
+            -   name: "Parse gradle properties"
+                id: gradle-properties
+                run: |
+                    while IFS='=' read -r key value; do
+                      key=$(echo $key | awk '{$1=$1;print}')
+                        value=$(echo $value | awk '{$1=$1;print}')
+                    
+                        case "$key" in
+                          minecraft_version) echo "MINECRAFT_VERSION=$value" >> $GITHUB_OUTPUT ;;
+                        esac
+                    done < gradle.properties
+
             - name: "Set up JDK 17"
-              if: matrix.version != '1.20.6' && matrix.version != '1.21'
+              if: steps.gradle-properties.outputs.MINECRAFT_VERSION != '1.20.6' && steps.gradle-properties.outputs.MINECRAFT_VERSION != '1.21'
               uses: actions/setup-java@v4
               with:
                   java-version: 17
                   distribution: temurin
 
             - name: "Set up JDK 21"
-              if: matrix.version == '1.20.6' || matrix.version == '1.21'
+              if: steps.gradle-properties.outputs.MINECRAFT_VERSION == '1.20.6' || steps.gradle-properties.outputs.MINECRAFT_VERSION == '1.21'
               uses: actions/setup-java@v4
               with:
                   java-version: 21

@@ -15,6 +15,7 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.MobEntity;
@@ -119,12 +120,12 @@ public abstract class PlayerEntityMixin extends LivingEntity
 
 		if (
 			player.isAlive()
-			//&& source.isOf(DamageTypes.IN_FIRE) == false
-			//&& source.isOf(DamageTypes.ON_FIRE) == false
-			//&& source.isOf(DamageTypes.FALL) == false
-			//&& source.isOf(DamageTypes.FALLING_BLOCK) == false
-			//&& source.getAttacker() != null
-			//&& this.getHealth() <= this.getMaxHealth() / 2.0F
+			&& source.isOf(DamageTypes.IN_FIRE) == false
+			&& source.isOf(DamageTypes.ON_FIRE) == false
+			&& source.isOf(DamageTypes.FALL) == false
+			&& source.isOf(DamageTypes.FALLING_BLOCK) == false
+			&& source.getAttacker() != null
+			&& this.getHealth() <= this.getMaxHealth() / 2.0F
 		) {
 			ItemStack totemItemStack = friendsandfoes_getTotem(
 				friendsandfoes_getTotemFromHands(player),
@@ -147,7 +148,7 @@ public abstract class PlayerEntityMixin extends LivingEntity
 				Item totemItem = totemItemStack.getItem();
 				this.clearStatusEffects();
 				TotemEffectPacket.sendToClient(((PlayerEntity) (Object) entity), totemItem);
-				//totemItemStack.decrement(1);
+				totemItemStack.decrement(1);
 
 				if (totemItem == FriendsAndFoesItems.TOTEM_OF_FREEZING.get()) {
 					this.friendsandfoes_freezeEntities();

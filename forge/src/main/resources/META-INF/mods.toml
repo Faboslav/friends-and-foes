@@ -10,18 +10,16 @@ displayName = "${modName}"
 authors = "${modAuthor}"
 description = "${modDescription}"
 logoFile = "icon.png"
-logoBlur = false
 displayURL = "https://github.com/Faboslav/friends-and-foes"
 
-[[mixins]]
-config = "friendsandfoes-neoforge.mixins.json"
-
-[[mixins]]
-config = "friendsandfoes-common.mixins.json"
+[[dependencies.${ modId }]]
+modId = "forge"
+mandatory = true
+versionRange = "[${forgeVersion},)"
 
 [[dependencies.${ modId }]]
 modId = "minecraft"
-required = true
+mandatory = true
 versionRange = "[${minMinecraftVersion},)"
 
 [modproperties.${ modId }]

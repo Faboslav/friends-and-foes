@@ -44,22 +44,6 @@ jobs:
                         curseforge_id: ${{ vars.CURSEFORGE_FORGE_PROJECT_ID }}
                         modrinth_id: ${{ vars.MODRINTH_FORGE_PROJECT_ID }}
 
-                    -   branch: "1.20.1"
-                        mod_loader: "forge"
-                        supported_mod_loaders: [ "forge", "neoforge" ]
-                        secondary_game_version: "1.20"
-                        curseforge_id: ${{ vars.CURSEFORGE_FORGE_PROJECT_ID }}
-                        modrinth_id: ${{ vars.MODRINTH_FORGE_PROJECT_ID }}
-
-                    -   branch: "1.20.1"
-                        secondary_game_version: "1.20"
-
-                    -   branch: "1.20.4"
-                        secondary_game_version: "1.20.3"
-
-                    -   branch: "1.20.6"
-                        secondary_game_version: "1.20.5"
-
         steps:
             -   name: "Checkout repository"
                 uses: actions/checkout@v4.1.1

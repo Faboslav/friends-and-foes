@@ -79,7 +79,7 @@ jobs:
                     fetch-depth: 0
 
             - name: "Set up JDK 17"
-              if: matrix.version != '1.20.6' && matrix.version != '1.21'
+              if: matrix.mod_loader.version != '1.20.6' && matrix.mod_loader.version != '1.21'
               uses: actions/setup-java@v4
               with:
                   java-version: 17

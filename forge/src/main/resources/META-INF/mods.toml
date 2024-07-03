@@ -20,7 +20,7 @@ versionRange = "[${forgeVersion},)"
 [[dependencies.${ modId }]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[${minecraftVersion},)"
+versionRange = "[${minMinecraftVersion},)"
 
 [modproperties.${ modId }]
 catalogueImageIcon = "catalogue_icon.png"

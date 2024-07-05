@@ -20,7 +20,7 @@ import java.util.function.Supplier;
 public class FriendsAndFoesArmorMaterials
 {
 	public final static RegistryEntry<ArmorMaterial> WILDFIRE = RegistryHelper.registerArmorMaterial("wildfire", () -> createArmorMaterial(
-		"bee_material",
+		"wildfire",
 		Util.make(new EnumMap<>(ArmorItem.Type.class), enumMap -> {
 			enumMap.put(ArmorItem.Type.BOOTS, 3);
 			enumMap.put(ArmorItem.Type.LEGGINGS, 6);

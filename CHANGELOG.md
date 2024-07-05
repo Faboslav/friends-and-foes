@@ -1,3 +1,8 @@
+## 2.0.12
+
+- Fixed oak beehive crafting recipe
+- Fixed wildfire crown rendering and item stacking
+
 ## 2.0.11
 
 - 1.20.6/1.20.1 port

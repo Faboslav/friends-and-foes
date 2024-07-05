@@ -6,7 +6,7 @@ import com.faboslav.friendsandfoes.init.FriendsAndFoesItems;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.modcompat.ModChecker;
 import com.faboslav.friendsandfoes.modcompat.ModCompat;
-import com.faboslav.friendsandfoes.packets.TotemEffectPacket;
+import com.faboslav.friendsandfoes.network.packet.TotemEffectPacket;
 import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.Entity;
@@ -22,7 +22,7 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -147,7 +147,7 @@ public abstract class PlayerEntityMixin extends LivingEntity
 
 				Item totemItem = totemItemStack.getItem();
 				this.clearStatusEffects();
-				TotemEffectPacket.sendToClient(((PlayerEntity) (Object) entity), totemItem);
+				TotemEffectPacket.sendToClient(((PlayerEntity) (Object) entity), totemItemStack);
 				totemItemStack.decrement(1);
 
 				if (totemItem == FriendsAndFoesItems.TOTEM_OF_FREEZING.get()) {
@@ -240,21 +240,26 @@ public abstract class PlayerEntityMixin extends LivingEntity
 
 		nearbyEntities.forEach(nearbyEntity -> {
 			if (nearbyEntity.getTarget() == this) {
-				nearbyEntity.setTarget(createdPlayerIllusions.get(this.getRandom().nextInt(createdPlayerIllusions.size())));
+				if(!createdPlayerIllusions.isEmpty()) {
+					nearbyEntity.setTarget(createdPlayerIllusions.get(this.getRandom().nextInt(createdPlayerIllusions.size())));
+				}
+
 				nearbyEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, NEGATIVE_EFFECT_TICKS, 1));
 			}
 		});
 
-		var illusionToReplace = createdPlayerIllusions.get(this.getRandom().nextInt(createdPlayerIllusions.size()));
-		this.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, POSITIVE_EFFECT_TICKS));
-		boolean teleportResult = this.friendsandfoes_tryToTeleport(illusionToReplace.getBlockX(), illusionToReplace.getBlockY(), illusionToReplace.getBlockZ());
+		if(!createdPlayerIllusions.isEmpty()) {
+			var illusionToReplace = createdPlayerIllusions.get(this.getRandom().nextInt(createdPlayerIllusions.size()));
+			boolean teleportResult = this.friendsandfoes_tryToTeleport(illusionToReplace.getBlockX(), illusionToReplace.getBlockY(), illusionToReplace.getBlockZ());
 
-		if (teleportResult) {
-			this.friendsandfoes_spawnCloudParticles();
+			if (teleportResult) {
+				this.friendsandfoes_spawnCloudParticles();
+			}
+
+			illusionToReplace.discard();
 		}
 
-		illusionToReplace.discard();
-
+		this.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, POSITIVE_EFFECT_TICKS));
 	}
 
 	@Nullable
@@ -322,8 +327,8 @@ public abstract class PlayerEntityMixin extends LivingEntity
 		this.friendsandfoes_spawnParticles(ParticleTypes.CLOUD, 16);
 	}
 
-	private <T extends ParticleEffect> void friendsandfoes_spawnParticles(
-		T particleType,
+	private void friendsandfoes_spawnParticles(
+		DefaultParticleType particleType,
 		int amount
 	) {
 		if (this.getWorld().isClient()) {

@@ -47,21 +47,21 @@ public final class PenguinEntityModel<T extends PenguinEntity> extends AnimatedE
 
 		ModelPartData main = root.addChild(MAIN, ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 10.0F, 0.0F));
 
-		ModelPartData body = main.addChild(BODY, ModelPartBuilder.create().uv(0, 0).cuboid(-4.5F, 0.0F, -4.5F, 9.0F, 13.0F, 9.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
+		ModelPartData body = main.addChild(BODY, ModelPartBuilder.create().uv(0, 0).cuboid(-5.0F, -12.0F, -5.0F, 10.0F, 12.0F, 8.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 13.0F, 0.0F));
 
-		ModelPartData head = body.addChild(HEAD, ModelPartBuilder.create().uv(0, 22).cuboid(-4.0F, -5.0F, -4.0F, 8.0F, 5.0F, 8.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
+		ModelPartData head = body.addChild(HEAD, ModelPartBuilder.create().uv(29, 13).cuboid(-4.0F, -5.0F, -4.0F, 8.0F, 5.0F, 7.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, -12.0F, 0.0F));
 
-		ModelPartData bill = head.addChild(BILL, ModelPartBuilder.create().uv(8, 35).cuboid(-1.0F, -17.0F, -7.0F, 2.0F, 2.0F, 3.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 14.0F, 0.0F));
+		ModelPartData bill = head.addChild(BILL, ModelPartBuilder.create().uv(0, 0).cuboid(-1.0F, -17.0F, -6.0F, 2.0F, 3.0F, 2.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 14.0F, 0.0F));
 
-		ModelPartData earPatches = head.addChild(EAR_PATCHES, ModelPartBuilder.create().uv(24, 27).cuboid(-4.0F, -2.5F, 0.0F, 8.0F, 3.0F, 8.0F, new Dilation(0.1F)), ModelTransform.pivot(0.0F, -4.0F, -4.0F));
+		ModelPartData earPatches = head.addChild(EAR_PATCHES, ModelPartBuilder.create().uv(0, 20).cuboid(-5.0F, -2.0F, 0.0F, 10.0F, 3.0F, 8.0F, new Dilation(0.1F)), ModelTransform.pivot(0.0F, -4.0F, -4.0F));
 
-		ModelPartData leftWing = body.addChild(LEFT_WING, ModelPartBuilder.create().uv(0, 35).cuboid(0.0F, 0.0F, -3.0F, 1.0F, 11.0F, 6.0F, new Dilation(0.0F)), ModelTransform.pivot(4.5F, 1.0F, 0.0F));
+		ModelPartData leftWing = body.addChild(LEFT_WING, ModelPartBuilder.create().uv(30, 25).cuboid(0.0F, -1.0F, -3.0F, 1.0F, 9.0F, 6.0F, new Dilation(0.0F)), ModelTransform.pivot(5.0F, -10.0F, -1.0F));
 
-		ModelPartData rightWing = body.addChild(RIGHT_WING, ModelPartBuilder.create().uv(0, 35).cuboid(-1.0F, 0.0F, -3.0F, 1.0F, 11.0F, 6.0F, new Dilation(0.0F)), ModelTransform.pivot(-4.5F, 1.0F, 0.0F));
+		ModelPartData rightWing = body.addChild(RIGHT_WING, ModelPartBuilder.create().uv(30, 25).cuboid(-1.0F, -1.0F, -3.0F, 1.0F, 9.0F, 6.0F, new Dilation(0.0F)), ModelTransform.pivot(-5.0F, -10.0F, -1.0F));
 
-		ModelPartData leftLeg = main.addChild(LEFT_LEG, ModelPartBuilder.create().uv(27, 0).cuboid(-1.5F, 0.0F, -5.0F, 3.0F, 1.0F, 6.0F, new Dilation(0.0F)), ModelTransform.pivot(2.5F, 13.0F, 0.0F));
+		ModelPartData leftLeg = main.addChild(LEFT_LEG, ModelPartBuilder.create().uv(28, 0).cuboid(-1.5F, 0.0F, -5.0F, 3.0F, 1.0F, 6.0F, new Dilation(0.0F)), ModelTransform.pivot(2.5F, 13.0F, 0.0F));
 
-		ModelPartData rightLeg = main.addChild(RIGHT_LEG, ModelPartBuilder.create().uv(27, 0).cuboid(-1.5F, 0.0F, -5.0F, 3.0F, 1.0F, 6.0F, new Dilation(0.0F)), ModelTransform.pivot(-2.5F, 13.0F, 0.0F));
+		ModelPartData rightLeg = main.addChild(RIGHT_LEG, ModelPartBuilder.create().uv(28, 0).cuboid(-1.5F, 0.0F, -5.0F, 3.0F, 1.0F, 6.0F, new Dilation(0.0F)), ModelTransform.pivot(-2.5F, 13.0F, 0.0F));
 
 		return TexturedModelData.of(modelData, 64, 64);
 	}

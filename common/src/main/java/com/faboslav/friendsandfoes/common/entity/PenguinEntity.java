@@ -42,7 +42,7 @@ import java.util.ArrayList;
 
 public class PenguinEntity extends AnimalEntity implements AnimatedEntity
 {
-	private static final float MOVEMENT_SPEED = 0.225F;
+	private static final float MOVEMENT_SPEED = 0.2F;
 
 	private AnimationContextTracker animationContextTracker;
 	private static final TrackedData<Integer> POSE_TICKS = DataTracker.registerData(CrabEntity.class, TrackedDataHandlerRegistry.INTEGER);

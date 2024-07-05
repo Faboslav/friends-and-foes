@@ -64,7 +64,8 @@ public class LongReachStatusEffect extends StatusEffect
 	public static double getModifiedReachDistance(@Nullable LivingEntity entity, double currentReachDistance) {
 		if (entity != null && entity.hasStatusEffect(FriendsAndFoesStatusEffects.LONG_REACH.get())) {
 			StatusEffectInstance longReach = entity.getStatusEffect(FriendsAndFoesStatusEffects.LONG_REACH.get());
-			return currentReachDistance + LongReachStatusEffect.REACH_MODIFIER + (float) longReach.getAmplifier();
+			// TODO change use proper things
+			//return currentReachDistance + LongReachStatusEffect.REACH_MODIFIER + (float) longReach.getAmplifier();
 		}
 
 		return currentReachDistance;

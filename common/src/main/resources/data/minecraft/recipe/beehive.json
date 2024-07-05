@@ -6,7 +6,7 @@
 			"item": "minecraft:honeycomb"
 		},
 		"P": {
-			"tag": "minecraft:oak_planks"
+			"item": "minecraft:oak_planks"
 		}
 	},
 	"pattern": [

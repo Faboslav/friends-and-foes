@@ -3,7 +3,7 @@
 	"advancements.husbandry.beehive.description": "Заполучите все виды пчелиного улья",
 	"advancements.adventure.kill_iceologer.title": "Я здесь был",
 	"advancements.adventure.kill_iceologer.description": "Убейте ледолога",
-	"advancements.adventure.kill_illusioner.title": "Мир иллюзии",
+	"advancements.adventure.kill_illusioner.title": "Мир иллюзий",
 	"advancements.adventure.kill_illusioner.description": "Убейте иллюзора… если он ещё существует",
 	"advancements.husbandry.shear_a_moobloom.title": "Коровоцвет!",
 	"advancements.husbandry.shear_a_moobloom.description": "Постригите коровоцвета",
@@ -84,6 +84,7 @@
 	"subtitle.entity.friendsandfoes.glare.grumpiness_short": "Остроликий ворчит",
 	"subtitle.entity.friendsandfoes.glare.hurt": "Остроликий ранен",
 	"subtitle.entity.friendsandfoes.glare.rustle": "Остроликий ворчит",
+	"subtitle.entity.friendsandfoes.glare.shake": "Остроликий стряхивает светящиеся ягоды",
 	"subtitle.entity.friendsandfoes.copper_golem.death": "Медный голем умирает",
 	"subtitle.entity.friendsandfoes.copper_golem.head_spin": "Медный голем поворачивает голову",
 	"subtitle.entity.friendsandfoes.copper_golem.hurt": "Медный голем ранен",
@@ -128,5 +129,7 @@
 	"subtitle.entity.friendsandfoes.wildfire.shoot": "Инферно стреляет",
 	"subtitle.entity.friendsandfoes.wildfire.step": "Шаги",
 	"subtitle.entity.friendsandfoes.wildfire.summon_blaze": "Инферно призывает всполохов",
-	"trinkets.slot.charm.charm": "Амулет"
+	"trinkets.slot.charm.charm": "Амулет",
+	"text.betterf3.line.glares": "Остроликие",
+	"text.betterf3.line.rascals": "Негодники"
 }

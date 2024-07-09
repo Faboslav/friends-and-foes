@@ -1,6 +1,6 @@
 plugins {
 	id "architectury-plugin" version "3.4-SNAPSHOT"
-	id 'dev.architectury.loom' version '1.6-SNAPSHOT' apply false
+	id 'dev.architectury.loom' version '1.7-SNAPSHOT' apply false
 }
 
 architectury {
@@ -26,16 +26,16 @@ allprojects {
 
 	processResources {
 		def expandProps = [
-			'modId'               : mod_id,
-			'modName'             : mod_name,
-			'modDescription'      : mod_description,
-			'modVersion'          : mod_version,
-			'modAuthor'           : mod_author,
-			"minecraftVersion"    : minecraft_version,
-			"minMinecraftVersion" : min_minecraft_version,
-			"fabricLoaderVersion" : fabric_loader_version,
-			"fabricApiVersion"    : fabric_api_version,
-			"neoForgeVersion"     : neoforge_version
+			'modId'              : mod_id,
+			'modName'            : mod_name,
+			'modDescription'     : mod_description,
+			'modVersion'         : mod_version,
+			'modAuthor'          : mod_author,
+			"minecraftVersion"   : minecraft_version,
+			"minMinecraftVersion": min_minecraft_version,
+			"fabricLoaderVersion": fabric_loader_version,
+			"fabricApiVersion"   : fabric_api_version,
+			"neoForgeVersion"    : neoforge_version
 		]
 
 		filesMatching(['fabric.mod.json', 'META-INF/mods.toml']) {

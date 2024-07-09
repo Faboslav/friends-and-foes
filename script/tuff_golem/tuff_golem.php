@@ -103,13 +103,13 @@ $colors = [
 	],
 ];
 
-foreach ( $colors as $type => $typeColors ) {
-	if($type === 'red') {
+foreach ($colors as $type => $typeColors) {
+	if ($type === 'red') {
 		continue;
 	}
 
-	foreach ( $blocks as $block ) {
-		$blockPath = __DIR__.'/input/'.$block;
+	foreach ($blocks as $block) {
+		$blockPath = __DIR__ . '/input/' . $block;
 		$im = imagecreatefrompng($blockPath);
 		imagealphablending($im, false);
 		for ($x = imagesx($im); $x--;) {
@@ -124,17 +124,17 @@ foreach ( $colors as $type => $typeColors ) {
 					$currentColorRGB['blue']
 				);
 
-				if(in_array($currentColorHEX, $colors['red'])) {
-					$index = array_search( $currentColorHEX, $colors[ 'red' ] );
-					$newColorHEX = $colors[ $type ][ $index ];
-					$newColorRGB = list( $r, $g, $b ) = sscanf( $newColorHEX, "%02x%02x%02x" );
-					$colorB = imagecolorallocatealpha( $im, $newColorRGB[ 0 ], $newColorRGB[ 1 ], $newColorRGB[ 2 ], $currentColorRGB[ 'alpha' ] );
+				if (in_array($currentColorHEX, $colors['red'])) {
+					$index = array_search($currentColorHEX, $colors['red']);
+					$newColorHEX = $colors[$type][$index];
+					$newColorRGB = list($r, $g, $b) = sscanf($newColorHEX, "%02x%02x%02x");
+					$colorB = imagecolorallocatealpha($im, $newColorRGB[0], $newColorRGB[1], $newColorRGB[2], $currentColorRGB['alpha']);
 
-					if($colorB === false) {
+					if ($colorB === false) {
 						continue;
 					}
 
-					imagesetpixel( $im, $x, $y, $colorB );
+					imagesetpixel($im, $x, $y, $colorB);
 				}
 			}
 		}
@@ -146,7 +146,7 @@ foreach ( $colors as $type => $typeColors ) {
 		imagepng($im);
 		$imageString = ob_get_clean();
 		file_put_contents(
-			__DIR__.'/output/'.$type.'.png',
+			__DIR__ . '/output/' . $type . '.png',
 			$imageString,
 		);
 

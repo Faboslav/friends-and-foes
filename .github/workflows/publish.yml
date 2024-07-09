@@ -101,19 +101,19 @@ jobs:
                     name: ${{ steps.gradle-properties.outputs.MOD_NAME }} ${{ steps.gradle-properties.outputs.MOD_VERSION }} for Minecraft ${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}
                     bodyFile: RELEASE_CHANGELOG.md
 
-            - name: "Set up JDK 17"
-              if: steps.check-mod-loader.outputs.is_mod_loader_supported == 'true' && steps.gradle-properties.outputs.MINECRAFT_VERSION != '1.20.6' && steps.gradle-properties.outputs.MINECRAFT_VERSION != '1.21'
-              uses: actions/setup-java@v4
-              with:
-                  java-version: 17
-                  distribution: temurin
+            -   name: "Set up JDK 17"
+                if: steps.check-mod-loader.outputs.is_mod_loader_supported == 'true' && steps.gradle-properties.outputs.MINECRAFT_VERSION != '1.20.6' && steps.gradle-properties.outputs.MINECRAFT_VERSION != '1.21'
+                uses: actions/setup-java@v4
+                with:
+                    java-version: 17
+                    distribution: temurin
 
-            - name: "Set up JDK 21"
-              if: steps.check-mod-loader.outputs.is_mod_loader_supported == 'true' && steps.gradle-properties.outputs.MINECRAFT_VERSION == '1.20.6' || steps.gradle-properties.outputs.MINECRAFT_VERSION == '1.21'
-              uses: actions/setup-java@v4
-              with:
-                  java-version: 21
-                  distribution: temurin
+            -   name: "Set up JDK 21"
+                if: steps.check-mod-loader.outputs.is_mod_loader_supported == 'true' && steps.gradle-properties.outputs.MINECRAFT_VERSION == '1.20.6' || steps.gradle-properties.outputs.MINECRAFT_VERSION == '1.21'
+                uses: actions/setup-java@v4
+                with:
+                    java-version: 21
+                    distribution: temurin
 
             -   name: "Setup gradle and run build"
                 if: steps.check-mod-loader.outputs.is_mod_loader_supported == 'true'

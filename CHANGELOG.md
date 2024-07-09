@@ -2,6 +2,7 @@
 
 - Fixed oak beehive crafting recipe
 - Fixed wildfire crown rendering and item stacking
+- Fixed totem of illusion related issues
 
 ## 2.0.11
 

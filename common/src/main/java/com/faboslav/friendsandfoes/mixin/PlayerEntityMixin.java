@@ -109,7 +109,7 @@ public abstract class PlayerEntityMixin extends LivingEntity
 	}
 
 	@Inject(
-		at = @At("TAIL"),
+		at = @At("HEAD"),
 		method = "damage",
 		cancellable = true
 	)
@@ -118,11 +118,11 @@ public abstract class PlayerEntityMixin extends LivingEntity
 		PlayerEntity player = (PlayerEntity) (Object) this;
 
 		if (
-			player.isAlive()
-			&& source.isFire() == false
+			source.isFire() == false
 			&& source.isFromFalling() == false
 			&& source.isFallingBlock() == false
 			&& source.getAttacker() != null
+			&& !player.isDead()
 			&& this.getHealth() <= this.getMaxHealth() / 2.0F
 		) {
 			ItemStack totemItemStack = friendsandfoes_getTotem(
@@ -154,8 +154,6 @@ public abstract class PlayerEntityMixin extends LivingEntity
 				} else if (totemItem == FriendsAndFoesItems.TOTEM_OF_ILLUSION.get()) {
 					this.friendsandfoes_createIllusions();
 				}
-
-				cir.setReturnValue(true);
 			}
 		}
 	}
@@ -238,8 +236,10 @@ public abstract class PlayerEntityMixin extends LivingEntity
 
 		nearbyEntities.forEach(nearbyEntity -> {
 			if (nearbyEntity.getTarget() == this) {
-				if(!createdPlayerIllusions.isEmpty()) {
-					nearbyEntity.setTarget(createdPlayerIllusions.get(this.getRandom().nextInt(createdPlayerIllusions.size())));
+				if (!createdPlayerIllusions.isEmpty()) {
+					nearbyEntity.setAttacking(true);
+					nearbyEntity.setAttacker(createdPlayerIllusions.get(this.getRandom().nextInt(createdPlayerIllusions.size())));
+					nearbyEntity.onAttacking(createdPlayerIllusions.get(this.getRandom().nextInt(createdPlayerIllusions.size())));
 				}
 
 				nearbyEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, NEGATIVE_EFFECT_TICKS, 1));
@@ -252,6 +252,14 @@ public abstract class PlayerEntityMixin extends LivingEntity
 
 			if (teleportResult) {
 				this.friendsandfoes_spawnCloudParticles();
+			}
+
+			var attacker = illusionToReplace.getAttacker();
+
+			if (attacker != null) {
+				illusionToReplace.setAttacking(null);
+				illusionToReplace.setAttacker(null);
+				illusionToReplace.onAttacking(null);
 			}
 
 			illusionToReplace.discard();
@@ -277,9 +285,9 @@ public abstract class PlayerEntityMixin extends LivingEntity
 		playerIllusion.prevStrideDistance = this.prevStrideDistance;
 		playerIllusion.strideDistance = this.strideDistance;
 
-		playerIllusion.equipStack(EquipmentSlot.MAINHAND, getMainHandStack());
-		playerIllusion.equipStack(EquipmentSlot.OFFHAND, getOffHandStack());
-		this.getArmorItems().forEach(playerIllusion::tryEquip);
+		playerIllusion.equipStack(EquipmentSlot.MAINHAND, getMainHandStack().copy());
+		playerIllusion.equipStack(EquipmentSlot.OFFHAND, getOffHandStack().copy());
+		this.getArmorItems().forEach((item) -> playerIllusion.tryEquip(item.copy()));
 
 		playerIllusion.setHealth(this.getMaxHealth());
 		playerIllusion.copyPositionAndRotation(this);

@@ -12,9 +12,10 @@ final class CopperTextureTransformer
 	 */
 	public function __construct(
 		private string $defaultInputImage,
-		private array $additionalInputImages,
+		private array  $additionalInputImages,
 		private string $inputImage,
-	) {
+	)
+	{
 		$this->parsePixelColors($this->defaultInputImage);
 
 		foreach ($this->additionalInputImages as $additionalInputImage) {
@@ -27,7 +28,8 @@ final class CopperTextureTransformer
 
 	public function parsePixelColors(
 		string $inputImageName
-	): void {
+	): void
+	{
 		$blockPath = __DIR__ . '/input/' . $inputImageName . '.png';
 		$image = imagecreatefrompng($blockPath);
 		imagealphablending($image, false);
@@ -49,22 +51,22 @@ final class CopperTextureTransformer
 
 	public function createColorMap(): void
 	{
-		foreach($this->pixelColorMap[$this->defaultInputImage] as $x) {
+		foreach ($this->pixelColorMap[$this->defaultInputImage] as $x) {
 			foreach ($x as $y => $colorHex) {
-				foreach($this->additionalInputImages as $additionalInputImage) {
-					if(array_key_exists($additionalInputImage, $this->colorMap) === false) {
+				foreach ($this->additionalInputImages as $additionalInputImage) {
+					if (array_key_exists($additionalInputImage, $this->colorMap) === false) {
 						$this->colorMap[$additionalInputImage] = [];
 					}
 
-					if(array_key_exists($colorHex, $this->colorMap[$additionalInputImage]) === false) {
+					if (array_key_exists($colorHex, $this->colorMap[$additionalInputImage]) === false) {
 						$this->colorMap[$additionalInputImage][$colorHex] = [];
 					}
 				}
 			}
 		}
 
-		foreach($this->additionalInputImages as $additionalInputImage) {
-			foreach($this->pixelColorMap[$additionalInputImage] as $xPixel => $mappedY) {
+		foreach ($this->additionalInputImages as $additionalInputImage) {
+			foreach ($this->pixelColorMap[$additionalInputImage] as $xPixel => $mappedY) {
 				foreach ($mappedY as $yPixel => $colorHex) {
 					$colorKey = $this->pixelColorMap[$this->defaultInputImage][$xPixel][$yPixel];
 
@@ -77,8 +79,8 @@ final class CopperTextureTransformer
 
 	public function createOutputImages(): void
 	{
-		foreach($this->additionalInputImages as $additionalInputImage) {
-			$blockPath = __DIR__.'/input/'.$this->inputImage.'.png';
+		foreach ($this->additionalInputImages as $additionalInputImage) {
+			$blockPath = __DIR__ . '/input/' . $this->inputImage . '.png';
 			$im = imagecreatefrompng($blockPath);
 			imagealphablending($im, false);
 			for ($x = imagesx($im); $x--;) {
@@ -93,15 +95,15 @@ final class CopperTextureTransformer
 						$currentColorRGB['blue']
 					);
 
-					if(isset($this->colorMap[$additionalInputImage][$currentColorHEX]) === false) {
+					if (isset($this->colorMap[$additionalInputImage][$currentColorHEX]) === false) {
 						continue;
 					}
 
 					$possibleNewColors = $this->colorMap[$additionalInputImage][$currentColorHEX];
 					$randomColorIndex = rand(0, sizeof($possibleNewColors) - 1);
 					$newColorHEX = $possibleNewColors[$randomColorIndex];
-					$newColorRGB = list( $r, $g, $b ) = sscanf( $newColorHEX, "%02x%02x%02x" );
-					$newColor = imagecolorallocatealpha( $im, $newColorRGB[ 0 ], $newColorRGB[ 1 ], $newColorRGB[ 2 ], $currentColorRGB[ 'alpha' ] );
+					$newColorRGB = list($r, $g, $b) = sscanf($newColorHEX, "%02x%02x%02x");
+					$newColor = imagecolorallocatealpha($im, $newColorRGB[0], $newColorRGB[1], $newColorRGB[2], $currentColorRGB['alpha']);
 					imagesetpixel($im, $x, $y, $newColor);
 				}
 			}
@@ -113,7 +115,7 @@ final class CopperTextureTransformer
 			imagepng($im);
 			$imageString = ob_get_clean();
 			file_put_contents(
-				__DIR__.'/output/'.$additionalInputImage . '.png',
+				__DIR__ . '/output/' . $additionalInputImage . '.png',
 				$imageString,
 			);
 		}
@@ -123,9 +125,9 @@ final class CopperTextureTransformer
 $textureTransformer = new CopperTextureTransformer(
 	'copper',
 	[
-    	'exposed_copper',
-    	'oxidized_copper',
-    	'weathered_copper',
-    ],
-    'lightning_rod',
+		'exposed_copper',
+		'oxidized_copper',
+		'weathered_copper',
+	],
+	'lightning_rod',
 );

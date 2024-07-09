@@ -246,7 +246,7 @@ public abstract class PlayerEntityMixin extends LivingEntity
 			}
 		});
 
-		if(!createdPlayerIllusions.isEmpty()) {
+		if (!createdPlayerIllusions.isEmpty()) {
 			var illusionToReplace = createdPlayerIllusions.get(this.getRandom().nextInt(createdPlayerIllusions.size()));
 			boolean teleportResult = this.friendsandfoes_tryToTeleport(illusionToReplace.getBlockX(), illusionToReplace.getBlockY(), illusionToReplace.getBlockZ());
 

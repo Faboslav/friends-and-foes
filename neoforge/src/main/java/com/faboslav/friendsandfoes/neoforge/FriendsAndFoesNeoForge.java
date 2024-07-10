@@ -100,7 +100,7 @@ public final class FriendsAndFoesNeoForge
 		RegistryHelperImpl.ITEMS_TO_ADD_BEFORE.forEach((itemGroup, itemPairs) -> {
 			if (event.getTabKey() == itemGroup) {
 				itemPairs.forEach((item, before) -> {
-					event.getEntries().putBefore(before.getDefaultStack(), item.getDefaultStack(), ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS);
+					event.insertBefore(before.getDefaultStack(), item.getDefaultStack(), ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS);
 				});
 			}
 		});
@@ -108,7 +108,7 @@ public final class FriendsAndFoesNeoForge
 		RegistryHelperImpl.ITEMS_TO_ADD_AFTER.forEach((itemGroup, itemPairs) -> {
 			if (event.getTabKey() == itemGroup) {
 				itemPairs.forEach((item, after) -> {
-					event.getEntries().putAfter(after.getDefaultStack(), item.getDefaultStack(), ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS);
+					event.insertAfter(after.getDefaultStack(), item.getDefaultStack(), ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS);
 				});
 			}
 		});

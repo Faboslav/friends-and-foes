@@ -103,9 +103,9 @@ public final class FriendsAndFoesItems
 
 	private static void addToItemGroups() {
 		RegistryHelper.addToItemGroupAfter(ItemGroups.SPAWN_EGGS, COPPER_GOLEM_SPAWN_EGG.get(), Items.CAVE_SPIDER_SPAWN_EGG);
-		RegistryHelper.addToItemGroupAfter(ItemGroups.SPAWN_EGGS, GLARE_SPAWN_EGG.get(), COPPER_GOLEM_SPAWN_EGG.get());
+		RegistryHelper.addToItemGroupAfter(ItemGroups.SPAWN_EGGS, GLARE_SPAWN_EGG.get(), Items.CAVE_SPIDER_SPAWN_EGG);
 		RegistryHelper.addToItemGroupAfter(ItemGroups.SPAWN_EGGS, ICEOLOGER_SPAWN_EGG.get(), Items.HORSE_SPAWN_EGG);
-		RegistryHelper.addToItemGroupAfter(ItemGroups.SPAWN_EGGS, ILLUSIONER_SPAWN_EGG.get(), ICEOLOGER_SPAWN_EGG.get());
+		RegistryHelper.addToItemGroupAfter(ItemGroups.SPAWN_EGGS, ILLUSIONER_SPAWN_EGG.get(), Items.HORSE_SPAWN_EGG);
 		RegistryHelper.addToItemGroupAfter(ItemGroups.SPAWN_EGGS, MAULER_SPAWN_EGG.get(), Items.MAGMA_CUBE_SPAWN_EGG);
 		RegistryHelper.addToItemGroupBefore(ItemGroups.SPAWN_EGGS, MOOBLOOM_SPAWN_EGG.get(), Items.MOOSHROOM_SPAWN_EGG);
 		RegistryHelper.addToItemGroupBefore(ItemGroups.SPAWN_EGGS, TUFF_GOLEM_SPAWN_EGG.get(), Items.TURTLE_SPAWN_EGG);
@@ -114,32 +114,32 @@ public final class FriendsAndFoesItems
 		RegistryHelper.addToItemGroupAfter(ItemGroups.NATURAL, BUTTERCUP.get(), Items.DANDELION);
 
 		RegistryHelper.addToItemGroupAfter(ItemGroups.FUNCTIONAL, SPRUCE_BEEHIVE.get(), Items.BEEHIVE);
-		RegistryHelper.addToItemGroupAfter(ItemGroups.FUNCTIONAL, BAMBOO_BEEHIVE.get(), SPRUCE_BEEHIVE.get());
-		RegistryHelper.addToItemGroupAfter(ItemGroups.FUNCTIONAL, BIRCH_BEEHIVE.get(), BAMBOO_BEEHIVE.get());
-		RegistryHelper.addToItemGroupAfter(ItemGroups.FUNCTIONAL, JUNGLE_BEEHIVE.get(), BIRCH_BEEHIVE.get());
-		RegistryHelper.addToItemGroupAfter(ItemGroups.FUNCTIONAL, ACACIA_BEEHIVE.get(), JUNGLE_BEEHIVE.get());
-		RegistryHelper.addToItemGroupAfter(ItemGroups.FUNCTIONAL, DARK_OAK_BEEHIVE.get(), ACACIA_BEEHIVE.get());
-		RegistryHelper.addToItemGroupAfter(ItemGroups.FUNCTIONAL, MANGROVE_BEEHIVE.get(), DARK_OAK_BEEHIVE.get());
-		RegistryHelper.addToItemGroupAfter(ItemGroups.FUNCTIONAL, CHERRY_BEEHIVE.get(), MANGROVE_BEEHIVE.get());
-		RegistryHelper.addToItemGroupAfter(ItemGroups.FUNCTIONAL, CRIMSON_BEEHIVE.get(), CHERRY_BEEHIVE.get());
-		RegistryHelper.addToItemGroupAfter(ItemGroups.FUNCTIONAL, WARPED_BEEHIVE.get(), CRIMSON_BEEHIVE.get());
+		RegistryHelper.addToItemGroupAfter(ItemGroups.FUNCTIONAL, BAMBOO_BEEHIVE.get(), Items.BEEHIVE);
+		RegistryHelper.addToItemGroupAfter(ItemGroups.FUNCTIONAL, BIRCH_BEEHIVE.get(), Items.BEEHIVE);
+		RegistryHelper.addToItemGroupAfter(ItemGroups.FUNCTIONAL, JUNGLE_BEEHIVE.get(), Items.BEEHIVE);
+		RegistryHelper.addToItemGroupAfter(ItemGroups.FUNCTIONAL, ACACIA_BEEHIVE.get(), Items.BEEHIVE);
+		RegistryHelper.addToItemGroupAfter(ItemGroups.FUNCTIONAL, DARK_OAK_BEEHIVE.get(), Items.BEEHIVE);
+		RegistryHelper.addToItemGroupAfter(ItemGroups.FUNCTIONAL, MANGROVE_BEEHIVE.get(), Items.BEEHIVE);
+		RegistryHelper.addToItemGroupAfter(ItemGroups.FUNCTIONAL, CHERRY_BEEHIVE.get(), Items.BEEHIVE);
+		RegistryHelper.addToItemGroupAfter(ItemGroups.FUNCTIONAL, CRIMSON_BEEHIVE.get(), Items.BEEHIVE);
+		RegistryHelper.addToItemGroupAfter(ItemGroups.FUNCTIONAL, WARPED_BEEHIVE.get(), Items.BEEHIVE);
 
 
 		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, COPPER_BUTTON.get(), Items.STONE_BUTTON);
-		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, EXPOSED_COPPER_BUTTON.get(), COPPER_BUTTON.get());
-		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WEATHERED_COPPER_BUTTON.get(), EXPOSED_COPPER_BUTTON.get());
-		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, OXIDIZED_COPPER_BUTTON.get(), WEATHERED_COPPER_BUTTON.get());
-		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WAXED_COPPER_BUTTON.get(), OXIDIZED_COPPER_BUTTON.get());
-		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WAXED_EXPOSED_COPPER_BUTTON.get(), WAXED_COPPER_BUTTON.get());
-		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WAXED_WEATHERED_COPPER_BUTTON.get(), WAXED_EXPOSED_COPPER_BUTTON.get());
-		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WAXED_OXIDIZED_COPPER_BUTTON.get(), WAXED_WEATHERED_COPPER_BUTTON.get());
+		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, EXPOSED_COPPER_BUTTON.get(), Items.STONE_BUTTON);
+		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WEATHERED_COPPER_BUTTON.get(), Items.STONE_BUTTON);
+		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, OXIDIZED_COPPER_BUTTON.get(), Items.STONE_BUTTON);
+		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WAXED_COPPER_BUTTON.get(), Items.STONE_BUTTON);
+		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WAXED_EXPOSED_COPPER_BUTTON.get(), Items.STONE_BUTTON);
+		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WAXED_WEATHERED_COPPER_BUTTON.get(), Items.STONE_BUTTON);
+		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WAXED_OXIDIZED_COPPER_BUTTON.get(), Items.STONE_BUTTON);
 		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, EXPOSED_LIGHTNING_ROD.get(), Items.LIGHTNING_ROD);
-		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WEATHERED_LIGHTNING_ROD.get(), EXPOSED_LIGHTNING_ROD.get());
-		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, OXIDIZED_LIGHTNING_ROD.get(), WEATHERED_LIGHTNING_ROD.get());
-		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WAXED_LIGHTNING_ROD.get(), WEATHERED_LIGHTNING_ROD.get());
-		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WAXED_EXPOSED_LIGHTNING_ROD.get(), WAXED_LIGHTNING_ROD.get());
-		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WAXED_WEATHERED_LIGHTNING_ROD.get(), WAXED_EXPOSED_LIGHTNING_ROD.get());
-		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WAXED_OXIDIZED_LIGHTNING_ROD.get(), WAXED_WEATHERED_LIGHTNING_ROD.get());
+		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WEATHERED_LIGHTNING_ROD.get(), Items.LIGHTNING_ROD);
+		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, OXIDIZED_LIGHTNING_ROD.get(), Items.LIGHTNING_ROD);
+		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WAXED_LIGHTNING_ROD.get(), Items.LIGHTNING_ROD);
+		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WAXED_EXPOSED_LIGHTNING_ROD.get(), Items.LIGHTNING_ROD);
+		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WAXED_WEATHERED_LIGHTNING_ROD.get(), Items.LIGHTNING_ROD);
+		RegistryHelper.addToItemGroupAfter(ItemGroups.REDSTONE, WAXED_OXIDIZED_LIGHTNING_ROD.get(), Items.LIGHTNING_ROD);
 
 		RegistryHelper.addToItemGroupAfter(ItemGroups.INGREDIENTS, WILDFIRE_CROWN_FRAGMENT.get(), Items.TURTLE_SCUTE);
 		RegistryHelper.addToItemGroupAfter(ItemGroups.COMBAT, WILDFIRE_CROWN.get(), Items.TURTLE_HELMET);

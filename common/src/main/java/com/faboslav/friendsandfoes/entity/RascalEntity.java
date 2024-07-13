@@ -31,6 +31,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.tag.StructureTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
@@ -93,6 +94,15 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 			if (
 				blockPos.getY() > 63
 				|| serverWorldAccess.isSkyVisible(blockPos)
+				|| serverWorldAccess.getLightLevel(blockPos, 0) == 0
+				|| (
+					!serverWorldAccess.getBlockState(blockPos.down()).isIn(BlockTags.PLANKS)
+					&& !serverWorldAccess.getBlockState(blockPos.up()).isIn(BlockTags.PLANKS)
+					&& !serverWorldAccess.getBlockState(blockPos.north()).isIn(BlockTags.PLANKS)
+					&& !serverWorldAccess.getBlockState(blockPos.west()).isIn(BlockTags.PLANKS)
+					&& !serverWorldAccess.getBlockState(blockPos.south()).isIn(BlockTags.PLANKS)
+					&& !serverWorldAccess.getBlockState(blockPos.east()).isIn(BlockTags.PLANKS)
+				)
 			) {
 				return false;
 			}
@@ -411,7 +421,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 	}
 
 	public boolean shouldGiveReward() {
-		return this.getCaughtCount() >= 3;
+		return this.getCaughtCount() == 3;
 	}
 
 	public boolean disableAmbientSounds() {

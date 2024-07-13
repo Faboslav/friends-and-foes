@@ -30,10 +30,6 @@ dependencies {
 	common(project(path: ":common", configuration: "namedElements")) { transitive false }
 	shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
 
-	// Mixin extras (https://github.com/LlamaLad7/MixinExtras)
-	implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixin_extras_version}"))
-	implementation(include("io.github.llamalad7:mixinextras-neoforge:${mixin_extras_version}"))
-
 	// Curios (https://www.curseforge.com/minecraft/mc-mods/curios)
 	// modCompileOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}+${minecraft_version}:api")
 	// modRuntimeOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}+${minecraft_version}")

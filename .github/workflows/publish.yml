@@ -46,7 +46,7 @@ jobs:
 
         steps:
             -   name: "Checkout repository"
-                uses: actions/checkout@v4.1.1
+                uses: actions/checkout@v4
                 with:
                     ref: ${{ matrix.branch }}
                     fetch-depth: 0
@@ -117,7 +117,7 @@ jobs:
 
             -   name: "Setup gradle and run build"
                 if: steps.check-mod-loader.outputs.is_mod_loader_supported == 'true'
-                uses: gradle/gradle-build-action@v2.11.1
+                uses: gradle/gradle-build-action@v3
                 with:
                     cache-read-only: true
                     generate-job-summary: false

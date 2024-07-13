@@ -1,3 +1,8 @@
+## 2.0.13
+
+- Rascal spawn condition improvements
+- NeoForge beta breaking change fix
+
 ## 2.0.12
 
 - Fixed oak beehive crafting recipe

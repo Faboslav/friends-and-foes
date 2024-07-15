@@ -1,3 +1,8 @@
+## 2.0.14
+
+- Totem of Undying is now properly supported in the modded slots
+- Fixed stronghold generation freeze on 1.21
+
 ## 2.0.13
 
 - Rascal spawn condition improvements

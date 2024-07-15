@@ -20,6 +20,7 @@ import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
@@ -97,7 +98,7 @@ public abstract class StrongholdGeneratorMixin extends StructurePiece
 		book.setCount(1);
 
 		book.set(DataComponentTypes.ENCHANTMENTS, ItemEnchantmentsComponent.DEFAULT);
-		EnchantmentHelper.applyEnchantmentProvider(book, serverWorld.getRegistryManager(), EnchantmentProviders.MOB_SPAWN_EQUIPMENT, serverWorld.getLocalDifficulty(tuffGolem.getBlockPos()), random);
+		EnchantmentHelper.applyEnchantmentProvider(book, serverWorld.getRegistryManager(), EnchantmentProviders.MOB_SPAWN_EQUIPMENT, new LocalDifficulty(serverWorld.getDifficulty(), 0, 0, 0.0F), random);
 
 		tuffGolem.equipStack(EquipmentSlot.MAINHAND, book);
 

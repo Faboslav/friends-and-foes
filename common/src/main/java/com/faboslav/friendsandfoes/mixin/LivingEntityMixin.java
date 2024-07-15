@@ -25,7 +25,7 @@ public class LivingEntityMixin
 	) {
 		var itemStackInHand = original.call(instance, hand);
 
-		if (itemStackInHand == ItemStack.EMPTY) {
+		if (itemStackInHand.getItem() != Items.TOTEM_OF_UNDYING) {
 			for (ModCompat compat : ModChecker.CUSTOM_EQUIPMENT_SLOTS_COMPATS) {
 				ItemStack itemStack = compat.getEquippedItemFromCustomSlots(instance, LivingEntityMixin::friendsandfoes_isTotemOfUndying);
 

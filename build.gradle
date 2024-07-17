@@ -24,7 +24,6 @@ allprojects {
 	version = mod_version
 	archivesBaseName = "${mod_id}-mc${minecraft_version}"
 
-
 	processResources {
 		def expandProps = [
 			'modId'              : mod_id,

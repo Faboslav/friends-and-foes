@@ -1,3 +1,8 @@
+## 2.0.15
+
+- Fixed pig spawning in the iceologer cabin structure
+- Fixed beehive states
+
 ## 2.0.14
 
 - Totem of Undying is now properly supported in the modded slots

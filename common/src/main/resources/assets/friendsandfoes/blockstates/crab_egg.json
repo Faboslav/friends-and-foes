@@ -1,0 +1,208 @@
+{
+	"variants": {
+		"eggs=1,hatch=0": [
+			{
+				"model": "friendsandfoes:block/crab_egg"
+			},
+			{
+				"model": "friendsandfoes:block/crab_egg",
+				"y": 90
+			},
+			{
+				"model": "friendsandfoes:block/crab_egg",
+				"y": 180
+			},
+			{
+				"model": "friendsandfoes:block/crab_egg",
+				"y": 270
+			}
+		],
+		"eggs=1,hatch=1": [
+			{
+				"model": "friendsandfoes:block/slightly_cracked_crab_egg"
+			},
+			{
+				"model": "friendsandfoes:block/slightly_cracked_crab_egg",
+				"y": 90
+			},
+			{
+				"model": "friendsandfoes:block/slightly_cracked_crab_egg",
+				"y": 180
+			},
+			{
+				"model": "friendsandfoes:block/slightly_cracked_crab_egg",
+				"y": 270
+			}
+		],
+		"eggs=1,hatch=2": [
+			{
+				"model": "friendsandfoes:block/very_cracked_crab_egg"
+			},
+			{
+				"model": "friendsandfoes:block/very_cracked_crab_egg",
+				"y": 90
+			},
+			{
+				"model": "friendsandfoes:block/very_cracked_crab_egg",
+				"y": 180
+			},
+			{
+				"model": "friendsandfoes:block/very_cracked_crab_egg",
+				"y": 270
+			}
+		],
+		"eggs=2,hatch=0": [
+			{
+				"model": "friendsandfoes:block/two_crab_eggs"
+			},
+			{
+				"model": "friendsandfoes:block/two_crab_eggs",
+				"y": 90
+			},
+			{
+				"model": "friendsandfoes:block/two_crab_eggs",
+				"y": 180
+			},
+			{
+				"model": "friendsandfoes:block/two_crab_eggs",
+				"y": 270
+			}
+		],
+		"eggs=2,hatch=1": [
+			{
+				"model": "friendsandfoes:block/two_slightly_cracked_crab_eggs"
+			},
+			{
+				"model": "friendsandfoes:block/two_slightly_cracked_crab_eggs",
+				"y": 90
+			},
+			{
+				"model": "friendsandfoes:block/two_slightly_cracked_crab_eggs",
+				"y": 180
+			},
+			{
+				"model": "friendsandfoes:block/two_slightly_cracked_crab_eggs",
+				"y": 270
+			}
+		],
+		"eggs=2,hatch=2": [
+			{
+				"model": "friendsandfoes:block/two_very_cracked_crab_eggs"
+			},
+			{
+				"model": "friendsandfoes:block/two_very_cracked_crab_eggs",
+				"y": 90
+			},
+			{
+				"model": "friendsandfoes:block/two_very_cracked_crab_eggs",
+				"y": 180
+			},
+			{
+				"model": "friendsandfoes:block/two_very_cracked_crab_eggs",
+				"y": 270
+			}
+		],
+		"eggs=3,hatch=0": [
+			{
+				"model": "friendsandfoes:block/three_crab_eggs"
+			},
+			{
+				"model": "friendsandfoes:block/three_crab_eggs",
+				"y": 90
+			},
+			{
+				"model": "friendsandfoes:block/three_crab_eggs",
+				"y": 180
+			},
+			{
+				"model": "friendsandfoes:block/three_crab_eggs",
+				"y": 270
+			}
+		],
+		"eggs=3,hatch=1": [
+			{
+				"model": "friendsandfoes:block/three_slightly_cracked_crab_eggs"
+			},
+			{
+				"model": "friendsandfoes:block/three_slightly_cracked_crab_eggs",
+				"y": 90
+			},
+			{
+				"model": "friendsandfoes:block/three_slightly_cracked_crab_eggs",
+				"y": 180
+			},
+			{
+				"model": "friendsandfoes:block/three_slightly_cracked_crab_eggs",
+				"y": 270
+			}
+		],
+		"eggs=3,hatch=2": [
+			{
+				"model": "friendsandfoes:block/three_very_cracked_crab_eggs"
+			},
+			{
+				"model": "friendsandfoes:block/three_very_cracked_crab_eggs",
+				"y": 90
+			},
+			{
+				"model": "friendsandfoes:block/three_very_cracked_crab_eggs",
+				"y": 180
+			},
+			{
+				"model": "friendsandfoes:block/three_very_cracked_crab_eggs",
+				"y": 270
+			}
+		],
+		"eggs=4,hatch=0": [
+			{
+				"model": "friendsandfoes:block/four_crab_eggs"
+			},
+			{
+				"model": "friendsandfoes:block/four_crab_eggs",
+				"y": 90
+			},
+			{
+				"model": "friendsandfoes:block/four_crab_eggs",
+				"y": 180
+			},
+			{
+				"model": "friendsandfoes:block/four_crab_eggs",
+				"y": 270
+			}
+		],
+		"eggs=4,hatch=1": [
+			{
+				"model": "friendsandfoes:block/four_slightly_cracked_crab_eggs"
+			},
+			{
+				"model": "friendsandfoes:block/four_slightly_cracked_crab_eggs",
+				"y": 90
+			},
+			{
+				"model": "friendsandfoes:block/four_slightly_cracked_crab_eggs",
+				"y": 180
+			},
+			{
+				"model": "friendsandfoes:block/four_slightly_cracked_crab_eggs",
+				"y": 270
+			}
+		],
+		"eggs=4,hatch=2": [
+			{
+				"model": "friendsandfoes:block/four_very_cracked_crab_eggs"
+			},
+			{
+				"model": "friendsandfoes:block/four_very_cracked_crab_eggs",
+				"y": 90
+			},
+			{
+				"model": "friendsandfoes:block/four_very_cracked_crab_eggs",
+				"y": 180
+			},
+			{
+				"model": "friendsandfoes:block/four_very_cracked_crab_eggs",
+				"y": 270
+			}
+		]
+	}
+}

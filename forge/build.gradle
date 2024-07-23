@@ -12,8 +12,8 @@ loom {
 	forge {
 		convertAccessWideners = true
 		extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
-		mixinConfig "friendsandfoes-common.mixins.json"
-		mixinConfig "friendsandfoes-forge.mixins.json"
+		mixinConfig "${mod_id}-common.mixins.json"
+		mixinConfig "${mod_id}-forge.mixins.json"
 	}
 }
 

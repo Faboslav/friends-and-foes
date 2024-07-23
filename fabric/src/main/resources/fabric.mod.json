@@ -32,11 +32,11 @@
 		]
 	},
 	"mixins": [
-		"friendsandfoes-common.mixins.json",
-		"friendsandfoes-fabric.mixins.json"
+		"${modId}-common.mixins.json",
+		"${modId}-fabric.mixins.json"
 	],
 	"depends": {
-		"java": ">=17",
+		"java": ">=${modJavaVersion}",
 		"minecraft": ">=${minMinecraftVersion}",
 		"fabricloader": ">=${fabricLoaderVersion}",
 		"fabric": ">=${fabricApiVersion}"

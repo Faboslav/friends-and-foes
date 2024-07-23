@@ -109,7 +109,7 @@ public abstract class PlayerEntityMixin extends LivingEntity
 	}
 
 	@Inject(
-		at = @At("TAIL"),
+		at = @At("HEAD"),
 		method = "damage",
 		cancellable = true
 	)
@@ -118,11 +118,11 @@ public abstract class PlayerEntityMixin extends LivingEntity
 		PlayerEntity player = (PlayerEntity) (Object) this;
 
 		if (
-			player.isAlive()
-			&& source.isFire() == false
+			source.isFire() == false
 			&& source.isFromFalling() == false
 			&& source.isFallingBlock() == false
 			&& source.getAttacker() != null
+			&& !player.isDead()
 			&& this.getHealth() <= this.getMaxHealth() / 2.0F
 		) {
 			ItemStack totemItemStack = friendsandfoes_getTotem(
@@ -154,8 +154,6 @@ public abstract class PlayerEntityMixin extends LivingEntity
 				} else if (totemItem == FriendsAndFoesItems.TOTEM_OF_ILLUSION.get()) {
 					this.friendsandfoes_createIllusions();
 				}
-
-				cir.setReturnValue(true);
 			}
 		}
 	}
@@ -216,7 +214,6 @@ public abstract class PlayerEntityMixin extends LivingEntity
 		Vec3d illusionerPosition = this.getPos();
 		float slice = 2.0F * (float) Math.PI / MAX_ILLUSIONS_COUNT;
 		int radius = 9;
-		int randomPoint = this.getRandom().nextBetween(0, MAX_ILLUSIONS_COUNT - 1);
 
 		ArrayList<PlayerIllusionEntity> createdPlayerIllusions = new ArrayList<>();
 
@@ -226,19 +223,10 @@ public abstract class PlayerEntityMixin extends LivingEntity
 			int y = (int) illusionerPosition.getY();
 			int z = (int) (illusionerPosition.getZ() + radius * MathHelper.sin(angle));
 
-			if (randomPoint == point) {
-				boolean teleportResult = this.friendsandfoes_tryToTeleport(x, y, z);
+			PlayerIllusionEntity createdPlayerIllusion = this.friendsandfoes_createIllusion(x, y, z);
 
-				if (teleportResult) {
-					this.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, POSITIVE_EFFECT_TICKS));
-					this.friendsandfoes_spawnCloudParticles();
-				}
-			} else {
-				PlayerIllusionEntity createdPlayerIllusion = this.friendsandfoes_createIllusion(x, y, z);
-
-				if (createdPlayerIllusion != null) {
-					createdPlayerIllusions.add(createdPlayerIllusion);
-				}
+			if (createdPlayerIllusion != null) {
+				createdPlayerIllusions.add(createdPlayerIllusion);
 			}
 		}
 
@@ -248,10 +236,36 @@ public abstract class PlayerEntityMixin extends LivingEntity
 
 		nearbyEntities.forEach(nearbyEntity -> {
 			if (nearbyEntity.getTarget() == this) {
-				nearbyEntity.setTarget(createdPlayerIllusions.get(this.getRandom().nextInt(createdPlayerIllusions.size())));
+				if (!createdPlayerIllusions.isEmpty()) {
+					nearbyEntity.setAttacking(true);
+					nearbyEntity.setAttacker(createdPlayerIllusions.get(this.getRandom().nextInt(createdPlayerIllusions.size())));
+					nearbyEntity.onAttacking(createdPlayerIllusions.get(this.getRandom().nextInt(createdPlayerIllusions.size())));
+				}
+
 				nearbyEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, NEGATIVE_EFFECT_TICKS, 1));
 			}
 		});
+
+		if (!createdPlayerIllusions.isEmpty()) {
+			var illusionToReplace = createdPlayerIllusions.get(this.getRandom().nextInt(createdPlayerIllusions.size()));
+			boolean teleportResult = this.friendsandfoes_tryToTeleport(illusionToReplace.getBlockX(), illusionToReplace.getBlockY(), illusionToReplace.getBlockZ());
+
+			if (teleportResult) {
+				this.friendsandfoes_spawnCloudParticles();
+			}
+
+			var attacker = illusionToReplace.getAttacker();
+
+			if (attacker != null) {
+				illusionToReplace.setAttacking(null);
+				illusionToReplace.setAttacker(null);
+				illusionToReplace.onAttacking(null);
+			}
+
+			illusionToReplace.discard();
+		}
+
+		this.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, POSITIVE_EFFECT_TICKS));
 	}
 
 	@Nullable
@@ -271,9 +285,9 @@ public abstract class PlayerEntityMixin extends LivingEntity
 		playerIllusion.prevStrideDistance = this.prevStrideDistance;
 		playerIllusion.strideDistance = this.strideDistance;
 
-		playerIllusion.equipStack(EquipmentSlot.MAINHAND, getMainHandStack());
-		playerIllusion.equipStack(EquipmentSlot.OFFHAND, getOffHandStack());
-		this.getArmorItems().forEach(playerIllusion::tryEquip);
+		playerIllusion.equipStack(EquipmentSlot.MAINHAND, getMainHandStack().copy());
+		playerIllusion.equipStack(EquipmentSlot.OFFHAND, getOffHandStack().copy());
+		this.getArmorItems().forEach((item) -> playerIllusion.tryEquip(item.copy()));
 
 		playerIllusion.setHealth(this.getMaxHealth());
 		playerIllusion.copyPositionAndRotation(this);

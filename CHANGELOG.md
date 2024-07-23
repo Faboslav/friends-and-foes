@@ -1,19 +1,42 @@
-## 2.1.0
+## 2.0.15
 
-- Added Barnacle
-- Smoothed out Iceologers Ice Chunk movement
-- Mooblooms and Iceologers should now work with Fresh Animations by default
+- Fixed pig spawning in the iceologer cabin structure
+- Fixed beehive states
+
+## 2.0.14
+
+- Totem of Undying is now properly supported in the modded slots
+- Fixed stronghold generation freeze on 1.21
+
+## 2.0.13
+
+- Rascal spawn condition improvements
+- NeoForge beta breaking change fix
+
+## 2.0.12
+
+- Fixed oak beehive crafting recipe
+- Fixed wildfire crown rendering and item stacking
+- Fixed totem of illusion related issues
+
+## 2.0.11
+
+- 1.20.6/1.20.1 port
+- Fixed not working mob config settings on forge/neoforge
+- Refactored internal oxidizatiton/waxable system
+- Added pl_pl translations (Thanks to DarkKnightComes)
+- Added tr_tr translations (Thanks to EgeK)
 
 ## 2.0.10
 
-- Fixed crash related to Rascal spawns in mineshafts
+- Fixed crash related to rascal spawns in mineshafts
 - Added anger particles to rascal to indicate that hitting it is not an option
-- Added missing Charm slot for curios
+- Added missing charm slot for curios
 - Added missing translations for BetterF3 mod
 - Improved trigger logic for totems
-- Improved compatibility with the Curios mod and other totems
-- Improved compatibility with the Trinkets mod and other totems
-- Improved Catalogue compatibility
+- Improved compatibility with the curios mod and other totems
+- Improved compatibility with the trinkets mod and other totems
+- Improved catalogue compatibility
 - Updated translations
 
 ## 2.0.9

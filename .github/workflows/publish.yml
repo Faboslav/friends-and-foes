@@ -11,7 +11,7 @@ on:
             branches:
                 description: 'List of branches to be published'
                 required: true
-                default: "['1.19.2', '1.19.3', '1.19.4', '1.20.1', '1.20.2', '1.20.4']"
+                default: "['1.19.2', '1.19.3', '1.19.4', '1.20.1', '1.20.2', '1.20.4', '1.20.6', '1.21']"
                 type: string
 
 jobs:
@@ -44,22 +44,9 @@ jobs:
                         curseforge_id: ${{ vars.CURSEFORGE_FORGE_PROJECT_ID }}
                         modrinth_id: ${{ vars.MODRINTH_FORGE_PROJECT_ID }}
 
-                    -   branch: "1.20.1"
-                        mod_loader: "forge"
-                        supported_mod_loaders: [ "forge", "neoforge" ]
-                        secondary_game_version: "1.20"
-                        curseforge_id: ${{ vars.CURSEFORGE_FORGE_PROJECT_ID }}
-                        modrinth_id: ${{ vars.MODRINTH_FORGE_PROJECT_ID }}
-
-                    -   branch: "1.20.1"
-                        secondary_game_version: "1.20"
-
-                    -   branch: "1.20.4"
-                        secondary_game_version: "1.20.3"
-
         steps:
             -   name: "Checkout repository"
-                uses: actions/checkout@v4.1.1
+                uses: actions/checkout@v4
                 with:
                     ref: ${{ matrix.branch }}
                     fetch-depth: 0
@@ -74,13 +61,6 @@ jobs:
                         echo "Mod loader is not supported"
                         echo "is_mod_loader_supported=false" >> $GITHUB_OUTPUT
                     fi
-
-            -   name: "Set up JDK"
-                if: steps.check-mod-loader.outputs.is_mod_loader_supported == 'true'
-                uses: actions/setup-java@v4.0.0
-                with:
-                    java-version: 17
-                    distribution: temurin
 
             -   name: "Parse gradle properties"
                 if: steps.check-mod-loader.outputs.is_mod_loader_supported == 'true'
@@ -121,9 +101,23 @@ jobs:
                     name: ${{ steps.gradle-properties.outputs.MOD_NAME }} ${{ steps.gradle-properties.outputs.MOD_VERSION }} for Minecraft ${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}
                     bodyFile: RELEASE_CHANGELOG.md
 
+            -   name: "Set up JDK 17"
+                if: steps.check-mod-loader.outputs.is_mod_loader_supported == 'true' && steps.gradle-properties.outputs.MINECRAFT_VERSION != '1.20.6' && steps.gradle-properties.outputs.MINECRAFT_VERSION != '1.21'
+                uses: actions/setup-java@v4
+                with:
+                    java-version: 17
+                    distribution: temurin
+
+            -   name: "Set up JDK 21"
+                if: steps.check-mod-loader.outputs.is_mod_loader_supported == 'true' && steps.gradle-properties.outputs.MINECRAFT_VERSION == '1.20.6' || steps.gradle-properties.outputs.MINECRAFT_VERSION == '1.21'
+                uses: actions/setup-java@v4
+                with:
+                    java-version: 21
+                    distribution: temurin
+
             -   name: "Setup gradle and run build"
                 if: steps.check-mod-loader.outputs.is_mod_loader_supported == 'true'
-                uses: gradle/gradle-build-action@v2.11.1
+                uses: gradle/gradle-build-action@v3
                 with:
                     cache-read-only: true
                     generate-job-summary: false
@@ -136,6 +130,7 @@ jobs:
                 with:
                     github-token: ${{ secrets.GITHUB_TOKEN }}
                     github-tag: mc${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}-${{ steps.gradle-properties.outputs.MOD_VERSION }}
+                    github-commitish: ${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}
 
                     curseforge-id: ${{ matrix.curseforge_id }}
                     curseforge-token: ${{ secrets.CURSEFORGE_RELEASE_TOKEN }}

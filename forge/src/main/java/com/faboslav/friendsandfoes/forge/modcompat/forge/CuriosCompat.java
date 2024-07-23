@@ -19,6 +19,7 @@ import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 import java.util.EnumSet;
 import java.util.function.Predicate;
 
+@SuppressWarnings({"all", "removal", "deprecated"})
 public final class CuriosCompat implements ModCompat
 {
 	public CuriosCompat() {

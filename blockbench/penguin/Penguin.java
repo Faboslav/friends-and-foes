@@ -3,8 +3,9 @@
 // Paste this class into your mod and generate all required imports
 
 package com.example.mod;
-   
-public class Penguin extends EntityModel<Entity> {
+
+public class Penguin extends EntityModel<Entity>
+{
 	private final ModelPart main;
 	private final ModelPart body;
 	private final ModelPart head;
@@ -14,6 +15,7 @@ public class Penguin extends EntityModel<Entity> {
 	private final ModelPart rightWing;
 	private final ModelPart leftLeg;
 	private final ModelPart rightLeg;
+
 	public Penguin(ModelPart root) {
 		this.main = root.getChild("main");
 		this.body = root.getChild("body");
@@ -25,6 +27,7 @@ public class Penguin extends EntityModel<Entity> {
 		this.leftLeg = root.getChild("leftLeg");
 		this.rightLeg = root.getChild("rightLeg");
 	}
+
 	public static TexturedModelData getTexturedModelData() {
 		ModelData modelData = new ModelData();
 		ModelPartData modelPartData = modelData.getRoot();
@@ -47,11 +50,29 @@ public class Penguin extends EntityModel<Entity> {
 		ModelPartData rightLeg = main.addChild("rightLeg", ModelPartBuilder.create().uv(28, 0).cuboid(-1.5F, 0.0F, -5.0F, 3.0F, 1.0F, 6.0F, new Dilation(0.0F)), ModelTransform.pivot(-2.5F, 13.0F, 0.0F));
 		return TexturedModelData.of(modelData, 64, 64);
 	}
+
 	@Override
-	public void setAngles(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setAngles(
+		Entity entity,
+		float limbSwing,
+		float limbSwingAmount,
+		float ageInTicks,
+		float netHeadYaw,
+		float headPitch
+	) {
 	}
+
 	@Override
-	public void render(MatrixStack matrices, VertexConsumer vertexConsumer, int light, int overlay, float red, float green, float blue, float alpha) {
+	public void render(
+		MatrixStack matrices,
+		VertexConsumer vertexConsumer,
+		int light,
+		int overlay,
+		float red,
+		float green,
+		float blue,
+		float alpha
+	) {
 		main.render(matrices, vertexConsumer, light, overlay, red, green, blue, alpha);
 	}
 }

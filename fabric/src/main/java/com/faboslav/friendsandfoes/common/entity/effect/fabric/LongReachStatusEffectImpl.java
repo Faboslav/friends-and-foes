@@ -1,8 +1,8 @@
 package com.faboslav.friendsandfoes.common.entity.effect.fabric;
 
+import com.faboslav.friendsandfoes.common.entity.effect.LongReachStatusEffect;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.AttributeContainer;
-import com.faboslav.friendsandfoes.common.entity.effect.LongReachStatusEffect;
 import org.apache.commons.lang3.NotImplementedException;
 
 /**

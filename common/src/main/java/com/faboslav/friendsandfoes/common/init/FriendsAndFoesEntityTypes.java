@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.common.init;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.common.client.render.entity.renderer.BarnacleEntityRenderer;
 import com.faboslav.friendsandfoes.common.client.render.entity.renderer.WildfireEntityRenderer;
 import com.faboslav.friendsandfoes.common.entity.*;
 import com.faboslav.friendsandfoes.common.events.lifecycle.AddSpawnBiomeModificationsEvent;
@@ -27,11 +26,9 @@ public final class FriendsAndFoesEntityTypes
 	public static final ResourcefulRegistry<EntityType<?>> ENTITY_TYPES = ResourcefulRegistries.create(Registry.ENTITY_TYPE, FriendsAndFoes.MOD_ID);
 	public static boolean previousUseChoiceTypeRegistrations = SharedConstants.useChoiceTypeRegistrations;
 
-	public static final RegistryEntry<EntityType<BarnacleEntity>> BARNACLE;
 	public static final RegistryEntry<EntityType<CopperGolemEntity>> COPPER_GOLEM;
 	public static final RegistryEntry<EntityType<CrabEntity>> CRAB;
 	public static final RegistryEntry<EntityType<GlareEntity>> GLARE;
-	public static final RegistryEntry<EntityType<PenguinEntity>> PENGUIN;
 	public static final RegistryEntry<EntityType<IceologerEntity>> ICEOLOGER;
 	public static final RegistryEntry<EntityType<IceologerIceChunkEntity>> ICE_CHUNK;
 	public static final RegistryEntry<EntityType<MaulerEntity>> MAULER;
@@ -43,11 +40,9 @@ public final class FriendsAndFoesEntityTypes
 
 	static {
 		SharedConstants.useChoiceTypeRegistrations = false;
-		BARNACLE = ENTITY_TYPES.register("barnacle", () -> EntityType.Builder.create(BarnacleEntity::new, SpawnGroup.MONSTER).setDimensions(1.69125F * BarnacleEntityRenderer.SCALE, 0.75F * BarnacleEntityRenderer.SCALE).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("barnacle")));
 		COPPER_GOLEM = ENTITY_TYPES.register("copper_golem", () -> EntityType.Builder.create(CopperGolemEntity::new, SpawnGroup.MISC).setDimensions(0.75F, 1.375F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("copper_golem")));
 		CRAB = ENTITY_TYPES.register("crab", () -> EntityType.Builder.create(CrabEntity::new, SpawnGroup.CREATURE).setDimensions(0.875F, 0.5625F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("crab")));
 		GLARE = ENTITY_TYPES.register("glare", () -> EntityType.Builder.create(GlareEntity::new, CustomSpawnGroup.getGlaresCategory()).setDimensions(0.875F, 1.1875F).maxTrackingRange(8).trackingTickInterval(2).build(FriendsAndFoes.makeStringID("glare")));
-		PENGUIN = ENTITY_TYPES.register("penguin", () -> EntityType.Builder.create(PenguinEntity::new, SpawnGroup.CREATURE).setDimensions(0.875F, 1.1875F).maxTrackingRange(8).trackingTickInterval(2).build(FriendsAndFoes.makeStringID("penguin")));
 		ICEOLOGER = ENTITY_TYPES.register("iceologer", () -> EntityType.Builder.create(IceologerEntity::new, SpawnGroup.MONSTER).setDimensions(0.6F, 1.95F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("iceologer")));
 		ICE_CHUNK = ENTITY_TYPES.register("ice_chunk", () -> EntityType.Builder.create(IceologerIceChunkEntity::new, SpawnGroup.MISC).makeFireImmune().setDimensions(2.5F, 1.0F).maxTrackingRange(6).build(FriendsAndFoes.makeStringID("ice_chunk")));
 		MAULER = ENTITY_TYPES.register("mauler", () -> EntityType.Builder.create(MaulerEntity::new, SpawnGroup.CREATURE).setDimensions(0.5625F, 0.5625F).maxTrackingRange(10).build(FriendsAndFoes.makeStringID("mauler")));
@@ -60,11 +55,9 @@ public final class FriendsAndFoesEntityTypes
 	}
 
 	public static void registerEntityAttributes(RegisterEntityAttributesEvent event) {
-		event.register(FriendsAndFoesEntityTypes.BARNACLE.get(), BarnacleEntity.createBarnacleAttributes());
 		event.register(FriendsAndFoesEntityTypes.COPPER_GOLEM.get(), CopperGolemEntity.createCopperGolemAttributes());
 		event.register(FriendsAndFoesEntityTypes.CRAB.get(), CrabEntity.createCrabAttributes());
 		event.register(FriendsAndFoesEntityTypes.GLARE.get(), GlareEntity.createGlareAttributes());
-		event.register(FriendsAndFoesEntityTypes.PENGUIN.get(), PenguinEntity.createPenguinAttributes());
 		event.register(FriendsAndFoesEntityTypes.ICEOLOGER.get(), IceologerEntity.createIceologerAttributes());
 		event.register(FriendsAndFoesEntityTypes.MAULER.get(), MaulerEntity.createMaulerAttributes());
 		event.register(FriendsAndFoesEntityTypes.MOOBLOOM.get(), MoobloomEntity.createCowAttributes());
@@ -75,10 +68,8 @@ public final class FriendsAndFoesEntityTypes
 	}
 
 	public static void registerEntitySpawnRestrictions(RegisterEntitySpawnRestrictionsEvent event) {
-		event.register(BARNACLE.get(), SpawnRestriction.Location.IN_WATER, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, BarnacleEntity::canSpawn);
 		event.register(CRAB.get(), SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, CrabEntity::canSpawn);
 		event.register(GLARE.get(), SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, GlareEntity::canSpawn);
-		event.register(PENGUIN.get(), SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, PenguinEntity::canSpawn);
 		event.register(ICEOLOGER.get(), SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, IceologerEntity::canSpawn);
 		event.register(MAULER.get(), SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MaulerEntity::canSpawn);
 		event.register(MOOBLOOM.get(), SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MoobloomEntity::canSpawn);
@@ -88,10 +79,6 @@ public final class FriendsAndFoesEntityTypes
 	public static void addSpawnBiomeModifications(AddSpawnBiomeModificationsEvent event) {
 		var config = FriendsAndFoes.getConfig();
 
-		if (config.enableBarnacle && config.enableBarnacleSpawn) {
-			event.add(FriendsAndFoesTags.HAS_BARNACLE, SpawnGroup.MONSTER, BARNACLE.get(), config.barnacleSpawnWeight, config.barnacleSpawnMinGroupSize, config.barnacleSpawnMaxGroupSize);
-		}
-
 		if (config.enableCrab && config.enableCrabSpawn) {
 			event.add(FriendsAndFoesTags.HAS_LESS_FREQUENT_CRAB, SpawnGroup.CREATURE, CRAB.get(), config.crabLessFrequentSpawnWeight, 2, 2);
 			event.add(FriendsAndFoesTags.HAS_MORE_FREQUENT_CRAB, SpawnGroup.CREATURE, CRAB.get(), config.crabMoreFrequentSpawnWeight, 2, 2);
@@ -99,10 +86,6 @@ public final class FriendsAndFoesEntityTypes
 
 		if (config.enableGlare && config.enableGlareSpawn) {
 			event.add(FriendsAndFoesTags.HAS_GLARE, CustomSpawnGroup.getGlaresCategory(), GLARE.get(), config.glareSpawnWeight, config.glareSpawnMinGroupSize, config.glareSpawnMaxGroupSize);
-		}
-
-		if (config.enablePenguin && config.enablePenguinSpawn) {
-			event.add(FriendsAndFoesTags.HAS_PENGUIN, SpawnGroup.CREATURE, PENGUIN.get(), config.penguinSpawnWeight, config.penguinSpawnMinGroupSize, config.penguinSpawnMaxGroupSize);
 		}
 
 		if (config.enableMauler && config.enableMaulerSpawn) {

@@ -1,22 +1,4 @@
 {
-	"entity.barnacle.ambient": {
-		"sounds": [
-			"friendsandfoes:entity/barnacle/ambient1",
-			"friendsandfoes:entity/barnacle/ambient2",
-			"friendsandfoes:entity/barnacle/ambient3",
-			"friendsandfoes:entity/barnacle/ambient4"
-		],
-		"subtitle": "subtitle.entity.friendsandfoes.barnacle.ambient"
-	},
-	"entity.barnacle.hurt": {
-		"sounds": [
-			"friendsandfoes:entity/barnacle/hurt1",
-			"friendsandfoes:entity/barnacle/hurt2",
-			"friendsandfoes:entity/barnacle/hurt3",
-			"friendsandfoes:entity/barnacle/hurt4"
-		],
-		"subtitle": "subtitle.entity.friendsandfoes.barnacle.hurt"
-	},
 	"entity.copper_golem.death": {
 		"sounds": [
 			"friendsandfoes:entity/copper_golem/death"
@@ -117,24 +99,6 @@
 			"friendsandfoes:entity/glare/shake3"
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.glare.shake"
-	},
-	"entity.penguin.ambient": {
-		"sounds": [
-			"friendsandfoes:entity/penguin/ambient1",
-			"friendsandfoes:entity/penguin/ambient2",
-			"friendsandfoes:entity/penguin/ambient3"
-		],
-		"subtitle": "subtitle.entity.friendsandfoes.penguin.ambient"
-	},
-	"entity.penguin.step": {
-		"sounds": [
-			"friendsandfoes:entity/penguin/step1",
-			"friendsandfoes:entity/penguin/step2",
-			"friendsandfoes:entity/penguin/step3",
-			"friendsandfoes:entity/penguin/step4",
-			"friendsandfoes:entity/penguin/step5"
-		],
-		"subtitle": "subtitle.entity.friendsandfoes.penguin.step"
 	},
 	"entity.ice_chunk.ambient": {
 		"sounds": [

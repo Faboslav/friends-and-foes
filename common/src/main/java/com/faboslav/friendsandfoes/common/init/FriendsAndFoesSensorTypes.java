@@ -4,8 +4,6 @@ import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.CopperGolemBrain;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.CrabBrain;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.GlareBrain;
-import com.faboslav.friendsandfoes.common.entity.ai.brain.sensor.BarnacleAttackableSensor;
-import com.faboslav.friendsandfoes.common.entity.ai.brain.sensor.BarnacleSpecificSensor;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.sensor.CopperGolemSpecificSensor;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.sensor.GlareSpecificSensor;
 import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
@@ -22,12 +20,6 @@ public final class FriendsAndFoesSensorTypes
 {
 	public static final ResourcefulRegistry<SensorType<?>> SENSOR_TYPES = ResourcefulRegistries.create(Registry.SENSOR_TYPE, FriendsAndFoes.MOD_ID);
 
-	public static final RegistryEntry<SensorType<BarnacleSpecificSensor>> BARNACLE_SPECIFIC_SENSOR = SENSOR_TYPES.register("barnacle_specific_sensor", () -> new SensorType<>(() -> {
-		return new BarnacleSpecificSensor();
-	}));
-	public static final RegistryEntry<SensorType<BarnacleAttackableSensor>> BARNACLE_ATTACKABLE_SENSOR = SENSOR_TYPES.register("barnacle_attackable_sensor", () -> new SensorType<>(() -> {
-		return new BarnacleAttackableSensor();
-	}));
 	public static final RegistryEntry<SensorType<TemptationsSensor>> COPPER_GOLEM_TEMPTATIONS = SENSOR_TYPES.register("copper_golem_temptations", () -> new SensorType<>(() -> {
 		return new TemptationsSensor(CopperGolemBrain.getTemptItems());
 	}));

@@ -11,22 +11,6 @@ public final class FriendsAndFoesConfig implements Config
 	@Description("Check if the new update of mod is available (when enabled, info is in the console)")
 	public boolean checkForNewUpdates = true;
 
-	@Category("Barnacle")
-	@Description("Enable barnacle")
-	public boolean enableBarnacle = true;
-
-	@Description("Enable barnacle spawn")
-	public boolean enableBarnacleSpawn = true;
-
-	@Description("Barnacle spawn weight")
-	public int barnacleSpawnWeight = 4;
-
-	@Description("Minimal barnacle spawn group size")
-	public int barnacleSpawnMinGroupSize = 1;
-
-	@Description("Maximal barnacle spawn group size")
-	public int barnacleSpawnMaxGroupSize = 1;
-
 	@Category("Copper Golem")
 	@Description("Enable")
 	public boolean enableCopperGolem = true;
@@ -77,22 +61,6 @@ public final class FriendsAndFoesConfig implements Config
 
 	@Description("Maximal spawn group size")
 	public int glareSpawnMaxGroupSize = 1;
-
-	@Category("Penguin")
-	@Description("Enable")
-	public boolean enablePenguin = true;
-
-	@Description("Enable spawn")
-	public boolean enablePenguinSpawn = true;
-
-	@Description("Spawn weight")
-	public int penguinSpawnWeight = 4;
-
-	@Description("Minimal spawn group size")
-	public int penguinSpawnMinGroupSize = 2;
-
-	@Description("Maximal spawn group size")
-	public int penguinSpawnMaxGroupSize = 4;
 
 	@Category("Mauler")
 	@Description("Enable")

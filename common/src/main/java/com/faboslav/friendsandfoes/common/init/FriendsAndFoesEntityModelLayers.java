@@ -14,11 +14,9 @@ import net.minecraft.client.render.entity.model.EntityModelLayers;
 @Environment(EnvType.CLIENT)
 public final class FriendsAndFoesEntityModelLayers
 {
-	public static final EntityModelLayer BARNACLE_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("barnacle"), "main");
 	public static final EntityModelLayer COPPER_GOLEM_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("copper_golem"), "main");
 	public static final EntityModelLayer CRAB_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("crab"), "main");
 	public static final EntityModelLayer GLARE_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("glare"), "main");
-	public static final EntityModelLayer PENGUIN_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("penguin"), "main");
 	public static final EntityModelLayer ICEOLOGER_ICE_CHUNK_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("iceologer_ice_chunk"), "main");
 	public static final EntityModelLayer MAULER_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("mauler"), "main");
 	public static final EntityModelLayer RASCAL_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("rascal"), "main");
@@ -26,11 +24,9 @@ public final class FriendsAndFoesEntityModelLayers
 	public static final EntityModelLayer WILDFIRE_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("wildfire"), "main");
 
 	public static void registerEntityLayers(RegisterEntityLayersEvent event) {
-		event.register(BARNACLE_LAYER, BarnacleEntityModel::getTexturedModelData);
 		event.register(COPPER_GOLEM_LAYER, CopperGolemEntityModel::getTexturedModelData);
 		event.register(CRAB_LAYER, CrabEntityModel::getTexturedModelData);
 		event.register(GLARE_LAYER, GlareEntityModel::getTexturedModelData);
-		event.register(PENGUIN_LAYER, PenguinEntityModel::getTexturedModelData);
 		event.register(ICEOLOGER_ICE_CHUNK_LAYER, IceologerIceChunkModel::getTexturedModelData);
 		event.register(MAULER_LAYER, MaulerEntityModel::getTexturedModelData);
 		event.register(RASCAL_LAYER, RascalEntityModel::getTexturedModelData);

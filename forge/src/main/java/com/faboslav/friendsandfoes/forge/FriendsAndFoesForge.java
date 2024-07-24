@@ -10,6 +10,7 @@ import com.faboslav.friendsandfoes.common.util.ServerWorldSpawnersUtil;
 import com.faboslav.friendsandfoes.common.util.UpdateChecker;
 import com.faboslav.friendsandfoes.common.world.spawner.IceologerSpawner;
 import com.faboslav.friendsandfoes.common.world.spawner.IllusionerSpawner;
+import com.faboslav.friendsandfoes.forge.init.FriendsAndFoesBiomeModifiers;
 import com.faboslav.friendsandfoes.forge.mixin.FireBlockAccessor;
 import com.faboslav.friendsandfoes.forge.world.MobSpawnBiomeModifier;
 import com.mojang.serialization.Codec;
@@ -21,7 +22,6 @@ import net.minecraft.village.raid.Raid;
 import net.minecraft.world.dimension.DimensionTypes;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
@@ -34,8 +34,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
 
 @Mod(FriendsAndFoes.MOD_ID)
 public final class FriendsAndFoesForge
@@ -47,10 +45,8 @@ public final class FriendsAndFoesForge
 		IEventBus eventBus = MinecraftForge.EVENT_BUS;
 
 		modEventBus.addListener(EventPriority.NORMAL, ResourcefulRegistriesImpl::onRegisterForgeRegistries);
-		final DeferredRegister<Codec<? extends BiomeModifier>> biomeModifiers = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, FriendsAndFoes.MOD_ID);
-		biomeModifiers.register(modEventBus);
-		biomeModifiers.register("faf_mob_spawns", MobSpawnBiomeModifier::makeCodec);
 		FriendsAndFoes.init();
+		FriendsAndFoesBiomeModifiers.BIOME_MODIFIERS.register(modEventBus);
 
 		if (FMLEnvironment.dist == Dist.CLIENT) {
 			FriendsAndFoesForgeClient.init(modEventBus, eventBus);

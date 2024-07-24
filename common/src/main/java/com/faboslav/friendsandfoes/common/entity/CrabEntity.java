@@ -397,7 +397,11 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 		BlockPos pos,
 		Random random
 	) {
-		return world.getBlockState(pos.down()).isIn(FriendsAndFoesTags.CRABS_SPAWNABLE_ON) && CrabEggBlock.isSandBelow(world, pos) && isLightLevelValidForNaturalSpawn(world, pos);
+		boolean canSpawn = world.getBlockState(pos.down()).isIn(FriendsAndFoesTags.CRABS_SPAWNABLE_ON) && CrabEggBlock.isSandBelow(world, pos) && isLightLevelValidForNaturalSpawn(world, pos);
+
+		FriendsAndFoes.getLogger().info(String.valueOf(canSpawn));
+
+		return canSpawn;
 	}
 
 	@Override

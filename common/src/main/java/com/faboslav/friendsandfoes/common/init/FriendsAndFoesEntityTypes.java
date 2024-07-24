@@ -80,8 +80,8 @@ public final class FriendsAndFoesEntityTypes
 		var config = FriendsAndFoes.getConfig();
 
 		if (config.enableCrab && config.enableCrabSpawn) {
-			event.add(FriendsAndFoesTags.HAS_LESS_FREQUENT_CRAB, SpawnGroup.CREATURE, CRAB.get(), config.crabLessFrequentSpawnWeight, 2, 2);
-			event.add(FriendsAndFoesTags.HAS_MORE_FREQUENT_CRAB, SpawnGroup.CREATURE, CRAB.get(), config.crabMoreFrequentSpawnWeight, 2, 2);
+			event.add(FriendsAndFoesTags.HAS_LESS_FREQUENT_CRAB, SpawnGroup.CREATURE, CRAB.get(), config.crabLessFrequentSpawnWeight, config.crabSpawnMinGroupSize, config.crabSpawnMaxGroupSize);
+			event.add(FriendsAndFoesTags.HAS_MORE_FREQUENT_CRAB, SpawnGroup.CREATURE, CRAB.get(), config.crabMoreFrequentSpawnWeight, config.crabSpawnMinGroupSize, config.crabSpawnMaxGroupSize);
 		}
 
 		if (config.enableGlare && config.enableGlareSpawn) {

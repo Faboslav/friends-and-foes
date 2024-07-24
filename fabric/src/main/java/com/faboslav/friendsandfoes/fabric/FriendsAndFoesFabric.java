@@ -51,10 +51,6 @@ public final class FriendsAndFoesFabric implements ModInitializer
 		ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register((player, joined) ->
 			DatapackSyncEvent.EVENT.invoke(new DatapackSyncEvent(player)));
 
-		AddSpawnBiomeModificationsEvent.EVENT.invoke(new AddSpawnBiomeModificationsEvent((tag, spawnGroup, entityType, weight, minGroupSize, maxGroupSize) -> {
-			BiomeModifications.addSpawn(biomeSelector -> biomeSelector.hasTag(tag) && biomeSelector.hasTag(BiomeTags.IS_OVERWORLD), spawnGroup, entityType, weight, minGroupSize, maxGroupSize);
-		}));
-
 		ServerWorldEvents.LOAD.register(((server, world) -> {
 			registerVillagerTrades();
 

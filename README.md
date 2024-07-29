@@ -35,6 +35,7 @@ the [textures directory] for the textures. Get inspired, but please don't just c
 
 This mod would not exist in the state as it is without the following people:
 
+- [Furti Two] - Made some of the models and most of the textures
 - [LlamaLad7] - Support with everything mixin related (conflicts, extending enums)
 - [TelepathicGrunt] - Support with structure generation related stuff and things (and also with Forge)
 
@@ -64,4 +65,4 @@ This mod would not exist in the state as it is without the following people:
 
 [LlamaLad7]: https://gist.github.com/LlamaLad7
 
-[TelepathicGrunt]: https://github.com/TelepathicGrunt
+[Furti Two]: https://www.curseforge.com/members/furti_two/projects

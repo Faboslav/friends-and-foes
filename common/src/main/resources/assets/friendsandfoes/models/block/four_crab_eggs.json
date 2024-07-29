@@ -1,0 +1,6 @@
+{
+	"parent": "friendsandfoes:block/template_four_crab_eggs",
+	"textures": {
+		"all": "friendsandfoes:block/crab_egg"
+	}
+}

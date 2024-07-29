@@ -1,22 +1,22 @@
 package com.faboslav.friendsandfoes.forge;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.FriendsAndFoesClient;
-import com.faboslav.friendsandfoes.events.lifecycle.DatapackSyncEvent;
-import com.faboslav.friendsandfoes.events.lifecycle.RegisterReloadListenerEvent;
-import com.faboslav.friendsandfoes.events.lifecycle.SetupEvent;
+import com.faboslav.friendsandfoes.common.events.RegisterVillagerTradesEvent;
+import com.faboslav.friendsandfoes.common.events.lifecycle.*;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
+import com.faboslav.friendsandfoes.common.init.registry.forge.ResourcefulRegistriesImpl;
+import com.faboslav.friendsandfoes.common.util.CustomRaidMember;
+import com.faboslav.friendsandfoes.common.util.ServerWorldSpawnersUtil;
+import com.faboslav.friendsandfoes.common.util.UpdateChecker;
+import com.faboslav.friendsandfoes.common.world.spawner.IceologerSpawner;
+import com.faboslav.friendsandfoes.common.world.spawner.IllusionerSpawner;
 import com.faboslav.friendsandfoes.forge.init.FriendsAndFoesBiomeModifiers;
-import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
-import com.faboslav.friendsandfoes.platform.forge.RegistryHelperImpl;
-import com.faboslav.friendsandfoes.util.CustomRaidMember;
-import com.faboslav.friendsandfoes.util.ServerWorldSpawnersUtil;
-import com.faboslav.friendsandfoes.util.UpdateChecker;
-import com.faboslav.friendsandfoes.world.spawner.IceologerSpawner;
-import com.faboslav.friendsandfoes.world.spawner.IllusionerSpawner;
-import net.minecraft.SharedConstants;
+import com.faboslav.friendsandfoes.forge.mixin.FireBlockAccessor;
+import com.faboslav.friendsandfoes.forge.world.MobSpawnBiomeModifier;
+import com.mojang.serialization.Codec;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.village.raid.Raid;
 import net.minecraft.world.dimension.DimensionTypes;
@@ -25,15 +25,15 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.event.level.LevelEvent;
+import net.minecraftforge.event.village.VillagerTradesEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
-
-import java.util.Map;
-import java.util.function.Supplier;
 
 @Mod(FriendsAndFoes.MOD_ID)
 public final class FriendsAndFoesForge
@@ -43,14 +43,33 @@ public final class FriendsAndFoesForge
 
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 		IEventBus eventBus = MinecraftForge.EVENT_BUS;
-		modEventBus.addListener(FriendsAndFoesForge::onSetup);
 
+		modEventBus.addListener(EventPriority.NORMAL, ResourcefulRegistriesImpl::onRegisterForgeRegistries);
 		FriendsAndFoes.init();
 		FriendsAndFoesBiomeModifiers.BIOME_MODIFIERS.register(modEventBus);
 
 		if (FMLEnvironment.dist == Dist.CLIENT) {
+			FriendsAndFoesForgeClient.init(modEventBus, eventBus);
+		}
+
+		eventBus.addListener(FriendsAndFoesForge::initSpawners);
+		eventBus.addListener(FriendsAndFoesForge::onAddVillagerTrades);
+		eventBus.addListener(FriendsAndFoesForge::onAddReloadListeners);
+		eventBus.addListener(FriendsAndFoesForge::onDatapackSync);
+		modEventBus.addListener(FriendsAndFoesForge::onSetup);
+		modEventBus.addListener(FriendsAndFoesForge::init);
+		modEventBus.addListener(FriendsAndFoesForge::onRegisterAttributes);
+		modEventBus.addListener(FriendsAndFoesForge::onRegisterSpawnRestrictions);
+		/*
+		FriendsAndFoes.init();
+
+		if (FMLEnvironment.dist == Dist.CLIENT) {
 			FriendsAndFoesClient.init();
 		}
+
+		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+		modEventBus.addListener(FriendsAndFoesForge::onSetup);
 
 		RegistryHelperImpl.ACTIVITIES.register(modEventBus);
 		RegistryHelperImpl.BLOCKS.register(modEventBus);
@@ -67,30 +86,21 @@ public final class FriendsAndFoesForge
 		RegistryHelperImpl.STRUCTURE_TYPES.register(modEventBus);
 		RegistryHelperImpl.VILLAGER_PROFESSIONS.register(modEventBus);
 
+		modEventBus.addListener(FriendsAndFoesForge::init);
 		modEventBus.addListener(FriendsAndFoesForge::registerEntityAttributes);
 
+		IEventBus eventBus = MinecraftForge.EVENT_BUS;
 		eventBus.addListener(FriendsAndFoesForge::initSpawners);
 		eventBus.addListener(FriendsAndFoesForge::onAddReloadListeners);
 		eventBus.addListener(FriendsAndFoesForge::onDatapackSync);
 
-		MinecraftForge.EVENT_BUS.register(this);
+		MinecraftForge.EVENT_BUS.register(this); */
 	}
 
-	private static void registerEntityAttributes(EntityAttributeCreationEvent event) {
-		for (Map.Entry<Supplier<? extends EntityType<? extends LivingEntity>>, Supplier<DefaultAttributeContainer.Builder>> entry : RegistryHelperImpl.ENTITY_ATTRIBUTES.entrySet()) {
-			event.put(entry.getKey().get(), entry.getValue().get().build());
-		}
-	}
-
-	private static void onAddReloadListeners(AddReloadListenerEvent event) {
-		RegisterReloadListenerEvent.EVENT.invoke(new RegisterReloadListenerEvent((id, listener) -> event.addListener(listener)));
-	}
-
-	private static void onSetup(FMLCommonSetupEvent event) {
-		SetupEvent.EVENT.invoke(new SetupEvent(event::enqueueWork));
-		FriendsAndFoes.postInit();
-
+	private static void init(final FMLCommonSetupEvent event) {
 		event.enqueueWork(() -> {
+			FriendsAndFoes.lateInit();
+
 			if (FriendsAndFoes.getConfig().enableIceologer && FriendsAndFoes.getConfig().enableIceologerInRaids) {
 				Raid.Member.create(
 					CustomRaidMember.ICEOLOGER_INTERNAL_NAME,
@@ -106,7 +116,18 @@ public final class FriendsAndFoesForge
 					CustomRaidMember.ILLUSIONER_COUNT_IN_WAVE
 				);
 			}
+
+			RegisterFlammabilityEvent.EVENT.invoke(new RegisterFlammabilityEvent((item, igniteOdds, burnOdds) ->
+				((FireBlockAccessor) Blocks.FIRE).invokeRegisterFlammableBlock(item, igniteOdds, burnOdds)));
 		});
+	}
+
+	private static void onAddReloadListeners(AddReloadListenerEvent event) {
+		RegisterReloadListenerEvent.EVENT.invoke(new RegisterReloadListenerEvent((id, listener) -> event.addListener(listener)));
+	}
+
+	private static void onSetup(FMLCommonSetupEvent event) {
+		SetupEvent.EVENT.invoke(new SetupEvent(event::enqueueWork));
 	}
 
 	private static void onDatapackSync(OnDatapackSyncEvent event) {
@@ -117,6 +138,33 @@ public final class FriendsAndFoesForge
 				event.getPlayerList().getPlayerList().forEach(player -> DatapackSyncEvent.EVENT.invoke(new DatapackSyncEvent(player)));
 			}
 		}
+	}
+
+	private static void onAddVillagerTrades(VillagerTradesEvent event) {
+		RegisterVillagerTradesEvent.EVENT.invoke(new RegisterVillagerTradesEvent(event.getType(), (i, listing) -> event.getTrades().get(i.intValue()).add(listing)));
+	}
+
+	private static void onRegisterAttributes(EntityAttributeCreationEvent event) {
+		RegisterEntityAttributesEvent.EVENT.invoke(new RegisterEntityAttributesEvent((entity, builder) -> event.put(entity, builder.build())));
+	}
+
+	private static void onRegisterSpawnRestrictions(SpawnPlacementRegisterEvent event) {
+		RegisterEntitySpawnRestrictionsEvent.EVENT.invoke(new RegisterEntitySpawnRestrictionsEvent(FriendsAndFoesForge.registerEntitySpawnRestriction(event)));
+	}
+
+	private static RegisterEntitySpawnRestrictionsEvent.Registrar registerEntitySpawnRestriction(
+		SpawnPlacementRegisterEvent event
+	) {
+		return new RegisterEntitySpawnRestrictionsEvent.Registrar()
+		{
+			@Override
+			public <T extends MobEntity> void register(
+				EntityType<T> type,
+				RegisterEntitySpawnRestrictionsEvent.Placement<T> placement
+			) {
+				event.register(type, placement.location(), placement.heightmap(), placement.predicate(), SpawnPlacementRegisterEvent.Operation.AND);
+			}
+		};
 	}
 
 	private static void initSpawners(final LevelEvent.Load event) {

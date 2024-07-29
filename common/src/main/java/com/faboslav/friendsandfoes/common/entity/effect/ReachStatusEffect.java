@@ -1,5 +1,7 @@
 package com.faboslav.friendsandfoes.common.entity.effect;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.config.FriendsAndFoesConfig;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -11,7 +13,7 @@ public class ReachStatusEffect extends StatusEffect
 {
 	public ReachStatusEffect(StatusEffectCategory statusEffectCategory, int color) {
 		super(statusEffectCategory, color);
-		this.addAttributeModifier(ReachStatusEffect.getReachAttribute(), "9a6163d0-6aac-4d9a-ace1-74e2c47d5cd9", 1.0F, EntityAttributeModifier.Operation.ADDITION);
+		this.addAttributeModifier(ReachStatusEffect.getReachAttribute(), "9a6163d0-6aac-4d9a-ace1-74e2c47d5cd9", FriendsAndFoes.getConfig().reachingStatusEffectModifier, EntityAttributeModifier.Operation.ADDITION);
 	}
 
 	@Override

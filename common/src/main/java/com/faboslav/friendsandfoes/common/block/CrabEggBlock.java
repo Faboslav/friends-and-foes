@@ -4,6 +4,7 @@ package com.faboslav.friendsandfoes.common.block;
 import com.faboslav.friendsandfoes.common.entity.CrabEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
+import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -85,7 +86,7 @@ public final class CrabEggBlock extends Block
 	}
 
 	public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-		if (this.shouldHatchProgress(world) && isSandBelow(world, pos)) {
+		if (this.shouldHatchProgress(world) && isSuitableBelow(world, pos)) {
 			int i = state.get(HATCH);
 			if (i < 2) {
 				world.playSound(null, pos, SoundEvents.ENTITY_TURTLE_EGG_CRACK, SoundCategory.BLOCKS, 0.7F, 0.9F + random.nextFloat() * 0.2F);
@@ -106,16 +107,12 @@ public final class CrabEggBlock extends Block
 
 	}
 
-	public static boolean isSandBelow(BlockView world, BlockPos pos) {
-		return isSand(world, pos.down());
-	}
-
-	public static boolean isSand(BlockView world, BlockPos pos) {
-		return world.getBlockState(pos).isIn(BlockTags.SAND);
+	public static boolean isSuitableBelow(BlockView world, BlockPos pos) {
+		return world.getBlockState(pos.down()).isIn(FriendsAndFoesTags.CRAB_BURROW_SPOT_BLOCKS);
 	}
 
 	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
-		if (isSandBelow(world, pos) && !world.isClient()) {
+		if (isSuitableBelow(world, pos) && !world.isClient()) {
 			world.syncWorldEvent(2005, pos, 0);
 		}
 

@@ -16,5 +16,5 @@ public final class FriendsAndFoesStatusEffects
 {
 	public static final ResourcefulRegistry<StatusEffect> STATUS_EFFECTS = ResourcefulRegistries.create(Registry.STATUS_EFFECT, FriendsAndFoes.MOD_ID);
 
-	public static final RegistryEntry<StatusEffect> LONG_REACH = STATUS_EFFECTS.register("reach", () -> new ReachStatusEffect(StatusEffectCategory.BENEFICIAL, 3364735));
+	public static final RegistryEntry<StatusEffect> REACH = STATUS_EFFECTS.register("reach", () -> new ReachStatusEffect(StatusEffectCategory.BENEFICIAL, 3364735));
 }

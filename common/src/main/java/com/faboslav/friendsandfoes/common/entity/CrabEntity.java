@@ -23,6 +23,7 @@ import net.minecraft.entity.ai.control.YawAdjustingLookControl;
 import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -33,6 +34,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.GlobalPos;
@@ -128,35 +130,9 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 	@Override
 	public boolean hasNoDrag() {
 		if (this.isSwimming()) {
-			FriendsAndFoes.getLogger().info("swimming");
 			return true;
 		} else {
 			return false;
-		}
-	}
-
-	@Override
-	public void travel(Vec3d movementInput) {
-		super.travel(movementInput);
-		/*
-		if (this.canMoveVoluntarily() && this.isTouchingWater()) {
-			this.updateVelocity(this.getMovementSpeed() * 0.1F, movementInput);
-			this.move(MovementType.SELF, this.getVelocity());
-			this.setVelocity(this.getVelocity().multiply(0.8));
-		} else {
-			super.travel(movementInput);
-		}*/
-	}
-
-	@Override
-	public void move(MovementType movementType, Vec3d movement) {
-		super.move(movementType, movement);
-
-		if (this.isClimbing()) {
-			MoveEffect moveEffect = this.getMoveEffect();
-			if (moveEffect.hasAny() && !this.hasVehicle()) {
-
-			}
 		}
 	}
 
@@ -260,11 +236,21 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 	}
 
 	@Override
+	protected SoundEvent getHurtSound(DamageSource source) {
+		return FriendsAndFoesSoundEvents.ENTITY_CRAB_HURT.get();
+	}
+
+	@Override
+	protected SoundEvent getDeathSound() {
+		return FriendsAndFoesSoundEvents.ENTITY_CRAB_DEATH.get();
+	}
+
+	@Override
 	protected void playStepSound(
 		BlockPos pos,
 		BlockState state
 	) {
-		if (state.getMaterial().isLiquid()) {
+		if(!this.isOnGround() && state.getMaterial().isLiquid()) {
 			return;
 		}
 
@@ -397,11 +383,7 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 		BlockPos pos,
 		Random random
 	) {
-		boolean canSpawn = world.getBlockState(pos.down()).isIn(FriendsAndFoesTags.CRABS_SPAWNABLE_ON) && CrabEggBlock.isSandBelow(world, pos) && isLightLevelValidForNaturalSpawn(world, pos);
-
-		FriendsAndFoes.getLogger().info(String.valueOf(canSpawn));
-
-		return canSpawn;
+		return world.getBlockState(pos.down()).isIn(FriendsAndFoesTags.CRABS_SPAWNABLE_ON) && CrabEggBlock.isSuitableBelow(world, pos) && isLightLevelValidForNaturalSpawn(world, pos);
 	}
 
 	@Override

@@ -34,20 +34,17 @@ public final class FriendsAndFoesConfig implements Config
 	@Description("Enable spawn")
 	public boolean enableCrabSpawn = true;
 
-	@Description("Spawn weight in less frequent spawn biomes")
-	public int crabLessFrequentSpawnWeight = 4;
-
-	@Description("Spawn weight in more frequent spawn biomes")
-	public int crabMoreFrequentSpawnWeight = 4;
+	@Description("Spawn weight")
+	public int crabSpawnWeight = 14;
 
 	@Description("Minimal spawn group size")
 	public int crabSpawnMinGroupSize = 2;
 
 	@Description("Maximal spawn group size")
-	public int crabSpawnMaxGroupSize = 4;
+	public int crabSpawnMaxGroupSize = 5;
 
-	@Description("Long Reach status effect modifier")
-	public float longReachStatusEffectModifier = 1.0F;
+	@Description("Reaching status effect modifier")
+	public float reachingStatusEffectModifier = 1.0F;
 
 	@Category("Glare")
 	@Description("Enable")

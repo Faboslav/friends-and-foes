@@ -21,6 +21,8 @@ public final class FriendsAndFoesSoundEvents
 	public static final RegistryEntry<SoundEvent> ENTITY_COPPER_GOLEM_HURT = registerSoundEvent("entity.copper_golem.hurt");
 	public static final RegistryEntry<SoundEvent> ENTITY_COPPER_GOLEM_REPAIR = registerSoundEvent("entity.copper_golem.repair");
 	public static final RegistryEntry<SoundEvent> ENTITY_COPPER_GOLEM_STEP = registerSoundEvent("entity.copper_golem.step");
+	public static final RegistryEntry<SoundEvent> ENTITY_CRAB_DEATH = registerSoundEvent("entity.crab.death");
+	public static final RegistryEntry<SoundEvent> ENTITY_CRAB_HURT = registerSoundEvent("entity.crab.hurt");
 	public static final RegistryEntry<SoundEvent> ENTITY_CRAB_STEP = registerSoundEvent("entity.crab.step");
 	public static final RegistryEntry<SoundEvent> ENTITY_GLARE_AMBIENT = registerSoundEvent("entity.glare.ambient");
 	public static final RegistryEntry<SoundEvent> ENTITY_GLARE_DEATH = registerSoundEvent("entity.glare.death");

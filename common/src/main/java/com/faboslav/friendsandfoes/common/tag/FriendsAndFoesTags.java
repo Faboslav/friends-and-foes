@@ -26,8 +26,7 @@ public final class FriendsAndFoesTags
 	public static final TagKey<Item> GLARE_FOOD_ITEMS = itemTag("glare_food_items");
 	public static final TagKey<Item> GLARE_TEMPT_ITEMS = itemTag("glare_tempt_items");
 	public static final TagKey<Item> TOTEMS = itemTag("totems");
-	public static final TagKey<Biome> HAS_LESS_FREQUENT_CRAB = biomeTag("has_less_frequent_crab");
-	public static final TagKey<Biome> HAS_MORE_FREQUENT_CRAB = biomeTag("has_more_frequent_crab");
+	public static final TagKey<Biome> HAS_CRAB = biomeTag("has_crab");
 	public static final TagKey<EntityType<?>> MAULER_PREY = entityTypeTag("mauler_prey");
 	public static final TagKey<EntityType<?>> WILDFIRE_ALLIES = entityTypeTag("wildfire_allies");
 	public static final TagKey<Biome> HAS_BADLANDS_MAULER = biomeTag("has_badlands_mauler");

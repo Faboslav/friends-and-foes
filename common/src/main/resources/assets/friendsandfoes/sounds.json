@@ -34,7 +34,23 @@
 			"friendsandfoes:entity/copper_golem/step3",
 			"friendsandfoes:entity/copper_golem/step4"
 		],
-		"subtitle": "subtitle.entity.friendsandfoes.copper_golem.step"
+		"subtitle": "subtitles.block.generic.footsteps"
+	},
+	"entity.crab.death": {
+		"sounds": [
+			"friendsandfoes:entity/crab/death1",
+			"friendsandfoes:entity/crab/death2",
+			"friendsandfoes:entity/crab/death3"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.crab.death"
+	},
+	"entity.crab.hurt": {
+		"sounds": [
+			"friendsandfoes:entity/crab/hurt1",
+			"friendsandfoes:entity/crab/hurt2",
+			"friendsandfoes:entity/crab/hurt3"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.crab.hurt"
 	},
 	"entity.crab.step": {
 		"sounds": [
@@ -44,7 +60,7 @@
 			"friendsandfoes:entity/crab/step4",
 			"friendsandfoes:entity/crab/step5"
 		],
-		"subtitle": "subtitle.entity.friendsandfoes.crab.step"
+		"subtitle": "subtitles.block.generic.footsteps"
 	},
 	"entity.glare.ambient": {
 		"sounds": [
@@ -304,7 +320,7 @@
 			"friendsandfoes:entity/tuff_golem/step3",
 			"friendsandfoes:entity/tuff_golem/step4"
 		],
-		"subtitle": "subtitle.entity.friendsandfoes.tuff_golem.step"
+		"subtitle": "subtitles.block.generic.footsteps"
 	},
 	"entity.tuff_golem.wake": {
 		"sounds": [
@@ -378,7 +394,7 @@
 			"friendsandfoes:entity/wildfire/step3",
 			"friendsandfoes:entity/wildfire/step4"
 		],
-		"subtitle": "subtitle.entity.friendsandfoes.wildfire.step"
+		"subtitle": "subtitles.block.generic.footsteps"
 	},
 	"entity.wildfire.summon_blaze": {
 		"sounds": [

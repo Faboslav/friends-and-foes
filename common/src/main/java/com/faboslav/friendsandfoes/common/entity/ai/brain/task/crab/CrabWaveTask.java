@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.common.entity.ai.brain.task.crab;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.CrabAnimations;
 import com.faboslav.friendsandfoes.common.entity.CrabEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.CrabBrain;
@@ -16,7 +17,7 @@ import java.util.Map;
 
 public final class CrabWaveTask extends Task<CrabEntity>
 {
-	private final static int WAVE_DURATION = CrabAnimations.WALK.getAnimationLengthInTicks();
+	private final static int WAVE_DURATION = CrabAnimations.WAVE.getAnimationLengthInTicks();
 
 	private LivingEntity nearestTarget;
 	private int waveTicks = 0;

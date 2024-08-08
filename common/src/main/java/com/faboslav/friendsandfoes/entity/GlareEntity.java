@@ -53,7 +53,6 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.*;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.function.Predicate;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
@@ -643,14 +642,22 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	@Override
 	public boolean canBreedWith(AnimalEntity other) {
 		if (
-			this.isTamed() == false
-			|| (other instanceof GlareEntity) == false
+			other == this
+			|| !this.isTamed()
+			|| !(other instanceof GlareEntity)
 		) {
 			return false;
 		}
 
 		GlareEntity glare = (GlareEntity) other;
-		return glare.isTamed() && super.canBreedWith(other);
+		if (
+			!glare.isTamed()
+			|| glare.isInSittingPose()
+		) {
+			return false;
+		}
+
+		return this.isInLove() && glare.isInLove();
 	}
 
 	@Override

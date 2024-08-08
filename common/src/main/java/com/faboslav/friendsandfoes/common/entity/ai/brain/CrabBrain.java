@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.common.entity.ai.brain;
 
+import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.CrabEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.task.crab.*;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesActivities;
@@ -11,6 +12,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Dynamic;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
@@ -37,6 +39,7 @@ public final class CrabBrain
 		addCoreActivities(brain);
 		addIdleActivities(brain);
 		addLayEggActivities(brain);
+		addDanceActivities(brain);
 		addWaveActivities(brain);
 
 		brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
@@ -75,6 +78,22 @@ public final class CrabBrain
 		);
 	}
 
+	private static void addDanceActivities(Brain<CrabEntity> brain) {
+		brain.setTaskList(
+			FriendsAndFoesActivities.CRAB_DANCE.get(),
+			ImmutableList.of(
+				Pair.of(0, new CrabDanceTask())
+			),
+			ImmutableSet.of(
+				Pair.of(FriendsAndFoesMemoryModuleTypes.CRAB_IS_DANCING.get(), MemoryModuleState.VALUE_PRESENT),
+				Pair.of(MemoryModuleType.BREED_TARGET, MemoryModuleState.VALUE_ABSENT),
+				Pair.of(MemoryModuleType.TEMPTING_PLAYER, MemoryModuleState.VALUE_ABSENT),
+				Pair.of(FriendsAndFoesMemoryModuleTypes.CRAB_HAS_EGG.get(), MemoryModuleState.VALUE_ABSENT),
+				Pair.of(FriendsAndFoesMemoryModuleTypes.CRAB_BURROW_POS.get(), MemoryModuleState.VALUE_ABSENT)
+			)
+		);
+	}
+
 	private static void addWaveActivities(Brain<CrabEntity> brain) {
 		brain.setTaskList(
 			FriendsAndFoesActivities.CRAB_WAVE.get(),
@@ -87,6 +106,7 @@ public final class CrabBrain
 				Pair.of(MemoryModuleType.TEMPTING_PLAYER, MemoryModuleState.VALUE_ABSENT),
 				Pair.of(FriendsAndFoesMemoryModuleTypes.CRAB_WAVE_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT),
 				Pair.of(FriendsAndFoesMemoryModuleTypes.CRAB_HAS_EGG.get(), MemoryModuleState.VALUE_ABSENT),
+				Pair.of(FriendsAndFoesMemoryModuleTypes.CRAB_IS_DANCING.get(), MemoryModuleState.VALUE_ABSENT),
 				Pair.of(FriendsAndFoesMemoryModuleTypes.CRAB_BURROW_POS.get(), MemoryModuleState.VALUE_ABSENT)
 			)
 		);
@@ -108,7 +128,9 @@ public final class CrabBrain
 			),
 			ImmutableSet.of(
 				Pair.of(FriendsAndFoesMemoryModuleTypes.CRAB_WAVE_COOLDOWN.get(), MemoryModuleState.VALUE_PRESENT),
+				Pair.of(FriendsAndFoesMemoryModuleTypes.CRAB_IS_DANCING.get(), MemoryModuleState.VALUE_ABSENT),
 				Pair.of(FriendsAndFoesMemoryModuleTypes.CRAB_HAS_EGG.get(), MemoryModuleState.VALUE_ABSENT),
+				Pair.of(FriendsAndFoesMemoryModuleTypes.CRAB_IS_DANCING.get(), MemoryModuleState.VALUE_ABSENT),
 				Pair.of(FriendsAndFoesMemoryModuleTypes.CRAB_BURROW_POS.get(), MemoryModuleState.VALUE_ABSENT)
 			));
 	}
@@ -117,6 +139,7 @@ public final class CrabBrain
 		crab.getBrain().resetPossibleActivities(
 			ImmutableList.of(
 				FriendsAndFoesActivities.CRAB_LAY_EGG.get(),
+				FriendsAndFoesActivities.CRAB_DANCE.get(),
 				FriendsAndFoesActivities.CRAB_WAVE.get(),
 				Activity.IDLE
 			)
@@ -128,6 +151,12 @@ public final class CrabBrain
 			crab.getBrain().remember(FriendsAndFoesMemoryModuleTypes.CRAB_HAS_EGG.get(), true);
 		} else {
 			crab.getBrain().forget(FriendsAndFoesMemoryModuleTypes.CRAB_HAS_EGG.get());
+		}
+
+		if(crab.isDancing() && !crab.isClimbing()) {
+			crab.getBrain().remember(FriendsAndFoesMemoryModuleTypes.CRAB_IS_DANCING.get(), true);
+		} else {
+			crab.getBrain().forget(FriendsAndFoesMemoryModuleTypes.CRAB_IS_DANCING.get());
 		}
 	}
 
@@ -160,6 +189,7 @@ public final class CrabBrain
 			MemoryModuleType.NEAREST_VISIBLE_PLAYER,
 			MemoryModuleType.NEAREST_VISIBLE_WANTED_ITEM,
 			FriendsAndFoesMemoryModuleTypes.CRAB_HAS_EGG.get(),
+			FriendsAndFoesMemoryModuleTypes.CRAB_IS_DANCING.get(),
 			FriendsAndFoesMemoryModuleTypes.CRAB_BURROW_POS.get(),
 			FriendsAndFoesMemoryModuleTypes.CRAB_WAVE_COOLDOWN.get()
 		);

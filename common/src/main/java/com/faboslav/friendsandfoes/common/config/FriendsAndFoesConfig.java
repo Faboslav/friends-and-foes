@@ -9,7 +9,7 @@ public final class FriendsAndFoesConfig implements Config
 {
 	@Category("General")
 	@Description("Check if the new update of mod is available (when enabled, info is in the console)")
-	public boolean checkForNewUpdates = true;
+	public boolean checkForNewUpdates = false;
 
 	@Category("Copper Golem")
 	@Description("Enable")

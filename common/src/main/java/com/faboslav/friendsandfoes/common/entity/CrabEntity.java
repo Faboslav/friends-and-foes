@@ -13,10 +13,14 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesItems;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
+import com.faboslav.friendsandfoes.common.mixin.JukeboxBlockEntityAccessor;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.JukeboxBlockEntity;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.control.YawAdjustingLookControl;
@@ -63,6 +67,7 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 	private static final TrackedData<String> SIZE = DataTracker.registerData(CrabEntity.class, TrackedDataHandlerRegistry.STRING);
 	private static final TrackedData<NbtCompound> HOME = DataTracker.registerData(CrabEntity.class, TrackedDataHandlerRegistry.NBT_COMPOUND);
 	private static final TrackedData<Boolean> HAS_EGG = DataTracker.registerData(CrabEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+	private static final TrackedData<Boolean> IS_DANCING = DataTracker.registerData(CrabEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
 	private int climbingTicks = 0;
 
@@ -175,6 +180,7 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 		this.dataTracker.startTracking(SIZE, CrabSize.getDefaultCrabSize().getName());
 		this.dataTracker.startTracking(HOME, new NbtCompound());
 		this.dataTracker.startTracking(HAS_EGG, false);
+		this.dataTracker.startTracking(IS_DANCING, false);
 	}
 
 	@Override
@@ -224,7 +230,7 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 
 	@Override
 	public boolean isClimbing() {
-		return this.climbingTicks > 5 && this.isClimbingWall();
+		return this.climbingTicks > 8 && this.isClimbingWall();
 	}
 
 	public boolean isClimbingWall() {
@@ -289,6 +295,43 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 		}
 	}
 
+	@Override
+	public void tickMovement() {
+		super.tickMovement();
+
+		if(this.getWorld().isClient()) {
+			return;
+		}
+
+		if(this.age % 10 == 0) {
+			boolean isDancing = false;
+
+			for (BlockPos blockPos : BlockPos.iterateOutwards(this.getBlockPos(), 7, 7, 7)) {
+				BlockPos possibleJukeboxBlockPos = blockPos.mutableCopy();
+				BlockState possibleJukeboxBlockState = this.getWorld().getBlockState(possibleJukeboxBlockPos);
+
+				if(
+					!possibleJukeboxBlockState.isOf(Blocks.JUKEBOX)
+					|| !possibleJukeboxBlockState.hasBlockEntity()
+				) {
+					continue;
+				}
+
+				BlockEntity possibleJukeboxBlockEntity = this.getWorld().getBlockEntity(possibleJukeboxBlockPos);
+				if (!(possibleJukeboxBlockEntity instanceof JukeboxBlockEntity)) {
+					continue;
+				}
+
+				if(JukeboxBlockEntityAccessor.callIsPlayingRecord(possibleJukeboxBlockState, (JukeboxBlockEntity) possibleJukeboxBlockEntity)) {
+					isDancing = true;
+					break;
+				}
+			}
+
+			this.setIsDancing(isDancing);
+		}
+	}
+
 	private void updateKeyframeAnimations() {
 		if (this.getWorld().isClient() == false) {
 			this.updateKeyframeAnimationTicks();
@@ -309,6 +352,8 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 			keyframeAnimation = CrabAnimations.IDLE;
 		} else if (this.isInPose(CrabEntityPose.WAVE)) {
 			keyframeAnimation = CrabAnimations.WAVE;
+		} else if (this.isInPose(CrabEntityPose.DANCE)) {
+			keyframeAnimation = CrabAnimations.DANCE;
 		}
 
 		return keyframeAnimation;
@@ -346,10 +391,18 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 		this.setPose(CrabEntityPose.WAVE);
 	}
 
+	public void startDanceAnimation() {
+		if (this.isInPose(CrabEntityPose.DANCE)) {
+			return;
+		}
+
+		this.setPose(CrabEntityPose.DANCE);
+	}
+
 	@Override
 	protected void mobTick() {
 		this.getWorld().getProfiler().push("crabBrain");
-		this.getBrain().tick((ServerWorld) this.world, this);
+		this.getBrain().tick((ServerWorld) this.getWorld(), this);
 
 		this.getWorld().getProfiler().pop();
 		this.getWorld().getProfiler().push("crabMemoryUpdate");
@@ -420,7 +473,7 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 		Random random = this.getRandom();
 
 		if (this.getWorld().getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) {
-			this.getWorld().spawnEntity(new ExperienceOrbEntity(this.world, this.getX(), this.getY(), this.getZ(), random.nextInt(7) + 1));
+			this.getWorld().spawnEntity(new ExperienceOrbEntity(this.getWorld(), this.getX(), this.getY(), this.getZ(), random.nextInt(7) + 1));
 		}
 	}
 
@@ -477,6 +530,14 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 
 	public void setHasEgg(boolean hasEgg) {
 		this.dataTracker.set(HAS_EGG, hasEgg);
+	}
+
+	public boolean isDancing() {
+		return this.dataTracker.get(IS_DANCING);
+	}
+
+	public void setIsDancing(boolean isDancing) {
+		this.dataTracker.set(IS_DANCING, isDancing);
 	}
 
 	private void setSize(CrabSize size) {

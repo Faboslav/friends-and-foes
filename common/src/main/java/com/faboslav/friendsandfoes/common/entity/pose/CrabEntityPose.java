@@ -5,7 +5,8 @@ import net.minecraft.entity.EntityPose;
 public enum CrabEntityPose implements CustomEntityPose
 {
 	IDLE,
-	WAVE;
+	WAVE,
+	DANCE;
 
 	public String getName() {
 		return "CRAB_" + this.name();

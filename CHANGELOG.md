@@ -1,3 +1,9 @@
+## 2.0.16
+
+- Fixed glares breeding
+- Added wildfire to the freeze_hurts_extra_types tag
+- Disabled auto check for new mod updates (previously enabled by default)
+
 ## 2.0.15
 
 - Fixed pig spawning in the iceologer cabin structure

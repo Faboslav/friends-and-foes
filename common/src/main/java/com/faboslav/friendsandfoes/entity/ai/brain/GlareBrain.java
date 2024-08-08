@@ -236,6 +236,7 @@ public final class GlareBrain
 			MemoryModuleType.TEMPTING_PLAYER,
 			MemoryModuleType.TEMPTATION_COOLDOWN_TICKS,
 			MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS,
+			MemoryModuleType.IS_PANICKING,
 			MemoryModuleType.IS_TEMPTED,
 			MemoryModuleType.VISIBLE_MOBS,
 			MemoryModuleType.PATH,

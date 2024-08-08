@@ -1,5 +1,5 @@
 {
-	"advancements.husbandry.beehive.title": "Be Keeper",
+	"advancements.husbandry.beehive.title": "Abelha em Pessoa",
 	"advancements.husbandry.beehive.description": "Obtenha todos os tipos de colmeias",
 	"advancements.adventure.kill_iceologer.title": "Eu estive aqui, eu vivi, eu...",
 	"advancements.adventure.kill_iceologer.description": "Mate o iceologer",
@@ -112,7 +112,7 @@
 	"subtitle.entity.friendsandfoes.rascal.reappear": "Rascal aparece",
 	"subtitle.entity.friendsandfoes.rascal.reward": "Rascal dá recompensa",
 	"subtitle.entity.friendsandfoes.rascal.reward_bad": "Rascal dá uma recompensa ruim",
-	"subtitle.entity.friendsandfoes.shield_debris.impact": "Shield debris impacted",
+	"subtitle.entity.friendsandfoes.shield_debris.impact": "Detritos do escudo impactam",
 	"subtitle.entity.friendsandfoes.tuff_golem.glue_on": "Tuff Golem colado",
 	"subtitle.entity.friendsandfoes.tuff_golem.glue_off": "Tuff Golem descolado",
 	"subtitle.entity.friendsandfoes.tuff_golem.hurt": "Tuff Golem é ferido",

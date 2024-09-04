@@ -1,3 +1,7 @@
+## 2.0.17
+
+- Fixed tuff golem holding enchanted "book" instead of enchanted "enchanted book"
+
 ## 2.0.16
 
 - Fixed glares breeding

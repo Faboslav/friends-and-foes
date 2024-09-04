@@ -1,6 +1,7 @@
 ## 2.0.17
 
 - Fixed tuff golem holding enchanted "book" instead of enchanted "enchanted book"
+- Fixed mauler being able to be infinitely fed using the same item
 
 ## 2.0.16
 

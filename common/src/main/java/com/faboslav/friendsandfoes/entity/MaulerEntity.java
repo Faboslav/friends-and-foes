@@ -24,10 +24,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.*;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.ToolItem;
+import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
@@ -276,8 +273,10 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		if (
 			this.hasAngerTime() == false
 			&& (
-				itemStack.hasEnchantments()
-				|| itemInHand == Items.ENCHANTED_BOOK
+				(
+					itemStack.hasEnchantments()
+					|| itemInHand == Items.ENCHANTED_BOOK
+				)
 			)
 		) {
 			interactionResult = this.tryToInteractWithEnhancedItem(player, hand, itemStack);
@@ -300,6 +299,10 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 			return false;
 		}
 
+		if (this.getWorld().isClient()) {
+			return true;
+		}
+
 		int experiencePoints = this.getExperiencePoints(itemStack);
 		int recalculatedExperiencePoints = storedExperiencePoints + experiencePoints;
 
@@ -310,7 +313,9 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		this.setStoredExperiencePoints(recalculatedExperiencePoints);
 
 		if (player.getAbilities().creativeMode == false) {
-			if (itemStack.getItem() instanceof ToolItem) {
+			if(itemStack.isStackable()) {
+				itemStack.decrement(1);
+			} else {
 				EquipmentSlot equipmentSlot;
 
 				if (hand == Hand.MAIN_HAND) {
@@ -320,8 +325,6 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 				}
 
 				player.equipStack(equipmentSlot, ItemStack.EMPTY);
-			} else {
-				itemStack.decrement(1);
 			}
 		}
 
@@ -340,6 +343,10 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 		if (storedExperiencePoints < 7) {
 			return false;
+		}
+
+		if (this.getWorld().isClient()) {
+			return true;
 		}
 
 		int glassBottlesCount = itemStack.getCount();

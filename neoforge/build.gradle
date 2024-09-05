@@ -31,8 +31,8 @@ dependencies {
 	shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
 
 	// Curios (https://www.curseforge.com/minecraft/mc-mods/curios)
-	// modCompileOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}+${minecraft_version}:api")
-	// modRuntimeOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}+${minecraft_version}")
+	modCompileOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}:api")
+	modRuntimeOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}")
 
 	// Cloth config (https://www.curseforge.com/minecraft/mc-mods/cloth-config)
 	modImplementation("me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}")
@@ -80,4 +80,9 @@ repositories {
 	}
 
 	maven { url "https://www.cursemaven.com" }
+
+	maven {
+		name = "OctoStudios"
+		url = uri("https://maven.octo-studios.com/releases")
+	}
 }

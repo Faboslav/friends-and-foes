@@ -94,13 +94,13 @@ public abstract class StrongholdGeneratorMixin extends StructurePiece
 		float randomSpawnYaw = 90.0F * (float) random.nextBetween(0, 3);
 		tuffGolem.setSpawnYaw(randomSpawnYaw);
 
-		ItemStack book = Items.BOOK.getDefaultStack();
-		book.setCount(1);
+		ItemStack enchantedBook = Items.ENCHANTED_BOOK.getDefaultStack();
+		enchantedBook.setCount(1);
 
-		book.set(DataComponentTypes.ENCHANTMENTS, ItemEnchantmentsComponent.DEFAULT);
-		EnchantmentHelper.applyEnchantmentProvider(book, serverWorld.getRegistryManager(), EnchantmentProviders.MOB_SPAWN_EQUIPMENT, new LocalDifficulty(serverWorld.getDifficulty(), 0, 0, 0.0F), random);
+		enchantedBook.set(DataComponentTypes.ENCHANTMENTS, ItemEnchantmentsComponent.DEFAULT);
+		EnchantmentHelper.applyEnchantmentProvider(enchantedBook, serverWorld.getRegistryManager(), EnchantmentProviders.MOB_SPAWN_EQUIPMENT, new LocalDifficulty(serverWorld.getDifficulty(), 0, 0, 0.0F), random);
 
-		tuffGolem.equipStack(EquipmentSlot.MAINHAND, book);
+		tuffGolem.equipStack(EquipmentSlot.MAINHAND, enchantedBook);
 
 		tuffGolem.setPrevPose(TuffGolemEntityPose.STANDING_WITH_ITEM.get());
 		tuffGolem.setPoseWithoutPrevPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM.get());

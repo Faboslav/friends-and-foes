@@ -11,7 +11,7 @@ on:
             branches:
                 description: 'List of branches to be published'
                 required: true
-                default: "['1.19.2', '1.19.3', '1.19.4', '1.20.1', '1.20.2', '1.20.4', '1.20.6', '1.21']"
+                default: "['1.19.2', '1.19.3', '1.19.4', '1.20.1', '1.20.2', '1.20.4', '1.20.6', '1.21.1']"
                 type: string
 
 jobs:
@@ -102,14 +102,14 @@ jobs:
                     bodyFile: RELEASE_CHANGELOG.md
 
             -   name: "Set up JDK 17"
-                if: steps.check-mod-loader.outputs.is_mod_loader_supported == 'true' && steps.gradle-properties.outputs.MINECRAFT_VERSION != '1.20.6' && steps.gradle-properties.outputs.MINECRAFT_VERSION != '1.21'
+                if: steps.check-mod-loader.outputs.is_mod_loader_supported == 'true' && steps.gradle-properties.outputs.MINECRAFT_VERSION != '1.20.6' && steps.gradle-properties.outputs.MINECRAFT_VERSION != '1.21.1'
                 uses: actions/setup-java@v4
                 with:
                     java-version: 17
                     distribution: temurin
 
             -   name: "Set up JDK 21"
-                if: steps.check-mod-loader.outputs.is_mod_loader_supported == 'true' && steps.gradle-properties.outputs.MINECRAFT_VERSION == '1.20.6' || steps.gradle-properties.outputs.MINECRAFT_VERSION == '1.21'
+                if: steps.check-mod-loader.outputs.is_mod_loader_supported == 'true' && steps.gradle-properties.outputs.MINECRAFT_VERSION == '1.20.6' || steps.gradle-properties.outputs.MINECRAFT_VERSION == '1.21.1'
                 uses: actions/setup-java@v4
                 with:
                     java-version: 21

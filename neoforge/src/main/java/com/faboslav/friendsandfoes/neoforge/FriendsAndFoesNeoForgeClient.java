@@ -33,7 +33,7 @@ public final class FriendsAndFoesNeoForgeClient
 
 	private static void onClientSetup(final FMLClientSetupEvent event) {
 		ClientSetupEvent.EVENT.invoke(new ClientSetupEvent(Runnable::run));
-		
+
 		event.enqueueWork(() -> {
 			FriendsAndFoesClient.postInit();
 

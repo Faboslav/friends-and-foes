@@ -2,6 +2,7 @@
 
 - Fixed tuff golem holding enchanted "book" instead of enchanted "enchanted book"
 - Fixed mauler being able to be infinitely fed using the same item
+- Fixed trinkets and curios compat
 
 ## 2.0.16
 

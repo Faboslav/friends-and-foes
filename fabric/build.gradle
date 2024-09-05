@@ -36,7 +36,7 @@ dependencies {
 	modImplementation("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") { transitive = false }
 
 	// Trinkets (https://www.curseforge.com/minecraft/mc-mods/trinkets)
-	// modImplementation("dev.emi:trinkets:${trinkets_version}")
+	modImplementation("dev.emi:trinkets:${trinkets_version}")
 
 	// Fix for CCA (https://github.com/Ladysnake/Cardinal-Components-API)
 	//modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${cca_version}") { transitive = false }

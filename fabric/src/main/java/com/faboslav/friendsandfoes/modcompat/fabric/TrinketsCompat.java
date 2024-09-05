@@ -1,8 +1,17 @@
 package com.faboslav.friendsandfoes.modcompat.fabric;
 
 import com.faboslav.friendsandfoes.modcompat.ModCompat;
+import dev.emi.trinkets.api.SlotReference;
+import dev.emi.trinkets.api.TrinketsApi;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.Pair;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
+import java.util.List;
+import java.util.function.Predicate;
 
 public final class TrinketsCompat implements ModCompat
 {
@@ -11,7 +20,6 @@ public final class TrinketsCompat implements ModCompat
 		return EnumSet.of(Type.CUSTOM_EQUIPMENT_SLOTS);
 	}
 
-	/*
 	@Override
 	@Nullable
 	public ItemStack getEquippedItemFromCustomSlots(Entity entity, Predicate<ItemStack> itemStackPredicate) {
@@ -23,5 +31,5 @@ public final class TrinketsCompat implements ModCompat
 		}
 
 		return null;
-	}*/
+	}
 }

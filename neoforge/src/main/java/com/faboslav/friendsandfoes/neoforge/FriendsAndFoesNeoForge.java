@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.neoforge;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.FriendsAndFoesClient;
 import com.faboslav.friendsandfoes.events.lifecycle.DatapackSyncEvent;
 import com.faboslav.friendsandfoes.events.lifecycle.RegisterReloadListenerEvent;
 import com.faboslav.friendsandfoes.events.lifecycle.SetupEvent;
@@ -36,7 +35,6 @@ import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
-
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -52,7 +50,7 @@ public final class FriendsAndFoesNeoForge
 		FriendsAndFoesBiomeModifiers.BIOME_MODIFIERS.register(modEventBus);
 
 		if (FMLEnvironment.dist == Dist.CLIENT) {
-			FriendsAndFoesClient.init();
+			FriendsAndFoesNeoForgeClient.init(modEventBus, eventBus);
 		}
 
 		modEventBus.addListener(FriendsAndFoesNeoForge::onSetup);

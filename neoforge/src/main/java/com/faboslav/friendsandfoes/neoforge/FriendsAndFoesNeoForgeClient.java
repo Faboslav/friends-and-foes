@@ -5,6 +5,7 @@ import com.faboslav.friendsandfoes.FriendsAndFoesClient;
 import com.faboslav.friendsandfoes.client.particle.FreezingTotemParticle;
 import com.faboslav.friendsandfoes.client.particle.IllusionTotemParticle;
 import com.faboslav.friendsandfoes.config.ConfigScreenBuilder;
+import com.faboslav.friendsandfoes.events.lifecycle.ClientSetupEvent;
 import com.faboslav.friendsandfoes.init.FriendsAndFoesParticleTypes;
 import com.faboslav.friendsandfoes.platform.neoforge.RegistryHelperImpl;
 import net.minecraft.client.model.TexturedModelData;
@@ -27,6 +28,8 @@ public final class FriendsAndFoesNeoForgeClient
 {
 	@SubscribeEvent
 	public static void clientInit(final FMLClientSetupEvent event) {
+		ClientSetupEvent.EVENT.invoke(new ClientSetupEvent(Runnable::run));
+
 		event.enqueueWork(() -> {
 			FriendsAndFoesClient.postInit();
 

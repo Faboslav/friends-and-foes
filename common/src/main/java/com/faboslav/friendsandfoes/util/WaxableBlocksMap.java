@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.util;
 
-import com.faboslav.friendsandfoes.init.FriendsAndFoesBlocks;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;

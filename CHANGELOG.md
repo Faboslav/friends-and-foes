@@ -1,3 +1,15 @@
+## 2.0.17
+
+- Fixed tuff golem holding enchanted "book" instead of enchanted "enchanted book"
+- Fixed mauler being able to be infinitely fed using the same item
+- Fixed trinkets and curios compat
+
+## 2.0.16
+
+- Fixed glares breeding
+- Added wildfire to the freeze_hurts_extra_types tag
+- Disabled auto check for new mod updates (previously enabled by default)
+
 ## 2.0.15
 
 - Fixed pig spawning in the iceologer cabin structure

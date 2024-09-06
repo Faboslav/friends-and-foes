@@ -58,7 +58,7 @@ public final class FriendsAndFoesBlocks
 	public static void registerFlammablity(RegisterFlammabilityEvent event) {
 		FriendsAndFoesBlocks.BLOCKS.stream()
 			.map(RegistryEntry::get)
-			.filter(item -> item instanceof BeehiveBlock)
+			.filter(block -> block instanceof BeehiveBlock && (block != WARPED_BEEHIVE && block != CRIMSON_BEEHIVE)) // TODO check this
 			.map(block -> (BeehiveBlock) block)
 			.forEach(item -> event.register(ACACIA_BEEHIVE.get(), 20, 5));
 	}

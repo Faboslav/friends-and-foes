@@ -6,11 +6,11 @@ import com.google.common.collect.ImmutableMap;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.LookTargetUtil;
-import net.minecraft.entity.ai.brain.task.Task;
+import net.minecraft.entity.ai.brain.task.MultiTickTask;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 
-public final class CrabGoToHomePositionTask extends Task<CrabEntity>
+public final class CrabGoToHomePositionTask extends MultiTickTask<CrabEntity>
 {
 	private final static int GO_TO_HOME_POSITION_DURATION = 2400;
 

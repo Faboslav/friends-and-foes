@@ -2,20 +2,16 @@ package com.faboslav.friendsandfoes.common.entity.ai.brain.task.crab;
 
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.CrabAnimations;
 import com.faboslav.friendsandfoes.common.entity.CrabEntity;
-import com.faboslav.friendsandfoes.common.entity.ai.brain.CrabBrain;
 import com.faboslav.friendsandfoes.common.entity.pose.CrabEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
-import com.mojang.datafixers.util.Pair;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
-import net.minecraft.entity.ai.brain.task.LookTargetUtil;
-import net.minecraft.entity.ai.brain.task.Task;
+import net.minecraft.entity.ai.brain.task.MultiTickTask;
 import net.minecraft.server.world.ServerWorld;
 
 import java.util.Map;
 
-public final class CrabDanceTask extends Task<CrabEntity>
+public final class CrabDanceTask extends MultiTickTask<CrabEntity>
 {
 	private final static int DANCE_DURATION = CrabAnimations.WAVE.getAnimationLengthInTicks() * 60;
 

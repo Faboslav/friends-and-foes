@@ -118,11 +118,11 @@ public final class CrabBrain
 			ImmutableList.of(
 				Pair.of(0, new TemptTask(crab -> 1.25f)),
 				Pair.of(1, new CrabBreedTask(FriendsAndFoesEntityTypes.CRAB.get(), 1.0f)),
-				Pair.of(2, new WalkTowardClosestAdultTask(UniformIntProvider.create(5, 16), 1.25f)),
+				Pair.of(2, WalkTowardClosestAdultTask.create(UniformIntProvider.create(5, 16), 1.25f)),
 				Pair.of(3, new RandomTask(
 					ImmutableList.of(
-						Pair.of(new NoPenaltyStrollTask(1.0f), 2),
-						Pair.of(new GoTowardsLookTarget(1.0f, 3), 2),
+						Pair.of(StrollTask.create(1.0f), 2),
+						Pair.of(GoTowardsLookTargetTask.create(1.0f, 3), 2),
 						Pair.of(new WaitTask(30, 60), 1)))
 				)
 			),

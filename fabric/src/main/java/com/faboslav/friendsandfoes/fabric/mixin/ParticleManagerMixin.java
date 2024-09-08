@@ -7,8 +7,8 @@ import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.particle.SpriteProvider;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleType;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -45,7 +45,7 @@ public abstract class ParticleManagerMixin
 		Function<SpriteProvider, ParticleFactory<T>> spriteParticleRegistration
 	) {
 		ParticleManager.SimpleSpriteProvider mutableSpriteSet = new ParticleManager.SimpleSpriteProvider();
-		this.spriteAwareFactories.put(Registry.PARTICLE_TYPE.getId(particleType), mutableSpriteSet);
-		this.factories.put(Registry.PARTICLE_TYPE.getRawId(particleType), spriteParticleRegistration.apply(mutableSpriteSet));
+		this.spriteAwareFactories.put(Registries.PARTICLE_TYPE.getId(particleType), mutableSpriteSet);
+		this.factories.put(Registries.PARTICLE_TYPE.getRawId(particleType), spriteParticleRegistration.apply(mutableSpriteSet));
 	}
 }

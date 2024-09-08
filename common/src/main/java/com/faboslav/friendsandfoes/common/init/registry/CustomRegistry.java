@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.common.init.registry;
 
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Collection;

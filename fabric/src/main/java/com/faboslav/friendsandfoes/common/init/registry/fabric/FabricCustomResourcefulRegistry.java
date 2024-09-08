@@ -5,8 +5,8 @@ import com.faboslav.friendsandfoes.common.init.registry.RegistryEntries;
 import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
 import com.faboslav.friendsandfoes.fabric.mixin.PointOfInterestTypesAccessor;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.poi.PointOfInterestType;
 
 import java.util.Collection;
@@ -36,7 +36,8 @@ public final class FabricCustomResourcefulRegistry<T> implements ResourcefulRegi
 		I value = Registry.register(registry, new Identifier(this.id, id), supplier.get());
 		if (value instanceof PointOfInterestType poiType) {
 			PointOfInterestTypesAccessor.callRegisterStates(
-				(net.minecraft.util.registry.RegistryEntry<PointOfInterestType>) registry.entryOf(registry.getKey(value).orElseThrow())
+				(net.minecraft.registry.entry.RegistryEntry<PointOfInterestType>) registry.entryOf(registry.getKey(value).orElseThrow()),
+				poiType.blockStates()
 			);
 		}
 		return entries.add(new BasicRegistryEntry<>(new Identifier(this.id, id), value));

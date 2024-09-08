@@ -73,7 +73,7 @@ public final class FriendsAndFoesSoundEvents
 	public static final RegistryEntry<SoundEvent> ENTITY_WILDFIRE_SUMMON_BLAZE = registerSoundEvent("entity.wildfire.summon_blaze");
 
 	private static RegistryEntry<SoundEvent> registerSoundEvent(String path) {
-		return SOUND_EVENTS.register(path, () -> new SoundEvent(new Identifier(FriendsAndFoes.MOD_ID, path)));
+		return SOUND_EVENTS.register(path, () -> SoundEvent.of(new Identifier(FriendsAndFoes.MOD_ID, path)));
 	}
 
 	private FriendsAndFoesSoundEvents() {

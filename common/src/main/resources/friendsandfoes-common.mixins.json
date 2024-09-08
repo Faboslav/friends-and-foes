@@ -1,8 +1,7 @@
 {
-<<<<<<< HEAD
 	"required": true,
 	"package": "com.faboslav.friendsandfoes.common.mixin",
-	"compatibilityLevel": "JAVA_17",
+	"compatibilityLevel": "JAVA_${modJavaVersion}",
 	"minVersion": "0.8",
 	"injectors": {
 		"defaultRequire": 1
@@ -17,6 +16,7 @@
 		"BlazeEntityMixin",
 		"BlazeLivingEntityMixin",
 		"BlindTargetGoalFactory",
+		"BrewingRecipeRegistryMixin",
 		"BundleItemAccessor",
 		"CarvedPumpkinBlockMixin",
 		"ChickenEntityMixin",
@@ -25,6 +25,7 @@
 		"IllusionerHostileEntityMixin",
 		"IllusionerRaiderEntityMixin",
 		"IllusionerSpellcastingIllagerEntityMixin",
+		"JukeboxBlockEntityAccessor",
 		"LightningEntityMixin",
 		"LightningRodAbstractBlockMixin",
 		"LightningRodBlockBlockMixin",
@@ -42,7 +43,7 @@
 		"ServerWorldAccessor",
 		"ServerWorldMixin",
 		"SnowballEntityMixin",
-		"SpawnRestrictionAccessor",
+		"SpawnEggItemAccessor",
 		"StrongholdGeneratorMixin",
 		"StructurePoolAccessor",
 		"TemptGoalMixin",
@@ -58,67 +59,5 @@
 		"EntityRenderDispatcherMixin",
 		"IllusionerEntityRendererMixin",
 		"ModelPartAccessor"
-=======
-  "required": true,
-  "package": "com.faboslav.friendsandfoes.common.mixin",
-  "compatibilityLevel": "JAVA_${modJavaVersion}",
-  "minVersion": "0.8",
-  "injectors": {
-    "defaultRequire": 1
-  },
-  "mixins": [
-    "AbstractButtonBlockMixin",
-    "AddCustomEntityPoseMixin",
-    "BeeEntityAccessor",
-    "BeeEntityMixin",
-    "BeeEntityMoveToFlowerGoalMixin",
-    "BeeEntityMoveToHiveGoalMixin",
-    "BlazeEntityMixin",
-    "BlazeLivingEntityMixin",
-    "BlindTargetGoalFactory",
-    "BrewingRecipeRegistryMixin",
-    "BundleItemAccessor",
-    "CarvedPumpkinBlockMixin",
-    "ChickenEntityMixin",
-    "HoneycombItemMixin",
-    "IllusionerEntityMixin",
-    "IllusionerHostileEntityMixin",
-    "IllusionerRaiderEntityMixin",
-    "IllusionerSpellcastingIllagerEntityMixin",
-    "JukeboxBlockEntityAccessor",
-    "LightningEntityMixin",
-    "LightningRodAbstractBlockMixin",
-    "LightningRodBlockBlockMixin",
-    "LightningRodBlockDegradableMixin",
-    "LightningRodBlockMixin",
-    "LightningRodBlockOxidizableMixin",
-    "LivingEntityMixin",
-    "PatrolSpawnerAccessor",
-    "PatrolSpawnerMixin",
-    "PlayerEntityMixin",
-    "PointOfInterestTypesMixin",
-    "RabbitEntityMixin",
-    "RaidMemberMixin",
-    "RaidMixin",
-    "ServerWorldAccessor",
-    "ServerWorldMixin",
-    "SnowballEntityMixin",
-    "SpawnEggItemAccessor",
-    "StrongholdGeneratorMixin",
-    "StructurePoolMixin",
-    "TemptGoalMixin",
-    "VillagerEntityMixin",
-    "VillagerHostilesSensorMixin",
-    "VillagerTaskListProviderMixin",
-    "ZombieHorseAbstractHorseEntityMixin",
-    "ZombieHorseAnimalEntityMixin",
-    "ZombieHorseEntityMixin"
-  ],
-  "client": [
-    "ClientPlayNetworkHandlerMixin",
-    "EntityRenderDispatcherMixin",
-    "IllusionerEntityRendererMixin",
-    "ModelPartAccessor"
->>>>>>> 1.19.2
 	]
 }

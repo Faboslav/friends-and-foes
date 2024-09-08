@@ -6,6 +6,7 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import net.minecraft.block.Block;
 import net.minecraft.block.TurtleEggBlock;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
+import net.minecraft.entity.ai.brain.task.MultiTickTask;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -14,7 +15,7 @@ import net.minecraft.world.WorldEvents;
 
 import java.util.Map;
 
-public final class CrabLayEggTask extends Task<CrabEntity>
+public final class CrabLayEggTask extends MultiTickTask<CrabEntity>
 {
 	private final static float WITHING_DISTANCE = 2.0F;
 

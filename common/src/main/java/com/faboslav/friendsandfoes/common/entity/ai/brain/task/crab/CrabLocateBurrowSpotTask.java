@@ -3,18 +3,18 @@ package com.faboslav.friendsandfoes.common.entity.ai.brain.task.crab;
 import com.faboslav.friendsandfoes.common.entity.CrabEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
-import net.minecraft.entity.ai.brain.task.Task;
+import net.minecraft.entity.ai.brain.task.MultiTickTask;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.GlobalPos;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Map;
 
-public final class CrabLocateBurrowSpotTask extends Task<CrabEntity>
+public final class CrabLocateBurrowSpotTask extends MultiTickTask<CrabEntity>
 {
 	public CrabLocateBurrowSpotTask() {
 		super(Map.of(

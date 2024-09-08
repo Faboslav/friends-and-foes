@@ -4,9 +4,9 @@ import com.faboslav.friendsandfoes.common.init.registry.CustomRegistryLookup;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.fabricmc.fabric.api.event.registry.RegistryAttribute;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
-import net.minecraft.util.registry.SimpleRegistry;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.SimpleRegistry;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.function.Supplier;

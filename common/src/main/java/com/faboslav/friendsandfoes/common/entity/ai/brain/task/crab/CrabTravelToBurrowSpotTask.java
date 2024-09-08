@@ -5,6 +5,7 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.LookTargetUtil;
+import net.minecraft.entity.ai.brain.task.MultiTickTask;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
@@ -12,7 +13,7 @@ import net.minecraft.util.math.GlobalPos;
 
 import java.util.Map;
 
-public final class CrabTravelToBurrowSpotTask extends Task<CrabEntity>
+public final class CrabTravelToBurrowSpotTask extends MultiTickTask<CrabEntity>
 {
 	private static final int MAX_TRAVELLING_TICKS = 600;
 	private final static float WITHING_DISTANCE = 1.5F;

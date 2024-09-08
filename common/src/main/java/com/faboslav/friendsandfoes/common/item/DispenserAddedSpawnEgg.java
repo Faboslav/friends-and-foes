@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.common.item;
 
-
 import com.faboslav.friendsandfoes.common.events.lifecycle.SetupEvent;
 import com.faboslav.friendsandfoes.common.mixin.SpawnEggItemAccessor;
 import com.mojang.datafixers.util.Pair;
@@ -48,7 +47,7 @@ public class DispenserAddedSpawnEgg extends SpawnEggItem
 				public ItemStack execute(@NotNull BlockPointer source, @NotNull ItemStack stack) {
 					Direction direction = source.getBlockState().get(DispenserBlock.FACING);
 					EntityType<?> entitytype = ((SpawnEggItem) stack.getItem()).getEntityType(stack.getNbt());
-					entitytype.spawn(source.getWorld(), stack.getNbt(), null, null, source.getPos().offset(direction), SpawnReason.DISPENSER, direction != Direction.UP, false);
+					entitytype.spawn(source.getWorld(), stack.getNbt(), null, source.getPos().offset(direction), SpawnReason.DISPENSER, direction != Direction.UP, false);
 					stack.decrement(1);
 					return stack;
 				}

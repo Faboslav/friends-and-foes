@@ -1,9 +1,9 @@
 package com.faboslav.friendsandfoes.fabric;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStructurePoolElements;
 import com.faboslav.friendsandfoes.common.events.RegisterVillagerTradesEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.*;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStructurePoolElements;
 import com.faboslav.friendsandfoes.common.util.ServerWorldSpawnersUtil;
 import com.faboslav.friendsandfoes.common.util.UpdateChecker;
 import com.faboslav.friendsandfoes.common.world.spawner.IceologerSpawner;
@@ -18,15 +18,14 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.tag.BiomeTags;
-import net.minecraft.resource.ResourceType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.tag.BiomeTags;
+import net.minecraft.resource.ResourceType;
 import net.minecraft.village.TradeOffers;
 import net.minecraft.world.dimension.DimensionTypes;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

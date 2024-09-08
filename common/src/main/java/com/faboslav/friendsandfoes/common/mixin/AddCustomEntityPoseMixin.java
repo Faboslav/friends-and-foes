@@ -1,6 +1,9 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
-import com.faboslav.friendsandfoes.common.entity.pose.*;
+import com.faboslav.friendsandfoes.common.entity.pose.CopperGolemEntityPose;
+import com.faboslav.friendsandfoes.common.entity.pose.CrabEntityPose;
+import com.faboslav.friendsandfoes.common.entity.pose.RascalEntityPose;
+import com.faboslav.friendsandfoes.common.entity.pose.TuffGolemEntityPose;
 import net.minecraft.entity.EntityPose;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;

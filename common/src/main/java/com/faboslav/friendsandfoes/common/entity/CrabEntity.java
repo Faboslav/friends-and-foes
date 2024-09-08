@@ -256,7 +256,7 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 		BlockPos pos,
 		BlockState state
 	) {
-		if(!this.isOnGround() && state.getMaterial().isLiquid()) {
+		if (!this.isOnGround() && state.getMaterial().isLiquid()) {
 			return;
 		}
 
@@ -299,18 +299,18 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 	public void tickMovement() {
 		super.tickMovement();
 
-		if(this.getWorld().isClient()) {
+		if (this.getWorld().isClient()) {
 			return;
 		}
 
-		if(this.age % 10 == 0) {
+		if (this.age % 10 == 0) {
 			boolean isDancing = false;
 
 			for (BlockPos blockPos : BlockPos.iterateOutwards(this.getBlockPos(), 7, 7, 7)) {
 				BlockPos possibleJukeboxBlockPos = blockPos.mutableCopy();
 				BlockState possibleJukeboxBlockState = this.getWorld().getBlockState(possibleJukeboxBlockPos);
 
-				if(
+				if (
 					!possibleJukeboxBlockState.isOf(Blocks.JUKEBOX)
 					|| !possibleJukeboxBlockState.hasBlockEntity()
 				) {
@@ -322,7 +322,7 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 					continue;
 				}
 
-				if(JukeboxBlockEntityAccessor.callIsPlayingRecord(possibleJukeboxBlockState, (JukeboxBlockEntity) possibleJukeboxBlockEntity)) {
+				if (JukeboxBlockEntityAccessor.callIsPlayingRecord(possibleJukeboxBlockState, (JukeboxBlockEntity) possibleJukeboxBlockEntity)) {
 					isDancing = true;
 					break;
 				}

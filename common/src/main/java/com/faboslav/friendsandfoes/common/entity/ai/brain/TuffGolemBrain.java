@@ -1,7 +1,10 @@
 package com.faboslav.friendsandfoes.common.entity.ai.brain;
 
 import com.faboslav.friendsandfoes.common.entity.TuffGolemEntity;
-import com.faboslav.friendsandfoes.common.entity.ai.brain.task.tuffgolem.*;
+import com.faboslav.friendsandfoes.common.entity.ai.brain.task.tuffgolem.TuffGolemGoToHomePositionTask;
+import com.faboslav.friendsandfoes.common.entity.ai.brain.task.tuffgolem.TuffGolemLookAroundTask;
+import com.faboslav.friendsandfoes.common.entity.ai.brain.task.tuffgolem.TuffGolemSleepTask;
+import com.faboslav.friendsandfoes.common.entity.ai.brain.task.tuffgolem.TuffGolemWanderAroundTask;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesActivities;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
@@ -19,7 +22,6 @@ import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.task.*;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
-
 import java.util.List;
 
 @SuppressWarnings({"rawtypes", "unchecked"})

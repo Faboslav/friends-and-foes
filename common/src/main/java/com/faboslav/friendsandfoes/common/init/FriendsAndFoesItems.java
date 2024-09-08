@@ -8,7 +8,10 @@ import com.faboslav.friendsandfoes.common.item.DispenserAddedSpawnEgg;
 import com.faboslav.friendsandfoes.common.item.FriendsAndFoesArmorMaterials;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.*;
+import net.minecraft.item.ArmorItem;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Rarity;
 

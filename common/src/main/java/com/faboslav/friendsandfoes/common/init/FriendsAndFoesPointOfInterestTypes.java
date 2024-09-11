@@ -3,10 +3,7 @@ package com.faboslav.friendsandfoes.common.init;
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistries;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
-import net.minecraft.block.Block;
 import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.world.poi.PointOfInterestType;
 import net.minecraft.world.poi.PointOfInterestTypes;
 
@@ -51,32 +48,6 @@ public final class FriendsAndFoesPointOfInterestTypes
 		WAXED_EXPOSED_LIGHTNING_ROD = POINT_OF_INTEREST_TYPES.register("waxed_exposed_lightning_rod", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.WAXED_EXPOSED_LIGHTNING_ROD.get()), 0, 1));
 		WAXED_WEATHERED_LIGHTNING_ROD = POINT_OF_INTEREST_TYPES.register("waxed_weathered_lightning_rod", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.WAXED_WEATHERED_LIGHTNING_ROD.get()), 0, 1));
 		WAXED_OXIDIZED_LIGHTNING_ROD = POINT_OF_INTEREST_TYPES.register("waxed_oxidized_lightning_rod", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get()), 0, 1));
-	}
-
-	public static void lateInit() {
-		fillMissingPointOfInterestMapValues();
-	}
-
-	private static void fillMissingPointOfInterestMapValues() {
-		FriendsAndFoesPointOfInterestTypes.POINT_OF_INTEREST_TYPES.stream()
-			.forEach(pointOfInterestType -> fillMissingPointOfInterestMapValueForBlock(pointOfInterestType.getId().getPath(), pointOfInterestType.get().blockStates().iterator().next().getBlock()));
-	}
-
-	private static void fillMissingPointOfInterestMapValueForBlock(
-		String name,
-		Block pointOfInterestBlock
-	) {
-		var blockStates = PointOfInterestTypes.getStatesOfBlock(pointOfInterestBlock);
-		blockStates.forEach((state) -> {
-			PointOfInterestTypes.POI_STATES_TO_TYPE.put(
-				state,
-				Registries.POINT_OF_INTEREST_TYPE.getEntry(
-					RegistryKey.of(
-						RegistryKeys.POINT_OF_INTEREST_TYPE, FriendsAndFoes.makeID(name)
-					)
-				).get()
-			);
-		});
 	}
 
 	private FriendsAndFoesPointOfInterestTypes() {

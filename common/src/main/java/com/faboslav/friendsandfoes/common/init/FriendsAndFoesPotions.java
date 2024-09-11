@@ -5,9 +5,7 @@ import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistries;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.potion.Potion;
-import net.minecraft.potion.Potions;
 import net.minecraft.util.registry.Registry;
 
 /**

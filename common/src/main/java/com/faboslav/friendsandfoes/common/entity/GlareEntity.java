@@ -56,6 +56,7 @@ import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
+
 import java.util.function.Predicate;
 
 @SuppressWarnings({"rawtypes", "unchecked"})

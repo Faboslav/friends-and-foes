@@ -22,7 +22,11 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.*;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
+
+
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
@@ -42,7 +46,6 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Predicate;
@@ -309,7 +312,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		this.setStoredExperiencePoints(recalculatedExperiencePoints);
 
 		if (player.getAbilities().creativeMode == false) {
-			if(itemStack.isStackable()) {
+			if (itemStack.isStackable()) {
 				itemStack.decrement(1);
 			} else {
 				EquipmentSlot equipmentSlot;

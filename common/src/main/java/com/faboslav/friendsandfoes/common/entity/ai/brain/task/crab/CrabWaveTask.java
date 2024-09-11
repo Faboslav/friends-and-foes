@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.common.entity.ai.brain.task.crab;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.CrabAnimations;
 import com.faboslav.friendsandfoes.common.entity.CrabEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.CrabBrain;
@@ -12,7 +11,6 @@ import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.LookTargetUtil;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.server.world.ServerWorld;
-
 import java.util.Map;
 
 public final class CrabWaveTask extends Task<CrabEntity>

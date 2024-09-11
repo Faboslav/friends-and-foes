@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.common.entity.ai.brain;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.CrabEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.task.crab.*;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesActivities;
@@ -12,7 +11,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Dynamic;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
@@ -23,7 +21,6 @@ import net.minecraft.entity.ai.brain.task.*;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.TimeHelper;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
-
 import java.util.List;
 
 public final class CrabBrain
@@ -153,7 +150,7 @@ public final class CrabBrain
 			crab.getBrain().forget(FriendsAndFoesMemoryModuleTypes.CRAB_HAS_EGG.get());
 		}
 
-		if(crab.isDancing() && !crab.isClimbing()) {
+		if (crab.isDancing() && !crab.isClimbing()) {
 			crab.getBrain().remember(FriendsAndFoesMemoryModuleTypes.CRAB_IS_DANCING.get(), true);
 		} else {
 			crab.getBrain().forget(FriendsAndFoesMemoryModuleTypes.CRAB_IS_DANCING.get());

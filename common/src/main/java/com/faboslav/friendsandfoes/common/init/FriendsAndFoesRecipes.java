@@ -3,7 +3,6 @@ package com.faboslav.friendsandfoes.common.init;
 import com.faboslav.friendsandfoes.common.mixin.BrewingRecipeRegistryMixin;
 import net.minecraft.item.Items;
 import net.minecraft.potion.Potions;
-import net.minecraft.recipe.BrewingRecipeRegistry;
 
 /**
  * @see net.minecraft.recipe.BrewingRecipeRegistry

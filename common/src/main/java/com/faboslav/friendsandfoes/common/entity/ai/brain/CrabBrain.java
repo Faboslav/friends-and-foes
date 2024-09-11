@@ -52,7 +52,7 @@ public final class CrabBrain
 			Activity.CORE,
 			0,
 			ImmutableList.of(
-				new WalkTask(2.0f),
+				new FleeTask(2.0f),
 				new LookAroundTask(45, 90),
 				new WanderAroundTask(),
 				new TemptationCooldownTask(MemoryModuleType.TEMPTATION_COOLDOWN_TICKS),

@@ -73,7 +73,6 @@ public final class FriendsAndFoes
 
 	public static void lateInit() {
 		FriendsAndFoesBlockEntityTypes.lateInit();
-		FriendsAndFoesPointOfInterestTypes.lateInit();
 		BiomeModifications.addButtercupFeature();
 	}
 

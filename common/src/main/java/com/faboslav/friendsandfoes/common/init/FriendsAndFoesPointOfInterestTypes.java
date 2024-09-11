@@ -52,33 +52,6 @@ public final class FriendsAndFoesPointOfInterestTypes
 		WAXED_OXIDIZED_LIGHTNING_ROD = POINT_OF_INTEREST_TYPES.register("waxed_oxidized_lightning_rod", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get()), 0, 1));
 	}
 
-	public static void lateInit() {
-		fillMissingPointOfInterestMapValues();
-	}
-
-	private static void fillMissingPointOfInterestMapValues() {
-		FriendsAndFoesPointOfInterestTypes.POINT_OF_INTEREST_TYPES.stream()
-			.forEach(pointOfInterestType -> fillMissingPointOfInterestMapValueForBlock(pointOfInterestType.getId().getPath(), pointOfInterestType.get().blockStates().iterator().next().getBlock()));
-	}
-
-	private static void fillMissingPointOfInterestMapValueForBlock(
-		String name,
-		Block pointOfInterestBlock
-	) {
-		var blockStates = PointOfInterestTypes.getStatesOfBlock(pointOfInterestBlock);
-		PointOfInterestTypes.POI_STATES.addAll(blockStates);
-		blockStates.forEach((state) -> {
-			PointOfInterestTypes.POI_STATES_TO_TYPE.put(
-				state,
-				Registry.POINT_OF_INTEREST_TYPE.getEntry(
-					RegistryKey.of(
-						Registry.POINT_OF_INTEREST_TYPE_KEY, FriendsAndFoes.makeID(name)
-					)
-				).get()
-			);
-		});
-	}
-
 	private FriendsAndFoesPointOfInterestTypes() {
 	}
 }

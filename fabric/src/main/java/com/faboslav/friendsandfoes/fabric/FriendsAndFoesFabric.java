@@ -68,6 +68,7 @@ public final class FriendsAndFoesFabric implements ModInitializer
 		AddSpawnBiomeModificationsEvent.EVENT.invoke(new AddSpawnBiomeModificationsEvent((tag, spawnGroup, entityType, weight, minGroupSize, maxGroupSize) -> {
 			BiomeModifications.addSpawn(biomeSelector -> biomeSelector.hasTag(tag) && biomeSelector.hasTag(BiomeTags.IS_OVERWORLD), spawnGroup, entityType, weight, minGroupSize, maxGroupSize);
 		}));
+
 		SetupEvent.EVENT.invoke(new SetupEvent(Runnable::run));
 	}
 

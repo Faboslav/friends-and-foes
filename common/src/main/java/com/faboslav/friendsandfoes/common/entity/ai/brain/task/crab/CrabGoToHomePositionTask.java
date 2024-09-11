@@ -87,7 +87,7 @@ public final class CrabGoToHomePositionTask extends MultiTickTask<CrabEntity>
 	) {
 		LookTargetUtil.walkTowards(
 			crab,
-			new BlockPos(crab.getHomePos()),
+			BlockPos.ofFloored(crab.getHomePos()),
 			1.0F,
 			0
 		);

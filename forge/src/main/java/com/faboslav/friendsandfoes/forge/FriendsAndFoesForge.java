@@ -64,10 +64,10 @@ public final class FriendsAndFoesForge
 		eventBus.addListener(FriendsAndFoesForge::onAddReloadListeners);
 		eventBus.addListener(FriendsAndFoesForge::onDatapackSync);
 		modEventBus.addListener(FriendsAndFoesForge::onSetup);
-		modEventBus.addListener(FriendsAndFoesForge::onRegisterItemGroups);
-		modEventBus.addListener(FriendsAndFoesForge::onAddItemGroupEntries);
 		modEventBus.addListener(FriendsAndFoesForge::onRegisterAttributes);
 		modEventBus.addListener(FriendsAndFoesForge::onRegisterSpawnRestrictions);
+		modEventBus.addListener(FriendsAndFoesForge::onRegisterItemGroups);
+		modEventBus.addListener(FriendsAndFoesForge::onAddItemGroupEntries);
 	}
 
 	private static void onSetup(final FMLCommonSetupEvent event) {

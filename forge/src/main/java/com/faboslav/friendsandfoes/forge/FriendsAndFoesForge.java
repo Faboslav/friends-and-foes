@@ -1,41 +1,48 @@
 package com.faboslav.friendsandfoes.forge;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.FriendsAndFoesClient;
-import com.faboslav.friendsandfoes.events.lifecycle.DatapackSyncEvent;
-import com.faboslav.friendsandfoes.events.lifecycle.RegisterReloadListenerEvent;
-import com.faboslav.friendsandfoes.events.lifecycle.SetupEvent;
+import com.faboslav.friendsandfoes.common.events.AddItemGroupEntriesEvent;
+import com.faboslav.friendsandfoes.common.events.RegisterItemGroupsEvent;
+import com.faboslav.friendsandfoes.common.events.RegisterVillagerTradesEvent;
+import com.faboslav.friendsandfoes.common.events.block.RegisterBlockSetTypeEvent;
+import com.faboslav.friendsandfoes.common.events.lifecycle.*;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStructurePoolElements;
+import com.faboslav.friendsandfoes.common.init.registry.forge.ResourcefulRegistriesImpl;
+import com.faboslav.friendsandfoes.common.util.CustomRaidMember;
+import com.faboslav.friendsandfoes.common.util.ServerWorldSpawnersUtil;
+import com.faboslav.friendsandfoes.common.util.UpdateChecker;
+import com.faboslav.friendsandfoes.common.world.spawner.IceologerSpawner;
+import com.faboslav.friendsandfoes.common.world.spawner.IllusionerSpawner;
 import com.faboslav.friendsandfoes.forge.init.FriendsAndFoesBiomeModifiers;
-import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
-import com.faboslav.friendsandfoes.init.FriendsAndFoesStructurePoolElements;
-import com.faboslav.friendsandfoes.platform.forge.RegistryHelperImpl;
-import com.faboslav.friendsandfoes.util.CustomRaidMember;
-import com.faboslav.friendsandfoes.util.ServerWorldSpawnersUtil;
-import com.faboslav.friendsandfoes.util.UpdateChecker;
-import com.faboslav.friendsandfoes.world.spawner.IceologerSpawner;
-import com.faboslav.friendsandfoes.world.spawner.IllusionerSpawner;
-import net.minecraft.SharedConstants;
+import com.faboslav.friendsandfoes.forge.mixin.FireBlockAccessor;
+import com.google.common.collect.Lists;
+import net.minecraft.block.BlockSetType;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.village.raid.Raid;
 import net.minecraft.world.dimension.DimensionTypes;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
+import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
+import net.minecraftforge.event.village.VillagerTradesEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 
-import java.util.Map;
-import java.util.function.Supplier;
+import java.util.List;
 
 @Mod(FriendsAndFoes.MOD_ID)
 public final class FriendsAndFoesForge
@@ -45,56 +52,32 @@ public final class FriendsAndFoesForge
 
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 		IEventBus eventBus = MinecraftForge.EVENT_BUS;
-		modEventBus.addListener(FriendsAndFoesForge::onSetup);
 
+		modEventBus.addListener(EventPriority.NORMAL, ResourcefulRegistriesImpl::onRegisterForgeRegistries);
 		FriendsAndFoes.init();
 		FriendsAndFoesBiomeModifiers.BIOME_MODIFIERS.register(modEventBus);
 
 		if (FMLEnvironment.dist == Dist.CLIENT) {
-			FriendsAndFoesClient.init();
+			FriendsAndFoesForgeClient.init(modEventBus, eventBus);
 		}
-
-		RegistryHelperImpl.ACTIVITIES.register(modEventBus);
-		RegistryHelperImpl.BLOCKS.register(modEventBus);
-		FriendsAndFoesEntityTypes.previousUseChoiceTypeRegistrations = SharedConstants.useChoiceTypeRegistrations;
-		SharedConstants.useChoiceTypeRegistrations = false;
-		RegistryHelperImpl.ENTITY_TYPES.register(modEventBus);
-		SharedConstants.useChoiceTypeRegistrations = FriendsAndFoesEntityTypes.previousUseChoiceTypeRegistrations;
-		RegistryHelperImpl.ITEMS.register(modEventBus);
-		RegistryHelperImpl.MEMORY_MODULE_TYPES.register(modEventBus);
-		RegistryHelperImpl.SENSOR_TYPES.register(modEventBus);
-		RegistryHelperImpl.PARTICLE_TYPES.register(modEventBus);
-		RegistryHelperImpl.POINT_OF_INTEREST_TYPES.register(modEventBus);
-		RegistryHelperImpl.SOUND_EVENTS.register(modEventBus);
-		RegistryHelperImpl.STRUCTURE_TYPES.register(modEventBus);
-		RegistryHelperImpl.STRUCTURE_PROCESSOR_TYPES.register(modEventBus);
-		RegistryHelperImpl.VILLAGER_PROFESSIONS.register(modEventBus);
-
-		modEventBus.addListener(FriendsAndFoesForge::registerEntityAttributes);
 
 		eventBus.addListener(FriendsAndFoesForge::initSpawners);
-		eventBus.addListener(FriendsAndFoesForge::onServerAboutToStartEvent);
+		eventBus.addListener(FriendsAndFoesForge::onAddVillagerTrades);
 		eventBus.addListener(FriendsAndFoesForge::onAddReloadListeners);
 		eventBus.addListener(FriendsAndFoesForge::onDatapackSync);
-
-		MinecraftForge.EVENT_BUS.register(this);
+		modEventBus.addListener(FriendsAndFoesForge::onSetup);
+		modEventBus.addListener(FriendsAndFoesForge::onRegisterAttributes);
+		modEventBus.addListener(FriendsAndFoesForge::onRegisterSpawnRestrictions);
+		modEventBus.addListener(FriendsAndFoesForge::onRegisterItemGroups);
+		modEventBus.addListener(FriendsAndFoesForge::onAddItemGroupEntries);
 	}
 
-	private static void registerEntityAttributes(EntityAttributeCreationEvent event) {
-		for (Map.Entry<Supplier<? extends EntityType<? extends LivingEntity>>, Supplier<DefaultAttributeContainer.Builder>> entry : RegistryHelperImpl.ENTITY_ATTRIBUTES.entrySet()) {
-			event.put(entry.getKey().get(), entry.getValue().get().build());
-		}
-	}
-
-	private static void onAddReloadListeners(AddReloadListenerEvent event) {
-		RegisterReloadListenerEvent.EVENT.invoke(new RegisterReloadListenerEvent((id, listener) -> event.addListener(listener)));
-	}
-
-	private static void onSetup(FMLCommonSetupEvent event) {
+	private static void onSetup(final FMLCommonSetupEvent event) {
 		SetupEvent.EVENT.invoke(new SetupEvent(event::enqueueWork));
-		FriendsAndFoes.postInit();
 
 		event.enqueueWork(() -> {
+			FriendsAndFoes.lateInit();
+
 			if (FriendsAndFoes.getConfig().enableIceologer && FriendsAndFoes.getConfig().enableIceologerInRaids) {
 				Raid.Member.create(
 					CustomRaidMember.ICEOLOGER_INTERNAL_NAME,
@@ -110,7 +93,15 @@ public final class FriendsAndFoesForge
 					CustomRaidMember.ILLUSIONER_COUNT_IN_WAVE
 				);
 			}
+
+			RegisterBlockSetTypeEvent.EVENT.invoke(new RegisterBlockSetTypeEvent(BlockSetType::register));
+			RegisterFlammabilityEvent.EVENT.invoke(new RegisterFlammabilityEvent((item, igniteOdds, burnOdds) ->
+				((FireBlockAccessor) Blocks.FIRE).invokeRegisterFlammableBlock(item, igniteOdds, burnOdds)));
 		});
+	}
+
+	private static void onAddReloadListeners(AddReloadListenerEvent event) {
+		RegisterReloadListenerEvent.EVENT.invoke(new RegisterReloadListenerEvent((id, listener) -> event.addListener(listener)));
 	}
 
 	private static void onDatapackSync(OnDatapackSyncEvent event) {
@@ -121,6 +112,50 @@ public final class FriendsAndFoesForge
 				event.getPlayerList().getPlayerList().forEach(player -> DatapackSyncEvent.EVENT.invoke(new DatapackSyncEvent(player)));
 			}
 		}
+	}
+
+	private static void onAddVillagerTrades(VillagerTradesEvent event) {
+		RegisterVillagerTradesEvent.EVENT.invoke(new RegisterVillagerTradesEvent(event.getType(), (i, listing) -> event.getTrades().get(i.intValue()).add(listing)));
+	}
+
+	private static void onRegisterItemGroups(CreativeModeTabEvent.Register event) {
+		RegisterItemGroupsEvent.EVENT.invoke(new RegisterItemGroupsEvent((id, operator, initialDisplayItems) ->
+			event.registerCreativeModeTab(id, builder -> {
+				operator.accept(builder);
+				builder.entries((flag, output) -> {
+					List<ItemStack> stacks = Lists.newArrayList();
+					initialDisplayItems.accept(stacks);
+					output.addAll(stacks);
+				});
+			})
+		));
+	}
+
+	private static void onAddItemGroupEntries(CreativeModeTabEvent.BuildContents event) {
+		AddItemGroupEntriesEvent.EVENT.invoke(new AddItemGroupEntriesEvent(AddItemGroupEntriesEvent.Type.toType(event.getTab()), event.getTab(), event.hasPermissions(), event::add));
+	}
+
+	private static void onRegisterAttributes(EntityAttributeCreationEvent event) {
+		RegisterEntityAttributesEvent.EVENT.invoke(new RegisterEntityAttributesEvent((entity, builder) -> event.put(entity, builder.build())));
+	}
+
+	private static void onRegisterSpawnRestrictions(SpawnPlacementRegisterEvent event) {
+		RegisterEntitySpawnRestrictionsEvent.EVENT.invoke(new RegisterEntitySpawnRestrictionsEvent(FriendsAndFoesForge.registerEntitySpawnRestriction(event)));
+	}
+
+	private static RegisterEntitySpawnRestrictionsEvent.Registrar registerEntitySpawnRestriction(
+		SpawnPlacementRegisterEvent event
+	) {
+		return new RegisterEntitySpawnRestrictionsEvent.Registrar()
+		{
+			@Override
+			public <T extends MobEntity> void register(
+				EntityType<T> type,
+				RegisterEntitySpawnRestrictionsEvent.Placement<T> placement
+			) {
+				event.register(type, placement.location(), placement.heightmap(), placement.predicate(), SpawnPlacementRegisterEvent.Operation.AND);
+			}
+		};
 	}
 
 	private static void initSpawners(final LevelEvent.Load event) {

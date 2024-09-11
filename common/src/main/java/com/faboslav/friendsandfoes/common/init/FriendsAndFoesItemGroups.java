@@ -17,8 +17,7 @@ public class FriendsAndFoesItemGroups
 {
 	public static final List<RegistryEntry<Item>> CUSTOM_CREATIVE_TAB_ITEMS = FriendsAndFoesItems.ITEMS.stream().toList();
 
-	public static void registerItemGroups(RegisterItemGroupsEvent event)
-	{
+	public static void registerItemGroups(RegisterItemGroupsEvent event) {
 		event.register(
 			FriendsAndFoes.makeID("main_tab"),
 			builder -> builder.icon(() -> FriendsAndFoesItems.WILDFIRE_CROWN.get().getDefaultStack()).displayName(Text.translatable("item_group." + FriendsAndFoes.MOD_ID + ".main_tab")),
@@ -27,8 +26,7 @@ public class FriendsAndFoesItemGroups
 		);
 	}
 
-	public static void addItemGroupEntries(AddItemGroupEntriesEvent event)
-	{
+	public static void addItemGroupEntries(AddItemGroupEntriesEvent event) {
 		if (event.type() == AddItemGroupEntriesEvent.Type.SPAWN_EGGS) {
 			Stream.of(
 				FriendsAndFoesItems.COPPER_GOLEM_SPAWN_EGG,

@@ -71,8 +71,9 @@ public final class FriendsAndFoesForge
 	}
 
 	private static void onSetup(final FMLCommonSetupEvent event) {
+		SetupEvent.EVENT.invoke(new SetupEvent(event::enqueueWork));
+
 		event.enqueueWork(() -> {
-			SetupEvent.EVENT.invoke(new SetupEvent(event::enqueueWork));
 			FriendsAndFoes.lateInit();
 
 			if (FriendsAndFoes.getConfig().enableIceologer && FriendsAndFoes.getConfig().enableIceologerInRaids) {

@@ -8,7 +8,6 @@ import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.MultiTickTask;
 import net.minecraft.server.world.ServerWorld;
-
 import java.util.Map;
 
 public final class CrabDanceTask extends MultiTickTask<CrabEntity>

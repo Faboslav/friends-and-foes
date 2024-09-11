@@ -6,7 +6,6 @@ import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
 import net.minecraft.registry.Registries;
 import net.minecraft.world.poi.PointOfInterestType;
 import net.minecraft.world.poi.PointOfInterestTypes;
-
 import java.util.function.Supplier;
 
 /**

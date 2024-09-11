@@ -21,7 +21,6 @@ import net.minecraft.entity.ai.brain.task.*;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.TimeHelper;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
-
 import java.util.List;
 
 public final class CrabBrain

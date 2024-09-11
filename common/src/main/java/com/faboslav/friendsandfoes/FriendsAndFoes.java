@@ -3,6 +3,8 @@ package com.faboslav.friendsandfoes;
 import com.faboslav.friendsandfoes.common.api.MoobloomVariantManager;
 import com.faboslav.friendsandfoes.common.config.FriendsAndFoesConfig;
 import com.faboslav.friendsandfoes.common.config.omegaconfig.OmegaConfig;
+import com.faboslav.friendsandfoes.common.events.AddItemGroupEntriesEvent;
+import com.faboslav.friendsandfoes.common.events.RegisterItemGroupsEvent;
 import com.faboslav.friendsandfoes.common.events.RegisterVillagerTradesEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.*;
 import com.faboslav.friendsandfoes.common.init.*;
@@ -69,6 +71,8 @@ public final class FriendsAndFoes
 		AddSpawnBiomeModificationsEvent.EVENT.addListener(FriendsAndFoesEntityTypes::addSpawnBiomeModifications);
 		RegisterVillagerTradesEvent.EVENT.addListener(FriendsAndFoesVillagerProfessions::registerVillagerTrades);
 		SetupEvent.EVENT.addListener(DispenserAddedSpawnEgg::onSetup);
+		RegisterItemGroupsEvent.EVENT.addListener(FriendsAndFoesItemGroups::registerItemGroups);
+		AddItemGroupEntriesEvent.EVENT.addListener(FriendsAndFoesItemGroups::addItemGroupEntries);
 	}
 
 	public static void lateInit() {

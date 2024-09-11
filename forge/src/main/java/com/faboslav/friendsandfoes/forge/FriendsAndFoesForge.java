@@ -12,8 +12,6 @@ import com.faboslav.friendsandfoes.common.world.spawner.IceologerSpawner;
 import com.faboslav.friendsandfoes.common.world.spawner.IllusionerSpawner;
 import com.faboslav.friendsandfoes.forge.init.FriendsAndFoesBiomeModifiers;
 import com.faboslav.friendsandfoes.forge.mixin.FireBlockAccessor;
-import com.faboslav.friendsandfoes.forge.world.MobSpawnBiomeModifier;
-import com.mojang.serialization.Codec;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.MobEntity;
@@ -60,44 +58,11 @@ public final class FriendsAndFoesForge
 		modEventBus.addListener(FriendsAndFoesForge::init);
 		modEventBus.addListener(FriendsAndFoesForge::onRegisterAttributes);
 		modEventBus.addListener(FriendsAndFoesForge::onRegisterSpawnRestrictions);
-		/*
-		FriendsAndFoes.init();
-
-		if (FMLEnvironment.dist == Dist.CLIENT) {
-			FriendsAndFoesClient.init();
-		}
-
-		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
-		modEventBus.addListener(FriendsAndFoesForge::onSetup);
-
-		RegistryHelperImpl.ACTIVITIES.register(modEventBus);
-		RegistryHelperImpl.BLOCKS.register(modEventBus);
-		FriendsAndFoesEntityTypes.previousUseChoiceTypeRegistrations = SharedConstants.useChoiceTypeRegistrations;
-		SharedConstants.useChoiceTypeRegistrations = false;
-		RegistryHelperImpl.ENTITY_TYPES.register(modEventBus);
-		SharedConstants.useChoiceTypeRegistrations = FriendsAndFoesEntityTypes.previousUseChoiceTypeRegistrations;
-		RegistryHelperImpl.ITEMS.register(modEventBus);
-		RegistryHelperImpl.MEMORY_MODULE_TYPES.register(modEventBus);
-		RegistryHelperImpl.SENSOR_TYPES.register(modEventBus);
-		RegistryHelperImpl.PARTICLE_TYPES.register(modEventBus);
-		RegistryHelperImpl.POINT_OF_INTEREST_TYPES.register(modEventBus);
-		RegistryHelperImpl.SOUND_EVENTS.register(modEventBus);
-		RegistryHelperImpl.STRUCTURE_TYPES.register(modEventBus);
-		RegistryHelperImpl.VILLAGER_PROFESSIONS.register(modEventBus);
-
-		modEventBus.addListener(FriendsAndFoesForge::init);
-		modEventBus.addListener(FriendsAndFoesForge::registerEntityAttributes);
-
-		IEventBus eventBus = MinecraftForge.EVENT_BUS;
-		eventBus.addListener(FriendsAndFoesForge::initSpawners);
-		eventBus.addListener(FriendsAndFoesForge::onAddReloadListeners);
-		eventBus.addListener(FriendsAndFoesForge::onDatapackSync);
-
-		MinecraftForge.EVENT_BUS.register(this); */
 	}
 
 	private static void init(final FMLCommonSetupEvent event) {
+		SetupEvent.EVENT.invoke(new SetupEvent(event::enqueueWork));
+
 		event.enqueueWork(() -> {
 			FriendsAndFoes.lateInit();
 

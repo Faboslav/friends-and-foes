@@ -55,12 +55,11 @@ public final class FriendsAndFoesForge
 		eventBus.addListener(FriendsAndFoesForge::onAddReloadListeners);
 		eventBus.addListener(FriendsAndFoesForge::onDatapackSync);
 		modEventBus.addListener(FriendsAndFoesForge::onSetup);
-		modEventBus.addListener(FriendsAndFoesForge::init);
 		modEventBus.addListener(FriendsAndFoesForge::onRegisterAttributes);
 		modEventBus.addListener(FriendsAndFoesForge::onRegisterSpawnRestrictions);
 	}
 
-	private static void init(final FMLCommonSetupEvent event) {
+	private static void onSetup(final FMLCommonSetupEvent event) {
 		SetupEvent.EVENT.invoke(new SetupEvent(event::enqueueWork));
 
 		event.enqueueWork(() -> {
@@ -89,10 +88,6 @@ public final class FriendsAndFoesForge
 
 	private static void onAddReloadListeners(AddReloadListenerEvent event) {
 		RegisterReloadListenerEvent.EVENT.invoke(new RegisterReloadListenerEvent((id, listener) -> event.addListener(listener)));
-	}
-
-	private static void onSetup(FMLCommonSetupEvent event) {
-		SetupEvent.EVENT.invoke(new SetupEvent(event::enqueueWork));
 	}
 
 	private static void onDatapackSync(OnDatapackSyncEvent event) {

@@ -24,6 +24,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import java.util.function.Function;
 
+@SuppressWarnings({"all", "removal", "deprecated"})
 public final class FriendsAndFoesForgeClient
 {
 	public static void init(IEventBus modEventBus, IEventBus eventBus) {

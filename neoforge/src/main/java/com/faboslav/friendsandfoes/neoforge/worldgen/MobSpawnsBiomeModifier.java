@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.neoforge.worldgen;
 
-import com.faboslav.friendsandfoes.events.lifecycle.AddSpawnBiomeModificationsEvent;
+import com.faboslav.friendsandfoes.common.events.lifecycle.AddSpawnBiomeModificationsEvent;
 import com.faboslav.friendsandfoes.neoforge.init.FriendsAndFoesBiomeModifiers;
 import com.mojang.serialization.Codec;
 import net.minecraft.registry.entry.RegistryEntry;

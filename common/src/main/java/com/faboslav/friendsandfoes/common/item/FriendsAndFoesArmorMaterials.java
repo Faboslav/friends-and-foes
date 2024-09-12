@@ -1,14 +1,13 @@
 package com.faboslav.friendsandfoes.common.item;
 
-import net.minecraft.item.ArmorItem;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesItems;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Lazy;
 import net.minecraft.util.Util;
-
 import java.util.EnumMap;
 import java.util.function.Supplier;
 

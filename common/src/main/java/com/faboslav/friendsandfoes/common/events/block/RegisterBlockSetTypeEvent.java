@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.common.events.block;
 
 import com.faboslav.friendsandfoes.common.events.base.EventHandler;
 import net.minecraft.block.BlockSetType;
+
 import java.util.function.Consumer;
 
 /**

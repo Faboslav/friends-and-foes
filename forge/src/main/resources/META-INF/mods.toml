@@ -15,7 +15,7 @@ displayURL = "https://github.com/Faboslav/friends-and-foes"
 [[dependencies.${ modId }]]
 modId = "forge"
 mandatory = true
-versionRange="[${forgeVersion},)"
+versionRange = "[${forgeVersion},)"
 
 [[dependencies.${ modId }]]
 modId = "minecraft"

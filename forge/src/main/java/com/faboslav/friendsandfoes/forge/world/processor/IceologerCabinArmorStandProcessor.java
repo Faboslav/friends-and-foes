@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.forge.world.forge.processor;
+package com.faboslav.friendsandfoes.forge.world.processor;
 
 import com.faboslav.friendsandfoes.common.init.forge.FriendsAndFoesStructureProcessorTypesImpl;
 import com.faboslav.friendsandfoes.common.util.world.processor.IceologerCabinArmorStandProcessorHelper;

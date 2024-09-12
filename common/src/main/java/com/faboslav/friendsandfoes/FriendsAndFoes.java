@@ -4,7 +4,6 @@ import com.faboslav.friendsandfoes.common.api.MoobloomVariantManager;
 import com.faboslav.friendsandfoes.common.config.FriendsAndFoesConfig;
 import com.faboslav.friendsandfoes.common.config.omegaconfig.OmegaConfig;
 import com.faboslav.friendsandfoes.common.events.AddItemGroupEntriesEvent;
-import com.faboslav.friendsandfoes.common.events.RegisterItemGroupsEvent;
 import com.faboslav.friendsandfoes.common.events.RegisterVillagerTradesEvent;
 import com.faboslav.friendsandfoes.common.events.block.RegisterBlockSetTypeEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.*;
@@ -50,6 +49,7 @@ public final class FriendsAndFoes
 		FriendsAndFoesBlocks.BLOCKS.init();
 		FriendsAndFoesCriterias.init();
 		FriendsAndFoesEntityTypes.ENTITY_TYPES.init();
+		FriendsAndFoesItemGroups.ITEM_GROUPS.init();
 		FriendsAndFoesItems.ITEMS.init();
 		FriendsAndFoesMemoryModuleTypes.MEMORY_MODULE_TYPES.init();
 		FriendsAndFoesParticleTypes.PARTICLE_TYPES.init();
@@ -73,7 +73,6 @@ public final class FriendsAndFoes
 		AddSpawnBiomeModificationsEvent.EVENT.addListener(FriendsAndFoesEntityTypes::addSpawnBiomeModifications);
 		RegisterVillagerTradesEvent.EVENT.addListener(FriendsAndFoesVillagerProfessions::registerVillagerTrades);
 		SetupEvent.EVENT.addListener(DispenserAddedSpawnEgg::onSetup);
-		RegisterItemGroupsEvent.EVENT.addListener(FriendsAndFoesItemGroups::registerItemGroups);
 		AddItemGroupEntriesEvent.EVENT.addListener(FriendsAndFoesItemGroups::addItemGroupEntries);
 	}
 

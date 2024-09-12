@@ -2,7 +2,6 @@ package com.faboslav.friendsandfoes.fabric;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.events.AddItemGroupEntriesEvent;
-import com.faboslav.friendsandfoes.common.events.RegisterItemGroupsEvent;
 import com.faboslav.friendsandfoes.common.events.RegisterVillagerTradesEvent;
 import com.faboslav.friendsandfoes.common.events.block.RegisterBlockSetTypeEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.*;
@@ -12,16 +11,13 @@ import com.faboslav.friendsandfoes.common.util.UpdateChecker;
 import com.faboslav.friendsandfoes.common.world.spawner.IceologerSpawner;
 import com.faboslav.friendsandfoes.common.world.spawner.IllusionerSpawner;
 import com.faboslav.friendsandfoes.fabric.events.FabricReloadListener;
-import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.fabricmc.fabric.api.object.builder.v1.block.type.BlockSetTypeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
@@ -29,8 +25,6 @@ import net.minecraft.block.BlockSetType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.BiomeTags;
 import net.minecraft.resource.ResourceType;
@@ -84,21 +78,10 @@ public final class FriendsAndFoesFabric implements ModInitializer
 
 		SetupEvent.EVENT.invoke(new SetupEvent(Runnable::run));
 
-		RegisterItemGroupsEvent.EVENT.invoke(new RegisterItemGroupsEvent((id, initializer, initialDisplayItems) -> {
-			ItemGroup.Builder builder = FabricItemGroup.builder(id);
-			initializer.accept(builder);
-			builder.entries((flags, output) -> {
-				List<ItemStack> stacks = Lists.newArrayList();
-				initialDisplayItems.accept(stacks);
-				output.addAll(stacks);
-			});
-			builder.build();
-		}));
-
 		ItemGroupEvents.MODIFY_ENTRIES_ALL.register((itemGroup, entries) ->
 			AddItemGroupEntriesEvent.EVENT.invoke(
 				new AddItemGroupEntriesEvent(
-					AddItemGroupEntriesEvent.Type.toType(itemGroup),
+					AddItemGroupEntriesEvent.Type.toType(Registries.ITEM_GROUP.getKey(itemGroup).orElse(null)),
 					itemGroup,
 					itemGroup.hasStacks(),
 					entries::add

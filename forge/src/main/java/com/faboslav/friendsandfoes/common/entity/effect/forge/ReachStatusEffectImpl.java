@@ -15,6 +15,6 @@ public class ReachStatusEffectImpl
 	}
 
 	public static EntityAttribute getReachAttribute() {
-		return ForgeMod.REACH_DISTANCE.get();
+		return ForgeMod.BLOCK_REACH.get();
 	}
 }

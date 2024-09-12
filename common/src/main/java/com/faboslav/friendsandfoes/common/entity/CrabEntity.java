@@ -255,7 +255,7 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 		BlockPos pos,
 		BlockState state
 	) {
-		if (!this.isOnGround() && state.getMaterial().isLiquid()) {
+		if (!this.isOnGround() && state.isLiquid()) {
 			return;
 		}
 
@@ -281,7 +281,7 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 			this.climbingTicks++;
 
 			var blockStateAtPos = this.getBlockStateAtPos();
-			if (this.isMoving() && !blockStateAtPos.getMaterial().isLiquid() && this.climbingTicks % 6 == 0) {
+			if (this.isMoving() && !blockStateAtPos.isLiquid() && this.climbingTicks % 6 == 0) {
 				this.playStepSound(this.getBlockPos(), blockStateAtPos);
 			}
 		} else {

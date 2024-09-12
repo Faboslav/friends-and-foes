@@ -17,7 +17,9 @@ public final class FriendsAndFoesPointOfInterestTypes
 	public static final ResourcefulRegistry<PointOfInterestType> POINT_OF_INTEREST_TYPES = ResourcefulRegistries.create(Registries.POINT_OF_INTEREST_TYPE, FriendsAndFoes.MOD_ID);
 
 	public final static Supplier<PointOfInterestType> ACACIA_BEEHIVE = POINT_OF_INTEREST_TYPES.register("acacia_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.ACACIA_BEEHIVE.get()), 1, 1));
+	public final static Supplier<PointOfInterestType> BAMBOO_BEEHIVE = POINT_OF_INTEREST_TYPES.register("bamboo_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.BAMBOO_BEEHIVE.get()), 1, 1));
 	public final static Supplier<PointOfInterestType> BIRCH_BEEHIVE = POINT_OF_INTEREST_TYPES.register("birch_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.BIRCH_BEEHIVE.get()), 1, 1));
+	public final static Supplier<PointOfInterestType> CHERRY_BEEHIVE = POINT_OF_INTEREST_TYPES.register("cherry_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.CHERRY_BEEHIVE.get()), 1, 1));
 	public final static Supplier<PointOfInterestType> CRIMSON_BEEHIVE = POINT_OF_INTEREST_TYPES.register("crimson_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.CRIMSON_BEEHIVE.get()), 1, 1));
 	public final static Supplier<PointOfInterestType> DARK_OAK_BEEHIVE = POINT_OF_INTEREST_TYPES.register("dark_oak_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.DARK_OAK_BEEHIVE.get()), 1, 1));
 	public final static Supplier<PointOfInterestType> JUNGLE_BEEHIVE = POINT_OF_INTEREST_TYPES.register("jungle_beehive", () -> new PointOfInterestType(PointOfInterestTypes.getStatesOfBlock(FriendsAndFoesBlocks.JUNGLE_BEEHIVE.get()), 1, 1));

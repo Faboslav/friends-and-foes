@@ -72,7 +72,7 @@ public final class FriendsAndFoesForgeClient
 				ParticleType<T> type,
 				Function<SpriteProvider, ParticleFactory<T>> registration
 			) {
-				event.register(type, registration::apply);
+				event.registerSpriteSet(type, registration::apply);
 			}
 		};
 	}

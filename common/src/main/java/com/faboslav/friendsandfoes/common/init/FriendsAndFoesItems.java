@@ -36,7 +36,9 @@ public final class FriendsAndFoesItems
 	public final static RegistryEntry<Item> CRAB_CLAW = ITEMS.register("crab_claw", () -> new Item((new Item.Settings())));
 	public final static RegistryEntry<Item> CRAB_EGG = ITEMS.register("crab_egg", () -> new BlockItem(FriendsAndFoesBlocks.CRAB_EGG.get(), new Item.Settings().maxCount(64)));
 	public final static RegistryEntry<Item> ACACIA_BEEHIVE = ITEMS.register("acacia_beehive", () -> new BlockItem(FriendsAndFoesBlocks.ACACIA_BEEHIVE.get(), new Item.Settings().maxCount(64)));
+	public final static RegistryEntry<Item> BAMBOO_BEEHIVE = ITEMS.register("bamboo_beehive", () -> new BlockItem(FriendsAndFoesBlocks.BAMBOO_BEEHIVE.get(), new Item.Settings().maxCount(64)));
 	public final static RegistryEntry<Item> BIRCH_BEEHIVE = ITEMS.register("birch_beehive", () -> new BlockItem(FriendsAndFoesBlocks.BIRCH_BEEHIVE.get(), new Item.Settings().maxCount(64)));
+	public final static RegistryEntry<Item> CHERRY_BEEHIVE = ITEMS.register("cherry_beehive", () -> new BlockItem(FriendsAndFoesBlocks.CHERRY_BEEHIVE.get(), new Item.Settings().maxCount(64)));
 	public final static RegistryEntry<Item> CRIMSON_BEEHIVE = ITEMS.register("crimson_beehive", () -> new BlockItem(FriendsAndFoesBlocks.CRIMSON_BEEHIVE.get(), new Item.Settings().maxCount(64)));
 	public final static RegistryEntry<Item> DARK_OAK_BEEHIVE = ITEMS.register("dark_oak_beehive", () -> new BlockItem(FriendsAndFoesBlocks.DARK_OAK_BEEHIVE.get(), new Item.Settings().maxCount(64)));
 	public final static RegistryEntry<Item> JUNGLE_BEEHIVE = ITEMS.register("jungle_beehive", () -> new BlockItem(FriendsAndFoesBlocks.JUNGLE_BEEHIVE.get(), new Item.Settings().maxCount(64)));

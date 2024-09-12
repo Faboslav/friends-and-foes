@@ -5,6 +5,7 @@ import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.RegistryKey;
 
 import java.util.function.Consumer;
 
@@ -46,7 +47,7 @@ public record AddItemGroupEntriesEvent(Type type, ItemGroup itemGroup, boolean h
 		INVENTORY,
 		CUSTOM;
 
-		public static Type toType(ItemGroup itemGroup) {
+		public static Type toType(RegistryKey<ItemGroup> itemGroup) {
 			if (ItemGroups.BUILDING_BLOCKS.equals(itemGroup)) return BUILDING_BLOCKS;
 			else if (ItemGroups.COLORED_BLOCKS.equals(itemGroup)) return COLORED_BLOCKS;
 			else if (ItemGroups.NATURAL.equals(itemGroup)) return NATURAL;

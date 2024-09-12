@@ -2,7 +2,6 @@ package com.faboslav.friendsandfoes.forge;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.events.AddItemGroupEntriesEvent;
-import com.faboslav.friendsandfoes.common.events.RegisterItemGroupsEvent;
 import com.faboslav.friendsandfoes.common.events.RegisterVillagerTradesEvent;
 import com.faboslav.friendsandfoes.common.events.block.RegisterBlockSetTypeEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.*;
@@ -16,29 +15,18 @@ import com.faboslav.friendsandfoes.common.world.spawner.IceologerSpawner;
 import com.faboslav.friendsandfoes.common.world.spawner.IllusionerSpawner;
 import com.faboslav.friendsandfoes.forge.init.FriendsAndFoesBiomeModifiers;
 import com.faboslav.friendsandfoes.forge.mixin.FireBlockAccessor;
-import com.google.common.collect.Lists;
 import net.minecraft.block.BlockSetType;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
-<<<<<<< HEAD
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.item.ItemGroup;
-=======
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.item.ItemStack;
->>>>>>> 1.19.4
+import net.minecraft.registry.Registries;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.village.raid.Raid;
 import net.minecraft.world.dimension.DimensionTypes;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
-<<<<<<< HEAD
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-=======
-import net.minecraftforge.event.CreativeModeTabEvent;
->>>>>>> 1.19.4
 import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
@@ -51,8 +39,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
-
-import java.util.List;
 
 @Mod(FriendsAndFoes.MOD_ID)
 public final class FriendsAndFoesForge
@@ -71,28 +57,6 @@ public final class FriendsAndFoesForge
 			FriendsAndFoesForgeClient.init(modEventBus, eventBus);
 		}
 
-<<<<<<< HEAD
-		RegistryHelperImpl.ACTIVITIES.register(modEventBus);
-		RegistryHelperImpl.BLOCKS.register(modEventBus);
-		FriendsAndFoesEntityTypes.previousUseChoiceTypeRegistrations = SharedConstants.useChoiceTypeRegistrations;
-		SharedConstants.useChoiceTypeRegistrations = false;
-		RegistryHelperImpl.ENTITY_TYPES.register(modEventBus);
-		SharedConstants.useChoiceTypeRegistrations = FriendsAndFoesEntityTypes.previousUseChoiceTypeRegistrations;
-		RegistryHelperImpl.ITEMS.register(modEventBus);
-		RegistryHelperImpl.MEMORY_MODULE_TYPES.register(modEventBus);
-		RegistryHelperImpl.SENSOR_TYPES.register(modEventBus);
-		RegistryHelperImpl.PARTICLE_TYPES.register(modEventBus);
-		RegistryHelperImpl.POINT_OF_INTEREST_TYPES.register(modEventBus);
-		RegistryHelperImpl.SOUND_EVENTS.register(modEventBus);
-		RegistryHelperImpl.STRUCTURE_TYPES.register(modEventBus);
-		RegistryHelperImpl.STRUCTURE_PROCESSOR_TYPES.register(modEventBus);
-		RegistryHelperImpl.VILLAGER_PROFESSIONS.register(modEventBus);
-
-		modEventBus.addListener(FriendsAndFoesForge::registerEntityAttributes);
-		modEventBus.addListener(FriendsAndFoesForge::addItemsToTabs);
-
-=======
->>>>>>> 1.19.4
 		eventBus.addListener(FriendsAndFoesForge::initSpawners);
 		eventBus.addListener(FriendsAndFoesForge::onAddVillagerTrades);
 		eventBus.addListener(FriendsAndFoesForge::onAddReloadListeners);
@@ -100,7 +64,6 @@ public final class FriendsAndFoesForge
 		modEventBus.addListener(FriendsAndFoesForge::onSetup);
 		modEventBus.addListener(FriendsAndFoesForge::onRegisterAttributes);
 		modEventBus.addListener(FriendsAndFoesForge::onRegisterSpawnRestrictions);
-		modEventBus.addListener(FriendsAndFoesForge::onRegisterItemGroups);
 		modEventBus.addListener(FriendsAndFoesForge::onAddItemGroupEntries);
 	}
 
@@ -132,27 +95,8 @@ public final class FriendsAndFoesForge
 		});
 	}
 
-<<<<<<< HEAD
-	private static void addItemsToTabs(BuildCreativeModeTabContentsEvent event) {
-		RegistryHelperImpl.ITEMS_TO_ADD_BEFORE.forEach((itemGroup, itemPairs) -> {
-			if (event.getTabKey() == itemGroup) {
-				itemPairs.forEach((item, before) -> {
-					event.getEntries().putBefore(before.getDefaultStack(), item.getDefaultStack(), ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS);
-				});
-			}
-		});
-
-		RegistryHelperImpl.ITEMS_TO_ADD_AFTER.forEach((itemGroup, itemPairs) -> {
-			if (event.getTabKey() == itemGroup) {
-				itemPairs.forEach((item, after) -> {
-					event.getEntries().putAfter(after.getDefaultStack(), item.getDefaultStack(), ItemGroup.StackVisibility.PARENT_AND_SEARCH_TABS);
-				});
-			}
-		});
-=======
 	private static void onAddReloadListeners(AddReloadListenerEvent event) {
 		RegisterReloadListenerEvent.EVENT.invoke(new RegisterReloadListenerEvent((id, listener) -> event.addListener(listener)));
->>>>>>> 1.19.4
 	}
 
 	private static void onDatapackSync(OnDatapackSyncEvent event) {
@@ -169,21 +113,15 @@ public final class FriendsAndFoesForge
 		RegisterVillagerTradesEvent.EVENT.invoke(new RegisterVillagerTradesEvent(event.getType(), (i, listing) -> event.getTrades().get(i.intValue()).add(listing)));
 	}
 
-	private static void onRegisterItemGroups(CreativeModeTabEvent.Register event) {
-		RegisterItemGroupsEvent.EVENT.invoke(new RegisterItemGroupsEvent((id, operator, initialDisplayItems) ->
-			event.registerCreativeModeTab(id, builder -> {
-				operator.accept(builder);
-				builder.entries((flag, output) -> {
-					List<ItemStack> stacks = Lists.newArrayList();
-					initialDisplayItems.accept(stacks);
-					output.addAll(stacks);
-				});
-			})
-		));
-	}
-
-	private static void onAddItemGroupEntries(CreativeModeTabEvent.BuildContents event) {
-		AddItemGroupEntriesEvent.EVENT.invoke(new AddItemGroupEntriesEvent(AddItemGroupEntriesEvent.Type.toType(event.getTab()), event.getTab(), event.hasPermissions(), event::add));
+	private static void onAddItemGroupEntries(BuildCreativeModeTabContentsEvent event) {
+		AddItemGroupEntriesEvent.EVENT.invoke(
+			new AddItemGroupEntriesEvent(
+				AddItemGroupEntriesEvent.Type.toType(Registries.ITEM_GROUP.getKey(event.getTab()).orElse(null)),
+				event.getTab(),
+				event.hasPermissions(),
+				event::add
+			)
+		);
 	}
 
 	private static void onRegisterAttributes(EntityAttributeCreationEvent event) {

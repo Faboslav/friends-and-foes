@@ -1,9 +1,9 @@
 package com.faboslav.friendsandfoes.common.platform.neoforge;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.google.common.base.Preconditions;
 import com.faboslav.friendsandfoes.common.network.base.Packet;
 import com.faboslav.friendsandfoes.common.network.base.PacketHandler;
+import com.google.common.base.Preconditions;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.NetworkSide;
 import net.minecraft.network.PacketByteBuf;

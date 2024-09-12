@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.forge.modcompat.forge.curios;
+package com.faboslav.friendsandfoes.forge.modcompat.curios;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;

@@ -2,8 +2,8 @@ package com.faboslav.friendsandfoes.common.init.forge;
 
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStructureProcessorTypes;
 import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
-import com.faboslav.friendsandfoes.forge.world.forge.processor.IceologerCabinArmorStandProcessor;
-import com.faboslav.friendsandfoes.forge.world.forge.processor.IllusionerShackItemFrameProcessor;
+import com.faboslav.friendsandfoes.forge.world.processor.IceologerCabinArmorStandProcessor;
+import com.faboslav.friendsandfoes.forge.world.processor.IllusionerShackItemFrameProcessor;
 import net.minecraft.structure.processor.StructureProcessorType;
 
 public class FriendsAndFoesStructureProcessorTypesImpl

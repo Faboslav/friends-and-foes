@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.neoforge.world;
+package com.faboslav.friendsandfoes.neoforge.worldgen;
 
 import com.faboslav.friendsandfoes.common.events.lifecycle.AddSpawnBiomeModificationsEvent;
 import com.faboslav.friendsandfoes.neoforge.init.FriendsAndFoesBiomeModifiers;

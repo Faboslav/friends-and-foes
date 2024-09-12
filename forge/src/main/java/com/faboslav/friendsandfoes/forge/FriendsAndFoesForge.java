@@ -58,6 +58,7 @@ public final class FriendsAndFoesForge
 		}
 
 		eventBus.addListener(FriendsAndFoesForge::initSpawners);
+		eventBus.addListener(FriendsAndFoesForge::onServerAboutToStartEvent);
 		eventBus.addListener(FriendsAndFoesForge::onAddVillagerTrades);
 		eventBus.addListener(FriendsAndFoesForge::onAddReloadListeners);
 		eventBus.addListener(FriendsAndFoesForge::onDatapackSync);

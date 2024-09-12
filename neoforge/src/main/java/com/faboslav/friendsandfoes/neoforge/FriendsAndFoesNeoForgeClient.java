@@ -2,34 +2,43 @@ package com.faboslav.friendsandfoes.neoforge;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.FriendsAndFoesClient;
-import com.faboslav.friendsandfoes.client.particle.FreezingTotemParticle;
-import com.faboslav.friendsandfoes.client.particle.IllusionTotemParticle;
-import com.faboslav.friendsandfoes.config.ConfigScreenBuilder;
-import com.faboslav.friendsandfoes.init.FriendsAndFoesParticleTypes;
-import com.faboslav.friendsandfoes.platform.neoforge.RegistryHelperImpl;
-import net.minecraft.client.model.TexturedModelData;
-import net.minecraft.client.render.entity.model.EntityModelLayer;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
+import com.faboslav.friendsandfoes.common.config.ConfigScreenBuilder;
+import com.faboslav.friendsandfoes.common.events.client.RegisterEntityLayersEvent;
+import com.faboslav.friendsandfoes.common.events.client.RegisterEntityRenderersEvent;
+import com.faboslav.friendsandfoes.common.events.client.RegisterItemColorEvent;
+import com.faboslav.friendsandfoes.common.events.client.RegisterParticlesEvent;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesItems;
+import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
+import com.faboslav.friendsandfoes.common.item.DispenserAddedSpawnEgg;
+import net.minecraft.client.particle.ParticleFactory;
+import net.minecraft.client.particle.SpriteProvider;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.ParticleType;
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.ModLoadingContext;
-import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.ConfigScreenHandler;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 
-import java.util.Map;
-import java.util.function.Supplier;
+import java.util.function.Function;
 
-@Mod.EventBusSubscriber(modid = FriendsAndFoes.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public final class FriendsAndFoesNeoForgeClient
 {
-	@SubscribeEvent
-	public static void clientInit(final FMLClientSetupEvent event) {
-		event.enqueueWork(() -> {
-			FriendsAndFoesClient.postInit();
+	public static void init(IEventBus modEventBus, IEventBus eventBus) {
+		FriendsAndFoesClient.init();
 
+		modEventBus.addListener(FriendsAndFoesNeoForgeClient::onClientSetup);
+		modEventBus.addListener(FriendsAndFoesNeoForgeClient::onRegisterParticles);
+		modEventBus.addListener(FriendsAndFoesNeoForgeClient::onRegisterItemColors);
+		modEventBus.addListener(FriendsAndFoesNeoForgeClient::onRegisterEntityRenderers);
+		modEventBus.addListener(FriendsAndFoesNeoForgeClient::onRegisterEntityLayers);
+	}
+
+	public static void onClientSetup(final FMLClientSetupEvent event) {
+		event.enqueueWork(() -> {
 			if (ModList.get().isLoaded("cloth_config")) {
 				ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () ->
 					new ConfigScreenHandler.ConfigScreenFactory(
@@ -40,16 +49,37 @@ public final class FriendsAndFoesNeoForgeClient
 		});
 	}
 
-	@SubscribeEvent
-	public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
-		for (Map.Entry<EntityModelLayer, Supplier<TexturedModelData>> entry : RegistryHelperImpl.ENTITY_MODEL_LAYERS.entrySet()) {
-			event.registerLayerDefinition(entry.getKey(), entry.getValue());
-		}
+	private static void onRegisterEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+		RegisterEntityRenderersEvent.EVENT.invoke(new RegisterEntityRenderersEvent(event::registerEntityRenderer));
 	}
 
-	@SubscribeEvent
-	public static void registerParticleFactory(RegisterParticleProvidersEvent event) {
-		event.registerSpriteSet(FriendsAndFoesParticleTypes.TOTEM_OF_FREEZING, FreezingTotemParticle.Factory::new);
-		event.registerSpriteSet(FriendsAndFoesParticleTypes.TOTEM_OF_ILLUSION, IllusionTotemParticle.Factory::new);
+	private static void onRegisterEntityLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
+		RegisterEntityLayersEvent.EVENT.invoke(new RegisterEntityLayersEvent(event::registerLayerDefinition));
+	}
+
+	private static void onRegisterParticles(RegisterParticleProvidersEvent event) {
+		RegisterParticlesEvent.EVENT.invoke(new RegisterParticlesEvent(FriendsAndFoesNeoForgeClient.registerParticle(event)));
+	}
+
+	private static RegisterParticlesEvent.Registrar registerParticle(RegisterParticleProvidersEvent event) {
+		return new RegisterParticlesEvent.Registrar()
+		{
+			@Override
+			public <T extends ParticleEffect> void register(
+				ParticleType<T> type,
+				Function<SpriteProvider, ParticleFactory<T>> registration
+			) {
+				event.registerSpriteSet(type, registration::apply);
+			}
+		};
+	}
+
+	private static void onRegisterItemColors(RegisterColorHandlersEvent.Item event) {
+		RegisterItemColorEvent.EVENT.invoke(new RegisterItemColorEvent(event::register, event.getBlockColors()::getColor));
+		FriendsAndFoesItems.ITEMS.stream()
+			.map(RegistryEntry::get)
+			.filter(item -> item instanceof DispenserAddedSpawnEgg)
+			.map(item -> (DispenserAddedSpawnEgg) item)
+			.forEach(item -> event.register((stack, index) -> item.getColor(index), item));
 	}
 }

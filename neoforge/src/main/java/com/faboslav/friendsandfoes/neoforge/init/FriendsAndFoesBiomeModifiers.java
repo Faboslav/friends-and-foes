@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.neoforge.init;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.neoforge.worldgen.MobSpawnsBiomeModifier;
+import com.faboslav.friendsandfoes.neoforge.world.MobSpawnsBiomeModifier;
 import com.mojang.serialization.Codec;
 import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.registries.DeferredHolder;

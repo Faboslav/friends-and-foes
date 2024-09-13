@@ -1,13 +1,10 @@
 package com.faboslav.friendsandfoes.common.entity.effect;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import dev.architectury.injectables.annotations.ExpectPlatform;
-import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
-import org.apache.commons.lang3.NotImplementedException;
 
 public class ReachStatusEffect extends StatusEffect
 {

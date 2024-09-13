@@ -6,8 +6,8 @@ import java.util.function.Supplier;
 
 public interface RegistryEntry<T> extends Supplier<T>
 {
-    @Override
-    T get();
+	@Override
+	T get();
 
-    Identifier getId();
+	Identifier getId();
 }

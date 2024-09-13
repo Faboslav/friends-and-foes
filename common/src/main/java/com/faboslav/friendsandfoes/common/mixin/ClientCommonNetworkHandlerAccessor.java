@@ -9,8 +9,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Environment(EnvType.CLIENT)
 @Mixin(ClientCommonNetworkHandler.class)
-public interface ClientCommonNetworkHandlerAccessor
-{
-	@Accessor
-	MinecraftClient getClient();
+public interface ClientCommonNetworkHandlerAccessor {
+    @Accessor
+    MinecraftClient getClient();
 }

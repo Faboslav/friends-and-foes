@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.common.	network.base;
+package com.faboslav.friendsandfoes.common.network.base;
 
 import com.faboslav.friendsandfoes.common.network.Packet;
 import com.faboslav.friendsandfoes.common.network.internal.NetworkPacketPayload;

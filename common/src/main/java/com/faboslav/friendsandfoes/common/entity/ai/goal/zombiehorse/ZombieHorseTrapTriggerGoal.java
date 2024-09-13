@@ -1,9 +1,9 @@
 package com.faboslav.friendsandfoes.common.entity.ai.goal.zombiehorse;
 
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.ItemEnchantmentsComponent;
 import com.faboslav.friendsandfoes.common.entity.ZombieHorseEntityAccess;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesCriterias;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -21,7 +21,6 @@ import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.LocalDifficulty;
-
 import java.util.List;
 
 public final class ZombieHorseTrapTriggerGoal extends Goal

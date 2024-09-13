@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.common.init.registry;
 
-public final class ResourcefulRegistryType<D, T extends ResourcefulRegistry<D>>
-{
+public final class ResourcefulRegistryType<D, T extends ResourcefulRegistry<D>> {
     private final Class<T> type;
 
     private ResourcefulRegistryType(Class<T> type) {

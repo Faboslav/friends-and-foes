@@ -27,13 +27,11 @@ import net.minecraft.block.BlockSetType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.recipe.Ingredient;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.BiomeTags;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.village.TradeOffers;
 import net.minecraft.world.dimension.DimensionTypes;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

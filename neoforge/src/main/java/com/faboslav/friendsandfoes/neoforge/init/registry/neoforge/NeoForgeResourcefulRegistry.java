@@ -13,30 +13,30 @@ import java.util.function.Supplier;
 
 public class NeoForgeResourcefulRegistry<T> implements ResourcefulRegistry<T>
 {
-    private final DeferredRegister<T> register;
-    private final RegistryEntries<T> entries = new RegistryEntries<>();
+	private final DeferredRegister<T> register;
+	private final RegistryEntries<T> entries = new RegistryEntries<>();
 
-    public NeoForgeResourcefulRegistry(Registry<T> registry, String id) {
-        this.register = DeferredRegister.create(registry.getKey(), id);
-    }
+	public NeoForgeResourcefulRegistry(Registry<T> registry, String id) {
+		this.register = DeferredRegister.create(registry.getKey(), id);
+	}
 
-    @Override
-    public <I extends T> RegistryEntry<I> register(String id, Supplier<I> supplier) {
-        return this.entries.add(new NeoForgeRegistryEntry<>(register.register(id, supplier)));
-    }
+	@Override
+	public <I extends T> RegistryEntry<I> register(String id, Supplier<I> supplier) {
+		return this.entries.add(new NeoForgeRegistryEntry<>(register.register(id, supplier)));
+	}
 
-    @Override
-    public ReferenceRegistryEntry<T> registerReference(String id, Supplier<T> supplier) {
-        return this.entries.add(new NeoForgeReferenceRegistryEntry<>(register.register(id, supplier)));
-    }
+	@Override
+	public ReferenceRegistryEntry<T> registerReference(String id, Supplier<T> supplier) {
+		return this.entries.add(new NeoForgeReferenceRegistryEntry<>(register.register(id, supplier)));
+	}
 
-    @Override
-    public Collection<RegistryEntry<T>> getEntries() {
-        return this.entries.getEntries();
-    }
+	@Override
+	public Collection<RegistryEntry<T>> getEntries() {
+		return this.entries.getEntries();
+	}
 
-    @Override
-    public void init() {
-        register.register(ModLoadingContext.get().getActiveContainer().getEventBus());
-    }
+	@Override
+	public void init() {
+		register.register(ModLoadingContext.get().getActiveContainer().getEventBus());
+	}
 }

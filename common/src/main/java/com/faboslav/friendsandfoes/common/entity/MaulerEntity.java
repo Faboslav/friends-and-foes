@@ -1,13 +1,13 @@
 package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.common.entity.ai.goal.mauler.*;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.block.BlockState;
 import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.enchantment.Enchantment;
@@ -47,7 +47,6 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.UUID;
 import java.util.function.Predicate;
 

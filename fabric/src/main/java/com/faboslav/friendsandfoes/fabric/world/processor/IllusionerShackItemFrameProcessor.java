@@ -1,0 +1,68 @@
+package com.faboslav.friendsandfoes.fabric.world.processor;
+
+<<<<<<< HEAD:fabric/src/main/java/com/faboslav/friendsandfoes/world/fabric/processor/IllusionerShackItemFrameProcessor.java
+import com.faboslav.friendsandfoes.platform.fabric.StructureEntityProcessorTypesImpl;
+import com.faboslav.friendsandfoes.util.world.processor.IllusionerShackItemFrameProcessorHelper;
+import com.faboslav.friendsandfoes.world.processor.StructureEntityProcessor;
+import com.mojang.serialization.MapCodec;
+=======
+import com.faboslav.friendsandfoes.common.init.fabric.FriendsAndFoesStructureProcessorTypesImpl;
+import com.faboslav.friendsandfoes.common.util.world.processor.IllusionerShackItemFrameProcessorHelper;
+import com.mojang.serialization.Codec;
+import com.yungnickyoung.minecraft.yungsapi.world.processor.StructureEntityProcessor;
+>>>>>>> 1.20.4:fabric/src/main/java/com/faboslav/friendsandfoes/fabric/world/processor/IllusionerShackItemFrameProcessor.java
+import net.minecraft.structure.StructurePlacementData;
+import net.minecraft.structure.StructureTemplate;
+import net.minecraft.structure.StructureTemplate.StructureEntityInfo;
+import net.minecraft.structure.processor.StructureProcessorType;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.ServerWorldAccess;
+import net.minecraft.world.WorldView;
+import org.jetbrains.annotations.Nullable;
+
+/**
+ * Inspired by use in Better Strongholds mod
+ *
+ * @author YUNGNICKYOUNG
+ * <a href="https://github.com/YUNG-GANG/YUNGs-Better-Strongholds">https://github.com/YUNG-GANG/YUNGs-Better-Strongholds</a>
+ */
+public final class IllusionerShackItemFrameProcessor extends StructureEntityProcessor
+{
+	public static final MapCodec<IllusionerShackItemFrameProcessor> CODEC = MapCodec.unit(IllusionerShackItemFrameProcessor::new);
+
+	private IllusionerShackItemFrameProcessor() {
+	}
+
+	@Override
+	public StructureEntityInfo processEntity(
+		ServerWorldAccess serverWorldAccess,
+		BlockPos structurePiecePos,
+		BlockPos structurePieceBottomCenterPos,
+		StructureEntityInfo localEntityInfo,
+		StructureEntityInfo globalEntityInfo,
+		StructurePlacementData structurePlacementData
+	) {
+		return IllusionerShackItemFrameProcessorHelper.processEntity(
+			globalEntityInfo,
+			structurePlacementData
+		);
+	}
+
+	@Nullable
+	@Override
+	public StructureTemplate.StructureBlockInfo process(
+		WorldView world,
+		BlockPos pos,
+		BlockPos pivot,
+		StructureTemplate.StructureBlockInfo localEntityInfo,
+		StructureTemplate.StructureBlockInfo globalEntityInfo,
+		StructurePlacementData data
+	) {
+		return globalEntityInfo;
+	}
+
+	@Override
+	protected StructureProcessorType<?> getType() {
+		return FriendsAndFoesStructureProcessorTypesImpl.ILLUSIONER_SHACK_ITEM_FRAME_PROCESSOR.get();
+	}
+}

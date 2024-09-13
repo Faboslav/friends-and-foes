@@ -5,6 +5,8 @@ accessible class net/minecraft/entity/mob/IllusionerEntity$BlindTargetGoal
 accessible class net/minecraft/entity/mob/SpellcastingIllagerEntity$Spell
 extendable class net/minecraft/world/gen/structure/JigsawStructure
 accessible class net/minecraft/client/render/entity/animation/Animation
+accessible class net/minecraft/client/particle/ParticleManager$SimpleSpriteProvider
+accessible method net/minecraft/client/particle/ParticleManager$SimpleSpriteProvider <init> ()V
 accessible field net/minecraft/world/poi/PointOfInterestType blockStates Ljava/util/Set;
 mutable field net/minecraft/world/poi/PointOfInterestType blockStates Ljava/util/Set;
 accessible field net/minecraft/world/poi/PointOfInterestType ticketCount I
@@ -33,3 +35,7 @@ accessible field net/minecraft/item/ItemGroups REDSTONE Lnet/minecraft/registry/
 accessible field net/minecraft/item/ItemGroups INGREDIENTS Lnet/minecraft/registry/RegistryKey;
 accessible field net/minecraft/item/ItemGroups COMBAT Lnet/minecraft/registry/RegistryKey;
 accessible method net/minecraft/entity/EntityPose <init> (Ljava/lang/String;II)V
+accessible method net/minecraft/particle/DefaultParticleType <init> (Z)V
+accessible method net/minecraft/entity/effect/StatusEffect <init> (Lnet/minecraft/entity/effect/StatusEffectCategory;I)V
+accessible field net/minecraft/block/Oxidizable OXIDATION_LEVEL_INCREASES Ljava/util/function/Supplier;
+accessible field net/minecraft/block/Oxidizable OXIDATION_LEVEL_DECREASES Ljava/util/function/Supplier;

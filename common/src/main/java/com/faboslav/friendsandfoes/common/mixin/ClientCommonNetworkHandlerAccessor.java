@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.mixin;
+package com.faboslav.friendsandfoes.common.mixin;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

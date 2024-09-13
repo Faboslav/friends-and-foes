@@ -18,8 +18,7 @@ import net.minecraft.util.Identifier;
 import java.util.ArrayList;
 import java.util.List;
 
-public record MoobloomVariantsSyncPacket(
-	List<MoobloomVariant> moobloomVariants) implements Packet<MoobloomVariantsSyncPacket>
+public record MoobloomVariantsSyncPacket(List<MoobloomVariant> moobloomVariants) implements Packet<MoobloomVariantsSyncPacket>
 {
 	public static final Identifier ID = FriendsAndFoes.makeID("moobloom_variants_sync_packet");
 	public static final ClientboundPacketType<MoobloomVariantsSyncPacket> TYPE = new MoobloomVariantsSyncPacket.Handler();

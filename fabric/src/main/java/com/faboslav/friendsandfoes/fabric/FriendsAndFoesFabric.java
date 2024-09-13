@@ -51,8 +51,6 @@ public final class FriendsAndFoesFabric implements ModInitializer
 	}
 
 	private static void initEvents() {
-		SetupEvent.EVENT.invoke(new SetupEvent(Runnable::run));
-
 		RegisterReloadListenerEvent.EVENT.invoke(new RegisterReloadListenerEvent((id, listener) -> {
 			ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new FabricReloadListener(id, listener));
 		}));

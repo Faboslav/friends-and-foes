@@ -10,8 +10,8 @@ import net.minecraft.potion.Potions;
 public final class FriendsAndFoesRecipes
 {
 	public static void registerBrewingRecipes(RegisterBrewingRecipesEvent event) {
-		event.registrator().accept(Potions.AWKWARD, FriendsAndFoesItems.CRAB_CLAW.get(), FriendsAndFoesPotions.REACHING.reference());
-		event.registrator().accept(FriendsAndFoesPotions.REACHING.reference(), Items.REDSTONE, FriendsAndFoesPotions.LONG_REACHING.reference());
-		event.registrator().accept(FriendsAndFoesPotions.REACHING.reference(), Items.GLOWSTONE_DUST, FriendsAndFoesPotions.STRONG_REACHING.reference());
+		event.registrator().accept(Potions.AWKWARD, FriendsAndFoesItems.CRAB_CLAW.get(), FriendsAndFoesPotions.REACHING.referenceRegistryEntry());
+		event.registrator().accept(FriendsAndFoesPotions.REACHING.referenceRegistryEntry(), Items.REDSTONE, FriendsAndFoesPotions.LONG_REACHING.referenceRegistryEntry());
+		event.registrator().accept(FriendsAndFoesPotions.REACHING.referenceRegistryEntry(), Items.GLOWSTONE_DUST, FriendsAndFoesPotions.STRONG_REACHING.referenceRegistryEntry());
 	}
 }

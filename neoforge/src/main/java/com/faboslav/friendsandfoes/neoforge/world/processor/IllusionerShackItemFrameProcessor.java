@@ -2,7 +2,7 @@ package com.faboslav.friendsandfoes.neoforge.world.processor;
 
 import com.faboslav.friendsandfoes.common.util.world.processor.IllusionerShackItemFrameProcessorHelper;
 import com.faboslav.friendsandfoes.neoforge.init.neoforge.FriendsAndFoesStructureProcessorTypesImpl;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.structure.StructurePlacementData;
 import net.minecraft.structure.StructureTemplate;
 import net.minecraft.structure.processor.StructureProcessor;
@@ -19,8 +19,10 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class IllusionerShackItemFrameProcessor extends StructureProcessor
 {
-	public static final IllusionerShackItemFrameProcessor INSTANCE = new IllusionerShackItemFrameProcessor();
-	public static final Codec<IllusionerShackItemFrameProcessor> CODEC = Codec.unit(() -> INSTANCE);
+	public static final MapCodec<IllusionerShackItemFrameProcessor> CODEC = MapCodec.unit(IllusionerShackItemFrameProcessor::new);
+
+	private IllusionerShackItemFrameProcessor() {
+	}
 
 	@Override
 	public StructureTemplate.StructureEntityInfo processEntity(

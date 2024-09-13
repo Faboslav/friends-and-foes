@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.neoforge.init.registry.neoforge;
+package com.faboslav.friendsandfoes.common.init.registry.neoforge;
 
 import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
 import net.minecraft.util.Identifier;

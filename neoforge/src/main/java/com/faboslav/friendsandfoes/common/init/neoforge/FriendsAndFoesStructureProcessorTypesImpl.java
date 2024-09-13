@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.neoforge.init.neoforge;
+package com.faboslav.friendsandfoes.common.init.neoforge;
 
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStructureProcessorTypes;
 import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;

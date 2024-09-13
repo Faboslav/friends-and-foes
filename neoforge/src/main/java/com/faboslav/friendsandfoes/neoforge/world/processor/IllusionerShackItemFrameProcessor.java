@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.neoforge.world.processor;
 
-import com.faboslav.friendsandfoes.neoforge.init.neoforge.FriendsAndFoesStructureProcessorTypesImpl;
+import com.faboslav.friendsandfoes.common.init.neoforge.FriendsAndFoesStructureProcessorTypesImpl;
 import com.faboslav.friendsandfoes.common.util.world.processor.IllusionerShackItemFrameProcessorHelper;
 import com.mojang.serialization.Codec;
 import net.minecraft.structure.StructurePlacementData;

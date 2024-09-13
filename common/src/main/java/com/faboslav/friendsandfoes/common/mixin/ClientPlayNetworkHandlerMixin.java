@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.util.UpdateChecker;
-import com.faboslav.friendsandfoes.mixin.ClientCommonNetworkHandlerAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;

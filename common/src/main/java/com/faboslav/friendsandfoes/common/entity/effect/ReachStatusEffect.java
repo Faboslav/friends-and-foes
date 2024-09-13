@@ -4,6 +4,7 @@ import com.faboslav.friendsandfoes.FriendsAndFoes;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import org.apache.commons.lang3.NotImplementedException;
@@ -13,16 +14,11 @@ public class ReachStatusEffect extends StatusEffect
 	public ReachStatusEffect(StatusEffectCategory statusEffectCategory, int color) {
 		super(statusEffectCategory, color);
 		// TODO check it
-		this.addAttributeModifier(ReachStatusEffect.getReachAttribute(), "9a6163d0-6aac-4d9a-ace1-74e2c47d5cd9", FriendsAndFoes.getConfig().reachingStatusEffectModifier, EntityAttributeModifier.Operation.ADD_VALUE);
+		this.addAttributeModifier(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE, "9a6163d0-6aac-4d9a-ace1-74e2c47d5cd9", FriendsAndFoes.getConfig().reachingStatusEffectModifier, EntityAttributeModifier.Operation.ADD_VALUE);
 	}
 
 	@Override
 	public boolean canApplyUpdateEffect(int duration, int amplifier) {
 		return false;
-	}
-
-	@ExpectPlatform
-	public static EntityAttribute getReachAttribute() {
-		return null;
 	}
 }

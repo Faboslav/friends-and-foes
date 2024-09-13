@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.common.events;
+package com.faboslav.friendsandfoes.common.events.entity;
 
 import com.faboslav.friendsandfoes.common.events.base.EventHandler;
 import net.minecraft.village.TradeOffers;

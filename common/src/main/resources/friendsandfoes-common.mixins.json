@@ -16,7 +16,11 @@
 		"BlazeEntityMixin",
 		"BlazeLivingEntityMixin",
 		"BlindTargetGoalFactory",
+<<<<<<< Updated upstream
 		"BrewingRecipeRegistryMixin",
+=======
+		"BundleItemAccessor",
+>>>>>>> Stashed changes
 		"CarvedPumpkinBlockMixin",
 		"ChickenEntityMixin",
 		"HoneycombItemMixin",

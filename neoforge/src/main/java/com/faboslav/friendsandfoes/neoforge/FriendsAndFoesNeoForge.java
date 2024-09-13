@@ -2,8 +2,8 @@ package com.faboslav.friendsandfoes.neoforge;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.events.AddItemGroupEntriesEvent;
-import com.faboslav.friendsandfoes.common.events.RegisterVillagerTradesEvent;
 import com.faboslav.friendsandfoes.common.events.block.RegisterBlockSetTypeEvent;
+import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.*;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStructurePoolElements;
@@ -34,6 +34,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
+import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.SpawnPlacementRegisterEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
@@ -60,6 +61,7 @@ public final class FriendsAndFoesNeoForge
 		eventBus.addListener(FriendsAndFoesNeoForge::initSpawners);
 		eventBus.addListener(FriendsAndFoesNeoForge::onServerAboutToStartEvent);
 		eventBus.addListener(FriendsAndFoesNeoForge::onAddVillagerTrades);
+		eventBus.addListener(FriendsAndFoesNeoForge::onRegisterBrewingRecipes);
 		eventBus.addListener(FriendsAndFoesNeoForge::onAddReloadListeners);
 		eventBus.addListener(FriendsAndFoesNeoForge::onDatapackSync);
 
@@ -118,6 +120,10 @@ public final class FriendsAndFoesNeoForge
 
 	private static void onAddVillagerTrades(VillagerTradesEvent event) {
 		RegisterVillagerTradesEvent.EVENT.invoke(new RegisterVillagerTradesEvent(event.getType(), (i, listing) -> event.getTrades().get(i.intValue()).add(listing)));
+	}
+
+	private static void onRegisterBrewingRecipes(RegisterBrewingRecipesEvent event) {
+		com.faboslav.friendsandfoes.common.events.item.RegisterBrewingRecipesEvent.EVENT.invoke(new com.faboslav.friendsandfoes.common.events.item.RegisterBrewingRecipesEvent(event.getBuilder()::registerPotionRecipe));
 	}
 
 	private static void onAddItemGroupEntries(BuildCreativeModeTabContentsEvent event) {

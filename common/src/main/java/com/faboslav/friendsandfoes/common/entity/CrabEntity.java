@@ -78,7 +78,6 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 		this.setPathfindingPenalty(PathNodeType.DOOR_IRON_CLOSED, -1.0F);
 		this.setPathfindingPenalty(PathNodeType.DOOR_WOOD_CLOSED, -1.0F);
 		this.setPathfindingPenalty(PathNodeType.DOOR_OPEN, -1.0F);
-		this.setStepHeight(0.0F);
 		this.lookControl = new CrabLookControl(this, 10);
 		this.navigation = new WallClimbNavigation(this, world);
 	}
@@ -88,10 +87,9 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 		ServerWorldAccess world,
 		LocalDifficulty difficulty,
 		SpawnReason spawnReason,
-		@Nullable EntityData entityData,
-		@Nullable NbtCompound entityNbt
+		@Nullable EntityData entityData
 	) {
-		EntityData superEntityData = super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
+		EntityData superEntityData = super.initialize(world, difficulty, spawnReason, entityData);
 
 		this.setHome(this.getNewHome());
 		this.setSize(CrabSize.getRandomCrabSize(world.getRandom()));
@@ -167,15 +165,15 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 	}
 
 	@Override
-	protected void initDataTracker() {
-		super.initDataTracker();
+	protected void initDataTracker(DataTracker.Builder builder) {
+		super.initDataTracker(builder);
 
-		this.dataTracker.startTracking(POSE_TICKS, 0);
-		this.dataTracker.startTracking(IS_CLIMBING_WALL, false);
-		this.dataTracker.startTracking(SIZE, CrabSize.getDefaultCrabSize().getName());
-		this.dataTracker.startTracking(HOME, new NbtCompound());
-		this.dataTracker.startTracking(HAS_EGG, false);
-		this.dataTracker.startTracking(IS_DANCING, false);
+		builder.add(POSE_TICKS, 0);
+		builder.add(IS_CLIMBING_WALL, false);
+		builder.add(SIZE, CrabSize.getDefaultCrabSize().getName());
+		builder.add(HOME, new NbtCompound());
+		builder.add(HAS_EGG, false);
+		builder.add(IS_DANCING, false);
 	}
 
 	@Override
@@ -550,8 +548,9 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 	}
 
 	@Override
-	public EntityDimensions getDimensions(EntityPose pose) {
-		return super.getDimensions(pose).scaled(this.getSize().scaleModifier);
+	public float getScaleFactor() {
+		// TODO check
+		return this.getSize().getScaleModifier();
 	}
 
 	public enum CrabSize

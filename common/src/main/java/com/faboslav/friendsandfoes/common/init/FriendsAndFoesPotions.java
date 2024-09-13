@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.common.init;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.init.registry.ReferenceRegistryEntry;
 import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistries;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
@@ -14,7 +15,7 @@ import net.minecraft.registry.Registries;
 public final class FriendsAndFoesPotions {
 	public static final ResourcefulRegistry<Potion> POTIONS = ResourcefulRegistries.create(Registries.POTION, FriendsAndFoes.MOD_ID);
 
-	public static final RegistryEntry<Potion> REACHING = POTIONS.register("reaching", () -> new Potion("reaching", new StatusEffectInstance(FriendsAndFoesStatusEffects.REACH.reference(), 72000)));
-	public static final RegistryEntry<Potion> LONG_REACHING = POTIONS.register("long_reaching", () -> new Potion("reaching", new StatusEffectInstance(FriendsAndFoesStatusEffects.REACH.reference(), 144000)));
-	public static final RegistryEntry<Potion> STRONG_REACHING = POTIONS.register("strong_reaching", () -> new Potion("reaching", new StatusEffectInstance(FriendsAndFoesStatusEffects.REACH.reference(), 1800, 1)));
+	public static final ReferenceRegistryEntry<Potion> REACHING = POTIONS.registerReference("reaching", () -> new Potion("reaching", new StatusEffectInstance(FriendsAndFoesStatusEffects.REACH.reference(), 72000)));
+	public static final ReferenceRegistryEntry<Potion> LONG_REACHING = POTIONS.registerReference("long_reaching", () -> new Potion("reaching", new StatusEffectInstance(FriendsAndFoesStatusEffects.REACH.reference(), 144000)));
+	public static final ReferenceRegistryEntry<Potion> STRONG_REACHING = POTIONS.registerReference("strong_reaching", () -> new Potion("reaching", new StatusEffectInstance(FriendsAndFoesStatusEffects.REACH.reference(), 1800, 1)));
 }

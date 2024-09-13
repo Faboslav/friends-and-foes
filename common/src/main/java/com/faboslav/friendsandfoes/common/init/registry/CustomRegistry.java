@@ -51,6 +51,11 @@ public interface CustomRegistry<T> extends ResourcefulRegistry<T>
 	}
 
 	@Override
+	default ReferenceRegistryEntry<T> registerReference(String id, Supplier<T> supplier) {
+		return registry().registerReference(id, supplier);
+	}
+
+	@Override
 	default Collection<RegistryEntry<T>> getEntries() {
 		return registry().getEntries();
 	}

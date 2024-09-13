@@ -1,10 +1,12 @@
 package com.faboslav.friendsandfoes.neoforge.init.registry.neoforge;
 
+import com.faboslav.friendsandfoes.common.init.registry.ReferenceRegistryEntry;
 import com.faboslav.friendsandfoes.common.init.registry.RegistryEntries;
 import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.util.Identifier;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.Collection;
@@ -31,6 +33,11 @@ public final class NeoForgeResourcefulRegistry<T> implements ResourcefulRegistry
 	@Override
 	public <I extends T> RegistryEntry<I> register(String id, Supplier<I> supplier) {
 		return this.entries.add(new NeoForgeRegistryEntry<>(register.register(id, supplier)));
+	}
+
+	@Override
+	public ReferenceRegistryEntry<T> registerReference(String id, Supplier<T> supplier) {
+		return entries.add(FabricReferenceRegistryEntry.of(this.registry, Identifier.of(this.id, id), supplier));
 	}
 
 	@Override

@@ -33,7 +33,7 @@ public abstract class LightningEntityMixin extends Entity {
             method = "powerLightningRod",
             at = @At(
                     value = "INVOKE",
-                    target = "net/minecraft/block/BlockState.isOf (Lnet/minecraft/block/Block;)Z"
+                    target = "Lnet/minecraft/block/BlockState;isOf(Lnet/minecraft/block/Block;)Z"
             )
     )
     private boolean friendsandfoes_expandPowerLightningRodIsLightningRodCondition(boolean original) {

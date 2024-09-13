@@ -1,9 +1,6 @@
 package com.faboslav.friendsandfoes.common.init.registry.fabric;
 
-import com.faboslav.friendsandfoes.common.init.registry.BasicRegistryEntry;
-import com.faboslav.friendsandfoes.common.init.registry.RegistryEntries;
-import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
-import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
+import com.faboslav.friendsandfoes.common.init.registry.*;
 import com.faboslav.friendsandfoes.fabric.mixin.PointOfInterestTypesAccessor;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
@@ -42,6 +39,11 @@ public final class FabricCustomResourcefulRegistry<T> implements ResourcefulRegi
 			);
 		}
 		return entries.add(new BasicRegistryEntry<>(new Identifier(this.id, id), value));
+	}
+
+	@Override
+	public ReferenceRegistryEntry<T> registerReference(String id, Supplier<T> supplier) {
+		return entries.add(FabricReferenceRegistryEntry.of(this.registry, Identifier.of(this.id, id), supplier));
 	}
 
 	@Override

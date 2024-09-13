@@ -52,7 +52,8 @@ public final class CrabBrain
 			Activity.CORE,
 			0,
 			ImmutableList.of(
-				new FleeTask(2.0f),
+				// TODO check
+				// new FleeTask(2.0f),
 				new LookAroundTask(45, 90),
 				new WanderAroundTask(),
 				new TemptationCooldownTask(MemoryModuleType.TEMPTATION_COOLDOWN_TICKS),
@@ -115,7 +116,7 @@ public final class CrabBrain
 			Activity.IDLE,
 			ImmutableList.of(
 				Pair.of(0, new TemptTask(crab -> 1.25f)),
-				Pair.of(1, new CrabBreedTask(FriendsAndFoesEntityTypes.CRAB.get(), 1.0f)),
+				Pair.of(1, new CrabBreedTask(FriendsAndFoesEntityTypes.CRAB.get())),
 				Pair.of(2, WalkTowardClosestAdultTask.create(UniformIntProvider.create(5, 16), 1.25f)),
 				Pair.of(3, new RandomTask(
 					ImmutableList.of(

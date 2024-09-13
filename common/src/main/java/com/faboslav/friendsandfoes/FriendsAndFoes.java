@@ -3,9 +3,8 @@ package com.faboslav.friendsandfoes;
 import com.faboslav.friendsandfoes.common.api.MoobloomVariantManager;
 import com.faboslav.friendsandfoes.common.config.FriendsAndFoesConfig;
 import com.faboslav.friendsandfoes.common.config.omegaconfig.OmegaConfig;
-import com.faboslav.friendsandfoes.common.events.AddItemGroupEntriesEvent;
-import com.faboslav.friendsandfoes.common.events.RegisterVillagerTradesEvent;
-import com.faboslav.friendsandfoes.common.events.block.RegisterBlockSetTypeEvent;
+import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
+import com.faboslav.friendsandfoes.common.events.item.RegisterBrewingRecipesEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.*;
 import com.faboslav.friendsandfoes.common.init.*;
 import com.faboslav.friendsandfoes.common.item.DispenserAddedSpawnEgg;
@@ -45,6 +44,17 @@ public final class FriendsAndFoes
 	public static void init() {
 		ModChecker.setupModCompat();
 
+		RegisterReloadListenerEvent.EVENT.addListener(FriendsAndFoes::registerServerDataListeners);
+		SetupEvent.EVENT.addListener(FriendsAndFoes::setup);
+		DatapackSyncEvent.EVENT.addListener(MoobloomVariantsSyncPacket::sendToClient);
+		RegisterFlammabilityEvent.EVENT.addListener(FriendsAndFoesBlocks::registerFlammablity);
+		RegisterEntityAttributesEvent.EVENT.addListener(FriendsAndFoesEntityTypes::registerEntityAttributes);
+		RegisterEntitySpawnRestrictionsEvent.EVENT.addListener(FriendsAndFoesEntityTypes::registerEntitySpawnRestrictions);
+		AddSpawnBiomeModificationsEvent.EVENT.addListener(FriendsAndFoesEntityTypes::addSpawnBiomeModifications);
+		RegisterBrewingRecipesEvent.EVENT.addListener(FriendsAndFoesRecipes::registerBrewingRecipes);
+		RegisterVillagerTradesEvent.EVENT.addListener(FriendsAndFoesVillagerProfessions::registerVillagerTrades);
+		SetupEvent.EVENT.addListener(DispenserAddedSpawnEgg::onSetup);
+
 		FriendsAndFoesActivities.ACTIVITIES.init();
 		FriendsAndFoesArmorMaterials.ARMOR_MATERIALS.init();
 		FriendsAndFoesBlocks.BLOCKS.init();
@@ -63,18 +73,6 @@ public final class FriendsAndFoes
 		FriendsAndFoesStructureProcessorTypes.init();
 		FriendsAndFoesStructureTypes.STRUCTURES.init();
 		FriendsAndFoesVillagerProfessions.VILLAGER_PROFESSIONS.init();
-
-		RegisterReloadListenerEvent.EVENT.addListener(FriendsAndFoes::registerServerDataListeners);
-		SetupEvent.EVENT.addListener(FriendsAndFoes::setup);
-		DatapackSyncEvent.EVENT.addListener(MoobloomVariantsSyncPacket::sendToClient);
-		RegisterBlockSetTypeEvent.EVENT.addListener(FriendsAndFoesBlockSetTypes::registerBlockSetTypes);
-		RegisterFlammabilityEvent.EVENT.addListener(FriendsAndFoesBlocks::registerFlammablity);
-		RegisterEntityAttributesEvent.EVENT.addListener(FriendsAndFoesEntityTypes::registerEntityAttributes);
-		RegisterEntitySpawnRestrictionsEvent.EVENT.addListener(FriendsAndFoesEntityTypes::registerEntitySpawnRestrictions);
-		AddSpawnBiomeModificationsEvent.EVENT.addListener(FriendsAndFoesEntityTypes::addSpawnBiomeModifications);
-		RegisterVillagerTradesEvent.EVENT.addListener(FriendsAndFoesVillagerProfessions::registerVillagerTrades);
-		SetupEvent.EVENT.addListener(DispenserAddedSpawnEgg::onSetup);
-		AddItemGroupEntriesEvent.EVENT.addListener(FriendsAndFoesItemGroups::addItemGroupEntries);
 	}
 
 	public static void lateInit() {
@@ -87,10 +85,6 @@ public final class FriendsAndFoes
 	}
 
 	private static void setup(final SetupEvent event) {
-		event.enqueueWork(() -> {
-			FriendsAndFoesRecipes.registerBrewingRecipes();
-		});
-
 		MessageHandler.init();
 	}
 }

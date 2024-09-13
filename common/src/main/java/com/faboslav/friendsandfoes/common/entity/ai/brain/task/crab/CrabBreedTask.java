@@ -8,8 +8,8 @@ import net.minecraft.server.world.ServerWorld;
 
 public class CrabBreedTask extends BreedTask
 {
-	public CrabBreedTask(EntityType<? extends AnimalEntity> targetType, float speed) {
-		super(targetType, speed);
+	public CrabBreedTask(EntityType<? extends AnimalEntity> targetType) {
+		super(targetType);
 	}
 
 	@Override

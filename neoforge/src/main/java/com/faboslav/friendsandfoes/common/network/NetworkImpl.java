@@ -1,6 +1,7 @@
-package com.faboslav.friendsandfoes.network.neoforge;
+package com.faboslav.friendsandfoes.common.network;
 
-import com.faboslav.friendsandfoes.network.base.Networking;
+import com.faboslav.friendsandfoes.common.network.base.Networking;
+import com.faboslav.friendsandfoes.neoforge.network.NeoForgeNetworking;
 import net.minecraft.util.Identifier;
 
 /**

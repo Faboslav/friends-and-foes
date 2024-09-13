@@ -1,11 +1,11 @@
-package com.faboslav.friendsandfoes.network.fabric;
+package com.faboslav.friendsandfoes.fabric.network.fabric;
 
-import com.faboslav.friendsandfoes.network.Packet;
-import com.faboslav.friendsandfoes.network.base.ClientboundPacketType;
-import com.faboslav.friendsandfoes.network.base.Networking;
-import com.faboslav.friendsandfoes.network.base.PacketType;
-import com.faboslav.friendsandfoes.network.base.ServerboundPacketType;
-import com.faboslav.friendsandfoes.network.internal.NetworkPacketPayload;
+import com.faboslav.friendsandfoes.common.network.Packet;
+import com.faboslav.friendsandfoes.common.network.base.ClientboundPacketType;
+import com.faboslav.friendsandfoes.common.network.base.Networking;
+import com.faboslav.friendsandfoes.common.network.base.PacketType;
+import com.faboslav.friendsandfoes.common.network.base.ServerboundPacketType;
+import com.faboslav.friendsandfoes.common.network.internal.NetworkPacketPayload;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;

@@ -31,8 +31,8 @@ public final class CrabLayEggTask extends MultiTickTask<CrabEntity>
 	protected boolean shouldRun(ServerWorld world, CrabEntity crab) {
 		if (
 			crab.getBurrowSpotPos() == null
-			|| crab.isBurrowSpotAccessible(crab.getBurrowSpotPos().getPos()) == false
-			|| crab.getBurrowSpotPos().getPos().isWithinDistance(crab.getPos(), WITHING_DISTANCE) == false
+			|| crab.isBurrowSpotAccessible(crab.getBurrowSpotPos().pos()) == false
+			|| crab.getBurrowSpotPos().pos().isWithinDistance(crab.getPos(), WITHING_DISTANCE) == false
 			|| crab.getNavigation().isFollowingPath()
 		) {
 			return false;
@@ -59,7 +59,7 @@ public final class CrabLayEggTask extends MultiTickTask<CrabEntity>
 		}
 
 		// TODO animation
-		world.syncWorldEvent(WorldEvents.BLOCK_BROKEN, burrowSpotPos.getPos(), Block.getRawIdFromState(world.getBlockState(burrowSpotPos.getPos().down())));
+		world.syncWorldEvent(WorldEvents.BLOCK_BROKEN, burrowSpotPos.pos(), Block.getRawIdFromState(world.getBlockState(burrowSpotPos.pos().down())));
 	}
 
 	@Override
@@ -68,8 +68,8 @@ public final class CrabLayEggTask extends MultiTickTask<CrabEntity>
 
 		if (burrowSpotPos != null) {
 			// TODO change sound
-			world.playSound(null, burrowSpotPos.getPos(), SoundEvents.ENTITY_TURTLE_LAY_EGG, SoundCategory.BLOCKS, 0.3f, 0.9f + world.random.nextFloat() * 0.2f);
-			world.setBlockState(burrowSpotPos.getPos(), FriendsAndFoesBlocks.CRAB_EGG.get().getDefaultState().with(TurtleEggBlock.EGGS, crab.getRandom().nextInt(4) + 1), Block.NOTIFY_ALL);
+			world.playSound(null, burrowSpotPos.pos(), SoundEvents.ENTITY_TURTLE_LAY_EGG, SoundCategory.BLOCKS, 0.3f, 0.9f + world.random.nextFloat() * 0.2f);
+			world.setBlockState(burrowSpotPos.pos(), FriendsAndFoesBlocks.CRAB_EGG.get().getDefaultState().with(TurtleEggBlock.EGGS, crab.getRandom().nextInt(4) + 1), Block.NOTIFY_ALL);
 		}
 
 		crab.setHasEgg(false);

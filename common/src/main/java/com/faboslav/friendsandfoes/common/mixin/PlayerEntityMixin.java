@@ -1,15 +1,5 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
-<<<<<<< HEAD:common/src/main/java/com/faboslav/friendsandfoes/mixin/PlayerEntityMixin.java
-import com.faboslav.friendsandfoes.entity.PlayerIllusionEntity;
-import com.faboslav.friendsandfoes.init.FriendsAndFoesEntityTypes;
-import com.faboslav.friendsandfoes.init.FriendsAndFoesItems;
-import com.faboslav.friendsandfoes.init.FriendsAndFoesSoundEvents;
-import com.faboslav.friendsandfoes.modcompat.ModChecker;
-import com.faboslav.friendsandfoes.modcompat.ModCompat;
-import com.faboslav.friendsandfoes.packets.TotemEffectPacket;
-import com.faboslav.friendsandfoes.tag.FriendsAndFoesTags;
-=======
 import com.faboslav.friendsandfoes.common.entity.PlayerIllusionEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesItems;
@@ -18,7 +8,6 @@ import com.faboslav.friendsandfoes.common.modcompat.ModChecker;
 import com.faboslav.friendsandfoes.common.modcompat.ModCompat;
 import com.faboslav.friendsandfoes.common.network.packet.TotemEffectPacket;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
->>>>>>> 1.20.4:common/src/main/java/com/faboslav/friendsandfoes/common/mixin/PlayerEntityMixin.java
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;

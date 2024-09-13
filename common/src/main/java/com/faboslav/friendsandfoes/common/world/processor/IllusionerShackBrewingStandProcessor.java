@@ -1,12 +1,7 @@
 package com.faboslav.friendsandfoes.common.world.processor;
 
-<<<<<<< HEAD:common/src/main/java/com/faboslav/friendsandfoes/world/processor/IllusionerShackBrewingStandProcessor.java
-import com.faboslav.friendsandfoes.init.FriendsAndFoesStructureProcessorTypes;
-import com.mojang.serialization.MapCodec;
-=======
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStructureProcessorTypes;
-import com.mojang.serialization.Codec;
->>>>>>> 1.20.4:common/src/main/java/com/faboslav/friendsandfoes/common/world/processor/IllusionerShackBrewingStandProcessor.java
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.Blocks;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;

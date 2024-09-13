@@ -1,10 +1,7 @@
-<<<<<<<< HEAD:fabric/src/main/java/com/faboslav/friendsandfoes/fabric/network/fabric/NetworkImpl.java
-package com.faboslav.friendsandfoes.network.fabric;
-========
-package com.faboslav.friendsandfoes.common.network.base;
->>>>>>>> 1.20.4:common/src/main/java/com/faboslav/friendsandfoes/common/network/base/PacketHandler.java
+package com.faboslav.friendsandfoes.common.network.fabric;
 
-import com.faboslav.friendsandfoes.network.base.Networking;
+import com.faboslav.friendsandfoes.common.network.base.Networking;
+import com.faboslav.friendsandfoes.fabric.network.fabric.FabricNetworking;
 import net.minecraft.util.Identifier;
 
 /**

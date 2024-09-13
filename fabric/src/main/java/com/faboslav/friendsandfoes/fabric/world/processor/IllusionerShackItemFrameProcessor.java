@@ -1,16 +1,9 @@
 package com.faboslav.friendsandfoes.fabric.world.processor;
 
-<<<<<<< HEAD:fabric/src/main/java/com/faboslav/friendsandfoes/world/fabric/processor/IllusionerShackItemFrameProcessor.java
-import com.faboslav.friendsandfoes.platform.fabric.StructureEntityProcessorTypesImpl;
-import com.faboslav.friendsandfoes.util.world.processor.IllusionerShackItemFrameProcessorHelper;
-import com.faboslav.friendsandfoes.world.processor.StructureEntityProcessor;
-import com.mojang.serialization.MapCodec;
-=======
 import com.faboslav.friendsandfoes.common.init.fabric.FriendsAndFoesStructureProcessorTypesImpl;
 import com.faboslav.friendsandfoes.common.util.world.processor.IllusionerShackItemFrameProcessorHelper;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.yungnickyoung.minecraft.yungsapi.world.processor.StructureEntityProcessor;
->>>>>>> 1.20.4:fabric/src/main/java/com/faboslav/friendsandfoes/fabric/world/processor/IllusionerShackItemFrameProcessor.java
 import net.minecraft.structure.StructurePlacementData;
 import net.minecraft.structure.StructureTemplate;
 import net.minecraft.structure.StructureTemplate.StructureEntityInfo;

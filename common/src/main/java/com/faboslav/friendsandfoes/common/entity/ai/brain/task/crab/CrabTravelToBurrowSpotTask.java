@@ -44,7 +44,7 @@ public final class CrabTravelToBurrowSpotTask extends MultiTickTask<CrabEntity>
 	protected boolean shouldKeepRunning(ServerWorld world, CrabEntity crab, long time) {
 		GlobalPos burrowSpotPos = crab.getBurrowSpotPos();
 
-		if (burrowSpotPos == null || !crab.isBurrowSpotAccessible(burrowSpotPos.getPos())) {
+		if (burrowSpotPos == null || !crab.isBurrowSpotAccessible(burrowSpotPos.pos())) {
 			return false;
 		}
 
@@ -67,8 +67,8 @@ public final class CrabTravelToBurrowSpotTask extends MultiTickTask<CrabEntity>
 		if (
 			burrowSpotPos != null &&
 			(
-				burrowSpotPos.getPos().isWithinDistance(crab.getPos(), WITHING_DISTANCE) == false
-				|| crab.isBurrowSpotAccessible(burrowSpotPos.getPos()) == false
+				burrowSpotPos.pos().isWithinDistance(crab.getPos(), WITHING_DISTANCE) == false
+				|| crab.isBurrowSpotAccessible(burrowSpotPos.pos()) == false
 			)
 		) {
 			crab.setHasEgg(false);
@@ -86,7 +86,7 @@ public final class CrabTravelToBurrowSpotTask extends MultiTickTask<CrabEntity>
 
 		LookTargetUtil.walkTowards(
 			crab,
-			new BlockPos(burrowSpotPos.getPos()),
+			new BlockPos(burrowSpotPos.pos()),
 			0.6F,
 			0
 		);

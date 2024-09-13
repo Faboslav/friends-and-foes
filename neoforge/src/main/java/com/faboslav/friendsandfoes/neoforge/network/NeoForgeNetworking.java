@@ -1,11 +1,11 @@
-package com.faboslav.friendsandfoes.network.neoforge;
+package com.faboslav.friendsandfoes.neoforge.network;
 
-import com.faboslav.friendsandfoes.network.Packet;
-import com.faboslav.friendsandfoes.network.base.ClientboundPacketType;
-import com.faboslav.friendsandfoes.network.base.Networking;
-import com.faboslav.friendsandfoes.network.base.PacketType;
-import com.faboslav.friendsandfoes.network.base.ServerboundPacketType;
-import com.faboslav.friendsandfoes.network.internal.NetworkPacketPayload;
+import com.faboslav.friendsandfoes.common.network.Packet;
+import com.faboslav.friendsandfoes.common.network.base.ClientboundPacketType;
+import com.faboslav.friendsandfoes.common.network.base.Networking;
+import com.faboslav.friendsandfoes.common.network.base.PacketType;
+import com.faboslav.friendsandfoes.common.network.base.ServerboundPacketType;
+import com.faboslav.friendsandfoes.common.network.internal.NetworkPacketPayload;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.neoforged.neoforge.network.PacketDistributor;

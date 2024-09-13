@@ -12,7 +12,8 @@ public class ReachStatusEffect extends StatusEffect
 {
 	public ReachStatusEffect(StatusEffectCategory statusEffectCategory, int color) {
 		super(statusEffectCategory, color);
-		this.addAttributeModifier(ReachStatusEffect.getReachAttribute(), "9a6163d0-6aac-4d9a-ace1-74e2c47d5cd9", FriendsAndFoes.getConfig().reachingStatusEffectModifier, EntityAttributeModifier.Operation.ADDITION);
+		// TODO check it
+		this.addAttributeModifier(ReachStatusEffect.getReachAttribute(), "9a6163d0-6aac-4d9a-ace1-74e2c47d5cd9", FriendsAndFoes.getConfig().reachingStatusEffectModifier, EntityAttributeModifier.Operation.ADD_VALUE);
 	}
 
 	@Override
@@ -22,6 +23,6 @@ public class ReachStatusEffect extends StatusEffect
 
 	@ExpectPlatform
 	public static EntityAttribute getReachAttribute() {
-		throw new NotImplementedException();
+		return Registry
 	}
 }

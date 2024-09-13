@@ -83,6 +83,7 @@ public final class AddCustomEntityPoseMixin
 		for (CrabEntityPose crabEntityPose : CrabEntityPose.values()) {
 			var newEntityPose = newEntityPose(
 				crabEntityPose.getName(),
+				++nextEntityPoseInternalIndex,
 				++nextEntityPoseIndex
 			);
 

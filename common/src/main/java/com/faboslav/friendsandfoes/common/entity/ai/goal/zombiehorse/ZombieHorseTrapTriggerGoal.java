@@ -1,14 +1,9 @@
 package com.faboslav.friendsandfoes.common.entity.ai.goal.zombiehorse;
 
-<<<<<<< HEAD:common/src/main/java/com/faboslav/friendsandfoes/entity/ai/goal/zombiehorse/ZombieHorseTrapTriggerGoal.java
-import com.faboslav.friendsandfoes.entity.ZombieHorseEntityAccess;
-import com.faboslav.friendsandfoes.init.FriendsAndFoesCriteria;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.ItemEnchantmentsComponent;
-=======
 import com.faboslav.friendsandfoes.common.entity.ZombieHorseEntityAccess;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesCriterias;
->>>>>>> 1.20.4:common/src/main/java/com/faboslav/friendsandfoes/common/entity/ai/goal/zombiehorse/ZombieHorseTrapTriggerGoal.java
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;

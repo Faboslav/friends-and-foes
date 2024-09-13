@@ -15,6 +15,7 @@ import com.faboslav.friendsandfoes.common.world.spawner.IllusionerSpawner;
 import com.faboslav.friendsandfoes.neoforge.init.FriendsAndFoesBiomeModifiers;
 import com.faboslav.friendsandfoes.neoforge.init.registry.neoforge.ResourcefulRegistriesImpl;
 import com.faboslav.friendsandfoes.neoforge.mixin.FireBlockAccessor;
+import com.faboslav.friendsandfoes.neoforge.network.NeoForgeNetworking;
 import net.minecraft.block.BlockSetType;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
@@ -38,6 +39,7 @@ import net.neoforged.neoforge.event.entity.SpawnPlacementRegisterEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 
 @Mod(FriendsAndFoes.MOD_ID)
 public final class FriendsAndFoesNeoForge
@@ -60,7 +62,9 @@ public final class FriendsAndFoesNeoForge
 		eventBus.addListener(FriendsAndFoesNeoForge::onAddVillagerTrades);
 		eventBus.addListener(FriendsAndFoesNeoForge::onAddReloadListeners);
 		eventBus.addListener(FriendsAndFoesNeoForge::onDatapackSync);
+
 		modEventBus.addListener(FriendsAndFoesNeoForge::onSetup);
+		modEventBus.addListener(FriendsAndFoesNeoForge::onNetworkSetup);
 		modEventBus.addListener(FriendsAndFoesNeoForge::onRegisterAttributes);
 		modEventBus.addListener(FriendsAndFoesNeoForge::onRegisterSpawnRestrictions);
 		modEventBus.addListener(FriendsAndFoesNeoForge::onAddItemGroupEntries);
@@ -106,6 +110,10 @@ public final class FriendsAndFoesNeoForge
 				event.getPlayerList().getPlayerList().forEach(player -> DatapackSyncEvent.EVENT.invoke(new DatapackSyncEvent(player)));
 			}
 		}
+	}
+
+	public static void onNetworkSetup(RegisterPayloadHandlersEvent event) {
+		NeoForgeNetworking.setupNetwork(event);
 	}
 
 	private static void onAddVillagerTrades(VillagerTradesEvent event) {

@@ -1,16 +1,9 @@
 package com.faboslav.friendsandfoes.fabric.world.processor;
 
-<<<<<<< HEAD:fabric/src/main/java/com/faboslav/friendsandfoes/world/fabric/processor/IceologerCabinArmorStandProcessor.java
-import com.faboslav.friendsandfoes.platform.fabric.StructureEntityProcessorTypesImpl;
-import com.faboslav.friendsandfoes.util.world.processor.IceologerCabinArmorStandProcessorHelper;
-import com.faboslav.friendsandfoes.world.processor.StructureEntityProcessor;
 import com.mojang.serialization.MapCodec;
-=======
 import com.faboslav.friendsandfoes.common.init.fabric.FriendsAndFoesStructureProcessorTypesImpl;
 import com.faboslav.friendsandfoes.common.util.world.processor.IceologerCabinArmorStandProcessorHelper;
-import com.mojang.serialization.Codec;
 import com.yungnickyoung.minecraft.yungsapi.world.processor.StructureEntityProcessor;
->>>>>>> 1.20.4:fabric/src/main/java/com/faboslav/friendsandfoes/fabric/world/processor/IceologerCabinArmorStandProcessor.java
 import net.minecraft.structure.StructurePlacementData;
 import net.minecraft.structure.StructureTemplate;
 import net.minecraft.structure.processor.StructureProcessorType;

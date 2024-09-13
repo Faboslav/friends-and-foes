@@ -4,8 +4,10 @@ import com.faboslav.friendsandfoes.common.init.registry.ReferenceRegistryEntry;
 import com.faboslav.friendsandfoes.common.init.registry.RegistryEntries;
 import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
+import com.faboslav.friendsandfoes.fabric.mixin.PointOfInterestTypesAccessor;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
+import net.minecraft.world.poi.PointOfInterestType;
 
 import java.util.Collection;
 import java.util.function.Supplier;
@@ -23,7 +25,16 @@ public class FabricResourcefulRegistry<T> implements ResourcefulRegistry<T>
 
     @Override
     public <I extends T> RegistryEntry<I> register(String id, Supplier<I> supplier) {
-        return entries.add(FabricRegistryEntry.of(this.registry, Identifier.of(this.id, id), supplier));
+		var registryEntry = FabricRegistryEntry.of(this.registry, Identifier.of(this.id, id), supplier);
+		I value = registryEntry.get();
+		if (value instanceof PointOfInterestType poiType) {
+			PointOfInterestTypesAccessor.callRegisterStates(
+				(net.minecraft.registry.entry.RegistryEntry<PointOfInterestType>) registry.entryOf(registry.getKey(value).orElseThrow()),
+				poiType.blockStates()
+			);
+		}
+
+        return entries.add(registryEntry);
     }
 
     @Override

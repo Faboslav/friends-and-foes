@@ -13,7 +13,7 @@ import com.faboslav.friendsandfoes.common.util.UpdateChecker;
 import com.faboslav.friendsandfoes.common.world.spawner.IceologerSpawner;
 import com.faboslav.friendsandfoes.common.world.spawner.IllusionerSpawner;
 import com.faboslav.friendsandfoes.neoforge.init.FriendsAndFoesBiomeModifiers;
-import com.faboslav.friendsandfoes.neoforge.init.registry.neoforge.ResourcefulRegistriesImpl;
+import com.faboslav.friendsandfoes.common.init.registry.neoforge.ResourcefulRegistriesImpl;
 import com.faboslav.friendsandfoes.neoforge.mixin.FireBlockAccessor;
 import net.minecraft.block.BlockSetType;
 import net.minecraft.block.Blocks;

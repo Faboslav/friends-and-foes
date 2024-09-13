@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.neoforge.world.processor;
 
 import com.faboslav.friendsandfoes.common.util.world.processor.IceologerCabinArmorStandProcessorHelper;
-import com.faboslav.friendsandfoes.neoforge.init.neoforge.FriendsAndFoesStructureProcessorTypesImpl;
+import com.faboslav.friendsandfoes.common.init.neoforge.FriendsAndFoesStructureProcessorTypesImpl;
 import com.mojang.serialization.Codec;
 import net.minecraft.structure.StructurePlacementData;
 import net.minecraft.structure.StructureTemplate;

@@ -1,8 +1,8 @@
-package com.faboslav.friendsandfoes.common.entity.effect.fabric;
+package com.faboslav.friendsandfoes.common.entity.effect.neoforge;
 
 import com.faboslav.friendsandfoes.common.entity.effect.ReachStatusEffect;
-import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
 import net.minecraft.entity.attribute.EntityAttribute;
+import net.neoforged.neoforge.common.NeoForgeMod;
 
 /**
  * @see ReachStatusEffect
@@ -10,6 +10,6 @@ import net.minecraft.entity.attribute.EntityAttribute;
 public class ReachStatusEffectImpl
 {
 	public static EntityAttribute getReachAttribute() {
-		return ReachEntityAttributes.REACH;
+		return NeoForgeMod.BLOCK_REACH.value();
 	}
 }

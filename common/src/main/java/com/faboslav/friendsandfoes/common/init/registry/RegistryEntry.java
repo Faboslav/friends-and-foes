@@ -17,7 +17,5 @@ public interface RegistryEntry<T> extends Supplier<T>
 	@Override
 	T get();
 
-	net.minecraft.registry.entry.RegistryEntry<T> registryEntry();
-
 	Identifier getId();
 }

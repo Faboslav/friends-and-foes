@@ -23,6 +23,6 @@ public class ReachStatusEffect extends StatusEffect
 
 	@ExpectPlatform
 	public static EntityAttribute getReachAttribute() {
-		return Registry
+		return null;
 	}
 }

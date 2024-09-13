@@ -26,6 +26,11 @@ public class ResourcefulRegistryChild<T> implements ResourcefulRegistry<T>
 	}
 
 	@Override
+	public ReferenceRegistryEntry<T> registerReference(String id, Supplier<T> supplier) {
+		return this.entries.add(parent.registerReference(id, supplier));
+	}
+
+	@Override
 	public Collection<RegistryEntry<T>> getEntries() {
 		return entries.getEntries();
 	}

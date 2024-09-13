@@ -10,7 +10,7 @@ import com.faboslav.friendsandfoes.common.events.lifecycle.*;
 import com.faboslav.friendsandfoes.common.init.*;
 import com.faboslav.friendsandfoes.common.item.DispenserAddedSpawnEgg;
 import com.faboslav.friendsandfoes.common.modcompat.ModChecker;
-import com.faboslav.friendsandfoes.common.network.MessageHandler;
+import com.faboslav.friendsandfoes.common.network.packet.MessageHandler;
 import com.faboslav.friendsandfoes.common.network.packet.MoobloomVariantsSyncPacket;
 import com.faboslav.friendsandfoes.common.platform.BiomeModifications;
 import net.minecraft.util.Identifier;

@@ -14,7 +14,7 @@ import net.minecraft.registry.Registries;
 public final class FriendsAndFoesPotions {
 	public static final ResourcefulRegistry<Potion> POTIONS = ResourcefulRegistries.create(Registries.POTION, FriendsAndFoes.MOD_ID);
 
-	public static final RegistryEntry<Potion> REACHING = POTIONS.register("reaching", () -> new Potion("reaching", new StatusEffectInstance(FriendsAndFoesStatusEffects.REACH.registryEntry(), 72000)));
-	public static final RegistryEntry<Potion> LONG_REACHING = POTIONS.register("long_reaching", () -> new Potion("reaching", new StatusEffectInstance(FriendsAndFoesStatusEffects.REACH.registryEntry(), 144000)));
-	public static final RegistryEntry<Potion> STRONG_REACHING = POTIONS.register("strong_reaching", () -> new Potion("reaching", new StatusEffectInstance(FriendsAndFoesStatusEffects.REACH.registryEntry(), 1800, 1)));
+	public static final RegistryEntry<Potion> REACHING = POTIONS.register("reaching", () -> new Potion("reaching", new StatusEffectInstance(FriendsAndFoesStatusEffects.REACH.reference(), 72000)));
+	public static final RegistryEntry<Potion> LONG_REACHING = POTIONS.register("long_reaching", () -> new Potion("reaching", new StatusEffectInstance(FriendsAndFoesStatusEffects.REACH.reference(), 144000)));
+	public static final RegistryEntry<Potion> STRONG_REACHING = POTIONS.register("strong_reaching", () -> new Potion("reaching", new StatusEffectInstance(FriendsAndFoesStatusEffects.REACH.reference(), 1800, 1)));
 }

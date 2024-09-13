@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.common.init;
 
 import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.init.registry.ReferenceRegistryEntry;
 import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistries;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
@@ -24,7 +25,7 @@ public class FriendsAndFoesArmorMaterials
 {
 	public static final ResourcefulRegistry<ArmorMaterial> ARMOR_MATERIALS = ResourcefulRegistries.create(Registries.ARMOR_MATERIAL, FriendsAndFoes.MOD_ID);
 
-	public final static RegistryEntry<ArmorMaterial> WILDFIRE = ARMOR_MATERIALS.register("wildfire", () -> createArmorMaterial(
+	public final static ReferenceRegistryEntry<ArmorMaterial> WILDFIRE = ARMOR_MATERIALS.registerReference("wildfire", () -> createArmorMaterial(
 		"wildfire",
 		Util.make(new EnumMap<>(ArmorItem.Type.class), enumMap -> {
 			enumMap.put(ArmorItem.Type.BOOTS, 3);

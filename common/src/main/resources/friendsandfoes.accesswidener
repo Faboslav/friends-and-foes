@@ -43,7 +43,6 @@ accessible field net/minecraft/item/ItemGroups SPAWN_EGGS Lnet/minecraft/registr
 accessible field net/minecraft/item/ItemGroups OPERATOR Lnet/minecraft/registry/RegistryKey;
 accessible field net/minecraft/item/ItemGroups INVENTORY Lnet/minecraft/registry/RegistryKey;
 accessible method net/minecraft/entity/EntityPose <init> (Ljava/lang/String;II)V
-accessible method net/minecraft/particle/DefaultParticleType <init> (Z)V
 accessible method net/minecraft/entity/effect/StatusEffect <init> (Lnet/minecraft/entity/effect/StatusEffectCategory;I)V
 accessible field net/minecraft/block/Oxidizable OXIDATION_LEVEL_INCREASES Ljava/util/function/Supplier;
 accessible field net/minecraft/block/Oxidizable OXIDATION_LEVEL_DECREASES Ljava/util/function/Supplier;

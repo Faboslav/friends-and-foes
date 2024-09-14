@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.common.network;
+package com.faboslav.friendsandfoes.common.network.neoforge;
 
 import com.faboslav.friendsandfoes.common.network.base.Networking;
 import com.faboslav.friendsandfoes.neoforge.network.NeoForgeNetworking;

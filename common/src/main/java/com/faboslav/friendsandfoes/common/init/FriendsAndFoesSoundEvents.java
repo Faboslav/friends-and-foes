@@ -7,7 +7,6 @@ import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
 import net.minecraft.registry.Registries;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.Identifier;
 
 /**
  * @see SoundEvents
@@ -73,7 +72,7 @@ public final class FriendsAndFoesSoundEvents
 	public static final RegistryEntry<SoundEvent> ENTITY_WILDFIRE_SUMMON_BLAZE = registerSoundEvent("entity.wildfire.summon_blaze");
 
 	private static RegistryEntry<SoundEvent> registerSoundEvent(String path) {
-			return SOUND_EVENTS.register(path, () -> SoundEvent.of(new Identifier(FriendsAndFoes.MOD_ID, path)));
+		return SOUND_EVENTS.register(path, () -> SoundEvent.of(FriendsAndFoes.makeID(path)));
 	}
 
 	private FriendsAndFoesSoundEvents() {

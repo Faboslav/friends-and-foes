@@ -1,9 +1,9 @@
 package com.faboslav.friendsandfoes.common.modcompat.neoforge;
 
 import com.faboslav.friendsandfoes.common.events.lifecycle.ClientSetupEvent;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesItems;
 import com.faboslav.friendsandfoes.common.modcompat.ModCompat;
 import com.faboslav.friendsandfoes.common.modcompat.neoforge.curios.CuriosTotemRenderer;
-import com.faboslav.friendsandfoes.init.FriendsAndFoesItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

@@ -5,9 +5,7 @@ import com.faboslav.friendsandfoes.common.events.AddItemGroupEntriesEvent;
 import com.faboslav.friendsandfoes.common.events.block.RegisterBlockSetTypeEvent;
 import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.*;
-import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStructurePoolElements;
-import com.faboslav.friendsandfoes.common.util.CustomRaidMember;
 import com.faboslav.friendsandfoes.common.util.ServerWorldSpawnersUtil;
 import com.faboslav.friendsandfoes.common.util.UpdateChecker;
 import com.faboslav.friendsandfoes.common.world.spawner.IceologerSpawner;
@@ -21,7 +19,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.registry.Registries;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.village.raid.Raid;
 import net.minecraft.world.dimension.DimensionTypes;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -34,7 +31,7 @@ import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
-import net.neoforged.neoforge.event.entity.SpawnPlacementRegisterEvent;
+import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
@@ -48,7 +45,6 @@ public final class FriendsAndFoesNeoForge
 
 		UpdateChecker.checkForNewUpdates();
 
-		//modEventBus.addListener(EventPriority.NORMAL, ResourcefulRegistriesImpl::onRegisterNeoForgeRegistries);
 		FriendsAndFoes.init();
 		FriendsAndFoesBiomeModifiers.BIOME_MODIFIERS.register(modEventBus);
 
@@ -75,22 +71,6 @@ public final class FriendsAndFoesNeoForge
 
 		event.enqueueWork(() -> {
 			FriendsAndFoes.lateInit();
-
-			if (FriendsAndFoes.getConfig().enableIceologer && FriendsAndFoes.getConfig().enableIceologerInRaids) {
-				Raid.Member.create(
-					CustomRaidMember.ICEOLOGER_INTERNAL_NAME,
-					FriendsAndFoesEntityTypes.ICEOLOGER.get(),
-					CustomRaidMember.ICEOLOGER_COUNT_IN_WAVE
-				);
-			}
-
-			if (FriendsAndFoes.getConfig().enableIllusioner && FriendsAndFoes.getConfig().enableIllusionerInRaids) {
-				Raid.Member.create(
-					CustomRaidMember.ILLUSIONER_INTERNAL_NAME,
-					EntityType.ILLUSIONER,
-					CustomRaidMember.ILLUSIONER_COUNT_IN_WAVE
-				);
-			}
 
 			RegisterBlockSetTypeEvent.EVENT.invoke(new RegisterBlockSetTypeEvent(BlockSetType::register));
 			RegisterFlammabilityEvent.EVENT.invoke(new RegisterFlammabilityEvent((item, igniteOdds, burnOdds) ->
@@ -139,12 +119,12 @@ public final class FriendsAndFoesNeoForge
 		RegisterEntityAttributesEvent.EVENT.invoke(new RegisterEntityAttributesEvent((entity, builder) -> event.put(entity, builder.build())));
 	}
 
-	private static void onRegisterSpawnRestrictions(SpawnPlacementRegisterEvent event) {
+	private static void onRegisterSpawnRestrictions(RegisterSpawnPlacementsEvent event) {
 		RegisterEntitySpawnRestrictionsEvent.EVENT.invoke(new RegisterEntitySpawnRestrictionsEvent(FriendsAndFoesNeoForge.registerEntitySpawnRestriction(event)));
 	}
 
 	private static RegisterEntitySpawnRestrictionsEvent.Registrar registerEntitySpawnRestriction(
-		SpawnPlacementRegisterEvent event
+		RegisterSpawnPlacementsEvent event
 	) {
 		return new RegisterEntitySpawnRestrictionsEvent.Registrar()
 		{
@@ -153,7 +133,7 @@ public final class FriendsAndFoesNeoForge
 				EntityType<T> type,
 				RegisterEntitySpawnRestrictionsEvent.Placement<T> placement
 			) {
-				event.register(type, placement.location(), placement.heightmap(), placement.predicate(), SpawnPlacementRegisterEvent.Operation.AND);
+				event.register(type, placement.location(), placement.heightmap(), placement.predicate(), RegisterSpawnPlacementsEvent.Operation.AND);
 			}
 		};
 	}

@@ -31,6 +31,7 @@ jobs:
                         value=$(echo $value | awk '{$1=$1;print}')
                     
                         case "$key" in
+                          mod_java_version) echo "JAVA_VERSION=$value" >> $GITHUB_OUTPUT ;;
                           minecraft_version) echo "MINECRAFT_VERSION=$value" >> $GITHUB_OUTPUT ;;
                           mod_name) echo "MOD_NAME=$value" >> $GITHUB_OUTPUT ;;
                           mod_version) echo "MOD_VERSION=$value" >> $GITHUB_OUTPUT ;;
@@ -38,23 +39,16 @@ jobs:
                         esac
                     done < gradle.properties
 
-            -   name: "Set up JDK 17"
-                if: steps.gradle-properties.outputs.MINECRAFT_VERSION != '1.20.6' && steps.gradle-properties.outputs.MINECRAFT_VERSION != '1.21.1'
+            -   name: "Set up JDK"
                 uses: actions/setup-java@v4
                 with:
-                    java-version: 17
-                    distribution: temurin
-
-            -   name: "Set up JDK 21"
-                if: steps.gradle-properties.outputs.MINECRAFT_VERSION == '1.20.6' || steps.gradle-properties.outputs.MINECRAFT_VERSION == '1.21.1'
-                uses: actions/setup-java@v4
-                with:
-                    java-version: 21
+                    java-version: ${{ steps.gradle-properties.outputs.JAVA_VERSION }}
                     distribution: temurin
 
             -   name: "Run gradle build"
-                uses: gradle/gradle-build-action@v3
+                uses: gradle/actions/setup-gradle@v3
                 with:
+                    cache-read-only: false
                     generate-job-summary: false
                     gradle-version: wrapper
                     arguments: build
@@ -78,26 +72,29 @@ jobs:
                 with:
                     fetch-depth: 0
 
-            -   name: "Set up JDK 17"
-                if: matrix.mod_loader.version != '1.20.6' && matrix.mod_loader.version != '1.21.1'
+            -   name: "Parse gradle properties"
+                id: gradle-properties
+                run: |
+                    while IFS='=' read -r key value; do
+                      key=$(echo $key | awk '{$1=$1;print}')
+                        value=$(echo $value | awk '{$1=$1;print}')
+                    
+                        case "$key" in
+                          mod_java_version) echo "JAVA_VERSION=$value" >> $GITHUB_OUTPUT ;;
+                        esac
+                    done < gradle.properties
+
+            -   name: "Set up JDK"
                 uses: actions/setup-java@v4
                 with:
-                    java-version: 17
+                    java-version: ${{ steps.gradle-properties.outputs.JAVA_VERSION }}
                     distribution: temurin
 
-            -   name: "Set up JDK 21"
-                if: matrix.version == '1.20.6' || matrix.version == '1.21.1'
-                uses: actions/setup-java@v4
-                with:
-                    java-version: 21
-                    distribution: temurin
-
-            -   name: "Setup Gradle and run build"
-                uses: gradle/gradle-build-action@v3
+            -   name: "Setup Gradle"
+                uses: gradle/actions/setup-gradle@v3
                 with:
                     cache-read-only: true
                     gradle-version: wrapper
-                    arguments: ${{ matrix.mod_loader }}:build
 
             -   name: "Accept eula"
                 run: mkdir -p ${{ matrix.mod_loader }}/run && echo "eula=true" > ${{ matrix.mod_loader }}/run/eula.txt

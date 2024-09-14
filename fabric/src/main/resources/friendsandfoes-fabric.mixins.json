@@ -1,12 +1,16 @@
 {
 	"required": true,
-	"package": "com.faboslav.friendsandfoes.mixin.fabric",
-	"compatibilityLevel": "JAVA_21",
+	"package": "com.faboslav.friendsandfoes.fabric.mixin",
+	"compatibilityLevel": "JAVA_${modJavaVersion}",
 	"minVersion": "0.8",
 	"injectors": {
 		"defaultRequire": 1
 	},
 	"mixins": [
+		"PointOfInterestTypesAccessor",
 		"StructureEntityProcessorMixin"
+	],
+	"client": [
+		"ParticleManagerMixin"
 	]
 }

@@ -1,0 +1,115 @@
+package com.faboslav.friendsandfoes.common.entity.ai.brain.task.glare;
+
+import com.faboslav.friendsandfoes.common.entity.GlareEntity;
+import com.faboslav.friendsandfoes.common.entity.ai.brain.GlareBrain;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
+import net.minecraft.entity.ai.brain.MemoryModuleState;
+import net.minecraft.entity.ai.brain.task.MultiTickTask;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.TimeHelper;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.GlobalPos;
+import net.minecraft.world.LightType;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.Map;
+
+public final class GlareLocateDarkSpotTask extends MultiTickTask<GlareEntity>
+{
+	public GlareLocateDarkSpotTask() {
+		super(Map.of(
+			FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_LOCATING_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT,
+			FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_POS.get(), MemoryModuleState.VALUE_ABSENT
+		), 1);
+	}
+
+	@Override
+	protected boolean shouldRun(ServerWorld world, GlareEntity glare) {
+		return GlareLocateDarkSpotTask.canLocateDarkSpot(glare);
+	}
+
+	@Override
+	protected void run(ServerWorld world, GlareEntity glare, long time) {
+		BlockPos darkSpotPos = this.findRandomDarkSpot(glare);
+
+		if (darkSpotPos == null) {
+			GlareBrain.setDarkSpotLocatingCooldown(glare, TimeHelper.betweenSeconds(10, 10));
+			return;
+		}
+
+		RegistryKey<World> registryKey = glare.getWorld().getRegistryKey();
+		glare.getBrain().remember(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_POS.get(), GlobalPos.create(registryKey, darkSpotPos));
+	}
+
+	private ArrayList<BlockPos> findDarkSpots(GlareEntity glare) {
+		ServerWorld serverWorld = (ServerWorld) glare.getEntityWorld();
+		BlockPos blockPos = glare.getBlockPos();
+		ArrayList<BlockPos> darkSpots = new ArrayList<>();
+		int searchDistance = 16;
+
+		for (int i = 0; (double) i <= searchDistance; i = i > 0 ? -i:1 - i) {
+			for (int j = 0; (double) j < searchDistance; ++j) {
+				for (int k = 0; k <= j; k = k > 0 ? -k:1 - k) {
+					for (int l = k < j && k > -j ? j:0; l <= j; l = l > 0 ? -l:1 - l) {
+						BlockPos.Mutable possibleDarkSpotBlockPos = new BlockPos.Mutable();
+						possibleDarkSpotBlockPos.set(blockPos, k, i - 1, l);
+
+						boolean isBlockWithinDistance = blockPos.isWithinDistance(
+							possibleDarkSpotBlockPos,
+							searchDistance
+						);
+						boolean isSpotDarkEnough = glare.getWorld().getLightLevel(LightType.BLOCK, possibleDarkSpotBlockPos) == 0;
+						boolean isBlockSolidSurface = serverWorld.getBlockState(possibleDarkSpotBlockPos.down()).hasSolidTopSurface(serverWorld,
+							possibleDarkSpotBlockPos,
+							glare
+						);
+						boolean isBlockAccessible = serverWorld.isAir(possibleDarkSpotBlockPos) && serverWorld.isAir(possibleDarkSpotBlockPos.up());
+
+						if (
+							isBlockWithinDistance
+							&& isBlockSolidSurface
+							&& isBlockAccessible
+							&& isSpotDarkEnough
+						) {
+							darkSpots.add(possibleDarkSpotBlockPos);
+						}
+					}
+				}
+			}
+		}
+
+		return darkSpots;
+	}
+
+	@Nullable
+	private BlockPos findRandomDarkSpot(GlareEntity glare) {
+		ArrayList<BlockPos> darkSpots = this.findDarkSpots(glare);
+
+		if (darkSpots.isEmpty()) {
+			return null;
+		}
+
+		return darkSpots.get(glare.getRandom().nextInt(darkSpots.size()));
+	}
+
+	public static boolean canLocateDarkSpot(GlareEntity glare) {
+		if (
+			glare.isLeashed()
+			|| glare.isSitting()
+			|| glare.hasVehicle()
+			|| glare.isTamed() == false
+			|| glare.isBaby()
+			|| (
+				glare.getWorld().isDay()
+				&& glare.getWorld().isSkyVisible(glare.getBlockPos())
+			)
+		) {
+			return false;
+		}
+
+		return true;
+	}
+}

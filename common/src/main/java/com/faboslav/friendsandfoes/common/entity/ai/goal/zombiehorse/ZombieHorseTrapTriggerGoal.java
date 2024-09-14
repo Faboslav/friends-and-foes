@@ -21,6 +21,7 @@ import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.LocalDifficulty;
+
 import java.util.List;
 
 public final class ZombieHorseTrapTriggerGoal extends Goal

@@ -1,10 +1,9 @@
 package com.faboslav.friendsandfoes.common.modcompat.neoforge;
 
-import java.util.EnumSet;
-import com.faboslav.friendsandfoes.init.FriendsAndFoesItems;
 import com.faboslav.friendsandfoes.common.events.lifecycle.ClientSetupEvent;
 import com.faboslav.friendsandfoes.common.modcompat.ModCompat;
 import com.faboslav.friendsandfoes.common.modcompat.neoforge.curios.CuriosTotemRenderer;
+import com.faboslav.friendsandfoes.init.FriendsAndFoesItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -13,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotResult;
 import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
-
+import java.util.EnumSet;
 import java.util.function.Predicate;
 
 @SuppressWarnings({"all", "removal"})

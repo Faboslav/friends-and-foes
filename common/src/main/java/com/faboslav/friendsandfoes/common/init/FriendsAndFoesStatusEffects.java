@@ -12,9 +12,8 @@ import net.minecraft.registry.Registries;
 /**
  * @see net.minecraft.entity.effect.StatusEffects
  */
-public final class FriendsAndFoesStatusEffects
-{
-	public static final ResourcefulRegistry<StatusEffect> STATUS_EFFECTS = ResourcefulRegistries.create(Registries.STATUS_EFFECT, FriendsAndFoes.MOD_ID);
+public final class FriendsAndFoesStatusEffects {
+    public static final ResourcefulRegistry<StatusEffect> STATUS_EFFECTS = ResourcefulRegistries.create(Registries.STATUS_EFFECT, FriendsAndFoes.MOD_ID);
 
-	public static final ReferenceRegistryEntry<StatusEffect> REACH = STATUS_EFFECTS.registerReference("reach", () -> new ReachStatusEffect(StatusEffectCategory.BENEFICIAL, 3364735));
+    public static final ReferenceRegistryEntry<StatusEffect> REACH = STATUS_EFFECTS.registerReference("reach", () -> new ReachStatusEffect(StatusEffectCategory.BENEFICIAL, 3364735));
 }

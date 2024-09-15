@@ -28,12 +28,18 @@ jobs:
                 include:
                     -   mod_loader: "fabric"
                         supported_mod_loaders: [ "fabric", "quilt" ]
+                        curseforge_id: ${{ vars.CURSEFORGE_FABRIC_PROJECT_ID }}
+                        modrinth_id: ${{ vars.MODRINTH_FABRIC_PROJECT_ID }}
 
                     -   mod_loader: "forge"
                         supported_mod_loaders: [ "forge" ]
+                        curseforge_id: ${{ vars.CURSEFORGE_FORGE_PROJECT_ID }}
+                        modrinth_id: ${{ vars.MODRINTH_FORGE_PROJECT_ID }}
 
                     -   mod_loader: "neoforge"
                         supported_mod_loaders: [ "neoforge" ]
+                        curseforge_id: ${{ vars.CURSEFORGE_FORGE_PROJECT_ID }}
+                        modrinth_id: ${{ vars.MODRINTH_FORGE_PROJECT_ID }}
 
         steps:
             -   name: "Checkout repository"
@@ -62,9 +68,7 @@ jobs:
                         value=$(echo $value | awk '{$1=$1;print}')
                     
                         case "$key" in
-                          mod_java_version) echo "JAVA_VERSION=$value" >> $GITHUB_OUTPUT ;;
                           minecraft_version) echo "MINECRAFT_VERSION=$value" >> $GITHUB_OUTPUT ;;
-                          min_minecraft_version) echo "MIN_MINECRAFT_VERSION=$value" >> $GITHUB_OUTPUT ;;
                           mod_name) echo "MOD_NAME=$value" >> $GITHUB_OUTPUT ;;
                           mod_version) echo "MOD_VERSION=$value" >> $GITHUB_OUTPUT ;;
                         esac
@@ -94,11 +98,18 @@ jobs:
                     name: ${{ steps.gradle-properties.outputs.MOD_NAME }} ${{ steps.gradle-properties.outputs.MOD_VERSION }} for Minecraft ${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}
                     bodyFile: RELEASE_CHANGELOG.md
 
-            -   name: "Set up JDK"
-                if: steps.check-mod-loader.outputs.is_mod_loader_supported == 'true'
+            -   name: "Set up JDK 17"
+                if: steps.check-mod-loader.outputs.is_mod_loader_supported == 'true' && steps.gradle-properties.outputs.MINECRAFT_VERSION != '1.20.6' && steps.gradle-properties.outputs.MINECRAFT_VERSION != '1.21.1'
                 uses: actions/setup-java@v4
                 with:
-                    java-version: ${{ steps.gradle-properties.outputs.JAVA_VERSION }}
+                    java-version: 17
+                    distribution: temurin
+
+            -   name: "Set up JDK 21"
+                if: steps.check-mod-loader.outputs.is_mod_loader_supported == 'true' && steps.gradle-properties.outputs.MINECRAFT_VERSION == '1.20.6' || steps.gradle-properties.outputs.MINECRAFT_VERSION == '1.21.1'
+                uses: actions/setup-java@v4
+                with:
+                    java-version: 21
                     distribution: temurin
 
             -   name: "Setup gradle and run build"
@@ -118,17 +129,17 @@ jobs:
                     github-tag: mc${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}-${{ steps.gradle-properties.outputs.MOD_VERSION }}
                     github-commitish: ${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}
 
-                    curseforge-id: ${{ vars.CURSEFORGE_PROJECT_ID }}
+                    curseforge-id: ${{ matrix.curseforge_id }}
                     curseforge-token: ${{ secrets.CURSEFORGE_RELEASE_TOKEN }}
 
-                    modrinth-id: ${{ vars.MODRINTH_PROJECT_ID }}
+                    modrinth-id: ${{ matrix.modrinth_id }}
                     modrinth-featured: true
-                    modrinth-token: ${{ secrets.MODRINTH_RELEASE_TOKEN}}
+                    modrinth-token: ${{ secrets.MODRINTH_RELEASE_TOKEN }}
 
                     name: ${{ steps.gradle-properties.outputs.MOD_NAME }} ${{ steps.gradle-properties.outputs.MOD_VERSION }}
                     version: ${{ matrix.mod_loader }}-mc${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}-${{ steps.gradle-properties.outputs.MOD_VERSION }}
                     loaders: ${{ join(matrix.supported_mod_loaders, ' ') }}
-                    game-versions: "${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}\n${{ steps.gradle-properties.outputs.MIN_MINECRAFT_VERSION }}"
+                    game-versions: "${{ matrix.branch }}\n${{ matrix.secondary_game_version }}"
                     changelog-file: RELEASE_CHANGELOG.md
                     files: |
                         ${{ matrix.mod_loader }}/build/libs/!(*-@(dev|dev-shadow|sources|javadoc)).jar

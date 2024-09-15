@@ -25,24 +25,12 @@ jobs:
 
             -   name: "Parse gradle properties"
                 id: gradle-properties
-                run: |
-                    while IFS='=' read -r key value; do
-                      key=$(echo $key | awk '{$1=$1;print}')
-                        value=$(echo $value | awk '{$1=$1;print}')
-                    
-                        case "$key" in
-                          mod_java_version) echo "JAVA_VERSION=$value" >> $GITHUB_OUTPUT ;;
-                          minecraft_version) echo "MINECRAFT_VERSION=$value" >> $GITHUB_OUTPUT ;;
-                          mod_name) echo "MOD_NAME=$value" >> $GITHUB_OUTPUT ;;
-                          mod_version) echo "MOD_VERSION=$value" >> $GITHUB_OUTPUT ;;
-                          enabled_platforms) echo "ENABLED_PLATFORMS=$value" >> $GITHUB_OUTPUT ;;
-                        esac
-                    done < gradle.properties
+                run: ./.github/scripts/parse-gradle-properties.sh
 
             -   name: "Set up JDK"
                 uses: actions/setup-java@v4
                 with:
-                    java-version: ${{ steps.gradle-properties.outputs.JAVA_VERSION }}
+                    java-version: ${{ steps.gradle-properties.outputs.MOD_JAVA_VERSION }}
                     distribution: temurin
 
             -   name: "Run gradle build"
@@ -72,27 +60,23 @@ jobs:
                 with:
                     fetch-depth: 0
 
+            -   name: "Install missing flite"
+                run: sudo apt-get install -y flite
+
             -   name: "Parse gradle properties"
                 id: gradle-properties
-                run: |
-                    while IFS='=' read -r key value; do
-                      key=$(echo $key | awk '{$1=$1;print}')
-                        value=$(echo $value | awk '{$1=$1;print}')
-                    
-                        case "$key" in
-                          mod_java_version) echo "JAVA_VERSION=$value" >> $GITHUB_OUTPUT ;;
-                        esac
-                    done < gradle.properties
+                run: ./.github/scripts/parse-gradle-properties.sh ${{ matrix.version }}
 
             -   name: "Set up JDK"
                 uses: actions/setup-java@v4
                 with:
-                    java-version: ${{ steps.gradle-properties.outputs.JAVA_VERSION }}
+                    java-version: ${{ steps.gradle-properties.outputs.MOD_JAVA_VERSION }}
                     distribution: temurin
 
             -   name: "Setup Gradle"
                 uses: gradle/actions/setup-gradle@v3
                 with:
+                    generate-job-summary: false
                     cache-read-only: true
                     gradle-version: wrapper
 

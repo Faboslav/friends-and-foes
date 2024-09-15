@@ -60,6 +60,9 @@ jobs:
                 with:
                     fetch-depth: 0
 
+            -   name: "Install missing flite"
+                run: sudo apt-get install -y flite
+
             -   name: "Parse gradle properties"
                 id: gradle-properties
                 run: ./.github/scripts/parse-gradle-properties.sh ${{ matrix.version }}

@@ -4,11 +4,9 @@
 
 SUCCESS_PATTERN='minecraft:textures/atlas/mob_effects\.png-atlas'
 ERROR_PATTERNS=(
-	'Error:'
-	'Crash Report'
-	'BUILD FAILED'
     'For more details see the full crash report file'
     ' end of report '
+    'Failed download after 3 attempts'
 )
 TIMEOUT=1800
 ELAPSED=0

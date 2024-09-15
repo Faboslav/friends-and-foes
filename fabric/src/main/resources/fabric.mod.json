@@ -36,10 +36,9 @@
 		"${modId}-fabric.mixins.json"
 	],
 	"depends": {
-		"java": ">=${modJavaVersion}",
-		"minecraft": ">=${minMinecraftVersion}",
-		"fabricloader": ">=${fabricLoaderVersion}",
-		"fabric": ">=${fabricApiVersion}"
+		"minecraft": ">=${minMinecraftVersion}-",
+		"fabricloader": "*",
+		"fabric": "*"
 	},
 	"custom": {
 		"modmenu": {

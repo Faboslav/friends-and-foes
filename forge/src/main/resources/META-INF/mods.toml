@@ -8,7 +8,6 @@ modId = "${modId}"
 version = "${modVersion}"
 displayName = "${modName}"
 authors = "${modAuthor}"
-credits="${modCredits}"
 description = '''
 ${modDescription}
 '''

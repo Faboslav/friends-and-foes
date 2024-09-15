@@ -1,7 +1,5 @@
 #!/bin/bash
 
-version=$1
-
 parse_properties_file() {
     local file=$1
     while IFS='=' read -r key value; do
@@ -28,6 +26,3 @@ parse_properties_file() {
 
 # Parse the main gradle.properties file
 parse_properties_file gradle.properties
-
-# Parse the version-specific gradle.properties file
-parse_properties_file versions/"${version}"/gradle.properties

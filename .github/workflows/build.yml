@@ -33,6 +33,10 @@ jobs:
                     java-version: ${{ steps.gradle-properties.outputs.MOD_JAVA_VERSION }}
                     distribution: temurin
 
+            -   name: "Generate matrix for the run job"
+                id: set-matrix
+                run: ./.github/scripts/generate-run-matrix.sh
+
             -   name: "Run gradle build"
                 uses: gradle/actions/setup-gradle@v3
                 with:
@@ -41,9 +45,11 @@ jobs:
                     gradle-version: wrapper
                     arguments: build
 
-            -   name: "Generate matrix for the run job"
-                id: set-matrix
-                run: ./.github/scripts/generate-run-matrix.sh
+            -   name: "Upload artifacts"
+                uses: actions/upload-artifact@v4
+                with:
+                    path: |
+                        **/build/libs/!(*-@(dev|dev-shadow|sources|javadoc)).jar
 
     run:
         name: Run ${{ matrix.mod_loader }} ${{ matrix.script }}
@@ -60,31 +66,26 @@ jobs:
                 with:
                     fetch-depth: 0
 
-            -   name: "Install missing flite"
-                run: sudo apt-get install -y flite
+            -   name: "Download artifacts"
+                uses: actions/download-artifact@v4
+                with:
+                    path: run/mods
+
+            -   name: "Display structure of downloaded files"
+                run: ls -R
 
             -   name: "Parse gradle properties"
                 id: gradle-properties
                 run: ./.github/scripts/parse-gradle-properties.sh ${{ matrix.version }}
 
-            -   name: "Set up JDK"
-                uses: actions/setup-java@v4
-                with:
-                    java-version: ${{ steps.gradle-properties.outputs.MOD_JAVA_VERSION }}
-                    distribution: temurin
-
-            -   name: "Setup Gradle"
-                uses: gradle/actions/setup-gradle@v3
-                with:
-                    generate-job-summary: false
-                    cache-read-only: true
-                    gradle-version: wrapper
-
-            -   name: "Accept eula"
-                run: mkdir -p ${{ matrix.mod_loader }}/run && echo "eula=true" > ${{ matrix.mod_loader }}/run/eula.txt
-
             -   name: Run ${{ matrix.mod_loader }} ${{ matrix.script }}
-                uses: modmuss50/xvfb-action@v1
+                uses: 3arthqu4ke/mc-runtime-test@2.4.0
                 with:
-                    run: ./.github/scripts/run-${{ matrix.script }}.sh ${{ matrix.mod_loader }}
-                    shell: bash
+                    mc: ${{ matrix.version }}
+                    modloader: ${{ matrix.mod_loader }}
+                    regex: .*${{ matrix.mod_loader }}.*
+                    mc-runtime-test: ${{ matrix.mod_loader }}
+                    java: ${{ steps.gradle-properties.outputs.MOD_JAVA_VERSION }}
+                    java-distribution: temurin
+                    xvfb: false
+                    headlessmc-command: -lwjgl --retries 3 --jvm -Djava.awt.headless=true

@@ -88,5 +88,6 @@ jobs:
                     mc-runtime-test: ${{ matrix.mod_loader }}
                     java: ${{ steps.gradle-properties.outputs.MOD_JAVA_VERSION }}
                     java-distribution: temurin
+                    fabric-api: ${{ steps.gradle-properties.outputs.FABRIC_API_VERSION }}
                     xvfb: false
                     headlessmc-command: -lwjgl --retries 3 --jvm -Djava.awt.headless=true

@@ -83,9 +83,9 @@ jobs:
                 uses: 3arthqu4ke/mc-runtime-test@2.4.0
                 with:
                     mc: ${{ matrix.version }}
-                    modloader: ${{ matrix.mod_loader_alias }}
+                    modloader: ${{ matrix.mod_loader }}
                     regex: .*${{ matrix.mod_loader }}.*
-                    mc-runtime-test: ${{ matrix.mod_loader }}
+                    mc-runtime-test: ${{ matrix.mod_loader_alias }}
                     java: ${{ steps.gradle-properties.outputs.MOD_JAVA_VERSION }}
                     java-distribution: temurin
                     fabric-api: ${{ steps.gradle-properties.outputs.FABRIC_API_VERSION }}

@@ -73,14 +73,14 @@ jobs:
                 with:
                     name: built-jars
 
+            -   name: "Parse gradle properties"
+                id: gradle-properties
+                run: ./.github/scripts/parse-gradle-properties.sh
+
             -   name: "Copy mod jar to run/mods"
                 run: |
                     mkdir -p run/mods && cp ${{ matrix.mod_loader }}/build/libs/* run/mods \
                     && wget https://api.modrinth.com/maven/maven/modrinth/hide-experimental-warning/${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}-${{ steps.gradle-properties.outputs.HIDE_EXPERIMENTAL_WARNINGS_VERSION }}-fabric+forge/hideexperimentalwarning-${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}-${{ steps.gradle-properties.outputs.HIDE_EXPERIMENTAL_WARNINGS_VERSION }}.jar run/mods
-
-            -   name: "Parse gradle properties"
-                id: gradle-properties
-                run: ./.github/scripts/parse-gradle-properties.sh
 
             -   name: Run ${{ matrix.version }} ${{ matrix.mod_loader }}
                 uses: 3arthqu4ke/mc-runtime-test@2.4.0

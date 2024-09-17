@@ -9,6 +9,7 @@ modrinth_forge_project_id=$5
 IFS=',' read -r -a allowed_mod_loaders_array <<< "${allowed_mod_loaders//[\[\]\']/}"
 matrix_content="{\"include\":["
 enabled_platforms=$(awk -F= '/enabled_platforms/{print $2}' gradle.properties | tr -d ' ')
+minecraft_version=$(awk -F= '/minecraft_version/{print $2}' gradle.properties | tr -d ' ')
 
 for platform in $(echo $enabled_platforms | tr ',' ' '); do
   if [[ " ${allowed_mod_loaders_array[@]} " =~ " ${platform} " ]]; then
@@ -26,7 +27,7 @@ for platform in $(echo $enabled_platforms | tr ',' ' '); do
         	modrinth_project_id="$modrinth_forge_project_id"
     	fi
 
-        matrix_entry="{\"mod_loader\":\"$platform\",\"supported_mod_loaders\":[$supported_mod_loaders],\"curseforge_project_id\":\"$curseforge_project_id\",\"modrinth_project_id\":\"$modrinth_project_id\"},"
+        matrix_entry="{\"mod_loader\":\"$platform\",\"minecraft_version\":\"$platform\",\"supported_mod_loaders\":[$supported_mod_loaders],\"curseforge_project_id\":\"$curseforge_project_id\",\"modrinth_project_id\":\"$modrinth_project_id\"},"
         matrix_content+="$matrix_entry"
   fi
 done

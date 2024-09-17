@@ -92,7 +92,7 @@ jobs:
             -   name: "Checkout repository"
                 uses: actions/checkout@v4
                 with:
-                    ref: ${{ matrix.MINECRAFT_VERSION }}
+                    ref: ${{ matrix.minecraft_version }}
                     fetch-depth: 0
 
             -   name: "Download Built JARs"

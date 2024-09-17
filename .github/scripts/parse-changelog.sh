@@ -6,5 +6,5 @@ changelog=$(cat CHANGELOG.md)
 
 list=$(echo "$changelog" | sed -n "/^## $tag/,/^## [0-9]/p" | sed -e '1d;$d' -e '/^$/d')
 
-echo "Parsed changelog: $list"
+echo "Parsed changelog:\n$list"
 echo "$list" > RELEASE_CHANGELOG.md

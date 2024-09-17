@@ -108,7 +108,6 @@ jobs:
                 run: ./.github/scripts/parse-changelog.sh ${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}
 
             -   name: Publish ${{ matrix.mod_loader }}
-                if: steps.check-mod-loader.outputs.is_mod_loader_supported == 'true'
                 uses: Kir-Antipov/mc-publish@v3.3.0
                 with:
                     github-token: ${{ secrets.GITHUB_TOKEN }}

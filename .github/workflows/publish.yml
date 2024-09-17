@@ -36,7 +36,7 @@ jobs:
                 run: ./.github/scripts/parse-gradle-properties.sh
 
             -   name: "Parse changelog"
-                run: ./.github/scripts/parse-changelog.sh ${{ matrix.branch }}
+                run: ./.github/scripts/parse-changelog.sh ${{ steps.gradle-properties.outputs.MOD_VERSION }}
 
             -   name: "Create github release"
                 continue-on-error: true

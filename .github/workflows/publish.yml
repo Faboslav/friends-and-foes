@@ -15,9 +15,9 @@ on:
                 type: string
 
 jobs:
-    publish-branch:
+    build:
         runs-on: ubuntu-latest
-        name: Publish ${{ matrix.branch }}
+        name: Build ${{ matrix.branch }}
         timeout-minutes: 15
         strategy:
             fail-fast: false
@@ -77,14 +77,14 @@ jobs:
                 id: publish-matrix
                 run: ./.github/scripts/generate-publish-matrix.sh "${{ inputs.mod_loaders }}" ${{ vars.CURSEFORGE_FABRIC_PROJECT_ID }} ${{ vars.CURSEFORGE_FORGE_PROJECT_ID }} ${{ vars.MODRINTH_FABRIC_PROJECT_ID }} ${{ vars.MODRINTH_FORGE_PROJECT_ID }}
 
-    publish-mod-loader:
+    publish:
         runs-on: ubuntu-latest
-        needs: publish-branch
+        needs: build
         name: Publish ${{ matrix.mod_loader }}
         timeout-minutes: 15
         strategy:
             fail-fast: false
-            matrix: ${{fromJson(needs.publish-branch.outputs.matrix)}}
+            matrix: ${{fromJson(needs.build.outputs.matrix)}}
 
         steps:
             -   name: "Checkout repository"

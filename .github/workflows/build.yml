@@ -76,12 +76,6 @@ jobs:
             #-   name: "Copy mod jar to run/mods"
             #    run: mkdir -p run/mods && cp ${{ matrix.mod_loader }}/build/libs/* run/mods
 
-            -   name: "Test 1"
-                run: ls -la ${{ matrix.mod_loader }}/build/libs
-
-            -   name: "Test 2"
-                run: ls -la run/mods
-
             -   name: "Parse gradle properties"
                 id: gradle-properties
                 run: ./.github/scripts/parse-gradle-properties.sh ${{ matrix.version }}

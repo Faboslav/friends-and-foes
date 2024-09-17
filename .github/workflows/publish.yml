@@ -23,6 +23,8 @@ jobs:
             fail-fast: false
             matrix:
                 branch: ${{ fromJson(inputs.branches) }}
+        outputs:
+            matrix: ${{ steps.set-matrix.outputs.matrix }}
 
         steps:
             -   name: "Checkout repository"

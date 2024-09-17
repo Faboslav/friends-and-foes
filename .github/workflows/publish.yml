@@ -76,7 +76,7 @@ jobs:
                         ./**/build/libs/*[0-9].jar
 
             -   name: "Generate matrix for the run job"
-                id: publish-matrix
+                id: set-matrix
                 run: ./.github/scripts/generate-publish-matrix.sh "${{ inputs.mod_loaders }}" ${{ vars.CURSEFORGE_FABRIC_PROJECT_ID }} ${{ vars.CURSEFORGE_FORGE_PROJECT_ID }} ${{ vars.MODRINTH_FABRIC_PROJECT_ID }} ${{ vars.MODRINTH_FORGE_PROJECT_ID }}
 
     publish:

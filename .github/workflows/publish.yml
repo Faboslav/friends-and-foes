@@ -22,13 +22,13 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                minecraft_version: ${{ fromJson(inputs.branches) }}
+                branch: ${{ fromJson(inputs.branches) }}
 
         steps:
             -   name: "Checkout repository"
                 uses: actions/checkout@v4
                 with:
-                    ref: ${{ matrix.minecraft_version }}
+                    ref: ${{ matrix.branch }}
                     fetch-depth: 0
 
             -   name: "Parse gradle properties"
@@ -36,7 +36,7 @@ jobs:
                 run: ./.github/scripts/parse-gradle-properties.sh
 
             -   name: "Parse changelog"
-                run: ./.github/scripts/parse-changelog.sh ${{ matrix.minecraft_version }}
+                run: ./.github/scripts/parse-changelog.sh ${{ matrix.branch }}
 
             -   name: "Create github release"
                 continue-on-error: true
@@ -47,7 +47,7 @@ jobs:
                     omitNameDuringUpdate: true
                     omitBodyDuringUpdate: true
                     tag: mc${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}-${{ steps.gradle-properties.outputs.MOD_VERSION }}
-                    commit: ${{ matrix.minecraft_version }}
+                    commit: ${{ matrix.branch }}
                     name: ${{ steps.gradle-properties.outputs.MOD_NAME }} ${{ steps.gradle-properties.outputs.MOD_VERSION }} for Minecraft ${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}
                     bodyFile: RELEASE_CHANGELOG.md
 

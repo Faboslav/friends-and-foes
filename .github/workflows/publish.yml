@@ -105,7 +105,7 @@ jobs:
                 run: ./.github/scripts/parse-gradle-properties.sh
 
             -   name: "Parse changelog"
-                run: ./.github/scripts/parse-changelog.sh ${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}
+                run: ./.github/scripts/parse-changelog.sh ${{ steps.gradle-properties.outputs.MOD_VERSION }}
 
             -   name: Publish ${{ matrix.mod_loader }}
                 uses: Kir-Antipov/mc-publish@v3.3.0

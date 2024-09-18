@@ -18,7 +18,7 @@ public final class IceologerCabinArmorStandProcessorHelper
 		StructureEntityInfo globalEntityInfo,
 		StructurePlacementData structurePlacementData
 	) {
-		if (globalEntityInfo.nbt.getString("id").equals("minecraft:armor_stand") == false) {
+		if (!globalEntityInfo.nbt.getString("id").equals("minecraft:armor_stand")) {
 			return globalEntityInfo;
 		}
 

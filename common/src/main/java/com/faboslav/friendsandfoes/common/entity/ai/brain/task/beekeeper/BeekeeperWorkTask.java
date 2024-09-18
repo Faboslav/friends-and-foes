@@ -31,7 +31,7 @@ public final class BeekeeperWorkTask extends VillagerWorkTask
 		}
 
 		BlockState beehiveBlockState = serverWorld.getBlockState(beehiveGlobalPos.getPos());
-		if (this.canHarvestHoney(beehiveBlockState) == false) {
+		if (!this.canHarvestHoney(beehiveBlockState)) {
 			return;
 		}
 
@@ -51,7 +51,7 @@ public final class BeekeeperWorkTask extends VillagerWorkTask
 		}
 
 		BlockState beehiveBlockState = serverWorld.getBlockState(beehiveGlobalPos.getPos());
-		if (this.canHarvestHoney(beehiveBlockState) == false) {
+		if (!this.canHarvestHoney(beehiveBlockState)) {
 			return;
 		}
 

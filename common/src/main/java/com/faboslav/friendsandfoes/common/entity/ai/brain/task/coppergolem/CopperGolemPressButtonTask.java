@@ -39,16 +39,10 @@ public final class CopperGolemPressButtonTask extends MultiTickTask<CopperGolemE
 
 	@Override
 	protected boolean shouldRun(ServerWorld world, CopperGolemEntity copperGolem) {
-		if (
-			copperGolem.getButtonPos() == null
-			|| copperGolem.isButtonValidToBePressed(copperGolem.getButtonPos().getPos()) == false
-			|| copperGolem.getButtonPos().getPos().isWithinDistance(copperGolem.getPos(), WITHING_DISTANCE) == false
-			|| copperGolem.getNavigation().isFollowingPath()
-		) {
-			return false;
-		}
-
-		return true;
+		return copperGolem.getButtonPos() != null
+			   && copperGolem.isButtonValidToBePressed(copperGolem.getButtonPos().getPos())
+			   && copperGolem.getButtonPos().getPos().isWithinDistance(copperGolem.getPos(), WITHING_DISTANCE)
+			   && !copperGolem.getNavigation().isFollowingPath();
 	}
 
 	@Override
@@ -75,14 +69,8 @@ public final class CopperGolemPressButtonTask extends MultiTickTask<CopperGolemE
 
 	@Override
 	protected boolean shouldKeepRunning(ServerWorld world, CopperGolemEntity copperGolem, long time) {
-		if (
-			this.pressButtonTicks > this.maxPressButtonTicks
-			|| copperGolem.isOxidized()
-		) {
-			return false;
-		}
-
-		return true;
+		return this.pressButtonTicks <= this.maxPressButtonTicks
+			   && !copperGolem.isOxidized();
 	}
 
 	protected void keepRunning(ServerWorld world, CopperGolemEntity copperGolem, long time) {
@@ -163,7 +151,7 @@ public final class CopperGolemPressButtonTask extends MultiTickTask<CopperGolemE
 		ServerWorld serverWorld = (ServerWorld) copperGolem.getEntityWorld();
 		BlockState blockState = serverWorld.getBlockState(buttonBlockPos);
 
-		if (blockState.getBlock() instanceof ButtonBlock == false) {
+		if (!(blockState.getBlock() instanceof ButtonBlock)) {
 			return null;
 		}
 

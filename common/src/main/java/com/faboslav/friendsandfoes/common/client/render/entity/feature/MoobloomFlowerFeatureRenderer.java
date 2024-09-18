@@ -40,7 +40,7 @@ public final class MoobloomFlowerFeatureRenderer<T extends MoobloomEntity> exten
 		float k,
 		float l
 	) {
-		if (moobloomEntity.isBaby() == false && moobloomEntity.isInvisible() == false) {
+		if (!moobloomEntity.isBaby() && !moobloomEntity.isInvisible()) {
 			BlockRenderManager blockRenderManager = MinecraftClient.getInstance().getBlockRenderManager();
 
 			PlantBlock flower = moobloomEntity.getVariant().getFlower();

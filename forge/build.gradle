@@ -30,6 +30,10 @@ configurations {
 	developmentForge.extendsFrom common
 }
 
+configurations.configureEach {
+	resolutionStrategy.force("net.sf.jopt-simple:jopt-simple:5.0.4")
+}
+
 dependencies {
 	forge "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 

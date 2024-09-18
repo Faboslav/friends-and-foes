@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
-import com.faboslav.friendsandfoes.block.Oxidizable;
+import com.faboslav.friendsandfoes.common.block.Oxidizable;
 import net.minecraft.block.Degradable;
 import net.minecraft.block.LightningRodBlock;
 import org.spongepowered.asm.mixin.Mixin;

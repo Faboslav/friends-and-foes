@@ -11,18 +11,19 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 import java.util.List;
 
 @Mixin(StructurePool.class)
-public interface StructurePoolAccessor {
-    @Accessor("elementCounts")
-    List<Pair<StructurePoolElement, Integer>> getElementCounts();
+public interface StructurePoolAccessor
+{
+	@Accessor("elementCounts")
+	List<Pair<StructurePoolElement, Integer>> getElementCounts();
 
-    @Mutable
-    @Accessor("elementCounts")
-    void setElementCounts(List<Pair<StructurePoolElement, Integer>> elementCounts);
+	@Mutable
+	@Accessor("elementCounts")
+	void setElementCounts(List<Pair<StructurePoolElement, Integer>> elementCounts);
 
-    @Accessor("elements")
-    ObjectArrayList<StructurePoolElement> getElements();
+	@Accessor("elements")
+	ObjectArrayList<StructurePoolElement> getElements();
 
-    @Mutable
-    @Accessor("elements")
-    void setElements(ObjectArrayList<StructurePoolElement> elements);
+	@Mutable
+	@Accessor("elements")
+	void setElements(ObjectArrayList<StructurePoolElement> elements);
 }

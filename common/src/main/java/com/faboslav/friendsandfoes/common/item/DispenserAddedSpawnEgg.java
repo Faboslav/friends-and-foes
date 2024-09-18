@@ -22,63 +22,65 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class DispenserAddedSpawnEgg extends SpawnEggItem {
-    private static final List<Pair<Supplier<? extends EntityType<? extends MobEntity>>, SpawnEggItem>> SPAWN_EGGS = new ArrayList<>();
-    private final Supplier<? extends EntityType<? extends MobEntity>> entityType;
+public class DispenserAddedSpawnEgg extends SpawnEggItem
+{
+	private static final List<Pair<Supplier<? extends EntityType<? extends MobEntity>>, SpawnEggItem>> SPAWN_EGGS = new ArrayList<>();
+	private final Supplier<? extends EntityType<? extends MobEntity>> entityType;
 
-    public DispenserAddedSpawnEgg(
-            Supplier<? extends EntityType<? extends MobEntity>> typeIn,
-            int primaryColorIn,
-            int secondaryColorIn,
-            Item.Settings builder
-    ) {
-        super(null, primaryColorIn, secondaryColorIn, builder);
-        this.entityType = typeIn;
+	public DispenserAddedSpawnEgg(
+		Supplier<? extends EntityType<? extends MobEntity>> typeIn,
+		int primaryColorIn,
+		int secondaryColorIn,
+		Item.Settings builder
+	) {
+		super(null, primaryColorIn, secondaryColorIn, builder);
+		this.entityType = typeIn;
 
-        setupDispenserBehavior();
-        SPAWN_EGGS.add(new Pair<>(typeIn, this));
-    }
+		setupDispenserBehavior();
+		SPAWN_EGGS.add(new Pair<>(typeIn, this));
+	}
 
-    protected void setupDispenserBehavior() {
-        // Have to manually add dispenser behavior due to forge item registry event running too late.
-        DispenserBlock.registerBehavior(
-                this,
-                new ItemDispenserBehavior() {
-                    public ItemStack execute(@NotNull BlockPointer source, @NotNull ItemStack stack) {
-                        Direction direction = source.state().get(DispenserBlock.FACING);
-                        EntityType<?> entitytype = ((SpawnEggItem) stack.getItem()).getEntityType(stack.getNbt());
-                        entitytype.spawn(source.world(), stack.getNbt(), null, source.pos().offset(direction), SpawnReason.DISPENSER, direction != Direction.UP, false);
-                        stack.decrement(1);
-                        return stack;
-                    }
-                });
-    }
+	protected void setupDispenserBehavior() {
+		// Have to manually add dispenser behavior due to forge item registry event running too late.
+		DispenserBlock.registerBehavior(
+			this,
+			new ItemDispenserBehavior()
+			{
+				public ItemStack execute(@NotNull BlockPointer source, @NotNull ItemStack stack) {
+					Direction direction = source.state().get(DispenserBlock.FACING);
+					EntityType<?> entitytype = ((SpawnEggItem) stack.getItem()).getEntityType(stack.getNbt());
+					entitytype.spawn(source.world(), stack.getNbt(), null, source.pos().offset(direction), SpawnReason.DISPENSER, direction != Direction.UP, false);
+					stack.decrement(1);
+					return stack;
+				}
+			});
+	}
 
-    @Override
-    public EntityType<?> getEntityType(@Nullable NbtCompound nbt) {
-        if (nbt != null && nbt.contains("EntityTag", 10)) {
-            NbtCompound nbtCompound = nbt.getCompound("EntityTag");
-            if (nbtCompound.contains("id", 8)) {
-                return EntityType.get(nbtCompound.getString("id")).orElse(this.entityType.get());
-            }
-        }
+	@Override
+	public EntityType<?> getEntityType(@Nullable NbtCompound nbt) {
+		if (nbt != null && nbt.contains("EntityTag", 10)) {
+			NbtCompound nbtCompound = nbt.getCompound("EntityTag");
+			if (nbtCompound.contains("id", 8)) {
+				return EntityType.get(nbtCompound.getString("id")).orElse(this.entityType.get());
+			}
+		}
 
-        return this.entityType.get();
-    }
+		return this.entityType.get();
+	}
 
-    @Override
-    public FeatureSet getRequiredFeatures() {
-        return getEntityType(null).getRequiredFeatures();
-    }
+	@Override
+	public FeatureSet getRequiredFeatures() {
+		return getEntityType(null).getRequiredFeatures();
+	}
 
-    protected EntityType<?> getDefaultType() {
-        return this.entityType.get();
-    }
+	protected EntityType<?> getDefaultType() {
+		return this.entityType.get();
+	}
 
-    public static void onSetup(SetupEvent event) {
-        var spawnEggMap = SpawnEggItemAccessor.variantsandventures$getSpawnEggs();
-        for (var entry : DispenserAddedSpawnEgg.SPAWN_EGGS) {
-            spawnEggMap.put(entry.getFirst().get(), entry.getSecond());
-        }
-    }
+	public static void onSetup(SetupEvent event) {
+		var spawnEggMap = SpawnEggItemAccessor.variantsandventures$getSpawnEggs();
+		for (var entry : DispenserAddedSpawnEgg.SPAWN_EGGS) {
+			spawnEggMap.put(entry.getFirst().get(), entry.getSecond());
+		}
+	}
 }

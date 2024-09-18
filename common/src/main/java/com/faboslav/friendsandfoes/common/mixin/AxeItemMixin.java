@@ -1,7 +1,7 @@
-package com.faboslav.friendsandfoes.mixin;
+package com.faboslav.friendsandfoes.common.mixin;
 
 
-import com.faboslav.friendsandfoes.block.Oxidizable;
+import com.faboslav.friendsandfoes.common.block.Oxidizable;
 import com.faboslav.friendsandfoes.common.util.WaxableBlocksMap;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;

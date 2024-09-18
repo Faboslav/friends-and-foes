@@ -15,11 +15,6 @@ logoFile = "icon.png"
 logoBlur = false
 displayURL = "https://github.com/Faboslav/friends-and-foes"
 
-[[dependencies.${ modId }]]
-modId = "forge"
-mandatory = true
-versionRange = "[${forgeVersion},)"
-
 [modproperties.${ modId }]
 catalogueImageIcon = "catalogue_icon.png"
 catalogueBackground = "catalogue_background.png"

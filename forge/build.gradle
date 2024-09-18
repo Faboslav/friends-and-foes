@@ -14,10 +14,6 @@ loom {
 		extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
 		mixinConfig "${mod_id}-common.mixins.json"
 		mixinConfig "${mod_id}-forge.mixins.json"
-
-		mixin {
-			useLegacyMixinAp = false
-		}
 	}
 }
 

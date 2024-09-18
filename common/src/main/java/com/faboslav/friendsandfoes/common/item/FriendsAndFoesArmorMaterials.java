@@ -1,14 +1,13 @@
 package com.faboslav.friendsandfoes.common.item;
 
-import net.minecraft.item.ArmorItem;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesItems;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Lazy;
 import net.minecraft.util.Util;
-
 import java.util.EnumMap;
 import java.util.function.Supplier;
 
@@ -20,7 +19,7 @@ public enum FriendsAndFoesArmorMaterials implements ArmorMaterial
 	WILDFIRE(
 		"wildfire",
 		35,
-		(EnumMap) Util.make(new EnumMap(ArmorItem.Type.class), (map) -> {
+		Util.make(new EnumMap(ArmorItem.Type.class), (map) -> {
 			map.put(ArmorItem.Type.BOOTS, 1);
 			map.put(ArmorItem.Type.LEGGINGS, 5);
 			map.put(ArmorItem.Type.CHESTPLATE, 7);
@@ -74,7 +73,7 @@ public enum FriendsAndFoesArmorMaterials implements ArmorMaterial
 	}
 
 	public int getProtection(ArmorItem.Type type) {
-		return (Integer) this.protectionAmounts.get(type);
+		return this.protectionAmounts.get(type);
 	}
 
 	public int getEnchantability() {

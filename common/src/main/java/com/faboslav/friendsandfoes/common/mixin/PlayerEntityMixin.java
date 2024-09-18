@@ -120,10 +120,10 @@ public abstract class PlayerEntityMixin extends LivingEntity
 
 		if (
 			player.isAlive()
-			&& source.isOf(DamageTypes.IN_FIRE) == false
-			&& source.isOf(DamageTypes.ON_FIRE) == false
-			&& source.isOf(DamageTypes.FALL) == false
-			&& source.isOf(DamageTypes.FALLING_BLOCK) == false
+			&& !source.isOf(DamageTypes.IN_FIRE)
+			&& !source.isOf(DamageTypes.ON_FIRE)
+			&& !source.isOf(DamageTypes.FALL)
+			&& !source.isOf(DamageTypes.FALLING_BLOCK)
 			&& source.getAttacker() != null
 			&& !player.isDead()
 			&& this.getHealth() <= this.getMaxHealth() / 2.0F

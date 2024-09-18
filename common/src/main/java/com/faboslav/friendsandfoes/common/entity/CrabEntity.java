@@ -317,7 +317,7 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 					continue;
 				}
 
-				if (((JukeboxBlockEntity)possibleJukeboxBlockEntity).isPlayingRecord()) {
+				if (((JukeboxBlockEntity) possibleJukeboxBlockEntity).isPlayingRecord()) {
 					isDancing = true;
 					break;
 				}

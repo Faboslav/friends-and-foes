@@ -29,16 +29,10 @@ public final class CrabLayEggTask extends Task<CrabEntity>
 
 	@Override
 	protected boolean shouldRun(ServerWorld world, CrabEntity crab) {
-		if (
-			crab.getBurrowSpotPos() == null
-			|| crab.isBurrowSpotAccessible(crab.getBurrowSpotPos().getPos()) == false
-			|| crab.getBurrowSpotPos().getPos().isWithinDistance(crab.getPos(), WITHING_DISTANCE) == false
-			|| crab.getNavigation().isFollowingPath()
-		) {
-			return false;
-		}
-
-		return true;
+		return crab.getBurrowSpotPos() != null
+			   && crab.isBurrowSpotAccessible(crab.getBurrowSpotPos().getPos())
+			   && crab.getBurrowSpotPos().getPos().isWithinDistance(crab.getPos(), WITHING_DISTANCE)
+			   && !crab.getNavigation().isFollowingPath();
 	}
 
 	@Override

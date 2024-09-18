@@ -79,7 +79,7 @@ public final class CopperGolemEntityModel<T extends CopperGolemEntity> extends A
 		if (copperGolem.isOxidized()) {
 			NbtCompound entitySnapshot = copperGolem.getEntitySnapshot();
 
-			if (entitySnapshot.isEmpty() == false) {
+			if (!entitySnapshot.isEmpty()) {
 				limbAngle = entitySnapshot.getFloat("limbAngle");
 				limbDistance = entitySnapshot.getFloat("lastLimbDistance");
 			}

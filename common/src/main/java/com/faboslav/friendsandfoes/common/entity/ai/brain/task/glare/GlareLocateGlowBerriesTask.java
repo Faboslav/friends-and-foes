@@ -32,11 +32,11 @@ public final class GlareLocateGlowBerriesTask extends Task<GlareEntity>
 
 	@Override
 	protected boolean shouldRun(ServerWorld world, GlareEntity glare) {
-		return FriendsAndFoes.getConfig().enableGlareGriefing != false
+		return FriendsAndFoes.getConfig().enableGlareGriefing
 			   && !glare.isLeashed()
 			   && !glare.isSitting()
 			   && !glare.hasVehicle()
-			   && glare.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty() != false;
+			   && glare.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty();
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public final class GlareLocateGlowBerriesTask extends Task<GlareEntity>
 		for (BlockPos blockPos : BlockPos.iterateOutwards(glarePos, horizontalRange, verticalRange, horizontalRange)) {
 			BlockPos possibleGlowBerriesBlockPos = blockPos.mutableCopy();
 
-			if (condition.test(possibleGlowBerriesBlockPos) == false) {
+			if (!condition.test(possibleGlowBerriesBlockPos)) {
 				continue;
 			}
 

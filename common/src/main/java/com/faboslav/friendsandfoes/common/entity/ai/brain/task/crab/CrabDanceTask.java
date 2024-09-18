@@ -29,14 +29,8 @@ public final class CrabDanceTask extends Task<CrabEntity>
 
 	@Override
 	protected boolean shouldRun(ServerWorld world, CrabEntity crab) {
-		if (
-			crab.isClimbing()
-			|| !crab.isDancing()
-		) {
-			return false;
-		}
-
-		return true;
+		return !crab.isClimbing()
+			   && crab.isDancing();
 	}
 
 	@Override
@@ -60,14 +54,8 @@ public final class CrabDanceTask extends Task<CrabEntity>
 
 	@Override
 	protected boolean shouldKeepRunning(ServerWorld world, CrabEntity crab, long time) {
-		if (
-			crab.isClimbing()
-			|| !crab.isDancing()
-		) {
-			return false;
-		}
-
-		return true;
+		return !crab.isClimbing()
+			   && crab.isDancing();
 	}
 
 	@Override

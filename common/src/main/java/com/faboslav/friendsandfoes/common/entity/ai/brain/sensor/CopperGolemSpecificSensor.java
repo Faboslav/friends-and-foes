@@ -56,7 +56,7 @@ public class CopperGolemSpecificSensor extends Sensor<CopperGolemEntity>
 
 		List players = world.getPlayers().stream().filter(NOTICEABLE_PLAYER_FILTER).filter(player -> copperGolem.isInRange(player, 16.0)).sorted(Comparator.comparingDouble(copperGolem::squaredDistanceTo)).toList();
 
-		if (players.isEmpty() || copperGolem.isWaxed() == false) {
+		if (players.isEmpty() || !copperGolem.isWaxed()) {
 			return;
 		}
 

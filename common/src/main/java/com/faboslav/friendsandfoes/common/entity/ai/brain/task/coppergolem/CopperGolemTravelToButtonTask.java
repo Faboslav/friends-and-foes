@@ -28,14 +28,8 @@ public final class CopperGolemTravelToButtonTask extends Task<CopperGolemEntity>
 	protected boolean shouldRun(ServerWorld world, CopperGolemEntity copperGolem) {
 		GlobalPos buttonPos = copperGolem.getButtonPos();
 
-		if (
-			buttonPos == null
-			|| copperGolem.isButtonValidToBePressed(buttonPos.getPos()) == false
-		) {
-			return false;
-		}
-
-		return true;
+		return buttonPos != null
+			   && copperGolem.isButtonValidToBePressed(buttonPos.getPos());
 	}
 
 	@Override
@@ -47,19 +41,11 @@ public final class CopperGolemTravelToButtonTask extends Task<CopperGolemEntity>
 	protected boolean shouldKeepRunning(ServerWorld world, CopperGolemEntity copperGolem, long time) {
 		GlobalPos buttonPos = copperGolem.getButtonPos();
 
-		if (
-			buttonPos == null
-			|| copperGolem.isButtonValidToBePressed(buttonPos.getPos()) == false
-			|| (
-				buttonPos.getPos().isWithinDistance(copperGolem.getPos(), WITHING_DISTANCE)
-				&& copperGolem.getNavigation().isFollowingPath() == false
-			)
-			|| copperGolem.isOxidized()
-		) {
-			return false;
-		}
-
-		return true;
+		return buttonPos != null
+			   && copperGolem.isButtonValidToBePressed(buttonPos.getPos())
+			   && (!buttonPos.getPos().isWithinDistance(copperGolem.getPos(), WITHING_DISTANCE)
+				   || copperGolem.getNavigation().isFollowingPath())
+			   && !copperGolem.isOxidized();
 	}
 
 	protected void keepRunning(ServerWorld world, CopperGolemEntity copperGolem, long time) {
@@ -78,8 +64,8 @@ public final class CopperGolemTravelToButtonTask extends Task<CopperGolemEntity>
 		if (
 			buttonPos != null &&
 			(
-				buttonPos.getPos().isWithinDistance(copperGolem.getPos(), WITHING_DISTANCE) == false
-				|| copperGolem.isButtonValidToBePressed(buttonPos.getPos()) == false
+				!buttonPos.getPos().isWithinDistance(copperGolem.getPos(), WITHING_DISTANCE)
+				|| !copperGolem.isButtonValidToBePressed(buttonPos.getPos())
 			)
 		) {
 			copperGolem.getBrain().forget(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_BUTTON_POS.get());

@@ -44,6 +44,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
+
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Predicate;
@@ -99,7 +100,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		PREY_PREDICATE_FILTER = (entity) -> {
 			if (
 				entity instanceof SlimeEntity slimeEntity && slimeEntity.getSize() != SlimeEntity.MIN_SIZE
-				|| entity instanceof ZombieEntity && ((ZombieEntity) entity).isBaby() == false
+				|| entity instanceof ZombieEntity && !((ZombieEntity) entity).isBaby()
 			) {
 				return false;
 			}
@@ -179,7 +180,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 	@Override
 	public boolean canImmediatelyDespawn(double distanceSquared) {
-		return this.hasCustomName() == false;
+		return !this.hasCustomName();
 	}
 
 	public static boolean canSpawn(
@@ -207,7 +208,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 	@Override
 	public void tick() {
-		if (FriendsAndFoes.getConfig().enableMauler == false) {
+		if (!FriendsAndFoes.getConfig().enableMauler) {
 			this.discard();
 		}
 
@@ -215,7 +216,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 		super.tick();
 
-		if (this.getWorld().isClient() == true) {
+		if (this.getWorld().isClient()) {
 			return;
 		}
 
@@ -228,14 +229,14 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 	@Override
 	public void tickMovement() {
-		if (this.getWorld().isClient() == false && this.getBurrowingDownAnimationProgress() > 0.0F) {
+		if (!this.getWorld().isClient() && this.getBurrowingDownAnimationProgress() > 0.0F) {
 			this.getNavigation().setSpeed(0);
 			this.getNavigation().stop();
 		}
 
 		super.tickMovement();
 
-		if (this.getWorld().isClient() == true) {
+		if (this.getWorld().isClient()) {
 			return;
 		}
 
@@ -248,7 +249,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		DamageSource source,
 		float amount
 	) {
-		if (this.getWorld().isClient() == false && this.burrowDownGoal.isRunning()) {
+		if (!this.getWorld().isClient() && this.burrowDownGoal.isRunning()) {
 			this.burrowDownGoal.stop();
 		}
 
@@ -268,7 +269,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		boolean interactionResult = false;
 
 		if (
-			this.hasAngerTime() == false
+			!this.hasAngerTime()
 			&& (
 				(
 					itemStack.hasEnchantments()
@@ -277,7 +278,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 			)
 		) {
 			interactionResult = this.tryToInteractWithEnhancedItem(player, hand, itemStack);
-		} else if (this.hasAngerTime() == false && itemInHand == Items.GLASS_BOTTLE) {
+		} else if (!this.hasAngerTime() && itemInHand == Items.GLASS_BOTTLE) {
 			interactionResult = this.tryToInteractWithGlassBottle(player, itemStack);
 		}
 
@@ -309,7 +310,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 		this.setStoredExperiencePoints(recalculatedExperiencePoints);
 
-		if (player.getAbilities().creativeMode == false) {
+		if (!player.getAbilities().creativeMode) {
 			if (itemStack.isStackable()) {
 				itemStack.decrement(1);
 			} else {
@@ -376,7 +377,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 	@Override
 	public boolean isPushable() {
-		return this.isBurrowedDown() == false && super.isPushable();
+		return !this.isBurrowedDown() && super.isPushable();
 	}
 
 	@Override

@@ -28,11 +28,7 @@ public final class CrabLocateBurrowSpotTask extends Task<CrabEntity>
 		ServerWorld world,
 		CrabEntity crab
 	) {
-		if (!crab.isCloseToHomePos(6.0F)) {
-			return false;
-		}
-
-		return true;
+		return crab.isCloseToHomePos(6.0F);
 	}
 
 	@Override

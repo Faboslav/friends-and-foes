@@ -69,7 +69,7 @@ public final class TuffGolemGoToHomePositionTask extends Task<TuffGolemEntity>
 		}
 
 		if (
-			tuffGolem.isCloseToHomePos(2.0F) == false
+			!tuffGolem.isCloseToHomePos(2.0F)
 			|| Math.abs((int) tuffGolem.getY() - (int) tuffGolem.getHomePos().getY()) > 1
 		) {
 			return;

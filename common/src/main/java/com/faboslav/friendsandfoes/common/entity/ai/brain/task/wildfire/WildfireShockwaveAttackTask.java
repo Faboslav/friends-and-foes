@@ -46,7 +46,7 @@ public final class WildfireShockwaveAttackTask extends Task<WildfireEntity>
 		if (
 			nearestTarget == null
 			|| wildfire.distanceTo(nearestTarget) > SHOCKWAVE_ATTACK_RANGE
-			|| nearestTarget.isAlive() == false
+			|| !nearestTarget.isAlive()
 			|| (
 				nearestTarget instanceof PlayerEntity
 				&& (

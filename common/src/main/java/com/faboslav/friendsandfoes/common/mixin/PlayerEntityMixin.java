@@ -118,9 +118,9 @@ public abstract class PlayerEntityMixin extends LivingEntity
 		PlayerEntity player = (PlayerEntity) (Object) this;
 
 		if (
-			source.isFire() == false
-			&& source.isFromFalling() == false
-			&& source.isFallingBlock() == false
+			!source.isFire()
+			&& !source.isFromFalling()
+			&& !source.isFallingBlock()
 			&& source.getAttacker() != null
 			&& !player.isDead()
 			&& this.getHealth() <= this.getMaxHealth() / 2.0F

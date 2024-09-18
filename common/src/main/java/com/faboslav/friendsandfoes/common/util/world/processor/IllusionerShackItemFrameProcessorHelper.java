@@ -18,7 +18,7 @@ public final class IllusionerShackItemFrameProcessorHelper
 		StructureEntityInfo globalEntityInfo,
 		StructurePlacementData structurePlacementData
 	) {
-		if (globalEntityInfo.nbt.getString("id").equals("minecraft:item_frame") == false) {
+		if (!globalEntityInfo.nbt.getString("id").equals("minecraft:item_frame")) {
 			return globalEntityInfo;
 		}
 

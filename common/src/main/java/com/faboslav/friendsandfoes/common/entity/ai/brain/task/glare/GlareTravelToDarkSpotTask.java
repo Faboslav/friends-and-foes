@@ -29,14 +29,8 @@ public final class GlareTravelToDarkSpotTask extends Task<GlareEntity>
 	protected boolean shouldRun(ServerWorld world, GlareEntity glare) {
 		GlobalPos darkSpotPos = glare.getDarkSpotPos();
 
-		if (
-			GlareTravelToDarkSpotTask.canTravelToDarkSpot(glare) == false
-			|| darkSpotPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE)
-		) {
-			return false;
-		}
-
-		return true;
+		return GlareTravelToDarkSpotTask.canTravelToDarkSpot(glare)
+			   && !darkSpotPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE);
 	}
 
 	@Override
@@ -48,17 +42,9 @@ public final class GlareTravelToDarkSpotTask extends Task<GlareEntity>
 	protected boolean shouldKeepRunning(ServerWorld world, GlareEntity glare, long time) {
 		GlobalPos darkSpotPos = glare.getDarkSpotPos();
 
-		if (
-			GlareTravelToDarkSpotTask.canTravelToDarkSpot(glare) == false
-			|| (
-				darkSpotPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE)
-				&& glare.getNavigation().isFollowingPath() == false
-			)
-		) {
-			return false;
-		}
-
-		return true;
+		return GlareTravelToDarkSpotTask.canTravelToDarkSpot(glare)
+			   && (!darkSpotPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE)
+				   || glare.getNavigation().isFollowingPath());
 	}
 
 	protected void keepRunning(ServerWorld world, GlareEntity glare, long time) {
@@ -77,8 +63,8 @@ public final class GlareTravelToDarkSpotTask extends Task<GlareEntity>
 		if (
 			darkSpotPos != null &&
 			(
-				darkSpotPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE) == false
-				|| glare.isDarkSpotDark(darkSpotPos.getPos()) == false
+				!darkSpotPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE)
+				|| !glare.isDarkSpotDark(darkSpotPos.getPos())
 			)
 		) {
 			glare.getBrain().forget(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_POS.get());
@@ -102,19 +88,13 @@ public final class GlareTravelToDarkSpotTask extends Task<GlareEntity>
 	}
 
 	public static boolean canTravelToDarkSpot(GlareEntity glare) {
-		if (GlareLocateDarkSpotTask.canLocateDarkSpot(glare) == false) {
+		if (!GlareLocateDarkSpotTask.canLocateDarkSpot(glare)) {
 			return false;
 		}
 
 		GlobalPos darkSpotPos = glare.getDarkSpotPos();
 
-		if (
-			darkSpotPos == null
-			|| glare.isDarkSpotDark(darkSpotPos.getPos()) == false
-		) {
-			return false;
-		}
-
-		return true;
+		return darkSpotPos != null
+			   && glare.isDarkSpotDark(darkSpotPos.getPos());
 	}
 }

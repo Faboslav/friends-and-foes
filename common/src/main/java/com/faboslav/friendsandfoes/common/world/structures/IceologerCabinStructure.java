@@ -65,7 +65,7 @@ public final class IceologerCabinStructure extends Structure
 		int offsetY = this.startHeight.get(context.random(), new HeightContext(context.chunkGenerator(), context.world()));
 		BlockPos blockPos = new BlockPos(context.chunkPos().getStartX(), offsetY, context.chunkPos().getStartZ());
 
-		if (FriendsAndFoes.getConfig().generateIceologerCabinStructure == false) {
+		if (!FriendsAndFoes.getConfig().generateIceologerCabinStructure) {
 			return Optional.empty();
 		}
 

@@ -31,11 +31,11 @@ public final class GlareTravelToGlowBerriesTask extends Task<GlareEntity>
 	protected boolean shouldRun(ServerWorld world, GlareEntity glare) {
 		GlobalPos glowBerriesPos = glare.getGlowBerriesPos();
 
-		return FriendsAndFoes.getConfig().enableGlareGriefing != false
+		return FriendsAndFoes.getConfig().enableGlareGriefing
 			   && !glare.isLeashed()
 			   && !glare.isSitting()
-			   && glare.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty() != false
-			   && glare.canEatGlowBerriesAt(glowBerriesPos.getPos()) != false
+			   && glare.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty()
+			   && glare.canEatGlowBerriesAt(glowBerriesPos.getPos())
 			   && glowBerriesPos != null
 			   && !glowBerriesPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE);
 	}
@@ -49,22 +49,14 @@ public final class GlareTravelToGlowBerriesTask extends Task<GlareEntity>
 	protected boolean shouldKeepRunning(ServerWorld world, GlareEntity glare, long time) {
 		GlobalPos glowBerriesPos = glare.getGlowBerriesPos();
 
-		if (
-			glowBerriesPos == null
-			|| glare.canEatGlowBerriesAt(glowBerriesPos.getPos()) == false
-			|| (
-				glowBerriesPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE)
-				&& glare.getNavigation().isFollowingPath() == false
-			)
-			|| FriendsAndFoes.getConfig().enableGlareGriefing == false
-			|| glare.isLeashed() == true
-			|| glare.isSitting() == true
-			|| glare.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty() == false
-		) {
-			return false;
-		}
-
-		return true;
+		return glowBerriesPos != null
+			   && glare.canEatGlowBerriesAt(glowBerriesPos.getPos())
+			   && (!glowBerriesPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE)
+				   || glare.getNavigation().isFollowingPath())
+			   && FriendsAndFoes.getConfig().enableGlareGriefing
+			   && !glare.isLeashed()
+			   && !glare.isSitting()
+			   && glare.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty();
 	}
 
 	protected void keepRunning(ServerWorld world, GlareEntity glare, long time) {
@@ -83,8 +75,8 @@ public final class GlareTravelToGlowBerriesTask extends Task<GlareEntity>
 		if (
 			glowBerriesPos != null &&
 			(
-				glowBerriesPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE) == false
-				|| glare.canEatGlowBerriesAt(glowBerriesPos.getPos()) == false
+				!glowBerriesPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE)
+				|| !glare.canEatGlowBerriesAt(glowBerriesPos.getPos())
 			)
 		) {
 			glare.getBrain().forget(FriendsAndFoesMemoryModuleTypes.GLARE_GLOW_BERRIES_POS.get());

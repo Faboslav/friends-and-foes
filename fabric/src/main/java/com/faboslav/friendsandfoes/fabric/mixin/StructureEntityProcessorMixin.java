@@ -65,7 +65,7 @@ public final class StructureEntityProcessorMixin
 		int flags,
 		CallbackInfoReturnable<Boolean> cir
 	) {
-		if (FabricLoader.getInstance().isModLoaded("yungsapi") == false) {
+		if (!FabricLoader.getInstance().isModLoaded("yungsapi")) {
 			for (StructureEntityInfo entityInfo : friendsandfoes_processEntityInfos(
 				serverWorldAccess,
 				structurePiecePos,
@@ -77,7 +77,7 @@ public final class StructureEntityProcessorMixin
 
 				if (
 					structurePlacementData.getBoundingBox() != null
-					&& structurePlacementData.getBoundingBox().contains(blockPos) == false
+					&& !structurePlacementData.getBoundingBox().contains(blockPos)
 				) {
 					continue;
 				}
@@ -139,7 +139,7 @@ public final class StructureEntityProcessorMixin
 		boolean initializeMobs,
 		CallbackInfo ci
 	) {
-		if (FabricLoader.getInstance().isModLoaded("yungsapi") == false) {
+		if (!FabricLoader.getInstance().isModLoaded("yungsapi")) {
 			ci.cancel();
 		}
 	}
@@ -181,7 +181,7 @@ public final class StructureEntityProcessorMixin
 
 			// Apply processors
 			for (StructureProcessor processor : structurePlacementData.getProcessors()) {
-				if (processor instanceof StructureEntityProcessor == false) {
+				if (!(processor instanceof StructureEntityProcessor)) {
 					continue;
 				}
 

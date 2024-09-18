@@ -96,20 +96,12 @@ public final class GlareLocateDarkSpotTask extends Task<GlareEntity>
 	}
 
 	public static boolean canLocateDarkSpot(GlareEntity glare) {
-		if (
-			glare.isLeashed()
-			|| glare.isSitting()
-			|| glare.hasVehicle()
-			|| glare.isTamed() == false
-			|| glare.isBaby()
-			|| (
-				glare.getWorld().isDay()
-				&& glare.getWorld().isSkyVisible(glare.getBlockPos())
-			)
-		) {
-			return false;
-		}
-
-		return true;
+		return !glare.isLeashed()
+			   && !glare.isSitting()
+			   && !glare.hasVehicle()
+			   && glare.isTamed()
+			   && !glare.isBaby()
+			   && (!glare.getWorld().isDay()
+				   || !glare.getWorld().isSkyVisible(glare.getBlockPos()));
 	}
 }

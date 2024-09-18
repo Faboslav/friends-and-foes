@@ -19,18 +19,12 @@ public final class GlareTeleportToOwnerTask extends Task<GlareEntity>
 	protected boolean shouldRun(ServerWorld world, GlareEntity glare) {
 		LivingEntity owner = glare.getOwner();
 
-		if (
-			owner == null
-			|| owner.isSpectator()
-			|| glare.isLeashed()
-			|| glare.isSitting()
-			|| glare.hasVehicle()
-			|| glare.squaredDistanceTo(owner) < 1024.0D
-		) {
-			return false;
-		}
-
-		return true;
+		return owner != null
+			   && !owner.isSpectator()
+			   && !glare.isLeashed()
+			   && !glare.isSitting()
+			   && !glare.hasVehicle()
+			   && !(glare.squaredDistanceTo(owner) < 1024.0D);
 	}
 
 	@Override

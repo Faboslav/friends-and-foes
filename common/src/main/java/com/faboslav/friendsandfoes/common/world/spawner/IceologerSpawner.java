@@ -24,8 +24,8 @@ public final class IceologerSpawner implements Spawner
 	@Override
 	public int spawn(ServerWorld world, boolean spawnMonsters, boolean spawnAnimals) {
 		if (
-			spawnMonsters == false
-			|| FriendsAndFoes.getConfig().enableIceologerSpawn == false
+			!spawnMonsters
+			|| !FriendsAndFoes.getConfig().enableIceologerSpawn
 		) {
 			return 0;
 		}
@@ -42,7 +42,7 @@ public final class IceologerSpawner implements Spawner
 
 		if (
 			l < 5L
-			|| world.isDay() == false
+			|| !world.isDay()
 			|| random.nextBetween(0, 1) != 0
 		) {
 			return 0;
@@ -71,11 +71,11 @@ public final class IceologerSpawner implements Spawner
 		var maxX = mutable.getX() + 10;
 		var maxZ = mutable.getZ() + 10;
 
-		if (world.isRegionLoaded(minX, minZ, maxX, maxZ) == false) {
+		if (!world.isRegionLoaded(minX, minZ, maxX, maxZ)) {
 			return 0;
 		}
 
-		if (world.getBiome(mutable).isIn(FriendsAndFoesTags.HAS_ICEOLOGER) == false) {
+		if (!world.getBiome(mutable).isIn(FriendsAndFoesTags.HAS_ICEOLOGER)) {
 			return 0;
 		}
 
@@ -83,8 +83,8 @@ public final class IceologerSpawner implements Spawner
 		BlockState blockState = world.getBlockState(mutable);
 
 		if (
-			SpawnHelper.isClearForSpawn(world, mutable, blockState, blockState.getFluidState(), FriendsAndFoesEntityTypes.ICEOLOGER.get()) == false
-			|| PatrolEntity.canSpawn(FriendsAndFoesEntityTypes.ICEOLOGER.get(), world, SpawnReason.PATROL, mutable, random) == false
+			!SpawnHelper.isClearForSpawn(world, mutable, blockState, blockState.getFluidState(), FriendsAndFoesEntityTypes.ICEOLOGER.get())
+			|| !PatrolEntity.canSpawn(FriendsAndFoesEntityTypes.ICEOLOGER.get(), world, SpawnReason.PATROL, mutable, random)
 		) {
 			return 0;
 		}

@@ -235,7 +235,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 			return;
 		}
 
-		if (this.hasVehicle() == false) {
+		if (!this.hasVehicle()) {
 			this.serverYaw = entitySnapshot.getDouble("serverYaw");
 			this.prevYaw = entitySnapshot.getFloat("prevYaw");
 			this.setYaw(this.prevYaw);
@@ -449,7 +449,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 			ParticleSpawner.spawnParticles(this, ParticleTypes.WAX_OFF, 7, 1.0);
 
 		} else if (isDegraded()) {
-			if (this.getWorld().isClient() == false) {
+			if (!this.getWorld().isClient()) {
 				int increasedOxidationLevelOrdinal = getOxidationLevel().ordinal() - 1;
 				Oxidizable.OxidationLevel[] OxidationLevels = Oxidizable.OxidationLevel.values();
 				this.setOxidationLevel(OxidationLevels[increasedOxidationLevelOrdinal]);
@@ -459,7 +459,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 			ParticleSpawner.spawnParticles(this, ParticleTypes.SCRAPE, 7, 1.0);
 		}
 
-		if (this.getWorld().isClient() == false && !player.getAbilities().creativeMode) {
+		if (!this.getWorld().isClient() && !player.getAbilities().creativeMode) {
 			itemStack.damage(1, player, (playerEntity) -> {
 				player.sendToolBreakStatus(hand);
 			});
@@ -487,7 +487,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 
 	@Override
 	public void tick() {
-		if (FriendsAndFoes.getConfig().enableCopperGolem == false) {
+		if (!FriendsAndFoes.getConfig().enableCopperGolem) {
 			this.discard();
 		}
 
@@ -500,7 +500,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 			return;
 		}
 
-		if (this.isStructByLightning() && this.getEntityWorld().isClient() == false) {
+		if (this.isStructByLightning() && !this.getEntityWorld().isClient()) {
 			this.setStructByLightningTicks(this.getStructByLightningTicks() - 1);
 
 			if (this.getRandom().nextFloat() < SPARK_CHANCE) {
@@ -538,17 +538,17 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 			ParticleSpawner.spawnParticles(this, ParticleTypes.WAX_OFF, 7, 1.0);
 		}
 
-		if (this.getEntityWorld().isClient() == false) {
+		if (!this.getEntityWorld().isClient()) {
 			this.refreshStructByLightningTicks();
 
-			if (this.isWaxed() == false) {
+			if (!this.isWaxed()) {
 				this.setOxidationLevel(Oxidizable.OxidationLevel.UNAFFECTED);
 			}
 		}
 	}
 
 	private void updateKeyframeAnimations() {
-		if (this.getWorld().isClient() == false && this.isOxidized() == false) {
+		if (!this.getWorld().isClient() && !this.isOxidized()) {
 			this.updateKeyframeAnimationTicks();
 		}
 
@@ -561,14 +561,14 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 
 	@Override
 	public void updateKeyframeAnimationTicks() {
-		if (this.isAnyKeyframeAnimationRunning() == false) {
+		if (!this.isAnyKeyframeAnimationRunning()) {
 			return;
 		}
 
 		this.setKeyframeAnimationTicks(this.getKeyframeAnimationTicks() - 1);
 
 		if (
-			this.getWorld().isClient() == false
+			!this.getWorld().isClient()
 			&& this.wasStatue()
 			&& this.getKeyframeAnimationTicks() == 1
 		) {
@@ -581,12 +581,12 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		}
 
 		for (KeyframeAnimation keyframeAnimation : this.getAnimations()) {
-			if (keyframeAnimation.getAnimation().looping() == false) {
+			if (!keyframeAnimation.getAnimation().looping()) {
 				continue;
 			}
 
 			var keyframeAnimationContext = this.getAnimationContextTracker().get(keyframeAnimation);
-			if (keyframeAnimationContext.isRunning() == false) {
+			if (!keyframeAnimationContext.isRunning()) {
 				continue;
 			}
 
@@ -629,7 +629,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 			return;
 		}
 
-		if (this.getWorld().isClient() == false && this.isOxidized() == false) {
+		if (!this.getWorld().isClient() && !this.isOxidized()) {
 			this.setKeyframeAnimationTicks(keyframeAnimationToStart.getAnimationLengthInTicks());
 		}
 
@@ -727,14 +727,14 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 			this.setWasStatue(true);
 		}
 
-		if (this.isImmobilized() == false) {
+		if (!this.isImmobilized()) {
 			this.refreshAnimationContextTracker();
 		}
 
 		if (this.isOxidized() && this.getBrain().getOptionalMemory(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_IS_OXIDIZED.get()).isEmpty()) {
 			this.getBrain().remember(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_IS_OXIDIZED.get(), true);
 			this.becomeStatue();
-		} else if (this.isOxidized() == false && this.getBrain().getOptionalMemory(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_IS_OXIDIZED.get()).isPresent()) {
+		} else if (!this.isOxidized() && this.getBrain().getOptionalMemory(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_IS_OXIDIZED.get()).isPresent()) {
 			this.getBrain().forget(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_IS_OXIDIZED.get());
 			this.becomeEntity();
 		}

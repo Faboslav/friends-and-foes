@@ -30,6 +30,7 @@ import net.minecraft.registry.tag.BiomeTags;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.village.TradeOffers;
 import net.minecraft.world.dimension.DimensionTypes;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

@@ -13,7 +13,7 @@ jobs:
     build:
         name: "Build project"
         runs-on: ubuntu-latest
-        timeout-minutes: 15
+        timeout-minutes: 10
         outputs:
             matrix: ${{ steps.set-matrix.outputs.matrix }}
 
@@ -25,25 +25,17 @@ jobs:
 
             -   name: "Parse gradle properties"
                 id: gradle-properties
-                run: |
-                    while IFS='=' read -r key value; do
-                      key=$(echo $key | awk '{$1=$1;print}')
-                        value=$(echo $value | awk '{$1=$1;print}')
-                    
-                        case "$key" in
-                          mod_java_version) echo "JAVA_VERSION=$value" >> $GITHUB_OUTPUT ;;
-                          minecraft_version) echo "MINECRAFT_VERSION=$value" >> $GITHUB_OUTPUT ;;
-                          mod_name) echo "MOD_NAME=$value" >> $GITHUB_OUTPUT ;;
-                          mod_version) echo "MOD_VERSION=$value" >> $GITHUB_OUTPUT ;;
-                          enabled_platforms) echo "ENABLED_PLATFORMS=$value" >> $GITHUB_OUTPUT ;;
-                        esac
-                    done < gradle.properties
+                run: ./.github/scripts/parse-gradle-properties.sh
 
             -   name: "Set up JDK"
                 uses: actions/setup-java@v4
                 with:
-                    java-version: ${{ steps.gradle-properties.outputs.JAVA_VERSION }}
+                    java-version: ${{ steps.gradle-properties.outputs.MOD_JAVA_VERSION }}
                     distribution: temurin
+
+            -   name: "Generate matrix for the run job"
+                id: set-matrix
+                run: ./.github/scripts/generate-run-matrix.sh
 
             -   name: "Run gradle build"
                 uses: gradle/actions/setup-gradle@v3
@@ -53,9 +45,13 @@ jobs:
                     gradle-version: wrapper
                     arguments: build
 
-            -   name: "Generate matrix for the run job"
-                id: set-matrix
-                run: ./.github/scripts/generate-run-matrix.sh
+            -   name: "Upload Built JARs"
+                uses: actions/upload-artifact@v4
+                with:
+                    name: built-jars
+                    if-no-files-found: error
+                    path: |
+                        ./**/build/libs/*[0-9].jar
 
     run:
         name: Run ${{ matrix.mod_loader }} ${{ matrix.script }}
@@ -72,35 +68,27 @@ jobs:
                 with:
                     fetch-depth: 0
 
+            -   name: "Download Built JARs"
+                uses: actions/download-artifact@v4
+                with:
+                    name: built-jars
+
             -   name: "Parse gradle properties"
                 id: gradle-properties
-                run: |
-                    while IFS='=' read -r key value; do
-                      key=$(echo $key | awk '{$1=$1;print}')
-                        value=$(echo $value | awk '{$1=$1;print}')
-                    
-                        case "$key" in
-                          mod_java_version) echo "JAVA_VERSION=$value" >> $GITHUB_OUTPUT ;;
-                        esac
-                    done < gradle.properties
+                run: ./.github/scripts/parse-gradle-properties.sh
 
-            -   name: "Set up JDK"
-                uses: actions/setup-java@v4
+            -   name: "Copy mod jar to run/mods"
+                run: mkdir -p run/mods && cp ${{ matrix.mod_loader }}/build/libs/* run/mods
+
+            -   name: Run ${{ matrix.version }} ${{ matrix.mod_loader }}
+                uses: 3arthqu4ke/mc-runtime-test@2.4.0
                 with:
-                    java-version: ${{ steps.gradle-properties.outputs.JAVA_VERSION }}
-                    distribution: temurin
-
-            -   name: "Setup Gradle"
-                uses: gradle/actions/setup-gradle@v3
-                with:
-                    cache-read-only: true
-                    gradle-version: wrapper
-
-            -   name: "Accept eula"
-                run: mkdir -p ${{ matrix.mod_loader }}/run && echo "eula=true" > ${{ matrix.mod_loader }}/run/eula.txt
-
-            -   name: Run ${{ matrix.mod_loader }} ${{ matrix.script }}
-                uses: modmuss50/xvfb-action@v1
-                with:
-                    run: ./.github/scripts/run-${{ matrix.script }}.sh ${{ matrix.mod_loader }}
-                    shell: bash
+                    mc: ${{ matrix.version }}
+                    modloader: ${{ matrix.mod_loader }}
+                    regex: .*${{ matrix.mod_loader }}.*
+                    mc-runtime-test: ${{ matrix.mod_loader_alias }}
+                    java: ${{ steps.gradle-properties.outputs.MOD_JAVA_VERSION }}
+                    java-distribution: temurin
+                    fabric-api: ${{ steps.gradle-properties.outputs.FABRIC_API_VERSION }}
+                    xvfb: false
+                    headlessmc-command: -lwjgl --retries 3 --jvm -Djava.awt.headless=true

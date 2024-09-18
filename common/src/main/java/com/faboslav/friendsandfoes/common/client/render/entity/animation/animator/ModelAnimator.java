@@ -23,7 +23,7 @@ import java.util.Optional;
 
 public final class ModelAnimator
 {
-	protected static final Vector3f TEMP = new Vector3f();
+	private static final Vector3f TEMP = new Vector3f();
 
 	public static void updateKeyframeAnimations(
 		AnimatedEntity animatedEntity,
@@ -258,7 +258,7 @@ public final class ModelAnimator
 			animationCurrentVector = animationContext.getCurrentVector();
 			animationTargetVector = animationContext.getTargetVector();
 
-			if (animationTargetVector.equals(targetVector) == false) {
+			if (!animationTargetVector.equals(targetVector)) {
 				animationContextTracker.remove(modelPartName, animationType);
 				animationContext = ModelPartAnimationContext.createWithProgress(
 					progress,
@@ -453,7 +453,7 @@ public final class ModelAnimator
 
 			animationTargetVector = animationContext.getTargetVector();
 
-			if (animationTargetVector.equals(targetVector) == false) {
+			if (!animationTargetVector.equals(targetVector)) {
 				animationContextTracker.remove(modelPartName, animationType);
 				animationContext = ModelPartAnimationContext.createWithTicks(
 					currentEntityTick,

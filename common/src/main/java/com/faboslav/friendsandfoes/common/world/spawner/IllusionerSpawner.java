@@ -24,9 +24,9 @@ public final class IllusionerSpawner implements SpecialSpawner
 	@Override
 	public int spawn(ServerWorld world, boolean spawnMonsters, boolean spawnAnimals) {
 		if (
-			spawnMonsters == false
-			|| FriendsAndFoes.getConfig().enableIllusioner == false
-			|| FriendsAndFoes.getConfig().enableIllusionerSpawn == false
+			!spawnMonsters
+			|| !FriendsAndFoes.getConfig().enableIllusioner
+			|| !FriendsAndFoes.getConfig().enableIllusionerSpawn
 		) {
 			return 0;
 		}
@@ -43,7 +43,7 @@ public final class IllusionerSpawner implements SpecialSpawner
 
 		if (
 			l < 5L
-			|| world.isDay() == false
+			|| !world.isDay()
 			|| random.nextBetween(0, 1) != 0
 		) {
 			return 0;
@@ -71,11 +71,11 @@ public final class IllusionerSpawner implements SpecialSpawner
 		var minZ = mutable.getZ() - 10;
 		var maxX = mutable.getX() + 10;
 		var maxZ = mutable.getZ() + 10;
-		if (world.isRegionLoaded(minX, minZ, maxX, maxZ) == false) {
+		if (!world.isRegionLoaded(minX, minZ, maxX, maxZ)) {
 			return 0;
 		}
 
-		if (world.getBiome(mutable).isIn(FriendsAndFoesTags.HAS_ILLUSIONER) == false) {
+		if (!world.getBiome(mutable).isIn(FriendsAndFoesTags.HAS_ILLUSIONER)) {
 			return 0;
 		}
 
@@ -83,8 +83,8 @@ public final class IllusionerSpawner implements SpecialSpawner
 		BlockState blockState = world.getBlockState(mutable);
 
 		if (
-			SpawnHelper.isClearForSpawn(world, mutable, blockState, blockState.getFluidState(), EntityType.ILLUSIONER) == false
-			|| PatrolEntity.canSpawn(EntityType.ILLUSIONER, world, SpawnReason.PATROL, mutable, random) == false
+			!SpawnHelper.isClearForSpawn(world, mutable, blockState, blockState.getFluidState(), EntityType.ILLUSIONER)
+			|| !PatrolEntity.canSpawn(EntityType.ILLUSIONER, world, SpawnReason.PATROL, mutable, random)
 		) {
 			return 0;
 		}

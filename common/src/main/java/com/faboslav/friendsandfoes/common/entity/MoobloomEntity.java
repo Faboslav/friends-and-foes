@@ -173,7 +173,7 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 
 			boolean isClientWorld = this.getWorld().isClient();
 
-			if (isClientWorld == false) {
+			if (!isClientWorld) {
 				itemStack.damage(1, player, (playerx) -> {
 					playerx.sendToolBreakStatus(hand);
 				});
@@ -188,7 +188,7 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 
 			boolean isClientWorld = this.getWorld().isClient();
 
-			if (isClientWorld == false) {
+			if (!isClientWorld) {
 				itemStack.damage(1, player, (playerx) -> {
 					playerx.sendToolBreakStatus(hand);
 				});
@@ -265,7 +265,7 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 
 	@Override
 	public void tick() {
-		if (FriendsAndFoes.getConfig().enableMoobloom == false) {
+		if (!FriendsAndFoes.getConfig().enableMoobloom) {
 			this.discard();
 		}
 

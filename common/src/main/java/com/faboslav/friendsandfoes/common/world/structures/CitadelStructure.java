@@ -69,8 +69,8 @@ public final class CitadelStructure extends Structure
 		BlockPos blockPos = new BlockPos(context.chunkPos().getStartX(), offsetY, context.chunkPos().getStartZ());
 
 		if (
-			FriendsAndFoes.getConfig().generateCitadelStructure == false
-			|| extraSpawningChecks(context, blockPos) == false
+			!FriendsAndFoes.getConfig().generateCitadelStructure
+			|| !extraSpawningChecks(context, blockPos)
 		) {
 			return Optional.empty();
 		}
@@ -99,7 +99,7 @@ public final class CitadelStructure extends Structure
 					mutable.set(blockPos).move(xOffset, yOffset, zOffset);
 					BlockState state = blockView.getState(mutable.getY());
 
-					if (state.isAir() == false && state.getFluidState().isEmpty()) {
+					if (!state.isAir() && state.getFluidState().isEmpty()) {
 						return false;
 					}
 				}

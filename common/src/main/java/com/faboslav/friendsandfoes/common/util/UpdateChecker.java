@@ -29,7 +29,7 @@ public final class UpdateChecker
 
 	public static void checkForNewUpdatesInGame(ClientPlayerEntity clientPlayerEntity) {
 		CompletableFuture.runAsync(() -> {
-			if (FriendsAndFoes.getConfig().checkForNewUpdates == false) {
+			if (!FriendsAndFoes.getConfig().checkForNewUpdates) {
 				return;
 			}
 
@@ -69,7 +69,7 @@ public final class UpdateChecker
 
 	public static void checkForNewUpdates() {
 		CompletableFuture.runAsync(() -> {
-			if (FriendsAndFoes.getConfig().checkForNewUpdates == false) {
+			if (!FriendsAndFoes.getConfig().checkForNewUpdates) {
 				return;
 			}
 
@@ -139,7 +139,7 @@ public final class UpdateChecker
 
 		String gameVersion = SharedConstants.getGameVersion().getName();
 
-		if (releases.containsKey(gameVersion) == false) {
+		if (!releases.containsKey(gameVersion)) {
 			return null;
 		}
 

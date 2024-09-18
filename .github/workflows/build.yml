@@ -78,10 +78,7 @@ jobs:
                 run: ./.github/scripts/parse-gradle-properties.sh
 
             -   name: "Copy mod jar to run/mods"
-                run: |
-                    mkdir -p run/mods && cp ${{ matrix.mod_loader }}/build/libs/* run/mods \
-                    && wget https://api.modrinth.com/maven/maven/modrinth/collective/${{ matrix.version }}-7.64-fabric+forge/collective-${{ matrix.version }}-7.64.jar -P run/mods/ \
-                    && wget https://api.modrinth.com/maven/maven/modrinth/hide-experimental-warning/${{ matrix.version }}-1.1-fabric+forge/hideexperimentalwarning-${{ matrix.version }}-1.1.jar -P run/mods/
+                run: mkdir -p run/mods && cp ${{ matrix.mod_loader }}/build/libs/* run/mods
 
             -   name: Run ${{ matrix.version }} ${{ matrix.mod_loader }}
                 uses: 3arthqu4ke/mc-runtime-test@2.4.0

@@ -14,6 +14,10 @@ loom {
 		extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
 		mixinConfig "${mod_id}-common.mixins.json"
 		mixinConfig "${mod_id}-forge.mixins.json"
+
+		mixin {
+			useLegacyMixinAp = false
+		}
 	}
 }
 
@@ -28,6 +32,10 @@ configurations {
 	compileClasspath.extendsFrom common
 	runtimeClasspath.extendsFrom common
 	developmentForge.extendsFrom common
+}
+
+configurations.configureEach {
+	resolutionStrategy.force("net.sf.jopt-simple:jopt-simple:5.0.4")
 }
 
 dependencies {

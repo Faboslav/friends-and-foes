@@ -220,7 +220,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 			EntityPose entityPose = EntityPose.valueOf(nbt.getString(POSE_NBT_NAME));
 
 			if (
-				this.getWorld().isClient() == false
+				!this.getWorld().isClient()
 				&& (
 					entityPose == TuffGolemEntityPose.SLEEPING.get()
 					|| entityPose == TuffGolemEntityPose.SLEEPING_WITH_ITEM.get()
@@ -330,7 +330,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 			interactionResult = this.tryToInteractMobWithAxe(player, hand, itemStack);
 		}
 
-		if (interactionResult == false) {
+		if (!interactionResult) {
 			interactionResult = this.tryToInteractMobWithItem(player, itemStack);
 		}
 
@@ -352,7 +352,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 		this.heal(TUFF_HEAL_AMOUNT);
 
-		if (player.getAbilities().creativeMode == false) {
+		if (!player.getAbilities().creativeMode) {
 			itemStack.decrement(1);
 		}
 
@@ -373,7 +373,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 		this.setColor(usedColor);
 
-		if (player.getAbilities().creativeMode == false) {
+		if (!player.getAbilities().creativeMode) {
 			itemStack.decrement(1);
 		}
 
@@ -416,7 +416,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		this.playGlueOffSound();
 		ParticleSpawner.spawnParticles(this, ParticleTypes.WAX_OFF, 7, 1.0F);
 
-		if (this.getWorld().isClient() == false && !player.getAbilities().creativeMode) {
+		if (!this.getWorld().isClient() && !player.getAbilities().creativeMode) {
 			itemStack.damage(1, player, (playerEntity) -> {
 				player.sendToolBreakStatus(hand);
 			});
@@ -442,7 +442,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		this.stopMovement();
 
 		if (this.isHoldingItem()) {
-			if (player.getAbilities().creativeMode == false) {
+			if (!player.getAbilities().creativeMode) {
 				this.dropStack(this.getEquippedStack(EquipmentSlot.MAINHAND));
 			}
 
@@ -451,7 +451,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		} else {
 			ItemStack itemsStackToBeEquipped = itemStack.copy();
 
-			if (player.getAbilities().creativeMode == false) {
+			if (!player.getAbilities().creativeMode) {
 				itemStack.decrement(1);
 			}
 
@@ -602,8 +602,8 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	public boolean isNotImmobilized() {
 		return this.getKeyframeAnimationTicks() == 0
 			   && this.inactiveTicksAfterSpawn == 0
-			   && this.isGlued() == false
-			   && this.isInSleepingPose() == false;
+			   && !this.isGlued()
+			   && !this.isInSleepingPose();
 	}
 
 	public void startSleeping() {
@@ -654,11 +654,11 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 	@Override
 	public void tick() {
-		if (this.getWorld().isClient() == false && FriendsAndFoes.getConfig().enableTuffGolem == false) {
+		if (!this.getWorld().isClient() && !FriendsAndFoes.getConfig().enableTuffGolem) {
 			this.discard();
 		}
 
-		if (this.getWorld().isClient() == false && this.inactiveTicksAfterSpawn > 0) {
+		if (!this.getWorld().isClient() && this.inactiveTicksAfterSpawn > 0) {
 			this.inactiveTicksAfterSpawn--;
 		}
 
@@ -668,7 +668,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	}
 
 	private void updateKeyframeAnimations() {
-		if (this.getWorld().isClient() == false) {
+		if (!this.getWorld().isClient()) {
 			this.updateKeyframeAnimationTicks();
 		}
 
@@ -676,9 +676,9 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 		if (
 			keyframeAnimationToStart != null
-			&& this.isKeyframeAnimationRunning(keyframeAnimationToStart) == false
+			&& !this.isKeyframeAnimationRunning(keyframeAnimationToStart)
 		) {
-			if (this.getWorld().isClient() == false) {
+			if (!this.getWorld().isClient()) {
 				this.setKeyframeAnimationTicks(keyframeAnimationToStart.getAnimationLengthInTicks());
 			}
 
@@ -757,7 +757,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		}
 
 		if (
-			this.getWorld().isClient() == false
+			!this.getWorld().isClient()
 			&& this.isInSleepingPose()
 		) {
 			if (this.isHoldingItem()) {
@@ -772,7 +772,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 	@Override
 	public boolean canBeLeashedBy(PlayerEntity player) {
-		return super.canBeLeashedBy(player) && this.isInSleepingPose() == false;
+		return super.canBeLeashedBy(player) && !this.isInSleepingPose();
 	}
 
 	@Override

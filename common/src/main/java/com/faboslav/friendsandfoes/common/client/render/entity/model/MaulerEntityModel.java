@@ -106,7 +106,7 @@ public final class MaulerEntityModel<T extends MaulerEntity> extends AnimatedEnt
 
 		if (
 			mauler.hasAngerTime()
-			&& mauler.isBurrowedDown() == false
+			&& !mauler.isBurrowedDown()
 			&& mauler.isMoving()
 			&& mauler.isOnGround()
 			&& mauler.getVelocity().getY() <= 0.00001

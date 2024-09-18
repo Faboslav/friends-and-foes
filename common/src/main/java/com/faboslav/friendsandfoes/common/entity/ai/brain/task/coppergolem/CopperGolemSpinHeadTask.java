@@ -25,11 +25,7 @@ public final class CopperGolemSpinHeadTask extends MultiTickTask<CopperGolemEnti
 
 	@Override
 	protected boolean shouldRun(ServerWorld world, CopperGolemEntity copperGolem) {
-		if (copperGolem.getRandom().nextFloat() < 0.9) {
-			return false;
-		}
-
-		return true;
+		return !(copperGolem.getRandom().nextFloat() < 0.9);
 	}
 
 	@Override
@@ -41,14 +37,8 @@ public final class CopperGolemSpinHeadTask extends MultiTickTask<CopperGolemEnti
 
 	@Override
 	protected boolean shouldKeepRunning(ServerWorld world, CopperGolemEntity copperGolem, long time) {
-		if (
-			this.spinHeadTicks > this.maxSpinHeadTicks
-			|| copperGolem.isOxidized()
-		) {
-			return false;
-		}
-
-		return true;
+		return this.spinHeadTicks <= this.maxSpinHeadTicks
+			   && !copperGolem.isOxidized();
 	}
 
 	protected void keepRunning(ServerWorld world, CopperGolemEntity copperGolem, long time) {

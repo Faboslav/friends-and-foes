@@ -37,7 +37,7 @@ public interface AnimatedEntity
 	}
 
 	default void updateKeyframeAnimationTicks() {
-		if (this.isAnyKeyframeAnimationRunning() == false) {
+		if (!this.isAnyKeyframeAnimationRunning()) {
 			return;
 		}
 
@@ -48,12 +48,12 @@ public interface AnimatedEntity
 		}
 
 		for (KeyframeAnimation keyframeAnimation : this.getAnimations()) {
-			if (keyframeAnimation.getAnimation().looping() == false) {
+			if (!keyframeAnimation.getAnimation().looping()) {
 				continue;
 			}
 
 			var keyframeAnimationContext = this.getAnimationContextTracker().get(keyframeAnimation);
-			if (keyframeAnimationContext.isRunning() == false) {
+			if (!keyframeAnimationContext.isRunning()) {
 				continue;
 			}
 
@@ -87,7 +87,7 @@ public interface AnimatedEntity
 
 	default void stopRunningKeyframeAnimations() {
 		for (KeyframeAnimation keyframeAnimation : this.getAnimations()) {
-			if (this.getAnimationContextTracker().get(keyframeAnimation).isRunning() == false) {
+			if (!this.getAnimationContextTracker().get(keyframeAnimation).isRunning()) {
 				this.stopKeyframeAnimation(keyframeAnimation);
 			}
 		}

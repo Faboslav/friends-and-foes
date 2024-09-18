@@ -40,14 +40,8 @@ public final class GlareBeGrumpyAtDarkSpotTask extends MultiTickTask<GlareEntity
 	protected boolean shouldRun(ServerWorld world, GlareEntity glare) {
 		GlobalPos darkSpotPos = glare.getDarkSpotPos();
 
-		if (
-			GlareBeGrumpyAtDarkSpotTask.canBeGrumpyAtDarkSpot(glare) == false
-			|| darkSpotPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE) == false
-		) {
-			return false;
-		}
-
-		return true;
+		return GlareBeGrumpyAtDarkSpotTask.canBeGrumpyAtDarkSpot(glare)
+			   && darkSpotPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE);
 	}
 
 	@Override
@@ -62,21 +56,15 @@ public final class GlareBeGrumpyAtDarkSpotTask extends MultiTickTask<GlareEntity
 	protected boolean shouldKeepRunning(ServerWorld world, GlareEntity glare, long time) {
 		GlobalPos darkSpotPos = glare.getDarkSpotPos();
 
-		if (
-			GlareBeGrumpyAtDarkSpotTask.canBeGrumpyAtDarkSpot(glare) == false
-			|| darkSpotPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE) == false
-		) {
-			return false;
-		}
-
-		return true;
+		return GlareBeGrumpyAtDarkSpotTask.canBeGrumpyAtDarkSpot(glare)
+			   && darkSpotPos.getPos().isWithinDistance(glare.getPos(), WITHING_DISTANCE);
 	}
 
 	protected void keepRunning(ServerWorld world, GlareEntity glare, long time) {
 		this.grumpyTicks++;
 		LookTargetUtil.lookAt(glare, glare.getOwner());
 
-		if (glare.isGrumpy() == false) {
+		if (!glare.isGrumpy()) {
 			glare.setGrumpy(true);
 		}
 
@@ -115,13 +103,7 @@ public final class GlareBeGrumpyAtDarkSpotTask extends MultiTickTask<GlareEntity
 	}
 
 	public static boolean canBeGrumpyAtDarkSpot(GlareEntity glare) {
-		if (
-			GlareTravelToDarkSpotTask.canTravelToDarkSpot(glare) == false
-			|| glare.getOwner() == null
-		) {
-			return false;
-		}
-
-		return true;
+		return GlareTravelToDarkSpotTask.canTravelToDarkSpot(glare)
+			   && glare.getOwner() != null;
 	}
 }

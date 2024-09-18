@@ -8,19 +8,12 @@ modId = "${modId}"
 version = "${modVersion}"
 displayName = "${modName}"
 authors = "${modAuthor}"
-description = "${modDescription}"
+description = '''
+${modDescription}
+'''
 logoFile = "icon.png"
+logoBlur = false
 displayURL = "https://github.com/Faboslav/friends-and-foes"
-
-[[dependencies.${ modId }]]
-modId = "forge"
-mandatory = true
-versionRange = "[${forgeVersion},)"
-
-[[dependencies.${ modId }]]
-modId = "minecraft"
-mandatory = true
-versionRange = "[${minMinecraftVersion},)"
 
 [modproperties.${ modId }]
 catalogueImageIcon = "catalogue_icon.png"

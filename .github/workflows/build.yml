@@ -91,4 +91,4 @@ jobs:
                     java-distribution: temurin
                     fabric-api: ${{ steps.gradle-properties.outputs.FABRIC_API_VERSION }}
                     xvfb: false
-                    headlessmc-command: -lwjgl --jvm --retries=3 -Djava.awt.headless=true
+                    headlessmc-command: -lwjgl --retries 3 --jvm -Djava.awt.headless=true

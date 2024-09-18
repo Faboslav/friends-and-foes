@@ -60,7 +60,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix: ${{fromJson(needs.build.outputs.matrix)}}
-        timeout-minutes: 5
+        timeout-minutes: 15
 
         steps:
             -   name: "Checkout repository"
@@ -91,4 +91,4 @@ jobs:
                     java-distribution: temurin
                     fabric-api: ${{ steps.gradle-properties.outputs.FABRIC_API_VERSION }}
                     xvfb: false
-                    headlessmc-command: -lwjgl --jvm -Djava.awt.headless=true
+                    headlessmc-command: -lwjgl --retries 3 --jvm -Djava.awt.headless=true

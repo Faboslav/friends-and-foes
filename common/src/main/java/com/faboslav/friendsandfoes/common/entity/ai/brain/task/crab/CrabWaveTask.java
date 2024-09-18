@@ -77,11 +77,7 @@ public final class CrabWaveTask extends MultiTickTask<CrabEntity>
 
 	@Override
 	protected boolean shouldKeepRunning(ServerWorld world, CrabEntity crab, long time) {
-		if (this.waveTicks > this.maxWaveTicks) {
-			return false;
-		}
-
-		return true;
+		return this.waveTicks <= this.maxWaveTicks;
 	}
 
 	protected void keepRunning(ServerWorld world, CrabEntity crab, long time) {

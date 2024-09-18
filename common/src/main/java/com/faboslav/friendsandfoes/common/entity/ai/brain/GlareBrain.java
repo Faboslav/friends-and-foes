@@ -150,7 +150,7 @@ public final class GlareBrain
 
 	private static Optional<LookTarget> getOwner(GlareEntity glare) {
 		if (
-			glare.isTamed() == false
+			!glare.isTamed()
 			|| glare.getOwner() == null
 		) {
 			return Optional.empty();
@@ -173,8 +173,8 @@ public final class GlareBrain
 	public static void updateMemories(GlareEntity glare) {
 		if (
 			(
-				(glare.isBaby() == false && glare.isTamed() == false)
-				|| GlareLocateDarkSpotTask.canLocateDarkSpot(glare) == false
+				(!glare.isBaby() && !glare.isTamed())
+				|| !GlareLocateDarkSpotTask.canLocateDarkSpot(glare)
 			)
 			&& glare.getBrain().isMemoryInState(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_LOCATING_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT)
 		) {

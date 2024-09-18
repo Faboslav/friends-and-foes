@@ -33,7 +33,7 @@ public final class NetworkChannel
 		PacketChannelManager.registerChannel(this.channel);
 	}
 
-	public final <T extends Packet<T>> void registerPacket(
+	public <T extends Packet<T>> void registerPacket(
 		NetworkDirection direction,
 		Identifier id,
 		PacketHandler<T> handler,
@@ -46,34 +46,34 @@ public final class NetworkChannel
 		}
 	}
 
-	public final <T extends Packet<T>> void sendToServer(T packet) {
+	public <T extends Packet<T>> void sendToServer(T packet) {
 		PacketChannelManager.sendToServer(this.channel, packet);
 	}
 
-	public final <T extends Packet<T>> void sendToPlayer(T packet, PlayerEntity player) {
+	public <T extends Packet<T>> void sendToPlayer(T packet, PlayerEntity player) {
 		PacketChannelManager.sendToPlayer(this.channel, packet, player);
 	}
 
-	public final <T extends Packet<T>> void sendToPlayers(T packet, Collection<? extends PlayerEntity> players) {
+	public <T extends Packet<T>> void sendToPlayers(T packet, Collection<? extends PlayerEntity> players) {
 		players.forEach(player -> sendToPlayer(packet, player));
 	}
 
-	public final <T extends Packet<T>> void sendToAllPlayers(T packet, MinecraftServer server) {
+	public <T extends Packet<T>> void sendToAllPlayers(T packet, MinecraftServer server) {
 		sendToPlayers(packet, server.getPlayerManager().getPlayerList());
 	}
 
-	public final <T extends Packet<T>> void sendToPlayersInLevel(T packet, World world) {
+	public <T extends Packet<T>> void sendToPlayersInLevel(T packet, World world) {
 		sendToPlayers(packet, world.getPlayers());
 	}
 
-	public final <T extends Packet<T>> void sendToAllLoaded(T packet, World world, BlockPos pos) {
+	public <T extends Packet<T>> void sendToAllLoaded(T packet, World world, BlockPos pos) {
 		WorldChunk chunk = world.getWorldChunk(pos);
 		if (chunk != null && world.getChunkManager() instanceof ServerChunkManager serverCache) {
 			serverCache.threadedAnvilChunkStorage.getPlayersWatchingChunk(chunk.getPos(), false).forEach(player -> sendToPlayer(packet, player));
 		}
 	}
 
-	public final <T extends Packet<T>> void sendToPlayersInRange(T packet, World world, BlockPos pos, double range) {
+	public <T extends Packet<T>> void sendToPlayersInRange(T packet, World world, BlockPos pos, double range) {
 		for (PlayerEntity player : world.getPlayers()) {
 			if (player.getBlockPos().getSquaredDistance(pos) <= range) {
 				sendToPlayer(packet, player);

@@ -27,15 +27,9 @@ public final class CrabGoToHomePositionTask extends MultiTickTask<CrabEntity>
 		ServerWorld world,
 		CrabEntity crab
 	) {
-		if (
-			crab.isCloseToHomePos(3.0F)
-			|| crab.isLeashed()
-			|| crab.hasVehicle()
-		) {
-			return false;
-		}
-
-		return true;
+		return !crab.isCloseToHomePos(3.0F)
+			   && !crab.isLeashed()
+			   && !crab.hasVehicle();
 	}
 
 	@Override

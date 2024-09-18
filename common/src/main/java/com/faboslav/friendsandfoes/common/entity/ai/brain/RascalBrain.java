@@ -123,7 +123,7 @@ public final class RascalBrain
 	}
 
 	public static void onCooldown(RascalEntity rascal) {
-		if (shouldRunAway(rascal) == false) {
+		if (!shouldRunAway(rascal)) {
 			return;
 		}
 

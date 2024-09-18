@@ -258,7 +258,7 @@ public final class ModelAnimator
 			animationCurrentVector = animationContext.getCurrentVector();
 			animationTargetVector = animationContext.getTargetVector();
 
-			if (animationTargetVector.equals(targetVector) == false) {
+			if (!animationTargetVector.equals(targetVector)) {
 				animationContextTracker.remove(modelPartName, animationType);
 				animationContext = ModelPartAnimationContext.createWithProgress(
 					progress,
@@ -453,7 +453,7 @@ public final class ModelAnimator
 
 			animationTargetVector = animationContext.getTargetVector();
 
-			if (animationTargetVector.equals(targetVector) == false) {
+			if (!animationTargetVector.equals(targetVector)) {
 				animationContextTracker.remove(modelPartName, animationType);
 				animationContext = ModelPartAnimationContext.createWithTicks(
 					currentEntityTick,

@@ -25,6 +25,7 @@ public abstract class IntegratedServerLoaderMixin
 		CreateWorldScreen parent,
 		Lifecycle lifecycle,
 		Runnable loader,
+		boolean bypassWarnings,
 		CallbackInfo ci
 	) {
 		if (lifecycle != Lifecycle.stable()) {

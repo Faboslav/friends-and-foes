@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.block;
+package com.faboslav.friendsandfoes.common.block;
 
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
 import com.google.common.base.Suppliers;

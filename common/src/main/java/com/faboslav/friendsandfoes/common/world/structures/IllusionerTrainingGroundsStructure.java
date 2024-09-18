@@ -65,7 +65,7 @@ public final class IllusionerTrainingGroundsStructure extends Structure
 		int offsetY = this.startHeight.get(context.random(), new HeightContext(context.chunkGenerator(), context.world()));
 		BlockPos blockPos = new BlockPos(context.chunkPos().getStartX(), offsetY, context.chunkPos().getStartZ());
 
-		if (FriendsAndFoes.getConfig().generateIllusionerTrainingGroundsStructure == false) {
+		if (!FriendsAndFoes.getConfig().generateIllusionerTrainingGroundsStructure) {
 			return Optional.empty();
 		}
 

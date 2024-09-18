@@ -199,7 +199,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 
 	@Override
 	public void tick() {
-		if (FriendsAndFoes.getConfig().enableRascal == false) {
+		if (!FriendsAndFoes.getConfig().enableRascal) {
 			this.discard();
 		}
 
@@ -209,7 +209,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 			this.playReappearSound();
 		}
 
-		if (this.getWorld().isClient() == false) {
+		if (!this.getWorld().isClient()) {
 			this.updateKeyframeAnimationTicks();
 		}
 
@@ -226,7 +226,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 	private KeyframeAnimation getKeyframeAnimationByPose() {
 		KeyframeAnimation keyframeAnimation = null;
 
-		if (this.isInPose(RascalEntityPose.IDLE) && this.isMoving() == false) {
+		if (this.isInPose(RascalEntityPose.IDLE) && !this.isMoving()) {
 			keyframeAnimation = RascalAnimations.IDLE;
 		} else if (this.isInPose(RascalEntityPose.NOD)) {
 			keyframeAnimation = RascalAnimations.NOD;
@@ -242,7 +242,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 			return;
 		}
 
-		if (this.getWorld().isClient() == false) {
+		if (!this.getWorld().isClient()) {
 			this.setKeyframeAnimationTicks(keyframeAnimationToStart.getAnimationLengthInTicks());
 		}
 
@@ -307,7 +307,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 		Entity attacker = source.getAttacker();
 
 		if (
-			attacker instanceof PlayerEntity == false
+			!(attacker instanceof PlayerEntity)
 			|| this.hasCustomName()
 		) {
 			return super.damage(source, amount);
@@ -353,7 +353,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 
 	@Override
 	public void playAmbientSound() {
-		if (this.isHidden() || this.ambientSounds == false) {
+		if (this.isHidden() || !this.ambientSounds) {
 			return;
 		}
 

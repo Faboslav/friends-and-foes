@@ -38,7 +38,7 @@ public final class WildfireBarrageAttackTask extends MultiTickTask<WildfireEntit
 
 		if (
 			attackTarget == null
-			|| attackTarget.isAlive() == false
+			|| !attackTarget.isAlive()
 			|| (
 				attackTarget instanceof PlayerEntity
 				&& (
@@ -72,14 +72,14 @@ public final class WildfireBarrageAttackTask extends MultiTickTask<WildfireEntit
 
 	@Override
 	protected boolean shouldKeepRunning(ServerWorld world, WildfireEntity wildfire, long time) {
-		if (attackTarget.isAlive() == false) {
+		if (!attackTarget.isAlive()) {
 			attackTarget = wildfire.getBrain().getOptionalRegisteredMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER).orElse(null);
 		}
 
 		if (
 			attackTarget == null
-			|| attackTarget.isAlive() == false
-			|| attackTarget.isAlive() == false
+			|| !attackTarget.isAlive()
+			|| !attackTarget.isAlive()
 			|| (
 				attackTarget instanceof PlayerEntity
 				&& (
@@ -140,7 +140,7 @@ public final class WildfireBarrageAttackTask extends MultiTickTask<WildfireEntit
 		double distanceToAttackTarget = wildfire.squaredDistanceTo(this.attackTarget);
 
 		double h = Math.sqrt(Math.sqrt(distanceToAttackTarget)) * 0.5;
-		if (wildfire.isSilent() == false) {
+		if (!wildfire.isSilent()) {
 			wildfire.playShootSound();
 			wildfire.getWorld().syncWorldEvent(null, 1018, wildfire.getBlockPos(), 0);
 		}

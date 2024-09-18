@@ -109,7 +109,7 @@ public final class MoobloomVariantManager extends JsonDataLoader
 		var biome = serverWorldAccess.getBiome(blockPos);
 
 		for (MoobloomVariant moobloomVariant : this.getMoobloomVariants()) {
-			if (biome.isIn(moobloomVariant.getBiomes()) == false) {
+			if (!biome.isIn(moobloomVariant.getBiomes())) {
 				continue;
 			}
 

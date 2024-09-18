@@ -30,7 +30,7 @@ public final class TuffGolemClosedEyesRenderer extends FeatureRenderer<TuffGolem
 		float k,
 		float l
 	) {
-		if (tuffGolem.isInvisible() || tuffGolem.isInSleepingPose() == false) {
+		if (tuffGolem.isInvisible() || !tuffGolem.isInSleepingPose()) {
 			return;
 		}
 

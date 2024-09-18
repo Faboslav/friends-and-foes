@@ -9,7 +9,7 @@ import net.minecraft.client.gui.screen.Screen;
 public final class CatalogueCompat
 {
 	public static Screen createConfigScreen(Screen currentScreen, ModContainer container) {
-		if (FabricLoader.getInstance().isModLoaded("catalogue") == false) {
+		if (!FabricLoader.getInstance().isModLoaded("catalogue")) {
 			return null;
 		}
 

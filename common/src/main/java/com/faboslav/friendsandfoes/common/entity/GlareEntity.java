@@ -115,7 +115,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	static {
 		GLARE_FLAGS = DataTracker.registerData(GlareEntity.class, TrackedDataHandlerRegistry.BYTE);
 		PICKABLE_FOOD_FILTER = (itemEntity) -> {
-			return itemEntity.getStack().isIn(FriendsAndFoesTags.GLARE_FOOD_ITEMS) && itemEntity.isAlive() && itemEntity.cannotPickup() == false;
+			return itemEntity.getStack().isIn(FriendsAndFoesTags.GLARE_FOOD_ITEMS) && itemEntity.isAlive() && !itemEntity.cannotPickup();
 		};
 	}
 
@@ -149,7 +149,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		BlockState blockState = serverWorldAccess.getBlockState(blockPos.down());
 
 		boolean isBelowSurfaceLevel = blockPos.getY() < 63;
-		boolean isSkyHidden = serverWorldAccess.isSkyVisible(blockPos) == false;
+		boolean isSkyHidden = !serverWorldAccess.isSkyVisible(blockPos);
 		boolean isBlockPosLightEnough = serverWorldAccess.getLightLevel(blockPos, 0) > LIGHT_THRESHOLD;
 		boolean isRelatedBlock = blockState.isIn(FriendsAndFoesTags.GLARES_SPAWNABLE_ON);
 
@@ -163,14 +163,14 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	public void tickMovement() {
 		super.tickMovement();
 
-		if (this.getWorld().isClient() == false && this.isAlive() && this.age % 10 == 0) {
+		if (!this.getWorld().isClient() && this.isAlive() && this.age % 10 == 0) {
 			this.heal(1.0F);
 		}
 	}
 
 	@Override
 	public void tick() {
-		if (FriendsAndFoes.getConfig().enableGlare == false) {
+		if (!FriendsAndFoes.getConfig().enableGlare) {
 			this.discard();
 		}
 
@@ -221,7 +221,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 
 	@Override
 	public boolean canGather(ItemStack itemStack) {
-		return itemStack.isEmpty() == false && itemStack.getItem() == Items.GLOW_BERRIES && super.canGather(itemStack);
+		return !itemStack.isEmpty() && itemStack.getItem() == Items.GLOW_BERRIES && super.canGather(itemStack);
 	}
 
 	@Override
@@ -302,7 +302,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		BirdNavigation birdNavigation = new BirdNavigation(this, world)
 		{
 			public boolean isValidPosition(BlockPos pos) {
-				boolean isValidPos = this.world.getBlockState(pos.down()).isAir() == false && this.world.getBlockState(pos.down()).getMaterial().isLiquid() == false;
+				boolean isValidPos = !this.world.getBlockState(pos.down()).isAir() && !this.world.getBlockState(pos.down()).getMaterial().isLiquid();
 
 				return isValidPos;
 			}
@@ -418,10 +418,10 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 			if (
 				this.isTamed()
 				&& this.getHealth() < this.getMaxHealth()
-				&& this.isBreedingItem(itemStack) == false
+				&& !this.isBreedingItem(itemStack)
 			) {
 				interactionResult = this.tryToHealWithGlowBerries(player, itemStack);
-			} else if (this.isTamed() == false) {
+			} else if (!this.isTamed()) {
 				interactionResult = this.tryToTameWithGlowBerries(player, itemStack);
 			}
 		}
@@ -435,7 +435,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 
 		if (
 			this.isOwner(player)
-			&& actionResult.isAccepted() == false
+			&& !actionResult.isAccepted()
 		) {
 			this.setSitting(!this.isSitting());
 
@@ -469,7 +469,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 
 		this.heal((float) glowBerries.getFoodComponent().getHunger());
 
-		if (player.getAbilities().creativeMode == false) {
+		if (!player.getAbilities().creativeMode) {
 			itemStack.decrement(1);
 		}
 
@@ -489,7 +489,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 			return true;
 		}
 
-		if (player.getAbilities().creativeMode == false) {
+		if (!player.getAbilities().creativeMode) {
 			itemStack.decrement(1);
 		}
 
@@ -556,7 +556,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	}
 
 	public boolean isInAir() {
-		return this.isOnGround() == false;
+		return !this.isOnGround();
 	}
 
 	protected void swimUpward(TagKey<Fluid> tagKey) {
@@ -626,7 +626,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	public PassiveEntity createChild(ServerWorld serverWorld, PassiveEntity entity) {
 		GlareEntity glareEntity = FriendsAndFoesEntityTypes.GLARE.get().create(serverWorld);
 
-		if (this.isTamed() == false) {
+		if (!this.isTamed()) {
 			return null;
 		}
 
@@ -645,12 +645,11 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		if (
 			other == this
 			|| !this.isTamed()
-			|| !(other instanceof GlareEntity)
+			|| !(other instanceof GlareEntity glare)
 		) {
 			return false;
 		}
 
-		GlareEntity glare = (GlareEntity) other;
 		if (
 			!glare.isTamed()
 			|| glare.isInSittingPose()
@@ -666,7 +665,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		DamageSource source,
 		float amount
 	) {
-		if (this.getWorld().isClient() == false) {
+		if (!this.getWorld().isClient()) {
 			this.setSitting(false);
 			this.getNavigation().setSpeed(0);
 			this.getNavigation().stop();

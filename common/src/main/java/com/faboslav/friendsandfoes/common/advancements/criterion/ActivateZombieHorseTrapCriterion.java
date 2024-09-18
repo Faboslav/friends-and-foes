@@ -56,7 +56,7 @@ public final class ActivateZombieHorseTrapCriterion extends AbstractCriterion<Ac
 		}
 
 		public boolean test(LootContext lightning) {
-			return this.lightning.test(lightning) != false;
+			return this.lightning.test(lightning);
 		}
 
 		public JsonObject toJson(AdvancementEntityPredicateSerializer predicateSerializer) {

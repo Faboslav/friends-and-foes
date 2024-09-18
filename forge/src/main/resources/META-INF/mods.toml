@@ -12,7 +12,7 @@ description = '''
 ${modDescription}
 '''
 logoFile = "icon.png"
-logoBlur=false
+logoBlur = false
 displayURL = "https://github.com/Faboslav/friends-and-foes"
 
 [[dependencies.${ modId }]]

@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.entity;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.block.CrabEggBlock;
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.CrabAnimations;
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.KeyframeAnimation;
@@ -131,11 +131,7 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 
 	@Override
 	public boolean hasNoDrag() {
-		if (this.isSwimming()) {
-			return true;
-		} else {
-			return false;
-		}
+		return this.isSwimming();
 	}
 
 	@Override
@@ -259,7 +255,7 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 	@Override
 	public void tick() {
 
-		if (this.getWorld().isClient() == false && FriendsAndFoes.getConfig().enableCrab == false) {
+		if (!this.getWorld().isClient() && !FriendsAndFoes.getConfig().enableCrab) {
 			this.discard();
 		}
 
@@ -326,7 +322,7 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 	}
 
 	private void updateKeyframeAnimations() {
-		if (this.getWorld().isClient() == false) {
+		if (!this.getWorld().isClient()) {
 			this.updateKeyframeAnimationTicks();
 		}
 
@@ -341,7 +337,7 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 	private KeyframeAnimation getKeyframeAnimationByPose() {
 		KeyframeAnimation keyframeAnimation = null;
 
-		if (this.isInPose(CrabEntityPose.IDLE) && this.isMoving() == false) {
+		if (this.isInPose(CrabEntityPose.IDLE) && !this.isMoving()) {
 			keyframeAnimation = CrabAnimations.IDLE;
 		} else if (this.isInPose(CrabEntityPose.WAVE)) {
 			keyframeAnimation = CrabAnimations.WAVE;
@@ -357,7 +353,7 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 			return;
 		}
 
-		if (this.getWorld().isClient() == false) {
+		if (!this.getWorld().isClient()) {
 			this.setKeyframeAnimationTicks(keyframeAnimationToStart.getAnimationLengthInTicks());
 		}
 

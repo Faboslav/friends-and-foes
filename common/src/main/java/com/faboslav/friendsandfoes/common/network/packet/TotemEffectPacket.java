@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.network.packet;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesItems;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesParticleTypes;
 import com.faboslav.friendsandfoes.common.network.Packet;

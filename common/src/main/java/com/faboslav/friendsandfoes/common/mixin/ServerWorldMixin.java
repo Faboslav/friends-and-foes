@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.ZombieHorseEntityAccess;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import net.minecraft.entity.EntityType;

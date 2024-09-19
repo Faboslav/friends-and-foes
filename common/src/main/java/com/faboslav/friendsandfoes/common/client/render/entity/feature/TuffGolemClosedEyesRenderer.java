@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.feature;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.TuffGolemEntityModel;
 import com.faboslav.friendsandfoes.common.entity.TuffGolemEntity;
 import net.fabricmc.api.EnvType;
@@ -30,7 +30,7 @@ public final class TuffGolemClosedEyesRenderer extends FeatureRenderer<TuffGolem
 		float k,
 		float l
 	) {
-		if (tuffGolem.isInvisible() || tuffGolem.isInSleepingPose() == false) {
+		if (tuffGolem.isInvisible() || !tuffGolem.isInSleepingPose()) {
 			return;
 		}
 

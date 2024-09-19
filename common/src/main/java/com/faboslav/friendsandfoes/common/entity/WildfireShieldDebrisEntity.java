@@ -67,7 +67,7 @@ public final class WildfireShieldDebrisEntity extends AbstractFireballEntity
 		Entity entity = this.getOwner();
 
 		if (
-			(entity instanceof MobEntity) == false
+			!(entity instanceof MobEntity)
 			|| this.getWorld().getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING)
 		) {
 			BlockPos blockPos = blockHitResult.getBlockPos().offset(blockHitResult.getSide());

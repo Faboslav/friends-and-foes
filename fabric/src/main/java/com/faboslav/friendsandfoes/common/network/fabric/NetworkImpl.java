@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.common.network.fabric;
 
 import com.faboslav.friendsandfoes.common.network.base.Networking;
-import com.faboslav.friendsandfoes.fabric.network.fabric.FabricNetworking;
+import com.faboslav.friendsandfoes.fabric.network.FabricNetworking;
 import net.minecraft.util.Identifier;
 
 /**

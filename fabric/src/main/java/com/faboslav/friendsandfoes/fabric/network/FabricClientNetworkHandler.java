@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.fabric.network.fabric;
+package com.faboslav.friendsandfoes.fabric.network;
 
 import com.faboslav.friendsandfoes.common.network.Packet;
 import com.faboslav.friendsandfoes.common.network.base.ClientboundPacketType;

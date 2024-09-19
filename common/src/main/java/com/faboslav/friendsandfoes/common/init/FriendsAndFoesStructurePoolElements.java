@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.init;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.util.StructurePoolHelper;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;

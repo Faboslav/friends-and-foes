@@ -66,7 +66,7 @@ public final class CopperGolemLocateButtonTask extends MultiTickTask<CopperGolem
 		for (BlockPos blockPos : BlockPos.iterateOutwards(copperGolemPos, horizontalRange, verticalRange, horizontalRange)) {
 			BlockPos possibleButtonBlockPos = blockPos.mutableCopy();
 
-			if (condition.test(possibleButtonBlockPos) == false) {
+			if (!condition.test(possibleButtonBlockPos)) {
 				continue;
 			}
 

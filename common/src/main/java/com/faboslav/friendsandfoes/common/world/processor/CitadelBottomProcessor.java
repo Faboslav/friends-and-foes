@@ -61,7 +61,7 @@ public final class CitadelBottomProcessor extends StructureProcessor
 		if (blockInfoGlobal.state().isOf(this.targetBlock.getBlock())) {
 			if (
 				worldView instanceof ChunkRegion chunkRegion
-				&& chunkRegion.getCenterPos().equals(new ChunkPos(blockInfoGlobal.pos())) == false
+				&& !chunkRegion.getCenterPos().equals(new ChunkPos(blockInfoGlobal.pos()))
 			) {
 				return blockInfoGlobal;
 			}

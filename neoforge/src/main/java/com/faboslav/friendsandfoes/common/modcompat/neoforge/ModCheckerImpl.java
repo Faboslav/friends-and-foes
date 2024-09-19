@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.modcompat.neoforge;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 
 import static com.faboslav.friendsandfoes.common.modcompat.ModChecker.loadModCompat;
 

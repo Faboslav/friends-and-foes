@@ -25,8 +25,8 @@ configurations {
 
 dependencies {
 	// Core dependencies
-	modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
-	modApi "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
+	modImplementation("net.fabricmc:fabric-loader:${fabric_loader_version}")
+	modApi("net.fabricmc.fabric-api:fabric-api:${fabric_api_version}+${min_minecraft_version}")
 
 	// Mod menu (https://modrinth.com/mod/modmenu)
 	modImplementation("com.terraformersmc:modmenu:${mod_menu_version}") { transitive = false }

@@ -39,7 +39,7 @@ public final class WildfireSummonBlazeTask extends MultiTickTask<WildfireEntity>
 
 		if (
 			attackTarget == null
-			|| attackTarget.isAlive() == false
+			|| !attackTarget.isAlive()
 			|| (
 				attackTarget instanceof PlayerEntity
 				&& (

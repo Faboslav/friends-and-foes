@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.init;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.effect.ReachStatusEffect;
 import com.faboslav.friendsandfoes.common.init.registry.ReferenceRegistryEntry;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistries;

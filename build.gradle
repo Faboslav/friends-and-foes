@@ -36,7 +36,6 @@ allprojects {
 			"minMinecraftVersion": min_minecraft_version,
 			"fabricLoaderVersion": fabric_loader_version,
 			"fabricApiVersion"   : fabric_api_version,
-			"forgeVersion"       : forge_version,
 			"neoForgeVersion"    : neoforge_version
 		]
 

@@ -1,8 +1,8 @@
 package com.faboslav.friendsandfoes.fabric;
 
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.events.AddItemGroupEntriesEvent;
 import com.faboslav.friendsandfoes.common.events.RegisterItemGroupsEvent;
-import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.events.RegisterVillagerTradesEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.*;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStructurePoolElements;
@@ -33,7 +33,6 @@ import net.minecraft.registry.tag.BiomeTags;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.village.TradeOffers;
 import net.minecraft.world.dimension.DimensionTypes;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

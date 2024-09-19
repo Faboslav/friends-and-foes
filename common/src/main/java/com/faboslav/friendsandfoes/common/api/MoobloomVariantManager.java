@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.api;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.google.gson.Gson;

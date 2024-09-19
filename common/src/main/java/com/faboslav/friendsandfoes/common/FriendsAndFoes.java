@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes;
+package com.faboslav.friendsandfoes.common;
 
 import com.faboslav.friendsandfoes.common.api.MoobloomVariantManager;
 import com.faboslav.friendsandfoes.common.config.FriendsAndFoesConfig;

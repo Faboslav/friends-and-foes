@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.entity.ai.brain.task.rascal;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.RascalEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.RascalBrain;
 import com.faboslav.friendsandfoes.common.entity.pose.RascalEntityPose;

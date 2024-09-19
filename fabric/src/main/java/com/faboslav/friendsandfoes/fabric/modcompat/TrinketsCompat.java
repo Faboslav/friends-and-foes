@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.fabric.modcompat.fabric;
+package com.faboslav.friendsandfoes.fabric.modcompat;
 
 import com.faboslav.friendsandfoes.common.modcompat.ModCompat;
 import dev.emi.trinkets.api.SlotReference;

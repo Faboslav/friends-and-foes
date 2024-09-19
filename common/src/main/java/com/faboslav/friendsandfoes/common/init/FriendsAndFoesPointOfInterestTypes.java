@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.init;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistries;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
 import net.minecraft.util.registry.Registry;

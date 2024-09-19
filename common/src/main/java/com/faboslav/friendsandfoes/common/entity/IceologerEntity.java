@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.entity;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityGroup;

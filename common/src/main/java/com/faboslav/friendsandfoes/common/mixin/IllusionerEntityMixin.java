@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.IllusionerEntityAccess;
 import com.llamalad7.mixinextras.injector.WrapWithCondition;
 import net.minecraft.entity.Entity;

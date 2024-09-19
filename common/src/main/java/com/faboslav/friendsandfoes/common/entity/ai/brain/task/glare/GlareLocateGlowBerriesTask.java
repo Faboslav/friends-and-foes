@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.entity.ai.brain.task.glare;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.GlareEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.GlareBrain;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;

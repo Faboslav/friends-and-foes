@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.util;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.platform.ModVersion;
 import com.faboslav.friendsandfoes.common.platform.Platform;
 import com.faboslav.friendsandfoes.common.platform.ProjectUrlProvider;

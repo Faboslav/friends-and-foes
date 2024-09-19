@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes;
+package com.faboslav.friendsandfoes.common;
 
 import com.faboslav.friendsandfoes.common.events.client.RegisterEntityLayersEvent;
 import com.faboslav.friendsandfoes.common.events.client.RegisterEntityRenderersEvent;

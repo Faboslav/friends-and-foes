@@ -46,7 +46,7 @@ dependencies {
 
 	// Curios (https://www.curseforge.com/minecraft/mc-mods/curios)
 	modCompileOnly("top.theillusivec4.curios:curios-forge:${curios_version}+${minecraft_version}:api")
-	modRuntimeOnly("top.theillusivec4.curios:curios-forge:${curios_version}+${minecraft_version}");
+	modRuntimeOnly("top.theillusivec4.curios:curios-forge:${curios_version}+${minecraft_version}")
 
 	// Cloth config (https://www.curseforge.com/minecraft/mc-mods/cloth-config)
 	modImplementation("me.shedaniel.cloth:cloth-config-forge:${cloth_config_version}")

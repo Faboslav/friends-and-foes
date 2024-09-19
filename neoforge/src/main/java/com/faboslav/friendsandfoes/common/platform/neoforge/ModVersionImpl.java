@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.platform.neoforge;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.Nullable;
 

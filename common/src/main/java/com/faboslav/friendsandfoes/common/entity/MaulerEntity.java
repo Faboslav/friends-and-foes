@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.entity;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.common.entity.ai.goal.mauler.*;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;

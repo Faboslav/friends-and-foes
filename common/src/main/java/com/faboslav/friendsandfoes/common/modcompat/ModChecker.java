@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.modcompat;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.platform.Platform;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 

@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.fabric;
 
-import com.faboslav.friendsandfoes.FriendsAndFoesClient;
+import com.faboslav.friendsandfoes.common.FriendsAndFoesClient;
 import com.faboslav.friendsandfoes.common.events.client.RegisterEntityLayersEvent;
 import com.faboslav.friendsandfoes.common.events.client.RegisterEntityRenderersEvent;
 import com.faboslav.friendsandfoes.common.events.client.RegisterItemColorEvent;

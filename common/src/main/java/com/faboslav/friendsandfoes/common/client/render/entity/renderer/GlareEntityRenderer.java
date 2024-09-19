@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.renderer;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.feature.GlareFlowerFeatureRenderer;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.GlareEntityModel;
 import com.faboslav.friendsandfoes.common.entity.GlareEntity;

@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.network;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.network.base.NetworkDirection;
 import com.faboslav.friendsandfoes.common.network.packet.MoobloomVariantsSyncPacket;
 import com.faboslav.friendsandfoes.common.network.packet.TotemEffectPacket;

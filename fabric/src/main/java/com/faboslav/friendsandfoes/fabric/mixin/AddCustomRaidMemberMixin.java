@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.fabric.mixin;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.util.CustomRaidMember;
 import net.minecraft.entity.EntityType;

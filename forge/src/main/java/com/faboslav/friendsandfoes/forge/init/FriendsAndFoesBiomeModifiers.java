@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.forge.init;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.forge.worldgen.MobSpawnsBiomeModifier;
 import com.mojang.serialization.Codec;
 import net.minecraftforge.common.world.BiomeModifier;

@@ -28,7 +28,7 @@
 			"com.llamalad7.mixinextras.MixinExtrasBootstrap::init"
 		],
 		"modmenu": [
-			"com.faboslav.friendsandfoes.fabric.modcompat.fabric.ModMenuCompat"
+			"com.faboslav.friendsandfoes.fabric.modcompat.ModMenuCompat"
 		]
 	},
 	"mixins": [

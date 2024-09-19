@@ -1,8 +1,8 @@
 package com.faboslav.friendsandfoes.common.init;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-import com.faboslav.friendsandfoes.common.block.*;
 import com.faboslav.friendsandfoes.common.block.Oxidizable;
+import com.faboslav.friendsandfoes.common.block.*;
 import com.faboslav.friendsandfoes.common.events.client.RegisterRenderLayersEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.RegisterFlammabilityEvent;
 import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;

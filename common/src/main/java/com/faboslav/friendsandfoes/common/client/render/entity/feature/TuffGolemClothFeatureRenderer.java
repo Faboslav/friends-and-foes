@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.feature;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.TuffGolemEntityModel;
 import com.faboslav.friendsandfoes.common.entity.TuffGolemEntity;
 import net.fabricmc.api.EnvType;

@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.common.modcompat.fabric;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.fabric.modcompat.fabric.TrinketsCompat;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
+import com.faboslav.friendsandfoes.fabric.modcompat.TrinketsCompat;
 
 import static com.faboslav.friendsandfoes.common.modcompat.ModChecker.loadModCompat;
 

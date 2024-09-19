@@ -47,7 +47,7 @@ public final class WildfireShieldDebrisEntity extends AbstractFireballEntity
 		int i = target.getFireTicks();
 		target.setOnFireFor(5);
 
-		if (target.damage(this.getDamageSources().fireball(this, wildfire), 5.0F) == false) {
+		if (!target.damage(this.getDamageSources().fireball(this, wildfire), 5.0F)) {
 			target.setFireTicks(i);
 		} else if (wildfire instanceof LivingEntity) {
 			this.applyDamageEffects((LivingEntity) wildfire, target);
@@ -64,7 +64,7 @@ public final class WildfireShieldDebrisEntity extends AbstractFireballEntity
 		Entity entity = this.getOwner();
 
 		if (
-			(entity instanceof MobEntity) == false
+			!(entity instanceof MobEntity)
 			|| this.getWorld().getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING)
 		) {
 			BlockPos blockPos = blockHitResult.getBlockPos().offset(blockHitResult.getSide());

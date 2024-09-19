@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.world.structures;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStructureTypes;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -67,7 +67,7 @@ public final class IllusionerShackStructure extends Structure
 		int offsetY = this.startHeight.get(context.random(), new HeightContext(context.chunkGenerator(), context.world()));
 		BlockPos blockPos = new BlockPos(context.chunkPos().getStartX(), offsetY, context.chunkPos().getStartZ());
 
-		if (FriendsAndFoes.getConfig().generateIllusionerShackStructure == false) {
+		if (!FriendsAndFoes.getConfig().generateIllusionerShackStructure) {
 			return Optional.empty();
 		}
 

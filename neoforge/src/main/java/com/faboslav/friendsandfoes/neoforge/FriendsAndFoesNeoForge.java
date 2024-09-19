@@ -1,12 +1,13 @@
 package com.faboslav.friendsandfoes.neoforge;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.events.AddItemGroupEntriesEvent;
 import com.faboslav.friendsandfoes.common.events.block.RegisterBlockSetTypeEvent;
 import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.*;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStructurePoolElements;
+import com.faboslav.friendsandfoes.common.init.registry.neoforge.ResourcefulRegistriesImpl;
 import com.faboslav.friendsandfoes.common.util.CustomRaidMember;
 import com.faboslav.friendsandfoes.common.util.ServerWorldSpawnersUtil;
 import com.faboslav.friendsandfoes.common.util.UpdateChecker;

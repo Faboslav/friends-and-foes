@@ -48,7 +48,7 @@ public final class TuffGolemHeldItemFeatureRenderer<T extends LivingEntity, M ex
 	) {
 		if (
 			tuffGolem.isDead()
-			|| ((TuffGolemEntity) tuffGolem).isHoldingItem() == false
+			|| !((TuffGolemEntity) tuffGolem).isHoldingItem()
 		) {
 			return;
 		}

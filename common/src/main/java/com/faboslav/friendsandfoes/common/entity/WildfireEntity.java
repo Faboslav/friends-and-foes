@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.entity;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.WildfireBrain;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
@@ -236,7 +236,7 @@ public final class WildfireEntity extends HostileEntity
 
 	@Override
 	public void tick() {
-		if (FriendsAndFoes.getConfig().enableWildfire == false) {
+		if (!FriendsAndFoes.getConfig().enableWildfire) {
 			this.discard();
 		}
 
@@ -252,7 +252,7 @@ public final class WildfireEntity extends HostileEntity
 
 	@Override
 	public void tickMovement() {
-		if (this.isOnGround() == false && this.getVelocity().y < 0.0F) {
+		if (!this.isOnGround() && this.getVelocity().y < 0.0F) {
 			this.setVelocity(this.getVelocity().multiply(1.0F, 0.6F, 1.0F));
 		}
 

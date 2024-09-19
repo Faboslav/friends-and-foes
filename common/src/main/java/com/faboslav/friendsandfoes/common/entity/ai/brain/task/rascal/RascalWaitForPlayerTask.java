@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.entity.ai.brain.task.rascal;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.RascalEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.RascalBrain;
 import com.faboslav.friendsandfoes.common.entity.pose.RascalEntityPose;
@@ -65,7 +65,7 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 		if (
 			nearestTarget == null
 			|| rascal.distanceTo(nearestTarget) > NOD_RANGE
-			|| nearestTarget.isAlive() == false
+			|| !nearestTarget.isAlive()
 			|| (
 				nearestTarget instanceof PlayerEntity
 				&& (
@@ -181,10 +181,10 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 			double y = MathHelper.clamp(rascal.getY() + (double) (rascal.getRandom().nextInt(8) - 4), world.getBottomY(), world.getBottomY() + world.getLogicalHeight() - 1);
 			double z = rascal.getZ() + (rascal.getRandom().nextDouble() - 0.5) * 16.0;
 
-			if (structureAccessor.getStructureContaining(
+			if (!structureAccessor.getStructureContaining(
 				new BlockPos((int) x, (int) y, (int) z),
 				StructureTags.MINESHAFT
-			).hasChildren() == false) {
+			).hasChildren()) {
 				continue;
 			}
 

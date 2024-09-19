@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.renderer;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.feature.GlareFlowerFeatureRenderer;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.GlareEntityModel;
 import com.faboslav.friendsandfoes.common.entity.GlareEntity;
@@ -23,7 +23,7 @@ public final class GlareEntityRenderer extends MobEntityRenderer<GlareEntity, Gl
 
 	@Override
 	protected void scale(GlareEntity glare, MatrixStack matrixStack, float amount) {
-		if (glare.isBaby() == false) {
+		if (!glare.isBaby()) {
 			matrixStack.scale(0.8F, 0.8F, 0.8F);
 		} else {
 			matrixStack.scale(0.4F, 0.4F, 0.4F);

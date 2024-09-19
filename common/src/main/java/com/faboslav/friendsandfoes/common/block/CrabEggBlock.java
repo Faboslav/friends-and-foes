@@ -139,13 +139,13 @@ public final class CrabEggBlock extends Block
 	}
 
 	public boolean canReplace(BlockState state, ItemPlacementContext context) {
-		return !context.shouldCancelInteraction() && context.getStack().isOf(this.asItem()) && state.get(EGGS) < 4 ? true:super.canReplace(state, context);
+		return !context.shouldCancelInteraction() && context.getStack().isOf(this.asItem()) && state.get(EGGS) < 4 || super.canReplace(state, context);
 	}
 
 	@Nullable
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
 		BlockState blockState = ctx.getWorld().getBlockState(ctx.getBlockPos());
-		return blockState.isOf(this) ? blockState.with(EGGS, Math.min(4, (Integer) blockState.get(EGGS) + 1)):super.getPlacementState(ctx);
+		return blockState.isOf(this) ? blockState.with(EGGS, Math.min(4, blockState.get(EGGS) + 1)):super.getPlacementState(ctx);
 	}
 
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {

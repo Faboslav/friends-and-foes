@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.common.init;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.block.Oxidizable;
 import com.faboslav.friendsandfoes.common.block.CopperButtonBlock;
 import com.faboslav.friendsandfoes.common.block.CrabEggBlock;
 import com.faboslav.friendsandfoes.common.block.OxidizableButtonBlock;

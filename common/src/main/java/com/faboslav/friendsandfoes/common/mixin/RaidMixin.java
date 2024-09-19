@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.IceologerEntity;
 import net.minecraft.entity.mob.IllusionerEntity;
 import net.minecraft.entity.raid.RaiderEntity;

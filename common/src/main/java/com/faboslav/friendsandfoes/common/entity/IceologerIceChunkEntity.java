@@ -128,7 +128,7 @@ public final class IceologerIceChunkEntity extends Entity
 
 	@Nullable
 	public LivingEntity getOwner() {
-		if (this.owner == null && this.getOwnerUuid() != null && this.getWorld().isClient() == false) {
+		if (this.owner == null && this.getOwnerUuid() != null && !this.getWorld().isClient()) {
 			Entity entity = ((ServerWorld) this.getWorld()).getEntity(this.getOwnerUuid());
 			if (entity instanceof LivingEntity) {
 				this.owner = (LivingEntity) entity;
@@ -149,7 +149,7 @@ public final class IceologerIceChunkEntity extends Entity
 
 	@Nullable
 	public LivingEntity getTarget() {
-		if (this.target == null && this.getTargetUuid() != null && this.getWorld().isClient() == false) {
+		if (this.target == null && this.getTargetUuid() != null && !this.getWorld().isClient()) {
 			Entity entity = ((ServerWorld) this.getWorld()).getEntity(this.getTargetUuid());
 			if (entity instanceof LivingEntity) {
 				this.target = (LivingEntity) entity;
@@ -172,7 +172,7 @@ public final class IceologerIceChunkEntity extends Entity
 		this.lifetimeTicks++;
 		this.setSummonAnimationProgress();
 
-		if (this.getTarget() != null && this.getWorld().isClient() == false) {
+		if (this.getTarget() != null && !this.getWorld().isClient()) {
 			if (this.getTarget().isPlayer()) {
 				var playerTarget = (PlayerEntity) this.getTarget();
 
@@ -238,7 +238,7 @@ public final class IceologerIceChunkEntity extends Entity
 		LivingEntity livingEntity = this.getOwner();
 
 		if (
-			hitEntity.isAlive() == false
+			!hitEntity.isAlive()
 			|| hitEntity.isInvulnerable()
 			|| hitEntity == livingEntity
 			|| (
@@ -267,7 +267,7 @@ public final class IceologerIceChunkEntity extends Entity
 
 		if (
 			target == null
-			|| target.isAlive() == false
+			|| !target.isAlive()
 			|| target.getVelocity().lengthSquared() < 0.0001
 		) {
 			return;

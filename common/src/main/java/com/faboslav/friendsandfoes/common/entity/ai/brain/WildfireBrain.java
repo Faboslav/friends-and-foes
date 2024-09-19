@@ -147,7 +147,7 @@ public final class WildfireBrain
 	}
 
 	public static void onCooldown(WildfireEntity wildfire) {
-		if (shouldRunAway(wildfire) == false) {
+		if (!shouldRunAway(wildfire)) {
 			return;
 		}
 

@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.config;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.config.annotation.Category;
 import com.faboslav.friendsandfoes.common.config.annotation.Description;
 import com.faboslav.friendsandfoes.common.config.omegaconfig.api.Config;

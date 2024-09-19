@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.entity;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -27,7 +27,7 @@ public final class IceologerEntity extends SpellcastingIllagerEntity
 	public IceologerEntity(EntityType<? extends IceologerEntity> entityType, World world) {
 		super(entityType, world);
 
-		if (FriendsAndFoes.getConfig().enableIceologer == false && this.getWorld().isClient() == false) {
+		if (!FriendsAndFoes.getConfig().enableIceologer && !this.getWorld().isClient()) {
 			this.discard();
 		}
 
@@ -73,7 +73,7 @@ public final class IceologerEntity extends SpellcastingIllagerEntity
 
 	@Override
 	public void tick() {
-		if (FriendsAndFoes.getConfig().enableIceologer == false) {
+		if (!FriendsAndFoes.getConfig().enableIceologer) {
 			this.discard();
 		}
 
@@ -143,7 +143,7 @@ public final class IceologerEntity extends SpellcastingIllagerEntity
 	{
 		@Override
 		public boolean canStart() {
-			return super.canStart() != false
+			return super.canStart()
 				   && IceologerEntity.this.getTarget() != null;
 		}
 

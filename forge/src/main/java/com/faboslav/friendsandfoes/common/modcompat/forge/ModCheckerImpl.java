@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.modcompat.forge;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.forge.modcompat.CuriosCompat;
 
 import static com.faboslav.friendsandfoes.common.modcompat.ModChecker.loadModCompat;

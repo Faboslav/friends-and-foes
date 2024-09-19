@@ -1,6 +1,6 @@
-package com.faboslav.friendsandfoes.fabric.modcompat.fabric;
+package com.faboslav.friendsandfoes.fabric.modcompat;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.config.ConfigScreenBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;

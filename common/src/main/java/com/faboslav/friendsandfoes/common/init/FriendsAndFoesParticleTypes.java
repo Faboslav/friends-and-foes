@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.init;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.particle.FreezingTotemParticle;
 import com.faboslav.friendsandfoes.common.client.particle.IllusionTotemParticle;
 import com.faboslav.friendsandfoes.common.events.client.RegisterParticlesEvent;

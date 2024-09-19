@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.forge;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
-import com.faboslav.friendsandfoes.FriendsAndFoesClient;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoesClient;
 import com.faboslav.friendsandfoes.common.config.ConfigScreenBuilder;
 import com.faboslav.friendsandfoes.common.events.client.*;
 import com.faboslav.friendsandfoes.common.events.lifecycle.ClientSetupEvent;

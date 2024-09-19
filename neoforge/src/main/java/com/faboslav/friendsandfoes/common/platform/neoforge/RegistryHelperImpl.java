@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.platform.neoforge;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.neoforge.mixin.FireBlockAccessor;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSetType;

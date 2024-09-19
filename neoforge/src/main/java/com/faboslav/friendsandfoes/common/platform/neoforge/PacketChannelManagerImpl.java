@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.platform.neoforge;
 
-import com.faboslav.friendsandfoes.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.network.base.Packet;
 import com.faboslav.friendsandfoes.common.network.base.PacketHandler;
 import com.google.common.base.Preconditions;

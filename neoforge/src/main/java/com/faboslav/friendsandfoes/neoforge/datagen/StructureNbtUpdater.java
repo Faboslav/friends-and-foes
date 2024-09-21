@@ -10,6 +10,7 @@ import net.minecraft.datafixer.DataFixTypes;
 import net.minecraft.datafixer.Schemas;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtIo;
+import net.minecraft.nbt.NbtSizeTracker;
 import net.minecraft.registry.Registries;
 import net.minecraft.resource.LifecycledResourceManagerImpl;
 import net.minecraft.resource.Resource;
@@ -61,7 +62,7 @@ public class StructureNbtUpdater implements DataProvider {
     }
 
     private void process(Identifier loc, Resource resource, DataWriter cache) throws IOException {
-        NbtCompound inputNBT = NbtIo.readCompressed(resource.getInputStream());
+        NbtCompound inputNBT = NbtIo.readCompressed(resource.getInputStream(), NbtSizeTracker.ofUnlimitedBytes());
         NbtCompound converted = updateNBT(inputNBT);
         if (!converted.equals(inputNBT)) {
             Class<? extends DataFixer> fixerClass = Schemas.getFixer().getClass();

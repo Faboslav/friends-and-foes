@@ -15,9 +15,10 @@ public class StructureNbtUpdaterDatagen
 	public static void gatherData(GatherDataEvent event) {
 		ExistingFileHelper exHelper = event.getExistingFileHelper();
 		DataGenerator gen = event.getGenerator();
+		final var output = gen.getPackOutput();
 
 		if (event.includeServer()) {
-			gen.addProvider(true, new StructureNbtUpdater("structures", FriendsAndFoes.MOD_ID, exHelper, gen));
+			gen.addProvider(true, new StructureNbtUpdater("structures", FriendsAndFoes.MOD_ID, exHelper, output));
 		}
 	}
 }

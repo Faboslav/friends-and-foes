@@ -21,7 +21,7 @@ public final class FriendsAndFoesItems
 {
 	public static final ResourcefulRegistry<Item> ITEMS = ResourcefulRegistries.create(Registries.ITEM, FriendsAndFoes.MOD_ID);
 
-	public final static RegistryEntry<Item> COPPER_GOLEM_SPAWN_EGG = ITEMS.register("copper_golem_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.COPPER_GOLEM, 0x9A5038, 0xE3826C, new Item.Settings().maxCount(64)));
+	public final static RegistryEntry<Item> COPPER_GOLEM_SPAWN_EGG = ITEMS.register("copper_golem_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.COPPER_GOLEM, 0x9A5038, 0xFC9982, new Item.Settings().maxCount(64)));
 	public final static RegistryEntry<Item> CRAB_SPAWN_EGG = ITEMS.register("crab_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.CRAB, 0x333077, 0xFE984B, new Item.Settings().maxCount(64)));
 	public final static RegistryEntry<Item> GLARE_SPAWN_EGG = ITEMS.register("glare_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.GLARE, 0x70922D, 0x6A5227, new Item.Settings().maxCount(64)));
 	public final static RegistryEntry<Item> ICEOLOGER_SPAWN_EGG = ITEMS.register("iceologer_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.ICEOLOGER, 0x173873, 0x949B9B, new Item.Settings().maxCount(64)));

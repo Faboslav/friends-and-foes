@@ -11,7 +11,6 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = FriendsAndFoes.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class StructureNbtUpdaterDatagen
 {
-
 	@SubscribeEvent
 	public static void gatherData(GatherDataEvent event) {
 		ExistingFileHelper exHelper = event.getExistingFileHelper();

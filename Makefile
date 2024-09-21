@@ -27,3 +27,6 @@ run-fabric-server: ## Runs fabric server
 
 run-forge-server: ## Runs forge server
 	./gradlew forge:runServer
+
+run-data: ## Runs datagen
+	./gradlew runData

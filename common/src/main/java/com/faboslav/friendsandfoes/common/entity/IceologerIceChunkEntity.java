@@ -22,7 +22,6 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -249,7 +248,15 @@ public final class IceologerIceChunkEntity extends Entity
 			return;
 		}
 
-		hitEntity.damage(DamageSource.MAGIC, 12.0F);
+		DamageSource damageSource;
+
+		if (livingEntity == null) {
+			damageSource = DamageSource.MAGIC;
+		} else {
+			damageSource = DamageSource.magic(this, livingEntity);
+		}
+
+		hitEntity.damage(damageSource, 12.0F);
 
 		if (hitEntity.canFreeze()) {
 			hitEntity.setFrozenTicks(400);

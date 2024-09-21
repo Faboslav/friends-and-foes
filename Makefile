@@ -33,3 +33,6 @@ run-forge-server: ## Runs forge server
 
 run-neoforge-server: ## Runs neoforge server
 	./gradlew neoforge:runServer
+
+run-data: ## Runs datagen
+	./gradlew runData

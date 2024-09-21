@@ -14,6 +14,18 @@ loom {
 		extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
 		mixinConfig "${mod_id}-common.mixins.json"
 		mixinConfig "${mod_id}-forge.mixins.json"
+
+		runs {
+			all {}
+
+			data {
+				data()
+				programArgs("--all", "--mod", "friendsandfoes")
+				programArgs("--existing", project(":common").file("src/main/resources").absolutePath)
+				programArgs("--output", project(":common").file("src/main/generated/resources").absolutePath)
+				all {}
+			}
+		}
 	}
 }
 

@@ -20,16 +20,16 @@ public final class FriendsAndFoesItems
 {
 	public static final ResourcefulRegistry<Item> ITEMS = ResourcefulRegistries.create(Registries.ITEM, FriendsAndFoes.MOD_ID);
 
-	public final static RegistryEntry<Item> COPPER_GOLEM_SPAWN_EGG = ITEMS.register("copper_golem_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.COPPER_GOLEM, 0x9A5038, 0xFC9982, new Item.Settings().maxCount(64)));
-	public final static RegistryEntry<Item> CRAB_SPAWN_EGG = ITEMS.register("crab_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.CRAB, 0x333077, 0xFE984B, new Item.Settings().maxCount(64)));
-	public final static RegistryEntry<Item> GLARE_SPAWN_EGG = ITEMS.register("glare_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.GLARE, 0x70922D, 0x6A5227, new Item.Settings().maxCount(64)));
-	public final static RegistryEntry<Item> ICEOLOGER_SPAWN_EGG = ITEMS.register("iceologer_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.ICEOLOGER, 0x173873, 0x949B9B, new Item.Settings().maxCount(64)));
-	public final static RegistryEntry<Item> ILLUSIONER_SPAWN_EGG = ITEMS.register("illusioner_spawn_egg", () -> new DispenserAddedSpawnEgg(() -> EntityType.ILLUSIONER, 0x603E5C, 0x888E8E, new Item.Settings().maxCount(64)));
-	public final static RegistryEntry<Item> MAULER_SPAWN_EGG = ITEMS.register("mauler_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.MAULER, 0x534F25, 0x817B39, new Item.Settings().maxCount(64)));
-	public final static RegistryEntry<Item> MOOBLOOM_SPAWN_EGG = ITEMS.register("moobloom_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.MOOBLOOM, 0xF7EDC1, 0xFACA00, new Item.Settings().maxCount(64)));
-	public final static RegistryEntry<Item> RASCAL_SPAWN_EGG = ITEMS.register("rascal_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.RASCAL, 0x05736A, 0x8A521C, new Item.Settings().maxCount(64)));
-	public final static RegistryEntry<Item> TUFF_GOLEM_SPAWN_EGG = ITEMS.register("tuff_golem_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.TUFF_GOLEM, 0xA0A297, 0x5D5D52, new Item.Settings().maxCount(64)));
-	public final static RegistryEntry<Item> WILDFIRE_SPAWN_EGG = ITEMS.register("wildfire_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.WILDFIRE, 0x6C3100, 0xFFD528, new Item.Settings().maxCount(64)));
+	public final static RegistryEntry<Item> COPPER_GOLEM_SPAWN_EGG = ITEMS.register("copper_golem_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.COPPER_GOLEM, 0xFF9A5038, 0xFFFC9982, new Item.Settings().maxCount(64)));
+	public final static RegistryEntry<Item> CRAB_SPAWN_EGG = ITEMS.register("crab_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.CRAB, 0xFF333077, 0xFFFE984B, new Item.Settings().maxCount(64)));
+	public final static RegistryEntry<Item> GLARE_SPAWN_EGG = ITEMS.register("glare_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.GLARE, 0xFF70922D, 0xFF6A5227, new Item.Settings().maxCount(64)));
+	public final static RegistryEntry<Item> ICEOLOGER_SPAWN_EGG = ITEMS.register("iceologer_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.ICEOLOGER, 0xFF173873, 0xFF949B9B, new Item.Settings().maxCount(64)));
+	public final static RegistryEntry<Item> ILLUSIONER_SPAWN_EGG = ITEMS.register("illusioner_spawn_egg", () -> new DispenserAddedSpawnEgg(() -> EntityType.ILLUSIONER, 0xFF603E5C, 0xFF888E8E, new Item.Settings().maxCount(64)));
+	public final static RegistryEntry<Item> MAULER_SPAWN_EGG = ITEMS.register("mauler_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.MAULER, 0xFF534F25, 0xFF817B39, new Item.Settings().maxCount(64)));
+	public final static RegistryEntry<Item> MOOBLOOM_SPAWN_EGG = ITEMS.register("moobloom_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.MOOBLOOM, 0xFFF7EDC1, 0xFFFACA00, new Item.Settings().maxCount(64)));
+	public final static RegistryEntry<Item> RASCAL_SPAWN_EGG = ITEMS.register("rascal_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.RASCAL, 0xFF05736A, 0xFF8A521C, new Item.Settings().maxCount(64)));
+	public final static RegistryEntry<Item> TUFF_GOLEM_SPAWN_EGG = ITEMS.register("tuff_golem_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.TUFF_GOLEM, 0xFFA0A297, 0xFF5D5D52, new Item.Settings().maxCount(64)));
+	public final static RegistryEntry<Item> WILDFIRE_SPAWN_EGG = ITEMS.register("wildfire_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.WILDFIRE, 0xFF6C3100, 0xFFFFD528, new Item.Settings().maxCount(64)));
 	public final static RegistryEntry<Item> BUTTERCUP = ITEMS.register("buttercup", () -> new BlockItem(FriendsAndFoesBlocks.BUTTERCUP.get(), new Item.Settings().maxCount(64)));
 	public final static RegistryEntry<Item> CRAB_CLAW = ITEMS.register("crab_claw", () -> new Item((new Item.Settings())));
 	public final static RegistryEntry<Item> CRAB_EGG = ITEMS.register("crab_egg", () -> new BlockItem(FriendsAndFoesBlocks.CRAB_EGG.get(), new Item.Settings().maxCount(64)));

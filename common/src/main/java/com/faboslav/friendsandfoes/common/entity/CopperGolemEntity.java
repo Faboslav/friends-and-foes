@@ -10,6 +10,7 @@ import com.faboslav.friendsandfoes.common.entity.pose.CopperGolemEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
+import com.faboslav.friendsandfoes.common.util.MovementUtil;
 import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.block.BlockState;
@@ -496,7 +497,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 
 		if (this.isOxidized()) {
 			this.applyEntitySnapshot();
-			this.stopMovement();
+			MovementUtil.stopMovement(this);
 			return;
 		}
 
@@ -773,27 +774,6 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 	private void becomeEntity() {
 		CopperGolemBrain.setSpinHeadCooldown(this);
 		CopperGolemBrain.setPressButtonCooldown(this);
-	}
-
-	public void stopMovement() {
-		this.getBrain().forget(MemoryModuleType.AVOID_TARGET);
-		this.getBrain().forget(MemoryModuleType.WALK_TARGET);
-		this.getBrain().forget(MemoryModuleType.LOOK_TARGET);
-
-		this.getNavigation().setSpeed(0);
-		this.getNavigation().stop();
-		this.getMoveControl().moveTo(this.getX(), this.getY(), this.getZ(), 0);
-		this.getMoveControl().tick();
-		this.getLookControl().lookAt(this.getLookControl().getLookX(), this.getLookControl().getLookY(), this.getLookControl().getLookZ());
-		this.getLookControl().lookAt(Vec3d.ZERO);
-		this.getLookControl().tick();
-
-		this.setJumping(false);
-		this.setMovementSpeed(0.0F);
-		this.prevHorizontalSpeed = 0.0F;
-		this.horizontalSpeed = 0.0F;
-		this.sidewaysSpeed = 0.0F;
-		this.upwardSpeed = 0.0F;
 	}
 
 	public boolean isWaxed() {

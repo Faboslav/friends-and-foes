@@ -10,6 +10,7 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
+import com.faboslav.friendsandfoes.common.util.MovementUtil;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
 import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
 import com.mojang.serialization.Dynamic;
@@ -447,7 +448,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 			this.setSitting(!this.isSitting());
 
 			if (this.isSitting()) {
-				this.stopMovement();
+				MovementUtil.stopMovement(this);
 			}
 
 			return ActionResult.SUCCESS;
@@ -515,27 +516,6 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		// This is just needed, because original bad implementation
 		super.setSitting(isSitting);
 		super.setInSittingPose(isSitting);
-	}
-
-	public void stopMovement() {
-		this.getBrain().forget(MemoryModuleType.AVOID_TARGET);
-		this.getBrain().forget(MemoryModuleType.WALK_TARGET);
-		this.getBrain().forget(MemoryModuleType.LOOK_TARGET);
-
-		this.getNavigation().setSpeed(0);
-		this.getNavigation().stop();
-		this.getMoveControl().moveTo(this.getX(), this.getY(), this.getZ(), 0);
-		this.getMoveControl().tick();
-		this.getLookControl().lookAt(this.getLookControl().getLookX(), this.getLookControl().getLookY(), this.getLookControl().getLookZ());
-		this.getLookControl().lookAt(Vec3d.ZERO);
-		this.getLookControl().tick();
-
-		this.setJumping(false);
-		this.setMovementSpeed(0.0F);
-		this.prevHorizontalSpeed = 0.0F;
-		this.horizontalSpeed = 0.0F;
-		this.sidewaysSpeed = 0.0F;
-		this.upwardSpeed = 0.0F;
 	}
 
 	@Nullable

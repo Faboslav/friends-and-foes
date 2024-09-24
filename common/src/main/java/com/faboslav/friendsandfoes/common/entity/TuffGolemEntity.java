@@ -8,6 +8,7 @@ import com.faboslav.friendsandfoes.common.entity.ai.brain.TuffGolemBrain;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.common.entity.pose.TuffGolemEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
+import com.faboslav.friendsandfoes.common.util.MovementUtil;
 import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.block.Block;
@@ -439,7 +440,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 			return false;
 		}
 
-		this.stopMovement();
+		MovementUtil.stopMovement(this);
 
 		if (this.isHoldingItem()) {
 			if (!player.getAbilities().creativeMode) {
@@ -820,23 +821,6 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		this.setBodyYaw(yaw);
 		this.prevHeadYaw = yaw;
 		this.setHeadYaw(yaw);
-	}
-
-	public void stopMovement() {
-		this.getNavigation().setSpeed(0);
-		this.getNavigation().stop();
-		this.getMoveControl().moveTo(this.getX(), this.getY(), this.getZ(), 0);
-		this.getMoveControl().tick();
-		this.getLookControl().lookAt(this.getLookControl().getLookX(), this.getLookControl().getLookY(), this.getLookControl().getLookZ());
-		this.getLookControl().lookAt(Vec3d.ZERO);
-		this.getLookControl().tick();
-
-		this.setJumping(false);
-		this.setMovementSpeed(0.0F);
-		this.prevHorizontalSpeed = 0.0F;
-		this.horizontalSpeed = 0.0F;
-		this.sidewaysSpeed = 0.0F;
-		this.upwardSpeed = 0.0F;
 	}
 
 	public enum Color

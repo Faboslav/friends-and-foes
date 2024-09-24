@@ -4,6 +4,7 @@ import com.faboslav.friendsandfoes.common.client.render.entity.animation.CrabAni
 import com.faboslav.friendsandfoes.common.entity.CrabEntity;
 import com.faboslav.friendsandfoes.common.entity.pose.CrabEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
+import com.faboslav.friendsandfoes.common.util.MovementUtil;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.MultiTickTask;
@@ -35,20 +36,7 @@ public final class CrabDanceTask extends MultiTickTask<CrabEntity>
 
 	@Override
 	protected void run(ServerWorld world, CrabEntity crab, long time) {
-		crab.getBrain().forget(MemoryModuleType.WALK_TARGET);
-		crab.getNavigation().setSpeed(0);
-		crab.getNavigation().stop();
-		crab.getNavigation().tick();
-		crab.getMoveControl().tick();
-
-		crab.setMovementSpeed(0.0F);
-		crab.prevHorizontalSpeed = 0.0F;
-		crab.horizontalSpeed = 0.0F;
-		crab.sidewaysSpeed = 0.0F;
-		crab.upwardSpeed = 0.0F;
-
-		crab.getLookControl().tick();
-
+		MovementUtil.stopMovement(crab);
 		crab.startDanceAnimation();
 	}
 

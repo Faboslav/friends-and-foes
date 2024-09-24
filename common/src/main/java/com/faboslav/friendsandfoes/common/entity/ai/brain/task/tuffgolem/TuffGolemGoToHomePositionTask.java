@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.common.entity.ai.brain.task.tuffgolem;
 
 import com.faboslav.friendsandfoes.common.entity.TuffGolemEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
+import com.faboslav.friendsandfoes.common.util.MovementUtil;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
@@ -97,7 +98,7 @@ public final class TuffGolemGoToHomePositionTask extends MultiTickTask<TuffGolem
 
 		tuffGolem.getBrain().forget(MemoryModuleType.LOOK_TARGET);
 		tuffGolem.getBrain().forget(MemoryModuleType.WALK_TARGET);
-		tuffGolem.stopMovement();
+		MovementUtil.stopMovement(tuffGolem);
 	}
 
 	private void walkTowardsHomePos(

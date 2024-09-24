@@ -4,6 +4,7 @@ import com.faboslav.friendsandfoes.common.entity.TuffGolemEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.TuffGolemBrain;
 import com.faboslav.friendsandfoes.common.entity.pose.TuffGolemEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
+import com.faboslav.friendsandfoes.common.util.MovementUtil;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.task.MultiTickTask;
@@ -62,7 +63,7 @@ public final class TuffGolemSleepTask extends MultiTickTask<TuffGolemEntity>
 		long time
 	) {
 		TuffGolemBrain.setSleepCooldown(tuffGolem);
-		tuffGolem.stopMovement();
+		MovementUtil.stopMovement(tuffGolem);
 
 		if (tuffGolem.isInPose(TuffGolemEntityPose.SLEEPING.get())) {
 			tuffGolem.startStanding();

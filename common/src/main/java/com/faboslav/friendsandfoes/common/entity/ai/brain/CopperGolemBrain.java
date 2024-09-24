@@ -59,7 +59,7 @@ public final class CopperGolemBrain
 			0,
 			ImmutableList.of(
 				new LookAroundTask(45, 90),
-				new WanderAroundTask(),
+				new MoveToTargetTask(),
 				new TemptationCooldownTask(MemoryModuleType.TEMPTATION_COOLDOWN_TICKS),
 				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_SPIN_HEAD_COOLDOWN.get()),
 				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_PRESS_BUTTON_COOLDOWN.get())

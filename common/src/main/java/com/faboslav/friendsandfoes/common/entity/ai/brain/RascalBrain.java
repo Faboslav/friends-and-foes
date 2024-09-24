@@ -55,7 +55,7 @@ public final class RascalBrain
 			ImmutableList.of(
 				new StayAboveWaterTask(0.8F),
 				new LookAroundTask(45, 90),
-				new WanderAroundTask(),
+				new MoveToTargetTask(),
 				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.RASCAL_NOD_COOLDOWN.get())
 			)
 		);

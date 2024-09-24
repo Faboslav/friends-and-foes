@@ -53,9 +53,9 @@ public final class CrabBrain
 			0,
 			ImmutableList.of(
 				// TODO check
-				// new FleeTask(2.0f),
+				//new FleeTask(2.0f),
 				new LookAroundTask(45, 90),
-				new WanderAroundTask(),
+				new MoveToTargetTask(),
 				new TemptationCooldownTask(MemoryModuleType.TEMPTATION_COOLDOWN_TICKS),
 				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.CRAB_WAVE_COOLDOWN.get())
 			)

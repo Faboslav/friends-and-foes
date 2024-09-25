@@ -19,6 +19,7 @@ import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.server.network.DebugInfoSender;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
@@ -80,6 +81,12 @@ public final class WildfireEntity extends HostileEntity
 	@SuppressWarnings("all")
 	public Brain<WildfireEntity> getBrain() {
 		return (Brain<WildfireEntity>) super.getBrain();
+	}
+
+	@Override
+	protected void sendAiDebugData() {
+		super.sendAiDebugData();
+		DebugInfoSender.sendBrainDebugData(this);
 	}
 
 	@Override

@@ -14,7 +14,7 @@ import java.util.Map;
 
 public final class CrabDanceTask extends MultiTickTask<CrabEntity>
 {
-	private final static int DANCE_DURATION = CrabAnimations.WAVE.getAnimationLengthInTicks() * 60;
+	private final static int DANCE_DURATION = CrabAnimations.DANCE.getAnimationLengthInTicks() * 60;
 
 	public CrabDanceTask() {
 		super(

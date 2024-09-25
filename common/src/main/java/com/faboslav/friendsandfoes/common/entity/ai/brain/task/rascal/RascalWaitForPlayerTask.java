@@ -35,7 +35,7 @@ import net.minecraft.world.gen.StructureAccessor;
 public final class RascalWaitForPlayerTask extends Task<RascalEntity>
 {
 	private final static int NOD_DURATION = 90;
-	public final static float NOD_RANGE = 4F;
+	public final static float NOD_RANGE = 5.0F;
 
 	private int nodTicks;
 	private LivingEntity nearestTarget;

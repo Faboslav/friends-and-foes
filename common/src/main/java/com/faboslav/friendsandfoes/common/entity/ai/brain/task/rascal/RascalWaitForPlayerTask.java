@@ -6,6 +6,7 @@ import com.faboslav.friendsandfoes.common.entity.ai.brain.RascalBrain;
 import com.faboslav.friendsandfoes.common.entity.pose.RascalEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesCriterias;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
+import com.faboslav.friendsandfoes.common.util.MovementUtil;
 import com.google.common.collect.ImmutableMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.component.DataComponentTypes;
@@ -37,7 +38,7 @@ import net.minecraft.world.gen.StructureAccessor;
 public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 {
 	private final static int NOD_DURATION = 90;
-	public final static float NOD_RANGE = 4F;
+	public final static float NOD_RANGE = 5.0F;
 
 	private int nodTicks;
 	private LivingEntity nearestTarget;
@@ -84,18 +85,7 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 
 	@Override
 	protected void run(ServerWorld world, RascalEntity rascal, long time) {
-		rascal.getBrain().forget(MemoryModuleType.WALK_TARGET);
-		rascal.getNavigation().setSpeed(0);
-		rascal.getNavigation().stop();
-		rascal.getNavigation().tick();
-		rascal.getMoveControl().tick();
-
-		rascal.setMovementSpeed(0.0F);
-		rascal.prevHorizontalSpeed = 0.0F;
-		rascal.horizontalSpeed = 0.0F;
-		rascal.sidewaysSpeed = 0.0F;
-		rascal.upwardSpeed = 0.0F;
-
+		MovementUtil.stopMovement(rascal);
 		LookTargetUtil.lookAt(rascal, this.nearestTarget);
 		rascal.getLookControl().lookAt(this.nearestTarget);
 		rascal.getLookControl().tick();

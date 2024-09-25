@@ -127,7 +127,6 @@ public final class CrabBrain
 			),
 			ImmutableSet.of(
 				Pair.of(FriendsAndFoesMemoryModuleTypes.CRAB_WAVE_COOLDOWN.get(), MemoryModuleState.VALUE_PRESENT),
-				Pair.of(FriendsAndFoesMemoryModuleTypes.CRAB_IS_DANCING.get(), MemoryModuleState.VALUE_ABSENT),
 				Pair.of(FriendsAndFoesMemoryModuleTypes.CRAB_HAS_EGG.get(), MemoryModuleState.VALUE_ABSENT),
 				Pair.of(FriendsAndFoesMemoryModuleTypes.CRAB_IS_DANCING.get(), MemoryModuleState.VALUE_ABSENT),
 				Pair.of(FriendsAndFoesMemoryModuleTypes.CRAB_BURROW_POS.get(), MemoryModuleState.VALUE_ABSENT)

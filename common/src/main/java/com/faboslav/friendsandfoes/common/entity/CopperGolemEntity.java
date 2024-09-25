@@ -36,6 +36,7 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.server.network.DebugInfoSender;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
@@ -221,6 +222,12 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 	@SuppressWarnings("all")
 	public Brain<CopperGolemEntity> getBrain() {
 		return (Brain<CopperGolemEntity>) super.getBrain();
+	}
+
+	@Override
+	protected void sendAiDebugData() {
+		super.sendAiDebugData();
+		DebugInfoSender.sendBrainDebugData(this);
 	}
 
 	public void setEntitySnapshot(NbtCompound entitySnapshot) {
@@ -518,6 +525,11 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		}
 
 		this.handleOxidationIncrease();
+	}
+
+	@Override
+	public boolean isPushable() {
+		return !this.isImmobilized();
 	}
 
 	@Override

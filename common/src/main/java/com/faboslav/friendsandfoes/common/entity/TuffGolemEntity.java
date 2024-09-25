@@ -29,6 +29,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.network.DebugInfoSender;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
@@ -158,6 +159,12 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	@SuppressWarnings("all")
 	public Brain<TuffGolemEntity> getBrain() {
 		return (Brain<TuffGolemEntity>) super.getBrain();
+	}
+
+	@Override
+	protected void sendAiDebugData() {
+		super.sendAiDebugData();
+		DebugInfoSender.sendBrainDebugData(this);
 	}
 
 	@Override
@@ -666,6 +673,11 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		this.updateKeyframeAnimations();
 
 		super.tick();
+	}
+
+	@Override
+	public boolean isPushable() {
+		return !this.isSleeping();
 	}
 
 	private void updateKeyframeAnimations() {

@@ -1,8 +1,9 @@
 {
 	"required": true,
-	"package": "com.faboslav.friendsandfoes.mixin",
-	"compatibilityLevel": "JAVA_17",
+	"package": "com.faboslav.friendsandfoes.common.mixin",
+	"compatibilityLevel": "JAVA_${modJavaVersion}",
 	"minVersion": "0.8",
+	"plugin": "com.faboslav.friendsandfoes.common.mixin.plugin.FriendsAndFoesMixinPlugin",
 	"injectors": {
 		"defaultRequire": 1
 	},
@@ -43,7 +44,7 @@
 		"ServerWorldAccessor",
 		"ServerWorldMixin",
 		"SnowballEntityMixin",
-		"SpawnRestrictionAccessor",
+		"SpawnEggItemAccessor",
 		"StrongholdGeneratorMixin",
 		"StructurePoolAccessor",
 		"TemptGoalMixin",
@@ -59,6 +60,7 @@
 		"ClientPlayNetworkHandlerMixin",
 		"EntityRenderDispatcherMixin",
 		"IllusionerEntityRendererMixin",
+		"IntegratedServerLoaderMixin",
 		"ModelPartAccessor"
 	]
 }

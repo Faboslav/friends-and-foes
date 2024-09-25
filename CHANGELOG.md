@@ -1,3 +1,14 @@
+## 3.0.0
+
+- Added crab
+- Fixed wildfire crown enchantability on newer minecraft versions
+- Fixed damage source of ice chunk
+- Corrected bamboo, cherry, crimson and warped beehives wood sound groups
+- Corrected crimson and warped beehive flammabilit
+- Added de_de translations (Thanks to tristankechlo)
+- Updated vi_vn translations (Thanks to godkyo98)
+- Huge internal refactoring (restructure) of the mod (can cause a lot of new bugs/missing features)
+
 ## 2.0.17
 
 - Fixed tuff golem holding enchanted "book" instead of enchanted "enchanted book"

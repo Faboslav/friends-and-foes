@@ -28,18 +28,17 @@
 			"com.llamalad7.mixinextras.MixinExtrasBootstrap::init"
 		],
 		"modmenu": [
-			"com.faboslav.friendsandfoes.modcompat.fabric.ModMenuCompat"
+			"com.faboslav.friendsandfoes.fabric.modcompat.ModMenuCompat"
 		]
 	},
 	"mixins": [
-		"friendsandfoes-common.mixins.json",
-		"friendsandfoes-fabric.mixins.json"
+		"${modId}-common.mixins.json",
+		"${modId}-fabric.mixins.json"
 	],
 	"depends": {
-		"java": ">=21",
-		"minecraft": ">=${minMinecraftVersion}",
-		"fabricloader": ">=${fabricLoaderVersion}",
-		"fabric": ">=${fabricApiVersion}"
+		"minecraft": ">=${minMinecraftVersion}-",
+		"fabricloader": "*",
+		"fabric": "*"
 	},
 	"custom": {
 		"modmenu": {

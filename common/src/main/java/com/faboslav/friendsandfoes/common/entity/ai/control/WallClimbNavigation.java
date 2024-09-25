@@ -8,7 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public final class WallClimbNavigation extends MobNavigation
+public class WallClimbNavigation extends MobNavigation
 {
 	@Nullable
 	private BlockPos targetPos;

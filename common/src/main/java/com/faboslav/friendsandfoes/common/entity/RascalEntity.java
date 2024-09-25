@@ -33,6 +33,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.StructureTags;
+import net.minecraft.server.network.DebugInfoSender;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
@@ -175,6 +176,12 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 	@SuppressWarnings("all")
 	public Brain<RascalEntity> getBrain() {
 		return (Brain<RascalEntity>) super.getBrain();
+	}
+
+	@Override
+	protected void sendAiDebugData() {
+		super.sendAiDebugData();
+		DebugInfoSender.sendBrainDebugData(this);
 	}
 
 	@Override

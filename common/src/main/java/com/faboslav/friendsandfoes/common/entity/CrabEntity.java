@@ -35,6 +35,7 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.network.DebugInfoSender;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
@@ -80,7 +81,7 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 		this.setPathfindingPenalty(PathNodeType.DOOR_OPEN, -1.0F);
 		this.setStepHeight(0.0F);
 		this.lookControl = new CrabLookControl(this, 10);
-		this.navigation = new WallClimbNavigation(this, world);
+		this.navigation = new CrabWallClimbNavigation(this, world);
 	}
 
 	@Override
@@ -209,6 +210,11 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 		return (Brain<CrabEntity>) super.getBrain();
 	}
 
+	@Override
+	protected void sendAiDebugData() {
+		super.sendAiDebugData();
+		DebugInfoSender.sendBrainDebugData(this);
+	}
 
 	public static DefaultAttributeContainer.Builder createCrabAttributes() {
 		return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 15.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, MOVEMENT_SPEED).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 2.0);
@@ -256,7 +262,6 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 
 	@Override
 	public void tick() {
-
 		if (!this.getWorld().isClient() && !FriendsAndFoes.getConfig().enableCrab) {
 			this.discard();
 		}
@@ -290,11 +295,7 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 	public void tickMovement() {
 		super.tickMovement();
 
-		if (this.getWorld().isClient()) {
-			return;
-		}
-
-		if (this.age % 10 == 0) {
+		if (this.age % 5 == 0) {
 			boolean isDancing = false;
 
 			for (BlockPos blockPos : BlockPos.iterateOutwards(this.getBlockPos(), 7, 7, 7)) {
@@ -619,6 +620,19 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 
 		public void tick() {
 			if (!CrabEntity.this.isClimbing()) {
+				super.tick();
+			}
+		}
+	}
+
+	class CrabWallClimbNavigation extends WallClimbNavigation
+	{
+		public CrabWallClimbNavigation(MobEntity mobEntity, World world) {
+			super(mobEntity, world);
+		}
+
+		public void tick() {
+			if (!CrabEntity.this.isDancing()) {
 				super.tick();
 			}
 		}

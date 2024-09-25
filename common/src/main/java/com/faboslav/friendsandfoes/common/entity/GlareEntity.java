@@ -44,6 +44,7 @@ import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.tag.TagKey;
+import net.minecraft.server.network.DebugInfoSender;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
@@ -329,6 +330,12 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	@SuppressWarnings("all")
 	public Brain<GlareEntity> getBrain() {
 		return (Brain<GlareEntity>) super.getBrain();
+	}
+
+	@Override
+	protected void sendAiDebugData() {
+		super.sendAiDebugData();
+		DebugInfoSender.sendBrainDebugData(this);
 	}
 
 	@Override

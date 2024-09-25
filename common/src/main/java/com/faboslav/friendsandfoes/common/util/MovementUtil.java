@@ -7,6 +7,7 @@ import net.minecraft.util.math.Vec3d;
 public final class MovementUtil
 {
 	public static void stopMovement(MobEntity entity) {
+		entity.getBrain().forget(MemoryModuleType.PATH);
 		entity.getBrain().forget(MemoryModuleType.AVOID_TARGET);
 		entity.getBrain().forget(MemoryModuleType.WALK_TARGET);
 		entity.getBrain().forget(MemoryModuleType.LOOK_TARGET);

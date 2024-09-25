@@ -5,6 +5,7 @@ import com.faboslav.friendsandfoes.common.entity.CrabEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.CrabBrain;
 import com.faboslav.friendsandfoes.common.entity.pose.CrabEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
+import com.faboslav.friendsandfoes.common.util.MovementUtil;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
@@ -54,18 +55,7 @@ public final class CrabWaveTask extends Task<CrabEntity>
 
 	@Override
 	protected void run(ServerWorld world, CrabEntity crab, long time) {
-		crab.getBrain().forget(MemoryModuleType.WALK_TARGET);
-		crab.getNavigation().setSpeed(0);
-		crab.getNavigation().stop();
-		crab.getNavigation().tick();
-		crab.getMoveControl().tick();
-
-		crab.setMovementSpeed(0.0F);
-		crab.prevHorizontalSpeed = 0.0F;
-		crab.horizontalSpeed = 0.0F;
-		crab.sidewaysSpeed = 0.0F;
-		crab.upwardSpeed = 0.0F;
-
+		MovementUtil.stopMovement(crab);
 		LookTargetUtil.lookAt(crab, this.nearestTarget);
 		crab.getLookControl().lookAt(this.nearestTarget);
 		crab.getLookControl().tick();

@@ -96,8 +96,6 @@ public final class TuffGolemGoToHomePositionTask extends Task<TuffGolemEntity>
 			tuffGolem.setPosition(tuffGolem.getHomePos());
 		}
 
-		tuffGolem.getBrain().forget(MemoryModuleType.LOOK_TARGET);
-		tuffGolem.getBrain().forget(MemoryModuleType.WALK_TARGET);
 		MovementUtil.stopMovement(tuffGolem);
 	}
 

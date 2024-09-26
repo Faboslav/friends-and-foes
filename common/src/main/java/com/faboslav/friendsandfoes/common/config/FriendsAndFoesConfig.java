@@ -38,13 +38,13 @@ public final class FriendsAndFoesConfig implements Config
 	public int crabSpawnWeight = 14;
 
 	@Description("Minimal spawn group size")
-	public int crabSpawnMinGroupSize = 2;
+	public int crabSpawnMinGroupSize = 3;
 
 	@Description("Maximal spawn group size")
 	public int crabSpawnMaxGroupSize = 5;
 
-	@Description("Reaching status effect modifier")
-	public float reachingStatusEffectModifier = 1.0F;
+	@Description("Reach status effect modifier (range in blocks)")
+	public int reachingStatusEffectModifier = 1;
 
 	@Category("Glare")
 	@Description("Enable")

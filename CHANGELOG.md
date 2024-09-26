@@ -1,6 +1,8 @@
 ## 3.0.0
 
-- Added crab
+- Added crab mob
+- Added crab claw item
+- Added potion of reaching, long reaching and strong reaching
 - Fixed wildfire crown enchantability on newer minecraft versions
 - Fixed damage source of ice chunk
 - Corrected bamboo, cherry, crimson and warped beehives wood sound groups

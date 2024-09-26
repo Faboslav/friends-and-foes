@@ -19,9 +19,22 @@ configurations {
 	developmentNeoForge.extendsFrom common
 }
 
-
 loom {
 	accessWidenerPath = project(":common").loom.accessWidenerPath
+
+	neoForge {
+		runs {
+			all {}
+
+			data {
+				data()
+				programArgs("--all", "--mod", "${mod_id}")
+				programArgs("--existing", project(":common").file("src/main/resources").absolutePath)
+				programArgs("--output", project(":common").file("src/main/generated/resources").absolutePath)
+				all {}
+			}
+		}
+	}
 }
 
 dependencies {
@@ -30,13 +43,9 @@ dependencies {
 	common(project(path: ":common", configuration: "namedElements")) { transitive false }
 	shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
 
-	// Mixin extras (https://github.com/LlamaLad7/MixinExtras)
-	implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixin_extras_version}"))
-	implementation(include("io.github.llamalad7:mixinextras-neoforge:${mixin_extras_version}"))
-
 	// Curios (https://www.curseforge.com/minecraft/mc-mods/curios)
-	// modCompileOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}+${minecraft_version}:api")
-	// modRuntimeOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}+${minecraft_version}")
+	modCompileOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}:api")
+	modRuntimeOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}")
 
 	// Cloth config (https://www.curseforge.com/minecraft/mc-mods/cloth-config)
 	modImplementation("me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}")
@@ -84,4 +93,9 @@ repositories {
 	}
 
 	maven { url "https://www.cursemaven.com" }
+
+	maven {
+		name = "OctoStudios"
+		url = uri("https://maven.octo-studios.com/releases")
+	}
 }

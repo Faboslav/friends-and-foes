@@ -4,6 +4,7 @@
 - Crab now spawns also on the beaches
 - Changed potion of reaching base color
 - Updated ru_ru translations (Thanks to mpustovoi)
+- Updated es_mx translations (Thanks to TheLegendofSaram)
 
 ## 3.0.0
 

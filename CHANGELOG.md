@@ -1,5 +1,6 @@
 ## 3.0.1
 
+- Fixed villager trades not being specific to the beekeeper villager profession
 - Crab now spawns also on the beaches
 - Changed potion of reaching base color
 - Updated ru_ru translations (Thanks to mpustovoi)

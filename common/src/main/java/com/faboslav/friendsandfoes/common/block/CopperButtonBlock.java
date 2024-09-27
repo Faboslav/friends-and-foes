@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.common.block;
 
-import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlockSetTypes;
 import net.minecraft.block.BlockSetType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ButtonBlock;

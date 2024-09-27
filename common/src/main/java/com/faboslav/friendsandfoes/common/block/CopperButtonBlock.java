@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.common.block;
 
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlockSetTypes;
+import net.minecraft.block.BlockSetType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ButtonBlock;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,7 +19,7 @@ import net.minecraft.world.World;
 public class CopperButtonBlock extends ButtonBlock
 {
 	public CopperButtonBlock(Settings settings, int pressTicks) {
-		super(FriendsAndFoesBlockSetTypes.COPPER, pressTicks, settings);
+		super(BlockSetType.COPPER, pressTicks, settings);
 	}
 
 	@Override

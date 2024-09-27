@@ -2,12 +2,10 @@ package com.faboslav.friendsandfoes.neoforge;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.events.AddItemGroupEntriesEvent;
-import com.faboslav.friendsandfoes.common.events.block.RegisterBlockSetTypeEvent;
 import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.*;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStructurePoolElements;
-import com.faboslav.friendsandfoes.common.init.registry.neoforge.ResourcefulRegistriesImpl;
 import com.faboslav.friendsandfoes.common.util.CustomRaidMember;
 import com.faboslav.friendsandfoes.common.util.ServerWorldSpawnersUtil;
 import com.faboslav.friendsandfoes.common.util.UpdateChecker;
@@ -16,7 +14,6 @@ import com.faboslav.friendsandfoes.common.world.spawner.IllusionerSpawner;
 import com.faboslav.friendsandfoes.neoforge.init.FriendsAndFoesBiomeModifiers;
 import com.faboslav.friendsandfoes.neoforge.mixin.FireBlockAccessor;
 import com.faboslav.friendsandfoes.neoforge.network.NeoForgeNetworking;
-import net.minecraft.block.BlockSetType;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.MobEntity;
@@ -93,7 +90,6 @@ public final class FriendsAndFoesNeoForge
 				);
 			}
 
-			RegisterBlockSetTypeEvent.EVENT.invoke(new RegisterBlockSetTypeEvent(BlockSetType::register));
 			RegisterFlammabilityEvent.EVENT.invoke(new RegisterFlammabilityEvent((item, igniteOdds, burnOdds) ->
 				((FireBlockAccessor) Blocks.FIRE).invokeRegisterFlammableBlock(item, igniteOdds, burnOdds)));
 		});

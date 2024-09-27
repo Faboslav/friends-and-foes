@@ -2,7 +2,6 @@ package com.faboslav.friendsandfoes.fabric;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.events.AddItemGroupEntriesEvent;
-import com.faboslav.friendsandfoes.common.events.block.RegisterBlockSetTypeEvent;
 import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
 import com.faboslav.friendsandfoes.common.events.item.RegisterBrewingRecipesEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.*;
@@ -67,7 +66,6 @@ public final class FriendsAndFoesFabric implements ModInitializer
 			ServerWorldSpawnersUtil.register(world, new IllusionerSpawner());
 		}));
 
-		RegisterBlockSetTypeEvent.EVENT.invoke(new RegisterBlockSetTypeEvent(BlockSetType::register));
 		RegisterBrewingRecipesEvent.EVENT.invoke(new RegisterBrewingRecipesEvent((input, item, output) ->
 			FabricBrewingRecipeRegistryBuilder.BUILD.register(builder -> builder.registerPotionRecipe(input, item, output))));
 

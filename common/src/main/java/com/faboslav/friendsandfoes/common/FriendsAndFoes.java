@@ -4,7 +4,6 @@ import com.faboslav.friendsandfoes.common.api.MoobloomVariantManager;
 import com.faboslav.friendsandfoes.common.config.FriendsAndFoesConfig;
 import com.faboslav.friendsandfoes.common.config.omegaconfig.OmegaConfig;
 import com.faboslav.friendsandfoes.common.events.AddItemGroupEntriesEvent;
-import com.faboslav.friendsandfoes.common.events.block.RegisterBlockSetTypeEvent;
 import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
 import com.faboslav.friendsandfoes.common.events.item.RegisterBrewingRecipesEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.*;
@@ -49,7 +48,6 @@ public final class FriendsAndFoes
 		RegisterReloadListenerEvent.EVENT.addListener(FriendsAndFoes::registerServerDataListeners);
 		SetupEvent.EVENT.addListener(FriendsAndFoes::setup);
 		DatapackSyncEvent.EVENT.addListener(MoobloomVariantsSyncPacket::sendToClient);
-		RegisterBlockSetTypeEvent.EVENT.addListener(FriendsAndFoesBlockSetTypes::registerBlockSetTypes);
 		RegisterFlammabilityEvent.EVENT.addListener(FriendsAndFoesBlocks::registerFlammablity);
 		RegisterEntityAttributesEvent.EVENT.addListener(FriendsAndFoesEntityTypes::registerEntityAttributes);
 		RegisterEntitySpawnRestrictionsEvent.EVENT.addListener(FriendsAndFoesEntityTypes::registerEntitySpawnRestrictions);

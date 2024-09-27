@@ -3,7 +3,6 @@ package com.faboslav.friendsandfoes.fabric;
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.events.AddItemGroupEntriesEvent;
 import com.faboslav.friendsandfoes.common.events.RegisterVillagerTradesEvent;
-import com.faboslav.friendsandfoes.common.events.block.RegisterBlockSetTypeEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.*;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStructurePoolElements;
 import com.faboslav.friendsandfoes.common.util.ServerWorldSpawnersUtil;
@@ -68,7 +67,6 @@ public final class FriendsAndFoesFabric implements ModInitializer
 			ServerWorldSpawnersUtil.register(world, new IllusionerSpawner());
 		}));
 
-		RegisterBlockSetTypeEvent.EVENT.invoke(new RegisterBlockSetTypeEvent(BlockSetType::register));
 		RegisterFlammabilityEvent.EVENT.invoke(new RegisterFlammabilityEvent(FlammableBlockRegistry.getDefaultInstance()::add));
 		RegisterEntityAttributesEvent.EVENT.invoke(new RegisterEntityAttributesEvent(FabricDefaultAttributeRegistry::register));
 		RegisterEntitySpawnRestrictionsEvent.EVENT.invoke(new RegisterEntitySpawnRestrictionsEvent(FriendsAndFoesFabric::registerPlacement));

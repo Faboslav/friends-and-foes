@@ -62,7 +62,7 @@ public class WallClimbNavigation extends MobNavigation
 					this.targetPos.getX(),
 					this.targetPos.getY(),
 					this.targetPos.getZ(),
-					0.33F
+					0.5F
 				);
 			} else {
 				this.targetPos = null;

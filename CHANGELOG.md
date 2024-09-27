@@ -1,3 +1,8 @@
+## 3.0.1
+
+- Crab now spawns also on the beaches
+- Updated ru_ru translations (Thanks to mpustovoi)
+
 ## 3.0.0
 
 - Added crab mob

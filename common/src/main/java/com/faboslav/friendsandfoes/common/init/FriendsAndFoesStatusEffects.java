@@ -15,5 +15,5 @@ import net.minecraft.registry.Registries;
 public final class FriendsAndFoesStatusEffects {
     public static final ResourcefulRegistry<StatusEffect> STATUS_EFFECTS = ResourcefulRegistries.create(Registries.STATUS_EFFECT, FriendsAndFoes.MOD_ID);
 
-    public static final ReferenceRegistryEntry<StatusEffect> REACH = STATUS_EFFECTS.registerReference("reach", () -> new ReachStatusEffect(StatusEffectCategory.BENEFICIAL, 3364735));
+    public static final ReferenceRegistryEntry<StatusEffect> REACH = STATUS_EFFECTS.registerReference("reach", () -> new ReachStatusEffect(StatusEffectCategory.BENEFICIAL, 0xFE984B));
 }

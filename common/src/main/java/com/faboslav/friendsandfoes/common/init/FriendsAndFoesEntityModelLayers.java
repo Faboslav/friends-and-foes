@@ -19,6 +19,7 @@ public final class FriendsAndFoesEntityModelLayers
 	public static final EntityModelLayer GLARE_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("glare"), "main");
 	public static final EntityModelLayer ICEOLOGER_ICE_CHUNK_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("iceologer_ice_chunk"), "main");
 	public static final EntityModelLayer MAULER_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("mauler"), "main");
+	public static final EntityModelLayer MOOBLOOM_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("moobloom"), "main");
 	public static final EntityModelLayer RASCAL_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("rascal"), "main");
 	public static final EntityModelLayer TUFF_GOLEM_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("tuff_golem"), "main");
 	public static final EntityModelLayer WILDFIRE_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("wildfire"), "main");

@@ -5,6 +5,7 @@ import com.faboslav.friendsandfoes.common.client.render.entity.model.*;
 import com.faboslav.friendsandfoes.common.events.client.RegisterEntityLayersEvent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.render.entity.model.CowEntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
 
@@ -30,6 +31,7 @@ public final class FriendsAndFoesEntityModelLayers
 		event.register(GLARE_LAYER, GlareEntityModel::getTexturedModelData);
 		event.register(ICEOLOGER_ICE_CHUNK_LAYER, IceologerIceChunkModel::getTexturedModelData);
 		event.register(MAULER_LAYER, MaulerEntityModel::getTexturedModelData);
+		event.register(MOOBLOOM_LAYER, CowEntityModel::getTexturedModelData);
 		event.register(RASCAL_LAYER, RascalEntityModel::getTexturedModelData);
 		event.register(TUFF_GOLEM_LAYER, TuffGolemEntityModel::getTexturedModelData);
 		event.register(WILDFIRE_LAYER, WildfireEntityModel::getTexturedModelData);

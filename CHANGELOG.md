@@ -1,3 +1,7 @@
+## 3.0.2
+
+- Fixed incorrect moobloom texture layer
+
 ## 3.0.1
 
 - Fixed villager trades not being specific to the beekeeper villager profession

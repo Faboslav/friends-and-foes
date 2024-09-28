@@ -22,10 +22,13 @@ import net.minecraft.screen.PlayerScreenHandler;
 @Environment(EnvType.CLIENT)
 public final class MoobloomFlowerFeatureRenderer<T extends MoobloomEntity> extends FeatureRenderer<T, CowEntityModel<T>>
 {
+	private final BlockRenderManager blockRenderManager;
+
 	public MoobloomFlowerFeatureRenderer(
 		FeatureRendererContext<T, CowEntityModel<T>> featureRendererContext
 	) {
 		super(featureRendererContext);
+		this.blockRenderManager = MinecraftClient.getInstance().getBlockRenderManager();
 	}
 
 	public void render(
@@ -41,8 +44,6 @@ public final class MoobloomFlowerFeatureRenderer<T extends MoobloomEntity> exten
 		float l
 	) {
 		if (!moobloomEntity.isBaby() && !moobloomEntity.isInvisible()) {
-			BlockRenderManager blockRenderManager = MinecraftClient.getInstance().getBlockRenderManager();
-
 			PlantBlock flower = moobloomEntity.getVariant().getFlower();
 			BlockState blockState = moobloomEntity.getVariant().getFlower().getDefaultState();
 
@@ -61,7 +62,7 @@ public final class MoobloomFlowerFeatureRenderer<T extends MoobloomEntity> exten
 
 			MinecraftClient minecraftClient = MinecraftClient.getInstance();
 			boolean renderAsModel = minecraftClient.hasOutline(moobloomEntity) && moobloomEntity.isInvisible();
-			BakedModel bakedModel = blockRenderManager.getModel(blockState);
+			BakedModel bakedModel = this.blockRenderManager.getModel(blockState);
 
 			// Head
 			matrixStack.push();
@@ -69,7 +70,7 @@ public final class MoobloomFlowerFeatureRenderer<T extends MoobloomEntity> exten
 			matrixStack.translate(0.09D, -0.6D, -0.185D);
 			matrixStack.scale(-scaleFactor, -scaleFactor, scaleFactor);
 			matrixStack.translate(-0.5D, yOffset, -0.5D);
-			this.renderFlower(matrixStack, vertexConsumerProvider, light, renderAsModel, blockRenderManager, blockState, overlay, bakedModel);
+			this.renderFlower(matrixStack, vertexConsumerProvider, light, renderAsModel, blockState, overlay, bakedModel);
 			matrixStack.pop();
 
 			// Body
@@ -77,21 +78,21 @@ public final class MoobloomFlowerFeatureRenderer<T extends MoobloomEntity> exten
 			matrixStack.translate(0.22D, -0.28D, -0.06D);
 			matrixStack.scale(-scaleFactor, -scaleFactor, scaleFactor);
 			matrixStack.translate(-0.5D, yOffset, -0.5D);
-			this.renderFlower(matrixStack, vertexConsumerProvider, light, renderAsModel, blockRenderManager, blockState, overlay, bakedModel);
+			this.renderFlower(matrixStack, vertexConsumerProvider, light, renderAsModel, blockState, overlay, bakedModel);
 			matrixStack.pop();
 
 			matrixStack.push();
 			matrixStack.translate(-0.2D, -0.22D, 0.01D);
 			matrixStack.scale(-scaleFactor, -scaleFactor, scaleFactor);
 			matrixStack.translate(-0.5D, yOffset, -0.5D);
-			this.renderFlower(matrixStack, vertexConsumerProvider, light, renderAsModel, blockRenderManager, blockState, overlay, bakedModel);
+			this.renderFlower(matrixStack, vertexConsumerProvider, light, renderAsModel, blockState, overlay, bakedModel);
 			matrixStack.pop();
 
 			matrixStack.push();
 			matrixStack.translate(0.03D, -0.28D, 0.47D);
 			matrixStack.scale(-scaleFactor, -scaleFactor, scaleFactor);
 			matrixStack.translate(-0.5D, yOffset, -0.5D);
-			this.renderFlower(matrixStack, vertexConsumerProvider, light, renderAsModel, blockRenderManager, blockState, overlay, bakedModel);
+			this.renderFlower(matrixStack, vertexConsumerProvider, light, renderAsModel, blockState, overlay, bakedModel);
 			matrixStack.pop();
 		}
 	}
@@ -101,15 +102,14 @@ public final class MoobloomFlowerFeatureRenderer<T extends MoobloomEntity> exten
 		VertexConsumerProvider vertexConsumers,
 		int light,
 		boolean renderAsModel,
-		BlockRenderManager blockRenderManager,
 		BlockState moobloomState,
 		int overlay,
 		BakedModel moobloomModel
 	) {
 		if (renderAsModel) {
-			blockRenderManager.getModelRenderer().render(matrices.peek(), vertexConsumers.getBuffer(RenderLayer.getOutline(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE)), moobloomState, moobloomModel, 0.0F, 0.0F, 0.0F, light, overlay);
+			this.blockRenderManager.getModelRenderer().render(matrices.peek(), vertexConsumers.getBuffer(RenderLayer.getOutline(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE)), moobloomState, moobloomModel, 0.0F, 0.0F, 0.0F, light, overlay);
 		} else {
-			blockRenderManager.renderBlockAsEntity(moobloomState, matrices, vertexConsumers, light, overlay);
+			this.blockRenderManager.renderBlockAsEntity(moobloomState, matrices, vertexConsumers, light, overlay);
 		}
 
 	}

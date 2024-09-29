@@ -50,7 +50,7 @@
 			}
 		},
 		"catalogue": {
-			"configFactory": "com.faboslav.friendsandfoes.modcompat.fabric.CatalogueCompat",
+			"configFactory": "com.faboslav.friendsandfoes.fabric.modcompat.CatalogueCompat",
 			"icon": {
 				"image": "catalogue_icon.png"
 			},

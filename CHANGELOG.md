@@ -1,3 +1,7 @@
+## 3.0.3
+
+- Fixed crash related to catalogue
+
 ## 3.0.2
 
 - Fixed incorrect moobloom texture layer

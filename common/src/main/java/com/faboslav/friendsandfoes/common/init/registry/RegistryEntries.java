@@ -13,11 +13,11 @@ import java.util.List;
  * @author ThatGravyBoat
  * <a href="https://github.com/Team-Resourceful/ResourcefulLib">https://github.com/Team-Resourceful/ResourcefulLib</a>
  */
-public final class RegistryEntries<T>
+public class RegistryEntries<T>
 {
 	private final List<RegistryEntry<T>> entries = new ArrayList<>();
 
-	public <I extends T> RegistryEntry<I> add(RegistryEntry<I> entry) {
+	public <I extends T, E extends RegistryEntry<I>> E add(E entry) {
 		//noinspection unchecked
 		entries.add((RegistryEntry<T>) entry);
 		return entry;

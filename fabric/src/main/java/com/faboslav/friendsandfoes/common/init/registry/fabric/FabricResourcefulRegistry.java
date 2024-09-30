@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.common.init.registry.fabric;
 
-import com.faboslav.friendsandfoes.common.init.registry.BasicRegistryEntry;
 import com.faboslav.friendsandfoes.common.init.registry.RegistryEntries;
 import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
@@ -20,27 +19,29 @@ import java.util.function.Supplier;
  * @author ThatGravyBoat
  * <a href="https://github.com/Team-Resourceful/ResourcefulLib">https://github.com/Team-Resourceful/ResourcefulLib</a>
  */
-public final class FabricCustomResourcefulRegistry<T> implements ResourcefulRegistry<T>
+public class FabricResourcefulRegistry<T> implements ResourcefulRegistry<T>
 {
 	private final RegistryEntries<T> entries = new RegistryEntries<>();
 	private final Registry<T> registry;
 	private final String id;
 
-	public FabricCustomResourcefulRegistry(Registry<T> registry, String id) {
+	public FabricResourcefulRegistry(Registry<T> registry, String id) {
 		this.registry = registry;
 		this.id = id;
 	}
 
 	@Override
 	public <I extends T> RegistryEntry<I> register(String id, Supplier<I> supplier) {
-		I value = Registry.register(registry, new Identifier(this.id, id), supplier.get());
+		var registryEntry = FabricRegistryEntry.of(this.registry, Identifier.of(this.id, id), supplier);
+		I value = registryEntry.get();
 		if (value instanceof PointOfInterestType poiType) {
 			PointOfInterestTypesAccessor.callRegisterStates(
 				(net.minecraft.registry.entry.RegistryEntry<PointOfInterestType>) registry.entryOf(registry.getKey(value).orElseThrow()),
 				poiType.blockStates()
 			);
 		}
-		return entries.add(new BasicRegistryEntry<>(new Identifier(this.id, id), value));
+
+		return entries.add(registryEntry);
 	}
 
 	@Override

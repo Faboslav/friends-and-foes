@@ -4,7 +4,6 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.events.RegisterVillagerTradesEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.*;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
-import com.faboslav.friendsandfoes.common.init.registry.forge.ResourcefulRegistriesImpl;
 import com.faboslav.friendsandfoes.common.util.CustomRaidMember;
 import com.faboslav.friendsandfoes.common.util.ServerWorldSpawnersUtil;
 import com.faboslav.friendsandfoes.common.util.UpdateChecker;
@@ -26,7 +25,6 @@ import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.village.VillagerTradesEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -42,7 +40,6 @@ public final class FriendsAndFoesForge
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 		IEventBus eventBus = MinecraftForge.EVENT_BUS;
 
-		modEventBus.addListener(EventPriority.NORMAL, ResourcefulRegistriesImpl::onRegisterForgeRegistries);
 		FriendsAndFoes.init();
 		FriendsAndFoesBiomeModifiers.BIOME_MODIFIERS.register(modEventBus);
 

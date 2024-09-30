@@ -4,7 +4,7 @@ import com.faboslav.friendsandfoes.common.init.registry.RegistryEntries;
 import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 
@@ -19,13 +19,13 @@ import java.util.function.Supplier;
  * @author ThatGravyBoat
  * <a href="https://github.com/Team-Resourceful/ResourcefulLib">https://github.com/Team-Resourceful/ResourcefulLib</a>
  */
-public final class ForgeResourcefulRegistry<T> implements ResourcefulRegistry<T>
+public class ForgeResourcefulRegistry<T> implements ResourcefulRegistry<T>
 {
 	private final DeferredRegister<T> register;
 	private final RegistryEntries<T> entries = new RegistryEntries<>();
 
-	public ForgeResourcefulRegistry(RegistryKey<? extends Registry<T>> registry, String id) {
-		this.register = DeferredRegister.create(registry, id);
+	public ForgeResourcefulRegistry(Registry<T> registry, String id) {
+		this.register = DeferredRegister.create(registry.getKey(), id);
 	}
 
 	@Override
@@ -40,6 +40,7 @@ public final class ForgeResourcefulRegistry<T> implements ResourcefulRegistry<T>
 
 	@Override
 	public void init() {
-		register.register(FMLJavaModLoadingContext.get().getModEventBus());
+		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+		register.register(bus);
 	}
 }

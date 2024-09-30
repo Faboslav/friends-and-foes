@@ -1,9 +1,5 @@
 package com.faboslav.friendsandfoes.common.init.registry;
 
-import net.minecraft.util.Identifier;
-
-import java.util.Objects;
-
 /**
  * Event/registry related is code based on The Bumblezone/Resourceful Lib mods with permissions from the authors
  *
@@ -12,23 +8,16 @@ import java.util.Objects;
  * @author ThatGravyBoat
  * <a href="https://github.com/Team-Resourceful/ResourcefulLib">https://github.com/Team-Resourceful/ResourcefulLib</a>
  */
-public final class BasicRegistryEntry<T> implements RegistryEntry<T>
+public final class ResourcefulRegistryType<D, T extends ResourcefulRegistry<D>>
 {
-	private final Identifier id;
-	private final T value;
+	private final Class<T> type;
 
-	public BasicRegistryEntry(Identifier id, T value) {
-		this.id = Objects.requireNonNull(id);
-		this.value = Objects.requireNonNull(value);
+	private ResourcefulRegistryType(Class<T> type) {
+		this.type = type;
 	}
 
 	@Override
-	public T get() {
-		return value;
-	}
-
-	@Override
-	public Identifier getId() {
-		return id;
+	public String toString() {
+		return "ResourcefulRegistryType{type=" + type + "}";
 	}
 }

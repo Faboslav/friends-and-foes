@@ -19,6 +19,7 @@ import java.util.function.Supplier;
  * @author ThatGravyBoat
  * <a href="https://github.com/Team-Resourceful/ResourcefulLib">https://github.com/Team-Resourceful/ResourcefulLib</a>
  */
+@SuppressWarnings({"all", "deprecation", "removal"})
 public class ForgeResourcefulRegistry<T> implements ResourcefulRegistry<T>
 {
 	private final DeferredRegister<T> register;

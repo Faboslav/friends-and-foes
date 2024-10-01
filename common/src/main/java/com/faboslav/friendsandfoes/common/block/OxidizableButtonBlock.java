@@ -1,9 +1,7 @@
 package com.faboslav.friendsandfoes.common.block;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Oxidizable;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -13,7 +11,7 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
 @SuppressWarnings("deprecation")
-public final class OxidizableButtonBlock extends CopperButtonBlock implements Oxidizable
+public final class OxidizableButtonBlock extends CopperButtonBlock implements FriendsAndFoesOxidizable
 {
 	private final OxidationLevel oxidationLevel;
 
@@ -37,7 +35,7 @@ public final class OxidizableButtonBlock extends CopperButtonBlock implements Ox
 
 	@Override
 	public boolean hasRandomTicks(BlockState state) {
-		return Oxidizable.getIncreasedOxidationBlock(state.getBlock()).isPresent();
+		return FriendsAndFoesOxidizable.getIncreasedOxidationBlock(state.getBlock()).isPresent();
 	}
 
 	@Override
@@ -54,16 +52,10 @@ public final class OxidizableButtonBlock extends CopperButtonBlock implements Ox
 		Hand hand,
 		BlockHitResult hit
 	) {
-		ItemStack itemStack = player.getStackInHand(hand);
-		Item itemInHand = itemStack.getItem();
-		ItemUsageContext itemUsageContext = new ItemUsageContext(player, hand, hit);
+		var actionResult = OnUseOxidizable.onOxidizableUse(state, world, pos, player, hand, hit);
 
-		if (itemInHand instanceof HoneycombItem || itemInHand instanceof AxeItem) {
-			ActionResult itemInHandUsageResult = itemInHand.useOnBlock(itemUsageContext);
-
-			if (itemInHandUsageResult.isAccepted()) {
-				return itemInHandUsageResult;
-			}
+		if(actionResult.isAccepted()) {
+			return actionResult;
 		}
 
 		return super.onUse(state, world, pos, player, hand, hit);

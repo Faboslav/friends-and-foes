@@ -10,7 +10,6 @@
 	"mixins": [
 		"AbstractButtonBlockMixin",
 		"AddCustomEntityPoseMixin",
-		"AxeItemMixin",
 		"BeeEntityAccessor",
 		"BeeEntityMixin",
 		"BeeEntityMoveToFlowerGoalMixin",
@@ -22,7 +21,6 @@
 		"BundleItemAccessor",
 		"CarvedPumpkinBlockMixin",
 		"ChickenEntityMixin",
-		"HoneycombItemMixin",
 		"IllusionerEntityMixin",
 		"IllusionerHostileEntityMixin",
 		"IllusionerRaiderEntityMixin",

@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.block.OnUseOxidizable;
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.KeyframeAnimation;
 import com.faboslav.friendsandfoes.common.entity.CopperGolemEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.CopperGolemBrain;
@@ -13,8 +14,12 @@ import net.minecraft.block.*;
 import net.minecraft.block.pattern.BlockPattern;
 import net.minecraft.block.pattern.BlockPatternBuilder;
 import net.minecraft.block.pattern.CachedBlockPosition;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
@@ -212,5 +217,22 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 		CallbackInfo ci
 	) {
 		((Degradable) this).tickDegradation(state, world, pos, random);
+	}
+
+	@Override
+	public void friendsandfoes_onUse(
+		BlockState state,
+		World world,
+		BlockPos pos,
+		PlayerEntity player,
+		Hand hand,
+		BlockHitResult hit,
+		CallbackInfoReturnable<ActionResult> cir
+	) {
+		var actionResult = OnUseOxidizable.onOxidizableUse(state, world, pos, player, hand, hit);
+
+		if(actionResult.isAccepted()) {
+			cir.setReturnValue(actionResult);
+		}
 	}
 }

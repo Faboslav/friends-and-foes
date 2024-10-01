@@ -54,7 +54,7 @@ public final class OxidizableLightningRodBlock extends LightningRodBlock impleme
 	) {
 		var actionResult = OnUseOxidizable.onOxidizableUse(state, world, pos, player, hand, hit);
 
-		if(actionResult.isAccepted()) {
+		if (actionResult.isAccepted()) {
 			return actionResult;
 		}
 

@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.common.block;
 
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
-import com.faboslav.friendsandfoes.common.util.WaxableBlocksMap;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
@@ -9,7 +8,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.Oxidizable;
-
 import java.util.Optional;
 import java.util.function.Supplier;
 

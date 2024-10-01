@@ -23,7 +23,7 @@ public final class FriendsAndFoesVillagerProfessions
 	public static final RegistryEntry<VillagerProfession> BEEKEEPER = VILLAGER_PROFESSIONS.register("beekeeper", () -> new VillagerProfession("beekeeper", pointOfInterest -> pointOfInterest.isIn(PointOfInterestTypeTags.BEE_HOME), pointOfInterest -> pointOfInterest.isIn(PointOfInterestTypeTags.BEE_HOME), ImmutableSet.of(Items.HONEYCOMB), ImmutableSet.of(), SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM));
 
 	public static void registerVillagerTrades(RegisterVillagerTradesEvent event) {
-		if(event.type() == BEEKEEPER.get()) {
+		if (event.type() == BEEKEEPER.get()) {
 			event.register(1, new TradeOffersUtil.BuyForOneEmeraldFactory(FriendsAndFoesItems.BUTTERCUP.get(), 10, 16, 2));
 			event.register(1, new TradeOffersUtil.BuyForOneEmeraldFactory(Items.DANDELION, 10, 16, 2));
 			event.register(1, new TradeOffersUtil.BuyForOneEmeraldFactory(Items.SUNFLOWER, 10, 16, 2));

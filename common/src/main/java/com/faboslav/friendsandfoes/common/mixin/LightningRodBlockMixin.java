@@ -231,7 +231,7 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 	) {
 		var actionResult = OnUseOxidizable.onOxidizableUse(state, world, pos, player, hand, hit);
 
-		if(actionResult.isAccepted()) {
+		if (actionResult.isAccepted()) {
 			cir.setReturnValue(actionResult);
 		}
 	}

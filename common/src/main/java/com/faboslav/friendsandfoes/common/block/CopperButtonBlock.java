@@ -35,7 +35,7 @@ public class CopperButtonBlock extends AbstractButtonBlock
 	) {
 		var actionResult = OnUseOxidizable.onOxidizableUse(state, world, pos, player, hand, hit);
 
-		if(actionResult.isAccepted()) {
+		if (actionResult.isAccepted()) {
 			return actionResult;
 		}
 

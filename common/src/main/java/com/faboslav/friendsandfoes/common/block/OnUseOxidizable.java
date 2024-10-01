@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.common.block;
 
-import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.util.WaxableBlocksMap;
 import com.google.common.collect.BiMap;
 import net.minecraft.advancement.criterion.Criteria;
@@ -17,7 +16,6 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
-
 import java.util.Optional;
 
 public final class OnUseOxidizable
@@ -34,15 +32,15 @@ public final class OnUseOxidizable
 		Item itemInHand = itemStack.getItem();
 		ItemUsageContext itemUsageContext = new ItemUsageContext(player, hand, hit);
 
-		if(itemInHand instanceof HoneycombItem) {
+		if (itemInHand instanceof HoneycombItem) {
 			Optional<BlockState> possibleWaxedState = OnUseOxidizable.getWaxedState(blockState);
 
-			if(possibleWaxedState.isPresent()) {
+			if (possibleWaxedState.isPresent()) {
 				if (player instanceof ServerPlayerEntity) {
-					Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity)player, blockPos, itemStack);
+					Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, blockPos, itemStack);
 				}
 
-				if(!player.isCreative()) {
+				if (!player.isCreative()) {
 					itemStack.decrement(1);
 				}
 
@@ -51,17 +49,17 @@ public final class OnUseOxidizable
 				world.syncWorldEvent(player, 3003, blockPos, 0);
 
 				return ActionResult.success(world.isClient);
-			};
-		} else if(itemInHand instanceof AxeItem) {
+			}
+		} else if (itemInHand instanceof AxeItem) {
 			Optional<BlockState> possibleUnWaxedState = OnUseOxidizable.getUnWaxedState(blockState);
 			Optional<BlockState> possibleOxidationState = FriendsAndFoesOxidizable.getDecreasedOxidationState(blockState);
 			Optional<BlockState> possibleState = Optional.empty();
 
-			if(possibleUnWaxedState.isPresent()) {
+			if (possibleUnWaxedState.isPresent()) {
 				world.playSound(player, blockPos, SoundEvents.ITEM_AXE_WAX_OFF, SoundCategory.BLOCKS, 1.0F, 1.0F);
 				world.syncWorldEvent(player, 3004, blockPos, 0);
 				possibleState = possibleUnWaxedState;
-			} else if(possibleOxidationState.isPresent()) {
+			} else if (possibleOxidationState.isPresent()) {
 				world.playSound(player, blockPos, SoundEvents.ITEM_AXE_SCRAPE, SoundCategory.BLOCKS, 1.0F, 1.0F);
 				world.syncWorldEvent(player, 3005, blockPos, 0);
 				possibleState = possibleOxidationState;
@@ -69,7 +67,7 @@ public final class OnUseOxidizable
 
 			if (possibleState.isPresent()) {
 				if (player instanceof ServerPlayerEntity) {
-					Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity)player, blockPos, itemStack);
+					Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, blockPos, itemStack);
 				}
 
 				world.setBlockState(blockPos, possibleState.get(), 11);
@@ -99,13 +97,13 @@ public final class OnUseOxidizable
 	}
 
 	private static Optional<BlockState> getWaxedState(BlockState state) {
-		return Optional.ofNullable((Block)((BiMap) WaxableBlocksMap.UNWAXED_TO_WAXED_BLOCKS.get()).get(state.getBlock())).map((block) -> {
+		return Optional.ofNullable((Block) ((BiMap) WaxableBlocksMap.UNWAXED_TO_WAXED_BLOCKS.get()).get(state.getBlock())).map((block) -> {
 			return block.getStateWithProperties(state);
 		});
 	}
 
 	private static Optional<BlockState> getUnWaxedState(BlockState state) {
-		return Optional.ofNullable((Block)((BiMap) WaxableBlocksMap.WAXED_TO_UNWAXED_BLOCKS.get()).get(state.getBlock())).map((block) -> {
+		return Optional.ofNullable((Block) ((BiMap) WaxableBlocksMap.WAXED_TO_UNWAXED_BLOCKS.get()).get(state.getBlock())).map((block) -> {
 			return block.getStateWithProperties(state);
 		});
 	}

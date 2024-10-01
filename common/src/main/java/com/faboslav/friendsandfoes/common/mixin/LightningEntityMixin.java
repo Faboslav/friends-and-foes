@@ -45,7 +45,7 @@ public abstract class LightningEntityMixin extends Entity
 				Oxidizable.getUnaffectedOxidationState(this.getWorld().getBlockState(blockPos))
 			);
 
-			((LightningRodBlock)this.getWorld().getBlockState(blockPos).getBlock()).setPowered(blockState, this.getWorld(), blockPos);
+			((LightningRodBlock) this.getWorld().getBlockState(blockPos).getBlock()).setPowered(blockState, this.getWorld(), blockPos);
 		}
 	}
 
@@ -63,7 +63,7 @@ public abstract class LightningEntityMixin extends Entity
 	) {
 		mutablePos.set(pos);
 
-		for(int i = 0; i < count; ++i) {
+		for (int i = 0; i < count; ++i) {
 			Optional<BlockPos> optional = friendsandfoes$cleanOxidationAround(world, mutablePos);
 			if (!optional.isPresent()) {
 				break;
@@ -83,9 +83,9 @@ public abstract class LightningEntityMixin extends Entity
 				return Optional.empty();
 			}
 
-			blockPos = (BlockPos)var2.next();
+			blockPos = (BlockPos) var2.next();
 			blockState = world.getBlockState(blockPos);
-		} while(!(blockState.getBlock() instanceof Oxidizable));
+		} while (!(blockState.getBlock() instanceof Oxidizable));
 
 		BlockPos finalBlockPos = blockPos;
 		FriendsAndFoesOxidizable.getDecreasedOxidationState(blockState).ifPresent((state) -> world.setBlockState(finalBlockPos, state));

@@ -54,7 +54,7 @@ public final class OxidizableButtonBlock extends CopperButtonBlock implements Fr
 	) {
 		var actionResult = OnUseOxidizable.onOxidizableUse(state, world, pos, player, hand, hit);
 
-		if(actionResult.isAccepted()) {
+		if (actionResult.isAccepted()) {
 			return actionResult;
 		}
 

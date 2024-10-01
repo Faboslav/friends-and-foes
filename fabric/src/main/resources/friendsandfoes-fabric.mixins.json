@@ -9,7 +9,6 @@
 	"mixins": [
 		"AddCustomRaidMemberMixin",
 		"AddCustomSpawnGroupMixin",
-		"OxidizableMixin",
 		"PointOfInterestTypesAccessor",
 		"StructureEntityProcessorMixin"
 	],

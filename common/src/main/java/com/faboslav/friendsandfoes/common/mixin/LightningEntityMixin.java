@@ -42,7 +42,7 @@ public abstract class LightningEntityMixin extends Entity
 		if (blockState.isIn(FriendsAndFoesTags.LIGHTNING_RODS)) {
 			this.getWorld().setBlockState(
 				blockPos,
-				Oxidizable.getUnaffectedOxidationState(this.getWorld().getBlockState(blockPos))
+				FriendsAndFoesOxidizable.getUnaffectedOxidationState(this.getWorld().getBlockState(blockPos))
 			);
 
 			((LightningRodBlock) this.getWorld().getBlockState(blockPos).getBlock()).setPowered(blockState, this.getWorld(), blockPos);

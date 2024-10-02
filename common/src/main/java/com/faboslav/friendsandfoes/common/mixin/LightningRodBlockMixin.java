@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.block.FriendsAndFoesOxidizable;
 import com.faboslav.friendsandfoes.common.block.OnUseOxidizable;
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.KeyframeAnimation;
 import com.faboslav.friendsandfoes.common.entity.CopperGolemEntity;
@@ -33,7 +34,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
 
-@Mixin(value = LightningRodBlock.class, priority = 10000)
+@Mixin(value = LightningRodBlock.class, priority = 1001)
 public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 {
 	@Nullable
@@ -205,7 +206,7 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 	public void friendsandfoes_hasRandomTicks(
 		BlockState state, CallbackInfoReturnable<Boolean> cir
 	) {
-		cir.setReturnValue(Oxidizable.getIncreasedOxidationBlock(state.getBlock()).isPresent());
+		cir.setReturnValue(FriendsAndFoesOxidizable.getIncreasedOxidationBlock(state.getBlock()).isPresent());
 	}
 
 	@Override
@@ -216,7 +217,8 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 		Random random,
 		CallbackInfo ci
 	) {
-		((Degradable) this).tickDegradation(state, world, pos, random);
+		((Degradable)this).tickDegradation(state, world, pos, random);
+		ci.cancel();
 	}
 
 	@Override

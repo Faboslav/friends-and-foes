@@ -217,7 +217,7 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 		Random random,
 		CallbackInfo ci
 	) {
-		((Degradable)this).tickDegradation(state, world, pos, random);
+		((Degradable) this).tickDegradation(state, world, pos, random);
 		ci.cancel();
 	}
 

@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.common.util;
 
-import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.util.math.Vec3d;

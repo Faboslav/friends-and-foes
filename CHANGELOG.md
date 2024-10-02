@@ -1,6 +1,7 @@
 ## 3.0.4
 
 - Improved internal registries logic (Might fix some crashes)
+- Mod should now not crash with mods like Caverns & Chasms and Unvoted & Shelved
 
 ## 3.0.3
 

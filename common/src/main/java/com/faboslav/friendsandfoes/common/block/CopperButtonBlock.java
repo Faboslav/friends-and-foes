@@ -4,10 +4,6 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlockSetTypes;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ButtonBlock;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.AxeItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -35,16 +31,10 @@ public class CopperButtonBlock extends ButtonBlock
 		Hand hand,
 		BlockHitResult hit
 	) {
-		ItemStack itemStack = player.getStackInHand(hand);
-		Item itemInHand = itemStack.getItem();
+		var actionResult = OnUseOxidizable.onOxidizableUse(state, world, pos, player, hand, hit);
 
-		if (itemInHand instanceof AxeItem) {
-			ItemUsageContext itemUsageContext = new ItemUsageContext(player, hand, hit);
-			ActionResult itemInHandUsageResult = itemInHand.useOnBlock(itemUsageContext);
-
-			if (itemInHandUsageResult.isAccepted()) {
-				return itemInHandUsageResult;
-			}
+		if (actionResult.isAccepted()) {
+			return actionResult;
 		}
 
 		return super.onUse(state, world, pos, player, hand, hit);

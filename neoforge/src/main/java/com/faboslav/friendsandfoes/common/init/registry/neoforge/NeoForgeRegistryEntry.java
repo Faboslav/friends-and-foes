@@ -12,7 +12,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
  * @author ThatGravyBoat
  * <a href="https://github.com/Team-Resourceful/ResourcefulLib">https://github.com/Team-Resourceful/ResourcefulLib</a>
  */
-public final class NeoForgeRegistryEntry<R, T extends R> implements RegistryEntry<T>
+public class NeoForgeRegistryEntry<R, T extends R> implements RegistryEntry<T>
 {
 	private final DeferredHolder<R, T> object;
 

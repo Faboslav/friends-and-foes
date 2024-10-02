@@ -46,7 +46,6 @@ public final class FriendsAndFoesNeoForge
 
 		UpdateChecker.checkForNewUpdates();
 
-		modEventBus.addListener(EventPriority.NORMAL, ResourcefulRegistriesImpl::onRegisterNeoForgeRegistries);
 		FriendsAndFoes.init();
 		FriendsAndFoesBiomeModifiers.BIOME_MODIFIERS.register(modEventBus);
 

@@ -43,6 +43,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import java.util.List;
 
+@SuppressWarnings({"all", "deprecation", "removal"})
 @Mod(FriendsAndFoes.MOD_ID)
 public final class FriendsAndFoesForge
 {

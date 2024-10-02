@@ -7,12 +7,13 @@ import com.google.common.collect.ImmutableBiMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.Oxidizable;
 
 import java.util.Optional;
 import java.util.function.Supplier;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-public interface Oxidizable extends net.minecraft.block.Oxidizable
+public interface FriendsAndFoesOxidizable extends Oxidizable
 {
 	Supplier<BiMap<Block, Block>> OXIDATION_LEVEL_INCREASES = Suppliers.memoize(() -> (BiMap) ImmutableBiMap.builder()
 		.put(FriendsAndFoesBlocks.COPPER_BUTTON.get(), FriendsAndFoesBlocks.EXPOSED_COPPER_BUTTON.get())
@@ -38,9 +39,7 @@ public interface Oxidizable extends net.minecraft.block.Oxidizable
 	}
 
 	static Optional<BlockState> getDecreasedOxidationState(BlockState state) {
-		return getDecreasedOxidationBlock(state.getBlock()).map((block) -> {
-			return block.getStateWithProperties(state);
-		});
+		return getDecreasedOxidationBlock(state.getBlock()).map((block) -> block.getStateWithProperties(state));
 	}
 
 	static Optional<Block> getIncreasedOxidationBlock(Block block) {
@@ -53,13 +52,11 @@ public interface Oxidizable extends net.minecraft.block.Oxidizable
 
 	@Override
 	default Optional<BlockState> getDegradationResult(BlockState state) {
-		return getIncreasedOxidationBlock(state.getBlock()).map((block) -> {
-			return block.getStateWithProperties(state);
-		});
+		return getIncreasedOxidationBlock(state.getBlock()).map((block) -> block.getStateWithProperties(state));
 	}
 
 	@Override
 	default float getDegradationChanceMultiplier() {
-		return this.getDegradationLevel() == Oxidizable.OxidationLevel.UNAFFECTED ? 0.75F:1.0F;
+		return this.getDegradationLevel() == OxidationLevel.UNAFFECTED ? 0.75F:1.0F;
 	}
 }

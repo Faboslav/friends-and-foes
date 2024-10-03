@@ -18,7 +18,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
@@ -30,7 +29,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
 import java.util.ArrayList;
 
 @Mixin(value = LightningRodBlock.class, priority = 1001)
@@ -229,8 +227,7 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 		BlockHitResult hit,
 		CallbackInfoReturnable<ActionResult> cir
 	) {
-		Hand hand = Hand.MAIN_HAND;
-		var actionResult = OnUseOxidizable.onOxidizableUse(state, world, pos, player, hand, hit);
+		var actionResult = OnUseOxidizable.onOxidizableUse(state, world, pos, player, hit);
 
 		if (actionResult.isAccepted()) {
 			cir.setReturnValue(actionResult);

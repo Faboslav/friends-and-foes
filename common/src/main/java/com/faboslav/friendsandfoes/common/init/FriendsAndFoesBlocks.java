@@ -60,7 +60,7 @@ public final class FriendsAndFoesBlocks
 			.map(RegistryEntry::get)
 			.filter(block -> block instanceof BeehiveBlock && (block != WARPED_BEEHIVE && block != CRIMSON_BEEHIVE)) // TODO check this
 			.map(block -> (BeehiveBlock) block)
-			.forEach(item -> event.register(ACACIA_BEEHIVE.get(), 20, 5));
+			.forEach(block -> event.register(block, 20, 5));
 	}
 
 	private FriendsAndFoesBlocks() {

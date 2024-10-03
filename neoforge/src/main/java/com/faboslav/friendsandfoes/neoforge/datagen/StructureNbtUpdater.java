@@ -27,72 +27,73 @@ import java.nio.file.Path;
 import java.util.concurrent.CompletableFuture;
 
 // Source: https://github.com/BluSunrize/ImmersiveEngineering/blob/1.20.1/src/datagen/java/blusunrize/immersiveengineering/data/StructureUpdater.java
-public class StructureNbtUpdater implements DataProvider {
-    private final String basePath;
-    private final String modid;
-    private final DataOutput output;
-    private final LifecycledResourceManagerImpl resources;
+public class StructureNbtUpdater implements DataProvider
+{
+	private final String basePath;
+	private final String modid;
+	private final DataOutput output;
+	private final LifecycledResourceManagerImpl resources;
 
-    public StructureNbtUpdater(String basePath, String modid, ExistingFileHelper helper, DataOutput output) {
-        this.basePath = basePath;
-        this.modid = modid;
-        this.output = output;
+	public StructureNbtUpdater(String basePath, String modid, ExistingFileHelper helper, DataOutput output) {
+		this.basePath = basePath;
+		this.modid = modid;
+		this.output = output;
 
-        try {
-            Field serverData = ExistingFileHelper.class.getDeclaredField("serverData");
-            serverData.setAccessible(true);
-            resources = (LifecycledResourceManagerImpl) serverData.get(helper);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-    }
+		try {
+			Field serverData = ExistingFileHelper.class.getDeclaredField("serverData");
+			serverData.setAccessible(true);
+			resources = (LifecycledResourceManagerImpl) serverData.get(helper);
+		} catch (NoSuchFieldException | IllegalAccessException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
-    @Override
-    public @NotNull CompletableFuture<?> run(@Nonnull DataWriter cache) {
-        try {
-            for (var entry : resources.findResources(basePath, $ -> true).entrySet()) {
-                if (entry.getKey().getNamespace().equals(modid)) {
-                    process(entry.getKey(), entry.getValue(), cache);
-                }
-            }
-            return CompletableFuture.completedFuture(null);
-        } catch (IOException x) {
-            return CompletableFuture.failedFuture(x);
-        }
-    }
+	@Override
+	public @NotNull CompletableFuture<?> run(@Nonnull DataWriter cache) {
+		try {
+			for (var entry : resources.findResources(basePath, $ -> true).entrySet()) {
+				if (entry.getKey().getNamespace().equals(modid)) {
+					process(entry.getKey(), entry.getValue(), cache);
+				}
+			}
+			return CompletableFuture.completedFuture(null);
+		} catch (IOException x) {
+			return CompletableFuture.failedFuture(x);
+		}
+	}
 
-    private void process(Identifier loc, Resource resource, DataWriter cache) throws IOException {
-        NbtCompound inputNBT = NbtIo.readCompressed(resource.getInputStream(), NbtSizeTracker.ofUnlimitedBytes());
-        NbtCompound converted = updateNBT(inputNBT);
-        if (!converted.equals(inputNBT)) {
-            Class<? extends DataFixer> fixerClass = Schemas.getFixer().getClass();
-            if (!fixerClass.equals(DataFixerUpper.class)) {
-                throw new RuntimeException("Structures are not up to date, but unknown data fixer is in use: " + fixerClass.getName());
-            }
-            writeNBTTo(loc, converted, cache);
-        }
-    }
+	private void process(Identifier loc, Resource resource, DataWriter cache) throws IOException {
+		NbtCompound inputNBT = NbtIo.readCompressed(resource.getInputStream(), NbtSizeTracker.ofUnlimitedBytes());
+		NbtCompound converted = updateNBT(inputNBT);
+		if (!converted.equals(inputNBT)) {
+			Class<? extends DataFixer> fixerClass = Schemas.getFixer().getClass();
+			if (!fixerClass.equals(DataFixerUpper.class)) {
+				throw new RuntimeException("Structures are not up to date, but unknown data fixer is in use: " + fixerClass.getName());
+			}
+			writeNBTTo(loc, converted, cache);
+		}
+	}
 
-    private void writeNBTTo(Identifier loc, NbtCompound data, DataWriter cache) throws IOException {
-        ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
-        NbtIo.writeCompressed(data, bytearrayoutputstream);
-        byte[] bytes = bytearrayoutputstream.toByteArray();
-        Path outputPath = output.getPath().resolve("data/" + loc.getNamespace() + "/" + loc.getPath());
-        cache.write(outputPath, bytes, Hashing.sha1().hashBytes(bytes));
-    }
+	private void writeNBTTo(Identifier loc, NbtCompound data, DataWriter cache) throws IOException {
+		ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
+		NbtIo.writeCompressed(data, bytearrayoutputstream);
+		byte[] bytes = bytearrayoutputstream.toByteArray();
+		Path outputPath = output.getPath().resolve("data/" + loc.getNamespace() + "/" + loc.getPath());
+		cache.write(outputPath, bytes, Hashing.sha1().hashBytes(bytes));
+	}
 
-    private static NbtCompound updateNBT(NbtCompound nbt) {
-        final NbtCompound updatedNBT = DataFixTypes.STRUCTURE.update(
-                Schemas.getFixer(), nbt, nbt.getInt("DataVersion")
-        );
-        StructureTemplate template = new StructureTemplate();
-        template.readNbt(Registries.BLOCK.getReadOnlyWrapper(), updatedNBT);
-        return template.writeNbt(new NbtCompound());
-    }
+	private static NbtCompound updateNBT(NbtCompound nbt) {
+		final NbtCompound updatedNBT = DataFixTypes.STRUCTURE.update(
+			Schemas.getFixer(), nbt, nbt.getInt("DataVersion")
+		);
+		StructureTemplate template = new StructureTemplate();
+		template.readNbt(Registries.BLOCK.getReadOnlyWrapper(), updatedNBT);
+		return template.writeNbt(new NbtCompound());
+	}
 
-    @Nonnull
-    @Override
-    public String getName() {
-        return "Update structure files in " + basePath;
-    }
+	@Nonnull
+	@Override
+	public String getName() {
+		return "Update structure files in " + basePath;
+	}
 }

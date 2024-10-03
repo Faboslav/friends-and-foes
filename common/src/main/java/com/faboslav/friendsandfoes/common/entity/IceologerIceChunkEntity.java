@@ -254,7 +254,7 @@ public final class IceologerIceChunkEntity extends Entity
 		if (livingEntity == null) {
 			damageSource = this.getDamageSources().magic();
 		} else {
-			damageSource =this.getDamageSources().indirectMagic(this, livingEntity);
+			damageSource = this.getDamageSources().indirectMagic(this, livingEntity);
 		}
 
 		hitEntity.damage(damageSource, 12.0F);

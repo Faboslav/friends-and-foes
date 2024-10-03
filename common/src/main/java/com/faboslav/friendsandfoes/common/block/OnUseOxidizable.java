@@ -27,6 +27,28 @@ public final class OnUseOxidizable
 		World world,
 		BlockPos blockPos,
 		PlayerEntity player,
+		BlockHitResult hit
+	) {
+		for (Hand hand : Hand.values()) {
+			ItemStack itemStack = player.getStackInHand(hand);
+			if (itemStack.getItem() instanceof HoneycombItem || itemStack.getItem() instanceof AxeItem) {
+				var actionResult = OnUseOxidizable.onOxidizableUseHand(blockState, world, blockPos, player, hand, hit);
+
+				if (actionResult.isAccepted()) {
+					player.swingHand(hand);
+					return actionResult;
+				}
+			}
+		}
+
+		return ActionResult.PASS;
+	}
+
+	public static ActionResult onOxidizableUseHand(
+		BlockState blockState,
+		World world,
+		BlockPos blockPos,
+		PlayerEntity player,
 		Hand hand,
 		BlockHitResult hit
 	) {
@@ -50,7 +72,7 @@ public final class OnUseOxidizable
 				world.emitGameEvent(GameEvent.BLOCK_CHANGE, blockPos, GameEvent.Emitter.of(player, possibleWaxedState.get()));
 				world.syncWorldEvent(player, 3003, blockPos, 0);
 
-				return ActionResult.success(world.isClient);
+				return ActionResult.success(false);
 			}
 		} else if (itemInHand instanceof AxeItem) {
 			Optional<BlockState> possibleUnWaxedState = OnUseOxidizable.getUnWaxedState(blockState);
@@ -69,7 +91,7 @@ public final class OnUseOxidizable
 
 			if (possibleState.isPresent()) {
 				if (player instanceof ServerPlayerEntity) {
-					Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity)player, blockPos, itemStack);
+					Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) player, blockPos, itemStack);
 				}
 
 				world.setBlockState(blockPos, possibleState.get(), 11);
@@ -79,7 +101,7 @@ public final class OnUseOxidizable
 					itemStack.damage(1, player, LivingEntity.getSlotForHand(hand));
 				}
 
-				return ActionResult.success(world.isClient);
+				return ActionResult.success(false);
 			} else {
 				return ActionResult.PASS;
 			}

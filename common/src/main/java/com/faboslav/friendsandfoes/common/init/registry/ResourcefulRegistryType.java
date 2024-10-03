@@ -8,15 +8,16 @@ package com.faboslav.friendsandfoes.common.init.registry;
  * @author ThatGravyBoat
  * <a href="https://github.com/Team-Resourceful/ResourcefulLib">https://github.com/Team-Resourceful/ResourcefulLib</a>
  */
-public final class ResourcefulRegistryType<D, T extends ResourcefulRegistry<D>> {
-    private final Class<T> type;
+public final class ResourcefulRegistryType<D, T extends ResourcefulRegistry<D>>
+{
+	private final Class<T> type;
 
-    private ResourcefulRegistryType(Class<T> type) {
-        this.type = type;
-    }
+	private ResourcefulRegistryType(Class<T> type) {
+		this.type = type;
+	}
 
-    @Override
-    public String toString() {
-        return "ResourcefulRegistryType{type=" + type + "}";
-    }
+	@Override
+	public String toString() {
+		return "ResourcefulRegistryType{type=" + type + "}";
+	}
 }

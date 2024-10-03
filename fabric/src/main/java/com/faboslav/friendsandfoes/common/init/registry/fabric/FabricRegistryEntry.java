@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes.common.init.registry.fabric;
 import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
+
 import java.util.function.Supplier;
 
 /**

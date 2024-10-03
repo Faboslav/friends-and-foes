@@ -9,7 +9,6 @@
 	},
 	"mixins": [
 		"AddCustomEntityPoseMixin",
-		"AxeItemMixin",
 		"BeeEntityAccessor",
 		"BeeEntityMixin",
 		"BeeEntityMoveToFlowerGoalMixin",
@@ -19,7 +18,6 @@
 		"BlindTargetGoalFactory",
 		"CarvedPumpkinBlockMixin",
 		"ChickenEntityMixin",
-		"HoneycombItemMixin",
 		"IllusionerEntityMixin",
 		"IllusionerHostileEntityMixin",
 		"IllusionerRaiderEntityMixin",

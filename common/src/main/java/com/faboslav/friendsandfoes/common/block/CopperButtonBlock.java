@@ -6,7 +6,6 @@ import net.minecraft.block.ButtonBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -30,8 +29,7 @@ public class CopperButtonBlock extends ButtonBlock
 		PlayerEntity player,
 		BlockHitResult hit
 	) {
-		Hand hand = Hand.MAIN_HAND;
-		var actionResult = OnUseOxidizable.onOxidizableUse(state, world, pos, player, hand, hit);
+		var actionResult = OnUseOxidizable.onOxidizableUse(state, world, pos, player, hit);
 
 		if (actionResult.isAccepted()) {
 			return actionResult;

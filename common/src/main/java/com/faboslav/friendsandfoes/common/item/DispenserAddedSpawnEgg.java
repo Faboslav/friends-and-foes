@@ -19,6 +19,7 @@ import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.util.math.BlockPointer;
 import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;

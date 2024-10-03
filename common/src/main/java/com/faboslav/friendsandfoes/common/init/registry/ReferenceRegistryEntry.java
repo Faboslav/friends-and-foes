@@ -8,12 +8,11 @@ package com.faboslav.friendsandfoes.common.init.registry;
  * @author ThatGravyBoat
  * <a href="https://github.com/Team-Resourceful/ResourcefulLib">https://github.com/Team-Resourceful/ResourcefulLib</a>
  */
-public interface ReferenceRegistryEntry<T> extends RegistryEntry<T>
-{
-	net.minecraft.registry.entry.RegistryEntry<T> referenceRegistryEntry();
+public interface ReferenceRegistryEntry<T> extends RegistryEntry<T> {
+    net.minecraft.registry.entry.RegistryEntry<T> referenceRegistryEntry();
 
-	@Override
-	default T get() {
-		return referenceRegistryEntry().value();
-	}
+    @Override
+    default T get() {
+        return referenceRegistryEntry().value();
+    }
 }

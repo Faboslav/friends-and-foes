@@ -4,7 +4,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
@@ -52,8 +51,7 @@ public final class OxidizableButtonBlock extends CopperButtonBlock implements Fr
 		PlayerEntity player,
 		BlockHitResult hit
 	) {
-		Hand hand = Hand.MAIN_HAND;
-		var actionResult = OnUseOxidizable.onOxidizableUse(state, world, pos, player, hand, hit);
+		var actionResult = OnUseOxidizable.onOxidizableUse(state, world, pos, player, hit);
 
 		if (actionResult.isAccepted()) {
 			return actionResult;

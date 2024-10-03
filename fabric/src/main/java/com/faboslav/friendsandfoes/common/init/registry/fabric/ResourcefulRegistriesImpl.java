@@ -12,7 +12,7 @@ import net.minecraft.registry.Registry;
  * @author ThatGravyBoat
  * <a href="https://github.com/Team-Resourceful/ResourcefulLib">https://github.com/Team-Resourceful/ResourcefulLib</a>
  */
-public class ResourcefulRegistriesImpl
+public final class ResourcefulRegistriesImpl
 {
 	public static <T> ResourcefulRegistry<T> create(Registry<T> registry, String id) {
 		return new FabricResourcefulRegistry<>(registry, id);

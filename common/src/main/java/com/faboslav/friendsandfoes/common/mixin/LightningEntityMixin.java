@@ -1,8 +1,9 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
+import com.faboslav.friendsandfoes.common.block.FriendsAndFoesOxidizable;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.LightningRodBlock;
 import net.minecraft.block.Oxidizable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -14,8 +15,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.Iterator;
 import java.util.Optional;
@@ -30,78 +29,68 @@ public abstract class LightningEntityMixin extends Entity
 	@Shadow
 	protected abstract BlockPos getAffectedBlockPos();
 
-	@ModifyExpressionValue(
-		method = "powerLightningRod",
-		at = @At(
-			value = "INVOKE",
-			target = "Lnet/minecraft/block/BlockState;isOf(Lnet/minecraft/block/Block;)Z"
-		)
-	)
-	private boolean friendsandfoes_expandPowerLightningRodIsLightningRodCondition(boolean original) {
-		BlockPos blockPos = this.getAffectedBlockPos();
-		BlockState blockState = this.getWorld().getBlockState(blockPos);
-
-		return original || blockState.isIn(FriendsAndFoesTags.LIGHTNING_RODS);
-	}
-
 	@Inject(
-		at = @At(
-			value = "INVOKE",
-			target = "net/minecraft/entity/LightningEntity.powerLightningRod ()V",
-			ordinal = 0,
-			shift = At.Shift.AFTER
-		),
-		method = "tick()V"
+		at = @At("TAIL"),
+		method = "powerLightningRod"
 	)
-	private void friendsandfoes_cleanLightningRodOxidation(CallbackInfo ci) {
+	private void friendsandfoes$powerLightningRod(
+		CallbackInfo ci
+	) {
 		BlockPos blockPos = this.getAffectedBlockPos();
 		BlockState blockState = this.getWorld().getBlockState(blockPos);
 
 		if (blockState.isIn(FriendsAndFoesTags.LIGHTNING_RODS)) {
 			this.getWorld().setBlockState(
 				blockPos,
-				Oxidizable.getUnaffectedOxidationState(this.getWorld().getBlockState(blockPos))
+				FriendsAndFoesOxidizable.getUnaffectedOxidationState(this.getWorld().getBlockState(blockPos))
 			);
+
+			((LightningRodBlock) this.getWorld().getBlockState(blockPos).getBlock()).setPowered(blockState, this.getWorld(), blockPos);
 		}
 	}
 
-	@ModifyExpressionValue(
-		method = "cleanOxidation",
-		at = @At(
-			value = "INVOKE",
-			target = "net/minecraft/block/BlockState.isOf (Lnet/minecraft/block/Block;)Z"
-		)
-	)
-	private static boolean friendsandfoes_expandCleanOxidationRodIsLightningRodCondition(
-		boolean original,
-		World world,
-		BlockPos pos
-	) {
-		BlockState blockState = world.getBlockState(pos);
-
-		return original || blockState.isIn(FriendsAndFoesTags.LIGHTNING_RODS);
-	}
 
 	@Inject(
-		at = @At(
-			value = "INVOKE",
-			target = "net/minecraft/block/Oxidizable.getDecreasedOxidationState (Lnet/minecraft/block/BlockState;)Ljava/util/Optional;",
-			ordinal = 0,
-			shift = At.Shift.AFTER
-		),
-		method = "cleanOxidationAround(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)Ljava/util/Optional;",
-		locals = LocalCapture.CAPTURE_FAILSOFT
+		at = @At("HEAD"),
+		method = "cleanOxidationAround(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/BlockPos$Mutable;I)V"
 	)
-	private static void friendsandfoes_decreaseCustomOxidationStates(
+	private static void friendsandfoes$cleanOxidationAround(
 		World world,
 		BlockPos pos,
-		CallbackInfoReturnable<Optional<BlockPos>> cir,
-		Iterator<BlockPos> blockPosIterator,
-		BlockPos blockPos,
-		BlockState blockState
+		BlockPos.Mutable mutablePos,
+		int count,
+		CallbackInfo ci
 	) {
-		Oxidizable.getDecreasedOxidationState(blockState).ifPresent((state) -> {
-			world.setBlockState(blockPos, state);
-		});
+		mutablePos.set(pos);
+
+		for (int i = 0; i < count; ++i) {
+			Optional<BlockPos> optional = friendsandfoes$cleanOxidationAround(world, mutablePos);
+			if (!optional.isPresent()) {
+				break;
+			}
+
+			mutablePos.set(optional.get());
+		}
+	}
+
+	private static Optional<BlockPos> friendsandfoes$cleanOxidationAround(World world, BlockPos pos) {
+		Iterator var2 = BlockPos.iterateRandomly(world.getRandom(), 10, pos, 1).iterator();
+
+		BlockPos blockPos;
+		BlockState blockState;
+		do {
+			if (!var2.hasNext()) {
+				return Optional.empty();
+			}
+
+			blockPos = (BlockPos) var2.next();
+			blockState = world.getBlockState(blockPos);
+		} while (!(blockState.getBlock() instanceof Oxidizable));
+
+		BlockPos finalBlockPos = blockPos;
+		FriendsAndFoesOxidizable.getDecreasedOxidationState(blockState).ifPresent((state) -> world.setBlockState(finalBlockPos, state));
+
+		world.syncWorldEvent(3002, blockPos, -1);
+		return Optional.of(blockPos);
 	}
 }

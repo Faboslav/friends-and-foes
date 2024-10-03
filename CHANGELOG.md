@@ -1,3 +1,9 @@
+## 3.0.4
+
+- Improved internal registries logic (Might fix some crashes)
+- Fixed crashes with mods like Caverns & Chasms, Unvoted & Shelved and Sinytra Connector
+- Fixed block flammability
+
 ## 3.0.3
 
 - Fixed crash related to catalogue

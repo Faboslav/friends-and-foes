@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.common.init;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-import com.faboslav.friendsandfoes.common.block.Oxidizable;
 import com.faboslav.friendsandfoes.common.block.CopperButtonBlock;
 import com.faboslav.friendsandfoes.common.block.CrabEggBlock;
 import com.faboslav.friendsandfoes.common.block.OxidizableButtonBlock;
@@ -62,13 +61,13 @@ public final class FriendsAndFoesBlocks {
         event.register(RenderLayer.getCutout(), FriendsAndFoesBlocks.POTTED_BUTTERCUP.get());
     }
 
-    public static void registerFlammablity(RegisterFlammabilityEvent event) {
-        FriendsAndFoesBlocks.BLOCKS.stream()
-                .map(RegistryEntry::get)
-                .filter(block -> block instanceof BeehiveBlock && (block != WARPED_BEEHIVE && block != CRIMSON_BEEHIVE)) // TODO check this
-                .map(block -> (BeehiveBlock) block)
-                .forEach(item -> event.register(ACACIA_BEEHIVE.get(), 20, 5));
-    }
+	public static void registerFlammablity(RegisterFlammabilityEvent event) {
+		FriendsAndFoesBlocks.BLOCKS.stream()
+			.map(RegistryEntry::get)
+			.filter(block -> block instanceof BeehiveBlock && (block != WARPED_BEEHIVE && block != CRIMSON_BEEHIVE)) // TODO check this
+			.map(block -> (BeehiveBlock) block)
+			.forEach(block -> event.register(block, 20, 5));
+	}
 
     private FriendsAndFoesBlocks() {
     }

@@ -17,8 +17,8 @@ public class ResourcefulRegistriesImpl
 		return new NeoForgeResourcefulRegistry<>(registry, id);
 	}
 
-	@SuppressWarnings("unchecked")
 	public static <D, T extends ResourcefulRegistry<D>> T create(ResourcefulRegistryType<D, T> type, String id) {
 		throw new IllegalArgumentException("Unknown registry type: " + type);
 	}
 }
+

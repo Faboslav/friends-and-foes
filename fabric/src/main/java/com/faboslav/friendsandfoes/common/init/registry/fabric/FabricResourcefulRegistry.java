@@ -20,6 +20,7 @@ import java.util.function.Supplier;
  * @author ThatGravyBoat
  * <a href="https://github.com/Team-Resourceful/ResourcefulLib">https://github.com/Team-Resourceful/ResourcefulLib</a>
  */
+@SuppressWarnings({"unchecked"})
 public class FabricResourcefulRegistry<T> implements ResourcefulRegistry<T>
 {
 	private final RegistryEntries<T> entries = new RegistryEntries<>();
@@ -48,6 +49,7 @@ public class FabricResourcefulRegistry<T> implements ResourcefulRegistry<T>
 	@Override
 	public ReferenceRegistryEntry<T> registerReference(String id, Supplier<T> supplier) {
 		return entries.add(FabricHolderRegistryEntry.of(this.registry, Identifier.of(this.id, id), supplier));
+
 	}
 
 	@Override

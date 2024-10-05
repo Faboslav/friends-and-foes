@@ -58,8 +58,11 @@ public final class FriendsAndFoesBlocks
 
 	@Environment(EnvType.CLIENT)
 	public static void registerRenderLayers(RegisterRenderLayersEvent event) {
-		event.register(RenderLayer.getCutout(), FriendsAndFoesBlocks.BUTTERCUP.get());
-		event.register(RenderLayer.getCutout(), FriendsAndFoesBlocks.POTTED_BUTTERCUP.get());
+		event.register(
+			RenderLayer.getCutout(),
+			FriendsAndFoesBlocks.BUTTERCUP.get(),
+			FriendsAndFoesBlocks.POTTED_BUTTERCUP.get()
+		);
 	}
 
 	public static void registerFlammablity(RegisterFlammabilityEvent event) {

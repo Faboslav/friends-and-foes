@@ -3,6 +3,8 @@
 - Improved internal registries logic (Might fix some crashes)
 - Fixed crashes with mods like Caverns & Chasms, Unvoted & Shelved and Sinytra Connector
 - Fixed block flammability
+- Fixed white texture on buttercup
+- Updated es_cl translations (Thanks to Ganbare-Lucifer)
 
 ## 3.0.3
 

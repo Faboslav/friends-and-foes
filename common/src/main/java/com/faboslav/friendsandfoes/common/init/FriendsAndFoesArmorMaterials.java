@@ -33,7 +33,7 @@ public class FriendsAndFoesArmorMaterials
 			enumMap.put(ArmorItem.Type.HELMET, 3);
 			enumMap.put(ArmorItem.Type.BODY, 11);
 		}),
-		15,
+		9,
 		SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE,
 		1.0F,
 		0.0F,

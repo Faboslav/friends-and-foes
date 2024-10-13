@@ -3,15 +3,14 @@ package com.faboslav.friendsandfoes.neoforge;
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.FriendsAndFoesClient;
 import com.faboslav.friendsandfoes.common.config.ConfigScreenBuilder;
-import com.faboslav.friendsandfoes.common.events.client.RegisterEntityLayersEvent;
-import com.faboslav.friendsandfoes.common.events.client.RegisterEntityRenderersEvent;
-import com.faboslav.friendsandfoes.common.events.client.RegisterItemColorEvent;
-import com.faboslav.friendsandfoes.common.events.client.RegisterParticlesEvent;
+import com.faboslav.friendsandfoes.common.events.client.*;
+import com.faboslav.friendsandfoes.common.events.lifecycle.ClientSetupEvent;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesItems;
 import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
 import com.faboslav.friendsandfoes.common.item.DispenserAddedSpawnEgg;
 import net.minecraft.client.particle.ParticleFactory;
 import net.minecraft.client.particle.SpriteProvider;
+import net.minecraft.client.render.RenderLayers;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleType;
 import net.neoforged.bus.api.IEventBus;
@@ -38,6 +37,9 @@ public final class FriendsAndFoesNeoForgeClient
 	}
 
 	public static void onClientSetup(final FMLClientSetupEvent event) {
+		ClientSetupEvent.EVENT.invoke(new ClientSetupEvent(Runnable::run));
+		RegisterRenderLayersEvent.EVENT.invoke(new RegisterRenderLayersEvent(RenderLayers::setRenderLayer, RenderLayers::setRenderLayer));
+
 		event.enqueueWork(() -> {
 			if (ModList.get().isLoaded("cloth_config")) {
 				ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory.class, () -> (client, screen) -> {

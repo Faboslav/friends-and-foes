@@ -4,6 +4,7 @@
 - Fixed crashes with mods like Caverns & Chasms, Unvoted & Shelved and Sinytra Connector
 - Fixed block flammability
 - Fixed white texture on buttercup
+- Fixed wildfire crown enchantability on newer minecraft versions (again)
 - Updated es_cl translations (Thanks to Ganbare-Lucifer)
 
 ## 3.0.3

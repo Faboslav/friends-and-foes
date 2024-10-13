@@ -1,3 +1,7 @@
+## 3.0.5
+
+- Fixed server crash
+
 ## 3.0.4
 
 - Improved internal registries logic (Might fix some crashes)

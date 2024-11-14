@@ -28,3 +28,4 @@ accessible method net/minecraft/particle/DefaultParticleType <init> (Z)V
 accessible method net/minecraft/block/AbstractButtonBlock getClickSound (Z)Lnet/minecraft/sound/SoundEvent;
 accessible method net/minecraft/entity/ai/brain/sensor/SensorType <init> (Ljava/util/function/Supplier;)V
 accessible method net/minecraft/entity/effect/StatusEffect <init> (Lnet/minecraft/entity/effect/StatusEffectCategory;I)V
+accessible method net/minecraft/block/ComposterBlock registerCompostableItem (FLnet/minecraft/item/ItemConvertible;)V

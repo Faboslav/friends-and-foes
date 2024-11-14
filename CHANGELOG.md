@@ -3,6 +3,7 @@
 - Fixed strong potion of reaching duration
 - Fixed iceologer model
 - Fixed carpet profiler incompatibility
+- Fixed buttercup not being compostable
 - Added more config options
 - Added zh_tw translations (Thanks to Lobster0228)
 - Added fr_fr translations (Thanks to Franco227)

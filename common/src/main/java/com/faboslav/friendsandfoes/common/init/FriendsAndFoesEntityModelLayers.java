@@ -8,6 +8,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.render.entity.model.CowEntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
+import net.minecraft.client.render.entity.model.IllagerEntityModel;
 
 /**
  * @see EntityModelLayers
@@ -18,6 +19,7 @@ public final class FriendsAndFoesEntityModelLayers
 	public static final EntityModelLayer COPPER_GOLEM_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("copper_golem"), "main");
 	public static final EntityModelLayer CRAB_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("crab"), "main");
 	public static final EntityModelLayer GLARE_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("glare"), "main");
+	public static final EntityModelLayer ICEOLOGER_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("iceologer"), "main");
 	public static final EntityModelLayer ICEOLOGER_ICE_CHUNK_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("iceologer_ice_chunk"), "main");
 	public static final EntityModelLayer MAULER_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("mauler"), "main");
 	public static final EntityModelLayer MOOBLOOM_LAYER = new EntityModelLayer(FriendsAndFoes.makeID("moobloom"), "main");
@@ -29,6 +31,7 @@ public final class FriendsAndFoesEntityModelLayers
 		event.register(COPPER_GOLEM_LAYER, CopperGolemEntityModel::getTexturedModelData);
 		event.register(CRAB_LAYER, CrabEntityModel::getTexturedModelData);
 		event.register(GLARE_LAYER, GlareEntityModel::getTexturedModelData);
+		event.register(ICEOLOGER_LAYER, IllagerEntityModel::getTexturedModelData);
 		event.register(ICEOLOGER_ICE_CHUNK_LAYER, IceologerIceChunkModel::getTexturedModelData);
 		event.register(MAULER_LAYER, MaulerEntityModel::getTexturedModelData);
 		event.register(MOOBLOOM_LAYER, CowEntityModel::getTexturedModelData);

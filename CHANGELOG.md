@@ -1,3 +1,10 @@
+## 3.0.6
+
+- Fixed strong potion of reaching duration
+- Fixed iceologer model
+- Updated advancements
+- Added more config options
+
 ## 3.0.5
 
 - Fixed server crash

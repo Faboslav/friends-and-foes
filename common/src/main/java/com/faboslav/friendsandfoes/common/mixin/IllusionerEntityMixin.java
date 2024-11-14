@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.config.FriendsAndFoesConfig;
 import com.faboslav.friendsandfoes.common.entity.IllusionerEntityAccess;
 import com.llamalad7.mixinextras.injector.WrapWithCondition;
 import net.minecraft.entity.Entity;
@@ -41,9 +42,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public abstract class IllusionerEntityMixin extends IllusionerSpellcastingIllagerEntityMixin implements RangedAttackMob, IllusionerEntityAccess
 {
-	private static final int MAX_ILLUSIONS_COUNT = 9;
-	private static final int ILLUSION_LIFETIME_TICKS = 600;
-	private static final int INVISIBILITY_TICKS = 60;
+	private static final int MAX_ILLUSIONS_COUNT = FriendsAndFoes.getConfig().maxIllusionsCount;
+	private static final int ILLUSION_LIFETIME_TICKS = FriendsAndFoes.getConfig().illusionLifetimeTicks;
+	private static final int INVISIBILITY_TICKS =  FriendsAndFoes.getConfig().invisibilityTicks;
 
 	private static final String IS_ILLUSION_NBT_NAME = "IsIllusion";
 	private static final String WAS_ATTACKED_NBT_NAME = "WasAttacked";

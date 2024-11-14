@@ -17,5 +17,5 @@ public final class FriendsAndFoesPotions
 
 	public static final RegistryEntry<Potion> REACHING = POTIONS.register("reaching", () -> new Potion(new StatusEffectInstance(FriendsAndFoesStatusEffects.REACH.get(), 72000)));
 	public static final RegistryEntry<Potion> LONG_REACHING = POTIONS.register("long_reaching", () -> new Potion("reaching", new StatusEffectInstance(FriendsAndFoesStatusEffects.REACH.get(), 144000)));
-	public static final RegistryEntry<Potion> STRONG_REACHING = POTIONS.register("strong_reaching", () -> new Potion("reaching", new StatusEffectInstance(FriendsAndFoesStatusEffects.REACH.get(), 1800, 1)));
+	public static final RegistryEntry<Potion> STRONG_REACHING = POTIONS.register("strong_reaching", () -> new Potion("reaching", new StatusEffectInstance(FriendsAndFoesStatusEffects.REACH.get(), 36000, 1)));
 }

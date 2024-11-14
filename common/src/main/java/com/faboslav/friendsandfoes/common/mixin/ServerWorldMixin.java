@@ -60,6 +60,7 @@ public abstract class ServerWorldMixin extends World implements StructureWorldAc
 			int j = chunkPos.getStartZ();
 			Profiler profiler = this.getProfiler();
 			profiler.push("thunder2");
+
 			if (
 				this.isRaining()
 				&& this.isThundering()
@@ -83,6 +84,8 @@ public abstract class ServerWorldMixin extends World implements StructureWorldAc
 
 				this.spawnEntity(lightningEntity);
 			}
+
+			profiler.pop();
 		}
 	}
 

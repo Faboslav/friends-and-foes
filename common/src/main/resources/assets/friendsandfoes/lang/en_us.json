@@ -65,6 +65,7 @@
 	"entity.friendsandfoes.mauler": "Mauler",
 	"entity.friendsandfoes.tuff_golem": "Tuff Golem",
 	"entity.friendsandfoes.wildfire": "Wildfire",
+	"entity.friendsandfoes.player_illusion": "Player Illusion",
 	"effect.friendsandfoes.reach": "Reach",
 	"effect.friendsandfoes.reach.description": "Increases the range of block interaction.",
 	"item.friendsandfoes.buttercup": "Buttercup",

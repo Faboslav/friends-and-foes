@@ -2,8 +2,11 @@
 
 - Fixed strong potion of reaching duration
 - Fixed iceologer model
-- Updated advancements
 - Added more config options
+- Added zh_tw translations (Thanks to Lobster0228)
+- Added fr_fr translations (Thanks to Franco227)
+- Updated advancements
+- Updated uk_ua translations (Thanks to unroman)
 
 ## 3.0.5
 

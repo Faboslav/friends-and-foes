@@ -144,6 +144,15 @@ public final class FriendsAndFoesConfig implements Config
 	@Description("Generate illusioner training grounds")
 	public boolean generateIllusionerTrainingGroundsStructure = true;
 
+	@Description("Maximum count of illusions")
+	public int maxIllusionsCount = 9;
+
+	@Description("Number of ticks before illusion will despawn (20 ticks = 1 second)")
+	public int illusionLifetimeTicks = 600;
+
+	@Description("Number of invisibility ticks  (20 ticks = 1 second)")
+	public int invisibilityTicks = 60;
+
 	@Category("Zombie Horse")
 	@Description("Enable trap")
 	public boolean enableZombieHorseTrap = true;

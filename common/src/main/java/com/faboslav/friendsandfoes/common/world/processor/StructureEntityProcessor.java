@@ -1,4 +1,4 @@
-package com.yungnickyoung.minecraft.yungsapi.world.processor;
+package com.faboslav.friendsandfoes.common.world.processor;
 
 import net.minecraft.structure.StructurePlacementData;
 import net.minecraft.structure.StructureTemplate.StructureEntityInfo;
@@ -7,7 +7,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ServerWorldAccess;
 
 /**
- * This is very important placeholder for compatibilitty (
  * Originally from YUNG's API by.
  * YUNGNICKYOUNG (https://github.com/YUNG-GANG/YUNGs-API)
  */

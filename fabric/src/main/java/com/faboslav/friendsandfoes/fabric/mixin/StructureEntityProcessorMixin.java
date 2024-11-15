@@ -126,7 +126,7 @@ public final class StructureEntityProcessorMixin
 					if (ctx.structurePlacementData().shouldInitializeMobs() && entity instanceof MobEntity) {
 						((MobEntity) entity).initialize(
 							serverWorldAccess,
-							serverWorldAccess.getLocalDifficulty(new BlockPos(entityPos)),
+							serverWorldAccess.getLocalDifficulty(BlockPos.ofFloored(entityPos)),
 							SpawnReason.STRUCTURE,
 							null,
 							entityNbt

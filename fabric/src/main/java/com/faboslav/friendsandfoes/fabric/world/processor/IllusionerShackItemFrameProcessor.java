@@ -3,7 +3,7 @@ package com.faboslav.friendsandfoes.fabric.world.processor;
 import com.faboslav.friendsandfoes.common.init.fabric.FriendsAndFoesStructureProcessorTypesImpl;
 import com.faboslav.friendsandfoes.common.util.world.processor.IllusionerShackItemFrameProcessorHelper;
 import com.mojang.serialization.Codec;
-import com.yungnickyoung.minecraft.yungsapi.world.processor.StructureEntityProcessor;
+import com.faboslav.friendsandfoes.common.world.processor.StructureEntityProcessor;
 import net.minecraft.structure.StructurePlacementData;
 import net.minecraft.structure.StructureTemplate;
 import net.minecraft.structure.StructureTemplate.StructureEntityInfo;

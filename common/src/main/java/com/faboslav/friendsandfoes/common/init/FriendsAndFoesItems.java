@@ -6,6 +6,7 @@ import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistries;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
 import com.faboslav.friendsandfoes.common.item.DispenserAddedSpawnEgg;
 import com.faboslav.friendsandfoes.common.item.FriendsAndFoesArmorMaterials;
+import net.minecraft.block.ComposterBlock;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.BlockItem;
@@ -65,5 +66,9 @@ public final class FriendsAndFoesItems
 	public final static RegistryEntry<Item> TOTEM_OF_ILLUSION = ITEMS.register("totem_of_illusion", () -> new Item((new Item.Settings()).maxCount(1).rarity(Rarity.UNCOMMON)));
 
 	private FriendsAndFoesItems() {
+	}
+
+	public static void registerCompostableItems() {
+		ComposterBlock.registerCompostableItem(0.65F, FriendsAndFoesItems.BUTTERCUP.get());
 	}
 }

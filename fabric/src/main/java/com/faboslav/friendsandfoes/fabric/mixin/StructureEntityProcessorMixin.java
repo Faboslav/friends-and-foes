@@ -128,12 +128,7 @@ public final class StructureEntityProcessorMixin
 							serverWorldAccess,
 							serverWorldAccess.getLocalDifficulty(BlockPos.ofFloored(entityPos)),
 							SpawnReason.STRUCTURE,
-<<<<<<< HEAD
 							null
-=======
-							null,
-							entityNbt
->>>>>>> 1.20.4
 						);
 					}
 

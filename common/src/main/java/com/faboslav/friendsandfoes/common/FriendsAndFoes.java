@@ -76,6 +76,7 @@ public final class FriendsAndFoes
 
 	public static void lateInit() {
 		FriendsAndFoesBlockEntityTypes.lateInit();
+		FriendsAndFoesItems.registerCompostableItems();
 		BiomeModifications.addButtercupFeature();
 	}
 

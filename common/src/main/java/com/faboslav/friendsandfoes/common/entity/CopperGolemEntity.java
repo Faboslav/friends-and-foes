@@ -13,6 +13,9 @@ import com.faboslav.friendsandfoes.common.mixin.LimbAnimatorAccessor;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.util.MovementUtil;
 import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
+import com.faboslav.friendsandfoes.common.versions.VersionedActionResult;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntrityAttributes;
+import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Oxidizable;
@@ -21,7 +24,6 @@ import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.control.LookControl;
 import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -59,7 +61,9 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 	private AnimationContextTracker animationContextTracker;
 	private static final TrackedData<Integer> POSE_TICKS;
 
+	private static final float MAX_HEALTH = 20.0F;
 	private static final float MOVEMENT_SPEED = 0.2F;
+	private static final float KNOCKBACK_RESISTANCE = 1.0F;
 	private static final int COPPER_INGOT_HEAL_AMOUNT = 5;
 	private static final float SPARK_CHANCE = 0.025F;
 	private static final float OXIDATION_CHANCE = 0.00002F;
@@ -209,9 +213,9 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 
 	public static DefaultAttributeContainer.Builder createCopperGolemAttributes() {
 		return MobEntity.createMobAttributes()
-			.add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
-			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, MOVEMENT_SPEED)
-			.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D);
+			.add(VersionedEntrityAttributes.MAX_HEALTH, MAX_HEALTH)
+			.add(VersionedEntrityAttributes.MOVEMENT_SPEED, MOVEMENT_SPEED)
+			.add(VersionedEntrityAttributes.KNOCKBACK_RESISTANCE, KNOCKBACK_RESISTANCE);
 	}
 
 	@Override
@@ -331,11 +335,14 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		this.playSound(FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_STEP.get(), blockSoundGroup.getVolume() * 0.15F, this.getSoundPitch());
 	}
 
+	/*? >=1.21.3 {*/
 	@Override
-	public boolean damage(
-		DamageSource source,
-		float amount
-	) {
+	public boolean damage(ServerWorld world, DamageSource source, float amount)
+	/*?} else {*/
+	/*@Override
+	public boolean damage(DamageSource source, float amount)
+	*//*?}*/
+	{
 		Entity attacker = source.getAttacker();
 
 		if (
@@ -345,7 +352,11 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 			return false;
 		}
 
-		return super.damage(source, amount);
+		/*? >=1.21.3 {*/
+		return super.damage(world, source, amount);
+		/*?} else {*/
+		/*return super.damage(source, amount);
+		*//*?}*/
 	}
 
 	@Override
@@ -399,7 +410,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 
 		if (interactionResult) {
 			this.emitGameEvent(GameEvent.ENTITY_INTERACT, this);
-			return ActionResult.success(this.getWorld().isClient());
+			return VersionedActionResult.success(this);
 		}
 
 		return super.interactMob(player, hand);
@@ -473,21 +484,38 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 		return true;
 	}
 
+	/*? >=1.21.3 {*/
 	@Override
-	protected void mobTick() {
+	protected void mobTick(ServerWorld world)
+	/*?} else {*/
+	/*@Override
+	protected void mobTick()
+	*//*?}*/
+	{
 		if (this.isImmobilized()) {
-			super.mobTick();
+			/*? >=1.21.3 {*/
+			super.mobTick(world);
+			/*?} else {*/
+			/*super.mobTick();
+			*//*?}*/
 			return;
 		}
 
-		this.getWorld().getProfiler().push("copperGolemBrain");
-		this.getBrain().tick((ServerWorld) this.getWorld(), this);
-		this.getWorld().getProfiler().pop();
-		this.getWorld().getProfiler().push("copperGolemActivityUpdate");
-		CopperGolemBrain.updateActivities(this);
-		this.getWorld().getProfiler().pop();
+		var profiler = VersionedProfilerProvider.getProfiler(this);
 
-		super.mobTick();
+		profiler.push("copperGolemBrain");
+		this.getBrain().tick((ServerWorld) this.getWorld(), this);
+		profiler.pop();
+
+		profiler.push("copperGolemActivityUpdate");
+		CopperGolemBrain.updateActivities(this);
+		profiler.pop();
+
+		/*? >=1.21.3 {*/
+		super.mobTick(world);
+		/*?} else {*/
+		/*super.mobTick();
+		*//*?}*/
 	}
 
 	@Override
@@ -731,7 +759,7 @@ public final class CopperGolemEntity extends GolemEntity implements AnimatedEnti
 
 	public void setOxidationLevel(Oxidizable.OxidationLevel oxidationLevel) {
 		this.dataTracker.set(OXIDATION_LEVEL, oxidationLevel.ordinal());
-		this.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).setBaseValue(MOVEMENT_SPEED * this.getMovementSpeedModifier());
+		this.getAttributeInstance(VersionedEntrityAttributes.MOVEMENT_SPEED).setBaseValue(MOVEMENT_SPEED * this.getMovementSpeedModifier());
 
 		if (this.isOxidized()) {
 			this.setWasStatue(true);

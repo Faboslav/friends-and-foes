@@ -4,13 +4,15 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.WildfireBrain;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntrityAttributes;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
+import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -34,8 +36,12 @@ public final class WildfireEntity extends HostileEntity
 {
 	private float damageAmountCounter = 0.0F;
 
-	public static final float GENERIC_ATTACK_DAMAGE = 8.0F;
-	public static final float GENERIC_FOLLOW_RANGE = 32.0F;
+	public static final float MAX_HEALTH = 120.0F;
+	public static final float ATTACK_DAMAGE = 8.0F;
+	public static final float ATTACK_KNOCKBACK = 32.0F;
+	public static final float MOVEMENT_SPEED = 0.23000000417232513F;
+	public static final float FOLLOW_RANGE = 32.0F;
+	public static final float KNOCKBACK_RESISTANCE = 1.0F;
 
 	public static final int DEFAULT_ACTIVE_SHIELDS_COUNT = 4;
 	public static final int DEFAULT_TICKS_UNTIL_SHIELD_REGENERATION = 300;
@@ -89,26 +95,39 @@ public final class WildfireEntity extends HostileEntity
 		DebugInfoSender.sendBrainDebugData(this);
 	}
 
+	/*? >=1.21.3 {*/
 	@Override
-	protected void mobTick() {
-		this.getWorld().getProfiler().push("wildfireBrain");
-		this.getBrain().tick((ServerWorld) this.getWorld(), this);
-		this.getWorld().getProfiler().pop();
-		this.getWorld().getProfiler().push("wildfireActivityUpdate");
-		WildfireBrain.updateActivities(this);
-		this.getWorld().getProfiler().pop();
+	protected void mobTick(ServerWorld world)
+	/*?} else {*/
+	/*@Override
+	protected void mobTick()
+	*//*?}*/
+	{
+		var profiler = VersionedProfilerProvider.getProfiler(this);
 
-		super.mobTick();
+		profiler.push("wildfireBrain");
+		this.getBrain().tick((ServerWorld) this.getWorld(), this);
+		profiler.pop();
+
+		profiler.push("wildfireActivityUpdate");
+		WildfireBrain.updateActivities(this);
+		profiler.pop();
+
+		/*? >=1.21.3 {*/
+		super.mobTick(world);
+		/*?} else {*/
+		/*super.mobTick();
+		*//*?}*/
 	}
 
 	public static DefaultAttributeContainer.Builder createWildfireAttributes() {
 		return HostileEntity.createHostileAttributes()
-			.add(EntityAttributes.GENERIC_MAX_HEALTH, 120.0F)
-			.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.0F)
-			.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 32.0F)
-			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.23000000417232513)
-			.add(EntityAttributes.GENERIC_FOLLOW_RANGE, GENERIC_FOLLOW_RANGE)
-			.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0F);
+			.add(VersionedEntrityAttributes.MAX_HEALTH, MAX_HEALTH)
+			.add(VersionedEntrityAttributes.ATTACK_DAMAGE, ATTACK_DAMAGE)
+			.add(VersionedEntrityAttributes.ATTACK_KNOCKBACK, ATTACK_KNOCKBACK)
+			.add(VersionedEntrityAttributes.MOVEMENT_SPEED, MOVEMENT_SPEED)
+			.add(VersionedEntrityAttributes.FOLLOW_RANGE, FOLLOW_RANGE)
+			.add(VersionedEntrityAttributes.KNOCKBACK_RESISTANCE, KNOCKBACK_RESISTANCE);
 	}
 
 	@Override
@@ -276,19 +295,33 @@ public final class WildfireEntity extends HostileEntity
 		super.tickMovement();
 	}
 
+	/*? >=1.21.3 {*/
 	@Override
-	public boolean damage(
-		DamageSource source,
-		float amount
-	) {
+	public boolean damage(ServerWorld world, DamageSource source, float amount) {
+	/*?} else {*/
+	/*@Override
+	public boolean damage(DamageSource source, float amount) {
+	*//*?}*/
 		if (source == this.getDamageSources().generic()) {
-			return super.damage(source, amount);
+			boolean damageResult;
+
+			/*? >=1.21.3 {*/
+			damageResult = super.damage(world, source, amount);
+			/*?} else {*/
+			/*damageResult = super.damage(source, amount);
+			*//*?}*/
+
+			return damageResult;
 		}
 
 		Entity attacker = source.getAttacker();
+		var damageSources = this.getDamageSources();
 
 		if (
-			source == this.getDamageSources().inFire()
+			source == damageSources.inFire()
+			|| source == damageSources.campfire()
+			|| source == damageSources.lava()
+			|| source == damageSources.hotFloor()
 			|| (attacker != null && attacker.getType().isIn(FriendsAndFoesTags.WILDFIRE_ALLIES))
 		) {
 			return false;
@@ -296,11 +329,11 @@ public final class WildfireEntity extends HostileEntity
 
 		if (this.hasActiveShields()) {
 			this.damageAmountCounter += amount;
-			float shieldBreakDamageThreshold = (float) this.getAttributeValue(EntityAttributes.GENERIC_MAX_HEALTH) * 0.25F;
+			float shieldBreakDamageThreshold = (float) this.getAttributeValue(VersionedEntrityAttributes.MAX_HEALTH) * 0.25F;
 
 			if (this.damageAmountCounter >= shieldBreakDamageThreshold) {
 				if (attacker instanceof LivingEntity) {
-					attacker.damage(this.getDamageSources().mobAttack(this), GENERIC_ATTACK_DAMAGE);
+					VersionedEntity.damage(this, attacker, this.getDamageSources().mobAttack(this), ATTACK_DAMAGE);
 				}
 
 				this.breakShield();
@@ -313,7 +346,13 @@ public final class WildfireEntity extends HostileEntity
 
 		this.resetTicksUntilShieldRegeneration();
 
-		boolean damageResult = super.damage(source, amount);
+		boolean damageResult;
+
+		/*? >=1.21.3 {*/
+		damageResult = super.damage(world, source, amount);
+		/*?} else {*/
+		/*damageResult = super.damage(source, amount);
+		*//*?}*/
 
 		if (damageResult && attacker instanceof LivingEntity) {
 			WildfireBrain.onAttacked(this, (LivingEntity) attacker);

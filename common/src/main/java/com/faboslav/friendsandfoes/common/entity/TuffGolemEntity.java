@@ -10,6 +10,8 @@ import com.faboslav.friendsandfoes.common.entity.pose.TuffGolemEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.util.MovementUtil;
 import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
+import com.faboslav.friendsandfoes.common.versions.*;
+import com.fasterxml.jackson.core.Versioned;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -18,7 +20,6 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -56,8 +57,10 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	private static final TrackedData<Boolean> IS_GLUED;
 	private static final TrackedData<NbtCompound> HOME;
 
+	private static final float MAX_HEALTH = 20.0F;
 	private static final float MOVEMENT_SPEED = 0.225F;
 	private static final float MOVEMENT_SPEED_WITH_ITEM = 0.175F;
+	private static final float KNOCKBACK_RESISTANCE = 1.0F;
 	private static final int TUFF_HEAL_AMOUNT = 5;
 	private static final int INACTIVE_TICKS_AFTER_SPAWN = 200;
 
@@ -135,7 +138,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	) {
 		EntityData superEntityData = super.initialize(world, difficulty, spawnReason, entityData);
 
-		if (spawnReason == SpawnReason.SPAWN_EGG || spawnReason == SpawnReason.COMMAND) {
+		if (spawnReason == VersionedSpawnReason.SPAWN_EGG || spawnReason == SpawnReason.COMMAND) {
 			float randomSpawnYaw = 90.0F * (float) this.getRandom().nextBetween(0, 3);
 			this.setSpawnYaw(randomSpawnYaw);
 		}
@@ -166,23 +169,35 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		DebugInfoSender.sendBrainDebugData(this);
 	}
 
+	/*? >=1.21.3 {*/
 	@Override
+	protected void mobTick(ServerWorld world) {
+	/*?} else {*/
+	/*@Override
 	protected void mobTick() {
-		this.getWorld().getProfiler().push("tuffGolemBrain");
-		this.getBrain().tick((ServerWorld) this.getWorld(), this);
-		this.getWorld().getProfiler().pop();
-		this.getWorld().getProfiler().push("tuffGolemActivityUpdate");
-		TuffGolemBrain.updateActivities(this);
-		this.getWorld().getProfiler().pop();
+	*//*?}*/
+		var profiler = VersionedProfilerProvider.getProfiler(this);
 
-		super.mobTick();
+		profiler.push("tuffGolemBrain");
+		this.getBrain().tick((ServerWorld) this.getWorld(), this);
+		profiler.pop();
+
+		profiler.push("tuffGolemActivityUpdate");
+		TuffGolemBrain.updateActivities(this);
+		profiler.pop();
+
+		/*? >=1.21.3 {*/
+		super.mobTick(world);
+		/*?} else {*/
+		/*super.mobTick();
+		*//*?}*/
 	}
 
 	public static DefaultAttributeContainer.Builder createTuffGolemAttributes() {
 		return MobEntity.createMobAttributes()
-			.add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
-			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, MOVEMENT_SPEED)
-			.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D);
+			.add(VersionedEntrityAttributes.MAX_HEALTH, MAX_HEALTH)
+			.add(VersionedEntrityAttributes.MOVEMENT_SPEED, MOVEMENT_SPEED)
+			.add(VersionedEntrityAttributes.KNOCKBACK_RESISTANCE, KNOCKBACK_RESISTANCE);
 	}
 
 	@Override
@@ -344,7 +359,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 		if (interactionResult) {
 			this.emitGameEvent(GameEvent.ENTITY_INTERACT, this);
-			return ActionResult.success(this.getWorld().isClient());
+			return VersionedActionResult.success(this);
 		}
 
 		return super.interactMob(player, hand);
@@ -449,7 +464,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 		if (this.isHoldingItem()) {
 			if (player.getAbilities().creativeMode == false) {
-				this.dropStack(this.getEquippedStack(EquipmentSlot.MAINHAND));
+				VersionedEntity.dropStack(this, this.getEquippedStack(EquipmentSlot.MAINHAND));
 			}
 
 			this.equipStack(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
@@ -753,11 +768,14 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		this.startKeyframeAnimation(keyframeAnimationToStart, this.age);
 	}
 
+	/*? >=1.21.3 {*/
 	@Override
-	public boolean damage(
-		DamageSource source,
-		float amount
-	) {
+	public boolean damage(ServerWorld world, DamageSource source, float amount)
+	/*?} else {*/
+	/*@Override
+	public boolean damage(DamageSource source, float amount)
+	*//*?}*/
+	{
 		Entity attacker = source.getAttacker();
 
 		if (
@@ -778,7 +796,11 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 			}
 		}
 
-		return super.damage(source, amount);
+		/*? >=1.21.3 {*/
+		return super.damage(world, source, amount);
+		/*?} else {*/
+		/*return super.damage(source, amount);
+		*//*?}*/
 	}
 
 	@Override
@@ -804,13 +826,24 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		return this.isHoldingItem() ? MOVEMENT_SPEED_WITH_ITEM:MOVEMENT_SPEED;
 	}
 
+	/*? >=1.21.3 {*/
 	@Override
-	protected void dropLoot(DamageSource source, boolean causedByPlayer) {
+	protected void dropLoot(ServerWorld world, DamageSource damageSource, boolean causedByPlayer)
+	/*?} else {*/
+	/*@Override
+	protected void dropLoot(DamageSource source, boolean causedByPlayer)
+	*//*?}*/
+	{
 		if (this.isHoldingItem()) {
-			this.dropStack(this.getEquippedStack(EquipmentSlot.MAINHAND));
+			VersionedEntity.dropStack(this, this.getEquippedStack(EquipmentSlot.MAINHAND));
 		}
 
-		super.dropLoot(source, causedByPlayer);
+		/*? >=1.21.3 {*/
+		super.dropLoot(world, damageSource, causedByPlayer);
+		/*?} else {*/
+		/*@Override
+		super.dropLoot(damageSource, causedByPlayer);
+		*//*?}*/
 	}
 
 	public float getMovementSpeedModifier() {

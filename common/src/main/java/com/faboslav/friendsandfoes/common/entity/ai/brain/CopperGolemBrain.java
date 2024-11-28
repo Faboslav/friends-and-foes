@@ -8,6 +8,8 @@ import com.faboslav.friendsandfoes.common.entity.ai.brain.task.coppergolem.Coppe
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesActivities;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSensorTypes;
+import com.faboslav.friendsandfoes.common.versions.VersionedTickCooldownTask;
+import com.faboslav.friendsandfoes.common.versions.VersionedUpdateLookControlTask;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
@@ -58,11 +60,11 @@ public final class CopperGolemBrain
 		brain.setTaskList(Activity.CORE,
 			0,
 			ImmutableList.of(
-				new LookAroundTask(45, 90),
+				VersionedUpdateLookControlTask.create(45, 90),
 				new MoveToTargetTask(),
-				new TemptationCooldownTask(MemoryModuleType.TEMPTATION_COOLDOWN_TICKS),
-				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_SPIN_HEAD_COOLDOWN.get()),
-				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_PRESS_BUTTON_COOLDOWN.get())
+				VersionedTickCooldownTask.create(MemoryModuleType.TEMPTATION_COOLDOWN_TICKS),
+				VersionedTickCooldownTask.create(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_SPIN_HEAD_COOLDOWN.get()),
+				VersionedTickCooldownTask.create(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_PRESS_BUTTON_COOLDOWN.get())
 			)
 		);
 	}

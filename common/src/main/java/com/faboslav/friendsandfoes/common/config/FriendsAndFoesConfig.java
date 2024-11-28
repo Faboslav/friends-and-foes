@@ -169,6 +169,11 @@ public final class FriendsAndFoesConfig
 	public boolean generateIceologerCabinStructure = true;
 
 	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = ICEOLOGER_GROUP)
+	@IntSlider(min = 0, max = 1200, step = 1)
+	public int iceChunkTargetFrozenTicks = 400;
+
+	@SerialEntry()
 	@AutoGen(category = MOBS_CATEGORY, group = ILLUSIONER_GROUP)
 	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
 	public boolean enableIllusioner = true;

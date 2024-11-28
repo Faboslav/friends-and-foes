@@ -8,6 +8,8 @@ import com.faboslav.friendsandfoes.common.entity.ai.brain.task.tuffgolem.TuffGol
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesActivities;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
+import com.faboslav.friendsandfoes.common.versions.VersionedTickCooldownTask;
+import com.faboslav.friendsandfoes.common.versions.VersionedUpdateLookControlTask;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -54,9 +56,9 @@ public final class TuffGolemBrain
 		brain.setTaskList(Activity.CORE,
 			0,
 			ImmutableList.of(
-				new TuffGolemLookAroundTask(45, 90),
+				VersionedUpdateLookControlTask.create(45, 90),
 				new TuffGolemWanderAroundTask(),
-				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.TUFF_GOLEM_SLEEP_COOLDOWN.get())
+				VersionedTickCooldownTask.create(FriendsAndFoesMemoryModuleTypes.TUFF_GOLEM_SLEEP_COOLDOWN.get())
 			));
 	}
 

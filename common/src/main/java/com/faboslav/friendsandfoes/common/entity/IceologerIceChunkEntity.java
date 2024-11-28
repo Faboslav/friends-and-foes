@@ -1,9 +1,12 @@
 package com.faboslav.friendsandfoes.common.entity;
 
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.config.FriendsAndFoesConfig;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
 import net.minecraft.block.Blocks;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -201,8 +204,14 @@ public final class IceologerIceChunkEntity extends Entity
 		}
 	}
 
+	/*? >=1.21.3 {*/
 	@Override
-	public boolean damage(DamageSource source, float amount) {
+	public boolean damage(ServerWorld world, DamageSource source, float amount)
+	/*?} else {*/
+	/*@Override
+	public boolean damage(DamageSource source, float amount)
+	*//*?}*/
+	{
 		return false;
 	}
 
@@ -250,6 +259,7 @@ public final class IceologerIceChunkEntity extends Entity
 		}
 
 		DamageSource damageSource;
+		float damageAmount = 12.0F;
 
 		if (livingEntity == null) {
 			damageSource = this.getDamageSources().magic();
@@ -257,10 +267,23 @@ public final class IceologerIceChunkEntity extends Entity
 			damageSource = this.getDamageSources().indirectMagic(this, livingEntity);
 		}
 
-		hitEntity.damage(damageSource, 12.0F);
+		var world = this.getWorld();
+		boolean damageResult = false;
 
-		if (hitEntity.canFreeze()) {
-			hitEntity.setFrozenTicks(400);
+		/*? >=1.21.3 {*/
+		if(world instanceof ServerWorld serverWorld) {
+			damageResult = hitEntity.damage(serverWorld, damageSource, damageAmount);
+		}
+		/*?} else {*/
+		/*damageResult = hitEntity.damage(damageSource, damageAmount);
+		*//*?}*/
+
+		if(damageResult && world instanceof ServerWorld serverWorld) {
+			EnchantmentHelper.onTargetDamaged(serverWorld, hitEntity, damageSource);
+		}
+
+		if (damageResult && hitEntity.canFreeze()) {
+			hitEntity.setFrozenTicks(FriendsAndFoes.getConfig().iceChunkTargetFrozenTicks);
 		}
 	}
 

@@ -6,6 +6,8 @@ import com.faboslav.friendsandfoes.common.api.MoobloomVariantManager;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
+import com.faboslav.friendsandfoes.common.versions.VersionedActionResult;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntityType;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -20,6 +22,7 @@ import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.loot.LootTables;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
@@ -110,18 +113,39 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 		this.setVariant(moobloomVariant);
 	}
 
-	public void sheared(SoundCategory shearedSoundCategory) {
-		World world = this.getWorld();
+	/*? >=1.21.3 {*/
+	@Override
+	public void sheared(ServerWorld world, SoundCategory shearedSoundCategory, ItemStack shears)
+	/*?} else {*/
+	/*@Override
+	public void sheared(SoundCategory shearedSoundCategory)
+	*//*?}*/
+	{
+		/*? <=1.21.1 {*/
+		/*ServerWorld world = (ServerWorld) this.getWorld();
+		*//*?}*/
 
+		/*
+		// TODO create proper sound
+		world.playSoundFromEntity(null, this, SoundEvents.ENTITY_MOOSHROOM_SHEAR, shearedSoundCategory, 1.0F, 1.0F);
+		this.convertTo(EntityType.COW, EntityConversionContext.create(this, false, false), (cow) -> {
+			world.spawnParticles(ParticleTypes.EXPLOSION, this.getX(), this.getBodyY(0.5), this.getZ(), 1, 0.0, 0.0, 0.0, 0.0);
+			this.forEachShearedItem(world, LootTables.MOOSHROOM_SHEARING, shears, (worldx, stack) -> {
+				for(int i = 0; i < stack.getCount(); ++i) {
+					worldx.spawnEntity(new ItemEntity(this.getWorld(), this.getX(), this.getBodyY(1.0), this.getZ(), stack.copyWithCount(1)));
+				}
+
+			});
+		});*/
 		world.playSoundFromEntity(null, this, SoundEvents.ENTITY_MOOSHROOM_SHEAR, shearedSoundCategory, 1.0F, 1.0F);
 
 		if (world.isClient()) {
 			return;
 		}
 
-		((ServerWorld) world).spawnParticles(ParticleTypes.EXPLOSION, this.getX(), this.getBodyY(0.5D), this.getZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
+		world.spawnParticles(ParticleTypes.EXPLOSION, this.getX(), this.getBodyY(0.5D), this.getZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
 		this.discard();
-		CowEntity cowEntity = EntityType.COW.create(world);
+		CowEntity cowEntity = VersionedEntityType.create(this, EntityType.COW, SpawnReason.BREEDING);
 
 		if (cowEntity == null) {
 			return;
@@ -177,20 +201,18 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 				itemStack.decrementUnlessCreative(1, player);
 			}
 
-			return ActionResult.success(isClientWorld);
+			return VersionedActionResult.success(this);
 		}
 
 		if (itemStack.getItem() == Items.SHEARS && this.isShearable()) {
 			this.sheared(SoundCategory.PLAYERS);
 			this.emitGameEvent(GameEvent.SHEAR, player);
 
-			boolean isClientWorld = this.getWorld().isClient();
-
-			if (isClientWorld == false) {
+			if (this.getWorld().isClient() == false) {
 				itemStack.damage(1, player, PlayerEntity.getSlotForHand(hand));
 			}
 
-			return ActionResult.success(isClientWorld);
+			return VersionedActionResult.success(this);
 		} else {
 			return super.interactMob(player, hand);
 		}
@@ -206,8 +228,11 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 			moobloomVariant = ((MoobloomEntity) entity).getVariant();
 		}
 
-		MoobloomEntity moobloom = FriendsAndFoesEntityTypes.MOOBLOOM.get().create(serverWorld);
+		MoobloomEntity moobloom = VersionedEntityType.create(this, FriendsAndFoesEntityTypes.MOOBLOOM.get(), SpawnReason.BREEDING);
+
+		if(moobloom != null) {
 		moobloom.setVariant(moobloomVariant);
+		}
 
 		return moobloom;
 	}

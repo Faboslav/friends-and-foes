@@ -1,19 +1,29 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.model;
 
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.ModelAnimator;
+import com.faboslav.friendsandfoes.common.client.render.entity.state.GlareEntityRenderState;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.common.mixin.ModelPartAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.model.Model;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.model.ModelTransform;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.Identifier;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 @Environment(EnvType.CLIENT)
-public abstract class AnimatedEntityModel<E extends Entity> extends BaseEntityModel<E>
+/*? >=1.21.2 {*/
+public abstract class AnimatedEntityModel<T extends EntityRenderState> extends Model<T>
+/*?} else {*/
+/*public abstract class AnimatedEntityModel<E extends Entity> extends BaseEntityModel<E>
+*//*?}*/
 {
 	protected final Map<String, ModelTransform> defaultModelTransforms;
 
@@ -26,6 +36,12 @@ public abstract class AnimatedEntityModel<E extends Entity> extends BaseEntityMo
 			MODEL_PART_ROOT,
 			this.root
 		);
+	}
+
+	public AnimatedEntityModel(ModelPart root, Function<Identifier, RenderLayer> layerFactory) {
+		super(root, layerFactory);
+
+		this.defaultModelTransforms = new HashMap<>();
 	}
 
 	protected void setCurrentModelTransforms(

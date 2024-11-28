@@ -1,12 +1,19 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.model;
 
+import com.faboslav.friendsandfoes.common.client.render.entity.state.GlareEntityRenderState;
+import com.faboslav.friendsandfoes.common.client.render.entity.state.TuffGolemEntityRenderState;
 import com.faboslav.friendsandfoes.common.entity.TuffGolemEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
+import net.minecraft.client.render.entity.model.EntityModel;
 
 @Environment(EnvType.CLIENT)
-public final class TuffGolemEntityModel<T extends TuffGolemEntity> extends AnimatedEntityModel<T>
+/*? >=1.21.2 {*/
+public class TuffGolemEntityModel extends AnimatedEntityModel<TuffGolemEntityRenderState>
+/*?} else {*/
+/*public final class TuffGolemEntityModel<T extends TuffGolemEntity> extends AnimatedEntityModel<T>
+*//*?}*/
 {
 	private static final String MODEL_PART_BODY = "body";
 	private static final String MODEL_PART_NOSE = "nose";
@@ -62,6 +69,22 @@ public final class TuffGolemEntityModel<T extends TuffGolemEntity> extends Anima
 	}
 
 	@Override
+	/*? >=1.21.2 {*/
+	public void setAngles(TuffGolemEntityRenderState tuffGolemEntityRenderState)
+		/*?} else {*/
+		/*public void setAngles(T glare, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
+		 *//*?}*/ {
+	}
+
+	private void updateAnimations(
+		float limbAngle,
+		float limbDistance,
+		float animationProgress,
+	) {
+
+	}
+
+	@Override
 	public void setAngles(
 		T tuffGolem,
 		float limbAngle,
@@ -70,7 +93,7 @@ public final class TuffGolemEntityModel<T extends TuffGolemEntity> extends Anima
 		float headYaw,
 		float headPitch
 	) {
-		this.getPart().traverse().forEach(ModelPart::resetTransform);
+		this.getRootPart().traverse().forEach(ModelPart::resetTransform);
 		this.updateMovementKeyframeAnimations(tuffGolem, limbAngle, limbDistance, 4.0F * tuffGolem.getMovementSpeedModifier(), 4.0F * tuffGolem.getMovementSpeedModifier());
 		this.updateKeyframeAnimations(tuffGolem, animationProgress);
 	}

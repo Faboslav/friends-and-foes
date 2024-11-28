@@ -47,3 +47,4 @@ accessible field net/minecraft/block/Oxidizable OXIDATION_LEVEL_INCREASES Ljava/
 accessible field net/minecraft/block/Oxidizable OXIDATION_LEVEL_DECREASES Ljava/util/function/Supplier;
 accessible method net/minecraft/entity/effect/StatusEffect <init> (Lnet/minecraft/entity/effect/StatusEffectCategory;I)V
 accessible method net/minecraft/block/ComposterBlock registerCompostableItem (FLnet/minecraft/item/ItemConvertible;)V
+accessible method net/minecraft/entity/Entity isTeammate (Lnet/minecraft/entity/Entity;)Z

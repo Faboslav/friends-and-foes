@@ -14,6 +14,7 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesItems;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
+import com.faboslav.friendsandfoes.common.versions.*;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.BlockState;
@@ -25,7 +26,6 @@ import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.control.YawAdjustingLookControl;
 import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -52,6 +52,7 @@ import java.util.Objects;
 
 public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntity
 {
+	private static final float MAX_HEALTH = 15.0F;
 	private static final float MOVEMENT_SPEED = 0.225F;
 
 	private static final String SIZE_NBT_NAME = "Size";
@@ -215,7 +216,9 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 	}
 
 	public static DefaultAttributeContainer.Builder createCrabAttributes() {
-		return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 15.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, MOVEMENT_SPEED).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 2.0);
+		return MobEntity.createMobAttributes()
+			.add(VersionedEntrityAttributes.MAX_HEALTH, MAX_HEALTH)
+			.add(VersionedEntrityAttributes.MOVEMENT_SPEED, MOVEMENT_SPEED);
 	}
 
 	@Override
@@ -405,29 +408,42 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 		return this.getPose() == pose.get();
 	}
 
+	/*? >=1.21.3 {*/
 	@Override
-	protected void mobTick() {
-		this.getWorld().getProfiler().push("crabBrain");
+	protected void mobTick(ServerWorld world)
+	/*?} else {*/
+	/*@Override
+	protected void mobTick()
+	*//*?}*/
+	{
+		var profiler = VersionedProfilerProvider.getProfiler(this);
+
+		profiler.push("crabBrain");
 		this.getBrain().tick((ServerWorld) this.getWorld(), this);
 
-		this.getWorld().getProfiler().pop();
-		this.getWorld().getProfiler().push("crabMemoryUpdate");
+		profiler.pop();
+		profiler.push("crabMemoryUpdate");
 		CrabBrain.updateMemories(this);
-		this.getWorld().getProfiler().pop();
+		profiler.pop();
 
-		this.getWorld().getProfiler().push("crabActivityUpdate");
+		profiler.push("crabActivityUpdate");
 		CrabBrain.updateActivities(this);
-		this.getWorld().getProfiler().pop();
+		profiler.pop();
 
-		super.mobTick();
+		/*? >=1.21.3 {*/
+		super.mobTick(world);
+		/*?} else {*/
+		/*super.mobTick();
+		*//*?}*/
 	}
 
 	@Override
 	protected void onGrowUp() {
 		super.onGrowUp();
+		World world = this.getWorld();
 
-		if (!this.isBaby() && this.getWorld().getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) {
-			this.dropItem(FriendsAndFoesItems.CRAB_CLAW.get(), 1);
+		if (!this.isBaby() && VersionedGameRulesProvider.getGameRules(this).getBoolean(GameRules.DO_MOB_LOOT) && world instanceof ServerWorld ) {
+			VersionedEntity.dropItem(this, FriendsAndFoesItems.CRAB_CLAW.get(), 1);
 		}
 	}
 
@@ -453,7 +469,11 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 	@Override
 	@Nullable
 	public PassiveEntity createChild(ServerWorld serverWorld, PassiveEntity entity) {
-		CrabEntity crab = FriendsAndFoesEntityTypes.CRAB.get().create(serverWorld);
+		CrabEntity crab = VersionedEntityType.create(this, FriendsAndFoesEntityTypes.CRAB.get(), SpawnReason.BREEDING);
+
+		if(crab == null) {
+			return null;
+		}
 
 		CrabBrain.setWaveCooldown(crab);
 
@@ -478,7 +498,7 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 		mate.resetLoveTicks();
 		Random random = this.getRandom();
 
-		if (this.getWorld().getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) {
+		if (VersionedGameRulesProvider.getGameRules(this).getBoolean(GameRules.DO_MOB_LOOT)) {
 			this.getWorld().spawnEntity(new ExperienceOrbEntity(this.getWorld(), this.getX(), this.getY(), this.getZ(), random.nextInt(7) + 1));
 		}
 	}

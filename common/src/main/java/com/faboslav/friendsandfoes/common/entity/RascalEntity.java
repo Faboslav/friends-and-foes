@@ -10,6 +10,8 @@ import com.faboslav.friendsandfoes.common.entity.pose.RascalEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
 import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntrityAttributes;
+import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
@@ -17,7 +19,6 @@ import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -53,6 +54,10 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 	private static final TrackedData<Integer> POSE_TICKS;
 	private static final TrackedData<Integer> CAUGHT_COUNT;
 	private boolean ambientSounds;
+
+	private static final float MAX_HEALTH = 20.0F;
+	private static final float MOVEMENT_SPEED = 0.55F;
+	private static final float KNOCKBACK_RESISTANCE = 1.0F;
 
 	public RascalEntity(EntityType<? extends PassiveEntity> entityType, World world) {
 		super(entityType, world);
@@ -184,23 +189,36 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 		DebugInfoSender.sendBrainDebugData(this);
 	}
 
+	/*? >=1.21.3 {*/
 	@Override
-	protected void mobTick() {
-		this.getWorld().getProfiler().push("rascalBrain");
-		this.getBrain().tick((ServerWorld) this.getWorld(), this);
-		this.getWorld().getProfiler().pop();
-		this.getWorld().getProfiler().push("rascalActivityUpdate");
-		RascalBrain.updateActivities(this);
-		this.getWorld().getProfiler().pop();
+	protected void mobTick(ServerWorld world)
+	/*?} else {*/
+	/*@Override
+	protected void mobTick()
+	*//*?}*/
+	{
+		var profiler = VersionedProfilerProvider.getProfiler(this);
 
-		super.mobTick();
+		profiler.push("rascalBrain");
+		this.getBrain().tick((ServerWorld) this.getWorld(), this);
+		profiler.pop();
+
+		profiler.push("rascalActivityUpdate");
+		RascalBrain.updateActivities(this);
+		profiler.pop();
+
+		/*? >=1.21.3 {*/
+		super.mobTick(world);
+		/*?} else {*/
+		/*super.mobTick();
+		*//*?}*/
 	}
 
 	public static DefaultAttributeContainer.Builder createRascalAttributes() {
 		return MobEntity.createMobAttributes()
-			.add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
-			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.55D)
-			.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D);
+			.add(VersionedEntrityAttributes.MAX_HEALTH, MAX_HEALTH)
+			.add(VersionedEntrityAttributes.MOVEMENT_SPEED, MOVEMENT_SPEED)
+			.add(VersionedEntrityAttributes.KNOCKBACK_RESISTANCE, KNOCKBACK_RESISTANCE);
 	}
 
 	@Override
@@ -306,17 +324,25 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 		this.setPose(RascalEntityPose.GIVE_REWARD);
 	}
 
+	/*? >=1.21.3 {*/
 	@Override
-	public boolean damage(
-		DamageSource source, float amount
-	) {
+	public boolean damage(ServerWorld world, DamageSource source, float amount)
+	/*?} else {*/
+	/*@Override
+	public boolean damage(DamageSource source, float amount)
+	*//*?}*/
+	{
 		Entity attacker = source.getAttacker();
 
 		if (
 			!(attacker instanceof PlayerEntity)
 			|| this.hasCustomName()
 		) {
-			return super.damage(source, amount);
+			/*? >=1.21.3 {*/
+			return super.damage(world, source, amount);
+			/*?} else {*/
+			/*return super.damage(source, amount);
+			*//*?}*/
 		}
 
 		this.playHurtSound(source);

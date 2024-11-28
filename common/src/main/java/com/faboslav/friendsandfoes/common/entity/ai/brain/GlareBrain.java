@@ -7,6 +7,8 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSensorTypes;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
+import com.faboslav.friendsandfoes.common.versions.VersionedTickCooldownTask;
+import com.faboslav.friendsandfoes.common.versions.VersionedUpdateLookControlTask;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
@@ -55,12 +57,12 @@ public final class GlareBrain
 			0,
 			ImmutableList.of(
 				new StayAboveWaterTask(0.8f),
-				new LookAroundTask(45, 90),
+				VersionedUpdateLookControlTask.create(45, 90),
 				new MoveToTargetTask(),
-				new TemptationCooldownTask(MemoryModuleType.TEMPTATION_COOLDOWN_TICKS),
-				new TemptationCooldownTask(MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS),
-				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.GLARE_LOCATING_GLOW_BERRIES_COOLDOWN.get()),
-				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_LOCATING_COOLDOWN.get())
+				VersionedTickCooldownTask.create(MemoryModuleType.TEMPTATION_COOLDOWN_TICKS),
+				VersionedTickCooldownTask.create(MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS),
+				VersionedTickCooldownTask.create(FriendsAndFoesMemoryModuleTypes.GLARE_LOCATING_GLOW_BERRIES_COOLDOWN.get()),
+				VersionedTickCooldownTask.create(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_LOCATING_COOLDOWN.get())
 			)
 		);
 	}

@@ -7,6 +7,9 @@ import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
+import com.faboslav.friendsandfoes.common.versions.VersionedActionResult;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntityPredicate;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntrityAttributes;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.block.BlockState;
 import net.minecraft.component.type.ItemEnchantmentsComponent;
@@ -17,7 +20,6 @@ import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.RevengeGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer.Builder;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -56,14 +58,13 @@ import java.util.function.Predicate;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public final class MaulerEntity extends PathAwareEntity implements Angerable, AnimatedEntity
 {
-	private static final int HEALTH = 20;
+	private static final int MAX_HEALTH = 20;
 	private static final float ANGERED_MOVEMENT_SPEED = 0.5F;
 	private static final float MOVEMENT_SPEED = 0.3F;
 	private static final float ATTACK_DAMAGE = 8.0F;
 	private static final int MAXIMUM_STORED_EXPERIENCE_POINTS = 1395;
 	public static final int MIN_TICKS_UNTIL_NEXT_BURROWING = 3000;
 	public static final int MAX_TICKS_UNTIL_NEXT_BURROWING = 6000;
-	private static final Predicate<Entity> PREY_PREDICATE_FILTER;
 
 	private static final String TYPE_NBT_NAME = "Type";
 	private static final String STORED_EXPERIENCE_POINTS_NBT_NAME = "StoredExperiencePoints";
@@ -101,7 +102,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	}
 
 	static {
-		PREY_PREDICATE_FILTER = (entity) -> {
+		PREY_PREDICATE_FILTER = VersionedEntityPredicate.create((entity) -> {
 			if (
 				entity instanceof SlimeEntity slimeEntity && slimeEntity.getSize() != SlimeEntity.MIN_SIZE
 				|| entity instanceof ZombieEntity && !((ZombieEntity) entity).isBaby()
@@ -110,7 +111,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 			}
 
 			return entity.getType().isIn(FriendsAndFoesTags.MAULER_PREY);
-		};
+		});
 		TYPE = DataTracker.registerData(MaulerEntity.class, TrackedDataHandlerRegistry.STRING);
 		ANGER_TIME = DataTracker.registerData(MaulerEntity.class, TrackedDataHandlerRegistry.INTEGER);
 		STORED_EXPERIENCE_POINTS = DataTracker.registerData(MaulerEntity.class, TrackedDataHandlerRegistry.INTEGER);
@@ -248,16 +249,23 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		this.setMoving(this.getNavigation().isFollowingPath());
 	}
 
+	/*? >=1.21.3 {*/
 	@Override
-	public boolean damage(
-		DamageSource source,
-		float amount
-	) {
+	public boolean damage(ServerWorld world, DamageSource source, float amount)
+	/*?} else {*/
+	/*@Override
+	public boolean damage(DamageSource source, float amount)
+	*//*?}*/
+	{
 		if (!this.getWorld().isClient() && this.burrowDownGoal.isRunning()) {
 			this.burrowDownGoal.stop();
 		}
 
-		return super.damage(source, amount);
+		/*? >=1.21.3 {*/
+		return super.damage(world, source, amount);
+		/*?} else {*/
+		/*return super.damage(source, amount);
+		*//*?}*/
 	}
 
 	@Override
@@ -288,7 +296,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 		if (interactionResult) {
 			this.emitGameEvent(GameEvent.ENTITY_INTERACT, this);
-			return ActionResult.success(this.getWorld().isClient());
+			return VersionedActionResult.success(this);
 		}
 
 		return super.interactMob(player, hand);
@@ -374,10 +382,10 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 	public static Builder createMaulerAttributes() {
 		return MobEntity.createMobAttributes()
-			.add(EntityAttributes.GENERIC_SCALE, 1.0F)
-			.add(EntityAttributes.GENERIC_MAX_HEALTH, HEALTH)
-			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, MOVEMENT_SPEED)
-			.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, ATTACK_DAMAGE);
+			.add(VersionedEntrityAttributes.SCALE, 1.0F)
+			.add(VersionedEntrityAttributes.MAX_HEALTH, MAX_HEALTH)
+			.add(VersionedEntrityAttributes.MOVEMENT_SPEED, MOVEMENT_SPEED)
+			.add(VersionedEntrityAttributes.ATTACK_DAMAGE, ATTACK_DAMAGE);
 	}
 
 	@Override
@@ -433,13 +441,23 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		}
 	}
 
+	/*? >=1.21.3 {*/
 	@Override
+	public boolean tryAttack(ServerWorld world, Entity target) {
+	/*?} else {*/
+	/*@Override
 	public boolean tryAttack(Entity target) {
+	*//*?}*/
 		if (this.isBurrowedDown()) {
 			return false;
 		}
 
-		return target.damage(this.getDamageSources().mobAttack(this), (float) this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE));
+		/*? >=1.21.3 {*/
+		return super.tryAttack(world, target);
+		/*?} else {*/
+		/*@Override
+		return super.tryAttack(target);
+		*//*?}*/
 	}
 
 	public int getAngerTime() {
@@ -484,9 +502,9 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	public void setSize() {
 		float size = this.getSize();
 
-		this.getAttributeInstance(EntityAttributes.GENERIC_SCALE).setBaseValue(this.getSize());
-		this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue((int) (HEALTH * size));
-		this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue(ATTACK_DAMAGE * (size / 2.0F));
+		this.getAttributeInstance(VersionedEntrityAttributes.SCALE).setBaseValue(this.getSize());
+		this.getAttributeInstance(VersionedEntrityAttributes.MAX_HEALTH).setBaseValue((int) (MAX_HEALTH * size));
+		this.getAttributeInstance(VersionedEntrityAttributes.ATTACK_DAMAGE).setBaseValue(ATTACK_DAMAGE * (size / 2.0F));
 		this.calculateDimensions();
 		this.calculateBoundingBox();
 	}

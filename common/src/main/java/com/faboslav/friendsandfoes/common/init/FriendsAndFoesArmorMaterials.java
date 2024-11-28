@@ -1,5 +1,25 @@
 package com.faboslav.friendsandfoes.common.init;
 
+import net.minecraft.item.equipment.ArmorMaterial;
+import net.minecraft.item.equipment.EquipmentModels;
+import net.minecraft.item.equipment.EquipmentType;
+import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Util;
+
+import java.util.EnumMap;/*? >=1.21.2 {*/
+public interface FriendsAndFoesArmorMaterials
+{
+	ArmorMaterial WILDFIRE = new ArmorMaterial(5, Util.make(new EnumMap(EquipmentType.class), map -> {
+		map.put(EquipmentType.BOOTS, 3);
+		map.put(EquipmentType.LEGGINGS, 6);
+		map.put(EquipmentType.CHESTPLATE, 8);
+		map.put(EquipmentType.HELMET, 3);
+		map.put(EquipmentType.BODY, 11);
+	}), 9, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 1.0F, 0.0F, ItemTags.REPAIRS_LEATHER_ARMOR, EquipmentModels.LEATHER);
+}
+/*?} else {*/
+/*
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.init.registry.ReferenceRegistryEntry;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistries;
@@ -17,9 +37,6 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.function.Supplier;
 
-/**
- * @see net.minecraft.item.ArmorMaterials
- */
 public class FriendsAndFoesArmorMaterials
 {
 	public static final ResourcefulRegistry<ArmorMaterial> ARMOR_MATERIALS = ResourcefulRegistries.create(Registries.ARMOR_MATERIAL, FriendsAndFoes.MOD_ID);
@@ -63,3 +80,4 @@ public class FriendsAndFoesArmorMaterials
 	private FriendsAndFoesArmorMaterials() {
 	}
 }
+*//*?}*/

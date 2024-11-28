@@ -13,6 +13,10 @@ import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.util.MovementUtil;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
 import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
+import com.faboslav.friendsandfoes.common.versions.VersionedActionResult;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntityType;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntrityAttributes;
+import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CaveVines;
@@ -27,7 +31,6 @@ import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer.Builder;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -65,10 +68,13 @@ import java.util.function.Predicate;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public final class GlareEntity extends TameableEntity implements Flutterer, AnimatedEntity
 {
+	private static final double TAMED_MAX_HEALTH = 10.0D;
+	private static final double MAX_HEALTH = 10.0D;
+	private static final float MOVEMENT_SPEED = 0.1F;
+	private static final double FOLLOW_RANGE = 48.0D;
 	private static final Vec3i ITEM_PICKUP_RANGE_EXPANDER = new Vec3i(1, 1, 1);
 	public static final Predicate<ItemEntity> PICKABLE_FOOD_FILTER;
 	private static final int GRUMPY_BITMASK = 2;
-	private static final float MOVEMENT_SPEED = 0.1F;
 	public static final int MIN_EYE_ANIMATION_TICK_AMOUNT = 10;
 	public static final int LIGHT_THRESHOLD = 5;
 
@@ -167,6 +173,11 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	}
 
 	@Override
+	public float getScaleFactor() {
+		return this.isBaby() ? 0.4F : 0.8F;
+	}
+
+	@Override
 	public void tickMovement() {
 		super.tickMovement();
 
@@ -185,19 +196,33 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		this.updateTargetEyesPositionOffset();
 	}
 
+	/*? >=1.21.3 {*/
 	@Override
-	protected void mobTick() {
-		this.getWorld().getProfiler().push("glareBrain");
-		this.getBrain().tick((ServerWorld) this.getWorld(), this);
-		this.getWorld().getProfiler().pop();
-		this.getWorld().getProfiler().push("glareMemoryUpdate");
-		GlareBrain.updateMemories(this);
-		this.getWorld().getProfiler().pop();
-		this.getWorld().getProfiler().push("glareActivityUpdate");
-		GlareBrain.updateActivities(this);
-		this.getWorld().getProfiler().pop();
+	protected void mobTick(ServerWorld world)
+	/*?} else {*/
+	/*@Override
+	protected void mobTick()
+	*//*?}*/
+	{
+		var profiler = VersionedProfilerProvider.getProfiler(this);
 
-		super.mobTick();
+		profiler.push("glareBrain");
+		this.getBrain().tick((ServerWorld) this.getWorld(), this);
+		profiler.pop();
+
+		profiler.push("glareMemoryUpdate");
+		GlareBrain.updateMemories(this);
+		profiler.pop();
+
+		profiler.push("glareActivityUpdate");
+		GlareBrain.updateActivities(this);
+		profiler.pop();
+
+		/*? >=1.21.3 {*/
+		super.mobTick(world);
+		/*?} else {*/
+		/*super.mobTick();
+		*//*?}*/
 	}
 
 	@Override
@@ -300,10 +325,10 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 
 	public static Builder createGlareAttributes() {
 		return MobEntity.createMobAttributes()
-			.add(EntityAttributes.GENERIC_MAX_HEALTH, 10.0D)
-			.add(EntityAttributes.GENERIC_FLYING_SPEED, MOVEMENT_SPEED)
-			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, MOVEMENT_SPEED)
-			.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 48.0D);
+			.add(VersionedEntrityAttributes.MAX_HEALTH, MAX_HEALTH)
+			.add(VersionedEntrityAttributes.FLYING_SPEED, MOVEMENT_SPEED)
+			.add(VersionedEntrityAttributes.MOVEMENT_SPEED, MOVEMENT_SPEED)
+			.add(VersionedEntrityAttributes.FOLLOW_RANGE, FOLLOW_RANGE);
 	}
 
 	@Override
@@ -443,7 +468,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 
 		if (interactionResult) {
 			this.emitGameEvent(GameEvent.ENTITY_INTERACT, this);
-			return ActionResult.success(this.getWorld().isClient());
+			return VersionedActionResult.success(this);
 		}
 
 		ActionResult actionResult = super.interactMob(player, hand);
@@ -583,10 +608,10 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	@Override
 	protected void updateAttributesForTamed() {
 		if (this.isTamed()) {
-			this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(30.0D);
+			this.getAttributeInstance(VersionedEntrityAttributes.MAX_HEALTH).setBaseValue(TAMED_MAX_HEALTH);
 			this.setHealth(this.getMaxHealth());
 		} else {
-			this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(10.0D);
+			this.getAttributeInstance(VersionedEntrityAttributes.MAX_HEALTH).setBaseValue(MAX_HEALTH);
 		}
 	}
 
@@ -607,7 +632,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	@Override
 	@Nullable
 	public PassiveEntity createChild(ServerWorld serverWorld, PassiveEntity entity) {
-		GlareEntity glareEntity = FriendsAndFoesEntityTypes.GLARE.get().create(serverWorld);
+		GlareEntity glareEntity = VersionedEntityType.create(this, FriendsAndFoesEntityTypes.GLARE.get(), SpawnReason.BREEDING);
 
 		if (this.isTamed() == false) {
 			return null;
@@ -644,18 +669,25 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		return this.isInLove() && glare.isInLove();
 	}
 
+	/*? >=1.21.3 {*/
 	@Override
-	public boolean damage(
-		DamageSource source,
-		float amount
-	) {
+	public boolean damage(ServerWorld world, DamageSource source, float amount)
+	/*?} else {*/
+	/*@Override
+	public boolean damage(DamageSource source, float amount)
+	*//*?}*/
+	{
 		if (this.getWorld().isClient() == false) {
 			this.setSitting(false);
 			this.getNavigation().setSpeed(0);
 			this.getNavigation().stop();
 		}
 
-		return super.damage(source, amount);
+		/*? >=1.21.3 {*/
+		return super.damage(world, source, amount);
+		/*?} else {*/
+		/*return super.damage(source, amount);
+		*//*?}*/
 	}
 
 	@Override

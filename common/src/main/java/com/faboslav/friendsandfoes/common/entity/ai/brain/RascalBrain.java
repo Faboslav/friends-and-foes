@@ -5,6 +5,8 @@ import com.faboslav.friendsandfoes.common.entity.ai.brain.task.rascal.RascalFind
 import com.faboslav.friendsandfoes.common.entity.ai.brain.task.rascal.RascalWaitForPlayerTask;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesActivities;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
+import com.faboslav.friendsandfoes.common.versions.VersionedTickCooldownTask;
+import com.faboslav.friendsandfoes.common.versions.VersionedUpdateLookControlTask;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
@@ -54,9 +56,9 @@ public final class RascalBrain
 			0,
 			ImmutableList.of(
 				new StayAboveWaterTask(0.8F),
-				new LookAroundTask(45, 90),
+				VersionedUpdateLookControlTask.create(45, 90),
 				new MoveToTargetTask(),
-				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.RASCAL_NOD_COOLDOWN.get())
+				VersionedTickCooldownTask.create(FriendsAndFoesMemoryModuleTypes.RASCAL_NOD_COOLDOWN.get())
 			)
 		);
 	}

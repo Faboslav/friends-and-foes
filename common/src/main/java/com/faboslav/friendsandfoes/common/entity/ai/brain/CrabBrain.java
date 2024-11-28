@@ -7,6 +7,8 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSensorTypes;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
+import com.faboslav.friendsandfoes.common.versions.VersionedTickCooldownTask;
+import com.faboslav.friendsandfoes.common.versions.VersionedUpdateLookControlTask;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
@@ -54,10 +56,10 @@ public final class CrabBrain
 			ImmutableList.of(
 				// TODO check
 				//new FleeTask(2.0f),
-				new LookAroundTask(45, 90),
+				VersionedUpdateLookControlTask.create(45, 90),
 				new MoveToTargetTask(),
-				new TemptationCooldownTask(MemoryModuleType.TEMPTATION_COOLDOWN_TICKS),
-				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.CRAB_WAVE_COOLDOWN.get())
+				VersionedTickCooldownTask.create(MemoryModuleType.TEMPTATION_COOLDOWN_TICKS),
+				VersionedTickCooldownTask.create(FriendsAndFoesMemoryModuleTypes.CRAB_WAVE_COOLDOWN.get())
 			)
 		);
 	}

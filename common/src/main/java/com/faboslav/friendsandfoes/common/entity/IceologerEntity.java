@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntrityAttributes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -54,7 +55,10 @@ public final class IceologerEntity extends SpellcastingIllagerEntity
 	}
 
 	public static Builder createIceologerAttributes() {
-		return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.5D).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 18.0D).add(EntityAttributes.GENERIC_MAX_HEALTH, 40.0D);
+		return HostileEntity.createHostileAttributes()
+			.add(VersionedEntrityAttributes.MAX_HEALTH, 40.0D)
+			.add(VersionedEntrityAttributes.MOVEMENT_SPEED, 0.5D)
+			.add(VersionedEntrityAttributes.FOLLOW_RANGE, 18.0D);
 	}
 
 	public SoundEvent getCelebratingSound() {
@@ -64,7 +68,7 @@ public final class IceologerEntity extends SpellcastingIllagerEntity
 	public void addBonusForWave(ServerWorld world, int wave, boolean unused) {
 	}
 
-	// TODO add illager friends to json
+	@Override
 	public boolean isTeammate(Entity other) {
 		if (super.isTeammate(other)) {
 			return true;

@@ -5,6 +5,8 @@ import com.faboslav.friendsandfoes.common.entity.ai.brain.task.wildfire.Wildfire
 import com.faboslav.friendsandfoes.common.entity.ai.brain.task.wildfire.WildfireShockwaveAttackTask;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.task.wildfire.WildfireSummonBlazeTask;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
+import com.faboslav.friendsandfoes.common.versions.VersionedTickCooldownTask;
+import com.faboslav.friendsandfoes.common.versions.VersionedUpdateLookControlTask;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
@@ -58,11 +60,11 @@ public final class WildfireBrain
 		brain.setTaskList(Activity.CORE,
 			0,
 			ImmutableList.of(
-				new LookAroundTask(45, 90),
+				VersionedUpdateLookControlTask.create(45, 90),
 				new MoveToTargetTask(),
-				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.WILDFIRE_BARRAGE_ATTACK_COOLDOWN.get()),
-				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get()),
-				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SUMMON_BLAZE_COOLDOWN.get())
+				VersionedTickCooldownTask.create(FriendsAndFoesMemoryModuleTypes.WILDFIRE_BARRAGE_ATTACK_COOLDOWN.get()),
+				VersionedTickCooldownTask.create(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get()),
+				VersionedTickCooldownTask.create(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SUMMON_BLAZE_COOLDOWN.get())
 			)
 		);
 	}
@@ -213,7 +215,7 @@ public final class WildfireBrain
 		SUMMON_BLAZE_COOLDOWN_PROVIDER = UniformIntProvider.create(600, 1200);
 		BARRAGE_ATTACK_COOLDOWN_PROVIDER = UniformIntProvider.create(150, 300);
 		SHOCKWAVE_ATTACK_COOLDOWN_PROVIDER = UniformIntProvider.create(150, 300);
-		VALID_TARGET_PLAYER_PREDICATE = TargetPredicate.createAttackable().setBaseMaxDistance(WildfireEntity.GENERIC_FOLLOW_RANGE);
+		VALID_TARGET_PLAYER_PREDICATE = TargetPredicate.createAttackable().setBaseMaxDistance(WildfireEntity.FOLLOW_RANGE);
 		AVOID_MEMORY_DURATION = TimeHelper.betweenSeconds(5, 20);
 	}
 }

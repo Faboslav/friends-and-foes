@@ -11,7 +11,9 @@ import net.minecraft.item.ArmorItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
+import net.minecraft.item.equipment.EquipmentType;
 import net.minecraft.registry.Registries;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Rarity;
 
 /**
@@ -59,11 +61,15 @@ public final class FriendsAndFoesItems
 	public final static RegistryEntry<Item> WAXED_EXPOSED_LIGHTNING_ROD = ITEMS.register("waxed_exposed_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_EXPOSED_LIGHTNING_ROD.get(), new Item.Settings().maxCount(64)));
 	public final static RegistryEntry<Item> WAXED_WEATHERED_LIGHTNING_ROD = ITEMS.register("waxed_weathered_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_WEATHERED_LIGHTNING_ROD.get(), new Item.Settings().maxCount(64)));
 	public final static RegistryEntry<Item> WAXED_OXIDIZED_LIGHTNING_ROD = ITEMS.register("waxed_oxidized_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get(), new Item.Settings().maxCount(64)));
-	public final static RegistryEntry<Item> WILDFIRE_CROWN = ITEMS.register("wildfire_crown", () -> new ArmorItem(FriendsAndFoesArmorMaterials.WILDFIRE.referenceRegistryEntry(), ArmorItem.Type.HELMET, (new Item.Settings().maxCount(1)).fireproof().maxDamage(ArmorItem.Type.HELMET.getMaxDamage(37))));
 	public final static RegistryEntry<Item> WILDFIRE_CROWN_FRAGMENT = ITEMS.register("wildfire_crown_fragment", () -> new Item((new Item.Settings()).fireproof()));
 	public final static RegistryEntry<Item> TOTEM_OF_FREEZING = ITEMS.register("totem_of_freezing", () -> new Item((new Item.Settings()).maxCount(1).rarity(Rarity.UNCOMMON)));
 	public final static RegistryEntry<Item> TOTEM_OF_ILLUSION = ITEMS.register("totem_of_illusion", () -> new Item((new Item.Settings()).maxCount(1).rarity(Rarity.UNCOMMON)));
 
+	/*? >=1.21.3 {*/
+	public final static RegistryEntry<Item> WILDFIRE_CROWN = ITEMS.register("wildfire_crown", () -> new ArmorItem(FriendsAndFoesArmorMaterials.WILDFIRE.referenceRegistryEntry(), EquipmentType.HELMET, (new Item.Settings().maxCount(1)).fireproof().maxDamage(EquipmentType.HELMET.getMaxDamage(37))));
+	/*?} else {*/
+	/*public final static RegistryEntry<Item> WILDFIRE_CROWN = ITEMS.register("wildfire_crown", () -> new ArmorItem(FriendsAndFoesArmorMaterials.WILDFIRE.referenceRegistryEntry(), ArmorItem.Type.HELMET, (new Item.Settings().maxCount(1)).fireproof().maxDamage(ArmorItem.Type.HELMET.getMaxDamage(37))));
+	 *//*?}*/
 	private FriendsAndFoesItems() {
 	}
 

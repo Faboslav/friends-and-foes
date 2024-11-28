@@ -97,10 +97,10 @@ public class ImageButtonWidget extends ClickableWidget {
 //        context.drawTexture(image, getX(), getY(), this.width, this.height, 0, 0, 1920, 1080, 1920, 1080);
 
 		//? if <1.21.2 {
-		int greyColor = ColorHelper.Argb.getArgb((int) (alphaScale * 255), 0, 0, 0);
-		//?} else {
-		/*int greyColor = ColorHelper.getArgb((int) (alphaScale * 255), 0, 0, 0);
-		*///?}
+		/*int greyColor = ColorHelper.Argb.getArgb((int) (alphaScale * 255), 0, 0, 0);
+		*///?} else {
+		int greyColor = ColorHelper.getArgb((int) (alphaScale * 255), 0, 0, 0);
+		//?}
 		context.fill(getX(), getY(), getX() + width, getY() + height, greyColor);
 
 		// Draw text.

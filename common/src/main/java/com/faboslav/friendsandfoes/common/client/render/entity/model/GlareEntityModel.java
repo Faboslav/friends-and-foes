@@ -1,16 +1,23 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.model;
 
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.ModelPartAnimator;
+import com.faboslav.friendsandfoes.common.client.render.entity.state.GlareEntityRenderState;
 import com.faboslav.friendsandfoes.common.entity.GlareEntity;
 import com.faboslav.friendsandfoes.common.util.animation.AnimationMath;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
+import net.minecraft.client.render.entity.model.EntityModel;
+import net.minecraft.client.render.entity.state.StriderEntityRenderState;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec2f;
 
 @Environment(EnvType.CLIENT)
-public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntityModel<T>
+/*? >=1.21.2 {*/
+public class GlareEntityModel extends AnimatedEntityModel<GlareEntityRenderState>
+/*?} else {*/
+/*public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntityModel<T>
+*//*?}*/
 {
 	private static final String MODEL_PART_ROOT = "root";
 	private static final String MODEL_PART_HEAD = "head";
@@ -72,15 +79,13 @@ public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntit
 	}
 
 	@Override
-	public void setAngles(
-		T glare,
-		float limbAngle,
-		float limbDistance,
-		float animationProgress,
-		float headYaw,
-		float headPitch
-	) {
-		this.getPart().traverse().forEach(ModelPart::resetTransform);
+	/*? >=1.21.2 {*/
+	public void setAngles(GlareEntityRenderState glareEntityRenderState)
+	/*?} else {*/
+	/*public void setAngles(T glare, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
+	*//*?}*/
+	{
+		this.getRootPart().traverse().forEach(ModelPart::resetTransform);
 
 		this.animateEyes(glare);
 		this.animateFloating(glare, animationProgress);
@@ -118,16 +123,18 @@ public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntit
 	}
 
 	private void animateFloating(
-		T glare,
-		float animationProgress
+		float animationProgress,
+		boolean isGrumpy,
+		boolean isSitting,
+		Vec2f eyesPositionOffset
 	) {
-		float verticalFloatingSpeed = glare.isGrumpy() ? 0.3F:0.1F;
-		float horizontalFloatingSpeed = glare.isGrumpy() ? 0.15F:0.05F;
+		float verticalFloatingSpeed = isGrumpy ? 0.3F:0.1F;
+		float horizontalFloatingSpeed = isGrumpy ? 0.15F:0.05F;
 
 		float verticalFloatingOffset;
 		float horizontalFloatingOffset;
 
-		if (glare.isSitting()) {
+		if (isSitting) {
 			verticalFloatingOffset = 0.5F;
 			horizontalFloatingOffset = 0.5F;
 		} else {
@@ -135,10 +142,10 @@ public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntit
 			horizontalFloatingOffset = 1.0F;
 		}
 
-		float targetPivotY = glare.isSitting() ? 3.0F:0.11F;
+		float targetPivotY = isSitting ? 3.0F:0.11F;
 		animateModelPartYPositionBasedOnTicks(glare, this.root, targetPivotY, 10);
 
-		if (glare.isGrumpy()) {
+		if (isGrumpy) {
 			ModelPartAnimator.setXPosition(this.root, AnimationMath.sin(animationProgress, 0.5F));
 			ModelPartAnimator.setYPosition(this.root, AnimationMath.absSin(animationProgress, 0.1F));
 			ModelPartAnimator.setYRotation(this.root, AnimationMath.sin(animationProgress, 0.05F));

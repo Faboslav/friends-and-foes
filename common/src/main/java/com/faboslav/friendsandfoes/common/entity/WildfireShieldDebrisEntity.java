@@ -3,6 +3,8 @@ package com.faboslav.friendsandfoes.common.entity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
+import com.faboslav.friendsandfoes.common.versions.VersionedGameRulesProvider;
 import net.minecraft.block.AbstractFireBlock;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -50,7 +52,7 @@ public final class WildfireShieldDebrisEntity extends AbstractFireballEntity
 		target.setOnFireFor(5.0F);
 
 		DamageSource damageSource = this.getDamageSources().fireball(this, wildfire);
-		if (!target.damage(damageSource, 5.0F)) {
+		if (!VersionedEntity.damage(this, target, damageSource, 5.0F)) {
 			target.setFireTicks(i);
 		} else {
 			EnchantmentHelper.onTargetDamaged((ServerWorld) this.getWorld(), target, damageSource);
@@ -68,7 +70,7 @@ public final class WildfireShieldDebrisEntity extends AbstractFireballEntity
 
 		if (
 			!(entity instanceof MobEntity)
-			|| this.getWorld().getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING)
+			|| VersionedGameRulesProvider.getGameRules(this).getBoolean(GameRules.DO_MOB_GRIEFING)
 		) {
 			BlockPos blockPos = blockHitResult.getBlockPos().offset(blockHitResult.getSide());
 
@@ -93,7 +95,14 @@ public final class WildfireShieldDebrisEntity extends AbstractFireballEntity
 		return false;
 	}
 
-	public boolean damage(DamageSource source, float amount) {
+	/*? >=1.21.3 {*/
+	@Override
+	public boolean damage(ServerWorld world, DamageSource source, float amount)
+	/*?} else {*/
+	/*@Override
+	public boolean damage(DamageSource source, float amount)
+	*//*?}*/
+	{
 		return false;
 	}
 

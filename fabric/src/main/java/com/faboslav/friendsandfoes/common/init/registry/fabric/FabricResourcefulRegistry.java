@@ -49,7 +49,6 @@ public class FabricResourcefulRegistry<T> implements ResourcefulRegistry<T>
 	@Override
 	public ReferenceRegistryEntry<T> registerReference(String id, Supplier<T> supplier) {
 		return entries.add(FabricHolderRegistryEntry.of(this.registry, Identifier.of(this.id, id), supplier));
-
 	}
 
 	@Override

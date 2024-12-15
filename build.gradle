@@ -12,10 +12,7 @@ subprojects {
 
 	dependencies {
 		minecraft "com.mojang:minecraft:${minecraft_version}"
-		mappings loom.layered {
-			it.mappings "net.fabricmc:yarn:${yarn_mappings}:v2"
-			it.mappings "dev.architectury:yarn-mappings-patch-neoforge:${yarn_mappings_patch}"
-		}
+		mappings loom.officialMojangMappings()
 	}
 }
 
@@ -54,6 +51,20 @@ allprojects {
 			name = "Jitpack"
 			url 'https://jitpack.io/'
 		}
+
+		// Modrinth
+		maven {
+			url "https://api.modrinth.com/maven"
+			content {
+				includeGroup("maven.modrinth")
+			}
+		}
+
+		// YACL
+		maven { url "https://maven.isxander.dev/releases" }
+		maven { url "https://maven.isxander.dev/snapshots" }
+		maven { url 'https://thedarkcolour.github.io/KotlinForForge/' }
+		maven { url "https://maven.quiltmc.org/repository/release" }
 	}
 
 	tasks.withType(JavaCompile).configureEach {

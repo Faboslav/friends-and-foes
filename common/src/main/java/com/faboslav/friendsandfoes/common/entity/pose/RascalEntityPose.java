@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.entity.pose;
 
-import net.minecraft.entity.EntityPose;
+import net.minecraft.world.entity.Pose;
 
 public enum RascalEntityPose
 {
@@ -22,11 +22,11 @@ public enum RascalEntityPose
 		return "RASCAL_" + this.name();
 	}
 
-	public EntityPose get() {
-		return EntityPose.valueOf(this.getName());
+	public Pose get() {
+		return Pose.valueOf(this.getName());
 	}
 
 	static {
-		EntityPose.values();
+		Pose.values();
 	}
 }

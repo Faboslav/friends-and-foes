@@ -7,20 +7,20 @@ import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistries;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
 import com.faboslav.friendsandfoes.common.util.TradeOffersUtil;
 import com.google.common.collect.ImmutableSet;
-import net.minecraft.item.Items;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.tag.PointOfInterestTypeTags;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.village.VillagerProfession;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.PoiTypeTags;
+import net.minecraft.world.entity.npc.VillagerProfession;
+import net.minecraft.world.item.Items;
 
 /**
  * @see VillagerProfession
  */
 public final class FriendsAndFoesVillagerProfessions
 {
-	public static final ResourcefulRegistry<VillagerProfession> VILLAGER_PROFESSIONS = ResourcefulRegistries.create(Registries.VILLAGER_PROFESSION, FriendsAndFoes.MOD_ID);
+	public static final ResourcefulRegistry<VillagerProfession> VILLAGER_PROFESSIONS = ResourcefulRegistries.create(BuiltInRegistries.VILLAGER_PROFESSION, FriendsAndFoes.MOD_ID);
 
-	public static final RegistryEntry<VillagerProfession> BEEKEEPER = VILLAGER_PROFESSIONS.register("beekeeper", () -> new VillagerProfession("beekeeper", pointOfInterest -> pointOfInterest.isIn(PointOfInterestTypeTags.BEE_HOME), pointOfInterest -> pointOfInterest.isIn(PointOfInterestTypeTags.BEE_HOME), ImmutableSet.of(Items.HONEYCOMB), ImmutableSet.of(), SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM));
+	public static final RegistryEntry<VillagerProfession> BEEKEEPER = VILLAGER_PROFESSIONS.register("beekeeper", () -> new VillagerProfession("beekeeper", pointOfInterest -> pointOfInterest.is(PoiTypeTags.BEE_HOME), pointOfInterest -> pointOfInterest.is(PoiTypeTags.BEE_HOME), ImmutableSet.of(Items.HONEYCOMB), ImmutableSet.of(), SoundEvents.ITEM_FRAME_REMOVE_ITEM));
 
 	public static void registerVillagerTrades(RegisterVillagerTradesEvent event) {
 		if (event.type() == BEEKEEPER.get()) {

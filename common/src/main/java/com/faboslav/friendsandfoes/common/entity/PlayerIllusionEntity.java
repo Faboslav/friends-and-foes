@@ -3,43 +3,43 @@ package com.faboslav.friendsandfoes.common.entity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.client.util.DefaultSkinHelper;
-import net.minecraft.client.util.SkinTextures;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerModelPart;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.PlayerInfo;
+import net.minecraft.client.resources.DefaultPlayerSkin;
+import net.minecraft.client.resources.PlayerSkin;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.PlayerModelPart;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 import java.util.UUID;
 
-public final class PlayerIllusionEntity extends MobEntity
+public final class PlayerIllusionEntity extends Mob
 {
 	private static final String TICKS_UNTIL_DESPAWN_NBT_NAME = "TicksUntilDespawn";
-	private static final TrackedData<Integer> TICKS_UNTIL_DESPAWN;
+	private static final EntityDataAccessor<Integer> TICKS_UNTIL_DESPAWN;
 	private static final String PLAYER_UUID_NBT_NAME = "PlayerUuid";
-	private static final TrackedData<Optional<UUID>> PLAYER_UUID;
-	private static final TrackedData<Byte> PLAYER_MODEL_PARTS;
+	private static final EntityDataAccessor<Optional<UUID>> PLAYER_UUID;
+	private static final EntityDataAccessor<Byte> PLAYER_MODEL_PARTS;
 
 	@Nullable
-	private PlayerEntity player;
+	private Player player;
 
 	@Nullable
-	private PlayerListEntry playerListEntry;
+	private PlayerInfo playerListEntry;
 
 	public double prevCapeX;
 	public double prevCapeY;
@@ -50,36 +50,36 @@ public final class PlayerIllusionEntity extends MobEntity
 	public float prevStrideDistance;
 	public float strideDistance;
 
-	public PlayerIllusionEntity(EntityType<? extends MobEntity> entityType, World world) {
+	public PlayerIllusionEntity(EntityType<? extends Mob> entityType, Level world) {
 		super(entityType, world);
 	}
 
 	@Override
-	protected void initDataTracker(DataTracker.Builder builder) {
-		super.initDataTracker(builder);
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		super.defineSynchedData(builder);
 
-		builder.add(PLAYER_MODEL_PARTS, (byte) 0);
-		builder.add(TICKS_UNTIL_DESPAWN, 0);
-		builder.add(PLAYER_UUID, Optional.empty());
+		builder.define(PLAYER_MODEL_PARTS, (byte) 0);
+		builder.define(TICKS_UNTIL_DESPAWN, 0);
+		builder.define(PLAYER_UUID, Optional.empty());
 	}
 
 	@Override
-	public void writeCustomDataToNbt(NbtCompound nbt) {
-		super.writeCustomDataToNbt(nbt);
+	public void addAdditionalSaveData(CompoundTag nbt) {
+		super.addAdditionalSaveData(nbt);
 
 		nbt.putInt(TICKS_UNTIL_DESPAWN_NBT_NAME, this.getTicksUntilDespawn());
-		nbt.putUuid(PLAYER_UUID_NBT_NAME, this.getPlayerUuid());
+		nbt.putUUID(PLAYER_UUID_NBT_NAME, this.getPlayerUuid());
 	}
 
-	public void readCustomDataFromNbt(NbtCompound nbt) {
-		super.readCustomDataFromNbt(nbt);
+	public void readAdditionalSaveData(CompoundTag nbt) {
+		super.readAdditionalSaveData(nbt);
 
-		this.setPlayerUuid(nbt.getUuid(PLAYER_UUID_NBT_NAME));
+		this.setPlayerUuid(nbt.getUUID(PLAYER_UUID_NBT_NAME));
 		this.setTicksUntilDespawn(nbt.getInt(TICKS_UNTIL_DESPAWN_NBT_NAME));
 	}
 
 	@Override
-	public boolean shouldDropXp() {
+	public boolean shouldDropExperience() {
 		return false;
 	}
 
@@ -89,8 +89,8 @@ public final class PlayerIllusionEntity extends MobEntity
 	}
 
 	@Override
-	public void tickMovement() {
-		super.tickMovement();
+	public void aiStep() {
+		super.aiStep();
 
 		if (this.getTicksUntilDespawn() > 0) {
 			this.setTicksUntilDespawn(this.getTicksUntilDespawn() - 1);
@@ -107,7 +107,7 @@ public final class PlayerIllusionEntity extends MobEntity
 	}
 
 	@Override
-	public boolean damage(
+	public boolean hurt(
 		DamageSource source,
 		float amount
 	) {
@@ -117,42 +117,42 @@ public final class PlayerIllusionEntity extends MobEntity
 
 	@Environment(EnvType.CLIENT)
 	public boolean isPartVisible(PlayerModelPart modelPart) {
-		return (this.getDataTracker().get(PLAYER_MODEL_PARTS) & modelPart.getBitFlag()) == modelPart.getBitFlag();
+		return (this.getEntityData().get(PLAYER_MODEL_PARTS) & modelPart.getMask()) == modelPart.getMask();
 	}
 
 	@Environment(EnvType.CLIENT)
-	public SkinTextures getSkinTextures() {
-		PlayerListEntry playerListEntry = this.getPlayerListEntry();
+	public PlayerSkin getSkinTextures() {
+		PlayerInfo playerListEntry = this.getPlayerListEntry();
 
 		if (playerListEntry != null) {
-			return playerListEntry.getSkinTextures();
+			return playerListEntry.getSkin();
 		}
 
 		UUID uuid = this.getPlayerUuid();
 
 		if (uuid == null) {
-			uuid = this.getUuid();
+			uuid = this.getUUID();
 		}
 
-		return DefaultSkinHelper.getSkinTextures(uuid);
+		return DefaultPlayerSkin.get(uuid);
 	}
 
 	@Environment(EnvType.CLIENT)
-	public Vec3d lerpVelocity(float tickDelta) {
-		return Vec3d.ZERO.lerp(this.getVelocity(), tickDelta);
+	public Vec3 lerpVelocity(float tickDelta) {
+		return Vec3.ZERO.lerp(this.getDeltaMovement(), tickDelta);
 	}
 
 	@Environment(EnvType.CLIENT)
 	@Nullable
-	private PlayerListEntry getPlayerListEntry() {
+	private PlayerInfo getPlayerListEntry() {
 		if (this.playerListEntry == null) {
 			UUID uuid = this.getPlayerUuid();
 
 			if (uuid == null) {
-				uuid = this.getUuid();
+				uuid = this.getUUID();
 			}
 
-			this.playerListEntry = MinecraftClient.getInstance().getNetworkHandler().getPlayerListEntry(uuid);
+			this.playerListEntry = Minecraft.getInstance().getConnection().getPlayerInfo(uuid);
 		}
 
 		return this.playerListEntry;
@@ -160,28 +160,28 @@ public final class PlayerIllusionEntity extends MobEntity
 
 	@Nullable
 	public UUID getPlayerUuid() {
-		return this.dataTracker.get(PLAYER_UUID).orElse(null);
+		return this.entityData.get(PLAYER_UUID).orElse(null);
 	}
 
 	public void setPlayerUuid(UUID uuid) {
-		this.dataTracker.set(PLAYER_UUID, Optional.ofNullable(uuid));
+		this.entityData.set(PLAYER_UUID, Optional.ofNullable(uuid));
 	}
 
 	@Nullable
-	public PlayerEntity getPlayer() {
+	public Player getPlayer() {
 		return this.player;
 	}
 
-	public void setPlayer(PlayerEntity player) {
+	public void setPlayer(Player player) {
 		this.player = player;
 	}
 
 	public int getTicksUntilDespawn() {
-		return this.dataTracker.get(TICKS_UNTIL_DESPAWN);
+		return this.entityData.get(TICKS_UNTIL_DESPAWN);
 	}
 
 	public void setTicksUntilDespawn(int ticksUntilDespawn) {
-		this.dataTracker.set(TICKS_UNTIL_DESPAWN, ticksUntilDespawn);
+		this.entityData.set(TICKS_UNTIL_DESPAWN, ticksUntilDespawn);
 	}
 
 	private void discardIllusion() {
@@ -194,18 +194,18 @@ public final class PlayerIllusionEntity extends MobEntity
 		this.playSound(
 			FriendsAndFoesSoundEvents.ENTITY_PLAYER_MIRROR_MOVE.get(),
 			this.getSoundVolume(),
-			this.getSoundPitch()
+			this.getVoicePitch()
 		);
 	}
 
 	public boolean tryToTeleport(int x, int y, int z) {
 		y -= 8;
-		double bottomY = Math.max(y, getWorld().getBottomY());
-		double topY = Math.min(bottomY + 16, ((ServerWorld) this.getWorld()).getLogicalHeight() - 1);
+		double bottomY = Math.max(y, level().getMinBuildHeight());
+		double topY = Math.min(bottomY + 16, ((ServerLevel) this.level()).getLogicalHeight() - 1);
 
 		for (int i = 0; i < 16; ++i) {
-			y = (int) MathHelper.clamp(y + 1, bottomY, topY);
-			boolean teleportResult = this.teleport(x, y, z, false);
+			y = (int) Mth.clamp(y + 1, bottomY, topY);
+			boolean teleportResult = this.randomTeleport(x, y, z, false);
 
 			if (teleportResult) {
 				return true;
@@ -219,20 +219,20 @@ public final class PlayerIllusionEntity extends MobEntity
 		this.spawnParticles(ParticleTypes.CLOUD, 16);
 	}
 
-	private <T extends ParticleEffect> void spawnParticles(
+	private <T extends ParticleOptions> void spawnParticles(
 		T particleType,
 		int amount
 	) {
-		if (this.getWorld().isClient()) {
+		if (this.level().isClientSide()) {
 			return;
 		}
 
 		for (int i = 0; i < amount; i++) {
-			((ServerWorld) this.getEntityWorld()).spawnParticles(
+			((ServerLevel) this.getCommandSenderWorld()).sendParticles(
 				particleType,
-				this.getParticleX(0.5D),
-				this.getRandomBodyY() + 0.5D,
-				this.getParticleZ(0.5D),
+				this.getRandomX(0.5D),
+				this.getRandomY() + 0.5D,
+				this.getRandomZ(0.5D),
 				1,
 				0.0D,
 				0.0D,
@@ -243,8 +243,8 @@ public final class PlayerIllusionEntity extends MobEntity
 	}
 
 	static {
-		PLAYER_MODEL_PARTS = DataTracker.registerData(PlayerIllusionEntity.class, TrackedDataHandlerRegistry.BYTE);
-		TICKS_UNTIL_DESPAWN = DataTracker.registerData(PlayerIllusionEntity.class, TrackedDataHandlerRegistry.INTEGER);
-		PLAYER_UUID = DataTracker.registerData(PlayerIllusionEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
+		PLAYER_MODEL_PARTS = SynchedEntityData.defineId(PlayerIllusionEntity.class, EntityDataSerializers.BYTE);
+		TICKS_UNTIL_DESPAWN = SynchedEntityData.defineId(PlayerIllusionEntity.class, EntityDataSerializers.INT);
+		PLAYER_UUID = SynchedEntityData.defineId(PlayerIllusionEntity.class, EntityDataSerializers.OPTIONAL_UUID);
 	}
 }

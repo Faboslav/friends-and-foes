@@ -2,76 +2,81 @@ package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.attribute.DefaultAttributeContainer.Builder;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.mob.SpellcastingIllagerEntity;
-import net.minecraft.entity.passive.GlowSquidEntity;
-import net.minecraft.entity.passive.IronGolemEntity;
-import net.minecraft.entity.passive.MerchantEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.raid.RaiderEntity;
-import net.minecraft.registry.tag.EntityTypeTags;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.world.World;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.GlowSquid;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier.Builder;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.SpellcasterIllager;
+import net.minecraft.world.entity.npc.AbstractVillager;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.raid.Raider;
+import net.minecraft.world.level.Level;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-public final class IceologerEntity extends SpellcastingIllagerEntity
+public final class IceologerEntity extends SpellcasterIllager
 {
-	public IceologerEntity(EntityType<? extends IceologerEntity> entityType, World world) {
+	public IceologerEntity(EntityType<? extends IceologerEntity> entityType, Level world) {
 		super(entityType, world);
 
-		if (!FriendsAndFoes.getConfig().enableIceologer && !this.getWorld().isClient()) {
+		if (!FriendsAndFoes.getConfig().enableIceologer && !this.level().isClientSide()) {
 			this.discard();
 		}
 
-		this.experiencePoints = 10;
+		this.xpReward = 10;
 	}
 
-	protected void initGoals() {
-		super.initGoals();
-		this.goalSelector.add(0, new SwimGoal(this));
-		this.goalSelector.add(1, new LookAtTargetGoal());
-		this.goalSelector.add(2, new FleeEntityGoal(this, PlayerEntity.class, 8.0F, 0.6D, 1.0D));
-		this.goalSelector.add(2, new FleeEntityGoal(this, IronGolemEntity.class, 8.0F, 0.6D, 1.0D));
-		this.goalSelector.add(3, new SummonIceChunkGoal());
-		this.goalSelector.add(4, new SlowTargetGoal());
-		this.goalSelector.add(5, new WanderAroundGoal(this, 0.6D));
-		this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 3.0F, 1.0F));
-		this.goalSelector.add(7, new LookAtEntityGoal(this, MobEntity.class, 8.0F));
-		this.targetSelector.add(1, (new RevengeGoal(this, RaiderEntity.class)).setGroupRevenge());
-		this.targetSelector.add(2, (new ActiveTargetGoal(this, PlayerEntity.class, true)).setMaxTimeWithoutVisibility(300));
-		this.targetSelector.add(3, (new ActiveTargetGoal(this, IronGolemEntity.class, false)).setMaxTimeWithoutVisibility(300));
-		this.targetSelector.add(4, (new ActiveTargetGoal(this, MerchantEntity.class, false)).setMaxTimeWithoutVisibility(300));
-		this.targetSelector.add(5, (new ActiveTargetGoal(this, GlowSquidEntity.class, false)).setMaxTimeWithoutVisibility(300));
+	protected void registerGoals() {
+		super.registerGoals();
+		this.goalSelector.addGoal(0, new FloatGoal(this));
+		this.goalSelector.addGoal(1, new SpellcasterCastingSpellGoal());
+		this.goalSelector.addGoal(2, new AvoidEntityGoal(this, Player.class, 8.0F, 0.6D, 1.0D));
+		this.goalSelector.addGoal(2, new AvoidEntityGoal(this, IronGolem.class, 8.0F, 0.6D, 1.0D));
+		this.goalSelector.addGoal(3, new SummonIceChunkGoal());
+		this.goalSelector.addGoal(4, new SlowTargetGoal());
+		this.goalSelector.addGoal(5, new RandomStrollGoal(this, 0.6D));
+		this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 3.0F, 1.0F));
+		this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Mob.class, 8.0F));
+		this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, Raider.class)).setAlertOthers());
+		this.targetSelector.addGoal(2, (new NearestAttackableTargetGoal(this, Player.class, true)).setUnseenMemoryTicks(300));
+		this.targetSelector.addGoal(3, (new NearestAttackableTargetGoal(this, IronGolem.class, false)).setUnseenMemoryTicks(300));
+		this.targetSelector.addGoal(4, (new NearestAttackableTargetGoal(this, AbstractVillager.class, false)).setUnseenMemoryTicks(300));
+		this.targetSelector.addGoal(5, (new NearestAttackableTargetGoal(this, GlowSquid.class, false)).setUnseenMemoryTicks(300));
 	}
 
 	public static Builder createIceologerAttributes() {
-		return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.5D).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 18.0D).add(EntityAttributes.GENERIC_MAX_HEALTH, 40.0D);
+		return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.5D).add(Attributes.FOLLOW_RANGE, 18.0D).add(Attributes.MAX_HEALTH, 40.0D);
 	}
 
-	public SoundEvent getCelebratingSound() {
+	public SoundEvent getCelebrateSound() {
 		return FriendsAndFoesSoundEvents.ENTITY_ICEOLOGER_AMBIENT.get();
 	}
 
-	public void addBonusForWave(ServerWorld world, int wave, boolean unused) {
+	public void applyRaidBuffs(ServerLevel world, int wave, boolean unused) {
 	}
 
 	// TODO add illager friends to json
-	public boolean isTeammate(Entity other) {
-		if (super.isTeammate(other)) {
+	public boolean isAlliedTo(Entity other) {
+		if (super.isAlliedTo(other)) {
 			return true;
-		} else if (!other.getType().isIn(EntityTypeTags.ILLAGER_FRIENDS)) {
+		} else if (!other.getType().is(EntityTypeTags.ILLAGER_FRIENDS)) {
 			return false;
 		} else {
-			return this.getScoreboardTeam() == null && other.getScoreboardTeam() == null;
+			return this.getTeam() == null && other.getTeam() == null;
 		}
 	}
 
@@ -96,88 +101,88 @@ public final class IceologerEntity extends SpellcastingIllagerEntity
 		return FriendsAndFoesSoundEvents.ENTITY_ICEOLOGER_HURT.get();
 	}
 
-	protected SoundEvent getCastSpellSound() {
+	protected SoundEvent getCastingSoundEvent() {
 		return FriendsAndFoesSoundEvents.ENTITY_ICEOLOGER_CAST_SPELL.get();
 	}
 
 	public void addBonusForWave(int wave, boolean unused) {
 	}
 
-	private class SummonIceChunkGoal extends CastSpellGoal
+	private class SummonIceChunkGoal extends SpellcasterUseSpellGoal
 	{
 		@Override
-		protected void castSpell() {
+		protected void performSpellCasting() {
 			LivingEntity target = IceologerEntity.this.getTarget();
 			this.summonIceChunk(target);
 		}
 
 		@Override
-		protected int getSpellTicks() {
+		protected int getCastingTime() {
 			return 30;
 		}
 
 		@Override
-		protected int startTimeDelay() {
+		protected int getCastingInterval() {
 			return 160;
 		}
 
 		@Override
-		protected SoundEvent getSoundPrepare() {
+		protected SoundEvent getSpellPrepareSound() {
 			return FriendsAndFoesSoundEvents.ENTITY_ICEOLOGER_PREPARE_SUMMON.get();
 		}
 
 		@Override
-		protected Spell getSpell() {
-			return Spell.FANGS;
+		protected IllagerSpell getSpell() {
+			return IllagerSpell.FANGS;
 		}
 
 		private void summonIceChunk(LivingEntity target) {
-			var world = IceologerEntity.this.getWorld();
+			var world = IceologerEntity.this.level();
 			var iceChunk = IceologerIceChunkEntity.createWithOwnerAndTarget(
 				world,
 				IceologerEntity.this,
 				target
 			);
 
-			world.spawnEntity(iceChunk);
+			world.addFreshEntity(iceChunk);
 		}
 	}
 
-	public final class SlowTargetGoal extends CastSpellGoal
+	public final class SlowTargetGoal extends SpellcasterUseSpellGoal
 	{
 		@Override
-		public boolean canStart() {
-			return super.canStart()
+		public boolean canUse() {
+			return super.canUse()
 				   && IceologerEntity.this.getTarget() != null;
 		}
 
 		@Override
-		protected int getSpellTicks() {
+		protected int getCastingTime() {
 			return 20;
 		}
 
 		@Override
-		protected int startTimeDelay() {
+		protected int getCastingInterval() {
 			return 220;
 		}
 
 		@Override
-		protected void castSpell() {
+		protected void performSpellCasting() {
 			var target = IceologerEntity.this.getTarget();
 
 			if (target.canFreeze()) {
-				target.setFrozenTicks(400);
+				target.setTicksFrozen(400);
 			}
 		}
 
 		@Override
-		protected SoundEvent getSoundPrepare() {
+		protected SoundEvent getSpellPrepareSound() {
 			return FriendsAndFoesSoundEvents.ENTITY_ICEOLOGER_PREPARE_SLOWNESS.get();
 		}
 
 		@Override
-		protected Spell getSpell() {
-			return Spell.BLINDNESS;
+		protected IllagerSpell getSpell() {
+			return IllagerSpell.BLINDNESS;
 		}
 	}
 }

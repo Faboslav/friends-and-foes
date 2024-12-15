@@ -1,3 +1,7 @@
+def modrinth(String name, String version) {
+	return "maven.modrinth:$name:$version"
+}
+
 plugins {
 	id "com.github.johnrengelman.shadow" version "8.1.1"
 }
@@ -47,8 +51,18 @@ dependencies {
 	modCompileOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}:api")
 	modRuntimeOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}")
 
-	// Cloth config (https://www.curseforge.com/minecraft/mc-mods/cloth-config)
-	modImplementation("me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}")
+	// YACL
+	modImplementation(modrinth("yacl", "${yacl_version}-neoforge"))
+
+	// For YACL to work
+	forgeRuntimeLibrary(implementation(include("com.twelvemonkeys.imageio:imageio-core:3.10.0")))
+	forgeRuntimeLibrary(implementation(include("com.twelvemonkeys.imageio:imageio-webp:3.10.0")))
+	forgeRuntimeLibrary(implementation(include("com.twelvemonkeys.imageio:imageio-metadata:3.10.0")))
+	forgeRuntimeLibrary(implementation(include("com.twelvemonkeys.common:common-lang:3.10.0")))
+	forgeRuntimeLibrary(implementation(include("com.twelvemonkeys.common:common-io:3.10.0")))
+	forgeRuntimeLibrary(implementation(include("com.twelvemonkeys.common:common-image:3.10.0")))
+	forgeRuntimeLibrary(implementation(include("org.quiltmc.parsers:json:0.2.1")))
+	forgeRuntimeLibrary(implementation(include("org.quiltmc.parsers:gson:0.2.1")))
 }
 
 shadowJar {

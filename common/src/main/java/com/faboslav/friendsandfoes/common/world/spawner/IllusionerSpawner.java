@@ -2,19 +2,20 @@ package com.faboslav.friendsandfoes.common.world.spawner;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.mob.PatrolEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos.Mutable;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.Heightmap;
-import net.minecraft.world.SpawnHelper;
-import net.minecraft.world.spawner.SpecialSpawner;
+import net.minecraft.core.BlockPos.MutableBlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.monster.Illusioner;
+import net.minecraft.world.entity.monster.PatrollingMonster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.CustomSpawner;
+import net.minecraft.world.level.NaturalSpawner;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Heightmap;
 
-public final class IllusionerSpawner implements SpecialSpawner
+public final class IllusionerSpawner implements CustomSpawner
 {
 	private int cooldown;
 
@@ -22,7 +23,7 @@ public final class IllusionerSpawner implements SpecialSpawner
 	}
 
 	@Override
-	public int spawn(ServerWorld world, boolean spawnMonsters, boolean spawnAnimals) {
+	public int tick(ServerLevel world, boolean spawnMonsters, boolean spawnAnimals) {
 		if (
 			!spawnMonsters
 			|| !FriendsAndFoes.getConfig().enableIllusioner
@@ -31,7 +32,7 @@ public final class IllusionerSpawner implements SpecialSpawner
 			return 0;
 		}
 
-		Random random = world.getRandom();
+		RandomSource random = world.getRandom();
 		--this.cooldown;
 
 		if (this.cooldown > 0) {
@@ -39,52 +40,52 @@ public final class IllusionerSpawner implements SpecialSpawner
 		}
 
 		this.cooldown += 12000 + random.nextInt(1000);
-		long l = world.getTimeOfDay() / 24000L;
+		long l = world.getDayTime() / 24000L;
 
 		if (
 			l < 5L
 			|| !world.isDay()
-			|| random.nextBetween(0, 1) != 0
+			|| random.nextIntBetweenInclusive(0, 1) != 0
 		) {
 			return 0;
 		}
 
-		int playerCount = world.getPlayers().size();
+		int playerCount = world.players().size();
 		if (playerCount == 0) {
 			return 0;
 		}
 
-		PlayerEntity playerEntity = world.getPlayers().get(random.nextInt(playerCount));
+		Player playerEntity = world.players().get(random.nextInt(playerCount));
 
 		if (
 			playerEntity.isSpectator()
-			|| world.isNearOccupiedPointOfInterest(playerEntity.getBlockPos(), 2)
+			|| world.isCloseToVillage(playerEntity.blockPosition(), 2)
 		) {
 			return 0;
 		}
 
 		int j = (24 + random.nextInt(24)) * (random.nextBoolean() ? -1:1);
 		int k = (24 + random.nextInt(24)) * (random.nextBoolean() ? -1:1);
-		Mutable mutable = playerEntity.getBlockPos().mutableCopy().move(j, 0, k);
+		MutableBlockPos mutable = playerEntity.blockPosition().mutable().move(j, 0, k);
 
 		var minX = mutable.getX() - 10;
 		var minZ = mutable.getZ() - 10;
 		var maxX = mutable.getX() + 10;
 		var maxZ = mutable.getZ() + 10;
-		if (!world.isRegionLoaded(minX, minZ, maxX, maxZ)) {
+		if (!world.hasChunksAt(minX, minZ, maxX, maxZ)) {
 			return 0;
 		}
 
-		if (!world.getBiome(mutable).isIn(FriendsAndFoesTags.HAS_ILLUSIONER)) {
+		if (!world.getBiome(mutable).is(FriendsAndFoesTags.HAS_ILLUSIONER)) {
 			return 0;
 		}
 
-		mutable.setY(world.getTopPosition(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, mutable).getY());
+		mutable.setY(world.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, mutable).getY());
 		BlockState blockState = world.getBlockState(mutable);
 
 		if (
-			!SpawnHelper.isClearForSpawn(world, mutable, blockState, blockState.getFluidState(), EntityType.ILLUSIONER)
-			|| !PatrolEntity.canSpawn(EntityType.ILLUSIONER, world, SpawnReason.PATROL, mutable, random)
+			!NaturalSpawner.isValidEmptySpawnBlock(world, mutable, blockState, blockState.getFluidState(), EntityType.ILLUSIONER)
+			|| !PatrollingMonster.checkPatrollingMonsterSpawnRules(EntityType.ILLUSIONER, world, MobSpawnType.PATROL, mutable, random)
 		) {
 			return 0;
 		}
@@ -96,10 +97,10 @@ public final class IllusionerSpawner implements SpecialSpawner
 		}
 
 		illusioner.setPatrolLeader(false);
-		illusioner.setRandomPatrolTarget();
-		illusioner.setPosition(mutable.getX(), mutable.getY(), mutable.getZ());
-		illusioner.initialize(world, world.getLocalDifficulty(mutable), SpawnReason.PATROL, null);
-		world.spawnEntityAndPassengers(illusioner);
+		illusioner.findPatrolTarget();
+		illusioner.setPos(mutable.getX(), mutable.getY(), mutable.getZ());
+		illusioner.finalizeSpawn(world, world.getCurrentDifficultyAt(mutable), MobSpawnType.PATROL, null);
+		world.addFreshEntityWithPassengers(illusioner);
 		return 1;
 	}
 }

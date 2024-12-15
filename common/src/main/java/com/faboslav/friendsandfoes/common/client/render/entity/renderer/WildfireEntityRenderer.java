@@ -4,36 +4,36 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.WildfireEntityModel;
 import com.faboslav.friendsandfoes.common.entity.WildfireEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.MobEntityRenderer;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 
 @Environment(EnvType.CLIENT)
 @SuppressWarnings({"rawtypes", "unchecked"})
-public final class WildfireEntityRenderer extends MobEntityRenderer<WildfireEntity, WildfireEntityModel<WildfireEntity>>
+public final class WildfireEntityRenderer extends MobRenderer<WildfireEntity, WildfireEntityModel<WildfireEntity>>
 {
-	public static final float SCALE = 1.6F;
+	public static final float SCALE = 1.5F;
 
-	public WildfireEntityRenderer(EntityRendererFactory.Context context) {
-		super(context, new WildfireEntityModel(context.getPart(FriendsAndFoesEntityModelLayers.WILDFIRE_LAYER)), 0.35F);
+	public WildfireEntityRenderer(EntityRendererProvider.Context context) {
+		super(context, new WildfireEntityModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.WILDFIRE_LAYER)), 0.35F);
 	}
 
 	@Override
-	protected int getBlockLight(WildfireEntity wildfire, BlockPos blockPos) {
+	protected int getBlockLightLevel(WildfireEntity wildfire, BlockPos blockPos) {
 		return 15;
 	}
 
 	@Override
-	protected void scale(WildfireEntity wildfire, MatrixStack matrixStack, float f) {
+	protected void scale(WildfireEntity wildfire, PoseStack matrixStack, float f) {
 		matrixStack.scale(SCALE, SCALE, SCALE);
 	}
 
 	@Override
-	public Identifier getTexture(WildfireEntity wildfire) {
+	public ResourceLocation getTextureLocation(WildfireEntity wildfire) {
 		return FriendsAndFoes.makeID("textures/entity/wildfire/wildfire.png");
 	}
 }

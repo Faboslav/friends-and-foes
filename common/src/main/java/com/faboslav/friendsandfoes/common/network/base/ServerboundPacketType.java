@@ -1,9 +1,8 @@
 package com.faboslav.friendsandfoes.common.network.base;
 
 import com.faboslav.friendsandfoes.common.network.Packet;
-import net.minecraft.entity.player.PlayerEntity;
-
 import java.util.function.Consumer;
+import net.minecraft.world.entity.player.Player;
 
 /**
  * Network related is code based on The Bumblezone/Resourceful Lib mods with permissions from the authors
@@ -15,5 +14,5 @@ import java.util.function.Consumer;
  */
 public interface ServerboundPacketType<T extends Packet<T>> extends PacketType<T>
 {
-	Consumer<PlayerEntity> handle(T message);
+	Consumer<Player> handle(T message);
 }

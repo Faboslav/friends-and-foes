@@ -3,35 +3,34 @@ package com.faboslav.friendsandfoes.common.entity.ai.brain.task.glare;
 import com.faboslav.friendsandfoes.common.entity.GlareEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.GlareBrain;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
-import net.minecraft.entity.ai.brain.MemoryModuleState;
-import net.minecraft.entity.ai.brain.MemoryModuleType;
-import net.minecraft.entity.ai.brain.task.LookTargetUtil;
-import net.minecraft.entity.ai.brain.task.MultiTickTask;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.TimeHelper;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.GlobalPos;
-
 import java.util.Map;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.TimeUtil;
+import net.minecraft.world.entity.ai.behavior.Behavior;
+import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
 
-public final class GlareTravelToDarkSpotTask extends MultiTickTask<GlareEntity>
+public final class GlareTravelToDarkSpotTask extends Behavior<GlareEntity>
 {
 	private static final int MAX_TRAVELLING_TICKS = 300;
 	private final static float WITHING_DISTANCE = 1.5F;
 
 	public GlareTravelToDarkSpotTask() {
 		super(Map.of(
-			FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_POS.get(), MemoryModuleState.VALUE_PRESENT
+			FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_POS.get(), MemoryStatus.VALUE_PRESENT
 		), MAX_TRAVELLING_TICKS);
 	}
 
 	@Override
-	protected boolean shouldRun(ServerWorld world, GlareEntity glare) {
+	protected boolean checkExtraStartConditions(ServerLevel world, GlareEntity glare) {
 		GlobalPos darkSpotPos = glare.getDarkSpotPos();
 
 		if (
 			GlareTravelToDarkSpotTask.canTravelToDarkSpot(glare) == false
-			|| darkSpotPos.pos().isWithinDistance(glare.getPos(), WITHING_DISTANCE)
+			|| darkSpotPos.pos().closerToCenterThan(glare.position(), WITHING_DISTANCE)
 		) {
 			return false;
 		}
@@ -40,19 +39,19 @@ public final class GlareTravelToDarkSpotTask extends MultiTickTask<GlareEntity>
 	}
 
 	@Override
-	protected void run(ServerWorld world, GlareEntity glare, long time) {
+	protected void start(ServerLevel world, GlareEntity glare, long time) {
 		this.flyTowardsDarkSpot(glare);
 	}
 
 	@Override
-	protected boolean shouldKeepRunning(ServerWorld world, GlareEntity glare, long time) {
+	protected boolean canStillUse(ServerLevel world, GlareEntity glare, long time) {
 		GlobalPos darkSpotPos = glare.getDarkSpotPos();
 
 		if (
 			GlareTravelToDarkSpotTask.canTravelToDarkSpot(glare) == false
 			|| (
-				darkSpotPos.pos().isWithinDistance(glare.getPos(), WITHING_DISTANCE)
-				&& glare.getNavigation().isFollowingPath() == false
+				darkSpotPos.pos().closerToCenterThan(glare.position(), WITHING_DISTANCE)
+				&& glare.getNavigation().isInProgress() == false
 			)
 		) {
 			return false;
@@ -61,8 +60,8 @@ public final class GlareTravelToDarkSpotTask extends MultiTickTask<GlareEntity>
 		return true;
 	}
 
-	protected void keepRunning(ServerWorld world, GlareEntity glare, long time) {
-		if (glare.getNavigation().isFollowingPath()) {
+	protected void tick(ServerLevel world, GlareEntity glare, long time) {
+		if (glare.getNavigation().isInProgress()) {
 			return;
 		}
 
@@ -70,19 +69,19 @@ public final class GlareTravelToDarkSpotTask extends MultiTickTask<GlareEntity>
 	}
 
 	@Override
-	protected void finishRunning(ServerWorld world, GlareEntity glare, long time) {
-		glare.getBrain().forget(MemoryModuleType.WALK_TARGET);
+	protected void stop(ServerLevel world, GlareEntity glare, long time) {
+		glare.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);
 		GlobalPos darkSpotPos = glare.getDarkSpotPos();
 
 		if (
 			darkSpotPos != null &&
 			(
-				darkSpotPos.pos().isWithinDistance(glare.getPos(), WITHING_DISTANCE) == false
+				darkSpotPos.pos().closerToCenterThan(glare.position(), WITHING_DISTANCE) == false
 				|| glare.isDarkSpotDark(darkSpotPos.pos()) == false
 			)
 		) {
-			glare.getBrain().forget(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_POS.get());
-			GlareBrain.setDarkSpotLocatingCooldown(glare, TimeHelper.betweenSeconds(10, 20));
+			glare.getBrain().eraseMemory(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_POS.get());
+			GlareBrain.setDarkSpotLocatingCooldown(glare, TimeUtil.rangeOfSeconds(10, 20));
 		}
 	}
 
@@ -93,7 +92,7 @@ public final class GlareTravelToDarkSpotTask extends MultiTickTask<GlareEntity>
 			return;
 		}
 
-		LookTargetUtil.walkTowards(
+		BehaviorUtils.setWalkAndLookTargetMemories(
 			glare,
 			new BlockPos(darkSpotPos.pos()),
 			1.0F,

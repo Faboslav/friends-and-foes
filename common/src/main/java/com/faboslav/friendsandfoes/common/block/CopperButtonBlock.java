@@ -1,40 +1,40 @@
 package com.faboslav.friendsandfoes.common.block;
 
-import net.minecraft.block.BlockSetType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ButtonBlock;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.ButtonBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.phys.BlockHitResult;
 
 public class CopperButtonBlock extends ButtonBlock
 {
-	public CopperButtonBlock(Settings settings, int pressTicks) {
+	public CopperButtonBlock(Properties settings, int pressTicks) {
 		super(BlockSetType.COPPER, pressTicks, settings);
 	}
 
 	@Override
-	public SoundEvent getClickSound(boolean powered) {
-		return super.getClickSound(powered);
+	public SoundEvent getSound(boolean powered) {
+		return super.getSound(powered);
 	}
 
 	@Override
-	protected ActionResult onUse(
+	protected InteractionResult useWithoutItem(
 		BlockState state,
-		World world,
+		Level world,
 		BlockPos pos,
-		PlayerEntity player,
+		Player player,
 		BlockHitResult hit
 	) {
 		var actionResult = OnUseOxidizable.onOxidizableUse(state, world, pos, player, hit);
 
-		if (actionResult.isAccepted()) {
+		if (actionResult.consumesAction()) {
 			return actionResult;
 		}
 
-		return super.onUse(state, world, pos, player, hit);
+		return super.useWithoutItem(state, world, pos, player, hit);
 	}
 }

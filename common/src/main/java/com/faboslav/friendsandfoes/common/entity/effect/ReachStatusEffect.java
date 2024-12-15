@@ -1,20 +1,20 @@
 package com.faboslav.friendsandfoes.common.entity.effect;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectCategory;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 
-public class ReachStatusEffect extends StatusEffect
+public class ReachStatusEffect extends MobEffect
 {
-	public ReachStatusEffect(StatusEffectCategory statusEffectCategory, int color) {
+	public ReachStatusEffect(MobEffectCategory statusEffectCategory, int color) {
 		super(statusEffectCategory, color);
-		this.addAttributeModifier(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE, FriendsAndFoes.makeID("effect.reach"), FriendsAndFoes.getConfig().reachingStatusEffectModifier, EntityAttributeModifier.Operation.ADD_VALUE);
+		this.addAttributeModifier(Attributes.BLOCK_INTERACTION_RANGE, FriendsAndFoes.makeID("effect.reach"), FriendsAndFoes.getConfig().reachingStatusEffectModifier, AttributeModifier.Operation.ADD_VALUE);
 	}
 
 	@Override
-	public boolean canApplyUpdateEffect(int duration, int amplifier) {
+	public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
 		return false;
 	}
 }

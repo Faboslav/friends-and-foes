@@ -1,64 +1,64 @@
 package com.faboslav.friendsandfoes.common.entity.ai.control;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.ai.pathing.MobNavigation;
-import net.minecraft.entity.ai.pathing.Path;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.pathfinder.Path;
 import org.jetbrains.annotations.Nullable;
 
-public class WallClimbNavigation extends MobNavigation
+public class WallClimbNavigation extends GroundPathNavigation
 {
 	@Nullable
 	private BlockPos targetPos;
 
-	public WallClimbNavigation(MobEntity mobEntity, World world) {
+	public WallClimbNavigation(Mob mobEntity, Level world) {
 		super(mobEntity, world);
 	}
 
 	@Override
-	public Path findPathTo(BlockPos target, int distance) {
+	public Path createPath(BlockPos target, int distance) {
 		this.targetPos = target;
-		return super.findPathTo(target, distance);
+		return super.createPath(target, distance);
 	}
 
 	@Override
-	public Path findPathTo(Entity entity, int distance) {
-		this.targetPos = entity.getBlockPos();
-		return super.findPathTo(entity, distance);
+	public Path createPath(Entity entity, int distance) {
+		this.targetPos = entity.blockPosition();
+		return super.createPath(entity, distance);
 	}
 
 	@Override
-	public boolean startMovingTo(Entity entity, double speed) {
-		Path path = this.findPathTo(entity, 0);
+	public boolean moveTo(Entity entity, double speed) {
+		Path path = this.createPath(entity, 0);
 		if (path != null) {
-			return this.startMovingAlong(path, speed);
+			return this.moveTo(path, speed);
 		}
-		this.targetPos = entity.getBlockPos();
-		this.speed = speed;
+		this.targetPos = entity.blockPosition();
+		this.speedModifier = speed;
 		return true;
 	}
 
 	@Override
 	public void tick() {
-		if (!this.isIdle()) {
+		if (!this.isDone()) {
 			super.tick();
 			return;
 		}
 
 		if (this.targetPos != null) {
 			if (
-				!this.targetPos.isWithinDistance(this.entity.getPos(), Math.max(this.entity.getWidth(), 1.0D))
+				!this.targetPos.closerToCenterThan(this.mob.position(), Math.max(this.mob.getBbWidth(), 1.0D))
 				&& (
-					!(this.entity.getY() > (double) this.targetPos.getY())
+					!(this.mob.getY() > (double) this.targetPos.getY())
 					|| !(new BlockPos(
 						this.targetPos.getX(),
-						this.entity.getBlockY(), this.targetPos.getZ())).isWithinDistance(this.entity.getPos(), Math.max(this.entity.getWidth(), 1.0D)
+						this.mob.getBlockY(), this.targetPos.getZ())).closerToCenterThan(this.mob.position(), Math.max(this.mob.getBbWidth(), 1.0D)
 					)
 				)
 			) {
-				this.entity.getMoveControl().moveTo(
+				this.mob.getMoveControl().setWantedPosition(
 					this.targetPos.getX(),
 					this.targetPos.getY(),
 					this.targetPos.getZ(),

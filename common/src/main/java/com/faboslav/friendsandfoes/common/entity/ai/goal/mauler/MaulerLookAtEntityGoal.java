@@ -1,22 +1,22 @@
 package com.faboslav.friendsandfoes.common.entity.ai.goal.mauler;
 
 import com.faboslav.friendsandfoes.common.entity.MaulerEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.LookAtEntityGoal;
-import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 
-public final class MaulerLookAtEntityGoal extends LookAtEntityGoal
+public final class MaulerLookAtEntityGoal extends LookAtPlayerGoal
 {
-	public MaulerLookAtEntityGoal(MobEntity mob, Class<? extends LivingEntity> targetType, float range) {
+	public MaulerLookAtEntityGoal(Mob mob, Class<? extends LivingEntity> targetType, float range) {
 		super(mob, targetType, range);
 	}
 
 	@Override
-	public boolean canStart() {
+	public boolean canUse() {
 		if (((MaulerEntity) this.mob).isBurrowedDown()) {
 			return false;
 		}
 
-		return super.canStart();
+		return super.canUse();
 	}
 }

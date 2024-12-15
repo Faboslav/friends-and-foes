@@ -1,35 +1,35 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.entity.MaulerEntity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.goal.FleeEntityGoal;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.RabbitEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.Rabbit;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-@Mixin(RabbitEntity.class)
-public abstract class RabbitEntityMixin extends AnimalEntity
+@Mixin(Rabbit.class)
+public abstract class RabbitEntityMixin extends Animal
 {
-	protected RabbitEntityMixin(EntityType<? extends AnimalEntity> entityType, World world) {
+	protected RabbitEntityMixin(EntityType<? extends Animal> entityType, Level world) {
 		super(entityType, world);
 	}
 
 	@Inject(
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/entity/ai/goal/GoalSelector;add(ILnet/minecraft/entity/ai/goal/Goal;)V",
+			target = "Lnet/minecraft/world/entity/ai/goal/GoalSelector;addGoal(ILnet/minecraft/world/entity/ai/goal/Goal;)V",
 			ordinal = 6,
 			shift = At.Shift.AFTER),
-		method = "initGoals"
+		method = "registerGoals"
 	)
 	private void friendsandfoes_addFleeGoal(CallbackInfo ci) {
-		this.goalSelector.add(4, new FleeEntityGoal(
-			(RabbitEntity) (Object) this,
+		this.goalSelector.addGoal(4, new AvoidEntityGoal(
+			(Rabbit) (Object) this,
 			MaulerEntity.class,
 			10.0F,
 			2.2,

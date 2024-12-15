@@ -1,17 +1,25 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.model;
 
-import com.faboslav.friendsandfoes.common.client.render.entity.animation.KeyframeAnimation;
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.context.KeyframeAnimationContext;
+import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.KeyframeModelAnimator;
 import com.faboslav.friendsandfoes.common.entity.CopperGolemEntity;
+import com.faboslav.friendsandfoes.common.entity.animation.AnimationState;
+import com.faboslav.friendsandfoes.common.entity.animation.loader.json.AnimationHolder;
 import com.faboslav.friendsandfoes.common.entity.pose.CopperGolemEntityPose;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.model.*;
-import net.minecraft.entity.AnimationState;
+import net.minecraft.client.model.HierarchicalModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
 
 @Environment(EnvType.CLIENT)
-public final class CopperGolemEntityModel<T extends CopperGolemEntity> extends AnimatedEntityModel<T>
+public final class CopperGolemEntityModel<T extends CopperGolemEntity> extends HierarchicalModel<T>
 {
 	private static final String MODEL_PART_BODY = "body";
 	private static final String MODEL_PART_LEFT_ARM = "leftArm";
@@ -22,6 +30,7 @@ public final class CopperGolemEntityModel<T extends CopperGolemEntity> extends A
 	private static final String MODEL_PART_NOSE = "nose";
 	private static final String MODEL_PART_ROD = "rod";
 
+	private final ModelPart root;
 	private final ModelPart body;
 	private final ModelPart head;
 	private final ModelPart nose;
@@ -32,7 +41,7 @@ public final class CopperGolemEntityModel<T extends CopperGolemEntity> extends A
 	private final ModelPart rightLeg;
 
 	public CopperGolemEntityModel(ModelPart root) {
-		super(root);
+		this.root = root;
 		this.body = this.root.getChild(MODEL_PART_BODY);
 		this.head = this.body.getChild(MODEL_PART_HEAD);
 		this.nose = this.head.getChild(MODEL_PART_NOSE);
@@ -43,31 +52,36 @@ public final class CopperGolemEntityModel<T extends CopperGolemEntity> extends A
 		this.rightLeg = this.root.getChild(MODEL_PART_RIGHT_LEG);
 	}
 
-	public static TexturedModelData getTexturedModelData() {
-		ModelData modelData = new ModelData();
-		ModelPartData root = modelData.getRoot();
+	public static LayerDefinition getTexturedModelData() {
+		MeshDefinition modelData = new MeshDefinition();
+		PartDefinition root = modelData.getRoot();
 
-		root.addChild(MODEL_PART_BODY, ModelPartBuilder.create().uv(40, 0).cuboid(-4.0F, -5.0F, -2.0F, 8.0F, 5.0F, 4.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 19.0F, 0.0F));
-		ModelPartData body = root.getChild(MODEL_PART_BODY);
+		root.addOrReplaceChild(MODEL_PART_BODY, CubeListBuilder.create().texOffs(40, 0).addBox(-4.0F, -5.0F, -2.0F, 8.0F, 5.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 19.0F, 0.0F));
+		PartDefinition body = root.getChild(MODEL_PART_BODY);
 
-		body.addChild(MODEL_PART_HEAD, ModelPartBuilder.create().uv(0, 0).mirrored().cuboid(-4.0F, -5.0F, -4.0F, 8.0F, 5.0F, 8.0F, new Dilation(0.001F)).mirrored(false), ModelTransform.pivot(0.0F, -5.0F, 0.0F));
-		ModelPartData head = body.getChild(MODEL_PART_HEAD);
+		body.addOrReplaceChild(MODEL_PART_HEAD, CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-4.0F, -5.0F, -4.0F, 8.0F, 5.0F, 8.0F, new CubeDeformation(0.001F)).mirror(false), PartPose.offset(0.0F, -5.0F, 0.0F));
+		PartDefinition head = body.getChild(MODEL_PART_HEAD);
 
-		head.addChild(MODEL_PART_ROD, ModelPartBuilder.create().uv(56, 10).cuboid(-1.0F, -3.0F, -1.0F, 2.0F, 3.0F, 2.0F, new Dilation(0.0F))
-			.uv(40, 9).cuboid(-2.0F, -7.0F, -2.0F, 4.0F, 4.0F, 4.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, -5.0F, 0.0F));
-		head.addChild(MODEL_PART_NOSE, ModelPartBuilder.create().uv(56, 15).cuboid(-1.0F, -1.0F, -2.0F, 2.0F, 3.0F, 2.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, -1.0F, -4.0F));
+		head.addOrReplaceChild(MODEL_PART_ROD, CubeListBuilder.create().texOffs(56, 10).addBox(-1.0F, -3.0F, -1.0F, 2.0F, 3.0F, 2.0F, new CubeDeformation(0.0F))
+			.texOffs(40, 9).addBox(-2.0F, -7.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -5.0F, 0.0F));
+		head.addOrReplaceChild(MODEL_PART_NOSE, CubeListBuilder.create().texOffs(56, 15).addBox(-1.0F, -1.0F, -2.0F, 2.0F, 3.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -1.0F, -4.0F));
 
-		body.addChild(MODEL_PART_LEFT_ARM, ModelPartBuilder.create().uv(10, 17).cuboid(0.0F, -1.0F, -1.5F, 2.0F, 10.0F, 3.0F, new Dilation(0.0F)), ModelTransform.pivot(4.0F, -5.0F, 0.0F));
-		body.addChild(MODEL_PART_RIGHT_ARM, ModelPartBuilder.create().uv(0, 17).cuboid(-2.0F, -1.0F, -1.5F, 2.0F, 10.0F, 3.0F, new Dilation(0.0F)), ModelTransform.pivot(-4.0F, -5.0F, 0.0F));
+		body.addOrReplaceChild(MODEL_PART_LEFT_ARM, CubeListBuilder.create().texOffs(10, 17).addBox(0.0F, -1.0F, -1.5F, 2.0F, 10.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(4.0F, -5.0F, 0.0F));
+		body.addOrReplaceChild(MODEL_PART_RIGHT_ARM, CubeListBuilder.create().texOffs(0, 17).addBox(-2.0F, -1.0F, -1.5F, 2.0F, 10.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(-4.0F, -5.0F, 0.0F));
 
-		root.addChild(MODEL_PART_LEFT_LEG, ModelPartBuilder.create().uv(34, 17).cuboid(-2.0F, 0.0F, -1.5F, 4.0F, 5.0F, 3.0F, new Dilation(0.0F)), ModelTransform.pivot(2.0F, 19.0F, 0.0F));
-		root.addChild(MODEL_PART_RIGHT_LEG, ModelPartBuilder.create().uv(20, 17).cuboid(-2.0F, 0.0F, -1.5F, 4.0F, 5.0F, 3.0F, new Dilation(0.0F)), ModelTransform.pivot(-2.0F, 19.0F, 0.0F));
+		root.addOrReplaceChild(MODEL_PART_LEFT_LEG, CubeListBuilder.create().texOffs(34, 17).addBox(-2.0F, 0.0F, -1.5F, 4.0F, 5.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(2.0F, 19.0F, 0.0F));
+		root.addOrReplaceChild(MODEL_PART_RIGHT_LEG, CubeListBuilder.create().texOffs(20, 17).addBox(-2.0F, 0.0F, -1.5F, 4.0F, 5.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.0F, 19.0F, 0.0F));
 
-		return TexturedModelData.of(modelData, 64, 64);
+		return LayerDefinition.create(modelData, 64, 64);
 	}
 
 	@Override
-	public void setAngles(
+	public ModelPart root() {
+		return this.root;
+	}
+
+	@Override
+	public void setupAnim(
 		T copperGolem,
 		float limbAngle,
 		float limbDistance,
@@ -76,44 +90,59 @@ public final class CopperGolemEntityModel<T extends CopperGolemEntity> extends A
 		float headPitch
 	) {
 		if (copperGolem.isOxidized()) {
-			animationProgress = copperGolem.age;
+			animationProgress = copperGolem.tickCount;
 		}
 
-		this.getPart().traverse().forEach(ModelPart::resetTransform);
+		this.root().getAllParts().forEach(ModelPart::resetPose);
 		this.setHeadAngle(headYaw);
 
 		if (copperGolem.isOxidized()) {
-			this.updateStatueKeyframeAnimation(copperGolem);
+			this.updateStatueAnimations(copperGolem);
 		}
 
-		this.updateMovementKeyframeAnimations(copperGolem, limbAngle, limbDistance, 2.5F * copperGolem.getAnimationSpeedModifier(), 3.5F * copperGolem.getAnimationSpeedModifier());
-		this.updateKeyframeAnimations(copperGolem, animationProgress);
+		this.updateAnimations(copperGolem, limbAngle, limbDistance, animationProgress);
 	}
 
 	private void setHeadAngle(float yaw) {
-		this.head.yaw = yaw * ((float) Math.PI / 180);
+		this.head.yRot = yaw * ((float) Math.PI / 180);
 	}
 
-	private void updateStatueKeyframeAnimation(CopperGolemEntity copperGolem) {
+	private void updateStatueAnimations(CopperGolemEntity copperGolem) {
 		if (copperGolem.isInPose(CopperGolemEntityPose.IDLE)) {
 			return;
 		}
 
-		KeyframeAnimation keyframeAnimation = copperGolem.getKeyframeAnimationByPose();
+		AnimationHolder animation = copperGolem.getAnimationByPose();
 
-		if (keyframeAnimation == null) {
+		if (animation == null) {
 			return;
 		}
 
-		int initialTick = copperGolem.age - copperGolem.getCurrentKeyframeAnimationTick();
-		int currentTick = copperGolem.age;
+		int initialTick = copperGolem.tickCount - copperGolem.getCurrentKeyframeAnimationTick();
+		int currentTick = copperGolem.tickCount;
 
 		AnimationContextTracker animationContextTracker = copperGolem.getAnimationContextTracker();
-		KeyframeAnimationContext keyframeAnimationContext = animationContextTracker.get(keyframeAnimation);
+		KeyframeAnimationContext keyframeAnimationContext = animationContextTracker.get(animation);
 		keyframeAnimationContext.setInitialTick(initialTick);
 		keyframeAnimationContext.setCurrentTick(currentTick);
 		AnimationState animationState = new AnimationState();
 		keyframeAnimationContext.setAnimationState(animationState);
 		animationState.start(initialTick);
+	}
+
+	public void updateAnimations(
+		CopperGolemEntity copperGolem,
+		float limbAngle,
+		float limbDistance,
+		float animationProgress
+	) {
+		var movementAnimation = copperGolem.getMovementAnimation();
+		var animations = copperGolem.getTrackedAnimations();
+		var animationContextTracker = copperGolem.getAnimationContextTracker();
+		var currentTick = copperGolem.tickCount;
+		var animationSpeedModifier = copperGolem.getAnimationSpeedModifier();
+
+		KeyframeModelAnimator.updateMovementKeyframeAnimations(this, movementAnimation, limbAngle, limbDistance, 2.5F * copperGolem.getMovementSpeedModifier(), 3.5F * copperGolem.getMovementSpeedModifier(), animationSpeedModifier);
+		KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, animations, currentTick, animationProgress, animationSpeedModifier);
 	}
 }

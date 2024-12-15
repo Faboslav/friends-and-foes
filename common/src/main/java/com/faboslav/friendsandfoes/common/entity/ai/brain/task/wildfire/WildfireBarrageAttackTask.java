@@ -5,17 +5,17 @@ import com.faboslav.friendsandfoes.common.entity.WildfireShieldDebrisEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.WildfireBrain;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.google.common.collect.ImmutableMap;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.brain.MemoryModuleState;
-import net.minecraft.entity.ai.brain.MemoryModuleType;
-import net.minecraft.entity.ai.brain.task.LookTargetUtil;
-import net.minecraft.entity.ai.brain.task.MultiTickTask;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.behavior.Behavior;
+import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 
-public final class WildfireBarrageAttackTask extends MultiTickTask<WildfireEntity>
+public final class WildfireBarrageAttackTask extends Behavior<WildfireEntity>
 {
 	private int shieldDebrisFired;
 	private int shieldDebrisCooldown;
@@ -28,23 +28,23 @@ public final class WildfireBarrageAttackTask extends MultiTickTask<WildfireEntit
 
 	public WildfireBarrageAttackTask() {
 		super(ImmutableMap.of(
-			MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_PRESENT,
-			FriendsAndFoesMemoryModuleTypes.WILDFIRE_BARRAGE_ATTACK_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT
+			MemoryModuleType.ATTACK_TARGET, MemoryStatus.VALUE_PRESENT,
+			FriendsAndFoesMemoryModuleTypes.WILDFIRE_BARRAGE_ATTACK_COOLDOWN.get(), MemoryStatus.VALUE_ABSENT
 		), BARRAGE_ATTACK_DURATION);
 	}
 
 	@Override
-	protected boolean shouldRun(ServerWorld world, WildfireEntity wildfire) {
-		var attackTarget = wildfire.getBrain().getOptionalRegisteredMemory(MemoryModuleType.ATTACK_TARGET).orElse(null);
+	protected boolean checkExtraStartConditions(ServerLevel world, WildfireEntity wildfire) {
+		var attackTarget = wildfire.getBrain().getMemory(MemoryModuleType.ATTACK_TARGET).orElse(null);
 
 		if (
 			attackTarget == null
 			|| !attackTarget.isAlive()
 			|| (
-				attackTarget instanceof PlayerEntity
+				attackTarget instanceof Player
 				&& (
 					attackTarget.isSpectator()
-					|| ((PlayerEntity) attackTarget).isCreative()
+					|| ((Player) attackTarget).isCreative()
 				)
 			)
 		) {
@@ -57,12 +57,12 @@ public final class WildfireBarrageAttackTask extends MultiTickTask<WildfireEntit
 	}
 
 	@Override
-	protected void run(ServerWorld world, WildfireEntity wildfire, long time) {
-		wildfire.getBrain().forget(MemoryModuleType.WALK_TARGET);
+	protected void start(ServerLevel world, WildfireEntity wildfire, long time) {
+		wildfire.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);
 		wildfire.getNavigation().stop();
 
-		LookTargetUtil.lookAt(wildfire, this.attackTarget);
-		wildfire.getLookControl().lookAt(this.attackTarget);
+		BehaviorUtils.lookAtEntity(wildfire, this.attackTarget);
+		wildfire.getLookControl().setLookAt(this.attackTarget);
 
 		WildfireBrain.setAttackTarget(wildfire, this.attackTarget);
 
@@ -72,9 +72,9 @@ public final class WildfireBarrageAttackTask extends MultiTickTask<WildfireEntit
 	}
 
 	@Override
-	protected boolean shouldKeepRunning(ServerWorld world, WildfireEntity wildfire, long time) {
+	protected boolean canStillUse(ServerLevel world, WildfireEntity wildfire, long time) {
 		if (!attackTarget.isAlive()) {
-			attackTarget = wildfire.getBrain().getOptionalRegisteredMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER).orElse(null);
+			attackTarget = wildfire.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER).orElse(null);
 		}
 
 		if (
@@ -82,10 +82,10 @@ public final class WildfireBarrageAttackTask extends MultiTickTask<WildfireEntit
 			|| !attackTarget.isAlive()
 			|| !attackTarget.isAlive()
 			|| (
-				attackTarget instanceof PlayerEntity
+				attackTarget instanceof Player
 				&& (
 					attackTarget.isSpectator()
-					|| ((PlayerEntity) attackTarget).isCreative()
+					|| ((Player) attackTarget).isCreative()
 				)
 			)
 			|| shieldDebrisFired > MAX_FIREBALLS_TO_BE_FIRED
@@ -93,19 +93,19 @@ public final class WildfireBarrageAttackTask extends MultiTickTask<WildfireEntit
 			return false;
 		}
 
-		var nearestVisibleTargetablePlayer = wildfire.getBrain().getOptionalRegisteredMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER).orElse(null);
+		var nearestVisibleTargetablePlayer = wildfire.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER).orElse(null);
 
 		return nearestVisibleTargetablePlayer == null
 			   || !nearestVisibleTargetablePlayer.isAlive()
 			   || !(wildfire.distanceTo(nearestVisibleTargetablePlayer) <= WildfireShockwaveAttackTask.SHOCKWAVE_ATTACK_RANGE)
-			   || !wildfire.getBrain().isMemoryInState(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT);
+			   || !wildfire.getBrain().checkMemory(FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get(), MemoryStatus.VALUE_ABSENT);
 	}
 
 	@Override
-	protected void keepRunning(ServerWorld world, WildfireEntity wildfire, long time) {
-		wildfire.getLookControl().lookAt(this.attackTarget);
+	protected void tick(ServerLevel world, WildfireEntity wildfire, long time) {
+		wildfire.getLookControl().setLookAt(this.attackTarget);
 
-		boolean isAttackTargetVisible = wildfire.getVisibilityCache().canSee(this.attackTarget);
+		boolean isAttackTargetVisible = wildfire.getSensing().hasLineOfSight(this.attackTarget);
 
 		if (isAttackTargetVisible) {
 			this.attackTargetIsNotVisibleTicks = 0;
@@ -114,7 +114,7 @@ public final class WildfireBarrageAttackTask extends MultiTickTask<WildfireEntit
 		}
 
 		double targetX = this.attackTarget.getX() - wildfire.getX();
-		double targetY = this.attackTarget.getBodyY(0.5) - wildfire.getBodyY(0.5);
+		double targetY = this.attackTarget.getY(0.5) - wildfire.getY(0.5);
 		double targetZ = this.attackTarget.getZ() - wildfire.getZ();
 
 		if (this.shieldDebrisCooldown > 0) {
@@ -123,47 +123,47 @@ public final class WildfireBarrageAttackTask extends MultiTickTask<WildfireEntit
 		}
 
 		if (this.canDoMeeleAttack && wildfire.distanceTo(attackTarget) < 3.0F) {
-			wildfire.tryAttack(attackTarget);
+			wildfire.doHurtTarget(attackTarget);
 			this.canDoMeeleAttack = false;
 		} else {
 			this.canDoMeeleAttack = true;
 		}
 
 		if (this.attackTargetIsNotVisibleTicks > 5) {
-			wildfire.getMoveControl().moveTo(
+			wildfire.getMoveControl().setWantedPosition(
 				attackTarget.getX(),
 				attackTarget.getY(),
 				attackTarget.getZ(),
-				wildfire.getMovementSpeed()
+				wildfire.getSpeed()
 			);
 		}
 
-		double distanceToAttackTarget = wildfire.squaredDistanceTo(this.attackTarget);
+		double distanceToAttackTarget = wildfire.distanceToSqr(this.attackTarget);
 
 		double h = Math.sqrt(Math.sqrt(distanceToAttackTarget)) * 0.5;
 		if (!wildfire.isSilent()) {
 			wildfire.playShootSound();
-			wildfire.getWorld().syncWorldEvent(null, 1018, wildfire.getBlockPos(), 0);
+			wildfire.level().levelEvent(null, 1018, wildfire.blockPosition(), 0);
 		}
 
-		Random random = wildfire.getRandom();
+		RandomSource random = wildfire.getRandom();
 
 		for (int i = 0; i < 8; i++) {
 			WildfireShieldDebrisEntity shieldDebris = new WildfireShieldDebrisEntity(
 				world,
 				wildfire,
-				new Vec3d(
-					random.nextTriangular(targetX, 2.297 * h),
+				new Vec3(
+					random.triangle(targetX, 2.297 * h),
 					targetY,
-					random.nextTriangular(targetZ, 2.297 * h)
+					random.triangle(targetZ, 2.297 * h)
 				)
 			);
-			shieldDebris.setPosition(
+			shieldDebris.setPos(
 				shieldDebris.getX(),
-				wildfire.getBodyY(0.5) + 0.5,
+				wildfire.getY(0.5) + 0.5,
 				shieldDebris.getZ()
 			);
-			wildfire.getWorld().spawnEntity(shieldDebris);
+			wildfire.level().addFreshEntity(shieldDebris);
 			this.shieldDebrisFired++;
 		}
 
@@ -171,7 +171,7 @@ public final class WildfireBarrageAttackTask extends MultiTickTask<WildfireEntit
 	}
 
 	@Override
-	protected void finishRunning(ServerWorld world, WildfireEntity wildfire, long time) {
+	protected void stop(ServerLevel world, WildfireEntity wildfire, long time) {
 		WildfireBrain.setBarrageAttackCooldown(wildfire);
 	}
 }

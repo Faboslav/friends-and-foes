@@ -5,12 +5,11 @@ import com.faboslav.friendsandfoes.common.init.registry.RegistryEntries;
 import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
 import com.faboslav.friendsandfoes.fabric.mixin.PointOfInterestTypesAccessor;
-import net.minecraft.registry.Registry;
-import net.minecraft.util.Identifier;
-import net.minecraft.world.poi.PointOfInterestType;
-
 import java.util.Collection;
 import java.util.function.Supplier;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.ai.village.poi.PoiType;
 
 /**
  * Event/registry related is code based on The Bumblezone/Resourceful Lib mods with permissions from the authors
@@ -34,12 +33,12 @@ public class FabricResourcefulRegistry<T> implements ResourcefulRegistry<T>
 
 	@Override
 	public <I extends T> RegistryEntry<I> register(String id, Supplier<I> supplier) {
-		var registryEntry = FabricRegistryEntry.of(this.registry, Identifier.of(this.id, id), supplier);
+		var registryEntry = FabricRegistryEntry.of(this.registry, ResourceLocation.fromNamespaceAndPath(this.id, id), supplier);
 		I value = registryEntry.get();
-		if (value instanceof PointOfInterestType poiType) {
+		if (value instanceof PoiType poiType) {
 			PointOfInterestTypesAccessor.callRegisterStates(
-				(net.minecraft.registry.entry.RegistryEntry<PointOfInterestType>) registry.entryOf(registry.getKey(value).orElseThrow()),
-				poiType.blockStates()
+				(net.minecraft.core.Holder<PoiType>) registry.getHolderOrThrow(registry.getResourceKey(value).orElseThrow()),
+				poiType.matchingStates()
 			);
 		}
 
@@ -48,7 +47,7 @@ public class FabricResourcefulRegistry<T> implements ResourcefulRegistry<T>
 
 	@Override
 	public ReferenceRegistryEntry<T> registerReference(String id, Supplier<T> supplier) {
-		return entries.add(FabricHolderRegistryEntry.of(this.registry, Identifier.of(this.id, id), supplier));
+		return entries.add(FabricHolderRegistryEntry.of(this.registry, ResourceLocation.fromNamespaceAndPath(this.id, id), supplier));
 
 	}
 

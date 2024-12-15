@@ -1,12 +1,12 @@
 package com.faboslav.friendsandfoes.common.entity.ai.goal.mauler;
 
 import com.faboslav.friendsandfoes.common.entity.MaulerEntity;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 
 public final class MaulerMeeleAttackGoal extends MeleeAttackGoal
 {
-	public MaulerMeeleAttackGoal(PathAwareEntity mob, double speed, boolean pauseWhenMobIdle) {
+	public MaulerMeeleAttackGoal(PathfinderMob mob, double speed, boolean pauseWhenMobIdle) {
 		super(mob, speed, pauseWhenMobIdle);
 	}
 

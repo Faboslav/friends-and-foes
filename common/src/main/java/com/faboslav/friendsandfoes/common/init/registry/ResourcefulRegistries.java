@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.common.init.registry;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import net.minecraft.registry.Registry;
+import net.minecraft.core.Registry;
 import org.apache.commons.lang3.NotImplementedException;
 
 /**

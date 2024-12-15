@@ -5,18 +5,17 @@ import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistries;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
 import com.mojang.serialization.Codec;
-import net.minecraft.entity.ai.brain.MemoryModuleType;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.math.GlobalPos;
-
 import java.util.Optional;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 
 /**
  * @see MemoryModuleType
  */
 public final class FriendsAndFoesMemoryModuleTypes
 {
-	public static final ResourcefulRegistry<MemoryModuleType<?>> MEMORY_MODULE_TYPES = ResourcefulRegistries.create(Registries.MEMORY_MODULE_TYPE, FriendsAndFoes.MOD_ID);
+	public static final ResourcefulRegistry<MemoryModuleType<?>> MEMORY_MODULE_TYPES = ResourcefulRegistries.create(BuiltInRegistries.MEMORY_MODULE_TYPE, FriendsAndFoes.MOD_ID);
 
 	public static final RegistryEntry<MemoryModuleType<Boolean>> COPPER_GOLEM_IS_OXIDIZED = MEMORY_MODULE_TYPES.register("copper_golem_is_oxidized", () -> new MemoryModuleType<>(Optional.of(Codec.BOOL)));
 	public static final RegistryEntry<MemoryModuleType<GlobalPos>> COPPER_GOLEM_BUTTON_POS = MEMORY_MODULE_TYPES.register("copper_golem_button_pos", () -> new MemoryModuleType<>(Optional.of(GlobalPos.CODEC)));

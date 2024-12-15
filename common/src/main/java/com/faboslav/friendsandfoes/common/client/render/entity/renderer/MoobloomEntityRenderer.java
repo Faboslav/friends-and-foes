@@ -6,22 +6,22 @@ import com.faboslav.friendsandfoes.common.entity.MoobloomEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.MobEntityRenderer;
-import net.minecraft.client.render.entity.model.CowEntityModel;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.model.CowModel;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.resources.ResourceLocation;
 
 @Environment(EnvType.CLIENT)
 @SuppressWarnings({"rawtypes", "unchecked"})
-public final class MoobloomEntityRenderer extends MobEntityRenderer<MoobloomEntity, CowEntityModel<MoobloomEntity>>
+public final class MoobloomEntityRenderer extends MobRenderer<MoobloomEntity, CowModel<MoobloomEntity>>
 {
-	public MoobloomEntityRenderer(EntityRendererFactory.Context context) {
-		super(context, new CowEntityModel(context.getPart(FriendsAndFoesEntityModelLayers.MOOBLOOM_LAYER)), 0.7F);
-		this.addFeature(new MoobloomFlowerFeatureRenderer(this));
+	public MoobloomEntityRenderer(EntityRendererProvider.Context context) {
+		super(context, new CowModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.MOOBLOOM_LAYER)), 0.7F);
+		this.addLayer(new MoobloomFlowerFeatureRenderer(this));
 	}
 
 	@Override
-	public Identifier getTexture(MoobloomEntity entity) {
+	public ResourceLocation getTextureLocation(MoobloomEntity entity) {
 		return FriendsAndFoes.makeID("textures/entity/moobloom/moobloom_" + entity.getVariant().getName() + ".png");
 	}
 }

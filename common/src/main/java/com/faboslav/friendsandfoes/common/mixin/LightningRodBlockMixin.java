@@ -2,27 +2,34 @@ package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.block.OnUseOxidizable;
-import com.faboslav.friendsandfoes.common.client.render.entity.animation.KeyframeAnimation;
 import com.faboslav.friendsandfoes.common.entity.CopperGolemEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.CopperGolemBrain;
+import com.faboslav.friendsandfoes.common.entity.animation.loader.json.AnimationHolder;
 import com.faboslav.friendsandfoes.common.entity.pose.CopperGolemEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.util.CopperGolemBuildPatternPredicates;
-import net.minecraft.advancement.criterion.Criteria;
-import net.minecraft.block.*;
-import net.minecraft.block.pattern.BlockPattern;
-import net.minecraft.block.pattern.BlockPatternBuilder;
-import net.minecraft.block.pattern.CachedBlockPosition;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldEvents;
+import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CarvedPumpkinBlock;
+import net.minecraft.world.level.block.ChangeOverTimeBlock;
+import net.minecraft.world.level.block.LevelEvent;
+import net.minecraft.world.level.block.LightningRodBlock;
+import net.minecraft.world.level.block.WeatheringCopper;
+import net.minecraft.world.level.block.WeatheringCopperFullBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.pattern.BlockInWorld;
+import net.minecraft.world.level.block.state.pattern.BlockPattern;
+import net.minecraft.world.level.block.state.pattern.BlockPatternBuilder;
+import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -38,16 +45,16 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 	@Nullable
 	private BlockPattern friendsandfoes_copperGolemPattern;
 
-	@Inject(method = "onBlockAdded", at = @At("HEAD"))
+	@Inject(method = "onPlace", at = @At("HEAD"))
 	private void friendsandfoes_onBlockAdded(
 		BlockState state,
-		World world,
+		Level world,
 		BlockPos pos,
 		BlockState oldState,
 		boolean notify,
 		CallbackInfo ci
 	) {
-		if (!oldState.isOf(state.getBlock())) {
+		if (!oldState.is(state.getBlock())) {
 			this.friendsandfoes_tryToSpawnCopperGolem(
 				world,
 				pos
@@ -56,49 +63,49 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 	}
 
 	private void friendsandfoes_tryToSpawnCopperGolem(
-		World world,
+		Level world,
 		BlockPos pos
 	) {
 		if (!FriendsAndFoes.getConfig().enableCopperGolem) {
 			return;
 		}
 
-		BlockPattern.Result patternSearchResult = this.friendsandfoes_getCopperGolemPattern().searchAround(world, pos);
+		BlockPattern.BlockPatternMatch patternSearchResult = this.friendsandfoes_getCopperGolemPattern().find(world, pos);
 
 		if (patternSearchResult == null) {
 			return;
 		}
 
-		BlockState lightningRodBlockState = patternSearchResult.translate(0, 0, 0).getBlockState();
-		BlockState headBlockState = patternSearchResult.translate(0, 1, 0).getBlockState();
-		BlockState bodyBlockState = patternSearchResult.translate(0, 2, 0).getBlockState();
+		BlockState lightningRodBlockState = patternSearchResult.getBlock(0, 0, 0).getState();
+		BlockState headBlockState = patternSearchResult.getBlock(0, 1, 0).getState();
+		BlockState bodyBlockState = patternSearchResult.getBlock(0, 2, 0).getState();
 
-		Oxidizable.OxidationLevel lightningRodOxidationLevel;
+		WeatheringCopper.WeatherState lightningRodOxidationLevel;
 
-		if (lightningRodBlockState.isOf(FriendsAndFoesBlocks.WAXED_LIGHTNING_ROD.get())) {
-			lightningRodOxidationLevel = Oxidizable.OxidationLevel.UNAFFECTED;
-		} else if (lightningRodBlockState.isOf(FriendsAndFoesBlocks.WAXED_WEATHERED_LIGHTNING_ROD.get())) {
-			lightningRodOxidationLevel = Oxidizable.OxidationLevel.WEATHERED;
-		} else if (lightningRodBlockState.isOf(FriendsAndFoesBlocks.WAXED_EXPOSED_LIGHTNING_ROD.get())) {
-			lightningRodOxidationLevel = Oxidizable.OxidationLevel.EXPOSED;
-		} else if (lightningRodBlockState.isOf(FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get())) {
-			lightningRodOxidationLevel = Oxidizable.OxidationLevel.OXIDIZED;
+		if (lightningRodBlockState.is(FriendsAndFoesBlocks.WAXED_LIGHTNING_ROD.get())) {
+			lightningRodOxidationLevel = WeatheringCopper.WeatherState.UNAFFECTED;
+		} else if (lightningRodBlockState.is(FriendsAndFoesBlocks.WAXED_WEATHERED_LIGHTNING_ROD.get())) {
+			lightningRodOxidationLevel = WeatheringCopper.WeatherState.WEATHERED;
+		} else if (lightningRodBlockState.is(FriendsAndFoesBlocks.WAXED_EXPOSED_LIGHTNING_ROD.get())) {
+			lightningRodOxidationLevel = WeatheringCopper.WeatherState.EXPOSED;
+		} else if (lightningRodBlockState.is(FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get())) {
+			lightningRodOxidationLevel = WeatheringCopper.WeatherState.OXIDIZED;
 		} else {
-			lightningRodOxidationLevel = ((Oxidizable) lightningRodBlockState.getBlock()).getDegradationLevel();
+			lightningRodOxidationLevel = ((WeatheringCopper) lightningRodBlockState.getBlock()).getAge();
 		}
 
-		Oxidizable.OxidationLevel bodyOxidationLevel;
+		WeatheringCopper.WeatherState bodyOxidationLevel;
 
-		if (bodyBlockState.isOf(Blocks.WAXED_COPPER_BLOCK)) {
-			bodyOxidationLevel = Oxidizable.OxidationLevel.UNAFFECTED;
-		} else if (bodyBlockState.isOf(Blocks.WAXED_WEATHERED_COPPER)) {
-			bodyOxidationLevel = Oxidizable.OxidationLevel.WEATHERED;
-		} else if (bodyBlockState.isOf(Blocks.WAXED_EXPOSED_COPPER)) {
-			bodyOxidationLevel = Oxidizable.OxidationLevel.EXPOSED;
-		} else if (bodyBlockState.isOf(Blocks.WAXED_OXIDIZED_COPPER)) {
-			bodyOxidationLevel = Oxidizable.OxidationLevel.OXIDIZED;
+		if (bodyBlockState.is(Blocks.WAXED_COPPER_BLOCK)) {
+			bodyOxidationLevel = WeatheringCopper.WeatherState.UNAFFECTED;
+		} else if (bodyBlockState.is(Blocks.WAXED_WEATHERED_COPPER)) {
+			bodyOxidationLevel = WeatheringCopper.WeatherState.WEATHERED;
+		} else if (bodyBlockState.is(Blocks.WAXED_EXPOSED_COPPER)) {
+			bodyOxidationLevel = WeatheringCopper.WeatherState.EXPOSED;
+		} else if (bodyBlockState.is(Blocks.WAXED_OXIDIZED_COPPER)) {
+			bodyOxidationLevel = WeatheringCopper.WeatherState.OXIDIZED;
 		} else {
-			bodyOxidationLevel = ((OxidizableBlock) bodyBlockState.getBlock()).getDegradationLevel();
+			bodyOxidationLevel = ((WeatheringCopperFullBlock) bodyBlockState.getBlock()).getAge();
 		}
 
 		if (lightningRodOxidationLevel != bodyOxidationLevel) {
@@ -106,25 +113,25 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 		}
 
 		for (int i = 0; i < this.friendsandfoes_getCopperGolemPattern().getHeight(); ++i) {
-			CachedBlockPosition cachedBlockPosition = patternSearchResult.translate(0, i, 0);
-			world.setBlockState(
-				cachedBlockPosition.getBlockPos(),
-				Blocks.AIR.getDefaultState(),
-				Block.NOTIFY_LISTENERS
+			BlockInWorld cachedBlockPosition = patternSearchResult.getBlock(0, i, 0);
+			world.setBlock(
+				cachedBlockPosition.getPos(),
+				Blocks.AIR.defaultBlockState(),
+				Block.UPDATE_CLIENTS
 			);
-			world.syncWorldEvent(
-				WorldEvents.BLOCK_BROKEN,
-				cachedBlockPosition.getBlockPos(),
-				Block.getRawIdFromState(cachedBlockPosition.getBlockState())
+			world.levelEvent(
+				LevelEvent.PARTICLES_DESTROY_BLOCK,
+				cachedBlockPosition.getPos(),
+				Block.getId(cachedBlockPosition.getState())
 			);
 		}
 
-		BlockPos cachedBlockPosition = patternSearchResult.translate(0, 2, 0).getBlockPos();
-		float copperGolemYaw = headBlockState.get(CarvedPumpkinBlock.FACING).asRotation();
+		BlockPos cachedBlockPosition = patternSearchResult.getBlock(0, 2, 0).getPos();
+		float copperGolemYaw = headBlockState.getValue(CarvedPumpkinBlock.FACING).toYRot();
 
 		CopperGolemEntity copperGolem = FriendsAndFoesEntityTypes.COPPER_GOLEM.get().create(world);
 
-		copperGolem.setPosition(
+		copperGolem.setPos(
 			(double) cachedBlockPosition.getX() + 0.5D,
 			(double) cachedBlockPosition.getY() + 0.05D,
 			(double) cachedBlockPosition.getZ() + 0.5D
@@ -132,7 +139,7 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 		copperGolem.setSpawnYaw(copperGolemYaw);
 		copperGolem.setOxidationLevel(bodyOxidationLevel);
 
-		if (lightningRodOxidationLevel == Oxidizable.OxidationLevel.OXIDIZED) {
+		if (lightningRodOxidationLevel == WeatheringCopper.WeatherState.OXIDIZED) {
 			ArrayList<CopperGolemEntityPose> possiblePoses = new ArrayList<>()
 			{{
 				add(CopperGolemEntityPose.SPIN_HEAD);
@@ -142,12 +149,12 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 			int randomPoseIndex = copperGolem.getRandom().nextInt(possiblePoses.size());
 			CopperGolemEntityPose randomPose = possiblePoses.get(randomPoseIndex);
 			copperGolem.setPose(randomPose);
-			KeyframeAnimation keyframeAnimation = copperGolem.getKeyframeAnimationByPose();
+			AnimationHolder animation = copperGolem.getAnimationByPose();
 
-			if (keyframeAnimation != null) {
-				int keyFrameAnimationLengthInTicks = keyframeAnimation.getAnimationLengthInTicks();
-				int randomKeyframeAnimationTick = copperGolem.getRandom().nextBetween(keyFrameAnimationLengthInTicks / 6, keyFrameAnimationLengthInTicks - (keyFrameAnimationLengthInTicks / 6));
-				copperGolem.setKeyframeAnimationTicks(randomKeyframeAnimationTick);
+			if (animation != null) {
+				int keyFrameAnimationLengthInTicks = animation.get().lengthInTicks();
+				int randomKeyframeAnimationTick = copperGolem.getRandom().nextIntBetweenInclusive(keyFrameAnimationLengthInTicks / 6, keyFrameAnimationLengthInTicks - (keyFrameAnimationLengthInTicks / 6));
+				copperGolem.setCurrentAnimationTick(randomKeyframeAnimationTick);
 			}
 		} else {
 			boolean isHeadBlockWaxed = this.friendsandfoes_isCopperBlockWaxed(headBlockState);
@@ -159,18 +166,18 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 		CopperGolemBrain.setSpinHeadCooldown(copperGolem);
 		CopperGolemBrain.setPressButtonCooldown(copperGolem);
 
-		world.spawnEntity(copperGolem);
+		world.addFreshEntity(copperGolem);
 
-		for (ServerPlayerEntity serverPlayerEntity : world.getNonSpectatingEntities(
-			ServerPlayerEntity.class,
-			copperGolem.getBoundingBox().expand(5.0D)
+		for (ServerPlayer serverPlayerEntity : world.getEntitiesOfClass(
+			ServerPlayer.class,
+			copperGolem.getBoundingBox().inflate(5.0D)
 		)) {
-			Criteria.SUMMONED_ENTITY.trigger(serverPlayerEntity, copperGolem);
+			CriteriaTriggers.SUMMONED_ENTITY.trigger(serverPlayerEntity, copperGolem);
 		}
 
 		for (int j = 0; j < this.friendsandfoes_getCopperGolemPattern().getHeight(); ++j) {
-			CachedBlockPosition cachedBlockPosition2 = patternSearchResult.translate(0, j, 0);
-			world.updateNeighbors(cachedBlockPosition2.getBlockPos(), Blocks.AIR);
+			BlockInWorld cachedBlockPosition2 = patternSearchResult.getBlock(0, j, 0);
+			world.blockUpdated(cachedBlockPosition2.getPos(), Blocks.AIR);
 		}
 	}
 
@@ -178,9 +185,9 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 		if (this.friendsandfoes_copperGolemPattern == null) {
 			this.friendsandfoes_copperGolemPattern = BlockPatternBuilder.start()
 				.aisle("|", "^", "#")
-				.where('|', CachedBlockPosition.matchesBlockState(CopperGolemBuildPatternPredicates.IS_COPPER_GOLEM_LIGHTNING_ROD_PREDICATE))
-				.where('^', CachedBlockPosition.matchesBlockState(CopperGolemBuildPatternPredicates.IS_GOLEM_HEAD_PREDICATE))
-				.where('#', CachedBlockPosition.matchesBlockState(CopperGolemBuildPatternPredicates.IS_COPPER_GOLEM_BODY_PREDICATE))
+				.where('|', BlockInWorld.hasState(CopperGolemBuildPatternPredicates.IS_COPPER_GOLEM_LIGHTNING_ROD_PREDICATE))
+				.where('^', BlockInWorld.hasState(CopperGolemBuildPatternPredicates.IS_GOLEM_HEAD_PREDICATE))
+				.where('#', BlockInWorld.hasState(CopperGolemBuildPatternPredicates.IS_COPPER_GOLEM_BODY_PREDICATE))
 				.build();
 		}
 
@@ -190,14 +197,14 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 	private boolean friendsandfoes_isCopperBlockWaxed(
 		BlockState blockState
 	) {
-		return blockState.isOf(Blocks.WAXED_COPPER_BLOCK)
-			   || blockState.isOf(Blocks.WAXED_WEATHERED_COPPER)
-			   || blockState.isOf(Blocks.WAXED_EXPOSED_COPPER)
-			   || blockState.isOf(Blocks.WAXED_OXIDIZED_COPPER)
-			   || blockState.isOf(FriendsAndFoesBlocks.WAXED_LIGHTNING_ROD.get())
-			   || blockState.isOf(FriendsAndFoesBlocks.WAXED_WEATHERED_LIGHTNING_ROD.get())
-			   || blockState.isOf(FriendsAndFoesBlocks.WAXED_EXPOSED_LIGHTNING_ROD.get())
-			   || blockState.isOf(FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get());
+		return blockState.is(Blocks.WAXED_COPPER_BLOCK)
+			   || blockState.is(Blocks.WAXED_WEATHERED_COPPER)
+			   || blockState.is(Blocks.WAXED_EXPOSED_COPPER)
+			   || blockState.is(Blocks.WAXED_OXIDIZED_COPPER)
+			   || blockState.is(FriendsAndFoesBlocks.WAXED_LIGHTNING_ROD.get())
+			   || blockState.is(FriendsAndFoesBlocks.WAXED_WEATHERED_LIGHTNING_ROD.get())
+			   || blockState.is(FriendsAndFoesBlocks.WAXED_EXPOSED_LIGHTNING_ROD.get())
+			   || blockState.is(FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get());
 	}
 
 	@Override
@@ -210,27 +217,27 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 	@Override
 	public void friendsandfoes_randomTick(
 		BlockState state,
-		ServerWorld world,
+		ServerLevel world,
 		BlockPos pos,
-		Random random,
+		RandomSource random,
 		CallbackInfo ci
 	) {
-		((Degradable) this).tickDegradation(state, world, pos, random);
+		((ChangeOverTimeBlock) this).changeOverTime(state, world, pos, random);
 		ci.cancel();
 	}
 
 	@Override
 	public void friendsandfoes_onUse(
 		BlockState state,
-		World world,
+		Level world,
 		BlockPos pos,
-		PlayerEntity player,
+		Player player,
 		BlockHitResult hit,
-		CallbackInfoReturnable<ActionResult> cir
+		CallbackInfoReturnable<InteractionResult> cir
 	) {
 		var actionResult = OnUseOxidizable.onOxidizableUse(state, world, pos, player, hit);
 
-		if (actionResult.isAccepted()) {
+		if (actionResult.consumesAction()) {
 			cir.setReturnValue(actionResult);
 		}
 	}

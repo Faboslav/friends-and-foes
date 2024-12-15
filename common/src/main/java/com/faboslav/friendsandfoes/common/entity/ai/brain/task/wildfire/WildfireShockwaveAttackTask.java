@@ -1,28 +1,31 @@
 package com.faboslav.friendsandfoes.common.entity.ai.brain.task.wildfire;
 
+import com.faboslav.friendsandfoes.common.client.render.entity.animation.WildfireAnimations;
 import com.faboslav.friendsandfoes.common.entity.WildfireEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.WildfireBrain;
+import com.faboslav.friendsandfoes.common.entity.pose.CopperGolemEntityPose;
+import com.faboslav.friendsandfoes.common.entity.pose.WildfireEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.google.common.collect.ImmutableMap;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MovementType;
-import net.minecraft.entity.ai.brain.MemoryModuleState;
-import net.minecraft.entity.ai.brain.MemoryModuleType;
-import net.minecraft.entity.ai.brain.task.LookTargetUtil;
-import net.minecraft.entity.ai.brain.task.MultiTickTask;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.predicate.entity.EntityPredicates;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySelector;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.ai.behavior.Behavior;
+import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 
-public final class WildfireShockwaveAttackTask extends MultiTickTask<WildfireEntity>
+public final class WildfireShockwaveAttackTask extends Behavior<WildfireEntity>
 {
-	private final static int SHOCKWAVE_DURATION = 20;
-	private final static int SHOCKWAVE_PHASE_ONE_END_TICK = 15;
+	private final static int SHOCKWAVE_DURATION = WildfireAnimations.SHOCKWAVE.get().lengthInTicks();
 	public final static float SHOCKWAVE_ATTACK_RANGE = 6.0F;
 
 	private int shockwaveTicks;
@@ -30,28 +33,28 @@ public final class WildfireShockwaveAttackTask extends MultiTickTask<WildfireEnt
 
 	public WildfireShockwaveAttackTask() {
 		super(ImmutableMap.of(
-			MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER, MemoryModuleState.VALUE_PRESENT,
-			MemoryModuleType.ATTACK_TARGET, MemoryModuleState.REGISTERED,
-			FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT
+			MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER, MemoryStatus.VALUE_PRESENT,
+			MemoryModuleType.ATTACK_TARGET, MemoryStatus.REGISTERED,
+			FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get(), MemoryStatus.VALUE_ABSENT
 		), SHOCKWAVE_DURATION);
 	}
 
 	@Override
-	protected boolean shouldRun(ServerWorld world, WildfireEntity wildfire) {
-		LivingEntity nearestTarget = wildfire.getBrain().getOptionalRegisteredMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER).orElse(null);
+	protected boolean checkExtraStartConditions(ServerLevel world, WildfireEntity wildfire) {
+		LivingEntity nearestTarget = wildfire.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER).orElse(null);
 
 		if (nearestTarget == null) {
-			nearestTarget = wildfire.getBrain().getOptionalRegisteredMemory(MemoryModuleType.ATTACK_TARGET).orElse(null);
+			nearestTarget = wildfire.getBrain().getMemory(MemoryModuleType.ATTACK_TARGET).orElse(null);
 		}
 		if (
 			nearestTarget == null
 			|| wildfire.distanceTo(nearestTarget) > SHOCKWAVE_ATTACK_RANGE
 			|| !nearestTarget.isAlive()
 			|| (
-				nearestTarget instanceof PlayerEntity
+				nearestTarget instanceof Player
 				&& (
 					nearestTarget.isSpectator()
-					|| ((PlayerEntity) nearestTarget).isCreative()
+					|| ((Player) nearestTarget).isCreative()
 				)
 			)
 		) {
@@ -64,53 +67,41 @@ public final class WildfireShockwaveAttackTask extends MultiTickTask<WildfireEnt
 	}
 
 	@Override
-	protected void run(ServerWorld world, WildfireEntity wildfire, long time) {
-		wildfire.getBrain().forget(MemoryModuleType.WALK_TARGET);
+	protected void start(ServerLevel world, WildfireEntity wildfire, long time) {
+		wildfire.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);
 		wildfire.getNavigation().stop();
 
-		LookTargetUtil.lookAt(wildfire, this.attackTarget);
-		wildfire.getLookControl().lookAt(this.attackTarget);
-
+		BehaviorUtils.lookAtEntity(wildfire, this.attackTarget);
+		wildfire.getLookControl().setLookAt(this.attackTarget);
 		WildfireBrain.setAttackTarget(wildfire, this.attackTarget);
-
-		wildfire.playShockwaveSound();
+		wildfire.startShockwaveAnimation();
 
 		this.shockwaveTicks = 0;
 	}
 
 	@Override
-	protected boolean shouldKeepRunning(ServerWorld world, WildfireEntity wildfire, long time) {
+	protected boolean canStillUse(ServerLevel world, WildfireEntity wildfire, long time) {
 		return this.shockwaveTicks <= SHOCKWAVE_DURATION;
 	}
 
 	@Override
-	protected void keepRunning(ServerWorld world, WildfireEntity wildfire, long time) {
-		wildfire.getLookControl().lookAt(this.attackTarget);
+	protected void tick(ServerLevel world, WildfireEntity wildfire, long time) {
+		wildfire.getLookControl().setLookAt(this.attackTarget);
 
-		if (this.shockwaveTicks < SHOCKWAVE_PHASE_ONE_END_TICK) {
-			wildfire.addVelocity(0.0F, 0.075F, 0.0F);
-		} else if (this.shockwaveTicks == SHOCKWAVE_PHASE_ONE_END_TICK) {
-			wildfire.setVelocity(0.0F, 0.0F, 0.0F);
-		} else {
-			wildfire.addVelocity(0.0F, -1.0F, 0.0F);
-		}
-
-		wildfire.move(MovementType.SELF, wildfire.getVelocity());
-
-		if (this.shockwaveTicks == SHOCKWAVE_DURATION) {
-			var closeEntities = wildfire.getWorld().getOtherEntities(
+		if (this.shockwaveTicks == 20) {
+			var closeEntities = wildfire.level().getEntities(
 				wildfire,
-				wildfire.getBoundingBox().expand(SHOCKWAVE_ATTACK_RANGE),
-				EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR
+				wildfire.getBoundingBox().inflate(SHOCKWAVE_ATTACK_RANGE),
+				EntitySelector.NO_CREATIVE_OR_SPECTATOR
 			);
 
 			for (Entity closeEntity : closeEntities) {
-				if (closeEntity.getType().isIn(FriendsAndFoesTags.WILDFIRE_ALLIES)) {
+				if (closeEntity.getType().is(FriendsAndFoesTags.WILDFIRE_ALLIES)) {
 					continue;
 				}
 
 				this.spawnShockwaveParticles(wildfire);
-				wildfire.tryAttack(closeEntity);
+				wildfire.doHurtTarget(closeEntity);
 			}
 		}
 
@@ -118,25 +109,26 @@ public final class WildfireShockwaveAttackTask extends MultiTickTask<WildfireEnt
 	}
 
 	private void spawnShockwaveParticles(WildfireEntity wildfire) {
-		Vec3d wildfirePosition = wildfire.getPos();
-		ServerWorld serverWorld = (ServerWorld) wildfire.getWorld();
+		Vec3 wildfirePosition = wildfire.position();
+		ServerLevel serverWorld = (ServerLevel) wildfire.level();
 
-		int waveAmount = 4;
-		int particleAmount = 64;
+		int radius = 1;
+		int waveAmount = (int) SHOCKWAVE_ATTACK_RANGE;
+		int particleAmount = 48;
 
 		float slice = 2.0F * (float) Math.PI / particleAmount;
 
-		for (int radius = 1; radius < waveAmount; radius++) {
+		for (int currentWave = 1; currentWave < waveAmount; currentWave++) {
 			for (int particleNumber = 0; particleNumber < particleAmount; ++particleNumber) {
 				float angle = slice * particleNumber;
-				int x = (int) (wildfirePosition.getX() + radius * MathHelper.cos(angle));
-				int y = (int) wildfirePosition.getY();
-				int z = (int) (wildfirePosition.getZ() + radius * MathHelper.sin(angle));
+				int x = (int) (wildfirePosition.x() + radius * Mth.cos(angle));
+				int y = (int) wildfirePosition.y();
+				int z = (int) (wildfirePosition.z() + radius * Mth.sin(angle));
 
-				serverWorld.spawnParticles(
+				serverWorld.sendParticles(
 					ParticleTypes.LARGE_SMOKE,
 					x,
-					y + 0.2F * radius,
+					y + 0.1F * radius,
 					z,
 					1,
 					0.0D,
@@ -145,11 +137,14 @@ public final class WildfireShockwaveAttackTask extends MultiTickTask<WildfireEnt
 					0.0D
 				);
 			}
+
+			radius++;
 		}
 	}
 
 	@Override
-	protected void finishRunning(ServerWorld world, WildfireEntity wildfire, long time) {
+	protected void stop(ServerLevel world, WildfireEntity wildfire, long time) {
+		wildfire.setPose(WildfireEntityPose.IDLE);
 		WildfireBrain.setShockwaveAttackCooldown(wildfire);
 	}
 }

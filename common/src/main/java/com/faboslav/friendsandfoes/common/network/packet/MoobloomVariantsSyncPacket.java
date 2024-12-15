@@ -8,20 +8,19 @@ import com.faboslav.friendsandfoes.common.network.Packet;
 import com.faboslav.friendsandfoes.common.network.base.ClientboundPacketType;
 import com.faboslav.friendsandfoes.common.network.base.PacketType;
 import com.mojang.serialization.DataResult;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtOps;
-import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import java.util.ArrayList;
 import java.util.List;
 
 public record MoobloomVariantsSyncPacket(
 	List<MoobloomVariant> moobloomVariants) implements Packet<MoobloomVariantsSyncPacket>
 {
-	public static final Identifier ID = FriendsAndFoes.makeID("moobloom_variants_sync_packet");
+	public static final ResourceLocation ID = FriendsAndFoes.makeID("moobloom_variants_sync_packet");
 	public static final ClientboundPacketType<MoobloomVariantsSyncPacket> TYPE = new MoobloomVariantsSyncPacket.Handler();
 
 	public static void sendToClient(DatapackSyncEvent event) {
@@ -41,7 +40,7 @@ public record MoobloomVariantsSyncPacket(
 		}
 
 		@Override
-		public Identifier id() {
+		public ResourceLocation id() {
 			return ID;
 		}
 
@@ -50,19 +49,19 @@ public record MoobloomVariantsSyncPacket(
 			return () -> MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.setMoobloomVariants(packet.moobloomVariants());
 		}
 
-		public MoobloomVariantsSyncPacket decode(final RegistryByteBuf buf) {
+		public MoobloomVariantsSyncPacket decode(final RegistryFriendlyByteBuf buf) {
 			List<MoobloomVariant> parsedMoobloomVariants = new ArrayList<>();
 
-			NbtCompound data = buf.readNbt();
+			CompoundTag data = buf.readNbt();
 
 			if (data == null) {
 				FriendsAndFoes.getLogger().error("Moobloom Variant packet is empty");
 				return new MoobloomVariantsSyncPacket(parsedMoobloomVariants);
 			}
 
-			NbtList moobloomVariants = data.getList("moobloom_variants", NbtElement.COMPOUND_TYPE);
+			ListTag moobloomVariants = data.getList("moobloom_variants", Tag.TAG_COMPOUND);
 
-			for (NbtElement moobloomVariant : moobloomVariants) {
+			for (Tag moobloomVariant : moobloomVariants) {
 				DataResult<MoobloomVariant> parsedMoobloomVariant = MoobloomVariant.CODEC.parse(NbtOps.INSTANCE, moobloomVariant);
 				parsedMoobloomVariant.error().ifPresent(error -> FriendsAndFoes.getLogger().error("Failed to parse Moobloom Variant packet entry: {}", error));
 				parsedMoobloomVariant.result().ifPresent(parsedMoobloomVariants::add);
@@ -71,12 +70,12 @@ public record MoobloomVariantsSyncPacket(
 			return new MoobloomVariantsSyncPacket(parsedMoobloomVariants);
 		}
 
-		public void encode(final MoobloomVariantsSyncPacket packet, final RegistryByteBuf buf) {
-			NbtCompound data = new NbtCompound();
-			NbtList parsedMoobloomVariants = new NbtList();
+		public void encode(final MoobloomVariantsSyncPacket packet, final RegistryFriendlyByteBuf buf) {
+			CompoundTag data = new CompoundTag();
+			ListTag parsedMoobloomVariants = new ListTag();
 
 			for (MoobloomVariant moobloomVariant : packet.moobloomVariants()) {
-				DataResult<NbtElement> parsedMoobloomVariant = MoobloomVariant.CODEC.encodeStart(NbtOps.INSTANCE, moobloomVariant);
+				DataResult<Tag> parsedMoobloomVariant = MoobloomVariant.CODEC.encodeStart(NbtOps.INSTANCE, moobloomVariant);
 				parsedMoobloomVariant.error().ifPresent(error -> FriendsAndFoes.getLogger().error("Failed to encode Moobloom Variant packet entry: {}", error));
 				parsedMoobloomVariant.result().ifPresent(parsedMoobloomVariants::add);
 			}

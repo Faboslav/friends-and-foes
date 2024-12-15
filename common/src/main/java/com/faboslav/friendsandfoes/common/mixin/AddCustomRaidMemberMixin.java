@@ -3,9 +3,6 @@ package com.faboslav.friendsandfoes.common.mixin;
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.util.CustomRaidMember;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.raid.RaiderEntity;
-import net.minecraft.village.raid.Raid;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,16 +15,19 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.raid.Raid;
+import net.minecraft.world.entity.raid.Raider;
 
-@Mixin(Raid.Member.class)
+@Mixin(Raid.RaiderType.class)
 @SuppressWarnings({"ShadowTarget", "InvokerTarget"})
 public final class AddCustomRaidMemberMixin
 {
 	@Invoker("<init>")
-	private static Raid.Member newRaidMember(
+	private static Raid.RaiderType newRaidMember(
 		String internalName,
 		int internalId,
-		EntityType<? extends RaiderEntity> entityType,
+		EntityType<? extends Raider> entityType,
 		int[] countInWave
 	) {
 		throw new AssertionError();
@@ -36,19 +36,19 @@ public final class AddCustomRaidMemberMixin
 	@Shadow
 	private static @Final
 	@Mutable
-	Raid.Member[] field_16632;
+	Raid.RaiderType[] $VALUES;
 
 	@Inject(
 		method = "<clinit>",
 		at = @At(
 			value = "FIELD",
 			opcode = Opcodes.PUTSTATIC,
-			target = "Lnet/minecraft/village/raid/Raid$Member;field_16632:[Lnet/minecraft/village/raid/Raid$Member;",
+			target = "Lnet/minecraft/world/entity/raid/Raid$RaiderType;$VALUES:[Lnet/minecraft/world/entity/raid/Raid$RaiderType;",
 			shift = At.Shift.AFTER
 		)
 	)
 	private static void friendsandfoes_addCustomRaidMembers(CallbackInfo ci) {
-		var raidMembers = new ArrayList<>(Arrays.asList(field_16632));
+		var raidMembers = new ArrayList<>(Arrays.asList($VALUES));
 		var lastRaidMember = raidMembers.get(raidMembers.size() - 1);
 
 		if (FriendsAndFoes.getConfig().enableIceologerInRaids) {
@@ -73,6 +73,6 @@ public final class AddCustomRaidMemberMixin
 			raidMembers.add(illusionerRaidMember);
 		}
 
-		field_16632 = raidMembers.toArray(new Raid.Member[0]);
+		$VALUES = raidMembers.toArray(new Raid.RaiderType[0]);
 	}
 }

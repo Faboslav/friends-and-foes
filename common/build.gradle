@@ -1,3 +1,7 @@
+def modrinth(String name, String version) {
+	return "maven.modrinth:$name:$version"
+}
+
 architectury {
 	common(enabled_platforms.split(","))
 }
@@ -8,7 +12,9 @@ loom {
 
 dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
-	modImplementation("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}")
+
+	// YACL
+	modImplementation(modrinth("yacl", "${yacl_version}-fabric"))
 }
 
 repositories {

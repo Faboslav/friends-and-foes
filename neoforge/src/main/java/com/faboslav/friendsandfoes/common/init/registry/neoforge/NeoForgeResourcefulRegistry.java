@@ -4,7 +4,7 @@ import com.faboslav.friendsandfoes.common.init.registry.ReferenceRegistryEntry;
 import com.faboslav.friendsandfoes.common.init.registry.RegistryEntries;
 import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
-import net.minecraft.registry.Registry;
+import net.minecraft.core.Registry;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -25,7 +25,7 @@ public class NeoForgeResourcefulRegistry<T> implements ResourcefulRegistry<T>
 	private final RegistryEntries<T> entries = new RegistryEntries<>();
 
 	public NeoForgeResourcefulRegistry(Registry<T> registry, String id) {
-		this.register = DeferredRegister.create(registry.getKey(), id);
+		this.register = DeferredRegister.create(registry.key(), id);
 	}
 
 	@Override

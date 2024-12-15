@@ -3,38 +3,38 @@ package com.faboslav.friendsandfoes.common.entity.ai.brain.task.crab;
 import com.faboslav.friendsandfoes.common.entity.CrabEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.google.common.collect.ImmutableMap;
-import net.minecraft.entity.ai.brain.MemoryModuleState;
-import net.minecraft.entity.ai.brain.MemoryModuleType;
-import net.minecraft.entity.ai.brain.task.LookTargetUtil;
-import net.minecraft.entity.ai.brain.task.MultiTickTask;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.ai.behavior.Behavior;
+import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
 
-public final class CrabGoToHomePositionTask extends MultiTickTask<CrabEntity>
+public final class CrabGoToHomePositionTask extends Behavior<CrabEntity>
 {
 	private final static int GO_TO_HOME_POSITION_DURATION = 2400;
 
 	public CrabGoToHomePositionTask() {
 		super(ImmutableMap.of(
-			MemoryModuleType.LOOK_TARGET, MemoryModuleState.VALUE_ABSENT,
-			MemoryModuleType.WALK_TARGET, MemoryModuleState.VALUE_ABSENT,
-			FriendsAndFoesMemoryModuleTypes.CRAB_HAS_EGG.get(), MemoryModuleState.VALUE_PRESENT
+			MemoryModuleType.LOOK_TARGET, MemoryStatus.VALUE_ABSENT,
+			MemoryModuleType.WALK_TARGET, MemoryStatus.VALUE_ABSENT,
+			FriendsAndFoesMemoryModuleTypes.CRAB_HAS_EGG.get(), MemoryStatus.VALUE_PRESENT
 		), GO_TO_HOME_POSITION_DURATION);
 	}
 
 	@Override
-	protected boolean shouldRun(
-		ServerWorld world,
+	protected boolean checkExtraStartConditions(
+		ServerLevel world,
 		CrabEntity crab
 	) {
 		return !crab.isCloseToHomePos(3.0F)
 			   && !crab.isLeashed()
-			   && !crab.hasVehicle();
+			   && !crab.isPassenger();
 	}
 
 	@Override
-	protected void run(
-		ServerWorld serverWorld,
+	protected void start(
+		ServerLevel serverWorld,
 		CrabEntity crab,
 		long l
 	) {
@@ -42,23 +42,23 @@ public final class CrabGoToHomePositionTask extends MultiTickTask<CrabEntity>
 	}
 
 	@Override
-	protected boolean shouldKeepRunning(
-		ServerWorld world,
+	protected boolean canStillUse(
+		ServerLevel world,
 		CrabEntity crab,
 		long time
 	) {
 		return !crab.isAtHomePos()
 			   && !crab.isLeashed()
-			   && !crab.hasVehicle();
+			   && !crab.isPassenger();
 	}
 
 	@Override
-	protected void keepRunning(
-		ServerWorld world,
+	protected void tick(
+		ServerLevel world,
 		CrabEntity crab,
 		long time
 	) {
-		if (crab.getNavigation().isFollowingPath()) {
+		if (crab.getNavigation().isInProgress()) {
 			return;
 		}
 
@@ -66,22 +66,22 @@ public final class CrabGoToHomePositionTask extends MultiTickTask<CrabEntity>
 	}
 
 	@Override
-	protected void finishRunning(
-		ServerWorld world,
+	protected void stop(
+		ServerLevel world,
 		CrabEntity crab,
 		long time
 	) {
 
-		crab.getBrain().forget(MemoryModuleType.LOOK_TARGET);
-		crab.getBrain().forget(MemoryModuleType.WALK_TARGET);
+		crab.getBrain().eraseMemory(MemoryModuleType.LOOK_TARGET);
+		crab.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);
 	}
 
 	private void walkTowardsHomePos(
 		CrabEntity crab
 	) {
-		LookTargetUtil.walkTowards(
+		BehaviorUtils.setWalkAndLookTargetMemories(
 			crab,
-			BlockPos.ofFloored(crab.getHomePos()),
+			BlockPos.containing(crab.getHomePos()),
 			1.0F,
 			0
 		);

@@ -1,10 +1,10 @@
 package com.faboslav.friendsandfoes.common.platform;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnGroup;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.level.biome.Biome;
 
 public final class BiomeModifications
 {
@@ -12,7 +12,7 @@ public final class BiomeModifications
 	public static void addMobSpawn(
 		TagKey<Biome> tag,
 		EntityType<?> entityType,
-		SpawnGroup spawnGroup,
+		MobCategory spawnGroup,
 		int weight,
 		int minGroupSize,
 		int maxGroupSize

@@ -1,195 +1,381 @@
 package com.faboslav.friendsandfoes.common.config;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-import com.faboslav.friendsandfoes.common.config.annotation.Category;
-import com.faboslav.friendsandfoes.common.config.annotation.Description;
-import com.faboslav.friendsandfoes.common.config.omegaconfig.api.Config;
+import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
+import dev.isxander.yacl3.config.v2.api.SerialEntry;
+import dev.isxander.yacl3.config.v2.api.autogen.*;
+import dev.isxander.yacl3.config.v2.api.autogen.Boolean;
+import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
 
-public final class FriendsAndFoesConfig implements Config
+import java.nio.file.Path;
+
+public final class FriendsAndFoesConfig
 {
-	@Category("General")
-	@Description("Check if the new update of mod is available")
+	public static ConfigClassHandler<FriendsAndFoesConfig> HANDLER = ConfigClassHandler.createBuilder(FriendsAndFoesConfig.class)
+		.id(FriendsAndFoes.makeID(FriendsAndFoes.MOD_ID))
+		.serializer(config -> GsonConfigSerializerBuilder.create(config).setPath(Path.of("config", FriendsAndFoes.MOD_ID + ".json")).build())
+		.build();
+
+	private boolean isLoaded = false;
+	private boolean isLoading = false;
+
+	@SerialEntry(comment = "Check if the new update of mod is available")
 	public boolean checkForNewUpdates = false;
 
-	@Category("Copper Golem")
-	@Description("Enable")
-	public boolean enableCopperGolem = true;
+	private static final String MOBS_CATEGORY = "mobs";
+	private static final String BEEKEEPER_GROUP = "beekeeper";
+	private static final String COPPER_GOLEM_GROUP = "copper_golem";
+	private static final String CRAB_GROUP = "crab";
+	private static final String GLARE_GROUP = "glare";
+	private static final String ICEOLOGER_GROUP = "iceologer";
+	private static final String ILLUSIONER_GROUP = "illusioner";
+	private static final String MAULER_GROUP = "mauler";
+	private static final String MOOBLOOM_GROUP = "moobloom";
+	private static final String RASCAL_GROUP = "rascal";
+	private static final String TUFF_GOLEM_GROUP = "tuff_golem";
+	private static final String WILDFIRE_GROUP = "wildfire";
+	private static final String ZOMBIE_HORSE_GROUP = "zombie_horse";
 
-	@Description("Generate copper golem area structure in villages")
-	public boolean generateCopperGolemAreaStructure = true;
-
-	@Description("Copper Golem area structure spawn chance")
-	public int copperGolemAreaStructureWeight = 1;
-
-	@Description("Generate copper golem in the center piece in the ancient cities")
-	public boolean generateCopperGolemInAncientCity = true;
-
-	@Description("Generate copper golem in the center piece in the ancient cities spawn chance")
-	public int copperGolemAncientCityCenterWeight = 10;
-
-	@Category("Crab")
-	@Description("Enable")
-	public boolean enableCrab = true;
-
-	@Description("Enable spawn")
-	public boolean enableCrabSpawn = true;
-
-	@Description("Spawn weight")
-	public int crabSpawnWeight = 14;
-
-	@Description("Minimal spawn group size")
-	public int crabSpawnMinGroupSize = 2;
-
-	@Description("Maximal spawn group size")
-	public int crabSpawnMaxGroupSize = 4;
-
-	@Description("Reach status effect modifier (range in blocks)")
-	public int reachingStatusEffectModifier = 1;
-
-	@Category("Glare")
-	@Description("Enable")
-	public boolean enableGlare = true;
-
-	@Description("Enable spawn")
-	public boolean enableGlareSpawn = true;
-
-	@Description("Whenever will glare shake off glow berries and eat glow berries")
-	public boolean enableGlareGriefing = true;
-
-	@Description("Spawn weight")
-	public int glareSpawnWeight = 4;
-
-	@Description("Minimal spawn group size")
-	public int glareSpawnMinGroupSize = 1;
-
-	@Description("Maximal spawn group size")
-	public int glareSpawnMaxGroupSize = 1;
-
-	@Category("Mauler")
-	@Description("Enable")
-	public boolean enableMauler = true;
-
-	@Description("Enable spawn")
-	public boolean enableMaulerSpawn = true;
-
-	@Description("Spawn weight in desert biome")
-	public int maulerDesertSpawnWeight = 8;
-
-	@Description("Minimal spawn group size in desert biome")
-	public int maulerDesertSpawnMinGroupSize = 1;
-
-	@Description("Maximal spawn group size in desert biome")
-	public int maulerDesertSpawnMaxGroupSize = 1;
-
-	@Description("Spawn weight in badlands biome")
-	public int maulerBadlandsSpawnWeight = 16;
-
-	@Description("Minimal spawn group size in badlands biome")
-	public int maulerBadlandsSpawnMinGroupSize = 1;
-
-	@Description("Maximal spawn group size in badlands biome")
-	public int maulerBadlandsSpawnMaxGroupSize = 1;
-
-	@Description("Spawn weight in savanna biome")
-	public int maulerSavannaSpawnWeight = 32;
-
-	@Description("Minimal spawn group size in savanna biome")
-	public int maulerSavannaSpawnMinGroupSize = 1;
-
-	@Description("Maximal spawn group size in savanna biome")
-	public int maulerSavannaSpawnMaxGroupSize = 1;
-
-	@Category("Moobloom")
-	@Description("Enable")
-	public boolean enableMoobloom = true;
-
-	@Description("Enable spawn")
-	public boolean enableMoobloomSpawn = true;
-
-	@Description("Spawn weight")
-	public int moobloomSpawnWeight = 4;
-
-	@Description("Minimal spawn group size")
-	public int moobloomSpawnMinGroupSize = 2;
-
-	@Description("Maximal spawn group size")
-	public int moobloomSpawnMaxGroupSize = 4;
-
-	@Category("Iceologer")
-	@Description("Enable")
-	public boolean enableIceologer = true;
-
-	@Description("Enable spawn")
-	public boolean enableIceologerSpawn = true;
-
-	@Description("Enable in raids")
-	public boolean enableIceologerInRaids = true;
-
-	@Description("Generate iceologer cabin structure")
-	public boolean generateIceologerCabinStructure = true;
-
-	@Category("Illusioner")
-	@Description("Enable")
-	public boolean enableIllusioner = true;
-
-	@Description("Enable spawn")
-	public boolean enableIllusionerSpawn = true;
-
-	@Description("Enable in raids")
-	public boolean enableIllusionerInRaids = true;
-
-	@Description("Generate illusioner shack structure")
-	public boolean generateIllusionerShackStructure = true;
-
-	@Description("Generate illusioner training grounds")
-	public boolean generateIllusionerTrainingGroundsStructure = true;
-
-	@Description("Maximum count of illusions")
-	public int maxIllusionsCount = 9;
-
-	@Description("Number of ticks before illusion will despawn (20 ticks = 1 second)")
-	public int illusionLifetimeTicks = 600;
-
-	@Description("Number of invisibility ticks  (20 ticks = 1 second)")
-	public int invisibilityTicks = 60;
-
-	@Category("Zombie Horse")
-	@Description("Enable trap")
-	public boolean enableZombieHorseTrap = true;
-
-	@Category("Rascal")
-	@Description("Enable rascal")
-	public boolean enableRascal = true;
-
-	@Description("Enable rascal spawn")
-	public boolean enableRascalSpawn = true;
-
-	@Category("Tuff Golem")
-	@Description("Enable tuff golem")
-	public boolean enableTuffGolem = true;
-
-	@Description("Generate tuff golem in stronghold libraries")
-	public boolean generateTuffGolemInStronghold = true;
-
-	@Category("Wildfire")
-	@Description("Enable wildfire")
-	public boolean enableWildfire = true;
-
-	@Description("Generate citadel structure")
-	public boolean generateCitadelStructure = true;
-
-	@Category("Beekeeper")
-	@Description("Enable villager profession")
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = BEEKEEPER_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
 	public boolean enableBeekeeperVillagerProfession = true;
 
-	@Description("Generate beekeeper area structure in villages")
-	public boolean generateBeekeeperAreaStructure = true;
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = BEEKEEPER_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean generateBeekeeperAreaStructureInVillages = true;
 
-	@Description("Beekeeper area structure spawn chance")
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = BEEKEEPER_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
 	public int beekeeperAreaStructureWeight = 2;
 
-	@Override
-	public String getName() {
-		return FriendsAndFoes.MOD_ID;
+	@SerialEntry()
+	@CustomDescription("Copper Golem")
+	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableCopperGolem = true;
+
+	@SerialEntry()
+	@CustomDescription("Copper Golem")
+	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean generateCopperGolemWorkstationStructureInVillages = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int copperGolemWorkstationStructureWeight = 1;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean generateCopperGolemInAncientCity = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int copperGolemAncientCityCenterWeight = 10;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableCopperGolemsInTrialChambers = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int copperGolemInTrialChambersWeight = 10;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = CRAB_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableCrab = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = CRAB_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableCrabSpawn = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = CRAB_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int crabSpawnWeight = 14;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = CRAB_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int crabSpawnMinGroupSize = 2;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = CRAB_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int crabSpawnMaxGroupSize = 4;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = CRAB_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int reachingStatusEffectModifier = 1;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = GLARE_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableGlare = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = GLARE_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableGlareSpawn = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = GLARE_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableGlareGriefing = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = GLARE_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int glareSpawnWeight = 4;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = GLARE_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int glareSpawnMinGroupSize = 1;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = GLARE_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int glareSpawnMaxGroupSize = 1;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = ICEOLOGER_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableIceologer = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = ICEOLOGER_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableIceologerSpawn = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = ICEOLOGER_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableIceologerInRaids = true;
+
+	@SerialEntry()
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	@AutoGen(category = MOBS_CATEGORY, group = ICEOLOGER_GROUP)
+	public boolean generateIceologerCabinStructure = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = ILLUSIONER_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableIllusioner = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = ILLUSIONER_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableIllusionerSpawn = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = ILLUSIONER_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableIllusionerInRaids = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = ILLUSIONER_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean generateIllusionerShackStructure = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = ILLUSIONER_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean generateIllusionerTrainingGroundsStructure = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = ILLUSIONER_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int illusionerMaxIllusionsCount = 9;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = ILLUSIONER_GROUP)
+	@IntSlider(min = 0, max = 1800, step = 1)
+	public int illusionerIllusionLifetimeTicks = 600;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = ILLUSIONER_GROUP)
+	@IntSlider(min = 0, max = 180, step = 1)
+	public int illusionerInvisibilityTicks = 60;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = MAULER_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableMauler = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = MAULER_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableMaulerSpawn = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = MAULER_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableMaulerSpawnInDesert = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = MAULER_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int maulerDesertSpawnWeight = 8;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = MAULER_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int maulerDesertSpawnMinGroupSize = 1;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = MAULER_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int maulerDesertSpawnMaxGroupSize = 1;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = MAULER_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableMaulerSpawnInBadlands = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = MAULER_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int maulerBadlandsSpawnWeight = 16;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = MAULER_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int maulerBadlandsSpawnMinGroupSize = 1;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = MAULER_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int maulerBadlandsSpawnMaxGroupSize = 1;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = MAULER_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableMaulerSpawnInSavanna = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = MAULER_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int maulerSavannaSpawnWeight = 32;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = MAULER_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int maulerSavannaSpawnMinGroupSize = 1;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = MAULER_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int maulerSavannaSpawnMaxGroupSize = 1;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = MOOBLOOM_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableMoobloom = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = MOOBLOOM_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableMoobloomSpawn = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = MOOBLOOM_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int moobloomSpawnWeight = 4;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = MOOBLOOM_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int moobloomSpawnMinGroupSize = 2;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = MOOBLOOM_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int moobloomSpawnMaxGroupSize = 4;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = RASCAL_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableRascal = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = RASCAL_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableRascalSpawn = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = RASCAL_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int rascalSpawnWeight = 4;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = RASCAL_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int rascalSpawnMinGroupSize = 1;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = RASCAL_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int rascalSpawnMaxGroupSize = 1;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = TUFF_GOLEM_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableTuffGolem = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = TUFF_GOLEM_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean generateTuffGolemInStronghold = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = WILDFIRE_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableWildfire = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = WILDFIRE_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean generateCitadelStructure = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = ZOMBIE_HORSE_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableZombieHorseTrap = true;
+
+	public void load() {
+		if (this.isLoading) {
+			return;
+		}
+
+		try {
+			FriendsAndFoes.getLogger().info("Loading Friens&Foes config...");
+			this.isLoading = true;
+
+			/*
+			if (!Files.exists(configPath)) {
+				return;
+			}*/
+
+			HANDLER.load();
+
+			FriendsAndFoes.getLogger().info("Friens&Foes config loaded");
+			this.isLoaded = true;
+		} catch (Exception e) {
+			FriendsAndFoes.getLogger().error("Failed to load Friens&Foes config");
+			e.printStackTrace();
+		} finally {
+			this.isLoading = false;
+		}
 	}
 }

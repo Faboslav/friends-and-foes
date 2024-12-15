@@ -1,8 +1,8 @@
 package com.faboslav.friendsandfoes.common;
 
 import com.faboslav.friendsandfoes.common.api.MoobloomVariantManager;
+import com.faboslav.friendsandfoes.common.entity.animation.loader.json.AnimationLoader;
 import com.faboslav.friendsandfoes.common.config.FriendsAndFoesConfig;
-import com.faboslav.friendsandfoes.common.config.omegaconfig.OmegaConfig;
 import com.faboslav.friendsandfoes.common.events.AddItemGroupEntriesEvent;
 import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
 import com.faboslav.friendsandfoes.common.events.item.RegisterBrewingRecipesEvent;
@@ -13,18 +13,18 @@ import com.faboslav.friendsandfoes.common.modcompat.ModChecker;
 import com.faboslav.friendsandfoes.common.network.packet.MessageHandler;
 import com.faboslav.friendsandfoes.common.network.packet.MoobloomVariantsSyncPacket;
 import com.faboslav.friendsandfoes.common.platform.BiomeModifications;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public final class FriendsAndFoes
 {
 	private static final Logger LOGGER = LoggerFactory.getLogger(FriendsAndFoes.MOD_ID);
-	private static final FriendsAndFoesConfig CONFIG = OmegaConfig.register(FriendsAndFoesConfig.class);
+	private static final FriendsAndFoesConfig CONFIG = new FriendsAndFoesConfig();
 	public static final String MOD_ID = "friendsandfoes";
 
-	public static Identifier makeID(String path) {
-		return Identifier.of(
+	public static ResourceLocation makeID(String path) {
+		return ResourceLocation.fromNamespaceAndPath(
 			MOD_ID,
 			path
 		);
@@ -43,6 +43,7 @@ public final class FriendsAndFoes
 	}
 
 	public static void init() {
+		FriendsAndFoes.getConfig().load();
 		ModChecker.setupModCompat();
 
 		RegisterReloadListenerEvent.EVENT.addListener(FriendsAndFoes::registerServerDataListeners);
@@ -85,6 +86,7 @@ public final class FriendsAndFoes
 
 	private static void registerServerDataListeners(final RegisterReloadListenerEvent event) {
 		event.register(FriendsAndFoes.makeID("moobloom_variants"), MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER);
+		event.register(FriendsAndFoes.makeID("animations"), AnimationLoader.INSTANCE);
 	}
 
 	private static void setup(final SetupEvent event) {

@@ -2,7 +2,7 @@ package com.faboslav.friendsandfoes.common.network.neoforge;
 
 import com.faboslav.friendsandfoes.common.network.base.Networking;
 import com.faboslav.friendsandfoes.neoforge.network.NeoForgeNetworking;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * Network related is code based on The Bumblezone/Resourceful Lib mods with permissions from the authors
@@ -14,7 +14,7 @@ import net.minecraft.util.Identifier;
  */
 public class NetworkImpl
 {
-	public static Networking getNetwork(Identifier channel, int protocolVersion, boolean optional) {
+	public static Networking getNetwork(ResourceLocation channel, int protocolVersion, boolean optional) {
 		return new NeoForgeNetworking(channel, protocolVersion, optional);
 	}
 }

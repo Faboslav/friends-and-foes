@@ -5,19 +5,19 @@ import com.faboslav.friendsandfoes.common.entity.WildfireEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.WildfireBrain;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.google.common.collect.ImmutableMap;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.brain.MemoryModuleState;
-import net.minecraft.entity.ai.brain.MemoryModuleType;
-import net.minecraft.entity.ai.brain.task.LookTargetUtil;
-import net.minecraft.entity.ai.brain.task.MultiTickTask;
-import net.minecraft.entity.mob.BlazeEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.ai.behavior.Behavior;
+import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.entity.monster.Blaze;
+import net.minecraft.world.entity.player.Player;
 
-public final class WildfireSummonBlazeTask extends MultiTickTask<WildfireEntity>
+public final class WildfireSummonBlazeTask extends Behavior<WildfireEntity>
 {
 	private LivingEntity attackTarget;
 	private int summonedBlazesCount;
@@ -28,23 +28,23 @@ public final class WildfireSummonBlazeTask extends MultiTickTask<WildfireEntity>
 
 	public WildfireSummonBlazeTask() {
 		super(ImmutableMap.of(
-			MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_PRESENT,
-			FriendsAndFoesMemoryModuleTypes.WILDFIRE_SUMMON_BLAZE_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT
+			MemoryModuleType.ATTACK_TARGET, MemoryStatus.VALUE_PRESENT,
+			FriendsAndFoesMemoryModuleTypes.WILDFIRE_SUMMON_BLAZE_COOLDOWN.get(), MemoryStatus.VALUE_ABSENT
 		), SUMMON_BLAZES_DURATION);
 	}
 
 	@Override
-	protected boolean shouldRun(ServerWorld world, WildfireEntity wildfire) {
-		var attackTarget = wildfire.getBrain().getOptionalRegisteredMemory(MemoryModuleType.ATTACK_TARGET).orElse(null);
+	protected boolean checkExtraStartConditions(ServerLevel world, WildfireEntity wildfire) {
+		var attackTarget = wildfire.getBrain().getMemory(MemoryModuleType.ATTACK_TARGET).orElse(null);
 
 		if (
 			attackTarget == null
 			|| !attackTarget.isAlive()
 			|| (
-				attackTarget instanceof PlayerEntity
+				attackTarget instanceof Player
 				&& (
 					attackTarget.isSpectator()
-					|| ((PlayerEntity) attackTarget).isCreative()
+					|| ((Player) attackTarget).isCreative()
 				)
 			)
 			|| wildfire.getSummonedBlazesCount() == WildfireEntity.MAXIMUM_SUMMONED_BLAZES_COUNT
@@ -59,12 +59,12 @@ public final class WildfireSummonBlazeTask extends MultiTickTask<WildfireEntity>
 	}
 
 	@Override
-	protected void run(ServerWorld world, WildfireEntity wildfire, long time) {
-		wildfire.getBrain().forget(MemoryModuleType.WALK_TARGET);
+	protected void start(ServerLevel world, WildfireEntity wildfire, long time) {
+		wildfire.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);
 		wildfire.getNavigation().stop();
 
-		LookTargetUtil.lookAt(wildfire, this.attackTarget);
-		wildfire.getLookControl().lookAt(this.attackTarget);
+		BehaviorUtils.lookAtEntity(wildfire, this.attackTarget);
+		wildfire.getLookControl().setLookAt(this.attackTarget);
 
 		WildfireBrain.setAttackTarget(wildfire, this.attackTarget);
 
@@ -72,33 +72,33 @@ public final class WildfireSummonBlazeTask extends MultiTickTask<WildfireEntity>
 	}
 
 	@Override
-	protected boolean shouldKeepRunning(ServerWorld world, WildfireEntity wildfire, long time) {
+	protected boolean canStillUse(ServerLevel world, WildfireEntity wildfire, long time) {
 		return this.summonedBlazesCount == 0;
 	}
 
 	@Override
-	protected void keepRunning(ServerWorld world, WildfireEntity wildfire, long time) {
-		LookTargetUtil.lookAt(wildfire, this.attackTarget);
+	protected void tick(ServerLevel world, WildfireEntity wildfire, long time) {
+		BehaviorUtils.lookAtEntity(wildfire, this.attackTarget);
 
-		ServerWorld serverWorld = (ServerWorld) wildfire.getWorld();
-		int blazesToBeSummoned = Math.max(0, wildfire.getRandom().nextBetween(MIN_BLAZES_TO_BE_SUMMONED, MAX_BLAZES_TO_BE_SUMMONED) - wildfire.getSummonedBlazesCount());
+		ServerLevel serverWorld = (ServerLevel) wildfire.level();
+		int blazesToBeSummoned = Math.max(0, wildfire.getRandom().nextIntBetweenInclusive(MIN_BLAZES_TO_BE_SUMMONED, MAX_BLAZES_TO_BE_SUMMONED) - wildfire.getSummonedBlazesCount());
 
 		if (blazesToBeSummoned > 0) {
 			wildfire.playSummonBlazeSound();
 		}
 
 		for (int i = 0; i < blazesToBeSummoned; i++) {
-			BlockPos blockPos = wildfire.getBlockPos().add(
+			BlockPos blockPos = wildfire.blockPosition().offset(
 				-2 + wildfire.getRandom().nextInt(5),
 				1,
 				-2 + wildfire.getRandom().nextInt(5)
 			);
-			BlazeEntity blazeEntity = EntityType.BLAZE.create(serverWorld);
-			blazeEntity.refreshPositionAndAngles(blockPos, 0.0F, 0.0F);
+			Blaze blazeEntity = EntityType.BLAZE.create(serverWorld);
+			blazeEntity.moveTo(blockPos, 0.0F, 0.0F);
 			blazeEntity.setTarget(this.attackTarget);
 			((BlazeEntityAccess) blazeEntity).friendsandfoes_setWildfire(wildfire);
-			blazeEntity.initialize(serverWorld, serverWorld.getLocalDifficulty(blockPos), SpawnReason.MOB_SUMMONED, null);
-			serverWorld.spawnEntityAndPassengers(blazeEntity);
+			blazeEntity.finalizeSpawn(serverWorld, serverWorld.getCurrentDifficultyAt(blockPos), MobSpawnType.MOB_SUMMONED, null);
+			serverWorld.addFreshEntityWithPassengers(blazeEntity);
 
 			this.summonedBlazesCount++;
 			wildfire.setSummonedBlazesCount(wildfire.getSummonedBlazesCount() + 1);
@@ -106,7 +106,7 @@ public final class WildfireSummonBlazeTask extends MultiTickTask<WildfireEntity>
 	}
 
 	@Override
-	protected void finishRunning(ServerWorld world, WildfireEntity wildfire, long time) {
+	protected void stop(ServerLevel world, WildfireEntity wildfire, long time) {
 		WildfireBrain.setSummonBlazeCooldown(wildfire);
 	}
 }

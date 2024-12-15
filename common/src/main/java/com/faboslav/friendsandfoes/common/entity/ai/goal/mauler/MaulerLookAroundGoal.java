@@ -1,9 +1,9 @@
 package com.faboslav.friendsandfoes.common.entity.ai.goal.mauler;
 
 import com.faboslav.friendsandfoes.common.entity.MaulerEntity;
-import net.minecraft.entity.ai.goal.LookAroundGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 
-public final class MaulerLookAroundGoal extends LookAroundGoal
+public final class MaulerLookAroundGoal extends RandomLookAroundGoal
 {
 	private final MaulerEntity mauler;
 
@@ -13,11 +13,11 @@ public final class MaulerLookAroundGoal extends LookAroundGoal
 	}
 
 	@Override
-	public boolean canStart() {
+	public boolean canUse() {
 		if (this.mauler.isBurrowedDown()) {
 			return false;
 		}
 
-		return super.canStart();
+		return super.canUse();
 	}
 }

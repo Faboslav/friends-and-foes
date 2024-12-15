@@ -1,30 +1,30 @@
 package com.faboslav.friendsandfoes.common.util;
 
-import net.minecraft.entity.ai.brain.MemoryModuleType;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.phys.Vec3;
 
 public final class MovementUtil
 {
-	public static void stopMovement(MobEntity entity) {
-		entity.getBrain().forget(MemoryModuleType.PATH);
-		entity.getBrain().forget(MemoryModuleType.AVOID_TARGET);
-		entity.getBrain().forget(MemoryModuleType.WALK_TARGET);
-		entity.getBrain().forget(MemoryModuleType.LOOK_TARGET);
+	public static void stopMovement(Mob entity) {
+		entity.getBrain().eraseMemory(MemoryModuleType.PATH);
+		entity.getBrain().eraseMemory(MemoryModuleType.AVOID_TARGET);
+		entity.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);
+		entity.getBrain().eraseMemory(MemoryModuleType.LOOK_TARGET);
 
-		entity.getMoveControl().moveTo(entity.getX(), entity.getY(), entity.getZ(), 0);
+		entity.getMoveControl().setWantedPosition(entity.getX(), entity.getY(), entity.getZ(), 0);
 		entity.getMoveControl().tick();
-		entity.getLookControl().lookAt(entity.getLookControl().getLookX(), entity.getLookControl().getLookY(), entity.getLookControl().getLookZ());
-		entity.getLookControl().lookAt(Vec3d.ZERO);
+		entity.getLookControl().setLookAt(entity.getLookControl().getWantedX(), entity.getLookControl().getWantedY(), entity.getLookControl().getWantedZ());
+		entity.getLookControl().setLookAt(Vec3.ZERO);
 		entity.getLookControl().tick();
-		entity.getNavigation().setSpeed(0);
+		entity.getNavigation().setSpeedModifier(0);
 		entity.getNavigation().stop();
 
 		entity.setJumping(false);
-		entity.setSidewaysSpeed(0.0F);
-		entity.setUpwardSpeed(0.0F);
-		entity.setMovementSpeed(0.0F);
-		entity.prevHorizontalSpeed = 0.0F;
-		entity.horizontalSpeed = 0.0F;
+		entity.setXxa(0.0F);
+		entity.setYya(0.0F);
+		entity.setSpeed(0.0F);
+		entity.walkDistO = 0.0F;
+		entity.walkDist = 0.0F;
 	}
 }

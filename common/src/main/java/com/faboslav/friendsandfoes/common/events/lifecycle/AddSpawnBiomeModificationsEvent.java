@@ -1,10 +1,10 @@
 package com.faboslav.friendsandfoes.common.events.lifecycle;
 
 import com.faboslav.friendsandfoes.common.events.base.EventHandler;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnGroup;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.level.biome.Biome;
 
 /**
  * Event related is code based on The Bumblezone/Resourceful Lib mods with permissions from the authors
@@ -20,7 +20,7 @@ public record AddSpawnBiomeModificationsEvent(Registrar registrar)
 
 	public void add(
 		TagKey<Biome> tag,
-		SpawnGroup spawnGroup,
+		MobCategory spawnGroup,
 		EntityType<?> entityType,
 		int weight,
 		int minGroupSize,
@@ -34,7 +34,7 @@ public record AddSpawnBiomeModificationsEvent(Registrar registrar)
 	{
 		void add(
 			TagKey<Biome> tag,
-			SpawnGroup spawnGroup,
+			MobCategory spawnGroup,
 			EntityType<?> entityType,
 			int weight,
 			int minGroupSize,

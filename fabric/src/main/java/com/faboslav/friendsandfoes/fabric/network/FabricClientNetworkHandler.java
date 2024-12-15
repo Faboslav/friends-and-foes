@@ -6,8 +6,8 @@ import com.faboslav.friendsandfoes.common.network.internal.NetworkPacketPayload;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.minecraft.network.packet.CustomPayload;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * Network related is code based on The Bumblezone/Resourceful Lib mods with permissions from the authors
@@ -21,7 +21,7 @@ import net.minecraft.util.Identifier;
 public class FabricClientNetworkHandler
 {
 	public static <T extends Packet<T>> void register(
-		CustomPayload.Id<NetworkPacketPayload<T>> payloadType,
+		CustomPacketPayload.Type<NetworkPacketPayload<T>> payloadType,
 		ClientboundPacketType<T> type
 	) {
 		ClientPlayNetworking.registerGlobalReceiver(
@@ -30,7 +30,7 @@ public class FabricClientNetworkHandler
 		);
 	}
 
-	public static <T extends Packet<T>> void send(Identifier channel, T message) {
+	public static <T extends Packet<T>> void send(ResourceLocation channel, T message) {
 		ClientPlayNetworking.send(new NetworkPacketPayload<>(message, channel));
 	}
 }

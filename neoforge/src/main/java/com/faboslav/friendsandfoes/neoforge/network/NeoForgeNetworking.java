@@ -6,8 +6,9 @@ import com.faboslav.friendsandfoes.common.network.base.Networking;
 import com.faboslav.friendsandfoes.common.network.base.PacketType;
 import com.faboslav.friendsandfoes.common.network.base.ServerboundPacketType;
 import com.faboslav.friendsandfoes.common.network.internal.NetworkPacketPayload;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload.Type;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
@@ -32,12 +33,12 @@ public class NeoForgeNetworking implements Networking
 	private final List<ClientboundPacketType<?>> clientPackets = new ArrayList<>();
 	private final List<ServerboundPacketType<?>> serverPackets = new ArrayList<>();
 
-	private final Identifier channel;
+	private final ResourceLocation channel;
 	private final String version;
 	private final boolean optional;
 
-	public NeoForgeNetworking(Identifier channel, int protocolVersion, boolean optional) {
-		this.channel = channel.withSuffixedPath("/v" + protocolVersion);
+	public NeoForgeNetworking(ResourceLocation channel, int protocolVersion, boolean optional) {
+		this.channel = channel.withSuffix("/v" + protocolVersion);
 		this.version = "v" + protocolVersion;
 		this.optional = optional;
 
@@ -60,13 +61,13 @@ public class NeoForgeNetworking implements Networking
 	}
 
 	@Override
-	public <T extends Packet<T>> void sendToPlayer(T message, ServerPlayerEntity player) {
+	public <T extends Packet<T>> void sendToPlayer(T message, ServerPlayer player) {
 		PacketDistributor.sendToPlayer(player, new NetworkPacketPayload<>(message, this.channel));
 	}
 
 	@Override
-	public boolean canSendToPlayer(ServerPlayerEntity player, PacketType<?> type) {
-		return player.networkHandler.hasChannel(type.type(this.channel));
+	public boolean canSendToPlayer(ServerPlayer player, PacketType<?> type) {
+		return player.connection.hasChannel(type.type(this.channel));
 	}
 
 	public void onNetworkSetup(RegisterPayloadHandlersEvent event) {

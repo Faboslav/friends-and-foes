@@ -2,14 +2,14 @@ package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.mob.PatrolEntity;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.spawner.PatrolSpawner;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.monster.PatrollingMonster;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.levelgen.PatrolSpawner;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -22,25 +22,25 @@ public final class PatrolSpawnerMixin
 	boolean friendsandfoes_isBiomeSpecificIllagerSpawned = false;
 
 	@ModifyVariable(
-		method = "spawnPillager",
+		method = "spawnPatrolMember",
 		ordinal = 0,
 		at = @At(
 			value = "LOAD"
 		)
 	)
-	private PatrolEntity friendsandfoes_modifyPatrolEntity(
-		PatrolEntity patrolEntity,
-		ServerWorld world,
+	private PatrollingMonster friendsandfoes_modifyPatrolEntity(
+		PatrollingMonster patrolEntity,
+		ServerLevel world,
 		BlockPos pos,
-		Random random,
+		RandomSource random,
 		boolean captain
 	) {
-		RegistryEntry<Biome> biomeEntry = world.getBiome(pos);
+		Holder<Biome> biomeEntry = world.getBiome(pos);
 
 		if (!this.friendsandfoes_isBiomeSpecificIllagerSpawned) {
-			if (biomeEntry.isIn(FriendsAndFoesTags.HAS_ILLUSIONER)) {
+			if (biomeEntry.is(FriendsAndFoesTags.HAS_ILLUSIONER)) {
 				patrolEntity = EntityType.ILLUSIONER.create(world);
-			} else if (biomeEntry.isIn(FriendsAndFoesTags.HAS_ICEOLOGER)) {
+			} else if (biomeEntry.is(FriendsAndFoesTags.HAS_ICEOLOGER)) {
 				patrolEntity = FriendsAndFoesEntityTypes.ICEOLOGER.get().create(world);
 			}
 		}
@@ -49,11 +49,11 @@ public final class PatrolSpawnerMixin
 	}
 
 	@Inject(
-		method = "spawn",
+		method = "tick",
 		at = @At("RETURN")
 	)
 	private void friendsandfoes_resetBiomeSpecificIllagerSpawnFlag(
-		ServerWorld world,
+		ServerLevel world,
 		boolean spawnMonsters,
 		boolean spawnAnimals,
 		CallbackInfoReturnable<Integer> callbackInfo

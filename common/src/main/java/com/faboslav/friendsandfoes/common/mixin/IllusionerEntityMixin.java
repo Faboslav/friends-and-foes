@@ -3,32 +3,32 @@ package com.faboslav.friendsandfoes.common.mixin;
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.config.FriendsAndFoesConfig;
 import com.faboslav.friendsandfoes.common.entity.IllusionerEntityAccess;
-import com.llamalad7.mixinextras.injector.WrapWithCondition;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.RangedAttackMob;
-import net.minecraft.entity.ai.goal.FleeEntityGoal;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.ai.goal.GoalSelector;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.IllusionerEntity;
-import net.minecraft.entity.mob.SpellcastingIllagerEntity;
-import net.minecraft.entity.passive.IronGolemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.GoalSelector;
+import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.monster.Illusioner;
+import net.minecraft.world.entity.monster.RangedAttackMob;
+import net.minecraft.world.entity.monster.SpellcasterIllager;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -38,28 +38,28 @@ import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(IllusionerEntity.class)
+@Mixin(Illusioner.class)
 @SuppressWarnings({"rawtypes", "unchecked"})
 public abstract class IllusionerEntityMixin extends IllusionerSpellcastingIllagerEntityMixin implements RangedAttackMob, IllusionerEntityAccess
 {
-	private static final int MAX_ILLUSIONS_COUNT = FriendsAndFoes.getConfig().maxIllusionsCount;
-	private static final int ILLUSION_LIFETIME_TICKS = FriendsAndFoes.getConfig().illusionLifetimeTicks;
-	private static final int INVISIBILITY_TICKS =  FriendsAndFoes.getConfig().invisibilityTicks;
+	private static final int MAX_ILLUSIONS_COUNT = FriendsAndFoes.getConfig().illusionerMaxIllusionsCount;
+	private static final int ILLUSION_LIFETIME_TICKS = FriendsAndFoes.getConfig().illusionerIllusionLifetimeTicks;
+	private static final int INVISIBILITY_TICKS =  FriendsAndFoes.getConfig().illusionerInvisibilityTicks;
 
 	private static final String IS_ILLUSION_NBT_NAME = "IsIllusion";
 	private static final String WAS_ATTACKED_NBT_NAME = "WasAttacked";
 	private static final String TICKS_UNTIL_DESPAWN_NBT_NAME = "TicksUntilDespawn";
 	private static final String TICKS_UNTIL_CAN_CREATE_ILLUSIONS_NBT_NAME = "TicksUntilCanCreateIllusions";
 
-	private IllusionerEntity friendsandfoes_illusioner = null;
+	private Illusioner friendsandfoes_illusioner = null;
 	private boolean friendsandfoes_isIllusion = false;
 	private boolean friendsandfoes_wasAttacked = false;
 	private int friendsandfoes_ticksUntilDespawn = 0;
 	private int friendsandfoes_ticksUntilCanCreateIllusion = 0;
 
 	protected IllusionerEntityMixin(
-		EntityType<? extends SpellcastingIllagerEntity> entityType,
-		World world
+		EntityType<? extends SpellcasterIllager> entityType,
+		Level world
 	) {
 		super(entityType, world);
 		this.friendsandfoes_illusioner = null;
@@ -70,7 +70,7 @@ public abstract class IllusionerEntityMixin extends IllusionerSpellcastingIllage
 	}
 
 	@Override
-	public void friendsandfoes_writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
+	public void friendsandfoes_writeCustomDataToNbt(CompoundTag nbt, CallbackInfo ci) {
 		if (FriendsAndFoes.getConfig().enableIllusioner) {
 			nbt.putBoolean(IS_ILLUSION_NBT_NAME, this.friendsandfoes_isIllusion());
 			nbt.putBoolean(WAS_ATTACKED_NBT_NAME, this.friendsandfoes_wasAttacked());
@@ -81,7 +81,7 @@ public abstract class IllusionerEntityMixin extends IllusionerSpellcastingIllage
 	}
 
 	@Override
-	public void friendsandfoes_readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
+	public void friendsandfoes_readCustomDataFromNbt(CompoundTag nbt, CallbackInfo ci) {
 		if (FriendsAndFoes.getConfig().enableIllusioner) {
 			this.friendsandfoes_setIsIllusion(nbt.getBoolean(IS_ILLUSION_NBT_NAME));
 			this.friendsandfoes_setWasAttacked(nbt.getBoolean(WAS_ATTACKED_NBT_NAME));
@@ -91,35 +91,35 @@ public abstract class IllusionerEntityMixin extends IllusionerSpellcastingIllage
 	}
 
 	@ModifyArg(
-		method = "initGoals",
+		method = "registerGoals",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/entity/ai/goal/GoalSelector;add(ILnet/minecraft/entity/ai/goal/Goal;)V",
+			target = "Lnet/minecraft/world/entity/ai/goal/GoalSelector;addGoal(ILnet/minecraft/world/entity/ai/goal/Goal;)V",
 			ordinal = 1
 		),
 		slice = @Slice(
 			from = @At(
 				value = "INVOKE",
-				target = "Lnet/minecraft/entity/mob/IllusionerEntity$GiveInvisibilityGoal;<init>(Lnet/minecraft/entity/mob/IllusionerEntity;)V"
+				target = "Lnet/minecraft/world/entity/monster/Illusioner$IllusionerMirrorSpellGoal;<init>(Lnet/minecraft/world/entity/monster/Illusioner;)V"
 			)
 		),
 		index = 1
 	)
 	private Goal replaceBlindTargetGoal(Goal original) {
-		return BlindTargetGoalFactory.newBlindTargetGoal((IllusionerEntity) (Object) this);
+		return BlindTargetGoalFactory.newBlindTargetGoal((Illusioner) (Object) this);
 	}
 
 	@WrapWithCondition(
-		method = "initGoals",
+		method = "registerGoals",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/entity/ai/goal/GoalSelector;add(ILnet/minecraft/entity/ai/goal/Goal;)V",
+			target = "Lnet/minecraft/world/entity/ai/goal/GoalSelector;addGoal(ILnet/minecraft/world/entity/ai/goal/Goal;)V",
 			ordinal = 1
 		),
 		slice = @Slice(
 			from = @At(
 				value = "INVOKE",
-				target = "Lnet/minecraft/entity/mob/IllusionerEntity$GiveInvisibilityGoal;<init>(Lnet/minecraft/entity/mob/IllusionerEntity;)V"
+				target = "Lnet/minecraft/world/entity/monster/Illusioner$IllusionerMirrorSpellGoal;<init>(Lnet/minecraft/world/entity/monster/Illusioner;)V"
 			)
 		)
 	)
@@ -128,34 +128,34 @@ public abstract class IllusionerEntityMixin extends IllusionerSpellcastingIllage
 	}
 
 	@ModifyArg(
-		method = "initGoals",
+		method = "registerGoals",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/entity/ai/goal/GoalSelector;add(ILnet/minecraft/entity/ai/goal/Goal;)V",
+			target = "Lnet/minecraft/world/entity/ai/goal/GoalSelector;addGoal(ILnet/minecraft/world/entity/ai/goal/Goal;)V",
 			ordinal = 2
 		),
 		slice = @Slice(
 			from = @At(
 				value = "INVOKE",
-				target = "Lnet/minecraft/entity/ai/goal/SwimGoal;<init>(Lnet/minecraft/entity/mob/MobEntity;)V"
+				target = "Lnet/minecraft/world/entity/ai/goal/FloatGoal;<init>(Lnet/minecraft/world/entity/Mob;)V"
 			)
 		),
 		index = 1
 	)
 	private Goal replaceWithFleeGoal(Goal original) {
-		return new FleeEntityGoal<>((IllusionerEntity) (Object) this, IronGolemEntity.class, 8.0F, 0.6, 1.0);
+		return new AvoidEntityGoal<>((Illusioner) (Object) this, IronGolem.class, 8.0F, 0.6, 1.0);
 	}
 
 	@Inject(
 		at = @At("TAIL"),
-		method = "tickMovement"
+		method = "aiStep"
 	)
 	public void tickMovement(CallbackInfo ci) {
 		if (!FriendsAndFoes.getConfig().enableIllusioner) {
 			return;
 		}
 
-		if (this.getWorld().isClient()) {
+		if (this.level().isClientSide()) {
 			return;
 		}
 
@@ -165,8 +165,8 @@ public abstract class IllusionerEntityMixin extends IllusionerSpellcastingIllage
 
 		if (
 			(
-				this.getTarget() instanceof PlayerEntity
-				|| this.getTarget() instanceof IronGolemEntity
+				this.getTarget() instanceof Player
+				|| this.getTarget() instanceof IronGolem
 			)
 			&& this.friendsandfoes_wasAttacked()
 			&& this.friendsandfoes_getTicksUntilCanCreateIllusions() == 0
@@ -220,10 +220,10 @@ public abstract class IllusionerEntityMixin extends IllusionerSpellcastingIllage
 		DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir
 	) {
 		if (FriendsAndFoes.getConfig().enableIllusioner) {
-			Entity attacker = source.getAttacker();
+			Entity attacker = source.getEntity();
 
 			if (
-				attacker instanceof IllusionerEntity
+				attacker instanceof Illusioner
 				|| (
 					this.friendsandfoes_isIllusion()
 					&& !(attacker instanceof LivingEntity)
@@ -233,8 +233,8 @@ public abstract class IllusionerEntityMixin extends IllusionerSpellcastingIllage
 				return;
 			}
 
-			if (!this.getWorld().isClient()) {
-				if (attacker instanceof PlayerEntity || attacker instanceof IronGolemEntity) {
+			if (!this.level().isClientSide()) {
+				if (attacker instanceof Player || attacker instanceof IronGolem) {
 					if (this.friendsandfoes_isIllusion()) {
 						this.friendsandfoes_discardIllusion();
 						cir.setReturnValue(false);
@@ -244,8 +244,8 @@ public abstract class IllusionerEntityMixin extends IllusionerSpellcastingIllage
 					if (
 						this.friendsandfoes_getTicksUntilCanCreateIllusions() == 0
 						&& (
-							attacker instanceof PlayerEntity
-							&& !((PlayerEntity) source.getAttacker()).getAbilities().creativeMode
+							attacker instanceof Player
+							&& !((Player) source.getEntity()).getAbilities().instabuild
 						)
 					) {
 						this.friendsandfoes_createIllusions();
@@ -266,22 +266,22 @@ public abstract class IllusionerEntityMixin extends IllusionerSpellcastingIllage
 		this.friendsandfoes_setTicksUntilCanCreateIllusions(ILLUSION_LIFETIME_TICKS);
 		this.friendsandfoes_playMirrorSound();
 
-		Vec3d illusionerPosition = this.getPos();
+		Vec3 illusionerPosition = this.position();
 		float slice = 2.0F * (float) Math.PI / MAX_ILLUSIONS_COUNT;
 		int radius = 9;
-		int randomPoint = this.getRandom().nextBetween(0, MAX_ILLUSIONS_COUNT - 1);
+		int randomPoint = this.getRandom().nextIntBetweenInclusive(0, MAX_ILLUSIONS_COUNT - 1);
 
 		for (int point = 0; point < MAX_ILLUSIONS_COUNT; ++point) {
 			float angle = slice * point;
-			int x = (int) (illusionerPosition.getX() + radius * MathHelper.cos(angle));
-			int y = (int) illusionerPosition.getY();
-			int z = (int) (illusionerPosition.getZ() + radius * MathHelper.sin(angle));
+			int x = (int) (illusionerPosition.x() + radius * Mth.cos(angle));
+			int y = (int) illusionerPosition.y();
+			int z = (int) (illusionerPosition.z() + radius * Mth.sin(angle));
 
 			if (randomPoint == point) {
 				boolean teleportResult = this.friendsandfoes_tryToTeleport(x, y, z);
 
 				if (teleportResult) {
-					this.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, INVISIBILITY_TICKS));
+					this.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, INVISIBILITY_TICKS));
 					this.friendsandfoes_spawnCloudParticles();
 				}
 			} else {
@@ -291,35 +291,35 @@ public abstract class IllusionerEntityMixin extends IllusionerSpellcastingIllage
 	}
 
 	private void friendsandfoes_createIllusion(int x, int y, int z) {
-		IllusionerEntity illusioner = (IllusionerEntity) (Object) this;
-		IllusionerEntity illusion = EntityType.ILLUSIONER.create(this.getWorld());
+		Illusioner illusioner = (Illusioner) (Object) this;
+		Illusioner illusion = EntityType.ILLUSIONER.create(this.level());
 
-		illusion.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
+		illusion.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
 		IllusionerEntityAccess illusionerAccess = (IllusionerEntityAccess) illusion;
 		illusionerAccess.friendsandfoes_setIsIllusion(true);
 		illusionerAccess.friendsandfoes_setIllusioner(illusioner);
 		illusionerAccess.friendsandfoes_setTicksUntilDespawn(ILLUSION_LIFETIME_TICKS);
 
 		illusion.setHealth(this.getMaxHealth());
-		illusion.copyPositionAndRotation(illusioner);
+		illusion.copyPosition(illusioner);
 		illusion.setTarget(illusioner.getTarget());
 
 		boolean teleportResult = illusionerAccess.friendsandfoes_tryToTeleport(x, y, z);
 
 		if (teleportResult) {
-			this.getEntityWorld().spawnEntity(illusion);
+			this.getCommandSenderWorld().addFreshEntity(illusion);
 			illusionerAccess.friendsandfoes_spawnCloudParticles();
 		}
 	}
 
 	public boolean friendsandfoes_tryToTeleport(int x, int y, int z) {
 		y -= 8;
-		double bottomY = Math.max(y, getWorld().getBottomY());
-		double topY = Math.min(bottomY + 16, ((ServerWorld) this.getWorld()).getLogicalHeight() - 1);
+		double bottomY = Math.max(y, level().getMinBuildHeight());
+		double topY = Math.min(bottomY + 16, ((ServerLevel) this.level()).getLogicalHeight() - 1);
 
 		for (int i = 0; i < 16; ++i) {
-			y = (int) MathHelper.clamp(y + 1, bottomY, topY);
-			boolean teleportResult = this.teleport(x, y, z, false);
+			y = (int) Mth.clamp(y + 1, bottomY, topY);
+			boolean teleportResult = this.randomTeleport(x, y, z, false);
 
 			if (teleportResult) {
 				return true;
@@ -331,9 +331,9 @@ public abstract class IllusionerEntityMixin extends IllusionerSpellcastingIllage
 
 	private void friendsandfoes_playMirrorSound() {
 		this.playSound(
-			SoundEvents.ENTITY_ILLUSIONER_MIRROR_MOVE,
+			SoundEvents.ILLUSIONER_MIRROR_MOVE,
 			this.getSoundVolume(),
-			this.getSoundPitch()
+			this.getVoicePitch()
 		);
 	}
 
@@ -341,20 +341,20 @@ public abstract class IllusionerEntityMixin extends IllusionerSpellcastingIllage
 		this.friendsandfoes_spawnParticles(ParticleTypes.CLOUD, 16);
 	}
 
-	private <T extends ParticleEffect> void friendsandfoes_spawnParticles(
+	private <T extends ParticleOptions> void friendsandfoes_spawnParticles(
 		T particleType,
 		int amount
 	) {
-		if (this.getWorld().isClient()) {
+		if (this.level().isClientSide()) {
 			return;
 		}
 
 		for (int i = 0; i < amount; i++) {
-			((ServerWorld) this.getEntityWorld()).spawnParticles(
+			((ServerLevel) this.getCommandSenderWorld()).sendParticles(
 				particleType,
-				this.getParticleX(0.5D),
-				this.getRandomBodyY() + 0.5D,
-				this.getParticleZ(0.5D),
+				this.getRandomX(0.5D),
+				this.getRandomY() + 0.5D,
+				this.getRandomZ(0.5D),
 				1,
 				0.0D,
 				0.0D,
@@ -381,11 +381,11 @@ public abstract class IllusionerEntityMixin extends IllusionerSpellcastingIllage
 	}
 
 	@Nullable
-	public IllusionerEntity friendsandfoes_getIllusioner() {
+	public Illusioner friendsandfoes_getIllusioner() {
 		return this.friendsandfoes_illusioner;
 	}
 
-	public void friendsandfoes_setIllusioner(IllusionerEntity illusioner) {
+	public void friendsandfoes_setIllusioner(Illusioner illusioner) {
 		this.friendsandfoes_illusioner = illusioner;
 	}
 

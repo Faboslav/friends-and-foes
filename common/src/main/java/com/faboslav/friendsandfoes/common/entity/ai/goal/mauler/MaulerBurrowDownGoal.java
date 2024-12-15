@@ -1,18 +1,18 @@
 package com.faboslav.friendsandfoes.common.entity.ai.goal.mauler;
 
 import com.faboslav.friendsandfoes.common.entity.MaulerEntity;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.particle.BlockStateParticleEffect;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 
 public final class MaulerBurrowDownGoal extends Goal
 {
@@ -27,11 +27,11 @@ public final class MaulerBurrowDownGoal extends Goal
 	}
 
 	@Override
-	public boolean canStart() {
+	public boolean canUse() {
 		if (
-			this.mauler.hasAngerTime()
-			|| this.mauler.getWorld().isNight()
-			|| this.mauler.getNavigation().isFollowingPath()
+			this.mauler.isAngry()
+			|| this.mauler.level().isNight()
+			|| this.mauler.getNavigation().isInProgress()
 			|| this.mauler.getRandom().nextFloat() < 0.999F
 			|| this.mauler.getTicksUntilNextBurrowingDown() > 0
 		) {
@@ -52,26 +52,26 @@ public final class MaulerBurrowDownGoal extends Goal
 	}
 
 	@Override
-	public boolean shouldContinue() {
+	public boolean canContinueToUse() {
 		return this.burrowedDownTicks > 0;
 	}
 
 	public void start() {
 		this.isRunning = true;
-		this.mauler.getNavigation().setSpeed(0);
+		this.mauler.getNavigation().setSpeedModifier(0);
 		this.mauler.getNavigation().stop();
 
 		if (this.getBurrowedDownTicks() == 0) {
-			this.burrowedDownTicks = this.mauler.getRandom().nextBetween(600, 1200);
+			this.burrowedDownTicks = this.mauler.getRandom().nextIntBetweenInclusive(600, 1200);
 		}
 
 		this.mauler.setBurrowedDown(true);
 		this.mauler.setInvulnerable(true);
 
 		if (this.blockUnderMauler == Blocks.SAND || this.blockUnderMauler == Blocks.RED_SAND) {
-			this.soundForBlockUnderMauler = SoundEvents.BLOCK_SAND_BREAK;
+			this.soundForBlockUnderMauler = SoundEvents.SAND_BREAK;
 		} else {
-			this.soundForBlockUnderMauler = SoundEvents.BLOCK_GRASS_BREAK;
+			this.soundForBlockUnderMauler = SoundEvents.GRASS_BREAK;
 		}
 	}
 
@@ -82,7 +82,7 @@ public final class MaulerBurrowDownGoal extends Goal
 		this.mauler.setInvulnerable(false);
 		this.mauler.setBurrowedDown(false);
 		this.mauler.setTicksUntilNextBurrowingDown(
-			this.mauler.getRandom().nextBetween(
+			this.mauler.getRandom().nextIntBetweenInclusive(
 				MaulerEntity.MIN_TICKS_UNTIL_NEXT_BURROWING,
 				MaulerEntity.MAX_TICKS_UNTIL_NEXT_BURROWING
 			)
@@ -93,27 +93,27 @@ public final class MaulerBurrowDownGoal extends Goal
 	public void tick() {
 		float burrowingDownAnimationProgress = this.mauler.getBurrowingDownAnimationProgress();
 		if (burrowingDownAnimationProgress > 0.0F && burrowingDownAnimationProgress < 1.0F) {
-			BlockPos blockPos = this.mauler.getBlockPos();
+			BlockPos blockPos = this.mauler.blockPosition();
 
-			if (this.mauler.age % 3 == 0) {
-				this.mauler.getWorld().playSound(null, blockPos, this.soundForBlockUnderMauler, SoundCategory.BLOCKS, 0.3F, 1.0F);
+			if (this.mauler.tickCount % 3 == 0) {
+				this.mauler.level().playSound(null, blockPos, this.soundForBlockUnderMauler, SoundSource.BLOCKS, 0.3F, 1.0F);
 			}
 
-			World world = this.mauler.getWorld();
+			Level world = this.mauler.level();
 
-			if (world.isClient()) {
+			if (world.isClientSide()) {
 				return;
 			}
 
 			for (int i = 0; i < 7; i++) {
-				((ServerWorld) world).spawnParticles(
-					new BlockStateParticleEffect(
+				((ServerLevel) world).sendParticles(
+					new BlockParticleOption(
 						ParticleTypes.BLOCK,
-						this.blockUnderMauler.getDefaultState()
+						this.blockUnderMauler.defaultBlockState()
 					),
-					this.mauler.getParticleX(0.5D),
-					this.mauler.getRandomBodyY(),
-					this.mauler.getParticleZ(0.5D),
+					this.mauler.getRandomX(0.5D),
+					this.mauler.getRandomY(),
+					this.mauler.getRandomZ(0.5D),
 					1,
 					this.mauler.getRandom().nextGaussian() * 0.02D,
 					this.mauler.getRandom().nextGaussian() * 0.02D,
@@ -129,8 +129,8 @@ public final class MaulerBurrowDownGoal extends Goal
 	}
 
 	public void setBlockUnderMauler() {
-		BlockPos blockPos = this.mauler.getBlockPos().down();
-		BlockState blockState = this.mauler.getWorld().getBlockState(blockPos);
+		BlockPos blockPos = this.mauler.blockPosition().below();
+		BlockState blockState = this.mauler.level().getBlockState(blockPos);
 		this.blockUnderMauler = blockState.getBlock();
 	}
 

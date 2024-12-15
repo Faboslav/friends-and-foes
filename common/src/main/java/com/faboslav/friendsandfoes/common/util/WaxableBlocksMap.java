@@ -4,15 +4,13 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-
 import java.util.function.Supplier;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public final class WaxableBlocksMap
 {
-	// TODO check this if its needed
 	public static final Supplier<BiMap<Block, Block>> WAXED_TO_UNWAXED_BLOCKS = Suppliers.memoize(() -> (BiMap) ImmutableBiMap.builder()
 		.put(FriendsAndFoesBlocks.WAXED_COPPER_BUTTON.get(), FriendsAndFoesBlocks.COPPER_BUTTON.get())
 		.put(FriendsAndFoesBlocks.WAXED_EXPOSED_COPPER_BUTTON.get(), FriendsAndFoesBlocks.EXPOSED_COPPER_BUTTON.get())

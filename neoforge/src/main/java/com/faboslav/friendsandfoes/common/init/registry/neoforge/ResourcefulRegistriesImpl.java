@@ -13,7 +13,7 @@ import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistryType;
  */
 public class ResourcefulRegistriesImpl
 {
-	public static <T> ResourcefulRegistry<T> create(net.minecraft.registry.Registry<T> registry, String id) {
+	public static <T> ResourcefulRegistry<T> create(net.minecraft.core.Registry<T> registry, String id) {
 		return new NeoForgeResourcefulRegistry<>(registry, id);
 	}
 

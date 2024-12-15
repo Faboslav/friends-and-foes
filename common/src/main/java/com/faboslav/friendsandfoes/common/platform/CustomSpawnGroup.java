@@ -1,11 +1,11 @@
 package com.faboslav.friendsandfoes.common.platform;
 
-import net.minecraft.entity.SpawnGroup;
+import net.minecraft.world.entity.MobCategory;
 
 public final class CustomSpawnGroup
 {
-	public static SpawnGroup GLARES;
-	public static SpawnGroup RASCALS;
+	public static MobCategory GLARES;
+	public static MobCategory RASCALS;
 
 	public static final String GLARES_INTERNAL_NAME = "GLARES";
 	public static final String GLARES_NAME = "glares";
@@ -21,11 +21,11 @@ public final class CustomSpawnGroup
 	public static final boolean RASCALS_RARE = false;
 	public static final int RASCALS_IMMEDIATE_DESPAWN_RANGE = 128;
 
-	public static SpawnGroup getGlaresCategory() {
+	public static MobCategory getGlaresCategory() {
 		return GLARES;
 	}
 
-	public static SpawnGroup getRascalsCategory() {
+	public static MobCategory getRascalsCategory() {
 		return RASCALS;
 	}
 

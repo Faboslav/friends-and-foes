@@ -2,7 +2,7 @@ package com.faboslav.friendsandfoes.common.init.registry.fabric;
 
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistryType;
-import net.minecraft.registry.Registry;
+import net.minecraft.core.Registry;
 
 /**
  * Event/registry related is code based on The Bumblezone/Resourceful Lib mods with permissions from the authors

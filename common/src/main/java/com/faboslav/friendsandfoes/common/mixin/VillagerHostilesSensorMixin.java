@@ -2,9 +2,9 @@ package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.google.common.collect.ImmutableMap;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.brain.sensor.VillagerHostilesSensor;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.sensing.VillagerHostilesSensor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -21,7 +21,7 @@ public final class VillagerHostilesSensorMixin
 
 	@Inject(
 		at = @At("HEAD"),
-		method = "Lnet/minecraft/entity/ai/brain/sensor/VillagerHostilesSensor;isCloseEnoughForDanger(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/entity/LivingEntity;)Z",
+		method = "isClose",
 		cancellable = true
 	)
 	private void friendsandfoes_isCloseEnoughForDanger(
@@ -31,14 +31,14 @@ public final class VillagerHostilesSensorMixin
 	) {
 		if (CUSTOM_SQUARED_DISTANCES_FOR_DANGER.containsKey(target.getType())) {
 			float distance = CUSTOM_SQUARED_DISTANCES_FOR_DANGER.get(target.getType());
-			boolean isCloseEnoughForDanger = target.squaredDistanceTo(villager) <= (double) (distance * distance);
+			boolean isCloseEnoughForDanger = target.distanceToSqr(villager) <= (double) (distance * distance);
 			cir.setReturnValue(isCloseEnoughForDanger);
 		}
 	}
 
 	@Inject(
 		at = @At("HEAD"),
-		method = "Lnet/minecraft/entity/ai/brain/sensor/VillagerHostilesSensor;isHostile(Lnet/minecraft/entity/LivingEntity;)Z",
+		method = "isHostile",
 		cancellable = true
 	)
 	private void friendsandfoes_isHostile(

@@ -3,14 +3,14 @@ package com.faboslav.friendsandfoes.fabric.world.processor;
 import com.faboslav.friendsandfoes.common.init.fabric.FriendsAndFoesStructureProcessorTypesImpl;
 import com.faboslav.friendsandfoes.common.util.world.processor.IllusionerShackItemFrameProcessorHelper;
 import com.mojang.serialization.MapCodec;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureEntityInfo;
 import com.faboslav.friendsandfoes.common.world.processor.StructureEntityProcessor;
-import net.minecraft.structure.StructurePlacementData;
-import net.minecraft.structure.StructureTemplate;
-import net.minecraft.structure.StructureTemplate.StructureEntityInfo;
-import net.minecraft.structure.processor.StructureProcessorType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ServerWorldAccess;
-import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -28,12 +28,12 @@ public final class IllusionerShackItemFrameProcessor extends StructureEntityProc
 
 	@Override
 	public StructureEntityInfo processEntity(
-		ServerWorldAccess serverWorldAccess,
+		ServerLevelAccessor serverWorldAccess,
 		BlockPos structurePiecePos,
 		BlockPos structurePieceBottomCenterPos,
 		StructureEntityInfo localEntityInfo,
 		StructureEntityInfo globalEntityInfo,
-		StructurePlacementData structurePlacementData
+		StructurePlaceSettings structurePlacementData
 	) {
 		return IllusionerShackItemFrameProcessorHelper.processEntity(
 			globalEntityInfo,
@@ -43,13 +43,13 @@ public final class IllusionerShackItemFrameProcessor extends StructureEntityProc
 
 	@Nullable
 	@Override
-	public StructureTemplate.StructureBlockInfo process(
-		WorldView world,
+	public StructureTemplate.StructureBlockInfo processBlock(
+		LevelReader world,
 		BlockPos pos,
 		BlockPos pivot,
 		StructureTemplate.StructureBlockInfo localEntityInfo,
 		StructureTemplate.StructureBlockInfo globalEntityInfo,
-		StructurePlacementData data
+		StructurePlaceSettings data
 	) {
 		return globalEntityInfo;
 	}

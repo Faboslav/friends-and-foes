@@ -1,18 +1,18 @@
 package com.faboslav.friendsandfoes.common.util;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemConvertible;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.village.TradeOffer;
-import net.minecraft.village.TradeOffers;
-import net.minecraft.village.TradedItem;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.trading.ItemCost;
+import net.minecraft.world.item.trading.MerchantOffer;
+import net.minecraft.world.level.ItemLike;
 
 public final class TradeOffersUtil
 {
-	public static class SellItemFactory implements TradeOffers.Factory
+	public static class SellItemFactory implements VillagerTrades.ItemListing
 	{
 		private final ItemStack sell;
 		private final int price;
@@ -38,12 +38,12 @@ public final class TradeOffersUtil
 			this.multiplier = multiplier;
 		}
 
-		public TradeOffer create(Entity entity, Random random) {
-			return new TradeOffer(new TradedItem(Items.EMERALD, this.price), new ItemStack(this.sell.getItem(), this.count), this.maxUses, this.experience, this.multiplier);
+		public MerchantOffer getOffer(Entity entity, RandomSource random) {
+			return new MerchantOffer(new ItemCost(Items.EMERALD, this.price), new ItemStack(this.sell.getItem(), this.count), this.maxUses, this.experience, this.multiplier);
 		}
 	}
 
-	public static class BuyForOneEmeraldFactory implements TradeOffers.Factory
+	public static class BuyForOneEmeraldFactory implements VillagerTrades.ItemListing
 	{
 		private final Item buy;
 		private final int price;
@@ -51,7 +51,7 @@ public final class TradeOffersUtil
 		private final int experience;
 		private final float multiplier;
 
-		public BuyForOneEmeraldFactory(ItemConvertible item, int price, int maxUses, int experience) {
+		public BuyForOneEmeraldFactory(ItemLike item, int price, int maxUses, int experience) {
 			this.buy = item.asItem();
 			this.price = price;
 			this.maxUses = maxUses;
@@ -59,9 +59,9 @@ public final class TradeOffersUtil
 			this.multiplier = 0.05F;
 		}
 
-		public TradeOffer create(Entity entity, Random random) {
+		public MerchantOffer getOffer(Entity entity, RandomSource random) {
 			ItemStack itemStack = new ItemStack(this.buy, this.price);
-			return new TradeOffer(new TradedItem(itemStack.getItem(), 1), new ItemStack(Items.EMERALD), this.maxUses, this.experience, this.multiplier);
+			return new MerchantOffer(new ItemCost(itemStack.getItem(), 1), new ItemStack(Items.EMERALD), this.maxUses, this.experience, this.multiplier);
 		}
 	}
 

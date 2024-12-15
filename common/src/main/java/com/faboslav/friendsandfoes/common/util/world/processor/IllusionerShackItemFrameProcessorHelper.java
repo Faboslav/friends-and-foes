@@ -1,10 +1,10 @@
 package com.faboslav.friendsandfoes.common.util.world.processor;
 
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.structure.StructurePlacementData;
-import net.minecraft.structure.StructureTemplate.StructureEntityInfo;
-import net.minecraft.util.Util;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.Util;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureEntityInfo;
 
 /**
  * Inspired by use in Better Strongholds mod
@@ -16,17 +16,17 @@ public final class IllusionerShackItemFrameProcessorHelper
 {
 	public static StructureEntityInfo processEntity(
 		StructureEntityInfo globalEntityInfo,
-		StructurePlacementData structurePlacementData
+		StructurePlaceSettings structurePlacementData
 	) {
 		if (!globalEntityInfo.nbt.getString("id").equals("minecraft:item_frame")) {
 			return globalEntityInfo;
 		}
 
-		Random random = structurePlacementData.getRandom(globalEntityInfo.blockPos);
+		RandomSource random = structurePlacementData.getRandom(globalEntityInfo.blockPos);
 
-		NbtCompound newNbt = globalEntityInfo.nbt.copy();
+		CompoundTag newNbt = globalEntityInfo.nbt.copy();
 		newNbt.getCompound("Item").putString("id", "minecraft:potion");
-		newNbt.getCompound("Item").put("tag", Util.make(new NbtCompound(), potionTag -> {
+		newNbt.getCompound("Item").put("tag", Util.make(new CompoundTag(), potionTag -> {
 			potionTag.putString("Potion", "minecraft:water");
 		}));
 

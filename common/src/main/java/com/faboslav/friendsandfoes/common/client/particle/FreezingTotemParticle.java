@@ -2,34 +2,34 @@ package com.faboslav.friendsandfoes.common.client.particle;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.particle.AnimatedParticle;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleFactory;
-import net.minecraft.client.particle.SpriteProvider;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.particle.SimpleParticleType;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.SimpleAnimatedParticle;
+import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.core.particles.SimpleParticleType;
 
 @Environment(EnvType.CLIENT)
-public final class FreezingTotemParticle extends AnimatedParticle
+public final class FreezingTotemParticle extends SimpleAnimatedParticle
 {
 	FreezingTotemParticle(
-		ClientWorld world,
+		ClientLevel world,
 		double x,
 		double y,
 		double z,
 		double velocityX,
 		double velocityY,
 		double velocityZ,
-		SpriteProvider spriteProvider
+		SpriteSet spriteProvider
 	) {
 		super(world, x, y, z, spriteProvider, 1.25F);
-		this.velocityMultiplier = 0.6F;
-		this.velocityX = velocityX;
-		this.velocityY = velocityY;
-		this.velocityZ = velocityZ;
-		this.scale *= 0.75F;
-		this.maxAge = 60 + this.random.nextInt(12);
-		this.setSpriteForAge(spriteProvider);
+		this.friction = 0.6F;
+		this.xd = velocityX;
+		this.yd = velocityY;
+		this.zd = velocityZ;
+		this.quadSize *= 0.75F;
+		this.lifetime = 60 + this.random.nextInt(12);
+		this.setSpriteFromAge(spriteProvider);
 
 		if (this.random.nextInt(4) == 0) {
 			this.setColor(0.055F + this.random.nextFloat() * 0.05F, 0.153F + this.random.nextFloat() * 0.05F, 0.325F + this.random.nextFloat() * 0.05F);
@@ -39,17 +39,17 @@ public final class FreezingTotemParticle extends AnimatedParticle
 	}
 
 	@Environment(EnvType.CLIENT)
-	public static class Factory implements ParticleFactory<SimpleParticleType>
+	public static class Factory implements ParticleProvider<SimpleParticleType>
 	{
-		private final SpriteProvider spriteProvider;
+		private final SpriteSet spriteProvider;
 
-		public Factory(SpriteProvider spriteProvider) {
+		public Factory(SpriteSet spriteProvider) {
 			this.spriteProvider = spriteProvider;
 		}
 
 		public Particle createParticle(
 			SimpleParticleType defaultParticleType,
-			ClientWorld clientWorld,
+			ClientLevel clientWorld,
 			double d,
 			double e,
 			double f,

@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.context;
 
-import com.faboslav.friendsandfoes.common.client.render.entity.animation.KeyframeAnimation;
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.ModelPartAnimationType;
+import com.faboslav.friendsandfoes.common.entity.animation.loader.json.AnimationHolder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,20 +12,19 @@ public final class AnimationContextTracker
 	private final Map<String, ModelPartAnimationContext> animationPositionContext = new HashMap<>();
 	private final Map<String, ModelPartAnimationContext> animationRotationContext = new HashMap<>();
 
-	public KeyframeAnimationContext get(KeyframeAnimation keyframeAnimation) {
-		KeyframeAnimationContext keyframeAnimationContext = this.animationKeyframeContext.get(keyframeAnimation.getName());
+	public KeyframeAnimationContext get(AnimationHolder animationHolder) {
+		var animationName = animationHolder.get().name();
+		KeyframeAnimationContext keyframeAnimationContext = this.animationKeyframeContext.get(animationName);
 
 		if (keyframeAnimationContext == null) {
-			throw new RuntimeException(String.format("Keyframe animation '%s' is not added.", keyframeAnimation.getName()));
+			throw new RuntimeException(String.format("Keyframe animation '%s' is not added.", animationName));
 		}
 
 		return keyframeAnimationContext;
 	}
 
-	public void add(KeyframeAnimation keyframeAnimation) {
-		this.animationKeyframeContext.put(keyframeAnimation.getName(), new KeyframeAnimationContext(
-			keyframeAnimation.getAnimationLengthInTicks()
-		));
+	public void add(AnimationHolder animationHolder) {
+		this.animationKeyframeContext.put(animationHolder.get().name(), new KeyframeAnimationContext());
 	}
 
 	public boolean contains(String modelPartName, ModelPartAnimationType type) {

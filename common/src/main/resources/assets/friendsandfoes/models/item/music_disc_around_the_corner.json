@@ -1,0 +1,6 @@
+{
+	"parent": "item/generated",
+	"textures": {
+		"layer0": "friendsandfoes:item/music_disc_around_the_corner"
+	}
+}

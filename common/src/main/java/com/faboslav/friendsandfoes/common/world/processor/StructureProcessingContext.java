@@ -1,28 +1,27 @@
 package com.faboslav.friendsandfoes.common.world.processor;
 
-import net.minecraft.structure.StructurePlacementData;
-import net.minecraft.structure.StructureTemplate;
-import net.minecraft.util.Util;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ServerWorldAccess;
-
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.Util;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 
 /**
  * Originally from YUNG's API by.
  * YUNGNICKYOUNG (https://github.com/YUNG-GANG/YUNGs-API)
  */
 public record StructureProcessingContext(
-	ServerWorldAccess serverWorldAccess,
-	StructurePlacementData structurePlacementData,
+	ServerLevelAccessor serverWorldAccess,
+	StructurePlaceSettings structurePlacementData,
 	BlockPos structurePiecePos,
 	BlockPos structurePiecePivotPos,
 	List<StructureTemplate.StructureEntityInfo> rawEntityInfos)
 {
 	public StructureProcessingContext(
-		ServerWorldAccess serverWorldAccess,
-		StructurePlacementData structurePlacementData,
+		ServerLevelAccessor serverWorldAccess,
+		StructurePlaceSettings structurePlacementData,
 		BlockPos structurePiecePos,
 		BlockPos structurePiecePivotPos,
 		List<StructureTemplate.StructureEntityInfo> rawEntityInfos

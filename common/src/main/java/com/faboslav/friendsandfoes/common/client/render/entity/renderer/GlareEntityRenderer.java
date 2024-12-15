@@ -5,24 +5,24 @@ import com.faboslav.friendsandfoes.common.client.render.entity.feature.GlareFlow
 import com.faboslav.friendsandfoes.common.client.render.entity.model.GlareEntityModel;
 import com.faboslav.friendsandfoes.common.entity.GlareEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.MobEntityRenderer;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.resources.ResourceLocation;
 
 @Environment(EnvType.CLIENT)
 @SuppressWarnings({"rawtypes", "unchecked"})
-public final class GlareEntityRenderer extends MobEntityRenderer<GlareEntity, GlareEntityModel<GlareEntity>>
+public final class GlareEntityRenderer extends MobRenderer<GlareEntity, GlareEntityModel<GlareEntity>>
 {
-	public GlareEntityRenderer(EntityRendererFactory.Context context) {
-		super(context, new GlareEntityModel(context.getPart(FriendsAndFoesEntityModelLayers.GLARE_LAYER)), 0.4F);
-		this.addFeature(new GlareFlowerFeatureRenderer(this));
+	public GlareEntityRenderer(EntityRendererProvider.Context context) {
+		super(context, new GlareEntityModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.GLARE_LAYER)), 0.4F);
+		this.addLayer(new GlareFlowerFeatureRenderer(this));
 	}
 
 	@Override
-	protected void scale(GlareEntity glare, MatrixStack matrixStack, float amount) {
+	protected void scale(GlareEntity glare, PoseStack matrixStack, float amount) {
 		if (!glare.isBaby()) {
 			matrixStack.scale(0.8F, 0.8F, 0.8F);
 		} else {
@@ -31,7 +31,7 @@ public final class GlareEntityRenderer extends MobEntityRenderer<GlareEntity, Gl
 	}
 
 	@Override
-	public Identifier getTexture(GlareEntity entity) {
+	public ResourceLocation getTextureLocation(GlareEntity entity) {
 		return FriendsAndFoes.makeID("textures/entity/glare/glare.png");
 	}
 }

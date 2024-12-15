@@ -1,34 +1,34 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.mob.IllagerEntity;
-import net.minecraft.entity.mob.SpellcastingIllagerEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.world.World;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.monster.AbstractIllager;
+import net.minecraft.world.entity.monster.SpellcasterIllager;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(SpellcastingIllagerEntity.class)
+@Mixin(SpellcasterIllager.class)
 public abstract class IllusionerSpellcastingIllagerEntityMixin extends IllusionerRaiderEntityMixin
 {
-	protected IllusionerSpellcastingIllagerEntityMixin(EntityType<? extends IllagerEntity> entityType, World world) {
+	protected IllusionerSpellcastingIllagerEntityMixin(EntityType<? extends AbstractIllager> entityType, Level world) {
 		super(entityType, world);
 	}
 
 	@Inject(
-		method = "writeCustomDataToNbt",
+		method = "addAdditionalSaveData",
 		at = @At("TAIL")
 	)
-	public void friendsandfoes_writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
+	public void friendsandfoes_writeCustomDataToNbt(CompoundTag nbt, CallbackInfo ci) {
 	}
 
 	@Inject(
-		method = "readCustomDataFromNbt",
+		method = "readAdditionalSaveData",
 		at = @At("TAIL")
 	)
-	public void friendsandfoes_readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
+	public void friendsandfoes_readCustomDataFromNbt(CompoundTag nbt, CallbackInfo ci) {
 	}
 }

@@ -3,29 +3,29 @@ package com.faboslav.friendsandfoes.common.entity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MovementType;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.BlockStateParticleEffect;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.Vec3;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public final class IceologerIceChunkEntity extends Entity
@@ -40,10 +40,10 @@ public final class IceologerIceChunkEntity extends Entity
 	private static final int MIN_IDLE_TICKS = 10;
 	private static final int MAX_IDLE_TICKS = 20;
 	private static final int SUMMON_TICKS = 30;
-	private static final TrackedData<Optional<UUID>> OWNER_UUID;
-	private static final TrackedData<Optional<UUID>> TARGET_UUID;
-	private static final TrackedData<Integer> TICKS_UNTIL_FALL;
-	private static final TrackedData<Integer> IDLE_TICKS;
+	private static final EntityDataAccessor<Optional<UUID>> OWNER_UUID;
+	private static final EntityDataAccessor<Optional<UUID>> TARGET_UUID;
+	private static final EntityDataAccessor<Integer> TICKS_UNTIL_FALL;
+	private static final EntityDataAccessor<Integer> IDLE_TICKS;
 
 	@Nullable
 	private LivingEntity owner;
@@ -55,15 +55,15 @@ public final class IceologerIceChunkEntity extends Entity
 	private float lastSummonAnimationProgress;
 
 	static {
-		OWNER_UUID = DataTracker.registerData(IceologerIceChunkEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
-		TARGET_UUID = DataTracker.registerData(IceologerIceChunkEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
-		TICKS_UNTIL_FALL = DataTracker.registerData(IceologerIceChunkEntity.class, TrackedDataHandlerRegistry.INTEGER);
-		IDLE_TICKS = DataTracker.registerData(IceologerIceChunkEntity.class, TrackedDataHandlerRegistry.INTEGER);
+		OWNER_UUID = SynchedEntityData.defineId(IceologerIceChunkEntity.class, EntityDataSerializers.OPTIONAL_UUID);
+		TARGET_UUID = SynchedEntityData.defineId(IceologerIceChunkEntity.class, EntityDataSerializers.OPTIONAL_UUID);
+		TICKS_UNTIL_FALL = SynchedEntityData.defineId(IceologerIceChunkEntity.class, EntityDataSerializers.INT);
+		IDLE_TICKS = SynchedEntityData.defineId(IceologerIceChunkEntity.class, EntityDataSerializers.INT);
 	}
 
 	public IceologerIceChunkEntity(
 		EntityType<? extends IceologerIceChunkEntity> entityType,
-		World world
+		Level world
 	) {
 		super(entityType, world);
 
@@ -77,21 +77,21 @@ public final class IceologerIceChunkEntity extends Entity
 	}
 
 
-	protected void initDataTracker(DataTracker.Builder builder) {
-		builder.add(OWNER_UUID, Optional.empty());
-		builder.add(TARGET_UUID, Optional.empty());
-		builder.add(TICKS_UNTIL_FALL, RandomGenerator.generateInt(MIN_FLYING_TICKS, MAX_FLYING_TICKS));
-		builder.add(IDLE_TICKS, RandomGenerator.generateInt(MIN_IDLE_TICKS, MAX_IDLE_TICKS));
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		builder.define(OWNER_UUID, Optional.empty());
+		builder.define(TARGET_UUID, Optional.empty());
+		builder.define(TICKS_UNTIL_FALL, RandomGenerator.generateInt(MIN_FLYING_TICKS, MAX_FLYING_TICKS));
+		builder.define(IDLE_TICKS, RandomGenerator.generateInt(MIN_IDLE_TICKS, MAX_IDLE_TICKS));
 	}
 
 	@Override
-	protected void readCustomDataFromNbt(NbtCompound nbt) {
-		if (nbt.containsUuid(OWNER_UUID_NBT_NAME)) {
-			this.setOwnerUuid(nbt.getUuid(OWNER_UUID_NBT_NAME));
+	protected void readAdditionalSaveData(CompoundTag nbt) {
+		if (nbt.hasUUID(OWNER_UUID_NBT_NAME)) {
+			this.setOwnerUuid(nbt.getUUID(OWNER_UUID_NBT_NAME));
 		}
 
-		if (nbt.containsUuid(TARGET_UUID_NBT_NAME)) {
-			this.setTargetUuid(nbt.getUuid(TARGET_UUID_NBT_NAME));
+		if (nbt.hasUUID(TARGET_UUID_NBT_NAME)) {
+			this.setTargetUuid(nbt.getUUID(TARGET_UUID_NBT_NAME));
 		}
 
 		if (nbt.contains(TICKS_UNTIL_FALL_NBT_NAME)) {
@@ -104,13 +104,13 @@ public final class IceologerIceChunkEntity extends Entity
 	}
 
 	@Override
-	protected void writeCustomDataToNbt(NbtCompound nbt) {
+	protected void addAdditionalSaveData(CompoundTag nbt) {
 		if (this.getOwnerUuid() != null) {
-			nbt.putUuid(OWNER_UUID_NBT_NAME, this.getOwnerUuid());
+			nbt.putUUID(OWNER_UUID_NBT_NAME, this.getOwnerUuid());
 		}
 
 		if (this.getTargetUuid() != null) {
-			nbt.putUuid(TARGET_UUID_NBT_NAME, this.getTargetUuid());
+			nbt.putUUID(TARGET_UUID_NBT_NAME, this.getTargetUuid());
 		}
 
 		nbt.putInt(TICKS_UNTIL_FALL_NBT_NAME, this.getTicksUntilFall());
@@ -119,17 +119,17 @@ public final class IceologerIceChunkEntity extends Entity
 
 	@Nullable
 	public UUID getOwnerUuid() {
-		return (UUID) ((Optional) this.dataTracker.get(OWNER_UUID)).orElse(null);
+		return (UUID) ((Optional) this.entityData.get(OWNER_UUID)).orElse(null);
 	}
 
 	public void setOwnerUuid(@Nullable UUID uuid) {
-		this.dataTracker.set(OWNER_UUID, Optional.ofNullable(uuid));
+		this.entityData.set(OWNER_UUID, Optional.ofNullable(uuid));
 	}
 
 	@Nullable
 	public LivingEntity getOwner() {
-		if (this.owner == null && this.getOwnerUuid() != null && !this.getWorld().isClient()) {
-			Entity entity = ((ServerWorld) this.getWorld()).getEntity(this.getOwnerUuid());
+		if (this.owner == null && this.getOwnerUuid() != null && !this.level().isClientSide()) {
+			Entity entity = ((ServerLevel) this.level()).getEntity(this.getOwnerUuid());
 			if (entity instanceof LivingEntity) {
 				this.owner = (LivingEntity) entity;
 			}
@@ -140,17 +140,17 @@ public final class IceologerIceChunkEntity extends Entity
 
 	@Nullable
 	public UUID getTargetUuid() {
-		return (UUID) ((Optional) this.dataTracker.get(TARGET_UUID)).orElse(null);
+		return (UUID) ((Optional) this.entityData.get(TARGET_UUID)).orElse(null);
 	}
 
 	public void setTargetUuid(@Nullable UUID uuid) {
-		this.dataTracker.set(TARGET_UUID, Optional.ofNullable(uuid));
+		this.entityData.set(TARGET_UUID, Optional.ofNullable(uuid));
 	}
 
 	@Nullable
 	public LivingEntity getTarget() {
-		if (this.target == null && this.getTargetUuid() != null && !this.getWorld().isClient()) {
-			Entity entity = ((ServerWorld) this.getWorld()).getEntity(this.getTargetUuid());
+		if (this.target == null && this.getTargetUuid() != null && !this.level().isClientSide()) {
+			Entity entity = ((ServerLevel) this.level()).getEntity(this.getTargetUuid());
 			if (entity instanceof LivingEntity) {
 				this.target = (LivingEntity) entity;
 			}
@@ -172,9 +172,9 @@ public final class IceologerIceChunkEntity extends Entity
 		this.lifetimeTicks++;
 		this.setSummonAnimationProgress();
 
-		if (this.getTarget() != null && !this.getWorld().isClient()) {
-			if (this.getTarget().isPlayer()) {
-				var playerTarget = (PlayerEntity) this.getTarget();
+		if (this.getTarget() != null && !this.level().isClientSide()) {
+			if (this.getTarget().isAlwaysTicking()) {
+				var playerTarget = (Player) this.getTarget();
 
 				if (playerTarget.isSpectator() || playerTarget.isCreative()) {
 					this.customDiscard();
@@ -192,8 +192,8 @@ public final class IceologerIceChunkEntity extends Entity
 			return;
 		}
 
-		this.addVelocity(0.0F, -0.05F, 0.0F);
-		this.move(MovementType.SELF, this.getVelocity());
+		this.push(0.0F, -0.05F, 0.0F);
+		this.move(MoverType.SELF, this.getDeltaMovement());
 
 		if (this.verticalCollision) {
 			this.damageHitEntities();
@@ -202,32 +202,32 @@ public final class IceologerIceChunkEntity extends Entity
 	}
 
 	@Override
-	public boolean damage(DamageSource source, float amount) {
+	public boolean hurt(DamageSource source, float amount) {
 		return false;
 	}
 
 	public int getTicksUntilFall() {
-		return this.dataTracker.get(TICKS_UNTIL_FALL);
+		return this.entityData.get(TICKS_UNTIL_FALL);
 	}
 
 	private void setTicksUntilFall(int ticksUntilFall) {
-		this.dataTracker.set(TICKS_UNTIL_FALL, ticksUntilFall);
+		this.entityData.set(TICKS_UNTIL_FALL, ticksUntilFall);
 	}
 
 	private int getIdleTicks() {
-		return this.dataTracker.get(IDLE_TICKS);
+		return this.entityData.get(IDLE_TICKS);
 	}
 
 	private void setIdleTicks(int idleTicks) {
-		this.dataTracker.set(IDLE_TICKS, idleTicks);
+		this.entityData.set(IDLE_TICKS, idleTicks);
 	}
 
 	private void damageHitEntities() {
-		if (this.getWorld().isClient()) {
+		if (this.level().isClientSide()) {
 			return;
 		}
 
-		List<LivingEntity> hitEntities = this.getWorld().getNonSpectatingEntities(LivingEntity.class, this.getBoundingBox().expand(0.2D, 0.0D, 0.2D));
+		List<LivingEntity> hitEntities = this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(0.2D, 0.0D, 0.2D));
 
 		for (LivingEntity hitEntity : hitEntities) {
 			this.damage(hitEntity);
@@ -243,7 +243,7 @@ public final class IceologerIceChunkEntity extends Entity
 			|| hitEntity == livingEntity
 			|| (
 				livingEntity != null
-				&& livingEntity.isTeammate(hitEntity)
+				&& livingEntity.isAlliedTo(hitEntity)
 			)
 		) {
 			return;
@@ -252,15 +252,15 @@ public final class IceologerIceChunkEntity extends Entity
 		DamageSource damageSource;
 
 		if (livingEntity == null) {
-			damageSource = this.getDamageSources().magic();
+			damageSource = this.damageSources().magic();
 		} else {
-			damageSource = this.getDamageSources().indirectMagic(this, livingEntity);
+			damageSource = this.damageSources().indirectMagic(this, livingEntity);
 		}
 
-		hitEntity.damage(damageSource, 12.0F);
+		hitEntity.hurt(damageSource, 12.0F);
 
 		if (hitEntity.canFreeze()) {
-			hitEntity.setFrozenTicks(400);
+			hitEntity.setTicksFrozen(400);
 		}
 	}
 
@@ -276,22 +276,22 @@ public final class IceologerIceChunkEntity extends Entity
 		if (
 			target == null
 			|| !target.isAlive()
-			|| target.getVelocity().lengthSquared() < 0.0001
+			|| target.getDeltaMovement().lengthSqr() < 0.0001
 		) {
 			return;
 		}
 
-		Vec3d targetPosition = new Vec3d(
+		Vec3 targetPosition = new Vec3(
 			target.getX(),
 			this.getYPositionWithHeightOffset(
 				target.getY(),
-				this.getTarget().getHeight()
+				this.getTarget().getBbHeight()
 			),
 			target.getZ()
 		);
-		Vec3d targetDirection = targetPosition.subtract(this.getPos()).normalize();
-		this.setVelocity(targetDirection.multiply(0.2));
-		this.move(MovementType.SELF, this.getVelocity());
+		Vec3 targetDirection = targetPosition.subtract(this.position()).normalize();
+		this.setDeltaMovement(targetDirection.scale(0.2));
+		this.move(MoverType.SELF, this.getDeltaMovement());
 	}
 
 	private double getYPositionWithHeightOffset(double y, double height) {
@@ -327,27 +327,27 @@ public final class IceologerIceChunkEntity extends Entity
 
 	public void spawnHitParticles() {
 		this.spawnParticles(
-			new BlockStateParticleEffect(ParticleTypes.BLOCK, Blocks.BLUE_ICE.getDefaultState()),
+			new BlockParticleOption(ParticleTypes.BLOCK, Blocks.BLUE_ICE.defaultBlockState()),
 			16
 		);
 	}
 
 	private void spawnParticles(
-		ParticleEffect particleEffect,
+		ParticleOptions particleEffect,
 		int amount
 	) {
-		World world = this.getWorld();
+		Level world = this.level();
 
-		if (world.isClient()) {
+		if (world.isClientSide()) {
 			return;
 		}
 
 		for (int i = 0; i < amount; i++) {
-			((ServerWorld) world).spawnParticles(
+			((ServerLevel) world).sendParticles(
 				particleEffect,
-				this.getParticleX(0.5D),
-				this.getRandomBodyY() + 0.5D,
-				this.getParticleZ(0.5D),
+				this.getRandomX(0.5D),
+				this.getRandomY() + 0.5D,
+				this.getRandomZ(0.5D),
 				1,
 				0.0D,
 				0.0D,
@@ -371,7 +371,7 @@ public final class IceologerIceChunkEntity extends Entity
 	}
 
 	public static IceologerIceChunkEntity createWithOwnerAndTarget(
-		World world,
+		Level world,
 		LivingEntity owner,
 		LivingEntity target
 	) {
@@ -380,13 +380,13 @@ public final class IceologerIceChunkEntity extends Entity
 			world
 		);
 
-		chunkEntity.setOwnerUuid(owner.getUuid());
-		chunkEntity.setTargetUuid(target.getUuid());
-		chunkEntity.setPosition(
+		chunkEntity.setOwnerUuid(owner.getUUID());
+		chunkEntity.setTargetUuid(target.getUUID());
+		chunkEntity.setPos(
 			target.getX(),
 			chunkEntity.getYPositionWithHeightOffset(
 				target.getY(),
-				target.getHeight()
+				target.getBbHeight()
 			),
 			target.getZ()
 		);

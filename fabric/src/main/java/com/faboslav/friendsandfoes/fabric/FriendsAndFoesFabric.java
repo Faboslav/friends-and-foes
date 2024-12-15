@@ -22,17 +22,19 @@ import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRe
 import net.fabricmc.fabric.api.registry.FabricBrewingRecipeRegistryBuilder;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnRestriction;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.tag.BiomeTags;
-import net.minecraft.resource.ResourceType;
-import net.minecraft.village.TradeOffers;
-import net.minecraft.world.dimension.DimensionTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.tags.BiomeTags;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.npc.VillagerProfession;
+import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public final class FriendsAndFoesFabric implements ModInitializer
@@ -48,7 +50,7 @@ public final class FriendsAndFoesFabric implements ModInitializer
 
 	private static void initEvents() {
 		RegisterReloadListenerEvent.EVENT.invoke(new RegisterReloadListenerEvent((id, listener) -> {
-			ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new FabricReloadListener(id, listener));
+			ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new FabricReloadListener(id, listener));
 		}));
 
 		ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register((player, joined) ->
@@ -57,7 +59,7 @@ public final class FriendsAndFoesFabric implements ModInitializer
 		ServerWorldEvents.LOAD.register(((server, world) -> {
 			registerVillagerTrades();
 
-			if (world.isClient() || world.getDimensionEntry() != DimensionTypes.OVERWORLD) {
+			if (world.isClientSide() || world.dimensionTypeRegistration() != BuiltinDimensionTypes.OVERWORLD) {
 				return;
 			}
 
@@ -66,7 +68,7 @@ public final class FriendsAndFoesFabric implements ModInitializer
 		}));
 
 		RegisterBrewingRecipesEvent.EVENT.invoke(new RegisterBrewingRecipesEvent((input, item, output) ->
-			FabricBrewingRecipeRegistryBuilder.BUILD.register(builder -> builder.registerPotionRecipe(input, item, output))));
+			FabricBrewingRecipeRegistryBuilder.BUILD.register(builder -> builder.addMix(input, item, output))));
 
 		RegisterFlammabilityEvent.EVENT.invoke(new RegisterFlammabilityEvent(FlammableBlockRegistry.getDefaultInstance()::add));
 		RegisterEntityAttributesEvent.EVENT.invoke(new RegisterEntityAttributesEvent(FabricDefaultAttributeRegistry::register));
@@ -80,28 +82,28 @@ public final class FriendsAndFoesFabric implements ModInitializer
 		ItemGroupEvents.MODIFY_ENTRIES_ALL.register((itemGroup, entries) ->
 			AddItemGroupEntriesEvent.EVENT.invoke(
 				new AddItemGroupEntriesEvent(
-					AddItemGroupEntriesEvent.Type.toType(Registries.ITEM_GROUP.getKey(itemGroup).orElse(null)),
+					AddItemGroupEntriesEvent.Type.toType(BuiltInRegistries.CREATIVE_MODE_TAB.getResourceKey(itemGroup).orElse(null)),
 					itemGroup,
-					itemGroup.hasStacks(),
-					entries::add
+					itemGroup.hasAnyItems(),
+					entries::accept
 				)
 			)
 		);
 	}
 
 	private static void registerVillagerTrades() {
-		var trades = TradeOffers.PROFESSION_TO_LEVELED_TRADE;
-		for (var profession : Registries.VILLAGER_PROFESSION) {
+		var trades = VillagerTrades.TRADES;
+		for (var profession : BuiltInRegistries.VILLAGER_PROFESSION) {
 			if (profession == null) {
 				continue;
 			}
 
-			Int2ObjectMap<TradeOffers.Factory[]> profTrades = trades.computeIfAbsent(profession, key -> new Int2ObjectOpenHashMap<>());
-			Int2ObjectMap<List<TradeOffers.Factory>> listings = new Int2ObjectOpenHashMap<>();
+			Int2ObjectMap<VillagerTrades.ItemListing[]> profTrades = trades.computeIfAbsent(profession, key -> new Int2ObjectOpenHashMap<>());
+			Int2ObjectMap<List<VillagerTrades.ItemListing>> listings = new Int2ObjectOpenHashMap<>();
 
 			for (int i = 1; i <= 5; i++) {
 				if (profTrades.containsKey(i)) {
-					List<TradeOffers.Factory> list = Arrays.stream(profTrades.get(i)).collect(Collectors.toList());
+					List<VillagerTrades.ItemListing> list = Arrays.stream(profTrades.get(i)).collect(Collectors.toList());
 					listings.put(i, list);
 				} else {
 					listings.put(i, new ArrayList<>());
@@ -111,16 +113,16 @@ public final class FriendsAndFoesFabric implements ModInitializer
 			RegisterVillagerTradesEvent.EVENT.invoke(new RegisterVillagerTradesEvent(profession, (i, listing) -> listings.get(i.intValue()).add(listing)));
 
 			for (int i = 1; i <= 5; i++) {
-				profTrades.put(i, listings.get(i).toArray(new TradeOffers.Factory[0]));
+				profTrades.put(i, listings.get(i).toArray(new VillagerTrades.ItemListing[0]));
 			}
 		}
 	}
 
-	private static <T extends MobEntity> void registerPlacement(
+	private static <T extends Mob> void registerPlacement(
 		EntityType<T> type,
 		RegisterEntitySpawnRestrictionsEvent.Placement<T> placement
 	) {
-		SpawnRestriction.register(type, placement.location(), placement.heightmap(), placement.predicate());
+		SpawnPlacements.register(type, placement.location(), placement.heightmap(), placement.predicate());
 	}
 
 	private static void addCustomStructurePoolElements() {

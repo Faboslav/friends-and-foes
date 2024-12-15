@@ -1,25 +1,25 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(value = AbstractBlock.class, priority = 1001)
+@Mixin(value = BlockBehaviour.class, priority = 1001)
 public abstract class LightningRodAbstractBlockMixin
 {
 	@Inject(
-		method = "hasRandomTicks",
+		method = "isRandomlyTicking",
 		at = @At("HEAD"),
 		cancellable = true
 	)
@@ -35,25 +35,25 @@ public abstract class LightningRodAbstractBlockMixin
 	)
 	public void friendsandfoes_randomTick(
 		BlockState state,
-		ServerWorld world,
+		ServerLevel world,
 		BlockPos pos,
-		Random random,
+		RandomSource random,
 		CallbackInfo ci
 	) {
 	}
 
 	@Inject(
-		method = "onUse",
+		method = "useWithoutItem",
 		at = @At("HEAD"),
 		cancellable = true
 	)
 	public void friendsandfoes_onUse(
 		BlockState state,
-		World world,
+		Level world,
 		BlockPos pos,
-		PlayerEntity player,
+		Player player,
 		BlockHitResult hit,
-		CallbackInfoReturnable<ActionResult> cir
+		CallbackInfoReturnable<InteractionResult> cir
 	) {
 	}
 }

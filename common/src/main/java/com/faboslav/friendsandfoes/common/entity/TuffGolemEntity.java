@@ -1,60 +1,72 @@
 package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-import com.faboslav.friendsandfoes.common.client.render.entity.animation.KeyframeAnimation;
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.TuffGolemAnimations;
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.TuffGolemBrain;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
+import com.faboslav.friendsandfoes.common.entity.animation.loader.json.AnimationHolder;
 import com.faboslav.friendsandfoes.common.entity.pose.TuffGolemEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.util.MovementUtil;
 import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
 import com.mojang.serialization.Dynamic;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.entity.ai.brain.MemoryModuleType;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.passive.GolemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.server.network.DebugInfoSender;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.DyeColor;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.LocalDifficulty;
-import net.minecraft.world.ServerWorldAccess;
-import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.DebugPackets;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LightningBolt;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.Brain;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.animal.AbstractGolem;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.DyeItem;
+import net.minecraft.world.item.HoneycombItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
-public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
+public final class TuffGolemEntity extends AbstractGolem implements AnimatedEntity
 {
-	private static final TrackedData<String> COLOR;
-	private static final TrackedData<EntityPose> PREV_POSE;
-	private static final TrackedData<Integer> POSE_TICKS;
-	private static final TrackedData<Boolean> IS_GLUED;
-	private static final TrackedData<NbtCompound> HOME;
+	private static final EntityDataAccessor<String> COLOR;
+	private static final EntityDataAccessor<Pose> PREV_POSE;
+	private static final EntityDataAccessor<Integer> POSE_TICKS;
+	private static final EntityDataAccessor<Boolean> IS_GLUED;
+	private static final EntityDataAccessor<CompoundTag> HOME;
 
 	private static final float MOVEMENT_SPEED = 0.225F;
 	private static final float MOVEMENT_SPEED_WITH_ITEM = 0.175F;
@@ -74,11 +86,11 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	private int inactiveTicksAfterSpawn = 0;
 
 	static {
-		COLOR = DataTracker.registerData(TuffGolemEntity.class, TrackedDataHandlerRegistry.STRING);
-		PREV_POSE = DataTracker.registerData(TuffGolemEntity.class, TrackedDataHandlerRegistry.ENTITY_POSE);
-		POSE_TICKS = DataTracker.registerData(TuffGolemEntity.class, TrackedDataHandlerRegistry.INTEGER);
-		IS_GLUED = DataTracker.registerData(TuffGolemEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-		HOME = DataTracker.registerData(TuffGolemEntity.class, TrackedDataHandlerRegistry.NBT_COMPOUND);
+		COLOR = SynchedEntityData.defineId(TuffGolemEntity.class, EntityDataSerializers.STRING);
+		PREV_POSE = SynchedEntityData.defineId(TuffGolemEntity.class, EntityDataSerializers.POSE);
+		POSE_TICKS = SynchedEntityData.defineId(TuffGolemEntity.class, EntityDataSerializers.INT);
+		IS_GLUED = SynchedEntityData.defineId(TuffGolemEntity.class, EntityDataSerializers.BOOLEAN);
+		HOME = SynchedEntityData.defineId(TuffGolemEntity.class, EntityDataSerializers.COMPOUND_TAG);
 	}
 
 	private AnimationContextTracker animationContextTracker;
@@ -88,8 +100,8 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		if (this.animationContextTracker == null) {
 			this.animationContextTracker = new AnimationContextTracker();
 
-			for (KeyframeAnimation keyframeAnimation : this.getAnimations()) {
-				this.animationContextTracker.add(keyframeAnimation);
+			for (var animation: this.getTrackedAnimations()) {
+				this.animationContextTracker.add(animation);
 			}
 		}
 
@@ -97,12 +109,12 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	}
 
 	@Override
-	public ArrayList<KeyframeAnimation> getAnimations() {
+	public ArrayList<AnimationHolder> getTrackedAnimations() {
 		return TuffGolemAnimations.ANIMATIONS;
 	}
 
 	@Override
-	public KeyframeAnimation getMovementAnimation() {
+	public AnimationHolder getMovementAnimation() {
 		if (this.isHoldingItem()) {
 			return TuffGolemAnimations.WALK_WITH_ITEM;
 		}
@@ -111,32 +123,33 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	}
 
 	@Override
-	public int getKeyframeAnimationTicks() {
-		return this.dataTracker.get(POSE_TICKS);
+	public int getCurrentAnimationTick() {
+		return this.entityData.get(POSE_TICKS);
 	}
 
-	public void setKeyframeAnimationTicks(int keyframeAnimationTicks) {
-		this.dataTracker.set(POSE_TICKS, keyframeAnimationTicks);
+	@Override
+	public void setCurrentAnimationTick(int keyframeAnimationTicks) {
+		this.entityData.set(POSE_TICKS, keyframeAnimationTicks);
 	}
 
 	public TuffGolemEntity(
 		EntityType<? extends TuffGolemEntity> entityType,
-		World world
+		Level world
 	) {
 		super(entityType, world);
 	}
 
 	@Override
-	public EntityData initialize(
-		ServerWorldAccess world,
-		LocalDifficulty difficulty,
-		SpawnReason spawnReason,
-		@Nullable EntityData entityData
+	public SpawnGroupData finalizeSpawn(
+		ServerLevelAccessor world,
+		DifficultyInstance difficulty,
+		MobSpawnType spawnReason,
+		@Nullable SpawnGroupData entityData
 	) {
-		EntityData superEntityData = super.initialize(world, difficulty, spawnReason, entityData);
+		SpawnGroupData superEntityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData);
 
-		if (spawnReason == SpawnReason.SPAWN_EGG || spawnReason == SpawnReason.COMMAND) {
-			float randomSpawnYaw = 90.0F * (float) this.getRandom().nextBetween(0, 3);
+		if (spawnReason == MobSpawnType.SPAWN_EGG || spawnReason == MobSpawnType.COMMAND) {
+			float randomSpawnYaw = 90.0F * (float) this.getRandom().nextIntBetweenInclusive(0, 3);
 			this.setSpawnYaw(randomSpawnYaw);
 		}
 
@@ -150,7 +163,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	}
 
 	@Override
-	protected Brain<?> deserializeBrain(Dynamic<?> dynamic) {
+	protected Brain<?> makeBrain(Dynamic<?> dynamic) {
 		return TuffGolemBrain.create(dynamic);
 	}
 
@@ -161,44 +174,44 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	}
 
 	@Override
-	protected void sendAiDebugData() {
-		super.sendAiDebugData();
-		DebugInfoSender.sendBrainDebugData(this);
+	protected void sendDebugPackets() {
+		super.sendDebugPackets();
+		DebugPackets.sendEntityBrain(this);
 	}
 
 	@Override
-	protected void mobTick() {
-		this.getWorld().getProfiler().push("tuffGolemBrain");
-		this.getBrain().tick((ServerWorld) this.getWorld(), this);
-		this.getWorld().getProfiler().pop();
-		this.getWorld().getProfiler().push("tuffGolemActivityUpdate");
+	protected void customServerAiStep() {
+		this.level().getProfiler().push("tuffGolemBrain");
+		this.getBrain().tick((ServerLevel) this.level(), this);
+		this.level().getProfiler().pop();
+		this.level().getProfiler().push("tuffGolemActivityUpdate");
 		TuffGolemBrain.updateActivities(this);
-		this.getWorld().getProfiler().pop();
+		this.level().getProfiler().pop();
 
-		super.mobTick();
+		super.customServerAiStep();
 	}
 
-	public static DefaultAttributeContainer.Builder createTuffGolemAttributes() {
-		return MobEntity.createMobAttributes()
-			.add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
-			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, MOVEMENT_SPEED)
-			.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D);
-	}
-
-	@Override
-	protected void initDataTracker(DataTracker.Builder builder) {
-		super.initDataTracker(builder);
-
-		builder.add(COLOR, Color.RED.getName());
-		builder.add(PREV_POSE, TuffGolemEntityPose.STANDING.get());
-		builder.add(POSE_TICKS, 0);
-		builder.add(IS_GLUED, false);
-		builder.add(HOME, new NbtCompound());
+	public static AttributeSupplier.Builder createTuffGolemAttributes() {
+		return Mob.createMobAttributes()
+			.add(Attributes.MAX_HEALTH, 20.0D)
+			.add(Attributes.MOVEMENT_SPEED, MOVEMENT_SPEED)
+			.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D);
 	}
 
 	@Override
-	public void writeCustomDataToNbt(NbtCompound nbt) {
-		super.writeCustomDataToNbt(nbt);
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		super.defineSynchedData(builder);
+
+		builder.define(COLOR, Color.RED.getName());
+		builder.define(PREV_POSE, TuffGolemEntityPose.STANDING.get());
+		builder.define(POSE_TICKS, 0);
+		builder.define(IS_GLUED, false);
+		builder.define(HOME, new CompoundTag());
+	}
+
+	@Override
+	public void addAdditionalSaveData(CompoundTag nbt) {
+		super.addAdditionalSaveData(nbt);
 		nbt.putString(COLOR_NBT_NAME, this.getColor().getName());
 		nbt.putString(PREV_POSE_NBT_NAME, this.getPrevPose().name());
 		nbt.putString(POSE_NBT_NAME, this.getPose().name());
@@ -207,8 +220,8 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	}
 
 	@Override
-	public void readCustomDataFromNbt(NbtCompound nbt) {
-		super.readCustomDataFromNbt(nbt);
+	public void readAdditionalSaveData(CompoundTag nbt) {
+		super.readAdditionalSaveData(nbt);
 		this.setColor(TuffGolemEntity.Color.fromName(nbt.getString(COLOR_NBT_NAME)));
 		this.setGlued(nbt.getBoolean(IS_GLUED_NBT_NAME));
 		this.setHome(nbt.getCompound(HOME_NBT_NAME));
@@ -219,23 +232,23 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 		String prevSavedPose = nbt.getString(PREV_POSE_NBT_NAME);
 		if (prevSavedPose != "") {
-			this.setPrevPose(EntityPose.valueOf(nbt.getString(PREV_POSE_NBT_NAME)));
+			this.setPrevPose(Pose.valueOf(nbt.getString(PREV_POSE_NBT_NAME)));
 		}
 
 		String savedPose = nbt.getString(POSE_NBT_NAME);
 		if (savedPose != "") {
-			this.setPoseWithoutPrevPose(EntityPose.valueOf(nbt.getString(POSE_NBT_NAME)));
-			EntityPose entityPose = EntityPose.valueOf(nbt.getString(POSE_NBT_NAME));
+			this.setPoseWithoutPrevPose(Pose.valueOf(nbt.getString(POSE_NBT_NAME)));
+			Pose entityPose = Pose.valueOf(nbt.getString(POSE_NBT_NAME));
 
 			if (
-				this.getWorld().isClient() == false
+				this.level().isClientSide() == false
 				&& (
 					entityPose == TuffGolemEntityPose.SLEEPING.get()
 					|| entityPose == TuffGolemEntityPose.SLEEPING_WITH_ITEM.get()
 				)
 			) {
-				this.getBrain().forget(MemoryModuleType.WALK_TARGET);
-				this.getBrain().forget(MemoryModuleType.LOOK_TARGET);
+				this.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);
+				this.getBrain().eraseMemory(MemoryModuleType.LOOK_TARGET);
 				TuffGolemBrain.resetSleepCooldown(this);
 			} else {
 				this.setPoseWithoutPrevPose(entityPose);
@@ -298,7 +311,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 	@Override
 	protected void playHurtSound(DamageSource source) {
-		this.ambientSoundChance = -this.getMinAmbientSoundDelay();
+		this.ambientSoundTime = -this.getAmbientSoundInterval();
 		this.playSound(this.getHurtSound(source), 2.0F, 0.7F + this.getRandom().nextFloat() * 0.15F);
 	}
 
@@ -309,22 +322,22 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	) {
 		if (
 			this.isInSleepingPose()
-			|| state.isLiquid()
+			|| state.liquid()
 		) {
 			return;
 		}
 
-		BlockState blockState = this.getWorld().getBlockState(pos.up());
-		BlockSoundGroup blockSoundGroup = blockState.isIn(BlockTags.INSIDE_STEP_SOUND_BLOCKS) ? blockState.getSoundGroup():state.getSoundGroup();
+		BlockState blockState = this.level().getBlockState(pos.above());
+		SoundType blockSoundGroup = blockState.is(BlockTags.INSIDE_STEP_SOUND_BLOCKS) ? blockState.getSoundType():state.getSoundType();
 		this.playSound(FriendsAndFoesSoundEvents.ENTITY_TUFF_GOLEM_STEP.get(), blockSoundGroup.getVolume(), 0.75F + this.getRandom().nextFloat() * 0.15F);
 	}
 
 	@Override
-	public ActionResult interactMob(
-		PlayerEntity player,
-		Hand hand
+	public InteractionResult mobInteract(
+		Player player,
+		InteractionHand hand
 	) {
-		ItemStack itemStack = player.getStackInHand(hand);
+		ItemStack itemStack = player.getItemInHand(hand);
 		Item itemInHand = itemStack.getItem();
 		boolean interactionResult = false;
 
@@ -343,15 +356,15 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		}
 
 		if (interactionResult) {
-			this.emitGameEvent(GameEvent.ENTITY_INTERACT, this);
-			return ActionResult.success(this.getWorld().isClient());
+			this.gameEvent(GameEvent.ENTITY_INTERACT, this);
+			return InteractionResult.sidedSuccess(this.level().isClientSide());
 		}
 
-		return super.interactMob(player, hand);
+		return super.mobInteract(player, hand);
 	}
 
 	private boolean tryToInteractMobWithTuff(
-		PlayerEntity player,
+		Player player,
 		ItemStack itemStack
 	) {
 		if (this.getHealth() >= this.getMaxHealth()) {
@@ -360,8 +373,8 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 		this.heal(TUFF_HEAL_AMOUNT);
 
-		if (player.getAbilities().creativeMode == false) {
-			itemStack.decrement(1);
+		if (player.getAbilities().instabuild == false) {
+			itemStack.shrink(1);
 		}
 
 		this.playRepairSound();
@@ -370,10 +383,10 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	}
 
 	private boolean tryToInteractMobWithDye(
-		PlayerEntity player,
+		Player player,
 		ItemStack itemStack
 	) {
-		Color usedColor = TuffGolemEntity.Color.fromDyeColor(((DyeItem) itemStack.getItem()).getColor());
+		Color usedColor = TuffGolemEntity.Color.fromDyeColor(((DyeItem) itemStack.getItem()).getDyeColor());
 
 		if (this.getColor() == usedColor) {
 			return false;
@@ -381,17 +394,17 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 		this.setColor(usedColor);
 
-		if (player.getAbilities().creativeMode == false) {
-			itemStack.decrement(1);
+		if (player.getAbilities().instabuild == false) {
+			itemStack.shrink(1);
 		}
 
-		this.playSound(SoundEvents.ITEM_DYE_USE, 1.0F, 1.0F);
+		this.playSound(SoundEvents.DYE_USE, 1.0F, 1.0F);
 
 		return true;
 	}
 
 	private boolean tryToInteractMobWithHoneycomb(
-		PlayerEntity player,
+		Player player,
 		ItemStack itemStack
 	) {
 		if (this.isGlued()) {
@@ -400,8 +413,8 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 		this.setGlued(true);
 
-		if (!player.getAbilities().creativeMode) {
-			itemStack.decrement(1);
+		if (!player.getAbilities().instabuild) {
+			itemStack.shrink(1);
 		}
 
 		this.playGlueOnSound();
@@ -411,8 +424,8 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	}
 
 	private boolean tryToInteractMobWithAxe(
-		PlayerEntity player,
-		Hand hand,
+		Player player,
+		InteractionHand hand,
 		ItemStack itemStack
 	) {
 		if (!this.isGlued()) {
@@ -424,20 +437,20 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		this.playGlueOffSound();
 		ParticleSpawner.spawnParticles(this, ParticleTypes.WAX_OFF, 7, 1.0F);
 
-		if (this.getWorld().isClient() == false && !player.getAbilities().creativeMode) {
-			itemStack.damage(1, player, PlayerEntity.getSlotForHand(hand));
+		if (this.level().isClientSide() == false && !player.getAbilities().instabuild) {
+			itemStack.hurtAndBreak(1, player, Player.getSlotForHand(hand));
 		}
 
 		return true;
 	}
 
 	private boolean tryToInteractMobWithItem(
-		PlayerEntity player,
+		Player player,
 		ItemStack itemStack
 	) {
 		if (
 			(
-				this.getEquippedStack(EquipmentSlot.MAINHAND).getItem() == Items.AIR
+				this.getItemBySlot(EquipmentSlot.MAINHAND).getItem() == Items.AIR
 				&& itemStack.getItem() == Items.AIR
 			) || itemStack.getItem() instanceof SpawnEggItem
 			|| isAnyKeyframeAnimationRunning()
@@ -448,22 +461,22 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		MovementUtil.stopMovement(this);
 
 		if (this.isHoldingItem()) {
-			if (player.getAbilities().creativeMode == false) {
-				this.dropStack(this.getEquippedStack(EquipmentSlot.MAINHAND));
+			if (player.getAbilities().instabuild == false) {
+				this.spawnAtLocation(this.getItemBySlot(EquipmentSlot.MAINHAND));
 			}
 
-			this.equipStack(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
+			this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
 			this.startStanding();
 		} else {
 			ItemStack itemsStackToBeEquipped = itemStack.copy();
 
-			if (player.getAbilities().creativeMode == false) {
-				itemStack.decrement(1);
+			if (player.getAbilities().instabuild == false) {
+				itemStack.shrink(1);
 			}
 
 			itemsStackToBeEquipped.setCount(1);
 
-			this.equipStack(EquipmentSlot.MAINHAND, itemsStackToBeEquipped);
+			this.setItemSlot(EquipmentSlot.MAINHAND, itemsStackToBeEquipped);
 			this.startStandingWithItem();
 		}
 
@@ -471,16 +484,16 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	}
 
 	public void setColor(TuffGolemEntity.Color color) {
-		this.dataTracker.set(COLOR, color.getName());
+		this.entityData.set(COLOR, color.getName());
 	}
 
 	public TuffGolemEntity.Color getColor() {
-		return TuffGolemEntity.Color.fromName(this.dataTracker.get(COLOR));
+		return TuffGolemEntity.Color.fromName(this.entityData.get(COLOR));
 	}
 
 	@Override
-	public void setPose(EntityPose pose) {
-		if (this.getWorld().isClient()) {
+	public void setPose(Pose pose) {
+		if (this.level().isClientSide()) {
 			return;
 		}
 
@@ -488,24 +501,24 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 		super.setPose(pose);
 	}
 
-	public void setPoseWithoutPrevPose(EntityPose pose) {
-		if (this.getWorld().isClient()) {
+	public void setPoseWithoutPrevPose(Pose pose) {
+		if (this.level().isClientSide()) {
 			return;
 		}
 
 		super.setPose(pose);
 	}
 
-	public void setPrevPose(EntityPose pose) {
-		if (this.getWorld().isClient()) {
+	public void setPrevPose(Pose pose) {
+		if (this.level().isClientSide()) {
 			return;
 		}
 
-		this.dataTracker.set(PREV_POSE, pose);
+		this.entityData.set(PREV_POSE, pose);
 	}
 
-	public EntityPose getPrevPose() {
-		return this.dataTracker.get(PREV_POSE);
+	public Pose getPrevPose() {
+		return this.entityData.get(PREV_POSE);
 	}
 
 	public boolean isInPose(TuffGolemEntityPose pose) {
@@ -535,34 +548,34 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	}
 
 	public void setGlued(boolean isGlued) {
-		dataTracker.set(IS_GLUED, isGlued);
+		entityData.set(IS_GLUED, isGlued);
 	}
 
 	public boolean isGlued() {
-		return dataTracker.get(IS_GLUED);
+		return entityData.get(IS_GLUED);
 	}
 
-	public NbtCompound getNewHome() {
-		NbtCompound home = new NbtCompound();
+	public CompoundTag getNewHome() {
+		CompoundTag home = new CompoundTag();
 
-		home.putDouble(HOME_NBT_NAME_X, this.getPos().getX());
-		home.putDouble(HOME_NBT_NAME_Y, this.getPos().getY());
-		home.putDouble(HOME_NBT_NAME_Z, this.getPos().getZ());
-		home.putFloat(HOME_NBT_NAME_YAW, this.bodyYaw);
+		home.putDouble(HOME_NBT_NAME_X, this.position().x());
+		home.putDouble(HOME_NBT_NAME_Y, this.position().y());
+		home.putDouble(HOME_NBT_NAME_Z, this.position().z());
+		home.putFloat(HOME_NBT_NAME_YAW, this.yBodyRot);
 
 		return home;
 	}
 
-	public void setHome(NbtCompound home) {
-		dataTracker.set(HOME, home);
+	public void setHome(CompoundTag home) {
+		entityData.set(HOME, home);
 	}
 
-	public NbtCompound getHome() {
-		return dataTracker.get(HOME);
+	public CompoundTag getHome() {
+		return entityData.get(HOME);
 	}
 
-	public Vec3d getHomePos() {
-		return new Vec3d(
+	public Vec3 getHomePos() {
+		return new Vec3(
 			this.getHome().getDouble(HOME_NBT_NAME_X),
 			this.getHome().getDouble(HOME_NBT_NAME_Y),
 			this.getHome().getDouble(HOME_NBT_NAME_Z)
@@ -574,21 +587,21 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	}
 
 	public boolean isAtHomePos() {
-		return this.squaredDistanceTo(this.getHomePos()) < 0.1D;
+		return this.distanceToSqr(this.getHomePos()) < 0.1D;
 	}
 
 	public boolean isCloseToHomePos(float distance) {
-		return this.squaredDistanceTo(this.getHomePos()) < distance;
+		return this.distanceToSqr(this.getHomePos()) < distance;
 	}
 
 	public boolean isAtHomeYaw() {
-		return this.serverYaw == this.getHomeYaw()
-			   && this.prevYaw == this.getHomeYaw()
-			   && this.getYaw() == this.getHomeYaw()
-			   && this.prevBodyYaw == this.getHomeYaw()
-			   && this.getBodyYaw() == this.getHomeYaw()
-			   && this.prevHeadYaw == this.getHomeYaw()
-			   && this.getHeadYaw() == this.getHomeYaw();
+		return this.lerpYRot == this.getHomeYaw()
+			   && this.yRotO == this.getHomeYaw()
+			   && this.getYRot() == this.getHomeYaw()
+			   && this.yBodyRotO == this.getHomeYaw()
+			   && this.getVisualRotationYInDegrees() == this.getHomeYaw()
+			   && this.yHeadRotO == this.getHomeYaw()
+			   && this.getYHeadRot() == this.getHomeYaw();
 	}
 
 	public boolean isAtHome() {
@@ -596,7 +609,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	}
 
 	public boolean isHoldingItem() {
-		return this.getEquippedStack(EquipmentSlot.MAINHAND).getItem() != Items.AIR;
+		return this.getItemBySlot(EquipmentSlot.MAINHAND).getItem() != Items.AIR;
 	}
 
 	public boolean isShowingItem() {
@@ -606,7 +619,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	}
 
 	public boolean isNotImmobilized() {
-		return this.getKeyframeAnimationTicks() == 0
+		return this.getCurrentAnimationTick() == 0
 			   && this.inactiveTicksAfterSpawn == 0
 			   && this.isGlued() == false
 			   && this.isInSleepingPose() == false;
@@ -660,11 +673,11 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 
 	@Override
 	public void tick() {
-		if (this.getWorld().isClient() == false && FriendsAndFoes.getConfig().enableTuffGolem == false) {
+		if (this.level().isClientSide() == false && FriendsAndFoes.getConfig().enableTuffGolem == false) {
 			this.discard();
 		}
 
-		if (this.getWorld().isClient() == false && this.inactiveTicksAfterSpawn > 0) {
+		if (this.level().isClientSide() == false && this.inactiveTicksAfterSpawn > 0) {
 			this.inactiveTicksAfterSpawn--;
 		}
 
@@ -679,96 +692,96 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	}
 
 	private void updateKeyframeAnimations() {
-		if (this.getWorld().isClient() == false) {
-			this.updateKeyframeAnimationTicks();
+		if (this.level().isClientSide() == false) {
+			this.updateCurrentAnimationTick();
 		}
 
-		KeyframeAnimation keyframeAnimationToStart = this.getKeyframeAnimationByPose();
+		AnimationHolder animationToStart = this.getAnimationByPose();
 
 		if (
-			keyframeAnimationToStart != null
-			&& this.isKeyframeAnimationRunning(keyframeAnimationToStart) == false
+			animationToStart != null
+			&& this.isKeyframeAnimationRunning(animationToStart) == false
 		) {
-			if (this.getWorld().isClient() == false) {
-				this.setKeyframeAnimationTicks(keyframeAnimationToStart.getAnimationLengthInTicks());
+			if (this.level().isClientSide() == false) {
+				this.setCurrentAnimationTick(animationToStart.get().lengthInTicks());
 			}
 
-			this.startKeyframeAnimation(keyframeAnimationToStart);
+			this.startKeyframeAnimation(animationToStart);
 		}
 	}
 
+	private void startKeyframeAnimation(AnimationHolder animationToStart) {
+		for (AnimationHolder animation : this.getTrackedAnimations()) {
+			if (animation == animationToStart) {
+				continue;
+			}
+
+			this.stopKeyframeAnimation(animation);
+		}
+
+		this.startKeyframeAnimation(animationToStart, this.tickCount);
+	}
+
 	@Nullable
-	private KeyframeAnimation getKeyframeAnimationByPose() {
-		EntityPose prevPose = this.getPrevPose();
-		EntityPose pose = this.getPose();
+	public AnimationHolder getAnimationByPose() {
+		Pose prevPose = this.getPrevPose();
+		Pose pose = this.getPose();
 
 		if (pose == prevPose) {
 			return null;
 		}
 
-		KeyframeAnimation keyframeAnimation = null;
+		AnimationHolder animationHolder = null;
 
 		if (this.wasInPose(TuffGolemEntityPose.STANDING)) {
 			if (this.isInPose(TuffGolemEntityPose.STANDING_WITH_ITEM)) {
-				keyframeAnimation = TuffGolemAnimations.SHOW_ITEM;
+				animationHolder = TuffGolemAnimations.SHOW_ITEM;
 			} else if (this.isInPose(TuffGolemEntityPose.SLEEPING)) {
-				keyframeAnimation = TuffGolemAnimations.SLEEP;
+				animationHolder = TuffGolemAnimations.SLEEP;
 			}
 		} else if (this.wasInPose(TuffGolemEntityPose.STANDING_WITH_ITEM)) {
 			if (this.isInPose(TuffGolemEntityPose.STANDING)) {
-				keyframeAnimation = TuffGolemAnimations.HIDE_ITEM;
+				animationHolder = TuffGolemAnimations.HIDE_ITEM;
 			} else if (this.isInPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM)) {
-				keyframeAnimation = TuffGolemAnimations.SLEEP_WITH_ITEM;
+				animationHolder = TuffGolemAnimations.SLEEP_WITH_ITEM;
 			}
 		} else if (this.wasInPose(TuffGolemEntityPose.SLEEPING)) {
 			if (this.isInPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM)) {
-				keyframeAnimation = TuffGolemAnimations.SHOW_ITEM;
+				animationHolder = TuffGolemAnimations.SHOW_ITEM;
 			} else if (this.isInPose(TuffGolemEntityPose.STANDING_WITH_ITEM)) {
-				keyframeAnimation = TuffGolemAnimations.WAKE_AND_SHOW_ITEM;
+				animationHolder = TuffGolemAnimations.WAKE_AND_SHOW_ITEM;
 			} else if (this.isInPose(TuffGolemEntityPose.STANDING)) {
-				keyframeAnimation = TuffGolemAnimations.WAKE;
+				animationHolder = TuffGolemAnimations.WAKE;
 			}
 		} else if (this.wasInPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM)) {
 			if (this.isInPose(TuffGolemEntityPose.SLEEPING)) {
-				keyframeAnimation = TuffGolemAnimations.HIDE_ITEM;
+				animationHolder = TuffGolemAnimations.HIDE_ITEM;
 			} else if (this.isInPose(TuffGolemEntityPose.STANDING)) {
-				keyframeAnimation = TuffGolemAnimations.WAKE_AND_HIDE_ITEM;
+				animationHolder = TuffGolemAnimations.WAKE_AND_HIDE_ITEM;
 			} else if (this.isInPose(TuffGolemEntityPose.STANDING_WITH_ITEM)) {
-				keyframeAnimation = TuffGolemAnimations.WAKE_WITH_ITEM;
+				animationHolder = TuffGolemAnimations.WAKE_WITH_ITEM;
 			}
 		}
 
-		return keyframeAnimation;
-	}
-
-	private void startKeyframeAnimation(KeyframeAnimation keyframeAnimationToStart) {
-		for (KeyframeAnimation keyframeAnimation : TuffGolemAnimations.ANIMATIONS) {
-			if (keyframeAnimation == keyframeAnimationToStart) {
-				continue;
-			}
-
-			this.stopKeyframeAnimation(keyframeAnimation);
-		}
-
-		this.startKeyframeAnimation(keyframeAnimationToStart, this.age);
+		return animationHolder;
 	}
 
 	@Override
-	public boolean damage(
+	public boolean hurt(
 		DamageSource source,
 		float amount
 	) {
-		Entity attacker = source.getAttacker();
+		Entity attacker = source.getEntity();
 
 		if (
-			attacker instanceof LightningEntity
-			|| source == this.getDamageSources().sweetBerryBush()
+			attacker instanceof LightningBolt
+			|| source == this.damageSources().sweetBerryBush()
 		) {
 			return false;
 		}
 
 		if (
-			this.getWorld().isClient() == false
+			this.level().isClientSide() == false
 			&& this.isInSleepingPose()
 		) {
 			if (this.isHoldingItem()) {
@@ -778,7 +791,7 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 			}
 		}
 
-		return super.damage(source, amount);
+		return super.hurt(source, amount);
 	}
 
 	@Override
@@ -787,8 +800,8 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	}
 
 	@Override
-	public Vec3d getLeashOffset() {
-		return new Vec3d(0.0D, this.getStandingEyeHeight() * 0.45D, 0.0D);
+	public Vec3 getLeashOffset() {
+		return new Vec3(0.0D, this.getEyeHeight() * 0.45D, 0.0D);
 	}
 
 	// TODO fix eyes
@@ -800,17 +813,17 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	 */
 
 	@Override
-	public float getMovementSpeed() {
+	public float getSpeed() {
 		return this.isHoldingItem() ? MOVEMENT_SPEED_WITH_ITEM:MOVEMENT_SPEED;
 	}
 
 	@Override
-	protected void dropLoot(DamageSource source, boolean causedByPlayer) {
+	protected void dropFromLootTable(DamageSource source, boolean causedByPlayer) {
 		if (this.isHoldingItem()) {
-			this.dropStack(this.getEquippedStack(EquipmentSlot.MAINHAND));
+			this.spawnAtLocation(this.getItemBySlot(EquipmentSlot.MAINHAND));
 		}
 
-		super.dropLoot(source, causedByPlayer);
+		super.dropFromLootTable(source, causedByPlayer);
 	}
 
 	public float getMovementSpeedModifier() {
@@ -822,18 +835,18 @@ public final class TuffGolemEntity extends GolemEntity implements AnimatedEntity
 	}
 
 	@Override
-	protected int getNextAirUnderwater(int air) {
+	protected int decreaseAirSupply(int air) {
 		return air;
 	}
 
 	public void setSpawnYaw(float yaw) {
-		this.serverYaw = yaw;
-		this.prevYaw = yaw;
-		this.setYaw(yaw);
-		this.prevBodyYaw = yaw;
-		this.setBodyYaw(yaw);
-		this.prevHeadYaw = yaw;
-		this.setHeadYaw(yaw);
+		this.lerpYRot = yaw;
+		this.yRotO = yaw;
+		this.setYRot(yaw);
+		this.yBodyRotO = yaw;
+		this.setYBodyRot(yaw);
+		this.yHeadRotO = yaw;
+		this.setYHeadRot(yaw);
 	}
 
 	public enum Color

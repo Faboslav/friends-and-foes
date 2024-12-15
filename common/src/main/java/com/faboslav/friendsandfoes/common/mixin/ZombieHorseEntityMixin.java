@@ -2,20 +2,20 @@ package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.entity.ZombieHorseEntityAccess;
 import com.faboslav.friendsandfoes.common.entity.ai.goal.zombiehorse.ZombieHorseTrapTriggerGoal;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.mob.ZombieHorseEntity;
-import net.minecraft.entity.passive.AbstractHorseEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.world.World;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.entity.animal.horse.ZombieHorse;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(ZombieHorseEntity.class)
+@Mixin(ZombieHorse.class)
 public abstract class ZombieHorseEntityMixin extends ZombieHorseAbstractHorseEntityMixin implements ZombieHorseEntityAccess
 {
 	@Unique
-	private final ZombieHorseTrapTriggerGoal friendsandfoes_trapTriggerGoal = new ZombieHorseTrapTriggerGoal((ZombieHorseEntity) (Object) this);
+	private final ZombieHorseTrapTriggerGoal friendsandfoes_trapTriggerGoal = new ZombieHorseTrapTriggerGoal((ZombieHorse) (Object) this);
 
 	@Unique
 	private boolean friendsandfoes_isTrapped;
@@ -23,18 +23,18 @@ public abstract class ZombieHorseEntityMixin extends ZombieHorseAbstractHorseEnt
 	@Unique
 	private int friendsandfoes_trapTime;
 
-	protected ZombieHorseEntityMixin(EntityType<? extends AbstractHorseEntity> entityType, World world) {
+	protected ZombieHorseEntityMixin(EntityType<? extends AbstractHorse> entityType, Level world) {
 		super(entityType, world);
 	}
 
 	@Override
-	public void friendsandfoes_writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
+	public void friendsandfoes_writeCustomDataToNbt(CompoundTag nbt, CallbackInfo ci) {
 		nbt.putBoolean("ZombieTrap", this.friendsandfoes_isTrapped());
 		nbt.putInt("ZombieTrapTime", this.friendsandfoes_trapTime);
 	}
 
 	@Override
-	public void friendsandfoes_readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
+	public void friendsandfoes_readCustomDataFromNbt(CompoundTag nbt, CallbackInfo ci) {
 		this.friendsandfoes_setTrapped(nbt.getBoolean("ZombieTrap"));
 		this.friendsandfoes_trapTime = nbt.getInt("ZombieTrapTime");
 	}
@@ -58,9 +58,9 @@ public abstract class ZombieHorseEntityMixin extends ZombieHorseAbstractHorseEnt
 		this.friendsandfoes_isTrapped = isTrapped;
 
 		if (isTrapped) {
-			this.goalSelector.add(1, this.friendsandfoes_trapTriggerGoal);
+			this.goalSelector.addGoal(1, this.friendsandfoes_trapTriggerGoal);
 		} else {
-			this.goalSelector.remove(this.friendsandfoes_trapTriggerGoal);
+			this.goalSelector.removeGoal(this.friendsandfoes_trapTriggerGoal);
 		}
 	}
 }

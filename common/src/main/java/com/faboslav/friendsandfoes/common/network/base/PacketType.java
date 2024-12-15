@@ -2,10 +2,10 @@ package com.faboslav.friendsandfoes.common.network.base;
 
 import com.faboslav.friendsandfoes.common.network.Packet;
 import com.faboslav.friendsandfoes.common.network.internal.NetworkPacketPayload;
-import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.packet.CustomPayload;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
@@ -21,15 +21,15 @@ public interface PacketType<T extends Packet<T>>
 {
 	Class<T> type();
 
-	Identifier id();
+	ResourceLocation id();
 
-	void encode(T message, RegistryByteBuf buffer);
+	void encode(T message, RegistryFriendlyByteBuf buffer);
 
-	T decode(RegistryByteBuf buffer);
+	T decode(RegistryFriendlyByteBuf buffer);
 
 	@ApiStatus.Internal
-	default PacketCodec<RegistryByteBuf, NetworkPacketPayload<T>> codec(CustomPayload.Id<NetworkPacketPayload<T>> type) {
-		return PacketCodec.ofStatic(
+	default StreamCodec<RegistryFriendlyByteBuf, NetworkPacketPayload<T>> codec(CustomPacketPayload.Type<NetworkPacketPayload<T>> type) {
+		return StreamCodec.of(
 			(buf, payload) -> {
 				encode(payload.packet(), buf);
 			},
@@ -38,7 +38,7 @@ public interface PacketType<T extends Packet<T>>
 	}
 
 	@ApiStatus.Internal
-	default CustomPayload.Id<NetworkPacketPayload<T>> type(Identifier channel) {
-		return new CustomPayload.Id<>(channel.withSuffixedPath("/" + this.id().getNamespace() + "/" + this.id().getPath()));
+	default CustomPacketPayload.Type<NetworkPacketPayload<T>> type(ResourceLocation channel) {
+		return new CustomPacketPayload.Type<>(channel.withSuffix("/" + this.id().getNamespace() + "/" + this.id().getPath()));
 	}
 }

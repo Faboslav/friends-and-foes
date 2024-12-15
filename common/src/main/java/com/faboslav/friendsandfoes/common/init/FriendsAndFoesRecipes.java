@@ -1,11 +1,11 @@
 package com.faboslav.friendsandfoes.common.init;
 
 import com.faboslav.friendsandfoes.common.events.item.RegisterBrewingRecipesEvent;
-import net.minecraft.item.Items;
-import net.minecraft.potion.Potions;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.Potions;
 
 /**
- * @see net.minecraft.recipe.BrewingRecipeRegistry
+ * @see net.minecraft.world.item.alchemy.PotionBrewing
  */
 public final class FriendsAndFoesRecipes
 {

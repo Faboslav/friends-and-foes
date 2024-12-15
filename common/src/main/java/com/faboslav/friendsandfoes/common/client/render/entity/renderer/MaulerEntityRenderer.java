@@ -4,26 +4,26 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.MaulerEntityModel;
 import com.faboslav.friendsandfoes.common.entity.MaulerEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.MobEntityRenderer;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.resources.ResourceLocation;
 
 @Environment(EnvType.CLIENT)
 @SuppressWarnings({"rawtypes", "unchecked"})
-public final class MaulerEntityRenderer extends MobEntityRenderer<MaulerEntity, MaulerEntityModel<MaulerEntity>>
+public final class MaulerEntityRenderer extends MobRenderer<MaulerEntity, MaulerEntityModel<MaulerEntity>>
 {
 	private static final float SHADOW_RADIUS = 0.35F;
 
-	public MaulerEntityRenderer(EntityRendererFactory.Context context) {
-		super(context, new MaulerEntityModel(context.getPart(FriendsAndFoesEntityModelLayers.MAULER_LAYER)), SHADOW_RADIUS);
+	public MaulerEntityRenderer(EntityRendererProvider.Context context) {
+		super(context, new MaulerEntityModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.MAULER_LAYER)), SHADOW_RADIUS);
 	}
 
 	@Override
-	public Identifier getTexture(MaulerEntity mauler) {
+	public ResourceLocation getTextureLocation(MaulerEntity mauler) {
 		return FriendsAndFoes.makeID("textures/entity/mauler/" + mauler.getMaulerType().getName() + ".png");
 	}
 
@@ -32,8 +32,8 @@ public final class MaulerEntityRenderer extends MobEntityRenderer<MaulerEntity, 
 		MaulerEntity mauler,
 		float f,
 		float tickDelta,
-		MatrixStack matrixStack,
-		VertexConsumerProvider vertexConsumerProvider,
+		PoseStack matrixStack,
+		MultiBufferSource vertexConsumerProvider,
 		int i
 	) {
 		this.shadowRadius = mauler.isBurrowedDown() ? 0.0F:SHADOW_RADIUS;
@@ -41,7 +41,7 @@ public final class MaulerEntityRenderer extends MobEntityRenderer<MaulerEntity, 
 	}
 
 	@Override
-	protected void scale(MaulerEntity mauler, MatrixStack matrixStack, float f) {
+	protected void scale(MaulerEntity mauler, PoseStack matrixStack, float f) {
 		float size = mauler.getSize();
 		matrixStack.scale(size, size, size);
 	}

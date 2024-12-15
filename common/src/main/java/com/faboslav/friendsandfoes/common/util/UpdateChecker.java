@@ -6,10 +6,10 @@ import com.faboslav.friendsandfoes.common.platform.Platform;
 import com.faboslav.friendsandfoes.common.platform.ProjectUrlProvider;
 import com.google.gson.*;
 import net.minecraft.SharedConstants;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.text.ClickEvent;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
@@ -27,7 +27,7 @@ public final class UpdateChecker
 {
 	private static final Gson gson = new Gson();
 
-	public static void checkForNewUpdatesInGame(ClientPlayerEntity clientPlayerEntity) {
+	public static void checkForNewUpdatesInGame(LocalPlayer clientPlayerEntity) {
 		CompletableFuture.runAsync(() -> {
 			if (!FriendsAndFoes.getConfig().checkForNewUpdates) {
 				return;
@@ -52,13 +52,13 @@ public final class UpdateChecker
 				modVersion,
 				latestVersion.toString()
 			);
-			MutableText updateMessage = Text.literal(updateMessageString);
-			MutableText curseforgeLink = Text.literal("CurseForge").styled(arg -> arg.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, ProjectUrlProvider.getCurseForgeProjectLink())).withUnderline(true));
-			MutableText updateMessageSecondPart = Text.literal(" or ");
-			MutableText modrinthLink = Text.literal("Modrinth").styled(arg -> arg.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, ProjectUrlProvider.getModrinthProjectLink())).withUnderline(true));
-			MutableText updateMessageThirdPart = Text.literal(".");
+			MutableComponent updateMessage = Component.literal(updateMessageString);
+			MutableComponent curseforgeLink = Component.literal("CurseForge").withStyle(arg -> arg.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, ProjectUrlProvider.getCurseForgeProjectLink())).withUnderlined(true));
+			MutableComponent updateMessageSecondPart = Component.literal(" or ");
+			MutableComponent modrinthLink = Component.literal("Modrinth").withStyle(arg -> arg.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, ProjectUrlProvider.getModrinthProjectLink())).withUnderlined(true));
+			MutableComponent updateMessageThirdPart = Component.literal(".");
 			updateMessage.append(curseforgeLink).append(updateMessageSecondPart).append(modrinthLink).append(updateMessageThirdPart);
-			clientPlayerEntity.sendMessage(updateMessage, false);
+			clientPlayerEntity.displayClientMessage(updateMessage, false);
 			FriendsAndFoes.getLogger().info(
 				"[Friends&Foes] An update is available! You are using {} version, but the latest version is {}.",
 				modVersion,
@@ -137,7 +137,7 @@ public final class UpdateChecker
 			return null;
 		}
 
-		String gameVersion = SharedConstants.getGameVersion().getName();
+		String gameVersion = SharedConstants.getCurrentVersion().getName();
 
 		if (!releases.containsKey(gameVersion)) {
 			return null;

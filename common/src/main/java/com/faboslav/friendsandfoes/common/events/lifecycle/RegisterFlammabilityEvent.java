@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.common.events.lifecycle;
 
 import com.faboslav.friendsandfoes.common.events.base.EventHandler;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 
 public record RegisterFlammabilityEvent(Registrar registrar)
 {

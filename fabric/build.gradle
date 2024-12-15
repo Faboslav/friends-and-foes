@@ -31,9 +31,8 @@ dependencies {
 	// Mod menu (https://modrinth.com/mod/modmenu)
 	modImplementation("com.terraformersmc:modmenu:${mod_menu_version}") { transitive = false }
 
-	// Cloth config (https://www.curseforge.com/minecraft/mc-mods/cloth-config)
-	modImplementation("me.shedaniel.cloth:cloth-config:${cloth_config_version}")
-	modImplementation("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") { transitive = false }
+	// YACL (https://docs.isxander.dev/yet-another-config-lib)
+	modImplementation("dev.isxander:yet-another-config-lib:${yacl_version}-fabric")
 
 	// Trinkets (https://www.curseforge.com/minecraft/mc-mods/trinkets)
 	modImplementation("dev.emi:trinkets:${trinkets_version}")

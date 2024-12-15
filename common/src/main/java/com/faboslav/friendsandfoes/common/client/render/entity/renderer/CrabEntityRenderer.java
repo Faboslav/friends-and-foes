@@ -4,26 +4,26 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.CrabEntityModel;
 import com.faboslav.friendsandfoes.common.entity.CrabEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.MobEntityRenderer;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.resources.ResourceLocation;
 
 @Environment(EnvType.CLIENT)
 @SuppressWarnings({"rawtypes", "unchecked"})
-public final class CrabEntityRenderer extends MobEntityRenderer<CrabEntity, CrabEntityModel<CrabEntity>>
+public final class CrabEntityRenderer extends MobRenderer<CrabEntity, CrabEntityModel<CrabEntity>>
 {
 	private static final float SHADOW_RADIUS = 0.5F;
 
-	public CrabEntityRenderer(EntityRendererFactory.Context context) {
-		super(context, new CrabEntityModel<>(context.getPart(FriendsAndFoesEntityModelLayers.CRAB_LAYER)), SHADOW_RADIUS);
+	public CrabEntityRenderer(EntityRendererProvider.Context context) {
+		super(context, new CrabEntityModel<>(context.bakeLayer(FriendsAndFoesEntityModelLayers.CRAB_LAYER)), SHADOW_RADIUS);
 	}
 
 	@Override
-	public Identifier getTexture(CrabEntity entity) {
+	public ResourceLocation getTextureLocation(CrabEntity entity) {
 		return FriendsAndFoes.makeID("textures/entity/crab/crab.png");
 	}
 
@@ -32,8 +32,8 @@ public final class CrabEntityRenderer extends MobEntityRenderer<CrabEntity, Crab
 		CrabEntity crab,
 		float f,
 		float tickDelta,
-		MatrixStack matrixStack,
-		VertexConsumerProvider vertexConsumerProvider,
+		PoseStack matrixStack,
+		MultiBufferSource vertexConsumerProvider,
 		int i
 	) {
 		this.shadowRadius = SHADOW_RADIUS * crab.getSize().getScaleModifier();
@@ -46,7 +46,7 @@ public final class CrabEntityRenderer extends MobEntityRenderer<CrabEntity, Crab
 	}
 
 	@Override
-	protected void scale(CrabEntity crab, MatrixStack matrixStack, float f) {
+	protected void scale(CrabEntity crab, PoseStack matrixStack, float f) {
 		CrabEntity.CrabSize size = crab.getSize();
 		float scaleModifier = size.getScaleModifier();
 		matrixStack.scale(scaleModifier, scaleModifier, scaleModifier);

@@ -2,45 +2,44 @@ package com.faboslav.friendsandfoes.common.entity.ai.goal.zombiehorse;
 
 import com.faboslav.friendsandfoes.common.entity.ZombieHorseEntityAccess;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesCriterias;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.ItemEnchantmentsComponent;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.provider.EnchantmentProviders;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LightningEntity;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.mob.ZombieEntity;
-import net.minecraft.entity.mob.ZombieHorseEntity;
-import net.minecraft.entity.passive.AbstractHorseEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.predicate.entity.EntityPredicates;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.world.LocalDifficulty;
-
 import java.util.List;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.entity.EntitySelector;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LightningBolt;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.entity.animal.horse.ZombieHorse;
+import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
+import net.minecraft.world.item.enchantment.providers.VanillaEnchantmentProviders;
 
 public final class ZombieHorseTrapTriggerGoal extends Goal
 {
-	private final ZombieHorseEntity zombieHorse;
+	private final ZombieHorse zombieHorse;
 
-	private PlayerEntity closestPlayer;
+	private Player closestPlayer;
 
-	public ZombieHorseTrapTriggerGoal(ZombieHorseEntity zombieHorse) {
+	public ZombieHorseTrapTriggerGoal(ZombieHorse zombieHorse) {
 		this.zombieHorse = zombieHorse;
 	}
 
-	public boolean canStart() {
-		PlayerEntity closestPlayer = this.zombieHorse.getWorld().getClosestPlayer(
+	public boolean canUse() {
+		Player closestPlayer = this.zombieHorse.level().getNearestPlayer(
 			this.zombieHorse.getX(),
 			this.zombieHorse.getY(),
 			this.zombieHorse.getZ(),
 			10.0,
-			EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR
+			EntitySelector.NO_CREATIVE_OR_SPECTATOR
 		);
 
 		if (closestPlayer == null) {
@@ -53,56 +52,56 @@ public final class ZombieHorseTrapTriggerGoal extends Goal
 	}
 
 	public void tick() {
-		ServerWorld serverWorld = (ServerWorld) this.zombieHorse.getWorld();
+		ServerLevel serverWorld = (ServerLevel) this.zombieHorse.level();
 
-		LocalDifficulty localDifficulty = serverWorld.getLocalDifficulty(this.zombieHorse.getBlockPos());
+		DifficultyInstance localDifficulty = serverWorld.getCurrentDifficultyAt(this.zombieHorse.blockPosition());
 		((ZombieHorseEntityAccess) this.zombieHorse).friendsandfoes_setTrapped(false);
-		this.zombieHorse.setTame(true);
-		this.zombieHorse.setBreedingAge(0);
-		LightningEntity lightningEntity = EntityType.LIGHTNING_BOLT.create(serverWorld);
-		lightningEntity.refreshPositionAfterTeleport(this.zombieHorse.getX(), this.zombieHorse.getY(), this.zombieHorse.getZ());
-		lightningEntity.setCosmetic(true);
-		serverWorld.spawnEntity(lightningEntity);
-		ZombieEntity zombie = this.getZombie(localDifficulty, this.zombieHorse);
+		this.zombieHorse.setTamed(true);
+		this.zombieHorse.setAge(0);
+		LightningBolt lightningEntity = EntityType.LIGHTNING_BOLT.create(serverWorld);
+		lightningEntity.moveTo(this.zombieHorse.getX(), this.zombieHorse.getY(), this.zombieHorse.getZ());
+		lightningEntity.setVisualOnly(true);
+		serverWorld.addFreshEntity(lightningEntity);
+		Zombie zombie = this.getZombie(localDifficulty, this.zombieHorse);
 		zombie.startRiding(this.zombieHorse);
-		serverWorld.spawnEntityAndPassengers(zombie);
+		serverWorld.addFreshEntityWithPassengers(zombie);
 
 		for (int i = 0; i < 3; ++i) {
-			ZombieHorseEntity zombieHorse = this.getHorse(localDifficulty);
-			ZombieEntity secondZombie = this.getZombie(localDifficulty, zombieHorse);
+			ZombieHorse zombieHorse = this.getHorse(localDifficulty);
+			Zombie secondZombie = this.getZombie(localDifficulty, zombieHorse);
 			secondZombie.startRiding(zombieHorse);
-			zombieHorse.addVelocity(this.zombieHorse.getRandom().nextTriangular(0.0, 1.1485), 0.0, this.zombieHorse.getRandom().nextTriangular(0.0, 1.1485));
-			serverWorld.spawnEntityAndPassengers(zombieHorse);
+			zombieHorse.push(this.zombieHorse.getRandom().triangle(0.0, 1.1485), 0.0, this.zombieHorse.getRandom().triangle(0.0, 1.1485));
+			serverWorld.addFreshEntityWithPassengers(zombieHorse);
 		}
 
-		FriendsAndFoesCriterias.ACTIVATE_ZOMBIE_HORSE_TRAP.get().trigger((ServerPlayerEntity) closestPlayer, lightningEntity, List.of());
+		FriendsAndFoesCriterias.ACTIVATE_ZOMBIE_HORSE_TRAP.get().trigger((ServerPlayer) closestPlayer, lightningEntity, List.of());
 	}
 
-	private ZombieHorseEntity getHorse(LocalDifficulty localDifficulty) {
-		ZombieHorseEntity zombieHorse = EntityType.ZOMBIE_HORSE.create(this.zombieHorse.getWorld());
-		zombieHorse.initialize((ServerWorld) this.zombieHorse.getWorld(), localDifficulty, SpawnReason.TRIGGERED, null);
-		zombieHorse.setPosition(this.zombieHorse.getX(), this.zombieHorse.getY(), this.zombieHorse.getZ());
-		zombieHorse.timeUntilRegen = 60;
-		zombieHorse.setPersistent();
-		zombieHorse.setTame(true);
-		zombieHorse.setBreedingAge(0);
+	private ZombieHorse getHorse(DifficultyInstance localDifficulty) {
+		ZombieHorse zombieHorse = EntityType.ZOMBIE_HORSE.create(this.zombieHorse.level());
+		zombieHorse.finalizeSpawn((ServerLevel) this.zombieHorse.level(), localDifficulty, MobSpawnType.TRIGGERED, null);
+		zombieHorse.setPos(this.zombieHorse.getX(), this.zombieHorse.getY(), this.zombieHorse.getZ());
+		zombieHorse.invulnerableTime = 60;
+		zombieHorse.setPersistenceRequired();
+		zombieHorse.setTamed(true);
+		zombieHorse.setAge(0);
 		return zombieHorse;
 	}
 
-	private ZombieEntity getZombie(LocalDifficulty localDifficulty, AbstractHorseEntity vehicle) {
-		ZombieEntity zombie = EntityType.ZOMBIE.create(vehicle.getWorld());
-		zombie.initialize((ServerWorld) vehicle.getWorld(), localDifficulty, SpawnReason.TRIGGERED, null);
+	private Zombie getZombie(DifficultyInstance localDifficulty, AbstractHorse vehicle) {
+		Zombie zombie = EntityType.ZOMBIE.create(vehicle.level());
+		zombie.finalizeSpawn((ServerLevel) vehicle.level(), localDifficulty, MobSpawnType.TRIGGERED, null);
 		zombie.setBaby(false);
-		zombie.setPosition(vehicle.getX(), vehicle.getY(), vehicle.getZ());
-		zombie.timeUntilRegen = 60;
-		zombie.setPersistent();
+		zombie.setPos(vehicle.getX(), vehicle.getY(), vehicle.getZ());
+		zombie.invulnerableTime = 60;
+		zombie.setPersistenceRequired();
 
-		if (zombie.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty()) {
-			zombie.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
+		if (zombie.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty()) {
+			zombie.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
 		}
 
-		if (zombie.getEquippedStack(EquipmentSlot.HEAD).isEmpty()) {
-			zombie.equipStack(EquipmentSlot.HEAD, new ItemStack(Items.CHAINMAIL_HELMET));
+		if (zombie.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
+			zombie.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.CHAINMAIL_HELMET));
 		}
 
 		this.enchantEquipment(zombie, EquipmentSlot.MAINHAND, localDifficulty);
@@ -111,10 +110,10 @@ public final class ZombieHorseTrapTriggerGoal extends Goal
 		return zombie;
 	}
 
-	private void enchantEquipment(ZombieEntity rider, EquipmentSlot slot, LocalDifficulty localDifficulty) {
-		ItemStack itemStack = rider.getEquippedStack(slot);
-		itemStack.set(DataComponentTypes.ENCHANTMENTS, ItemEnchantmentsComponent.DEFAULT);
-		EnchantmentHelper.applyEnchantmentProvider(itemStack, rider.getWorld().getRegistryManager(), EnchantmentProviders.MOB_SPAWN_EQUIPMENT, localDifficulty, rider.getRandom());
-		rider.equipStack(slot, itemStack);
+	private void enchantEquipment(Zombie rider, EquipmentSlot slot, DifficultyInstance localDifficulty) {
+		ItemStack itemStack = rider.getItemBySlot(slot);
+		itemStack.set(DataComponents.ENCHANTMENTS, ItemEnchantments.EMPTY);
+		EnchantmentHelper.enchantItemFromProvider(itemStack, rider.level().registryAccess(), VanillaEnchantmentProviders.MOB_SPAWN_EQUIPMENT, localDifficulty, rider.getRandom());
+		rider.setItemSlot(slot, itemStack);
 	}
 }

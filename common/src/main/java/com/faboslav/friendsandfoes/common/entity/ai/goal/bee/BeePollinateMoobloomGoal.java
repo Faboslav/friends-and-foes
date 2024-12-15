@@ -2,22 +2,22 @@ package com.faboslav.friendsandfoes.common.entity.ai.goal.bee;
 
 import com.faboslav.friendsandfoes.common.entity.MoobloomEntity;
 import com.faboslav.friendsandfoes.common.mixin.BeeEntityAccessor;
-import net.minecraft.entity.ai.TargetPredicate;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.passive.BeeEntity;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
 import java.util.List;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.phys.Vec3;
 
 public final class BeePollinateMoobloomGoal extends Goal
 {
-	private final TargetPredicate VALID_MOOBLOOM_PREDICATE = TargetPredicate.createNonAttackable().ignoreDistanceScalingFactor();
-	private final BeeEntity beeEntity;
+	private final TargetingConditions VALID_MOOBLOOM_PREDICATE = TargetingConditions.forNonCombat().ignoreInvisibilityTesting();
+	private final Bee beeEntity;
 	private final BeeEntityAccessor beeEntityAccessor;
 	private MoobloomEntity moobloom;
 
@@ -27,27 +27,27 @@ public final class BeePollinateMoobloomGoal extends Goal
 	private int lastPollinationTick = 0;
 
 	public BeePollinateMoobloomGoal(
-		BeeEntity beeEntity,
+		Bee beeEntity,
 		BeeEntityAccessor beeEntityAccessor
 	) {
 		this.beeEntity = beeEntity;
 		this.beeEntityAccessor = beeEntityAccessor;
 
-		this.setControls(EnumSet.of(Control.MOVE));
+		this.setFlags(EnumSet.of(Flag.MOVE));
 	}
 
-	public boolean canStart() {
+	public boolean canUse() {
 		if (this.beeEntityAccessor.getTicksUntilCanPollinate() > 0) {
 			return false;
-		} else if (this.beeEntity.hasAngerTime()) {
+		} else if (this.beeEntity.isAngry()) {
 			return false;
 		} else if (this.beeEntity.hasNectar()) {
 			return false;
-		} else if (this.beeEntity.getWorld().isRaining()) {
+		} else if (this.beeEntity.level().isRaining()) {
 			return false;
 		} else if (this.beeEntity.getRandom().nextFloat() < 0.5F) {
 			return false;
-		} else if (this.beeEntity.pollinateGoal.isRunning()) {
+		} else if (this.beeEntity.beePollinateGoal.isPollinating()) {
 			return false;
 		}
 
@@ -58,23 +58,23 @@ public final class BeePollinateMoobloomGoal extends Goal
 		}
 
 		this.moobloom = moobloom;
-		Vec3d moobloomPollinationPos = this.getMoobloomPollinationPos();
-		this.beeEntity.getNavigation().startMovingTo(
-			moobloomPollinationPos.getX(),
-			moobloomPollinationPos.getY(),
-			moobloomPollinationPos.getZ(),
+		Vec3 moobloomPollinationPos = this.getMoobloomPollinationPos();
+		this.beeEntity.getNavigation().moveTo(
+			moobloomPollinationPos.x(),
+			moobloomPollinationPos.y(),
+			moobloomPollinationPos.z(),
 			1.2000000476837158D
 		);
 
 		return true;
 	}
 
-	public boolean shouldContinue() {
+	public boolean canContinueToUse() {
 		if (!this.isRunning()) {
 			return false;
-		} else if (this.beeEntity.hasAngerTime()) {
+		} else if (this.beeEntity.isAngry()) {
 			return false;
-		} else if (this.beeEntity.getEntityWorld().isRaining()) {
+		} else if (this.beeEntity.getCommandSenderWorld().isRaining()) {
 			return false;
 		} else if (this.completedPollination()) {
 			return this.beeEntity.getRandom().nextFloat() < 0.2F;
@@ -90,7 +90,7 @@ public final class BeePollinateMoobloomGoal extends Goal
 		this.ticks = 0;
 		this.lastPollinationTick = 0;
 		this.setIsRunning(true);
-		this.beeEntity.resetPollinationTicks();
+		this.beeEntity.resetTicksWithoutNectarSinceExitingHive();
 	}
 
 	public void cancel() {
@@ -116,20 +116,20 @@ public final class BeePollinateMoobloomGoal extends Goal
 			return;
 		}
 
-		Vec3d moobloomPollinationPos = this.getMoobloomPollinationPos();
-		double dinstanceToMoobloom = this.beeEntity.getPos().distanceTo(moobloomPollinationPos);
+		Vec3 moobloomPollinationPos = this.getMoobloomPollinationPos();
+		double dinstanceToMoobloom = this.beeEntity.position().distanceTo(moobloomPollinationPos);
 
 		if (dinstanceToMoobloom >= 0.5) {
-			this.beeEntity.getMoveControl().moveTo(
-				moobloomPollinationPos.getX(),
-				moobloomPollinationPos.getY(),
-				moobloomPollinationPos.getZ(),
+			this.beeEntity.getMoveControl().setWantedPosition(
+				moobloomPollinationPos.x(),
+				moobloomPollinationPos.y(),
+				moobloomPollinationPos.z(),
 				0.9D
 			);
-			this.beeEntity.getLookControl().lookAt(
-				moobloomPollinationPos.getX(),
+			this.beeEntity.getLookControl().setLookAt(
+				moobloomPollinationPos.x(),
 				this.getMoobloom().getY(),
-				moobloomPollinationPos.getZ()
+				moobloomPollinationPos.z()
 			);
 		}
 
@@ -140,7 +140,7 @@ public final class BeePollinateMoobloomGoal extends Goal
 				this.pollinationTicks > this.lastPollinationTick + 60
 			) {
 				this.lastPollinationTick = this.pollinationTicks;
-				this.beeEntity.playSound(SoundEvents.ENTITY_BEE_POLLINATE, 1.0F, 1.0F);
+				this.beeEntity.playSound(SoundEvents.BEE_POLLINATE, 1.0F, 1.0F);
 			}
 		}
 	}
@@ -150,11 +150,11 @@ public final class BeePollinateMoobloomGoal extends Goal
 			double d = this.beeEntity.getRandom().nextGaussian() * 0.02D;
 			double e = this.beeEntity.getRandom().nextGaussian() * 0.02D;
 			double f = this.beeEntity.getRandom().nextGaussian() * 0.02D;
-			((ServerWorld) this.beeEntity.getWorld()).spawnParticles(
+			((ServerLevel) this.beeEntity.level()).sendParticles(
 				ParticleTypes.HEART,
-				this.beeEntity.getParticleX(1.0D),
-				this.beeEntity.getRandomBodyY() + 0.5D,
-				this.beeEntity.getParticleZ(1.0D),
+				this.beeEntity.getRandomX(1.0D),
+				this.beeEntity.getRandomY() + 0.5D,
+				this.beeEntity.getRandomZ(1.0D),
 				1,
 				d,
 				e,
@@ -166,28 +166,28 @@ public final class BeePollinateMoobloomGoal extends Goal
 
 	@Nullable
 	private MoobloomEntity findMoobloom() {
-		List<MoobloomEntity> moobloomEntities = this.beeEntity.getWorld().getTargets(
+		List<MoobloomEntity> moobloomEntities = this.beeEntity.level().getNearbyEntities(
 			MoobloomEntity.class,
 			VALID_MOOBLOOM_PREDICATE,
 			this.beeEntity,
-			this.beeEntity.getBoundingBox().expand(32.0D)
+			this.beeEntity.getBoundingBox().inflate(32.0D)
 		);
 		double d = 1.7976931348623157E308D;
 		MoobloomEntity closestMoobloomEntity = null;
 
 		for (MoobloomEntity moobloomEntity : moobloomEntities) {
-			if (!moobloomEntity.isBaby() && this.beeEntity.squaredDistanceTo(moobloomEntity) < d) {
+			if (!moobloomEntity.isBaby() && this.beeEntity.distanceToSqr(moobloomEntity) < d) {
 				closestMoobloomEntity = moobloomEntity;
-				d = this.beeEntity.squaredDistanceTo(moobloomEntity);
+				d = this.beeEntity.distanceToSqr(moobloomEntity);
 			}
 		}
 
 		return closestMoobloomEntity;
 	}
 
-	private Vec3d getMoobloomPollinationPos() {
-		double moobloomPollinationYPos = this.getMoobloom().getY() + this.getMoobloom().getHeight() * 1.5;
-		return new Vec3d(
+	private Vec3 getMoobloomPollinationPos() {
+		double moobloomPollinationYPos = this.getMoobloom().getY() + this.getMoobloom().getBbHeight() * 1.5;
+		return new Vec3(
 			this.getMoobloom().getX(),
 			moobloomPollinationYPos,
 			this.getMoobloom().getZ()

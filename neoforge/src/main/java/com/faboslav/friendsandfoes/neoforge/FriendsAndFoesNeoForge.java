@@ -12,17 +12,19 @@ import com.faboslav.friendsandfoes.common.world.spawner.IllusionerSpawner;
 import com.faboslav.friendsandfoes.neoforge.init.FriendsAndFoesBiomeModifiers;
 import com.faboslav.friendsandfoes.neoforge.mixin.FireBlockAccessor;
 import com.faboslav.friendsandfoes.neoforge.network.NeoForgeNetworking;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.registry.Registries;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.world.dimension.DimensionTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.client.event.RegisterJsonAnimationTypesEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
@@ -84,7 +86,7 @@ public final class FriendsAndFoesNeoForge
 			if (event.getPlayer() != null) {
 				DatapackSyncEvent.EVENT.invoke(new DatapackSyncEvent(event.getPlayer()));
 			} else {
-				event.getPlayerList().getPlayerList().forEach(player -> DatapackSyncEvent.EVENT.invoke(new DatapackSyncEvent(player)));
+				event.getPlayerList().getPlayers().forEach(player -> DatapackSyncEvent.EVENT.invoke(new DatapackSyncEvent(player)));
 			}
 		}
 	}
@@ -98,16 +100,16 @@ public final class FriendsAndFoesNeoForge
 	}
 
 	private static void onRegisterBrewingRecipes(RegisterBrewingRecipesEvent event) {
-		com.faboslav.friendsandfoes.common.events.item.RegisterBrewingRecipesEvent.EVENT.invoke(new com.faboslav.friendsandfoes.common.events.item.RegisterBrewingRecipesEvent(event.getBuilder()::registerPotionRecipe));
+		com.faboslav.friendsandfoes.common.events.item.RegisterBrewingRecipesEvent.EVENT.invoke(new com.faboslav.friendsandfoes.common.events.item.RegisterBrewingRecipesEvent(event.getBuilder()::addMix));
 	}
 
 	private static void onAddItemGroupEntries(BuildCreativeModeTabContentsEvent event) {
 		AddItemGroupEntriesEvent.EVENT.invoke(
 			new AddItemGroupEntriesEvent(
-				AddItemGroupEntriesEvent.Type.toType(Registries.ITEM_GROUP.getKey(event.getTab()).orElse(null)),
+				AddItemGroupEntriesEvent.Type.toType(BuiltInRegistries.CREATIVE_MODE_TAB.getResourceKey(event.getTab()).orElse(null)),
 				event.getTab(),
 				event.hasPermissions(),
-				event::add
+				event::accept
 			)
 		);
 	}
@@ -126,7 +128,7 @@ public final class FriendsAndFoesNeoForge
 		return new RegisterEntitySpawnRestrictionsEvent.Registrar()
 		{
 			@Override
-			public <T extends MobEntity> void register(
+			public <T extends Mob> void register(
 				EntityType<T> type,
 				RegisterEntitySpawnRestrictionsEvent.Placement<T> placement
 			) {
@@ -137,8 +139,8 @@ public final class FriendsAndFoesNeoForge
 
 	private static void initSpawners(final LevelEvent.Load event) {
 		if (
-			event.getLevel().isClient()
-			|| ((ServerWorld) event.getLevel()).getDimensionEntry() != DimensionTypes.OVERWORLD) {
+			event.getLevel().isClientSide()
+			|| ((ServerLevel) event.getLevel()).dimensionTypeRegistration() != BuiltinDimensionTypes.OVERWORLD) {
 			return;
 		}
 
@@ -148,7 +150,7 @@ public final class FriendsAndFoesNeoForge
 			return;
 		}
 
-		var world = server.getOverworld();
+		var world = server.overworld();
 
 		if (world == null) {
 			return;

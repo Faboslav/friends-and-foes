@@ -6,18 +6,17 @@ import com.faboslav.friendsandfoes.common.entity.ai.brain.CrabBrain;
 import com.faboslav.friendsandfoes.common.entity.pose.CrabEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.util.MovementUtil;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.brain.MemoryModuleState;
-import net.minecraft.entity.ai.brain.MemoryModuleType;
-import net.minecraft.entity.ai.brain.task.LookTargetUtil;
-import net.minecraft.entity.ai.brain.task.MultiTickTask;
-import net.minecraft.server.world.ServerWorld;
-
 import java.util.Map;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.behavior.Behavior;
+import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
 
-public final class CrabWaveTask extends MultiTickTask<CrabEntity>
+public final class CrabWaveTask extends Behavior<CrabEntity>
 {
-	private final static int WAVE_DURATION = CrabAnimations.WAVE.getAnimationLengthInTicks();
+	private final static int WAVE_DURATION = CrabAnimations.WAVE.get().lengthInTicks();
 
 	private LivingEntity nearestTarget;
 	private int waveTicks = 0;
@@ -26,23 +25,23 @@ public final class CrabWaveTask extends MultiTickTask<CrabEntity>
 	public CrabWaveTask() {
 		super(
 			Map.of(
-				MemoryModuleType.NEAREST_VISIBLE_PLAYER, MemoryModuleState.VALUE_PRESENT,
-				MemoryModuleType.BREED_TARGET, MemoryModuleState.VALUE_ABSENT,
-				MemoryModuleType.TEMPTING_PLAYER, MemoryModuleState.VALUE_ABSENT,
-				FriendsAndFoesMemoryModuleTypes.CRAB_WAVE_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT,
-				FriendsAndFoesMemoryModuleTypes.CRAB_HAS_EGG.get(), MemoryModuleState.VALUE_ABSENT,
-				FriendsAndFoesMemoryModuleTypes.CRAB_BURROW_POS.get(), MemoryModuleState.VALUE_ABSENT
+				MemoryModuleType.NEAREST_VISIBLE_PLAYER, MemoryStatus.VALUE_PRESENT,
+				MemoryModuleType.BREED_TARGET, MemoryStatus.VALUE_ABSENT,
+				MemoryModuleType.TEMPTING_PLAYER, MemoryStatus.VALUE_ABSENT,
+				FriendsAndFoesMemoryModuleTypes.CRAB_WAVE_COOLDOWN.get(), MemoryStatus.VALUE_ABSENT,
+				FriendsAndFoesMemoryModuleTypes.CRAB_HAS_EGG.get(), MemoryStatus.VALUE_ABSENT,
+				FriendsAndFoesMemoryModuleTypes.CRAB_BURROW_POS.get(), MemoryStatus.VALUE_ABSENT
 			), WAVE_DURATION
 		);
 	}
 
 	@Override
-	protected boolean shouldRun(ServerWorld world, CrabEntity crab) {
-		if (crab.getNavigation().isFollowingPath()) {
+	protected boolean checkExtraStartConditions(ServerLevel world, CrabEntity crab) {
+		if (crab.getNavigation().isInProgress()) {
 			return false;
 		}
 
-		LivingEntity nearestTarget = crab.getBrain().getOptionalMemory(MemoryModuleType.NEAREST_VISIBLE_PLAYER).orElse(null);
+		LivingEntity nearestTarget = crab.getBrain().getMemoryInternal(MemoryModuleType.NEAREST_VISIBLE_PLAYER).orElse(null);
 
 		if (nearestTarget == null) {
 			return false;
@@ -54,10 +53,10 @@ public final class CrabWaveTask extends MultiTickTask<CrabEntity>
 	}
 
 	@Override
-	protected void run(ServerWorld world, CrabEntity crab, long time) {
+	protected void start(ServerLevel world, CrabEntity crab, long time) {
 		MovementUtil.stopMovement(crab);
-		LookTargetUtil.lookAt(crab, this.nearestTarget);
-		crab.getLookControl().lookAt(this.nearestTarget);
+		BehaviorUtils.lookAtEntity(crab, this.nearestTarget);
+		crab.getLookControl().setLookAt(this.nearestTarget);
 		crab.getLookControl().tick();
 
 		this.waveTicks = 0;
@@ -66,16 +65,16 @@ public final class CrabWaveTask extends MultiTickTask<CrabEntity>
 	}
 
 	@Override
-	protected boolean shouldKeepRunning(ServerWorld world, CrabEntity crab, long time) {
+	protected boolean canStillUse(ServerLevel world, CrabEntity crab, long time) {
 		return this.waveTicks <= this.maxWaveTicks;
 	}
 
-	protected void keepRunning(ServerWorld world, CrabEntity crab, long time) {
+	protected void tick(ServerLevel world, CrabEntity crab, long time) {
 		this.waveTicks++;
 	}
 
 	@Override
-	protected void finishRunning(ServerWorld world, CrabEntity crab, long time) {
+	protected void stop(ServerLevel world, CrabEntity crab, long time) {
 		crab.setPose(CrabEntityPose.IDLE);
 		CrabBrain.setWaveCooldown(crab);
 	}

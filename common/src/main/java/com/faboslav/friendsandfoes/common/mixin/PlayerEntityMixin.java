@@ -8,30 +8,6 @@ import com.faboslav.friendsandfoes.common.modcompat.ModChecker;
 import com.faboslav.friendsandfoes.common.modcompat.ModCompat;
 import com.faboslav.friendsandfoes.common.network.packet.TotemEffectPacket;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
-import net.minecraft.advancement.criterion.Criteria;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.TargetPredicate;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageTypes;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.particle.SimpleParticleType;
-import net.minecraft.registry.tag.FluidTags;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.stat.Stats;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -45,8 +21,32 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
+import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.stats.Stats;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
-@Mixin(PlayerEntity.class)
+@Mixin(Player.class)
 public abstract class PlayerEntityMixin extends LivingEntity
 {
 	private static final int MAX_ILLUSIONS_COUNT = 9;
@@ -54,44 +54,44 @@ public abstract class PlayerEntityMixin extends LivingEntity
 	private static final int NEGATIVE_EFFECT_TICKS = 400;
 	private static final int POSITIVE_EFFECT_TICKS = 200;
 	private static final Predicate<LivingEntity> FREEZE_FILTER = (entity) -> {
-		return !(entity instanceof PlayerEntity) || !((PlayerEntity) entity).isCreative();
+		return !(entity instanceof Player) || !((Player) entity).isCreative();
 	};
-	private static final TargetPredicate FREEZE_TARGET_PREDICATE = TargetPredicate.createNonAttackable().ignoreDistanceScalingFactor().ignoreVisibility().setPredicate(FREEZE_FILTER);
-	private static final TargetPredicate ATTACK_TARGET_PREDICATE = TargetPredicate.createNonAttackable().ignoreDistanceScalingFactor().ignoreVisibility();
+	private static final TargetingConditions FREEZE_TARGET_PREDICATE = TargetingConditions.forNonCombat().ignoreInvisibilityTesting().ignoreLineOfSight().selector(FREEZE_FILTER);
+	private static final TargetingConditions ATTACK_TARGET_PREDICATE = TargetingConditions.forNonCombat().ignoreInvisibilityTesting().ignoreLineOfSight();
 
-	protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
+	protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, Level world) {
 		super(entityType, world);
 	}
 
 	@Shadow
-	public abstract ItemStack getEquippedStack(EquipmentSlot slot);
+	public abstract ItemStack getItemBySlot(EquipmentSlot slot);
 
 	@Shadow
-	public abstract Iterable<ItemStack> getArmorItems();
+	public abstract Iterable<ItemStack> getArmorSlots();
 
 	@Shadow
-	public double prevCapeX;
+	public double xCloakO;
 
 	@Shadow
-	public double prevCapeZ;
+	public double yCloakO;
 
 	@Shadow
-	public double prevCapeY;
+	public double zCloakO;
 
 	@Shadow
-	public double capeX;
+	public double xCloak;
 
 	@Shadow
-	public double capeY;
+	public double yCloak;
 
 	@Shadow
-	public double capeZ;
+	public double zCloak;
 
 	@Shadow
-	public float prevStrideDistance;
+	public float oBob;
 
 	@Shadow
-	public float strideDistance;
+	public float bob;
 
 	@Inject(
 		at = @At("TAIL"),
@@ -102,30 +102,30 @@ public abstract class PlayerEntityMixin extends LivingEntity
 	}
 
 	private void friendsandfoes_updateWildfireCrown() {
-		ItemStack itemStack = this.getEquippedStack(EquipmentSlot.HEAD);
+		ItemStack itemStack = this.getItemBySlot(EquipmentSlot.HEAD);
 
-		if (itemStack.isOf(FriendsAndFoesItems.WILDFIRE_CROWN.get()) && (!this.isSubmergedIn(FluidTags.LAVA) && !this.isOnFire())) {
-			this.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 160, 0, false, false, true));
+		if (itemStack.is(FriendsAndFoesItems.WILDFIRE_CROWN.get()) && (!this.isEyeInFluid(FluidTags.LAVA) && !this.isOnFire())) {
+			this.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 160, 0, false, false, true));
 		}
 	}
 
 	@Inject(
 		at = @At("HEAD"),
-		method = "damage",
+		method = "hurt",
 		cancellable = true
 	)
 	public void friendsandfoes_tryUseTotems(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
 		PlayerEntityMixin entity = this;
-		PlayerEntity player = (PlayerEntity) (Object) this;
+		Player player = (Player) (Object) this;
 
 		if (
 			player.isAlive()
-			&& !source.isOf(DamageTypes.IN_FIRE)
-			&& !source.isOf(DamageTypes.ON_FIRE)
-			&& !source.isOf(DamageTypes.FALL)
-			&& !source.isOf(DamageTypes.FALLING_BLOCK)
-			&& source.getAttacker() != null
-			&& !player.isDead()
+			&& !source.is(DamageTypes.IN_FIRE)
+			&& !source.is(DamageTypes.ON_FIRE)
+			&& !source.is(DamageTypes.FALL)
+			&& !source.is(DamageTypes.FALLING_BLOCK)
+			&& source.getEntity() != null
+			&& !player.isDeadOrDying()
 			&& this.getHealth() <= this.getMaxHealth() / 2.0F
 		) {
 			ItemStack totemItemStack = friendsandfoes_getTotem(
@@ -134,26 +134,26 @@ public abstract class PlayerEntityMixin extends LivingEntity
 			);
 
 			if (totemItemStack != null) {
-				if ((Object) this instanceof ServerPlayerEntity) {
-					ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) (Entity) this;
+				if ((Object) this instanceof ServerPlayer) {
+					ServerPlayer serverPlayerEntity = (ServerPlayer) (Entity) this;
 
 					if (totemItemStack.getItem() == FriendsAndFoesItems.TOTEM_OF_FREEZING.get()) {
-						serverPlayerEntity.incrementStat(Stats.USED.getOrCreateStat(FriendsAndFoesItems.TOTEM_OF_FREEZING.get()));
+						serverPlayerEntity.awardStat(Stats.ITEM_USED.get(FriendsAndFoesItems.TOTEM_OF_FREEZING.get()));
 					} else if (totemItemStack.getItem() == FriendsAndFoesItems.TOTEM_OF_ILLUSION.get()) {
-						serverPlayerEntity.incrementStat(Stats.USED.getOrCreateStat(FriendsAndFoesItems.TOTEM_OF_ILLUSION.get()));
+						serverPlayerEntity.awardStat(Stats.ITEM_USED.get(FriendsAndFoesItems.TOTEM_OF_ILLUSION.get()));
 					}
 
-					Criteria.USED_TOTEM.trigger(serverPlayerEntity, totemItemStack);
+					CriteriaTriggers.USED_TOTEM.trigger(serverPlayerEntity, totemItemStack);
 				}
 
 				Item totemItem = totemItemStack.getItem();
-				this.clearStatusEffects();
-				TotemEffectPacket.sendToClient(((PlayerEntity) (Object) entity), totemItem);
-				totemItemStack.decrement(1);
+				this.removeAllEffects();
+				TotemEffectPacket.sendToClient(((Player) (Object) entity), totemItem);
+				totemItemStack.shrink(1);
 
 				if (totemItem == FriendsAndFoesItems.TOTEM_OF_FREEZING.get()) {
 					this.friendsandfoes_freezeEntities();
-					this.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, POSITIVE_EFFECT_TICKS, 1));
+					this.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, POSITIVE_EFFECT_TICKS, 1));
 				} else if (totemItem == FriendsAndFoesItems.TOTEM_OF_ILLUSION.get()) {
 					this.friendsandfoes_createIllusions();
 				}
@@ -167,9 +167,9 @@ public abstract class PlayerEntityMixin extends LivingEntity
 	}
 
 	@Nullable
-	private static ItemStack friendsandfoes_getTotemFromHands(PlayerEntity player) {
-		for (Hand hand : Hand.values()) {
-			ItemStack itemStack = player.getStackInHand(hand);
+	private static ItemStack friendsandfoes_getTotemFromHands(Player player) {
+		for (InteractionHand hand : InteractionHand.values()) {
+			ItemStack itemStack = player.getItemInHand(hand);
 
 			if (friendsandfoes_isTotem(itemStack)) {
 				return itemStack;
@@ -180,7 +180,7 @@ public abstract class PlayerEntityMixin extends LivingEntity
 	}
 
 	@Nullable
-	private static ItemStack friendsandfoes_getTotemFromCustomEquipmentSlots(PlayerEntity player) {
+	private static ItemStack friendsandfoes_getTotemFromCustomEquipmentSlots(Player player) {
 		for (ModCompat compat : ModChecker.CUSTOM_EQUIPMENT_SLOTS_COMPATS) {
 			ItemStack itemStack = compat.getEquippedItemFromCustomSlots(player, PlayerEntityMixin::friendsandfoes_isTotem);
 
@@ -193,17 +193,17 @@ public abstract class PlayerEntityMixin extends LivingEntity
 	}
 
 	private static boolean friendsandfoes_isTotem(ItemStack itemStack) {
-		return itemStack.isIn(FriendsAndFoesTags.TOTEMS);
+		return itemStack.is(FriendsAndFoesTags.TOTEMS);
 	}
 
 	private void friendsandfoes_freezeEntities() {
-		List<LivingEntity> nearbyEntities = this.getWorld().getEntitiesByClass(LivingEntity.class, this.getBoundingBox().expand(9.0), (livingEntity) -> {
+		List<LivingEntity> nearbyEntities = this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(9.0), (livingEntity) -> {
 			return FREEZE_TARGET_PREDICATE.test(this, livingEntity);
 		});
 
 		nearbyEntities.forEach(nearbyEntity -> {
-			nearbyEntity.setFrozenTicks(NEGATIVE_EFFECT_TICKS);
-			nearbyEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, NEGATIVE_EFFECT_TICKS, 1));
+			nearbyEntity.setTicksFrozen(NEGATIVE_EFFECT_TICKS);
+			nearbyEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, NEGATIVE_EFFECT_TICKS, 1));
 		});
 	}
 
@@ -211,10 +211,10 @@ public abstract class PlayerEntityMixin extends LivingEntity
 		this.playSound(
 			FriendsAndFoesSoundEvents.ENTITY_PLAYER_MIRROR_MOVE.get(),
 			this.getSoundVolume(),
-			this.getSoundPitch()
+			this.getVoicePitch()
 		);
 
-		Vec3d illusionerPosition = this.getPos();
+		Vec3 illusionerPosition = this.position();
 		float slice = 2.0F * (float) Math.PI / MAX_ILLUSIONS_COUNT;
 		int radius = 9;
 
@@ -222,9 +222,9 @@ public abstract class PlayerEntityMixin extends LivingEntity
 
 		for (int point = 0; point < MAX_ILLUSIONS_COUNT; ++point) {
 			float angle = slice * point;
-			int x = (int) (illusionerPosition.getX() + radius * MathHelper.cos(angle));
-			int y = (int) illusionerPosition.getY();
-			int z = (int) (illusionerPosition.getZ() + radius * MathHelper.sin(angle));
+			int x = (int) (illusionerPosition.x() + radius * Mth.cos(angle));
+			int y = (int) illusionerPosition.y();
+			int z = (int) (illusionerPosition.z() + radius * Mth.sin(angle));
 
 			PlayerIllusionEntity createdPlayerIllusion = this.friendsandfoes_createIllusion(x, y, z);
 
@@ -233,19 +233,19 @@ public abstract class PlayerEntityMixin extends LivingEntity
 			}
 		}
 
-		List<MobEntity> nearbyEntities = this.getWorld().getEntitiesByClass(MobEntity.class, this.getBoundingBox().expand(18.0), (mobEntity) -> {
+		List<Mob> nearbyEntities = this.level().getEntitiesOfClass(Mob.class, this.getBoundingBox().inflate(18.0), (mobEntity) -> {
 			return ATTACK_TARGET_PREDICATE.test(this, mobEntity);
 		});
 
 		nearbyEntities.forEach(nearbyEntity -> {
 			if (nearbyEntity.getTarget() == this) {
 				if (!createdPlayerIllusions.isEmpty()) {
-					nearbyEntity.setAttacking(true);
-					nearbyEntity.setAttacker(createdPlayerIllusions.get(this.getRandom().nextInt(createdPlayerIllusions.size())));
-					nearbyEntity.onAttacking(createdPlayerIllusions.get(this.getRandom().nextInt(createdPlayerIllusions.size())));
+					nearbyEntity.setAggressive(true);
+					nearbyEntity.setLastHurtByMob(createdPlayerIllusions.get(this.getRandom().nextInt(createdPlayerIllusions.size())));
+					nearbyEntity.setLastHurtMob(createdPlayerIllusions.get(this.getRandom().nextInt(createdPlayerIllusions.size())));
 				}
 
-				nearbyEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, NEGATIVE_EFFECT_TICKS, 1));
+				nearbyEntity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, NEGATIVE_EFFECT_TICKS, 1));
 			}
 		});
 
@@ -257,58 +257,58 @@ public abstract class PlayerEntityMixin extends LivingEntity
 				this.friendsandfoes_spawnCloudParticles();
 			}
 
-			var attacker = illusionToReplace.getAttacker();
+			var attacker = illusionToReplace.getLastHurtByMob();
 
 			if (attacker != null) {
-				illusionToReplace.setAttacking(null);
-				illusionToReplace.setAttacker(null);
-				illusionToReplace.onAttacking(null);
+				illusionToReplace.setLastHurtByPlayer(null);
+				illusionToReplace.setLastHurtByMob(null);
+				illusionToReplace.setLastHurtMob(null);
 			}
 
 			illusionToReplace.discard();
 		}
 
-		this.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, POSITIVE_EFFECT_TICKS));
+		this.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, POSITIVE_EFFECT_TICKS));
 	}
 
 	@Nullable
 	private PlayerIllusionEntity friendsandfoes_createIllusion(int x, int y, int z) {
-		PlayerIllusionEntity playerIllusion = FriendsAndFoesEntityTypes.PLAYER_ILLUSION.get().create(this.getWorld());
+		PlayerIllusionEntity playerIllusion = FriendsAndFoesEntityTypes.PLAYER_ILLUSION.get().create(this.level());
 
 		if (playerIllusion == null) {
 			return null;
 		}
 
-		playerIllusion.prevCapeX = this.prevCapeX;
-		playerIllusion.prevCapeY = this.prevCapeY;
-		playerIllusion.prevCapeZ = this.prevCapeZ;
-		playerIllusion.capeX = this.capeX;
-		playerIllusion.capeY = this.capeY;
-		playerIllusion.capeZ = this.capeZ;
-		playerIllusion.prevStrideDistance = this.prevStrideDistance;
-		playerIllusion.strideDistance = this.strideDistance;
+		playerIllusion.prevCapeX = this.xCloakO;
+		playerIllusion.prevCapeY = this.yCloakO;
+		playerIllusion.prevCapeZ = this.zCloakO;
+		playerIllusion.capeX = this.xCloak;
+		playerIllusion.capeY = this.yCloak;
+		playerIllusion.capeZ = this.zCloak;
+		playerIllusion.prevStrideDistance = this.oBob;
+		playerIllusion.strideDistance = this.bob;
 
-		playerIllusion.equipStack(EquipmentSlot.MAINHAND, getMainHandStack().copy());
-		playerIllusion.equipStack(EquipmentSlot.OFFHAND, getOffHandStack().copy());
-		this.getArmorItems().forEach((item) -> playerIllusion.tryEquip(item.copy()));
+		playerIllusion.setItemSlot(EquipmentSlot.MAINHAND, getMainHandItem().copy());
+		playerIllusion.setItemSlot(EquipmentSlot.OFFHAND, getOffhandItem().copy());
+		this.getArmorSlots().forEach((item) -> playerIllusion.equipItemIfPossible(item.copy()));
 
 		playerIllusion.setHealth(this.getMaxHealth());
-		playerIllusion.copyPositionAndRotation(this);
+		playerIllusion.copyPosition(this);
 		float randomYaw = 360.F * this.getRandom().nextFloat();
-		playerIllusion.prevYaw = randomYaw;
-		playerIllusion.setYaw(randomYaw);
-		playerIllusion.prevBodyYaw = randomYaw;
-		playerIllusion.setBodyYaw(randomYaw);
-		playerIllusion.prevHeadYaw = randomYaw;
-		playerIllusion.setHeadYaw(randomYaw);
-		playerIllusion.setPlayerUuid(this.getUuid());
-		playerIllusion.setPlayer((PlayerEntity) (Object) this);
+		playerIllusion.yRotO = randomYaw;
+		playerIllusion.setYRot(randomYaw);
+		playerIllusion.yBodyRotO = randomYaw;
+		playerIllusion.setYBodyRot(randomYaw);
+		playerIllusion.yHeadRotO = randomYaw;
+		playerIllusion.setYHeadRot(randomYaw);
+		playerIllusion.setPlayerUuid(this.getUUID());
+		playerIllusion.setPlayer((Player) (Object) this);
 		playerIllusion.setTicksUntilDespawn(ILLUSION_LIFETIME_TICKS);
 
 		boolean teleportResult = playerIllusion.tryToTeleport(x, y, z);
 
 		if (teleportResult) {
-			getWorld().spawnEntity(playerIllusion);
+			level().addFreshEntity(playerIllusion);
 			playerIllusion.spawnCloudParticles();
 		}
 
@@ -317,12 +317,12 @@ public abstract class PlayerEntityMixin extends LivingEntity
 
 	private boolean friendsandfoes_tryToTeleport(int x, int y, int z) {
 		y -= 8;
-		double bottomY = Math.max(y, getWorld().getBottomY());
-		double topY = Math.min(bottomY + 16, ((ServerWorld) this.getWorld()).getLogicalHeight() - 1);
+		double bottomY = Math.max(y, level().getMinBuildHeight());
+		double topY = Math.min(bottomY + 16, ((ServerLevel) this.level()).getLogicalHeight() - 1);
 
 		for (int i = 0; i < 16; ++i) {
-			y = (int) MathHelper.clamp(y + 1, bottomY, topY);
-			boolean teleportResult = this.teleport(x, y, z, false);
+			y = (int) Mth.clamp(y + 1, bottomY, topY);
+			boolean teleportResult = this.randomTeleport(x, y, z, false);
 
 			if (teleportResult) {
 				return true;
@@ -340,16 +340,16 @@ public abstract class PlayerEntityMixin extends LivingEntity
 		SimpleParticleType particleType,
 		int amount
 	) {
-		if (this.getWorld().isClient()) {
+		if (this.level().isClientSide()) {
 			return;
 		}
 
 		for (int i = 0; i < amount; i++) {
-			((ServerWorld) this.getEntityWorld()).spawnParticles(
+			((ServerLevel) this.getCommandSenderWorld()).sendParticles(
 				particleType,
-				this.getParticleX(0.5D),
-				this.getRandomBodyY() + 0.5D,
-				this.getParticleZ(0.5D),
+				this.getRandomX(0.5D),
+				this.getRandomY() + 0.5D,
+				this.getRandomZ(0.5D),
 				1,
 				0.0D,
 				0.0D,

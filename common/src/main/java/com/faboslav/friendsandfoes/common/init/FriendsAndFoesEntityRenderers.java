@@ -6,11 +6,10 @@ import com.faboslav.friendsandfoes.common.events.client.RegisterEntityRenderersE
 import com.google.common.collect.ImmutableMap;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.render.entity.EntityRenderer;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.EntityRenderers;
-import net.minecraft.client.util.SkinTextures;
-
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.client.resources.PlayerSkin;
 import java.util.Map;
 
 /**
@@ -19,9 +18,9 @@ import java.util.Map;
 @Environment(EnvType.CLIENT)
 public final class FriendsAndFoesEntityRenderers
 {
-	private static final Map<SkinTextures.Model, EntityRendererFactory<PlayerIllusionEntity>> PLAYER_ILLUSION_RENDERER_FACTORIES = Map.of(SkinTextures.Model.WIDE, (context) -> {
+	private static final Map<PlayerSkin.Model, EntityRendererProvider<PlayerIllusionEntity>> PLAYER_ILLUSION_RENDERER_FACTORIES = Map.of(PlayerSkin.Model.WIDE, (context) -> {
 		return new PlayerIllusionEntityRenderer(context, false);
-	}, SkinTextures.Model.SLIM, (context) -> {
+	}, PlayerSkin.Model.SLIM, (context) -> {
 		return new PlayerIllusionEntityRenderer(context, true);
 	});
 
@@ -38,8 +37,8 @@ public final class FriendsAndFoesEntityRenderers
 		event.register(FriendsAndFoesEntityTypes.WILDFIRE.get(), WildfireEntityRenderer::new);
 	}
 
-	public static Map<SkinTextures.Model, EntityRenderer<? extends PlayerIllusionEntity>> reloadPlayerIllusionRenderers(
-		EntityRendererFactory.Context ctx
+	public static Map<PlayerSkin.Model, EntityRenderer<? extends PlayerIllusionEntity>> reloadPlayerIllusionRenderers(
+		EntityRendererProvider.Context ctx
 	) {
 		ImmutableMap.Builder builder = ImmutableMap.builder();
 		PLAYER_ILLUSION_RENDERER_FACTORIES.forEach((model, factory) -> {

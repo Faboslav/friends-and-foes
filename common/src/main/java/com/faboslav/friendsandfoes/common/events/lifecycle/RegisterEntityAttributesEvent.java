@@ -1,11 +1,10 @@
 package com.faboslav.friendsandfoes.common.events.lifecycle;
 
 import com.faboslav.friendsandfoes.common.events.base.EventHandler;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-
 import java.util.function.BiConsumer;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 
 /**
  * Event related is code based on The Bumblezone/Resourceful Lib mods with permissions from the authors
@@ -16,11 +15,11 @@ import java.util.function.BiConsumer;
  * <a href="https://github.com/Team-Resourceful/ResourcefulLib">https://github.com/Team-Resourceful/ResourcefulLib</a>
  */
 public record RegisterEntityAttributesEvent(
-	BiConsumer<EntityType<? extends LivingEntity>, DefaultAttributeContainer.Builder> attributes)
+	BiConsumer<EntityType<? extends LivingEntity>, AttributeSupplier.Builder> attributes)
 {
 	public static final EventHandler<RegisterEntityAttributesEvent> EVENT = new EventHandler<>();
 
-	public void register(EntityType<? extends LivingEntity> entityType, DefaultAttributeContainer.Builder builder) {
+	public void register(EntityType<? extends LivingEntity> entityType, AttributeSupplier.Builder builder) {
 		attributes.accept(entityType, builder);
 	}
 }

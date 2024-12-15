@@ -4,18 +4,17 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.GlareEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.GlareBrain;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.CaveVines;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.ai.brain.MemoryModuleState;
-import net.minecraft.entity.ai.brain.task.MultiTickTask;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.GlobalPos;
-import net.minecraft.world.GameRules;
-
 import java.util.Map;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.behavior.Behavior;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.block.CaveVines;
+import net.minecraft.world.level.block.state.BlockState;
 
-public final class GlareShakeGlowBerriesTask extends MultiTickTask<GlareEntity>
+public final class GlareShakeGlowBerriesTask extends Behavior<GlareEntity>
 {
 	private static final int MAX_SHAKING_TICKS = 200;
 	private final static float WITHING_DISTANCE = 2.0F;
@@ -24,45 +23,45 @@ public final class GlareShakeGlowBerriesTask extends MultiTickTask<GlareEntity>
 	public GlareShakeGlowBerriesTask() {
 		super(
 			Map.of(
-				FriendsAndFoesMemoryModuleTypes.GLARE_GLOW_BERRIES_POS.get(), MemoryModuleState.VALUE_PRESENT
+				FriendsAndFoesMemoryModuleTypes.GLARE_GLOW_BERRIES_POS.get(), MemoryStatus.VALUE_PRESENT
 			), MAX_SHAKING_TICKS
 		);
 	}
 
 	@Override
-	protected boolean shouldRun(ServerWorld world, GlareEntity glare) {
+	protected boolean checkExtraStartConditions(ServerLevel world, GlareEntity glare) {
 		GlobalPos glowBerriesPos = glare.getGlowBerriesPos();
 
-		return glare.getWorld().getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING) != false
+		return glare.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) != false
 			   && FriendsAndFoes.getConfig().enableGlareGriefing != false
 			   && !glare.isLeashed()
-			   && !glare.isSitting()
-			   && glare.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty() != false
+			   && !glare.isOrderedToSit()
+			   && glare.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty() != false
 			   && glowBerriesPos != null
 			   && glare.canEatGlowBerriesAt(glowBerriesPos.pos()) != false
-			   && glowBerriesPos.pos().isWithinDistance(glare.getPos(), WITHING_DISTANCE) != false;
+			   && glowBerriesPos.pos().closerToCenterThan(glare.position(), WITHING_DISTANCE) != false;
 	}
 
 	@Override
-	protected void run(ServerWorld world, GlareEntity glare, long time) {
+	protected void start(ServerLevel world, GlareEntity glare, long time) {
 		this.shakingTicks = 0;
 	}
 
 	@Override
-	protected boolean shouldKeepRunning(ServerWorld world, GlareEntity glare, long time) {
+	protected boolean canStillUse(ServerLevel world, GlareEntity glare, long time) {
 		GlobalPos glowBerriesPos = glare.getGlowBerriesPos();
 
-		return glare.getWorld().getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING) != false
+		return glare.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) != false
 			   && FriendsAndFoes.getConfig().enableGlareGriefing != false
 			   && !glare.isLeashed()
-			   && !glare.isSitting()
-			   && glare.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty() != false
+			   && !glare.isOrderedToSit()
+			   && glare.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty() != false
 			   && glowBerriesPos != null
 			   && glare.canEatGlowBerriesAt(glowBerriesPos.pos()) != false
-			   && glowBerriesPos.pos().isWithinDistance(glare.getPos(), WITHING_DISTANCE) != false;
+			   && glowBerriesPos.pos().closerToCenterThan(glare.position(), WITHING_DISTANCE) != false;
 	}
 
-	protected void keepRunning(ServerWorld world, GlareEntity glare, long time) {
+	protected void tick(ServerLevel world, GlareEntity glare, long time) {
 		this.shakingTicks++;
 
 		if (shakingTicks % 5 == 0 && glare.getRandom().nextFloat() > 0.85) {
@@ -77,13 +76,13 @@ public final class GlareShakeGlowBerriesTask extends MultiTickTask<GlareEntity>
 	}
 
 	@Override
-	protected void finishRunning(ServerWorld world, GlareEntity glare, long time) {
-		glare.getBrain().forget(FriendsAndFoesMemoryModuleTypes.GLARE_GLOW_BERRIES_POS.get());
+	protected void stop(ServerLevel world, GlareEntity glare, long time) {
+		glare.getBrain().eraseMemory(FriendsAndFoesMemoryModuleTypes.GLARE_GLOW_BERRIES_POS.get());
 	}
 
 	private void shakeOffGlowBerries(GlareEntity glare) {
 		if (
-			glare.getWorld().getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING) == false
+			glare.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) == false
 			|| FriendsAndFoes.getConfig().enableGlareGriefing == false
 		) {
 			return;
@@ -95,16 +94,16 @@ public final class GlareShakeGlowBerriesTask extends MultiTickTask<GlareEntity>
 			return;
 		}
 
-		BlockState blockState = glare.getWorld().getBlockState(glowBerriesPos.pos());
+		BlockState blockState = glare.level().getBlockState(glowBerriesPos.pos());
 
-		if (CaveVines.hasBerries(blockState) == false) {
+		if (CaveVines.hasGlowBerries(blockState) == false) {
 			return;
 		}
 
-		CaveVines.pickBerries(
+		CaveVines.use(
 			glare,
 			blockState,
-			glare.getWorld(),
+			glare.level(),
 			glowBerriesPos.pos()
 		);
 	}

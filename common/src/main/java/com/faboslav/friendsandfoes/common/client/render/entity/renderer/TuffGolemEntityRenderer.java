@@ -9,23 +9,23 @@ import com.faboslav.friendsandfoes.common.entity.TuffGolemEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.MobEntityRenderer;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.resources.ResourceLocation;
 
 @Environment(EnvType.CLIENT)
 @SuppressWarnings({"rawtypes", "unchecked"})
-public final class TuffGolemEntityRenderer extends MobEntityRenderer<TuffGolemEntity, TuffGolemEntityModel<TuffGolemEntity>>
+public final class TuffGolemEntityRenderer extends MobRenderer<TuffGolemEntity, TuffGolemEntityModel<TuffGolemEntity>>
 {
-	public TuffGolemEntityRenderer(EntityRendererFactory.Context context) {
-		super(context, new TuffGolemEntityModel(context.getPart(FriendsAndFoesEntityModelLayers.TUFF_GOLEM_LAYER)), 0.3F);
-		this.addFeature(new TuffGolemClosedEyesRenderer(this));
-		this.addFeature(new TuffGolemClothFeatureRenderer(this));
-		this.addFeature(new TuffGolemHeldItemFeatureRenderer(this, context.getHeldItemRenderer(), context.getItemRenderer()));
+	public TuffGolemEntityRenderer(EntityRendererProvider.Context context) {
+		super(context, new TuffGolemEntityModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.TUFF_GOLEM_LAYER)), 0.3F);
+		this.addLayer(new TuffGolemClosedEyesRenderer(this));
+		this.addLayer(new TuffGolemClothFeatureRenderer(this));
+		this.addLayer(new TuffGolemHeldItemFeatureRenderer(this, context.getItemInHandRenderer(), context.getItemRenderer()));
 	}
 
 	@Override
-	public Identifier getTexture(TuffGolemEntity entity) {
+	public ResourceLocation getTextureLocation(TuffGolemEntity entity) {
 		return FriendsAndFoes.makeID("textures/entity/tuff_golem/tuff_golem.png");
 	}
 }

@@ -1,31 +1,30 @@
 package com.faboslav.friendsandfoes.common.entity.ai.brain.task.rascal;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.brain.EntityLookTarget;
-import net.minecraft.entity.ai.brain.MemoryModuleType;
-import net.minecraft.entity.ai.brain.task.Task;
-import net.minecraft.entity.ai.brain.task.TaskTriggerer;
-import net.minecraft.entity.player.PlayerEntity;
-
 import java.util.Optional;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.behavior.BehaviorControl;
+import net.minecraft.world.entity.ai.behavior.EntityTracker;
+import net.minecraft.world.entity.ai.behavior.declarative.BehaviorBuilder;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.player.Player;
 
 public final class RascalFindInteractionTargetTask
 {
-	public static Task<LivingEntity> create(int maxDistance) {
+	public static BehaviorControl<LivingEntity> create(int maxDistance) {
 		int squaredMaxDistance = maxDistance * maxDistance;
-		return TaskTriggerer.task((context) -> {
-			return context.group(context.queryMemoryOptional(MemoryModuleType.LOOK_TARGET), context.queryMemoryAbsent(MemoryModuleType.INTERACTION_TARGET), context.queryMemoryValue(MemoryModuleType.VISIBLE_MOBS)).apply(context, (lookTarget, interactionTarget, visibleMobs) -> {
+		return BehaviorBuilder.create((context) -> {
+			return context.group(context.registered(MemoryModuleType.LOOK_TARGET), context.absent(MemoryModuleType.INTERACTION_TARGET), context.present(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES)).apply(context, (lookTarget, interactionTarget, visibleMobs) -> {
 				return (world, entity, time) -> {
-					Optional<LivingEntity> optional = context.getValue(visibleMobs).findFirst((target) -> {
-						return target.squaredDistanceTo(entity) <= (double) squaredMaxDistance && target instanceof PlayerEntity && !target.isSpectator() && !((PlayerEntity) target).isCreative();
+					Optional<LivingEntity> optional = context.get(visibleMobs).findClosest((target) -> {
+						return target.distanceToSqr(entity) <= (double) squaredMaxDistance && target instanceof Player && !target.isSpectator() && !((Player) target).isCreative();
 					});
 
 					if (optional.isEmpty()) {
 						return false;
 					} else {
 						LivingEntity livingEntity = optional.get();
-						interactionTarget.remember(livingEntity);
-						lookTarget.remember(new EntityLookTarget(livingEntity, true));
+						interactionTarget.set(livingEntity);
+						lookTarget.set(new EntityTracker(livingEntity, true));
 						return true;
 					}
 				};

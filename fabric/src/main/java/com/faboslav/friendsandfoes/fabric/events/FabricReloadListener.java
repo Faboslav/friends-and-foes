@@ -1,36 +1,35 @@
 package com.faboslav.friendsandfoes.fabric.events;
 
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
-import net.minecraft.resource.ResourceManager;
-import net.minecraft.resource.ResourceReloader;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.profiler.Profiler;
-
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.util.profiling.ProfilerFiller;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
 public class FabricReloadListener implements IdentifiableResourceReloadListener
 {
 
-	private final Identifier id;
-	private final ResourceReloader listener;
+	private final ResourceLocation id;
+	private final PreparableReloadListener listener;
 
-	public FabricReloadListener(Identifier id, ResourceReloader listener) {
+	public FabricReloadListener(ResourceLocation id, PreparableReloadListener listener) {
 		this.id = id;
 		this.listener = listener;
 	}
 
 	@Override
-	public Identifier getFabricId() {
+	public ResourceLocation getFabricId() {
 		return id;
 	}
 
 	@Override
 	public CompletableFuture<Void> reload(
-		Synchronizer synchronizer,
+		PreparationBarrier synchronizer,
 		ResourceManager manager,
-		Profiler prepareProfiler,
-		Profiler applyProfiler,
+		ProfilerFiller prepareProfiler,
+		ProfilerFiller applyProfiler,
 		Executor prepareExecutor,
 		Executor applyExecutor
 	) {

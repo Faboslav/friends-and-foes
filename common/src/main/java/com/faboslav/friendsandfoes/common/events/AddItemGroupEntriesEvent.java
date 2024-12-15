@@ -1,13 +1,12 @@
 package com.faboslav.friendsandfoes.common.events;
 
 import com.faboslav.friendsandfoes.common.events.base.EventHandler;
-import net.minecraft.item.ItemConvertible;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemGroups;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.RegistryKey;
-
 import java.util.function.Consumer;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 
 /**
  * Event related is code based on The Bumblezone/Resourceful Lib mods with permissions from the authors
@@ -17,7 +16,7 @@ import java.util.function.Consumer;
  * @author ThatGravyBoat
  * <a href="https://github.com/Team-Resourceful/ResourcefulLib">https://github.com/Team-Resourceful/ResourcefulLib</a>
  */
-public record AddItemGroupEntriesEvent(Type type, ItemGroup itemGroup, boolean hasPermission, Consumer<ItemStack> adder)
+public record AddItemGroupEntriesEvent(Type type, CreativeModeTab itemGroup, boolean hasPermission, Consumer<ItemStack> adder)
 {
 	public static final EventHandler<AddItemGroupEntriesEvent> EVENT = new EventHandler<>();
 
@@ -25,7 +24,7 @@ public record AddItemGroupEntriesEvent(Type type, ItemGroup itemGroup, boolean h
 		adder.accept(stack);
 	}
 
-	public void add(ItemConvertible item) {
+	public void add(ItemLike item) {
 		adder.accept(new ItemStack(item));
 	}
 
@@ -47,21 +46,21 @@ public record AddItemGroupEntriesEvent(Type type, ItemGroup itemGroup, boolean h
 		INVENTORY,
 		CUSTOM;
 
-		public static Type toType(RegistryKey<ItemGroup> itemGroup) {
-			if (ItemGroups.BUILDING_BLOCKS.equals(itemGroup)) return BUILDING_BLOCKS;
-			else if (ItemGroups.COLORED_BLOCKS.equals(itemGroup)) return COLORED_BLOCKS;
-			else if (ItemGroups.NATURAL.equals(itemGroup)) return NATURAL;
-			else if (ItemGroups.FUNCTIONAL.equals(itemGroup)) return FUNCTIONAL;
-			else if (ItemGroups.REDSTONE.equals(itemGroup)) return REDSTONE;
-			else if (ItemGroups.HOTBAR.equals(itemGroup)) return HOTBAR;
-			else if (ItemGroups.SEARCH.equals(itemGroup)) return SEARCH;
-			else if (ItemGroups.TOOLS.equals(itemGroup)) return TOOLS;
-			else if (ItemGroups.COMBAT.equals(itemGroup)) return COMBAT;
-			else if (ItemGroups.FOOD_AND_DRINK.equals(itemGroup)) return FOOD_AND_DRINK;
-			else if (ItemGroups.INGREDIENTS.equals(itemGroup)) return INGREDIENTS;
-			else if (ItemGroups.SPAWN_EGGS.equals(itemGroup)) return SPAWN_EGGS;
-			else if (ItemGroups.OPERATOR.equals(itemGroup)) return OPERATOR;
-			else if (ItemGroups.INVENTORY.equals(itemGroup)) return INVENTORY;
+		public static Type toType(ResourceKey<CreativeModeTab> itemGroup) {
+			if (CreativeModeTabs.BUILDING_BLOCKS.equals(itemGroup)) return BUILDING_BLOCKS;
+			else if (CreativeModeTabs.COLORED_BLOCKS.equals(itemGroup)) return COLORED_BLOCKS;
+			else if (CreativeModeTabs.NATURAL_BLOCKS.equals(itemGroup)) return NATURAL;
+			else if (CreativeModeTabs.FUNCTIONAL_BLOCKS.equals(itemGroup)) return FUNCTIONAL;
+			else if (CreativeModeTabs.REDSTONE_BLOCKS.equals(itemGroup)) return REDSTONE;
+			else if (CreativeModeTabs.HOTBAR.equals(itemGroup)) return HOTBAR;
+			else if (CreativeModeTabs.SEARCH.equals(itemGroup)) return SEARCH;
+			else if (CreativeModeTabs.TOOLS_AND_UTILITIES.equals(itemGroup)) return TOOLS;
+			else if (CreativeModeTabs.COMBAT.equals(itemGroup)) return COMBAT;
+			else if (CreativeModeTabs.FOOD_AND_DRINKS.equals(itemGroup)) return FOOD_AND_DRINK;
+			else if (CreativeModeTabs.INGREDIENTS.equals(itemGroup)) return INGREDIENTS;
+			else if (CreativeModeTabs.SPAWN_EGGS.equals(itemGroup)) return SPAWN_EGGS;
+			else if (CreativeModeTabs.OP_BLOCKS.equals(itemGroup)) return OPERATOR;
+			else if (CreativeModeTabs.INVENTORY.equals(itemGroup)) return INVENTORY;
 			return CUSTOM;
 		}
 	}

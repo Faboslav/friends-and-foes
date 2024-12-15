@@ -1,12 +1,11 @@
 package com.faboslav.friendsandfoes.common.events.client;
 
 import com.faboslav.friendsandfoes.common.events.base.EventHandler;
-import net.minecraft.client.particle.ParticleFactory;
-import net.minecraft.client.particle.SpriteProvider;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleType;
-
 import java.util.function.Function;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
 
 /**
  * Event related is code based on The Bumblezone/Resourceful Lib mods with permissions from the authors
@@ -20,9 +19,9 @@ public record RegisterParticlesEvent(Registrar registrar)
 {
 	public static final EventHandler<RegisterParticlesEvent> EVENT = new EventHandler<>();
 
-	public <T extends ParticleEffect> void register(
+	public <T extends ParticleOptions> void register(
 		ParticleType<T> type,
-		Function<SpriteProvider, ParticleFactory<T>> registration
+		Function<SpriteSet, ParticleProvider<T>> registration
 	) {
 		registrar.register(type, registration);
 	}
@@ -30,9 +29,9 @@ public record RegisterParticlesEvent(Registrar registrar)
 	@FunctionalInterface
 	public interface Registrar
 	{
-		<T extends ParticleEffect> void register(
+		<T extends ParticleOptions> void register(
 			ParticleType<T> type,
-			Function<SpriteProvider, ParticleFactory<T>> registration
+			Function<SpriteSet, ParticleProvider<T>> registration
 		);
 	}
 }

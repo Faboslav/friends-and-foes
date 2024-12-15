@@ -9,33 +9,33 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.util.MovementUtil;
 import com.google.common.collect.ImmutableMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.BundleContentsComponent;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.brain.MemoryModuleState;
-import net.minecraft.entity.ai.brain.MemoryModuleType;
-import net.minecraft.entity.ai.brain.task.LookTargetUtil;
-import net.minecraft.entity.ai.brain.task.MultiTickTask;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.loot.LootTable;
-import net.minecraft.loot.context.LootContextParameterSet;
-import net.minecraft.loot.context.LootContextParameters;
-import net.minecraft.loot.context.LootContextTypes;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.StructureTags;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.gen.StructureAccessor;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.StructureTags;
+import net.minecraft.util.Mth;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.behavior.Behavior;
+import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.BundleContents;
+import net.minecraft.world.level.StructureManager;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.phys.Vec3;
 
-public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
+public final class RascalWaitForPlayerTask extends Behavior<RascalEntity>
 {
 	private final static int NOD_DURATION = 90;
 	public final static float NOD_RANGE = 5.0F;
@@ -45,22 +45,22 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 
 	public RascalWaitForPlayerTask() {
 		super(ImmutableMap.of(
-			MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER, MemoryModuleState.REGISTERED,
-			MemoryModuleType.INTERACTION_TARGET, MemoryModuleState.VALUE_PRESENT,
-			FriendsAndFoesMemoryModuleTypes.RASCAL_NOD_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT
+			MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER, MemoryStatus.REGISTERED,
+			MemoryModuleType.INTERACTION_TARGET, MemoryStatus.VALUE_PRESENT,
+			FriendsAndFoesMemoryModuleTypes.RASCAL_NOD_COOLDOWN.get(), MemoryStatus.VALUE_ABSENT
 		), NOD_DURATION);
 	}
 
 	@Override
-	protected boolean shouldRun(ServerWorld world, RascalEntity rascal) {
+	protected boolean checkExtraStartConditions(ServerLevel world, RascalEntity rascal) {
 		if (rascal.hasCustomName()) {
 			return false;
 		}
 
-		LivingEntity nearestTarget = rascal.getBrain().getOptionalRegisteredMemory(MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER).orElse(null);
+		LivingEntity nearestTarget = rascal.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER).orElse(null);
 
 		if (nearestTarget == null) {
-			nearestTarget = rascal.getBrain().getOptionalRegisteredMemory(MemoryModuleType.INTERACTION_TARGET).orElse(null);
+			nearestTarget = rascal.getBrain().getMemory(MemoryModuleType.INTERACTION_TARGET).orElse(null);
 		}
 
 		if (
@@ -68,10 +68,10 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 			|| rascal.distanceTo(nearestTarget) > NOD_RANGE
 			|| !nearestTarget.isAlive()
 			|| (
-				nearestTarget instanceof PlayerEntity
+				nearestTarget instanceof Player
 				&& (
 					nearestTarget.isSpectator()
-					|| ((PlayerEntity) nearestTarget).isCreative()
+					|| ((Player) nearestTarget).isCreative()
 				)
 			)
 		) {
@@ -84,10 +84,10 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 	}
 
 	@Override
-	protected void run(ServerWorld world, RascalEntity rascal, long time) {
+	protected void start(ServerLevel world, RascalEntity rascal, long time) {
 		MovementUtil.stopMovement(rascal);
-		LookTargetUtil.lookAt(rascal, this.nearestTarget);
-		rascal.getLookControl().lookAt(this.nearestTarget);
+		BehaviorUtils.lookAtEntity(rascal, this.nearestTarget);
+		rascal.getLookControl().setLookAt(this.nearestTarget);
 		rascal.getLookControl().tick();
 
 		this.nodTicks = 0;
@@ -96,15 +96,15 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 	}
 
 	@Override
-	protected boolean shouldKeepRunning(ServerWorld world, RascalEntity rascal, long time) {
+	protected boolean canStillUse(ServerLevel world, RascalEntity rascal, long time) {
 		return this.nodTicks <= NOD_DURATION;
 	}
 
 	@Override
-	protected void keepRunning(ServerWorld world, RascalEntity rascal, long time) {
+	protected void tick(ServerLevel world, RascalEntity rascal, long time) {
 		if (nodTicks == 20) {
 			rascal.startNodAnimation();
-			rascal.getLookControl().lookAt(this.nearestTarget);
+			rascal.getLookControl().setLookAt(this.nearestTarget);
 		}
 
 		if (nodTicks == 40 && rascal.shouldGiveReward()) {
@@ -112,29 +112,29 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 		}
 
 		if (nodTicks == 62 && rascal.shouldGiveReward()) {
-			Vec3d targetPos = nearestTarget.getPos().add(0.0, 1.0, 0.0);
-			LootTable rascalGoodItemsLootTable = world.getServer().getReloadableRegistries().getLootTable(RegistryKey.of(RegistryKeys.LOOT_TABLE, FriendsAndFoes.makeID("rewards/rascal_good_reward")));
-			LootContextParameterSet lootContextParameterSet = new LootContextParameterSet.Builder(world)
-				.add(LootContextParameters.ORIGIN, targetPos)
-				.add(LootContextParameters.THIS_ENTITY, this.nearestTarget)
-				.build(LootContextTypes.GIFT);
-			ObjectArrayList<ItemStack> rascalGoodRewards = rascalGoodItemsLootTable.generateLoot(lootContextParameterSet);
+			Vec3 targetPos = nearestTarget.position().add(0.0, 1.0, 0.0);
+			LootTable rascalGoodItemsLootTable = world.getServer().reloadableRegistries().getLootTable(ResourceKey.create(Registries.LOOT_TABLE, FriendsAndFoes.makeID("rewards/rascal_good_reward")));
+			LootParams lootContextParameterSet = new LootParams.Builder(world)
+				.withParameter(LootContextParams.ORIGIN, targetPos)
+				.withParameter(LootContextParams.THIS_ENTITY, this.nearestTarget)
+				.create(LootContextParamSets.GIFT);
+			ObjectArrayList<ItemStack> rascalGoodRewards = rascalGoodItemsLootTable.getRandomItems(lootContextParameterSet);
 
 
 			for (ItemStack rascalReward : rascalGoodRewards) {
-				ItemStack bundleItemStack = Items.BUNDLE.getDefaultStack();
-				BundleContentsComponent bundleContentsComponent = bundleItemStack.get(DataComponentTypes.BUNDLE_CONTENTS);
+				ItemStack bundleItemStack = Items.BUNDLE.getDefaultInstance();
+				BundleContents bundleContentsComponent = bundleItemStack.get(DataComponents.BUNDLE_CONTENTS);
 
 				if (bundleContentsComponent == null) {
 					break;
 				}
 
-				BundleContentsComponent.Builder builder = new BundleContentsComponent.Builder(bundleContentsComponent);
-				builder.add(rascalReward);
-				bundleItemStack.set(DataComponentTypes.BUNDLE_CONTENTS, builder.build());
-				LookTargetUtil.give(rascal, bundleItemStack, nearestTarget.getPos().add(0.0, 1.0, 0.0));
+				BundleContents.Mutable builder = new BundleContents.Mutable(bundleContentsComponent);
+				builder.tryInsert(rascalReward);
+				bundleItemStack.set(DataComponents.BUNDLE_CONTENTS, builder.toImmutable());
+				BehaviorUtils.throwItem(rascal, bundleItemStack, nearestTarget.position().add(0.0, 1.0, 0.0));
 
-				FriendsAndFoesCriterias.COMPLETE_HIDE_AND_SEEK_GAME.get().trigger((ServerPlayerEntity) this.nearestTarget, rascal, bundleItemStack);
+				FriendsAndFoesCriterias.COMPLETE_HIDE_AND_SEEK_GAME.get().trigger((ServerPlayer) this.nearestTarget, rascal, bundleItemStack);
 			}
 		}
 
@@ -142,7 +142,7 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 	}
 
 	@Override
-	protected void finishRunning(ServerWorld world, RascalEntity rascal, long time) {
+	protected void stop(ServerLevel world, RascalEntity rascal, long time) {
 		if (rascal.hasCustomName()) {
 			RascalBrain.setNodCooldown(rascal);
 			return;
@@ -157,32 +157,32 @@ public final class RascalWaitForPlayerTask extends MultiTickTask<RascalEntity>
 		}
 
 		rascal.setPose(RascalEntityPose.IDLE);
-		rascal.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, RascalBrain.NOD_COOLDOWN * 20));
+		rascal.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, RascalBrain.NOD_COOLDOWN * 20));
 		this.tryToTeleport(world, rascal);
 		RascalBrain.setNodCooldown(rascal);
 		rascal.enableAmbientSounds();
 	}
 
-	private void tryToTeleport(ServerWorld world, RascalEntity rascal) {
-		StructureAccessor structureAccessor = world.getStructureAccessor();
+	private void tryToTeleport(ServerLevel world, RascalEntity rascal) {
+		StructureManager structureAccessor = world.structureManager();
 
 		for (int i = 0; i < 64; ++i) {
 			double x = rascal.getX() + (rascal.getRandom().nextDouble() - 0.5) * 16.0;
-			double y = MathHelper.clamp(rascal.getY() + (double) (rascal.getRandom().nextInt(8) - 4), world.getBottomY(), world.getBottomY() + world.getLogicalHeight() - 1);
+			double y = Mth.clamp(rascal.getY() + (double) (rascal.getRandom().nextInt(8) - 4), world.getMinBuildHeight(), world.getMinBuildHeight() + world.getLogicalHeight() - 1);
 			double z = rascal.getZ() + (rascal.getRandom().nextDouble() - 0.5) * 16.0;
 
-			if (!structureAccessor.getStructureContaining(
+			if (!structureAccessor.getStructureWithPieceAt(
 				new BlockPos((int) x, (int) y, (int) z),
 				StructureTags.MINESHAFT
-			).hasChildren()) {
+			).isValid()) {
 				continue;
 			}
 
-			if (rascal.hasVehicle()) {
+			if (rascal.isPassenger()) {
 				rascal.stopRiding();
 			}
 
-			boolean teleportResult = rascal.teleport(x, y, z, false);
+			boolean teleportResult = rascal.randomTeleport(x, y, z, false);
 
 			if (teleportResult && rascal.distanceTo(this.nearestTarget) > 10.0) {
 				return;

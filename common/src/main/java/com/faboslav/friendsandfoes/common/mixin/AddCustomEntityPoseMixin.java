@@ -1,10 +1,6 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
-import com.faboslav.friendsandfoes.common.entity.pose.CopperGolemEntityPose;
-import com.faboslav.friendsandfoes.common.entity.pose.CrabEntityPose;
-import com.faboslav.friendsandfoes.common.entity.pose.RascalEntityPose;
-import com.faboslav.friendsandfoes.common.entity.pose.TuffGolemEntityPose;
-import net.minecraft.entity.EntityPose;
+import com.faboslav.friendsandfoes.common.entity.pose.*;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,35 +13,36 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import net.minecraft.world.entity.Pose;
 
-@Mixin(EntityPose.class)
+@Mixin(Pose.class)
 @SuppressWarnings({"ShadowTarget", "InvokerTarget"})
 public final class AddCustomEntityPoseMixin
 {
 	@Invoker("<init>")
-	private static EntityPose newEntityPose(String internalName, int internalIndex, int index) {
+	private static Pose newEntityPose(String internalName, int internalIndex, int index) {
 		throw new AssertionError();
 	}
 
 	@Shadow
 	private static @Final
 	@Mutable
-	EntityPose[] field_18083;
+	Pose[] $VALUES;
 
 	@Inject(
 		method = "<clinit>",
 		at = @At(
 			value = "FIELD",
 			opcode = Opcodes.PUTSTATIC,
-			target = "Lnet/minecraft/entity/EntityPose;field_18083:[Lnet/minecraft/entity/EntityPose;",
+			target = "Lnet/minecraft/world/entity/Pose;$VALUES:[Lnet/minecraft/world/entity/Pose;",
 			shift = At.Shift.AFTER
 		)
 	)
 	private static void friendsandfoes_addCustomEntityPoses(CallbackInfo ci) {
-		var entityPoses = new ArrayList<>(Arrays.asList(field_18083));
+		var entityPoses = new ArrayList<>(Arrays.asList($VALUES));
 		var lastEntityPose = entityPoses.get(entityPoses.size() - 1);
 		var nextEntityPoseInternalIndex = lastEntityPose.ordinal();
-		var nextEntityPoseIndex = lastEntityPose.getIndex();
+		var nextEntityPoseIndex = lastEntityPose.id();
 
 		for (CopperGolemEntityPose copperGolemEntityPose : CopperGolemEntityPose.values()) {
 			var newEntityPose = newEntityPose(
@@ -90,6 +87,16 @@ public final class AddCustomEntityPoseMixin
 			entityPoses.add(newEntityPose);
 		}
 
-		field_18083 = entityPoses.toArray(new EntityPose[0]);
+		for (WildfireEntityPose wildfireEntityPose : WildfireEntityPose.values()) {
+			var newEntityPose = newEntityPose(
+				wildfireEntityPose.getName(),
+				++nextEntityPoseInternalIndex,
+				++nextEntityPoseIndex
+			);
+
+			entityPoses.add(newEntityPose);
+		}
+
+		$VALUES = entityPoses.toArray(new Pose[0]);
 	}
 }

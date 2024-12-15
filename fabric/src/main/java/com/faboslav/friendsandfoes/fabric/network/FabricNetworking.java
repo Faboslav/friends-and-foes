@@ -10,8 +10,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload.Type;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 
 /**
  * Network related is code based on The Bumblezone/Resourceful Lib mods with permissions from the authors
@@ -25,10 +26,10 @@ public class FabricNetworking implements Networking
 {
 	private static final boolean IS_CLIENT = FabricLoader.getInstance().getEnvironmentType().equals(EnvType.CLIENT);
 
-	private final Identifier channel;
+	private final ResourceLocation channel;
 
-	public FabricNetworking(Identifier channel, int protocolVersion) {
-		this.channel = channel.withSuffixedPath("/v" + protocolVersion);
+	public FabricNetworking(ResourceLocation channel, int protocolVersion) {
+		this.channel = channel.withSuffix("/v" + protocolVersion);
 	}
 
 	@Override
@@ -56,12 +57,12 @@ public class FabricNetworking implements Networking
 	}
 
 	@Override
-	public <T extends Packet<T>> void sendToPlayer(T message, ServerPlayerEntity player) {
+	public <T extends Packet<T>> void sendToPlayer(T message, ServerPlayer player) {
 		ServerPlayNetworking.send(player, new NetworkPacketPayload<>(message, this.channel));
 	}
 
 	@Override
-	public boolean canSendToPlayer(ServerPlayerEntity player, PacketType<?> type) {
+	public boolean canSendToPlayer(ServerPlayer player, PacketType<?> type) {
 		return ServerPlayNetworking.canSend(player, type.type(this.channel));
 	}
 }

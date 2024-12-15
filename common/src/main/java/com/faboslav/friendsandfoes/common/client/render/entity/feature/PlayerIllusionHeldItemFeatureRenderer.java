@@ -1,53 +1,53 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.feature;
 
 import com.faboslav.friendsandfoes.common.entity.PlayerIllusionEntity;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.feature.FeatureRendererContext;
-import net.minecraft.client.render.entity.feature.HeadFeatureRenderer;
-import net.minecraft.client.render.entity.feature.HeldItemFeatureRenderer;
-import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.client.render.entity.model.ModelWithArms;
-import net.minecraft.client.render.entity.model.ModelWithHead;
-import net.minecraft.client.render.item.HeldItemRenderer;
-import net.minecraft.client.render.model.json.ModelTransformationMode;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.Arm;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.model.ArmedModel;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.HeadedModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.ItemInHandRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
+import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 @Environment(EnvType.CLIENT)
-public final class PlayerIllusionHeldItemFeatureRenderer<T extends PlayerIllusionEntity, M extends EntityModel<T> & ModelWithArms & ModelWithHead> extends HeldItemFeatureRenderer<T, M>
+public final class PlayerIllusionHeldItemFeatureRenderer<T extends PlayerIllusionEntity, M extends EntityModel<T> & ArmedModel & HeadedModel> extends ItemInHandLayer<T, M>
 {
-	private final HeldItemRenderer playerHeldItemRenderer;
+	private final ItemInHandRenderer playerHeldItemRenderer;
 	private static final float HEAD_YAW = -0.5235988F;
 	private static final float HEAD_ROLL = 1.5707964F;
 
 	public PlayerIllusionHeldItemFeatureRenderer(
-		FeatureRendererContext<T, M> featureRendererContext,
-		HeldItemRenderer heldItemRenderer
+		RenderLayerParent<T, M> featureRendererContext,
+		ItemInHandRenderer heldItemRenderer
 	) {
 		super(featureRendererContext, heldItemRenderer);
 		this.playerHeldItemRenderer = heldItemRenderer;
 	}
 
-	protected void renderItem(
+	protected void renderArmWithItem(
 		LivingEntity entity,
 		ItemStack stack,
-		ModelTransformationMode transformationMode,
-		Arm arm,
-		MatrixStack matrices,
-		VertexConsumerProvider vertexConsumers,
+		ItemDisplayContext transformationMode,
+		HumanoidArm arm,
+		PoseStack matrices,
+		MultiBufferSource vertexConsumers,
 		int light
 	) {
-		if (stack.isOf(Items.SPYGLASS) && entity.getActiveItem() == stack && entity.handSwingTicks == 0) {
+		if (stack.is(Items.SPYGLASS) && entity.getUseItem() == stack && entity.swingTime == 0) {
 			this.renderSpyglass(entity, stack, arm, matrices, vertexConsumers, light);
 		} else {
-			super.renderItem(entity, stack, transformationMode, arm, matrices, vertexConsumers, light);
+			super.renderArmWithItem(entity, stack, transformationMode, arm, matrices, vertexConsumers, light);
 		}
 
 	}
@@ -55,21 +55,21 @@ public final class PlayerIllusionHeldItemFeatureRenderer<T extends PlayerIllusio
 	private void renderSpyglass(
 		LivingEntity entity,
 		ItemStack stack,
-		Arm arm,
-		MatrixStack matrices,
-		VertexConsumerProvider vertexConsumers,
+		HumanoidArm arm,
+		PoseStack matrices,
+		MultiBufferSource vertexConsumers,
 		int light
 	) {
-		matrices.push();
-		ModelPart modelPart = this.getContextModel().getHead();
-		float f = modelPart.pitch;
-		modelPart.pitch = MathHelper.clamp(modelPart.pitch, -0.5235988F, 1.5707964F);
-		modelPart.rotate(matrices);
-		modelPart.pitch = f;
-		HeadFeatureRenderer.translate(matrices, false);
-		boolean bl = arm == Arm.LEFT;
+		matrices.pushPose();
+		ModelPart modelPart = this.getParentModel().getHead();
+		float f = modelPart.xRot;
+		modelPart.xRot = Mth.clamp(modelPart.xRot, -0.5235988F, 1.5707964F);
+		modelPart.translateAndRotate(matrices);
+		modelPart.xRot = f;
+		CustomHeadLayer.translateToHead(matrices, false);
+		boolean bl = arm == HumanoidArm.LEFT;
 		matrices.translate((bl ? -2.5F:2.5F) / 16.0F, -0.0625, 0.0);
-		this.playerHeldItemRenderer.renderItem(entity, stack, ModelTransformationMode.HEAD, false, matrices, vertexConsumers, light);
-		matrices.pop();
+		this.playerHeldItemRenderer.renderItem(entity, stack, ItemDisplayContext.HEAD, false, matrices, vertexConsumers, light);
+		matrices.popPose();
 	}
 }

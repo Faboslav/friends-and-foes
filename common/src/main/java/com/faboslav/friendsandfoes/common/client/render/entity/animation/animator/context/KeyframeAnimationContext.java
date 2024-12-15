@@ -1,18 +1,14 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.context;
 
-import net.minecraft.entity.AnimationState;
+import com.faboslav.friendsandfoes.common.entity.animation.AnimationState;
 
 public final class KeyframeAnimationContext
 {
 	private AnimationState animationState;
-	private final int totalTicks;
 	private int initialTick;
 	private int currentTick;
 
-	public KeyframeAnimationContext(
-		int totalTicks
-	) {
-		this.totalTicks = totalTicks;
+	public KeyframeAnimationContext() {
 		this.initialTick = 0;
 		this.currentTick = 0;
 		this.animationState = new AnimationState();
@@ -30,7 +26,7 @@ public final class KeyframeAnimationContext
 		return this.initialTick != 0;
 	}
 
-	public boolean isAtLastKeyframe() {
+	public boolean isAtLastKeyframe(int totalTicks) {
 		return initialTick + totalTicks > currentTick;
 	}
 

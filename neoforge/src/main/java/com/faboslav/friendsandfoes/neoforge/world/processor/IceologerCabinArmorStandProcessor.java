@@ -3,12 +3,12 @@ package com.faboslav.friendsandfoes.neoforge.world.processor;
 import com.faboslav.friendsandfoes.common.init.neoforge.FriendsAndFoesStructureProcessorTypesImpl;
 import com.faboslav.friendsandfoes.common.util.world.processor.IceologerCabinArmorStandProcessorHelper;
 import com.mojang.serialization.MapCodec;
-import net.minecraft.structure.StructurePlacementData;
-import net.minecraft.structure.StructureTemplate;
-import net.minecraft.structure.processor.StructureProcessor;
-import net.minecraft.structure.processor.StructureProcessorType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.WorldView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -26,11 +26,11 @@ public final class IceologerCabinArmorStandProcessor extends StructureProcessor
 
 	@Override
 	public StructureTemplate.StructureEntityInfo processEntity(
-		WorldView world,
+		LevelReader world,
 		BlockPos seedPos,
 		StructureTemplate.StructureEntityInfo rawEntityInfo,
 		StructureTemplate.StructureEntityInfo entityInfo,
-		StructurePlacementData placementSettings,
+		StructurePlaceSettings placementSettings,
 		StructureTemplate template
 	) {
 		return IceologerCabinArmorStandProcessorHelper.processEntity(
@@ -41,13 +41,13 @@ public final class IceologerCabinArmorStandProcessor extends StructureProcessor
 
 	@Nullable
 	@Override
-	public StructureTemplate.StructureBlockInfo process(
-		WorldView world,
+	public StructureTemplate.StructureBlockInfo processBlock(
+		LevelReader world,
 		BlockPos pos,
 		BlockPos pivot,
 		StructureTemplate.StructureBlockInfo localEntityInfo,
 		StructureTemplate.StructureBlockInfo globalEntityInfo,
-		StructurePlacementData data
+		StructurePlaceSettings data
 	) {
 		return globalEntityInfo;
 	}

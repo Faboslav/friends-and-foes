@@ -1,39 +1,39 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.feature;
 
 import com.faboslav.friendsandfoes.common.entity.MoobloomEntity;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.PlantBlock;
-import net.minecraft.block.TallPlantBlock;
-import net.minecraft.block.enums.DoubleBlockHalf;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.block.BlockRenderManager;
-import net.minecraft.client.render.entity.LivingEntityRenderer;
-import net.minecraft.client.render.entity.feature.FeatureRenderer;
-import net.minecraft.client.render.entity.feature.FeatureRendererContext;
-import net.minecraft.client.render.entity.model.CowEntityModel;
-import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.screen.PlayerScreenHandler;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.CowModel;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.BlockRenderDispatcher;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.level.block.BushBlock;
+import net.minecraft.world.level.block.DoublePlantBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 
 @Environment(EnvType.CLIENT)
-public final class MoobloomFlowerFeatureRenderer<T extends MoobloomEntity> extends FeatureRenderer<T, CowEntityModel<T>>
+public final class MoobloomFlowerFeatureRenderer<T extends MoobloomEntity> extends RenderLayer<T, CowModel<T>>
 {
-	private final BlockRenderManager blockRenderManager;
+	private final BlockRenderDispatcher blockRenderManager;
 
 	public MoobloomFlowerFeatureRenderer(
-		FeatureRendererContext<T, CowEntityModel<T>> featureRendererContext
+		RenderLayerParent<T, CowModel<T>> featureRendererContext
 	) {
 		super(featureRendererContext);
-		this.blockRenderManager = MinecraftClient.getInstance().getBlockRenderManager();
+		this.blockRenderManager = Minecraft.getInstance().getBlockRenderer();
 	}
 
 	public void render(
-		MatrixStack matrixStack,
-		VertexConsumerProvider vertexConsumerProvider,
+		PoseStack matrixStack,
+		MultiBufferSource vertexConsumerProvider,
 		int light,
 		T moobloomEntity,
 		float f,
@@ -44,62 +44,62 @@ public final class MoobloomFlowerFeatureRenderer<T extends MoobloomEntity> exten
 		float l
 	) {
 		if (!moobloomEntity.isBaby() && !moobloomEntity.isInvisible()) {
-			PlantBlock flower = moobloomEntity.getVariant().getFlower();
-			BlockState blockState = moobloomEntity.getVariant().getFlower().getDefaultState();
+			BushBlock flower = moobloomEntity.getVariant().getFlower();
+			BlockState blockState = moobloomEntity.getVariant().getFlower().defaultBlockState();
 
-			if (flower instanceof TallPlantBlock) {
-				blockState = moobloomEntity.getVariant().getFlower().getDefaultState().with(TallPlantBlock.HALF, DoubleBlockHalf.UPPER);
+			if (flower instanceof DoublePlantBlock) {
+				blockState = moobloomEntity.getVariant().getFlower().defaultBlockState().setValue(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER);
 			}
 
-			int overlay = LivingEntityRenderer.getOverlay(moobloomEntity, 0.0F);
+			int overlay = LivingEntityRenderer.getOverlayCoords(moobloomEntity, 0.0F);
 			float scaleFactor = 0.8F;
 			float yOffset = -0.5F;
 
-			if (flower instanceof TallPlantBlock) {
+			if (flower instanceof DoublePlantBlock) {
 				scaleFactor = 0.6F;
 				yOffset = -0.666F;
 			}
 
-			MinecraftClient minecraftClient = MinecraftClient.getInstance();
-			boolean renderAsModel = minecraftClient.hasOutline(moobloomEntity) && moobloomEntity.isInvisible();
-			BakedModel bakedModel = this.blockRenderManager.getModel(blockState);
+			Minecraft minecraftClient = Minecraft.getInstance();
+			boolean renderAsModel = minecraftClient.shouldEntityAppearGlowing(moobloomEntity) && moobloomEntity.isInvisible();
+			BakedModel bakedModel = this.blockRenderManager.getBlockModel(blockState);
 
 			// Head
-			matrixStack.push();
-			this.getContextModel().getHead().rotate(matrixStack);
+			matrixStack.pushPose();
+			this.getParentModel().getHead().translateAndRotate(matrixStack);
 			matrixStack.translate(0.09D, -0.6D, -0.185D);
 			matrixStack.scale(-scaleFactor, -scaleFactor, scaleFactor);
 			matrixStack.translate(-0.5D, yOffset, -0.5D);
 			this.renderFlower(matrixStack, vertexConsumerProvider, light, renderAsModel, blockState, overlay, bakedModel);
-			matrixStack.pop();
+			matrixStack.popPose();
 
 			// Body
-			matrixStack.push();
+			matrixStack.pushPose();
 			matrixStack.translate(0.22D, -0.28D, -0.06D);
 			matrixStack.scale(-scaleFactor, -scaleFactor, scaleFactor);
 			matrixStack.translate(-0.5D, yOffset, -0.5D);
 			this.renderFlower(matrixStack, vertexConsumerProvider, light, renderAsModel, blockState, overlay, bakedModel);
-			matrixStack.pop();
+			matrixStack.popPose();
 
-			matrixStack.push();
+			matrixStack.pushPose();
 			matrixStack.translate(-0.2D, -0.22D, 0.01D);
 			matrixStack.scale(-scaleFactor, -scaleFactor, scaleFactor);
 			matrixStack.translate(-0.5D, yOffset, -0.5D);
 			this.renderFlower(matrixStack, vertexConsumerProvider, light, renderAsModel, blockState, overlay, bakedModel);
-			matrixStack.pop();
+			matrixStack.popPose();
 
-			matrixStack.push();
+			matrixStack.pushPose();
 			matrixStack.translate(0.03D, -0.28D, 0.47D);
 			matrixStack.scale(-scaleFactor, -scaleFactor, scaleFactor);
 			matrixStack.translate(-0.5D, yOffset, -0.5D);
 			this.renderFlower(matrixStack, vertexConsumerProvider, light, renderAsModel, blockState, overlay, bakedModel);
-			matrixStack.pop();
+			matrixStack.popPose();
 		}
 	}
 
 	private void renderFlower(
-		MatrixStack matrices,
-		VertexConsumerProvider vertexConsumers,
+		PoseStack matrices,
+		MultiBufferSource vertexConsumers,
 		int light,
 		boolean renderAsModel,
 		BlockState moobloomState,
@@ -107,9 +107,9 @@ public final class MoobloomFlowerFeatureRenderer<T extends MoobloomEntity> exten
 		BakedModel moobloomModel
 	) {
 		if (renderAsModel) {
-			this.blockRenderManager.getModelRenderer().render(matrices.peek(), vertexConsumers.getBuffer(RenderLayer.getOutline(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE)), moobloomState, moobloomModel, 0.0F, 0.0F, 0.0F, light, overlay);
+			this.blockRenderManager.getModelRenderer().renderModel(matrices.last(), vertexConsumers.getBuffer(RenderType.outline(InventoryMenu.BLOCK_ATLAS)), moobloomState, moobloomModel, 0.0F, 0.0F, 0.0F, light, overlay);
 		} else {
-			this.blockRenderManager.renderBlockAsEntity(moobloomState, matrices, vertexConsumers, light, overlay);
+			this.blockRenderManager.renderSingleBlock(moobloomState, matrices, vertexConsumers, light, overlay);
 		}
 
 	}

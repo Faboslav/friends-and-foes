@@ -1,60 +1,71 @@
 package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.client.render.entity.animation.RascalAnimations;
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.common.entity.ai.goal.mauler.*;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
+import com.faboslav.friendsandfoes.common.entity.animation.loader.json.AnimationHolder;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import net.minecraft.block.BlockState;
-import net.minecraft.component.type.ItemEnchantmentsComponent;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.goal.ActiveTargetGoal;
-import net.minecraft.entity.ai.goal.RevengeGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.attribute.DefaultAttributeContainer.Builder;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.*;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.tag.EnchantmentTags;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.LocalDifficulty;
-import net.minecraft.world.ServerWorldAccess;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeKeys;
-import net.minecraft.world.event.GameEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.EnchantmentTags;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.NeutralMob;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier.Builder;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.Slime;
+import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.UUID;
 import java.util.function.Predicate;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-public final class MaulerEntity extends PathAwareEntity implements Angerable, AnimatedEntity
+public final class MaulerEntity extends PathfinderMob implements NeutralMob, AnimatedEntity
 {
 	private static final int HEALTH = 20;
 	private static final float ANGERED_MOVEMENT_SPEED = 0.5F;
@@ -72,13 +83,13 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	private static final String BURROWING_DOWN_ANIMATION_PROGRESS_NBT_NAME = "BurrowingDownAnimationProgress";
 	private static final String BURROWED_DOWN_TICKS_NBT_NAME = "BurrowedDownTicks";
 
-	private static final TrackedData<String> TYPE;
-	private static final TrackedData<Integer> ANGER_TIME;
-	private static final TrackedData<Integer> STORED_EXPERIENCE_POINTS;
-	private static final TrackedData<Boolean> IS_MOVING;
-	private static final TrackedData<Boolean> IS_BURROWED_DOWN;
-	private static final TrackedData<Integer> TICKS_UNTIL_NEXT_BURROWING_DOWN;
-	private static final TrackedData<Float> BURROWING_DOWN_ANIMATION_PROGRESS;
+	private static final EntityDataAccessor<String> TYPE;
+	private static final EntityDataAccessor<Integer> ANGER_TIME;
+	private static final EntityDataAccessor<Integer> STORED_EXPERIENCE_POINTS;
+	private static final EntityDataAccessor<Boolean> IS_MOVING;
+	private static final EntityDataAccessor<Boolean> IS_BURROWED_DOWN;
+	private static final EntityDataAccessor<Integer> TICKS_UNTIL_NEXT_BURROWING_DOWN;
+	private static final EntityDataAccessor<Float> BURROWING_DOWN_ANIMATION_PROGRESS;
 
 	@Nullable
 	private UUID angryAt;
@@ -96,47 +107,72 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		return this.animationContextTracker;
 	}
 
-	public MaulerEntity(EntityType<? extends MaulerEntity> entityType, World world) {
+	@Override
+	public ArrayList<AnimationHolder> getTrackedAnimations() {
+		return new ArrayList<>();
+	}
+
+	@Override
+	public AnimationHolder getMovementAnimation() {
+		return null;
+	}
+
+	@Override
+	public int getCurrentAnimationTick() {
+		return 0;
+	}
+
+	@Override
+	public void setCurrentAnimationTick(int currentAnimationTick) {
+
+	}
+
+	@Override
+	public @Nullable AnimationHolder getAnimationByPose() {
+		return null;
+	}
+
+	public MaulerEntity(EntityType<? extends MaulerEntity> entityType, Level world) {
 		super(entityType, world);
 	}
 
 	static {
 		PREY_PREDICATE_FILTER = (entity) -> {
 			if (
-				entity instanceof SlimeEntity slimeEntity && slimeEntity.getSize() != SlimeEntity.MIN_SIZE
-				|| entity instanceof ZombieEntity && !((ZombieEntity) entity).isBaby()
+				entity instanceof Slime slimeEntity && slimeEntity.getSize() != Slime.MIN_SIZE
+				|| entity instanceof Zombie && !((Zombie) entity).isBaby()
 			) {
 				return false;
 			}
 
-			return entity.getType().isIn(FriendsAndFoesTags.MAULER_PREY);
+			return entity.getType().is(FriendsAndFoesTags.MAULER_PREY);
 		};
-		TYPE = DataTracker.registerData(MaulerEntity.class, TrackedDataHandlerRegistry.STRING);
-		ANGER_TIME = DataTracker.registerData(MaulerEntity.class, TrackedDataHandlerRegistry.INTEGER);
-		STORED_EXPERIENCE_POINTS = DataTracker.registerData(MaulerEntity.class, TrackedDataHandlerRegistry.INTEGER);
-		IS_MOVING = DataTracker.registerData(MaulerEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-		IS_BURROWED_DOWN = DataTracker.registerData(MaulerEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-		TICKS_UNTIL_NEXT_BURROWING_DOWN = DataTracker.registerData(MaulerEntity.class, TrackedDataHandlerRegistry.INTEGER);
-		BURROWING_DOWN_ANIMATION_PROGRESS = DataTracker.registerData(MaulerEntity.class, TrackedDataHandlerRegistry.FLOAT);
+		TYPE = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.STRING);
+		ANGER_TIME = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.INT);
+		STORED_EXPERIENCE_POINTS = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.INT);
+		IS_MOVING = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.BOOLEAN);
+		IS_BURROWED_DOWN = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.BOOLEAN);
+		TICKS_UNTIL_NEXT_BURROWING_DOWN = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.INT);
+		BURROWING_DOWN_ANIMATION_PROGRESS = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.FLOAT);
 	}
 
 	@Override
-	protected void initDataTracker(DataTracker.Builder builder) {
-		super.initDataTracker(builder);
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		super.defineSynchedData(builder);
 
-		builder.add(TYPE, Type.DESERT.name());
-		builder.add(ANGER_TIME, 0);
-		builder.add(STORED_EXPERIENCE_POINTS, 0);
-		builder.add(IS_MOVING, false);
-		builder.add(IS_BURROWED_DOWN, false);
-		builder.add(TICKS_UNTIL_NEXT_BURROWING_DOWN, this.getRandom().nextBetween(MIN_TICKS_UNTIL_NEXT_BURROWING, MAX_TICKS_UNTIL_NEXT_BURROWING));
-		builder.add(BURROWING_DOWN_ANIMATION_PROGRESS, 0.0F);
+		builder.define(TYPE, Type.DESERT.name());
+		builder.define(ANGER_TIME, 0);
+		builder.define(STORED_EXPERIENCE_POINTS, 0);
+		builder.define(IS_MOVING, false);
+		builder.define(IS_BURROWED_DOWN, false);
+		builder.define(TICKS_UNTIL_NEXT_BURROWING_DOWN, this.getRandom().nextIntBetweenInclusive(MIN_TICKS_UNTIL_NEXT_BURROWING, MAX_TICKS_UNTIL_NEXT_BURROWING));
+		builder.define(BURROWING_DOWN_ANIMATION_PROGRESS, 0.0F);
 	}
 
 	@Override
-	public void writeCustomDataToNbt(NbtCompound nbt) {
-		super.writeCustomDataToNbt(nbt);
-		this.writeAngerToNbt(nbt);
+	public void addAdditionalSaveData(CompoundTag nbt) {
+		super.addAdditionalSaveData(nbt);
+		this.addPersistentAngerSaveData(nbt);
 		nbt.putString(TYPE_NBT_NAME, this.getMaulerType().getName());
 		nbt.putInt(STORED_EXPERIENCE_POINTS_NBT_NAME, this.getStoredExperiencePoints());
 		nbt.putBoolean(IS_BURROWED_DOWN_NBT_NAME, this.isBurrowedDown());
@@ -148,9 +184,9 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		}
 	}
 
-	public void readCustomDataFromNbt(NbtCompound nbt) {
-		super.readCustomDataFromNbt(nbt);
-		this.readAngerFromNbt(this.getWorld(), nbt);
+	public void readAdditionalSaveData(CompoundTag nbt) {
+		super.readAdditionalSaveData(nbt);
+		this.readPersistentAngerSaveData(this.level(), nbt);
 		this.setType(Type.fromName(nbt.getString(TYPE_NBT_NAME)));
 		this.setStoredExperiencePoints(nbt.getInt(STORED_EXPERIENCE_POINTS_NBT_NAME));
 
@@ -166,48 +202,48 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	}
 
 	@Nullable
-	public EntityData initialize(
-		ServerWorldAccess world,
-		LocalDifficulty difficulty,
-		SpawnReason spawnReason,
-		@Nullable EntityData entityData
+	public SpawnGroupData finalizeSpawn(
+		ServerLevelAccessor world,
+		DifficultyInstance difficulty,
+		MobSpawnType spawnReason,
+		@Nullable SpawnGroupData entityData
 	) {
-		RegistryKey<Biome> biomeKey = world.getBiome(this.getBlockPos()).getKey().orElse(BiomeKeys.SAVANNA);
+		ResourceKey<Biome> biomeKey = world.getBiome(this.blockPosition()).unwrapKey().orElse(Biomes.SAVANNA);
 		Type type = Type.getTypeByBiome(biomeKey);
 
-		this.setPersistent();
+		this.setPersistenceRequired();
 		this.setType(type);
 		this.setSize();
 
-		return super.initialize(world, difficulty, spawnReason, entityData);
+		return super.finalizeSpawn(world, difficulty, spawnReason, entityData);
 	}
 
 	@Override
-	public boolean canImmediatelyDespawn(double distanceSquared) {
+	public boolean removeWhenFarAway(double distanceSquared) {
 		return !this.hasCustomName();
 	}
 
 	public static boolean canSpawn(
 		EntityType<MaulerEntity> maulerEntityType,
-		ServerWorldAccess serverWorldAccess,
-		SpawnReason spawnReason,
+		ServerLevelAccessor serverWorldAccess,
+		MobSpawnType spawnReason,
 		BlockPos blockPos,
-		Random random
+		RandomSource random
 	) {
-		return serverWorldAccess.getBlockState(blockPos.down()).isIn(FriendsAndFoesTags.MAULERS_SPAWNABLE_ON);
+		return serverWorldAccess.getBlockState(blockPos.below()).is(FriendsAndFoesTags.MAULERS_SPAWNABLE_ON);
 	}
 
 	@Override
-	protected void initGoals() {
-		this.goalSelector.add(1, new SwimGoal(this));
-		this.goalSelector.add(2, new MaulerMeeleAttackGoal(this, ANGERED_MOVEMENT_SPEED, false));
-		this.goalSelector.add(3, new MaulerWanderAroundFarGoal(this, 0.6D));
-		this.goalSelector.add(4, new MaulerLookAtEntityGoal(this, PlayerEntity.class, 10.0F));
-		this.goalSelector.add(5, new MaulerLookAroundGoal(this));
+	protected void registerGoals() {
+		this.goalSelector.addGoal(1, new FloatGoal(this));
+		this.goalSelector.addGoal(2, new MaulerMeeleAttackGoal(this, ANGERED_MOVEMENT_SPEED, false));
+		this.goalSelector.addGoal(3, new MaulerWanderAroundFarGoal(this, 0.6D));
+		this.goalSelector.addGoal(4, new MaulerLookAtEntityGoal(this, Player.class, 10.0F));
+		this.goalSelector.addGoal(5, new MaulerLookAroundGoal(this));
 		this.burrowDownGoal = new MaulerBurrowDownGoal(this);
-		this.goalSelector.add(6, this.burrowDownGoal);
-		this.targetSelector.add(1, (new RevengeGoal(this)).setGroupRevenge());
-		this.targetSelector.add(2, new ActiveTargetGoal(this, PathAwareEntity.class, 10, true, true, PREY_PREDICATE_FILTER));
+		this.goalSelector.addGoal(6, this.burrowDownGoal);
+		this.targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setAlertOthers());
+		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, PathfinderMob.class, 10, true, true, PREY_PREDICATE_FILTER));
 	}
 
 	@Override
@@ -220,7 +256,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 		super.tick();
 
-		if (this.getWorld().isClient()) {
+		if (this.level().isClientSide()) {
 			return;
 		}
 
@@ -232,76 +268,76 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	}
 
 	@Override
-	public void tickMovement() {
-		if (!this.getWorld().isClient() && this.getBurrowingDownAnimationProgress() > 0.0F) {
-			this.getNavigation().setSpeed(0);
+	public void aiStep() {
+		if (!this.level().isClientSide() && this.getBurrowingDownAnimationProgress() > 0.0F) {
+			this.getNavigation().setSpeedModifier(0);
 			this.getNavigation().stop();
 		}
 
-		super.tickMovement();
+		super.aiStep();
 
-		if (this.getWorld().isClient()) {
+		if (this.level().isClientSide()) {
 			return;
 		}
 
-		this.tickAngerLogic((ServerWorld) this.getWorld(), true);
-		this.setMoving(this.getNavigation().isFollowingPath());
+		this.updatePersistentAnger((ServerLevel) this.level(), true);
+		this.setMoving(this.getNavigation().isInProgress());
 	}
 
 	@Override
-	public boolean damage(
+	public boolean hurt(
 		DamageSource source,
 		float amount
 	) {
-		if (!this.getWorld().isClient() && this.burrowDownGoal.isRunning()) {
+		if (!this.level().isClientSide() && this.burrowDownGoal.isRunning()) {
 			this.burrowDownGoal.stop();
 		}
 
-		return super.damage(source, amount);
+		return super.hurt(source, amount);
 	}
 
 	@Override
-	public float getMovementSpeed() {
-		return this.hasAngerTime() ? ANGERED_MOVEMENT_SPEED:MOVEMENT_SPEED;
+	public float getSpeed() {
+		return this.isAngry() ? ANGERED_MOVEMENT_SPEED:MOVEMENT_SPEED;
 	}
 
 	@Override
-	public ActionResult interactMob(PlayerEntity player, Hand hand) {
-		ItemStack itemStack = player.getStackInHand(hand);
+	public InteractionResult mobInteract(Player player, InteractionHand hand) {
+		ItemStack itemStack = player.getItemInHand(hand);
 		Item itemInHand = itemStack.getItem();
 
 		boolean interactionResult = false;
 
 		if (
-			!this.hasAngerTime()
+			!this.isAngry()
 			&& (
 				(
-					itemStack.hasEnchantments()
+					itemStack.isEnchanted()
 					|| itemInHand == Items.ENCHANTED_BOOK
 				)
 			)
 		) {
 			interactionResult = this.tryToInteractWithEnhancedItem(player, hand, itemStack);
-		} else if (!this.hasAngerTime() && itemInHand == Items.GLASS_BOTTLE) {
+		} else if (!this.isAngry() && itemInHand == Items.GLASS_BOTTLE) {
 			interactionResult = this.tryToInteractWithGlassBottle(player, itemStack);
 		}
 
 		if (interactionResult) {
-			this.emitGameEvent(GameEvent.ENTITY_INTERACT, this);
-			return ActionResult.success(this.getWorld().isClient());
+			this.gameEvent(GameEvent.ENTITY_INTERACT, this);
+			return InteractionResult.sidedSuccess(this.level().isClientSide());
 		}
 
-		return super.interactMob(player, hand);
+		return super.mobInteract(player, hand);
 	}
 
-	private boolean tryToInteractWithEnhancedItem(PlayerEntity player, Hand hand, ItemStack itemStack) {
+	private boolean tryToInteractWithEnhancedItem(Player player, InteractionHand hand, ItemStack itemStack) {
 		int storedExperiencePoints = this.getStoredExperiencePoints();
 
 		if (storedExperiencePoints >= MAXIMUM_STORED_EXPERIENCE_POINTS) {
 			return false;
 		}
 
-		if (this.getWorld().isClient()) {
+		if (this.level().isClientSide()) {
 			return true;
 		}
 
@@ -314,19 +350,19 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 		this.setStoredExperiencePoints(recalculatedExperiencePoints);
 
-		if (!player.getAbilities().creativeMode) {
+		if (!player.getAbilities().instabuild) {
 			if (itemStack.isStackable()) {
-				itemStack.decrement(1);
+				itemStack.shrink(1);
 			} else {
 				EquipmentSlot equipmentSlot;
 
-				if (hand == Hand.MAIN_HAND) {
+				if (hand == InteractionHand.MAIN_HAND) {
 					equipmentSlot = EquipmentSlot.MAINHAND;
 				} else {
 					equipmentSlot = EquipmentSlot.OFFHAND;
 				}
 
-				player.equipStack(equipmentSlot, ItemStack.EMPTY);
+				player.setItemSlot(equipmentSlot, ItemStack.EMPTY);
 			}
 		}
 
@@ -337,7 +373,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	}
 
 	private boolean tryToInteractWithGlassBottle(
-		PlayerEntity player,
+		Player player,
 		ItemStack itemStack
 	) {
 
@@ -347,7 +383,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 			return false;
 		}
 
-		if (this.getWorld().isClient()) {
+		if (this.level().isClientSide()) {
 			return true;
 		}
 
@@ -358,26 +394,26 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 			experienceBottleCount = glassBottlesCount;
 		}
 
-		itemStack.decrement(experienceBottleCount);
+		itemStack.shrink(experienceBottleCount);
 		ItemStack experienceBottleItemStack = new ItemStack(Items.EXPERIENCE_BOTTLE, experienceBottleCount);
-		player.giveItemStack(experienceBottleItemStack);
+		player.addItem(experienceBottleItemStack);
 
 		this.setStoredExperiencePoints(storedExperiencePoints - experienceBottleCount * 7);
-		this.playSound(SoundEvents.ITEM_BOTTLE_FILL_DRAGONBREATH, 1.0F, 1.0F);
+		this.playSound(SoundEvents.BOTTLE_FILL_DRAGONBREATH, 1.0F, 1.0F);
 
 		return true;
 	}
 
-	public boolean shouldSpawnSprintingParticles() {
+	public boolean canSpawnSprintParticle() {
 		return false;
 	}
 
 	public static Builder createMaulerAttributes() {
-		return MobEntity.createMobAttributes()
-			.add(EntityAttributes.GENERIC_SCALE, 1.0F)
-			.add(EntityAttributes.GENERIC_MAX_HEALTH, HEALTH)
-			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, MOVEMENT_SPEED)
-			.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, ATTACK_DAMAGE);
+		return Mob.createMobAttributes()
+			.add(Attributes.SCALE, 1.0F)
+			.add(Attributes.MAX_HEALTH, HEALTH)
+			.add(Attributes.MOVEMENT_SPEED, MOVEMENT_SPEED)
+			.add(Attributes.ATTACK_DAMAGE, ATTACK_DAMAGE);
 	}
 
 	@Override
@@ -386,12 +422,12 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	}
 
 	@Override
-	public void pushAway(Entity entity) {
+	public void doPush(Entity entity) {
 		if (this.isBurrowedDown()) {
 			return;
 		}
 
-		super.pushAway(entity);
+		super.doPush(entity);
 	}
 
 	@Override
@@ -401,7 +437,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 	@Override
 	public void playAmbientSound() {
-		if ((this.hasAngerTime() && this.isMoving()) || this.isBurrowedDown()) {
+		if ((this.isAngry() && this.isMoving()) || this.isBurrowedDown()) {
 			return;
 		}
 
@@ -415,7 +451,7 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 
 	@Override
 	public void playHurtSound(DamageSource source) {
-		this.ambientSoundChance = -this.getMinAmbientSoundDelay();
+		this.ambientSoundTime = -this.getAmbientSoundInterval();
 		this.playSound(this.getHurtSound(source), 0.5F, RandomGenerator.generateFloat(0.85F, 0.95F));
 	}
 
@@ -428,67 +464,67 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	public void playStepSound(BlockPos pos, BlockState state) {
 		super.playStepSound(pos, state);
 
-		if (this.hasAngerTime() && this.isMoving() && this.isOnGround() && this.getVelocity().getY() <= 0.0001) {
+		if (this.isAngry() && this.isMoving() && this.onGround() && this.getDeltaMovement().y() <= 0.0001) {
 			this.playSound(FriendsAndFoesSoundEvents.ENTITY_MAULER_BITE.get(), 0.2F, RandomGenerator.generateFloat(0.9F, 0.95F));
 		}
 	}
 
 	@Override
-	public boolean tryAttack(Entity target) {
+	public boolean doHurtTarget(Entity target) {
 		if (this.isBurrowedDown()) {
 			return false;
 		}
 
-		return target.damage(this.getDamageSources().mobAttack(this), (float) this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE));
+		return target.hurt(this.damageSources().mobAttack(this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
 	}
 
-	public int getAngerTime() {
-		return this.dataTracker.get(ANGER_TIME);
+	public int getRemainingPersistentAngerTime() {
+		return this.entityData.get(ANGER_TIME);
 	}
 
-	public void setAngerTime(int angerTime) {
-		this.dataTracker.set(ANGER_TIME, angerTime);
+	public void setRemainingPersistentAngerTime(int angerTime) {
+		this.entityData.set(ANGER_TIME, angerTime);
 	}
 
-	public void chooseRandomAngerTime() {
-		int angerTime = this.getRandom().nextBetween(400, 1000);
-		this.setAngerTime(angerTime);
+	public void startPersistentAngerTimer() {
+		int angerTime = this.getRandom().nextIntBetweenInclusive(400, 1000);
+		this.setRemainingPersistentAngerTime(angerTime);
 	}
 
 	@Nullable
-	public UUID getAngryAt() {
+	public UUID getPersistentAngerTarget() {
 		return this.angryAt;
 	}
 
-	public void setAngryAt(@Nullable UUID angryAt) {
+	public void setPersistentAngerTarget(@Nullable UUID angryAt) {
 		this.angryAt = angryAt;
 	}
 
 	public Type getMaulerType() {
-		return MaulerEntity.Type.fromName(this.dataTracker.get(TYPE));
+		return MaulerEntity.Type.fromName(this.entityData.get(TYPE));
 	}
 
 	private void setType(MaulerEntity.Type type) {
-		this.dataTracker.set(TYPE, type.name);
+		this.entityData.set(TYPE, type.name);
 	}
 
 	public int getStoredExperiencePoints() {
-		return this.dataTracker.get(STORED_EXPERIENCE_POINTS);
+		return this.entityData.get(STORED_EXPERIENCE_POINTS);
 	}
 
 	public void setStoredExperiencePoints(int storedExperiencePoints) {
-		this.dataTracker.set(STORED_EXPERIENCE_POINTS, storedExperiencePoints);
-		this.experiencePoints = storedExperiencePoints;
+		this.entityData.set(STORED_EXPERIENCE_POINTS, storedExperiencePoints);
+		this.xpReward = storedExperiencePoints;
 	}
 
 	public void setSize() {
 		float size = this.getSize();
 
-		this.getAttributeInstance(EntityAttributes.GENERIC_SCALE).setBaseValue(this.getSize());
-		this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue((int) (HEALTH * size));
-		this.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE).setBaseValue(ATTACK_DAMAGE * (size / 2.0F));
-		this.calculateDimensions();
-		this.calculateBoundingBox();
+		this.getAttribute(Attributes.SCALE).setBaseValue(this.getSize());
+		this.getAttribute(Attributes.MAX_HEALTH).setBaseValue((int) (HEALTH * size));
+		this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(ATTACK_DAMAGE * (size / 2.0F));
+		this.refreshDimensions();
+		this.makeBoundingBox();
 	}
 
 	public float getSize() {
@@ -496,35 +532,35 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	}
 
 	public boolean isMoving() {
-		return this.dataTracker.get(IS_MOVING);
+		return this.entityData.get(IS_MOVING);
 	}
 
 	public void setMoving(boolean isMoving) {
-		this.dataTracker.set(IS_MOVING, isMoving);
+		this.entityData.set(IS_MOVING, isMoving);
 	}
 
 	public boolean isBurrowedDown() {
-		return this.dataTracker.get(IS_BURROWED_DOWN);
+		return this.entityData.get(IS_BURROWED_DOWN);
 	}
 
 	public void setBurrowedDown(boolean isBurrowedDown) {
-		this.dataTracker.set(IS_BURROWED_DOWN, isBurrowedDown);
+		this.entityData.set(IS_BURROWED_DOWN, isBurrowedDown);
 	}
 
 	public int getTicksUntilNextBurrowingDown() {
-		return this.dataTracker.get(TICKS_UNTIL_NEXT_BURROWING_DOWN);
+		return this.entityData.get(TICKS_UNTIL_NEXT_BURROWING_DOWN);
 	}
 
 	public void setTicksUntilNextBurrowingDown(int ticksUntilNextBurrowingDown) {
-		this.dataTracker.set(TICKS_UNTIL_NEXT_BURROWING_DOWN, ticksUntilNextBurrowingDown);
+		this.entityData.set(TICKS_UNTIL_NEXT_BURROWING_DOWN, ticksUntilNextBurrowingDown);
 	}
 
 	public float getBurrowingDownAnimationProgress() {
-		return this.dataTracker.get(BURROWING_DOWN_ANIMATION_PROGRESS);
+		return this.entityData.get(BURROWING_DOWN_ANIMATION_PROGRESS);
 	}
 
 	public void setBurrowingDownAnimationProgress(float burrowingDownAnimationProgress) {
-		this.dataTracker.set(BURROWING_DOWN_ANIMATION_PROGRESS, burrowingDownAnimationProgress);
+		this.entityData.set(BURROWING_DOWN_ANIMATION_PROGRESS, burrowingDownAnimationProgress);
 	}
 
 	private void updateBurrowingDownAnimation() {
@@ -535,24 +571,24 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 		}
 	}
 
-	public Vec3d getLeashOffset() {
-		return new Vec3d(0.0D, 0.6F * this.getStandingEyeHeight(), this.getWidth() * 0.4F);
+	public Vec3 getLeashOffset() {
+		return new Vec3(0.0D, 0.6F * this.getEyeHeight(), this.getBbWidth() * 0.4F);
 	}
 
 	/**
-	 * @see net.minecraft.screen.GrindstoneScreenHandler
+	 * @see net.minecraft.world.inventory.GrindstoneMenu
 	 */
 	private int getExperiencePoints(ItemStack stack) {
 		int i = 0;
-		ItemEnchantmentsComponent itemEnchantmentsComponent = EnchantmentHelper.getEnchantments(stack);
-		Iterator var4 = itemEnchantmentsComponent.getEnchantmentEntries().iterator();
+		ItemEnchantments itemEnchantmentsComponent = EnchantmentHelper.getEnchantmentsForCrafting(stack);
+		Iterator var4 = itemEnchantmentsComponent.entrySet().iterator();
 
 		while (var4.hasNext()) {
-			Object2IntMap.Entry<RegistryEntry<Enchantment>> entry = (Object2IntMap.Entry) var4.next();
-			RegistryEntry<Enchantment> registryEntry = entry.getKey();
+			Object2IntMap.Entry<Holder<Enchantment>> entry = (Object2IntMap.Entry) var4.next();
+			Holder<Enchantment> registryEntry = entry.getKey();
 			int j = entry.getIntValue();
-			if (!registryEntry.isIn(EnchantmentTags.CURSE)) {
-				i += registryEntry.value().getMinPower(j);
+			if (!registryEntry.is(EnchantmentTags.CURSE)) {
+				i += registryEntry.value().getMinCost(j);
 			}
 		}
 
@@ -560,21 +596,21 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 	}
 
 	public void spawnParticles(
-		ParticleEffect particleEffect,
+		ParticleOptions particleEffect,
 		int amount
 	) {
-		World world = this.getWorld();
+		Level world = this.level();
 
-		if (world.isClient()) {
+		if (world.isClientSide()) {
 			return;
 		}
 
 		for (int i = 0; i < amount; i++) {
-			((ServerWorld) world).spawnParticles(
+			((ServerLevel) world).sendParticles(
 				particleEffect,
-				this.getParticleX(1.0D),
-				this.getRandomBodyY() + 0.5D,
-				this.getParticleZ(1.0D),
+				this.getRandomX(1.0D),
+				this.getRandomY() + 0.5D,
+				this.getRandomZ(1.0D),
 				1,
 				this.getRandom().nextGaussian() * 0.02D,
 				this.getRandom().nextGaussian() * 0.02D,
@@ -612,13 +648,13 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 			return SAVANNA;
 		}
 
-		public static Type getTypeByBiome(RegistryKey<Biome> biome) {
-			if (biome == BiomeKeys.DESERT) {
+		public static Type getTypeByBiome(ResourceKey<Biome> biome) {
+			if (biome == Biomes.DESERT) {
 				return DESERT;
 			} else if (
-				biome == BiomeKeys.BADLANDS
-				|| biome == BiomeKeys.ERODED_BADLANDS
-				|| biome == BiomeKeys.WOODED_BADLANDS
+				biome == Biomes.BADLANDS
+				|| biome == Biomes.ERODED_BADLANDS
+				|| biome == Biomes.WOODED_BADLANDS
 			) {
 				return BADLANDS;
 			}

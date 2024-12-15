@@ -1,18 +1,25 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.model;
 
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.ModelPartAnimator;
+import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.ModelPartModelAnimator;
 import com.faboslav.friendsandfoes.common.entity.GlareEntity;
 import com.faboslav.friendsandfoes.common.util.animation.AnimationMath;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.model.*;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec2f;
+import net.minecraft.client.model.HierarchicalModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec2;
 
 @Environment(EnvType.CLIENT)
-public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntityModel<T>
+public final class GlareEntityModel<T extends GlareEntity> extends HierarchicalModel<T>
 {
-	private static final String MODEL_PART_ROOT = "root";
 	private static final String MODEL_PART_HEAD = "head";
 	private static final String MODEL_PART_EYES = "eyes";
 	private static final String MODEL_TOP_AZALEA = "topAzalea";
@@ -21,6 +28,7 @@ public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntit
 	private static final String MODEL_THIRD_LAYER = "thirdLayer";
 	private static final String MODEL_FOURTH_LAYER = "fourthLayer";
 
+	private final ModelPart root;
 	private final ModelPart head;
 	private final ModelPart eyes;
 	private final ModelPart topAzalea;
@@ -32,7 +40,7 @@ public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntit
 	private final ModelPart[] layers;
 
 	public GlareEntityModel(ModelPart root) {
-		super(root);
+		this.root = root;
 		this.head = this.root.getChild(MODEL_PART_HEAD);
 		this.eyes = this.head.getChild(MODEL_PART_EYES);
 		this.topAzalea = this.head.getChild(MODEL_TOP_AZALEA);
@@ -48,31 +56,36 @@ public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntit
 		};
 	}
 
-	public static TexturedModelData getTexturedModelData() {
-		ModelData modelData = new ModelData();
-		ModelPartData root = modelData.getRoot();
+	public static LayerDefinition getTexturedModelData() {
+		MeshDefinition modelData = new MeshDefinition();
+		PartDefinition root = modelData.getRoot();
 
-		root.addChild(MODEL_PART_HEAD, ModelPartBuilder.create().uv(0, 0).cuboid(-6.0F, 0.0F, -3.0F, 12.0F, 9.0F, 9.0F, new Dilation(-0.02F)), ModelTransform.pivot(0.0F, 1.0F, 0.0F));
+		root.addOrReplaceChild(MODEL_PART_HEAD, CubeListBuilder.create().texOffs(0, 0).addBox(-6.0F, 0.0F, -3.0F, 12.0F, 9.0F, 9.0F, new CubeDeformation(-0.02F)), PartPose.offset(0.0F, 1.0F, 0.0F));
 
-		ModelPartData head = root.getChild(MODEL_PART_HEAD);
-		head.addChild(MODEL_PART_EYES, ModelPartBuilder.create().uv(33, 0).cuboid(2.0F, -1.0F, -0.3F, 2.0F, 2.0F, 1.0F, new Dilation(-0.2F)).uv(33, 0).cuboid(-4.0F, -1.0F, -0.3F, 2.0F, 2.0F, 1.0F, new Dilation(-0.2F)), ModelTransform.pivot(0.0F, 5.0F, -3.0F));
-		head.addChild(MODEL_TOP_AZALEA, ModelPartBuilder.create().uv(0, 18).cuboid(-7.0F, 0.0F, -7.0F, 14.0F, 8.0F, 14.0F, new Dilation(0.01F)), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
-		head.addChild(MODEL_BOTTOM_AZALEA, ModelPartBuilder.create().uv(18, 101).mirrored().cuboid(-7.0F, 0.75F, -7.0F, 14.0F, 0.0F, 14.0F, new Dilation(-0.01F)).mirrored(false).uv(0, 40).cuboid(-7.0F, -4.0F, -7.0F, 14.0F, 10.0F, 14.0F, new Dilation(0.01F)), ModelTransform.pivot(0.0F, 8.0F, 0.0F));
+		PartDefinition head = root.getChild(MODEL_PART_HEAD);
+		head.addOrReplaceChild(MODEL_PART_EYES, CubeListBuilder.create().texOffs(33, 0).addBox(2.0F, -1.0F, -0.3F, 2.0F, 2.0F, 1.0F, new CubeDeformation(-0.2F)).texOffs(33, 0).addBox(-4.0F, -1.0F, -0.3F, 2.0F, 2.0F, 1.0F, new CubeDeformation(-0.2F)), PartPose.offset(0.0F, 5.0F, -3.0F));
+		head.addOrReplaceChild(MODEL_TOP_AZALEA, CubeListBuilder.create().texOffs(0, 18).addBox(-7.0F, 0.0F, -7.0F, 14.0F, 8.0F, 14.0F, new CubeDeformation(0.01F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+		head.addOrReplaceChild(MODEL_BOTTOM_AZALEA, CubeListBuilder.create().texOffs(18, 101).mirror().addBox(-7.0F, 0.75F, -7.0F, 14.0F, 0.0F, 14.0F, new CubeDeformation(-0.01F)).mirror(false).texOffs(0, 40).addBox(-7.0F, -4.0F, -7.0F, 14.0F, 10.0F, 14.0F, new CubeDeformation(0.01F)), PartPose.offset(0.0F, 8.0F, 0.0F));
 
-		ModelPartData bottomAzalea = head.getChild(MODEL_BOTTOM_AZALEA);
-		bottomAzalea.addChild(MODEL_SECOND_LAYER, ModelPartBuilder.create().uv(0, 64).cuboid(-6.0F, 0.0F, -6.0F, 12.0F, 7.0F, 12.0F, new Dilation(0.01F)), ModelTransform.pivot(0.0F, 1.0F, 0.0F));
+		PartDefinition bottomAzalea = head.getChild(MODEL_BOTTOM_AZALEA);
+		bottomAzalea.addOrReplaceChild(MODEL_SECOND_LAYER, CubeListBuilder.create().texOffs(0, 64).addBox(-6.0F, 0.0F, -6.0F, 12.0F, 7.0F, 12.0F, new CubeDeformation(0.01F)), PartPose.offset(0.0F, 1.0F, 0.0F));
 
-		ModelPartData secondLayer = bottomAzalea.getChild(MODEL_SECOND_LAYER);
-		secondLayer.addChild(MODEL_THIRD_LAYER, ModelPartBuilder.create().uv(0, 83).cuboid(-5.0F, 0.0F, -5.0F, 10.0F, 7.0F, 10.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 2.0F, 0.0F));
+		PartDefinition secondLayer = bottomAzalea.getChild(MODEL_SECOND_LAYER);
+		secondLayer.addOrReplaceChild(MODEL_THIRD_LAYER, CubeListBuilder.create().texOffs(0, 83).addBox(-5.0F, 0.0F, -5.0F, 10.0F, 7.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 2.0F, 0.0F));
 
-		ModelPartData thirdLayer = secondLayer.getChild(MODEL_THIRD_LAYER);
-		thirdLayer.addChild(MODEL_FOURTH_LAYER, ModelPartBuilder.create().uv(0, 100).cuboid(-4.0F, 0.0F, -4.0F, 8.0F, 7.0F, 8.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 2.0F, 0.0F));
+		PartDefinition thirdLayer = secondLayer.getChild(MODEL_THIRD_LAYER);
+		thirdLayer.addOrReplaceChild(MODEL_FOURTH_LAYER, CubeListBuilder.create().texOffs(0, 100).addBox(-4.0F, 0.0F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 2.0F, 0.0F));
 
-		return TexturedModelData.of(modelData, 64, 128);
+		return LayerDefinition.create(modelData, 64, 128);
 	}
 
 	@Override
-	public void setAngles(
+	public ModelPart root() {
+		return this.root;
+	}
+
+	@Override
+	public void setupAnim(
 		T glare,
 		float limbAngle,
 		float limbDistance,
@@ -80,41 +93,31 @@ public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntit
 		float headYaw,
 		float headPitch
 	) {
-		this.getPart().traverse().forEach(ModelPart::resetTransform);
+		this.root().getAllParts().forEach(ModelPart::resetPose);
 
 		this.animateEyes(glare);
 		this.animateFloating(glare, animationProgress);
 
-		float movementForce = MathHelper.sin(limbAngle * 0.1F) * limbDistance * 0.75F;
+		float movementForce = Mth.sin(limbAngle * 0.1F) * limbDistance * 0.75F;
 		float absMovementForce = Math.abs(movementForce);
 
 		if (absMovementForce >= 0.001F) {
-			this.head.pitch = AnimationMath.toRadians(40 * absMovementForce);
-			this.head.roll = AnimationMath.toRadians(15 * movementForce);
+			this.head.xRot = AnimationMath.toRadians(40 * absMovementForce);
+			this.head.zRot = AnimationMath.toRadians(15 * movementForce);
 
 			for (ModelPart layer : this.layers) {
-				layer.pitch = AnimationMath.toRadians(30 * absMovementForce);
-				layer.roll = AnimationMath.toRadians(15 * movementForce);
+				layer.xRot = AnimationMath.toRadians(30 * absMovementForce);
+				layer.zRot = AnimationMath.toRadians(15 * movementForce);
 			}
 		} else {
-			this.head.pitch = AnimationMath.toRadians(0.5F * AnimationMath.sin(animationProgress * 0.125F));
-			this.head.roll = AnimationMath.toRadians(0.5F * AnimationMath.cos(animationProgress * 0.125F));
+			this.head.xRot = AnimationMath.toRadians(0.5F * AnimationMath.sin(animationProgress * 0.125F));
+			this.head.zRot = AnimationMath.toRadians(0.5F * AnimationMath.cos(animationProgress * 0.125F));
 
 			for (ModelPart layer : this.layers) {
-				layer.pitch = AnimationMath.toRadians(0.75F * AnimationMath.sin(animationProgress * 0.1F));
-				layer.roll = AnimationMath.toRadians(0.75F * AnimationMath.cos(animationProgress * 0.1F));
+				layer.xRot = AnimationMath.toRadians(0.75F * AnimationMath.sin(animationProgress * 0.1F));
+				layer.zRot = AnimationMath.toRadians(0.75F * AnimationMath.cos(animationProgress * 0.1F));
 			}
 		}
-	}
-
-	@Override
-	public void animateModel(
-		T glare,
-		float limbAngle,
-		float limbDistance,
-		float tickDelta
-	) {
-
 	}
 
 	private void animateFloating(
@@ -127,7 +130,7 @@ public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntit
 		float verticalFloatingOffset;
 		float horizontalFloatingOffset;
 
-		if (glare.isSitting()) {
+		if (glare.isOrderedToSit()) {
 			verticalFloatingOffset = 0.5F;
 			horizontalFloatingOffset = 0.5F;
 		} else {
@@ -135,8 +138,8 @@ public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntit
 			horizontalFloatingOffset = 1.0F;
 		}
 
-		float targetPivotY = glare.isSitting() ? 3.0F:0.11F;
-		animateModelPartYPositionBasedOnTicks(glare, this.root, targetPivotY, 10);
+		float targetPivotY = glare.isOrderedToSit() ? 3.0F:0.11F;
+		ModelPartModelAnimator.animateModelPartYPositionBasedOnTicks(glare.getAnimationContextTracker(), this.root, glare.tickCount, targetPivotY, 10);
 
 		if (glare.isGrumpy()) {
 			ModelPartAnimator.setXPosition(this.root, AnimationMath.sin(animationProgress, 0.5F));
@@ -147,19 +150,20 @@ public final class GlareEntityModel<T extends GlareEntity> extends AnimatedEntit
 		float verticalFloatingProgress = AnimationMath.sin(animationProgress * verticalFloatingSpeed) * verticalFloatingOffset;
 		float horizontalFloatingProgress = AnimationMath.cos(animationProgress * horizontalFloatingSpeed) * horizontalFloatingOffset;
 
-		this.head.pivotY = verticalFloatingProgress;
-		this.head.pivotX = horizontalFloatingProgress;
+		this.head.y = verticalFloatingProgress;
+		this.head.x = horizontalFloatingProgress;
 	}
 
 	private void animateEyes(T glare) {
-		Vec2f targetEyesPositionOffset = glare.getTargetEyesPositionOffset();
+		Vec2 targetEyesPositionOffset = glare.getTargetEyesPositionOffset();
 
-		animateModelPartPositionBasedOnTicks(
-			glare,
+		ModelPartModelAnimator.animateModelPartPositionBasedOnTicks(
+			glare.getAnimationContextTracker(),
 			this.eyes,
-			this.eyes.pivotX + targetEyesPositionOffset.x,
-			this.eyes.pivotY + targetEyesPositionOffset.y,
-			this.eyes.pivotZ,
+			glare.tickCount,
+			this.eyes.x + targetEyesPositionOffset.x,
+			this.eyes.y + targetEyesPositionOffset.y,
+			this.eyes.z,
 			GlareEntity.MIN_EYE_ANIMATION_TICK_AMOUNT
 		);
 	}

@@ -1,14 +1,22 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.model;
 
+import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.ModelPartModelAnimator;
 import com.faboslav.friendsandfoes.common.entity.MaulerEntity;
 import com.faboslav.friendsandfoes.common.util.animation.AnimationMath;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.model.*;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.model.HierarchicalModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.util.Mth;
 
 @Environment(EnvType.CLIENT)
-public final class MaulerEntityModel<T extends MaulerEntity> extends AnimatedEntityModel<T>
+public final class MaulerEntityModel<T extends MaulerEntity> extends HierarchicalModel<T>
 {
 	private static final String MODEL_PART_ROOT = "root";
 	private static final String MODEL_PART_HEAD = "head";
@@ -20,6 +28,7 @@ public final class MaulerEntityModel<T extends MaulerEntity> extends AnimatedEnt
 	private static final String MODEL_PART_BACK_LEFT_LEG = "backLeftLeg";
 	private static final String MODEL_PART_BACK_RIGHT_LEG = "backRightLeg";
 
+	private final ModelPart root;
 	private final ModelPart head;
 	private final ModelPart upperJaw;
 	private final ModelPart lowerJaw;
@@ -30,7 +39,7 @@ public final class MaulerEntityModel<T extends MaulerEntity> extends AnimatedEnt
 	private final ModelPart backRightLeg;
 
 	public MaulerEntityModel(ModelPart root) {
-		super(root);
+		this.root = root;
 		this.head = this.root.getChild(MODEL_PART_HEAD);
 		this.upperJaw = this.head.getChild(MODEL_PART_UPPER_JAW);
 		this.lowerJaw = this.head.getChild(MODEL_PART_LOWER_JAW);
@@ -39,85 +48,85 @@ public final class MaulerEntityModel<T extends MaulerEntity> extends AnimatedEnt
 		this.frontRightLeg = this.root.getChild(MODEL_PART_FRONT_RIGHT_LEG);
 		this.backLeftLeg = this.root.getChild(MODEL_PART_BACK_LEFT_LEG);
 		this.backRightLeg = this.root.getChild(MODEL_PART_BACK_RIGHT_LEG);
-
-		this.setCurrentModelTransforms(
-			MODEL_PART_ROOT,
-			this.root
-		);
 	}
 
-	public static TexturedModelData getTexturedModelData() {
-		ModelData modelData = new ModelData();
-		ModelPartData root = modelData.getRoot();
+	public static LayerDefinition getTexturedModelData() {
+		MeshDefinition modelData = new MeshDefinition();
+		PartDefinition root = modelData.getRoot();
 
-		root.addChild(MODEL_PART_HEAD, ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 20.0F, 4.0F));
+		root.addOrReplaceChild(MODEL_PART_HEAD, CubeListBuilder.create(), PartPose.offset(0.0F, 20.0F, 4.0F));
 
-		ModelPartData head = root.getChild(MODEL_PART_HEAD);
-		head.addChild(MODEL_PART_UPPER_JAW, ModelPartBuilder.create().uv(0, 0).cuboid(-4.5F, -3.0F, -10.0F, 9.0F, 3.0F, 10.0F), ModelTransform.pivot(0.0F, -2.0F, 1.0F));
-		head.addChild(MODEL_PART_LOWER_JAW, ModelPartBuilder.create().uv(0, 13).cuboid(-4.5F, 0.0F, -10.0F, 9.0F, 3.0F, 10.0F), ModelTransform.pivot(0.0F, -2.0F, 1.0F));
+		PartDefinition head = root.getChild(MODEL_PART_HEAD);
+		head.addOrReplaceChild(MODEL_PART_UPPER_JAW, CubeListBuilder.create().texOffs(0, 0).addBox(-4.5F, -3.0F, -10.0F, 9.0F, 3.0F, 10.0F), PartPose.offset(0.0F, -2.0F, 1.0F));
+		head.addOrReplaceChild(MODEL_PART_LOWER_JAW, CubeListBuilder.create().texOffs(0, 13).addBox(-4.5F, 0.0F, -10.0F, 9.0F, 3.0F, 10.0F), PartPose.offset(0.0F, -2.0F, 1.0F));
 
-		root.addChild(MODEL_PART_BODY, ModelPartBuilder.create().uv(0, 26).cuboid(-3.5F, 0.0F, -3.0F, 7.0F, 2.0F, 6.0F, new Dilation(0.01F)), ModelTransform.pivot(0.0F, 20.0F, 1.0F));
-		root.addChild(MODEL_PART_FRONT_LEFT_LEG, ModelPartBuilder.create().uv(0, 5).cuboid(-1.0F, 0.0F, -1.0F, 2.0F, 3.0F, 2.0F), ModelTransform.pivot(2.5F, 21.0F, -1.0F));
-		root.addChild(MODEL_PART_FRONT_RIGHT_LEG, ModelPartBuilder.create().uv(0, 0).cuboid(-1.0F, 0.0F, -1.0F, 2.0F, 3.0F, 2.0F), ModelTransform.pivot(-2.5F, 21.0F, -1.0F));
-		root.addChild(MODEL_PART_BACK_LEFT_LEG, ModelPartBuilder.create().uv(0, 18).cuboid(-1.0F, 0.0F, -1.0F, 2.0F, 3.0F, 2.0F), ModelTransform.pivot(2.5F, 21.0F, 3.0F));
-		root.addChild(MODEL_PART_BACK_RIGHT_LEG, ModelPartBuilder.create().uv(0, 13).cuboid(-1.0F, 0.0F, -1.0F, 2.0F, 3.0F, 2.0F), ModelTransform.pivot(-2.5F, 21.0F, 3.0F));
+		root.addOrReplaceChild(MODEL_PART_BODY, CubeListBuilder.create().texOffs(0, 26).addBox(-3.5F, 0.0F, -3.0F, 7.0F, 2.0F, 6.0F, new CubeDeformation(0.01F)), PartPose.offset(0.0F, 20.0F, 1.0F));
+		root.addOrReplaceChild(MODEL_PART_FRONT_LEFT_LEG, CubeListBuilder.create().texOffs(0, 5).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 3.0F, 2.0F), PartPose.offset(2.5F, 21.0F, -1.0F));
+		root.addOrReplaceChild(MODEL_PART_FRONT_RIGHT_LEG, CubeListBuilder.create().texOffs(0, 0).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 3.0F, 2.0F), PartPose.offset(-2.5F, 21.0F, -1.0F));
+		root.addOrReplaceChild(MODEL_PART_BACK_LEFT_LEG, CubeListBuilder.create().texOffs(0, 18).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 3.0F, 2.0F), PartPose.offset(2.5F, 21.0F, 3.0F));
+		root.addOrReplaceChild(MODEL_PART_BACK_RIGHT_LEG, CubeListBuilder.create().texOffs(0, 13).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 3.0F, 2.0F), PartPose.offset(-2.5F, 21.0F, 3.0F));
 
-		return TexturedModelData.of(modelData, 64, 64);
+		return LayerDefinition.create(modelData, 64, 64);
 	}
 
 	@Override
-	public void setAngles(
-		T mauler,
+	public ModelPart root() {
+		return this.root;
+	}
+
+	@Override
+	public void setupAnim(
+		MaulerEntity mauler,
 		float limbAngle,
 		float limbDistance,
 		float animationProgress,
 		float headYaw,
 		float headPitch
 	) {
-		this.applyModelTransforms(MODEL_PART_ROOT, this.root);
+		this.root().getAllParts().forEach(ModelPart::resetPose);
 
 		float burrowingDownAnimationProgress = mauler.getBurrowingDownAnimationProgress();
 		float maulerHeightWithOffset = 0.5625F * 16.0F + 1.0F;
 
 		if (burrowingDownAnimationProgress > 0.0F && burrowingDownAnimationProgress < 1.0F) {
 			float targetY = maulerHeightWithOffset * burrowingDownAnimationProgress;
-			this.animateModelPartYPositionBasedOnProgress(mauler, this.root, targetY, AnimationMath.absSin(animationProgress));
+			ModelPartModelAnimator.animateModelPartYPositionWithProgress(mauler.getAnimationContextTracker(), this.root, targetY, AnimationMath.absSin(animationProgress));
 			return;
 		} else if (mauler.getBurrowingDownAnimationProgress() == 1.0F) {
-			this.root.pivotY = maulerHeightWithOffset;
+			this.root.y = maulerHeightWithOffset;
 			return;
 		}
 
-		this.head.pitch = headPitch * 0.005F;
+		this.head.xRot = headPitch * 0.005F;
 
-		float baseSpeed = mauler.hasAngerTime() ? 14.0F:10.0F;
-		float jumpHeight = mauler.hasAngerTime() ? -4.5F:-2.5F;
+		float baseSpeed = mauler.isAngry() ? 14.0F:10.0F;
+		float jumpHeight = mauler.isAngry() ? -4.5F:-2.5F;
 
-		this.root.pivotY = jumpHeight * Math.abs(MathHelper.wrap(limbAngle, baseSpeed) * limbDistance);
+		this.root.y = jumpHeight * Math.abs(Mth.triangleWave(limbAngle, baseSpeed) * limbDistance);
 
-		float legPitch = MathHelper.wrap(limbAngle, baseSpeed) * limbDistance;
+		float legPitch = Mth.triangleWave(limbAngle, baseSpeed) * limbDistance;
 		float frontLegPitch = -1.5F * legPitch;
 		float backLegPitch = 1.5F * legPitch;
 
-		this.frontLeftLeg.pitch = frontLegPitch;
-		this.frontRightLeg.pitch = frontLegPitch;
-		this.backLeftLeg.pitch = backLegPitch;
-		this.backRightLeg.pitch = backLegPitch;
+		this.frontLeftLeg.xRot = frontLegPitch;
+		this.frontRightLeg.xRot = frontLegPitch;
+		this.backLeftLeg.xRot = backLegPitch;
+		this.backRightLeg.xRot = backLegPitch;
 
 		if (
-			mauler.hasAngerTime()
+			mauler.isAngry()
 			&& !mauler.isBurrowedDown()
 			&& mauler.isMoving()
-			&& mauler.isOnGround()
-			&& mauler.getVelocity().getY() <= 0.00001
+			&& mauler.onGround()
+			&& mauler.getDeltaMovement().y() <= 0.00001
 		) {
 			float targetX = AnimationMath.toRadians(5) + AnimationMath.toRadians(-65) * AnimationMath.absSin(animationProgress, 1.0F, 0.35F);
 			float delta = AnimationMath.absSin(animationProgress);
-			animateModelPartXRotationBasedOnProgress(mauler, this.upperJaw, targetX, delta);
-			animateModelPartXRotationBasedOnTicks(mauler, this.lowerJaw, AnimationMath.toRadians(-5), 10);
+			ModelPartModelAnimator.animateModelPartXRotationBasedOnProgress(mauler.getAnimationContextTracker(), this.upperJaw, targetX, delta);
+			ModelPartModelAnimator.animateModelPartXRotationBasedOnTicks(mauler.getAnimationContextTracker(), this.lowerJaw, mauler.tickCount, AnimationMath.toRadians(-5), 10);
 		} else {
-			animateModelPartXRotationBasedOnTicks(mauler, this.upperJaw, 0.0F, 10);
-			animateModelPartXRotationBasedOnTicks(mauler, this.lowerJaw, 0.0F, 10);
+			ModelPartModelAnimator.animateModelPartXRotationBasedOnTicks(mauler.getAnimationContextTracker(), this.upperJaw, mauler.tickCount, 0.0F, 10);
+			ModelPartModelAnimator.animateModelPartXRotationBasedOnTicks(mauler.getAnimationContextTracker(), this.lowerJaw, mauler.tickCount, 0.0F, 10);
 		}
 	}
 }

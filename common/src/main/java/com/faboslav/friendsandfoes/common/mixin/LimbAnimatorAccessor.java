@@ -1,18 +1,18 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
-import net.minecraft.entity.LimbAnimator;
+import net.minecraft.world.entity.WalkAnimationState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(LimbAnimator.class)
+@Mixin(WalkAnimationState.class)
 public interface LimbAnimatorAccessor
 {
-	@Accessor("prevSpeed")
+	@Accessor("speedOld")
 	float getPresSpeed();
 
-	@Accessor("prevSpeed")
+	@Accessor("speedOld")
 	void setPrevSpeed(float prevSpeed);
 
-	@Accessor("pos")
+	@Accessor("position")
 	void setPos(float pos);
 }

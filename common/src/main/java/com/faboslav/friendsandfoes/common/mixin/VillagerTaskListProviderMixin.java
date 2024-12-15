@@ -2,23 +2,23 @@ package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.entity.ai.brain.task.beekeeper.BeekeeperWorkTask;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesVillagerProfessions;
-import net.minecraft.entity.ai.brain.task.VillagerTaskListProvider;
-import net.minecraft.entity.ai.brain.task.VillagerWorkTask;
-import net.minecraft.village.VillagerProfession;
+import net.minecraft.world.entity.ai.behavior.VillagerGoalPackages;
+import net.minecraft.world.entity.ai.behavior.WorkAtPoi;
+import net.minecraft.world.entity.npc.VillagerProfession;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
-@Mixin(VillagerTaskListProvider.class)
+@Mixin(VillagerGoalPackages.class)
 public final class VillagerTaskListProviderMixin
 {
 	@ModifyVariable(
-		method = "createWorkTasks(Lnet/minecraft/village/VillagerProfession;F)Lcom/google/common/collect/ImmutableList;",
+		method = "getWorkPackage",
 		at = @At("STORE"),
 		ordinal = 0
 	)
-	private static VillagerWorkTask friendsandfoes_setSecondVillagerWorkTask(
-		VillagerWorkTask originalTask,
+	private static WorkAtPoi friendsandfoes_setSecondVillagerWorkTask(
+		WorkAtPoi originalTask,
 		VillagerProfession profession,
 		float f
 	) {

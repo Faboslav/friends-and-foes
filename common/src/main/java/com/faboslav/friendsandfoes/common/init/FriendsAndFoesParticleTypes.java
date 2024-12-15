@@ -9,17 +9,17 @@ import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistries;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.particle.ParticleType;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.particle.SimpleParticleType;
-import net.minecraft.registry.Registries;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 /**
  * @see ParticleTypes
  */
 public final class FriendsAndFoesParticleTypes
 {
-	public static final ResourcefulRegistry<ParticleType<?>> PARTICLE_TYPES = ResourcefulRegistries.create(Registries.PARTICLE_TYPE, FriendsAndFoes.MOD_ID);
+	public static final ResourcefulRegistry<ParticleType<?>> PARTICLE_TYPES = ResourcefulRegistries.create(BuiltInRegistries.PARTICLE_TYPE, FriendsAndFoes.MOD_ID);
 
 	public static final RegistryEntry<SimpleParticleType> TOTEM_OF_FREEZING = PARTICLE_TYPES.register("totem_of_freezing", () -> new SimpleParticleType(false));
 	public static final RegistryEntry<SimpleParticleType> TOTEM_OF_ILLUSION = PARTICLE_TYPES.register("totem_of_illusion", () -> new SimpleParticleType(false));

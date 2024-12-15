@@ -1,14 +1,14 @@
 package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.common.mixin.IllusionerEntityMixin;
-import net.minecraft.entity.mob.IllusionerEntity;
+import net.minecraft.world.entity.monster.Illusioner;
 
 /**
  * @see IllusionerEntityMixin
  */
 public interface IllusionerEntityAccess
 {
-	void friendsandfoes_setIllusioner(IllusionerEntity illusionerEntity);
+	void friendsandfoes_setIllusioner(Illusioner illusionerEntity);
 
 	void friendsandfoes_setIsIllusion(boolean isIllusion);
 

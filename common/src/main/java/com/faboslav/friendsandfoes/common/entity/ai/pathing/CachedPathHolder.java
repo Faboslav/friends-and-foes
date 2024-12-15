@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.entity.ai.pathing;
 
-import net.minecraft.entity.ai.pathing.Path;
+import net.minecraft.world.level.pathfinder.Path;
 
 public final class CachedPathHolder
 {

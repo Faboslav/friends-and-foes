@@ -1,34 +1,34 @@
 package com.faboslav.friendsandfoes.common.util.particle;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 
 public final class ParticleSpawner
 {
 	public static void spawnParticles(
 		LivingEntity entity,
-		ParticleEffect particleEffect,
+		ParticleOptions particleEffect,
 		int amount,
 		double speed
 	) {
-		World world = entity.getWorld();
+		Level world = entity.level();
 
-		if (world.isClient()) {
+		if (world.isClientSide()) {
 			return;
 		}
 
-		ServerWorld serverWorld = (ServerWorld) world;
-		Random random = entity.getRandom();
+		ServerLevel serverWorld = (ServerLevel) world;
+		RandomSource random = entity.getRandom();
 
 		for (int i = 0; i < amount; i++) {
-			serverWorld.spawnParticles(
+			serverWorld.sendParticles(
 				particleEffect,
-				entity.getParticleX(1.0D),
-				entity.getRandomBodyY() + 0.5D,
-				entity.getParticleZ(1.0D),
+				entity.getRandomX(1.0D),
+				entity.getRandomY() + 0.5D,
+				entity.getRandomZ(1.0D),
 				1,
 				random.nextGaussian() * 0.02D,
 				random.nextGaussian() * 0.02D,

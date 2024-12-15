@@ -1,11 +1,11 @@
 package com.faboslav.friendsandfoes.common.events.lifecycle;
 
 import com.faboslav.friendsandfoes.common.events.base.EventHandler;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnLocation;
-import net.minecraft.entity.SpawnRestriction;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.world.Heightmap;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.SpawnPlacementType;
+import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.level.levelgen.Heightmap;
 
 /**
  * Event related is code based on The Bumblezone/Resourceful Lib mods with permissions from the authors
@@ -19,19 +19,19 @@ public record RegisterEntitySpawnRestrictionsEvent(Registrar registrar)
 {
 	public static final EventHandler<RegisterEntitySpawnRestrictionsEvent> EVENT = new EventHandler<>();
 
-	public <T extends MobEntity> void register(
+	public <T extends Mob> void register(
 		EntityType<T> entityType,
-		SpawnLocation location,
-		Heightmap.Type heightmap,
-		SpawnRestriction.SpawnPredicate<T> predicate
+		SpawnPlacementType location,
+		Heightmap.Types heightmap,
+		SpawnPlacements.SpawnPredicate<T> predicate
 	) {
 		registrar.register(entityType, new Placement<>(predicate, location, heightmap));
 	}
 
-	public record Placement<T extends MobEntity>(
-		SpawnRestriction.SpawnPredicate<T> predicate,
-		SpawnLocation location,
-		Heightmap.Type heightmap
+	public record Placement<T extends Mob>(
+		SpawnPlacements.SpawnPredicate<T> predicate,
+		SpawnPlacementType location,
+		Heightmap.Types heightmap
 	)
 	{
 	}
@@ -39,6 +39,6 @@ public record RegisterEntitySpawnRestrictionsEvent(Registrar registrar)
 	@FunctionalInterface
 	public interface Registrar
 	{
-		<T extends MobEntity> void register(EntityType<T> type, Placement<T> placement);
+		<T extends Mob> void register(EntityType<T> type, Placement<T> placement);
 	}
 }

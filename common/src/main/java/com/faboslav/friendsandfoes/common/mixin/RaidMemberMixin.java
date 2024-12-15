@@ -1,13 +1,13 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-import net.minecraft.village.raid.Raid;
+import net.minecraft.world.entity.raid.Raid;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Slice;
 
-@Mixin(Raid.Member.class)
+@Mixin(Raid.RaiderType.class)
 public final class RaidMemberMixin
 {
 	@ModifyArg(
@@ -20,7 +20,7 @@ public final class RaidMemberMixin
 		),
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/village/raid/Raid$Member;<init>(Ljava/lang/String;ILnet/minecraft/entity/EntityType;[I)V",
+			target = "Lnet/minecraft/world/entity/raid/Raid$RaiderType;<init>(Ljava/lang/String;ILnet/minecraft/world/entity/EntityType;[I)V",
 			ordinal = 0
 		)
 	)

@@ -4,17 +4,23 @@ import com.faboslav.friendsandfoes.common.entity.IceologerIceChunkEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
 
 @Environment(EnvType.CLIENT)
-public final class IceologerIceChunkModel<T extends IceologerIceChunkEntity> extends BaseEntityModel<T>
+public final class IceologerIceChunkModel<T extends IceologerIceChunkEntity> extends HierarchicalModel<T>
 {
-	private static final String MODEL_PART_ROOT = "root";
 	private static final String MODEL_PART_FIRST_FULL_BLOCK = "firstFullBlock";
 	private static final String MODEL_PART_SECOND_FULL_BLOCK = "secondFullBlock";
 	private static final String MODEL_PART_THIRD_FULL_BLOCK = "thirdFullBlock";
 	private static final String MODEL_PART_FIRST_VERTICAL_SLAB = "firstVerticalSlab";
 	private static final String MODEL_PART_SECOND_VERTICAL_SLAB = "secondVerticalSlab";
 
+	private final ModelPart root;
 	private final ModelPart firstFullBlock;
 	private final ModelPart secondFullBlock;
 	private final ModelPart thirdFullBlock;
@@ -22,7 +28,7 @@ public final class IceologerIceChunkModel<T extends IceologerIceChunkEntity> ext
 	private final ModelPart secondVerticalSlab;
 
 	public IceologerIceChunkModel(ModelPart root) {
-		super(root);
+		this.root = root;
 		this.firstFullBlock = this.root.getChild(MODEL_PART_FIRST_FULL_BLOCK);
 		this.secondFullBlock = this.root.getChild(MODEL_PART_SECOND_FULL_BLOCK);
 		this.thirdFullBlock = this.root.getChild(MODEL_PART_THIRD_FULL_BLOCK);
@@ -30,21 +36,26 @@ public final class IceologerIceChunkModel<T extends IceologerIceChunkEntity> ext
 		this.secondVerticalSlab = this.root.getChild(MODEL_PART_SECOND_VERTICAL_SLAB);
 	}
 
-	public static TexturedModelData getTexturedModelData() {
-		ModelData modelData = new ModelData();
-		ModelPartData root = modelData.getRoot();
+	public static LayerDefinition getTexturedModelData() {
+		MeshDefinition modelData = new MeshDefinition();
+		PartDefinition root = modelData.getRoot();
 
-		root.addChild(MODEL_PART_FIRST_FULL_BLOCK, ModelPartBuilder.create().uv(0, 0).cuboid(-16.0F, 0.0F, -4.0F, 16.0F, 16.0F, 16.0F), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
-		root.addChild(MODEL_PART_SECOND_FULL_BLOCK, ModelPartBuilder.create().uv(0, 0).cuboid(0.0F, 0.0F, -4.0F, 16.0F, 16.0F, 16.0F), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
-		root.addChild(MODEL_PART_THIRD_FULL_BLOCK, ModelPartBuilder.create().uv(0, 0).cuboid(-16.0F, 0.0F, -20.0F, 16.0F, 16.0F, 16.0F), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
-		root.addChild(MODEL_PART_FIRST_VERTICAL_SLAB, ModelPartBuilder.create().uv(0, 32).cuboid(-16.0F, 0.0F, 12.0F, 16.0F, 16.0F, 8.0F), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
-		root.addChild(MODEL_PART_SECOND_VERTICAL_SLAB, ModelPartBuilder.create().uv(0, 32).cuboid(-20.0F, 0.0F, -8.0F, 16.0F, 16.0F, 8.0F), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
+		root.addOrReplaceChild(MODEL_PART_FIRST_FULL_BLOCK, CubeListBuilder.create().texOffs(0, 0).addBox(-16.0F, 0.0F, -4.0F, 16.0F, 16.0F, 16.0F), PartPose.offset(0.0F, 0.0F, 0.0F));
+		root.addOrReplaceChild(MODEL_PART_SECOND_FULL_BLOCK, CubeListBuilder.create().texOffs(0, 0).addBox(0.0F, 0.0F, -4.0F, 16.0F, 16.0F, 16.0F), PartPose.offset(0.0F, 0.0F, 0.0F));
+		root.addOrReplaceChild(MODEL_PART_THIRD_FULL_BLOCK, CubeListBuilder.create().texOffs(0, 0).addBox(-16.0F, 0.0F, -20.0F, 16.0F, 16.0F, 16.0F), PartPose.offset(0.0F, 0.0F, 0.0F));
+		root.addOrReplaceChild(MODEL_PART_FIRST_VERTICAL_SLAB, CubeListBuilder.create().texOffs(0, 32).addBox(-16.0F, 0.0F, 12.0F, 16.0F, 16.0F, 8.0F), PartPose.offset(0.0F, 0.0F, 0.0F));
+		root.addOrReplaceChild(MODEL_PART_SECOND_VERTICAL_SLAB, CubeListBuilder.create().texOffs(0, 32).addBox(-20.0F, 0.0F, -8.0F, 16.0F, 16.0F, 8.0F), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-		return TexturedModelData.of(modelData, 64, 64);
+		return LayerDefinition.create(modelData, 64, 64);
 	}
 
 	@Override
-	public void setAngles(
+	public ModelPart root() {
+		return this.root;
+	}
+
+	@Override
+	public void setupAnim(
 		T iceChunk,
 		float limbAngle,
 		float limbDistance,
@@ -52,6 +63,6 @@ public final class IceologerIceChunkModel<T extends IceologerIceChunkEntity> ext
 		float headYaw,
 		float headPitch
 	) {
-		this.secondVerticalSlab.setAngles(0.0F, -1.5708F, 0.0F);
+		this.secondVerticalSlab.setRotation(0.0F, -1.5708F, 0.0F);
 	}
 }

@@ -5,21 +5,21 @@ import com.faboslav.friendsandfoes.common.entity.CopperGolemEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.CopperGolemBrain;
 import com.faboslav.friendsandfoes.common.entity.pose.CopperGolemEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ButtonBlock;
-import net.minecraft.block.Oxidizable;
-import net.minecraft.entity.ai.brain.MemoryModuleState;
-import net.minecraft.entity.ai.brain.task.MultiTickTask;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.GlobalPos;
-import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.ai.behavior.Behavior;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.level.block.ButtonBlock;
+import net.minecraft.world.level.block.WeatheringCopper;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 
-public final class CopperGolemPressButtonTask extends MultiTickTask<CopperGolemEntity>
+public final class CopperGolemPressButtonTask extends Behavior<CopperGolemEntity>
 {
 	private final static float WITHING_DISTANCE = 2.0F;
 	private int pressButtonTicks = 0;
@@ -31,19 +31,19 @@ public final class CopperGolemPressButtonTask extends MultiTickTask<CopperGolemE
 	public CopperGolemPressButtonTask() {
 		super(
 			Map.of(
-				FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_BUTTON_POS.get(), MemoryModuleState.VALUE_PRESENT,
-				FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_IS_OXIDIZED.get(), MemoryModuleState.VALUE_ABSENT
+				FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_BUTTON_POS.get(), MemoryStatus.VALUE_PRESENT,
+				FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_IS_OXIDIZED.get(), MemoryStatus.VALUE_ABSENT
 			), 100
 		);
 	}
 
 	@Override
-	protected boolean shouldRun(ServerWorld world, CopperGolemEntity copperGolem) {
+	protected boolean checkExtraStartConditions(ServerLevel world, CopperGolemEntity copperGolem) {
 		if (
 			copperGolem.getButtonPos() == null
 			|| copperGolem.isButtonValidToBePressed(copperGolem.getButtonPos().pos()) == false
-			|| copperGolem.getButtonPos().pos().isWithinDistance(copperGolem.getPos(), WITHING_DISTANCE) == false
-			|| copperGolem.getNavigation().isFollowingPath()
+			|| copperGolem.getButtonPos().pos().closerToCenterThan(copperGolem.position(), WITHING_DISTANCE) == false
+			|| copperGolem.getNavigation().isInProgress()
 		) {
 			return false;
 		}
@@ -52,7 +52,7 @@ public final class CopperGolemPressButtonTask extends MultiTickTask<CopperGolemE
 	}
 
 	@Override
-	protected void run(ServerWorld world, CopperGolemEntity copperGolem, long time) {
+	protected void start(ServerLevel world, CopperGolemEntity copperGolem, long time) {
 		this.pressButtonTicks = 0;
 		this.wasButtonPressed = false;
 
@@ -62,19 +62,19 @@ public final class CopperGolemPressButtonTask extends MultiTickTask<CopperGolemE
 			return;
 		}
 
-		this.heightDifference = buttonPos.pos().getY() - copperGolem.getBlockPos().getY();
+		this.heightDifference = buttonPos.pos().getY() - copperGolem.blockPosition().getY();
 
 		if (this.heightDifference >= 1) {
-			this.maxPressButtonTicks = CopperGolemAnimations.getPressButtonUpKeyframeAnimation(copperGolem.getAnimationSpeedModifier()).getAnimationLengthInTicks();
+			this.maxPressButtonTicks = CopperGolemAnimations.PRESS_BUTTON_UP.get().lengthInTicks(copperGolem.getAnimationSpeedModifier());
 		} else {
-			this.maxPressButtonTicks = CopperGolemAnimations.getPressButtonDownKeyframeAnimation(copperGolem.getAnimationSpeedModifier()).getAnimationLengthInTicks();
+			this.maxPressButtonTicks = CopperGolemAnimations.PRESS_BUTTON_DOWN.get().lengthInTicks(copperGolem.getAnimationSpeedModifier());
 		}
 
-		this.minPressButtonTick = copperGolem.getRandom().nextBetween((int) (this.maxPressButtonTicks * 0.4), (int) (this.maxPressButtonTicks * 0.6));
+		this.minPressButtonTick = copperGolem.getRandom().nextIntBetweenInclusive((int) (this.maxPressButtonTicks * 0.4), (int) (this.maxPressButtonTicks * 0.6));
 	}
 
 	@Override
-	protected boolean shouldKeepRunning(ServerWorld world, CopperGolemEntity copperGolem, long time) {
+	protected boolean canStillUse(ServerLevel world, CopperGolemEntity copperGolem, long time) {
 		if (
 			this.pressButtonTicks > this.maxPressButtonTicks
 			|| copperGolem.isOxidized()
@@ -85,7 +85,7 @@ public final class CopperGolemPressButtonTask extends MultiTickTask<CopperGolemE
 		return true;
 	}
 
-	protected void keepRunning(ServerWorld world, CopperGolemEntity copperGolem, long time) {
+	protected void tick(ServerLevel world, CopperGolemEntity copperGolem, long time) {
 		this.pressButtonTicks++;
 
 		if (this.heightDifference >= 1) {
@@ -95,10 +95,10 @@ public final class CopperGolemPressButtonTask extends MultiTickTask<CopperGolemE
 		}
 
 		if (
-			copperGolem.getOxidationLevel().ordinal() >= Oxidizable.OxidationLevel.WEATHERED.ordinal()
+			copperGolem.getOxidationLevel().ordinal() >= WeatheringCopper.WeatherState.WEATHERED.ordinal()
 			&& copperGolem.getRandom().nextFloat() > 0.99
 		) {
-			copperGolem.setOxidationLevel(Oxidizable.OxidationLevel.OXIDIZED);
+			copperGolem.setOxidationLevel(WeatheringCopper.WeatherState.OXIDIZED);
 		}
 
 		if (pressButtonTicks < this.minPressButtonTick) {
@@ -119,9 +119,9 @@ public final class CopperGolemPressButtonTask extends MultiTickTask<CopperGolemE
 	}
 
 	@Override
-	protected void finishRunning(ServerWorld world, CopperGolemEntity copperGolem, long time) {
+	protected void stop(ServerLevel world, CopperGolemEntity copperGolem, long time) {
 		copperGolem.setPose(CopperGolemEntityPose.IDLE);
-		copperGolem.getBrain().forget(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_BUTTON_POS.get());
+		copperGolem.getBrain().eraseMemory(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_BUTTON_POS.get());
 		CopperGolemBrain.setPressButtonCooldown(copperGolem);
 	}
 
@@ -130,27 +130,27 @@ public final class CopperGolemPressButtonTask extends MultiTickTask<CopperGolemE
 
 		if (
 			buttonBlockState == null
-			|| buttonBlockState.get(ButtonBlock.POWERED)
+			|| buttonBlockState.getValue(ButtonBlock.POWERED)
 		) {
 			return false;
 		}
 
 		ButtonBlock buttonBlock = (ButtonBlock) buttonBlockState.getBlock();
 
-		buttonBlock.powerOn(
+		buttonBlock.press(
 			buttonBlockState,
-			copperGolem.getWorld(),
+			copperGolem.level(),
 			buttonPos,
 			null
 		);
-		copperGolem.getEntityWorld().playSound(null,
+		copperGolem.getCommandSenderWorld().playSound(null,
 			buttonPos,
-			buttonBlock.getClickSound(true),
-			SoundCategory.BLOCKS,
+			buttonBlock.getSound(true),
+			SoundSource.BLOCKS,
 			0.3F,
 			0.6F
 		);
-		copperGolem.getEntityWorld().emitGameEvent(copperGolem,
+		copperGolem.getCommandSenderWorld().gameEvent(copperGolem,
 			GameEvent.BLOCK_ACTIVATE,
 			buttonPos
 		);
@@ -161,7 +161,7 @@ public final class CopperGolemPressButtonTask extends MultiTickTask<CopperGolemE
 
 	@Nullable
 	private BlockState getButtonBlockState(CopperGolemEntity copperGolem, BlockPos buttonBlockPos) {
-		ServerWorld serverWorld = (ServerWorld) copperGolem.getEntityWorld();
+		ServerLevel serverWorld = (ServerLevel) copperGolem.getCommandSenderWorld();
 		BlockState blockState = serverWorld.getBlockState(buttonBlockPos);
 
 		if (blockState.getBlock() instanceof ButtonBlock == false) {

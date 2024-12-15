@@ -1,14 +1,14 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
-import net.minecraft.entity.mob.IllusionerEntity;
+import net.minecraft.world.entity.monster.Illusioner;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
-@Mixin(IllusionerEntity.BlindTargetGoal.class)
+@Mixin(Illusioner.IllusionerBlindnessSpellGoal.class)
 public interface BlindTargetGoalFactory
 {
 	@Invoker("<init>")
-	static IllusionerEntity.BlindTargetGoal newBlindTargetGoal(IllusionerEntity entity) {
+	static Illusioner.IllusionerBlindnessSpellGoal newBlindTargetGoal(Illusioner entity) {
 		throw new AssertionError();
 	}
 }

@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.common.init.registry.neoforge;
 
 import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 /**
@@ -26,7 +26,7 @@ public class NeoForgeRegistryEntry<R, T extends R> implements RegistryEntry<T>
 	}
 
 	@Override
-	public Identifier getId() {
+	public ResourceLocation getId() {
 		return object.getId();
 	}
 }

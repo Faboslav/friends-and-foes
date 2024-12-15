@@ -1,11 +1,11 @@
 package com.faboslav.friendsandfoes.common.util.animation;
 
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.Mth;
 
 public final class AnimationMath
 {
 	public static float absSin(float progress, float range, float speed) {
-		return MathHelper.abs(sin(progress, range, speed));
+		return Mth.abs(sin(progress, range, speed));
 	}
 
 	public static float absSin(float progress, float range) {
@@ -17,7 +17,7 @@ public final class AnimationMath
 	}
 
 	public static float sin(float progress, float range, float speed) {
-		return MathHelper.sin(progress * speed) * range;
+		return Mth.sin(progress * speed) * range;
 	}
 
 	public static float sin(float progress, float range) {
@@ -29,7 +29,7 @@ public final class AnimationMath
 	}
 
 	public static float absCos(float progress, float range, float speed) {
-		return MathHelper.cos(cos(progress, range, speed));
+		return Mth.cos(cos(progress, range, speed));
 	}
 
 	public static float absCos(float progress, float range) {
@@ -41,7 +41,7 @@ public final class AnimationMath
 	}
 
 	public static float cos(float progress, float range, float speed) {
-		return MathHelper.cos(progress * speed) * range;
+		return Mth.cos(progress * speed) * range;
 	}
 
 	public static float cos(float progress, float range) {
@@ -53,7 +53,7 @@ public final class AnimationMath
 	}
 
 	public static float lerp(float progress, float start, float end) {
-		return MathHelper.lerp(progress, start, end);
+		return Mth.lerp(progress, start, end);
 	}
 
 	public static float lerp(float progress, double start, double end) {

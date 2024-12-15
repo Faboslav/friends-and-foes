@@ -9,16 +9,22 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Dynamic;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.brain.Activity;
-import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.entity.ai.brain.MemoryModuleType;
-import net.minecraft.entity.ai.brain.sensor.Sensor;
-import net.minecraft.entity.ai.brain.sensor.SensorType;
-import net.minecraft.entity.ai.brain.task.*;
-import net.minecraft.util.TimeHelper;
-import net.minecraft.util.math.intprovider.UniformIntProvider;
-
+import net.minecraft.util.TimeUtil;
+import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.Brain;
+import net.minecraft.world.entity.ai.behavior.CountDownCooldownTicks;
+import net.minecraft.world.entity.ai.behavior.DoNothing;
+import net.minecraft.world.entity.ai.behavior.LookAtTargetSink;
+import net.minecraft.world.entity.ai.behavior.MoveToTargetSink;
+import net.minecraft.world.entity.ai.behavior.RandomStroll;
+import net.minecraft.world.entity.ai.behavior.RunOne;
+import net.minecraft.world.entity.ai.behavior.SetWalkTargetAwayFrom;
+import net.minecraft.world.entity.ai.behavior.Swim;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.sensing.Sensor;
+import net.minecraft.world.entity.ai.sensing.SensorType;
+import net.minecraft.world.entity.schedule.Activity;
 import java.util.List;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
@@ -27,15 +33,15 @@ public final class RascalBrain
 	public static final List<MemoryModuleType<?>> MEMORY_MODULES;
 	public static final List<SensorType<? extends Sensor<? super RascalEntity>>> SENSORS;
 	public final static int NOD_COOLDOWN = 10;
-	private static final UniformIntProvider NOD_COOLDOWN_PROVIDER;
-	private static final UniformIntProvider AVOID_MEMORY_DURATION;
+	private static final UniformInt NOD_COOLDOWN_PROVIDER;
+	private static final UniformInt AVOID_MEMORY_DURATION;
 
 	public RascalBrain() {
 	}
 
 	public static Brain<?> create(Dynamic<?> dynamic) {
-		Brain.Profile<RascalEntity> profile = Brain.createProfile(MEMORY_MODULES, SENSORS);
-		Brain<RascalEntity> brain = profile.deserialize(dynamic);
+		Brain.Provider<RascalEntity> profile = Brain.provider(MEMORY_MODULES, SENSORS);
+		Brain<RascalEntity> brain = profile.makeBrain(dynamic);
 
 		addCoreActivities(brain);
 		addIdleActivities(brain);
@@ -44,25 +50,25 @@ public final class RascalBrain
 
 		brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
 		brain.setDefaultActivity(Activity.IDLE);
-		brain.resetPossibleActivities();
+		brain.useDefaultActivity();
 
 		return brain;
 	}
 
 	private static void addCoreActivities(Brain<RascalEntity> brain) {
-		brain.setTaskList(Activity.CORE,
+		brain.addActivity(Activity.CORE,
 			0,
 			ImmutableList.of(
-				new StayAboveWaterTask(0.8F),
-				new LookAroundTask(45, 90),
-				new MoveToTargetTask(),
-				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.RASCAL_NOD_COOLDOWN.get())
+				new Swim(0.8F),
+				new LookAtTargetSink(45, 90),
+				new MoveToTargetSink(),
+				new CountDownCooldownTicks(FriendsAndFoesMemoryModuleTypes.RASCAL_NOD_COOLDOWN.get())
 			)
 		);
 	}
 
 	private static void addIdleActivities(Brain<RascalEntity> brain) {
-		brain.setTaskList(
+		brain.addActivity(
 			Activity.IDLE,
 			ImmutableList.of(
 				Pair.of(0, RascalFindInteractionTargetTask.create(6)),
@@ -74,7 +80,7 @@ public final class RascalBrain
 	private static void addWaitActivities(
 		Brain<RascalEntity> brain
 	) {
-		brain.setTaskList(
+		brain.addActivityAndRemoveMemoryWhenStopped(
 			FriendsAndFoesActivities.RASCAL_WAIT.get(),
 			10,
 			ImmutableList.of(
@@ -84,18 +90,18 @@ public final class RascalBrain
 	}
 
 	private static void addAvoidActivities(Brain<RascalEntity> brain) {
-		brain.setTaskList(
+		brain.addActivityAndRemoveMemoryWhenStopped(
 			Activity.AVOID,
 			10,
 			ImmutableList.of(
-				GoToRememberedPositionTask.createEntityBased(MemoryModuleType.AVOID_TARGET, 1.0F, 32, true)
+				SetWalkTargetAwayFrom.entity(MemoryModuleType.AVOID_TARGET, 1.0F, 32, true)
 			),
 			MemoryModuleType.AVOID_TARGET
 		);
 	}
 
 	public static void updateActivities(RascalEntity rascal) {
-		rascal.getBrain().resetPossibleActivities(
+		rascal.getBrain().setActiveActivityToFirstValid(
 			ImmutableList.of(
 				FriendsAndFoesActivities.RASCAL_WAIT.get(),
 				Activity.AVOID,
@@ -104,22 +110,22 @@ public final class RascalBrain
 		);
 	}
 
-	private static RandomTask<RascalEntity> makeRandomWanderTask() {
-		return new RandomTask(
+	private static RunOne<RascalEntity> makeRandomWanderTask() {
+		return new RunOne(
 			ImmutableList.of(
-				Pair.of(StrollTask.create(0.6F), 2),
-				Pair.of(new WaitTask(30, 60), 1)
+				Pair.of(RandomStroll.stroll(0.6F), 2),
+				Pair.of(new DoNothing(30, 60), 1)
 			)
 		);
 	}
 
 	public static void setNodCooldown(RascalEntity rascal) {
-		rascal.getBrain().remember(FriendsAndFoesMemoryModuleTypes.RASCAL_NOD_COOLDOWN.get(), NOD_COOLDOWN_PROVIDER.get(rascal.getRandom()));
+		rascal.getBrain().setMemory(FriendsAndFoesMemoryModuleTypes.RASCAL_NOD_COOLDOWN.get(), NOD_COOLDOWN_PROVIDER.sample(rascal.getRandom()));
 		onCooldown(rascal);
 	}
 
 	public static boolean shouldRunAway(RascalEntity rascal) {
-		return rascal.getBrain().getOptionalMemory(FriendsAndFoesMemoryModuleTypes.RASCAL_NOD_COOLDOWN.get()).isPresent();
+		return rascal.getBrain().getMemoryInternal(FriendsAndFoesMemoryModuleTypes.RASCAL_NOD_COOLDOWN.get()).isPresent();
 	}
 
 	public static void onCooldown(RascalEntity rascal) {
@@ -131,7 +137,7 @@ public final class RascalBrain
 			return;
 		}
 
-		LivingEntity nearestTarget = rascal.getBrain().getOptionalMemory(MemoryModuleType.INTERACTION_TARGET).orElse(null);
+		LivingEntity nearestTarget = rascal.getBrain().getMemoryInternal(MemoryModuleType.INTERACTION_TARGET).orElse(null);
 
 		if (nearestTarget == null) {
 			return;
@@ -141,10 +147,10 @@ public final class RascalBrain
 	}
 
 	private static void runAwayFrom(RascalEntity rascal, LivingEntity target) {
-		rascal.getBrain().forget(MemoryModuleType.LOOK_TARGET);
-		rascal.getBrain().forget(MemoryModuleType.WALK_TARGET);
-		rascal.getBrain().forget(MemoryModuleType.INTERACTION_TARGET);
-		rascal.getBrain().remember(MemoryModuleType.AVOID_TARGET, target, AVOID_MEMORY_DURATION.get(rascal.getRandom()));
+		rascal.getBrain().eraseMemory(MemoryModuleType.LOOK_TARGET);
+		rascal.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);
+		rascal.getBrain().eraseMemory(MemoryModuleType.INTERACTION_TARGET);
+		rascal.getBrain().setMemoryWithExpiry(MemoryModuleType.AVOID_TARGET, target, AVOID_MEMORY_DURATION.sample(rascal.getRandom()));
 	}
 
 	static {
@@ -153,18 +159,18 @@ public final class RascalBrain
 			SensorType.NEAREST_PLAYERS
 		);
 		MEMORY_MODULES = List.of(
-			MemoryModuleType.VISIBLE_MOBS,
+			MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES,
 			MemoryModuleType.PATH,
 			MemoryModuleType.LOOK_TARGET,
 			MemoryModuleType.WALK_TARGET,
 			MemoryModuleType.AVOID_TARGET,
 			MemoryModuleType.INTERACTION_TARGET,
-			MemoryModuleType.NEAREST_VISIBLE_TARGETABLE_PLAYER,
+			MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER,
 			MemoryModuleType.NEAREST_PLAYERS,
 			MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
 			FriendsAndFoesMemoryModuleTypes.RASCAL_NOD_COOLDOWN.get()
 		);
-		NOD_COOLDOWN_PROVIDER = TimeHelper.betweenSeconds(NOD_COOLDOWN, NOD_COOLDOWN);
-		AVOID_MEMORY_DURATION = TimeHelper.betweenSeconds(NOD_COOLDOWN, NOD_COOLDOWN);
+		NOD_COOLDOWN_PROVIDER = TimeUtil.rangeOfSeconds(NOD_COOLDOWN, NOD_COOLDOWN);
+		AVOID_MEMORY_DURATION = TimeUtil.rangeOfSeconds(NOD_COOLDOWN, NOD_COOLDOWN);
 	}
 }

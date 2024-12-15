@@ -4,16 +4,13 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistries;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
-import com.faboslav.friendsandfoes.common.world.structures.CitadelStructure;
-import com.faboslav.friendsandfoes.common.world.structures.IceologerCabinStructure;
-import com.faboslav.friendsandfoes.common.world.structures.IllusionerShackStructure;
-import com.faboslav.friendsandfoes.common.world.structures.IllusionerTrainingGroundsStructure;
-import net.minecraft.registry.Registries;
-import net.minecraft.world.gen.structure.StructureType;
+import com.faboslav.friendsandfoes.common.world.structures.*;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.level.levelgen.structure.StructureType;
 
 public final class FriendsAndFoesStructureTypes
 {
-	public static final ResourcefulRegistry<StructureType<?>> STRUCTURES = ResourcefulRegistries.create(Registries.STRUCTURE_TYPE, FriendsAndFoes.MOD_ID);
+	public static final ResourcefulRegistry<StructureType<?>> STRUCTURES = ResourcefulRegistries.create(BuiltInRegistries.STRUCTURE_TYPE, FriendsAndFoes.MOD_ID);
 
 	public static final RegistryEntry<StructureType<CitadelStructure>> CITADEL_STRUCTURE = STRUCTURES.register("citadel_structure", () -> () -> CitadelStructure.CODEC);
 	public static final RegistryEntry<StructureType<IllusionerShackStructure>> ILLUSIONER_SHACK_STRUCTURE = STRUCTURES.register("illusioner_shack_structure", () -> () -> IllusionerShackStructure.CODEC);

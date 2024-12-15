@@ -11,14 +11,31 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Dynamic;
-import net.minecraft.entity.ai.brain.*;
-import net.minecraft.entity.ai.brain.sensor.Sensor;
-import net.minecraft.entity.ai.brain.sensor.SensorType;
-import net.minecraft.entity.ai.brain.task.*;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.util.TimeHelper;
-import net.minecraft.util.math.intprovider.UniformIntProvider;
-
+import net.minecraft.util.TimeUtil;
+import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.entity.ai.Brain;
+import net.minecraft.world.entity.ai.behavior.AnimalMakeLove;
+import net.minecraft.world.entity.ai.behavior.BabyFollowAdult;
+import net.minecraft.world.entity.ai.behavior.CountDownCooldownTicks;
+import net.minecraft.world.entity.ai.behavior.DoNothing;
+import net.minecraft.world.entity.ai.behavior.EntityTracker;
+import net.minecraft.world.entity.ai.behavior.FollowTemptation;
+import net.minecraft.world.entity.ai.behavior.GoToWantedItem;
+import net.minecraft.world.entity.ai.behavior.LookAtTargetSink;
+import net.minecraft.world.entity.ai.behavior.MoveToTargetSink;
+import net.minecraft.world.entity.ai.behavior.PositionTracker;
+import net.minecraft.world.entity.ai.behavior.RunOne;
+import net.minecraft.world.entity.ai.behavior.SetEntityLookTargetSometimes;
+import net.minecraft.world.entity.ai.behavior.SetWalkTargetAwayFrom;
+import net.minecraft.world.entity.ai.behavior.SetWalkTargetFromLookTarget;
+import net.minecraft.world.entity.ai.behavior.StayCloseToTarget;
+import net.minecraft.world.entity.ai.behavior.Swim;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.entity.ai.sensing.Sensor;
+import net.minecraft.world.entity.ai.sensing.SensorType;
+import net.minecraft.world.entity.schedule.Activity;
+import net.minecraft.world.item.crafting.Ingredient;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,15 +44,15 @@ public final class GlareBrain
 {
 	public static final List<MemoryModuleType<?>> MEMORY_MODULES;
 	public static final List<SensorType<? extends Sensor<? super GlareEntity>>> SENSORS;
-	private static final UniformIntProvider DARK_SPOT_LOCATING_COOLDOWN_PROVIDER;
-	private static final UniformIntProvider EAT_GLOW_BERRIES_COOLDOWN_PROVIDER;
+	private static final UniformInt DARK_SPOT_LOCATING_COOLDOWN_PROVIDER;
+	private static final UniformInt EAT_GLOW_BERRIES_COOLDOWN_PROVIDER;
 
 	public GlareBrain() {
 	}
 
 	public static Brain<?> create(Dynamic<?> dynamic) {
-		Brain.Profile<GlareEntity> profile = Brain.createProfile(MEMORY_MODULES, SENSORS);
-		Brain<GlareEntity> brain = profile.deserialize(dynamic);
+		Brain.Provider<GlareEntity> profile = Brain.provider(MEMORY_MODULES, SENSORS);
+		Brain<GlareEntity> brain = profile.makeBrain(dynamic);
 
 		addCoreActivities(brain);
 		addAvoidActivities(brain);
@@ -45,22 +62,22 @@ public final class GlareBrain
 
 		brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
 		brain.setDefaultActivity(Activity.IDLE);
-		brain.resetPossibleActivities();
+		brain.useDefaultActivity();
 
 		return brain;
 	}
 
 	private static void addCoreActivities(Brain<GlareEntity> brain) {
-		brain.setTaskList(Activity.CORE,
+		brain.addActivity(Activity.CORE,
 			0,
 			ImmutableList.of(
-				new StayAboveWaterTask(0.8f),
-				new LookAroundTask(45, 90),
-				new MoveToTargetTask(),
-				new TemptationCooldownTask(MemoryModuleType.TEMPTATION_COOLDOWN_TICKS),
-				new TemptationCooldownTask(MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS),
-				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.GLARE_LOCATING_GLOW_BERRIES_COOLDOWN.get()),
-				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_LOCATING_COOLDOWN.get())
+				new Swim(0.8f),
+				new LookAtTargetSink(45, 90),
+				new MoveToTargetSink(),
+				new CountDownCooldownTicks(MemoryModuleType.TEMPTATION_COOLDOWN_TICKS),
+				new CountDownCooldownTicks(MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS),
+				new CountDownCooldownTicks(FriendsAndFoesMemoryModuleTypes.GLARE_LOCATING_GLOW_BERRIES_COOLDOWN.get()),
+				new CountDownCooldownTicks(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_LOCATING_COOLDOWN.get())
 			)
 		);
 	}
@@ -68,7 +85,7 @@ public final class GlareBrain
 	private static void addDarkSpotActivities(
 		Brain<GlareEntity> brain
 	) {
-		brain.setTaskList(
+		brain.addActivityWithConditions(
 			FriendsAndFoesActivities.GLARE_SHOW_DARK_SPOT.get(),
 			ImmutableList.of(
 				Pair.of(0, new GlareLocateDarkSpotTask()),
@@ -76,12 +93,12 @@ public final class GlareBrain
 				Pair.of(2, new GlareBeGrumpyAtDarkSpotTask())
 			),
 			ImmutableSet.of(
-				Pair.of(MemoryModuleType.AVOID_TARGET, MemoryModuleState.VALUE_ABSENT),
-				Pair.of(MemoryModuleType.BREED_TARGET, MemoryModuleState.VALUE_ABSENT),
-				Pair.of(MemoryModuleType.TEMPTING_PLAYER, MemoryModuleState.VALUE_ABSENT),
-				Pair.of(FriendsAndFoesMemoryModuleTypes.GLARE_IS_TAMED.get(), MemoryModuleState.VALUE_PRESENT),
-				Pair.of(FriendsAndFoesMemoryModuleTypes.GLARE_IS_IDLE.get(), MemoryModuleState.VALUE_ABSENT),
-				Pair.of(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_LOCATING_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT)
+				Pair.of(MemoryModuleType.AVOID_TARGET, MemoryStatus.VALUE_ABSENT),
+				Pair.of(MemoryModuleType.BREED_TARGET, MemoryStatus.VALUE_ABSENT),
+				Pair.of(MemoryModuleType.TEMPTING_PLAYER, MemoryStatus.VALUE_ABSENT),
+				Pair.of(FriendsAndFoesMemoryModuleTypes.GLARE_IS_TAMED.get(), MemoryStatus.VALUE_PRESENT),
+				Pair.of(FriendsAndFoesMemoryModuleTypes.GLARE_IS_IDLE.get(), MemoryStatus.VALUE_ABSENT),
+				Pair.of(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_LOCATING_COOLDOWN.get(), MemoryStatus.VALUE_ABSENT)
 			)
 		);
 	}
@@ -89,78 +106,78 @@ public final class GlareBrain
 	private static void addGlowBerriesActivities(
 		Brain<GlareEntity> brain
 	) {
-		brain.setTaskList(
+		brain.addActivityWithConditions(
 			FriendsAndFoesActivities.GLARE_EAT_GLOW_BERRIES.get(),
 			ImmutableList.of(
-				Pair.of(0, WalkToNearestVisibleWantedItemTask.create(glare -> true, 1.25F, true, 32)),
+				Pair.of(0, GoToWantedItem.create(glare -> true, 1.25F, true, 32)),
 				Pair.of(1, new GlareLocateGlowBerriesTask()),
 				Pair.of(2, new GlareTravelToGlowBerriesTask()),
 				Pair.of(3, new GlareShakeGlowBerriesTask())
 			),
 			ImmutableSet.of(
-				Pair.of(MemoryModuleType.AVOID_TARGET, MemoryModuleState.VALUE_ABSENT),
-				Pair.of(MemoryModuleType.BREED_TARGET, MemoryModuleState.VALUE_ABSENT),
-				Pair.of(MemoryModuleType.TEMPTING_PLAYER, MemoryModuleState.VALUE_ABSENT),
-				Pair.of(FriendsAndFoesMemoryModuleTypes.GLARE_IS_IDLE.get(), MemoryModuleState.VALUE_ABSENT),
-				Pair.of(FriendsAndFoesMemoryModuleTypes.GLARE_LOCATING_GLOW_BERRIES_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT)
+				Pair.of(MemoryModuleType.AVOID_TARGET, MemoryStatus.VALUE_ABSENT),
+				Pair.of(MemoryModuleType.BREED_TARGET, MemoryStatus.VALUE_ABSENT),
+				Pair.of(MemoryModuleType.TEMPTING_PLAYER, MemoryStatus.VALUE_ABSENT),
+				Pair.of(FriendsAndFoesMemoryModuleTypes.GLARE_IS_IDLE.get(), MemoryStatus.VALUE_ABSENT),
+				Pair.of(FriendsAndFoesMemoryModuleTypes.GLARE_LOCATING_GLOW_BERRIES_COOLDOWN.get(), MemoryStatus.VALUE_ABSENT)
 			)
 		);
 	}
 
 	private static void addAvoidActivities(Brain<GlareEntity> brain) {
-		brain.setTaskList(
+		brain.addActivityWithConditions(
 			Activity.AVOID,
 			ImmutableList.of(
-				Pair.of(0, GoToRememberedPositionTask.createEntityBased(MemoryModuleType.AVOID_TARGET, 1.25F, 16, false))
+				Pair.of(0, SetWalkTargetAwayFrom.entity(MemoryModuleType.AVOID_TARGET, 1.25F, 16, false))
 			),
 			ImmutableSet.of(
-				Pair.of(MemoryModuleType.AVOID_TARGET, MemoryModuleState.VALUE_PRESENT),
-				Pair.of(FriendsAndFoesMemoryModuleTypes.GLARE_IS_TAMED.get(), MemoryModuleState.VALUE_ABSENT),
-				Pair.of(FriendsAndFoesMemoryModuleTypes.GLARE_IS_IDLE.get(), MemoryModuleState.VALUE_ABSENT)
+				Pair.of(MemoryModuleType.AVOID_TARGET, MemoryStatus.VALUE_PRESENT),
+				Pair.of(FriendsAndFoesMemoryModuleTypes.GLARE_IS_TAMED.get(), MemoryStatus.VALUE_ABSENT),
+				Pair.of(FriendsAndFoesMemoryModuleTypes.GLARE_IS_IDLE.get(), MemoryStatus.VALUE_ABSENT)
 			)
 		);
 	}
 
 	private static void addIdleActivities(Brain<GlareEntity> brain) {
-		brain.setTaskList(
+		brain.addActivityWithConditions(
 			Activity.IDLE,
 			ImmutableList.of(
-				Pair.of(0, new TemptTask(glare -> 1.25f)),
-				Pair.of(1, new BreedTask(FriendsAndFoesEntityTypes.GLARE.get())),
-				Pair.of(2, WalkTowardClosestAdultTask.create(UniformIntProvider.create(5, 16), 1.25f)),
+				Pair.of(0, new FollowTemptation(glare -> 1.25f)),
+				Pair.of(1, new AnimalMakeLove(FriendsAndFoesEntityTypes.GLARE.get())),
+				Pair.of(2, BabyFollowAdult.create(UniformInt.of(5, 16), 1.25f)),
 				Pair.of(3, new GlareTeleportToOwnerTask()),
-				Pair.of(4, WalkTowardsLookTargetTask.create(glare -> getOwner((GlareEntity) glare), (glare) -> true, 3, 8, 2.0f)),
-				Pair.of(5, LookAtMobWithIntervalTask.follow(3.0f, UniformIntProvider.create(30, 60))),
-				Pair.of(6, new RandomTask(
+				Pair.of(4, StayCloseToTarget.create(glare -> getOwner((GlareEntity) glare), (glare) -> true, 3, 8, 2.0f)),
+				Pair.of(5, SetEntityLookTargetSometimes.create(3.0f, UniformInt.of(30, 60))),
+				Pair.of(6, new RunOne(
 					ImmutableList.of(
-						Pair.of(GoTowardsLookTargetTask.create(1.0F, 3), 3),
+						Pair.of(SetWalkTargetFromLookTarget.create(1.0F, 3), 3),
 						Pair.of(new GlareStrollTask(), 2),
-						Pair.of(new WaitTask(30, 60), 1)
+						Pair.of(new DoNothing(30, 60), 1)
 					)
 				))
 			),
 			ImmutableSet.of(
-				Pair.of(MemoryModuleType.AVOID_TARGET, MemoryModuleState.VALUE_ABSENT),
-				Pair.of(FriendsAndFoesMemoryModuleTypes.GLARE_IS_IDLE.get(), MemoryModuleState.VALUE_ABSENT),
-				Pair.of(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_LOCATING_COOLDOWN.get(), MemoryModuleState.VALUE_PRESENT),
-				Pair.of(FriendsAndFoesMemoryModuleTypes.GLARE_LOCATING_GLOW_BERRIES_COOLDOWN.get(), MemoryModuleState.VALUE_PRESENT)
+				Pair.of(MemoryModuleType.AVOID_TARGET, MemoryStatus.VALUE_ABSENT),
+				Pair.of(FriendsAndFoesMemoryModuleTypes.GLARE_IS_IDLE.get(), MemoryStatus.VALUE_ABSENT),
+				Pair.of(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_LOCATING_COOLDOWN.get(), MemoryStatus.VALUE_PRESENT),
+				Pair.of(FriendsAndFoesMemoryModuleTypes.GLARE_LOCATING_GLOW_BERRIES_COOLDOWN.get(), MemoryStatus.VALUE_PRESENT)
 			)
 		);
 	}
 
-	private static Optional<LookTarget> getOwner(GlareEntity glare) {
+	private static Optional<PositionTracker> getOwner(GlareEntity glare) {
 		if (
-			!glare.isTamed()
+			!glare.isTame()
 			|| glare.getOwner() == null
 		) {
 			return Optional.empty();
 		}
 
-		return Optional.of(new EntityLookTarget(glare.getOwner(), true));
+		return Optional.of(new EntityTracker(glare.getOwner(), true));
 	}
 
 	public static void updateActivities(GlareEntity glare) {
-		glare.getBrain().resetPossibleActivities(
+		glare.getBrain().setActiveActivityToFirstValid(
 			ImmutableList.of(
 				FriendsAndFoesActivities.GLARE_SHOW_DARK_SPOT.get(),
 				FriendsAndFoesActivities.GLARE_EAT_GLOW_BERRIES.get(),
@@ -173,53 +190,53 @@ public final class GlareBrain
 	public static void updateMemories(GlareEntity glare) {
 		if (
 			(
-				(!glare.isBaby() && !glare.isTamed())
+				(!glare.isBaby() && !glare.isTame())
 				|| !GlareLocateDarkSpotTask.canLocateDarkSpot(glare)
 			)
-			&& glare.getBrain().isMemoryInState(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_LOCATING_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT)
+			&& glare.getBrain().checkMemory(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_LOCATING_COOLDOWN.get(), MemoryStatus.VALUE_ABSENT)
 		) {
 			GlareBrain.setDarkSpotLocatingCooldown(glare);
 		}
 
 		if (
-			glare.isSitting()
+			glare.isOrderedToSit()
 			|| glare.isLeashed()
-			|| glare.hasVehicle()
+			|| glare.isPassenger()
 		) {
-			glare.getBrain().remember(FriendsAndFoesMemoryModuleTypes.GLARE_IS_IDLE.get(), true);
+			glare.getBrain().setMemory(FriendsAndFoesMemoryModuleTypes.GLARE_IS_IDLE.get(), true);
 		} else {
-			glare.getBrain().forget(FriendsAndFoesMemoryModuleTypes.GLARE_IS_IDLE.get());
+			glare.getBrain().eraseMemory(FriendsAndFoesMemoryModuleTypes.GLARE_IS_IDLE.get());
 		}
 
-		if (glare.isTamed()) {
-			glare.getBrain().remember(FriendsAndFoesMemoryModuleTypes.GLARE_IS_TAMED.get(), true);
+		if (glare.isTame()) {
+			glare.getBrain().setMemory(FriendsAndFoesMemoryModuleTypes.GLARE_IS_TAMED.get(), true);
 		} else {
-			glare.getBrain().forget(FriendsAndFoesMemoryModuleTypes.GLARE_IS_TAMED.get());
+			glare.getBrain().eraseMemory(FriendsAndFoesMemoryModuleTypes.GLARE_IS_TAMED.get());
 		}
 	}
 
 	public static void setDarkSpotLocatingCooldown(GlareEntity glare) {
-		glare.getBrain().remember(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_LOCATING_COOLDOWN.get(), DARK_SPOT_LOCATING_COOLDOWN_PROVIDER.get(glare.getRandom()));
+		glare.getBrain().setMemory(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_LOCATING_COOLDOWN.get(), DARK_SPOT_LOCATING_COOLDOWN_PROVIDER.sample(glare.getRandom()));
 	}
 
-	public static void setDarkSpotLocatingCooldown(GlareEntity glare, UniformIntProvider cooldown) {
-		glare.getBrain().remember(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_LOCATING_COOLDOWN.get(), cooldown.get(glare.getRandom()));
+	public static void setDarkSpotLocatingCooldown(GlareEntity glare, UniformInt cooldown) {
+		glare.getBrain().setMemory(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_LOCATING_COOLDOWN.get(), cooldown.sample(glare.getRandom()));
 	}
 
 	public static void setLocatingGlowBerriesCooldown(GlareEntity glare) {
-		glare.getBrain().remember(FriendsAndFoesMemoryModuleTypes.GLARE_LOCATING_GLOW_BERRIES_COOLDOWN.get(), EAT_GLOW_BERRIES_COOLDOWN_PROVIDER.get(glare.getRandom()));
+		glare.getBrain().setMemory(FriendsAndFoesMemoryModuleTypes.GLARE_LOCATING_GLOW_BERRIES_COOLDOWN.get(), EAT_GLOW_BERRIES_COOLDOWN_PROVIDER.sample(glare.getRandom()));
 	}
 
-	public static void setLocatingGlowBerriesCooldown(GlareEntity glare, UniformIntProvider cooldown) {
-		glare.getBrain().remember(FriendsAndFoesMemoryModuleTypes.GLARE_LOCATING_GLOW_BERRIES_COOLDOWN.get(), cooldown.get(glare.getRandom()));
+	public static void setLocatingGlowBerriesCooldown(GlareEntity glare, UniformInt cooldown) {
+		glare.getBrain().setMemory(FriendsAndFoesMemoryModuleTypes.GLARE_LOCATING_GLOW_BERRIES_COOLDOWN.get(), cooldown.sample(glare.getRandom()));
 	}
 
 	public static void setItemPickupCooldown(GlareEntity glare) {
-		glare.getBrain().remember(MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS, TimeHelper.betweenSeconds(1, 10).get(glare.getRandom()));
+		glare.getBrain().setMemory(MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS, TimeUtil.rangeOfSeconds(1, 10).sample(glare.getRandom()));
 	}
 
 	public static Ingredient getTemptItems() {
-		return Ingredient.fromTag(FriendsAndFoesTags.GLARE_TEMPT_ITEMS);
+		return Ingredient.of(FriendsAndFoesTags.GLARE_TEMPT_ITEMS);
 	}
 
 	static {
@@ -238,7 +255,7 @@ public final class GlareBrain
 			MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS,
 			MemoryModuleType.IS_PANICKING,
 			MemoryModuleType.IS_TEMPTED,
-			MemoryModuleType.VISIBLE_MOBS,
+			MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES,
 			MemoryModuleType.PATH,
 			MemoryModuleType.LOOK_TARGET,
 			MemoryModuleType.WALK_TARGET,
@@ -254,7 +271,7 @@ public final class GlareBrain
 			FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_LOCATING_COOLDOWN.get(),
 			FriendsAndFoesMemoryModuleTypes.GLARE_LOCATING_GLOW_BERRIES_COOLDOWN.get()
 		);
-		DARK_SPOT_LOCATING_COOLDOWN_PROVIDER = TimeHelper.betweenSeconds(20, 40);
-		EAT_GLOW_BERRIES_COOLDOWN_PROVIDER = TimeHelper.betweenSeconds(30, 60);
+		DARK_SPOT_LOCATING_COOLDOWN_PROVIDER = TimeUtil.rangeOfSeconds(20, 40);
+		EAT_GLOW_BERRIES_COOLDOWN_PROVIDER = TimeUtil.rangeOfSeconds(30, 60);
 	}
 }

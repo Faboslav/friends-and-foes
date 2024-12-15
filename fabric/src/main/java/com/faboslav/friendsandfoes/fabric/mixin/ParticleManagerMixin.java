@@ -2,13 +2,6 @@ package com.faboslav.friendsandfoes.fabric.mixin;
 
 import com.faboslav.friendsandfoes.common.events.client.RegisterParticlesEvent;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import net.minecraft.client.particle.ParticleFactory;
-import net.minecraft.client.particle.ParticleManager;
-import net.minecraft.client.particle.SpriteProvider;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleType;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -19,20 +12,27 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Map;
 import java.util.function.Function;
+import net.minecraft.client.particle.ParticleEngine;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 
-@Mixin(ParticleManager.class)
+@Mixin(ParticleEngine.class)
 public abstract class ParticleManagerMixin
 {
 	@Final
 	@Shadow
-	private Map<Identifier, ParticleManager.SimpleSpriteProvider> spriteAwareFactories;
+	private Map<ResourceLocation, ParticleEngine.MutableSpriteSet> spriteSets;
 
 	@Final
 	@Shadow
-	private Int2ObjectMap<ParticleFactory<?>> factories;
+	private Int2ObjectMap<ParticleProvider<?>> providers;
 
 	@Inject(
-		method = "registerDefaultFactories",
+		method = "registerProviders",
 		at = @At("RETURN")
 	)
 	private void friendsandfoes_onInit(CallbackInfo ci) {
@@ -40,12 +40,12 @@ public abstract class ParticleManagerMixin
 	}
 
 	@Unique
-	private <T extends ParticleEffect> void friendsandfoes_register(
+	private <T extends ParticleOptions> void friendsandfoes_register(
 		ParticleType<T> particleType,
-		Function<SpriteProvider, ParticleFactory<T>> spriteParticleRegistration
+		Function<SpriteSet, ParticleProvider<T>> spriteParticleRegistration
 	) {
-		ParticleManager.SimpleSpriteProvider mutableSpriteSet = new ParticleManager.SimpleSpriteProvider();
-		this.spriteAwareFactories.put(Registries.PARTICLE_TYPE.getId(particleType), mutableSpriteSet);
-		this.factories.put(Registries.PARTICLE_TYPE.getRawId(particleType), spriteParticleRegistration.apply(mutableSpriteSet));
+		ParticleEngine.MutableSpriteSet mutableSpriteSet = new ParticleEngine.MutableSpriteSet();
+		this.spriteSets.put(BuiltInRegistries.PARTICLE_TYPE.getKey(particleType), mutableSpriteSet);
+		this.providers.put(BuiltInRegistries.PARTICLE_TYPE.getId(particleType), spriteParticleRegistration.apply(mutableSpriteSet));
 	}
 }

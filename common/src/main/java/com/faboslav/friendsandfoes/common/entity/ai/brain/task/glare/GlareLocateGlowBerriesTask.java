@@ -4,61 +4,60 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.GlareEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.GlareBrain;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.CaveVines;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.ai.brain.MemoryModuleState;
-import net.minecraft.entity.ai.brain.task.MultiTickTask;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.TimeHelper;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.GlobalPos;
-import net.minecraft.world.World;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.TimeUtil;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.behavior.Behavior;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.CaveVines;
+import net.minecraft.world.level.block.state.BlockState;
 
-public final class GlareLocateGlowBerriesTask extends MultiTickTask<GlareEntity>
+public final class GlareLocateGlowBerriesTask extends Behavior<GlareEntity>
 {
 	public GlareLocateGlowBerriesTask() {
 		super(Map.of(
-			FriendsAndFoesMemoryModuleTypes.GLARE_LOCATING_GLOW_BERRIES_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT,
-			FriendsAndFoesMemoryModuleTypes.GLARE_GLOW_BERRIES_POS.get(), MemoryModuleState.VALUE_ABSENT
+			FriendsAndFoesMemoryModuleTypes.GLARE_LOCATING_GLOW_BERRIES_COOLDOWN.get(), MemoryStatus.VALUE_ABSENT,
+			FriendsAndFoesMemoryModuleTypes.GLARE_GLOW_BERRIES_POS.get(), MemoryStatus.VALUE_ABSENT
 		));
 	}
 
 	@Override
-	protected boolean shouldRun(ServerWorld world, GlareEntity glare) {
+	protected boolean checkExtraStartConditions(ServerLevel world, GlareEntity glare) {
 		return FriendsAndFoes.getConfig().enableGlareGriefing
 			   && !glare.isLeashed()
-			   && !glare.isSitting()
-			   && !glare.hasVehicle()
-			   && glare.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty();
+			   && !glare.isOrderedToSit()
+			   && !glare.isPassenger()
+			   && glare.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty();
 	}
 
 	@Override
-	protected void run(ServerWorld world, GlareEntity glare, long time) {
+	protected void start(ServerLevel world, GlareEntity glare, long time) {
 		BlockPos glowBerriesPos = this.findNearestGlowBerries(glare);
 
 		if (glowBerriesPos == null) {
-			GlareBrain.setLocatingGlowBerriesCooldown(glare, TimeHelper.betweenSeconds(10, 10));
+			GlareBrain.setLocatingGlowBerriesCooldown(glare, TimeUtil.rangeOfSeconds(10, 10));
 			return;
 		}
 
-		RegistryKey<World> registryKey = glare.getWorld().getRegistryKey();
-		glare.getBrain().remember(FriendsAndFoesMemoryModuleTypes.GLARE_GLOW_BERRIES_POS.get(), GlobalPos.create(registryKey, glowBerriesPos));
+		ResourceKey<Level> registryKey = glare.level().dimension();
+		glare.getBrain().setMemory(FriendsAndFoesMemoryModuleTypes.GLARE_GLOW_BERRIES_POS.get(), GlobalPos.of(registryKey, glowBerriesPos));
 	}
 
 	private BlockPos findNearestGlowBerries(GlareEntity glare) {
 		int horizontalRange = 16;
 		int verticalRange = 8;
 
-		List<BlockPos> glowBerries = this.findAllGlowBerriesInRange(glare.getBlockPos(), horizontalRange, verticalRange, (blockPos) -> {
-			BlockState blockState = glare.getWorld().getBlockState(blockPos);
-			return CaveVines.hasBerries(blockState);
+		List<BlockPos> glowBerries = this.findAllGlowBerriesInRange(glare.blockPosition(), horizontalRange, verticalRange, (blockPos) -> {
+			BlockState blockState = glare.level().getBlockState(blockPos);
+			return CaveVines.hasGlowBerries(blockState);
 		});
 
 		if (glowBerries.isEmpty()) {
@@ -76,8 +75,8 @@ public final class GlareLocateGlowBerriesTask extends MultiTickTask<GlareEntity>
 	) {
 		List<BlockPos> buttons = new ArrayList<>();
 
-		for (BlockPos blockPos : BlockPos.iterateOutwards(glarePos, horizontalRange, verticalRange, horizontalRange)) {
-			BlockPos possibleGlowBerriesBlockPos = blockPos.mutableCopy();
+		for (BlockPos blockPos : BlockPos.withinManhattan(glarePos, horizontalRange, verticalRange, horizontalRange)) {
+			BlockPos possibleGlowBerriesBlockPos = blockPos.mutable();
 
 			if (!condition.test(possibleGlowBerriesBlockPos)) {
 				continue;

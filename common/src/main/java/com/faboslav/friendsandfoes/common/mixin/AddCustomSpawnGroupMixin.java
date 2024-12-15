@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.platform.CustomSpawnGroup;
-import net.minecraft.entity.SpawnGroup;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,13 +13,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import net.minecraft.world.entity.MobCategory;
 
-@Mixin(SpawnGroup.class)
+@Mixin(MobCategory.class)
 @SuppressWarnings({"ShadowTarget", "InvokerTarget"})
 public final class AddCustomSpawnGroupMixin
 {
 	@Invoker("<init>")
-	public static SpawnGroup newSpawnGroup(
+	public static MobCategory newSpawnGroup(
 		String internalName,
 		int internalId,
 		String name,
@@ -35,19 +35,19 @@ public final class AddCustomSpawnGroupMixin
 	@Shadow
 	private static @Final
 	@Mutable
-	SpawnGroup[] field_6301;
+	MobCategory[] $VALUES;
 
 	@Inject(
 		method = "<clinit>",
 		at = @At(
 			value = "FIELD",
 			opcode = Opcodes.PUTSTATIC,
-			target = "Lnet/minecraft/entity/SpawnGroup;field_6301:[Lnet/minecraft/entity/SpawnGroup;",
+			target = "Lnet/minecraft/world/entity/MobCategory;$VALUES:[Lnet/minecraft/world/entity/MobCategory;",
 			shift = At.Shift.AFTER
 		)
 	)
 	private static void friendsandfoes_addCustomSpawnGroup(CallbackInfo ci) {
-		var spawnGroups = new ArrayList<>(Arrays.asList(field_6301));
+		var spawnGroups = new ArrayList<>(Arrays.asList($VALUES));
 		var lastSpawnGroup = spawnGroups.get(spawnGroups.size() - 1);
 
 		var glaresSpawnGroup = newSpawnGroup(
@@ -74,6 +74,6 @@ public final class AddCustomSpawnGroupMixin
 		CustomSpawnGroup.RASCALS = rascalsSpawnGroup;
 		spawnGroups.add(rascalsSpawnGroup);
 
-		field_6301 = spawnGroups.toArray(new SpawnGroup[0]);
+		$VALUES = spawnGroups.toArray(new MobCategory[0]);
 	}
 }

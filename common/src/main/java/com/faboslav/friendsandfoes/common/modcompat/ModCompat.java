@@ -1,12 +1,12 @@
 package com.faboslav.friendsandfoes.common.modcompat;
 
 
-import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
 import java.util.function.Predicate;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * Related code is based on The Bumblezone/Resourceful Lib mods with permissions from the authors

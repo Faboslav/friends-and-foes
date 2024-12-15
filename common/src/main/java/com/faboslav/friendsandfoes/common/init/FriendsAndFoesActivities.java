@@ -4,15 +4,15 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistries;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
-import net.minecraft.entity.ai.brain.Activity;
-import net.minecraft.registry.Registries;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.entity.schedule.Activity;
 
 /**
  * @see Activity
  */
 public final class FriendsAndFoesActivities
 {
-	public static final ResourcefulRegistry<Activity> ACTIVITIES = ResourcefulRegistries.create(Registries.ACTIVITY, FriendsAndFoes.MOD_ID);
+	public static final ResourcefulRegistry<Activity> ACTIVITIES = ResourcefulRegistries.create(BuiltInRegistries.ACTIVITY, FriendsAndFoes.MOD_ID);
 
 	public final static RegistryEntry<Activity> COPPER_GOLEM_SPIN_HEAD = ACTIVITIES.register("copper_golem_spin_head", () -> new Activity("copper_golem_spin_head"));
 	public final static RegistryEntry<Activity> COPPER_GOLEM_PRESS_BUTTON = ACTIVITIES.register("copper_golem_press_button", () -> new Activity("copper_golem_press_button"));

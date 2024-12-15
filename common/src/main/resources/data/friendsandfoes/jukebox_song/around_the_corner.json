@@ -1,0 +1,8 @@
+{
+  "comparator_output": 13,
+  "description": {
+    "translate": "jukebox_song.friendsandfoes.around_the_corner"
+  },
+  "length_in_seconds": 134,
+  "sound_event": "friendsandfoes:music_disc.around_the_corner"
+}

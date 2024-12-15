@@ -2,28 +2,28 @@ package com.faboslav.friendsandfoes.common.client.render.entity.renderer;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EntityRendererFactory.Context;
-import net.minecraft.client.render.entity.IllagerEntityRenderer;
-import net.minecraft.client.render.entity.feature.HeldItemFeatureRenderer;
-import net.minecraft.client.render.entity.model.IllagerEntityModel;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.mob.SpellcastingIllagerEntity;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.model.IllagerModel;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
+import net.minecraft.client.renderer.entity.IllagerRenderer;
+import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.monster.SpellcasterIllager;
 
 @Environment(EnvType.CLIENT)
-public final class IceologerEntityRenderer<T extends SpellcastingIllagerEntity> extends IllagerEntityRenderer<T>
+public final class IceologerEntityRenderer<T extends SpellcasterIllager> extends IllagerRenderer<T>
 {
 	public IceologerEntityRenderer(Context context) {
-		super(context, new IllagerEntityModel<>(context.getPart(FriendsAndFoesEntityModelLayers.ICEOLOGER_LAYER)), 0.5F);
+		super(context, new IllagerModel<>(context.bakeLayer(FriendsAndFoesEntityModelLayers.ICEOLOGER_LAYER)), 0.5F);
 
-		this.addFeature(new HeldItemFeatureRenderer<>(this, context.getHeldItemRenderer())
+		this.addLayer(new ItemInHandLayer<>(this, context.getItemInHandRenderer())
 		{
 			public void render(
-				MatrixStack matrixStack,
-				VertexConsumerProvider vertexConsumerProvider,
+				PoseStack matrixStack,
+				MultiBufferSource vertexConsumerProvider,
 				int i,
 				T spellcastingIllagerEntity,
 				float f,
@@ -33,7 +33,7 @@ public final class IceologerEntityRenderer<T extends SpellcastingIllagerEntity> 
 				float k,
 				float l
 			) {
-				if (spellcastingIllagerEntity.isSpellcasting()) {
+				if (spellcastingIllagerEntity.isCastingSpell()) {
 					super.render(matrixStack, vertexConsumerProvider, i, spellcastingIllagerEntity, f, g, h, j, k, l);
 				}
 
@@ -44,7 +44,7 @@ public final class IceologerEntityRenderer<T extends SpellcastingIllagerEntity> 
 	}
 
 	@Override
-	public Identifier getTexture(T entity) {
+	public ResourceLocation getTextureLocation(T entity) {
 			return FriendsAndFoes.makeID("textures/entity/illager/iceologer.png");
 	}
 }

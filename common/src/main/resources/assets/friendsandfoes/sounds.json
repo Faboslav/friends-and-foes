@@ -403,5 +403,13 @@
 			"friendsandfoes:entity/wildfire/summon_blaze3"
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.wildfire.summon_blaze"
+	},
+	"music_disc.around_the_corner": {
+		"sounds": [
+			{
+				"name": "friendsandfoes:music_disc/around_the_corner",
+				"stream": true
+			}
+		]
 	}
 }

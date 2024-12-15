@@ -5,42 +5,41 @@ package com.faboslav.friendsandfoes.common.entity.ai.brain.sensor;
 
 import com.faboslav.friendsandfoes.common.entity.GlareEntity;
 import com.google.common.collect.ImmutableSet;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.entity.ai.brain.LivingTargetCache;
-import net.minecraft.entity.ai.brain.MemoryModuleType;
-import net.minecraft.entity.ai.brain.sensor.Sensor;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.TimeHelper;
-import net.minecraft.util.math.intprovider.UniformIntProvider;
-
 import java.util.Set;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.TimeUtil;
+import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.Brain;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.NearestVisibleLivingEntities;
+import net.minecraft.world.entity.ai.sensing.Sensor;
+import net.minecraft.world.entity.monster.Monster;
 
 public class GlareSpecificSensor extends Sensor<GlareEntity>
 {
-	private static final UniformIntProvider AVOID_MEMORY_DURATION;
+	private static final UniformInt AVOID_MEMORY_DURATION;
 
 	static {
-		AVOID_MEMORY_DURATION = TimeHelper.betweenSeconds(5, 10);
+		AVOID_MEMORY_DURATION = TimeUtil.rangeOfSeconds(5, 10);
 	}
 
 	@Override
-	public Set<MemoryModuleType<?>> getOutputMemoryModules() {
+	public Set<MemoryModuleType<?>> requires() {
 		return ImmutableSet.of(MemoryModuleType.AVOID_TARGET);
 	}
 
 	@Override
-	protected void sense(ServerWorld world, GlareEntity glare) {
+	protected void doTick(ServerLevel world, GlareEntity glare) {
 		Brain<?> brain = glare.getBrain();
-		LivingTargetCache livingTargetCache = brain.getOptionalMemory(MemoryModuleType.VISIBLE_MOBS).orElse(LivingTargetCache.empty());
-		LivingEntity firstHostileEntity = livingTargetCache.findFirst(livingEntity -> livingEntity instanceof HostileEntity).orElse(null);
+		NearestVisibleLivingEntities livingTargetCache = brain.getMemoryInternal(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).orElse(NearestVisibleLivingEntities.empty());
+		LivingEntity firstHostileEntity = livingTargetCache.findClosest(livingEntity -> livingEntity instanceof Monster).orElse(null);
 
-		if (firstHostileEntity == null || glare.isTamed()) {
+		if (firstHostileEntity == null || glare.isTame()) {
 			return;
 		}
 
-		brain.remember(MemoryModuleType.AVOID_TARGET, firstHostileEntity, AVOID_MEMORY_DURATION.get(glare.getRandom()));
+		brain.setMemoryWithExpiry(MemoryModuleType.AVOID_TARGET, firstHostileEntity, AVOID_MEMORY_DURATION.sample(glare.getRandom()));
 	}
 }
 

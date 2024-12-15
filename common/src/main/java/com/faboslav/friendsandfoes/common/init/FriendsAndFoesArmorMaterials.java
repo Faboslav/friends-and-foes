@@ -4,25 +4,24 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.init.registry.ReferenceRegistryEntry;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistries;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ArmorMaterial;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.registry.Registries;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.Util;
-
 import java.util.EnumMap;
 import java.util.List;
 import java.util.function.Supplier;
+import net.minecraft.Util;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.crafting.Ingredient;
 
 /**
- * @see net.minecraft.item.ArmorMaterials
+ * @see net.minecraft.world.item.ArmorMaterials
  */
 public class FriendsAndFoesArmorMaterials
 {
-	public static final ResourcefulRegistry<ArmorMaterial> ARMOR_MATERIALS = ResourcefulRegistries.create(Registries.ARMOR_MATERIAL, FriendsAndFoes.MOD_ID);
+	public static final ResourcefulRegistry<ArmorMaterial> ARMOR_MATERIALS = ResourcefulRegistries.create(BuiltInRegistries.ARMOR_MATERIAL, FriendsAndFoes.MOD_ID);
 
 	public final static ReferenceRegistryEntry<ArmorMaterial> WILDFIRE = ARMOR_MATERIALS.registerReference("wildfire", () -> createArmorMaterial(
 		"wildfire",
@@ -34,17 +33,17 @@ public class FriendsAndFoesArmorMaterials
 			enumMap.put(ArmorItem.Type.BODY, 11);
 		}),
 		9,
-		SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE,
+		SoundEvents.ARMOR_EQUIP_NETHERITE,
 		1.0F,
 		0.0F,
-		() -> Ingredient.ofItems(FriendsAndFoesItems.WILDFIRE_CROWN_FRAGMENT.get()))
+		() -> Ingredient.of(FriendsAndFoesItems.WILDFIRE_CROWN_FRAGMENT.get()))
 	);
 
 	private static ArmorMaterial createArmorMaterial(
 		String layerName,
 		EnumMap<ArmorItem.Type, Integer> enumMap,
 		int enchantmentValue,
-		net.minecraft.registry.entry.RegistryEntry<SoundEvent> equipSound,
+		net.minecraft.core.Holder<SoundEvent> equipSound,
 		float toughness,
 		float knockback,
 		Supplier<Ingredient> repairIngredient
@@ -55,7 +54,7 @@ public class FriendsAndFoesArmorMaterials
 			defenseMap.put(type, enumMap.get(type));
 		}
 
-		List<ArmorMaterial.Layer> layers = List.of(new ArmorMaterial.Layer(Identifier.tryParse(layerName)));
+		List<ArmorMaterial.Layer> layers = List.of(new ArmorMaterial.Layer(ResourceLocation.tryParse(layerName)));
 
 		return new ArmorMaterial(defenseMap, enchantmentValue, equipSound, repairIngredient, layers, toughness, knockback);
 	}

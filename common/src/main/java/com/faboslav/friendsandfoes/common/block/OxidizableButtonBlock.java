@@ -1,22 +1,22 @@
 package com.faboslav.friendsandfoes.common.block;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 
 @SuppressWarnings("deprecation")
 public final class OxidizableButtonBlock extends CopperButtonBlock implements FriendsAndFoesOxidizable
 {
-	private final OxidationLevel oxidationLevel;
+	private final WeatherState oxidationLevel;
 
 	public OxidizableButtonBlock(
-		OxidationLevel oxidationLevel,
-		Settings settings,
+		WeatherState oxidationLevel,
+		Properties settings,
 		int pressTicks
 	) {
 		super(settings, pressTicks);
@@ -26,37 +26,37 @@ public final class OxidizableButtonBlock extends CopperButtonBlock implements Fr
 	@Override
 	public void randomTick(
 		BlockState state,
-		ServerWorld world,
+		ServerLevel world,
 		BlockPos pos,
-		Random random
+		RandomSource random
 	) {
-		this.tickDegradation(state, world, pos, random);
+		this.changeOverTime(state, world, pos, random);
 	}
 
 	@Override
-	public boolean hasRandomTicks(BlockState state) {
-		return FriendsAndFoesOxidizable.getIncreasedOxidationBlock(state.getBlock()).isPresent();
+	public boolean isRandomlyTicking(BlockState state) {
+		return FriendsAndFoesOxidizable.getNext(state.getBlock()).isPresent();
 	}
 
 	@Override
-	public OxidationLevel getDegradationLevel() {
+	public WeatherState getAge() {
 		return this.oxidationLevel;
 	}
 
 	@Override
-	protected ActionResult onUse(
+	protected InteractionResult useWithoutItem(
 		BlockState state,
-		World world,
+		Level world,
 		BlockPos pos,
-		PlayerEntity player,
+		Player player,
 		BlockHitResult hit
 	) {
 		var actionResult = OnUseOxidizable.onOxidizableUse(state, world, pos, player, hit);
 
-		if (actionResult.isAccepted()) {
+		if (actionResult.consumesAction()) {
 			return actionResult;
 		}
 
-		return super.onUse(state, world, pos, player, hit);
+		return super.useWithoutItem(state, world, pos, player, hit);
 	}
 }

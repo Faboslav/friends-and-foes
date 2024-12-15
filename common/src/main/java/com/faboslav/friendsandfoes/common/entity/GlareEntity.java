@@ -5,6 +5,7 @@ import com.faboslav.friendsandfoes.common.client.render.entity.animation.animato
 import com.faboslav.friendsandfoes.common.entity.ai.brain.GlareBrain;
 import com.faboslav.friendsandfoes.common.entity.ai.pathing.CachedPathHolder;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
+import com.faboslav.friendsandfoes.common.entity.animation.loader.json.AnimationHolder;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesCriterias;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
@@ -14,56 +15,67 @@ import com.faboslav.friendsandfoes.common.util.MovementUtil;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
 import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
 import com.mojang.serialization.Dynamic;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.CaveVines;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.FoodComponent;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.entity.ai.brain.MemoryModuleState;
-import net.minecraft.entity.ai.brain.MemoryModuleType;
-import net.minecraft.entity.ai.control.FlightMoveControl;
-import net.minecraft.entity.ai.pathing.BirdNavigation;
-import net.minecraft.entity.ai.pathing.EntityNavigation;
-import net.minecraft.entity.ai.pathing.PathNodeType;
-import net.minecraft.entity.attribute.DefaultAttributeContainer.Builder;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.PassiveEntity;
-import net.minecraft.entity.passive.TameableEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.particle.ItemStackParticleEffect;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.server.network.DebugInfoSender;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.*;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.LightType;
-import net.minecraft.world.LocalDifficulty;
-import net.minecraft.world.ServerWorldAccess;
-import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.core.Vec3i;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.particles.ItemParticleOption;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.protocol.game.DebugPackets;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.EntityEvent;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.ai.Brain;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier.Builder;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.FlyingMoveControl;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.FlyingAnimal;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.CaveVines;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.pathfinder.PathType;
+import net.minecraft.world.phys.Vec2;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.function.Predicate;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-public final class GlareEntity extends TameableEntity implements Flutterer, AnimatedEntity
+public final class GlareEntity extends TamableAnimal implements FlyingAnimal, AnimatedEntity
 {
 	private static final Vec3i ITEM_PICKUP_RANGE_EXPANDER = new Vec3i(1, 1, 1);
 	public static final Predicate<ItemEntity> PICKABLE_FOOD_FILTER;
@@ -72,9 +84,9 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	public static final int MIN_EYE_ANIMATION_TICK_AMOUNT = 10;
 	public static final int LIGHT_THRESHOLD = 5;
 
-	private static final TrackedData<Byte> GLARE_FLAGS;
+	private static final EntityDataAccessor<Byte> GLARE_FLAGS;
 
-	private Vec2f targetEyesPositionOffset;
+	private Vec2 targetEyesPositionOffset;
 
 	public CachedPathHolder cachedPathHolder = new CachedPathHolder();
 	private AnimationContextTracker animationContextTracker;
@@ -88,77 +100,102 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		return this.animationContextTracker;
 	}
 
-	public GlareEntity(EntityType<? extends GlareEntity> entityType, World world) {
-		super(entityType, world);
-
-		this.setTamed(false, false);
-		this.moveControl = new GlareMoveControl(this, 24, true);
-		this.setPathfindingPenalty(PathNodeType.DANGER_FIRE, -1.0F);
-		this.setPathfindingPenalty(PathNodeType.WATER, -1.0F);
-		this.setPathfindingPenalty(PathNodeType.LAVA, -1.0F);
-		this.setPathfindingPenalty(PathNodeType.WATER_BORDER, 16.0F);
-		this.setPathfindingPenalty(PathNodeType.COCOA, -1.0F);
-		this.setPathfindingPenalty(PathNodeType.FENCE, -1.0F);
-		this.setCanPickUpLoot(true);
-
-		this.targetEyesPositionOffset = new Vec2f(0.0F, 0.0F);
+	@Override
+	public ArrayList<AnimationHolder> getTrackedAnimations() {
+		return new ArrayList<>();
 	}
 
 	@Override
-	public EntityData initialize(
-		ServerWorldAccess world,
-		LocalDifficulty difficulty,
-		SpawnReason spawnReason,
-		@Nullable EntityData entityData
+	public AnimationHolder getMovementAnimation() {
+		return null;
+	}
+
+	@Override
+	public int getCurrentAnimationTick() {
+		return 0;
+	}
+
+	@Override
+	public void setCurrentAnimationTick(int currentAnimationTick) {
+
+	}
+
+	@Override
+	public @Nullable AnimationHolder getAnimationByPose() {
+		return null;
+	}
+
+	public GlareEntity(EntityType<? extends GlareEntity> entityType, Level world) {
+		super(entityType, world);
+
+		this.setTame(false, false);
+		this.moveControl = new GlareMoveControl(this, 24, true);
+		this.setPathfindingMalus(PathType.DANGER_FIRE, -1.0F);
+		this.setPathfindingMalus(PathType.WATER, -1.0F);
+		this.setPathfindingMalus(PathType.LAVA, -1.0F);
+		this.setPathfindingMalus(PathType.WATER_BORDER, 16.0F);
+		this.setPathfindingMalus(PathType.COCOA, -1.0F);
+		this.setPathfindingMalus(PathType.FENCE, -1.0F);
+		this.setCanPickUpLoot(true);
+
+		this.targetEyesPositionOffset = new Vec2(0.0F, 0.0F);
+	}
+
+	@Override
+	public SpawnGroupData finalizeSpawn(
+		ServerLevelAccessor world,
+		DifficultyInstance difficulty,
+		MobSpawnType spawnReason,
+		@Nullable SpawnGroupData entityData
 	) {
 		GlareBrain.setDarkSpotLocatingCooldown(this);
 		GlareBrain.setLocatingGlowBerriesCooldown(this);
 		GlareBrain.setItemPickupCooldown(this);
 
-		return super.initialize(world, difficulty, spawnReason, entityData);
+		return super.finalizeSpawn(world, difficulty, spawnReason, entityData);
 	}
 
 	static {
-		GLARE_FLAGS = DataTracker.registerData(GlareEntity.class, TrackedDataHandlerRegistry.BYTE);
+		GLARE_FLAGS = SynchedEntityData.defineId(GlareEntity.class, EntityDataSerializers.BYTE);
 		PICKABLE_FOOD_FILTER = (itemEntity) -> {
-			return itemEntity.getStack().isIn(FriendsAndFoesTags.GLARE_FOOD_ITEMS) && itemEntity.isAlive() && itemEntity.cannotPickup() == false;
+			return itemEntity.getItem().is(FriendsAndFoesTags.GLARE_FOOD_ITEMS) && itemEntity.isAlive() && itemEntity.hasPickUpDelay() == false;
 		};
 	}
 
 	@Override
-	protected void initDataTracker(DataTracker.Builder builder) {
-		super.initDataTracker(builder);
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		super.defineSynchedData(builder);
 
-		builder.add(GLARE_FLAGS, (byte) 0);
+		builder.define(GLARE_FLAGS, (byte) 0);
 	}
 
 	private boolean hasGlareFlag(int bitmask) {
-		return (this.dataTracker.get(GLARE_FLAGS) & bitmask) != 0;
+		return (this.entityData.get(GLARE_FLAGS) & bitmask) != 0;
 	}
 
 	private void setGlareFlag(int bitmask, boolean value) {
-		byte glareFlags = this.dataTracker.get(GLARE_FLAGS);
+		byte glareFlags = this.entityData.get(GLARE_FLAGS);
 
 		if (value) {
-			this.dataTracker.set(GLARE_FLAGS, (byte) (glareFlags | bitmask));
+			this.entityData.set(GLARE_FLAGS, (byte) (glareFlags | bitmask));
 		} else {
-			this.dataTracker.set(GLARE_FLAGS, (byte) (glareFlags & ~bitmask));
+			this.entityData.set(GLARE_FLAGS, (byte) (glareFlags & ~bitmask));
 		}
 	}
 
 	public static boolean canSpawn(
 		EntityType<GlareEntity> glareEntityEntityType,
-		ServerWorldAccess serverWorldAccess,
-		SpawnReason spawnReason,
+		ServerLevelAccessor serverWorldAccess,
+		MobSpawnType spawnReason,
 		BlockPos blockPos,
-		Random random
+		RandomSource random
 	) {
-		BlockState blockState = serverWorldAccess.getBlockState(blockPos.down());
+		BlockState blockState = serverWorldAccess.getBlockState(blockPos.below());
 
 		boolean isBelowSurfaceLevel = blockPos.getY() < 63;
-		boolean isSkyHidden = serverWorldAccess.isSkyVisible(blockPos) == false;
-		boolean isBlockPosLightEnough = serverWorldAccess.getLightLevel(blockPos, 0) > LIGHT_THRESHOLD;
-		boolean isRelatedBlock = blockState.isIn(FriendsAndFoesTags.GLARES_SPAWNABLE_ON);
+		boolean isSkyHidden = serverWorldAccess.canSeeSky(blockPos) == false;
+		boolean isBlockPosLightEnough = serverWorldAccess.getMaxLocalRawBrightness(blockPos, 0) > LIGHT_THRESHOLD;
+		boolean isRelatedBlock = blockState.is(FriendsAndFoesTags.GLARES_SPAWNABLE_ON);
 
 		return isBelowSurfaceLevel
 			   && isRelatedBlock
@@ -167,10 +204,10 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	}
 
 	@Override
-	public void tickMovement() {
-		super.tickMovement();
+	public void aiStep() {
+		super.aiStep();
 
-		if (this.getWorld().isClient() == false && this.isAlive() && this.age % 10 == 0) {
+		if (this.level().isClientSide() == false && this.isAlive() && this.tickCount % 10 == 0) {
 			this.heal(1.0F);
 		}
 	}
@@ -186,49 +223,49 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	}
 
 	@Override
-	protected void mobTick() {
-		this.getWorld().getProfiler().push("glareBrain");
-		this.getBrain().tick((ServerWorld) this.getWorld(), this);
-		this.getWorld().getProfiler().pop();
-		this.getWorld().getProfiler().push("glareMemoryUpdate");
+	protected void customServerAiStep() {
+		this.level().getProfiler().push("glareBrain");
+		this.getBrain().tick((ServerLevel) this.level(), this);
+		this.level().getProfiler().pop();
+		this.level().getProfiler().push("glareMemoryUpdate");
 		GlareBrain.updateMemories(this);
-		this.getWorld().getProfiler().pop();
-		this.getWorld().getProfiler().push("glareActivityUpdate");
+		this.level().getProfiler().pop();
+		this.level().getProfiler().push("glareActivityUpdate");
 		GlareBrain.updateActivities(this);
-		this.getWorld().getProfiler().pop();
+		this.level().getProfiler().pop();
 
-		super.mobTick();
+		super.customServerAiStep();
 	}
 
 	@Override
-	public void travel(Vec3d movementInput) {
-		if (this.isLogicalSideForUpdatingMovement()) {
-			if (this.isTouchingWater()) {
-				this.updateVelocity(0.02F, movementInput);
-				this.move(MovementType.SELF, this.getVelocity());
-				this.setVelocity(this.getVelocity().multiply(0.800000011920929));
+	public void travel(Vec3 movementInput) {
+		if (this.isControlledByLocalInstance()) {
+			if (this.isInWater()) {
+				this.moveRelative(0.02F, movementInput);
+				this.move(MoverType.SELF, this.getDeltaMovement());
+				this.setDeltaMovement(this.getDeltaMovement().scale(0.800000011920929));
 			} else if (this.isInLava()) {
-				this.updateVelocity(0.02F, movementInput);
-				this.move(MovementType.SELF, this.getVelocity());
-				this.setVelocity(this.getVelocity().multiply(0.5));
+				this.moveRelative(0.02F, movementInput);
+				this.move(MoverType.SELF, this.getDeltaMovement());
+				this.setDeltaMovement(this.getDeltaMovement().scale(0.5));
 			} else {
-				this.updateVelocity(this.getMovementSpeed(), movementInput);
-				this.move(MovementType.SELF, this.getVelocity());
-				this.setVelocity(this.getVelocity().multiply(0.9100000262260437));
+				this.moveRelative(this.getSpeed(), movementInput);
+				this.move(MoverType.SELF, this.getDeltaMovement());
+				this.setDeltaMovement(this.getDeltaMovement().scale(0.9100000262260437));
 			}
 		}
 
-		this.updateLimbs(false);
+		this.calculateEntityAnimation(false);
 	}
 
 	@Override
-	protected Vec3i getItemPickUpRangeExpander() {
+	protected Vec3i getPickupReach() {
 		return ITEM_PICKUP_RANGE_EXPANDER;
 	}
 
 	@Override
-	public boolean canGather(ItemStack itemStack) {
-		return itemStack.isEmpty() == false && itemStack.getItem() == Items.GLOW_BERRIES && super.canGather(itemStack);
+	public boolean wantsToPickUp(ItemStack itemStack) {
+		return itemStack.isEmpty() == false && itemStack.getItem() == Items.GLOW_BERRIES && super.wantsToPickUp(itemStack);
 	}
 
 	@Override
@@ -237,35 +274,35 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	}
 
 	public boolean isHoldingItem() {
-		return !this.getStackInHand(Hand.MAIN_HAND).isEmpty();
+		return !this.getItemInHand(InteractionHand.MAIN_HAND).isEmpty();
 	}
 
 	@Override
-	public boolean canEquip(ItemStack stack) {
+	public boolean canTakeItem(ItemStack stack) {
 		return false;
 	}
 
 	private boolean isItemPickupCoolingDown() {
-		return this.getBrain().isMemoryInState(MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS, MemoryModuleState.VALUE_PRESENT);
+		return this.getBrain().checkMemory(MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS, MemoryStatus.VALUE_PRESENT);
 	}
 
 	private void dropItem(ItemStack stack) {
-		ItemEntity itemEntity = new ItemEntity(this.getWorld(), this.getX(), this.getY(), this.getZ(), stack);
-		this.getWorld().spawnEntity(itemEntity);
+		ItemEntity itemEntity = new ItemEntity(this.level(), this.getX(), this.getY(), this.getZ(), stack);
+		this.level().addFreshEntity(itemEntity);
 	}
 
 	@Override
-	protected void loot(ItemEntity item) {
-		ItemStack itemStack = item.getStack();
+	protected void pickUpItem(ItemEntity item) {
+		ItemStack itemStack = item.getItem();
 
-		if (this.canPickupItem(itemStack) && PICKABLE_FOOD_FILTER.test(item)) {
+		if (this.canHoldItem(itemStack) && PICKABLE_FOOD_FILTER.test(item)) {
 			int i = itemStack.getCount();
 			if (i > 1) {
 				this.dropItem(itemStack.split(i - 1));
 			}
 
-			ItemStackParticleEffect particleEffect = new ItemStackParticleEffect(ParticleTypes.ITEM, itemStack);
-			FoodComponent foodComponent = itemStack.get(DataComponentTypes.FOOD);
+			ItemParticleOption particleEffect = new ItemParticleOption(ParticleTypes.ITEM, itemStack);
+			FoodProperties foodComponent = itemStack.get(DataComponents.FOOD);
 			float foodNutritionMultiplier = foodComponent != null ? (float) foodComponent.nutrition():1.0F;
 			this.heal(2.0F * foodNutritionMultiplier);
 			this.playEatSound(itemStack);
@@ -276,18 +313,18 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		}
 	}
 
-	public Vec2f getTargetEyesPositionOffset() {
+	public Vec2 getTargetEyesPositionOffset() {
 		return this.targetEyesPositionOffset;
 	}
 
 	public void setTargetEyesPositionOffset(float xEyePositionOffset, float yEyePositionOffset) {
-		this.targetEyesPositionOffset = new Vec2f(xEyePositionOffset, yEyePositionOffset);
+		this.targetEyesPositionOffset = new Vec2(xEyePositionOffset, yEyePositionOffset);
 	}
 
 	private void updateTargetEyesPositionOffset() {
 		if (
-			this.age % MIN_EYE_ANIMATION_TICK_AMOUNT != 0
-			|| this.getRandom().nextBetween(0, 2) != 0
+			this.tickCount % MIN_EYE_ANIMATION_TICK_AMOUNT != 0
+			|| this.getRandom().nextIntBetweenInclusive(0, 2) != 0
 		) {
 			return;
 		}
@@ -299,33 +336,33 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	}
 
 	public static Builder createGlareAttributes() {
-		return MobEntity.createMobAttributes()
-			.add(EntityAttributes.GENERIC_MAX_HEALTH, 10.0D)
-			.add(EntityAttributes.GENERIC_FLYING_SPEED, MOVEMENT_SPEED)
-			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, MOVEMENT_SPEED)
-			.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 48.0D);
+		return Mob.createMobAttributes()
+			.add(Attributes.MAX_HEALTH, 10.0D)
+			.add(Attributes.FLYING_SPEED, MOVEMENT_SPEED)
+			.add(Attributes.MOVEMENT_SPEED, MOVEMENT_SPEED)
+			.add(Attributes.FOLLOW_RANGE, 48.0D);
 	}
 
 	@Override
-	protected EntityNavigation createNavigation(World world) {
-		BirdNavigation birdNavigation = new BirdNavigation(this, world)
+	protected PathNavigation createNavigation(Level world) {
+		FlyingPathNavigation birdNavigation = new FlyingPathNavigation(this, world)
 		{
-			public boolean isValidPosition(BlockPos pos) {
-				boolean isValidPos = this.world.getBlockState(pos.down()).isAir() == false && this.world.getBlockState(pos.down()).isLiquid() == false;
+			public boolean isStableDestination(BlockPos pos) {
+				boolean isValidPos = this.level.getBlockState(pos.below()).isAir() == false && this.level.getBlockState(pos.below()).liquid() == false;
 
 				return isValidPos;
 			}
 		};
 
-		birdNavigation.setCanPathThroughDoors(false);
-		birdNavigation.setCanSwim(false);
-		birdNavigation.setCanEnterOpenDoors(true);
+		birdNavigation.setCanOpenDoors(false);
+		birdNavigation.setCanFloat(false);
+		birdNavigation.setCanPassDoors(true);
 
 		return birdNavigation;
 	}
 
 	@Override
-	protected Brain<?> deserializeBrain(Dynamic<?> dynamic) {
+	protected Brain<?> makeBrain(Dynamic<?> dynamic) {
 		return GlareBrain.create(dynamic);
 	}
 
@@ -336,9 +373,9 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	}
 
 	@Override
-	protected void sendAiDebugData() {
-		super.sendAiDebugData();
-		DebugInfoSender.sendBrainDebugData(this);
+	protected void sendDebugPackets() {
+		super.sendDebugPackets();
+		DebugPackets.sendEntityBrain(this);
 	}
 
 	@Override
@@ -393,12 +430,12 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	}
 
 	@Override
-	public SoundEvent getEatSound(ItemStack stack) {
+	public SoundEvent getEatingSound(ItemStack stack) {
 		return FriendsAndFoesSoundEvents.ENTITY_GLARE_EAT.get();
 	}
 
 	public void playEatSound(ItemStack stack) {
-		SoundEvent soundEvent = this.getEatSound(stack);
+		SoundEvent soundEvent = this.getEatingSound(stack);
 		this.playSound(soundEvent, 1.0F, 1.0F);
 	}
 
@@ -408,7 +445,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 
 	@Override
 	protected void playHurtSound(DamageSource source) {
-		this.ambientSoundChance = -this.getMinAmbientSoundDelay();
+		this.ambientSoundTime = -this.getAmbientSoundInterval();
 		this.playSound(this.getHurtSound(source), 1.0F, 0.5F);
 	}
 
@@ -421,150 +458,150 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	}
 
 	@Override
-	public ActionResult interactMob(
-		PlayerEntity player,
-		Hand hand
+	public InteractionResult mobInteract(
+		Player player,
+		InteractionHand hand
 	) {
-		ItemStack itemStack = player.getStackInHand(hand);
+		ItemStack itemStack = player.getItemInHand(hand);
 		Item itemInHand = itemStack.getItem();
 		boolean interactionResult = false;
 
 		if (itemInHand == Items.GLOW_BERRIES) {
 			if (
-				this.isTamed()
+				this.isTame()
 				&& this.getHealth() < this.getMaxHealth()
-				&& this.isBreedingItem(itemStack) == false
+				&& this.isFood(itemStack) == false
 			) {
 				interactionResult = this.tryToHealWithGlowBerries(player, itemStack);
-			} else if (this.isTamed() == false) {
+			} else if (this.isTame() == false) {
 				interactionResult = this.tryToTameWithGlowBerries(player, itemStack);
 			}
 		}
 
 		if (interactionResult) {
-			this.emitGameEvent(GameEvent.ENTITY_INTERACT, this);
-			return ActionResult.success(this.getWorld().isClient());
+			this.gameEvent(GameEvent.ENTITY_INTERACT, this);
+			return InteractionResult.sidedSuccess(this.level().isClientSide());
 		}
 
-		ActionResult actionResult = super.interactMob(player, hand);
+		InteractionResult actionResult = super.mobInteract(player, hand);
 
 		if (
-			this.isOwner(player)
-			&& actionResult.isAccepted() == false
+			this.isOwnedBy(player)
+			&& actionResult.consumesAction() == false
 		) {
-			this.setSitting(!this.isSitting());
+			this.setOrderedToSit(!this.isOrderedToSit());
 
-			if (this.isSitting()) {
+			if (this.isOrderedToSit()) {
 				MovementUtil.stopMovement(this);
 			}
 
-			return ActionResult.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
 
 		return actionResult;
 	}
 
 	private boolean tryToHealWithGlowBerries(
-		PlayerEntity player,
+		Player player,
 		ItemStack itemStack
 	) {
 		if (this.getHealth() == this.getMaxHealth()) {
 			return false;
 		}
 
-		if (this.getWorld().isClient()) {
+		if (this.level().isClientSide()) {
 			return true;
 		}
 
-		FoodComponent foodComponent = itemStack.get(DataComponentTypes.FOOD);
+		FoodProperties foodComponent = itemStack.get(DataComponents.FOOD);
 		if (foodComponent == null) {
 			return false;
 		}
 
 		this.heal(2.0F * foodComponent.nutrition());
 		this.playEatSound(itemStack);
-		itemStack.decrementUnlessCreative(1, player);
+		itemStack.consume(1, player);
 
-		ItemStackParticleEffect particleEffect = new ItemStackParticleEffect(ParticleTypes.ITEM, itemStack);
+		ItemParticleOption particleEffect = new ItemParticleOption(ParticleTypes.ITEM, itemStack);
 		ParticleSpawner.spawnParticles(this, particleEffect, 7, 0.1D);
 
 		return true;
 	}
 
 	private boolean tryToTameWithGlowBerries(
-		PlayerEntity player,
+		Player player,
 		ItemStack itemStack
 	) {
-		if (this.getWorld().isClient()) {
+		if (this.level().isClientSide()) {
 			return true;
 		}
 
-		if (player.getAbilities().creativeMode == false) {
-			itemStack.decrement(1);
+		if (player.getAbilities().instabuild == false) {
+			itemStack.shrink(1);
 		}
 
 		this.playEatSound(itemStack);
 
 		if (this.getRandom().nextInt(3) == 0) {
-			this.setOwner(player);
-			this.getWorld().sendEntityStatus(this, EntityStatuses.ADD_POSITIVE_PLAYER_REACTION_PARTICLES);
+			this.tame(player);
+			this.level().broadcastEntityEvent(this, EntityEvent.TAMING_SUCCEEDED);
 		} else {
-			this.getWorld().sendEntityStatus(this, EntityStatuses.ADD_NEGATIVE_PLAYER_REACTION_PARTICLES);
+			this.level().broadcastEntityEvent(this, EntityEvent.TAMING_FAILED);
 		}
 
 		return true;
 	}
 
-	public boolean isSitting() {
+	public boolean isOrderedToSit() {
 		return isInSittingPose();
 	}
 
-	public void setSitting(boolean isSitting) {
+	public void setOrderedToSit(boolean isSitting) {
 		// This is just needed, because original bad implementation
-		super.setSitting(isSitting);
+		super.setOrderedToSit(isSitting);
 		super.setInSittingPose(isSitting);
 	}
 
 	@Nullable
 	public GlobalPos getGlowBerriesPos() {
-		return this.getBrain().getOptionalMemory(FriendsAndFoesMemoryModuleTypes.GLARE_GLOW_BERRIES_POS.get()).orElse(null);
+		return this.getBrain().getMemoryInternal(FriendsAndFoesMemoryModuleTypes.GLARE_GLOW_BERRIES_POS.get()).orElse(null);
 	}
 
 	public boolean canEatGlowBerriesAt(BlockPos pos) {
-		BlockState blockState = this.getWorld().getBlockState(pos);
-		return CaveVines.hasBerries(blockState);
+		BlockState blockState = this.level().getBlockState(pos);
+		return CaveVines.hasGlowBerries(blockState);
 	}
 
 	@Nullable
 	public GlobalPos getDarkSpotPos() {
-		return this.getBrain().getOptionalMemory(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_POS.get()).orElse(null);
+		return this.getBrain().getMemoryInternal(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_POS.get()).orElse(null);
 	}
 
 	public boolean isDarkSpotDark(BlockPos pos) {
-		return this.getWorld().getLightLevel(LightType.BLOCK, pos) == 0;
+		return this.level().getBrightness(LightLayer.BLOCK, pos) == 0;
 	}
 
-	public boolean isInAir() {
-		return this.isOnGround() == false;
+	public boolean isFlying() {
+		return this.onGround() == false;
 	}
 
-	protected void swimUpward(TagKey<Fluid> tagKey) {
-		this.setVelocity(this.getVelocity().add(0.0, 0.01, 0.0));
+	protected void jumpInLiquid(TagKey<Fluid> tagKey) {
+		this.setDeltaMovement(this.getDeltaMovement().add(0.0, 0.01, 0.0));
 	}
 
-	public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
+	public boolean causeFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
 		return false;
 	}
 
-	protected void fall(double heightDifference, boolean onGround, BlockState landedState, BlockPos landedPosition) {
+	protected void checkFallDamage(double heightDifference, boolean onGround, BlockState landedState, BlockPos landedPosition) {
 	}
 
-	public boolean canBeLeashedBy(PlayerEntity player) {
+	public boolean canBeLeashedBy(Player player) {
 		return !this.isLeashed();
 	}
 
-	protected void showEmoteParticle(boolean positive) {
-		ParticleEffect particleEffect;
+	protected void spawnTamingParticles(boolean positive) {
+		ParticleOptions particleEffect;
 
 		if (positive) {
 			particleEffect = ParticleTypes.HEART;
@@ -576,45 +613,45 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 			double d = this.getRandom().nextGaussian() * 0.02D;
 			double e = this.getRandom().nextGaussian() * 0.02D;
 			double f = this.getRandom().nextGaussian() * 0.02D;
-			this.getWorld().addParticle(particleEffect, this.getParticleX(1.0D), this.getRandomBodyY() + 0.5D, this.getParticleZ(1.0D), d, e, f);
+			this.level().addParticle(particleEffect, this.getRandomX(1.0D), this.getRandomY() + 0.5D, this.getRandomZ(1.0D), d, e, f);
 		}
 	}
 
 	@Override
-	protected void updateAttributesForTamed() {
-		if (this.isTamed()) {
-			this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(30.0D);
+	protected void applyTamingSideEffects() {
+		if (this.isTame()) {
+			this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(30.0D);
 			this.setHealth(this.getMaxHealth());
 		} else {
-			this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(10.0D);
+			this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(10.0D);
 		}
 	}
 
-	public void setOwner(PlayerEntity owner) {
-		this.setTamed(true, true);
-		this.setOwnerUuid(owner.getUuid());
+	public void tame(Player owner) {
+		this.setTame(true, true);
+		this.setOwnerUUID(owner.getUUID());
 
-		if (owner instanceof ServerPlayerEntity) {
-			FriendsAndFoesCriterias.TAME_GLARE.get().trigger((ServerPlayerEntity) owner, this);
+		if (owner instanceof ServerPlayer) {
+			FriendsAndFoesCriterias.TAME_GLARE.get().trigger((ServerPlayer) owner, this);
 		}
 	}
 
 	@Override
-	public boolean isBreedingItem(ItemStack itemStack) {
+	public boolean isFood(ItemStack itemStack) {
 		return GlareBrain.getTemptItems().test(itemStack);
 	}
 
 	@Override
 	@Nullable
-	public PassiveEntity createChild(ServerWorld serverWorld, PassiveEntity entity) {
+	public AgeableMob getBreedOffspring(ServerLevel serverWorld, AgeableMob entity) {
 		GlareEntity glareEntity = FriendsAndFoesEntityTypes.GLARE.get().create(serverWorld);
 
-		if (this.isTamed() == false) {
+		if (this.isTame() == false) {
 			return null;
 		}
 
-		glareEntity.setOwnerUuid(this.getOwnerUuid());
-		glareEntity.setTamed(true, true);
+		glareEntity.setOwnerUUID(this.getOwnerUUID());
+		glareEntity.setTame(true, true);
 
 		GlareBrain.setDarkSpotLocatingCooldown(this);
 		GlareBrain.setLocatingGlowBerriesCooldown(this);
@@ -624,10 +661,10 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	}
 
 	@Override
-	public boolean canBreedWith(AnimalEntity other) {
+	public boolean canMate(Animal other) {
 		if (
 			other == this
-			|| !this.isTamed()
+			|| !this.isTame()
 			|| !(other instanceof GlareEntity)
 		) {
 			return false;
@@ -635,7 +672,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 
 		GlareEntity glare = (GlareEntity) other;
 		if (
-			!glare.isTamed()
+			!glare.isTame()
 			|| glare.isInSittingPose()
 		) {
 			return false;
@@ -645,22 +682,22 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	}
 
 	@Override
-	public boolean damage(
+	public boolean hurt(
 		DamageSource source,
 		float amount
 	) {
-		if (this.getWorld().isClient() == false) {
-			this.setSitting(false);
-			this.getNavigation().setSpeed(0);
+		if (this.level().isClientSide() == false) {
+			this.setOrderedToSit(false);
+			this.getNavigation().setSpeedModifier(0);
 			this.getNavigation().stop();
 		}
 
-		return super.damage(source, amount);
+		return super.hurt(source, amount);
 	}
 
 	@Override
-	public Vec3d getLeashOffset() {
-		return new Vec3d(0.0D, this.getStandingEyeHeight() * 0.6D, 0.0D);
+	public Vec3 getLeashOffset() {
+		return new Vec3(0.0D, this.getEyeHeight() * 0.6D, 0.0D);
 	}
 
 	// TODO resolve
@@ -676,7 +713,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 	} */
 
 	@Override
-	public float getMovementSpeed() {
+	public float getSpeed() {
 		if (this.isBaby()) {
 			return MOVEMENT_SPEED / 2.0F;
 		}
@@ -692,7 +729,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 		return this.hasGlareFlag(GRUMPY_BITMASK);
 	}
 
-	final class GlareMoveControl extends FlightMoveControl
+	final class GlareMoveControl extends FlyingMoveControl
 	{
 		public GlareMoveControl(GlareEntity glare, int maxPitchChange, boolean noGravity) {
 			super(glare, maxPitchChange, noGravity);
@@ -700,7 +737,7 @@ public final class GlareEntity extends TameableEntity implements Flutterer, Anim
 
 		@Override
 		public void tick() {
-			if (GlareEntity.this.isSitting()) {
+			if (GlareEntity.this.isOrderedToSit()) {
 				return;
 			}
 

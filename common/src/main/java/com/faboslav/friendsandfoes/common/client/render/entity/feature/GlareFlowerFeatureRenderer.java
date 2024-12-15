@@ -3,25 +3,25 @@ package com.faboslav.friendsandfoes.common.client.render.entity.feature;
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.GlareEntityModel;
 import com.faboslav.friendsandfoes.common.entity.GlareEntity;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.feature.FeatureRenderer;
-import net.minecraft.client.render.entity.feature.FeatureRendererContext;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.resources.ResourceLocation;
 
 @Environment(EnvType.CLIENT)
-public final class GlareFlowerFeatureRenderer extends FeatureRenderer<GlareEntity, GlareEntityModel<GlareEntity>>
+public final class GlareFlowerFeatureRenderer extends RenderLayer<GlareEntity, GlareEntityModel<GlareEntity>>
 {
-	public GlareFlowerFeatureRenderer(FeatureRendererContext<GlareEntity, GlareEntityModel<GlareEntity>> featureRendererContext) {
+	public GlareFlowerFeatureRenderer(RenderLayerParent<GlareEntity, GlareEntityModel<GlareEntity>> featureRendererContext) {
 		super(featureRendererContext);
 	}
 
 	public void render(
-		MatrixStack matrixStack,
-		VertexConsumerProvider vertexConsumerProvider,
+		PoseStack matrixStack,
+		MultiBufferSource vertexConsumerProvider,
 		int light,
 		GlareEntity glare,
 		float f,
@@ -35,16 +35,16 @@ public final class GlareFlowerFeatureRenderer extends FeatureRenderer<GlareEntit
 			return;
 		}
 
-		String string = Formatting.strip(glare.getName().getString());
+		String string = ChatFormatting.stripFormatting(glare.getName().getString());
 
 		if (
 			"Anna".equals(string)
-			|| glare.isTamed()
+			|| glare.isTame()
 		) {
-			Identifier identifier = FriendsAndFoes.makeID("textures/entity/glare/flowering_glare.png");
+			ResourceLocation identifier = FriendsAndFoes.makeID("textures/entity/glare/flowering_glare.png");
 
-			renderModel(
-				this.getContextModel(),
+			renderColoredCutoutModel(
+				this.getParentModel(),
 				identifier,
 				matrixStack,
 				vertexConsumerProvider,

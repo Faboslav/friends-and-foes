@@ -1,8 +1,7 @@
 package com.faboslav.friendsandfoes.common.init.registry;
 
-import net.minecraft.util.Identifier;
-
 import java.util.function.Supplier;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * Event/registry related is code based on The Bumblezone/Resourceful Lib mods with permissions from the authors
@@ -17,5 +16,5 @@ public interface RegistryEntry<T> extends Supplier<T>
 	@Override
 	T get();
 
-	Identifier getId();
+	ResourceLocation getId();
 }

@@ -3,11 +3,11 @@ package com.faboslav.friendsandfoes.common.entity;
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.block.CrabEggBlock;
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.CrabAnimations;
-import com.faboslav.friendsandfoes.common.client.render.entity.animation.KeyframeAnimation;
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.CrabBrain;
 import com.faboslav.friendsandfoes.common.entity.ai.control.WallClimbNavigation;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
+import com.faboslav.friendsandfoes.common.entity.animation.loader.json.AnimationHolder;
 import com.faboslav.friendsandfoes.common.entity.pose.CrabEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesItems;
@@ -15,42 +15,51 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.mojang.serialization.Dynamic;
-import net.minecraft.advancement.criterion.Criteria;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.JukeboxBlockEntity;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.entity.ai.control.YawAdjustingLookControl;
-import net.minecraft.entity.ai.pathing.PathNodeType;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.PassiveEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.network.DebugInfoSender;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.stat.Stats;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.GlobalPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.DebugPackets;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.stats.Stats;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.*;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.Brain;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.FlyingAnimal;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.pathfinder.PathType;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntity
+public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 {
 	private static final float MOVEMENT_SPEED = 0.225F;
 
@@ -62,35 +71,35 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 	private static final String HAS_EGG_NBT_NAME = "HasEgg";
 
 	private AnimationContextTracker animationContextTracker;
-	private static final TrackedData<Integer> POSE_TICKS = DataTracker.registerData(CrabEntity.class, TrackedDataHandlerRegistry.INTEGER);
-	private static final TrackedData<Boolean> IS_CLIMBING_WALL = DataTracker.registerData(CrabEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-	private static final TrackedData<String> SIZE = DataTracker.registerData(CrabEntity.class, TrackedDataHandlerRegistry.STRING);
-	private static final TrackedData<NbtCompound> HOME = DataTracker.registerData(CrabEntity.class, TrackedDataHandlerRegistry.NBT_COMPOUND);
-	private static final TrackedData<Boolean> HAS_EGG = DataTracker.registerData(CrabEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-	private static final TrackedData<Boolean> IS_DANCING = DataTracker.registerData(CrabEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+	private static final EntityDataAccessor<Integer> POSE_TICKS = SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<Boolean> IS_CLIMBING_WALL = SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<String> SIZE = SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.STRING);
+	private static final EntityDataAccessor<CompoundTag> HOME = SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.COMPOUND_TAG);
+	private static final EntityDataAccessor<Boolean> HAS_EGG = SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<Boolean> IS_DANCING = SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.BOOLEAN);
 
 	private int climbingTicks = 0;
 
-	public CrabEntity(EntityType<? extends CrabEntity> entityType, World world) {
+	public CrabEntity(EntityType<? extends CrabEntity> entityType, Level world) {
 		super(entityType, world);
 
 		this.setPose(CrabEntityPose.IDLE);
-		this.setPathfindingPenalty(PathNodeType.WATER, 0.0F);
-		this.setPathfindingPenalty(PathNodeType.DOOR_IRON_CLOSED, -1.0F);
-		this.setPathfindingPenalty(PathNodeType.DOOR_WOOD_CLOSED, -1.0F);
-		this.setPathfindingPenalty(PathNodeType.DOOR_OPEN, -1.0F);
+		this.setPathfindingMalus(PathType.WATER, 0.0F);
+		this.setPathfindingMalus(PathType.DOOR_IRON_CLOSED, -1.0F);
+		this.setPathfindingMalus(PathType.DOOR_WOOD_CLOSED, -1.0F);
+		this.setPathfindingMalus(PathType.DOOR_OPEN, -1.0F);
 		this.lookControl = new CrabLookControl(this, 10);
 		this.navigation = new CrabWallClimbNavigation(this, world);
 	}
 
 	@Override
-	public EntityData initialize(
-		ServerWorldAccess world,
-		LocalDifficulty difficulty,
-		SpawnReason spawnReason,
-		@Nullable EntityData entityData
+	public SpawnGroupData finalizeSpawn(
+		ServerLevelAccessor world,
+		DifficultyInstance difficulty,
+		MobSpawnType spawnReason,
+		@Nullable SpawnGroupData entityData
 	) {
-		EntityData superEntityData = super.initialize(world, difficulty, spawnReason, entityData);
+		SpawnGroupData superEntityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData);
 
 		this.setHome(this.getNewHome());
 		this.setSize(CrabSize.getRandomCrabSize(world.getRandom()));
@@ -105,46 +114,44 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 		if (this.animationContextTracker == null) {
 			this.animationContextTracker = new AnimationContextTracker();
 
-			for (KeyframeAnimation keyframeAnimation : this.getAnimations()) {
-				this.animationContextTracker.add(keyframeAnimation);
+			for (var animation: this.getTrackedAnimations()) {
+				this.animationContextTracker.add(animation);
 			}
-
-			this.animationContextTracker.add(this.getMovementAnimation());
 		}
 
 		return this.animationContextTracker;
 	}
 
 	@Override
-	public ArrayList<KeyframeAnimation> getAnimations() {
+	public ArrayList<AnimationHolder> getTrackedAnimations() {
 		return CrabAnimations.ANIMATIONS;
 	}
 
 	@Override
-	public KeyframeAnimation getMovementAnimation() {
+	public AnimationHolder getMovementAnimation() {
 		return CrabAnimations.WALK;
 	}
 
 	@Override
-	public boolean isPushedByFluids() {
+	public boolean isPushedByFluid() {
 		return !this.isSwimming();
 	}
 
 	@Override
-	public boolean hasNoDrag() {
+	public boolean shouldDiscardFriction() {
 		return this.isSwimming();
 	}
 
 	@Override
-	public void jump() {
+	public void jumpFromGround() {
 	}
 
-	public boolean isInAir() {
-		return this.isClimbing();
+	public boolean isFlying() {
+		return this.onClimbable();
 	}
 
 	@Override
-	public float getMovementSpeed() {
+	public float getSpeed() {
 		if (this.isBaby()) {
 			return MOVEMENT_SPEED / 2.0F;
 		}
@@ -153,29 +160,29 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 	}
 
 	@Override
-	public int getKeyframeAnimationTicks() {
-		return this.dataTracker.get(POSE_TICKS);
+	public int getCurrentAnimationTick() {
+		return this.entityData.get(POSE_TICKS);
 	}
 
-	public void setKeyframeAnimationTicks(int keyframeAnimationTicks) {
-		this.dataTracker.set(POSE_TICKS, keyframeAnimationTicks);
-	}
-
-	@Override
-	protected void initDataTracker(DataTracker.Builder builder) {
-		super.initDataTracker(builder);
-
-		builder.add(POSE_TICKS, 0);
-		builder.add(IS_CLIMBING_WALL, false);
-		builder.add(SIZE, CrabSize.getDefaultCrabSize().getName());
-		builder.add(HOME, new NbtCompound());
-		builder.add(HAS_EGG, false);
-		builder.add(IS_DANCING, false);
+	public void setCurrentAnimationTick(int keyframeAnimationTicks) {
+		this.entityData.set(POSE_TICKS, keyframeAnimationTicks);
 	}
 
 	@Override
-	public void writeCustomDataToNbt(NbtCompound nbt) {
-		super.writeCustomDataToNbt(nbt);
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		super.defineSynchedData(builder);
+
+		builder.define(POSE_TICKS, 0);
+		builder.define(IS_CLIMBING_WALL, false);
+		builder.define(SIZE, CrabSize.getDefaultCrabSize().getName());
+		builder.define(HOME, new CompoundTag());
+		builder.define(HAS_EGG, false);
+		builder.define(IS_DANCING, false);
+	}
+
+	@Override
+	public void addAdditionalSaveData(CompoundTag nbt) {
+		super.addAdditionalSaveData(nbt);
 
 		nbt.putString(SIZE_NBT_NAME, this.getSize().getName());
 		nbt.put(HOME_NBT_NAME, this.getHome());
@@ -183,8 +190,8 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 	}
 
 	@Override
-	public void readCustomDataFromNbt(NbtCompound nbt) {
-		super.readCustomDataFromNbt(nbt);
+	public void readAdditionalSaveData(CompoundTag nbt) {
+		super.readAdditionalSaveData(nbt);
 
 		CrabSize crabSize = CrabSize.getCrabSizeByName(nbt.getString(SIZE_NBT_NAME));
 
@@ -198,7 +205,7 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 	}
 
 	@Override
-	protected Brain<?> deserializeBrain(Dynamic<?> dynamic) {
+	protected Brain<?> makeBrain(Dynamic<?> dynamic) {
 		return CrabBrain.create(dynamic);
 	}
 
@@ -209,31 +216,31 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 	}
 
 	@Override
-	protected void sendAiDebugData() {
-		super.sendAiDebugData();
-		DebugInfoSender.sendBrainDebugData(this);
+	protected void sendDebugPackets() {
+		super.sendDebugPackets();
+		DebugPackets.sendEntityBrain(this);
 	}
 
-	public static DefaultAttributeContainer.Builder createCrabAttributes() {
-		return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 15.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, MOVEMENT_SPEED).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 2.0);
-	}
-
-	@Override
-	protected float calculateNextStepSoundDistance() {
-		return this.distanceTraveled + 0.175f;
+	public static AttributeSupplier.Builder createCrabAttributes() {
+		return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 15.0).add(Attributes.MOVEMENT_SPEED, MOVEMENT_SPEED).add(Attributes.ATTACK_DAMAGE, 2.0);
 	}
 
 	@Override
-	public boolean isClimbing() {
+	protected float nextStep() {
+		return this.moveDist + 0.175f;
+	}
+
+	@Override
+	public boolean onClimbable() {
 		return this.climbingTicks > 8 && this.isClimbingWall();
 	}
 
 	public boolean isClimbingWall() {
-		return this.dataTracker.get(IS_CLIMBING_WALL);
+		return this.entityData.get(IS_CLIMBING_WALL);
 	}
 
 	public void setClimbingWall(boolean isClimbingWall) {
-		this.dataTracker.set(IS_CLIMBING_WALL, isClimbingWall);
+		this.entityData.set(IS_CLIMBING_WALL, isClimbingWall);
 	}
 
 	@Override
@@ -251,7 +258,7 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 		BlockPos pos,
 		BlockState state
 	) {
-		if (!this.isOnGround() && state.isLiquid()) {
+		if (!this.onGround() && state.liquid()) {
 			return;
 		}
 
@@ -260,7 +267,7 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 
 	@Override
 	public void tick() {
-		if (!this.getWorld().isClient() && !FriendsAndFoes.getConfig().enableCrab) {
+		if (!this.level().isClientSide() && !FriendsAndFoes.getConfig().enableCrab) {
 			this.discard();
 		}
 
@@ -268,51 +275,51 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 		this.calculateSize();
 		super.tick();
 
-		if (!this.getWorld().isClient()) {
+		if (!this.level().isClientSide()) {
 			this.setClimbingWall(this.horizontalCollision);
 		}
 
 		if (this.isClimbingWall()) {
 			this.climbingTicks++;
 
-			var blockStateAtPos = this.getBlockStateAtPos();
-			if (this.isMoving() && !blockStateAtPos.isLiquid() && this.climbingTicks % 6 == 0) {
-				this.playStepSound(this.getBlockPos(), blockStateAtPos);
+			var blockStateAtPos = this.getInBlockState();
+			if (this.isMoving() && !blockStateAtPos.liquid() && this.climbingTicks % 6 == 0) {
+				this.playStepSound(this.blockPosition(), blockStateAtPos);
 			}
 		} else {
 			this.climbingTicks = 0;
 		}
 
-		if (this.isClimbing()) {
-			Vec3d velocity = this.getVelocity();
-			this.setVelocity(velocity.x, velocity.y * 0.33F, velocity.z);
+		if (this.onClimbable()) {
+			Vec3 velocity = this.getDeltaMovement();
+			this.setDeltaMovement(velocity.x, velocity.y * 0.33F, velocity.z);
 		}
 	}
 
 	@Override
-	public void tickMovement() {
-		super.tickMovement();
+	public void aiStep() {
+		super.aiStep();
 
-		if (this.age % 5 == 0) {
+		if (this.tickCount % 5 == 0) {
 			boolean isDancing = false;
 
-			for (BlockPos blockPos : BlockPos.iterateOutwards(this.getBlockPos(), 7, 7, 7)) {
-				BlockPos possibleJukeboxBlockPos = blockPos.mutableCopy();
-				BlockState possibleJukeboxBlockState = this.getWorld().getBlockState(possibleJukeboxBlockPos);
+			for (BlockPos blockPos : BlockPos.withinManhattan(this.blockPosition(), 7, 7, 7)) {
+				BlockPos possibleJukeboxBlockPos = blockPos.mutable();
+				BlockState possibleJukeboxBlockState = this.level().getBlockState(possibleJukeboxBlockPos);
 
 				if (
-					!possibleJukeboxBlockState.isOf(Blocks.JUKEBOX)
+					!possibleJukeboxBlockState.is(Blocks.JUKEBOX)
 					|| !possibleJukeboxBlockState.hasBlockEntity()
 				) {
 					continue;
 				}
 
-				BlockEntity possibleJukeboxBlockEntity = this.getWorld().getBlockEntity(possibleJukeboxBlockPos);
+				BlockEntity possibleJukeboxBlockEntity = this.level().getBlockEntity(possibleJukeboxBlockPos);
 				if (!(possibleJukeboxBlockEntity instanceof JukeboxBlockEntity)) {
 					continue;
 				}
 
-				if (((JukeboxBlockEntity) possibleJukeboxBlockEntity).getManager().isPlaying()) {
+				if (((JukeboxBlockEntity) possibleJukeboxBlockEntity).getSongPlayer().isPlaying()) {
 					isDancing = true;
 					break;
 				}
@@ -323,54 +330,54 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 	}
 
 	private void updateKeyframeAnimations() {
-		if (!this.getWorld().isClient()) {
-			this.updateKeyframeAnimationTicks();
+		if (!this.level().isClientSide()) {
+			this.updateCurrentAnimationTick();
 		}
 
-		KeyframeAnimation keyframeAnimationToStart = this.getKeyframeAnimationByPose();
+		AnimationHolder animationToStart = this.getAnimationByPose();
 
-		if (keyframeAnimationToStart != null) {
-			this.tryToStartKeyframeAnimation(keyframeAnimationToStart);
+		if (animationToStart != null) {
+			this.tryToStartAnimation(animationToStart);
 		}
 	}
 
 	@Nullable
-	private KeyframeAnimation getKeyframeAnimationByPose() {
-		KeyframeAnimation keyframeAnimation = null;
+	public AnimationHolder getAnimationByPose() {
+		AnimationHolder animation = null;
 
 		if (this.isInPose(CrabEntityPose.IDLE) && !this.isMoving()) {
-			keyframeAnimation = CrabAnimations.IDLE;
+			animation = CrabAnimations.IDLE;
 		} else if (this.isInPose(CrabEntityPose.WAVE)) {
-			keyframeAnimation = CrabAnimations.WAVE;
+			animation = CrabAnimations.WAVE;
 		} else if (this.isInPose(CrabEntityPose.DANCE)) {
-			keyframeAnimation = CrabAnimations.DANCE;
+			animation = CrabAnimations.DANCE;
 		}
 
-		return keyframeAnimation;
+		return animation;
 	}
 
-	private void tryToStartKeyframeAnimation(KeyframeAnimation keyframeAnimationToStart) {
-		if (this.isKeyframeAnimationRunning(keyframeAnimationToStart)) {
+	private void tryToStartAnimation(AnimationHolder animationToStart) {
+		if (this.isKeyframeAnimationRunning(animationToStart)) {
 			return;
 		}
 
-		if (!this.getWorld().isClient()) {
-			this.setKeyframeAnimationTicks(keyframeAnimationToStart.getAnimationLengthInTicks());
+		if (!this.level().isClientSide()) {
+			this.setCurrentAnimationTick(animationToStart.get().lengthInTicks());
 		}
 
-		this.startKeyframeAnimation(keyframeAnimationToStart);
+		this.startKeyframeAnimation(animationToStart);
 	}
 
-	private void startKeyframeAnimation(KeyframeAnimation keyframeAnimationToStart) {
-		for (KeyframeAnimation keyframeAnimation : this.getAnimations()) {
-			if (keyframeAnimation == keyframeAnimationToStart) {
+	private void startKeyframeAnimation(AnimationHolder animationToStart) {
+		for (var animation : this.getTrackedAnimations()) {
+			if (animation == animationToStart) {
 				continue;
 			}
 
-			this.stopKeyframeAnimation(keyframeAnimation);
+			this.stopKeyframeAnimation(animation);
 		}
 
-		this.startKeyframeAnimation(keyframeAnimationToStart, this.age);
+		this.startKeyframeAnimation(animationToStart, this.tickCount);
 	}
 
 	public void startWaveAnimation() {
@@ -390,14 +397,14 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 	}
 
 	public void setPose(CrabEntityPose pose) {
-		if (this.getWorld().isClient()) {
+		if (this.level().isClientSide()) {
 			return;
 		}
 
 		setPose(pose.get());
 	}
 
-	public boolean isInPose(EntityPose pose) {
+	public boolean hasPose(Pose pose) {
 		return this.getPose() == pose;
 	}
 
@@ -406,53 +413,53 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 	}
 
 	@Override
-	protected void mobTick() {
-		this.getWorld().getProfiler().push("crabBrain");
-		this.getBrain().tick((ServerWorld) this.getWorld(), this);
+	protected void customServerAiStep() {
+		this.level().getProfiler().push("crabBrain");
+		this.getBrain().tick((ServerLevel) this.level(), this);
 
-		this.getWorld().getProfiler().pop();
-		this.getWorld().getProfiler().push("crabMemoryUpdate");
+		this.level().getProfiler().pop();
+		this.level().getProfiler().push("crabMemoryUpdate");
 		CrabBrain.updateMemories(this);
-		this.getWorld().getProfiler().pop();
+		this.level().getProfiler().pop();
 
-		this.getWorld().getProfiler().push("crabActivityUpdate");
+		this.level().getProfiler().push("crabActivityUpdate");
 		CrabBrain.updateActivities(this);
-		this.getWorld().getProfiler().pop();
+		this.level().getProfiler().pop();
 
-		super.mobTick();
+		super.customServerAiStep();
 	}
 
 	@Override
-	protected void onGrowUp() {
-		super.onGrowUp();
+	protected void ageBoundaryReached() {
+		super.ageBoundaryReached();
 
-		if (!this.isBaby() && this.getWorld().getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) {
-			this.dropItem(FriendsAndFoesItems.CRAB_CLAW.get(), 1);
+		if (!this.isBaby() && this.level().getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
+			this.spawnAtLocation(FriendsAndFoesItems.CRAB_CLAW.get(), 1);
 		}
 	}
 
 	public boolean isMoving() {
-		return (this.isOnGround() || this.isClimbing()) && this.getVelocity().lengthSquared() >= 0.0001;
+		return (this.onGround() || this.onClimbable()) && this.getDeltaMovement().lengthSqr() >= 0.0001;
 	}
 
 	public static boolean canSpawn(
-		EntityType<? extends AnimalEntity> type,
-		WorldAccess world,
-		SpawnReason reason,
+		EntityType<? extends Animal> type,
+		LevelAccessor world,
+		MobSpawnType reason,
 		BlockPos pos,
-		Random random
+		RandomSource random
 	) {
-		return world.getBlockState(pos.down()).isIn(FriendsAndFoesTags.CRABS_SPAWNABLE_ON) && CrabEggBlock.isSuitableBelow(world, pos) && isLightLevelValidForNaturalSpawn(world, pos);
+		return world.getBlockState(pos.below()).is(FriendsAndFoesTags.CRABS_SPAWNABLE_ON) && CrabEggBlock.isSuitableBelow(world, pos) && isBrightEnoughToSpawn(world, pos);
 	}
 
 	@Override
-	public boolean isBreedingItem(ItemStack itemStack) {
+	public boolean isFood(ItemStack itemStack) {
 		return CrabBrain.getTemptItems().test(itemStack);
 	}
 
 	@Override
 	@Nullable
-	public PassiveEntity createChild(ServerWorld serverWorld, PassiveEntity entity) {
+	public AgeableMob getBreedOffspring(ServerLevel serverWorld, AgeableMob entity) {
 		CrabEntity crab = FriendsAndFoesEntityTypes.CRAB.get().create(serverWorld);
 
 		CrabBrain.setWaveCooldown(crab);
@@ -461,61 +468,61 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 	}
 
 	@Override
-	public void breed(ServerWorld world, AnimalEntity mate) {
-		ServerPlayerEntity serverPlayerEntity = this.getLovingPlayer();
+	public void spawnChildFromBreeding(ServerLevel world, Animal mate) {
+		ServerPlayer serverPlayerEntity = this.getLoveCause();
 
-		if (serverPlayerEntity == null && mate.getLovingPlayer() != null) {
-			serverPlayerEntity = mate.getLovingPlayer();
+		if (serverPlayerEntity == null && mate.getLoveCause() != null) {
+			serverPlayerEntity = mate.getLoveCause();
 		}
 
 		if (serverPlayerEntity != null) {
-			serverPlayerEntity.incrementStat(Stats.ANIMALS_BRED);
-			Criteria.BRED_ANIMALS.trigger(serverPlayerEntity, this, mate, null);
+			serverPlayerEntity.awardStat(Stats.ANIMALS_BRED);
+			CriteriaTriggers.BRED_ANIMALS.trigger(serverPlayerEntity, this, mate, null);
 		}
 
 		this.setHasEgg(true);
-		this.resetLoveTicks();
-		mate.resetLoveTicks();
-		Random random = this.getRandom();
+		this.resetLove();
+		mate.resetLove();
+		RandomSource random = this.getRandom();
 
-		if (this.getWorld().getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) {
-			this.getWorld().spawnEntity(new ExperienceOrbEntity(this.getWorld(), this.getX(), this.getY(), this.getZ(), random.nextInt(7) + 1));
+		if (this.level().getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
+			this.level().addFreshEntity(new ExperienceOrb(this.level(), this.getX(), this.getY(), this.getZ(), random.nextInt(7) + 1));
 		}
 	}
 
 	@Nullable
 	public GlobalPos getBurrowSpotPos() {
-		return this.getBrain().getOptionalMemory(FriendsAndFoesMemoryModuleTypes.CRAB_BURROW_POS.get()).orElse(null);
+		return this.getBrain().getMemoryInternal(FriendsAndFoesMemoryModuleTypes.CRAB_BURROW_POS.get()).orElse(null);
 	}
 
 	public boolean isBurrowSpotAccessible(BlockPos pos) {
-		var world = this.getWorld();
-		boolean isBlockSand = world.getBlockState(pos.down()).isIn(FriendsAndFoesTags.CRAB_BURROW_SPOT_BLOCKS);
-		boolean isBlockAccessible = world.isAir(pos) && world.isAir(pos.up());
+		var world = this.level();
+		boolean isBlockSand = world.getBlockState(pos.below()).is(FriendsAndFoesTags.CRAB_BURROW_SPOT_BLOCKS);
+		boolean isBlockAccessible = world.isEmptyBlock(pos) && world.isEmptyBlock(pos.above());
 
 		return isBlockSand && isBlockAccessible;
 	}
 
-	public NbtCompound getNewHome() {
-		NbtCompound home = new NbtCompound();
+	public CompoundTag getNewHome() {
+		CompoundTag home = new CompoundTag();
 
-		home.putDouble(HOME_NBT_NAME_X, this.getPos().getX());
-		home.putDouble(HOME_NBT_NAME_Y, this.getPos().getY());
-		home.putDouble(HOME_NBT_NAME_Z, this.getPos().getZ());
+		home.putDouble(HOME_NBT_NAME_X, this.position().x());
+		home.putDouble(HOME_NBT_NAME_Y, this.position().y());
+		home.putDouble(HOME_NBT_NAME_Z, this.position().z());
 
 		return home;
 	}
 
-	public void setHome(NbtCompound home) {
-		dataTracker.set(HOME, home);
+	public void setHome(CompoundTag home) {
+		entityData.set(HOME, home);
 	}
 
-	public NbtCompound getHome() {
-		return dataTracker.get(HOME);
+	public CompoundTag getHome() {
+		return entityData.get(HOME);
 	}
 
-	public Vec3d getHomePos() {
-		return new Vec3d(
+	public Vec3 getHomePos() {
+		return new Vec3(
 			this.getHome().getDouble(HOME_NBT_NAME_X),
 			this.getHome().getDouble(HOME_NBT_NAME_Y),
 			this.getHome().getDouble(HOME_NBT_NAME_Z)
@@ -523,45 +530,45 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 	}
 
 	public boolean isAtHomePos() {
-		return this.squaredDistanceTo(this.getHomePos()) < 0.1D;
+		return this.distanceToSqr(this.getHomePos()) < 0.1D;
 	}
 
 	public boolean isCloseToHomePos(float distance) {
-		return this.squaredDistanceTo(this.getHomePos()) < distance;
+		return this.distanceToSqr(this.getHomePos()) < distance;
 	}
 
 	public boolean hasEgg() {
-		return this.dataTracker.get(HAS_EGG);
+		return this.entityData.get(HAS_EGG);
 	}
 
 	public void setHasEgg(boolean hasEgg) {
-		this.dataTracker.set(HAS_EGG, hasEgg);
+		this.entityData.set(HAS_EGG, hasEgg);
 	}
 
 	public boolean isDancing() {
-		return this.dataTracker.get(IS_DANCING);
+		return this.entityData.get(IS_DANCING);
 	}
 
 	public void setIsDancing(boolean isDancing) {
-		this.dataTracker.set(IS_DANCING, isDancing);
+		this.entityData.set(IS_DANCING, isDancing);
 	}
 
 	private void setSize(CrabSize size) {
-		this.dataTracker.set(SIZE, size.getName());
+		this.entityData.set(SIZE, size.getName());
 		this.calculateSize();
 	}
 
 	private void calculateSize() {
-		this.calculateDimensions();
-		this.calculateBoundingBox();
+		this.refreshDimensions();
+		this.makeBoundingBox();
 	}
 
 	public CrabSize getSize() {
-		return CrabSize.getCrabSizeByName(this.dataTracker.get(SIZE));
+		return CrabSize.getCrabSizeByName(this.entityData.get(SIZE));
 	}
 
 	@Override
-	public float getScaleFactor() {
+	public float getAgeScale() {
 		// TODO check
 		return this.getSize().getScaleModifier();
 	}
@@ -603,7 +610,7 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 			return CrabSize.BIG;
 		}
 
-		public static CrabSize getRandomCrabSize(Random random) {
+		public static CrabSize getRandomCrabSize(RandomSource random) {
 			Object[] values = CrabSize.values();
 			int min = 0;
 			int max = values.length - 1;
@@ -611,14 +618,14 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 		}
 	}
 
-	class CrabLookControl extends YawAdjustingLookControl
+	class CrabLookControl extends SmoothSwimmingLookControl
 	{
 		public CrabLookControl(CrabEntity crab, int yawAdjustThreshold) {
 			super(crab, yawAdjustThreshold);
 		}
 
 		public void tick() {
-			if (!CrabEntity.this.isClimbing()) {
+			if (!CrabEntity.this.onClimbable()) {
 				super.tick();
 			}
 		}
@@ -626,7 +633,7 @@ public class CrabEntity extends AnimalEntity implements Flutterer, AnimatedEntit
 
 	class CrabWallClimbNavigation extends WallClimbNavigation
 	{
-		public CrabWallClimbNavigation(MobEntity mobEntity, World world) {
+		public CrabWallClimbNavigation(Mob mobEntity, Level world) {
 			super(mobEntity, world);
 		}
 

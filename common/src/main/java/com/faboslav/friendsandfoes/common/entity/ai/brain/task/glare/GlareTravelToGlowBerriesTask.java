@@ -4,62 +4,61 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.GlareEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.GlareBrain;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.ai.brain.MemoryModuleState;
-import net.minecraft.entity.ai.brain.MemoryModuleType;
-import net.minecraft.entity.ai.brain.task.LookTargetUtil;
-import net.minecraft.entity.ai.brain.task.MultiTickTask;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.TimeHelper;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.GlobalPos;
-
 import java.util.Map;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.TimeUtil;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.behavior.Behavior;
+import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
 
-public final class GlareTravelToGlowBerriesTask extends MultiTickTask<GlareEntity>
+public final class GlareTravelToGlowBerriesTask extends Behavior<GlareEntity>
 {
 	private static final int MAX_TRAVELLING_TICKS = 300;
 	private final static float WITHING_DISTANCE = 1.5F;
 
 	public GlareTravelToGlowBerriesTask() {
 		super(Map.of(
-			FriendsAndFoesMemoryModuleTypes.GLARE_GLOW_BERRIES_POS.get(), MemoryModuleState.VALUE_PRESENT
+			FriendsAndFoesMemoryModuleTypes.GLARE_GLOW_BERRIES_POS.get(), MemoryStatus.VALUE_PRESENT
 		), MAX_TRAVELLING_TICKS);
 	}
 
 	@Override
-	protected boolean shouldRun(ServerWorld world, GlareEntity glare) {
+	protected boolean checkExtraStartConditions(ServerLevel world, GlareEntity glare) {
 		GlobalPos glowBerriesPos = glare.getGlowBerriesPos();
 
 		return FriendsAndFoes.getConfig().enableGlareGriefing != false
 			   && !glare.isLeashed()
-			   && !glare.isSitting()
-			   && glare.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty() != false
+			   && !glare.isOrderedToSit()
+			   && glare.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty() != false
 			   && glare.canEatGlowBerriesAt(glowBerriesPos.pos()) != false
 			   && glowBerriesPos != null
-			   && !glowBerriesPos.pos().isWithinDistance(glare.getPos(), WITHING_DISTANCE);
+			   && !glowBerriesPos.pos().closerToCenterThan(glare.position(), WITHING_DISTANCE);
 	}
 
 	@Override
-	protected void run(ServerWorld world, GlareEntity glare, long time) {
+	protected void start(ServerLevel world, GlareEntity glare, long time) {
 		this.flyTowardsGlowBerries(glare);
 	}
 
 	@Override
-	protected boolean shouldKeepRunning(ServerWorld world, GlareEntity glare, long time) {
+	protected boolean canStillUse(ServerLevel world, GlareEntity glare, long time) {
 		GlobalPos glowBerriesPos = glare.getGlowBerriesPos();
 
 		if (
 			glowBerriesPos == null
 			|| glare.canEatGlowBerriesAt(glowBerriesPos.pos()) == false
 			|| (
-				glowBerriesPos.pos().isWithinDistance(glare.getPos(), WITHING_DISTANCE)
-				&& glare.getNavigation().isFollowingPath() == false
+				glowBerriesPos.pos().closerToCenterThan(glare.position(), WITHING_DISTANCE)
+				&& glare.getNavigation().isInProgress() == false
 			)
 			|| FriendsAndFoes.getConfig().enableGlareGriefing == false
 			|| glare.isLeashed() == true
-			|| glare.isSitting() == true
-			|| glare.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty() == false
+			|| glare.isOrderedToSit() == true
+			|| glare.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty() == false
 		) {
 			return false;
 		}
@@ -67,8 +66,8 @@ public final class GlareTravelToGlowBerriesTask extends MultiTickTask<GlareEntit
 		return true;
 	}
 
-	protected void keepRunning(ServerWorld world, GlareEntity glare, long time) {
-		if (glare.getNavigation().isFollowingPath()) {
+	protected void tick(ServerLevel world, GlareEntity glare, long time) {
+		if (glare.getNavigation().isInProgress()) {
 			return;
 		}
 
@@ -76,19 +75,19 @@ public final class GlareTravelToGlowBerriesTask extends MultiTickTask<GlareEntit
 	}
 
 	@Override
-	protected void finishRunning(ServerWorld world, GlareEntity glare, long time) {
-		glare.getBrain().forget(MemoryModuleType.WALK_TARGET);
+	protected void stop(ServerLevel world, GlareEntity glare, long time) {
+		glare.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);
 		GlobalPos glowBerriesPos = glare.getGlowBerriesPos();
 
 		if (
 			glowBerriesPos != null &&
 			(
-				glowBerriesPos.pos().isWithinDistance(glare.getPos(), WITHING_DISTANCE) == false
+				glowBerriesPos.pos().closerToCenterThan(glare.position(), WITHING_DISTANCE) == false
 				|| glare.canEatGlowBerriesAt(glowBerriesPos.pos()) == false
 			)
 		) {
-			glare.getBrain().forget(FriendsAndFoesMemoryModuleTypes.GLARE_GLOW_BERRIES_POS.get());
-			GlareBrain.setLocatingGlowBerriesCooldown(glare, TimeHelper.betweenSeconds(10, 20));
+			glare.getBrain().eraseMemory(FriendsAndFoesMemoryModuleTypes.GLARE_GLOW_BERRIES_POS.get());
+			GlareBrain.setLocatingGlowBerriesCooldown(glare, TimeUtil.rangeOfSeconds(10, 20));
 		}
 	}
 
@@ -99,7 +98,7 @@ public final class GlareTravelToGlowBerriesTask extends MultiTickTask<GlareEntit
 			return;
 		}
 
-		LookTargetUtil.walkTowards(
+		BehaviorUtils.setWalkAndLookTargetMemories(
 			glare,
 			new BlockPos(glowBerriesPos.pos()),
 			1.0F,

@@ -1,8 +1,8 @@
 package com.faboslav.friendsandfoes.common.entity.animation;
 
-import com.faboslav.friendsandfoes.common.client.render.entity.animation.KeyframeAnimation;
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.context.KeyframeAnimationContext;
+import com.faboslav.friendsandfoes.common.entity.animation.loader.json.AnimationHolder;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -11,90 +11,94 @@ public interface AnimatedEntity
 {
 	AnimationContextTracker getAnimationContextTracker();
 
-	/**
-	 * This is temporarily empty array until all the mobs have keyframe animations
-	 */
-	default ArrayList<KeyframeAnimation> getAnimations() {
-		return new ArrayList<>();
-	}
+	ArrayList<AnimationHolder> getTrackedAnimations();
 
-	/**
-	 * This is temporarily nullable until all the mobs have keyframe animations
-	 */
+	AnimationHolder getMovementAnimation();
+
+	int getCurrentAnimationTick();
+
+	void setCurrentAnimationTick(int currentAnimationTick);
+
 	@Nullable
-	default KeyframeAnimation getMovementAnimation() {
-		return null;
+	AnimationHolder getAnimationByPose();
+
+	default int getCurrentKeyframeAnimationTick() {
+		AnimationHolder animationHolder = this.getAnimationByPose();
+
+		if (animationHolder == null) {
+			return 0;
+		}
+
+		int totalAnimationTicks = animationHolder.get().lengthInTicks(this.getAnimationSpeedModifier());
+		int remainingAnimationTicks = this.getCurrentAnimationTick();
+
+		return totalAnimationTicks - remainingAnimationTicks;
 	}
 
-	/**
-	 * This is temporarily 0 until all the mobs have keyframe animations
-	 */
-	default int getKeyframeAnimationTicks() {
-		return 0;
+	default float getAnimationSpeedModifier() {
+		return 1.0F;
 	}
 
-	default void setKeyframeAnimationTicks(int keyframeAnimationTicks) {
-	}
-
-	default void updateKeyframeAnimationTicks() {
+	default void updateCurrentAnimationTick() {
 		if (!this.isAnyKeyframeAnimationRunning()) {
 			return;
 		}
 
-		this.setKeyframeAnimationTicks(this.getKeyframeAnimationTicks() - 1);
+		this.setCurrentAnimationTick(this.getCurrentAnimationTick() - 1);
 
-		if (this.getKeyframeAnimationTicks() > 1) {
+		if (this.getCurrentAnimationTick() > 1) {
 			return;
 		}
 
-		for (KeyframeAnimation keyframeAnimation : this.getAnimations()) {
-			if (!keyframeAnimation.getAnimation().looping()) {
+		for (AnimationHolder animationHolder : this.getTrackedAnimations()) {
+			if (!animationHolder.get().looping()) {
 				continue;
 			}
 
-			var keyframeAnimationContext = this.getAnimationContextTracker().get(keyframeAnimation);
+			var keyframeAnimationContext = this.getAnimationContextTracker().get(animationHolder);
+
 			if (!keyframeAnimationContext.isRunning()) {
 				continue;
 			}
 
-			this.setKeyframeAnimationTicks(keyframeAnimation.getAnimationLengthInTicks());
+			this.setCurrentAnimationTick(animationHolder.get().lengthInTicks(this.getAnimationSpeedModifier()));
 		}
 	}
 
 	default boolean isAnyKeyframeAnimationRunning() {
-		return this.getKeyframeAnimationTicks() > 0;
+		return this.getCurrentAnimationTick() > 0;
 	}
 
-	default boolean isKeyframeAnimationAtLastKeyframe(KeyframeAnimation keyframeAnimation) {
-		return this.getAnimationContextTracker().get(keyframeAnimation).isAtLastKeyframe();
+	default boolean isKeyframeAnimationAtLastKeyframe(AnimationHolder animationHolder) {
+		return this.getAnimationContextTracker().get(animationHolder).isAtLastKeyframe(animationHolder.get().lengthInTicks(this.getAnimationSpeedModifier()));
 	}
 
-	default boolean isKeyframeAnimationRunning(KeyframeAnimation keyframeAnimation) {
-		return this.getAnimationContextTracker().get(keyframeAnimation).isRunning();
+	default boolean isKeyframeAnimationRunning(AnimationHolder animationHolder) {
+		return this.getAnimationContextTracker().get(animationHolder).isRunning();
 	}
 
-	default void startKeyframeAnimation(KeyframeAnimation keyframeAnimation, int initialTick) {
-		KeyframeAnimationContext keyframeAnimationContext = this.getAnimationContextTracker().get(keyframeAnimation);
+	default void startKeyframeAnimation(AnimationHolder animationHolder, int initialTick) {
+		KeyframeAnimationContext keyframeAnimationContext = this.getAnimationContextTracker().get(animationHolder);
 		keyframeAnimationContext.setInitialTick(initialTick);
 		keyframeAnimationContext.getAnimationState().start(initialTick);
 	}
 
-	default void forceStartKeyframeAnimation(KeyframeAnimation keyframeAnimation, int initialTick) {
-		KeyframeAnimationContext keyframeAnimationContext = this.getAnimationContextTracker().get(keyframeAnimation);
+	default void forceStartKeyframeAnimation(AnimationHolder animationHolder, int initialTick) {
+		KeyframeAnimationContext keyframeAnimationContext = this.getAnimationContextTracker().get(animationHolder);
 		keyframeAnimationContext.setInitialTick(initialTick);
 		keyframeAnimationContext.getAnimationState().start(initialTick);
 	}
 
-	default void stopRunningKeyframeAnimations() {
-		for (KeyframeAnimation keyframeAnimation : this.getAnimations()) {
-			if (!this.getAnimationContextTracker().get(keyframeAnimation).isRunning()) {
-				this.stopKeyframeAnimation(keyframeAnimation);
+	default void stopRunningAnimations() {
+		for (AnimationHolder animationHolder : this.getTrackedAnimations()) {
+			if (!this.getAnimationContextTracker().get(animationHolder).isRunning()) {
+				this.stopKeyframeAnimation(animationHolder);
 			}
 		}
 	}
 
-	default void stopKeyframeAnimation(KeyframeAnimation keyframeAnimation) {
-		KeyframeAnimationContext keyframeAnimationContext = this.getAnimationContextTracker().get(keyframeAnimation);
+	default void stopKeyframeAnimation(AnimationHolder animationHolder) {
+		KeyframeAnimationContext keyframeAnimationContext = this.getAnimationContextTracker().get(animationHolder);
 		keyframeAnimationContext.setInitialTick(0);
 		keyframeAnimationContext.setCurrentTick(0);
 		keyframeAnimationContext.getAnimationState().stop();

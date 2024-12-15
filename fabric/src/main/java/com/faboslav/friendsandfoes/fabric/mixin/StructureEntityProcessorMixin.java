@@ -2,21 +2,6 @@ package com.faboslav.friendsandfoes.fabric.mixin;
 
 import com.faboslav.friendsandfoes.common.world.processor.StructureEntityProcessor;
 import com.faboslav.friendsandfoes.common.world.processor.StructureProcessingContext;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtDouble;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.structure.StructurePlacementData;
-import net.minecraft.structure.StructureTemplate;
-import net.minecraft.structure.StructureTemplate.StructureEntityInfo;
-import net.minecraft.structure.processor.StructureProcessor;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.ServerWorldAccess;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -28,6 +13,21 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.DoubleTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureEntityInfo;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Allows for processing entities in Jigsaw structures.
@@ -39,24 +39,24 @@ public final class StructureEntityProcessorMixin
 {
 	@Shadow
 	@Final
-	private List<StructureEntityInfo> entities;
+	private List<StructureEntityInfo> entityInfoList;
 
 	@Unique
 	private static final ThreadLocal<StructureProcessingContext> friendsandfoes_context = new ThreadLocal<>();
 
 	@Inject(
-		method = "place",
+		method = "placeInWorld",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/structure/StructureTemplate;spawnEntities(Lnet/minecraft/world/ServerWorldAccess;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/BlockMirror;Lnet/minecraft/util/BlockRotation;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/BlockBox;Z)V"
+			target = "Lnet/minecraft/world/level/levelgen/structure/templatesystem/StructureTemplate;placeEntities(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/Mirror;Lnet/minecraft/world/level/block/Rotation;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/levelgen/structure/BoundingBox;Z)V"
 		)
 	)
 	private void friendsandfoes_captureContext(
-		ServerWorldAccess world,
+		ServerLevelAccessor world,
 		BlockPos pos,
 		BlockPos pivot,
-		StructurePlacementData placementData,
-		Random random,
+		StructurePlaceSettings placementData,
+		RandomSource random,
 		int flags,
 		CallbackInfoReturnable<Boolean> cir
 	) {
@@ -65,38 +65,40 @@ public final class StructureEntityProcessorMixin
 			placementData,
 			pos,
 			pivot,
-			entities
+			entityInfoList
 		));
 	}
 
 
 	@Inject(
-		method = "place",
+		method = "placeInWorld",
 		at = @At(
 			value = "INVOKE",
 			shift = At.Shift.AFTER,
-			target = "Lnet/minecraft/structure/StructureTemplate;spawnEntities(Lnet/minecraft/world/ServerWorldAccess;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/BlockMirror;Lnet/minecraft/util/BlockRotation;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/BlockBox;Z)V"))
+			target = "Lnet/minecraft/world/level/levelgen/structure/templatesystem/StructureTemplate;placeEntities(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/Mirror;Lnet/minecraft/world/level/block/Rotation;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/levelgen/structure/BoundingBox;Z)V"
+		)
+	)
 	private void friendsandfoes_clearContext(
-		ServerWorldAccess serverLevelAccessor, BlockPos structurePiecePos, BlockPos structurePiecePivotPos,
-		StructurePlacementData structurePlaceSettings, Random randomSource, int i, CallbackInfoReturnable<Boolean> cir
+		ServerLevelAccessor serverLevelAccessor, BlockPos structurePiecePos, BlockPos structurePiecePivotPos,
+		StructurePlaceSettings structurePlaceSettings, RandomSource randomSource, int i, CallbackInfoReturnable<Boolean> cir
 	) {
 		friendsandfoes_context.remove();
 	}
 
 	@Inject(
-		method = "place",
+		method = "placeInWorld",
 		at = @At(
 			value = "INVOKE",
-			target = "net/minecraft/structure/StructureTemplate.spawnEntities (Lnet/minecraft/world/ServerWorldAccess;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/BlockMirror;Lnet/minecraft/util/BlockRotation;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/BlockBox;Z)V"
+			target = "Lnet/minecraft/world/level/levelgen/structure/templatesystem/StructureTemplate;placeEntities(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/Mirror;Lnet/minecraft/world/level/block/Rotation;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/levelgen/structure/BoundingBox;Z)V"
 		),
 		cancellable = true
 	)
 	private void friendsandfoes_processEntities(
-		ServerWorldAccess serverWorldAccess,
+		ServerLevelAccessor serverWorldAccess,
 		BlockPos structurePiecePos,
 		BlockPos structurePieceBottomCenterPos,
-		StructurePlacementData structurePlacementData,
-		Random random,
+		StructurePlaceSettings structurePlacementData,
+		RandomSource random,
 		int flags,
 		CallbackInfoReturnable<Boolean> cir
 	) {
@@ -110,29 +112,29 @@ public final class StructureEntityProcessorMixin
 
 		for (StructureTemplate.StructureEntityInfo entityInfo : processedEntities) {
 			BlockPos entityBlockPos = entityInfo.blockPos;
-			if (ctx.structurePlacementData().getBoundingBox() == null || ctx.structurePlacementData().getBoundingBox().contains(entityBlockPos)) {
-				NbtCompound entityNbt = entityInfo.nbt.copy();
-				Vec3d entityPos = entityInfo.pos;
-				NbtList listTag = new NbtList();
-				listTag.add(NbtDouble.of(entityPos.x));
-				listTag.add(NbtDouble.of(entityPos.y));
-				listTag.add(NbtDouble.of(entityPos.z));
+			if (ctx.structurePlacementData().getBoundingBox() == null || ctx.structurePlacementData().getBoundingBox().isInside(entityBlockPos)) {
+				CompoundTag entityNbt = entityInfo.nbt.copy();
+				Vec3 entityPos = entityInfo.pos;
+				ListTag listTag = new ListTag();
+				listTag.add(DoubleTag.valueOf(entityPos.x));
+				listTag.add(DoubleTag.valueOf(entityPos.y));
+				listTag.add(DoubleTag.valueOf(entityPos.z));
 				entityNbt.put("Pos", listTag);
 				entityNbt.remove("UUID");
 				friendsandfoes_tryCreateEntity(serverWorldAccess, entityNbt).ifPresent((entity) -> {
-					float f = entity.applyMirror(ctx.structurePlacementData().getMirror());
-					f += entity.getYaw() - entity.applyRotation(ctx.structurePlacementData().getRotation());
-					entity.refreshPositionAndAngles(entityPos.x, entityPos.y, entityPos.z, f, entity.getPitch());
-					if (ctx.structurePlacementData().shouldInitializeMobs() && entity instanceof MobEntity) {
-						((MobEntity) entity).initialize(
+					float f = entity.mirror(ctx.structurePlacementData().getMirror());
+					f += entity.getYRot() - entity.rotate(ctx.structurePlacementData().getRotation());
+					entity.moveTo(entityPos.x, entityPos.y, entityPos.z, f, entity.getXRot());
+					if (ctx.structurePlacementData().shouldFinalizeEntities() && entity instanceof Mob) {
+						((Mob) entity).finalizeSpawn(
 							serverWorldAccess,
-							serverWorldAccess.getLocalDifficulty(BlockPos.ofFloored(entityPos)),
-							SpawnReason.STRUCTURE,
+							serverWorldAccess.getCurrentDifficultyAt(BlockPos.containing(entityPos)),
+							MobSpawnType.STRUCTURE,
 							null
 						);
 					}
 
-					serverWorldAccess.spawnEntityAndPassengers(entity);
+					serverWorldAccess.addFreshEntityWithPassengers(entity);
 				});
 			}
 		}
@@ -144,25 +146,25 @@ public final class StructureEntityProcessorMixin
 	private List<StructureTemplate.StructureEntityInfo> friendsandfoes_processEntityInfoList(StructureProcessingContext ctx) {
 		List<StructureTemplate.StructureEntityInfo> processedEntities = new ArrayList<>();
 
-		ServerWorldAccess serverLevelAccessor = ctx.serverWorldAccess();
+		ServerLevelAccessor serverLevelAccessor = ctx.serverWorldAccess();
 		BlockPos structurePiecePos = ctx.structurePiecePos();
 		BlockPos structurePiecePivotPos = ctx.structurePiecePivotPos();
-		StructurePlacementData structurePlaceSettings = ctx.structurePlacementData();
+		StructurePlaceSettings structurePlaceSettings = ctx.structurePlacementData();
 		List<StructureTemplate.StructureEntityInfo> rawEntityInfos = ctx.rawEntityInfos();
 
 		for (StructureTemplate.StructureEntityInfo rawEntityInfo : rawEntityInfos) {
-			Vec3d globalPos = StructureTemplate
-				.transformAround(rawEntityInfo.pos,
+			Vec3 globalPos = StructureTemplate
+				.transform(rawEntityInfo.pos,
 					structurePlaceSettings.getMirror(),
 					structurePlaceSettings.getRotation(),
-					structurePlaceSettings.getPosition())
-				.add(Vec3d.of(structurePiecePos));
+					structurePlaceSettings.getRotationPivot())
+				.add(Vec3.atLowerCornerOf(structurePiecePos));
 			BlockPos globalBlockPos = StructureTemplate
-				.transformAround(rawEntityInfo.blockPos,
+				.transform(rawEntityInfo.blockPos,
 					structurePlaceSettings.getMirror(),
 					structurePlaceSettings.getRotation(),
-					structurePlaceSettings.getPosition())
-				.add(structurePiecePos);
+					structurePlaceSettings.getRotationPivot())
+				.offset(structurePiecePos);
 			StructureTemplate.StructureEntityInfo globalEntityInfo = new StructureTemplate.StructureEntityInfo(globalPos, globalBlockPos, rawEntityInfo.nbt);
 
 			for (StructureProcessor processor : structurePlaceSettings.getProcessors()) {
@@ -182,11 +184,11 @@ public final class StructureEntityProcessorMixin
 
 	@Unique
 	private static Optional<Entity> friendsandfoes_tryCreateEntity(
-		ServerWorldAccess serverLevelAccessor,
-		NbtCompound compoundTag
+		ServerLevelAccessor serverLevelAccessor,
+		CompoundTag compoundTag
 	) {
 		try {
-			return EntityType.getEntityFromNbt(compoundTag, serverLevelAccessor.toServerWorld());
+			return EntityType.create(compoundTag, serverLevelAccessor.getLevel());
 		} catch (Exception exception) {
 			return Optional.empty();
 		}

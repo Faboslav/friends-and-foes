@@ -6,68 +6,72 @@ import com.faboslav.friendsandfoes.common.api.MoobloomVariantManager;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.TallPlantBlock;
-import net.minecraft.block.enums.DoubleBlockHalf;
-import net.minecraft.entity.*;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.passive.CowEntity;
-import net.minecraft.entity.passive.PassiveEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.LocalDifficulty;
-import net.minecraft.world.ServerWorldAccess;
-import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.Shearable;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.animal.Cow;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DoublePlantBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
-public final class MoobloomEntity extends CowEntity implements Shearable
+public final class MoobloomEntity extends Cow implements Shearable
 {
 	public static final String VARIANT_NBT_NAME = "Variant";
 	public static final String FLOWER_NBT_NAME = "Flower";
 
-	private static final TrackedData<String> VARIANT;
+	private static final EntityDataAccessor<String> VARIANT;
 
 	public MoobloomEntity(
-		EntityType<? extends CowEntity> entityType,
-		World world
+		EntityType<? extends Cow> entityType,
+		Level world
 	) {
 		super(entityType, world);
 	}
 
 	public static boolean canSpawn(
 		EntityType<MoobloomEntity> moobloomEntityType,
-		ServerWorldAccess serverWorldAccess,
-		SpawnReason spawnReason,
+		ServerLevelAccessor serverWorldAccess,
+		MobSpawnType spawnReason,
 		BlockPos blockPos,
-		Random random
+		RandomSource random
 	) {
-		return serverWorldAccess.getBlockState(blockPos.down()).isOf(Blocks.GRASS_BLOCK) && isLightLevelValidForNaturalSpawn(serverWorldAccess, blockPos);
+		return serverWorldAccess.getBlockState(blockPos.below()).is(Blocks.GRASS_BLOCK) && isBrightEnoughToSpawn(serverWorldAccess, blockPos);
 	}
 
 	@Override
-	public EntityData initialize(
-		ServerWorldAccess serverWorldAccess,
-		LocalDifficulty difficulty,
-		SpawnReason spawnReason,
-		@Nullable EntityData entityData
+	public SpawnGroupData finalizeSpawn(
+		ServerLevelAccessor serverWorldAccess,
+		DifficultyInstance difficulty,
+		MobSpawnType spawnReason,
+		@Nullable SpawnGroupData entityData
 	) {
-		MoobloomVariant possibleMoobloomVariant = MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.getRandomBiomeSpecificMoobloomVariant(serverWorldAccess, this.getBlockPos());
+		MoobloomVariant possibleMoobloomVariant = MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.getRandomBiomeSpecificMoobloomVariant(serverWorldAccess, this.blockPosition());
 
 		if (possibleMoobloomVariant != null) {
 			this.setVariant(possibleMoobloomVariant);
@@ -75,31 +79,31 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 			this.setVariant(MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.getRandomMoobloomVariant(serverWorldAccess.getRandom()));
 		}
 
-		return super.initialize(serverWorldAccess, difficulty, spawnReason, entityData);
+		return super.finalizeSpawn(serverWorldAccess, difficulty, spawnReason, entityData);
 	}
 
-	public boolean isShearable() {
+	public boolean readyForShearing() {
 		return this.isAlive() && !this.isBaby();
 	}
 
 	@Override
-	protected void initDataTracker(DataTracker.Builder builder) {
-		super.initDataTracker(builder);
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		super.defineSynchedData(builder);
 
-		builder.add(VARIANT, MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.getDefaultMoobloomVariant().getName());
+		builder.define(VARIANT, MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.getDefaultMoobloomVariant().getName());
 	}
 
 	@Override
-	public void writeCustomDataToNbt(NbtCompound nbt) {
-		super.writeCustomDataToNbt(nbt);
+	public void addAdditionalSaveData(CompoundTag nbt) {
+		super.addAdditionalSaveData(nbt);
 
 		nbt.putString(VARIANT_NBT_NAME, this.getVariant().getName());
 		nbt.putString(FLOWER_NBT_NAME, this.getVariant().getFlowerName());
 	}
 
 	@Override
-	public void readCustomDataFromNbt(NbtCompound nbt) {
-		super.readCustomDataFromNbt(nbt);
+	public void readAdditionalSaveData(CompoundTag nbt) {
+		super.readAdditionalSaveData(nbt);
 
 		MoobloomVariant moobloomVariant = MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.getMoobloomVariantByName(nbt.getString(VARIANT_NBT_NAME));
 
@@ -110,48 +114,48 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 		this.setVariant(moobloomVariant);
 	}
 
-	public void sheared(SoundCategory shearedSoundCategory) {
-		World world = this.getWorld();
+	public void shear(SoundSource shearedSoundCategory) {
+		Level world = this.level();
 
-		world.playSoundFromEntity(null, this, SoundEvents.ENTITY_MOOSHROOM_SHEAR, shearedSoundCategory, 1.0F, 1.0F);
+		world.playSound(null, this, SoundEvents.MOOSHROOM_SHEAR, shearedSoundCategory, 1.0F, 1.0F);
 
-		if (world.isClient()) {
+		if (world.isClientSide()) {
 			return;
 		}
 
-		((ServerWorld) world).spawnParticles(ParticleTypes.EXPLOSION, this.getX(), this.getBodyY(0.5D), this.getZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
+		((ServerLevel) world).sendParticles(ParticleTypes.EXPLOSION, this.getX(), this.getY(0.5D), this.getZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
 		this.discard();
-		CowEntity cowEntity = EntityType.COW.create(world);
+		Cow cowEntity = EntityType.COW.create(world);
 
 		if (cowEntity == null) {
 			return;
 		}
 
 		cowEntity.setHealth(this.getHealth());
-		cowEntity.copyPositionAndRotation(this);
-		cowEntity.prevBodyYaw = this.prevBodyYaw;
-		cowEntity.bodyYaw = this.bodyYaw;
-		cowEntity.prevHeadYaw = this.prevHeadYaw;
-		cowEntity.headYaw = this.headYaw;
+		cowEntity.copyPosition(this);
+		cowEntity.yBodyRotO = this.yBodyRotO;
+		cowEntity.yBodyRot = this.yBodyRot;
+		cowEntity.yHeadRotO = this.yHeadRotO;
+		cowEntity.yHeadRot = this.yHeadRot;
 
 		if (this.hasCustomName()) {
 			cowEntity.setCustomName(this.getCustomName());
 			cowEntity.setCustomNameVisible(this.isCustomNameVisible());
 		}
 
-		if (this.isPersistent()) {
-			cowEntity.setPersistent();
+		if (this.isPersistenceRequired()) {
+			cowEntity.setPersistenceRequired();
 		}
 
 		cowEntity.setInvulnerable(this.isInvulnerable());
-		world.spawnEntity(cowEntity);
+		world.addFreshEntity(cowEntity);
 
 		for (int i = 0; i < 5; ++i) {
-			world.spawnEntity(
+			world.addFreshEntity(
 				new ItemEntity(
 					world,
 					this.getX(),
-					this.getBodyY(1.0D),
+					this.getY(1.0D),
 					this.getZ(),
 					new ItemStack(this.getVariant().getFlower())
 				)
@@ -160,49 +164,49 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 	}
 
 	@Override
-	public ActionResult interactMob(
-		PlayerEntity player,
-		Hand hand
+	public InteractionResult mobInteract(
+		Player player,
+		InteractionHand hand
 	) {
-		ItemStack itemStack = player.getStackInHand(hand);
+		ItemStack itemStack = player.getItemInHand(hand);
 		MoobloomVariant moobloomVariant = MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.getByFlowerItem(itemStack.getItem());
 
 		if (moobloomVariant != null && moobloomVariant != this.getVariant()) {
 			this.setVariant(moobloomVariant);
 			this.playSound(FriendsAndFoesSoundEvents.ENTITY_MOOBLOOM_CONVERT.get(), 2.0F, 1.0F);
 
-			boolean isClientWorld = this.getWorld().isClient();
+			boolean isClientWorld = this.level().isClientSide();
 
 			if (isClientWorld == false) {
-				itemStack.decrementUnlessCreative(1, player);
+				itemStack.consume(1, player);
 			}
 
-			return ActionResult.success(isClientWorld);
+			return InteractionResult.sidedSuccess(isClientWorld);
 		}
 
-		if (itemStack.getItem() == Items.SHEARS && this.isShearable()) {
-			this.sheared(SoundCategory.PLAYERS);
-			this.emitGameEvent(GameEvent.SHEAR, player);
+		if (itemStack.getItem() == Items.SHEARS && this.readyForShearing()) {
+			this.shear(SoundSource.PLAYERS);
+			this.gameEvent(GameEvent.SHEAR, player);
 
-			boolean isClientWorld = this.getWorld().isClient();
+			boolean isClientWorld = this.level().isClientSide();
 
 			if (isClientWorld == false) {
-				itemStack.damage(1, player, PlayerEntity.getSlotForHand(hand));
+				itemStack.hurtAndBreak(1, player, Player.getSlotForHand(hand));
 			}
 
-			return ActionResult.success(isClientWorld);
+			return InteractionResult.sidedSuccess(isClientWorld);
 		} else {
-			return super.interactMob(player, hand);
+			return super.mobInteract(player, hand);
 		}
 	}
 
 	@Override
-	public MoobloomEntity createChild(
-		ServerWorld serverWorld,
-		PassiveEntity entity
+	public MoobloomEntity getBreedOffspring(
+		ServerLevel serverWorld,
+		AgeableMob entity
 	) {
 		MoobloomVariant moobloomVariant = this.getVariant();
-		if (this.getRandom().nextBetween(0, 1) == 0) {
+		if (this.getRandom().nextIntBetweenInclusive(0, 1) == 0) {
 			moobloomVariant = ((MoobloomEntity) entity).getVariant();
 		}
 
@@ -213,16 +217,16 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 	}
 
 	@Override
-	public void tickMovement() {
-		super.tickMovement();
+	public void aiStep() {
+		super.aiStep();
 
-		if (this.getWorld().isClient() || this.isBaby()) {
+		if (this.level().isClientSide() || this.isBaby()) {
 			return;
 		}
 
 		// On average once per five minutes (1/6000)
 		if (this.getRandom().nextFloat() <= 0.00016666666) {
-			Block blockUnderneath = this.getWorld().getBlockState(
+			Block blockUnderneath = this.level().getBlockState(
 				new BlockPos(
 					(int) this.getX(),
 					(int) this.getY() - 1,
@@ -230,29 +234,29 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 				)
 			).getBlock();
 
-			if (blockUnderneath == Blocks.GRASS_BLOCK && this.getWorld().isAir(this.getBlockPos())) {
+			if (blockUnderneath == Blocks.GRASS_BLOCK && this.level().isEmptyBlock(this.blockPosition())) {
 				Block flower = this.getVariant().getFlower();
 
 				if (MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.getMoobloomVariants().size() == 1) {
 					// 40% chance buttercup, 40% chance dandelion, 20% chance sunflower
-					int flowerChance = this.getRandom().nextBetween(1, 100);
+					int flowerChance = this.getRandom().nextIntBetweenInclusive(1, 100);
 
 					if (flowerChance >= 0 && flowerChance < 40) {
-						this.getWorld().setBlockState(this.getBlockPos(), FriendsAndFoesBlocks.BUTTERCUP.get().getDefaultState());
+						this.level().setBlockAndUpdate(this.blockPosition(), FriendsAndFoesBlocks.BUTTERCUP.get().defaultBlockState());
 					} else if (flowerChance >= 40 && flowerChance < 80) {
-						this.getWorld().setBlockState(this.getBlockPos(), Blocks.DANDELION.getDefaultState());
+						this.level().setBlockAndUpdate(this.blockPosition(), Blocks.DANDELION.defaultBlockState());
 					} else {
-						BlockState sunflowerBlockState = Blocks.SUNFLOWER.getDefaultState().with(TallPlantBlock.HALF, DoubleBlockHalf.UPPER);
-						this.getWorld().setBlockState(this.getBlockPos(), sunflowerBlockState.cycle(Properties.DOUBLE_BLOCK_HALF));
-						this.getWorld().setBlockState(this.getBlockPos().up(), sunflowerBlockState);
+						BlockState sunflowerBlockState = Blocks.SUNFLOWER.defaultBlockState().setValue(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER);
+						this.level().setBlockAndUpdate(this.blockPosition(), sunflowerBlockState.cycle(BlockStateProperties.DOUBLE_BLOCK_HALF));
+						this.level().setBlockAndUpdate(this.blockPosition().above(), sunflowerBlockState);
 					}
 				} else {
-					if (flower instanceof TallPlantBlock) {
-						BlockState upperHalfBlockState = flower.getDefaultState().with(TallPlantBlock.HALF, DoubleBlockHalf.UPPER);
-						this.getWorld().setBlockState(this.getBlockPos(), upperHalfBlockState.cycle(Properties.DOUBLE_BLOCK_HALF));
-						this.getWorld().setBlockState(this.getBlockPos().up(), upperHalfBlockState);
+					if (flower instanceof DoublePlantBlock) {
+						BlockState upperHalfBlockState = flower.defaultBlockState().setValue(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER);
+						this.level().setBlockAndUpdate(this.blockPosition(), upperHalfBlockState.cycle(BlockStateProperties.DOUBLE_BLOCK_HALF));
+						this.level().setBlockAndUpdate(this.blockPosition().above(), upperHalfBlockState);
 					} else {
-						this.getWorld().setBlockState(this.getBlockPos(), flower.getDefaultState());
+						this.level().setBlockAndUpdate(this.blockPosition(), flower.defaultBlockState());
 					}
 				}
 			}
@@ -269,11 +273,11 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 	}
 
 	private void setVariant(MoobloomVariant variant) {
-		this.dataTracker.set(VARIANT, variant.getName());
+		this.entityData.set(VARIANT, variant.getName());
 	}
 
 	public MoobloomVariant getVariant() {
-		MoobloomVariant moobloomVariant = MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.getMoobloomVariantByName(this.dataTracker.get(VARIANT));
+		MoobloomVariant moobloomVariant = MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.getMoobloomVariantByName(this.entityData.get(VARIANT));
 
 		if (moobloomVariant == null) {
 			moobloomVariant = MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.getDefaultMoobloomVariant();
@@ -283,6 +287,6 @@ public final class MoobloomEntity extends CowEntity implements Shearable
 	}
 
 	static {
-		VARIANT = DataTracker.registerData(MoobloomEntity.class, TrackedDataHandlerRegistry.STRING);
+		VARIANT = SynchedEntityData.defineId(MoobloomEntity.class, EntityDataSerializers.STRING);
 	}
 }

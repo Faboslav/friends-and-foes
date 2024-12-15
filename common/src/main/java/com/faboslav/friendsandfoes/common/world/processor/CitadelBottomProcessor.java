@@ -4,17 +4,17 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStructureProcessorT
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.block.BlockState;
-import net.minecraft.structure.StructurePlacementData;
-import net.minecraft.structure.StructureTemplate;
-import net.minecraft.structure.processor.StructureProcessor;
-import net.minecraft.structure.processor.StructureProcessorType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.ChunkRegion;
-import net.minecraft.world.WorldView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.WorldGenRegion;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 
 /**
  * Inspired by use in Better Fortresses mod
@@ -50,18 +50,18 @@ public final class CitadelBottomProcessor extends StructureProcessor
 	}
 
 	@Override
-	public StructureTemplate.StructureBlockInfo process(
-		WorldView worldView,
+	public StructureTemplate.StructureBlockInfo processBlock(
+		LevelReader worldView,
 		BlockPos pos,
 		BlockPos pivot,
 		StructureTemplate.StructureBlockInfo blockInfoLocal,
 		StructureTemplate.StructureBlockInfo blockInfoGlobal,
-		StructurePlacementData structurePlacementData
+		StructurePlaceSettings structurePlacementData
 	) {
-		if (blockInfoGlobal.state().isOf(this.targetBlock.getBlock())) {
+		if (blockInfoGlobal.state().is(this.targetBlock.getBlock())) {
 			if (
-				worldView instanceof ChunkRegion chunkRegion
-				&& !chunkRegion.getCenterPos().equals(new ChunkPos(blockInfoGlobal.pos()))
+				worldView instanceof WorldGenRegion chunkRegion
+				&& !chunkRegion.getCenter().equals(new ChunkPos(blockInfoGlobal.pos()))
 			) {
 				return blockInfoGlobal;
 			}
@@ -71,13 +71,13 @@ public final class CitadelBottomProcessor extends StructureProcessor
 				targetBlockOutput,
 				blockInfoGlobal.nbt()
 			);
-			BlockPos.Mutable mutable = blockInfoGlobal.pos().mutableCopy().move(Direction.DOWN);
+			BlockPos.MutableBlockPos mutable = blockInfoGlobal.pos().mutable().move(Direction.DOWN);
 			BlockState currentBlockState = worldView.getBlockState(mutable);
-			Random random = structurePlacementData.getRandom(blockInfoGlobal.pos());
+			RandomSource random = structurePlacementData.getRandom(blockInfoGlobal.pos());
 
 			while (
-				mutable.getY() > worldView.getBottomY()
-				&& mutable.getY() < worldView.getTopY()
+				mutable.getY() > worldView.getMinBuildHeight()
+				&& mutable.getY() < worldView.getMaxBuildHeight()
 				&& (currentBlockState.isAir() || !worldView.getFluidState(mutable).isEmpty())
 			) {
 				worldView.getChunk(mutable).setBlockState(mutable, targetBlockOutput, false);

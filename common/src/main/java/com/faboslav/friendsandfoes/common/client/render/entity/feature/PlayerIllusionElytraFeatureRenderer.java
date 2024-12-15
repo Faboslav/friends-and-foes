@@ -1,42 +1,42 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.feature;
 
 import com.faboslav.friendsandfoes.common.entity.PlayerIllusionEntity;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.feature.FeatureRenderer;
-import net.minecraft.client.render.entity.feature.FeatureRendererContext;
-import net.minecraft.client.render.entity.model.ElytraEntityModel;
-import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.client.render.entity.model.EntityModelLayers;
-import net.minecraft.client.render.entity.model.EntityModelLoader;
-import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.util.SkinTextures;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerModelPart;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.model.ElytraModel;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.EntityModelSet;
+import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.resources.PlayerSkin;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.PlayerModelPart;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 @Environment(EnvType.CLIENT)
-public class PlayerIllusionElytraFeatureRenderer<T extends LivingEntity, M extends EntityModel<T>> extends FeatureRenderer<T, M>
+public class PlayerIllusionElytraFeatureRenderer<T extends LivingEntity, M extends EntityModel<T>> extends RenderLayer<T, M>
 {
-	private static final Identifier SKIN = Identifier.ofVanilla("textures/entity/elytra.png");
-	private final ElytraEntityModel<T> elytra;
+	private static final ResourceLocation SKIN = ResourceLocation.withDefaultNamespace("textures/entity/elytra.png");
+	private final ElytraModel<T> elytra;
 
-	public PlayerIllusionElytraFeatureRenderer(FeatureRendererContext<T, M> context, EntityModelLoader loader) {
+	public PlayerIllusionElytraFeatureRenderer(RenderLayerParent<T, M> context, EntityModelSet loader) {
 		super(context);
-		this.elytra = new ElytraEntityModel(loader.getModelPart(EntityModelLayers.ELYTRA));
+		this.elytra = new ElytraModel(loader.bakeLayer(ModelLayers.ELYTRA));
 	}
 
 	public void render(
-		MatrixStack matrixStack,
-		VertexConsumerProvider vertexConsumerProvider,
+		PoseStack matrixStack,
+		MultiBufferSource vertexConsumerProvider,
 		int i,
 		T livingEntity,
 		float f,
@@ -46,11 +46,11 @@ public class PlayerIllusionElytraFeatureRenderer<T extends LivingEntity, M exten
 		float k,
 		float l
 	) {
-		ItemStack itemStack = livingEntity.getEquippedStack(EquipmentSlot.CHEST);
-		if (itemStack.isOf(Items.ELYTRA)) {
-			Identifier identifier;
+		ItemStack itemStack = livingEntity.getItemBySlot(EquipmentSlot.CHEST);
+		if (itemStack.is(Items.ELYTRA)) {
+			ResourceLocation identifier;
 			if (livingEntity instanceof PlayerIllusionEntity playerIllusionEntity) {
-				SkinTextures skinTextures = playerIllusionEntity.getSkinTextures();
+				PlayerSkin skinTextures = playerIllusionEntity.getSkinTextures();
 				if (skinTextures.elytraTexture() != null) {
 					identifier = skinTextures.elytraTexture();
 				} else if (skinTextures.capeTexture() != null && playerIllusionEntity.isPartVisible(PlayerModelPart.CAPE)) {
@@ -62,13 +62,13 @@ public class PlayerIllusionElytraFeatureRenderer<T extends LivingEntity, M exten
 				identifier = SKIN;
 			}
 
-			matrixStack.push();
+			matrixStack.pushPose();
 			matrixStack.translate(0.0F, 0.0F, 0.125F);
-			this.getContextModel().copyStateTo(this.elytra);
-			this.elytra.setAngles(livingEntity, f, g, j, k, l);
-			VertexConsumer vertexConsumer = ItemRenderer.getArmorGlintConsumer(vertexConsumerProvider, RenderLayer.getArmorCutoutNoCull(identifier), itemStack.hasGlint());
-			this.elytra.render(matrixStack, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
-			matrixStack.pop();
+			this.getParentModel().copyPropertiesTo(this.elytra);
+			this.elytra.setupAnim(livingEntity, f, g, j, k, l);
+			VertexConsumer vertexConsumer = ItemRenderer.getArmorFoilBuffer(vertexConsumerProvider, RenderType.armorCutoutNoCull(identifier), itemStack.hasFoil());
+			this.elytra.renderToBuffer(matrixStack, vertexConsumer, i, OverlayTexture.NO_OVERLAY);
+			matrixStack.popPose();
 		}
 	}
 }

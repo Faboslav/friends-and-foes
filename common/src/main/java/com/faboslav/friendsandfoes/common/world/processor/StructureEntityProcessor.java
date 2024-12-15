@@ -1,10 +1,10 @@
 package com.faboslav.friendsandfoes.common.world.processor;
 
-import net.minecraft.structure.StructurePlacementData;
-import net.minecraft.structure.StructureTemplate.StructureEntityInfo;
-import net.minecraft.structure.processor.StructureProcessor;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ServerWorldAccess;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureEntityInfo;
 
 /**
  * Originally from YUNG's API by.
@@ -13,11 +13,11 @@ import net.minecraft.world.ServerWorldAccess;
 public abstract class StructureEntityProcessor extends StructureProcessor
 {
 	public abstract StructureEntityInfo processEntity(
-		ServerWorldAccess serverWorldAccess,
+		ServerLevelAccessor serverWorldAccess,
 		BlockPos pos,
 		BlockPos pivot,
 		StructureEntityInfo originalBlockInfo,
 		StructureEntityInfo currentBlockInfo,
-		StructurePlacementData structurePlacementData
+		StructurePlaceSettings structurePlacementData
 	);
 }

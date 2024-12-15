@@ -1,10 +1,10 @@
 package com.faboslav.friendsandfoes.common.entity.pose;
 
-import net.minecraft.entity.EntityPose;
+import net.minecraft.world.entity.Pose;
 
 public interface CustomEntityPose
 {
 	String getName();
 
-	EntityPose get();
+	Pose get();
 }

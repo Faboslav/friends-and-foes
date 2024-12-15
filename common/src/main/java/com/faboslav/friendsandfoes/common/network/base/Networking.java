@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.common.network.base;
 
 import com.faboslav.friendsandfoes.common.network.Packet;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.level.ServerPlayer;
 
 /**
  * Network related is code based on The Bumblezone/Resourceful Lib mods with permissions from the authors
@@ -19,7 +19,7 @@ public interface Networking
 
 	<T extends Packet<T>> void sendToServer(T message);
 
-	<T extends Packet<T>> void sendToPlayer(T message, ServerPlayerEntity player);
+	<T extends Packet<T>> void sendToPlayer(T message, ServerPlayer player);
 
 	/**
 	 * Checks if the player can receive packets from this channel.
@@ -28,5 +28,5 @@ public interface Networking
 	 * @return True if the player can receive packets from this channel, false otherwise.
 	 * @implNote On forge this will only check if it has the channel not if it can receive that specific packet.
 	 */
-	boolean canSendToPlayer(ServerPlayerEntity player, PacketType<?> type);
+	boolean canSendToPlayer(ServerPlayer player, PacketType<?> type);
 }

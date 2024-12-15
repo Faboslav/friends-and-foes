@@ -12,18 +12,25 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Dynamic;
-import net.minecraft.entity.ai.brain.Activity;
-import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.entity.ai.brain.MemoryModuleState;
-import net.minecraft.entity.ai.brain.MemoryModuleType;
-import net.minecraft.entity.ai.brain.sensor.Sensor;
-import net.minecraft.entity.ai.brain.sensor.SensorType;
-import net.minecraft.entity.ai.brain.task.*;
-import net.minecraft.item.Items;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.util.TimeHelper;
-import net.minecraft.util.math.intprovider.UniformIntProvider;
-
+import net.minecraft.util.TimeUtil;
+import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.entity.ai.Brain;
+import net.minecraft.world.entity.ai.behavior.CountDownCooldownTicks;
+import net.minecraft.world.entity.ai.behavior.DoNothing;
+import net.minecraft.world.entity.ai.behavior.FollowTemptation;
+import net.minecraft.world.entity.ai.behavior.LookAtTargetSink;
+import net.minecraft.world.entity.ai.behavior.MoveToTargetSink;
+import net.minecraft.world.entity.ai.behavior.RandomStroll;
+import net.minecraft.world.entity.ai.behavior.RunOne;
+import net.minecraft.world.entity.ai.behavior.SetWalkTargetAwayFrom;
+import net.minecraft.world.entity.ai.behavior.SetWalkTargetFromLookTarget;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.entity.ai.sensing.Sensor;
+import net.minecraft.world.entity.ai.sensing.SensorType;
+import net.minecraft.world.entity.schedule.Activity;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import java.util.List;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
@@ -31,15 +38,15 @@ public final class CopperGolemBrain
 {
 	public static final List<MemoryModuleType<?>> MEMORY_MODULES;
 	public static final List<SensorType<? extends Sensor<? super CopperGolemEntity>>> SENSORS;
-	private static final UniformIntProvider SPIN_HEAD_COOLDOWN_PROVIDER;
-	private static final UniformIntProvider PRESS_BUTTON_COOLDOWN_PROVIDER;
+	private static final UniformInt SPIN_HEAD_COOLDOWN_PROVIDER;
+	private static final UniformInt PRESS_BUTTON_COOLDOWN_PROVIDER;
 
 	public CopperGolemBrain() {
 	}
 
 	public static Brain<?> create(Dynamic<?> dynamic) {
-		Brain.Profile<CopperGolemEntity> profile = Brain.createProfile(MEMORY_MODULES, SENSORS);
-		Brain<CopperGolemEntity> brain = profile.deserialize(dynamic);
+		Brain.Provider<CopperGolemEntity> profile = Brain.provider(MEMORY_MODULES, SENSORS);
+		Brain<CopperGolemEntity> brain = profile.makeBrain(dynamic);
 
 		addCoreActivities(brain);
 		addAvoidActivities(brain);
@@ -49,20 +56,20 @@ public final class CopperGolemBrain
 
 		brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
 		brain.setDefaultActivity(Activity.IDLE);
-		brain.resetPossibleActivities();
+		brain.useDefaultActivity();
 
 		return brain;
 	}
 
 	private static void addCoreActivities(Brain<CopperGolemEntity> brain) {
-		brain.setTaskList(Activity.CORE,
+		brain.addActivity(Activity.CORE,
 			0,
 			ImmutableList.of(
-				new LookAroundTask(45, 90),
-				new MoveToTargetTask(),
-				new TemptationCooldownTask(MemoryModuleType.TEMPTATION_COOLDOWN_TICKS),
-				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_SPIN_HEAD_COOLDOWN.get()),
-				new TemptationCooldownTask(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_PRESS_BUTTON_COOLDOWN.get())
+				new LookAtTargetSink(45, 90),
+				new MoveToTargetSink(),
+				new CountDownCooldownTicks(MemoryModuleType.TEMPTATION_COOLDOWN_TICKS),
+				new CountDownCooldownTicks(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_SPIN_HEAD_COOLDOWN.get()),
+				new CountDownCooldownTicks(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_PRESS_BUTTON_COOLDOWN.get())
 			)
 		);
 	}
@@ -70,7 +77,7 @@ public final class CopperGolemBrain
 	private static void addPressButtonActivities(
 		Brain<CopperGolemEntity> brain
 	) {
-		brain.setTaskList(
+		brain.addActivityWithConditions(
 			FriendsAndFoesActivities.COPPER_GOLEM_PRESS_BUTTON.get(),
 			ImmutableList.of(
 				Pair.of(0, new CopperGolemLocateButtonTask()),
@@ -78,9 +85,9 @@ public final class CopperGolemBrain
 				Pair.of(2, new CopperGolemPressButtonTask())
 			),
 			ImmutableSet.of(
-				Pair.of(MemoryModuleType.TEMPTING_PLAYER, MemoryModuleState.VALUE_ABSENT),
-				Pair.of(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_IS_OXIDIZED.get(), MemoryModuleState.VALUE_ABSENT),
-				Pair.of(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_PRESS_BUTTON_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT)
+				Pair.of(MemoryModuleType.TEMPTING_PLAYER, MemoryStatus.VALUE_ABSENT),
+				Pair.of(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_IS_OXIDIZED.get(), MemoryStatus.VALUE_ABSENT),
+				Pair.of(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_PRESS_BUTTON_COOLDOWN.get(), MemoryStatus.VALUE_ABSENT)
 			)
 		);
 	}
@@ -88,55 +95,55 @@ public final class CopperGolemBrain
 	private static void addSpinHeadActivities(
 		Brain<CopperGolemEntity> brain
 	) {
-		brain.setTaskList(
+		brain.addActivityWithConditions(
 			FriendsAndFoesActivities.COPPER_GOLEM_SPIN_HEAD.get(),
 			ImmutableList.of(
 				Pair.of(0, new CopperGolemSpinHeadTask())
 			),
 			ImmutableSet.of(
-				Pair.of(MemoryModuleType.TEMPTING_PLAYER, MemoryModuleState.VALUE_ABSENT),
-				Pair.of(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_IS_OXIDIZED.get(), MemoryModuleState.VALUE_ABSENT),
-				Pair.of(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_BUTTON_POS.get(), MemoryModuleState.VALUE_ABSENT),
-				Pair.of(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_SPIN_HEAD_COOLDOWN.get(), MemoryModuleState.VALUE_ABSENT),
-				Pair.of(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_PRESS_BUTTON_COOLDOWN.get(), MemoryModuleState.VALUE_PRESENT)
+				Pair.of(MemoryModuleType.TEMPTING_PLAYER, MemoryStatus.VALUE_ABSENT),
+				Pair.of(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_IS_OXIDIZED.get(), MemoryStatus.VALUE_ABSENT),
+				Pair.of(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_BUTTON_POS.get(), MemoryStatus.VALUE_ABSENT),
+				Pair.of(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_SPIN_HEAD_COOLDOWN.get(), MemoryStatus.VALUE_ABSENT),
+				Pair.of(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_PRESS_BUTTON_COOLDOWN.get(), MemoryStatus.VALUE_PRESENT)
 			)
 		);
 	}
 
 	private static void addAvoidActivities(Brain<CopperGolemEntity> brain) {
-		brain.setTaskList(
+		brain.addActivityAndRemoveMemoryWhenStopped(
 			Activity.AVOID,
 			10,
 			ImmutableList.of(
-				GoToRememberedPositionTask.createEntityBased(MemoryModuleType.AVOID_TARGET, 1.25F, 8, true)
+				SetWalkTargetAwayFrom.entity(MemoryModuleType.AVOID_TARGET, 1.25F, 8, true)
 			),
 			MemoryModuleType.AVOID_TARGET
 		);
 	}
 
 	private static void addIdleActivities(Brain<CopperGolemEntity> brain) {
-		brain.setTaskList(
+		brain.addActivityWithConditions(
 			Activity.IDLE,
 			ImmutableList.of(
-				Pair.of(0, new TemptTask(copperGolem -> 1.25f)),
-				Pair.of(1, new RandomTask(
+				Pair.of(0, new FollowTemptation(copperGolem -> 1.25f)),
+				Pair.of(1, new RunOne(
 					ImmutableList.of(
-						Pair.of(StrollTask.create(1.0F), 2),
-						Pair.of(GoTowardsLookTargetTask.create(1.0F, 3), 2),
-						Pair.of(new WaitTask(30, 60), 1)
+						Pair.of(RandomStroll.stroll(1.0F), 2),
+						Pair.of(SetWalkTargetFromLookTarget.create(1.0F, 3), 2),
+						Pair.of(new DoNothing(30, 60), 1)
 					)
 				))
 			),
 			ImmutableSet.of(
-				Pair.of(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_IS_OXIDIZED.get(), MemoryModuleState.VALUE_ABSENT),
-				Pair.of(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_SPIN_HEAD_COOLDOWN.get(), MemoryModuleState.VALUE_PRESENT),
-				Pair.of(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_PRESS_BUTTON_COOLDOWN.get(), MemoryModuleState.VALUE_PRESENT)
+				Pair.of(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_IS_OXIDIZED.get(), MemoryStatus.VALUE_ABSENT),
+				Pair.of(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_SPIN_HEAD_COOLDOWN.get(), MemoryStatus.VALUE_PRESENT),
+				Pair.of(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_PRESS_BUTTON_COOLDOWN.get(), MemoryStatus.VALUE_PRESENT)
 			)
 		);
 	}
 
 	public static void updateActivities(CopperGolemEntity copperGolem) {
-		copperGolem.getBrain().resetPossibleActivities(
+		copperGolem.getBrain().setActiveActivityToFirstValid(
 			ImmutableList.of(
 				FriendsAndFoesActivities.COPPER_GOLEM_PRESS_BUTTON.get(),
 				FriendsAndFoesActivities.COPPER_GOLEM_SPIN_HEAD.get(),
@@ -147,19 +154,19 @@ public final class CopperGolemBrain
 	}
 
 	public static void setSpinHeadCooldown(CopperGolemEntity copperGolem) {
-		copperGolem.getBrain().remember(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_SPIN_HEAD_COOLDOWN.get(), SPIN_HEAD_COOLDOWN_PROVIDER.get(copperGolem.getRandom()));
+		copperGolem.getBrain().setMemory(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_SPIN_HEAD_COOLDOWN.get(), SPIN_HEAD_COOLDOWN_PROVIDER.sample(copperGolem.getRandom()));
 	}
 
 	public static void setPressButtonCooldown(CopperGolemEntity copperGolem) {
-		copperGolem.getBrain().remember(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_PRESS_BUTTON_COOLDOWN.get(), PRESS_BUTTON_COOLDOWN_PROVIDER.get(copperGolem.getRandom()));
+		copperGolem.getBrain().setMemory(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_PRESS_BUTTON_COOLDOWN.get(), PRESS_BUTTON_COOLDOWN_PROVIDER.sample(copperGolem.getRandom()));
 	}
 
-	public static void setPressButtonCooldown(CopperGolemEntity copperGolem, UniformIntProvider cooldown) {
-		copperGolem.getBrain().remember(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_PRESS_BUTTON_COOLDOWN.get(), cooldown.get(copperGolem.getRandom()));
+	public static void setPressButtonCooldown(CopperGolemEntity copperGolem, UniformInt cooldown) {
+		copperGolem.getBrain().setMemory(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_PRESS_BUTTON_COOLDOWN.get(), cooldown.sample(copperGolem.getRandom()));
 	}
 
 	public static Ingredient getTemptItems() {
-		return Ingredient.ofItems(Items.HONEYCOMB);
+		return Ingredient.of(Items.HONEYCOMB);
 	}
 
 	static {
@@ -171,7 +178,7 @@ public final class CopperGolemBrain
 			MemoryModuleType.TEMPTING_PLAYER,
 			MemoryModuleType.TEMPTATION_COOLDOWN_TICKS,
 			MemoryModuleType.IS_TEMPTED,
-			MemoryModuleType.VISIBLE_MOBS,
+			MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES,
 			MemoryModuleType.PATH,
 			MemoryModuleType.LOOK_TARGET,
 			MemoryModuleType.WALK_TARGET,
@@ -182,7 +189,7 @@ public final class CopperGolemBrain
 			FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_SPIN_HEAD_COOLDOWN.get(),
 			FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_PRESS_BUTTON_COOLDOWN.get()
 		);
-		SPIN_HEAD_COOLDOWN_PROVIDER = TimeHelper.betweenSeconds(8, 16);
-		PRESS_BUTTON_COOLDOWN_PROVIDER = TimeHelper.betweenSeconds(15, 30);
+		SPIN_HEAD_COOLDOWN_PROVIDER = TimeUtil.rangeOfSeconds(8, 16);
+		PRESS_BUTTON_COOLDOWN_PROVIDER = TimeUtil.rangeOfSeconds(15, 30);
 	}
 }

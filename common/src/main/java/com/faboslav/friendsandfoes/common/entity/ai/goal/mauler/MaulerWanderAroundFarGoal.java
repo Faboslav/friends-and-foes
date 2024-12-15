@@ -1,21 +1,21 @@
 package com.faboslav.friendsandfoes.common.entity.ai.goal.mauler;
 
 import com.faboslav.friendsandfoes.common.entity.MaulerEntity;
-import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
-import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 
-public final class MaulerWanderAroundFarGoal extends WanderAroundFarGoal
+public final class MaulerWanderAroundFarGoal extends WaterAvoidingRandomStrollGoal
 {
-	public MaulerWanderAroundFarGoal(PathAwareEntity pathAwareEntity, double d) {
+	public MaulerWanderAroundFarGoal(PathfinderMob pathAwareEntity, double d) {
 		super(pathAwareEntity, d);
 	}
 
 	@Override
-	public boolean canStart() {
+	public boolean canUse() {
 		if (((MaulerEntity) this.mob).isBurrowedDown()) {
 			return false;
 		}
 
-		return super.canStart();
+		return super.canUse();
 	}
 }

@@ -1,8 +1,8 @@
 package com.faboslav.friendsandfoes.common.init.registry.neoforge;
 
 import com.faboslav.friendsandfoes.common.init.registry.ReferenceRegistryEntry;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 /**
@@ -22,12 +22,12 @@ public class NeoForgeReferenceRegistryEntry<R> implements ReferenceRegistryEntry
 	}
 
 	@Override
-	public RegistryEntry<R> referenceRegistryEntry() {
+	public Holder<R> referenceRegistryEntry() {
 		return object;
 	}
 
 	@Override
-	public Identifier getId() {
+	public ResourceLocation getId() {
 		return object.getId();
 	}
 }

@@ -1,77 +1,82 @@
 package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-import com.faboslav.friendsandfoes.common.client.render.entity.animation.KeyframeAnimation;
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.RascalAnimations;
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.RascalBrain;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
+import com.faboslav.friendsandfoes.common.entity.animation.loader.json.AnimationHolder;
 import com.faboslav.friendsandfoes.common.entity.pose.RascalEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
 import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
 import com.mojang.serialization.Dynamic;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.entity.ai.brain.MemoryModuleType;
-import net.minecraft.entity.ai.pathing.PathNodeType;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.passive.PassiveEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.registry.tag.StructureTags;
-import net.minecraft.server.network.DebugInfoSender;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.LocalDifficulty;
-import net.minecraft.world.ServerWorldAccess;
-import net.minecraft.world.World;
-import net.minecraft.world.gen.StructureAccessor;
-import net.minecraft.world.gen.structure.Structure;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.protocol.game.DebugPackets;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.StructureTags;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.Brain;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.StructureManager;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.pathfinder.PathType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
-public final class RascalEntity extends PassiveEntity implements AnimatedEntity
+public final class RascalEntity extends AgeableMob implements AnimatedEntity
 {
 	private AnimationContextTracker animationContextTracker;
-	private static final TrackedData<Integer> POSE_TICKS;
-	private static final TrackedData<Integer> CAUGHT_COUNT;
+	private static final EntityDataAccessor<Integer> POSE_TICKS;
+	private static final EntityDataAccessor<Integer> CAUGHT_COUNT;
 	private boolean ambientSounds;
 
-	public RascalEntity(EntityType<? extends PassiveEntity> entityType, World world) {
+	public RascalEntity(EntityType<? extends AgeableMob> entityType, Level world) {
 		super(entityType, world);
 		this.setPose(RascalEntityPose.IDLE);
 		this.enableAmbientSounds();
-		this.setPathfindingPenalty(PathNodeType.RAIL, 0.0F);
-		this.setPathfindingPenalty(PathNodeType.UNPASSABLE_RAIL, 0.0F);
-		this.setPathfindingPenalty(PathNodeType.WATER, 0.0F);
-		this.setPathfindingPenalty(PathNodeType.WATER_BORDER, 0.0F);
+		this.setPathfindingMalus(PathType.RAIL, 0.0F);
+		this.setPathfindingMalus(PathType.UNPASSABLE_RAIL, 0.0F);
+		this.setPathfindingMalus(PathType.WATER, 0.0F);
+		this.setPathfindingMalus(PathType.WATER_BORDER, 0.0F);
 	}
 
 	@Override
-	public EntityData initialize(
-		ServerWorldAccess world,
-		LocalDifficulty difficulty,
-		SpawnReason spawnReason,
-		@Nullable EntityData entityData
+	public SpawnGroupData finalizeSpawn(
+		ServerLevelAccessor world,
+		DifficultyInstance difficulty,
+		MobSpawnType spawnReason,
+		@Nullable SpawnGroupData entityData
 	) {
-		EntityData superEntityData = super.initialize(world, difficulty, spawnReason, entityData);
+		SpawnGroupData superEntityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData);
 
 		this.setPose(RascalEntityPose.IDLE);
 		RascalBrain.setNodCooldown(this);
@@ -80,35 +85,35 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 	}
 
 	public static boolean canSpawn(
-		EntityType<? extends MobEntity> rascalEntityType,
-		ServerWorldAccess serverWorldAccess,
-		SpawnReason spawnReason,
+		EntityType<? extends Mob> rascalEntityType,
+		ServerLevelAccessor serverWorldAccess,
+		MobSpawnType spawnReason,
 		BlockPos blockPos,
-		Random random
+		RandomSource random
 	) {
-		if (spawnReason == SpawnReason.NATURAL) {
-			ServerWorld serverWorld = serverWorldAccess.toServerWorld();
-			Registry<Structure> structureRegistry = serverWorldAccess.getRegistryManager().get(RegistryKeys.STRUCTURE);
-			StructureAccessor structureAccessor = serverWorld.getStructureAccessor();
+		if (spawnReason == MobSpawnType.NATURAL) {
+			ServerLevel serverWorld = serverWorldAccess.getLevel();
+			Registry<Structure> structureRegistry = serverWorldAccess.registryAccess().registryOrThrow(Registries.STRUCTURE);
+			StructureManager structureAccessor = serverWorld.structureManager();
 
 			if (
 				blockPos.getY() > 63
-				|| serverWorldAccess.isSkyVisible(blockPos)
-				|| serverWorldAccess.getLightLevel(blockPos, 0) == 0
+				|| serverWorldAccess.canSeeSky(blockPos)
+				|| serverWorldAccess.getMaxLocalRawBrightness(blockPos, 0) == 0
 				|| (
-					!serverWorldAccess.getBlockState(blockPos.down()).isIn(BlockTags.PLANKS)
-					&& !serverWorldAccess.getBlockState(blockPos.up()).isIn(BlockTags.PLANKS)
-					&& !serverWorldAccess.getBlockState(blockPos.north()).isIn(BlockTags.PLANKS)
-					&& !serverWorldAccess.getBlockState(blockPos.west()).isIn(BlockTags.PLANKS)
-					&& !serverWorldAccess.getBlockState(blockPos.south()).isIn(BlockTags.PLANKS)
-					&& !serverWorldAccess.getBlockState(blockPos.east()).isIn(BlockTags.PLANKS)
+					!serverWorldAccess.getBlockState(blockPos.below()).is(BlockTags.PLANKS)
+					&& !serverWorldAccess.getBlockState(blockPos.above()).is(BlockTags.PLANKS)
+					&& !serverWorldAccess.getBlockState(blockPos.north()).is(BlockTags.PLANKS)
+					&& !serverWorldAccess.getBlockState(blockPos.west()).is(BlockTags.PLANKS)
+					&& !serverWorldAccess.getBlockState(blockPos.south()).is(BlockTags.PLANKS)
+					&& !serverWorldAccess.getBlockState(blockPos.east()).is(BlockTags.PLANKS)
 				)
 			) {
 				return false;
 			}
 
-			for (RegistryEntry<Structure> structure : structureRegistry.getOrCreateEntryList(StructureTags.MINESHAFT)) {
-				if (structureAccessor.getStructureAt(blockPos, structure.value()).hasChildren()) {
+			for (Holder<Structure> structure : structureRegistry.getOrCreateTag(StructureTags.MINESHAFT)) {
+				if (structureAccessor.getStructureAt(blockPos, structure.value()).isValid()) {
 					return true;
 				}
 			}
@@ -124,51 +129,49 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 		if (this.animationContextTracker == null) {
 			this.animationContextTracker = new AnimationContextTracker();
 
-			for (KeyframeAnimation keyframeAnimation : this.getAnimations()) {
-				this.animationContextTracker.add(keyframeAnimation);
+			for (var animation: this.getTrackedAnimations()) {
+				this.animationContextTracker.add(animation);
 			}
-
-			this.animationContextTracker.add(this.getMovementAnimation());
 		}
 
 		return this.animationContextTracker;
 	}
 
 	@Override
-	public ArrayList<KeyframeAnimation> getAnimations() {
+	public ArrayList<AnimationHolder> getTrackedAnimations() {
 		return RascalAnimations.ANIMATIONS;
 	}
 
 	@Override
-	public KeyframeAnimation getMovementAnimation() {
+	public AnimationHolder getMovementAnimation() {
 		return RascalAnimations.WALK;
 	}
 
 	@Override
-	public int getKeyframeAnimationTicks() {
-		return this.dataTracker.get(POSE_TICKS);
+	public int getCurrentAnimationTick() {
+		return this.entityData.get(POSE_TICKS);
 	}
 
-	public void setKeyframeAnimationTicks(int keyframeAnimationTicks) {
-		this.dataTracker.set(POSE_TICKS, keyframeAnimationTicks);
+	public void setCurrentAnimationTick(int keyframeAnimationTicks) {
+		this.entityData.set(POSE_TICKS, keyframeAnimationTicks);
 	}
 
 	@Override
-	protected void initDataTracker(DataTracker.Builder builder) {
-		super.initDataTracker(builder);
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		super.defineSynchedData(builder);
 
-		builder.add(POSE_TICKS, 0);
-		builder.add(CAUGHT_COUNT, 0);
+		builder.define(POSE_TICKS, 0);
+		builder.define(CAUGHT_COUNT, 0);
 	}
 
 	@Nullable
 	@Override
-	public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
+	public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob entity) {
 		return null;
 	}
 
 	@Override
-	protected Brain<?> deserializeBrain(Dynamic<?> dynamic) {
+	protected Brain<?> makeBrain(Dynamic<?> dynamic) {
 		return RascalBrain.create(dynamic);
 	}
 
@@ -179,28 +182,28 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 	}
 
 	@Override
-	protected void sendAiDebugData() {
-		super.sendAiDebugData();
-		DebugInfoSender.sendBrainDebugData(this);
+	protected void sendDebugPackets() {
+		super.sendDebugPackets();
+		DebugPackets.sendEntityBrain(this);
 	}
 
 	@Override
-	protected void mobTick() {
-		this.getWorld().getProfiler().push("rascalBrain");
-		this.getBrain().tick((ServerWorld) this.getWorld(), this);
-		this.getWorld().getProfiler().pop();
-		this.getWorld().getProfiler().push("rascalActivityUpdate");
+	protected void customServerAiStep() {
+		this.level().getProfiler().push("rascalBrain");
+		this.getBrain().tick((ServerLevel) this.level(), this);
+		this.level().getProfiler().pop();
+		this.level().getProfiler().push("rascalActivityUpdate");
 		RascalBrain.updateActivities(this);
-		this.getWorld().getProfiler().pop();
+		this.level().getProfiler().pop();
 
-		super.mobTick();
+		super.customServerAiStep();
 	}
 
-	public static DefaultAttributeContainer.Builder createRascalAttributes() {
-		return MobEntity.createMobAttributes()
-			.add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0D)
-			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.55D)
-			.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0D);
+	public static AttributeSupplier.Builder createRascalAttributes() {
+		return Mob.createMobAttributes()
+			.add(Attributes.MAX_HEALTH, 20.0D)
+			.add(Attributes.MOVEMENT_SPEED, 0.55D)
+			.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D);
 	}
 
 	@Override
@@ -209,67 +212,71 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 			this.discard();
 		}
 
-		StatusEffectInstance invisibilityStatusEffect = this.getStatusEffect(StatusEffects.INVISIBILITY);
+		MobEffectInstance invisibilityStatusEffect = this.getEffect(MobEffects.INVISIBILITY);
 
 		if (this.isHidden() && invisibilityStatusEffect != null && invisibilityStatusEffect.getDuration() == 1) {
 			this.playReappearSound();
 		}
 
-		if (!this.getWorld().isClient()) {
-			this.updateKeyframeAnimationTicks();
-		}
-
-		KeyframeAnimation keyframeAnimationToStart = this.getKeyframeAnimationByPose();
-
-		if (keyframeAnimationToStart != null) {
-			this.tryToStartKeyframeAnimation(keyframeAnimationToStart);
-		}
+		this.updateKeyframeAnimations();
 
 		super.tick();
 	}
 
-	@Nullable
-	private KeyframeAnimation getKeyframeAnimationByPose() {
-		KeyframeAnimation keyframeAnimation = null;
-
-		if (this.isInPose(RascalEntityPose.IDLE) && !this.isMoving()) {
-			keyframeAnimation = RascalAnimations.IDLE;
-		} else if (this.isInPose(RascalEntityPose.NOD)) {
-			keyframeAnimation = RascalAnimations.NOD;
-		} else if (this.isInPose(RascalEntityPose.GIVE_REWARD)) {
-			keyframeAnimation = RascalAnimations.GIVE_REWARD;
+	private void updateKeyframeAnimations() {
+		if (!this.level().isClientSide()) {
+			this.updateCurrentAnimationTick();
 		}
 
-		return keyframeAnimation;
+		AnimationHolder animationToStart = this.getAnimationByPose();
+
+		if (animationToStart != null) {
+			this.tryToStartAnimation(animationToStart);
+		}
 	}
 
-	private void tryToStartKeyframeAnimation(KeyframeAnimation keyframeAnimationToStart) {
-		if (this.isKeyframeAnimationRunning(keyframeAnimationToStart)) {
+	@Nullable
+	public AnimationHolder getAnimationByPose() {
+		AnimationHolder animation = null;
+
+		if (this.isInPose(RascalEntityPose.IDLE) && !this.isMoving()) {
+			animation = RascalAnimations.IDLE;
+		} else if (this.isInPose(RascalEntityPose.NOD)) {
+			animation = RascalAnimations.NOD;
+		} else if (this.isInPose(RascalEntityPose.GIVE_REWARD)) {
+			animation = RascalAnimations.GIVE_REWARD;
+		}
+
+		return animation;
+	}
+
+	private void tryToStartAnimation(AnimationHolder animationToStart) {
+		if (this.isKeyframeAnimationRunning(animationToStart)) {
 			return;
 		}
 
-		if (!this.getWorld().isClient()) {
-			this.setKeyframeAnimationTicks(keyframeAnimationToStart.getAnimationLengthInTicks());
+		if (!this.level().isClientSide()) {
+			this.setCurrentAnimationTick(animationToStart.get().lengthInTicks());
 		}
 
-		this.startKeyframeAnimation(keyframeAnimationToStart);
+		this.startKeyframeAnimation(animationToStart);
 	}
 
-	private void startKeyframeAnimation(KeyframeAnimation keyframeAnimationToStart) {
-		for (KeyframeAnimation keyframeAnimation : this.getAnimations()) {
-			if (keyframeAnimation == keyframeAnimationToStart) {
+	private void startKeyframeAnimation(AnimationHolder animationToStart) {
+		for (var animation : this.getTrackedAnimations()) {
+			if (animation == animationToStart) {
 				continue;
 			}
 
-			this.stopKeyframeAnimation(keyframeAnimation);
+			this.stopKeyframeAnimation(animation);
 		}
 
-		this.startKeyframeAnimation(keyframeAnimationToStart, this.age);
+		this.startKeyframeAnimation(animationToStart, this.tickCount);
 	}
 
 	@Override
-	public void setPose(EntityPose pose) {
-		if (this.getWorld().isClient()) {
+	public void setPose(Pose pose) {
+		if (this.level().isClientSide()) {
 			return;
 		}
 
@@ -277,7 +284,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 	}
 
 	public void setPose(RascalEntityPose pose) {
-		if (this.getWorld().isClient()) {
+		if (this.level().isClientSide()) {
 			return;
 		}
 
@@ -294,6 +301,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 		}
 
 		this.playNodSound();
+		this.gameEvent(GameEvent.ENTITY_ACTION);
 		this.setPose(RascalEntityPose.NOD);
 	}
 
@@ -303,20 +311,21 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 		}
 
 		this.playRewardSound();
+		this.gameEvent(GameEvent.ENTITY_ACTION);
 		this.setPose(RascalEntityPose.GIVE_REWARD);
 	}
 
 	@Override
-	public boolean damage(
+	public boolean hurt(
 		DamageSource source, float amount
 	) {
-		Entity attacker = source.getAttacker();
+		Entity attacker = source.getEntity();
 
 		if (
-			!(attacker instanceof PlayerEntity)
+			!(attacker instanceof Player)
 			|| this.hasCustomName()
 		) {
-			return super.damage(source, amount);
+			return super.hurt(source, amount);
 		}
 
 		this.playHurtSound(source);
@@ -374,7 +383,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 
 	@Override
 	protected void playHurtSound(DamageSource source) {
-		this.ambientSoundChance = -this.getMinAmbientSoundDelay();
+		this.ambientSoundTime = -this.getAmbientSoundInterval();
 		this.playSound(this.getHurtSound(source), 1.0F, RandomGenerator.generateFloat(1.15F, 1.3F));
 	}
 
@@ -403,7 +412,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 	) {
 		if (
 			this.isHidden()
-			|| state.isLiquid()
+			|| state.liquid()
 		) {
 			return;
 		}
@@ -412,19 +421,19 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 	}
 
 	public boolean isHidden() {
-		return this.getBrain().getOptionalMemory(MemoryModuleType.AVOID_TARGET).orElse(null) instanceof PlayerEntity;
+		return this.getBrain().getMemoryInternal(MemoryModuleType.AVOID_TARGET).orElse(null) instanceof Player;
 	}
 
 	public boolean isMoving() {
-		return this.isOnGround() && this.getVelocity().lengthSquared() >= 0.0001;
+		return this.onGround() && this.getDeltaMovement().lengthSqr() >= 0.0001;
 	}
 
 	public int getCaughtCount() {
-		return this.dataTracker.get(CAUGHT_COUNT);
+		return this.entityData.get(CAUGHT_COUNT);
 	}
 
 	public void addToCaughtCount() {
-		this.dataTracker.set(CAUGHT_COUNT, this.getCaughtCount() + 1);
+		this.entityData.set(CAUGHT_COUNT, this.getCaughtCount() + 1);
 	}
 
 	public boolean shouldGiveReward() {
@@ -448,7 +457,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 	}
 
 	static {
-		POSE_TICKS = DataTracker.registerData(RascalEntity.class, TrackedDataHandlerRegistry.INTEGER);
-		CAUGHT_COUNT = DataTracker.registerData(RascalEntity.class, TrackedDataHandlerRegistry.INTEGER);
+		POSE_TICKS = SynchedEntityData.defineId(RascalEntity.class, EntityDataSerializers.INT);
+		CAUGHT_COUNT = SynchedEntityData.defineId(RascalEntity.class, EntityDataSerializers.INT);
 	}
 }

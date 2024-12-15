@@ -2,13 +2,8 @@ package com.faboslav.friendsandfoes.common.entity.animation;
 
 import org.joml.Vector3f;
 
-public record Keyframe(
-	float timestamp,
-	Vector3f target,
-	Transformation.Interpolation interpolation
-)
-{
-	public Keyframe(float timestamp, Vector3f target, Transformation.Interpolation interpolation) {
+public record Keyframe(float timestamp, Vector3f target, AnimationChannel.Interpolation interpolation) {
+	public Keyframe(float timestamp, Vector3f target, AnimationChannel.Interpolation interpolation) {
 		this.timestamp = timestamp;
 		this.target = target;
 		this.interpolation = interpolation;
@@ -22,7 +17,7 @@ public record Keyframe(
 		return this.target;
 	}
 
-	public Transformation.Interpolation interpolation() {
+	public AnimationChannel.Interpolation interpolation() {
 		return this.interpolation;
 	}
 }

@@ -2,21 +2,21 @@ package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.entity.BlazeEntityAccess;
 import com.faboslav.friendsandfoes.common.entity.WildfireEntity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.mob.BlazeEntity;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Optional;
 import java.util.UUID;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.monster.Blaze;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.level.Level;
 
-@Mixin(BlazeEntity.class)
+@Mixin(Blaze.class)
 @SuppressWarnings({"rawtypes", "unchecked"})
 public abstract class BlazeEntityMixin extends BlazeLivingEntityMixin implements BlazeEntityAccess
 {
@@ -24,29 +24,29 @@ public abstract class BlazeEntityMixin extends BlazeLivingEntityMixin implements
 
 	private Optional<UUID> friendsandfoes_wildfireUuid = Optional.empty();
 
-	protected BlazeEntityMixin(EntityType<? extends HostileEntity> entityType, World world) {
+	protected BlazeEntityMixin(EntityType<? extends Monster> entityType, Level world) {
 		super(entityType, world);
 
 		this.friendsandfoes_wildfireUuid = Optional.empty();
 	}
 
 	@Override
-	public void friendsandfoes_writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
+	public void friendsandfoes_writeCustomDataToNbt(CompoundTag nbt, CallbackInfo ci) {
 		if (this.friendsandfoes_getWildfireUuid() != null) {
-			nbt.putUuid(WILDFIRE_UUID_NBT_NAME, this.friendsandfoes_getWildfireUuid());
+			nbt.putUUID(WILDFIRE_UUID_NBT_NAME, this.friendsandfoes_getWildfireUuid());
 		}
 	}
 
 	@Override
-	public void friendsandfoes_readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
-		if (nbt.containsUuid(WILDFIRE_UUID_NBT_NAME)) {
-			this.friendsandfoes_setWildfireUuid(nbt.getUuid(WILDFIRE_UUID_NBT_NAME));
+	public void friendsandfoes_readCustomDataFromNbt(CompoundTag nbt, CallbackInfo ci) {
+		if (nbt.hasUUID(WILDFIRE_UUID_NBT_NAME)) {
+			this.friendsandfoes_setWildfireUuid(nbt.getUUID(WILDFIRE_UUID_NBT_NAME));
 		}
 	}
 
 	@Override
 	public void friendsandfoes_onDeath(DamageSource damageSource, CallbackInfo ci) {
-		if (this.getWorld() instanceof ServerWorld) {
+		if (this.level() instanceof ServerLevel) {
 			WildfireEntity wildfireEntity = this.friendsandfoes_getWildfire();
 
 			if (wildfireEntity != null) {
@@ -65,13 +65,13 @@ public abstract class BlazeEntityMixin extends BlazeLivingEntityMixin implements
 	}
 
 	public void friendsandfoes_setWildfire(WildfireEntity wildfire) {
-		this.friendsandfoes_setWildfireUuid(wildfire.getUuid());
+		this.friendsandfoes_setWildfireUuid(wildfire.getUUID());
 	}
 
 	@Nullable
 	public WildfireEntity friendsandfoes_getWildfire() {
 		try {
-			ServerWorld serverWorld = (ServerWorld) this.getWorld();
+			ServerLevel serverWorld = (ServerLevel) this.level();
 			UUID uUID = this.friendsandfoes_getWildfireUuid();
 			return uUID == null ? null:(WildfireEntity) serverWorld.getEntity(uUID);
 		} catch (IllegalArgumentException var2) {

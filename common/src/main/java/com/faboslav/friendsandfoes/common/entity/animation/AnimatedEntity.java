@@ -1,8 +1,8 @@
 package com.faboslav.friendsandfoes.common.entity.animation;
 
-import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.context.AnimationContextTracker;
-import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.context.KeyframeAnimationContext;
-import com.faboslav.friendsandfoes.common.entity.animation.loader.json.AnimationHolder;
+import com.faboslav.friendsandfoes.common.entity.animation.animator.context.AnimationContextTracker;
+import com.faboslav.friendsandfoes.common.entity.animation.animator.context.KeyframeAnimationContext;
+import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.entity.ai.brain.task.crab;
 
-import com.faboslav.friendsandfoes.common.client.render.entity.animation.CrabAnimations;
+import com.faboslav.friendsandfoes.common.entity.animation.CrabAnimations;
 import com.faboslav.friendsandfoes.common.entity.CrabEntity;
 import com.faboslav.friendsandfoes.common.entity.pose.CrabEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;

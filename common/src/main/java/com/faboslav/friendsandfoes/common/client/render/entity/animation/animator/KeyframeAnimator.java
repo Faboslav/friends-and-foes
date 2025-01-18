@@ -2,7 +2,9 @@ package com.faboslav.friendsandfoes.common.client.render.entity.animation.animat
 
 import com.faboslav.friendsandfoes.common.entity.animation.AnimationChannel;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimationDefinition;
-import com.faboslav.friendsandfoes.common.entity.animation.Keyframe;
+import com.faboslav.friendsandfoes.common.entity.animation.animator.Keyframe;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.util.Mth;
@@ -12,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@Environment(EnvType.CLIENT)
 public final class KeyframeAnimator
 {
 	public static void animateKeyframe(
@@ -46,7 +49,15 @@ public final class KeyframeAnimator
 					}
 
 					keyframe2.interpolation().apply(vector3f, k, keyframes, i, j, scale);
-					animationChannel.target().apply(modelPart, vector3f);
+					var target = animationChannel.target();
+
+					if(target == AnimationChannel.Target.POSITION) {
+						modelPart.offsetPos(vector3f);
+					} else if(target == AnimationChannel.Target.ROTATION) {
+						modelPart.offsetRotation(vector3f);
+					} else if(target == AnimationChannel.Target.SCALE) {
+						modelPart.offsetScale(vector3f);
+					}
 				});
 			});
 		}

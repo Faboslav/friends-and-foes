@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.IllagerRenderer;
 import net.minecraft.client.renderer.entity.IllusionerRenderer;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.monster.Illusioner;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -20,6 +21,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin({IllusionerRenderer.class})
 public abstract class IllusionerEntityRendererMixin extends IllagerRenderer<Illusioner>
 {
+	private static final ResourceLocation friendsandfoes$TEXTURE = 	FriendsAndFoes.makeID("textures/entity/illusioner/illusioner.png");
+
 	protected IllusionerEntityRendererMixin(
 		EntityRendererProvider.Context ctx,
 		IllagerModel<Illusioner> model,
@@ -59,6 +62,18 @@ public abstract class IllusionerEntityRendererMixin extends IllagerRenderer<Illu
 	) {
 		if (FriendsAndFoes.getConfig().enableIllusioner) {
 			callbackInfo.setReturnValue(super.isBodyVisible(illusioner));
+		}
+	}
+
+	@Inject(
+		at = @At("HEAD"),
+		method = "getTextureLocation(Lnet/minecraft/world/entity/monster/Illusioner;)Lnet/minecraft/resources/ResourceLocation;",
+		cancellable = true
+	)
+	public void getTextureLocation(Illusioner illusioner, CallbackInfoReturnable<ResourceLocation> cir) {
+		if (FriendsAndFoes.getConfig().enableIllusioner) {
+			FriendsAndFoes.getLogger().info(String.valueOf(FriendsAndFoes.getConfig().enableIllusioner));
+			cir.setReturnValue(friendsandfoes$TEXTURE);
 		}
 	}
 }

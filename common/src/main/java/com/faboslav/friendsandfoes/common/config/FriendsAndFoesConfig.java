@@ -354,28 +354,6 @@ public final class FriendsAndFoesConfig
 	public boolean enableZombieHorseTrap = true;
 
 	public void load() {
-		if (this.isLoading) {
-			return;
-		}
-
-		try {
-			FriendsAndFoes.getLogger().info("Loading Friens&Foes config...");
-			this.isLoading = true;
-
-			/*
-			if (!Files.exists(configPath)) {
-				return;
-			}*/
-
-			HANDLER.load();
-
-			FriendsAndFoes.getLogger().info("Friens&Foes config loaded");
-			this.isLoaded = true;
-		} catch (Exception e) {
-			FriendsAndFoes.getLogger().error("Failed to load Friens&Foes config");
-			e.printStackTrace();
-		} finally {
-			this.isLoading = false;
-		}
+		HANDLER.load();
 	}
 }

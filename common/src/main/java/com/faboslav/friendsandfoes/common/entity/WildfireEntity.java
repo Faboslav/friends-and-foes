@@ -1,12 +1,11 @@
 package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-import com.faboslav.friendsandfoes.common.client.render.entity.animation.WildfireAnimations;
-import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.context.AnimationContextTracker;
+import com.faboslav.friendsandfoes.common.entity.animation.WildfireAnimations;
+import com.faboslav.friendsandfoes.common.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.WildfireBrain;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
-import com.faboslav.friendsandfoes.common.entity.animation.loader.json.AnimationHolder;
-import com.faboslav.friendsandfoes.common.entity.pose.TuffGolemEntityPose;
+import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
 import com.faboslav.friendsandfoes.common.entity.pose.WildfireEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
@@ -21,7 +20,6 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
@@ -371,7 +369,6 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 			return;
 		}
 
-		FriendsAndFoes.getLogger().info("starting shockwave");
 		this.gameEvent(GameEvent.ENTITY_ACTION);
 		this.playShockwaveSound();
 		this.setPose(WildfireEntityPose.SHOCKWAVE);
@@ -408,16 +405,15 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 			this.setDeltaMovement(this.getDeltaMovement().multiply(1.0F, 0.6F, 1.0F));
 		}
 
-		/*
 		if (this.level().isClientSide()) {
 			if (this.getRandom().nextInt(24) == 0 && !this.isSilent()) {
-				this.level().playLocalSound(this.getX() + 0.5, this.getY() + 0.5, this.getZ() + 0.5, SoundEvents.BLAZE_BURN, this.getSoundSource(), 1.0F + this.getRandom().nextFloat(), this.getRandom().nextFloat() * 0.7F + 0.3F, false);
+				// this.level().playLocalSound(this.getX() + 0.5, this.getY() + 0.5, this.getZ() + 0.5, SoundEvents.BLAZE_BURN, this.getSoundSource(), 1.0F + this.getRandom().nextFloat(), this.getRandom().nextFloat() * 0.7F + 0.3F, false);
 			}
 
 			for (int i = 0; i < 2; ++i) {
 				this.level().addParticle(ParticleTypes.LARGE_SMOKE, this.getRandomX(0.5), this.getRandomY(), this.getRandomZ(0.5), 0.0, 0.0, 0.0);
 			}
-		} */
+		}
 
 		super.aiStep();
 	}

@@ -7,7 +7,12 @@ import java.util.Map;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
-@Environment(EnvType.CLIENT)
+/**
+ * Animation loading related code is based on NeoForge code
+ *
+ * @author NeoForge team
+ * <a href="https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation">https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation</a>
+ */
 public record AnimationDefinition(String name, float lengthInSeconds, boolean looping, Map<String, List<AnimationChannel>> boneAnimations) {
 	public AnimationDefinition(String name, float lengthInSeconds, boolean looping, Map<String, List<AnimationChannel>> boneAnimations) {
 		this.name = name;

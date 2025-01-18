@@ -3,6 +3,12 @@ package com.faboslav.friendsandfoes.common.entity.animation;
 import java.util.function.Consumer;
 import net.minecraft.util.Mth;
 
+/**
+ * Animation loading related code is based on NeoForge code
+ *
+ * @author NeoForge team
+ * <a href="https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation">https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation</a>
+ */
 public class AnimationState {
 	private static final long STOPPED = Long.MAX_VALUE;
 	private long lastTime = Long.MAX_VALUE;

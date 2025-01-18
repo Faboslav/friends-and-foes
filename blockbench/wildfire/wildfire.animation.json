@@ -2,19 +2,40 @@
 	"format_version": "1.8.0",
 	"animations": {
 		"idle": {
-			"animation_length": 1
+			"loop": true,
+			"animation_length": 2,
+			"bones": {
+				"body": {
+					"position": {
+						"0.0": {
+							"vector": [0, "-0.5 - (math.sin(query.anim_time * 180) * 0.33)", 0]
+						},
+						"2.0": {
+							"vector": [0, "-0.5 - (math.sin(query.anim_time * 180) * 0.33)", 0]
+						}
+					}
+				}
+			}
 		},
 		"shield_rotation": {
 			"loop": true,
-			"animation_length": 3,
+			"animation_length": 2,
 			"bones": {
 				"frontShield": {
 					"rotation": {
 						"0.0": {
 							"vector": [0, 0, 0]
 						},
-						"3.0": {
-							"vector": [0, 360, 0]
+						"2.0": {
+							"vector": [0, 180, 0]
+						}
+					},
+					"position": {
+						"0.0": {
+							"vector": [0, "Math.sin(query.anim_time * 180) * 0.5", 0]
+						},
+						"2.0": {
+							"vector": [0, 0, 0]
 						}
 					}
 				},
@@ -23,8 +44,16 @@
 						"0.0": {
 							"vector": [0, 0, 0]
 						},
-						"3.0": {
-							"vector": [0, 360, 0]
+						"2.0": {
+							"vector": [0, 180, 0]
+						}
+					},
+					"position": {
+						"0.0": {
+							"vector": [0, "Math.cos(query.anim_time * 180) * 0.5", 0]
+						},
+						"2.0": {
+							"vector": [0, "Math.cos(query.anim_time * 180) * 0.5", 0]
 						}
 					}
 				},
@@ -33,8 +62,16 @@
 						"0.0": {
 							"vector": [0, 0, 0]
 						},
-						"3.0": {
-							"vector": [0, 360, 0]
+						"2.0": {
+							"vector": [0, 180, 0]
+						}
+					},
+					"position": {
+						"0.0": {
+							"vector": [0, "Math.sin(query.anim_time * 180) * 0.5", 0]
+						},
+						"2.0": {
+							"vector": [0, "Math.sin(query.anim_time * 180) * 0.5", 0]
 						}
 					}
 				},
@@ -43,8 +80,16 @@
 						"0.0": {
 							"vector": [0, 0, 0]
 						},
-						"3.0": {
-							"vector": [0, 360, 0]
+						"2.0": {
+							"vector": [0, 180, 0]
+						}
+					},
+					"position": {
+						"0.0": {
+							"vector": [0, "Math.cos(query.anim_time * 180) * 0.5F", 0]
+						},
+						"2.0": {
+							"vector": [0, "Math.cos(query.anim_time * 180) * 0.5F", 0]
 						}
 					}
 				}

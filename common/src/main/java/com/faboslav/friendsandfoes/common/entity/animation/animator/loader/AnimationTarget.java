@@ -1,7 +1,6 @@
-package com.faboslav.friendsandfoes.common.entity.animation.loader;
+package com.faboslav.friendsandfoes.common.entity.animation.animator.loader;
 
 import com.faboslav.friendsandfoes.common.entity.animation.AnimationChannel;
-import com.faboslav.friendsandfoes.common.entity.animation.KeyframeAnimations;
 import org.joml.Vector3f;
 
 /**
@@ -12,6 +11,11 @@ import org.joml.Vector3f;
  * @param keyframeTarget        An {@link AnimationKeyframeTarget} that transforms simple vectors into ones that make sense
  *                              for the {@link #channelTarget}.
  * @param inverseKeyframeTarget The inverse function of {@link #keyframeTarget}, used for serialization.
+ *
+ * Animation loading related code is based on NeoForge code
+ *
+ * @author NeoForge team
+ * <a href="https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation">https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation</a>
  */
 public record AnimationTarget(
 	AnimationChannel.Target channelTarget,
@@ -19,17 +23,17 @@ public record AnimationTarget(
 	AnimationKeyframeTarget inverseKeyframeTarget) {
 
 	public static final AnimationTarget POSITION = new AnimationTarget(
-		AnimationChannel.Targets.POSITION,
-		KeyframeAnimations::posVec,
-		KeyframeAnimations::posVec // It's its own inverse
+		AnimationChannel.Target.POSITION,
+		AnimationTarget::posVec,
+		AnimationTarget::posVec // It's its own inverse
 	);
 	public static final AnimationTarget ROTATION = new AnimationTarget(
-		AnimationChannel.Targets.ROTATION,
-		KeyframeAnimations::degreeVec,
+		AnimationChannel.Target.ROTATION,
+		AnimationTarget::degreeVec,
 		AnimationTarget::inverseDegreeVec);
 	public static final AnimationTarget SCALE = new AnimationTarget(
-		AnimationChannel.Targets.SCALE,
-		KeyframeAnimations::scaleVec,
+		AnimationChannel.Target.SCALE,
+		AnimationTarget::scaleVec,
 		AnimationTarget::inverseScaleVec);
 	private static Vector3f inverseDegreeVec(float x, float y, float z) {
 		return new Vector3f(
@@ -40,6 +44,18 @@ public record AnimationTarget(
 
 	private static Vector3f inverseScaleVec(double x, double y, double z) {
 		return new Vector3f((float) (x + 1f), (float) (y + 1f), (float) (z + 1f));
+	}
+
+	private static Vector3f posVec(float f, float g, float h) {
+		return new Vector3f(f, -g, h);
+	}
+
+	private static Vector3f degreeVec(float f, float g, float h) {
+		return new Vector3f(f * 0.017453292F, g * 0.017453292F, h * 0.017453292F);
+	}
+
+	private static Vector3f scaleVec(double d, double e, double f) {
+		return new Vector3f((float)(d - 1.0), (float)(e - 1.0), (float)(f - 1.0));
 	}
 
 	@Override

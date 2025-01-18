@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.entity.ai.brain.task.coppergolem;
 
-import com.faboslav.friendsandfoes.common.client.render.entity.animation.CopperGolemAnimations;
+import com.faboslav.friendsandfoes.common.entity.animation.CopperGolemAnimations;
 import com.faboslav.friendsandfoes.common.entity.CopperGolemEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.CopperGolemBrain;
 import com.faboslav.friendsandfoes.common.entity.pose.CopperGolemEntityPose;

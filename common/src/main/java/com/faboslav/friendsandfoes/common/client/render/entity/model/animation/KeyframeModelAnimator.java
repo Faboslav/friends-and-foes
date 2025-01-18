@@ -1,12 +1,11 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.model.animation;
 
-import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.KeyframeAnimator;
-import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.context.AnimationContextTracker;
-import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.context.KeyframeAnimationContext;
+import com.faboslav.friendsandfoes.common.entity.animation.animator.context.AnimationContextTracker;
+import com.faboslav.friendsandfoes.common.entity.animation.animator.context.KeyframeAnimationContext;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimationDefinition;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimationState;
-import com.faboslav.friendsandfoes.common.entity.animation.loader.json.AnimationHolder;
+import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.HierarchicalModel;

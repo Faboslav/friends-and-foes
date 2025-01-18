@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.common;
 
 import com.faboslav.friendsandfoes.common.api.MoobloomVariantManager;
-import com.faboslav.friendsandfoes.common.entity.animation.loader.json.AnimationLoader;
+import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationLoader;
 import com.faboslav.friendsandfoes.common.config.FriendsAndFoesConfig;
 import com.faboslav.friendsandfoes.common.events.AddItemGroupEntriesEvent;
 import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
@@ -34,8 +34,14 @@ public final class FriendsAndFoes
 		return MOD_ID + ":" + name;
 	}
 
+	public static ResourceLocation makeNamespacedId(String id) {
+		return ResourceLocation.tryParse(
+			id
+		);
+	}
+
 	public static FriendsAndFoesConfig getConfig() {
-		return CONFIG;
+		return CONFIG.HANDLER.instance();
 	}
 
 	public static Logger getLogger() {

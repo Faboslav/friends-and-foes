@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.common.entity.animation.loader.json;
+package com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json;
 
 import com.faboslav.friendsandfoes.common.entity.animation.AnimationDefinition;
 import com.mojang.logging.LogUtils;
@@ -10,6 +10,11 @@ import java.util.Map;
 /**
  * Holds a single {@link AnimationDefinition} loaded from resource packs. Objects of this class will be automatically updated with new
  * {@link AnimationDefinition}s on reload.
+ *
+ * Animation loading related code is based on NeoForge code
+ *
+ * @author NeoForge team
+ * <a href="https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation">https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation</a>
  */
 public final class AnimationHolder
 {

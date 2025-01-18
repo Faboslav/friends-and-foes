@@ -1,11 +1,11 @@
 package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.context.AnimationContextTracker;
+import com.faboslav.friendsandfoes.common.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.GlareBrain;
 import com.faboslav.friendsandfoes.common.entity.ai.pathing.CachedPathHolder;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
-import com.faboslav.friendsandfoes.common.entity.animation.loader.json.AnimationHolder;
+import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesCriterias;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;

@@ -1,11 +1,11 @@
 package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-import com.faboslav.friendsandfoes.common.client.render.entity.animation.TuffGolemAnimations;
-import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.context.AnimationContextTracker;
+import com.faboslav.friendsandfoes.common.entity.animation.TuffGolemAnimations;
+import com.faboslav.friendsandfoes.common.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.TuffGolemBrain;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
-import com.faboslav.friendsandfoes.common.entity.animation.loader.json.AnimationHolder;
+import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
 import com.faboslav.friendsandfoes.common.entity.pose.TuffGolemEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.util.MovementUtil;

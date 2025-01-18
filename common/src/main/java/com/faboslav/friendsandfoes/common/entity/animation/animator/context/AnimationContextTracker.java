@@ -1,7 +1,8 @@
-package com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.context;
+package com.faboslav.friendsandfoes.common.entity.animation.animator.context;
 
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.ModelPartAnimationType;
-import com.faboslav.friendsandfoes.common.entity.animation.loader.json.AnimationHolder;
+import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.context.ModelPartAnimationContext;
+import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
 
 import java.util.HashMap;
 import java.util.Map;

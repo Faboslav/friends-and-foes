@@ -1,5 +1,6 @@
-package com.faboslav.friendsandfoes.common.entity.animation;
+package com.faboslav.friendsandfoes.common.entity.animation.animator;
 
+import com.faboslav.friendsandfoes.common.entity.animation.AnimationChannel;
 import org.joml.Vector3f;
 
 public record Keyframe(float timestamp, Vector3f target, AnimationChannel.Interpolation interpolation) {

@@ -40,7 +40,7 @@ public final class FriendsAndFoesNeoForgeClient
 		RegisterRenderLayersEvent.EVENT.invoke(new RegisterRenderLayersEvent(ItemBlockRenderTypes::setRenderLayer, ItemBlockRenderTypes::setRenderLayer));
 
 		event.enqueueWork(() -> {
-			if (ModList.get().isLoaded("cloth_config")) {
+			if (ModList.get().isLoaded("yet_another_config_lib_v3")) {
 				ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory.class, () -> (client, screen) -> {
 					return new FriendsAndFoesConfigScreen(screen);
 				});

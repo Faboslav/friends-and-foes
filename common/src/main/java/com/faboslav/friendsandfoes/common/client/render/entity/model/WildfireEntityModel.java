@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.model;
 
-import com.faboslav.friendsandfoes.common.client.render.entity.animation.WildfireAnimations;
+import com.faboslav.friendsandfoes.common.entity.animation.WildfireAnimations;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.KeyframeModelAnimator;
 import com.faboslav.friendsandfoes.common.entity.WildfireEntity;
 import net.fabricmc.api.EnvType;

@@ -1,3 +1,11 @@
+## 4.0.0
+
+- Reworked configs
+- Reworked Wildfire animations/visuals
+- Reworked Mauler animations
+
+Animations are now data driven, it's now possible to replace these via datapacks
+
 ## 3.0.6
 
 - Fixed strong potion of reaching duration

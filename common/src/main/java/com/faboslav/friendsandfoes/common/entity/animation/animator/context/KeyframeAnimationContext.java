@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.context;
+package com.faboslav.friendsandfoes.common.entity.animation.animator.context;
 
 import com.faboslav.friendsandfoes.common.entity.animation.AnimationState;
 

@@ -1,9 +1,15 @@
 package com.faboslav.friendsandfoes.common.entity.animation;
 
-import net.minecraft.client.model.geom.ModelPart;
+import com.faboslav.friendsandfoes.common.entity.animation.animator.Keyframe;
 import net.minecraft.util.Mth;
 import org.joml.Vector3f;
 
+/**
+ * Animation loading related code is based on NeoForge code
+ *
+ * @author NeoForge team
+ * <a href="https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation">https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation</a>
+ */
 public record AnimationChannel(Target target, Keyframe... keyframes) {
 	public AnimationChannel(Target target, Keyframe... keyframes) {
 		this.target = target;
@@ -16,10 +22,6 @@ public record AnimationChannel(Target target, Keyframe... keyframes) {
 
 	public Keyframe[] keyframes() {
 		return this.keyframes;
-	}
-	
-	public interface Target {
-		void apply(ModelPart modelPart, Vector3f vector3f);
 	}
 	
 	public static class Interpolations {
@@ -40,14 +42,11 @@ public record AnimationChannel(Target target, Keyframe... keyframes) {
 		public Interpolations() {
 		}
 	}
-	
-	public static class Targets {
-		public static final Target POSITION = ModelPart::offsetPos;
-		public static final Target ROTATION = ModelPart::offsetRotation;
-		public static final Target SCALE = ModelPart::offsetScale;
 
-		public Targets() {
-		}
+	public enum Target {
+		POSITION,
+		ROTATION,
+		SCALE;
 	}
 	
 	public interface Interpolation {

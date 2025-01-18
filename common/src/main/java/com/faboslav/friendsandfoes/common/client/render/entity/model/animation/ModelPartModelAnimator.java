@@ -2,7 +2,7 @@ package com.faboslav.friendsandfoes.common.client.render.entity.model.animation;
 
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.ModelPartAnimationType;
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.ModelPartAnimator;
-import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.context.AnimationContextTracker;
+import com.faboslav.friendsandfoes.common.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.context.ModelPartAnimationContext;
 import org.joml.Vector3f;
 

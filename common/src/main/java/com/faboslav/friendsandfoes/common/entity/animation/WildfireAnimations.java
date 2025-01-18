@@ -1,8 +1,8 @@
-package com.faboslav.friendsandfoes.common.client.render.entity.animation;
+package com.faboslav.friendsandfoes.common.entity.animation;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-import com.faboslav.friendsandfoes.common.entity.animation.loader.json.AnimationHolder;
-import com.faboslav.friendsandfoes.common.entity.animation.loader.json.AnimationLoader;
+import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
+import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationLoader;
 
 import java.util.ArrayList;
 

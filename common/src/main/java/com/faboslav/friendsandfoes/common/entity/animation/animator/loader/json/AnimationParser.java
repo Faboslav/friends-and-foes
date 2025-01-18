@@ -1,8 +1,9 @@
-package com.faboslav.friendsandfoes.common.entity.animation.loader.json;
+package com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json;
 
+import com.faboslav.friendsandfoes.common.entity.animation.animator.Keyframe;
 import com.faboslav.friendsandfoes.common.entity.animation.*;
-import com.faboslav.friendsandfoes.common.entity.animation.loader.AnimationKeyframeTarget;
-import com.faboslav.friendsandfoes.common.entity.animation.loader.AnimationTarget;
+import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.AnimationKeyframeTarget;
+import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.AnimationTarget;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
@@ -19,6 +20,11 @@ import java.util.function.UnaryOperator;
 
 /**
  * A parser for parsing JSON-based entity animation files.
+ *
+ * Animation loading related code is based on NeoForge code
+ *
+ * @author NeoForge team
+ * <a href="https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation">https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation</a>
  */
 public final class AnimationParser {
 	/**

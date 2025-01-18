@@ -1,4 +1,4 @@
-package com.faboslav.friendsandfoes.common.entity.animation.loader.json;
+package com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json;
 
 import com.faboslav.friendsandfoes.common.entity.animation.AnimationDefinition;
 import com.google.common.collect.MapMaker;
@@ -19,6 +19,11 @@ import java.util.Map;
 
 /**
  * A loader for entity animations written in JSON. You can also get parsed animations from this class.
+ *
+ * Animation loading related code is based on NeoForge code
+ *
+ * @author NeoForge team
+ * <a href="https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation">https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation</a>
  */
 public final class AnimationLoader extends SimpleJsonResourceReloadListener {
 	private static final Logger LOGGER = LogUtils.getLogger();

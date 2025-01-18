@@ -1,8 +1,8 @@
-package com.faboslav.friendsandfoes.common.entity.animation.loader.json;
+package com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json;
 
 import com.faboslav.friendsandfoes.common.entity.animation.AnimationChannel;
-import com.faboslav.friendsandfoes.common.entity.animation.loader.AnimationTarget;
-import com.faboslav.friendsandfoes.common.entity.animation.Keyframe;
+import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.AnimationTarget;
+import com.faboslav.friendsandfoes.common.entity.animation.animator.Keyframe;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.serialization.Codec;
@@ -20,6 +20,11 @@ import java.util.stream.Collectors;
  * <p>
  * The built-in {@link AnimationChannel.Interpolation interpolation function}s are {@code minecraft:linear} and
  * {@code minecraft:catmullrom}.
+ *
+ * Animation loading related code is based on NeoForge code
+ *
+ * @author NeoForge team
+ * <a href="https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation">https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation</a>
  */
 public final class AnimationTypeManager {
 	private static final ImmutableBiMap<ResourceLocation, AnimationTarget> DEFAULT_TARGETS = ImmutableBiMap.of(

@@ -68,16 +68,9 @@ public class DispenserAddedSpawnEgg extends SpawnEggItem
 		return this.entityType.get();
 	}
 
-	public FeatureSet requiredFeatures() {
-		return getEntityType(null).getRequiredFeatures();
-	}
-
+	@Override
 	public FeatureSet getRequiredFeatures() {
 		return getEntityType(null).getRequiredFeatures();
-	}
-
-	protected EntityType<?> getDefaultType() {
-		return this.entityType.get();
 	}
 
 	public static void onSetup(SetupEvent event) {

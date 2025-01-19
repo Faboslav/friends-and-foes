@@ -69,10 +69,6 @@ public class DispenserAddedSpawnEgg extends SpawnEggItem
 		return getEntityType(ItemStack.EMPTY).getRequiredFeatures();
 	}
 
-	protected EntityType<?> getDefaultType() {
-		return this.entityType.get();
-	}
-
 	public static void onSetup(SetupEvent event) {
 		var spawnEggMap = SpawnEggItemAccessor.variantsandventures$getSpawnEggs();
 		for (var entry : DispenserAddedSpawnEgg.SPAWN_EGGS) {

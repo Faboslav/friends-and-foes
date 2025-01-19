@@ -2,6 +2,9 @@
 
 - Fixed beekeeper villager trades
 - Fixed infinite mauler exp feed (again)
+- Updated pl_pl translations (Thanks to kierohere)
+- Updated es_cl translations (Thanks to Ganbare-Lucifer)
+- Updated ru_ru translations (Thanks to mpustovoi)
 
 ## 3.0.6
 

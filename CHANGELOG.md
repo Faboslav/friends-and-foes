@@ -1,3 +1,8 @@
+## 3.0.7
+
+- Fixed beekeeper villager trades
+- Fixed infinite mauler exp feed (again)
+
 ## 3.0.6
 
 - Fixed strong potion of reaching duration

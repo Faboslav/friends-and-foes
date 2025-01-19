@@ -10,6 +10,7 @@ import net.minecraft.client.render.entity.IllusionerEntityRenderer;
 import net.minecraft.client.render.entity.model.IllagerEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.mob.IllusionerEntity;
+import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -20,6 +21,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin({IllusionerEntityRenderer.class})
 public abstract class IllusionerEntityRendererMixin extends IllagerEntityRenderer<IllusionerEntity>
 {
+	private final Identifier FRIENDSANDFOES_TEXTURE = FriendsAndFoes.makeID("textures/entity/illager/illusioner.png");
+
 	protected IllusionerEntityRendererMixin(
 		EntityRendererFactory.Context ctx,
 		IllagerEntityModel<IllusionerEntity> model,
@@ -59,6 +62,20 @@ public abstract class IllusionerEntityRendererMixin extends IllagerEntityRendere
 	) {
 		if (FriendsAndFoes.getConfig().enableIllusioner) {
 			callbackInfo.setReturnValue(super.isVisible(illusioner));
+		}
+	}
+
+	@Inject(
+		at = @At("HEAD"),
+		method = "getTexture(Lnet/minecraft/entity/mob/IllusionerEntity;)Lnet/minecraft/util/Identifier;",
+		cancellable = true
+	)
+	protected void friendsandfoes_getTexture(
+		IllusionerEntity illusionerEntity,
+		CallbackInfoReturnable<Identifier> cir
+	) {
+		if (FriendsAndFoes.getConfig().enableIllusioner) {
+			cir.setReturnValue(FRIENDSANDFOES_TEXTURE);
 		}
 	}
 }

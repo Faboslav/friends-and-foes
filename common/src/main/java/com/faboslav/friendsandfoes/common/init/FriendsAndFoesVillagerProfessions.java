@@ -5,7 +5,7 @@ import com.faboslav.friendsandfoes.common.events.RegisterVillagerTradesEvent;
 import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistries;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
-import com.faboslav.friendsandfoes.common.util.TradeOffersUtil;
+import com.faboslav.friendsandfoes.common.util.BasicTradeOffer;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
@@ -24,15 +24,17 @@ public final class FriendsAndFoesVillagerProfessions
 
 	public static void registerVillagerTrades(RegisterVillagerTradesEvent event) {
 		if (event.type() == BEEKEEPER.get()) {
-			event.register(1, new TradeOffersUtil.BuyForOneEmeraldFactory(FriendsAndFoesItems.BUTTERCUP.get(), 10, 16, 2));
-			event.register(1, new TradeOffersUtil.BuyForOneEmeraldFactory(Items.DANDELION, 10, 16, 2));
-			event.register(1, new TradeOffersUtil.BuyForOneEmeraldFactory(Items.SUNFLOWER, 10, 16, 2));
-			event.register(2, new TradeOffersUtil.BuyForOneEmeraldFactory(Items.GLASS_BOTTLE, 9, 12, 10));
-			event.register(2, new TradeOffersUtil.SellItemFactory(Items.HONEY_BOTTLE, 3, 1, 12, 5));
-			event.register(3, new TradeOffersUtil.BuyForOneEmeraldFactory(Items.SHEARS, 1, 12, 20));
-			event.register(3, new TradeOffersUtil.SellItemFactory(Items.HONEY_BLOCK, 10, 1, 12, 10));
-			event.register(4, new TradeOffersUtil.SellItemFactory(Items.HONEYCOMB, 4, 1, 12, 15));
-			event.register(5, new TradeOffersUtil.SellItemFactory(Items.HONEYCOMB_BLOCK, 12, 1, 12, 30));
+			event.register(1, new BasicTradeOffer(FriendsAndFoesItems.BUTTERCUP.get(), Items.EMERALD, 10, 1, 16, 2,  0.05F));
+			event.register(1, new BasicTradeOffer(Items.DANDELION, Items.EMERALD, 10, 1, 16, 2,  0.05F));
+			event.register(1, new BasicTradeOffer(Items.SUNFLOWER, Items.EMERALD, 10, 1, 16, 2,  0.05F));
+			event.register(2, new BasicTradeOffer(Items.GLASS_BOTTLE, Items.EMERALD, 9, 1, 12, 10,  0.05F));
+			event.register(2, new BasicTradeOffer(Items.EMERALD, Items.HONEY_BOTTLE, 3, 1, 12, 5,  0.05F));
+			event.register(3, new BasicTradeOffer(Items.SHEARS, Items.EMERALD, 1, 1, 12, 20,  0.05F));
+			event.register(3, new BasicTradeOffer(Items.EMERALD, Items.HONEY_BLOCK, 10, 1, 12, 10,  0.05F));
+			event.register(4, new BasicTradeOffer(Items.EMERALD, Items.HONEYCOMB, 4, 1, 12, 15,  0.05F));
+			event.register(4, new BasicTradeOffer(Items.EMERALD, Items.HONEYCOMB_BLOCK, 12, 1, 12, 15,  0.05F));
+			event.register(5, new BasicTradeOffer(Items.EMERALD, Items.BEEHIVE, 10, 1, 3, 30,  0.05F));
+			event.register(5, new BasicTradeOffer(Items.EMERALD, Items.BEE_NEST, 20, 1, 3, 30,  0.05F));
 		}
 	}
 

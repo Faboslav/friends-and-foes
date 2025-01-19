@@ -310,7 +310,8 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 		if (
 			!this.isAngry()
 			&& (
-				(
+				!itemStack.isEmpty()
+				&& (
 					itemStack.isEnchanted()
 					|| itemInHand == Items.ENCHANTED_BOOK
 				)

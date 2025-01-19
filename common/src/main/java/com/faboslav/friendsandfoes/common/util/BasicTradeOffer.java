@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.village.TradeOffer;
 import net.minecraft.village.TradeOffers;
+import net.minecraft.village.TradedItem;
 
 public class BasicTradeOffer implements TradeOffers.Factory {
 	private final Item itemToTrade;
@@ -28,7 +29,7 @@ public class BasicTradeOffer implements TradeOffers.Factory {
 
 	@Override
 	public TradeOffer create(Entity entity, Random random) {
-		ItemStack in = new ItemStack(this.itemToTrade, this.amountToGive);
+		TradedItem in = new TradedItem(this.itemToTrade, this.amountToGive);
 		ItemStack out = new ItemStack(this.itemToReceive, this.amountToReceive);
 		return new TradeOffer(in, out, this.maxUses, this.experience, this.multiplier);
 	}

@@ -2,7 +2,6 @@ package com.faboslav.friendsandfoes.common.client.render.entity.feature;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.GlareEntityModel;
-import com.faboslav.friendsandfoes.common.entity.GlareEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -12,25 +11,40 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 
-@Environment(EnvType.CLIENT)
-public final class GlareFlowerFeatureRenderer extends RenderLayer<GlareEntity, GlareEntityModel<GlareEntity>>
-{
-	public GlareFlowerFeatureRenderer(RenderLayerParent<GlareEntity, GlareEntityModel<GlareEntity>> featureRendererContext) {
-		super(featureRendererContext);
-	}
+//? >=1.21.3 {
+import com.faboslav.friendsandfoes.common.client.render.entity.state.GlareRenderState;
+//?} else {
+/*import com.faboslav.friendsandfoes.common.entity.GlareEntity;
+*///?}
 
-	public void render(
-		PoseStack matrixStack,
-		MultiBufferSource vertexConsumerProvider,
-		int light,
-		GlareEntity glare,
-		float f,
-		float g,
-		float h,
-		float j,
-		float k,
-		float l
-	) {
+@Environment(EnvType.CLIENT)
+//? >=1.21.3 {
+public final class GlareFlowerFeatureRenderer extends RenderLayer<GlareRenderState, GlareEntityModel>
+//?} else {
+/*public final class GlareFlowerFeatureRenderer extends RenderLayer<GlareEntity, GlareEntityModel<GlareEntity>>
+*///?}
+{
+	private static final ResourceLocation FLOWERING_TEXTURE = FriendsAndFoes.makeID("textures/entity/glare/flowering_glare.png");
+
+	//? >=1.21.3 {
+	public GlareFlowerFeatureRenderer(RenderLayerParent<GlareRenderState, GlareEntityModel> renderLayerParent) {
+		super(renderLayerParent);
+	}
+	//?} else {
+	/*public GlareFlowerFeatureRenderer(RenderLayerParent<GlareEntity, GlareEntityModel<GlareEntity>> featureRendererContext) {
+		super(featureRendererContext);
+	}*///?}
+
+	//? >=1.21.3 {
+	public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, GlareRenderState renderState, float yRot, float xRot)
+	//?} else {
+	/*public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, GlareEntity glare, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch)
+	*///?}
+	{
+		//? >=1.21.3 {
+		var glare = renderState.glare;
+		//?}
+
 		if (glare.isInvisible()) {
 			return;
 		}
@@ -41,15 +55,17 @@ public final class GlareFlowerFeatureRenderer extends RenderLayer<GlareEntity, G
 			"Anna".equals(string)
 			|| glare.isTame()
 		) {
-			ResourceLocation identifier = FriendsAndFoes.makeID("textures/entity/glare/flowering_glare.png");
-
 			renderColoredCutoutModel(
 				this.getParentModel(),
-				identifier,
-				matrixStack,
-				vertexConsumerProvider,
-				light,
-				glare,
+				FLOWERING_TEXTURE,
+				poseStack,
+				bufferSource,
+				packedLight,
+				//? >=1.21.3 {
+				renderState,
+				//?} else {
+				/*glare,
+				*///?}
 				-1
 			);
 		}

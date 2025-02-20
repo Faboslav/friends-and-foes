@@ -4,57 +4,76 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.CrabEntityModel;
 import com.faboslav.friendsandfoes.common.entity.CrabEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 
+//? >=1.21.3 {
+import com.faboslav.friendsandfoes.common.client.render.entity.state.CrabRenderState;
+//?}
+
 @Environment(EnvType.CLIENT)
 @SuppressWarnings({"rawtypes", "unchecked"})
-public final class CrabEntityRenderer extends MobRenderer<CrabEntity, CrabEntityModel<CrabEntity>>
+//? >=1.21.3 {
+public class CrabEntityRenderer extends MobRenderer<CrabEntity, CrabRenderState, CrabEntityModel>
+//?} else {
+/*public final class CrabEntityRenderer extends MobRenderer<CrabEntity, CrabEntityModel<CrabEntity>>
+*///?}
 {
-	private static final float SHADOW_RADIUS = 0.5F;
+	private static final ResourceLocation TEXTURE = FriendsAndFoes.makeID("textures/entity/crab/crab.png");
 
 	public CrabEntityRenderer(EntityRendererProvider.Context context) {
-		super(context, new CrabEntityModel<>(context.bakeLayer(FriendsAndFoesEntityModelLayers.CRAB_LAYER)), SHADOW_RADIUS);
+		super(context, new CrabEntityModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.CRAB_LAYER)), 0.5F);
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(CrabEntity entity) {
-		return FriendsAndFoes.makeID("textures/entity/crab/crab.png");
-	}
+	//? >=1.21.3 {
+	protected float getShadowRadius(CrabRenderState renderState)
+	//?} else {
+	/*protected float getShadowRadius(CrabEntity crab)
+	*///?}
+	{
+		//? >=1.21.3 {
+		var crab = renderState.crab;
+		var shadowRadius = super.getShadowRadius(renderState);
+		//?} else {
+		/*var shadowRadius = super.getShadowRadius(crab);
+		*///?}
 
-	@Override
-	public void render(
-		CrabEntity crab,
-		float f,
-		float tickDelta,
-		PoseStack matrixStack,
-		MultiBufferSource vertexConsumerProvider,
-		int i
-	) {
-		this.shadowRadius = SHADOW_RADIUS * crab.getSize().getScaleModifier();
+		var isBaby = crab.isBaby();
 
-		if (crab.isBaby()) {
-			this.shadowRadius *= 0.5F;
+		shadowRadius = shadowRadius * crab.getSize().getScaleModifier();
+
+		if(isBaby) {
+			shadowRadius = shadowRadius * 0.5F;
 		}
 
-		super.render(crab, f, tickDelta, matrixStack, vertexConsumerProvider, i);
+		return shadowRadius;
+	}
+
+	//? >=1.21.3 {
+	@Override
+	public CrabRenderState createRenderState() {
+		return new CrabRenderState();
 	}
 
 	@Override
-	protected void scale(CrabEntity crab, PoseStack matrixStack, float f) {
-		CrabEntity.CrabSize size = crab.getSize();
-		float scaleModifier = size.getScaleModifier();
-		matrixStack.scale(scaleModifier, scaleModifier, scaleModifier);
+	public void extractRenderState(CrabEntity crab, CrabRenderState renderState, float partialTick) {
+		super.extractRenderState(crab, renderState, partialTick);
+		renderState.crab = crab;
+	}
+	//?}
 
-		if (crab.isBaby()) {
-			matrixStack.scale(scaleModifier * 0.3F, scaleModifier * 0.3F, scaleModifier * 0.3F);
-		} else {
-			matrixStack.scale(scaleModifier, scaleModifier, scaleModifier);
-		}
+
+	@Override
+		//? >=1.21.3 {
+	public ResourceLocation getTextureLocation(CrabRenderState renderState)
+		//?} else {
+		/*public ResourceLocation getTextureLocation(CrabEntity crab)
+		 *///?}
+	{
+		return TEXTURE;
 	}
 }

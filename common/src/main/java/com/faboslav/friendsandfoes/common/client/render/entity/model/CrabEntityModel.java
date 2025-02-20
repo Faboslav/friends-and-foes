@@ -5,7 +5,6 @@ import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.M
 import com.faboslav.friendsandfoes.common.entity.CrabEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -14,8 +13,19 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 
+//? >=1.21.3 {
+import net.minecraft.client.model.EntityModel;
+import com.faboslav.friendsandfoes.common.client.render.entity.state.CrabRenderState;
+//?} else {
+/*import net.minecraft.client.model.HierarchicalModel;
+ *///?}
+
 @Environment(EnvType.CLIENT)
-public final class CrabEntityModel<T extends CrabEntity> extends HierarchicalModel<T>
+//? >=1.21.3 {
+public class CrabEntityModel extends EntityModel<CrabRenderState>
+//?} else {
+/*public final class CrabEntityModel<T extends CrabEntity> extends HierarchicalModel<T>
+*///?}
 {
 	private static final String MAIN = "main";
 	private static final String BODY = "body";
@@ -59,6 +69,10 @@ public final class CrabEntityModel<T extends CrabEntity> extends HierarchicalMod
 	private final ModelPart rightBackLeg;
 
 	public CrabEntityModel(ModelPart root) {
+		//? >=1.21.3 {
+		super(root);
+		//?}
+
 		this.root = root;
 		this.main = this.root.getChild(MAIN);
 		this.body = this.main.getChild(BODY);
@@ -86,77 +100,66 @@ public final class CrabEntityModel<T extends CrabEntity> extends HierarchicalMod
 		PartDefinition root = modelData.getRoot();
 
 		PartDefinition main = root.addOrReplaceChild(MAIN, CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 24.0F, 0.0F, -1.5708F, -1.5708F, 1.5708F));
-
 		PartDefinition body = main.addOrReplaceChild(BODY, CubeListBuilder.create().texOffs(0, 0).addBox(-7.0F, -6.0F, -5.0F, 14.0F, 6.0F, 10.0F, new CubeDeformation(0.0F))
 			.texOffs(38, 0).addBox(-6.0F, -7.0F, -5.0F, 12.0F, 1.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -3.0F, 0.0F));
-
 		PartDefinition leftFeeler = body.addOrReplaceChild(LEFT_FEELER, CubeListBuilder.create().texOffs(38, 1).mirror().addBox(-1.0F, 0.0F, -1.05F, 2.0F, 4.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-2.0F, -6.0F, -4.25F, -0.3491F, 0.0F, 0.0F));
-
 		PartDefinition rightFeeler = body.addOrReplaceChild(RIGHT_FEELER, CubeListBuilder.create().texOffs(38, 1).addBox(-1.0F, 0.0F, -1.05F, 2.0F, 4.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.0F, -6.0F, -4.25F, -0.3491F, 0.0F, 0.0F));
-
 		PartDefinition leftClaw = body.addOrReplaceChild(LEFT_CLAW, CubeListBuilder.create(), PartPose.offsetAndRotation(7.0F, -3.0F, -5.0F, 0.0F, -1.0472F, -0.1309F));
-
 		PartDefinition leftClawParts = leftClaw.addOrReplaceChild(LEFT_CLAW_PARTS, CubeListBuilder.create().texOffs(0, 16).addBox(-11.75F, -3.5F, -2.5F, 12.0F, 7.0F, 5.0F, new CubeDeformation(0.0F))
 			.texOffs(0, 28).addBox(-10.75F, 0.5F, -1.5F, 10.0F, 4.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(4.0F, 1.0F, -2.5F));
-
 		PartDefinition rightClaw = body.addOrReplaceChild(RIGHT_CLAW, CubeListBuilder.create().texOffs(44, 16).mirror().addBox(-2.0F, -1.5F, -4.0F, 6.0F, 6.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-7.0F, -2.0F, -5.0F, 0.0F, 0.829F, 0.2182F));
-
 		PartDefinition leftFrontLegJoint = main.addOrReplaceChild(LEFT_FRONT_LEG_JOINT, CubeListBuilder.create(), PartPose.offsetAndRotation(7.0F, -3.5F, -1.0F, 0.0F, 0.6109F, 0.0F));
-
 		PartDefinition leftFrontLeg = leftFrontLegJoint.addOrReplaceChild(LEFT_FRONT_LEG, CubeListBuilder.create().texOffs(0, 0).mirror().addBox(0.0F, 0.0F, -1.0F, 1.0F, 5.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.829F));
-
 		PartDefinition leftMiddleLegJoint = main.addOrReplaceChild(LEFT_MIDDLE_LEG_JOINT, CubeListBuilder.create(), PartPose.offsetAndRotation(7.0F, -3.5F, 1.0F, 0.0F, 0.3054F, 0.0F));
-
 		PartDefinition leftMiddleLeg = leftMiddleLegJoint.addOrReplaceChild(LEFT_MIDDLE_LEG, CubeListBuilder.create().texOffs(0, 0).mirror().addBox(0.0F, 0.0F, -1.0F, 1.0F, 5.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.7854F));
-
 		PartDefinition leftBackLegJoint = main.addOrReplaceChild(LEFT_BACK_LEG_JOINT, CubeListBuilder.create(), PartPose.offset(7.0F, -3.5F, 3.0F));
-
 		PartDefinition leftBackLeg = leftBackLegJoint.addOrReplaceChild(LEFT_BACK_LEG, CubeListBuilder.create().texOffs(0, 0).mirror().addBox(0.0F, 0.0F, -1.0F, 1.0F, 5.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.7854F));
-
 		PartDefinition rightFrontLegJoint = main.addOrReplaceChild(RIGHT_FRONT_LEG_JOINT, CubeListBuilder.create(), PartPose.offsetAndRotation(-7.0F, -3.5F, -1.0F, 0.0F, -0.6109F, 0.0F));
-
 		PartDefinition rightFrontLeg = rightFrontLegJoint.addOrReplaceChild(RIGHT_FRONT_LEG, CubeListBuilder.create().texOffs(0, 0).addBox(-1.0F, 0.0F, -1.0F, 1.0F, 5.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.829F));
-
 		PartDefinition rightMiddleLegJoint = main.addOrReplaceChild(RIGHT_MIDDLE_LEG_JOINT, CubeListBuilder.create(), PartPose.offsetAndRotation(-7.0F, -3.5F, 1.0F, 0.0F, -0.3054F, 0.0F));
-
 		PartDefinition rightMiddleLeg = rightMiddleLegJoint.addOrReplaceChild(RIGHT_MIDDLE_LEG, CubeListBuilder.create().texOffs(0, 0).addBox(-1.0F, 0.0F, -1.0F, 1.0F, 5.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.7854F));
-
 		PartDefinition rightBackLegJoint = main.addOrReplaceChild(RIGHT_BACK_LEG_JOINT, CubeListBuilder.create(), PartPose.offset(-7.0F, -3.5F, 3.0F));
-
 		PartDefinition rightBackLeg = rightBackLegJoint.addOrReplaceChild(RIGHT_BACK_LEG, CubeListBuilder.create().texOffs(0, 0).addBox(-1.0F, 0.0F, -1.0F, 1.0F, 5.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.7854F));
 
 		return LayerDefinition.create(modelData, 64, 64);
 	}
 
-	@Override
+	//? <1.21.3 {
+	/*@Override
 	public ModelPart root() {
 		return this.root;
 	}
+	*///?}
 
 	@Override
-	public void setupAnim(
-		T crab,
-		float limbAngle,
-		float limbDistance,
-		float animationProgress,
-		float headYaw,
-		float headPitch
-	) {
+	//? >=1.21.3 {
+	public void setupAnim(CrabRenderState renderState)
+	//?} else {
+	/*public void setupAnim(T crab, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
+	*///?}
+	{
+		//? >=1.21.3 {
+		var crab = renderState.crab;
+		var limbAngle = renderState.walkAnimationPos;
+		var limbDistance = renderState.walkAnimationSpeed;
+		var animationProgress = renderState.ageInTicks;
+		//?}
+
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		this.updateKeyframeAnimations(crab, limbAngle, limbDistance, animationProgress);
 		this.updateModelPartAnimations(crab);
 	}
 
 	public void updateKeyframeAnimations(
-		CrabEntity tuffGolem,
+		CrabEntity crab,
 		float limbAngle,
 		float limbDistance,
 		float animationProgress
 	) {
-		var movementAnimation = tuffGolem.getMovementAnimation();
-		var animations = tuffGolem.getTrackedAnimations();
-		var animationContextTracker = tuffGolem.getAnimationContextTracker();
-		var currentTick = tuffGolem.tickCount;
+		var movementAnimation = crab.getMovementAnimation();
+		var animations = crab.getTrackedAnimations();
+		var animationContextTracker = crab.getAnimationContextTracker();
+		var currentTick = crab.tickCount;
 		var animationSpeedModifier = 1.0F;
 
 		KeyframeModelAnimator.updateMovementKeyframeAnimations(this, movementAnimation, limbAngle, limbDistance, 2.5F, 4.5F, animationSpeedModifier);

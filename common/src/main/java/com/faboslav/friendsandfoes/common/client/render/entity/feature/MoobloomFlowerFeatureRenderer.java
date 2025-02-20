@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.feature;
 
-import com.faboslav.friendsandfoes.common.entity.MoobloomEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -19,39 +18,56 @@ import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 
-@Environment(EnvType.CLIENT)
-public final class MoobloomFlowerFeatureRenderer<T extends MoobloomEntity> extends RenderLayer<T, CowModel<T>>
-{
-	private final BlockRenderDispatcher blockRenderManager;
+//? >=1.21.3 {
+import com.faboslav.friendsandfoes.common.client.render.entity.state.MoobloomRenderState;
+//?} else {
+/*import com.faboslav.friendsandfoes.common.entity.MoobloomEntity;
+*///?}
 
-	public MoobloomFlowerFeatureRenderer(
+@Environment(EnvType.CLIENT)
+//? >=1.21.3 {
+public final class MoobloomFlowerFeatureRenderer extends RenderLayer<MoobloomRenderState, CowModel>
+//?} else {
+/*public final class MoobloomFlowerFeatureRenderer<T extends MoobloomEntity> extends RenderLayer<T, CowModel<T>>
+*///?}
+{
+	private final BlockRenderDispatcher blockRenderer;
+
+	//? >=1.21.3 {
+	public MoobloomFlowerFeatureRenderer(RenderLayerParent<MoobloomRenderState, CowModel> renderer, BlockRenderDispatcher blockRenderer) {
+		super(renderer);
+		this.blockRenderer = blockRenderer;
+	}
+	//?} else {
+	/*public MoobloomFlowerFeatureRenderer(
 		RenderLayerParent<T, CowModel<T>> featureRendererContext
 	) {
 		super(featureRendererContext);
-		this.blockRenderManager = Minecraft.getInstance().getBlockRenderer();
-	}
+		this.blockRenderer = Minecraft.getInstance().getBlockRenderer();
+	}*///?}
 
-	public void render(
-		PoseStack matrixStack,
-		MultiBufferSource vertexConsumerProvider,
-		int light,
-		T moobloomEntity,
-		float f,
-		float g,
-		float h,
-		float j,
-		float k,
-		float l
-	) {
-		if (!moobloomEntity.isBaby() && !moobloomEntity.isInvisible()) {
-			BushBlock flower = moobloomEntity.getVariant().getFlower();
-			BlockState blockState = moobloomEntity.getVariant().getFlower().defaultBlockState();
+	//? >=1.21.3 {
+	public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, MoobloomRenderState moobloomRenderState, float yRot, float xRot)
+	//?} else {
+	/*public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, T moobloom, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch)
+	*///?}
+	{
+		//? >=1.21.3 {
+		var moobloom = moobloomRenderState.moobloom;
+		int overlay = LivingEntityRenderer.getOverlayCoords(moobloomRenderState, 0.0F);
+		//?} else {
+		/*int overlay = LivingEntityRenderer.getOverlayCoords(moobloom, 0.0F);
+		*///?}
+
+		if (!moobloom.isBaby() && !moobloom.isInvisible()) {
+			BushBlock flower = moobloom.getVariant().getFlower();
+			BlockState blockState = moobloom.getVariant().getFlower().defaultBlockState();
 
 			if (flower instanceof DoublePlantBlock) {
-				blockState = moobloomEntity.getVariant().getFlower().defaultBlockState().setValue(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER);
+				blockState = moobloom.getVariant().getFlower().defaultBlockState().setValue(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER);
 			}
 
-			int overlay = LivingEntityRenderer.getOverlayCoords(moobloomEntity, 0.0F);
+
 			float scaleFactor = 0.8F;
 			float yOffset = -0.5F;
 
@@ -61,39 +77,39 @@ public final class MoobloomFlowerFeatureRenderer<T extends MoobloomEntity> exten
 			}
 
 			Minecraft minecraftClient = Minecraft.getInstance();
-			boolean renderAsModel = minecraftClient.shouldEntityAppearGlowing(moobloomEntity) && moobloomEntity.isInvisible();
-			BakedModel bakedModel = this.blockRenderManager.getBlockModel(blockState);
+			boolean renderAsModel = minecraftClient.shouldEntityAppearGlowing(moobloom) && moobloom.isInvisible();
+			BakedModel bakedModel = this.blockRenderer.getBlockModel(blockState);
 
 			// Head
-			matrixStack.pushPose();
-			this.getParentModel().getHead().translateAndRotate(matrixStack);
-			matrixStack.translate(0.09D, -0.6D, -0.185D);
-			matrixStack.scale(-scaleFactor, -scaleFactor, scaleFactor);
-			matrixStack.translate(-0.5D, yOffset, -0.5D);
-			this.renderFlower(matrixStack, vertexConsumerProvider, light, renderAsModel, blockState, overlay, bakedModel);
-			matrixStack.popPose();
+			poseStack.pushPose();
+			this.getParentModel().getHead().translateAndRotate(poseStack);
+			poseStack.translate(0.09D, -0.6D, -0.185D);
+			poseStack.scale(-scaleFactor, -scaleFactor, scaleFactor);
+			poseStack.translate(-0.5D, yOffset, -0.5D);
+			this.renderFlower(poseStack, bufferSource, packedLight, renderAsModel, blockState, overlay, bakedModel);
+			poseStack.popPose();
 
 			// Body
-			matrixStack.pushPose();
-			matrixStack.translate(0.22D, -0.28D, -0.06D);
-			matrixStack.scale(-scaleFactor, -scaleFactor, scaleFactor);
-			matrixStack.translate(-0.5D, yOffset, -0.5D);
-			this.renderFlower(matrixStack, vertexConsumerProvider, light, renderAsModel, blockState, overlay, bakedModel);
-			matrixStack.popPose();
+			poseStack.pushPose();
+			poseStack.translate(0.22D, -0.28D, -0.06D);
+			poseStack.scale(-scaleFactor, -scaleFactor, scaleFactor);
+			poseStack.translate(-0.5D, yOffset, -0.5D);
+			this.renderFlower(poseStack, bufferSource, packedLight, renderAsModel, blockState, overlay, bakedModel);
+			poseStack.popPose();
 
-			matrixStack.pushPose();
-			matrixStack.translate(-0.2D, -0.22D, 0.01D);
-			matrixStack.scale(-scaleFactor, -scaleFactor, scaleFactor);
-			matrixStack.translate(-0.5D, yOffset, -0.5D);
-			this.renderFlower(matrixStack, vertexConsumerProvider, light, renderAsModel, blockState, overlay, bakedModel);
-			matrixStack.popPose();
+			poseStack.pushPose();
+			poseStack.translate(-0.2D, -0.22D, 0.01D);
+			poseStack.scale(-scaleFactor, -scaleFactor, scaleFactor);
+			poseStack.translate(-0.5D, yOffset, -0.5D);
+			this.renderFlower(poseStack, bufferSource, packedLight, renderAsModel, blockState, overlay, bakedModel);
+			poseStack.popPose();
 
-			matrixStack.pushPose();
-			matrixStack.translate(0.03D, -0.28D, 0.47D);
-			matrixStack.scale(-scaleFactor, -scaleFactor, scaleFactor);
-			matrixStack.translate(-0.5D, yOffset, -0.5D);
-			this.renderFlower(matrixStack, vertexConsumerProvider, light, renderAsModel, blockState, overlay, bakedModel);
-			matrixStack.popPose();
+			poseStack.pushPose();
+			poseStack.translate(0.03D, -0.28D, 0.47D);
+			poseStack.scale(-scaleFactor, -scaleFactor, scaleFactor);
+			poseStack.translate(-0.5D, yOffset, -0.5D);
+			this.renderFlower(poseStack, bufferSource, packedLight, renderAsModel, blockState, overlay, bakedModel);
+			poseStack.popPose();
 		}
 	}
 
@@ -107,9 +123,9 @@ public final class MoobloomFlowerFeatureRenderer<T extends MoobloomEntity> exten
 		BakedModel moobloomModel
 	) {
 		if (renderAsModel) {
-			this.blockRenderManager.getModelRenderer().renderModel(matrices.last(), vertexConsumers.getBuffer(RenderType.outline(InventoryMenu.BLOCK_ATLAS)), moobloomState, moobloomModel, 0.0F, 0.0F, 0.0F, light, overlay);
+			this.blockRenderer.getModelRenderer().renderModel(matrices.last(), vertexConsumers.getBuffer(RenderType.outline(InventoryMenu.BLOCK_ATLAS)), moobloomState, moobloomModel, 0.0F, 0.0F, 0.0F, light, overlay);
 		} else {
-			this.blockRenderManager.renderSingleBlock(moobloomState, matrices, vertexConsumers, light, overlay);
+			this.blockRenderer.renderSingleBlock(moobloomState, matrices, vertexConsumers, light, overlay);
 		}
 
 	}

@@ -102,7 +102,7 @@ public final class WildfireBarrageAttackTask extends Behavior<WildfireEntity>
 	}
 
 	@Override
-	protected void tick(ServerLevel world, WildfireEntity wildfire, long time) {
+	protected void tick(ServerLevel serverLevel, WildfireEntity wildfire, long time) {
 		wildfire.getLookControl().setLookAt(this.attackTarget);
 
 		boolean isAttackTargetVisible = wildfire.getSensing().hasLineOfSight(this.attackTarget);
@@ -123,7 +123,7 @@ public final class WildfireBarrageAttackTask extends Behavior<WildfireEntity>
 		}
 
 		if (this.canDoMeeleAttack && wildfire.distanceTo(attackTarget) < 3.0F) {
-			wildfire.doHurtTarget(attackTarget);
+			wildfire.doHurtTarget(/*? >=1.21.3 {*/serverLevel, /*?}*/attackTarget);
 			this.canDoMeeleAttack = false;
 		} else {
 			this.canDoMeeleAttack = true;
@@ -150,7 +150,7 @@ public final class WildfireBarrageAttackTask extends Behavior<WildfireEntity>
 
 		for (int i = 0; i < 8; i++) {
 			WildfireShieldDebrisEntity shieldDebris = new WildfireShieldDebrisEntity(
-				world,
+				serverLevel,
 				wildfire,
 				new Vec3(
 					random.triangle(targetX, 2.297 * h),

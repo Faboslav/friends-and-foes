@@ -82,7 +82,7 @@ public final class WildfireShockwaveAttackTask extends Behavior<WildfireEntity>
 	}
 
 	@Override
-	protected void tick(ServerLevel world, WildfireEntity wildfire, long time) {
+	protected void tick(ServerLevel serverLevel, WildfireEntity wildfire, long time) {
 		wildfire.getLookControl().setLookAt(this.attackTarget);
 
 		if (this.shockwaveTicks == 20) {
@@ -98,7 +98,7 @@ public final class WildfireShockwaveAttackTask extends Behavior<WildfireEntity>
 				}
 
 				this.spawnShockwaveParticles(wildfire);
-				wildfire.doHurtTarget(closeEntity);
+				wildfire.doHurtTarget(/*? >=1.21.3 {*/serverLevel, /*?}*/closeEntity);
 			}
 		}
 

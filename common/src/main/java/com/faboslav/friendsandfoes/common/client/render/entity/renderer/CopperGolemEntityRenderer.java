@@ -13,9 +13,17 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.WeatheringCopper;
 import java.util.Map;
 
+//? >=1.21.3 {
+import com.faboslav.friendsandfoes.common.client.render.entity.state.CopperGolemRenderState;
+//?}
+
 @Environment(EnvType.CLIENT)
 @SuppressWarnings({"rawtypes", "unchecked"})
-public final class CopperGolemEntityRenderer extends MobRenderer<CopperGolemEntity, CopperGolemEntityModel<CopperGolemEntity>>
+//? >=1.21.3 {
+public class CopperGolemEntityRenderer extends MobRenderer<CopperGolemEntity, CopperGolemRenderState, CopperGolemEntityModel>
+//?} else {
+/*public final class CopperGolemEntityRenderer extends MobRenderer<CopperGolemEntity, CopperGolemEntityModel<CopperGolemEntity>>
+*///?}
 {
 	private static final Map<WeatheringCopper.WeatherState, ResourceLocation> OXIDATION_TO_TEXTURE_MAP = ImmutableMap.of(
 		WeatheringCopper.WeatherState.UNAFFECTED, FriendsAndFoes.makeID("textures/entity/copper_golem/copper_golem.png"),
@@ -32,8 +40,30 @@ public final class CopperGolemEntityRenderer extends MobRenderer<CopperGolemEnti
 		);
 	}
 
+	//? >=1.21.3 {
 	@Override
-	public ResourceLocation getTextureLocation(CopperGolemEntity entity) {
-		return OXIDATION_TO_TEXTURE_MAP.get(entity.getOxidationLevel());
+	public CopperGolemRenderState createRenderState() {
+		return new CopperGolemRenderState();
+	}
+
+	@Override
+	public void extractRenderState(CopperGolemEntity copperGolem, CopperGolemRenderState renderState, float partialTick) {
+		super.extractRenderState(copperGolem, renderState, partialTick);
+		renderState.copperGolem = copperGolem;
+	}
+	//?}
+
+	@Override
+	//? >=1.21.3 {
+	public ResourceLocation getTextureLocation(CopperGolemRenderState renderState)
+	//?} else {
+	/*public ResourceLocation getTextureLocation(CopperGolemEntity copperGolem)
+	*///?}
+	{
+		//? >=1.21.3 {
+		var copperGolem = renderState.copperGolem;
+		//?}
+
+		return OXIDATION_TO_TEXTURE_MAP.get(copperGolem.getOxidationLevel());
 	}
 }

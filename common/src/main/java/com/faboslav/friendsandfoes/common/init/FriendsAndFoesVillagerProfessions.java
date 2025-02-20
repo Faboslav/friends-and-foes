@@ -5,13 +5,14 @@ import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEv
 import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistries;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
-import com.faboslav.friendsandfoes.common.util.TradeOffersUtil;
+import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
+import com.faboslav.friendsandfoes.common.util.BasicItemTrade;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.PoiTypeTags;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.item.Items;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @see VillagerProfession
@@ -20,20 +21,36 @@ public final class FriendsAndFoesVillagerProfessions
 {
 	public static final ResourcefulRegistry<VillagerProfession> VILLAGER_PROFESSIONS = ResourcefulRegistries.create(BuiltInRegistries.VILLAGER_PROFESSION, FriendsAndFoes.MOD_ID);
 
-	public static final RegistryEntry<VillagerProfession> BEEKEEPER = VILLAGER_PROFESSIONS.register("beekeeper", () -> new VillagerProfession("beekeeper", pointOfInterest -> pointOfInterest.is(PoiTypeTags.BEE_HOME), pointOfInterest -> pointOfInterest.is(PoiTypeTags.BEE_HOME), ImmutableSet.of(Items.HONEYCOMB), ImmutableSet.of(), SoundEvents.ITEM_FRAME_REMOVE_ITEM));
+	@Nullable
+	public static final RegistryEntry<VillagerProfession> BEEKEEPER = registerBeekeeperVillagerProfessions();
 
 	public static void registerVillagerTrades(RegisterVillagerTradesEvent event) {
-		if (event.type() == BEEKEEPER.get()) {
-			event.register(1, new TradeOffersUtil.BuyForOneEmeraldFactory(FriendsAndFoesItems.BUTTERCUP.get(), 10, 16, 2));
-			event.register(1, new TradeOffersUtil.BuyForOneEmeraldFactory(Items.DANDELION, 10, 16, 2));
-			event.register(1, new TradeOffersUtil.BuyForOneEmeraldFactory(Items.SUNFLOWER, 10, 16, 2));
-			event.register(2, new TradeOffersUtil.BuyForOneEmeraldFactory(Items.GLASS_BOTTLE, 9, 12, 10));
-			event.register(2, new TradeOffersUtil.SellItemFactory(Items.HONEY_BOTTLE, 3, 1, 12, 5));
-			event.register(3, new TradeOffersUtil.BuyForOneEmeraldFactory(Items.SHEARS, 1, 12, 20));
-			event.register(3, new TradeOffersUtil.SellItemFactory(Items.HONEY_BLOCK, 10, 1, 12, 10));
-			event.register(4, new TradeOffersUtil.SellItemFactory(Items.HONEYCOMB, 4, 1, 12, 15));
-			event.register(5, new TradeOffersUtil.SellItemFactory(Items.HONEYCOMB_BLOCK, 12, 1, 12, 30));
+		if (
+			FriendsAndFoes.getConfig().enableBeekeeperVillagerProfession
+			&& FriendsAndFoesVillagerProfessions.BEEKEEPER != null
+			&& event.type() == BEEKEEPER.get()
+		) {
+			event.register(1, new BasicItemTrade(FriendsAndFoesItems.BUTTERCUP.get(), Items.EMERALD, 10, 1, 16, 2,  0.05F));
+			event.register(1, new BasicItemTrade(Items.DANDELION, Items.EMERALD, 10, 1, 16, 2,  0.05F));
+			event.register(1, new BasicItemTrade(Items.SUNFLOWER, Items.EMERALD, 10, 1, 16, 2,  0.05F));
+			event.register(2, new BasicItemTrade(Items.GLASS_BOTTLE, Items.EMERALD, 9, 1, 12, 10,  0.05F));
+			event.register(2, new BasicItemTrade(Items.EMERALD, Items.HONEY_BOTTLE, 3, 1, 12, 5,  0.05F));
+			event.register(3, new BasicItemTrade(Items.SHEARS, Items.EMERALD, 1, 1, 12, 20,  0.05F));
+			event.register(3, new BasicItemTrade(Items.EMERALD, Items.HONEY_BLOCK, 10, 1, 12, 10,  0.05F));
+			event.register(4, new BasicItemTrade(Items.EMERALD, Items.HONEYCOMB, 4, 1, 12, 15,  0.05F));
+			event.register(4, new BasicItemTrade(Items.EMERALD, Items.HONEYCOMB_BLOCK, 12, 1, 12, 15,  0.05F));
+			event.register(5, new BasicItemTrade(Items.EMERALD, Items.BEEHIVE, 10, 1, 3, 30,  0.05F));
+			event.register(5, new BasicItemTrade(Items.EMERALD, Items.BEE_NEST, 20, 1, 3, 30,  0.05F));
 		}
+	}
+
+	@Nullable
+	private static RegistryEntry<VillagerProfession> registerBeekeeperVillagerProfessions() {
+		if(!FriendsAndFoes.getConfig().enableBeekeeperVillagerProfession) {
+			return null;
+		}
+
+		return VILLAGER_PROFESSIONS.register("beekeeper", () -> new VillagerProfession("beekeeper", pointOfInterest -> pointOfInterest.is(FriendsAndFoesTags.BEEKEEPER_ACQUIRABLE_JOB_SITE), pointOfInterest -> pointOfInterest.is(FriendsAndFoesTags.BEEKEEPER_ACQUIRABLE_JOB_SITE), ImmutableSet.of(Items.HONEYCOMB), ImmutableSet.of(), SoundEvents.ITEM_FRAME_REMOVE_ITEM));
 	}
 
 	private FriendsAndFoesVillagerProfessions() {

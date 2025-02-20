@@ -1,11 +1,10 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.model;
 
-import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.ModelPartModelAnimator;
+import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.KeyframeModelAnimator;
 import com.faboslav.friendsandfoes.common.entity.MaulerEntity;
-import com.faboslav.friendsandfoes.common.util.animation.AnimationMath;
+import com.faboslav.friendsandfoes.common.entity.animation.MaulerAnimations;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -13,12 +12,21 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
-import net.minecraft.util.Mth;
+
+//? >=1.21.3 {
+import net.minecraft.client.model.EntityModel;
+import com.faboslav.friendsandfoes.common.client.render.entity.state.MaulerRenderState;
+//?} else {
+/*import net.minecraft.client.model.HierarchicalModel;
+*///?}
 
 @Environment(EnvType.CLIENT)
-public final class MaulerEntityModel<T extends MaulerEntity> extends HierarchicalModel<T>
+//? >=1.21.3 {
+public final class MaulerEntityModel extends EntityModel<MaulerRenderState>
+//?} else {
+/*public final class MaulerEntityModel<T extends MaulerEntity> extends HierarchicalModel<T>
+*///?}
 {
-	private static final String MODEL_PART_ROOT = "root";
 	private static final String MODEL_PART_HEAD = "head";
 	private static final String MODEL_PART_UPPER_JAW = "upperJaw";
 	private static final String MODEL_PART_LOWER_JAW = "lowerJaw";
@@ -39,6 +47,10 @@ public final class MaulerEntityModel<T extends MaulerEntity> extends Hierarchica
 	private final ModelPart backRightLeg;
 
 	public MaulerEntityModel(ModelPart root) {
+		//? >=1.21.3 {
+		super(root);
+		//?}
+
 		this.root = root;
 		this.head = this.root.getChild(MODEL_PART_HEAD);
 		this.upperJaw = this.head.getChild(MODEL_PART_UPPER_JAW);
@@ -69,22 +81,31 @@ public final class MaulerEntityModel<T extends MaulerEntity> extends Hierarchica
 		return LayerDefinition.create(modelData, 64, 64);
 	}
 
-	@Override
+	//? <1.21.3 {
+	/*@Override
 	public ModelPart root() {
 		return this.root;
 	}
+	*///?}
 
 	@Override
-	public void setupAnim(
-		MaulerEntity mauler,
-		float limbAngle,
-		float limbDistance,
-		float animationProgress,
-		float headYaw,
-		float headPitch
-	) {
-		this.root().getAllParts().forEach(ModelPart::resetPose);
+	//? >=1.21.3 {
+	public void setupAnim(MaulerRenderState renderState)
+	//?} else {
+	/*public void setupAnim(T mauler, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
+	*///?}
+	{
+		//? >=1.21.3 {
+		var mauler = renderState.mauler;
+		var limbAngle = renderState.walkAnimationPos;
+		var limbDistance = renderState.walkAnimationSpeed;
+		var animationProgress = renderState.ageInTicks;
+		//?}
 
+		this.root().getAllParts().forEach(ModelPart::resetPose);
+		this.updateKeyframeAnimations(mauler, limbAngle, limbDistance, animationProgress);
+
+		/*
 		float burrowingDownAnimationProgress = mauler.getBurrowingDownAnimationProgress();
 		float maulerHeightWithOffset = 0.5625F * 16.0F + 1.0F;
 
@@ -127,6 +148,27 @@ public final class MaulerEntityModel<T extends MaulerEntity> extends Hierarchica
 		} else {
 			ModelPartModelAnimator.animateModelPartXRotationBasedOnTicks(mauler.getAnimationContextTracker(), this.upperJaw, mauler.tickCount, 0.0F, 10);
 			ModelPartModelAnimator.animateModelPartXRotationBasedOnTicks(mauler.getAnimationContextTracker(), this.lowerJaw, mauler.tickCount, 0.0F, 10);
+		}*/
+	}
+
+	public void updateKeyframeAnimations(
+		MaulerEntity mauler,
+		float limbAngle,
+		float limbDistance,
+		float animationProgress
+	) {
+		var movementAnimation = mauler.getMovementAnimation();
+		var animations = mauler.getTrackedAnimations();
+		var animationContextTracker = mauler.getAnimationContextTracker();
+		var currentTick = mauler.tickCount;
+		var animationSpeedModifier = mauler.getAnimationSpeedModifier();
+
+		KeyframeModelAnimator.updateMovementKeyframeAnimations(this, movementAnimation, limbAngle, limbDistance, 2.5F, 3.5F, animationSpeedModifier);
+
+		if(mauler.isAngry()) {
+			KeyframeModelAnimator.updateStaticKeyframeAnimation(this, animationContextTracker, MaulerAnimations.SNAP, currentTick, animationProgress, animationSpeedModifier);
 		}
+
+		KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, animations, currentTick, animationProgress, animationSpeedModifier);
 	}
 }

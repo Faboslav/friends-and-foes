@@ -5,6 +5,7 @@ import com.faboslav.friendsandfoes.common.entity.CrabEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -21,6 +22,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -61,12 +63,9 @@ public final class CrabEggBlock extends Block
 		super.fallOn(world, state, pos, entity, fallDistance);
 	}
 
-	private void tryBreakEgg(Level world, BlockState state, BlockPos pos, Entity entity, int inverseChance) {
-		if (this.breaksEgg(world, entity)) {
-			if (!world.isClientSide() && world.getRandom().nextInt(inverseChance) == 0 && state.is(FriendsAndFoesBlocks.CRAB_EGG.get())) {
-				this.breakEgg(world, pos, state);
-			}
-
+	private void tryBreakEgg(Level level, BlockState state, BlockPos pos, Entity entity, int inverseChance) {
+		if (state.is(FriendsAndFoesBlocks.CRAB_EGG.get()) && level instanceof ServerLevel serverLevel && this.canBreaksEgg(serverLevel, entity) && level.getRandom().nextInt(inverseChance) == 0) {
+			this.breakEgg(level, pos, state);
 		}
 	}
 
@@ -96,7 +95,7 @@ public final class CrabEggBlock extends Block
 
 				for (int j = 0; j < state.getValue(EGGS); ++j) {
 					world.levelEvent(2001, pos, Block.getId(state));
-					CrabEntity crab = FriendsAndFoesEntityTypes.CRAB.get().create(world);
+					CrabEntity crab = FriendsAndFoesEntityTypes.CRAB.get().create(world/*? >=1.21.3 {*/, VersionedEntitySpawnReason.BREEDING/*?}*/);
 					crab.setAge(-24000);
 					crab.moveTo((double) pos.getX() + 0.3 + (double) j * 0.2, pos.getY(), (double) pos.getZ() + 0.3, 0.0F, 0.0F);
 					world.addFreshEntity(crab);
@@ -156,7 +155,7 @@ public final class CrabEggBlock extends Block
 		builder.add(HATCH, EGGS);
 	}
 
-	private boolean breaksEgg(Level world, Entity entity) {
+	private boolean canBreaksEgg(ServerLevel world, Entity entity) {
 		if (!(entity instanceof CrabEntity) && !(entity instanceof Bat)) {
 			if (!(entity instanceof LivingEntity)) {
 				return false;

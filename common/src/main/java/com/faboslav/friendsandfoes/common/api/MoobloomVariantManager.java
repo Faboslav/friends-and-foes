@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -28,7 +27,15 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.BushBlock;
 
-public final class MoobloomVariantManager extends SimpleJsonResourceReloadListener
+//? >=1.21.3 {
+import net.minecraft.util.ExtraCodecs;
+//?}
+
+//? >=1.21.3 {
+public final class MoobloomVariantManager extends SimpleJsonResourceReloadListener<JsonElement>
+//?} else {
+/*public final class MoobloomVariantManager extends SimpleJsonResourceReloadListener
+*///?}
 {
 	private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().setLenient().disableHtmlEscaping().excludeFieldsWithoutExposeAnnotation().create();
 	private static final MoobloomVariant DEFAULT_MOOBLOOM_VARIANT = new MoobloomVariant("buttercup", FriendsAndFoesBlocks.BUTTERCUP.get(), FriendsAndFoesTags.HAS_MOOBLOOMS);
@@ -42,11 +49,20 @@ public final class MoobloomVariantManager extends SimpleJsonResourceReloadListen
 	};
 
 	private MoobloomVariantManager() {
-		super(GSON, "moobloom_variants");
+		//? >=1.21.3 {
+		super(ExtraCodecs.JSON, "moobloom_variants");
+		//?} else {
+		/*super(GSON, "moobloom_variants");
+		*///?}
 	}
 
 	@Override
-	protected void apply(Map<ResourceLocation, JsonElement> loader, ResourceManager manager, ProfilerFiller profiler) {
+	//? >=1.21.3 {
+	protected void apply(Map<ResourceLocation, JsonElement> loader, ResourceManager resourceManager, ProfilerFiller profiler)
+	//?} else {
+	/*protected void apply(Map<ResourceLocation, JsonElement> loader, ResourceManager resourceManager, ProfilerFiller profiler)
+	*///?}
+	{
 		List<MoobloomVariant> parsedMoobloomVariants = new ArrayList<>();
 		parsedMoobloomVariants.add(DEFAULT_MOOBLOOM_VARIANT);
 
@@ -56,7 +72,11 @@ public final class MoobloomVariantManager extends SimpleJsonResourceReloadListen
 				if (jsonObject != null) {
 					String name = jsonObject.get("name").getAsString();
 					String flowerBlockRaw = jsonObject.get("flower_block").getAsString();
-					BushBlock flowerBlock = (BushBlock) BuiltInRegistries.BLOCK.get(ResourceLocation.parse(flowerBlockRaw));
+					//? >=1.21.3 {
+					BushBlock flowerBlock = (BushBlock) BuiltInRegistries.BLOCK.getValue(ResourceLocation.parse(flowerBlockRaw));
+					//?} else {
+					/*BushBlock flowerBlock = (BushBlock) BuiltInRegistries.BLOCK.get(ResourceLocation.parse(flowerBlockRaw));
+					*///?}
 					String biomes = jsonObject.get("biomes").getAsString();
 
 					TagKey<Biome> biomesValue = TagKey.create(Registries.BIOME, ResourceLocation.parse(biomes.replaceFirst("#", "")));

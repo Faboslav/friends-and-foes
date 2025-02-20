@@ -69,17 +69,6 @@ public final class IceologerEntity extends SpellcasterIllager
 	public void applyRaidBuffs(ServerLevel world, int wave, boolean unused) {
 	}
 
-	// TODO add illager friends to json
-	public boolean isAlliedTo(Entity other) {
-		if (super.isAlliedTo(other)) {
-			return true;
-		} else if (!other.getType().is(EntityTypeTags.ILLAGER_FRIENDS)) {
-			return false;
-		} else {
-			return this.getTeam() == null && other.getTeam() == null;
-		}
-	}
-
 	@Override
 	public void tick() {
 		if (!FriendsAndFoes.getConfig().enableIceologer) {

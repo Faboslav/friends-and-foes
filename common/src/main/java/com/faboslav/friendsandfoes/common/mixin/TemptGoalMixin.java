@@ -1,9 +1,15 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
+import com.faboslav.friendsandfoes.common.entity.PlayerIllusionEntity;
 import com.faboslav.friendsandfoes.common.entity.TuffGolemEntity;
+import com.google.common.collect.ImmutableMap;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.resources.PlayerSkin;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,6 +18,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.Map;
 
 @Mixin(TemptGoal.class)
 public abstract class TemptGoalMixin
@@ -57,17 +65,14 @@ public abstract class TemptGoalMixin
 	}
 
 	private boolean friendsandfoes_canStartWithReturn() {
-		this.closestTuffGolem = this.mob.level().getNearestEntity(
-			this.mob.level().getEntitiesOfClass(
-				TuffGolemEntity.class,
-				this.mob.getBoundingBox().inflate(16.0F, 3.0D, 16.0F), (livingEntity) -> {
-					return true;
-				}),
+		this.closestTuffGolem = (/*? >=1.21.3 {*/(ServerLevel)/*?}*/this.mob.level()).getNearestEntity(
+			TuffGolemEntity.class,
 			this.targetingConditions,
 			this.mob,
 			this.mob.getX(),
 			this.mob.getY(),
-			this.mob.getZ()
+			this.mob.getZ(),
+			this.mob.getBoundingBox().inflate(16.0F, 3.0D, 16.0F)
 		);
 
 		return this.closestTuffGolem != null;

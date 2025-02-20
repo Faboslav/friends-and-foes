@@ -15,7 +15,12 @@ public final class FriendsAndFoesStructurePoolElements
 {
 	// TODO change to event?
 	public static void init(MinecraftServer server) {
-		Registry<StructureTemplatePool> templatePoolRegistry = server.registryAccess().registryOrThrow(Registries.TEMPLATE_POOL);
+		Registry<StructureTemplatePool> templatePoolRegistry;
+		//? >=1.21.3 {
+		templatePoolRegistry = server.registryAccess().lookupOrThrow(Registries.TEMPLATE_POOL);
+		//?} else {
+		/*templatePoolRegistry = server.registryAccess().registryOrThrow(Registries.TEMPLATE_POOL);
+		*///?}
 
 		ResourceLocation plainsPoolLocation = ResourceLocation.parse("minecraft:village/plains/houses");
 		ResourceLocation desertPoolLocation = ResourceLocation.parse("minecraft:village/desert/houses");

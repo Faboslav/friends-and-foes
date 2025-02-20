@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes.common.entity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -202,7 +203,12 @@ public final class IceologerIceChunkEntity extends Entity
 	}
 
 	@Override
-	public boolean hurt(DamageSource source, float amount) {
+	/*? >=1.21.3 {*/
+	public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
+	/*?} else {*/
+	/*public boolean hurt(DamageSource damageSource, float amount)
+	*//*?}*/
+	{
 		return false;
 	}
 
@@ -257,7 +263,7 @@ public final class IceologerIceChunkEntity extends Entity
 			damageSource = this.damageSources().indirectMagic(this, livingEntity);
 		}
 
-		hitEntity.hurt(damageSource, 12.0F);
+		VersionedEntity.hurt(hitEntity, damageSource, 12.0F);
 
 		if (hitEntity.canFreeze()) {
 			hitEntity.setTicksFrozen(400);

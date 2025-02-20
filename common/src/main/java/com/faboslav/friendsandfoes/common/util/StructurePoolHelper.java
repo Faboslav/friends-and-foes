@@ -20,7 +20,13 @@ public final class StructurePoolHelper
 		String name,
 		int weight
 	) {
-		StructureTemplatePool pool = templatePoolRegistry.get(poolRL);
+		StructureTemplatePool pool;
+		//? >=1.21.3 {
+		pool = templatePoolRegistry.getValue(poolRL);
+		//?} else {
+		/*pool = templatePoolRegistry.get(poolRL);
+		*///?}
+
 		if (pool == null) {
 			return;
 		}
@@ -42,7 +48,13 @@ public final class StructurePoolHelper
 		String name,
 		int weight
 	) {
-		StructureTemplatePool pool = templatePoolRegistry.get(poolRL);
+		StructureTemplatePool pool;
+		//? >=1.21.3 {
+		pool = templatePoolRegistry.getValue(poolRL);
+		//?} else {
+		/*pool = templatePoolRegistry.get(poolRL);
+		*///?}
+
 		if (pool == null) {
 			return;
 		}

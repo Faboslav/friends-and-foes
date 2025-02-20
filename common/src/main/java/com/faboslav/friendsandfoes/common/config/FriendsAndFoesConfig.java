@@ -52,6 +52,11 @@ public final class FriendsAndFoesConfig
 	public int beekeeperAreaStructureWeight = 2;
 
 	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = BEEKEEPER_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableAdditionalBeehiveWoodVariants = true;
+
+	@SerialEntry()
 	@CustomDescription("Copper Golem")
 	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
 	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)

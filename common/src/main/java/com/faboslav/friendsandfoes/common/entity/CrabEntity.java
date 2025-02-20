@@ -14,6 +14,9 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesItems;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
+import com.faboslav.friendsandfoes.common.versions.VersionedGameRulesProvider;
+import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
@@ -30,13 +33,7 @@ import net.minecraft.stats.Stats;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.*;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.ExperienceOrb;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.Pose;
-import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -58,6 +55,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Objects;
+
+//? >=1.21.3 {
+import net.minecraft.world.entity.EntitySpawnReason;
+//?} else {
+/*import net.minecraft.world.entity.MobSpawnType;
+ *///?}
 
 public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 {
@@ -96,7 +99,11 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 	public SpawnGroupData finalizeSpawn(
 		ServerLevelAccessor world,
 		DifficultyInstance difficulty,
-		MobSpawnType spawnReason,
+		/*? >=1.21.3 {*/
+		EntitySpawnReason spawnReason,
+		/*?} else {*/
+		/*MobSpawnType spawnReason,
+		*//*?}*/
 		@Nullable SpawnGroupData entityData
 	) {
 		SpawnGroupData superEntityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData);
@@ -413,28 +420,34 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 	}
 
 	@Override
-	protected void customServerAiStep() {
-		this.level().getProfiler().push("crabBrain");
-		this.getBrain().tick((ServerLevel) this.level(), this);
+	protected void customServerAiStep(/*? >=1.21.3 {*/ServerLevel level/*?}*/)
+	{
+		//? <1.21.3 {
+		/*var level = (ServerLevel) this.level();
+		*///?}
 
-		this.level().getProfiler().pop();
-		this.level().getProfiler().push("crabMemoryUpdate");
+		var profiler = VersionedProfilerProvider.getProfiler(this);
+		profiler.push("crabBrain");
+		this.getBrain().tick(level, this);
+
+		profiler.pop();
+		profiler.push("crabMemoryUpdate");
 		CrabBrain.updateMemories(this);
-		this.level().getProfiler().pop();
+		profiler.pop();
 
-		this.level().getProfiler().push("crabActivityUpdate");
+		profiler.push("crabActivityUpdate");
 		CrabBrain.updateActivities(this);
-		this.level().getProfiler().pop();
+		profiler.pop();
 
-		super.customServerAiStep();
+		super.customServerAiStep(/*? >=1.21.3 {*/level/*?}*/);
 	}
 
 	@Override
 	protected void ageBoundaryReached() {
 		super.ageBoundaryReached();
 
-		if (!this.isBaby() && this.level().getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
-			this.spawnAtLocation(FriendsAndFoesItems.CRAB_CLAW.get(), 1);
+		if (!this.isBaby() && VersionedGameRulesProvider.getGameRules(this).getBoolean(GameRules.RULE_DOMOBLOOT)/*? >=1.21.3 {*/&& this.level() instanceof ServerLevel serverLevel/*?}*/) {
+			VersionedEntity.spawnAtLocation(this, FriendsAndFoesItems.CRAB_CLAW.get().getDefaultInstance(), 1);
 		}
 	}
 
@@ -445,7 +458,11 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 	public static boolean canSpawn(
 		EntityType<? extends Animal> type,
 		LevelAccessor world,
-		MobSpawnType reason,
+		/*? >=1.21.3 {*/
+		EntitySpawnReason spawnReason,
+		/*?} else {*/
+		/*MobSpawnType spawnReason,
+		*//*?}*/
 		BlockPos pos,
 		RandomSource random
 	) {
@@ -454,13 +471,13 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 
 	@Override
 	public boolean isFood(ItemStack itemStack) {
-		return CrabBrain.getTemptItems().test(itemStack);
+		return CrabBrain.getTemptations().test(itemStack);
 	}
 
 	@Override
 	@Nullable
 	public AgeableMob getBreedOffspring(ServerLevel serverWorld, AgeableMob entity) {
-		CrabEntity crab = FriendsAndFoesEntityTypes.CRAB.get().create(serverWorld);
+		CrabEntity crab = FriendsAndFoesEntityTypes.CRAB.get().create(serverWorld/*? >=1.21.3 {*/, EntitySpawnReason.BREEDING/*?}*/);
 
 		CrabBrain.setWaveCooldown(crab);
 
@@ -485,7 +502,7 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 		mate.resetLove();
 		RandomSource random = this.getRandom();
 
-		if (this.level().getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
+		if (VersionedGameRulesProvider.getGameRules(this).getBoolean(GameRules.RULE_DOMOBLOOT)) {
 			this.level().addFreshEntity(new ExperienceOrb(this.level(), this.getX(), this.getY(), this.getZ(), random.nextInt(7) + 1));
 		}
 	}
@@ -569,8 +586,14 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 
 	@Override
 	public float getAgeScale() {
-		// TODO check
-		return this.getSize().getScaleModifier();
+		CrabEntity.CrabSize size = this.getSize();
+		float scaleModifier = size.getScaleModifier();
+
+		if (this.isBaby()) {
+			return scaleModifier * 0.3F;
+		}
+
+		return scaleModifier;
 	}
 
 	public enum CrabSize

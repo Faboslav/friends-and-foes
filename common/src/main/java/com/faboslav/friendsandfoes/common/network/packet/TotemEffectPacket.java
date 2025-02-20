@@ -14,7 +14,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 
 /**
  * Network related is code based on The Bumblezone/Resourceful Lib mods with permissions from the authors
@@ -70,7 +69,11 @@ public record TotemEffectPacket(Item item, int entityId) implements Packet<Totem
 		}
 
 		public TotemEffectPacket decode(final RegistryFriendlyByteBuf buf) {
-			return new TotemEffectPacket(BuiltInRegistries.ITEM.getHolder(buf.readResourceLocation()).get().value(), buf.readInt());
+			//? >=1.21.3 {
+			return new TotemEffectPacket(BuiltInRegistries.ITEM.getValue(buf.readResourceLocation()), buf.readInt());
+			//?} else {
+			/*return new TotemEffectPacket(BuiltInRegistries.ITEM.getHolder(buf.readResourceLocation()).get().value(), buf.readInt());
+			*///?}
 		}
 
 		public void encode(final TotemEffectPacket packet, final RegistryFriendlyByteBuf buf) {

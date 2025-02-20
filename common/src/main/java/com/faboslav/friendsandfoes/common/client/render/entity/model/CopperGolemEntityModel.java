@@ -9,7 +9,6 @@ import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.
 import com.faboslav.friendsandfoes.common.entity.pose.CopperGolemEntityPose;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -18,8 +17,19 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 
+//? >=1.21.3 {
+import net.minecraft.client.model.EntityModel;
+import com.faboslav.friendsandfoes.common.client.render.entity.state.CopperGolemRenderState;
+//?} else {
+/*import net.minecraft.client.model.HierarchicalModel;
+*///?}
+
 @Environment(EnvType.CLIENT)
-public final class CopperGolemEntityModel<T extends CopperGolemEntity> extends HierarchicalModel<T>
+//? >=1.21.3 {
+public class CopperGolemEntityModel extends EntityModel<CopperGolemRenderState>
+//?} else {
+/*public final class CopperGolemEntityModel<T extends CopperGolemEntity> extends HierarchicalModel<T>
+*///?}
 {
 	private static final String MODEL_PART_BODY = "body";
 	private static final String MODEL_PART_LEFT_ARM = "leftArm";
@@ -41,6 +51,10 @@ public final class CopperGolemEntityModel<T extends CopperGolemEntity> extends H
 	private final ModelPart rightLeg;
 
 	public CopperGolemEntityModel(ModelPart root) {
+		//? >=1.21.3 {
+		super(root);
+		//?}
+
 		this.root = root;
 		this.body = this.root.getChild(MODEL_PART_BODY);
 		this.head = this.body.getChild(MODEL_PART_HEAD);
@@ -75,20 +89,28 @@ public final class CopperGolemEntityModel<T extends CopperGolemEntity> extends H
 		return LayerDefinition.create(modelData, 64, 64);
 	}
 
-	@Override
+	//? <1.21.3 {
+	/*@Override
 	public ModelPart root() {
 		return this.root;
 	}
+	*///?}
 
 	@Override
-	public void setupAnim(
-		T copperGolem,
-		float limbAngle,
-		float limbDistance,
-		float animationProgress,
-		float headYaw,
-		float headPitch
-	) {
+	//? >=1.21.3 {
+	public void setupAnim(CopperGolemRenderState renderState)
+	//?} else {
+	/*public void setupAnim(T copperGolem, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
+	*///?}
+	{
+		//? >=1.21.3 {
+		var copperGolem = renderState.copperGolem;
+		var limbAngle = renderState.walkAnimationPos;
+		var limbDistance = renderState.walkAnimationSpeed;
+		var animationProgress = renderState.ageInTicks;
+		var headYaw = renderState.yRot;
+		//?}
+
 		if (copperGolem.isOxidized()) {
 			animationProgress = copperGolem.tickCount;
 		}
@@ -102,6 +124,7 @@ public final class CopperGolemEntityModel<T extends CopperGolemEntity> extends H
 
 		this.updateAnimations(copperGolem, limbAngle, limbDistance, animationProgress);
 	}
+
 
 	private void setHeadAngle(float yaw) {
 		this.head.yRot = yaw * ((float) Math.PI / 180);

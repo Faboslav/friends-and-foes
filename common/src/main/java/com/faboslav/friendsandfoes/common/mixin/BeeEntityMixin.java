@@ -7,15 +7,21 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+//? >=1.21.3 {
+import net.minecraft.server.level.ServerLevel;
+//?}
+
 @Mixin(Bee.class)
 public abstract class BeeEntityMixin extends Animal
 {
-	private BeePollinateMoobloomGoal friendsandfoes_pollinateMoobloomGoal;
+	@Unique
+	private BeePollinateMoobloomGoal friendsandfoes$pollinateMoobloomGoal;
 
 	public BeeEntityMixin(
 		EntityType<? extends Animal> entityType,
@@ -34,25 +40,39 @@ public abstract class BeeEntityMixin extends Animal
 		method = "registerGoals"
 	)
 	private void friendsandfoes_addPollinateMoobloomGoal(CallbackInfo ci) {
-		this.friendsandfoes_pollinateMoobloomGoal = new BeePollinateMoobloomGoal((Bee) (Object) this, (BeeEntityAccessor) this);
-		this.goalSelector.addGoal(3, this.friendsandfoes_pollinateMoobloomGoal);
+		this.friendsandfoes$pollinateMoobloomGoal = new BeePollinateMoobloomGoal((Bee) (Object) this, (BeeEntityAccessor) this);
+		this.goalSelector.addGoal(3, this.friendsandfoes$pollinateMoobloomGoal);
 	}
 
+	//? >=1.21.3 {
 	@Inject(
+		method = "hurtServer",
+		at = @At("HEAD")
+	)
+	public void friendsandfoes_tweakDamage(
+		ServerLevel level,
+		DamageSource damageSource,
+		float amount,
+		CallbackInfoReturnable<Boolean> cir
+	) {
+	//?} else {
+	/*@Inject(
 		method = "hurt",
 		at = @At("HEAD")
 	)
 	public void friendsandfoes_tweakDamage(
-		DamageSource source,
+		DamageSource damageSource,
 		float amount,
 		CallbackInfoReturnable<Boolean> callbackInfo
 	) {
-		if (!this.isInvulnerableTo(source)) {
+	*///?}
+		if (!this.isInvulnerableTo(/*? >=1.21.3 {*/level, /*?}*/damageSource))
+		{
 			if (
 				!this.level().isClientSide()
-				&& this.friendsandfoes_pollinateMoobloomGoal != null
+				&& this.friendsandfoes$pollinateMoobloomGoal != null
 			) {
-				this.friendsandfoes_pollinateMoobloomGoal.cancel();
+				this.friendsandfoes$pollinateMoobloomGoal.cancel();
 			}
 		}
 	}

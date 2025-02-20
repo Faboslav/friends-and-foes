@@ -11,6 +11,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Dynamic;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.ai.Brain;
@@ -28,8 +29,10 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.sensing.Sensor;
 import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraft.world.entity.schedule.Activity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import java.util.List;
+import java.util.function.Predicate;
 
 public final class CrabBrain
 {
@@ -169,8 +172,8 @@ public final class CrabBrain
 		crab.getBrain().setMemory(FriendsAndFoesMemoryModuleTypes.CRAB_WAVE_COOLDOWN.get(), WAVE_COOLDOWN_PROVIDER.sample(crab.getRandom()));
 	}
 
-	public static Ingredient getTemptItems() {
-		return Ingredient.of(FriendsAndFoesTags.CRAB_TEMPT_ITEMS);
+	public static Predicate<ItemStack> getTemptations() {
+		return itemStack -> itemStack.is(FriendsAndFoesTags.CRAB_TEMPT_ITEMS);
 	}
 
 	static {

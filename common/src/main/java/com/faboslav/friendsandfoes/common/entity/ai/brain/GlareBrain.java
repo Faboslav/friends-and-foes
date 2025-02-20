@@ -34,10 +34,14 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.sensing.Sensor;
 import net.minecraft.world.entity.ai.sensing.SensorType;
+import net.minecraft.world.entity.animal.goat.Goat;
+import net.minecraft.world.entity.animal.goat.GoatAi;
 import net.minecraft.world.entity.schedule.Activity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public final class GlareBrain
@@ -71,7 +75,7 @@ public final class GlareBrain
 		brain.addActivity(Activity.CORE,
 			0,
 			ImmutableList.of(
-				new Swim(0.8f),
+				new Swim/*? >=1.21.3 {*/<>/*?}*/(0.8f),
 				new LookAtTargetSink(45, 90),
 				new MoveToTargetSink(),
 				new CountDownCooldownTicks(MemoryModuleType.TEMPTATION_COOLDOWN_TICKS),
@@ -235,8 +239,8 @@ public final class GlareBrain
 		glare.getBrain().setMemory(MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS, TimeUtil.rangeOfSeconds(1, 10).sample(glare.getRandom()));
 	}
 
-	public static Ingredient getTemptItems() {
-		return Ingredient.of(FriendsAndFoesTags.GLARE_TEMPT_ITEMS);
+	public static Predicate<ItemStack> getTemptations() {
+		return itemStack -> itemStack.is(FriendsAndFoesTags.GLARE_TEMPT_ITEMS);
 	}
 
 	static {

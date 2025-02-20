@@ -11,17 +11,52 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 
+//? >=1.21.3 {
+import com.faboslav.friendsandfoes.common.client.render.entity.state.MoobloomRenderState;
+//?}
+
 @Environment(EnvType.CLIENT)
 @SuppressWarnings({"rawtypes", "unchecked"})
-public final class MoobloomEntityRenderer extends MobRenderer<MoobloomEntity, CowModel<MoobloomEntity>>
+//? >=1.21.3 {
+public final class MoobloomEntityRenderer extends MobRenderer<MoobloomEntity, MoobloomRenderState, CowModel>
+//?} else {
+/*public final class MoobloomEntityRenderer extends MobRenderer<MoobloomEntity, CowModel<MoobloomEntity>>
+*///?}
 {
 	public MoobloomEntityRenderer(EntityRendererProvider.Context context) {
 		super(context, new CowModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.MOOBLOOM_LAYER)), 0.7F);
-		this.addLayer(new MoobloomFlowerFeatureRenderer(this));
+
+		//? >=1.21.3 {
+		this.addLayer(new MoobloomFlowerFeatureRenderer(this, context.getBlockRenderDispatcher()));
+		//?} else {
+		/*this.addLayer(new MoobloomFlowerFeatureRenderer(this));
+		*///?}
+	}
+
+	//? >=1.21.3 {
+	@Override
+	public MoobloomRenderState createRenderState() {
+		return new MoobloomRenderState();
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(MoobloomEntity entity) {
-		return FriendsAndFoes.makeID("textures/entity/moobloom/moobloom_" + entity.getVariant().getName() + ".png");
+	public void extractRenderState(MoobloomEntity moobloom, MoobloomRenderState moobloomRenderState, float partialTick) {
+		super.extractRenderState(moobloom, moobloomRenderState, partialTick);
+		moobloomRenderState.moobloom = moobloom;
+	}
+	//?}
+
+	@Override
+	//? >=1.21.3 {
+	public ResourceLocation getTextureLocation(MoobloomRenderState moobloomRenderState)
+	//?} else {
+	/*public ResourceLocation getTextureLocation(MoobloomEntity moobloom)
+	*///?}
+	{
+		//? >=1.21.3 {
+		var moobloom = moobloomRenderState.moobloom;
+		//?}
+
+		return FriendsAndFoes.makeID("textures/entity/moobloom/moobloom_" + moobloom.getVariant().getName() + ".png");
 	}
 }

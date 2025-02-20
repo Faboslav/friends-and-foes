@@ -5,6 +5,8 @@ import com.faboslav.friendsandfoes.common.entity.GlareEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.GlareBrain;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import java.util.Map;
+
+import com.faboslav.friendsandfoes.common.versions.VersionedGameRulesProvider;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -32,7 +34,7 @@ public final class GlareShakeGlowBerriesTask extends Behavior<GlareEntity>
 	protected boolean checkExtraStartConditions(ServerLevel world, GlareEntity glare) {
 		GlobalPos glowBerriesPos = glare.getGlowBerriesPos();
 
-		return glare.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) != false
+		return VersionedGameRulesProvider.getGameRules(glare).getBoolean(GameRules.RULE_MOBGRIEFING) != false
 			   && FriendsAndFoes.getConfig().enableGlareGriefing != false
 			   && !glare.isLeashed()
 			   && !glare.isOrderedToSit()
@@ -51,7 +53,7 @@ public final class GlareShakeGlowBerriesTask extends Behavior<GlareEntity>
 	protected boolean canStillUse(ServerLevel world, GlareEntity glare, long time) {
 		GlobalPos glowBerriesPos = glare.getGlowBerriesPos();
 
-		return glare.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) != false
+		return VersionedGameRulesProvider.getGameRules(glare).getBoolean(GameRules.RULE_MOBGRIEFING) != false
 			   && FriendsAndFoes.getConfig().enableGlareGriefing != false
 			   && !glare.isLeashed()
 			   && !glare.isOrderedToSit()
@@ -82,7 +84,7 @@ public final class GlareShakeGlowBerriesTask extends Behavior<GlareEntity>
 
 	private void shakeOffGlowBerries(GlareEntity glare) {
 		if (
-			glare.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) == false
+			VersionedGameRulesProvider.getGameRules(glare).getBoolean(GameRules.RULE_MOBGRIEFING) == false
 			|| FriendsAndFoes.getConfig().enableGlareGriefing == false
 		) {
 			return;

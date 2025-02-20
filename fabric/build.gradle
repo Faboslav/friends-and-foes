@@ -1,9 +1,24 @@
 plugins {
-	id "com.github.johnrengelman.shadow" version "8.1.1"
+	id 'java'
+	id 'idea'
+	id 'dev.architectury.loom'
+	id 'architectury-plugin'
+	id 'com.github.johnrengelman.shadow'
 }
 
-allprojects {
-	archivesBaseName = "${mod_id}-fabric-mc${minecraft_version}"
+def subproject = stonecutter.current.project
+def minecraftVersion = stonecutter.current.version
+
+def modrinth(String name, String version) {
+	return "maven.modrinth:$name:$version"
+}
+
+def prop(String name) {
+	return rootProject.project(stonecutter.current.project).property(name).toString()
+}
+
+base {
+	archivesName.set("${mod_id}-fabric-mc${minecraftVersion}-${mod_version}")
 }
 
 architectury {
@@ -12,105 +27,159 @@ architectury {
 }
 
 loom {
-	accessWidenerPath = project(":common").loom.accessWidenerPath
+	silentMojangMappingsLicense()
+
+	accessWidenerPath = project(":common:$subproject").loom.accessWidenerPath
+
+	runConfigs.all {
+		ideConfigGenerated true
+	}
 }
 
 configurations {
-	common
-	shadowCommon
+	common {
+		canBeResolved = true
+		canBeConsumed = false
+	}
+
 	compileClasspath.extendsFrom common
 	runtimeClasspath.extendsFrom common
 	developmentFabric.extendsFrom common
+
+	shadowBundle {
+		canBeResolved = true
+		canBeConsumed = false
+	}
 }
 
 dependencies {
-	// Core dependencies
-	modImplementation("net.fabricmc:fabric-loader:${fabric_loader_version}")
-	modApi("net.fabricmc.fabric-api:fabric-api:${fabric_api_version}+${minecraft_version}")
+	minecraft "com.mojang:minecraft:${minecraftVersion}"
+	mappings loom.layered() {
+		officialMojangMappings()
 
-	// Mod menu (https://modrinth.com/mod/modmenu)
-	modImplementation("com.terraformersmc:modmenu:${mod_menu_version}") { transitive = false }
+		if (prop('parchment_version') != '') {
+			parchment("org.parchmentmc.data:parchment-${prop('minecraft_version')}:${prop('parchment_version')}@zip")
+		}
+	}
+
+	// Core dependencies
+	modImplementation "net.fabricmc:fabric-loader:${prop('fabric_loader_version')}"
+	modApi "net.fabricmc.fabric-api:fabric-api:${prop('fabric_api_version')}+${prop('minecraft_version')}"
 
 	// YACL (https://docs.isxander.dev/yet-another-config-lib)
-	modImplementation("dev.isxander:yet-another-config-lib:${yacl_version}-fabric")
+	modImplementation("dev.isxander:yet-another-config-lib:${prop('yacl_version')}-fabric")
 
-	// Trinkets (https://www.curseforge.com/minecraft/mc-mods/trinkets)
-	modImplementation("dev.emi:trinkets:${trinkets_version}")
+	// Mod menu (https://modrinth.com/mod/modmenu)
+	modImplementation("com.terraformersmc:modmenu:${prop('mod_menu_version')}") { transitive = false }
 
-	// Fix for CCA (https://github.com/Ladysnake/Cardinal-Components-API)
-	//modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${cca_version}") { transitive = false }
-	//modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${cca_version}") { transitive = false }
+	if (stonecutter.compare(minecraftVersion, '1.21.1') <= 0) {
+		// Trinkets (https://www.curseforge.com/minecraft/mc-mods/trinkets)
+		modImplementation("dev.emi:trinkets:${prop('trinkets_version')}")
+
+		// Fix for CCA (https://github.com/Ladysnake/Cardinal-Components-API)
+		//modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${cca_version}") { transitive = false }
+		//modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${cca_version}") { transitive = false }
+	}
 
 	// Auth (https://github.com/DJtheRedstoner/DevAuth)
 	modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:${devauth_version}")
 
-	common(project(path: ":common", configuration: "namedElements")) { transitive false }
-	shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
+	common(project(path: ":common:$subproject", configuration: 'namedElements')) { transitive false }
+	shadowBundle(project(path: ":common:$subproject", configuration: 'transformProductionFabric')) { transitive false }
+}
+
+processResources {
+	def expandProps = [
+		"modJavaVersion"     : prop('mod_java_version'),
+		'modId'              : mod_id,
+		'modName'            : mod_name,
+		'modDescription'     : mod_description,
+		'modVersion'         : mod_version,
+		'modAuthor'          : mod_author,
+		"minecraftVersion"   : prop('minecraft_version'),
+		"minMinecraftVersion": prop('min_minecraft_version'),
+		"fabricLoaderVersion": prop('fabric_loader_version'),
+		"fabricApiVersion"   : prop('fabric_api_version'),
+		"yaclVersion"        : prop('yacl_version'),
+	]
+
+	filesMatching(['fabric.mod.json', '*.mixins.json']) {
+		expand expandProps
+	}
+
+	inputs.properties(expandProps)
 }
 
 shadowJar {
-	exclude "architectury.common.json"
-
-	configurations = [project.configurations.shadowCommon]
-	archiveClassifier.set("dev-shadow")
-}
-
-remapJar {
-	injectAccessWidener = true
-	inputFile.set shadowJar.archiveFile
-	dependsOn shadowJar
-	archiveClassifier.set(null)
+	configurations = [project.configurations.shadowBundle]
+	archiveClassifier = 'dev-shadow'
 }
 
 jar {
 	archiveClassifier.set("dev")
 }
 
-sourcesJar {
-	def commonSources = project(":common").sourcesJar
-	dependsOn commonSources
-	from commonSources.archiveFile.map { zipTree(it) }
+remapJar {
+	injectAccessWidener.set(true)
+	input.set(shadowJar.archiveFile)
+	dependsOn(shadowJar)
+	archiveClassifier.set(null)
 }
 
-components.java {
-	withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
-		skip()
-	}
+java {
+	withSourcesJar()
+
+	sourceCompatibility = JavaVersion.toVersion(prop('mod_java_version'))
+	targetCompatibility = JavaVersion.toVersion(prop('mod_java_version'))
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.encoding = 'UTF-8'
+	it.options.getRelease().set(prop('mod_java_version') as Integer)
 }
 
 repositories {
-	maven {
-		name = 'Fabric'
-		url = 'https://maven.fabricmc.net/'
-	}
+	// CurseForge
+	maven { url "https://www.cursemaven.com" }
 
-	maven {
-		name = "Modrinth"
-		url = "https://api.modrinth.com/maven"
+	// YACL
+	maven { url "https://maven.isxander.dev/releases" }
+	maven { url "https://maven.isxander.dev/snapshots" }
+	maven { url 'https://thedarkcolour.github.io/KotlinForForge/' }
+	maven { url "https://maven.quiltmc.org/repository/release" }
 
+	// Mod Menu.
+	maven { url 'https://maven.terraformersmc.com/releases/' }
+
+	// Mixin Extras.
+	maven {
+		url 'https://jitpack.io'
 		content {
-			includeGroup "maven.modrinth"
+			includeGroup 'com.github.llamalad7'
 		}
 	}
 
+	// Modrinth
 	maven {
-		name = "TerraformersMC"
-		url "https://maven.terraformersmc.com/releases/"
+		url "https://api.modrinth.com/maven"
+		content {
+			includeGroup("maven.modrinth")
+		}
 	}
+
+	// Parchment
+	maven {
+		name = 'ParchmentMC'
+		url = 'https://maven.parchmentmc.org'
+	}
+
+	// Random
+	maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 
 	maven {
 		name = "Ladysnake Libs"
 		url = 'https://maven.ladysnake.org/releases'
 	}
 
-	maven { url "https://www.cursemaven.com" }
-
 	maven { url = "https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1" }
-
-	maven {
-		url "https://maven.jamieswhiteshirt.com/libs-release"
-		content {
-			includeGroup "com.jamieswhiteshirt"
-		}
-	}
 }

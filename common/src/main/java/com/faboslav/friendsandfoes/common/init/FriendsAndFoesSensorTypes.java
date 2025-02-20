@@ -27,10 +27,10 @@ public final class FriendsAndFoesSensorTypes
 		return new CopperGolemSpecificSensor();
 	}));
 	public static final RegistryEntry<SensorType<TemptingSensor>> CRAB_TEMPTATIONS = SENSOR_TYPES.register("crab_temptations", () -> new SensorType<>(() -> {
-		return new TemptingSensor(CrabBrain.getTemptItems());
+		return new TemptingSensor(CrabBrain.getTemptations());
 	}));
 	public static final RegistryEntry<SensorType<TemptingSensor>> GLARE_TEMPTATIONS = SENSOR_TYPES.register("glare_temptations", () -> new SensorType<>(() -> {
-		return new TemptingSensor(GlareBrain.getTemptItems());
+		return new TemptingSensor(GlareBrain.getTemptations());
 	}));
 	public static final RegistryEntry<SensorType<GlareSpecificSensor>> GLARE_SPECIFIC_SENSOR = SENSOR_TYPES.register("glare_specific_sensor", () -> new SensorType<>(() -> {
 		return new GlareSpecificSensor();

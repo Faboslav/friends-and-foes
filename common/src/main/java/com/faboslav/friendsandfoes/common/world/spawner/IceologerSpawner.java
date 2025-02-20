@@ -1,13 +1,12 @@
 package com.faboslav.friendsandfoes.common.world.spawner;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-import com.faboslav.friendsandfoes.common.entity.IceologerEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.monster.PatrollingMonster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.CustomSpawner;
@@ -85,12 +84,12 @@ public final class IceologerSpawner implements CustomSpawner
 
 		if (
 			!NaturalSpawner.isValidEmptySpawnBlock(world, mutable, blockState, blockState.getFluidState(), FriendsAndFoesEntityTypes.ICEOLOGER.get())
-			|| !PatrollingMonster.checkPatrollingMonsterSpawnRules(FriendsAndFoesEntityTypes.ICEOLOGER.get(), world, MobSpawnType.PATROL, mutable, random)
+			|| !PatrollingMonster.checkPatrollingMonsterSpawnRules(FriendsAndFoesEntityTypes.ICEOLOGER.get(), world, VersionedEntitySpawnReason.PATROL, mutable, random)
 		) {
 			return 0;
 		}
 
-		var iceologer = FriendsAndFoesEntityTypes.ICEOLOGER.get().create(world);
+		var iceologer = FriendsAndFoesEntityTypes.ICEOLOGER.get().create(world/*? >=1.21.3 {*/, VersionedEntitySpawnReason.PATROL/*?}*/);
 
 		if (iceologer == null) {
 			return 0;
@@ -99,7 +98,7 @@ public final class IceologerSpawner implements CustomSpawner
 		iceologer.setPatrolLeader(false);
 		iceologer.findPatrolTarget();
 		iceologer.setPos(mutable.getX(), mutable.getY(), mutable.getZ());
-		iceologer.finalizeSpawn(world, world.getCurrentDifficultyAt(mutable), MobSpawnType.PATROL, null);
+		iceologer.finalizeSpawn(world, world.getCurrentDifficultyAt(mutable), VersionedEntitySpawnReason.PATROL, null);
 		world.addFreshEntityWithPassengers(iceologer);
 		return 1;
 	}

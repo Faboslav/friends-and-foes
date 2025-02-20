@@ -3,14 +3,13 @@ package com.faboslav.friendsandfoes.common.entity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
+import com.faboslav.friendsandfoes.common.versions.VersionedGameRulesProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.projectile.Fireball;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.GameRules;
@@ -34,7 +33,7 @@ public final class WildfireShieldDebrisEntity extends Fireball
 	protected void onHitEntity(EntityHitResult entityHitResult) {
 		super.onHitEntity(entityHitResult);
 
-		if (this.level().isClientSide()) {
+		if(!(this.level() instanceof ServerLevel serverLevel)) {
 			return;
 		}
 
@@ -50,10 +49,12 @@ public final class WildfireShieldDebrisEntity extends Fireball
 		target.igniteForSeconds(5.0F);
 
 		DamageSource damageSource = this.damageSources().fireball(this, wildfire);
-		if (!target.hurt(damageSource, 5.0F)) {
+		boolean hurtResult = VersionedEntity.hurt(this, damageSource, 5.0F);
+
+		if (!hurtResult) {
 			target.setRemainingFireTicks(i);
 		} else {
-			EnchantmentHelper.doPostAttackEffects((ServerLevel) this.level(), target, damageSource);
+			EnchantmentHelper.doPostAttackEffects(serverLevel, target, damageSource);
 		}
 	}
 
@@ -68,7 +69,7 @@ public final class WildfireShieldDebrisEntity extends Fireball
 
 		if (
 			!(entity instanceof Mob)
-			|| this.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
+			|| VersionedGameRulesProvider.getGameRules(this).getBoolean(GameRules.RULE_MOBGRIEFING)
 		) {
 			BlockPos blockPos = blockHitResult.getBlockPos().relative(blockHitResult.getDirection());
 
@@ -93,7 +94,13 @@ public final class WildfireShieldDebrisEntity extends Fireball
 		return false;
 	}
 
-	public boolean hurt(DamageSource source, float amount) {
+	@Override
+	/*? >=1.21.3 {*/
+	public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
+	/*?} else {*/
+	/*public boolean hurt(DamageSource damageSource, float amount)
+	*//*?}*/
+	{
 		return false;
 	}
 

@@ -12,9 +12,11 @@ import net.minecraft.world.level.block.Block;
 
 /**
  * @see BlockTags
+ * @see net.minecraft.tags.PoiTypeTags
  */
 public final class FriendsAndFoesTags
 {
+	public static final TagKey<PoiType> BEEKEEPER_ACQUIRABLE_JOB_SITE = pointOfInterestTypeTag("beekeeper_acquirable_job_site");
 	public static final TagKey<Block> COPPER_BUTTONS = blockTag("copper_buttons");
 	public static final TagKey<Block> LIGHTNING_RODS = blockTag("lightning_rods");
 	public static final TagKey<PoiType> LIGHTNING_ROD_POI = pointOfInterestTypeTag("lightning_rods");

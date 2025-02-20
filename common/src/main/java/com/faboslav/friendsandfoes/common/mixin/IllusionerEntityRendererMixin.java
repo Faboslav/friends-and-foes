@@ -1,11 +1,9 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.IllagerModel;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.IllagerRenderer;
 import net.minecraft.client.renderer.entity.IllusionerRenderer;
@@ -14,66 +12,63 @@ import net.minecraft.world.entity.monster.Illusioner;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+//? >=1.21.3 {
+import net.minecraft.client.renderer.entity.state.IllusionerRenderState;
+//?}
 
 @Environment(EnvType.CLIENT)
 @Mixin({IllusionerRenderer.class})
-public abstract class IllusionerEntityRendererMixin extends IllagerRenderer<Illusioner>
+//? >=1.21.3 {
+public abstract class IllusionerEntityRendererMixin extends IllagerRenderer<Illusioner, IllusionerRenderState>
+//?} else {
+/*public abstract class IllusionerEntityRendererMixin extends IllagerRenderer<Illusioner>
+*///?}
 {
-	private static final ResourceLocation friendsandfoes$TEXTURE = 	FriendsAndFoes.makeID("textures/entity/illusioner/illusioner.png");
+	private static final ResourceLocation friendsandfoes$ILLUSIONER_TEXTURE = FriendsAndFoes.makeID("textures/entity/illusioner/illusioner.png");
 
+	//? >=1.21.3 {
 	protected IllusionerEntityRendererMixin(
+		EntityRendererProvider.Context context,
+		IllagerModel<IllusionerRenderState> model,
+		float shadowRadius
+	) {
+		super(context, model, shadowRadius);
+	}
+	//?} else {
+	/*protected IllusionerEntityRendererMixin(
 		EntityRendererProvider.Context ctx,
 		IllagerModel<Illusioner> model,
 		float shadowRadius
 	) {
 		super(ctx, model, shadowRadius);
 	}
+	*///?}
 
+	//? >=1.21.3 {
 	@Inject(
 		at = @At("HEAD"),
-		method = "render(Lnet/minecraft/world/entity/monster/Illusioner;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
+		method = "getTextureLocation*",
 		cancellable = true
 	)
-	public void friendsandfoes_render(
-		Illusioner mobEntity,
-		float f,
-		float g,
-		PoseStack matrixStack,
-		MultiBufferSource vertexConsumerProvider,
-		int i,
-		CallbackInfo ci
-	) {
+	public ResourceLocation getTextureLocation(IllusionerRenderState illusionerRenderState, CallbackInfoReturnable<ResourceLocation> cir) {
 		if (FriendsAndFoes.getConfig().enableIllusioner) {
-			super.render(mobEntity, f, g, matrixStack, vertexConsumerProvider, i);
-			ci.cancel();
+			cir.setReturnValue(friendsandfoes$ILLUSIONER_TEXTURE);
 		}
-	}
 
-	@Inject(
-		at = @At("HEAD"),
-		method = "isBodyVisible(Lnet/minecraft/world/entity/monster/Illusioner;)Z",
-		cancellable = true
-	)
-	protected void friendsandfoes_isVisible(
-		Illusioner illusioner,
-		CallbackInfoReturnable<Boolean> callbackInfo
-	) {
-		if (FriendsAndFoes.getConfig().enableIllusioner) {
-			callbackInfo.setReturnValue(super.isBodyVisible(illusioner));
-		}
+		return cir.getReturnValue();
 	}
-
-	@Inject(
+	//?} else {
+		/*@Inject(
 		at = @At("HEAD"),
-		method = "getTextureLocation(Lnet/minecraft/world/entity/monster/Illusioner;)Lnet/minecraft/resources/ResourceLocation;",
+		method = "getTextureLocation*",
 		cancellable = true
 	)
 	public void getTextureLocation(Illusioner illusioner, CallbackInfoReturnable<ResourceLocation> cir) {
 		if (FriendsAndFoes.getConfig().enableIllusioner) {
-			FriendsAndFoes.getLogger().info(String.valueOf(FriendsAndFoes.getConfig().enableIllusioner));
-			cir.setReturnValue(friendsandfoes$TEXTURE);
+			cir.setReturnValue(friendsandfoes$ILLUSIONER_TEXTURE);
 		}
 	}
+	*///?}
 }

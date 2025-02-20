@@ -1,13 +1,24 @@
+plugins {
+	id 'java'
+	id 'idea'
+	id 'dev.architectury.loom'
+	id 'architectury-plugin'
+	id 'com.github.johnrengelman.shadow'
+}
+
+def subproject = stonecutter.current.project
+def minecraftVersion = stonecutter.current.version
+
 def modrinth(String name, String version) {
 	return "maven.modrinth:$name:$version"
 }
 
-plugins {
-	id "com.github.johnrengelman.shadow" version "8.1.1"
+def prop(String name) {
+	return rootProject.project(stonecutter.current.project).property(name).toString()
 }
 
-allprojects {
-	archivesBaseName = "${mod_id}-neoforge-mc${minecraft_version}"
+base {
+	archivesName.set("${mod_id}-neoforge-mc${minecraftVersion}-${mod_version}")
 }
 
 architectury {
@@ -15,16 +26,14 @@ architectury {
 	neoForge()
 }
 
-configurations {
-	common
-	shadowCommon
-	compileClasspath.extendsFrom common
-	runtimeClasspath.extendsFrom common
-	developmentNeoForge.extendsFrom common
-}
-
 loom {
-	accessWidenerPath = project(":common").loom.accessWidenerPath
+	silentMojangMappingsLicense()
+
+	accessWidenerPath.set(project(":common:$subproject").loom.accessWidenerPath)
+
+	runConfigs.all {
+		ideConfigGenerated true
+	}
 
 	neoForge {
 		runs {
@@ -41,18 +50,38 @@ loom {
 	}
 }
 
+configurations {
+	common {
+		canBeResolved = true
+		canBeConsumed = false
+	}
+
+	compileClasspath.extendsFrom common
+	runtimeClasspath.extendsFrom common
+	developmentNeoForge.extendsFrom common
+
+	shadowBundle {
+		canBeResolved = true
+		canBeConsumed = false
+	}
+}
+
 dependencies {
-	neoForge "net.neoforged:neoforge:${neoforge_version}"
+	minecraft "com.mojang:minecraft:${minecraftVersion}"
 
-	common(project(path: ":common", configuration: "namedElements")) { transitive false }
-	shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
+	mappings loom.layered() {
+		officialMojangMappings()
 
-	// Curios (https://www.curseforge.com/minecraft/mc-mods/curios)
-	modCompileOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}:api")
-	modRuntimeOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}")
+		if (prop('parchment_version') != '') {
+			parchment("org.parchmentmc.data:parchment-${prop('minecraft_version')}:${prop('parchment_version')}@zip")
+		}
+	}
+
+	// Core
+	neoForge "net.neoforged:neoforge:${prop('neoforge_version')}"
 
 	// YACL
-	modImplementation(modrinth("yacl", "${yacl_version}-neoforge"))
+	modImplementation(modrinth("yacl", "${prop('yacl_version')}-neoforge"))
 
 	// For YACL to work
 	forgeRuntimeLibrary(implementation(include("com.twelvemonkeys.imageio:imageio-core:3.10.0")))
@@ -63,53 +92,121 @@ dependencies {
 	forgeRuntimeLibrary(implementation(include("com.twelvemonkeys.common:common-image:3.10.0")))
 	forgeRuntimeLibrary(implementation(include("org.quiltmc.parsers:json:0.2.1")))
 	forgeRuntimeLibrary(implementation(include("org.quiltmc.parsers:gson:0.2.1")))
+
+	if (stonecutter.compare(minecraftVersion, '1.21.1') <= 0) {
+		// Curios (https://www.curseforge.com/minecraft/mc-mods/curios)
+		modCompileOnly("top.theillusivec4.curios:curios-neoforge:${prop('curios_version')}:api")
+		modRuntimeOnly("top.theillusivec4.curios:curios-neoforge:${prop('curios_version')}")
+	}
+
+	common(project(path: ":common:$subproject", configuration: 'namedElements')) { transitive false }
+	shadowBundle(project(path: ":common:$subproject", configuration: 'transformProductionNeoForge')) { transitive false }
+}
+
+processResources {
+	def expandProps = [
+		"modJavaVersion"     : prop('mod_java_version'),
+		'modId'              : mod_id,
+		'modName'            : mod_name,
+		'modDescription'     : mod_description,
+		'modVersion'         : mod_version,
+		'modAuthor'          : mod_author,
+		"minecraftVersion"   : prop('minecraft_version'),
+		"minMinecraftVersion": prop('min_minecraft_version'),
+		"neoForgeVersion"    : prop('neoforge_version'),
+		"yaclVersion"        : prop('yacl_version'),
+	]
+
+	def tomlFileName = "META-INF/neoforge.mods.toml"
+
+	filesMatching(['pack.mcmeta', tomlFileName, '*.mixins.json']) {
+		expand expandProps
+	}
+
+	inputs.properties(expandProps)
 }
 
 shadowJar {
-	exclude "fabric.mod.json"
-	exclude "architectury.common.json"
+	exclude("fabric.mod.json")
+	exclude("architectury.common.json")
 
-	configurations = [project.configurations.shadowCommon]
-	archiveClassifier.set("dev-shadow")
+	configurations = [project.configurations.shadowBundle]
+	archiveClassifier = 'dev-shadow'
 }
 
 remapJar {
-	inputFile.set shadowJar.archiveFile
-	dependsOn shadowJar
+	injectAccessWidener.set(true)
+	input.set(shadowJar.archiveFile)
+	dependsOn(shadowJar)
 	archiveClassifier.set(null)
 	atAccessWideners.add("${mod_id}.accesswidener")
 }
 
-jar {
-	archiveClassifier.set("dev")
+java {
+	withSourcesJar()
+
+	sourceCompatibility = JavaVersion.toVersion(prop('mod_java_version'))
+	targetCompatibility = JavaVersion.toVersion(prop('mod_java_version'))
 }
 
-sourcesJar {
-	def commonSources = project(":common").sourcesJar
-	dependsOn commonSources
-	from commonSources.archiveFile.map { zipTree(it) }
-}
-
-components.java {
-	withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
-		skip()
-	}
+tasks.withType(JavaCompile).configureEach {
+	it.options.encoding = 'UTF-8'
+	it.options.getRelease().set(prop('mod_java_version') as Integer)
 }
 
 repositories {
+	// CurseForge
+	maven { url "https://www.cursemaven.com" }
+
+	// Modrinth
 	maven {
-		name = 'NeoForged'
-		url = 'https://maven.neoforged.net/'
+		url "https://api.modrinth.com/maven"
+		content {
+			includeGroup("maven.modrinth")
+		}
 	}
 
+	// NeoForge
+	maven { url 'https://maven.neoforged.net/releases/' }
+
+	// Quilt
+	maven { url "https://maven.quiltmc.org/repository/release" }
+
+	// Mixin Extras.
+	maven {
+		url 'https://jitpack.io'
+		content {
+			includeGroup 'com.github.llamalad7'
+		}
+	}
+
+	// YACL
+	maven { url "https://maven.isxander.dev/releases" }
+	maven { url "https://maven.isxander.dev/snapshots" }
+	maven { url 'https://thedarkcolour.github.io/KotlinForForge/' }
+
+	// Mod Menu.
+	maven { url "https://maven.terraformersmc.com/releases" }
+	maven { url "https://maven.terraformersmc.com" }
+
+	// Random
+	maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+
+	// Curios
 	maven {
 		url = "https://maven.theillusivec4.top/"
 	}
 
-	maven { url "https://www.cursemaven.com" }
-
+	// Curios continuation
 	maven {
 		name = "OctoStudios"
 		url = uri("https://maven.octo-studios.com/releases")
 	}
+
+	// Parchment
+	maven {
+		name = 'ParchmentMC'
+		url = 'https://maven.parchmentmc.org'
+	}
 }
+

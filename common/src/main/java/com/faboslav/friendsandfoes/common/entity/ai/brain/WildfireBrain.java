@@ -25,11 +25,14 @@ import net.minecraft.world.entity.ai.behavior.StartAttacking;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.sensing.Sensor;
 import net.minecraft.world.entity.ai.sensing.SensorType;
-import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.schedule.Activity;
 import java.util.List;
 import java.util.Optional;
+
+//? >=1.21.3 {
+import net.minecraft.server.level.ServerLevel;
+//?}
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public final class WildfireBrain
@@ -40,7 +43,6 @@ public final class WildfireBrain
 	private static final UniformInt SHOCKWAVE_ATTACK_COOLDOWN_PROVIDER;
 	private static final UniformInt SUMMON_BLAZE_COOLDOWN_PROVIDER;
 	private static final UniformInt AVOID_MEMORY_DURATION;
-	private static final TargetingConditions VALID_TARGET_PLAYER_PREDICATE;
 
 	public WildfireBrain() {
 	}
@@ -78,7 +80,7 @@ public final class WildfireBrain
 		brain.addActivity(
 			Activity.IDLE,
 			ImmutableList.of(
-				Pair.of(0, StartAttacking.create(wildfire -> true, WildfireBrain::getTarget)),
+				Pair.of(0, StartAttacking.create((/*? >=1.21.3 {*/serverLevel, /*?}*/wildfire) -> true, WildfireBrain::getTarget)),
 				Pair.of(1, makeRandomWanderTask())
 			)
 		);
@@ -175,9 +177,9 @@ public final class WildfireBrain
 		}
 	}
 
-	private static Optional<? extends LivingEntity> getTarget(WildfireEntity wildfire) {
+	private static Optional<? extends LivingEntity> getTarget(/*? >=1.21.3 {*/ServerLevel level, /*?}*/WildfireEntity wildfire) {
 		Player nearestVisibleTargetablePlayer = wildfire.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER).orElse(
-			wildfire.level().getNearestPlayer(VALID_TARGET_PLAYER_PREDICATE, wildfire, wildfire.getX(), wildfire.getEyeY(), wildfire.getZ())
+			wildfire.level().getNearestPlayer(wildfire, WildfireEntity.GENERIC_FOLLOW_RANGE)
 		);
 
 		if (nearestVisibleTargetablePlayer == null) {
@@ -220,7 +222,6 @@ public final class WildfireBrain
 		SUMMON_BLAZE_COOLDOWN_PROVIDER = UniformInt.of(600, 1200);
 		BARRAGE_ATTACK_COOLDOWN_PROVIDER = UniformInt.of(150, 300);
 		SHOCKWAVE_ATTACK_COOLDOWN_PROVIDER = UniformInt.of(150, 300);
-		VALID_TARGET_PLAYER_PREDICATE = TargetingConditions.forCombat().range(WildfireEntity.GENERIC_FOLLOW_RANGE);
 		AVOID_MEMORY_DURATION = TimeUtil.rangeOfSeconds(5, 20);
 	}
 }

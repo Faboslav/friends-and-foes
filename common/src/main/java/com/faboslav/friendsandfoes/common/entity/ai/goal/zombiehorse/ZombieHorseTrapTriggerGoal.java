@@ -3,6 +3,8 @@ package com.faboslav.friendsandfoes.common.entity.ai.goal.zombiehorse;
 import com.faboslav.friendsandfoes.common.entity.ZombieHorseEntityAccess;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesCriterias;
 import java.util.List;
+
+import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -11,7 +13,6 @@ import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LightningBolt;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.animal.horse.ZombieHorse;
@@ -58,7 +59,7 @@ public final class ZombieHorseTrapTriggerGoal extends Goal
 		((ZombieHorseEntityAccess) this.zombieHorse).friendsandfoes_setTrapped(false);
 		this.zombieHorse.setTamed(true);
 		this.zombieHorse.setAge(0);
-		LightningBolt lightningEntity = EntityType.LIGHTNING_BOLT.create(serverWorld);
+		LightningBolt lightningEntity = EntityType.LIGHTNING_BOLT.create(serverWorld/*? >=1.21.3 {*/, VersionedEntitySpawnReason.TRIGGERED/*?}*/);
 		lightningEntity.moveTo(this.zombieHorse.getX(), this.zombieHorse.getY(), this.zombieHorse.getZ());
 		lightningEntity.setVisualOnly(true);
 		serverWorld.addFreshEntity(lightningEntity);
@@ -78,34 +79,41 @@ public final class ZombieHorseTrapTriggerGoal extends Goal
 	}
 
 	private ZombieHorse getHorse(DifficultyInstance localDifficulty) {
-		ZombieHorse zombieHorse = EntityType.ZOMBIE_HORSE.create(this.zombieHorse.level());
-		zombieHorse.finalizeSpawn((ServerLevel) this.zombieHorse.level(), localDifficulty, MobSpawnType.TRIGGERED, null);
-		zombieHorse.setPos(this.zombieHorse.getX(), this.zombieHorse.getY(), this.zombieHorse.getZ());
-		zombieHorse.invulnerableTime = 60;
-		zombieHorse.setPersistenceRequired();
-		zombieHorse.setTamed(true);
-		zombieHorse.setAge(0);
+		ZombieHorse zombieHorse = EntityType.ZOMBIE_HORSE.create(this.zombieHorse.level()/*? >=1.21.3 {*/, VersionedEntitySpawnReason.TRIGGERED/*?}*/);
+
+		if(zombieHorse != null) {
+			zombieHorse.finalizeSpawn((ServerLevel) this.zombieHorse.level(), localDifficulty, VersionedEntitySpawnReason.TRIGGERED, null);
+			zombieHorse.setPos(this.zombieHorse.getX(), this.zombieHorse.getY(), this.zombieHorse.getZ());
+			zombieHorse.invulnerableTime = 60;
+			zombieHorse.setPersistenceRequired();
+			zombieHorse.setTamed(true);
+			zombieHorse.setAge(0);
+		}
+
 		return zombieHorse;
 	}
 
 	private Zombie getZombie(DifficultyInstance localDifficulty, AbstractHorse vehicle) {
-		Zombie zombie = EntityType.ZOMBIE.create(vehicle.level());
-		zombie.finalizeSpawn((ServerLevel) vehicle.level(), localDifficulty, MobSpawnType.TRIGGERED, null);
-		zombie.setBaby(false);
-		zombie.setPos(vehicle.getX(), vehicle.getY(), vehicle.getZ());
-		zombie.invulnerableTime = 60;
-		zombie.setPersistenceRequired();
+		Zombie zombie = EntityType.ZOMBIE.create(vehicle.level()/*? >=1.21.3 {*/, VersionedEntitySpawnReason.TRIGGERED/*?}*/);
 
-		if (zombie.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty()) {
-			zombie.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
+		if(zombie != null) {
+			zombie.finalizeSpawn((ServerLevel) vehicle.level(), localDifficulty, VersionedEntitySpawnReason.TRIGGERED, null);
+			zombie.setBaby(false);
+			zombie.setPos(vehicle.getX(), vehicle.getY(), vehicle.getZ());
+			zombie.invulnerableTime = 60;
+			zombie.setPersistenceRequired();
+
+			if (zombie.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty()) {
+				zombie.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
+			}
+
+			if (zombie.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
+				zombie.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.CHAINMAIL_HELMET));
+			}
+
+			this.enchantEquipment(zombie, EquipmentSlot.MAINHAND, localDifficulty);
+			this.enchantEquipment(zombie, EquipmentSlot.HEAD, localDifficulty);
 		}
-
-		if (zombie.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
-			zombie.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.CHAINMAIL_HELMET));
-		}
-
-		this.enchantEquipment(zombie, EquipmentSlot.MAINHAND, localDifficulty);
-		this.enchantEquipment(zombie, EquipmentSlot.HEAD, localDifficulty);
 
 		return zombie;
 	}

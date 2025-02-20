@@ -18,25 +18,26 @@ import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.world.entity.Entity;
 
 @Mixin(EntityRenderDispatcher.class)
+@SuppressWarnings({"unchecked"})
 public abstract class EntityRenderDispatcherMixin
 {
 	@Unique
-	private Map<PlayerSkin.Model, EntityRenderer<? extends PlayerIllusionEntity>> illusionModelRenderers = ImmutableMap.of();
+	private Map<PlayerSkin.Model, EntityRenderer<? extends PlayerIllusionEntity/*? >=1.21.3 {*/, ?/*?}*/>> friendsandfoes$illusionModelRenderers = ImmutableMap.of();
 
 	@Inject(
 		method = "getRenderer",
 		at = @At("HEAD"),
 		cancellable = true
 	)
-	public <T extends Entity> void friendsandfoes_getRenderer(
+	public <T extends Entity> void friendsandfoes$getRenderer(
 		T entity,
-		CallbackInfoReturnable<EntityRenderer<? super T>> cir
+		CallbackInfoReturnable<EntityRenderer<? super T/*? >=1.21.3 {*/, ?/*?}*/>> cir
 	) {
 		if (entity instanceof PlayerIllusionEntity) {
 			PlayerSkin.Model model = ((PlayerIllusionEntity) entity).getSkinTextures().model();
-			EntityRenderer<? extends PlayerIllusionEntity> entityRenderer = this.illusionModelRenderers.get(model);
-			entityRenderer = entityRenderer != null ? entityRenderer:this.illusionModelRenderers.get(PlayerSkin.Model.WIDE);
-			cir.setReturnValue((EntityRenderer<? super T>) entityRenderer);
+			EntityRenderer<? extends PlayerIllusionEntity/*? >=1.21.3 {*/, ?/*?}*/> entityRenderer = this.friendsandfoes$illusionModelRenderers.get(model);
+			entityRenderer = entityRenderer != null ? entityRenderer:this.friendsandfoes$illusionModelRenderers.get(PlayerSkin.Model.WIDE);
+			cir.setReturnValue((EntityRenderer<? super T/*? >=1.21.3 {*/, ?/*?}*/>) entityRenderer);
 		}
 	}
 
@@ -47,10 +48,10 @@ public abstract class EntityRenderDispatcherMixin
 			value = "LOAD"
 		)
 	)
-	public EntityRendererProvider.Context friendsandfoes_reload(
+	public EntityRendererProvider.Context friendsandfoes$reload(
 		EntityRendererProvider.Context context
 	) {
-		this.illusionModelRenderers = FriendsAndFoesEntityRenderers.reloadPlayerIllusionRenderers(context);
+		this.friendsandfoes$illusionModelRenderers = FriendsAndFoesEntityRenderers.reloadPlayerIllusionRenderers(context);
 		return context;
 	}
 }

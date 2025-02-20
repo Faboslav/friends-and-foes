@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.entity.WildfireEntity;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.projectile.Snowball;
@@ -29,6 +30,6 @@ public abstract class SnowballEntityMixin extends ThrowableItemProjectile
 	) {
 		Entity entity = entityHitResult.getEntity();
 		int i = entity instanceof WildfireEntity ? 3:0;
-		entity.hurt(this.damageSources().thrown(this, this.getOwner()), (float) i);
+		VersionedEntity.hurt(entity, this.damageSources().thrown(this, this.getOwner()), (float) i);
 	}
 }

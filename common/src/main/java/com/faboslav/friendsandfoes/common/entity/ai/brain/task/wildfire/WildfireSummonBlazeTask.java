@@ -4,12 +4,12 @@ import com.faboslav.friendsandfoes.common.entity.BlazeEntityAccess;
 import com.faboslav.friendsandfoes.common.entity.WildfireEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.WildfireBrain;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
@@ -93,11 +93,11 @@ public final class WildfireSummonBlazeTask extends Behavior<WildfireEntity>
 				1,
 				-2 + wildfire.getRandom().nextInt(5)
 			);
-			Blaze blazeEntity = EntityType.BLAZE.create(serverWorld);
+			Blaze blazeEntity = EntityType.BLAZE.create(serverWorld/*? >=1.21.3 {*/, VersionedEntitySpawnReason.MOB_SUMMONED/*?}*/);
 			blazeEntity.moveTo(blockPos, 0.0F, 0.0F);
 			blazeEntity.setTarget(this.attackTarget);
 			((BlazeEntityAccess) blazeEntity).friendsandfoes_setWildfire(wildfire);
-			blazeEntity.finalizeSpawn(serverWorld, serverWorld.getCurrentDifficultyAt(blockPos), MobSpawnType.MOB_SUMMONED, null);
+			blazeEntity.finalizeSpawn(serverWorld, serverWorld.getCurrentDifficultyAt(blockPos), VersionedEntitySpawnReason.MOB_SUMMONED, null);
 			serverWorld.addFreshEntityWithPassengers(blazeEntity);
 
 			this.summonedBlazesCount++;

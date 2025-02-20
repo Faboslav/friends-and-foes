@@ -4,15 +4,22 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistries;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
-import com.faboslav.friendsandfoes.common.item.DispenserAddedSpawnEgg;
+import com.faboslav.friendsandfoes.common.mixin.SpawnEggItemAccessor;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.Rarity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.ComposterBlock;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+
+import java.util.function.Supplier;
+
+//? >=1.21.3 {
+import net.minecraft.world.item.equipment.ArmorType;
+//?} else {
+
+//?}
 
 /**
  * @see Items
@@ -21,16 +28,16 @@ public final class FriendsAndFoesItems
 {
 	public static final ResourcefulRegistry<Item> ITEMS = ResourcefulRegistries.create(BuiltInRegistries.ITEM, FriendsAndFoes.MOD_ID);
 
-	public final static RegistryEntry<Item> COPPER_GOLEM_SPAWN_EGG = ITEMS.register("copper_golem_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.COPPER_GOLEM, 0xFF9A5038, 0xFFFC9982, new Item.Properties().stacksTo(64)));
-	public final static RegistryEntry<Item> CRAB_SPAWN_EGG = ITEMS.register("crab_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.CRAB, 0xFF333077, 0xFFFE984B, new Item.Properties().stacksTo(64)));
-	public final static RegistryEntry<Item> GLARE_SPAWN_EGG = ITEMS.register("glare_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.GLARE, 0xFF70922D, 0xFF6A5227, new Item.Properties().stacksTo(64)));
-	public final static RegistryEntry<Item> ICEOLOGER_SPAWN_EGG = ITEMS.register("iceologer_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.ICEOLOGER, 0xFF173873, 0xFF949B9B, new Item.Properties().stacksTo(64)));
-	public final static RegistryEntry<Item> ILLUSIONER_SPAWN_EGG = ITEMS.register("illusioner_spawn_egg", () -> new DispenserAddedSpawnEgg(() -> EntityType.ILLUSIONER, 0xFF603E5C, 0xFF888E8E, new Item.Properties().stacksTo(64)));
-	public final static RegistryEntry<Item> MAULER_SPAWN_EGG = ITEMS.register("mauler_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.MAULER, 0xFF534F25, 0xFF817B39, new Item.Properties().stacksTo(64)));
-	public final static RegistryEntry<Item> MOOBLOOM_SPAWN_EGG = ITEMS.register("moobloom_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.MOOBLOOM, 0xFFF7EDC1, 0xFFFACA00, new Item.Properties().stacksTo(64)));
-	public final static RegistryEntry<Item> RASCAL_SPAWN_EGG = ITEMS.register("rascal_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.RASCAL, 0xFF05736A, 0xFF8A521C, new Item.Properties().stacksTo(64)));
-	public final static RegistryEntry<Item> TUFF_GOLEM_SPAWN_EGG = ITEMS.register("tuff_golem_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.TUFF_GOLEM, 0xFFA0A297, 0xFF5D5D52, new Item.Properties().stacksTo(64)));
-	public final static RegistryEntry<Item> WILDFIRE_SPAWN_EGG = ITEMS.register("wildfire_spawn_egg", () -> new DispenserAddedSpawnEgg(FriendsAndFoesEntityTypes.WILDFIRE, 0xFF6C3100, 0xFFFFD528, new Item.Properties().stacksTo(64)));
+	public final static RegistryEntry<Item> COPPER_GOLEM_SPAWN_EGG = registerSpawnEgg("copper_golem_spawn_egg", FriendsAndFoesEntityTypes.COPPER_GOLEM, 0xFF9A5038, 0xFFFC998);
+	public final static RegistryEntry<Item> CRAB_SPAWN_EGG = registerSpawnEgg("crab_spawn_egg", FriendsAndFoesEntityTypes.CRAB, 0xFF333077, 0xFFFE984B);
+	public final static RegistryEntry<Item> GLARE_SPAWN_EGG = registerSpawnEgg("glare_spawn_egg", FriendsAndFoesEntityTypes.GLARE, 0xFF70922D, 0xFF6A5227);
+	public final static RegistryEntry<Item> ICEOLOGER_SPAWN_EGG = registerSpawnEgg("iceologer_spawn_egg", FriendsAndFoesEntityTypes.ICEOLOGER, 0xFF173873, 0xFF949B9B);
+	public final static RegistryEntry<Item> ILLUSIONER_SPAWN_EGG = registerSpawnEgg("illusioner_spawn_egg", () -> EntityType.ILLUSIONER, 0xFF603E5C, 0xFF888E8E);
+	public final static RegistryEntry<Item> MAULER_SPAWN_EGG = registerSpawnEgg("mauler_spawn_egg", FriendsAndFoesEntityTypes.MAULER, 0xFF534F25, 0xFF817B39);
+	public final static RegistryEntry<Item> MOOBLOOM_SPAWN_EGG = registerSpawnEgg("moobloom_spawn_egg", FriendsAndFoesEntityTypes.MOOBLOOM, 0xFFF7EDC1, 0xFFFACA00);
+	public final static RegistryEntry<Item> RASCAL_SPAWN_EGG = registerSpawnEgg("rascal_spawn_egg", FriendsAndFoesEntityTypes.RASCAL, 0xFF05736A, 0xFF8A521C);
+	public final static RegistryEntry<Item> TUFF_GOLEM_SPAWN_EGG = registerSpawnEgg("tuff_golem_spawn_egg", FriendsAndFoesEntityTypes.TUFF_GOLEM, 0xFFA0A297, 0xFF5D5D52);
+	public final static RegistryEntry<Item> WILDFIRE_SPAWN_EGG = registerSpawnEgg("wildfire_spawn_egg", FriendsAndFoesEntityTypes.WILDFIRE, 0xFF6C3100, 0xFFFFD528);
 	public final static RegistryEntry<Item> BUTTERCUP = ITEMS.register("buttercup", () -> new BlockItem(FriendsAndFoesBlocks.BUTTERCUP.get(), new Item.Properties().stacksTo(64)));
 	public final static RegistryEntry<Item> CRAB_CLAW = ITEMS.register("crab_claw", () -> new Item((new Item.Properties())));
 	public final static RegistryEntry<Item> CRAB_EGG = ITEMS.register("crab_egg", () -> new BlockItem(FriendsAndFoesBlocks.CRAB_EGG.get(), new Item.Properties().stacksTo(64)));
@@ -59,13 +66,40 @@ public final class FriendsAndFoesItems
 	public final static RegistryEntry<Item> WAXED_EXPOSED_LIGHTNING_ROD = ITEMS.register("waxed_exposed_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_EXPOSED_LIGHTNING_ROD.get(), new Item.Properties().stacksTo(64)));
 	public final static RegistryEntry<Item> WAXED_WEATHERED_LIGHTNING_ROD = ITEMS.register("waxed_weathered_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_WEATHERED_LIGHTNING_ROD.get(), new Item.Properties().stacksTo(64)));
 	public final static RegistryEntry<Item> WAXED_OXIDIZED_LIGHTNING_ROD = ITEMS.register("waxed_oxidized_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get(), new Item.Properties().stacksTo(64)));
-	public final static RegistryEntry<Item> WILDFIRE_CROWN = ITEMS.register("wildfire_crown", () -> new ArmorItem(FriendsAndFoesArmorMaterials.WILDFIRE.referenceRegistryEntry(), ArmorItem.Type.HELMET, (new Item.Properties().stacksTo(1)).fireResistant().durability(ArmorItem.Type.HELMET.getDurability(37))));
+	//? >=1.21.3 {
+	public final static RegistryEntry<Item> WILDFIRE_CROWN = ITEMS.register("wildfire_crown", () -> new ArmorItem(FriendsAndFoesArmorMaterials.WILDFIRE, ArmorType.HELMET, (new Item.Properties().stacksTo(1)).fireResistant().durability(ArmorType.HELMET.getDurability(37))));
+	//?} else {
+	/*public final static RegistryEntry<Item> WILDFIRE_CROWN = ITEMS.register("wildfire_crown", () -> new ArmorItem(FriendsAndFoesArmorMaterials.WILDFIRE.referenceRegistryEntry(), ArmorItem.Type.HELMET, (new Item.Properties().stacksTo(1)).fireResistant().durability(ArmorItem.Type.HELMET.getDurability(37))));
+	*///?}
 	public final static RegistryEntry<Item> WILDFIRE_CROWN_FRAGMENT = ITEMS.register("wildfire_crown_fragment", () -> new Item((new Item.Properties()).fireResistant()));
 	public final static RegistryEntry<Item> TOTEM_OF_FREEZING = ITEMS.register("totem_of_freezing", () -> new Item((new Item.Properties()).stacksTo(1).rarity(Rarity.UNCOMMON)));
 	public final static RegistryEntry<Item> TOTEM_OF_ILLUSION = ITEMS.register("totem_of_illusion", () -> new Item((new Item.Properties()).stacksTo(1).rarity(Rarity.UNCOMMON)));
 	public static final RegistryEntry<Item> MUSIC_DISC_AROUND_THE_CORNER = ITEMS.register("music_disc_around_the_corner", () -> new Item((new Item.Properties()).stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(FriendsAndFoesJukeboxSongs.AROUND_THE_CORNER)));
 
 	private FriendsAndFoesItems() {
+	}
+
+	private static RegistryEntry<Item> registerSpawnEgg(
+		String id,
+		Supplier<? extends EntityType<? extends Mob>> typeIn,
+		int primaryColorIn,
+		int secondaryColorIn
+	) {
+		return ITEMS.register(id, () -> {
+			//? >=1.21.4 {
+			/*var spawnEgg = new SpawnEggItem(typeIn.get(), new Item.Properties().stacksTo(64).setId(ResourceKey.create(Registries.ITEM, VariantsAndVentures.makeID(id))));
+			*//*?}*/
+			//? =1.21.3 {
+			var spawnEgg = new SpawnEggItem(typeIn.get(), primaryColorIn, secondaryColorIn, new Item.Properties().stacksTo(64).setId(ResourceKey.create(Registries.ITEM, FriendsAndFoes.makeID(id))));
+			//?}
+			//? <=1.21.1 {
+			/*var spawnEgg = new SpawnEggItem(typeIn.get(), primaryColorIn, secondaryColorIn, new Item.Properties().stacksTo(64));
+			*///?}
+			var spawnEggMap = SpawnEggItemAccessor.friendsandfoes$getSpawnEggs();
+			spawnEggMap.put(typeIn.get(), spawnEgg);
+
+			return spawnEgg;
+		});
 	}
 
 	public static void registerCompostableItems() {

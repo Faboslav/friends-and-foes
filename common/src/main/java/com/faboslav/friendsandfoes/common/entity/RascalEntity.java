@@ -10,6 +10,9 @@ import com.faboslav.friendsandfoes.common.entity.pose.RascalEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
 import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
+import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -29,13 +32,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.Pose;
-import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -51,6 +48,12 @@ import net.minecraft.world.level.pathfinder.PathType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+
+//? >=1.21.3 {
+import net.minecraft.world.entity.EntitySpawnReason;
+//?} else {
+/*import net.minecraft.world.entity.MobSpawnType;
+ *///?}
 
 public final class RascalEntity extends AgeableMob implements AnimatedEntity
 {
@@ -73,7 +76,11 @@ public final class RascalEntity extends AgeableMob implements AnimatedEntity
 	public SpawnGroupData finalizeSpawn(
 		ServerLevelAccessor world,
 		DifficultyInstance difficulty,
-		MobSpawnType spawnReason,
+		/*? >=1.21.3 {*/
+		EntitySpawnReason spawnReason,
+		/*?} else {*/
+		/*MobSpawnType spawnReason,
+		 *//*?}*/
 		@Nullable SpawnGroupData entityData
 	) {
 		SpawnGroupData superEntityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData);
@@ -87,13 +94,17 @@ public final class RascalEntity extends AgeableMob implements AnimatedEntity
 	public static boolean canSpawn(
 		EntityType<? extends Mob> rascalEntityType,
 		ServerLevelAccessor serverWorldAccess,
-		MobSpawnType spawnReason,
+		/*? >=1.21.3 {*/
+		EntitySpawnReason spawnReason,
+		/*?} else {*/
+		/*MobSpawnType spawnReason,
+		 *//*?}*/
 		BlockPos blockPos,
 		RandomSource random
 	) {
-		if (spawnReason == MobSpawnType.NATURAL) {
+		if (spawnReason == VersionedEntitySpawnReason.NATURAL) {
 			ServerLevel serverWorld = serverWorldAccess.getLevel();
-			Registry<Structure> structureRegistry = serverWorldAccess.registryAccess().registryOrThrow(Registries.STRUCTURE);
+			var structureRegistry = serverWorldAccess.registryAccess().lookupOrThrow(Registries.STRUCTURE);
 			StructureManager structureAccessor = serverWorld.structureManager();
 
 			if (
@@ -112,7 +123,7 @@ public final class RascalEntity extends AgeableMob implements AnimatedEntity
 				return false;
 			}
 
-			for (Holder<Structure> structure : structureRegistry.getOrCreateTag(StructureTags.MINESHAFT)) {
+			for (Holder<Structure> structure : structureRegistry.getOrThrow(StructureTags.MINESHAFT)) {
 				if (structureAccessor.getStructureAt(blockPos, structure.value()).isValid()) {
 					return true;
 				}
@@ -188,15 +199,22 @@ public final class RascalEntity extends AgeableMob implements AnimatedEntity
 	}
 
 	@Override
-	protected void customServerAiStep() {
-		this.level().getProfiler().push("rascalBrain");
-		this.getBrain().tick((ServerLevel) this.level(), this);
-		this.level().getProfiler().pop();
-		this.level().getProfiler().push("rascalActivityUpdate");
-		RascalBrain.updateActivities(this);
-		this.level().getProfiler().pop();
+	protected void customServerAiStep(/*? >=1.21.3 {*/ServerLevel level/*?}*/)
+	{
+		//? <1.21.3 {
+		/*var level = (ServerLevel) this.level();
+		 *///?}
 
-		super.customServerAiStep();
+		var profiler = VersionedProfilerProvider.getProfiler(this);
+		profiler.push("rascalBrain");
+		this.getBrain().tick(level, this);
+		profiler.pop();
+
+		profiler.push("rascalActivityUpdate");
+		RascalBrain.updateActivities(this);
+		profiler.pop();
+
+		super.customServerAiStep(/*? >=1.21.3 {*/level/*?}*/);
 	}
 
 	public static AttributeSupplier.Builder createRascalAttributes() {
@@ -316,19 +334,22 @@ public final class RascalEntity extends AgeableMob implements AnimatedEntity
 	}
 
 	@Override
-	public boolean hurt(
-		DamageSource source, float amount
-	) {
-		Entity attacker = source.getEntity();
+	/*? >=1.21.3 {*/
+	public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
+	/*?} else {*/
+	/*public boolean hurt(DamageSource damageSource, float amount)
+	*//*?}*/
+	{
+		Entity attacker = damageSource.getEntity();
 
 		if (
 			!(attacker instanceof Player)
 			|| this.hasCustomName()
 		) {
-			return super.hurt(source, amount);
+			return VersionedEntity.hurt(this, damageSource, amount);
 		}
 
-		this.playHurtSound(source);
+		this.playHurtSound(damageSource);
 		this.playDisappearSound();
 		this.spawnCloudParticles();
 		this.spawnAngerParticles();

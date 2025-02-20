@@ -8,10 +8,15 @@ import com.faboslav.friendsandfoes.common.entity.animation.AnimationState;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.model.HierarchicalModel;
 import org.joml.Vector3f;
 
 import java.util.*;
+
+//? >=1.21.3 {
+import net.minecraft.client.model.EntityModel;
+//?} else {
+/*import net.minecraft.client.model.HierarchicalModel;
+*///?}
 
 @Environment(EnvType.CLIENT)
 public final class KeyframeModelAnimator
@@ -19,7 +24,11 @@ public final class KeyframeModelAnimator
 	private static final Vector3f TEMP = new Vector3f();
 
 	public static void updateKeyframeAnimations(
-		HierarchicalModel<?> model,
+		//? >=1.21.3 {
+		EntityModel<?> model,
+		//?} else {
+		/*HierarchicalModel<?> model,
+		*///?}
 		AnimationContextTracker animationContextTracker,
 		ArrayList<AnimationHolder> animations,
 		int currentTick,
@@ -32,7 +41,11 @@ public final class KeyframeModelAnimator
 	}
 
 	public static void updateMovementKeyframeAnimations(
-		HierarchicalModel<?> model,
+		//? >=1.21.3 {
+		EntityModel<?> model,
+		//?} else {
+		/*HierarchicalModel<?> model,
+		 *///?}
 		AnimationHolder movementAnimation,
 		float limbAngle,
 		float limbDistance,
@@ -46,7 +59,11 @@ public final class KeyframeModelAnimator
 	}
 
 	public static void updateStaticKeyframeAnimation(
-		HierarchicalModel<?> model,
+		//? >=1.21.3 {
+		EntityModel<?> model,
+		//?} else {
+		/*HierarchicalModel<?> model,
+		 *///?}
 		AnimationContextTracker animationContextTracker,
 		AnimationHolder animationHolder,
 		int currentTick,
@@ -68,7 +85,11 @@ public final class KeyframeModelAnimator
 	}
 
 	public static void updateKeyframeAnimation(
-		HierarchicalModel<?> model,
+		//? >=1.21.3 {
+		EntityModel<?> model,
+		//?} else {
+		/*HierarchicalModel<?> model,
+		 *///?}
 		AnimationContextTracker animationContextTracker,
 		AnimationHolder animationHolder,
 		int currentTick,
@@ -88,7 +109,11 @@ public final class KeyframeModelAnimator
 	}
 
 	public static void updateMovementKeyframeAnimation(
-		HierarchicalModel<?> model,
+		//? >=1.21.3 {
+		EntityModel<?> model,
+		//?} else {
+		/*HierarchicalModel<?> model,
+		 *///?}
 		AnimationHolder movementAnimation,
 		long runningTime,
 		float scale,

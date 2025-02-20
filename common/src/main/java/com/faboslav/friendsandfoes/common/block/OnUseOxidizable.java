@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.common.block;
 
 import com.faboslav.friendsandfoes.common.util.WaxableBlocksMap;
+import com.faboslav.friendsandfoes.common.versions.VersionedInteractionResult;
 import com.google.common.collect.BiMap;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
@@ -75,7 +76,7 @@ public final class OnUseOxidizable
 				world.gameEvent(GameEvent.BLOCK_CHANGE, blockPos, GameEvent.Context.of(player, possibleWaxedState.get()));
 				world.levelEvent(player, 3003, blockPos, 0);
 
-				return InteractionResult.sidedSuccess(false);
+				return VersionedInteractionResult.success(player);
 			}
 		} else if (itemInHand instanceof AxeItem) {
 			Optional<BlockState> possibleUnWaxedState = OnUseOxidizable.getUnWaxedState(blockState);
@@ -104,7 +105,7 @@ public final class OnUseOxidizable
 					itemStack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
 				}
 
-				return InteractionResult.sidedSuccess(false);
+				return VersionedInteractionResult.success(player);
 			} else {
 				return InteractionResult.PASS;
 			}

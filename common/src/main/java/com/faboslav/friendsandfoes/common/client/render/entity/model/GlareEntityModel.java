@@ -6,7 +6,6 @@ import com.faboslav.friendsandfoes.common.entity.GlareEntity;
 import com.faboslav.friendsandfoes.common.util.animation.AnimationMath;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -17,8 +16,19 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
 
+//? >=1.21.3 {
+import net.minecraft.client.model.EntityModel;
+import com.faboslav.friendsandfoes.common.client.render.entity.state.GlareRenderState;
+//?} else {
+/*import net.minecraft.client.model.HierarchicalModel;
+ *///?}
+
 @Environment(EnvType.CLIENT)
-public final class GlareEntityModel<T extends GlareEntity> extends HierarchicalModel<T>
+//? >=1.21.3 {
+public class GlareEntityModel extends EntityModel<GlareRenderState>
+//?} else {
+/*public final class GlareEntityModel<T extends GlareEntity> extends HierarchicalModel<T>
+*///?}
 {
 	private static final String MODEL_PART_HEAD = "head";
 	private static final String MODEL_PART_EYES = "eyes";
@@ -40,6 +50,10 @@ public final class GlareEntityModel<T extends GlareEntity> extends HierarchicalM
 	private final ModelPart[] layers;
 
 	public GlareEntityModel(ModelPart root) {
+		//? >=1.21.3 {
+		super(root);
+		//?}
+
 		this.root = root;
 		this.head = this.root.getChild(MODEL_PART_HEAD);
 		this.eyes = this.head.getChild(MODEL_PART_EYES);
@@ -79,20 +93,27 @@ public final class GlareEntityModel<T extends GlareEntity> extends HierarchicalM
 		return LayerDefinition.create(modelData, 64, 128);
 	}
 
-	@Override
+	//? <1.21.3 {
+	/*@Override
 	public ModelPart root() {
 		return this.root;
 	}
+	*///?}
 
 	@Override
-	public void setupAnim(
-		T glare,
-		float limbAngle,
-		float limbDistance,
-		float animationProgress,
-		float headYaw,
-		float headPitch
-	) {
+	//? >=1.21.3 {
+	public void setupAnim(GlareRenderState renderState)
+	//?} else {
+	/*public void setupAnim(T glare, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
+	*///?}
+	{
+		//? >=1.21.3 {
+		var glare = renderState.glare;
+		var limbAngle = renderState.walkAnimationPos;
+		var limbDistance = renderState.walkAnimationSpeed;
+		var animationProgress = renderState.ageInTicks;
+		//?}
+
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 
 		this.animateEyes(glare);
@@ -121,7 +142,7 @@ public final class GlareEntityModel<T extends GlareEntity> extends HierarchicalM
 	}
 
 	private void animateFloating(
-		T glare,
+		GlareEntity glare,
 		float animationProgress
 	) {
 		float verticalFloatingSpeed = glare.isGrumpy() ? 0.3F:0.1F;
@@ -154,7 +175,7 @@ public final class GlareEntityModel<T extends GlareEntity> extends HierarchicalM
 		this.head.x = horizontalFloatingProgress;
 	}
 
-	private void animateEyes(T glare) {
+	private void animateEyes(GlareEntity glare) {
 		Vec2 targetEyesPositionOffset = glare.getTargetEyesPositionOffset();
 
 		ModelPartModelAnimator.animateModelPartPositionBasedOnTicks(

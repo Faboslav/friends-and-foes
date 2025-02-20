@@ -4,11 +4,11 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.TuffGolemEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.util.CopperGolemBuildPatternPredicates;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -121,7 +121,7 @@ public abstract class CarvedPumpkinBlockMixin extends HorizontalDirectionalBlock
 		BlockPos cachedBlockPosition = patternSearchResult.getBlock(0, 2, 0).getPos();
 		float tuffGolemYaw = headBlockState.getValue(CarvedPumpkinBlock.FACING).toYRot();
 
-		TuffGolemEntity tuffGolem = FriendsAndFoesEntityTypes.TUFF_GOLEM.get().create(world);
+		TuffGolemEntity tuffGolem = FriendsAndFoesEntityTypes.TUFF_GOLEM.get().create(world/*? >=1.21.3 {*/, VersionedEntitySpawnReason.TRIGGERED/*?}*/);
 
 		tuffGolem.setPos(
 			(double) cachedBlockPosition.getX() + 0.5D,
@@ -130,7 +130,7 @@ public abstract class CarvedPumpkinBlockMixin extends HorizontalDirectionalBlock
 		);
 		tuffGolem.setSpawnYaw(tuffGolemYaw);
 		tuffGolem.setColor(TuffGolemEntity.Color.fromWool(woolBlockState.getBlock()));
-		tuffGolem.finalizeSpawn((ServerLevelAccessor) world, world.getCurrentDifficultyAt(cachedBlockPosition), MobSpawnType.TRIGGERED, null);
+		tuffGolem.finalizeSpawn((ServerLevelAccessor) world, world.getCurrentDifficultyAt(cachedBlockPosition), VersionedEntitySpawnReason.TRIGGERED, null);
 		world.addFreshEntity(tuffGolem);
 
 		for (ServerPlayer serverPlayerEntity : world.getEntitiesOfClass(

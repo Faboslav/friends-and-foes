@@ -2,12 +2,11 @@ package com.faboslav.friendsandfoes.common.world.spawner;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.monster.Illusioner;
 import net.minecraft.world.entity.monster.PatrollingMonster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.CustomSpawner;
@@ -85,12 +84,12 @@ public final class IllusionerSpawner implements CustomSpawner
 
 		if (
 			!NaturalSpawner.isValidEmptySpawnBlock(world, mutable, blockState, blockState.getFluidState(), EntityType.ILLUSIONER)
-			|| !PatrollingMonster.checkPatrollingMonsterSpawnRules(EntityType.ILLUSIONER, world, MobSpawnType.PATROL, mutable, random)
+			|| !PatrollingMonster.checkPatrollingMonsterSpawnRules(EntityType.ILLUSIONER, world, VersionedEntitySpawnReason.PATROL, mutable, random)
 		) {
 			return 0;
 		}
 
-		var illusioner = EntityType.ILLUSIONER.create(world);
+		var illusioner = EntityType.ILLUSIONER.create(world/*? >=1.21.3 {*/, VersionedEntitySpawnReason.PATROL/*?}*/);
 
 		if (illusioner == null) {
 			return 0;
@@ -99,7 +98,7 @@ public final class IllusionerSpawner implements CustomSpawner
 		illusioner.setPatrolLeader(false);
 		illusioner.findPatrolTarget();
 		illusioner.setPos(mutable.getX(), mutable.getY(), mutable.getZ());
-		illusioner.finalizeSpawn(world, world.getCurrentDifficultyAt(mutable), MobSpawnType.PATROL, null);
+		illusioner.finalizeSpawn(world, world.getCurrentDifficultyAt(mutable), VersionedEntitySpawnReason.PATROL, null);
 		world.addFreshEntityWithPassengers(illusioner);
 		return 1;
 	}

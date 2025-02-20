@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
@@ -39,9 +40,9 @@ public final class PatrolSpawnerMixin
 
 		if (!this.friendsandfoes_isBiomeSpecificIllagerSpawned) {
 			if (biomeEntry.is(FriendsAndFoesTags.HAS_ILLUSIONER)) {
-				patrolEntity = EntityType.ILLUSIONER.create(world);
+				patrolEntity = EntityType.ILLUSIONER.create(world/*? >=1.21.3 {*/, VersionedEntitySpawnReason.PATROL/*?}*/);
 			} else if (biomeEntry.is(FriendsAndFoesTags.HAS_ICEOLOGER)) {
-				patrolEntity = FriendsAndFoesEntityTypes.ICEOLOGER.get().create(world);
+				patrolEntity = FriendsAndFoesEntityTypes.ICEOLOGER.get().create(world/*? >=1.21.3 {*/, VersionedEntitySpawnReason.PATROL/*?}*/);
 			}
 		}
 

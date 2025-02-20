@@ -27,6 +27,9 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Supplier;
 
 /**
  * @see Blocks
@@ -38,7 +41,7 @@ public final class FriendsAndFoesBlocks
 	public static final RegistryEntry<Block> BUTTERCUP = BLOCKS.register("buttercup", () -> new FlowerBlock(MobEffects.SATURATION, 6, BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
 	public static final RegistryEntry<Block> POTTED_BUTTERCUP = BLOCKS.register("potted_buttercup", () -> new FlowerPotBlock(BUTTERCUP.get(), BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
 	public static final RegistryEntry<Block> CRAB_EGG = BLOCKS.register("crab_egg", () -> new CrabEggBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).forceSolidOn().strength(0.5F).sound(SoundType.METAL).randomTicks().noOcclusion().pushReaction(PushReaction.DESTROY)));
-	public static final RegistryEntry<Block> ACACIA_BEEHIVE = BLOCKS.register("acacia_beehive", () -> new BeehiveBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).strength(0.6F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava()));
+	public static final RegistryEntry<Block> ACACIA_BEEHIVE = registerBlock(FriendsAndFoes.getConfig().enableAdditionalBeehiveWoodVariants, () -> BLOCKS.register("acacia_beehive", () -> new BeehiveBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).strength(0.6F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava())));
 	public static final RegistryEntry<Block> BAMBOO_BEEHIVE = BLOCKS.register("bamboo_beehive", () -> new BeehiveBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_YELLOW).strength(0.6F).sound(SoundType.BAMBOO_WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava()));
 	public static final RegistryEntry<Block> BIRCH_BEEHIVE = BLOCKS.register("birch_beehive", () -> new BeehiveBlock(BlockBehaviour.Properties.of().mapColor(MapColor.SAND).strength(0.6F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava()));
 	public static final RegistryEntry<Block> CHERRY_BEEHIVE = BLOCKS.register("cherry_beehive", () -> new BeehiveBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_WHITE).strength(0.6F).sound(SoundType.CHERRY_WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava()));
@@ -79,6 +82,16 @@ public final class FriendsAndFoesBlocks
 			.filter(block -> block instanceof BeehiveBlock && (block != WARPED_BEEHIVE && block != CRIMSON_BEEHIVE)) // TODO check this
 			.map(block -> (BeehiveBlock) block)
 			.forEach(block -> event.register(block, 20, 5));
+	}
+
+	@Nullable
+	private static RegistryEntry<Block> registerBlock(boolean registerCondition, Supplier<RegistryEntry<Block>> registerSupplier) {
+		if(!registerCondition) {
+			return null;
+		}
+
+		return registerSupplier.get();
+
 	}
 
 	private FriendsAndFoesBlocks() {

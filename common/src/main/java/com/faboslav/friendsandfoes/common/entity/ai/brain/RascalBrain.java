@@ -59,7 +59,7 @@ public final class RascalBrain
 		brain.addActivity(Activity.CORE,
 			0,
 			ImmutableList.of(
-				new Swim(0.8F),
+				new Swim/*? >=1.21.3 {*/<>/*?}*/(0.8F),
 				new LookAtTargetSink(45, 90),
 				new MoveToTargetSink(),
 				new CountDownCooldownTicks(FriendsAndFoesMemoryModuleTypes.RASCAL_NOD_COOLDOWN.get())

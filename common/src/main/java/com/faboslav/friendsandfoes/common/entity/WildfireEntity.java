@@ -9,6 +9,8 @@ import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.
 import com.faboslav.friendsandfoes.common.entity.pose.WildfireEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
+import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -39,6 +41,12 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+
+//? >=1.21.3 {
+import net.minecraft.world.entity.EntitySpawnReason;
+//?} else {
+/*import net.minecraft.world.entity.MobSpawnType;
+ *///?}
 
 public final class WildfireEntity extends Monster implements AnimatedEntity
 {
@@ -76,7 +84,11 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 	public SpawnGroupData finalizeSpawn(
 		ServerLevelAccessor world,
 		DifficultyInstance difficulty,
-		MobSpawnType spawnReason,
+		/*? >=1.21.3 {*/
+		EntitySpawnReason spawnReason,
+		/*?} else {*/
+		/*MobSpawnType spawnReason,
+		*//*?}*/
 		@Nullable SpawnGroupData entityData
 	) {
 		this.setPose(WildfireEntityPose.IDLE);
@@ -137,18 +149,22 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 	}
 
 	@Override
-	protected void customServerAiStep() {
-		var profiler = this.level().getProfiler();
+	protected void customServerAiStep(/*? >=1.21.3 {*/ServerLevel level/*?}*/)
+	{
+		//? <1.21.3 {
+		/*var level = (ServerLevel) this.level();
+		 *///?}
 
+		var profiler = VersionedProfilerProvider.getProfiler(this);
 		profiler.push("wildfireBrain");
-		this.getBrain().tick((ServerLevel) this.level(), this);
+		this.getBrain().tick(level, this);
 		profiler.pop();
 
 		profiler.push("wildfireActivityUpdate");
 		WildfireBrain.updateActivities(this);
 		profiler.pop();
 
-		super.customServerAiStep();
+		super.customServerAiStep(/*? >=1.21.3 {*/level/*?}*/);
 	}
 
 	public static AttributeSupplier.Builder createWildfireAttributes() {
@@ -298,7 +314,7 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 			this.discard();
 		}
 
-		if(this.isMoving()) {
+		if(this.walkAnimation.isMoving()) {
 			this.emitGroundParticles(20);
 		} else {
 			this.emitGroundParticles(1 + this.getRandom().nextInt(1));
@@ -313,6 +329,18 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 			this.regenerateShield();
 			this.resetTicksUntilShieldRegeneration();
 		}
+	}
+
+	protected void updateWalkAnimation(float partialTick) {
+		float f;
+
+		if (this.getAnimationContextTracker().get(WildfireAnimations.SHOCKWAVE).isRunning()) {
+			f = 0.0F;
+		} else {
+			f = Math.min(partialTick * 4.0F, 1.0F);
+		}
+		
+		this.walkAnimation.update(f, 0.4F/*? >=1.21.3 {*/, 1.0F /*?}*/);
 	}
 
 	private void updateKeyframeAnimations() {
@@ -331,7 +359,7 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 	public AnimationHolder getAnimationByPose() {
 		AnimationHolder animation = null;
 
-		if (this.isInPose(WildfireEntityPose.IDLE) && !this.isMoving()) {
+		if (this.isInPose(WildfireEntityPose.IDLE) && !this.walkAnimation.isMoving()) {
 			animation = WildfireAnimations.IDLE;
 		} else if (this.isInPose(WildfireEntityPose.SHOCKWAVE)) {
 			animation = WildfireAnimations.SHOCKWAVE;
@@ -395,10 +423,6 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 		return this.getPose() == pose.get();
 	}
 
-	public boolean isMoving() {
-		return this.onGround() && this.getDeltaMovement().lengthSqr() >= 0.0001;
-	}
-
 	@Override
 	public void aiStep() {
 		if (!this.onGround() && this.getDeltaMovement().y < 0.0F) {
@@ -433,18 +457,28 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 	}
 
 	@Override
-	public boolean hurt(
-		DamageSource source,
-		float amount
-	) {
-		if (source == this.damageSources().generic() || source == this.damageSources().genericKill()) {
-			return super.hurt(source, amount);
+	/*? >=1.21.3 {*/
+	public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
+	/*?} else {*/
+	/*public boolean hurt(DamageSource damageSource, float amount)
+	 *//*?}*/
+	{
+		//? <1.21.3 {
+		/*var level = this.level();
+		*///?}
+
+		if (damageSource == this.damageSources().generic() || damageSource == this.damageSources().genericKill()) {
+			/*? >=1.21.3 {*/
+			return super.hurtServer(level, damageSource, amount);
+			/*?} else {*/
+			/*return super.hurt(damageSource, amount);
+			*//*?}*/
 		}
 
-		Entity attacker = source.getEntity();
+		Entity attacker = damageSource.getEntity();
 
 		if (
-			source == this.damageSources().inFire()
+			damageSource == this.damageSources().inFire()
 			|| (attacker != null && attacker.getType().is(FriendsAndFoesTags.WILDFIRE_ALLIES))
 		) {
 			return false;
@@ -456,7 +490,7 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 
 			if (this.damageAmountCounter >= shieldBreakDamageThreshold) {
 				if (attacker instanceof LivingEntity) {
-					attacker.hurt(this.damageSources().mobAttack(this), GENERIC_ATTACK_DAMAGE);
+					VersionedEntity.hurt(attacker, this.damageSources().mobAttack(this), GENERIC_ATTACK_DAMAGE);
 				}
 
 				this.breakShield();
@@ -469,7 +503,11 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 
 		this.resetTicksUntilShieldRegeneration();
 
-		boolean damageResult = super.hurt(source, amount);
+		/*? >=1.21.3 {*/
+		boolean damageResult = super.hurtServer(level, damageSource, amount);
+		/*?} else {*/
+		/*boolean damageResult = super.hurt(damageSource, amount);
+		*//*?}*/
 
 		if (damageResult && attacker instanceof LivingEntity) {
 			WildfireBrain.onAttacked(this, (LivingEntity) attacker);

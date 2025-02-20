@@ -132,6 +132,27 @@ public final class AnimationParser {
 	 * }
 	 * }
 	 */
+	public static final Codec<AnimationDefinition> CODEC = withName("");
+	/**
+	 * {@snippet lang = JSON :
+	 * {
+	 *   "length": 1.125,
+	 *   "loop": true,
+	 *   "animations": [
+	 *     {
+	 *       "bone": "head",
+	 *       "keyframes": [
+	 *         {
+	 *           "timestamp": 0.5,
+	 *           "target": [22.5, 0.0, 0.0],
+	 *           "interpolation": "minecraft:linear"
+	 *         }
+	 *       ]
+	 *     }
+	 *   ]
+	 * }
+	 * }
+	 */
 	public static Codec<AnimationDefinition> withName(String name) {
 		return RecordCodecBuilder.create(
 			instance -> instance.group(

@@ -10,6 +10,10 @@ import com.faboslav.friendsandfoes.common.entity.pose.TuffGolemEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.util.MovementUtil;
 import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
+import com.faboslav.friendsandfoes.common.versions.VersionedInteractionResult;
+import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -26,19 +30,13 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LightningBolt;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.Pose;
-import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.animal.AbstractGolem;
+import net.minecraft.world.entity.animal.Fox;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.DyeColor;
@@ -59,6 +57,12 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+
+//? >=1.21.3 {
+import net.minecraft.world.entity.EntitySpawnReason;
+//?} else {
+/*import net.minecraft.world.entity.MobSpawnType;
+*///?}
 
 public final class TuffGolemEntity extends AbstractGolem implements AnimatedEntity
 {
@@ -143,12 +147,16 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 	public SpawnGroupData finalizeSpawn(
 		ServerLevelAccessor world,
 		DifficultyInstance difficulty,
-		MobSpawnType spawnReason,
+		/*? >=1.21.3 {*/
+		EntitySpawnReason spawnReason,
+		/*?} else {*/
+		/*MobSpawnType spawnReason,
+		*//*?}*/
 		@Nullable SpawnGroupData entityData
 	) {
 		SpawnGroupData superEntityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData);
 
-		if (spawnReason == MobSpawnType.SPAWN_EGG || spawnReason == MobSpawnType.COMMAND) {
+		if (spawnReason == VersionedEntitySpawnReason.MOB_SUMMONED || spawnReason == VersionedEntitySpawnReason.COMMAND) {
 			float randomSpawnYaw = 90.0F * (float) this.getRandom().nextIntBetweenInclusive(0, 3);
 			this.setSpawnYaw(randomSpawnYaw);
 		}
@@ -180,15 +188,22 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 	}
 
 	@Override
-	protected void customServerAiStep() {
-		this.level().getProfiler().push("tuffGolemBrain");
-		this.getBrain().tick((ServerLevel) this.level(), this);
-		this.level().getProfiler().pop();
-		this.level().getProfiler().push("tuffGolemActivityUpdate");
-		TuffGolemBrain.updateActivities(this);
-		this.level().getProfiler().pop();
+	protected void customServerAiStep(/*? >=1.21.3 {*/ServerLevel level/*?}*/)
+	{
+		//? <1.21.3 {
+		/*var level = (ServerLevel) this.level();
+		 *///?}
 
-		super.customServerAiStep();
+		var profiler = VersionedProfilerProvider.getProfiler(this);
+		profiler.push("tuffGolemBrain");
+		this.getBrain().tick(level, this);
+		profiler.pop();
+
+		profiler.push("tuffGolemActivityUpdate");
+		TuffGolemBrain.updateActivities(this);
+		profiler.pop();
+
+		super.customServerAiStep(/*? >=1.21.3 {*/level/*?}*/);
 	}
 
 	public static AttributeSupplier.Builder createTuffGolemAttributes() {
@@ -357,7 +372,7 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 
 		if (interactionResult) {
 			this.gameEvent(GameEvent.ENTITY_INTERACT, this);
-			return InteractionResult.sidedSuccess(this.level().isClientSide());
+			return VersionedInteractionResult.success(this);
 		}
 
 		return super.mobInteract(player, hand);
@@ -462,7 +477,7 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 
 		if (this.isHoldingItem()) {
 			if (player.getAbilities().instabuild == false) {
-				this.spawnAtLocation(this.getItemBySlot(EquipmentSlot.MAINHAND));
+				VersionedEntity.spawnAtLocation(this, this.getItemBySlot(EquipmentSlot.MAINHAND));
 			}
 
 			this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
@@ -767,21 +782,27 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 	}
 
 	@Override
-	public boolean hurt(
-		DamageSource source,
-		float amount
-	) {
-		Entity attacker = source.getEntity();
+	/*? >=1.21.3 {*/
+	public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
+	/*?} else {*/
+	/*public boolean hurt(DamageSource damageSource, float amount)
+	*//*?}*/
+	{
+		//? <1.21.3 {
+		/*var level = this.level();
+		*///?}
+
+		Entity attacker = damageSource.getEntity();
 
 		if (
 			attacker instanceof LightningBolt
-			|| source == this.damageSources().sweetBerryBush()
+			|| damageSource == this.damageSources().sweetBerryBush()
 		) {
 			return false;
 		}
 
 		if (
-			this.level().isClientSide() == false
+			!this.level().isClientSide()
 			&& this.isInSleepingPose()
 		) {
 			if (this.isHoldingItem()) {
@@ -791,7 +812,11 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 			}
 		}
 
-		return super.hurt(source, amount);
+		/*? >=1.21.3 {*/
+		return super.hurtServer(level, damageSource, amount);
+		/*?} else {*/
+		/*return super.hurt(damageSource, amount);
+		*//*?}*/
 	}
 
 	@Override
@@ -818,12 +843,13 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 	}
 
 	@Override
-	protected void dropFromLootTable(DamageSource source, boolean causedByPlayer) {
-		if (this.isHoldingItem()) {
-			this.spawnAtLocation(this.getItemBySlot(EquipmentSlot.MAINHAND));
-		}
+	protected void dropCustomDeathLoot(ServerLevel level, DamageSource damageSource, boolean recentlyHit) {
+		super.dropCustomDeathLoot(level, damageSource, recentlyHit);
 
-		super.dropFromLootTable(source, causedByPlayer);
+		if (this.isHoldingItem()) {
+			VersionedEntity.spawnAtLocation(this, this.getItemBySlot(EquipmentSlot.MAINHAND));
+			this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
+		}
 	}
 
 	public float getMovementSpeedModifier() {

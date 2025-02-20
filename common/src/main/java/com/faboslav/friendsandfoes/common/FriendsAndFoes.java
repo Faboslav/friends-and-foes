@@ -8,7 +8,6 @@ import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEv
 import com.faboslav.friendsandfoes.common.events.item.RegisterBrewingRecipesEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.*;
 import com.faboslav.friendsandfoes.common.init.*;
-import com.faboslav.friendsandfoes.common.item.DispenserAddedSpawnEgg;
 import com.faboslav.friendsandfoes.common.modcompat.ModChecker;
 import com.faboslav.friendsandfoes.common.network.packet.MessageHandler;
 import com.faboslav.friendsandfoes.common.network.packet.MoobloomVariantsSyncPacket;
@@ -61,11 +60,12 @@ public final class FriendsAndFoes
 		AddSpawnBiomeModificationsEvent.EVENT.addListener(FriendsAndFoesEntityTypes::addSpawnBiomeModifications);
 		RegisterBrewingRecipesEvent.EVENT.addListener(FriendsAndFoesRecipes::registerBrewingRecipes);
 		RegisterVillagerTradesEvent.EVENT.addListener(FriendsAndFoesVillagerProfessions::registerVillagerTrades);
-		SetupEvent.EVENT.addListener(DispenserAddedSpawnEgg::onSetup);
 		AddItemGroupEntriesEvent.EVENT.addListener(FriendsAndFoesItemGroups::addItemGroupEntries);
 
 		FriendsAndFoesActivities.ACTIVITIES.init();
-		FriendsAndFoesArmorMaterials.ARMOR_MATERIALS.init();
+		//? <1.21.3 {
+		/*FriendsAndFoesArmorMaterials.ARMOR_MATERIALS.init();
+		*///?}
 		FriendsAndFoesBlocks.BLOCKS.init();
 		FriendsAndFoesCriterias.CRITERIAS.init();
 		FriendsAndFoesEntityTypes.ENTITY_TYPES.init();

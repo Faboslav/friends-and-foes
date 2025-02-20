@@ -9,6 +9,7 @@ import com.faboslav.friendsandfoes.common.entity.pose.CopperGolemEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.util.CopperGolemBuildPatternPredicates;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -129,7 +130,7 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 		BlockPos cachedBlockPosition = patternSearchResult.getBlock(0, 2, 0).getPos();
 		float copperGolemYaw = headBlockState.getValue(CarvedPumpkinBlock.FACING).toYRot();
 
-		CopperGolemEntity copperGolem = FriendsAndFoesEntityTypes.COPPER_GOLEM.get().create(world);
+		CopperGolemEntity copperGolem = FriendsAndFoesEntityTypes.COPPER_GOLEM.get().create(world/*? >=1.21.3 {*/, VersionedEntitySpawnReason.TRIGGERED/*?}*/);
 
 		copperGolem.setPos(
 			(double) cachedBlockPosition.getX() + 0.5D,

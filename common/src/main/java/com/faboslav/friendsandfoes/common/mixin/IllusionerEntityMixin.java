@@ -13,10 +13,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.GoalSelector;
@@ -217,10 +214,13 @@ public abstract class IllusionerEntityMixin extends IllusionerSpellcastingIllage
 
 	@Override
 	public void friendsandfoes_damage(
-		DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir
+		/*? >=1.21.3 {*/ServerLevel level,/*?}*/
+		DamageSource damageSource,
+		float amount,
+		CallbackInfoReturnable<Boolean> cir
 	) {
 		if (FriendsAndFoes.getConfig().enableIllusioner) {
-			Entity attacker = source.getEntity();
+			Entity attacker = damageSource.getEntity();
 
 			if (
 				attacker instanceof Illusioner
@@ -245,7 +245,7 @@ public abstract class IllusionerEntityMixin extends IllusionerSpellcastingIllage
 						this.friendsandfoes_getTicksUntilCanCreateIllusions() == 0
 						&& (
 							attacker instanceof Player
-							&& !((Player) source.getEntity()).getAbilities().instabuild
+							&& !((Player) damageSource.getEntity()).getAbilities().instabuild
 						)
 					) {
 						this.friendsandfoes_createIllusions();
@@ -292,7 +292,7 @@ public abstract class IllusionerEntityMixin extends IllusionerSpellcastingIllage
 
 	private void friendsandfoes_createIllusion(int x, int y, int z) {
 		Illusioner illusioner = (Illusioner) (Object) this;
-		Illusioner illusion = EntityType.ILLUSIONER.create(this.level());
+		Illusioner illusion = EntityType.ILLUSIONER.create(this.level()/*? >=1.21.3 {*/, EntitySpawnReason.MOB_SUMMONED/*?}*/);
 
 		illusion.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
 		IllusionerEntityAccess illusionerAccess = (IllusionerEntityAccess) illusion;
@@ -314,7 +314,12 @@ public abstract class IllusionerEntityMixin extends IllusionerSpellcastingIllage
 
 	public boolean friendsandfoes_tryToTeleport(int x, int y, int z) {
 		y -= 8;
-		double bottomY = Math.max(y, level().getMinBuildHeight());
+		//? >=1.21.3 {
+		int worldBottomY = this.level().getMinY();
+		//?} else {
+		/*int worldBottomY = this.level().getMinBuildHeight();
+		*///?}
+		double bottomY = Math.max(y, worldBottomY);
 		double topY = Math.min(bottomY + 16, ((ServerLevel) this.level()).getLogicalHeight() - 1);
 
 		for (int i = 0; i < 16; ++i) {

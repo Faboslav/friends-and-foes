@@ -4,7 +4,6 @@ import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.K
 import com.faboslav.friendsandfoes.common.entity.RascalEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.model.*;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -13,8 +12,19 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 
+//? >=1.21.3 {
+import net.minecraft.client.model.EntityModel;
+import com.faboslav.friendsandfoes.common.client.render.entity.state.RascalRenderState;
+//?} else {
+/*import net.minecraft.client.model.HierarchicalModel;
+ *///?}
+
 @Environment(EnvType.CLIENT)
-public final class RascalEntityModel<T extends RascalEntity> extends HierarchicalModel<T>
+//? >=1.21.3 {
+public final class RascalEntityModel extends EntityModel<RascalRenderState>
+//?} else {
+/*public final class RascalEntityModel<T extends RascalEntity> extends HierarchicalModel<T>
+*///?}
 {
 	private static final String MODEL_PART_HEAD = "head";
 	private static final String MODEL_PART_BODY = "body";
@@ -34,6 +44,10 @@ public final class RascalEntityModel<T extends RascalEntity> extends Hierarchica
 	private final ModelPart rightLeg;
 
 	public RascalEntityModel(ModelPart root) {
+		//? >=1.21.3 {
+		super(root);
+		//?}
+
 		this.root = root;
 		this.head = this.root.getChild(MODEL_PART_HEAD);
 		this.body = this.root.getChild(MODEL_PART_BODY);
@@ -62,20 +76,26 @@ public final class RascalEntityModel<T extends RascalEntity> extends Hierarchica
 		return LayerDefinition.create(modelData, 64, 64);
 	}
 
-	@Override
+	//? <1.21.3 {
+	/*@Override
 	public ModelPart root() {
 		return this.root;
 	}
+	*///?}
 
 	@Override
-	public void setupAnim(
-		T rascal,
-		float limbAngle,
-		float limbDistance,
-		float animationProgress,
-		float headYaw,
-		float headPitch
-	) {
+	//? >=1.21.3 {
+	public void setupAnim(RascalRenderState renderState)
+	//?} else {
+	/*public void setupAnim(T rascal, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
+	*///?}
+	{
+		//? >=1.21.3 {
+		var rascal = renderState.rascal;
+		var limbAngle = renderState.walkAnimationPos;
+		var limbDistance = renderState.walkAnimationSpeed;
+		var animationProgress = renderState.ageInTicks;
+		//?}
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		this.updateAnimations(rascal, limbAngle, limbDistance, animationProgress);
 	}

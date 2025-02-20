@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.entity.ai.brain.CrabBrain;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.GlareBrain;
 import com.faboslav.friendsandfoes.common.entity.ai.pathing.CachedPathHolder;
@@ -14,6 +15,8 @@ import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.util.MovementUtil;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
 import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
+import com.faboslav.friendsandfoes.common.versions.VersionedInteractionResult;
+import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
@@ -35,14 +38,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.EntityEvent;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.MoverType;
-import net.minecraft.world.entity.SpawnGroupData;
-import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier.Builder;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -52,7 +48,9 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.animal.FlyingAnimal;
+import net.minecraft.world.entity.animal.Fox;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
@@ -74,7 +72,13 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.function.Predicate;
 
-@SuppressWarnings({"rawtypes", "unchecked"})
+//? >=1.21.3 {
+import net.minecraft.world.entity.EntitySpawnReason;
+//?} else {
+/*import net.minecraft.world.entity.MobSpawnType;
+ *///?}
+
+@SuppressWarnings({"unchecked"})
 public final class GlareEntity extends TamableAnimal implements FlyingAnimal, AnimatedEntity
 {
 	private static final Vec3i ITEM_PICKUP_RANGE_EXPANDER = new Vec3i(1, 1, 1);
@@ -145,7 +149,11 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 	public SpawnGroupData finalizeSpawn(
 		ServerLevelAccessor world,
 		DifficultyInstance difficulty,
-		MobSpawnType spawnReason,
+		/*? >=1.21.3 {*/
+		EntitySpawnReason spawnReason,
+		/*?} else {*/
+		/*MobSpawnType spawnReason,
+		*//*?}*/
 		@Nullable SpawnGroupData entityData
 	) {
 		GlareBrain.setDarkSpotLocatingCooldown(this);
@@ -158,7 +166,7 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 	static {
 		GLARE_FLAGS = SynchedEntityData.defineId(GlareEntity.class, EntityDataSerializers.BYTE);
 		PICKABLE_FOOD_FILTER = (itemEntity) -> {
-			return itemEntity.getItem().is(FriendsAndFoesTags.GLARE_FOOD_ITEMS) && itemEntity.isAlive() && itemEntity.hasPickUpDelay() == false;
+			return itemEntity.getItem().is(FriendsAndFoesTags.GLARE_FOOD_ITEMS) && itemEntity.isAlive() && !itemEntity.hasPickUpDelay();
 		};
 	}
 
@@ -186,7 +194,11 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 	public static boolean canSpawn(
 		EntityType<GlareEntity> glareEntityEntityType,
 		ServerLevelAccessor serverWorldAccess,
-		MobSpawnType spawnReason,
+		/*? >=1.21.3 {*/
+		EntitySpawnReason spawnReason,
+		/*?} else {*/
+		/*MobSpawnType spawnReason,
+		 *//*?}*/
 		BlockPos blockPos,
 		RandomSource random
 	) {
@@ -223,18 +235,26 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 	}
 
 	@Override
-	protected void customServerAiStep() {
-		this.level().getProfiler().push("glareBrain");
-		this.getBrain().tick((ServerLevel) this.level(), this);
-		this.level().getProfiler().pop();
-		this.level().getProfiler().push("glareMemoryUpdate");
-		GlareBrain.updateMemories(this);
-		this.level().getProfiler().pop();
-		this.level().getProfiler().push("glareActivityUpdate");
-		GlareBrain.updateActivities(this);
-		this.level().getProfiler().pop();
+	protected void customServerAiStep(/*? >=1.21.3 {*/ServerLevel level/*?}*/)
+	{
+		//? <1.21.3 {
+		/*var level = (ServerLevel) this.level();
+		*///?}
 
-		super.customServerAiStep();
+		var profiler = VersionedProfilerProvider.getProfiler(this);
+		profiler.push("glareBrain");
+		this.getBrain().tick(level, this);
+		profiler.pop();
+
+		profiler.push("glareMemoryUpdate");
+		GlareBrain.updateMemories(this);
+		profiler.pop();
+
+		profiler.push("glareActivityUpdate");
+		GlareBrain.updateActivities(this);
+		profiler.pop();
+
+		super.customServerAiStep(/*? >=1.21.3 {*/level/*?}*/);
 	}
 
 	@Override
@@ -264,8 +284,8 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 	}
 
 	@Override
-	public boolean wantsToPickUp(ItemStack itemStack) {
-		return itemStack.isEmpty() == false && itemStack.getItem() == Items.GLOW_BERRIES && super.wantsToPickUp(itemStack);
+	public boolean wantsToPickUp(/*? >=1.21.3 {*/ServerLevel level, /*?}*/ItemStack itemStack) {
+		return !itemStack.isEmpty() && itemStack.getItem() == Items.GLOW_BERRIES && super.wantsToPickUp(/*? >=1.21.3 {*/level, /*?}*/itemStack);
 	}
 
 	@Override
@@ -277,10 +297,12 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 		return !this.getItemInHand(InteractionHand.MAIN_HAND).isEmpty();
 	}
 
-	@Override
+	//? <1.21.3 {
+	/*@Override
 	public boolean canTakeItem(ItemStack stack) {
 		return false;
 	}
+	*///?}
 
 	private boolean isItemPickupCoolingDown() {
 		return this.getBrain().checkMemory(MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS, MemoryStatus.VALUE_PRESENT);
@@ -292,7 +314,7 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 	}
 
 	@Override
-	protected void pickUpItem(ItemEntity item) {
+	protected void pickUpItem(/*? >=1.21.3 {*/ServerLevel level, /*?}*/ItemEntity item) {
 		ItemStack itemStack = item.getItem();
 
 		if (this.canHoldItem(itemStack) && PICKABLE_FOOD_FILTER.test(item)) {
@@ -345,20 +367,35 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 
 	@Override
 	protected PathNavigation createNavigation(Level world) {
-		FlyingPathNavigation birdNavigation = new FlyingPathNavigation(this, world)
+		FlyingPathNavigation flyingPathNavigation = new FlyingPathNavigation(this, world)
 		{
 			public boolean isStableDestination(BlockPos pos) {
-				boolean isValidPos = this.level.getBlockState(pos.below()).isAir() == false && this.level.getBlockState(pos.below()).liquid() == false;
+				return !this.level.getBlockState(pos.below()).isAir() && !this.level.getBlockState(pos.below()).liquid();
+			}
 
-				return isValidPos;
+			@Override
+			public void tick() {
+				if (
+					GlareEntity.this.isOrderedToSit()
+					|| GlareEntity.this.isGrumpy()
+				) {
+					return;
+				}
+
+				super.tick();
 			}
 		};
 
-		birdNavigation.setCanOpenDoors(false);
-		birdNavigation.setCanFloat(false);
-		birdNavigation.setCanPassDoors(true);
+		flyingPathNavigation.setCanOpenDoors(false);
+		flyingPathNavigation.setCanFloat(false);
+		flyingPathNavigation.setCanPassDoors(true);
 
-		return birdNavigation;
+		// TODO check this if this is useful or not
+		//? >=1.21.3 {
+		flyingPathNavigation.setRequiredPathLength(48.0F);
+		//?}
+
+		return flyingPathNavigation;
 	}
 
 	@Override
@@ -429,13 +466,12 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 		this.playSound(soundEvent, 0.1F, 0.1F);
 	}
 
-	@Override
-	public SoundEvent getEatingSound(ItemStack stack) {
+	public SoundEvent getEatSound(ItemStack stack) {
 		return FriendsAndFoesSoundEvents.ENTITY_GLARE_EAT.get();
 	}
 
 	public void playEatSound(ItemStack stack) {
-		SoundEvent soundEvent = this.getEatingSound(stack);
+		SoundEvent soundEvent = this.getEatSound(stack);
 		this.playSound(soundEvent, 1.0F, 1.0F);
 	}
 
@@ -480,7 +516,7 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 
 		if (interactionResult) {
 			this.gameEvent(GameEvent.ENTITY_INTERACT, this);
-			return InteractionResult.sidedSuccess(this.level().isClientSide());
+			return VersionedInteractionResult.success(this);
 		}
 
 		InteractionResult actionResult = super.mobInteract(player, hand);
@@ -585,15 +621,23 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 		return this.onGround() == false;
 	}
 
+	@Override
 	protected void jumpInLiquid(TagKey<Fluid> tagKey) {
 		this.setDeltaMovement(this.getDeltaMovement().add(0.0, 0.01, 0.0));
 	}
 
+	@Override
 	public boolean causeFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
 		return false;
 	}
 
+	@Override
 	protected void checkFallDamage(double heightDifference, boolean onGround, BlockState landedState, BlockPos landedPosition) {
+	}
+
+	@Override
+	public float getAgeScale() {
+		return this.isBaby() ? 0.4F : 0.8F;
 	}
 
 	public boolean canBeLeashedBy(Player player) {
@@ -638,13 +682,13 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 
 	@Override
 	public boolean isFood(ItemStack itemStack) {
-		return GlareBrain.getTemptItems().test(itemStack);
+		return GlareBrain.getTemptations().test(itemStack);
 	}
 
 	@Override
 	@Nullable
 	public AgeableMob getBreedOffspring(ServerLevel serverWorld, AgeableMob entity) {
-		GlareEntity glareEntity = FriendsAndFoesEntityTypes.GLARE.get().create(serverWorld);
+		GlareEntity glareEntity = FriendsAndFoesEntityTypes.GLARE.get().create(serverWorld/*? >=1.21.3 {*/, EntitySpawnReason.BREEDING/*?}*/);
 
 		if (this.isTame() == false) {
 			return null;
@@ -682,17 +726,26 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 	}
 
 	@Override
-	public boolean hurt(
-		DamageSource source,
-		float amount
-	) {
-		if (this.level().isClientSide() == false) {
+	/*? >=1.21.3 {*/
+	public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
+	/*?} else {*/
+	/*public boolean hurt(DamageSource damageSource, float amount)
+	*//*?}*/
+	{
+		//? <1.21.3 {
+		/*var level = this.level();
+		*///?}
+		if (!level.isClientSide()) {
 			this.setOrderedToSit(false);
 			this.getNavigation().setSpeedModifier(0);
 			this.getNavigation().stop();
 		}
 
-		return super.hurt(source, amount);
+		/*? >=1.21.3 {*/
+		return super.hurtServer(level, damageSource, amount);
+		/*?} else {*/
+		/*return super.hurt(damageSource, amount);
+		 *//*?}*/
 	}
 
 	@Override

@@ -13,6 +13,9 @@ import com.faboslav.friendsandfoes.common.mixin.LimbAnimatorAccessor;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.util.MovementUtil;
 import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
+import com.faboslav.friendsandfoes.common.versions.VersionedInteractionResult;
+import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
@@ -30,13 +33,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LightningBolt;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.Pose;
-import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -58,6 +55,12 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+
+//? >=1.21.3 {
+import net.minecraft.world.entity.EntitySpawnReason;
+//?} else {
+/*import net.minecraft.world.entity.MobSpawnType;
+ *///?}
 
 public final class CopperGolemEntity extends AbstractGolem implements AnimatedEntity
 {
@@ -138,12 +141,16 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 	public SpawnGroupData finalizeSpawn(
 		ServerLevelAccessor world,
 		DifficultyInstance difficulty,
-		MobSpawnType spawnReason,
+		/*? >=1.21.3 {*/
+		EntitySpawnReason spawnReason,
+		/*?} else {*/
+		/*MobSpawnType spawnReason,
+		*//*?}*/
 		@Nullable SpawnGroupData entityData
 	) {
 		SpawnGroupData superEntityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData);
 
-		if (spawnReason == MobSpawnType.STRUCTURE) {
+		if (spawnReason == VersionedEntitySpawnReason.STRUCTURE) {
 			return superEntityData;
 		}
 
@@ -331,20 +338,26 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 	}
 
 	@Override
-	public boolean hurt(
-		DamageSource source,
-		float amount
-	) {
-		Entity attacker = source.getEntity();
+	/*? >=1.21.3 {*/
+	public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
+	/*?} else {*/
+	/*public boolean hurt(DamageSource damageSource, float amount)
+	*//*?}*/
+	{
+		Entity attacker = damageSource.getEntity();
 
 		if (
 			attacker instanceof LightningBolt
-			|| source == this.damageSources().sweetBerryBush()
+			|| damageSource == this.damageSources().sweetBerryBush()
 		) {
 			return false;
 		}
 
-		return super.hurt(source, amount);
+		/*? >=1.21.3 {*/
+		return super.hurtServer(level, damageSource, amount);
+		/*?} else {*/
+		/*return super.hurt(damageSource, amount);
+		*//*?}*/
 	}
 
 	@Override
@@ -399,7 +412,7 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 
 		if (interactionResult) {
 			this.gameEvent(GameEvent.ENTITY_INTERACT, this);
-			return InteractionResult.sidedSuccess(this.level().isClientSide());
+			return VersionedInteractionResult.success(this);
 		}
 
 		return super.mobInteract(player, hand);
@@ -474,20 +487,28 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 	}
 
 	@Override
-	protected void customServerAiStep() {
+	protected void customServerAiStep(/*? >=1.21.3 {*/ServerLevel level/*?}*/)
+	{
+		//? <1.21.3 {
+		/*var level = (ServerLevel) this.level();
+		*///?}
+
 		if (this.isImmobilized()) {
-			super.customServerAiStep();
+			super.customServerAiStep(/*? >=1.21.3 {*/level/*?}*/);
 			return;
 		}
 
-		this.level().getProfiler().push("copperGolemBrain");
-		this.getBrain().tick((ServerLevel) this.level(), this);
-		this.level().getProfiler().pop();
-		this.level().getProfiler().push("copperGolemActivityUpdate");
-		CopperGolemBrain.updateActivities(this);
-		this.level().getProfiler().pop();
+		var profiler = VersionedProfilerProvider.getProfiler(this);
 
-		super.customServerAiStep();
+		profiler.push("copperGolemBrain");
+		this.getBrain().tick(level, this);
+		profiler.pop();
+
+		profiler.push("copperGolemActivityUpdate");
+		CopperGolemBrain.updateActivities(this);
+		profiler.pop();
+
+		super.customServerAiStep(/*? >=1.21.3 {*/level/*?}*/);
 	}
 
 	@Override

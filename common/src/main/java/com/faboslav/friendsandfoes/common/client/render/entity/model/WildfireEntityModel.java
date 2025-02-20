@@ -1,11 +1,10 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.model;
 
+import com.faboslav.friendsandfoes.common.entity.WildfireEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.WildfireAnimations;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.KeyframeModelAnimator;
-import com.faboslav.friendsandfoes.common.entity.WildfireEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.model.*;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -16,8 +15,19 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 
 import java.util.List;
 
+//? >=1.21.3 {
+import net.minecraft.client.model.EntityModel;
+import com.faboslav.friendsandfoes.common.client.render.entity.state.WildfireRenderState;
+//?} else {
+/*import net.minecraft.client.model.HierarchicalModel;
+*///?}
+
 @Environment(EnvType.CLIENT)
-public final class WildfireEntityModel<T extends WildfireEntity> extends HierarchicalModel<T>
+//? >=1.21.3 {
+public final class WildfireEntityModel extends EntityModel<WildfireRenderState>
+//?} else {
+/*public final class WildfireEntityModel<T extends WildfireEntity> extends HierarchicalModel<T>
+*///?}
 {
 	private static final String MODEL_PART_BODY = "body";
 	private static final String MODEL_PART_HEAD = "head";
@@ -41,6 +51,10 @@ public final class WildfireEntityModel<T extends WildfireEntity> extends Hierarc
 	private final List<ModelPart> shieldsModelParts;
 
 	public WildfireEntityModel(ModelPart root) {
+		//? >=1.21.3 {
+		super(root);
+		//?}
+
 		this.root = root;
 		this.body = this.root.getChild(MODEL_PART_BODY);
 		this.head = this.body.getChild(MODEL_PART_HEAD);
@@ -74,55 +88,43 @@ public final class WildfireEntityModel<T extends WildfireEntity> extends Hierarc
 		return LayerDefinition.create(modelData, 64, 64);
 	}
 
-	@Override
+	//? <1.21.3 {
+	/*@Override
 	public ModelPart root() {
 		return this.root;
 	}
+	*///?}
 
 	@Override
-	public void setupAnim(
-		WildfireEntity wildfire,
-		float limbAngle,
-		float limbDistance,
-		float animationProgress,
-		float headYaw,
-		float headPitch
-	) {
+	//? >=1.21.3 {
+	public void setupAnim(WildfireRenderState wildfireRenderState)
+	//?} else {
+	/*public void setupAnim(T wildfire, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
+	*///?}
+	{
+		//? >=1.21.3 {
+		var wildfire = wildfireRenderState.wildfire;
+		var limbAngle = wildfireRenderState.walkAnimationPos;
+		var limbDistance = wildfireRenderState.walkAnimationSpeed;
+		var animationProgress = wildfireRenderState.ageInTicks;
+		var headYaw = wildfireRenderState.yRot;
+		var headPitch = wildfireRenderState.xRot;
+		//?}
+
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		int activeShieldsCount = wildfire.getActiveShieldsCount();
-
-		float bodyCounterRotation = (float) Math.toRadians((wildfire.getPreciseBodyRotation(animationProgress) * -1.0F));
-
-		/*
-		ModelPartModelAnimator.animateModelPartRotationBasedOnTicks(
-			wildfire.getAnimationContextTracker(),
-			this.shields,
-			wildfire.tickCount,
-			this.shields.xRot,
-			bodyCounterRotation,
-			this.shields.zRot,
-			1
-		);*/
-
-		/*
-		float rotationSpeedMultiplier = Math.max(1, WildfireEntity.DEFAULT_ACTIVE_SHIELDS_COUNT - activeShieldsCount);
-		float baseRotationUnit = (2.0F * (float) Math.PI) / activeShieldsCount;
-		float bodyCounterRotation = (float) Math.toRadians((wildfire.prevBodyYaw * -1.0F));
-		float bodyCounterRotation = 0.0F;
-		float additionalShieldRotation = (animationProgress * 0.1F * rotationSpeedMultiplier) % (2.0F * (float) Math.PI);
-		 */
 
 		for (int i = 0; i < WildfireEntity.DEFAULT_ACTIVE_SHIELDS_COUNT; ++i) {
 			this.shieldsModelParts.get(i).skipDraw = i > activeShieldsCount;
 		}
 
-		this.updateAnimations(wildfire, limbAngle, limbDistance, animationProgress);
+		this.updateKeyframeAnimations(wildfire, limbAngle, limbDistance, animationProgress);
 
 		this.head.yRot = headYaw * 0.017453292F;
 		this.head.xRot = headPitch * 0.017453292F;
 	}
 
-	public void updateAnimations(
+	public void updateKeyframeAnimations(
 		WildfireEntity wildfire,
 		float limbAngle,
 		float limbDistance,

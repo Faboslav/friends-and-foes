@@ -4,6 +4,7 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.TuffGolemEntity;
 import com.faboslav.friendsandfoes.common.entity.pose.TuffGolemEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -65,7 +66,7 @@ public abstract class StrongholdGeneratorMixin extends StructurePiece
 
 		ServerLevel serverWorld = world.getLevel();
 
-		TuffGolemEntity tuffGolem = FriendsAndFoesEntityTypes.TUFF_GOLEM.get().create(serverWorld);
+		TuffGolemEntity tuffGolem = FriendsAndFoesEntityTypes.TUFF_GOLEM.get().create(serverWorld/*? >=1.21.3 {*/, VersionedEntitySpawnReason.STRUCTURE/*?}*/);
 
 		if (tuffGolem == null) {
 			return;

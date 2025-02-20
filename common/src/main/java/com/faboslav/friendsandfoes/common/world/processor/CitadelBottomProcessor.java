@@ -75,9 +75,16 @@ public final class CitadelBottomProcessor extends StructureProcessor
 			BlockState currentBlockState = worldView.getBlockState(mutable);
 			RandomSource random = structurePlacementData.getRandom(blockInfoGlobal.pos());
 
+			int worldBottomY;
+			//? >=1.21.3 {
+			worldBottomY = worldView.getMinY();
+			//?} else {
+			/*worldBottomY = worldView.getMinBuildHeight();
+			*///?}
+
 			while (
-				mutable.getY() > worldView.getMinBuildHeight()
-				&& mutable.getY() < worldView.getMaxBuildHeight()
+				mutable.getY() > worldBottomY
+				&& mutable.getY() < worldBottomY
 				&& (currentBlockState.isAir() || !worldView.getFluidState(mutable).isEmpty())
 			) {
 				worldView.getChunk(mutable).setBlockState(mutable, targetBlockOutput, false);

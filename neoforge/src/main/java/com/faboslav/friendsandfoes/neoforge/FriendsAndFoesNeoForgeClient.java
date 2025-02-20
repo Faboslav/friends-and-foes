@@ -4,9 +4,6 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoesClient;
 import com.faboslav.friendsandfoes.common.config.FriendsAndFoesConfigScreen;
 import com.faboslav.friendsandfoes.common.events.client.*;
 import com.faboslav.friendsandfoes.common.events.lifecycle.ClientSetupEvent;
-import com.faboslav.friendsandfoes.common.init.FriendsAndFoesItems;
-import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
-import com.faboslav.friendsandfoes.common.item.DispenserAddedSpawnEgg;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -75,10 +72,5 @@ public final class FriendsAndFoesNeoForgeClient
 
 	private static void onRegisterItemColors(RegisterColorHandlersEvent.Item event) {
 		RegisterItemColorEvent.EVENT.invoke(new RegisterItemColorEvent(event::register, event.getBlockColors()::getColor));
-		FriendsAndFoesItems.ITEMS.stream()
-			.map(RegistryEntry::get)
-			.filter(item -> item instanceof DispenserAddedSpawnEgg)
-			.map(item -> (DispenserAddedSpawnEgg) item)
-			.forEach(item -> event.register((stack, index) -> item.getColor(index), item));
 	}
 }

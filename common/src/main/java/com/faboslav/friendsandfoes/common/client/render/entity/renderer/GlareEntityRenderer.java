@@ -5,33 +5,51 @@ import com.faboslav.friendsandfoes.common.client.render.entity.feature.GlareFlow
 import com.faboslav.friendsandfoes.common.client.render.entity.model.GlareEntityModel;
 import com.faboslav.friendsandfoes.common.entity.GlareEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 
+//? >=1.21.3 {
+import com.faboslav.friendsandfoes.common.client.render.entity.state.GlareRenderState;
+//?}
+
 @Environment(EnvType.CLIENT)
 @SuppressWarnings({"rawtypes", "unchecked"})
-public final class GlareEntityRenderer extends MobRenderer<GlareEntity, GlareEntityModel<GlareEntity>>
+//? >=1.21.3 {
+public class GlareEntityRenderer extends MobRenderer<GlareEntity, GlareRenderState, GlareEntityModel>
+//?} else {
+/*public final class GlareEntityRenderer extends MobRenderer<GlareEntity, GlareEntityModel<GlareEntity>>
+*///?}
 {
+	private static final ResourceLocation TEXTURE = FriendsAndFoes.makeID("textures/entity/glare/glare.png");
+
 	public GlareEntityRenderer(EntityRendererProvider.Context context) {
 		super(context, new GlareEntityModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.GLARE_LAYER)), 0.4F);
 		this.addLayer(new GlareFlowerFeatureRenderer(this));
 	}
 
+	//? >=1.21.3 {
 	@Override
-	protected void scale(GlareEntity glare, PoseStack matrixStack, float amount) {
-		if (!glare.isBaby()) {
-			matrixStack.scale(0.8F, 0.8F, 0.8F);
-		} else {
-			matrixStack.scale(0.4F, 0.4F, 0.4F);
-		}
+	public GlareRenderState createRenderState() {
+		return new GlareRenderState();
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(GlareEntity entity) {
-		return FriendsAndFoes.makeID("textures/entity/glare/glare.png");
+	public void extractRenderState(GlareEntity glare, GlareRenderState renderState, float partialTick) {
+		super.extractRenderState(glare, renderState, partialTick);
+		renderState.glare = glare;
+	}
+	//?}
+
+	@Override
+	//? >=1.21.3 {
+	public ResourceLocation getTextureLocation(GlareRenderState renderState)
+	//?} else {
+	/*public ResourceLocation getTextureLocation(GlareEntity glare)
+	*///?}
+	{
+		return TEXTURE;
 	}
 }

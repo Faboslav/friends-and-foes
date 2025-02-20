@@ -97,6 +97,16 @@ public final class AddCustomEntityPoseMixin
 			entityPoses.add(newEntityPose);
 		}
 
+		for (MaulerEntityPose maulerEntityPose : MaulerEntityPose.values()) {
+			var newEntityPose = newEntityPose(
+				maulerEntityPose.getName(),
+				++nextEntityPoseInternalIndex,
+				++nextEntityPoseIndex
+			);
+
+			entityPoses.add(newEntityPose);
+		}
+
 		$VALUES = entityPoses.toArray(new Pose[0]);
 	}
 }

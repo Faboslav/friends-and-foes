@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes.common.mixin;
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.ZombieHorseEntityAccess;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
+import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
@@ -31,12 +32,32 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Optional;
-import java.util.function.Supplier;
+
+//? >=1.21.3 {
+import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
+//?} else {
+/*import java.util.function.Supplier;
+*///?}
+
 
 @Mixin(ServerLevel.class)
 public abstract class ServerWorldMixin extends Level implements WorldGenLevel
 {
+	//? >=1.21.3 {
 	protected ServerWorldMixin(
+		WritableLevelData levelData,
+		ResourceKey<Level> dimension,
+		RegistryAccess registryAccess,
+		Holder<DimensionType> dimensionTypeRegistration,
+		boolean isClientSide,
+		boolean isDebug,
+		long biomeZoomSeed,
+		int maxChainedNeighborUpdates
+	) {
+		super(levelData, dimension, registryAccess, dimensionTypeRegistration, isClientSide, isDebug, biomeZoomSeed, maxChainedNeighborUpdates);
+	}
+	//?} else {
+	/*protected ServerWorldMixin(
 		WritableLevelData properties,
 		ResourceKey<Level> registryRef,
 		RegistryAccess registryManager,
@@ -49,6 +70,7 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel
 	) {
 		super(properties, registryRef, registryManager, dimensionEntry, profiler, isClient, debugWorld, biomeAccess, maxChainedNeighborUpdates);
 	}
+	*///?}
 
 	@Shadow
 	protected abstract BlockPos findLightningTargetAround(BlockPos pos);
@@ -65,7 +87,7 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel
 			ChunkPos chunkPos = chunk.getPos();
 			int i = chunkPos.getMinBlockX();
 			int j = chunkPos.getMinBlockZ();
-			ProfilerFiller profiler = this.getProfiler();
+			ProfilerFiller profiler = VersionedProfilerProvider.getProfiler(null);
 			profiler.push("thunder2");
 
 			if (
@@ -75,17 +97,17 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel
 				&& this.isRainingAt(blockPos = this.findLightningTargetAround(this.getBlockRandomPos(i, 0, j, 15)))
 			) {
 				DifficultyInstance localDifficulty = this.getCurrentDifficultyAt(blockPos);
-				boolean canZombieHorseSpawn = this.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && this.random.nextDouble() < (double) localDifficulty.getEffectiveDifficulty() * 0.01 && !this.getBlockState(blockPos.below()).is(FriendsAndFoesTags.LIGHTNING_RODS);
+				boolean canZombieHorseSpawn = ((ServerLevel)(Object)this).getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && this.random.nextDouble() < (double) localDifficulty.getEffectiveDifficulty() * 0.01 && !this.getBlockState(blockPos.below()).is(FriendsAndFoesTags.LIGHTNING_RODS);
 
 				if (canZombieHorseSpawn) {
-					ZombieHorse zombieHorse = EntityType.ZOMBIE_HORSE.create(this);
+					ZombieHorse zombieHorse = EntityType.ZOMBIE_HORSE.create(this/*? >=1.21.3 {*/, VersionedEntitySpawnReason.EVENT/*?}*/);
 					((ZombieHorseEntityAccess) zombieHorse).friendsandfoes_setTrapped(true);
 					zombieHorse.setAge(0);
 					zombieHorse.setPos(blockPos.getX(), blockPos.getY(), blockPos.getZ());
 					this.addFreshEntity(zombieHorse);
 				}
 
-				LightningBolt lightningEntity = EntityType.LIGHTNING_BOLT.create(this);
+				LightningBolt lightningEntity = EntityType.LIGHTNING_BOLT.create(this/*? >=1.21.3 {*/, VersionedEntitySpawnReason.EVENT/*?}*/);
 				lightningEntity.moveTo(Vec3.atBottomCenterOf(blockPos));
 				lightningEntity.setVisualOnly(canZombieHorseSpawn);
 

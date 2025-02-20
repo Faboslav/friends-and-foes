@@ -12,7 +12,7 @@ import net.minecraft.world.item.SpawnEggItem;
 public interface SpawnEggItemAccessor
 {
 	@Accessor("BY_ID")
-	static Map<EntityType<? extends Mob>, SpawnEggItem> variantsandventures$getSpawnEggs() {
+	static Map<EntityType<? extends Mob>, SpawnEggItem> friendsandfoes$getSpawnEggs() {
 		throw new AssertionError();
 	}
 }

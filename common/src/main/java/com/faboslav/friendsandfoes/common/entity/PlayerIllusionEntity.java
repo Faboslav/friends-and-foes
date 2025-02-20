@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
@@ -15,17 +16,26 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.PlayerModelPart;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 import java.util.UUID;
+
+//? >=1.21.3 {
+import net.minecraft.world.entity.EntitySpawnReason;
+//?} else {
+/*import net.minecraft.world.entity.MobSpawnType;
+*///?}
 
 public final class PlayerIllusionEntity extends Mob
 {
@@ -54,6 +64,33 @@ public final class PlayerIllusionEntity extends Mob
 		super(entityType, world);
 	}
 
+	@Nullable
+	public SpawnGroupData finalizeSpawn(
+		ServerLevelAccessor world,
+		DifficultyInstance difficulty,
+		/*? >=1.21.3 {*/
+		EntitySpawnReason spawnReason,
+		/*?} else {*/
+		/*MobSpawnType spawnReason,
+		*//*?}*/
+		@Nullable SpawnGroupData entityData
+	) {
+		if(spawnReason == VersionedEntitySpawnReason.COMMAND) {
+			//this.setPlayerUuid(this.getUUID());
+			this.setTicksUntilDespawn(600);
+		}
+
+		/*
+		this.shouldShowName()
+
+		this.createCommandSourceStack()
+
+		this.getCommandSenderWorld()
+		 */
+
+		return super.finalizeSpawn(world, difficulty, spawnReason, entityData);
+	}
+
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder builder) {
 		super.defineSynchedData(builder);
@@ -68,13 +105,21 @@ public final class PlayerIllusionEntity extends Mob
 		super.addAdditionalSaveData(nbt);
 
 		nbt.putInt(TICKS_UNTIL_DESPAWN_NBT_NAME, this.getTicksUntilDespawn());
-		nbt.putUUID(PLAYER_UUID_NBT_NAME, this.getPlayerUuid());
+
+		var playerUuid = this.getPlayerUuid();
+
+		if(playerUuid != null) {
+			nbt.putUUID(PLAYER_UUID_NBT_NAME, playerUuid);
+		}
 	}
 
 	public void readAdditionalSaveData(CompoundTag nbt) {
 		super.readAdditionalSaveData(nbt);
 
-		this.setPlayerUuid(nbt.getUUID(PLAYER_UUID_NBT_NAME));
+		if(nbt.contains(PLAYER_UUID_NBT_NAME)) {
+			this.setPlayerUuid(nbt.getUUID(PLAYER_UUID_NBT_NAME));
+		}
+
 		this.setTicksUntilDespawn(nbt.getInt(TICKS_UNTIL_DESPAWN_NBT_NAME));
 	}
 
@@ -85,6 +130,11 @@ public final class PlayerIllusionEntity extends Mob
 
 	@Override
 	protected boolean shouldDropLoot() {
+		return false;
+	}
+
+	@Override
+	public boolean shouldShowName() {
 		return false;
 	}
 
@@ -107,10 +157,12 @@ public final class PlayerIllusionEntity extends Mob
 	}
 
 	@Override
-	public boolean hurt(
-		DamageSource source,
-		float amount
-	) {
+	/*? >=1.21.3 {*/
+	public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
+	/*?} else {*/
+	/*public boolean hurt(DamageSource damageSource, float amount)
+	*//*?}*/
+	{
 		this.discardIllusion();
 		return true;
 	}
@@ -163,7 +215,7 @@ public final class PlayerIllusionEntity extends Mob
 		return this.entityData.get(PLAYER_UUID).orElse(null);
 	}
 
-	public void setPlayerUuid(UUID uuid) {
+	public void setPlayerUuid(@Nullable UUID uuid) {
 		this.entityData.set(PLAYER_UUID, Optional.ofNullable(uuid));
 	}
 
@@ -200,8 +252,14 @@ public final class PlayerIllusionEntity extends Mob
 
 	public boolean tryToTeleport(int x, int y, int z) {
 		y -= 8;
-		double bottomY = Math.max(y, level().getMinBuildHeight());
-		double topY = Math.min(bottomY + 16, ((ServerLevel) this.level()).getLogicalHeight() - 1);
+		//? >=1.21.3 {
+		int worldBottomY = this.level().getMinY();
+		//?} else {
+		/*int worldBottomY = this.level().getMinBuildHeight();
+		*///?}
+		int logicalHeight = ((ServerLevel)(this.level())).getLogicalHeight();
+		double bottomY = Math.max(y, worldBottomY);
+		double topY = Math.min(bottomY + 16, logicalHeight- 1);
 
 		for (int i = 0; i < 16; ++i) {
 			y = (int) Mth.clamp(y + 1, bottomY, topY);

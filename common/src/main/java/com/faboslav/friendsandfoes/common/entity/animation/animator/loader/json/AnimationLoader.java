@@ -17,6 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+//? >=1.21.3 {
+import com.faboslav.friendsandfoes.common.client.render.entity.state.GlareRenderState;
+//?} else {
+//?}
+
 /**
  * A loader for entity animations written in JSON. You can also get parsed animations from this class.
  *
@@ -25,7 +30,12 @@ import java.util.Map;
  * @author NeoForge team
  * <a href="https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation">https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation</a>
  */
-public final class AnimationLoader extends SimpleJsonResourceReloadListener {
+//? >=1.21.3 {
+public final class AnimationLoader extends SimpleJsonResourceReloadListener<AnimationDefinition>
+//?} else {
+/*public final class AnimationLoader extends SimpleJsonResourceReloadListener
+*///?}
+{
 	private static final Logger LOGGER = LogUtils.getLogger();
 
 	public static final AnimationLoader INSTANCE = new AnimationLoader();
@@ -35,7 +45,11 @@ public final class AnimationLoader extends SimpleJsonResourceReloadListener {
 	private final List<AnimationHolder> strongHolderReferences = new ArrayList<>();
 
 	private AnimationLoader() {
-		super(new Gson(), "animations/entity");
+		//? >=1.21.3 {
+		super(AnimationParser.CODEC, "animations/entity");
+		//?} else {
+		/*super(new Gson(), "animations/entity");
+		*///?}
 	}
 
 	/**
@@ -56,19 +70,31 @@ public final class AnimationLoader extends SimpleJsonResourceReloadListener {
 	}
 
 	@Override
-	protected void apply(Map<ResourceLocation, JsonElement> animationJsons, ResourceManager resourceManager, ProfilerFiller profiler) {
+	//? >=1.21.3 {
+	protected void apply(Map<ResourceLocation, AnimationDefinition> animationJsons, ResourceManager resourceManager, ProfilerFiller profiler)
+	//?} else {
+	/*protected void apply(Map<ResourceLocation, JsonElement> animationJsons, ResourceManager resourceManager, ProfilerFiller profiler)
+	*///?}
+	{
 		animations.values().forEach(AnimationHolder::unbind);
 		strongHolderReferences.clear();
 		int loaded = 0;
 		for (final var entry : animationJsons.entrySet()) {
 			try {
 				String animationName = entry.getKey().getPath().substring(entry.getKey().getPath().lastIndexOf('/') + 1);
-				final var animation = AnimationParser.withName(animationName)
+				final var animationHolder = getAnimationHolder(entry.getKey());
+				AnimationDefinition animation;
+
+				//? >=1.21.3 {
+				var parsedAnimation = animationHolder.get();
+				animation = new AnimationDefinition(animationName, parsedAnimation.lengthInSeconds(), parsedAnimation.looping(), parsedAnimation.boneAnimations());
+				//?} else {
+				/*animation = AnimationParser.withName(animationName)
 					.parse(JsonOps.INSTANCE, entry.getValue())
 					.getOrThrow(JsonParseException::new);
-				final var holder = getAnimationHolder(entry.getKey());
-				holder.bind(animation);
-				strongHolderReferences.add(holder);
+				*///?}
+				animationHolder.bind(animation);
+				strongHolderReferences.add(animationHolder);
 				loaded++;
 			} catch (Exception e) {
 				LOGGER.error("Failed to load animation {}", entry.getKey(), e);

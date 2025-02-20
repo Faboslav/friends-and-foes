@@ -1,10 +1,8 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.model;
 
 import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.KeyframeModelAnimator;
-import com.faboslav.friendsandfoes.common.entity.TuffGolemEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.model.*;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -13,10 +11,21 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 
+//? >=1.21.3 {
+import net.minecraft.client.model.EntityModel;
+import com.faboslav.friendsandfoes.common.client.render.entity.state.TuffGolemRenderState;
+//?} else {
+/*import net.minecraft.client.model.HierarchicalModel;
+import com.faboslav.friendsandfoes.common.entity.TuffGolemEntity;
+*///?}
+
 @Environment(EnvType.CLIENT)
-public final class TuffGolemEntityModel<T extends TuffGolemEntity> extends HierarchicalModel<T>
+//? >=1.21.3 {
+public final class TuffGolemEntityModel extends EntityModel<TuffGolemRenderState>
+//?} else {
+/*public final class TuffGolemEntityModel<T extends TuffGolemEntity> extends HierarchicalModel<T>
+*///?}
 {
-	private static final String MODEL_PART_ROOT = "root";
 	private static final String MODEL_PART_BODY = "body";
 	private static final String MODEL_PART_NOSE = "nose";
 	private static final String MODEL_PART_FRONT_CLOTH = "frontCloth";
@@ -39,6 +48,10 @@ public final class TuffGolemEntityModel<T extends TuffGolemEntity> extends Hiera
 	private final ModelPart rightLeg;
 
 	public TuffGolemEntityModel(ModelPart root) {
+		//? >=1.21.3 {
+		super(root);
+		//?}
+
 		this.root = root;
 		this.body = this.root.getChild(MODEL_PART_BODY);
 		this.nose = this.body.getChild(MODEL_PART_NOSE);
@@ -71,30 +84,27 @@ public final class TuffGolemEntityModel<T extends TuffGolemEntity> extends Hiera
 		return LayerDefinition.create(modelData, 64, 64);
 	}
 
-	@Override
+	//? <1.21.3 {
+	/*@Override
 	public ModelPart root() {
 		return this.root;
 	}
+	*///?}
 
 	@Override
-	public void setupAnim(
-		T tuffGolem,
-		float limbAngle,
-		float limbDistance,
-		float animationProgress,
-		float headYaw,
-		float headPitch
-	) {
-		this.root().getAllParts().forEach(ModelPart::resetPose);
-		this.updateAnimations(tuffGolem, limbAngle, limbDistance, animationProgress);
-	}
+	//? >=1.21.3 {
+	public void setupAnim(TuffGolemRenderState renderState)
+	//?} else {
+	/*public void setupAnim(T tuffGolem, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
+	*///?}
+	{
+		//? >=1.21.3 {
+		var tuffGolem = renderState.tuffGolem;
+		var limbAngle = renderState.walkAnimationPos;
+		var limbDistance = renderState.walkAnimationSpeed;
+		var animationProgress = renderState.ageInTicks;
+		//?}
 
-	public void updateAnimations(
-		TuffGolemEntity tuffGolem,
-		float limbAngle,
-		float limbDistance,
-		float animationProgress
-	) {
 		var movementAnimation = tuffGolem.getMovementAnimation();
 		var animations = tuffGolem.getTrackedAnimations();
 		var animationContextTracker = tuffGolem.getAnimationContextTracker();

@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.PathfinderMob;
@@ -18,12 +19,19 @@ public abstract class IllusionerRaiderEntityMixin extends IllusionerHostileEntit
 	}
 
 	@Inject(
-		method = "hurt",
 		at = @At("HEAD"),
+		//? >=1.21.3 {
+		method = "hurtServer",
+		//?} else {
+		/*method = "hurt",
+		*///?}
 		cancellable = true
 	)
 	public void friendsandfoes_damage(
-		DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir
+		/*? >=1.21.3 {*/ServerLevel level,/*?}*/
+		DamageSource damageSource,
+		float amount,
+		CallbackInfoReturnable<Boolean> cir
 	) {
 	}
 }

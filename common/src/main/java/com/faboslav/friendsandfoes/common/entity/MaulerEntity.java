@@ -1,13 +1,18 @@
 package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.entity.animation.MaulerAnimations;
+import com.faboslav.friendsandfoes.common.entity.animation.WildfireAnimations;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.common.entity.ai.goal.mauler.*;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
+import com.faboslav.friendsandfoes.common.entity.pose.WildfireEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
+import com.faboslav.friendsandfoes.common.versions.VersionedInteractionResult;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -27,14 +32,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.NeutralMob;
-import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier.Builder;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -63,6 +61,12 @@ import java.util.Iterator;
 import java.util.UUID;
 import java.util.function.Predicate;
 
+//? >=1.21.3 {
+import net.minecraft.world.entity.EntitySpawnReason;
+//?} else {
+/*import net.minecraft.world.entity.MobSpawnType;
+ *///?}
+
 @SuppressWarnings({"rawtypes", "unchecked"})
 public final class MaulerEntity extends PathfinderMob implements NeutralMob, AnimatedEntity
 {
@@ -73,7 +77,6 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 	private static final int MAXIMUM_STORED_EXPERIENCE_POINTS = 1395;
 	public static final int MIN_TICKS_UNTIL_NEXT_BURROWING = 3000;
 	public static final int MAX_TICKS_UNTIL_NEXT_BURROWING = 6000;
-	private static final Predicate<Entity> PREY_PREDICATE_FILTER;
 
 	private static final String TYPE_NBT_NAME = "Type";
 	private static final String STORED_EXPERIENCE_POINTS_NBT_NAME = "StoredExperiencePoints";
@@ -89,6 +92,7 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 	private static final EntityDataAccessor<Boolean> IS_BURROWED_DOWN;
 	private static final EntityDataAccessor<Integer> TICKS_UNTIL_NEXT_BURROWING_DOWN;
 	private static final EntityDataAccessor<Float> BURROWING_DOWN_ANIMATION_PROGRESS;
+	private static final EntityDataAccessor<Integer> POSE_TICKS;
 
 	@Nullable
 	private UUID angryAt;
@@ -101,6 +105,12 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 	public AnimationContextTracker getAnimationContextTracker() {
 		if (this.animationContextTracker == null) {
 			this.animationContextTracker = new AnimationContextTracker();
+
+			for (var animation: this.getTrackedAnimations()) {
+				this.animationContextTracker.add(animation);
+			}
+
+			this.animationContextTracker.add(MaulerAnimations.SNAP);
 		}
 
 		return this.animationContextTracker;
@@ -108,27 +118,39 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 
 	@Override
 	public ArrayList<AnimationHolder> getTrackedAnimations() {
-		return new ArrayList<>();
+		return MaulerAnimations.TRACKED_ANIMATIONS;
 	}
 
 	@Override
 	public AnimationHolder getMovementAnimation() {
-		return null;
+		if(this.isAngry()) {
+			return MaulerAnimations.WALK;
+		}
+
+		return MaulerAnimations.RUN;
 	}
 
 	@Override
 	public int getCurrentAnimationTick() {
-		return 0;
+		return this.entityData.get(POSE_TICKS);
+	}
+
+	public void setCurrentAnimationTick(int keyframeAnimationTicks) {
+		this.entityData.set(POSE_TICKS, keyframeAnimationTicks);
 	}
 
 	@Override
-	public void setCurrentAnimationTick(int currentAnimationTick) {
+	@Nullable
+	public AnimationHolder getAnimationByPose() {
+		AnimationHolder animation = null;
 
-	}
+		if (this.isInPose(WildfireEntityPose.IDLE) && !this.walkAnimation.isMoving()) {
+			animation = WildfireAnimations.IDLE;
+		} else if (this.isInPose(WildfireEntityPose.SHOCKWAVE)) {
+			animation = WildfireAnimations.SHOCKWAVE;
+		}
 
-	@Override
-	public @Nullable AnimationHolder getAnimationByPose() {
-		return null;
+		return animation;
 	}
 
 	public MaulerEntity(EntityType<? extends MaulerEntity> entityType, Level world) {
@@ -136,16 +158,6 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 	}
 
 	static {
-		PREY_PREDICATE_FILTER = (entity) -> {
-			if (
-				entity instanceof Slime slimeEntity && slimeEntity.getSize() != Slime.MIN_SIZE
-				|| entity instanceof Zombie && !((Zombie) entity).isBaby()
-			) {
-				return false;
-			}
-
-			return entity.getType().is(FriendsAndFoesTags.MAULER_PREY);
-		};
 		TYPE = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.STRING);
 		ANGER_TIME = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.INT);
 		STORED_EXPERIENCE_POINTS = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.INT);
@@ -153,6 +165,7 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 		IS_BURROWED_DOWN = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.BOOLEAN);
 		TICKS_UNTIL_NEXT_BURROWING_DOWN = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.INT);
 		BURROWING_DOWN_ANIMATION_PROGRESS = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.FLOAT);
+		POSE_TICKS = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.INT);
 	}
 
 	@Override
@@ -166,6 +179,7 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 		builder.define(IS_BURROWED_DOWN, false);
 		builder.define(TICKS_UNTIL_NEXT_BURROWING_DOWN, this.getRandom().nextIntBetweenInclusive(MIN_TICKS_UNTIL_NEXT_BURROWING, MAX_TICKS_UNTIL_NEXT_BURROWING));
 		builder.define(BURROWING_DOWN_ANIMATION_PROGRESS, 0.0F);
+		builder.define(POSE_TICKS, 0);
 	}
 
 	@Override
@@ -204,12 +218,17 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 	public SpawnGroupData finalizeSpawn(
 		ServerLevelAccessor world,
 		DifficultyInstance difficulty,
-		MobSpawnType spawnReason,
+		//? >=1.21.3 {
+		EntitySpawnReason spawnReason,
+		//?} else {
+		/*MobSpawnType spawnReason,
+		*///?}
 		@Nullable SpawnGroupData entityData
 	) {
 		ResourceKey<Biome> biomeKey = world.getBiome(this.blockPosition()).unwrapKey().orElse(Biomes.SAVANNA);
 		Type type = Type.getTypeByBiome(biomeKey);
 
+		this.setPose(WildfireEntityPose.IDLE);
 		this.setPersistenceRequired();
 		this.setType(type);
 		this.setSize();
@@ -225,7 +244,11 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 	public static boolean canSpawn(
 		EntityType<MaulerEntity> maulerEntityType,
 		ServerLevelAccessor serverWorldAccess,
-		MobSpawnType spawnReason,
+		//? >=1.21.3 {
+		EntitySpawnReason spawnReason,
+		//?} else {
+		/*MobSpawnType spawnReason,
+		*///?}
 		BlockPos blockPos,
 		RandomSource random
 	) {
@@ -242,7 +265,16 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 		this.burrowDownGoal = new MaulerBurrowDownGoal(this);
 		this.goalSelector.addGoal(6, this.burrowDownGoal);
 		this.targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setAlertOthers());
-		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, PathfinderMob.class, 10, true, true, PREY_PREDICATE_FILTER));
+		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, PathfinderMob.class, 10, true, true, (livingEntity/*? >=1.21.3 {*/, serverLevel/*?}*/) -> {
+			if (
+				livingEntity instanceof Slime slimeEntity && slimeEntity.getSize() != Slime.MIN_SIZE
+				|| livingEntity instanceof Zombie zombie && !zombie.isBaby()
+			) {
+				return false;
+			}
+
+			return ((LivingEntity) livingEntity).getType().is(FriendsAndFoesTags.MAULER_PREY);
+		}));
 	}
 
 	@Override
@@ -284,15 +316,21 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 	}
 
 	@Override
-	public boolean hurt(
-		DamageSource source,
-		float amount
-	) {
+	/*? >=1.21.3 {*/
+	public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
+	/*?} else {*/
+	/*public boolean hurt(DamageSource damageSource, float amount)
+	*//*?}*/
+	{
 		if (!this.level().isClientSide() && this.burrowDownGoal.isRunning()) {
 			this.burrowDownGoal.stop();
 		}
 
-		return super.hurt(source, amount);
+		/*? >=1.21.3 {*/
+		return super.hurtServer(level, damageSource, amount);
+		/*?} else {*/
+		/*return super.hurt(damageSource, amount);
+		 *//*?}*/
 	}
 
 	@Override
@@ -324,7 +362,7 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 
 		if (interactionResult) {
 			this.gameEvent(GameEvent.ENTITY_INTERACT, this);
-			return InteractionResult.sidedSuccess(this.level().isClientSide());
+			return VersionedInteractionResult.success(this);
 		}
 
 		return super.mobInteract(player, hand);
@@ -431,6 +469,27 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 	}
 
 	@Override
+	public void setPose(Pose pose) {
+		if (this.level().isClientSide()) {
+			return;
+		}
+
+		super.setPose(pose);
+	}
+
+	public void setPose(WildfireEntityPose pose) {
+		if (this.level().isClientSide()) {
+			return;
+		}
+
+		super.setPose(pose.get());
+	}
+
+	public boolean isInPose(WildfireEntityPose pose) {
+		return this.getPose() == pose.get();
+	}
+
+	@Override
 	protected SoundEvent getAmbientSound() {
 		return FriendsAndFoesSoundEvents.ENTITY_MAULER_GROWL.get();
 	}
@@ -470,12 +529,12 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 	}
 
 	@Override
-	public boolean doHurtTarget(Entity target) {
+	public boolean doHurtTarget(/*? >=1.21.3 {*/ServerLevel level,/*?}*/Entity target) {
 		if (this.isBurrowedDown()) {
 			return false;
 		}
 
-		return target.hurt(this.damageSources().mobAttack(this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
+		return VersionedEntity.hurt(target, this.damageSources().mobAttack(this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
 	}
 
 	public int getRemainingPersistentAngerTime() {
@@ -529,6 +588,11 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 
 	public float getSize() {
 		return 1.0F + ((float) this.getStoredExperiencePoints() / (float) MAXIMUM_STORED_EXPERIENCE_POINTS) * 1.25F;
+	}
+
+	@Override
+	public float getAgeScale() {
+		return this.getSize();
 	}
 
 	public boolean isMoving() {

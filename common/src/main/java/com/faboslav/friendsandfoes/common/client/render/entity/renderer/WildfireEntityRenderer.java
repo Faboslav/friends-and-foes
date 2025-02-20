@@ -12,10 +12,20 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 
+//? >=1.21.3 {
+import com.faboslav.friendsandfoes.common.client.render.entity.state.WildfireRenderState;
+//?}
+
 @Environment(EnvType.CLIENT)
 @SuppressWarnings({"rawtypes", "unchecked"})
-public final class WildfireEntityRenderer extends MobRenderer<WildfireEntity, WildfireEntityModel<WildfireEntity>>
+//? >=1.21.3 {
+public class WildfireEntityRenderer extends MobRenderer<WildfireEntity, WildfireRenderState, WildfireEntityModel>
+//?} else {
+/*public final class WildfireEntityRenderer extends MobRenderer<WildfireEntity, WildfireEntityModel<WildfireEntity>>
+*///?}
 {
+	private static final ResourceLocation WILDFIRE_TEXTURE = FriendsAndFoes.makeID("textures/entity/wildfire/wildfire.png");
+
 	public static final float SCALE = 1.5F;
 
 	public WildfireEntityRenderer(EntityRendererProvider.Context context) {
@@ -32,8 +42,26 @@ public final class WildfireEntityRenderer extends MobRenderer<WildfireEntity, Wi
 		matrixStack.scale(SCALE, SCALE, SCALE);
 	}
 
+	//? >=1.21.3 {
 	@Override
-	public ResourceLocation getTextureLocation(WildfireEntity wildfire) {
-		return FriendsAndFoes.makeID("textures/entity/wildfire/wildfire.png");
+	public WildfireRenderState createRenderState() {
+		return new WildfireRenderState();
+	}
+
+	@Override
+	public void extractRenderState(WildfireEntity wildfire, WildfireRenderState wildfireRenderState, float partialTick) {
+		super.extractRenderState(wildfire, wildfireRenderState, partialTick);
+		wildfireRenderState.wildfire = wildfire;
+	}
+	//?}
+
+	@Override
+	//? >=1.21.3 {
+	public ResourceLocation getTextureLocation(WildfireRenderState wildfireRenderState)
+	//?} else {
+	/*public ResourceLocation getTextureLocation(WildfireEntity wildfire)
+	*///?}
+	{
+		return WILDFIRE_TEXTURE;
 	}
 }

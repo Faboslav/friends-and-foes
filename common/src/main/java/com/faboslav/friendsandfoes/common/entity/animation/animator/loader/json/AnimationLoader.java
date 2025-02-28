@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json;
 
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimationDefinition;
 import com.google.common.collect.MapMaker;
 import com.google.gson.Gson;
@@ -47,7 +48,7 @@ public final class AnimationLoader extends SimpleJsonResourceReloadListener<Anim
 
 	private AnimationLoader() {
 		//? >=1.21.4 {
-		super(AnimationParser.CODEC, FileToIdConverter.json("friendsandfoes/animations/entity"));
+		super(AnimationParser.CODEC, FileToIdConverter.json("animations/entity"));
 		//?} else {
 		/*super(new Gson(), "animations/entity");
 		*///?}
@@ -87,7 +88,7 @@ public final class AnimationLoader extends SimpleJsonResourceReloadListener<Anim
 				AnimationDefinition animation;
 
 				//? >=1.21.3 {
-				var parsedAnimation = animationHolder.get();
+				var parsedAnimation = entry.getValue();
 				animation = new AnimationDefinition(animationName, parsedAnimation.lengthInSeconds(), parsedAnimation.looping(), parsedAnimation.boneAnimations());
 				//?} else {
 				/*animation = AnimationParser.withName(animationName)

@@ -12,6 +12,9 @@ import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistries;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.Block;
@@ -78,10 +81,11 @@ public final class FriendsAndFoesBlocks
 
 	private static RegistryEntry<Block> registerBlock(String id, Function<BlockBehaviour.Properties, Block> factory, Supplier<BlockBehaviour.Properties> getter) {
 		//? >=1.21.4 {
-		return BLOCKS.register(id, factory, getter);
+		ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, FriendsAndFoes.makeID(id));
+		return BLOCKS.register(id, () -> factory.apply(getter.get().setId(key)));
 		//?} else {
 		/*return BLOCKS.register(id, () -> factory.apply(getter.get()));
-		*///?}
+		 *///?}
 	}
 
 	@Environment(EnvType.CLIENT)

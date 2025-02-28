@@ -28,6 +28,7 @@ import java.util.concurrent.CompletableFuture;
 import net.minecraft.server.packs.resources.ResourceManager;
 //?} else {
 /*import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import java.lang.reflect.Field;
 *///?}
 
 // Source: https://github.com/BluSunrize/ImmersiveEngineering/blob/1.20.1/src/datagen/java/blusunrize/immersiveengineering/data/StructureUpdater.java

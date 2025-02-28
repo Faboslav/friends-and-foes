@@ -6,18 +6,14 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.client.renderer.item.ItemModelResolver;
-import net.minecraft.client.renderer.item.ItemStackRenderState;
-import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
-//? >=1.21.3 {
+//? >=1.21.4 {
 import com.faboslav.friendsandfoes.common.client.render.entity.state.TuffGolemRenderState;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.TuffGolemEntityModel;
 //?} else {
@@ -33,25 +29,21 @@ public final class TuffGolemHeldItemFeatureRenderer extends RenderLayer<TuffGole
 *///?}
 {
 	private final ItemInHandRenderer heldItemRenderer;
-	private final ItemModelResolver itemModelResolver;
 
 	//? >=1.21.3 {
-	public TuffGolemHeldItemFeatureRenderer(RenderLayerParent<TuffGolemRenderState, TuffGolemEntityModel> renderer, ItemInHandRenderer heldItemRenderer, ItemModelResolver itemModelResolver) {
+	public TuffGolemHeldItemFeatureRenderer(RenderLayerParent<TuffGolemRenderState, TuffGolemEntityModel> renderer, ItemInHandRenderer heldItemRenderer) {
 		super(renderer);
 		this.heldItemRenderer = heldItemRenderer;
-		this.itemModelResolver = itemModelResolver;
 	}
 
 	//?} else {
 	
 	/*public TuffGolemHeldItemFeatureRenderer(
 		RenderLayerParent<T, M> context,
-		ItemInHandRenderer heldItemRenderer,
-		ItemRenderer itemRenderer
+		ItemInHandRenderer heldItemRenderer
 	) {
 		super(context);
 		this.heldItemRenderer = heldItemRenderer;
-		this.itemRenderer = itemRenderer;
 	}
 	*///?}
 
@@ -75,9 +67,7 @@ public final class TuffGolemHeldItemFeatureRenderer extends RenderLayer<TuffGole
 		}
 		ItemStack itemStack = tuffGolem.getItemBySlot(EquipmentSlot.MAINHAND);
 
-		// TODO check this
-		//float yItemOffset = itemBakedModel.getTransforms().getTransform(ItemDisplayContext.GROUND).scale.y();
-		float yItemOffset = 0.0F;
+		float yItemOffset = 0.2F;
 		float levitationOffset = Mth.sin(((float) tuffGolem.tickCount + tickDelta) / 10.0F + 3.1415927F) * 0.1F + 0.1F;
 		float yOffset = levitationOffset + (0.85F - yItemOffset * 0.5F);
 		float rotationAngle = (float) Math.toDegrees((animationProgress * 0.05F) % (2.0F * (float) Math.PI));

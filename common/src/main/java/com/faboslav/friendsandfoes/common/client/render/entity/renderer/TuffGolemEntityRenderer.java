@@ -34,12 +34,11 @@ public final class TuffGolemEntityRenderer extends MobRenderer<TuffGolemEntity, 
 		this.addLayer(new TuffGolemHeldItemFeatureRenderer(
 			this,
 			//? >=1.21.3 {
-			context.getEntityRenderDispatcher().getItemInHandRenderer(),
+			context.getEntityRenderDispatcher().getItemInHandRenderer()
 			//?} else {
-			/*context.getItemInHandRenderer(),
+			/*context.getItemInHandRenderer()
 			*///?}
-			context.getItemModelResolver())
-		);
+		));
 	}
 
 	//? >=1.21.3 {

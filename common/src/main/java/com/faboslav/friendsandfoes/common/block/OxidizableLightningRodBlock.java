@@ -1,11 +1,14 @@
 package com.faboslav.friendsandfoes.common.block;
 
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LightningRodBlock;
 import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.state.BlockState;
@@ -34,10 +37,9 @@ public final class OxidizableLightningRodBlock extends LightningRodBlock impleme
 	}
 
 	@Override
-	public boolean isRandomlyTicking(BlockState state) {
-		return false;
-		// TODO resolve
-		//return FriendsAndFoesOxidizable.getNext(state.getBlock()).isPresent();
+	public boolean isRandomlyTicking(BlockState blockState) {
+		// TODO check if this work
+		return this.getAge().ordinal() < WeatherState.OXIDIZED.ordinal();
 	}
 
 	@Override

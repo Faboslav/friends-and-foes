@@ -111,6 +111,7 @@ public final class TuffGolemEntityModel extends EntityModel<TuffGolemRenderState
 		var currentTick = tuffGolem.tickCount;
 		var animationSpeedModifier = 1.0F;
 
+		this.root().getAllParts().forEach(ModelPart::resetPose);
 		KeyframeModelAnimator.updateMovementKeyframeAnimations(this, movementAnimation, limbAngle, limbDistance, 4.0F * tuffGolem.getMovementSpeedModifier(), 4.0F * tuffGolem.getMovementSpeedModifier(), animationSpeedModifier);
 		KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, animations, currentTick, animationProgress, animationSpeedModifier);
 	}

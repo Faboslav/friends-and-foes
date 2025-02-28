@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.common.block;
 
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -35,9 +36,8 @@ public final class OxidizableButtonBlock extends CopperButtonBlock implements Fr
 
 	@Override
 	public boolean isRandomlyTicking(BlockState state) {
-		return false;
-		// TODO resolve
-		//return FriendsAndFoesOxidizable.getNext(state.getBlock()).isPresent();
+		// TODO check if this work
+		return this.getAge().ordinal() < WeatherState.OXIDIZED.ordinal();
 	}
 
 	@Override

@@ -111,13 +111,13 @@ public final class WildfireEntityModel extends EntityModel<WildfireRenderState>
 		var headPitch = wildfireRenderState.xRot;
 		//?}
 
-		this.root().getAllParts().forEach(ModelPart::resetPose);
 		int activeShieldsCount = wildfire.getActiveShieldsCount();
 
 		for (int i = 0; i < WildfireEntity.DEFAULT_ACTIVE_SHIELDS_COUNT; ++i) {
 			this.shieldsModelParts.get(i).skipDraw = i > activeShieldsCount;
 		}
 
+		this.root().getAllParts().forEach(ModelPart::resetPose);
 		this.updateKeyframeAnimations(wildfire, limbAngle, limbDistance, animationProgress);
 
 		this.head.yRot = headYaw * 0.017453292F;
@@ -135,6 +135,7 @@ public final class WildfireEntityModel extends EntityModel<WildfireRenderState>
 		var animationContextTracker = wildfire.getAnimationContextTracker();
 		var currentTick = wildfire.tickCount;
 		var animationSpeedModifier = wildfire.getAnimationSpeedModifier();
+
 
 		KeyframeModelAnimator.updateMovementKeyframeAnimations(this, movementAnimation, limbAngle, limbDistance, 1.0F, 1.0F, animationSpeedModifier);
 		KeyframeModelAnimator.updateStaticKeyframeAnimation(this, animationContextTracker, WildfireAnimations.SHIELD_ROTATION, currentTick, animationProgress, animationSpeedModifier);

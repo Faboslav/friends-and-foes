@@ -388,7 +388,9 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 
 		flyingPathNavigation.setCanOpenDoors(false);
 		flyingPathNavigation.setCanFloat(false);
-		flyingPathNavigation.setCanPassDoors(true);
+
+		// TODO check this on other classes
+		//flyingPathNavigation.setCanPassDoors(true);
 
 		// TODO check this if this is useful or not
 		//? >=1.21.3 {

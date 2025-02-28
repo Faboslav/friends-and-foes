@@ -16,10 +16,10 @@ public final class OxidizableButtonBlock extends CopperButtonBlock implements Fr
 
 	public OxidizableButtonBlock(
 		WeatherState oxidationLevel,
-		Properties settings,
-		int pressTicks
+		int pressTicks,
+		Properties properties
 	) {
-		super(settings, pressTicks);
+		super(pressTicks, properties);
 		this.oxidationLevel = oxidationLevel;
 	}
 
@@ -35,7 +35,9 @@ public final class OxidizableButtonBlock extends CopperButtonBlock implements Fr
 
 	@Override
 	public boolean isRandomlyTicking(BlockState state) {
-		return FriendsAndFoesOxidizable.getNext(state.getBlock()).isPresent();
+		return false;
+		// TODO resolve
+		//return FriendsAndFoesOxidizable.getNext(state.getBlock()).isPresent();
 	}
 
 	@Override

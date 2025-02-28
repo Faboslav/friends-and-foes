@@ -7,6 +7,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.JsonOps;
+import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -45,8 +46,8 @@ public final class AnimationLoader extends SimpleJsonResourceReloadListener<Anim
 	private final List<AnimationHolder> strongHolderReferences = new ArrayList<>();
 
 	private AnimationLoader() {
-		//? >=1.21.3 {
-		super(AnimationParser.CODEC, "animations/entity");
+		//? >=1.21.4 {
+		super(AnimationParser.CODEC, FileToIdConverter.json("friendsandfoes/animations/entity"));
 		//?} else {
 		/*super(new Gson(), "animations/entity");
 		*///?}

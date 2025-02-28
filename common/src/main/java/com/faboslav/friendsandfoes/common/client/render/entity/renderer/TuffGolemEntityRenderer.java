@@ -38,7 +38,7 @@ public final class TuffGolemEntityRenderer extends MobRenderer<TuffGolemEntity, 
 			//?} else {
 			/*context.getItemInHandRenderer(),
 			*///?}
-			context.getItemRenderer())
+			context.getItemModelResolver())
 		);
 	}
 

@@ -31,8 +31,16 @@ public class IceologerEntityRenderer<T extends SpellcasterIllager> extends Illag
 		super(context, new IllagerModel<>(context.bakeLayer(FriendsAndFoesEntityModelLayers.ICEOLOGER_LAYER)), 0.5F);
 
 		//? >=1.21.3 {
-		this.addLayer(new ItemInHandLayer<IceologerRenderState, IllagerModel<IceologerRenderState>>(this, context.getItemRenderer()) {
-			public void render(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, IceologerRenderState renderState, float f, float g) {
+		this.addLayer(new ItemInHandLayer<>(this)
+		{
+			public void render(
+				PoseStack poseStack,
+				MultiBufferSource multiBufferSource,
+				int i,
+				IceologerRenderState renderState,
+				float f,
+				float g
+			) {
 				if (renderState.isCastingSpell) {
 					super.render(poseStack, multiBufferSource, i, renderState, f, g);
 				}

@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.fabric.events;
 
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -24,15 +25,18 @@ public class FabricReloadListener implements IdentifiableResourceReloadListener
 		return id;
 	}
 
+
 	@Override
 	public CompletableFuture<Void> reload(
-		PreparationBarrier synchronizer,
+		PreparationBarrier barrier,
 		ResourceManager manager,
-		ProfilerFiller prepareProfiler,
+		//? <1.21.3 {
+		/*ProfilerFiller prepareProfiler,
 		ProfilerFiller applyProfiler,
-		Executor prepareExecutor,
-		Executor applyExecutor
+		*///?}
+		Executor backgroundExecutor,
+		Executor gameExecutor
 	) {
-		return listener.reload(synchronizer, manager, prepareProfiler, applyProfiler, prepareExecutor, applyExecutor);
+		return listener.reload(barrier, manager, /*? <1.21.3 {*//*prepareProfiler, applyProfiler, *//*?}*/ backgroundExecutor, gameExecutor);
 	}
 }

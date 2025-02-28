@@ -1,9 +1,7 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.feature;
 
+//? >=1.21.4 {
 import com.faboslav.friendsandfoes.common.client.render.entity.model.PlayerIllusionEntityModel;
-import net.minecraft.client.renderer.entity.layers.RenderLayer;
-
-//? >=1.21.3 {
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.fabricmc.api.EnvType;
@@ -15,51 +13,64 @@ import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.state.PlayerRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.PlayerSkin;
-import net.minecraft.client.resources.model.EquipmentModelSet;
+import net.minecraft.client.resources.model.EquipmentAssetManager;
+import net.minecraft.client.resources.model.EquipmentClientInfo;
+import net.minecraft.client.resources.model.EquipmentClientInfo.LayerType;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.equipment.EquipmentModel;
 import net.minecraft.world.item.equipment.Equippable;
 
 @Environment(EnvType.CLIENT)
-public class PlayerIllusionCapeLayer extends RenderLayer<PlayerRenderState, PlayerIllusionEntityModel> {
+public class PlayerIllusionCapeLayer extends RenderLayer<PlayerRenderState, PlayerIllusionEntityModel>
+{
 	private final HumanoidModel<PlayerRenderState> model;
-	private final EquipmentModelSet equipmentModels;
+	private final EquipmentAssetManager equipmentAssets;
 
-	public PlayerIllusionCapeLayer(RenderLayerParent<PlayerRenderState, PlayerIllusionEntityModel> renderer, EntityModelSet entityModels, EquipmentModelSet equipmentModels) {
+	public PlayerIllusionCapeLayer(
+		RenderLayerParent<PlayerRenderState, PlayerIllusionEntityModel> renderer,
+		EntityModelSet modelSet,
+		EquipmentAssetManager equipmentAssets
+	) {
 		super(renderer);
-		this.model = new PlayerCapeModel<>(entityModels.bakeLayer(ModelLayers.PLAYER_CAPE));
-		this.equipmentModels = equipmentModels;
+		this.model = new PlayerCapeModel<>(modelSet.bakeLayer(ModelLayers.PLAYER_CAPE));
+		this.equipmentAssets = equipmentAssets;
 	}
 
-	private boolean hasLayer(ItemStack stack, EquipmentModel.LayerType layerType) {
+	private boolean hasLayer(ItemStack stack, EquipmentClientInfo.LayerType layer) {
 		Equippable equippable = stack.get(DataComponents.EQUIPPABLE);
-		if (equippable != null && !equippable.model().isEmpty()) {
-			EquipmentModel equipmentModel = this.equipmentModels.get((ResourceLocation)equippable.model().get());
-			return !equipmentModel.getLayers(layerType).isEmpty();
+		if (equippable != null && equippable.assetId().isPresent()) {
+			EquipmentClientInfo equipmentClientInfo = this.equipmentAssets.get(equippable.assetId().get());
+			return !equipmentClientInfo.getLayers(layer).isEmpty();
 		} else {
 			return false;
 		}
 	}
 
-	public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, PlayerRenderState renderState, float yRot, float xRot) {
-		if (!renderState.isInvisible && renderState.showCape) {
-			PlayerSkin playerSkin = renderState.skin;
+	public void render(
+		PoseStack poseStack,
+		MultiBufferSource multiBufferSource,
+		int i,
+		PlayerRenderState playerRenderState,
+		float f,
+		float g
+	) {
+		if (!playerRenderState.isInvisible && playerRenderState.showCape) {
+			PlayerSkin playerSkin = playerRenderState.skin;
 			if (playerSkin.capeTexture() != null) {
-				if (!this.hasLayer(renderState.chestItem, EquipmentModel.LayerType.WINGS)) {
+				if (!this.hasLayer(playerRenderState.chestEquipment, LayerType.WINGS)) {
 					poseStack.pushPose();
-					if (this.hasLayer(renderState.chestItem, EquipmentModel.LayerType.HUMANOID)) {
+					if (this.hasLayer(playerRenderState.chestEquipment, LayerType.HUMANOID)) {
 						poseStack.translate(0.0F, -0.053125F, 0.06875F);
 					}
 
-					VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.entitySolid(playerSkin.capeTexture()));
+					VertexConsumer vertexConsumer = multiBufferSource.getBuffer(RenderType.entitySolid(playerSkin.capeTexture()));
 					this.getParentModel().copyPropertiesTo(this.model);
-					this.model.setupAnim(renderState);
-					this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
+					this.model.setupAnim(playerRenderState);
+					this.model.renderToBuffer(poseStack, vertexConsumer, i, OverlayTexture.NO_OVERLAY);
 					poseStack.popPose();
 				}
 			}

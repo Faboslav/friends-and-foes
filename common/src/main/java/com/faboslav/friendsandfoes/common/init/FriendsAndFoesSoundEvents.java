@@ -1,10 +1,10 @@
 package com.faboslav.friendsandfoes.common.init;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-import com.faboslav.friendsandfoes.common.init.registry.ReferenceRegistryEntry;
-import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
-import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistries;
-import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
+import com.teamresourceful.resourcefullib.common.registry.HolderRegistryEntry;
+import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
+import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistries;
+import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -71,14 +71,14 @@ public final class FriendsAndFoesSoundEvents
 	public static final RegistryEntry<SoundEvent> ENTITY_WILDFIRE_SHOOT = registerSoundEvent("entity.wildfire.shoot");
 	public static final RegistryEntry<SoundEvent> ENTITY_WILDFIRE_STEP = registerSoundEvent("entity.wildfire.step");
 	public static final RegistryEntry<SoundEvent> ENTITY_WILDFIRE_SUMMON_BLAZE = registerSoundEvent("entity.wildfire.summon_blaze");
-	public static final ReferenceRegistryEntry<SoundEvent> MUSIC_DISC_AROUND_THE_CORNER = registerHolderSoundEvent("music_disc.around_the_corner");
+	public static final HolderRegistryEntry<SoundEvent> MUSIC_DISC_AROUND_THE_CORNER = registerHolderSoundEvent("music_disc.around_the_corner");
 
 	private static RegistryEntry<SoundEvent> registerSoundEvent(String path) {
 		return SOUND_EVENTS.register(path, () -> SoundEvent.createVariableRangeEvent(FriendsAndFoes.makeID(path)));
 	}
 
-	private static ReferenceRegistryEntry<SoundEvent> registerHolderSoundEvent(String path) {
-		return SOUND_EVENTS.registerReference(path, () -> SoundEvent.createVariableRangeEvent(FriendsAndFoes.makeID(path)));
+	private static HolderRegistryEntry<SoundEvent> registerHolderSoundEvent(String path) {
+		return SOUND_EVENTS.registerHolder(path, () -> SoundEvent.createVariableRangeEvent(FriendsAndFoes.makeID(path)));
 	}
 
 	private FriendsAndFoesSoundEvents() {

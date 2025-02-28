@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.block.BushBlock;
@@ -123,7 +124,7 @@ public final class MoobloomFlowerFeatureRenderer extends RenderLayer<MoobloomRen
 		BakedModel moobloomModel
 	) {
 		if (renderAsModel) {
-			this.blockRenderer.getModelRenderer().renderModel(matrices.last(), vertexConsumers.getBuffer(RenderType.outline(InventoryMenu.BLOCK_ATLAS)), moobloomState, moobloomModel, 0.0F, 0.0F, 0.0F, light, overlay);
+			this.blockRenderer.getModelRenderer().renderModel(matrices.last(), vertexConsumers.getBuffer(RenderType.outline(TextureAtlas.LOCATION_BLOCKS)), moobloomState, moobloomModel, 0.0F, 0.0F, 0.0F, light, overlay);
 		} else {
 			this.blockRenderer.renderSingleBlock(moobloomState, matrices, vertexConsumers, light, overlay);
 		}

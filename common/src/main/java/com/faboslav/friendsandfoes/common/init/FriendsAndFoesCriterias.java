@@ -2,9 +2,9 @@ package com.faboslav.friendsandfoes.common.init;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.advancements.criterion.CompleteHideAndSeekGameCriterion;
-import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
-import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistries;
-import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
+import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
+import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistries;
+import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistry;
 import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.advancements.critereon.LightningStrikeTrigger;
 import net.minecraft.advancements.critereon.TameAnimalTrigger;

@@ -14,6 +14,8 @@ import net.minecraft.resources.ResourceLocation;
 
 //? >=1.21.3 {
 import com.faboslav.friendsandfoes.common.client.render.entity.state.WildfireRenderState;
+import net.minecraft.world.entity.monster.ElderGuardian;
+import net.minecraft.world.entity.monster.Guardian;
 //?}
 
 @Environment(EnvType.CLIENT)
@@ -38,8 +40,18 @@ public class WildfireEntityRenderer extends MobRenderer<WildfireEntity, Wildfire
 	}
 
 	@Override
-	protected void scale(WildfireEntity wildfire, PoseStack matrixStack, float f) {
-		matrixStack.scale(SCALE, SCALE, SCALE);
+	protected void scale(
+		//? >=1.21.3 {
+		WildfireRenderState wildfireRenderState,
+		//?} else {
+		/*WildfireEntity wildfire,
+		*///?}
+		PoseStack poseStack
+		//? <1.21.3 {
+		/*,float partialTickTime
+		*///?}
+	) {
+		poseStack.scale(SCALE, SCALE, SCALE);
 	}
 
 	//? >=1.21.3 {

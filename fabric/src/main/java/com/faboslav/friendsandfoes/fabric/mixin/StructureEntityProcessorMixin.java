@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.fabric.mixin;
 
+import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import com.faboslav.friendsandfoes.common.world.processor.StructureEntityProcessor;
 import com.faboslav.friendsandfoes.common.world.processor.StructureProcessingContext;
 import org.spongepowered.asm.mixin.Final;
@@ -21,7 +22,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
@@ -129,7 +129,7 @@ public final class StructureEntityProcessorMixin
 						((Mob) entity).finalizeSpawn(
 							serverWorldAccess,
 							serverWorldAccess.getCurrentDifficultyAt(BlockPos.containing(entityPos)),
-							MobSpawnType.STRUCTURE,
+							VersionedEntitySpawnReason.STRUCTURE,
 							null
 						);
 					}
@@ -188,7 +188,11 @@ public final class StructureEntityProcessorMixin
 		CompoundTag compoundTag
 	) {
 		try {
-			return EntityType.create(compoundTag, serverLevelAccessor.getLevel());
+			//? >=1.21.3 {
+			return EntityType.create(compoundTag, serverLevelAccessor.getLevel(), VersionedEntitySpawnReason.STRUCTURE);
+			//?} else {
+			/*return EntityType.create(compoundTag, serverLevelAccessor.getLevel());
+			*///?}
 		} catch (Exception exception) {
 			return Optional.empty();
 		}

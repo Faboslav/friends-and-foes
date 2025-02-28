@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import net.minecraft.resources.FileToIdConverter;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -49,8 +50,8 @@ public final class MoobloomVariantManager extends SimpleJsonResourceReloadListen
 	};
 
 	private MoobloomVariantManager() {
-		//? >=1.21.3 {
-		super(ExtraCodecs.JSON, "moobloom_variants");
+		//? >=1.21.4 {
+		super(ExtraCodecs.JSON, FileToIdConverter.json("friendsandfoes/moobloom_variants"));
 		//?} else {
 		/*super(GSON, "moobloom_variants");
 		*///?}

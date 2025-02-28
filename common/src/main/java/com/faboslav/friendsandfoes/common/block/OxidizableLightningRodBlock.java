@@ -35,7 +35,9 @@ public final class OxidizableLightningRodBlock extends LightningRodBlock impleme
 
 	@Override
 	public boolean isRandomlyTicking(BlockState state) {
-		return FriendsAndFoesOxidizable.getNext(state.getBlock()).isPresent();
+		return false;
+		// TODO resolve
+		//return FriendsAndFoesOxidizable.getNext(state.getBlock()).isPresent();
 	}
 
 	@Override

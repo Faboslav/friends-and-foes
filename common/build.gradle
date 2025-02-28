@@ -47,6 +47,7 @@ dependencies {
 	modImplementation("net.fabricmc:fabric-loader:${prop('fabric_loader_version')}")
 
 	// Required client
+	modImplementation("com.teamresourceful.resourcefullib:resourcefullib-common-${prop('resourceful_lib_version')}")
 	modImplementation(modrinth("yacl", "${prop('yacl_version')}-fabric"))
 }
 
@@ -80,40 +81,4 @@ tasks.withType(JavaCompile).configureEach {
 
 tasks.withType(Jar).configureEach {
 	duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
-
-repositories {
-	// CurseForge
-	maven {
-		name 'CurseForge'
-		url "https://www.cursemaven.com"
-	}
-
-	// Modrinth
-	maven {
-		url "https://api.modrinth.com/maven"
-		content {
-			includeGroup("maven.modrinth")
-		}
-	}
-
-	// Mixin Extras
-	maven {
-		url 'https://jitpack.io'
-		content {
-			includeGroup 'com.github.llamalad7'
-		}
-	}
-
-	// YACL
-	maven { url "https://maven.isxander.dev/releases" }
-	maven { url "https://maven.isxander.dev/snapshots" }
-	maven { url 'https://thedarkcolour.github.io/KotlinForForge/' }
-	maven { url = "https://maven.quiltmc.org/repository/release" }
-
-	// Parchment
-	maven {
-		name = 'ParchmentMC'
-		url = 'https://maven.parchmentmc.org'
-	}
 }

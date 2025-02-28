@@ -2,9 +2,9 @@ package com.faboslav.friendsandfoes.common.init;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
-import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
-import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistries;
-import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
+import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
+import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistries;
+import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistry;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.util.BasicItemTrade;
 import com.google.common.collect.ImmutableSet;

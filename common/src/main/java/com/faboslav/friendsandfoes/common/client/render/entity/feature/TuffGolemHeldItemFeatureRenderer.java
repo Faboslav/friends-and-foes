@@ -9,6 +9,8 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.item.ItemModelResolver;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -31,13 +33,13 @@ public final class TuffGolemHeldItemFeatureRenderer extends RenderLayer<TuffGole
 *///?}
 {
 	private final ItemInHandRenderer heldItemRenderer;
-	private final ItemRenderer itemRenderer;
+	private final ItemModelResolver itemModelResolver;
 
 	//? >=1.21.3 {
-	public TuffGolemHeldItemFeatureRenderer(RenderLayerParent<TuffGolemRenderState, TuffGolemEntityModel> renderer, ItemInHandRenderer heldItemRenderer, ItemRenderer itemRenderer) {
+	public TuffGolemHeldItemFeatureRenderer(RenderLayerParent<TuffGolemRenderState, TuffGolemEntityModel> renderer, ItemInHandRenderer heldItemRenderer, ItemModelResolver itemModelResolver) {
 		super(renderer);
 		this.heldItemRenderer = heldItemRenderer;
-		this.itemRenderer = itemRenderer;
+		this.itemModelResolver = itemModelResolver;
 	}
 
 	//?} else {
@@ -71,10 +73,11 @@ public final class TuffGolemHeldItemFeatureRenderer extends RenderLayer<TuffGole
 		) {
 			return;
 		}
-
 		ItemStack itemStack = tuffGolem.getItemBySlot(EquipmentSlot.MAINHAND);
-		BakedModel itemBakedModel = this.itemRenderer.getModel(itemStack, null, null, tuffGolem.getId());
-		float yItemOffset = itemBakedModel.getTransforms().getTransform(ItemDisplayContext.GROUND).scale.y();
+
+		// TODO check this
+		//float yItemOffset = itemBakedModel.getTransforms().getTransform(ItemDisplayContext.GROUND).scale.y();
+		float yItemOffset = 0.0F;
 		float levitationOffset = Mth.sin(((float) tuffGolem.tickCount + tickDelta) / 10.0F + 3.1415927F) * 0.1F + 0.1F;
 		float yOffset = levitationOffset + (0.85F - yItemOffset * 0.5F);
 		float rotationAngle = (float) Math.toDegrees((animationProgress * 0.05F) % (2.0F * (float) Math.PI));

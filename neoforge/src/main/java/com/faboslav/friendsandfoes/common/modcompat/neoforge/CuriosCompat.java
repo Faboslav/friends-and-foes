@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.common.modcompat.neoforge;
 
-import com.faboslav.friendsandfoes.common.events.lifecycle.ClientSetupEvent;
+//? if curios: >0 {
+/*import com.faboslav.friendsandfoes.common.events.lifecycle.ClientSetupEvent;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesItems;
 import com.faboslav.friendsandfoes.common.modcompat.ModCompat;
 import com.faboslav.friendsandfoes.common.modcompat.neoforge.curios.CuriosTotemRenderer;
@@ -44,3 +45,4 @@ public final class CuriosCompat implements ModCompat
 		return null;
 	}
 }
+*///?}

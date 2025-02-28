@@ -7,12 +7,15 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.HumanoidArmorModel;
+import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.*;
 
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -39,10 +42,10 @@ public final class PlayerIllusionEntityRenderer extends LivingEntityRenderer<Pla
 				context.getEquipmentRenderer()
 			)
 		);
-		this.addLayer(new PlayerItemInHandLayer(this, context.getItemRenderer()));
+		this.addLayer(new PlayerItemInHandLayer(this));
 		this.addLayer(new ArrowLayer(this, context));
-		this.addLayer(new PlayerIllusionCapeLayer(this, context.getModelSet(), context.getEquipmentModels()));
-		this.addLayer(new CustomHeadLayer(this, context.getModelSet(), context.getItemRenderer()));
+		this.addLayer(new PlayerIllusionCapeLayer(this, context.getModelSet(), context.getEquipmentAssets()));
+		this.addLayer(new CustomHeadLayer(this, context.getModelSet()));
 		this.addLayer(new WingsLayer(this, context.getModelSet(), context.getEquipmentRenderer()));
 		this.addLayer(new BeeStingerLayer(this, context));
 		//?} else {

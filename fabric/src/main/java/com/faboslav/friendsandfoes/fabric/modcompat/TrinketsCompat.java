@@ -1,8 +1,8 @@
 package com.faboslav.friendsandfoes.fabric.modcompat;
 
-import com.faboslav.friendsandfoes.common.modcompat.ModCompat;
-import dev.emi.trinkets.api.SlotReference;
-import dev.emi.trinkets.api.TrinketsApi;
+//? trinkets: >0 {
+/*import com.faboslav.friendsandfoes.common.modcompat.ModCompat;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
@@ -12,6 +12,8 @@ import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import dev.emi.trinkets.api.SlotReference;
+import dev.emi.trinkets.api.TrinketsApi;
 
 public final class TrinketsCompat implements ModCompat
 {
@@ -33,3 +35,4 @@ public final class TrinketsCompat implements ModCompat
 		return null;
 	}
 }
+*///?}

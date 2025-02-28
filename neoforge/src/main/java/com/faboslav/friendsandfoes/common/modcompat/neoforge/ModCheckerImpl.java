@@ -10,8 +10,10 @@ public class ModCheckerImpl
 		String modId = "";
 
 		try {
-			modId = "curios";
+			//? if curios: >0 {
+			/*modId = "curios";
 			loadModCompat(modId, () -> new CuriosCompat());
+			*///?}
 		} catch (Throwable e) {
 			FriendsAndFoes.getLogger().error("Failed to setup compat with " + modId);
 			e.printStackTrace();

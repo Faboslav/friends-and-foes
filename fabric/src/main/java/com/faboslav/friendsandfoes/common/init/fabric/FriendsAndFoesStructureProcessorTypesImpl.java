@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.common.init.fabric;
 
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStructureProcessorTypes;
-import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
+import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
 import com.faboslav.friendsandfoes.fabric.world.processor.IceologerCabinArmorStandProcessor;
 import com.faboslav.friendsandfoes.fabric.world.processor.IllusionerShackItemFrameProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;

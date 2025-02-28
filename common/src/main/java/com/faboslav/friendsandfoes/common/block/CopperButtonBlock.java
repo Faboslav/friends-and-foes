@@ -12,8 +12,8 @@ import net.minecraft.world.phys.BlockHitResult;
 
 public class CopperButtonBlock extends ButtonBlock
 {
-	public CopperButtonBlock(Properties settings, int pressTicks) {
-		super(BlockSetType.COPPER, pressTicks, settings);
+	public CopperButtonBlock(int pressTicks, Properties properties) {
+		super(BlockSetType.COPPER, pressTicks, properties);
 	}
 
 	@Override

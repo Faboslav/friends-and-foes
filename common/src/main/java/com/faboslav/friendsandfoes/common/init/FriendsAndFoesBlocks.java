@@ -7,13 +7,11 @@ import com.faboslav.friendsandfoes.common.block.OxidizableButtonBlock;
 import com.faboslav.friendsandfoes.common.block.OxidizableLightningRodBlock;
 import com.faboslav.friendsandfoes.common.events.client.RegisterRenderLayersEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.RegisterFlammabilityEvent;
-import com.faboslav.friendsandfoes.common.init.registry.RegistryEntry;
-import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistries;
-import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
+import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
+import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistries;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.Block;
@@ -27,45 +25,64 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
-import org.jetbrains.annotations.Nullable;
 
+import java.util.function.Function;
 import java.util.function.Supplier;
+
+//? >=1.21.4 {
+import com.teamresourceful.resourcefullib.common.registry.builtin.ResourcefulBlockRegistry;
+//?} else {
+/*import net.minecraft.core.registries.BuiltInRegistries;
+import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistry;
+*///?}
 
 /**
  * @see Blocks
  */
 public final class FriendsAndFoesBlocks
 {
-	public static final ResourcefulRegistry<Block> BLOCKS = ResourcefulRegistries.create(BuiltInRegistries.BLOCK, FriendsAndFoes.MOD_ID);
+	//? >=1.21.4 {
+	public static final ResourcefulBlockRegistry BLOCKS = ResourcefulRegistries.createForBlocks(FriendsAndFoes.MOD_ID);
+	//?} else {
+	/*public static final ResourcefulRegistry<Block> BLOCKS = ResourcefulRegistries.create(BuiltInRegistries.BLOCK, FriendsAndFoes.MOD_ID);
+	*///?}
+	
+	public static final RegistryEntry<Block> BUTTERCUP = registerBlock("buttercup", (properties) -> new FlowerBlock(MobEffects.SATURATION, 6, properties), () ->  BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY));
+	public static final RegistryEntry<Block> POTTED_BUTTERCUP = registerBlock("potted_buttercup", (properties) -> new FlowerPotBlock(BUTTERCUP.get(), properties), () -> BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY));
+	public static final RegistryEntry<Block> CRAB_EGG = registerBlock("crab_egg", CrabEggBlock::new, () -> BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).forceSolidOn().strength(0.5F).sound(SoundType.METAL).randomTicks().noOcclusion().pushReaction(PushReaction.DESTROY));
+	public static final RegistryEntry<Block> ACACIA_BEEHIVE = registerBlock("acacia_beehive", BeehiveBlock::new, () -> BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).strength(0.6F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava());
+	public static final RegistryEntry<Block> BAMBOO_BEEHIVE = registerBlock("bamboo_beehive", BeehiveBlock::new, () -> BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_YELLOW).strength(0.6F).sound(SoundType.BAMBOO_WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava());
+	public static final RegistryEntry<Block> BIRCH_BEEHIVE = registerBlock("birch_beehive", BeehiveBlock::new, () -> BlockBehaviour.Properties.of().mapColor(MapColor.SAND).strength(0.6F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava());
+	public static final RegistryEntry<Block> CHERRY_BEEHIVE = registerBlock("cherry_beehive", BeehiveBlock::new, () -> BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_WHITE).strength(0.6F).sound(SoundType.CHERRY_WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava());
+	public static final RegistryEntry<Block> CRIMSON_BEEHIVE = registerBlock("crimson_beehive", BeehiveBlock::new, () -> BlockBehaviour.Properties.of().mapColor(MapColor.CRIMSON_STEM).strength(0.6F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS));
+	public static final RegistryEntry<Block> DARK_OAK_BEEHIVE = registerBlock("dark_oak_beehive", BeehiveBlock::new, () -> BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).strength(0.6F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava());
+	public static final RegistryEntry<Block> JUNGLE_BEEHIVE = registerBlock("jungle_beehive", BeehiveBlock::new, () -> BlockBehaviour.Properties.of().mapColor(MapColor.DIRT).strength(0.6F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava());
+	public static final RegistryEntry<Block> MANGROVE_BEEHIVE = registerBlock("mangrove_beehive", BeehiveBlock::new, () -> BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(0.6F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava());
+	public static final RegistryEntry<Block> SPRUCE_BEEHIVE = registerBlock("spruce_beehive", BeehiveBlock::new, () -> BlockBehaviour.Properties.of().mapColor(MapColor.PODZOL).strength(0.6F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava());
+	public static final RegistryEntry<Block> WARPED_BEEHIVE = registerBlock("warped_beehive", BeehiveBlock::new, () -> BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_STEM).strength(0.6F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS));
+	public static final RegistryEntry<Block> COPPER_BUTTON = registerBlock("copper_button", (properties) -> new OxidizableButtonBlock(WeatheringCopper.WeatherState.UNAFFECTED, 10, properties), () -> BlockBehaviour.Properties.of().noCollission().strength(0.5F).sound(SoundType.COPPER));
+	public static final RegistryEntry<Block> EXPOSED_COPPER_BUTTON = registerBlock("exposed_copper_button", (properties) -> new OxidizableButtonBlock(WeatheringCopper.WeatherState.EXPOSED, 7, properties), () -> BlockBehaviour.Properties.of().pushReaction(PushReaction.DESTROY).noCollission().strength(0.5F).sound(SoundType.COPPER));
+	public static final RegistryEntry<Block> WEATHERED_COPPER_BUTTON = registerBlock("weathered_copper_button", (properties) -> new OxidizableButtonBlock(WeatheringCopper.WeatherState.WEATHERED, 4, properties), () -> BlockBehaviour.Properties.of().pushReaction(PushReaction.DESTROY).noCollission().strength(0.5F).sound(SoundType.COPPER));
+	public static final RegistryEntry<Block> OXIDIZED_COPPER_BUTTON = registerBlock("oxidized_copper_button", (properties) -> new OxidizableButtonBlock(WeatheringCopper.WeatherState.OXIDIZED, 1, properties), () -> BlockBehaviour.Properties.of().pushReaction(PushReaction.DESTROY).noCollission().strength(0.5F).sound(SoundType.COPPER));
+	public static final RegistryEntry<Block> WAXED_COPPER_BUTTON = registerBlock("waxed_copper_button", (properties) -> new CopperButtonBlock( 10, properties), () -> BlockBehaviour.Properties.ofFullCopy(COPPER_BUTTON.get()));
+	public static final RegistryEntry<Block> WAXED_EXPOSED_COPPER_BUTTON = registerBlock("waxed_exposed_copper_button", (properties) -> new CopperButtonBlock(7, properties), () -> BlockBehaviour.Properties.ofFullCopy(COPPER_BUTTON.get()));
+	public static final RegistryEntry<Block> WAXED_WEATHERED_COPPER_BUTTON = registerBlock("waxed_weathered_copper_button", (properties) -> new CopperButtonBlock(4, properties), () -> BlockBehaviour.Properties.ofFullCopy(COPPER_BUTTON.get()));
+	public static final RegistryEntry<Block> WAXED_OXIDIZED_COPPER_BUTTON = registerBlock("waxed_oxidized_copper_button", (properties) -> new CopperButtonBlock(1, properties), () -> BlockBehaviour.Properties.ofFullCopy(COPPER_BUTTON.get()));
+	public static final RegistryEntry<Block> EXPOSED_LIGHTNING_ROD = registerBlock("exposed_lightning_rod", (properties) -> new OxidizableLightningRodBlock(WeatheringCopper.WeatherState.EXPOSED, properties), () -> BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHTNING_ROD));
+	public static final RegistryEntry<Block> WEATHERED_LIGHTNING_ROD = registerBlock("weathered_lightning_rod", (properties) -> new OxidizableLightningRodBlock(WeatheringCopper.WeatherState.WEATHERED, properties), () -> BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHTNING_ROD));
+	public static final RegistryEntry<Block> OXIDIZED_LIGHTNING_ROD = registerBlock("oxidized_lightning_rod", (properties) -> new OxidizableLightningRodBlock(WeatheringCopper.WeatherState.OXIDIZED, properties), () -> BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHTNING_ROD));
+	public static final RegistryEntry<Block> WAXED_LIGHTNING_ROD = registerBlock("waxed_lightning_rod", LightningRodBlock::new, () -> BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHTNING_ROD));
+	public static final RegistryEntry<Block> WAXED_EXPOSED_LIGHTNING_ROD = registerBlock("waxed_exposed_lightning_rod", LightningRodBlock::new, () -> BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHTNING_ROD));
+	public static final RegistryEntry<Block> WAXED_WEATHERED_LIGHTNING_ROD = registerBlock("waxed_weathered_lightning_rod", LightningRodBlock::new, () -> BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHTNING_ROD));
+	public static final RegistryEntry<Block> WAXED_OXIDIZED_LIGHTNING_ROD = registerBlock("waxed_oxidized_lightning_rod", LightningRodBlock::new, () -> BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHTNING_ROD));
 
-	public static final RegistryEntry<Block> BUTTERCUP = BLOCKS.register("buttercup", () -> new FlowerBlock(MobEffects.SATURATION, 6, BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
-	public static final RegistryEntry<Block> POTTED_BUTTERCUP = BLOCKS.register("potted_buttercup", () -> new FlowerPotBlock(BUTTERCUP.get(), BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
-	public static final RegistryEntry<Block> CRAB_EGG = BLOCKS.register("crab_egg", () -> new CrabEggBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).forceSolidOn().strength(0.5F).sound(SoundType.METAL).randomTicks().noOcclusion().pushReaction(PushReaction.DESTROY)));
-	public static final RegistryEntry<Block> ACACIA_BEEHIVE = registerBlock(FriendsAndFoes.getConfig().enableAdditionalBeehiveWoodVariants, () -> BLOCKS.register("acacia_beehive", () -> new BeehiveBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).strength(0.6F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava())));
-	public static final RegistryEntry<Block> BAMBOO_BEEHIVE = BLOCKS.register("bamboo_beehive", () -> new BeehiveBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_YELLOW).strength(0.6F).sound(SoundType.BAMBOO_WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava()));
-	public static final RegistryEntry<Block> BIRCH_BEEHIVE = BLOCKS.register("birch_beehive", () -> new BeehiveBlock(BlockBehaviour.Properties.of().mapColor(MapColor.SAND).strength(0.6F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava()));
-	public static final RegistryEntry<Block> CHERRY_BEEHIVE = BLOCKS.register("cherry_beehive", () -> new BeehiveBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_WHITE).strength(0.6F).sound(SoundType.CHERRY_WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava()));
-	public static final RegistryEntry<Block> CRIMSON_BEEHIVE = BLOCKS.register("crimson_beehive", () -> new BeehiveBlock(BlockBehaviour.Properties.of().mapColor(MapColor.CRIMSON_STEM).strength(0.6F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS)));
-	public static final RegistryEntry<Block> DARK_OAK_BEEHIVE = BLOCKS.register("dark_oak_beehive", () -> new BeehiveBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).strength(0.6F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava()));
-	public static final RegistryEntry<Block> JUNGLE_BEEHIVE = BLOCKS.register("jungle_beehive", () -> new BeehiveBlock(BlockBehaviour.Properties.of().mapColor(MapColor.DIRT).strength(0.6F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava()));
-	public static final RegistryEntry<Block> MANGROVE_BEEHIVE = BLOCKS.register("mangrove_beehive", () -> new BeehiveBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(0.6F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava()));
-	public static final RegistryEntry<Block> SPRUCE_BEEHIVE = BLOCKS.register("spruce_beehive", () -> new BeehiveBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PODZOL).strength(0.6F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava()));
-	public static final RegistryEntry<Block> WARPED_BEEHIVE = BLOCKS.register("warped_beehive", () -> new BeehiveBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_STEM).strength(0.6F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS)));
-	public static final RegistryEntry<Block> COPPER_BUTTON = BLOCKS.register("copper_button", () -> new OxidizableButtonBlock(WeatheringCopper.WeatherState.UNAFFECTED, BlockBehaviour.Properties.of().noCollission().strength(0.5F).sound(SoundType.COPPER), 10));
-	public static final RegistryEntry<Block> EXPOSED_COPPER_BUTTON = BLOCKS.register("exposed_copper_button", () -> new OxidizableButtonBlock(WeatheringCopper.WeatherState.EXPOSED, BlockBehaviour.Properties.of().pushReaction(PushReaction.DESTROY).noCollission().strength(0.5F).sound(SoundType.COPPER), 7));
-	public static final RegistryEntry<Block> WEATHERED_COPPER_BUTTON = BLOCKS.register("weathered_copper_button", () -> new OxidizableButtonBlock(WeatheringCopper.WeatherState.WEATHERED, BlockBehaviour.Properties.of().pushReaction(PushReaction.DESTROY).noCollission().strength(0.5F).sound(SoundType.COPPER), 4));
-	public static final RegistryEntry<Block> OXIDIZED_COPPER_BUTTON = BLOCKS.register("oxidized_copper_button", () -> new OxidizableButtonBlock(WeatheringCopper.WeatherState.OXIDIZED, BlockBehaviour.Properties.of().pushReaction(PushReaction.DESTROY).noCollission().strength(0.5F).sound(SoundType.COPPER), 1));
-	public static final RegistryEntry<Block> WAXED_COPPER_BUTTON = BLOCKS.register("waxed_copper_button", () -> new CopperButtonBlock(BlockBehaviour.Properties.ofFullCopy(COPPER_BUTTON.get()), 10));
-	public static final RegistryEntry<Block> WAXED_EXPOSED_COPPER_BUTTON = BLOCKS.register("waxed_exposed_copper_button", () -> new CopperButtonBlock(BlockBehaviour.Properties.ofFullCopy(COPPER_BUTTON.get()), 7));
-	public static final RegistryEntry<Block> WAXED_WEATHERED_COPPER_BUTTON = BLOCKS.register("waxed_weathered_copper_button", () -> new CopperButtonBlock(BlockBehaviour.Properties.ofFullCopy(COPPER_BUTTON.get()), 4));
-	public static final RegistryEntry<Block> WAXED_OXIDIZED_COPPER_BUTTON = BLOCKS.register("waxed_oxidized_copper_button", () -> new CopperButtonBlock(BlockBehaviour.Properties.ofFullCopy(COPPER_BUTTON.get()), 1));
-	public static final RegistryEntry<Block> EXPOSED_LIGHTNING_ROD = BLOCKS.register("exposed_lightning_rod", () -> new OxidizableLightningRodBlock(WeatheringCopper.WeatherState.EXPOSED, BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHTNING_ROD)));
-	public static final RegistryEntry<Block> WEATHERED_LIGHTNING_ROD = BLOCKS.register("weathered_lightning_rod", () -> new OxidizableLightningRodBlock(WeatheringCopper.WeatherState.WEATHERED, BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHTNING_ROD)));
-	public static final RegistryEntry<Block> OXIDIZED_LIGHTNING_ROD = BLOCKS.register("oxidized_lightning_rod", () -> new OxidizableLightningRodBlock(WeatheringCopper.WeatherState.OXIDIZED, BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHTNING_ROD)));
-	public static final RegistryEntry<Block> WAXED_LIGHTNING_ROD = BLOCKS.register("waxed_lightning_rod", () -> new LightningRodBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHTNING_ROD)));
-	public static final RegistryEntry<Block> WAXED_EXPOSED_LIGHTNING_ROD = BLOCKS.register("waxed_exposed_lightning_rod", () -> new LightningRodBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHTNING_ROD)));
-	public static final RegistryEntry<Block> WAXED_WEATHERED_LIGHTNING_ROD = BLOCKS.register("waxed_weathered_lightning_rod", () -> new LightningRodBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHTNING_ROD)));
-	public static final RegistryEntry<Block> WAXED_OXIDIZED_LIGHTNING_ROD = BLOCKS.register("waxed_oxidized_lightning_rod", () -> new LightningRodBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHTNING_ROD)));
+	private static RegistryEntry<Block> registerBlock(String id, Function<BlockBehaviour.Properties, Block> factory, Supplier<BlockBehaviour.Properties> getter) {
+		//? >=1.21.4 {
+		return BLOCKS.register(id, factory, getter);
+		//?} else {
+		/*return BLOCKS.register(id, () -> factory.apply(getter.get()));
+		*///?}
+	}
 
 	@Environment(EnvType.CLIENT)
 	public static void registerRenderLayers(RegisterRenderLayersEvent event) {
@@ -82,16 +99,6 @@ public final class FriendsAndFoesBlocks
 			.filter(block -> block instanceof BeehiveBlock && (block != WARPED_BEEHIVE && block != CRIMSON_BEEHIVE)) // TODO check this
 			.map(block -> (BeehiveBlock) block)
 			.forEach(block -> event.register(block, 20, 5));
-	}
-
-	@Nullable
-	private static RegistryEntry<Block> registerBlock(boolean registerCondition, Supplier<RegistryEntry<Block>> registerSupplier) {
-		if(!registerCondition) {
-			return null;
-		}
-
-		return registerSupplier.get();
-
 	}
 
 	private FriendsAndFoesBlocks() {

@@ -14,7 +14,6 @@ import net.neoforged.fml.ModList;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 
@@ -27,7 +26,6 @@ public final class FriendsAndFoesNeoForgeClient
 
 		modEventBus.addListener(FriendsAndFoesNeoForgeClient::onClientSetup);
 		modEventBus.addListener(FriendsAndFoesNeoForgeClient::onRegisterParticles);
-		modEventBus.addListener(FriendsAndFoesNeoForgeClient::onRegisterItemColors);
 		modEventBus.addListener(FriendsAndFoesNeoForgeClient::onRegisterEntityRenderers);
 		modEventBus.addListener(FriendsAndFoesNeoForgeClient::onRegisterEntityLayers);
 	}
@@ -68,9 +66,5 @@ public final class FriendsAndFoesNeoForgeClient
 				event.registerSpriteSet(type, registration::apply);
 			}
 		};
-	}
-
-	private static void onRegisterItemColors(RegisterColorHandlersEvent.Item event) {
-		RegisterItemColorEvent.EVENT.invoke(new RegisterItemColorEvent(event::register, event.getBlockColors()::getColor));
 	}
 }

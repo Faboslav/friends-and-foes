@@ -20,11 +20,11 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
@@ -35,10 +35,16 @@ import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 
+//? >=1.21.4 {
+import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
+//?} else {
+/*import net.neoforged.neoforge.event.AddReloadListenerEvent;
+*///?}
+
 @Mod(FriendsAndFoes.MOD_ID)
 public final class FriendsAndFoesNeoForge
 {
-	public FriendsAndFoesNeoForge(IEventBus modEventBus) {
+	public FriendsAndFoesNeoForge(ModContainer modContainer, IEventBus modEventBus) {
 		IEventBus eventBus = NeoForge.EVENT_BUS;
 
 		UpdateChecker.checkForNewUpdates();
@@ -75,8 +81,18 @@ public final class FriendsAndFoesNeoForge
 		});
 	}
 
-	private static void onAddReloadListeners(AddReloadListenerEvent event) {
-		RegisterReloadListenerEvent.EVENT.invoke(new RegisterReloadListenerEvent((id, listener) -> event.addListener(listener)));
+	private static void onAddReloadListeners(
+		//? >=1.21.4 {
+		AddServerReloadListenersEvent event
+		//?} else {
+		/*AddReloadListenerEvent event
+		*///?}
+	) {
+		//? >=1.21.4 {
+		RegisterReloadListenerEvent.EVENT.invoke(new RegisterReloadListenerEvent(event::addListener));
+		//?} else {
+		/*RegisterReloadListenerEvent.EVENT.invoke(new RegisterReloadListenerEvent((id, listener) -> event.addListener(listener)));
+		*///?}
 	}
 
 	private static void onDatapackSync(OnDatapackSyncEvent event) {

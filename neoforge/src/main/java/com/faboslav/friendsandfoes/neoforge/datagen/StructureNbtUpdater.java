@@ -16,16 +16,19 @@ import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.util.datafix.DataFixTypes;
 import net.minecraft.util.datafix.DataFixers;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.nio.file.Path;
-import java.util.Map.Entry;
 import java.util.concurrent.CompletableFuture;
+
+//? >=1.21.4 {
+import net.minecraft.server.packs.resources.ResourceManager;
+//?} else {
+/*import net.neoforged.neoforge.common.data.ExistingFileHelper;
+*///?}
 
 // Source: https://github.com/BluSunrize/ImmersiveEngineering/blob/1.20.1/src/datagen/java/blusunrize/immersiveengineering/data/StructureUpdater.java
 public class StructureNbtUpdater implements DataProvider
@@ -35,18 +38,31 @@ public class StructureNbtUpdater implements DataProvider
 	private final PackOutput output;
 	private final MultiPackResourceManager resources;
 
-	public StructureNbtUpdater(String basePath, String modid, ExistingFileHelper helper, PackOutput output) {
+	public StructureNbtUpdater(
+		String basePath,
+		String modid,
+		//? >=1.21.4 {
+		ResourceManager resourceManager,
+		//?} else {
+		/*ExistingFileHelper helper,
+		*///?}
+		PackOutput output
+	) {
 		this.basePath = basePath;
 		this.modid = modid;
 		this.output = output;
 
-		try {
+		//? >=1.21.4 {
+		this.resources = (MultiPackResourceManager) resourceManager;
+		//?} else {
+		/*try {
 			Field serverData = ExistingFileHelper.class.getDeclaredField("serverData");
 			serverData.setAccessible(true);
-			resources = (MultiPackResourceManager) serverData.get(helper);
+			this.resources = (MultiPackResourceManager) serverData.get(helper);
 		} catch (NoSuchFieldException | IllegalAccessException e) {
 			throw new RuntimeException(e);
 		}
+		*///?}
 	}
 
 	@Override
@@ -88,7 +104,11 @@ public class StructureNbtUpdater implements DataProvider
 			DataFixers.getDataFixer(), nbt, nbt.getInt("DataVersion")
 		);
 		StructureTemplate template = new StructureTemplate();
-		template.load(BuiltInRegistries.BLOCK.asLookup(), updatedNBT);
+		//? >=1.21.3 {
+		template.load(BuiltInRegistries.BLOCK, updatedNBT);
+		//?} else {
+		/*template.load(BuiltInRegistries.BLOCK.asLookup(), updatedNBT);
+		*///?}
 		return template.save(new CompoundTag());
 	}
 

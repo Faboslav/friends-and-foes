@@ -84,6 +84,7 @@
 	"item.friendsandfoes.crab_claw": "Crab Claw",
 	"item.friendsandfoes.totem_of_freezing": "Totem of Freezing",
 	"item.friendsandfoes.totem_of_illusion": "Totem of Illusion",
+	"friendsandfoes.totem_trigger_tooltip": "Triggers when taking damage and health falls below half of your max health.",
 	"item.friendsandfoes.wildfire_crown": "Wildfire Crown",
 	"item.friendsandfoes.wildfire_crown_fragment": "Wildfire Crown Fragment",
 	"item.friendsandfoes.music_disc_around_the_corner": "Music Disc",

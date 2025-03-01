@@ -14,6 +14,7 @@ public class TotemItem extends Item
 		super(properties);
 	}
 
+	@Override
 	public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
 		super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
 		tooltipComponents.add(Component.translatable("friendsandfoes.totem_trigger_tooltip").withStyle(ChatFormatting.GRAY));

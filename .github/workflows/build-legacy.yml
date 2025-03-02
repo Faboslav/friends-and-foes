@@ -1,9 +1,10 @@
-name: "Build"
+name: "Build legacy"
 
 on:
     push:
         branches:
             - "**"
+            - "!master"
     pull_request:
         branches:
             - "**"
@@ -11,11 +12,9 @@ on:
 
 jobs:
     build:
+        name: "Build project"
         runs-on: ubuntu-latest
-        strategy:
-            fail-fast: false
-        name: Run build
-        timeout-minutes: 30
+        timeout-minutes: 10
         outputs:
             matrix: ${{ steps.set-matrix.outputs.matrix }}
 
@@ -25,21 +24,27 @@ jobs:
                 with:
                     fetch-depth: 0
 
+            -   name: "Parse gradle properties"
+                id: gradle-properties
+                run: ./.github/scripts/legacy/parse-gradle-properties.sh
+
             -   name: "Set up JDK"
                 uses: actions/setup-java@v4
                 with:
-                    java-version: 21
+                    java-version: ${{ steps.gradle-properties.outputs.MOD_JAVA_VERSION }}
                     distribution: temurin
 
-            -   name: "Setup gradle"
+            -   name: "Generate matrix for the run job"
+                id: set-matrix
+                run: ./.github/scripts/legacy/generate-run-matrix.sh
+
+            -   name: "Run gradle build"
                 uses: gradle/actions/setup-gradle@v3
                 with:
                     cache-read-only: false
                     generate-job-summary: false
                     gradle-version: wrapper
-
-            - name: "Run chiseled build"
-              run: ./gradlew chiseledBuild
+                    arguments: build
 
             -   name: "Upload Built JARs"
                 uses: actions/upload-artifact@v4
@@ -47,33 +52,22 @@ jobs:
                     name: built-jars
                     if-no-files-found: error
                     path: |
-                        ./**/versions/**/build/libs/*[0-9].jar
-
-            -   name: "Generate matrix for the run job"
-                id: set-matrix
-                run: ./.github/scripts/generate-run-matrix.sh
+                        ./**/build/libs/*[0-9].jar
 
     run:
+        name: Run ${{ matrix.mod_loader }} ${{ matrix.script }}
         runs-on: ubuntu-latest
         needs: build
         strategy:
             fail-fast: false
-            matrix: ${{ fromJson(needs.build.outputs.matrix) }}
-
-        name: Run ${{ matrix.mod_loader }} ${{ matrix.version }} ${{ matrix.script }}
-        timeout-minutes: 30
+            matrix: ${{fromJson(needs.build.outputs.matrix)}}
+        timeout-minutes: 15
 
         steps:
             -   name: "Checkout repository"
                 uses: actions/checkout@v4
                 with:
                     fetch-depth: 0
-
-            - name: "Set up JDK"
-              uses: actions/setup-java@v4
-              with:
-                  java-version: 21
-                  distribution: temurin
 
             -   name: "Download Built JARs"
                 uses: actions/download-artifact@v4
@@ -82,22 +76,20 @@ jobs:
 
             -   name: "Parse gradle properties"
                 id: gradle-properties
-                run: ./.github/scripts/parse-gradle-properties.sh ${{ matrix.version }}
+                run: ./.github/scripts/legacy/parse-gradle-properties.sh
 
             -   name: "Copy mod jar to run/mods"
-                run: mkdir -p run/mods && cp ${{ matrix.mod_loader }}/versions/${{ matrix.version }}/build/libs/* run/mods
-
-            -   name: "Download YACL"
-                run: wget -P run/mods https://api.modrinth.com/maven/maven/modrinth/yacl/${{ matrix.yacl_version }}-${{ matrix.mod_loader }}/yacl-${{ matrix.yacl_version }}-${{ matrix.mod_loader }}.jar
+                run: mkdir -p run/mods && cp ${{ matrix.mod_loader }}/build/libs/* run/mods
 
             -   name: Run ${{ matrix.version }} ${{ matrix.mod_loader }}
-                uses: 3arthqu4ke/mc-runtime-test@3.0.0
+                uses: 3arthqu4ke/mc-runtime-test@2.4.0
                 with:
                     mc: ${{ matrix.version }}
                     modloader: ${{ matrix.mod_loader }}
                     regex: .*${{ matrix.mod_loader }}.*
                     mc-runtime-test: ${{ matrix.mod_loader_alias }}
                     java: ${{ steps.gradle-properties.outputs.MOD_JAVA_VERSION }}
+                    java-distribution: temurin
                     fabric-api: ${{ steps.gradle-properties.outputs.FABRIC_API_VERSION }}
                     xvfb: false
                     headlessmc-command: -lwjgl --retries 3 --jvm -Djava.awt.headless=true

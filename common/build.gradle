@@ -3,6 +3,7 @@ plugins {
 	id 'idea'
 	id 'dev.architectury.loom'
 	id 'architectury-plugin'
+	id("dev.kikugie.j52j") version "1.0.2"
 }
 
 def minecraftVersion = stonecutter.current.version

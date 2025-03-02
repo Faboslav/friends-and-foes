@@ -1,0 +1,21 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "redstone",
+	"pattern": [
+		"C",
+		"C"
+	],
+	"key": {
+		//? >=1.21.4 {
+		"C": "minecraft:copper_ingot"
+		//?} else {
+		/*"C": {
+			"item": "minecraft:copper_ingot"
+		}
+		*///?}
+	},
+	"result": {
+		"count": 1,
+		"id": "friendsandfoes:copper_button"
+	}
+}

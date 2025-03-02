@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"category": "misc",
+	"group": "yellow_dye",
+	"ingredients": [
+		//? >=1.21.4 {
+		"friendsandfoes:buttercup"
+		//?} else {
+		/*{
+			"item": "friendsandfoes:buttercup"
+		}
+		*///?}
+	],
+	"result": {
+		"count": 1,
+		"id": "minecraft:yellow_dye"
+	}
+}

@@ -1,0 +1,21 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"category": "redstone",
+	"ingredients": [
+		//? >=1.21.4 {
+		"minecraft:lightning_rod",
+		"minecraft:honeycomb"
+		//?} else {
+		/*{
+			"item": "minecraft:lightning_rod"
+		},
+		{
+			"item": "minecraft:honeycomb"
+		}
+		*///?}
+	],
+	"result": {
+		"count": 1,
+		"id": "friendsandfoes:waxed_lightning_rod"
+	}
+}

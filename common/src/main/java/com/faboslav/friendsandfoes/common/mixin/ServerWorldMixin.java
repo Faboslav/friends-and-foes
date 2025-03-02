@@ -3,13 +3,11 @@ package com.faboslav.friendsandfoes.common.mixin;
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.ZombieHorseEntityAccess;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
-import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
@@ -34,9 +32,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.Optional;
 
 //? >=1.21.3 {
+import net.minecraft.util.profiling.Profiler;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 //?} else {
 /*import java.util.function.Supplier;
+import net.minecraft.util.profiling.ProfilerFiller;
 *///?}
 
 
@@ -87,7 +87,11 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel
 			ChunkPos chunkPos = chunk.getPos();
 			int i = chunkPos.getMinBlockX();
 			int j = chunkPos.getMinBlockZ();
-			ProfilerFiller profiler = VersionedProfilerProvider.getProfiler(null);
+			//? >=1.21.3 {
+			var profiler = Profiler.get();
+			//?} else {
+			/*var profiler = this.getProfiler();
+			*///?}
 			profiler.push("thunder2");
 
 			if (

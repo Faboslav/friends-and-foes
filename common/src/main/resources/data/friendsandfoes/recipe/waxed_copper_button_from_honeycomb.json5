@@ -1,0 +1,21 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"category": "redstone",
+	"ingredients": [
+		//? >=1.21.4 {
+		"friendsandfoes:copper_button",
+		"minecraft:honeycomb"
+		//?} else {
+		/*{
+			"item": "friendsandfoes:copper_button"
+		},
+		{
+			"item": "minecraft:honeycomb"
+		}
+		*///?}
+	],
+	"result": {
+		"count": 1,
+		"id": "friendsandfoes:waxed_copper_button"
+	}
+}

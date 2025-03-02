@@ -16,6 +16,8 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -61,6 +63,9 @@ public final class FriendsAndFoesBlocks
 	public static final RegistryEntry<Block> DARK_OAK_BEEHIVE = registerBlock("dark_oak_beehive", BeehiveBlock::new, () -> BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).strength(0.6F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava());
 	public static final RegistryEntry<Block> JUNGLE_BEEHIVE = registerBlock("jungle_beehive", BeehiveBlock::new, () -> BlockBehaviour.Properties.of().mapColor(MapColor.DIRT).strength(0.6F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava());
 	public static final RegistryEntry<Block> MANGROVE_BEEHIVE = registerBlock("mangrove_beehive", BeehiveBlock::new, () -> BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(0.6F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava());
+	//? >=1.21.4 {
+	public static final RegistryEntry<Block> PALE_OAK_BEEHIVE = registerBlock("pale_oak_beehive", BeehiveBlock::new, () -> BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(0.6F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava());
+	//?}
 	public static final RegistryEntry<Block> SPRUCE_BEEHIVE = registerBlock("spruce_beehive", BeehiveBlock::new, () -> BlockBehaviour.Properties.of().mapColor(MapColor.PODZOL).strength(0.6F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava());
 	public static final RegistryEntry<Block> WARPED_BEEHIVE = registerBlock("warped_beehive", BeehiveBlock::new, () -> BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_STEM).strength(0.6F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS));
 	public static final RegistryEntry<Block> COPPER_BUTTON = registerBlock("copper_button", (properties) -> new OxidizableButtonBlock(WeatheringCopper.WeatherState.UNAFFECTED, 10, properties), () -> BlockBehaviour.Properties.of().noCollission().strength(0.5F).pushReaction(PushReaction.DESTROY).sound(SoundType.COPPER));

@@ -11,6 +11,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -68,6 +69,9 @@ public class FriendsAndFoesItemGroups
 				FriendsAndFoesItems.JUNGLE_BEEHIVE,
 				FriendsAndFoesItems.MANGROVE_BEEHIVE,
 				FriendsAndFoesItems.SPRUCE_BEEHIVE,
+				//? >=1.21.4 {
+				FriendsAndFoesItems.PALE_OAK_BEEHIVE,
+				//?}
 				FriendsAndFoesItems.WARPED_BEEHIVE
 			).map(item -> item.get().getDefaultInstance()).forEach(event::add);
 		} else if (event.type() == AddItemGroupEntriesEvent.Type.REDSTONE) {

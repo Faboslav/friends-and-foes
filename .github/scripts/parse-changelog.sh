@@ -1,10 +1,12 @@
 #!/bin/bash
 
 tag=$1
-
 changelog=$(cat CHANGELOG.md)
 
-list=$(echo "$changelog" | sed -n "/^## $tag/,/^## [0-9]/p" | sed -e '1d;$d' -e '/^$/d')
+# Extract the changelog section for the specified tag
+list=$(echo "$changelog" | sed -n "/^## $tag/,/^## [0-9]/p" | sed -e '1d;$d')
 
-echo "Parsed changelog:\n$list"
+# Remove the first blank line if it exists
+list=$(echo "$list" | sed -e '1{/^$/d;}')
+
 echo "$list" > RELEASE_CHANGELOG.md

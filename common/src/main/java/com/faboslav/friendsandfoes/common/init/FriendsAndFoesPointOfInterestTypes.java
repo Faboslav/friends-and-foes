@@ -27,6 +27,9 @@ public final class FriendsAndFoesPointOfInterestTypes
 	public final static Supplier<PoiType> DARK_OAK_BEEHIVE = registerPoi("dark_oak_beehive", FriendsAndFoesBlocks.DARK_OAK_BEEHIVE, 1, 1);
 	public final static Supplier<PoiType> JUNGLE_BEEHIVE = registerPoi("jungle_beehive", FriendsAndFoesBlocks.JUNGLE_BEEHIVE, 1, 1);
 	public final static Supplier<PoiType> MANGROVE_BEEHIVE = registerPoi("mangrove_beehive", FriendsAndFoesBlocks.MANGROVE_BEEHIVE, 1, 1);
+	//? >=1.21.4 {
+	public static final Supplier<PoiType> PALE_OAK_BEEHIVE =  registerPoi("pale_oak_beehive", FriendsAndFoesBlocks.PALE_OAK_BEEHIVE, 1, 1);
+	//?}
 	public final static Supplier<PoiType> SPRUCE_BEEHIVE = registerPoi("spruce_beehive", FriendsAndFoesBlocks.SPRUCE_BEEHIVE, 1, 1);
 	public final static Supplier<PoiType> WARPED_BEEHIVE = registerPoi("warped_beehive", FriendsAndFoesBlocks.WARPED_BEEHIVE, 1, 1);
 	public static final Supplier<PoiType> EXPOSED_LIGHTNING_ROD = registerPoi("exposed_lightning_rod", FriendsAndFoesBlocks.EXPOSED_LIGHTNING_ROD, 0, 1);
@@ -39,6 +42,7 @@ public final class FriendsAndFoesPointOfInterestTypes
 
 	@Nullable
 	private static Supplier<PoiType> registerPoi(String name, RegistryEntry<Block> block, int maxTickets, int validRange) {
+		// TODO check if this works
 		if(block == null) {
 			return null;
 		}

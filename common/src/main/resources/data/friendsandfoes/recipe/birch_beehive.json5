@@ -1,0 +1,26 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "misc",
+	"pattern": [
+		"PPP",
+		"HHH",
+		"PPP"
+	],
+	"key": {
+		//? >=1.21.4 {
+		"P": "minecraft:birch_planks",
+		"H": "minecraft:honeycomb"
+		//?} else {
+		/*"P": {
+			"item": "minecraft:birch_planks"
+		},
+		"H": {
+			"item": "minecraft:honeycomb"
+		}
+		*///?}
+	},
+	"result": {
+		"count": 1,
+		"id": "friendsandfoes:birch_beehive"
+	}
+}

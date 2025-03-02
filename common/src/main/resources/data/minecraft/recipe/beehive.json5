@@ -1,0 +1,27 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "misc",
+	"key": {
+
+		//? >=1.21.4 {
+		"P": "minecraft:oak_planks",
+		"H": "minecraft:honeycomb"
+		//?} else {
+		/*"P": {
+			"item": "minecraft:oak_planks"
+		},
+		"H": {
+			"item": "minecraft:honeycomb"
+		}
+		*///?}
+	},
+	"pattern": [
+		"PPP",
+		"HHH",
+		"PPP"
+	],
+	"result": {
+		"count": 1,
+		"id": "minecraft:beehive"
+	}
+}

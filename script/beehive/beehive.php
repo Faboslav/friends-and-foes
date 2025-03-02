@@ -11,6 +11,7 @@ $types = [
 	'warped',
 	'mangrove',
 	'cherry',
+	'pale_oak',
 ];
 
 $blocks = [
@@ -122,6 +123,15 @@ $colors = [
 		'e7bab4',
 		'e7c2bb',
 		'e7cac5'
+	],
+	'pale_oak' => [
+		'c0b2b2',
+    	'c7b8b8',
+    	'd2c6c7',
+    	'ddcecd',
+    	'e7e3e1',
+    	'faefee',
+    	'fffbf8'
 	]
 ];
 

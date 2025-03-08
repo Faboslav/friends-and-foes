@@ -1,5 +1,6 @@
 ## 3.0.8
 
+- Improved beekeeper compatibility with other mods adding beehives
 - Fixed Iceologer crash related to casting spells
 - Fixed Crab not having home born from the egg
 - Improved Rascal spawn conditions

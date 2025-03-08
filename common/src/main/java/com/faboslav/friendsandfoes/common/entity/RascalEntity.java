@@ -124,7 +124,7 @@ public final class RascalEntity extends AgeableMob implements AnimatedEntity
 			}
 
 			for (Holder<Structure> structure : structureRegistry.getOrThrow(StructureTags.MINESHAFT)) {
-				if (structureAccessor.getStructureAt(blockPos, structure.value()).isValid()) {
+				if (structureAccessor.getStructureWithPieceAt(blockPos, structure.value()).isValid()) {
 					return true;
 				}
 			}

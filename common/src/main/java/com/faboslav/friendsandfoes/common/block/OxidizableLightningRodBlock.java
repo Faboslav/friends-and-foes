@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.common.block;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.config.FriendsAndFoesConfig;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -38,6 +39,10 @@ public final class OxidizableLightningRodBlock extends LightningRodBlock impleme
 
 	@Override
 	public boolean isRandomlyTicking(BlockState blockState) {
+		if(!FriendsAndFoes.getConfig().enableLightningRodOxidation) {
+			return false;
+		}
+
 		// TODO check if this work
 		return this.getAge().ordinal() < WeatherState.OXIDIZED.ordinal();
 	}

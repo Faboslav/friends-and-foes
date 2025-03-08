@@ -94,6 +94,11 @@ public final class FriendsAndFoesConfig
 	public int copperGolemInTrialChambersWeight = 10;
 
 	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableLightningRodOxidation = true;
+
+	@SerialEntry()
 	@AutoGen(category = MOBS_CATEGORY, group = CRAB_GROUP)
 	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
 	public boolean enableCrab = true;

@@ -31,6 +31,7 @@ public final class FriendsAndFoesEntityTypes
 	public static final RegistryEntry<EntityType<CrabEntity>> CRAB;
 	public static final RegistryEntry<EntityType<GlareEntity>> GLARE;
 	public static final RegistryEntry<EntityType<IceologerEntity>> ICEOLOGER;
+	public static final RegistryEntry<EntityType<IllusionerEntity>> ILLUSIONER;
 	public static final RegistryEntry<EntityType<IceologerIceChunkEntity>> ICE_CHUNK;
 	public static final RegistryEntry<EntityType<MaulerEntity>> MAULER;
 	public static final RegistryEntry<EntityType<MoobloomEntity>> MOOBLOOM;
@@ -45,6 +46,7 @@ public final class FriendsAndFoesEntityTypes
 		CRAB = ENTITY_TYPES.register("crab", () -> EntityType.Builder.of(CrabEntity::new, MobCategory.CREATURE).sized(0.875F, 0.5625F).clientTrackingRange(10).build(VersionedEntityTypeResourceId.create("crab")));
 		GLARE = ENTITY_TYPES.register("glare", () -> EntityType.Builder.of(GlareEntity::new, CustomSpawnGroup.getGlaresCategory()).sized(0.875F, 1.1875F).clientTrackingRange(8).updateInterval(2).build(VersionedEntityTypeResourceId.create("glare")));
 		ICEOLOGER = ENTITY_TYPES.register("iceologer", () -> EntityType.Builder.of(IceologerEntity::new, MobCategory.MONSTER).sized(0.6F, 1.95F).clientTrackingRange(10).build(VersionedEntityTypeResourceId.create("iceologer")));
+		ILLUSIONER = ENTITY_TYPES.register("illusioner", () -> EntityType.Builder.of(IllusionerEntity::new, MobCategory.MONSTER).sized(0.6F, 1.95F).passengerAttachments(2.0F).ridingOffset(-0.6F).clientTrackingRange(8).build(VersionedEntityTypeResourceId.create("illusioner")));
 		ICE_CHUNK = ENTITY_TYPES.register("ice_chunk", () -> EntityType.Builder.of(IceologerIceChunkEntity::new, MobCategory.MISC).fireImmune().sized(2.5F, 1.0F).clientTrackingRange(6).build(VersionedEntityTypeResourceId.create("ice_chunk")));
 		MAULER = ENTITY_TYPES.register("mauler", () -> EntityType.Builder.of(MaulerEntity::new, MobCategory.CREATURE).sized(0.5625F, 0.5625F).clientTrackingRange(10).build(VersionedEntityTypeResourceId.create("mauler")));
 		MOOBLOOM = ENTITY_TYPES.register("moobloom", () -> EntityType.Builder.of(MoobloomEntity::new, MobCategory.CREATURE).sized(0.9F, 1.4F).clientTrackingRange(10).build(VersionedEntityTypeResourceId.create("moobloom")));

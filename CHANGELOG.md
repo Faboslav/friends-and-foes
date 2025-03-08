@@ -3,6 +3,7 @@
 - Reworked configs
 - Reworked Wildfire animations/visuals
 - Reworked Mauler animations
+- Improved Rascal spawn conditions
 
 Animations are now data driven, it's now possible to replace these via datapacks
 

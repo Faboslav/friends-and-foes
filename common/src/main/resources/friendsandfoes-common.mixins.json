@@ -17,7 +17,6 @@
 		"BeeEntityMoveToHiveGoalMixin",
 		"BlazeEntityMixin",
 		"BlazeLivingEntityMixin",
-		"BlindTargetGoalFactory",
 		"CarvedPumpkinBlockMixin",
 		"ChickenEntityMixin",
 		"IllusionerEntityMixin",

@@ -108,7 +108,7 @@ public final class RascalEntity extends PassiveEntity implements AnimatedEntity
 			}
 
 			for (RegistryEntry<Structure> structure : structureRegistry.getOrCreateEntryList(StructureTags.MINESHAFT)) {
-				if (structureAccessor.getStructureAt(blockPos, structure.value()).hasChildren()) {
+				if (structureAccessor.getStructureContaining(blockPos, structure.value()).hasChildren()) {
 					return true;
 				}
 			}

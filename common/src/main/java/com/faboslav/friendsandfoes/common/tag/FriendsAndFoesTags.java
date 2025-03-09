@@ -15,6 +15,7 @@ import net.minecraft.world.poi.PointOfInterestType;
  */
 public final class FriendsAndFoesTags
 {
+	public static final TagKey<PointOfInterestType> BEEKEEPER_ACQUIRABLE_JOB_SITE = pointOfInterestTypeTag("beekeeper_acquirable_job_site");
 	public static final TagKey<Block> COPPER_BUTTONS = blockTag("copper_buttons");
 	public static final TagKey<Block> LIGHTNING_RODS = blockTag("lightning_rods");
 	public static final TagKey<PointOfInterestType> LIGHTNING_ROD_POI = pointOfInterestTypeTag("lightning_rods");

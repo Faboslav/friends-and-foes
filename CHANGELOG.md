@@ -1,3 +1,19 @@
+## 3.0.8
+
+- Improved beekeeper compatibility with other mods adding beehives
+- Fixed Iceologer crash related to casting spells
+- Fixed Crab not having home born from the egg
+- Improved Rascal spawn conditions
+- Added tooltips to totems
+
+## 3.0.7
+
+- Fixed beekeeper villager trades
+- Fixed infinite mauler exp feed (again)
+- Updated pl_pl translations (Thanks to kierohere)
+- Updated es_cl translations (Thanks to Ganbare-Lucifer)
+- Updated ru_ru translations (Thanks to mpustovoi)
+
 ## 3.0.6
 
 - Fixed strong potion of reaching duration

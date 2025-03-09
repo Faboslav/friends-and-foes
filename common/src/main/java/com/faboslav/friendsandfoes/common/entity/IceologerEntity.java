@@ -165,7 +165,7 @@ public final class IceologerEntity extends SpellcastingIllagerEntity
 		protected void castSpell() {
 			var target = IceologerEntity.this.getTarget();
 
-			if (target.canFreeze()) {
+			if (target != null && target.isAlive() && target.canFreeze()) {
 				target.setFrozenTicks(400);
 			}
 		}

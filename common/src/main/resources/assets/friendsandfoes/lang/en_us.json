@@ -140,6 +140,7 @@
 	"subtitle.entity.friendsandfoes.wildfire.shockwave": "Wildfire shockwaves",
 	"subtitle.entity.friendsandfoes.wildfire.shoot": "Wildfire shoots",
 	"subtitle.entity.friendsandfoes.wildfire.summon_blaze": "Wildfire summons blazes",
+	"friendsandfoes.totem_trigger_tooltip": "Triggers when taking damage and health falls below half of your max health.",
 	"trinkets.slot.charm.charm": "Charm",
 	"text.betterf3.line.glares": "Glares",
 	"text.betterf3.line.rascals": "Rascals"

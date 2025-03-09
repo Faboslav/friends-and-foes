@@ -276,8 +276,11 @@ public final class MaulerEntity extends PathAwareEntity implements Angerable, An
 			!this.hasAngerTime()
 			&& (
 				(
-					itemStack.hasEnchantments()
-					|| itemInHand == Items.ENCHANTED_BOOK
+					!itemStack.isEmpty()
+					&& (
+						itemStack.hasEnchantments()
+						|| itemInHand == Items.ENCHANTED_BOOK
+					)
 				)
 			)
 		) {

@@ -25,7 +25,6 @@ public final class VillagerTaskListProviderMixin
 	) {
 		if (
 			FriendsAndFoes.getConfig().enableBeekeeperVillagerProfession
-			&& FriendsAndFoesVillagerProfessions.BEEKEEPER != null
 			&& profession == FriendsAndFoesVillagerProfessions.BEEKEEPER.get()
 		) {
 			return new BeekeeperWorkTask();

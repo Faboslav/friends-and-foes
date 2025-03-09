@@ -98,6 +98,7 @@ public final class CrabEggBlock extends Block
 					world.syncWorldEvent(2001, pos, Block.getRawIdFromState(state));
 					CrabEntity crab = FriendsAndFoesEntityTypes.CRAB.get().create(world);
 					crab.setBreedingAge(-24000);
+					crab.setHome(crab.getNewHome());
 					crab.refreshPositionAndAngles((double) pos.getX() + 0.3 + (double) j * 0.2, pos.getY(), (double) pos.getZ() + 0.3, 0.0F, 0.0F);
 					world.spawnEntity(crab);
 				}

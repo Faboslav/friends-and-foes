@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.common.block;
 
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LightningRodBlock;
 import net.minecraft.block.Oxidizable;
@@ -36,6 +37,10 @@ public final class OxidizableLightningRodBlock extends LightningRodBlock impleme
 
 	@Override
 	public boolean hasRandomTicks(BlockState state) {
+		if(!FriendsAndFoes.getConfig().enableLightningRodOxidation) {
+			return false;
+		}
+
 		return FriendsAndFoesOxidizable.getIncreasedOxidationBlock(state.getBlock()).isPresent();
 	}
 

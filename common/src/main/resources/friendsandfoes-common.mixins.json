@@ -46,7 +46,6 @@
 		"StrongholdGeneratorMixin",
 		"StructurePoolAccessor",
 		"TemptGoalMixin",
-		"VillagerEntityMixin",
 		"VillagerHostilesSensorMixin",
 		"VillagerTaskListProviderMixin",
 		"ZombieHorseAbstractHorseEntityMixin",

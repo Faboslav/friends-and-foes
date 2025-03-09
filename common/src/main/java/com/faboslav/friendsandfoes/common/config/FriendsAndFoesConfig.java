@@ -27,6 +27,9 @@ public final class FriendsAndFoesConfig implements Config
 	@Description("Generate copper golem in the center piece in the ancient cities spawn chance")
 	public int copperGolemAncientCityCenterWeight = 10;
 
+	@Description("Enable lightning rods oxidation")
+	public boolean enableLightningRodOxidation = true;
+
 	@Category("Crab")
 	@Description("Enable")
 	public boolean enableCrab = true;

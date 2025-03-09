@@ -1,9 +1,10 @@
 ## 3.0.8
 
-- Improved beekeeper compatibility with other mods adding beehives
 - Fixed Iceologer crash related to casting spells
 - Fixed Crab not having home born from the egg
+- Improved beekeeper compatibility with other mods adding beehives
 - Improved Rascal spawn conditions
+- Added config option to disable lightning rod oxidation
 - Added tooltips to totems
 
 ## 3.0.7

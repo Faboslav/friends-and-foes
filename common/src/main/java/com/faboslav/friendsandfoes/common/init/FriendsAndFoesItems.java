@@ -6,6 +6,7 @@ import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistries;
 import com.faboslav.friendsandfoes.common.init.registry.ResourcefulRegistry;
 import com.faboslav.friendsandfoes.common.item.DispenserAddedSpawnEgg;
 import com.faboslav.friendsandfoes.common.item.FriendsAndFoesArmorMaterials;
+import com.faboslav.friendsandfoes.common.item.TotemItem;
 import net.minecraft.block.ComposterBlock;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.ArmorItem;
@@ -62,8 +63,8 @@ public final class FriendsAndFoesItems
 	public final static RegistryEntry<Item> WAXED_OXIDIZED_LIGHTNING_ROD = ITEMS.register("waxed_oxidized_lightning_rod", () -> new BlockItem(FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get(), new Item.Settings().maxCount(64)));
 	public final static RegistryEntry<Item> WILDFIRE_CROWN = ITEMS.register("wildfire_crown", () -> new ArmorItem(FriendsAndFoesArmorMaterials.WILDFIRE, ArmorItem.Type.HELMET, (new Item.Settings()).fireproof()));
 	public final static RegistryEntry<Item> WILDFIRE_CROWN_FRAGMENT = ITEMS.register("wildfire_crown_fragment", () -> new Item((new Item.Settings()).fireproof()));
-	public final static RegistryEntry<Item> TOTEM_OF_FREEZING = ITEMS.register("totem_of_freezing", () -> new Item((new Item.Settings()).maxCount(1).rarity(Rarity.UNCOMMON)));
-	public final static RegistryEntry<Item> TOTEM_OF_ILLUSION = ITEMS.register("totem_of_illusion", () -> new Item((new Item.Settings()).maxCount(1).rarity(Rarity.UNCOMMON)));
+	public final static RegistryEntry<Item> TOTEM_OF_FREEZING = ITEMS.register("totem_of_freezing", () -> new TotemItem((new Item.Settings()).maxCount(1).rarity(Rarity.UNCOMMON)));
+	public final static RegistryEntry<Item> TOTEM_OF_ILLUSION = ITEMS.register("totem_of_illusion", () -> new TotemItem((new Item.Settings()).maxCount(1).rarity(Rarity.UNCOMMON)));
 
 	private FriendsAndFoesItems() {
 	}

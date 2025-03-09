@@ -1,3 +1,11 @@
+## 3.0.8
+
+- Improved beekeeper compatibility with other mods adding beehives
+- Fixed Iceologer crash related to casting spells
+- Fixed Crab not having home born from the egg
+- Improved Rascal spawn conditions
+- Added tooltips to totems
+
 ## 3.0.7
 
 - Fixed beekeeper villager trades

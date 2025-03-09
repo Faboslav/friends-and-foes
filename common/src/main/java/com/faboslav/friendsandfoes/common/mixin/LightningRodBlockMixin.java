@@ -203,7 +203,7 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 	public void friendsandfoes_hasRandomTicks(
 		BlockState state, CallbackInfoReturnable<Boolean> cir
 	) {
-		cir.setReturnValue(true);
+		cir.setReturnValue(FriendsAndFoes.getConfig().enableLightningRodOxidation);
 	}
 
 	@Override

@@ -53,15 +53,15 @@ jobs:
                 id: set-matrix
                 run: ./.github/scripts/generate-run-matrix.sh
 
-    run:
+    run-client:
         runs-on: ubuntu-latest
         needs: build
         strategy:
             fail-fast: false
             matrix: ${{ fromJson(needs.build.outputs.matrix) }}
 
-        name: Run ${{ matrix.mod_loader }} ${{ matrix.version }} ${{ matrix.script }}
-        timeout-minutes: 30
+        name: Run ${{ matrix.mod_loader }} ${{ matrix.version }} ${{ matrix.script }} client
+        timeout-minutes: 5
 
         steps:
             -   name: "Checkout repository"
@@ -87,10 +87,17 @@ jobs:
             -   name: "Copy mod jar to run/mods"
                 run: mkdir -p run/mods && cp ${{ matrix.mod_loader }}/versions/${{ matrix.version }}/build/libs/* run/mods
 
-            -   name: "Download YACL"
-                run: wget -P run/mods https://api.modrinth.com/maven/maven/modrinth/yacl/${{ matrix.yacl_version }}-${{ matrix.mod_loader }}/yacl-${{ matrix.yacl_version }}-${{ matrix.mod_loader }}.jar
+            -   name: "Download ResourcefulLib"
+                run: |
+                    MOD_URL=$(./.github/scripts/get-modrinth-dependency-url.sh "resourceful-lib" ${{ matrix.resourceful_lib_lib_version }} "${{ matrix.mod_loader }})
+                    wget -P run/mods "$MOD_URL"
 
-            -   name: Run ${{ matrix.version }} ${{ matrix.mod_loader }}
+            -   name: "Download YACL"
+                run: |
+                    MOD_URL=$(./.github/scripts/get-modrinth-dependency-url.sh "yacl" ${{ matrix.yacl_version }} ${{ matrix.mod_loader }})
+                    wget -P run/mods "$MOD_URL"
+
+            -   name: Run ${{ matrix.version }} ${{ matrix.mod_loader }} client
                 uses: 3arthqu4ke/mc-runtime-test@3.0.0
                 with:
                     mc: ${{ matrix.version }}
@@ -101,3 +108,38 @@ jobs:
                     fabric-api: ${{ steps.gradle-properties.outputs.FABRIC_API_VERSION }}
                     xvfb: false
                     headlessmc-command: -lwjgl --retries 3 --jvm -Djava.awt.headless=true
+
+    run-server:
+        runs-on: ubuntu-latest
+        needs: build
+        strategy:
+            fail-fast: false
+            matrix: ${{ fromJson(needs.build.outputs.matrix) }}
+
+        name: Run ${{ matrix.mod_loader }} ${{ matrix.version }} ${{ matrix.script }} server
+        timeout-minutes: 5
+
+        steps:
+            -   name: "Checkout repository"
+                uses: actions/checkout@v4
+                with:
+                    fetch-depth: 0
+
+            -   name: "Set up JDK"
+                uses: actions/setup-java@v4
+                with:
+                    java-version: 21
+                    distribution: temurin
+
+            -   name: "Setup Gradle"
+                uses: gradle/actions/setup-gradle@v3
+                with:
+                    cache-read-only: true
+                    generate-job-summary: false
+                    gradle-version: wrapper
+
+            -   name: "Accept eula"
+                run: mkdir -p ${{ matrix.mod_loader }}/versions/${{ matrix.version }}/run && echo "eula=true" > ${{ matrix.mod_loader }}/versions/${{ matrix.version }}/run/eula.txt
+
+            -   name: Run ${{ matrix.version }} ${{ matrix.mod_loader }} server
+                run: ./.github/scripts/run-server.sh ${{ matrix.mod_loader }} ${{ matrix.version }}

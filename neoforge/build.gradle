@@ -84,7 +84,7 @@ dependencies {
 	// Core
 	neoForge "net.neoforged:neoforge:${prop('neoforge_version')}"
 
-	modImplementation("com.teamresourceful.resourcefullib:resourcefullib-neoforge-${prop('resourceful_lib_version')}")
+	modImplementation("com.teamresourceful.resourcefullib:resourcefullib-neoforge-${prop('resourceful_lib_mc_version')}:${prop('resourceful_lib_lib_version')}")
 
 	// YACL
 	modImplementation(modrinth("yacl", "${prop('yacl_version')}-neoforge"))

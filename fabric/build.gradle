@@ -70,10 +70,10 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${prop('fabric_loader_version')}"
 	modApi "net.fabricmc.fabric-api:fabric-api:${prop('fabric_api_version')}+${prop('minecraft_version')}"
 
-	modImplementation("com.teamresourceful.resourcefullib:resourcefullib-fabric-${prop('resourceful_lib_version')}")
+	modImplementation("com.teamresourceful.resourcefullib:resourcefullib-fabric-${prop('resourceful_lib_mc_version')}:${prop('resourceful_lib_lib_version')}")
 
-	// YACL (https://docs.isxander.dev/yet-another-config-lib)
-	modImplementation("dev.isxander:yet-another-config-lib:${prop('yacl_version')}-fabric")
+	// YetAnotherConfigLib (https://docs.isxander.dev/yet-another-config-lib)
+	modImplementation(modrinth("yacl", "${prop('yacl_version')}-fabric"))
 
 	// Mod menu (https://modrinth.com/mod/modmenu)
 	modImplementation("com.terraformersmc:modmenu:${prop('mod_menu_version')}") { transitive = false }

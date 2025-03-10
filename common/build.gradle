@@ -48,7 +48,7 @@ dependencies {
 	modImplementation("net.fabricmc:fabric-loader:${prop('fabric_loader_version')}")
 
 	// Required client
-	modImplementation("com.teamresourceful.resourcefullib:resourcefullib-common-${prop('resourceful_lib_version')}")
+	modImplementation("com.teamresourceful.resourcefullib:resourcefullib-common-${prop('resourceful_lib_mc_version')}:${prop('resourceful_lib_lib_version')}")
 	modImplementation(modrinth("yacl", "${prop('yacl_version')}-fabric"))
 }
 

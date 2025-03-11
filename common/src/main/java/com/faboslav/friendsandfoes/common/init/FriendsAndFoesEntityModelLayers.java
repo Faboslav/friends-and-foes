@@ -21,6 +21,7 @@ public final class FriendsAndFoesEntityModelLayers
 	public static final ModelLayerLocation GLARE_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("glare"), "main");
 	public static final ModelLayerLocation ICEOLOGER_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("iceologer"), "main");
 	public static final ModelLayerLocation ICEOLOGER_ICE_CHUNK_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("iceologer_ice_chunk"), "main");
+	public static final ModelLayerLocation ILLUSIONER_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("illusioner"), "main");
 	public static final ModelLayerLocation MAULER_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("mauler"), "main");
 	public static final ModelLayerLocation MOOBLOOM_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("moobloom"), "main");
 	public static final ModelLayerLocation RASCAL_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("rascal"), "main");
@@ -33,6 +34,7 @@ public final class FriendsAndFoesEntityModelLayers
 		event.register(GLARE_LAYER, GlareEntityModel::getTexturedModelData);
 		event.register(ICEOLOGER_LAYER, IllagerModel::createBodyLayer);
 		event.register(ICEOLOGER_ICE_CHUNK_LAYER, IceologerIceChunkModel::getTexturedModelData);
+		event.register(ILLUSIONER_LAYER, IllagerModel::createBodyLayer);
 		event.register(MAULER_LAYER, MaulerEntityModel::getTexturedModelData);
 		event.register(MOOBLOOM_LAYER, CowModel::createBodyLayer);
 		event.register(RASCAL_LAYER, RascalEntityModel::getTexturedModelData);

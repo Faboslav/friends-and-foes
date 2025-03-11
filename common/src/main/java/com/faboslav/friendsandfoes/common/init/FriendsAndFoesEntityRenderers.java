@@ -34,6 +34,7 @@ public final class FriendsAndFoesEntityRenderers
 		event.register(FriendsAndFoesEntityTypes.GLARE.get(), GlareEntityRenderer::new);
 		event.register(FriendsAndFoesEntityTypes.ICEOLOGER.get(), IceologerEntityRenderer::new);
 		event.register(FriendsAndFoesEntityTypes.ICE_CHUNK.get(), IceologerIceChunkRenderer::new);
+		event.register(FriendsAndFoesEntityTypes.ILLUSIONER.get(), IllusionerEntityRenderer::new);
 		event.register(FriendsAndFoesEntityTypes.MAULER.get(), MaulerEntityRenderer::new);
 		event.register(FriendsAndFoesEntityTypes.MOOBLOOM.get(), MoobloomEntityRenderer::new);
 		event.register(FriendsAndFoesEntityTypes.RASCAL.get(), RascalEntityRenderer::new);

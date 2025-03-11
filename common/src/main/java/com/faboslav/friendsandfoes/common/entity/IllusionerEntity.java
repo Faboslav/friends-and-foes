@@ -39,7 +39,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 public class IllusionerEntity extends SpellcasterIllager implements RangedAttackMob
 {
@@ -52,13 +51,13 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 	private static final String TICKS_UNTIL_DESPAWN_NBT_NAME = "TicksUntilDespawn";
 	private static final String TICKS_UNTIL_CAN_CREATE_ILLUSIONS_NBT_NAME = "TicksUntilCanCreateIllusions";
 
-	private IllusionerEntity illusioner = null;
-	private boolean isIllusion = false;
-	private boolean wasAttacked = false;
-	private int ticksUntilDespawn = 0;
-	private int ticksUntilCanCreateIllusion = 0;
+	private IllusionerEntity illusioner;
+	private boolean isIllusion;
+	private boolean wasAttacked;
+	private int ticksUntilDespawn;
+	private int ticksUntilCanCreateIllusion;
 
-	public IllusionerEntity(EntityType<? extends net.minecraft.world.entity.monster.Illusioner> entityType, Level level) {
+	public IllusionerEntity(EntityType<? extends IllusionerEntity> entityType, Level level) {
 		super(entityType, level);
 		this.xpReward = 5;
 		this.illusioner = null;
@@ -95,16 +94,14 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 
 	@Override
 	public void readAdditionalSaveData(CompoundTag nbt) {
-		if (FriendsAndFoes.getConfig().enableIllusioner) {
-			this.setIsIllusion(nbt.getBoolean(IS_ILLUSION_NBT_NAME));
-			this.setWasAttacked(nbt.getBoolean(WAS_ATTACKED_NBT_NAME));
-			this.setTicksUntilDespawn(nbt.getInt(TICKS_UNTIL_DESPAWN_NBT_NAME));
-			this.setTicksUntilCanCreateIllusions(nbt.getInt(TICKS_UNTIL_CAN_CREATE_ILLUSIONS_NBT_NAME));
-		}
+		this.setIsIllusion(nbt.getBoolean(IS_ILLUSION_NBT_NAME));
+		this.setWasAttacked(nbt.getBoolean(WAS_ATTACKED_NBT_NAME));
+		this.setTicksUntilDespawn(nbt.getInt(TICKS_UNTIL_DESPAWN_NBT_NAME));
+		this.setTicksUntilCanCreateIllusions(nbt.getInt(TICKS_UNTIL_CAN_CREATE_ILLUSIONS_NBT_NAME));
 	}
 
 	public static AttributeSupplier.Builder createAttributes() {
-		return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, (double)0.5F).add(Attributes.FOLLOW_RANGE, (double)18.0F).add(Attributes.MAX_HEALTH, (double)32.0F);
+		return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.5F).add(Attributes.FOLLOW_RANGE, 18.0F).add(Attributes.MAX_HEALTH, 32.0F);
 	}
 
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, EntitySpawnReason spawnReason, @Nullable SpawnGroupData spawnGroupData) {
@@ -271,6 +268,8 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 		this.setWasAttacked(true);
 		this.setTicksUntilCanCreateIllusions(ILLUSION_LIFETIME_TICKS);
 		this.playMirrorSound();
+		this.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, INVISIBILITY_TICKS));
+		this.spawnCloudParticles();
 
 		Vec3 illusionerPosition = this.position();
 		float slice = 2.0F * (float) Math.PI / MAX_ILLUSIONS_COUNT;
@@ -284,12 +283,7 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 			int z = (int) (illusionerPosition.z() + radius * Mth.sin(angle));
 
 			if (randomPoint == point) {
-				boolean teleportResult = this.tryToTeleport(x, y, z);
-
-				if (teleportResult) {
-					this.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, INVISIBILITY_TICKS));
-					this.spawnCloudParticles();
-				}
+				this.tryToTeleport(x, y, z);
 			} else {
 				this.createIllusion(x, y, z);
 			}
@@ -301,10 +295,9 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 		IllusionerEntity illusion = FriendsAndFoesEntityTypes.ILLUSIONER.get().create(this.level()/*? >=1.21.3 {*/, EntitySpawnReason.MOB_SUMMONED/*?}*/);
 
 		illusion.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
-		this.setIsIllusion(true);
-		this.setIllusioner(illusioner);
-		this.setTicksUntilDespawn(ILLUSION_LIFETIME_TICKS);
-
+		illusion.setIsIllusion(true);
+		illusion.setIllusioner(illusioner);
+		illusion.setTicksUntilDespawn(ILLUSION_LIFETIME_TICKS);
 		illusion.setHealth(this.getMaxHealth());
 		illusion.copyPosition(illusioner);
 		illusion.setTarget(illusioner.getTarget());
@@ -425,18 +418,18 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 		public boolean canUse() {
 			if (!super.canUse()) {
 				return false;
-			} else if (net.minecraft.world.entity.monster.Illusioner.this.getTarget() == null) {
+			} else if (IllusionerEntity.this.getTarget() == null) {
 				return false;
-			} else if (net.minecraft.world.entity.monster.Illusioner.this.getTarget().getId() == this.lastTargetId) {
+			} else if (IllusionerEntity.this.getTarget().getId() == this.lastTargetId) {
 				return false;
 			} else {
-				return net.minecraft.world.entity.monster.Illusioner.this.level().getCurrentDifficultyAt(net.minecraft.world.entity.monster.Illusioner.this.blockPosition()).isHarderThan((float)Difficulty.NORMAL.ordinal());
+				return IllusionerEntity.this.level().getCurrentDifficultyAt(IllusionerEntity.this.blockPosition()).isHarderThan((float)Difficulty.NORMAL.ordinal());
 			}
 		}
 
 		public void start() {
 			super.start();
-			LivingEntity livingEntity = net.minecraft.world.entity.monster.Illusioner.this.getTarget();
+			LivingEntity livingEntity = IllusionerEntity.this.getTarget();
 			if (livingEntity != null) {
 				this.lastTargetId = livingEntity.getId();
 			}
@@ -452,7 +445,7 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 		}
 
 		protected void performSpellCasting() {
-			net.minecraft.world.entity.monster.Illusioner.this.getTarget().addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 400), net.minecraft.world.entity.monster.Illusioner.this);
+			IllusionerEntity.this.getTarget().addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 200), IllusionerEntity.this);
 		}
 
 		protected SoundEvent getSpellPrepareSound() {

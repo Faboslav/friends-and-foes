@@ -19,10 +19,6 @@
 		"BlazeLivingEntityMixin",
 		"CarvedPumpkinBlockMixin",
 		"ChickenEntityMixin",
-		"IllusionerEntityMixin",
-		"IllusionerHostileEntityMixin",
-		"IllusionerRaiderEntityMixin",
-		"IllusionerSpellcastingIllagerEntityMixin",
 		"LightningEntityMixin",
 		"LightningRodAbstractBlockMixin",
 		"LightningRodBlockBlockMixin",
@@ -55,7 +51,6 @@
 		"ClientCommonNetworkHandlerAccessor",
 		"ClientPlayNetworkHandlerMixin",
 		"EntityRenderDispatcherMixin",
-		"IllusionerEntityRendererMixin",
 		"IntegratedServerLoaderMixin",
 		"ModelPartAccessor"
 	]

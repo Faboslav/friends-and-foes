@@ -54,7 +54,7 @@
 					{
 						"condition": "minecraft:entity_properties",
 						"predicate": {
-							"type": "minecraft:illusioner"
+							"type": "friendsandfoes:illusioner"
 						},
 						"entity": "this"
 					}

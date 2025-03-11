@@ -2,8 +2,8 @@ package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.IceologerEntity;
+import com.faboslav.friendsandfoes.common.entity.IllusionerEntity;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.monster.Illusioner;
 import net.minecraft.world.entity.raid.Raid;
 import net.minecraft.world.entity.raid.Raider;
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,7 +28,7 @@ public final class RaidMixin
 	) {
 		if (
 			(
-				raider instanceof Illusioner
+				raider instanceof IllusionerEntity
 				&& (
 					!FriendsAndFoes.getConfig().enableIllusioner
 					|| !FriendsAndFoes.getConfig().enableIllusionerInRaids

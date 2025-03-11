@@ -5,10 +5,12 @@ on:
         branches:
             - "**"
             - "!master"
+            - "!1.21.1-master"
     pull_request:
         branches:
             - "**"
             - "!master"
+            - "!1.21.1-master"
 
 jobs:
     build:

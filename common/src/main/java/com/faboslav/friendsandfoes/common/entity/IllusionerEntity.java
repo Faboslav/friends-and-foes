@@ -26,7 +26,6 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.*;
-import net.minecraft.world.entity.monster.creaking.Creaking;
 import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -39,6 +38,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
+
+//? >=1.21.4 {
+import net.minecraft.world.entity.monster.creaking.Creaking;
+//?}
 
 public class IllusionerEntity extends SpellcasterIllager implements RangedAttackMob
 {
@@ -72,7 +75,9 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 		super.registerGoals();
 		this.goalSelector.addGoal(0, new FloatGoal(this));
 		this.goalSelector.addGoal(1, new SpellcasterIllager.SpellcasterCastingSpellGoal());
+		//? >=1.21.4 {
 		this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, Creaking.class, 8.0F, 1.0F, 1.2));
+		//?}
 		this.goalSelector.addGoal(5, new IllusionerBlindnessSpellGoal());
 		this.goalSelector.addGoal(6, new RangedBowAttackGoal<>(this, 0.5F, 20, 15.0F));
 		this.goalSelector.addGoal(8, new RandomStrollGoal(this, 0.6));

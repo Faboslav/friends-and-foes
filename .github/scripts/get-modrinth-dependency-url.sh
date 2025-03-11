@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Variables
-MOD_SLUG="resourceful-lib"
-MOD_VERSION="3.4.5"
-LOADER="neoforge"
+MOD_SLUG=$1
+MOD_VERSION=$2
+LOADER=$3
 
 # Fetch version information from Modrinth API
 API_URL="https://api.modrinth.com/v2/project/${MOD_SLUG}/version"
@@ -19,8 +19,8 @@ if [ -z "$SANITIZED_DATA" ]; then
 fi
 
 # Extract the download URL for the specified loader and version
-DOWNLOAD_URL=$(echo "$SANITIZED_DATA" | jq -r --arg loader "$LOADER" \
-    '.[] | select(.version_number == "3.4.5") | select(.loaders | index($loader)) | .files[] | select(.primary == true) | .url')
+DOWNLOAD_URL=$(echo "$SANITIZED_DATA" | jq -r --arg loader "$LOADER" --arg mod_version "$MOD_VERSION" \
+    '.[] | select(.version_number == $mod_version) | select(.loaders | index($loader)) | .files[] | select(.primary == true) | .url')
 
 # Output the download URL
 if [ -n "$DOWNLOAD_URL" ]; then

@@ -109,9 +109,19 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 		return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.5F).add(Attributes.FOLLOW_RANGE, 18.0F).add(Attributes.MAX_HEALTH, 32.0F);
 	}
 
-	public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, EntitySpawnReason spawnReason, @Nullable SpawnGroupData spawnGroupData) {
+	@Override
+	public SpawnGroupData finalizeSpawn(
+		ServerLevelAccessor level,
+		DifficultyInstance difficulty,
+		/*? >=1.21.3 {*/
+		EntitySpawnReason spawnReason,
+		/*?} else {*/
+		/*MobSpawnType spawnReason,
+		 *//*?}*/
+		@Nullable SpawnGroupData entityData
+	) {
 		this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
-		return super.finalizeSpawn(level, difficulty, spawnReason, spawnGroupData);
+		return super.finalizeSpawn(level, difficulty, spawnReason, entityData);
 	}
 
 	@Override
@@ -247,9 +257,15 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 		double f = target.getZ() - this.getZ();
 		double g = Math.sqrt(d * d + f * f);
 		Level var15 = this.level();
+
+		//? >= 1.21.4 {
 		if (var15 instanceof ServerLevel serverLevel) {
 			Projectile.spawnProjectileUsingShoot(abstractArrow, serverLevel, itemStack2, d, e + g * (double)0.2F, f, 1.6F, (float)(14 - serverLevel.getDifficulty().getId() * 4));
 		}
+		//?} else {
+		/*abstractArrow.shoot(d, e + g * (double)0.2F, f, 1.6F, (float)(14 - this.level().getDifficulty().getId() * 4));
+		this.level().addFreshEntity(abstractArrow);
+		*///?}
 
 		this.playSound(SoundEvents.SKELETON_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
 	}

@@ -90,6 +90,7 @@ dependencies {
 	modImplementation(modrinth("yacl", "${prop('yacl_version')}-neoforge"))
 
 	// For YACL to work
+	/*
 	forgeRuntimeLibrary(implementation(include("com.twelvemonkeys.imageio:imageio-core:3.10.0")))
 	forgeRuntimeLibrary(implementation(include("com.twelvemonkeys.imageio:imageio-webp:3.10.0")))
 	forgeRuntimeLibrary(implementation(include("com.twelvemonkeys.imageio:imageio-metadata:3.10.0")))
@@ -98,6 +99,7 @@ dependencies {
 	forgeRuntimeLibrary(implementation(include("com.twelvemonkeys.common:common-image:3.10.0")))
 	forgeRuntimeLibrary(implementation(include("org.quiltmc.parsers:json:0.2.1")))
 	forgeRuntimeLibrary(implementation(include("org.quiltmc.parsers:gson:0.2.1")))
+	*/
 
 	if (stonecutter.compare(minecraftVersion, '1.21.1') <= 0) {
 		// Curios (https://www.curseforge.com/minecraft/mc-mods/curios)

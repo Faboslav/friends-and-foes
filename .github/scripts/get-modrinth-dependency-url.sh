@@ -7,7 +7,6 @@ LOADER="neoforge"
 
 # Fetch version information from Modrinth API
 API_URL="https://api.modrinth.com/v2/project/${MOD_SLUG}/version"
-echo "Fetching data from: $API_URL"
 VERSION_DATA=$(curl -s "$API_URL")
 
 # Sanitize VERSION_DATA by removing any control characters

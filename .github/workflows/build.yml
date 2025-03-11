@@ -89,7 +89,7 @@ jobs:
 
             -   name: "Download ResourcefulLib"
                 run: |
-                    MOD_URL=$(./.github/scripts/get-modrinth-dependency-url.sh "resourceful-lib" ${{ matrix.resourceful_lib_lib_version }} "${{ matrix.mod_loader }})
+                    MOD_URL=$(./.github/scripts/get-modrinth-dependency-url.sh "resourceful-lib" ${{ matrix.resourceful_lib_lib_version }} ${{ matrix.mod_loader }})
                     wget -P run/mods "$MOD_URL"
 
             -   name: "Download YACL"

@@ -94,7 +94,7 @@ jobs:
 
             -   name: "Download YACL"
                 run: |
-                    MOD_URL=$(./.github/scripts/get-modrinth-dependency-url.sh "yacl" ${{ steps.gradle-properties.outputs.RESOURCEFUL_YACL_VERSION }} ${{ matrix.mod_loader }})
+                    MOD_URL=$(./.github/scripts/get-modrinth-dependency-url.sh "yacl" ${{ steps.gradle-properties.outputs.YACL_VERSION }} ${{ matrix.mod_loader }})
                     wget -P run/mods "$MOD_URL"
 
             -   name: Run ${{ matrix.version }} ${{ matrix.mod_loader }} client

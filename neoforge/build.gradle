@@ -46,8 +46,8 @@ loom {
 			data {
 				data()
 				programArgs("--all", "--mod", "${mod_id}")
-				programArgs("--existing", project(":common").file("src/main/resources").absolutePath)
-				programArgs("--output", project(":common").file("src/main/generated/resources").absolutePath)
+				programArgs("--existing", project(":common:$subproject").file("src/main/resources").absolutePath)
+				programArgs("--output", project(":common:$subproject").file("src/main/generated/resources").absolutePath)
 				all {}
 			}
 		}

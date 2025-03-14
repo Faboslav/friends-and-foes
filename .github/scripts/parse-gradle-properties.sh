@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version=$1
+version=${1:-}
 
 parse_properties_file() {
     local file=$1
@@ -21,4 +21,7 @@ parse_properties_file() {
 }
 
 parse_properties_file gradle.properties
-parse_properties_file versions/"${version}"/gradle.properties
+
+if [[ -n "$version" ]]; then
+    parse_properties_file "versions/${version}/gradle.properties"
+fi

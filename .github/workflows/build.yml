@@ -38,16 +38,24 @@ jobs:
                     generate-job-summary: false
                     gradle-version: wrapper
 
-            - name: "Run chiseled build"
-              run: ./gradlew chiseledBuild
+            -   name: "Parse gradle properties"
+                id: gradle-properties
+                run: ./.github/scripts/parse-gradle-properties.sh
 
-            -   name: "Upload Built JARs"
+            -   name: "Run chiseled build"
+                run: ./gradlew chiseledBuild
+
+            -   name: "Prepare artifacts"
+                run: |
+                    mkdir -p artifacts
+                    find . -path "./*/versions/*/build/libs/*[0-9].jar" ! -name "*-common*.jar" -exec cp {} artifacts/ \;
+
+            -   name: "Upload artifacts"
                 uses: actions/upload-artifact@v4
                 with:
-                    name: built-jars
+                    name: friendsandfoes-artifacts-${{ steps.gradle-properties.outputs.MOD_VERSION }}
                     if-no-files-found: error
-                    path: |
-                        ./**/versions/**/build/libs/*[0-9].jar
+                    path: ./**/versions/**/build/libs/*[0-9].jar
 
             -   name: "Generate matrix for the run job"
                 id: set-matrix
@@ -85,7 +93,7 @@ jobs:
                 run: ./.github/scripts/parse-gradle-properties.sh ${{ matrix.version }}
 
             -   name: "Copy mod jar to run/mods"
-                run: mkdir -p run/mods && cp ${{ matrix.mod_loader }}/versions/${{ matrix.version }}/build/libs/* run/mods
+                run: mkdir -p run/mods && cp artifacts/${{ steps.gradle-properties.outputs.MOD_ID }}-${{ matrix.mod_loader }}-mc${{ matrix.version }}-${{ steps.gradle-properties.outputs.MOD_VERSION }}.jar run/mods
 
             -   name: "Download ResourcefulLib"
                 run: |

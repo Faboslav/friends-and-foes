@@ -12,6 +12,7 @@ ERROR_PATTERNS=(
     'For more details see the full crash report file'
     ' end of report '
     'Failed download after 3 attempts'
+    'Error: Exception in thread'
 )
 TIMEOUT=1800
 ELAPSED=0

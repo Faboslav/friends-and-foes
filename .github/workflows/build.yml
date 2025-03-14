@@ -55,7 +55,7 @@ jobs:
                 with:
                     name: friendsandfoes-artifacts-${{ steps.gradle-properties.outputs.MOD_VERSION }}
                     if-no-files-found: error
-                    path: ./**/versions/**/build/libs/*[0-9].jar
+                    path: artifacts/*.jar
 
             -   name: "Generate matrix for the run job"
                 id: set-matrix
@@ -83,14 +83,14 @@ jobs:
                   java-version: 21
                   distribution: temurin
 
-            -   name: "Download Built JARs"
-                uses: actions/download-artifact@v4
-                with:
-                    name: built-jars
-
             -   name: "Parse gradle properties"
                 id: gradle-properties
                 run: ./.github/scripts/parse-gradle-properties.sh ${{ matrix.version }}
+
+            -   name: "Download Built JARs"
+                uses: actions/download-artifact@v4
+                with:
+                    name: friendsandfoes-artifacts-${{ steps.gradle-properties.outputs.MOD_VERSION }}
 
             -   name: "Copy mod jar to run/mods"
                 run: mkdir -p run/mods && cp artifacts/${{ steps.gradle-properties.outputs.MOD_ID }}-${{ matrix.mod_loader }}-mc${{ matrix.version }}-${{ steps.gradle-properties.outputs.MOD_VERSION }}.jar run/mods

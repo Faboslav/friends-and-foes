@@ -217,7 +217,8 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 		return Mob.createMobAttributes()
 			.add(Attributes.MAX_HEALTH, 20.0D)
 			.add(Attributes.MOVEMENT_SPEED, MOVEMENT_SPEED)
-			.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D);
+			.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
+			.add(Attributes.TEMPT_RANGE, 10.0D);
 	}
 
 	@Override

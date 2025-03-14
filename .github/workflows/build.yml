@@ -87,10 +87,11 @@ jobs:
                 id: gradle-properties
                 run: ./.github/scripts/parse-gradle-properties.sh ${{ matrix.version }}
 
-            -   name: "Download Built JARs"
+            -   name: "Download artifacts"
                 uses: actions/download-artifact@v4
                 with:
                     name: friendsandfoes-artifacts-${{ steps.gradle-properties.outputs.MOD_VERSION }}
+                    path: artifacts
 
             -   name: "Copy mod jar to run/mods"
                 run: mkdir -p run/mods && cp artifacts/${{ steps.gradle-properties.outputs.MOD_ID }}-${{ matrix.mod_loader }}-mc${{ matrix.version }}-${{ steps.gradle-properties.outputs.MOD_VERSION }}.jar run/mods

@@ -362,6 +362,7 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 			.add(Attributes.MAX_HEALTH, 10.0D)
 			.add(Attributes.FLYING_SPEED, MOVEMENT_SPEED)
 			.add(Attributes.MOVEMENT_SPEED, MOVEMENT_SPEED)
+			.add(Attributes.TEMPT_RANGE, 10.0D)
 			.add(Attributes.FOLLOW_RANGE, 48.0D);
 	}
 

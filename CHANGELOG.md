@@ -1,5 +1,8 @@
 ## 4.0.0
 
+- Added "Around the Corner" music disc composed by Cleo
+- Added Copper Golems into Trial Chambers
+- Added Pale Oak Beehive (on 1.21.4)
 - Reworked configs
 - Reworked Wildfire animations/visuals
 - Reworked Mauler animations

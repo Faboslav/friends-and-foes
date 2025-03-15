@@ -120,7 +120,6 @@ jobs:
 
     run-server:
         runs-on: ubuntu-latest
-        continue-on-error: true
         needs: build
         strategy:
             fail-fast: false

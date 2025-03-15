@@ -148,6 +148,9 @@ jobs:
                     generate-job-summary: false
                     gradle-version: wrapper
 
+            -   name: "Switch active versions to ${{ matrix.version }}"
+                run: ./gradlew "Set active project to ${{ matrix.version }}"
+
             -   name: "Accept eula"
                 run: mkdir -p ${{ matrix.mod_loader }}/versions/${{ matrix.version }}/run && echo "eula=true" > ${{ matrix.mod_loader }}/versions/${{ matrix.version }}/run/eula.txt
 

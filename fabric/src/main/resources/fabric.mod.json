@@ -38,7 +38,9 @@
 	"depends": {
 		"minecraft": ">=${minMinecraftVersion}-",
 		"fabricloader": "*",
-		"fabric": "*"
+		"fabric": "*",
+		"yet_another_config_lib_v3": ">=${yaclVersion}-",
+		"resourcefullib": ">=${resourcefulLibVersion}-"
 	},
 	"custom": {
 		"modmenu": {
@@ -56,6 +58,14 @@
 			},
 			"banner": "catalogue_logo.png",
 			"background": "catalogue_background.png"
+		},
+		"mc-publish": {
+			"dependencies": [
+				"fabric-api(required){curseforge:306612}{modrinth:P7dR8mSH}",
+				"yet_another_config_lib_v3(required){curseforge:667299}{modrinth:1eAoo2KR}",
+				"resourcefullib(required){curseforge:570073}{modrinth:G1hIVOrD}",
+				"modmenu(optional){curseforge:308702}{modrinth:mOgUt4GM}"
+			]
 		}
 	}
 }

@@ -113,16 +113,17 @@ dependencies {
 
 processResources {
 	def expandProps = [
-		"modJavaVersion"     : prop('mod_java_version'),
-		'modId'              : mod_id,
-		'modName'            : mod_name,
-		'modDescription'     : mod_description,
-		'modVersion'         : mod_version,
-		'modAuthor'          : mod_author,
-		"minecraftVersion"   : prop('minecraft_version'),
-		"minMinecraftVersion": prop('min_minecraft_version'),
-		"neoForgeVersion"    : prop('neoforge_version'),
-		"yaclVersion"        : prop('yacl_version'),
+		"modJavaVersion"     	: prop('mod_java_version'),
+		'modId'              	: mod_id,
+		'modName'            	: mod_name,
+		'modDescription'     	: mod_description,
+		'modVersion'         	: mod_version,
+		'modAuthor'          	: mod_author,
+		"minecraftVersion"   	: prop('minecraft_version'),
+		"minMinecraftVersion"	: prop('min_minecraft_version'),
+		"neoForgeVersion"   	: prop('neoforge_version'),
+		"yaclVersion"        	: prop('yacl_version'),
+		"resourcefulLibVersion" : prop('resourceful_lib_lib_version'),
 	]
 
 	filesMatching(['pack.mcmeta', "META-INF/neoforge.mods.toml", '*.mixins.json']) {

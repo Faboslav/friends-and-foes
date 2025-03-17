@@ -24,6 +24,7 @@ public final class FriendsAndFoesEntityModelLayers
 	public static final ModelLayerLocation ILLUSIONER_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("illusioner"), "main");
 	public static final ModelLayerLocation MAULER_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("mauler"), "main");
 	public static final ModelLayerLocation MOOBLOOM_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("moobloom"), "main");
+	public static final ModelLayerLocation MOOBLOOM_BABY_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("moobloom_baby"), "main");
 	public static final ModelLayerLocation RASCAL_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("rascal"), "main");
 	public static final ModelLayerLocation TUFF_GOLEM_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("tuff_golem"), "main");
 	public static final ModelLayerLocation WILDFIRE_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("wildfire"), "main");
@@ -37,6 +38,7 @@ public final class FriendsAndFoesEntityModelLayers
 		event.register(ILLUSIONER_LAYER, IllagerModel::createBodyLayer);
 		event.register(MAULER_LAYER, MaulerEntityModel::getTexturedModelData);
 		event.register(MOOBLOOM_LAYER, CowModel::createBodyLayer);
+		event.register(MOOBLOOM_BABY_LAYER, () -> CowModel.createBodyLayer().apply(CowModel.BABY_TRANSFORMER));
 		event.register(RASCAL_LAYER, RascalEntityModel::getTexturedModelData);
 		event.register(TUFF_GOLEM_LAYER, TuffGolemEntityModel::getTexturedModelData);
 		event.register(WILDFIRE_LAYER, WildfireEntityModel::getTexturedModelData);

@@ -7,8 +7,8 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.CowModel;
+import net.minecraft.client.renderer.entity.AgeableMobRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 
 //? >=1.21.3 {
@@ -18,13 +18,13 @@ import com.faboslav.friendsandfoes.common.client.render.entity.state.MoobloomRen
 @Environment(EnvType.CLIENT)
 @SuppressWarnings({"rawtypes", "unchecked"})
 //? >=1.21.3 {
-public final class MoobloomEntityRenderer extends MobRenderer<MoobloomEntity, MoobloomRenderState, CowModel>
+public final class MoobloomEntityRenderer extends AgeableMobRenderer<MoobloomEntity, MoobloomRenderState, CowModel>
 //?} else {
 /*public final class MoobloomEntityRenderer extends MobRenderer<MoobloomEntity, CowModel<MoobloomEntity>>
 *///?}
 {
 	public MoobloomEntityRenderer(EntityRendererProvider.Context context) {
-		super(context, new CowModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.MOOBLOOM_LAYER)), 0.7F);
+		super(context, new CowModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.MOOBLOOM_LAYER)),  new CowModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.MOOBLOOM_BABY_LAYER)), 0.7F);
 
 		//? >=1.21.3 {
 		this.addLayer(new MoobloomFlowerFeatureRenderer(this, context.getBlockRenderDispatcher()));

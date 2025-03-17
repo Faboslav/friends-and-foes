@@ -80,7 +80,7 @@ public final class CitadelBottomProcessor extends StructureProcessor
 			int worldTopY;
 			//? >=1.21.3 {
 			worldBottomY = worldView.getMinY();
-			/*worldTopY = worldView.getTopY();
+			worldTopY = worldView.getMaxY();
 			//?} else {
 			/*worldBottomY = worldView.getMinBuildHeight();
 			worldTopY = worldView.getMaxBuildHeight();

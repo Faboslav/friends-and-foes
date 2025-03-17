@@ -67,8 +67,20 @@ public final class TuffGolemSleepTask extends Behavior<TuffGolemEntity>
 
 		if (tuffGolem.hasPose(TuffGolemEntityPose.SLEEPING.get())) {
 			tuffGolem.startStanding();
+
+			if (tuffGolem.isInSleepingPose()) {
+				tuffGolem.playWakeSound();
+			} else {
+				tuffGolem.playMoveSound();
+			}
 		} else if (tuffGolem.hasPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM.get())) {
 			tuffGolem.startStandingWithItem();
+
+			if (tuffGolem.isInSleepingPose()) {
+				tuffGolem.playWakeSound();
+			} else {
+				tuffGolem.playMoveSound();
+			}
 		}
 	}
 }

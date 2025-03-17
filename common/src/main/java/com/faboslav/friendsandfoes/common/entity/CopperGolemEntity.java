@@ -429,9 +429,11 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 			return false;
 		}
 
-		this.heal(COPPER_INGOT_HEAL_AMOUNT);
-		itemStack.consume(1, player);
-		this.playSound(FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_REPAIR.get(), 1.0F, this.getVoicePitch() - 1.0F);
+		if (this.level() instanceof ServerLevel serverLevel) {
+			this.heal(COPPER_INGOT_HEAL_AMOUNT);
+			itemStack.consume(1, player);
+			this.playSound(FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_REPAIR.get(), 1.0F, this.getVoicePitch() - 1.0F);
+		}
 
 		return true;
 	}
@@ -444,14 +446,16 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 			return false;
 		}
 
-		this.setIsWaxed(true);
+		if (this.level() instanceof ServerLevel serverLevel) {
+			this.setIsWaxed(true);
 
-		if (!player.getAbilities().instabuild) {
-			itemStack.shrink(1);
+			if (!player.getAbilities().instabuild) {
+				itemStack.shrink(1);
+			}
+
+			this.playSound(SoundEvents.HONEYCOMB_WAX_ON, 1.0F, 1.0F);
+			ParticleSpawner.spawnParticles(this, ParticleTypes.WAX_ON, 7, 1.0);
 		}
-
-		this.playSound(SoundEvents.HONEYCOMB_WAX_ON, 1.0F, 1.0F);
-		ParticleSpawner.spawnParticles(this, ParticleTypes.WAX_ON, 7, 1.0);
 
 		return true;
 	}
@@ -465,25 +469,25 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 			return false;
 		}
 
-		if (this.isWaxed()) {
-			this.setIsWaxed(false);
+		if (this.level() instanceof ServerLevel serverLevel) {
+			if (this.isWaxed()) {
+				this.setIsWaxed(false);
 
-			this.playSound(SoundEvents.AXE_WAX_OFF, 1.0F, 1.0F);
-			ParticleSpawner.spawnParticles(this, ParticleTypes.WAX_OFF, 7, 1.0);
+				this.playSound(SoundEvents.AXE_WAX_OFF, 1.0F, 1.0F);
+				ParticleSpawner.spawnParticles(this, ParticleTypes.WAX_OFF, 7, 1.0);
 
-		} else if (isDegraded()) {
-			if (this.level().isClientSide() == false) {
+			} else if (isDegraded()) {
 				int increasedOxidationLevelOrdinal = getOxidationLevel().ordinal() - 1;
 				WeatheringCopper.WeatherState[] OxidationLevels = WeatheringCopper.WeatherState.values();
 				this.setOxidationLevel(OxidationLevels[increasedOxidationLevelOrdinal]);
+
+				this.playSound(SoundEvents.AXE_SCRAPE, 1.0F, 1.0F);
+				ParticleSpawner.spawnParticles(this, ParticleTypes.SCRAPE, 7, 1.0);
 			}
 
-			this.playSound(SoundEvents.AXE_SCRAPE, 1.0F, 1.0F);
-			ParticleSpawner.spawnParticles(this, ParticleTypes.SCRAPE, 7, 1.0);
-		}
-
-		if (this.level().isClientSide() == false && !player.getAbilities().instabuild) {
-			itemStack.hurtAndBreak(1, player, Player.getSlotForHand(hand));
+			if (!player.getAbilities().instabuild) {
+				itemStack.hurtAndBreak(1, player, Player.getSlotForHand(hand));
+			}
 		}
 
 		return true;

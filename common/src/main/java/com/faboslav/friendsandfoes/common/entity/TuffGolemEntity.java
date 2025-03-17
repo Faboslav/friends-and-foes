@@ -295,6 +295,22 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 		this.playSound(this.getMoveSound(), 1.0F, 1.05F + this.getRandom().nextFloat() * 0.05F);
 	}
 
+	public SoundEvent getHoldItemSound() {
+		return FriendsAndFoesSoundEvents.ENTITY_TUFF_GOLEM_HOLD_ITEM.get();
+	}
+
+	public void playHoldItemSound() {
+		this.playSound(this.getHoldItemSound(), 1.0F, 1.05F + this.getRandom().nextFloat() * 0.05F);
+	}
+
+	public SoundEvent getDropItemSound() {
+		return FriendsAndFoesSoundEvents.ENTITY_TUFF_GOLEM_DROP_ITEM.get();
+	}
+
+	public void playDropItemSound() {
+		this.playSound(this.getDropItemSound(), 1.0F, 1.05F + this.getRandom().nextFloat() * 0.05F);
+	}
+
 	private SoundEvent getRepairSound() {
 		return FriendsAndFoesSoundEvents.ENTITY_TUFF_GOLEM_REPAIR.get();
 	}
@@ -366,7 +382,7 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 			interactionResult = this.tryToInteractMobWithAxe(player, hand, itemStack);
 		}
 
-		if (interactionResult == false) {
+		if (!interactionResult) {
 			interactionResult = this.tryToInteractMobWithItem(player, itemStack);
 		}
 
@@ -386,13 +402,15 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 			return false;
 		}
 
-		this.heal(TUFF_HEAL_AMOUNT);
+		if (this.level() instanceof ServerLevel serverLevel) {
+			this.heal(TUFF_HEAL_AMOUNT);
 
-		if (player.getAbilities().instabuild == false) {
-			itemStack.shrink(1);
+			if (!player.getAbilities().instabuild) {
+				itemStack.shrink(1);
+			}
+
+			this.playRepairSound();
 		}
-
-		this.playRepairSound();
 
 		return true;
 	}
@@ -407,13 +425,15 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 			return false;
 		}
 
-		this.setColor(usedColor);
+		if (this.level() instanceof ServerLevel serverLevel) {
+			this.setColor(usedColor);
 
-		if (player.getAbilities().instabuild == false) {
-			itemStack.shrink(1);
+			if (!player.getAbilities().instabuild) {
+				itemStack.shrink(1);
+			}
+
+			this.playSound(SoundEvents.DYE_USE, 1.0F, 1.0F);
 		}
-
-		this.playSound(SoundEvents.DYE_USE, 1.0F, 1.0F);
 
 		return true;
 	}
@@ -426,14 +446,16 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 			return false;
 		}
 
-		this.setGlued(true);
+		if (this.level() instanceof ServerLevel serverLevel) {
+			this.setGlued(true);
 
-		if (!player.getAbilities().instabuild) {
-			itemStack.shrink(1);
+			if (!player.getAbilities().instabuild) {
+				itemStack.shrink(1);
+			}
+
+			this.playGlueOnSound();
+			ParticleSpawner.spawnParticles(this, ParticleTypes.WAX_ON, 7, 1.0F);
 		}
-
-		this.playGlueOnSound();
-		ParticleSpawner.spawnParticles(this, ParticleTypes.WAX_ON, 7, 1.0F);
 
 		return true;
 	}
@@ -447,13 +469,15 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 			return false;
 		}
 
-		this.setGlued(false);
+		if (this.level() instanceof ServerLevel serverLevel) {
+			this.setGlued(false);
 
-		this.playGlueOffSound();
-		ParticleSpawner.spawnParticles(this, ParticleTypes.WAX_OFF, 7, 1.0F);
+			this.playGlueOffSound();
+			ParticleSpawner.spawnParticles(this, ParticleTypes.WAX_OFF, 7, 1.0F);
 
-		if (this.level().isClientSide() == false && !player.getAbilities().instabuild) {
-			itemStack.hurtAndBreak(1, player, Player.getSlotForHand(hand));
+			if (player.getAbilities().instabuild) {
+				itemStack.hurtAndBreak(1, player, Player.getSlotForHand(hand));
+			}
 		}
 
 		return true;
@@ -473,26 +497,35 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 			return false;
 		}
 
-		MovementUtil.stopMovement(this);
+		if (this.level() instanceof ServerLevel serverLevel) {
+			MovementUtil.stopMovement(this);
 
-		if (this.isHoldingItem()) {
-			if (player.getAbilities().instabuild == false) {
-				VersionedEntity.spawnAtLocation(this, this.getItemBySlot(EquipmentSlot.MAINHAND));
+			if (this.isHoldingItem()) {
+				if (!player.getAbilities().instabuild) {
+					VersionedEntity.spawnAtLocation(this, this.getItemBySlot(EquipmentSlot.MAINHAND));
+				}
+
+				this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
+				this.startStanding();
+
+				if (this.isInSleepingPose()) {
+					this.playWakeSound();
+				} else {
+					this.playDropItemSound();
+				}
+			} else {
+				ItemStack itemsStackToBeEquipped = itemStack.copy();
+
+				if (!player.getAbilities().instabuild) {
+					itemStack.shrink(1);
+				}
+
+				itemsStackToBeEquipped.setCount(1);
+
+				this.setItemSlot(EquipmentSlot.MAINHAND, itemsStackToBeEquipped);
+				this.startStandingWithItem();
+				this.playHoldItemSound();
 			}
-
-			this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
-			this.startStanding();
-		} else {
-			ItemStack itemsStackToBeEquipped = itemStack.copy();
-
-			if (player.getAbilities().instabuild == false) {
-				itemStack.shrink(1);
-			}
-
-			itemsStackToBeEquipped.setCount(1);
-
-			this.setItemSlot(EquipmentSlot.MAINHAND, itemsStackToBeEquipped);
-			this.startStandingWithItem();
 		}
 
 		return true;
@@ -663,12 +696,6 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 			return;
 		}
 
-		if (this.isInSleepingPose()) {
-			this.playWakeSound();
-		} else {
-			this.playMoveSound();
-		}
-
 		this.setPose(TuffGolemEntityPose.STANDING.get());
 	}
 
@@ -677,22 +704,16 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 			return;
 		}
 
-		if (this.isInSleepingPose()) {
-			this.playWakeSound();
-		} else {
-			this.playMoveSound();
-		}
-
 		this.setPose(TuffGolemEntityPose.STANDING_WITH_ITEM.get());
 	}
 
 	@Override
 	public void tick() {
-		if (this.level().isClientSide() == false && FriendsAndFoes.getConfig().enableTuffGolem == false) {
+		if (!this.level().isClientSide() && !FriendsAndFoes.getConfig().enableTuffGolem) {
 			this.discard();
 		}
 
-		if (this.level().isClientSide() == false && this.inactiveTicksAfterSpawn > 0) {
+		if (!this.level().isClientSide() && this.inactiveTicksAfterSpawn > 0) {
 			this.inactiveTicksAfterSpawn--;
 		}
 
@@ -807,8 +828,20 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 		) {
 			if (this.isHoldingItem()) {
 				this.startStandingWithItem();
+
+				if (this.isInSleepingPose()) {
+					this.playWakeSound();
+				} else {
+					this.playMoveSound();
+				}
 			} else {
 				this.startStanding();
+
+				if (this.isInSleepingPose()) {
+					this.playWakeSound();
+				} else {
+					this.playMoveSound();
+				}
 			}
 		}
 

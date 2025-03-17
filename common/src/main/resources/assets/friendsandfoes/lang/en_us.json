@@ -167,6 +167,8 @@
 	"subtitle.entity.friendsandfoes.tuff_golem.glue_off": "Tuff Golem unglued",
 	"subtitle.entity.friendsandfoes.tuff_golem.hurt": "Tuff Golem hurts",
 	"subtitle.entity.friendsandfoes.tuff_golem.move": "Tuff Golem moves",
+	"subtitle.entity.friendsandfoes.tuff_golem.hold_item": "Tuff Golem holds item",
+	"subtitle.entity.friendsandfoes.tuff_golem.drop_item": "Tuff Golem drops item",
 	"subtitle.entity.friendsandfoes.tuff_golem.repair": "Tuff Golem repaired",
 	"subtitle.entity.friendsandfoes.tuff_golem.wake": "Tuff Golem wakes up",
 	"subtitle.entity.friendsandfoes.tuff_golem.sleep": "Tuff Golem goes to sleep",

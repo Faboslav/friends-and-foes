@@ -58,6 +58,8 @@ public final class FriendsAndFoesSoundEvents
 	public static final RegistryEntry<SoundEvent> ENTITY_TUFF_GOLEM_GLUE_OFF = registerSoundEvent("entity.tuff_golem.glue_off");
 	public static final RegistryEntry<SoundEvent> ENTITY_TUFF_GOLEM_HURT = registerSoundEvent("entity.tuff_golem.hurt");
 	public static final RegistryEntry<SoundEvent> ENTITY_TUFF_GOLEM_MOVE = registerSoundEvent("entity.tuff_golem.move");
+	public static final RegistryEntry<SoundEvent> ENTITY_TUFF_GOLEM_HOLD_ITEM = registerSoundEvent("entity.tuff_golem.hold_item");
+	public static final RegistryEntry<SoundEvent> ENTITY_TUFF_GOLEM_DROP_ITEM = registerSoundEvent("entity.tuff_golem.drop_item");
 	public static final RegistryEntry<SoundEvent> ENTITY_TUFF_GOLEM_REPAIR = registerSoundEvent("entity.tuff_golem.repair");
 	public static final RegistryEntry<SoundEvent> ENTITY_TUFF_GOLEM_SLEEP = registerSoundEvent("entity.tuff_golem.sleep");
 	public static final RegistryEntry<SoundEvent> ENTITY_TUFF_GOLEM_STEP = registerSoundEvent("entity.tuff_golem.step");

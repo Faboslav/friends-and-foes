@@ -375,37 +375,35 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 			return false;
 		}
 
-		if (this.level().isClientSide()) {
-			return true;
-		}
+		if (this.level() instanceof ServerLevel serverLevel) {
+			int experiencePoints = this.getExperiencePoints(itemStack);
+			int recalculatedExperiencePoints = storedExperiencePoints + experiencePoints;
 
-		int experiencePoints = this.getExperiencePoints(itemStack);
-		int recalculatedExperiencePoints = storedExperiencePoints + experiencePoints;
-
-		if (recalculatedExperiencePoints > MAXIMUM_STORED_EXPERIENCE_POINTS) {
-			recalculatedExperiencePoints = MAXIMUM_STORED_EXPERIENCE_POINTS;
-		}
-
-		this.setStoredExperiencePoints(recalculatedExperiencePoints);
-
-		if (!player.getAbilities().instabuild) {
-			if (itemStack.isStackable()) {
-				itemStack.shrink(1);
-			} else {
-				EquipmentSlot equipmentSlot;
-
-				if (hand == InteractionHand.MAIN_HAND) {
-					equipmentSlot = EquipmentSlot.MAINHAND;
-				} else {
-					equipmentSlot = EquipmentSlot.OFFHAND;
-				}
-
-				player.setItemSlot(equipmentSlot, ItemStack.EMPTY);
+			if (recalculatedExperiencePoints > MAXIMUM_STORED_EXPERIENCE_POINTS) {
+				recalculatedExperiencePoints = MAXIMUM_STORED_EXPERIENCE_POINTS;
 			}
-		}
 
-		this.playSound(FriendsAndFoesSoundEvents.ENTITY_MAULER_BITE.get(), 0.2F, RandomGenerator.generateFloat(0.9F, 0.95F));
-		this.spawnParticles(ParticleTypes.ENCHANT, 7);
+			this.setStoredExperiencePoints(recalculatedExperiencePoints);
+
+			if (!player.getAbilities().instabuild) {
+				if (itemStack.isStackable()) {
+					itemStack.shrink(1);
+				} else {
+					EquipmentSlot equipmentSlot;
+
+					if (hand == InteractionHand.MAIN_HAND) {
+						equipmentSlot = EquipmentSlot.MAINHAND;
+					} else {
+						equipmentSlot = EquipmentSlot.OFFHAND;
+					}
+
+					player.setItemSlot(equipmentSlot, ItemStack.EMPTY);
+				}
+			}
+
+			this.playSound(FriendsAndFoesSoundEvents.ENTITY_MAULER_BITE.get(), 0.2F, RandomGenerator.generateFloat(0.9F, 0.95F));
+			this.spawnParticles(ParticleTypes.ENCHANT, 7);
+		}
 
 		return true;
 	}
@@ -421,23 +419,21 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 			return false;
 		}
 
-		if (this.level().isClientSide()) {
-			return true;
+		if (this.level() instanceof ServerLevel serverLevel) {
+			int glassBottlesCount = itemStack.getCount();
+			int experienceBottleCount = storedExperiencePoints / 7;
+
+			if (experienceBottleCount > glassBottlesCount) {
+				experienceBottleCount = glassBottlesCount;
+			}
+
+			itemStack.shrink(experienceBottleCount);
+			ItemStack experienceBottleItemStack = new ItemStack(Items.EXPERIENCE_BOTTLE, experienceBottleCount);
+			player.addItem(experienceBottleItemStack);
+
+			this.setStoredExperiencePoints(storedExperiencePoints - experienceBottleCount * 7);
+			this.playSound(SoundEvents.BOTTLE_FILL_DRAGONBREATH, 1.0F, 1.0F);
 		}
-
-		int glassBottlesCount = itemStack.getCount();
-		int experienceBottleCount = storedExperiencePoints / 7;
-
-		if (experienceBottleCount > glassBottlesCount) {
-			experienceBottleCount = glassBottlesCount;
-		}
-
-		itemStack.shrink(experienceBottleCount);
-		ItemStack experienceBottleItemStack = new ItemStack(Items.EXPERIENCE_BOTTLE, experienceBottleCount);
-		player.addItem(experienceBottleItemStack);
-
-		this.setStoredExperiencePoints(storedExperiencePoints - experienceBottleCount * 7);
-		this.playSound(SoundEvents.BOTTLE_FILL_DRAGONBREATH, 1.0F, 1.0F);
 
 		return true;
 	}

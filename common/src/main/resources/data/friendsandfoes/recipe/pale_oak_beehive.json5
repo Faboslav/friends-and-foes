@@ -1,3 +1,4 @@
+//? >=1.21.4 {
 {
 	"type": "minecraft:crafting_shaped",
 	"category": "misc",
@@ -7,20 +8,35 @@
 		"PPP"
 	],
 	"key": {
-		//? >=1.21.4 {
 		"P": "minecraft:pale_oak_planks",
 		"H": "minecraft:honeycomb"
-		//?} else {
-		/*"P": {
-			"item": "minecraft:pale_oak_planks"
-		},
-		"H": {
-			"item": "minecraft:honeycomb"
-		}
-		*///?}
 	},
 	"result": {
 		"count": 1,
 		"id": "friendsandfoes:pale_oak_beehive"
 	}
 }
+//?} else {
+/*// Revert back to acacia beehive recipe
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "misc",
+	"pattern": [
+		"PPP",
+		"HHH",
+		"PPP"
+	],
+	"key": {
+		"P": {
+			"item": "minecraft:acacia_planks"
+		},
+		"H": {
+			"item": "minecraft:honeycomb"
+		}
+	},
+	"result": {
+		"count": 1,
+		"id": "friendsandfoes:acacia_beehive"
+	}
+}
+*///?}

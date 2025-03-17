@@ -550,21 +550,19 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 			return false;
 		}
 
-		if (this.level().isClientSide()) {
-			return true;
+		if (this.level() instanceof ServerLevel serverLevel) {
+			FoodProperties foodComponent = itemStack.get(DataComponents.FOOD);
+			if (foodComponent == null) {
+				return false;
+			}
+
+			this.heal(2.0F * foodComponent.nutrition());
+			this.playEatSound(itemStack);
+			itemStack.consume(1, player);
+
+			ItemParticleOption particleEffect = new ItemParticleOption(ParticleTypes.ITEM, itemStack);
+			ParticleSpawner.spawnParticles(this, particleEffect, 7, 0.1D);
 		}
-
-		FoodProperties foodComponent = itemStack.get(DataComponents.FOOD);
-		if (foodComponent == null) {
-			return false;
-		}
-
-		this.heal(2.0F * foodComponent.nutrition());
-		this.playEatSound(itemStack);
-		itemStack.consume(1, player);
-
-		ItemParticleOption particleEffect = new ItemParticleOption(ParticleTypes.ITEM, itemStack);
-		ParticleSpawner.spawnParticles(this, particleEffect, 7, 0.1D);
 
 		return true;
 	}
@@ -573,21 +571,19 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 		Player player,
 		ItemStack itemStack
 	) {
-		if (this.level().isClientSide()) {
-			return true;
-		}
+		if (this.level() instanceof ServerLevel serverLevel) {
+			if (!player.getAbilities().instabuild) {
+				itemStack.shrink(1);
+			}
 
-		if (player.getAbilities().instabuild == false) {
-			itemStack.shrink(1);
-		}
+			this.playEatSound(itemStack);
 
-		this.playEatSound(itemStack);
-
-		if (this.getRandom().nextInt(3) == 0) {
-			this.tame(player);
-			this.level().broadcastEntityEvent(this, EntityEvent.TAMING_SUCCEEDED);
-		} else {
-			this.level().broadcastEntityEvent(this, EntityEvent.TAMING_FAILED);
+			if (this.getRandom().nextInt(3) == 0) {
+				this.tame(player);
+				this.level().broadcastEntityEvent(this, EntityEvent.TAMING_SUCCEEDED);
+			} else {
+				this.level().broadcastEntityEvent(this, EntityEvent.TAMING_FAILED);
+			}
 		}
 
 		return true;

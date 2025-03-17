@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.common.world.processor;
 
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStructureProcessorTypes;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -76,15 +77,18 @@ public final class CitadelBottomProcessor extends StructureProcessor
 			RandomSource random = structurePlacementData.getRandom(blockInfoGlobal.pos());
 
 			int worldBottomY;
+			int worldTopY;
 			//? >=1.21.3 {
 			worldBottomY = worldView.getMinY();
+			/*worldTopY = worldView.getTopY();
 			//?} else {
 			/*worldBottomY = worldView.getMinBuildHeight();
+			worldTopY = worldView.getMaxBuildHeight();
 			*///?}
-
+			
 			while (
 				mutable.getY() > worldBottomY
-				&& mutable.getY() < worldBottomY
+				&& mutable.getY() < worldTopY
 				&& (currentBlockState.isAir() || !worldView.getFluidState(mutable).isEmpty())
 			) {
 				worldView.getChunk(mutable).setBlockState(mutable, targetBlockOutput, false);

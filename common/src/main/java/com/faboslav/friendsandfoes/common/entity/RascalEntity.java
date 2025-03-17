@@ -346,7 +346,11 @@ public final class RascalEntity extends AgeableMob implements AnimatedEntity
 			!(attacker instanceof Player)
 			|| this.hasCustomName()
 		) {
-			return VersionedEntity.hurt(this, damageSource, amount);
+			/*? >=1.21.3 {*/
+			return super.hurtServer(level, damageSource, amount);
+			/*?} else {*/
+			/*return super.hurt(damageSource, amount);
+			 *//*?}*/
 		}
 
 		this.playHurtSound(damageSource);

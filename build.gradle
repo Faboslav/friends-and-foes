@@ -13,7 +13,7 @@ subprojects {
 	dependencies {
 		minecraft "com.mojang:minecraft:${minecraft_version}"
 		mappings loom.layered {
-			it.mappings "net.fabricmc:yarn:${yarn_mappings}"
+			it.mappings "net.fabricmc:yarn:${yarn_mappings}:v2"
 			it.mappings "dev.architectury:yarn-mappings-patch-neoforge:${yarn_mappings_patch}"
 		}
 	}
@@ -29,6 +29,7 @@ allprojects {
 
 	processResources {
 		def expandProps = [
+			"modJavaVersion"     : mod_java_version,
 			'modId'              : mod_id,
 			'modName'            : mod_name,
 			'modDescription'     : mod_description,
@@ -41,7 +42,7 @@ allprojects {
 			"neoForgeVersion"    : neoforge_version
 		]
 
-		filesMatching(['fabric.mod.json', 'META-INF/neoforge.mods.toml']) {
+		filesMatching(['pack.mcmeta', 'fabric.mod.json', 'META-INF/mods.toml', 'META-INF/neoforge.mods.toml', '*.mixins.json']) {
 			expand expandProps
 		}
 
@@ -56,13 +57,14 @@ allprojects {
 	}
 
 	tasks.withType(JavaCompile).configureEach {
-		it.options.release = 21
+		it.options.encoding = 'UTF-8'
+		it.options.getRelease().set(mod_java_version as Integer)
 	}
 
 	java {
 		withSourcesJar()
 
-		sourceCompatibility = JavaVersion.VERSION_21
-		targetCompatibility = JavaVersion.VERSION_21
+		sourceCompatibility = JavaVersion.toVersion(mod_java_version)
+		targetCompatibility = JavaVersion.toVersion(mod_java_version)
 	}
 }

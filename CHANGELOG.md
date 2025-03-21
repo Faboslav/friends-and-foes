@@ -1,3 +1,76 @@
+## 3.0.8
+
+- Fixed Iceologer crash related to casting spells
+- Fixed Crab not having home born from the egg
+- Improved beekeeper compatibility with other mods adding beehives
+- Improved Rascal spawn conditions
+- Added config option to disable lightning rod oxidation
+- Added tooltips to totems
+
+## 3.0.7
+
+- Fixed beekeeper villager trades
+- Fixed infinite mauler exp feed (again)
+- Updated pl_pl translations (Thanks to kierohere)
+- Updated es_cl translations (Thanks to Ganbare-Lucifer)
+- Updated ru_ru translations (Thanks to mpustovoi)
+
+## 3.0.6
+
+- Fixed strong potion of reaching duration
+- Fixed iceologer model
+- Fixed carpet profiler incompatibility
+- Fixed aether dungeons incompatibility
+- Fixed buttercup not being compostable
+- Added more config options
+- Added zh_tw translations (Thanks to Lobster0228)
+- Added fr_fr translations (Thanks to Franco227)
+- Added pt_br translations (Thanks to demorogabrtz)
+- Updated advancements
+- Updated uk_ua translations (Thanks to unroman)
+
+## 3.0.5
+
+- Fixed server crash
+
+## 3.0.4
+
+- Improved internal registries logic (Might fix some crashes)
+- Fixed crashes with mods like Caverns & Chasms, Unvoted & Shelved and Sinytra Connector
+- Fixed block flammability
+- Fixed white texture on buttercup
+- Fixed wildfire crown enchantability on newer minecraft versions (again)
+- Updated es_cl translations (Thanks to Ganbare-Lucifer)
+
+## 3.0.3
+
+- Fixed crash related to catalogue
+
+## 3.0.2
+
+- Fixed incorrect moobloom texture layer
+
+## 3.0.1
+
+- Fixed villager trades not being specific to the beekeeper villager profession
+- Crab now spawns also on the beaches
+- Changed potion of reaching base color
+- Updated ru_ru translations (Thanks to mpustovoi)
+- Updated es_mx translations (Thanks to TheLegendofSaram)
+
+## 3.0.0
+
+- Added crab mob
+- Added crab claw item
+- Added potion of reaching, long reaching and strong reaching
+- Fixed wildfire crown enchantability on newer minecraft versions
+- Fixed damage source of ice chunk
+- Corrected bamboo, cherry, crimson and warped beehives wood sound groups
+- Corrected crimson and warped beehive flammabilit
+- Added de_de translations (Thanks to tristankechlo)
+- Updated vi_vn translations (Thanks to godkyo98)
+- Huge internal refactoring (restructure) of the mod (can cause a lot of new bugs/missing features)
+
 ## 2.0.17
 
 - Fixed tuff golem holding enchanted "book" instead of enchanted "enchanted book"

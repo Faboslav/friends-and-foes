@@ -62,6 +62,7 @@ public final class FriendsAndFoesFabric implements ModInitializer
 			ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new FabricReloadListener(id, listener));
 		}));
 
+
 		ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register((player, joined) ->
 			DatapackSyncEvent.EVENT.invoke(new DatapackSyncEvent(player)));
 

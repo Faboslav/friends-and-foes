@@ -29,13 +29,13 @@ run-neoforge-client: ## Runs neoforge client
 	./gradlew neoforge:runClient
 
 run-fabric-server: ## Runs fabric server
-	./gradlew fabric:runServer
+	./gradlew fabric:1.21.4:runServer
 
 run-forge-server: ## Runs forge server
 	./gradlew forge:runServer
 
 run-neoforge-server: ## Runs neoforge server
-	./gradlew neoforge:runServer
+	./gradlew neoforge:1.21.1:runServer
 
 run-data: ## Runs datagen
 	./gradlew runData

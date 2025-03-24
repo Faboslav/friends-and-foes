@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.neoforge;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoesClient;
 import com.faboslav.friendsandfoes.common.config.FriendsAndFoesConfigScreen;
+import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationLoader;
 import com.faboslav.friendsandfoes.common.events.client.*;
 import com.faboslav.friendsandfoes.common.events.lifecycle.ClientSetupEvent;
 import net.minecraft.client.particle.ParticleProvider;
@@ -14,6 +15,7 @@ import net.neoforged.fml.ModList;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 
@@ -24,6 +26,7 @@ public final class FriendsAndFoesNeoForgeClient
 	public static void init(IEventBus modEventBus, IEventBus eventBus) {
 		FriendsAndFoesClient.init();
 
+		modEventBus.addListener(FriendsAndFoesNeoForgeClient::onRegisterReloadListeners);
 		modEventBus.addListener(FriendsAndFoesNeoForgeClient::onClientSetup);
 		modEventBus.addListener(FriendsAndFoesNeoForgeClient::onRegisterParticles);
 		modEventBus.addListener(FriendsAndFoesNeoForgeClient::onRegisterEntityRenderers);
@@ -41,6 +44,10 @@ public final class FriendsAndFoesNeoForgeClient
 				});
 			}
 		});
+	}
+
+	private static void onRegisterReloadListeners(RegisterClientReloadListenersEvent event) {
+		event.registerReloadListener(AnimationLoader.INSTANCE);
 	}
 
 	private static void onRegisterEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {

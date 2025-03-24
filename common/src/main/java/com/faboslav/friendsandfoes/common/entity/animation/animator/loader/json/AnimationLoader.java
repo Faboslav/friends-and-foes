@@ -38,8 +38,6 @@ public final class AnimationLoader extends SimpleJsonResourceReloadListener<Anim
 /*public final class AnimationLoader extends SimpleJsonResourceReloadListener
 *///?}
 {
-	private static final Logger LOGGER = LogUtils.getLogger();
-
 	public static final AnimationLoader INSTANCE = new AnimationLoader();
 
 	private final Map<ResourceLocation, AnimationHolder> animations = new MapMaker().weakValues().concurrencyLevel(1).makeMap();
@@ -50,8 +48,12 @@ public final class AnimationLoader extends SimpleJsonResourceReloadListener<Anim
 		//? >=1.21.4 {
 		super(AnimationParser.CODEC, FileToIdConverter.json("animations/entity"));
 		//?} else {
-		/*super(new Gson(), "animations/entity");
+		/*super(new Gson(), "friendsandfoes/animations/entity");
 		*///?}
+	}
+
+	public Map<ResourceLocation, AnimationHolder> getAnimations() {
+		return animations;
 	}
 
 	/**
@@ -99,9 +101,9 @@ public final class AnimationLoader extends SimpleJsonResourceReloadListener<Anim
 				strongHolderReferences.add(animationHolder);
 				loaded++;
 			} catch (Exception e) {
-				LOGGER.error("Failed to load animation {}", entry.getKey(), e);
+				FriendsAndFoes.getLogger().error("Failed to load animation {}", entry.getKey(), e);
 			}
 		}
-		LOGGER.info("Loaded {} entity animations", loaded);
+		FriendsAndFoes.getLogger().info("Loaded {} entity animations", loaded);
 	}
 }

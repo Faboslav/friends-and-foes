@@ -28,11 +28,11 @@ public final class UpdateChecker
 	private static final Gson gson = new Gson();
 
 	public static void checkForNewUpdatesInGame(LocalPlayer clientPlayerEntity) {
-		CompletableFuture.runAsync(() -> {
-			if (!FriendsAndFoes.getConfig().checkForNewUpdates) {
-				return;
-			}
+		if (!FriendsAndFoes.getConfig().checkForNewUpdates) {
+			return;
+		}
 
+		CompletableFuture.runAsync(() -> {
 			Version latestVersion = UpdateChecker.getLatestVersion();
 			if (latestVersion == null) {
 				return;
@@ -68,11 +68,11 @@ public final class UpdateChecker
 	}
 
 	public static void checkForNewUpdates() {
-		CompletableFuture.runAsync(() -> {
-			if (!FriendsAndFoes.getConfig().checkForNewUpdates) {
-				return;
-			}
+		if (!FriendsAndFoes.getConfig().checkForNewUpdates) {
+			return;
+		}
 
+		CompletableFuture.runAsync(() -> {
 			Version latestVersion = UpdateChecker.getLatestVersion();
 			if (latestVersion == null) {
 				return;

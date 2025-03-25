@@ -9,6 +9,7 @@ import com.faboslav.friendsandfoes.common.events.item.RegisterBrewingRecipesEven
 import com.faboslav.friendsandfoes.common.events.lifecycle.*;
 import com.faboslav.friendsandfoes.common.init.*;
 import com.faboslav.friendsandfoes.common.modcompat.ModChecker;
+import com.faboslav.friendsandfoes.common.network.packet.EntityAnimationsSyncPacket;
 import com.faboslav.friendsandfoes.common.network.packet.MessageHandler;
 import com.faboslav.friendsandfoes.common.network.packet.MoobloomVariantsSyncPacket;
 import com.faboslav.friendsandfoes.common.platform.BiomeModifications;
@@ -54,6 +55,7 @@ public final class FriendsAndFoes
 		RegisterReloadListenerEvent.EVENT.addListener(FriendsAndFoes::registerServerDataListeners);
 		SetupEvent.EVENT.addListener(FriendsAndFoes::setup);
 		DatapackSyncEvent.EVENT.addListener(MoobloomVariantsSyncPacket::sendToClient);
+		DatapackSyncEvent.EVENT.addListener(EntityAnimationsSyncPacket::sendToClient);
 		RegisterFlammabilityEvent.EVENT.addListener(FriendsAndFoesBlocks::registerFlammablity);
 		RegisterEntityAttributesEvent.EVENT.addListener(FriendsAndFoesEntityTypes::registerEntityAttributes);
 		RegisterEntitySpawnRestrictionsEvent.EVENT.addListener(FriendsAndFoesEntityTypes::registerEntitySpawnRestrictions);
@@ -92,7 +94,7 @@ public final class FriendsAndFoes
 
 	private static void registerServerDataListeners(final RegisterReloadListenerEvent event) {
 		event.register(FriendsAndFoes.makeID("moobloom_variants"), MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER);
-		event.register(FriendsAndFoes.makeID("animations"), AnimationLoader.INSTANCE);
+		event.register(FriendsAndFoes.makeID("entity_animations"), AnimationLoader.INSTANCE);
 	}
 
 	private static void setup(final SetupEvent event) {

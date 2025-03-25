@@ -17,6 +17,7 @@ public final class MessageHandler
 
 	public static void init() {
 		DEFAULT_CHANNEL.register(MoobloomVariantsSyncPacket.TYPE);
+		DEFAULT_CHANNEL.register(EntityAnimationsSyncPacket.TYPE);
 		DEFAULT_CHANNEL.register(TotemEffectPacket.TYPE);
 	}
 }

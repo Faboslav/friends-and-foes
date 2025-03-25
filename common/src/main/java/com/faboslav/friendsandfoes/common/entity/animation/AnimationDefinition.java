@@ -56,11 +56,7 @@ public record AnimationDefinition(String name, float lengthInSeconds, boolean lo
 		private final Map<String, List<AnimationChannel>> animationByBone = Maps.newHashMap();
 		private boolean looping;
 
-		public static AnimationDefinition.Builder withNameAndLength(String name, float lengthInSeconds) {
-			return new AnimationDefinition.Builder(name, lengthInSeconds);
-		}
-
-		private Builder(String name, float lengthInSeconds) {
+		public Builder(String name, float lengthInSeconds) {
 			this.name = name;
 			this.lengthInSeconds = lengthInSeconds;
 		}

@@ -3,26 +3,25 @@ package com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimationDefinition;
 import com.google.common.collect.MapMaker;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
-import com.mojang.logging.LogUtils;
-import com.mojang.serialization.JsonOps;
-import net.minecraft.resources.FileToIdConverter;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 //? >=1.21.3 {
-import com.faboslav.friendsandfoes.common.client.render.entity.state.GlareRenderState;
+import net.minecraft.resources.FileToIdConverter;
 //?} else {
-//?}
+/*import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.mojang.serialization.JsonOps;
+*///?}
 
 /**
  * A loader for entity animations written in JSON. You can also get parsed animations from this class.
@@ -40,13 +39,13 @@ public final class AnimationLoader extends SimpleJsonResourceReloadListener<Anim
 {
 	public static final AnimationLoader INSTANCE = new AnimationLoader();
 
-	private final Map<ResourceLocation, AnimationHolder> animations = new MapMaker().weakValues().concurrencyLevel(1).makeMap();
+	private Map<ResourceLocation, AnimationHolder> animations = new MapMaker().weakValues().concurrencyLevel(1).makeMap();
 	@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
 	private final List<AnimationHolder> strongHolderReferences = new ArrayList<>();
 
 	private AnimationLoader() {
 		//? >=1.21.4 {
-		super(AnimationParser.CODEC, FileToIdConverter.json("animations/entity"));
+		super(AnimationParser.CODEC, FileToIdConverter.json("friendsandfoes/animations/entity"));
 		//?} else {
 		/*super(new Gson(), "friendsandfoes/animations/entity");
 		*///?}
@@ -54,6 +53,10 @@ public final class AnimationLoader extends SimpleJsonResourceReloadListener<Anim
 
 	public Map<ResourceLocation, AnimationHolder> getAnimations() {
 		return animations;
+	}
+
+	public void setAnimations(Map<ResourceLocation, AnimationHolder> animations) {
+		this.animations = animations;
 	}
 
 	/**
@@ -75,28 +78,39 @@ public final class AnimationLoader extends SimpleJsonResourceReloadListener<Anim
 
 	@Override
 	//? >=1.21.3 {
-	protected void apply(Map<ResourceLocation, AnimationDefinition> animationJsons, ResourceManager resourceManager, ProfilerFiller profiler)
+	protected void apply(Map<ResourceLocation, AnimationDefinition> entityAnimations, ResourceManager resourceManager, ProfilerFiller profiler)
 	//?} else {
-	/*protected void apply(Map<ResourceLocation, JsonElement> animationJsons, ResourceManager resourceManager, ProfilerFiller profiler)
+	/*protected void apply(Map<ResourceLocation, JsonElement> entityAnimationsJson, ResourceManager resourceManager, ProfilerFiller profiler)
 	*///?}
 	{
+		//? <1.21.3 {
+		/*Map<ResourceLocation, AnimationDefinition> entityAnimations = new HashMap<>();
+
+		for (Map.Entry<ResourceLocation, JsonElement> entry : entityAnimationsJson.entrySet()) {
+			ResourceLocation resourceLocation = entry.getKey();
+			JsonElement animationDefinitionJson = entry.getValue();
+
+			AnimationDefinition animationDefinition = AnimationParser.CODEC.parse(JsonOps.INSTANCE, animationDefinitionJson).getOrThrow();
+
+			entityAnimations.put(resourceLocation, animationDefinition);
+		}
+		*///?}
+
+		apply(entityAnimations);
+	}
+
+	public void apply(Map<ResourceLocation, AnimationDefinition> entityAnimations) {
 		animations.values().forEach(AnimationHolder::unbind);
 		strongHolderReferences.clear();
 		int loaded = 0;
-		for (final var entry : animationJsons.entrySet()) {
+		for (final var entry : entityAnimations.entrySet()) {
 			try {
 				String animationName = entry.getKey().getPath().substring(entry.getKey().getPath().lastIndexOf('/') + 1);
 				final var animationHolder = getAnimationHolder(entry.getKey());
 				AnimationDefinition animation;
 
-				//? >=1.21.3 {
 				var parsedAnimation = entry.getValue();
 				animation = new AnimationDefinition(animationName, parsedAnimation.lengthInSeconds(), parsedAnimation.looping(), parsedAnimation.boneAnimations());
-				//?} else {
-				/*animation = AnimationParser.withName(animationName)
-					.parse(JsonOps.INSTANCE, entry.getValue())
-					.getOrThrow(JsonParseException::new);
-				*///?}
 				animationHolder.bind(animation);
 				strongHolderReferences.add(animationHolder);
 				loaded++;

@@ -1,10 +1,9 @@
 package com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json;
 
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimationDefinition;
-import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
 import java.util.Map;
 
 /**
@@ -19,8 +18,6 @@ import java.util.Map;
 public final class AnimationHolder
 {
 	public static final AnimationDefinition EMPTY_ANIMATION = new AnimationDefinition("empty", 0f, false, Map.of());
-
-	private static final Logger LOGGER = LogUtils.getLogger();
 
 	private final ResourceLocation key;
 	@Nullable
@@ -55,7 +52,7 @@ public final class AnimationHolder
 		if (result == null) {
 			if (!absentWarned) {
 				absentWarned = true;
-				LOGGER.warn("Missing entity animation {}", key);
+				FriendsAndFoes.getLogger().warn("Missing entity animation {}", key);
 			}
 			return EMPTY_ANIMATION;
 		}

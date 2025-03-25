@@ -132,54 +132,31 @@ public final class AnimationParser {
 	 * }
 	 * }
 	 */
-	public static final Codec<AnimationDefinition> CODEC = withName("");
-	/**
-	 * {@snippet lang = JSON :
-	 * {
-	 *   "length": 1.125,
-	 *   "loop": true,
-	 *   "animations": [
-	 *     {
-	 *       "bone": "head",
-	 *       "keyframes": [
-	 *         {
-	 *           "timestamp": 0.5,
-	 *           "target": [22.5, 0.0, 0.0],
-	 *           "interpolation": "minecraft:linear"
-	 *         }
-	 *       ]
-	 *     }
-	 *   ]
-	 * }
-	 * }
-	 */
-	public static Codec<AnimationDefinition> withName(String name) {
-		return RecordCodecBuilder.create(
-			instance -> instance.group(
-					Codec.FLOAT.fieldOf("length").forGetter(AnimationDefinition::lengthInSeconds),
-					Codec.BOOL.optionalFieldOf("loop", false).forGetter(AnimationDefinition::looping),
-					NAMED_CHANNEL_CODEC.listOf()
-						.<Map<String, List<AnimationChannel>>>xmap(
-							list -> {
-								final var result = new HashMap<String, List<AnimationChannel>>();
-								for (final var animation : list) {
-									result.computeIfAbsent(animation.key(), k -> new ArrayList<>()).add(animation.value());
+	public static final Codec<AnimationDefinition> CODEC = RecordCodecBuilder.create(
+		instance -> instance.group(
+				Codec.FLOAT.fieldOf("length").forGetter(AnimationDefinition::lengthInSeconds),
+				Codec.BOOL.optionalFieldOf("loop", false).forGetter(AnimationDefinition::looping),
+				NAMED_CHANNEL_CODEC.listOf()
+					.<Map<String, List<AnimationChannel>>>xmap(
+						list -> {
+							final var result = new HashMap<String, List<AnimationChannel>>();
+							for (final var animation : list) {
+								result.computeIfAbsent(animation.key(), k -> new ArrayList<>()).add(animation.value());
+							}
+							return result;
+						},
+						map -> {
+							final var result = new ArrayList<Pair<String, AnimationChannel>>();
+							for (final var entry : map.entrySet()) {
+								for (final var channel : entry.getValue()) {
+									result.add(Pair.of(entry.getKey(), channel));
 								}
-								return result;
-							},
-							map -> {
-								final var result = new ArrayList<Pair<String, AnimationChannel>>();
-								for (final var entry : map.entrySet()) {
-									for (final var channel : entry.getValue()) {
-										result.add(Pair.of(entry.getKey(), channel));
-									}
-								}
-								return result;
-							})
-						.fieldOf("animations")
-						.forGetter(AnimationDefinition::boneAnimations))
-				.apply(instance, (lengthInSeconds, looping, boneAnimations) -> new AnimationDefinition(name, lengthInSeconds, looping, boneAnimations)));
-	}
+							}
+							return result;
+						})
+					.fieldOf("animations")
+					.forGetter(AnimationDefinition::boneAnimations))
+			.apply(instance, (lengthInSeconds, looping, boneAnimations) -> new AnimationDefinition("", lengthInSeconds, looping, boneAnimations)));
 
 	private AnimationParser() {}
 

@@ -9,7 +9,6 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStructurePoolElements;
 import com.faboslav.friendsandfoes.common.util.CustomRaidMember;
 import com.faboslav.friendsandfoes.common.util.ServerWorldSpawnersUtil;
-import com.faboslav.friendsandfoes.common.util.UpdateChecker;
 import com.faboslav.friendsandfoes.common.world.spawner.IceologerSpawner;
 import com.faboslav.friendsandfoes.common.world.spawner.IllusionerSpawner;
 import com.faboslav.friendsandfoes.neoforge.init.FriendsAndFoesBiomeModifiers;
@@ -44,8 +43,6 @@ public final class FriendsAndFoesNeoForge
 {
 	public FriendsAndFoesNeoForge(IEventBus modEventBus) {
 		IEventBus eventBus = NeoForge.EVENT_BUS;
-
-		UpdateChecker.checkForNewUpdates();
 
 		FriendsAndFoes.init();
 		FriendsAndFoesBiomeModifiers.BIOME_MODIFIERS.register(modEventBus);

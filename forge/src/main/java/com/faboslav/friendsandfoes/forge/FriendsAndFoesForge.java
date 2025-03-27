@@ -1,18 +1,20 @@
-package com.faboslav.friendsandfoes.neoforge;
+package com.faboslav.friendsandfoes.forge;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.events.AddItemGroupEntriesEvent;
-import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
+import com.faboslav.friendsandfoes.common.events.RegisterVillagerTradesEvent;
+import com.faboslav.friendsandfoes.common.events.block.RegisterBlockSetTypeEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.*;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStructurePoolElements;
+import com.faboslav.friendsandfoes.common.init.registry.forge.ResourcefulRegistriesImpl;
 import com.faboslav.friendsandfoes.common.util.CustomRaidMember;
 import com.faboslav.friendsandfoes.common.util.ServerWorldSpawnersUtil;
 import com.faboslav.friendsandfoes.common.world.spawner.IceologerSpawner;
 import com.faboslav.friendsandfoes.common.world.spawner.IllusionerSpawner;
-import com.faboslav.friendsandfoes.neoforge.init.FriendsAndFoesBiomeModifiers;
-import com.faboslav.friendsandfoes.neoforge.mixin.FireBlockAccessor;
-import com.faboslav.friendsandfoes.neoforge.network.NeoForgeNetworking;
+import com.faboslav.friendsandfoes.forge.init.FriendsAndFoesBiomeModifiers;
+import com.faboslav.friendsandfoes.forge.mixin.FireBlockAccessor;
+import net.minecraft.block.BlockSetType;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.MobEntity;
@@ -20,48 +22,47 @@ import net.minecraft.registry.Registries;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.village.raid.Raid;
 import net.minecraft.world.dimension.DimensionTypes;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.fml.loading.FMLEnvironment;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.AddReloadListenerEvent;
-import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-import net.neoforged.neoforge.event.OnDatapackSyncEvent;
-import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
-import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
-import net.neoforged.neoforge.event.entity.SpawnPlacementRegisterEvent;
-import net.neoforged.neoforge.event.level.LevelEvent;
-import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
-import net.neoforged.neoforge.event.village.VillagerTradesEvent;
-import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.AddReloadListenerEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+import net.minecraftforge.event.OnDatapackSyncEvent;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
+import net.minecraftforge.event.level.LevelEvent;
+import net.minecraftforge.event.server.ServerAboutToStartEvent;
+import net.minecraftforge.event.village.VillagerTradesEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 
+@SuppressWarnings({"all", "deprecation", "removal"})
 @Mod(FriendsAndFoes.MOD_ID)
-public final class FriendsAndFoesNeoForge
+public final class FriendsAndFoesForge
 {
-	public FriendsAndFoesNeoForge(IEventBus modEventBus) {
-		IEventBus eventBus = NeoForge.EVENT_BUS;
+	public FriendsAndFoesForge() {
+		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+		IEventBus eventBus = MinecraftForge.EVENT_BUS;
 
 		FriendsAndFoes.init();
 		FriendsAndFoesBiomeModifiers.BIOME_MODIFIERS.register(modEventBus);
 
 		if (FMLEnvironment.dist == Dist.CLIENT) {
-			FriendsAndFoesNeoForgeClient.init(modEventBus, eventBus);
+			FriendsAndFoesForgeClient.init(modEventBus, eventBus);
 		}
 
-		eventBus.addListener(FriendsAndFoesNeoForge::initSpawners);
-		eventBus.addListener(FriendsAndFoesNeoForge::onServerAboutToStartEvent);
-		eventBus.addListener(FriendsAndFoesNeoForge::onAddVillagerTrades);
-		eventBus.addListener(FriendsAndFoesNeoForge::onRegisterBrewingRecipes);
-		eventBus.addListener(FriendsAndFoesNeoForge::onAddReloadListeners);
-		eventBus.addListener(FriendsAndFoesNeoForge::onDatapackSync);
-
-		modEventBus.addListener(FriendsAndFoesNeoForge::onSetup);
-		modEventBus.addListener(FriendsAndFoesNeoForge::onNetworkSetup);
-		modEventBus.addListener(FriendsAndFoesNeoForge::onRegisterAttributes);
-		modEventBus.addListener(FriendsAndFoesNeoForge::onRegisterSpawnRestrictions);
-		modEventBus.addListener(FriendsAndFoesNeoForge::onAddItemGroupEntries);
+		eventBus.addListener(FriendsAndFoesForge::initSpawners);
+		eventBus.addListener(FriendsAndFoesForge::onServerAboutToStartEvent);
+		eventBus.addListener(FriendsAndFoesForge::onAddVillagerTrades);
+		eventBus.addListener(FriendsAndFoesForge::onAddReloadListeners);
+		eventBus.addListener(FriendsAndFoesForge::onDatapackSync);
+		modEventBus.addListener(FriendsAndFoesForge::onSetup);
+		modEventBus.addListener(FriendsAndFoesForge::onRegisterAttributes);
+		modEventBus.addListener(FriendsAndFoesForge::onRegisterSpawnRestrictions);
+		modEventBus.addListener(FriendsAndFoesForge::onAddItemGroupEntries);
 	}
 
 	private static void onSetup(final FMLCommonSetupEvent event) {
@@ -86,6 +87,7 @@ public final class FriendsAndFoesNeoForge
 				);
 			}
 
+			RegisterBlockSetTypeEvent.EVENT.invoke(new RegisterBlockSetTypeEvent(BlockSetType::register));
 			RegisterFlammabilityEvent.EVENT.invoke(new RegisterFlammabilityEvent((item, igniteOdds, burnOdds) ->
 				((FireBlockAccessor) Blocks.FIRE).invokeRegisterFlammableBlock(item, igniteOdds, burnOdds)));
 		});
@@ -105,16 +107,8 @@ public final class FriendsAndFoesNeoForge
 		}
 	}
 
-	public static void onNetworkSetup(RegisterPayloadHandlersEvent event) {
-		NeoForgeNetworking.setupNetwork(event);
-	}
-
 	private static void onAddVillagerTrades(VillagerTradesEvent event) {
 		RegisterVillagerTradesEvent.EVENT.invoke(new RegisterVillagerTradesEvent(event.getType(), (i, listing) -> event.getTrades().get(i.intValue()).add(listing)));
-	}
-
-	private static void onRegisterBrewingRecipes(RegisterBrewingRecipesEvent event) {
-		com.faboslav.friendsandfoes.common.events.item.RegisterBrewingRecipesEvent.EVENT.invoke(new com.faboslav.friendsandfoes.common.events.item.RegisterBrewingRecipesEvent(event.getBuilder()::registerPotionRecipe));
 	}
 
 	private static void onAddItemGroupEntries(BuildCreativeModeTabContentsEvent event) {
@@ -133,7 +127,7 @@ public final class FriendsAndFoesNeoForge
 	}
 
 	private static void onRegisterSpawnRestrictions(SpawnPlacementRegisterEvent event) {
-		RegisterEntitySpawnRestrictionsEvent.EVENT.invoke(new RegisterEntitySpawnRestrictionsEvent(FriendsAndFoesNeoForge.registerEntitySpawnRestriction(event)));
+		RegisterEntitySpawnRestrictionsEvent.EVENT.invoke(new RegisterEntitySpawnRestrictionsEvent(FriendsAndFoesForge.registerEntitySpawnRestriction(event)));
 	}
 
 	private static RegisterEntitySpawnRestrictionsEvent.Registrar registerEntitySpawnRestriction(
@@ -154,7 +148,7 @@ public final class FriendsAndFoesNeoForge
 	private static void initSpawners(final LevelEvent.Load event) {
 		if (
 			event.getLevel().isClient()
-			|| ((ServerWorld) event.getLevel()).getDimensionEntry() != DimensionTypes.OVERWORLD) {
+			|| ((ServerWorld) event.getLevel()).getDimensionKey() != DimensionTypes.OVERWORLD) {
 			return;
 		}
 

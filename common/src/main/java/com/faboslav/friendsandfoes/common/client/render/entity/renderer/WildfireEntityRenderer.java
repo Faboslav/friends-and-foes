@@ -5,8 +5,6 @@ import com.faboslav.friendsandfoes.common.client.render.entity.model.WildfireEnt
 import com.faboslav.friendsandfoes.common.entity.WildfireEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.core.BlockPos;
@@ -14,11 +12,8 @@ import net.minecraft.resources.ResourceLocation;
 
 //? >=1.21.3 {
 import com.faboslav.friendsandfoes.common.client.render.entity.state.WildfireRenderState;
-import net.minecraft.world.entity.monster.ElderGuardian;
-import net.minecraft.world.entity.monster.Guardian;
 //?}
 
-@Environment(EnvType.CLIENT)
 @SuppressWarnings({"rawtypes", "unchecked"})
 //? >=1.21.3 {
 public class WildfireEntityRenderer extends MobRenderer<WildfireEntity, WildfireRenderState, WildfireEntityModel>

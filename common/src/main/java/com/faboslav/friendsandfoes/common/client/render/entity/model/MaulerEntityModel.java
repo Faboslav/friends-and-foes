@@ -3,8 +3,6 @@ package com.faboslav.friendsandfoes.common.client.render.entity.model;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.KeyframeModelAnimator;
 import com.faboslav.friendsandfoes.common.entity.MaulerEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.MaulerAnimations;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -20,7 +18,6 @@ import com.faboslav.friendsandfoes.common.client.render.entity.state.MaulerRende
 /*import net.minecraft.client.model.HierarchicalModel;
 *///?}
 
-@Environment(EnvType.CLIENT)
 //? >=1.21.3 {
 public final class MaulerEntityModel extends EntityModel<MaulerRenderState>
 //?} else {

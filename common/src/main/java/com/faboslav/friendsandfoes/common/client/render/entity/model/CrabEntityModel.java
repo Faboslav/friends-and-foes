@@ -3,8 +3,6 @@ package com.faboslav.friendsandfoes.common.client.render.entity.model;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.KeyframeModelAnimator;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.ModelPartModelAnimator;
 import com.faboslav.friendsandfoes.common.entity.CrabEntity;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -20,7 +18,6 @@ import com.faboslav.friendsandfoes.common.client.render.entity.state.CrabRenderS
 /*import net.minecraft.client.model.HierarchicalModel;
  *///?}
 
-@Environment(EnvType.CLIENT)
 //? >=1.21.3 {
 public class CrabEntityModel extends EntityModel<CrabRenderState>
 //?} else {

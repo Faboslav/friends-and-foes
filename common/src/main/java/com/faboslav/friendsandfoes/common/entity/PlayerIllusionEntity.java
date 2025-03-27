@@ -2,8 +2,6 @@ package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.client.resources.DefaultPlayerSkin;
@@ -167,12 +165,10 @@ public final class PlayerIllusionEntity extends Mob
 		return true;
 	}
 
-	@Environment(EnvType.CLIENT)
 	public boolean isPartVisible(PlayerModelPart modelPart) {
 		return (this.getEntityData().get(PLAYER_MODEL_PARTS) & modelPart.getMask()) == modelPart.getMask();
 	}
 
-	@Environment(EnvType.CLIENT)
 	public PlayerSkin getSkinTextures() {
 		PlayerInfo playerListEntry = this.getPlayerListEntry();
 
@@ -189,12 +185,10 @@ public final class PlayerIllusionEntity extends Mob
 		return DefaultPlayerSkin.get(uuid);
 	}
 
-	@Environment(EnvType.CLIENT)
 	public Vec3 lerpVelocity(float tickDelta) {
 		return Vec3.ZERO.lerp(this.getDeltaMovement(), tickDelta);
 	}
 
-	@Environment(EnvType.CLIENT)
 	@Nullable
 	private PlayerInfo getPlayerListEntry() {
 		if (this.playerListEntry == null) {

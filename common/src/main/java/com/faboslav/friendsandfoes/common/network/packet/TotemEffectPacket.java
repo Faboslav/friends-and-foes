@@ -3,9 +3,10 @@ package com.faboslav.friendsandfoes.common.network.packet;
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesItems;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesParticleTypes;
-import com.faboslav.friendsandfoes.common.network.Packet;
-import com.faboslav.friendsandfoes.common.network.base.ClientboundPacketType;
-import com.faboslav.friendsandfoes.common.network.base.PacketType;
+import com.faboslav.friendsandfoes.common.network.MessageHandler;
+import com.teamresourceful.resourcefullib.common.network.Packet;
+import com.teamresourceful.resourcefullib.common.network.base.ClientboundPacketType;
+import com.teamresourceful.resourcefullib.common.network.base.PacketType;
 import com.faboslav.friendsandfoes.common.util.TotemUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -15,14 +16,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 
-/**
- * Network related is code based on The Bumblezone/Resourceful Lib mods with permissions from the authors
- *
- * @author TelepathicGrunt
- * <a href="https://github.com/TelepathicGrunt/Bumblezone">https://github.com/TelepathicGrunt/Bumblezone</a>
- * @author ThatGravyBoat
- * <a href="https://github.com/Team-Resourceful/ResourcefulLib">https://github.com/Team-Resourceful/ResourcefulLib</a>
- */
 public record TotemEffectPacket(Item item, int entityId) implements Packet<TotemEffectPacket>
 {
 	public static final ResourceLocation ID = FriendsAndFoes.makeID("totem_effect_packet");
@@ -41,11 +34,6 @@ public record TotemEffectPacket(Item item, int entityId) implements Packet<Totem
 
 	public static class Handler implements ClientboundPacketType<TotemEffectPacket>
 	{
-		@Override
-		public Class<TotemEffectPacket> type() {
-			return TotemEffectPacket.class;
-		}
-
 		@Override
 		public ResourceLocation id() {
 			return ID;

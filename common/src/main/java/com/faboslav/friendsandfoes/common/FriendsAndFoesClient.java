@@ -8,12 +8,9 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityRenderers;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesParticleTypes;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 
 public final class FriendsAndFoesClient
 {
-	@Environment(EnvType.CLIENT)
 	public static void init() {
 		RegisterParticlesEvent.EVENT.addListener(FriendsAndFoesParticleTypes::registerParticlesEvent);
 		RegisterEntityRenderersEvent.EVENT.addListener(FriendsAndFoesEntityRenderers::registerEntityRenderers);

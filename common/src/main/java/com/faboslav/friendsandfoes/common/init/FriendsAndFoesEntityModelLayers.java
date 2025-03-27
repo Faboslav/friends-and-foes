@@ -3,8 +3,6 @@ package com.faboslav.friendsandfoes.common.init;
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.*;
 import com.faboslav.friendsandfoes.common.events.client.RegisterEntityLayersEvent;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.model.CowModel;
 import net.minecraft.client.model.IllagerModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -13,7 +11,6 @@ import net.minecraft.client.model.geom.ModelLayers;
 /**
  * @see ModelLayers
  */
-@Environment(EnvType.CLIENT)
 public final class FriendsAndFoesEntityModelLayers
 {
 	public static final ModelLayerLocation COPPER_GOLEM_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("copper_golem"), "main");

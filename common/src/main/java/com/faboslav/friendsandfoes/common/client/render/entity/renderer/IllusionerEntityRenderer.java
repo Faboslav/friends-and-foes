@@ -3,8 +3,6 @@ package com.faboslav.friendsandfoes.common.client.render.entity.renderer;
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.model.IllagerModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
@@ -17,7 +15,6 @@ import net.minecraft.world.entity.monster.SpellcasterIllager;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.IllusionerRenderState;
 //?}
 
-@Environment(EnvType.CLIENT)
 @SuppressWarnings({"rawtypes", "unchecked"})
 //? >=1.21.3 {
 public class IllusionerEntityRenderer<T extends SpellcasterIllager> extends IllagerRenderer<T, IllusionerRenderState>

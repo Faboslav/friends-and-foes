@@ -1,8 +1,6 @@
 package com.faboslav.friendsandfoes.common.events.client;
 
 import com.faboslav.friendsandfoes.common.events.base.EventHandler;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
@@ -16,7 +14,6 @@ import java.util.function.BiConsumer;
  * @author ThatGravyBoat
  * <a href="https://github.com/Team-Resourceful/ResourcefulLib">https://github.com/Team-Resourceful/ResourcefulLib</a>
  */
-@Environment(EnvType.CLIENT)
 public record RegisterRenderLayersEvent(BiConsumer<Fluid, RenderType> fluid, BiConsumer<Block, RenderType> block)
 {
 	public static final EventHandler<RegisterRenderLayersEvent> EVENT = new EventHandler<>();

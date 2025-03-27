@@ -1,11 +1,8 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.context;
 
 import com.faboslav.friendsandfoes.common.util.animation.AnimationMath;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import org.joml.Vector3f;
 
-@Environment(EnvType.CLIENT)
 public final class ModelPartAnimationContext
 {
 	private final int initialTick;

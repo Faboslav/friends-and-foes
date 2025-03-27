@@ -4,8 +4,6 @@ import com.google.common.collect.Maps;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 
 /**
  * Animation loading related code is based on NeoForge code
@@ -49,7 +47,6 @@ public record AnimationDefinition(String name, float lengthInSeconds, boolean lo
 		return this.boneAnimations;
 	}
 
-	@Environment(EnvType.CLIENT)
 	public static class Builder {
 		private final String name;
 		private final float lengthInSeconds;

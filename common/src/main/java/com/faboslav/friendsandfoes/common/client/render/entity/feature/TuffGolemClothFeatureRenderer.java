@@ -3,8 +3,6 @@ package com.faboslav.friendsandfoes.common.client.render.entity.feature;
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.TuffGolemEntityModel;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
@@ -16,7 +14,6 @@ import com.faboslav.friendsandfoes.common.client.render.entity.state.TuffGolemRe
 /*import com.faboslav.friendsandfoes.common.entity.TuffGolemEntity;
 *///?}
 
-@Environment(EnvType.CLIENT)
 //? >=1.21.3 {
 public final class TuffGolemClothFeatureRenderer extends RenderLayer<TuffGolemRenderState, TuffGolemEntityModel>
 //?} else {

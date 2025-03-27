@@ -4,20 +4,16 @@ import com.faboslav.friendsandfoes.common.client.render.entity.renderer.*;
 import com.faboslav.friendsandfoes.common.entity.PlayerIllusionEntity;
 import com.faboslav.friendsandfoes.common.events.client.RegisterEntityRenderersEvent;
 import com.google.common.collect.ImmutableMap;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.resources.PlayerSkin;
-import net.minecraft.world.entity.player.Player;
 
 import java.util.Map;
 
 /**
  * @see EntityRenderers
  */
-@Environment(EnvType.CLIENT)
 @SuppressWarnings({"rawtypes", "unchecked"})
 public final class FriendsAndFoesEntityRenderers
 {

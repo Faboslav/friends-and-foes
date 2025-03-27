@@ -5,8 +5,6 @@ import com.faboslav.friendsandfoes.common.client.render.entity.model.MaulerEntit
 import com.faboslav.friendsandfoes.common.entity.MaulerEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
 import com.google.common.collect.ImmutableMap;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -16,7 +14,6 @@ import java.util.Map;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.MaulerRenderState;
 //?}
 
-@Environment(EnvType.CLIENT)
 @SuppressWarnings({"rawtypes", "unchecked"})
 //? >=1.21.3 {
 public class MaulerEntityRenderer extends MobRenderer<MaulerEntity, MaulerRenderState, MaulerEntityModel>

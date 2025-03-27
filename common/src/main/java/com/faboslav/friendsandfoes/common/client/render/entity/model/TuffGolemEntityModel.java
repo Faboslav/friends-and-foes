@@ -1,8 +1,6 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.model;
 
 import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.KeyframeModelAnimator;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -19,7 +17,6 @@ import com.faboslav.friendsandfoes.common.client.render.entity.state.TuffGolemRe
 import com.faboslav.friendsandfoes.common.entity.TuffGolemEntity;
 *///?}
 
-@Environment(EnvType.CLIENT)
 //? >=1.21.3 {
 public final class TuffGolemEntityModel extends EntityModel<TuffGolemRenderState>
 //?} else {

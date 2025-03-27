@@ -1,8 +1,7 @@
 package com.faboslav.friendsandfoes.common.modcompat;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-import com.faboslav.friendsandfoes.common.platform.Platform;
-import dev.architectury.injectables.annotations.ExpectPlatform;
+import com.faboslav.friendsandfoes.common.platform.PlatformHooks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,21 +23,16 @@ public final class ModChecker
 		String modId = "";
 
 		try {
-			setupPlatformModCompat();
+			PlatformHooks.PLATFORM_COMPAT.setupPlatformModCompat();
 		} catch (Throwable e) {
 			FriendsAndFoes.getLogger().error("Failed to setup compat with " + modId);
 			e.printStackTrace();
 		}
 	}
 
-	@ExpectPlatform
-	public static void setupPlatformModCompat() {
-		throw new AssertionError();
-	}
-
 	public static void loadModCompat(String modId, Supplier<ModCompat> loader) {
 		try {
-			if (Platform.isModLoaded(modId)) {
+			if (PlatformHooks.PLATFORM_HELPER.isModLoaded(modId)) {
 				ModCompat compat = loader.get();
 				if (compat.compatTypes().contains(ModCompat.Type.CUSTOM_EQUIPMENT_SLOTS)) {
 					CUSTOM_EQUIPMENT_SLOTS_COMPATS.add(compat);

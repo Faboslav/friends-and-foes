@@ -5,8 +5,6 @@ import com.faboslav.friendsandfoes.common.client.render.entity.model.CopperGolem
 import com.faboslav.friendsandfoes.common.entity.CopperGolemEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
 import com.google.common.collect.ImmutableMap;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -17,7 +15,6 @@ import java.util.Map;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.CopperGolemRenderState;
 //?}
 
-@Environment(EnvType.CLIENT)
 @SuppressWarnings({"rawtypes", "unchecked"})
 //? >=1.21.3 {
 public class CopperGolemEntityRenderer extends MobRenderer<CopperGolemEntity, CopperGolemRenderState, CopperGolemEntityModel>

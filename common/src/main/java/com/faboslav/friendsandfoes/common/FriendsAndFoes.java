@@ -9,10 +9,10 @@ import com.faboslav.friendsandfoes.common.events.item.RegisterBrewingRecipesEven
 import com.faboslav.friendsandfoes.common.events.lifecycle.*;
 import com.faboslav.friendsandfoes.common.init.*;
 import com.faboslav.friendsandfoes.common.modcompat.ModChecker;
+import com.faboslav.friendsandfoes.common.network.MessageHandler;
 import com.faboslav.friendsandfoes.common.network.packet.EntityAnimationsSyncPacket;
-import com.faboslav.friendsandfoes.common.network.packet.MessageHandler;
 import com.faboslav.friendsandfoes.common.network.packet.MoobloomVariantsSyncPacket;
-import com.faboslav.friendsandfoes.common.platform.BiomeModifications;
+import com.faboslav.friendsandfoes.common.platform.PlatformHooks;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,7 +89,7 @@ public final class FriendsAndFoes
 	public static void lateInit() {
 		FriendsAndFoesBlockEntityTypes.lateInit();
 		FriendsAndFoesItems.registerCompostableItems();
-		BiomeModifications.addButtercupFeature();
+		PlatformHooks.BIOME_MODIFICATIONS.addButtercupFeature();
 	}
 
 	private static void registerServerDataListeners(final RegisterReloadListenerEvent event) {

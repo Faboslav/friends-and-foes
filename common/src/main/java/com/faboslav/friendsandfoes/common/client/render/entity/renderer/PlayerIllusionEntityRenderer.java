@@ -4,8 +4,6 @@ import com.faboslav.friendsandfoes.common.client.render.entity.feature.PlayerIll
 import com.faboslav.friendsandfoes.common.client.render.entity.model.PlayerIllusionEntityModel;
 import com.faboslav.friendsandfoes.common.entity.PlayerIllusionEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -23,7 +21,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.client.renderer.entity.state.PlayerRenderState;
 //?}
 
-@Environment(EnvType.CLIENT)
 @SuppressWarnings({"rawtypes", "unchecked"})
 //? >=1.21.3 {
 public final class PlayerIllusionEntityRenderer extends LivingEntityRenderer<PlayerIllusionEntity, PlayerRenderState, PlayerIllusionEntityModel>

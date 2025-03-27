@@ -4,10 +4,11 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.api.MoobloomVariant;
 import com.faboslav.friendsandfoes.common.api.MoobloomVariantManager;
 import com.faboslav.friendsandfoes.common.events.lifecycle.DatapackSyncEvent;
-import com.faboslav.friendsandfoes.common.network.Packet;
-import com.faboslav.friendsandfoes.common.network.base.ClientboundPacketType;
-import com.faboslav.friendsandfoes.common.network.base.PacketType;
+import com.faboslav.friendsandfoes.common.network.MessageHandler;
 import com.mojang.serialization.DataResult;
+import com.teamresourceful.resourcefullib.common.network.Packet;
+import com.teamresourceful.resourcefullib.common.network.base.ClientboundPacketType;
+import com.teamresourceful.resourcefullib.common.network.base.PacketType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtOps;
@@ -34,11 +35,6 @@ public record MoobloomVariantsSyncPacket(
 
 	public static class Handler implements ClientboundPacketType<MoobloomVariantsSyncPacket>
 	{
-		@Override
-		public Class<MoobloomVariantsSyncPacket> type() {
-			return MoobloomVariantsSyncPacket.class;
-		}
-
 		@Override
 		public ResourceLocation id() {
 			return ID;

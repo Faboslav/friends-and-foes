@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.fabric.world.processor;
 
-import com.faboslav.friendsandfoes.common.init.fabric.FriendsAndFoesStructureProcessorTypesImpl;
 import com.faboslav.friendsandfoes.common.util.world.processor.IceologerCabinArmorStandProcessorHelper;
+import com.faboslav.friendsandfoes.fabric.platform.ProcessorTypes;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelReader;
@@ -55,6 +55,6 @@ public final class IceologerCabinArmorStandProcessor extends StructureEntityProc
 
 	@Override
 	protected StructureProcessorType<?> getType() {
-		return FriendsAndFoesStructureProcessorTypesImpl.ICEOLOGER_CABIN_ARMOR_STAND_PROCESSOR.get();
+		return ProcessorTypes.ICEOLOGER_CABIN_ARMOR_STAND_PROCESSOR.get();
 	}
 }

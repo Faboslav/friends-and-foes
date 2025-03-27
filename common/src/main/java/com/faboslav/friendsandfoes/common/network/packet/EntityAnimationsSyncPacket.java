@@ -5,9 +5,10 @@ import com.faboslav.friendsandfoes.common.entity.animation.AnimationDefinition;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationLoader;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationParser;
 import com.faboslav.friendsandfoes.common.events.lifecycle.DatapackSyncEvent;
-import com.faboslav.friendsandfoes.common.network.Packet;
-import com.faboslav.friendsandfoes.common.network.base.ClientboundPacketType;
-import com.faboslav.friendsandfoes.common.network.base.PacketType;
+import com.faboslav.friendsandfoes.common.network.MessageHandler;
+import com.teamresourceful.resourcefullib.common.network.Packet;
+import com.teamresourceful.resourcefullib.common.network.base.ClientboundPacketType;
+import com.teamresourceful.resourcefullib.common.network.base.PacketType;
 import com.mojang.serialization.DataResult;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -41,11 +42,13 @@ public record EntityAnimationsSyncPacket(Map<ResourceLocation, AnimationDefiniti
 
 	public static class Handler implements ClientboundPacketType<EntityAnimationsSyncPacket>
 	{
+		// TODO check if this is missing somewhere
+		/*
 		@Override
 		public Class<EntityAnimationsSyncPacket> type() {
 			return EntityAnimationsSyncPacket.class;
 		}
-
+		*/
 		@Override
 		public ResourceLocation id() {
 			return ID;

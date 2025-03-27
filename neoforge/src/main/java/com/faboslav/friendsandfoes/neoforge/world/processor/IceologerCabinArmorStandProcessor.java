@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.neoforge.world.processor;
 
-import com.faboslav.friendsandfoes.common.init.neoforge.FriendsAndFoesStructureProcessorTypesImpl;
 import com.faboslav.friendsandfoes.common.util.world.processor.IceologerCabinArmorStandProcessorHelper;
+import com.faboslav.friendsandfoes.neoforge.platform.ProcessorTypes;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelReader;
@@ -54,6 +54,6 @@ public final class IceologerCabinArmorStandProcessor extends StructureProcessor
 
 	@Override
 	protected StructureProcessorType<?> getType() {
-		return FriendsAndFoesStructureProcessorTypesImpl.ICEOLOGER_CABIN_ARMOR_STAND_PROCESSOR.get();
+		return ProcessorTypes.ILLUSIONER_SHACK_ITEM_FRAME_PROCESSOR.get();
 	}
 }

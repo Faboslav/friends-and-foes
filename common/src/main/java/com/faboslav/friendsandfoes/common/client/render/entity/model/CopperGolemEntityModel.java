@@ -7,8 +7,6 @@ import com.faboslav.friendsandfoes.common.entity.CopperGolemEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimationState;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
 import com.faboslav.friendsandfoes.common.entity.pose.CopperGolemEntityPose;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -24,7 +22,6 @@ import com.faboslav.friendsandfoes.common.client.render.entity.state.CopperGolem
 /*import net.minecraft.client.model.HierarchicalModel;
 *///?}
 
-@Environment(EnvType.CLIENT)
 //? >=1.21.3 {
 public class CopperGolemEntityModel extends EntityModel<CopperGolemRenderState>
 //?} else {

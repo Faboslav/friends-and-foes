@@ -1,8 +1,6 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.feature;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.CowModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -25,7 +23,6 @@ import com.faboslav.friendsandfoes.common.client.render.entity.state.MoobloomRen
 /*import com.faboslav.friendsandfoes.common.entity.MoobloomEntity;
 *///?}
 
-@Environment(EnvType.CLIENT)
 //? >=1.21.3 {
 public final class MoobloomFlowerFeatureRenderer extends RenderLayer<MoobloomRenderState, CowModel>
 //?} else {

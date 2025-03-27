@@ -4,8 +4,6 @@ import com.faboslav.friendsandfoes.common.client.render.entity.animation.animato
 import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.ModelPartModelAnimator;
 import com.faboslav.friendsandfoes.common.entity.GlareEntity;
 import com.faboslav.friendsandfoes.common.util.animation.AnimationMath;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -23,7 +21,6 @@ import com.faboslav.friendsandfoes.common.client.render.entity.state.GlareRender
 /*import net.minecraft.client.model.HierarchicalModel;
  *///?}
 
-@Environment(EnvType.CLIENT)
 //? >=1.21.3 {
 public class GlareEntityModel extends EntityModel<GlareRenderState>
 //?} else {

@@ -1,11 +1,8 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.animation.animator;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.model.geom.ModelPart;
 import org.joml.Vector3f;
 
-@Environment(EnvType.CLIENT)
 public final class ModelPartAnimator
 {
 	public static void setXPosition(ModelPart modelPart, float x) {

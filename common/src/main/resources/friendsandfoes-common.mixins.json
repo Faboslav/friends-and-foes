@@ -48,8 +48,6 @@
 		"ZombieHorseEntityMixin"
 	],
 	"client": [
-		"ClientCommonNetworkHandlerAccessor",
-		"ClientPlayNetworkHandlerMixin",
 		"EntityRenderDispatcherMixin",
 		"IntegratedServerLoaderMixin",
 		"ModelPartAccessor"

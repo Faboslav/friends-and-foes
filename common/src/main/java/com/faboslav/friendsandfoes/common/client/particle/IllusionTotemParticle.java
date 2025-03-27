@@ -1,7 +1,5 @@
 package com.faboslav.friendsandfoes.common.client.particle;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
@@ -9,7 +7,6 @@ import net.minecraft.client.particle.SimpleAnimatedParticle;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.SimpleParticleType;
 
-@Environment(EnvType.CLIENT)
 public final class IllusionTotemParticle extends SimpleAnimatedParticle
 {
 	IllusionTotemParticle(
@@ -38,7 +35,6 @@ public final class IllusionTotemParticle extends SimpleAnimatedParticle
 		}
 	}
 
-	@Environment(EnvType.CLIENT)
 	public static class Factory implements ParticleProvider<SimpleParticleType>
 	{
 		private final SpriteSet spriteProvider;

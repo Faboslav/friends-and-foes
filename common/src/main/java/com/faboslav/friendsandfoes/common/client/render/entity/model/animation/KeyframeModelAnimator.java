@@ -6,8 +6,6 @@ import com.faboslav.friendsandfoes.common.entity.animation.animator.context.Keyf
 import com.faboslav.friendsandfoes.common.entity.animation.AnimationDefinition;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimationState;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import org.joml.Vector3f;
 
 import java.util.*;
@@ -18,7 +16,6 @@ import net.minecraft.client.model.EntityModel;
 /*import net.minecraft.client.model.HierarchicalModel;
 *///?}
 
-@Environment(EnvType.CLIENT)
 public final class KeyframeModelAnimator
 {
 	private static final Vector3f TEMP = new Vector3f();

@@ -4,8 +4,6 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.feature.MoobloomFlowerFeatureRenderer;
 import com.faboslav.friendsandfoes.common.entity.MoobloomEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.model.CowModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
@@ -17,7 +15,6 @@ import com.faboslav.friendsandfoes.common.client.render.entity.state.MoobloomRen
 /*import net.minecraft.client.renderer.entity.MobRenderer;
 *///?}
 
-@Environment(EnvType.CLIENT)
 @SuppressWarnings({"rawtypes", "unchecked"})
 //? >=1.21.3 {
 public final class MoobloomEntityRenderer extends AgeableMobRenderer<MoobloomEntity, MoobloomRenderState, CowModel>

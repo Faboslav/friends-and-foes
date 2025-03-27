@@ -2,8 +2,6 @@ package com.faboslav.friendsandfoes.common.client.render.entity.feature;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
@@ -21,7 +19,6 @@ import com.faboslav.friendsandfoes.common.client.render.entity.model.TuffGolemEn
 import net.minecraft.client.model.EntityModel;
 *///?}
 
-@Environment(EnvType.CLIENT)
 //? >=1.21.3 {
 public final class TuffGolemHeldItemFeatureRenderer extends RenderLayer<TuffGolemRenderState, TuffGolemEntityModel>
 //?} else {

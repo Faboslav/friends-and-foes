@@ -3,8 +3,6 @@ package com.faboslav.friendsandfoes.common.client.render.entity.feature;
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.GlareEntityModel;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
@@ -17,7 +15,6 @@ import com.faboslav.friendsandfoes.common.client.render.entity.state.GlareRender
 /*import com.faboslav.friendsandfoes.common.entity.GlareEntity;
 *///?}
 
-@Environment(EnvType.CLIENT)
 //? >=1.21.3 {
 public final class GlareFlowerFeatureRenderer extends RenderLayer<GlareRenderState, GlareEntityModel>
 //?} else {

@@ -9,8 +9,6 @@ import com.faboslav.friendsandfoes.common.events.client.RegisterRenderLayersEven
 import com.faboslav.friendsandfoes.common.events.lifecycle.RegisterFlammabilityEvent;
 import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistries;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -93,7 +91,6 @@ public final class FriendsAndFoesBlocks
 		 *///?}
 	}
 
-	@Environment(EnvType.CLIENT)
 	public static void registerRenderLayers(RegisterRenderLayersEvent event) {
 		event.register(
 			RenderType.cutout(),

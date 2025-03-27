@@ -4,8 +4,6 @@ package com.faboslav.friendsandfoes.common.client.render.entity.feature;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.PlayerIllusionEntityModel;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerCapeModel;
 import net.minecraft.client.model.geom.EntityModelSet;
@@ -24,7 +22,6 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.equipment.Equippable;
 
-@Environment(EnvType.CLIENT)
 public class PlayerIllusionCapeLayer extends RenderLayer<PlayerRenderState, PlayerIllusionEntityModel>
 {
 	private final HumanoidModel<PlayerRenderState> model;
@@ -84,8 +81,6 @@ import com.faboslav.friendsandfoes.common.entity.PlayerIllusionEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
@@ -98,7 +93,6 @@ import net.minecraft.world.entity.player.PlayerModelPart;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
-@Environment(EnvType.CLIENT)
 public class PlayerIllusionCapeLayer extends RenderLayer<PlayerIllusionEntity, PlayerIllusionEntityModel<PlayerIllusionEntity>>
 {
 	public PlayerIllusionCapeLayer(RenderLayerParent<PlayerIllusionEntity, PlayerIllusionEntityModel<PlayerIllusionEntity>> renderer) {

@@ -6,7 +6,6 @@ import com.faboslav.friendsandfoes.common.events.lifecycle.*;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.util.CustomRaidMember;
 import com.faboslav.friendsandfoes.common.util.ServerWorldSpawnersUtil;
-import com.faboslav.friendsandfoes.common.util.UpdateChecker;
 import com.faboslav.friendsandfoes.common.world.spawner.IceologerSpawner;
 import com.faboslav.friendsandfoes.common.world.spawner.IllusionerSpawner;
 import com.faboslav.friendsandfoes.forge.init.FriendsAndFoesBiomeModifiers;
@@ -36,8 +35,6 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 public final class FriendsAndFoesForge
 {
 	public FriendsAndFoesForge() {
-		UpdateChecker.checkForNewUpdates();
-
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 		IEventBus eventBus = MinecraftForge.EVENT_BUS;
 

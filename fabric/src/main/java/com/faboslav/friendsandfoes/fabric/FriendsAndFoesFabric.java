@@ -7,7 +7,6 @@ import com.faboslav.friendsandfoes.common.events.RegisterVillagerTradesEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.*;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStructurePoolElements;
 import com.faboslav.friendsandfoes.common.util.ServerWorldSpawnersUtil;
-import com.faboslav.friendsandfoes.common.util.UpdateChecker;
 import com.faboslav.friendsandfoes.common.world.spawner.IceologerSpawner;
 import com.faboslav.friendsandfoes.common.world.spawner.IllusionerSpawner;
 import com.faboslav.friendsandfoes.fabric.events.FabricReloadListener;
@@ -42,7 +41,6 @@ public final class FriendsAndFoesFabric implements ModInitializer
 {
 	@Override
 	public void onInitialize() {
-		UpdateChecker.checkForNewUpdates();
 		FriendsAndFoes.init();
 		addCustomStructurePoolElements();
 		initEvents();

@@ -54,7 +54,6 @@
 		"ZombieHorseEntityMixin"
 	],
 	"client": [
-		"ClientPlayNetworkHandlerMixin",
 		"EntityRenderDispatcherMixin",
 		"IllusionerEntityRendererMixin",
 		"IntegratedServerLoaderMixin",

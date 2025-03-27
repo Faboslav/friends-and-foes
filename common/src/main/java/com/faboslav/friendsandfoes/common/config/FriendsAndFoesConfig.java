@@ -7,10 +7,6 @@ import com.faboslav.friendsandfoes.common.config.omegaconfig.api.Config;
 
 public final class FriendsAndFoesConfig implements Config
 {
-	@Category("General")
-	@Description("Check if the new update of mod is available")
-	public boolean checkForNewUpdates = false;
-
 	@Category("Copper Golem")
 	@Description("Enable")
 	public boolean enableCopperGolem = true;

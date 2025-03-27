@@ -66,7 +66,7 @@ public abstract class IllusionerEntityRendererMixin extends IllagerEntityRendere
 	}
 
 	@Inject(
-		at = @At("HEAD"),
+		at = @At("TAIL"),
 		method = "getTexture(Lnet/minecraft/entity/mob/IllusionerEntity;)Lnet/minecraft/util/Identifier;",
 		cancellable = true
 	)

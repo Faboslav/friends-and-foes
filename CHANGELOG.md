@@ -1,3 +1,7 @@
+## 3.0.9
+
+- Fixed crash related to async update check
+
 ## 3.0.8
 
 - Fixed Iceologer crash related to casting spells

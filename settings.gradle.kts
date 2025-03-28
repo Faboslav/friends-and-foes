@@ -14,36 +14,25 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
 }
 
+val commonVersions = providers.gradleProperty("stonecutter_enabled_common_versions").orNull?.split(",")?.map { it.trim() } ?: emptyList()
+val fabricVersions = providers.gradleProperty("stonecutter_enabled_fabric_versions").orNull?.split(",")?.map { it.trim() } ?: emptyList()
+val neoforgeVersions = providers.gradleProperty("stonecutter_enabled_neoforge_versions").orNull?.split(",")?.map { it.trim() } ?: emptyList()
+val dists = mapOf(
+	"common" to commonVersions,
+	"fabric" to fabricVersions,
+	"neoforge" to neoforgeVersions
+)
+val uniqueVersions = dists.values.flatten().distinct()
+
 stonecutter {
-    create(rootProject) {
-        val neoforgeVersions = mutableListOf<Pair<String, String>>()
-        val forgeVersions = mutableListOf<Pair<String, String>>()
-        fun mc(version: String, name: String = version, neoforge: Boolean = false, forge: Boolean = false) {
-            vers(name, version)
-            if (neoforge) neoforgeVersions.add(version to name)
-            //if (forge) forgeVersions.add(version to name)
-        }
-
-        // Configure targets here. Fabric is applied to all.
-        mc("1.21.4", neoforge = true)
-        mc("1.21.1", neoforge = true)
-
-
-        branch("fabric") // empty block copies common
-        branch("neoforge") {
-            neoforgeVersions.forEach { (version, name) -> vers(name, version) }
-        }
-		/*
-        branch("forge") {
-            forgeVersions.forEach { (version, name) -> vers(name, version) }
-        }*/
-
-        mapBuilds { branch, meta ->
-            if (branch == "" && stonecutter.eval(meta.version, "<1.20.4"))
-                "legacyforge.gradle.kts"
-            else "build.gradle.kts"
-        }
-    }
+	create(rootProject) {
+		versions(*uniqueVersions.toTypedArray())
+		dists.forEach { (branchName, branchVersions) ->
+			branch(branchName) {
+				versions(*branchVersions.toTypedArray())
+			}
+		}
+	}
 }
 
 rootProject.name = "friendsandfoes"

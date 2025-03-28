@@ -8,7 +8,10 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityRenderers;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesParticleTypes;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
+@Environment(EnvType.CLIENT)
 public final class FriendsAndFoesClient
 {
 	public static void init() {

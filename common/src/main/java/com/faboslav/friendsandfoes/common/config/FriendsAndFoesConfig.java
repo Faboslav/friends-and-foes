@@ -19,9 +19,6 @@ public final class FriendsAndFoesConfig
 	private boolean isLoaded = false;
 	private boolean isLoading = false;
 
-	@SerialEntry(comment = "Check if the new update of mod is available")
-	public boolean checkForNewUpdates = false;
-
 	private static final String MOBS_CATEGORY = "mobs";
 	private static final String BEEKEEPER_GROUP = "beekeeper";
 	private static final String COPPER_GOLEM_GROUP = "copper_golem";

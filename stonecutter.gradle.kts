@@ -13,15 +13,10 @@ stonecutter registerChiseled tasks.register("chiseledBuild", stonecutter.chisele
     ofTask("build")
 }
 
-stonecutter registerChiseled tasks.register("chiseledReleaseMod", stonecutter.chiseled) {
-    group = mod.id
-    ofTask("releaseMod")
-}
-
+/*
 stonecutter {
     generateRunConfigs = listOf(RunConfigType.SWITCH)
 
     parameters {
-        
     }
-}
+}*/

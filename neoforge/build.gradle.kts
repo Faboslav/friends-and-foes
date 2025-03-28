@@ -3,11 +3,6 @@ plugins {
 	id("net.neoforged.moddev")
 }
 
-dependencies {
-	implementation("com.teamresourceful.resourcefullib:resourcefullib-neoforge-${commonMod.dep("resourceful-lib.mc")}:${commonMod.dep("resourceful-lib.lib")}")
-	implementation("dev.isxander:yet-another-config-lib:${commonMod.dep("yacl")}-neoforge")
-}
-
 // Enables ModDevGradle as early as possible so we can use their tasks and configurations.
 neoForge {
 	enable {
@@ -15,19 +10,10 @@ neoForge {
 	}
 }
 
-
-
-// Add your dependencies here
 dependencies {
-
+	implementation("com.teamresourceful.resourcefullib:resourcefullib-neoforge-${commonMod.dep("resourceful-lib.mc")}:${commonMod.dep("resourceful-lib.lib")}")
+	implementation("dev.isxander:yet-another-config-lib:${commonMod.dep("yacl")}-neoforge")
 }
-
-// Configure mixins here, other parts of this buildscript will be configured for you.
-val mixinConfigs = listOf(
-	"${mod.id}.mixins.json",
-	"${mod.id}.neoforge.mixins.json",
-)
-
 
 // ModDevGradle configuration is done here.
 neoForge {
@@ -65,12 +51,3 @@ neoForge {
 sourceSets.main {
 	resources.srcDir("src/generated/resources")
 }
-
-// Adds mixins programmatically into the mod manifest.
-extraProcessResourceKeys["mixins"] =
-	mixinConfigs.joinToString(separator = "\n") { name ->
-		"""
-            [[mixins]]
-            config = "$name"
-        """.trimIndent()
-	}

@@ -11,11 +11,7 @@ val commonResources: Configuration by configurations.creating {
 
 dependencies {
     val commonPath = common.hierarchy.toString()
-    compileOnly(project(path = commonPath)) {
-        capabilities {
-            requireCapability("$group:${mod.id}")
-        }
-    }
+	compileOnly(project(path = commonPath))
     commonJava(project(path = commonPath, configuration = "commonJava"))
     commonResources(project(path = commonPath, configuration = "commonResources"))
 }

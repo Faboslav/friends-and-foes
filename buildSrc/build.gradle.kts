@@ -1,15 +1,15 @@
 plugins {
-    `kotlin-dsl`
+	`kotlin-dsl`
 }
 
 repositories {
-    mavenCentral()
-    gradlePluginPortal()
-    maven("https://maven.kikugie.dev/snapshots")
+	mavenCentral()
+	gradlePluginPortal()
+	maven("https://maven.kikugie.dev/snapshots")
 }
 
 dependencies {
-    fun plugin(id: String, version: String) = "$id:$id.gradle.plugin:$version"
+	fun plugin(id: String, version: String) = "$id:$id.gradle.plugin:$version"
 
-    implementation(plugin("dev.kikugie.stonecutter", "0.6-alpha.13"))
+	implementation(plugin("dev.kikugie.stonecutter", "0.6-alpha.11"))
 }

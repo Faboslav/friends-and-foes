@@ -14,10 +14,10 @@ fun RepositoryHandler.strictMaven(url: String, alias: String, vararg groups: Str
 
 val Project.stonecutterBuild get() = extensions.getByType<StonecutterBuild>()
 
-val Project.common get() = requireNotNull(stonecutterBuild.node.sibling("")) {
+val Project.common get() = requireNotNull(stonecutterBuild.node.sibling("common")) {
     "No common project for $project"
 }
-val Project.commonProject get() = common.project
+val Project.commonProject get() = rootProject.project(stonecutterBuild.current.project)
 val Project.commonMod get() = commonProject.mod
 
 val Project.loader: String? get() = prop("loader")

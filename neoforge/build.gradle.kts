@@ -3,7 +3,6 @@ plugins {
 	id("net.neoforged.moddev")
 }
 
-// Enables ModDevGradle as early as possible so we can use their tasks and configurations.
 neoForge {
 	enable {
 		version = commonMod.dep("neoforge")
@@ -15,13 +14,8 @@ dependencies {
 	implementation("dev.isxander:yet-another-config-lib:${commonMod.dep("yacl")}-neoforge")
 }
 
-// ModDevGradle configuration is done here.
 neoForge {
-	// Accesss transformer is automatically applied if it is present in common.
-	val at = common.project.file("src/main/resources/META-INF/accesstransformer.cfg")
-	if (at.exists()) {
-		accessTransformers.from(at.absolutePath)
-	}
+	accessTransformers.from(project.file("../../src/main/resources/META-INF/accesstransformer.cfg").absolutePath)
 
 	runs {
 		register("client") {
@@ -37,7 +31,7 @@ neoForge {
 	parchment {
 		commonMod.depOrNull("parchment")?.let {
 			mappingsVersion = it
-			minecraftVersion = commonMod.depOrNull("parchment.mc") ?: commonMod.mc
+			minecraftVersion = commonMod.mc
 		}
 	}
 

@@ -13,10 +13,9 @@ stonecutter registerChiseled tasks.register("chiseledBuild", stonecutter.chisele
     ofTask("build")
 }
 
-/*
 stonecutter {
     generateRunConfigs = listOf(RunConfigType.SWITCH)
 
     parameters {
     }
-}*/
+}

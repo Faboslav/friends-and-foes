@@ -8,7 +8,7 @@ dependencies {
 	mappings(loom.layered {
 		officialMojangMappings()
 		commonMod.depOrNull("parchment")?.let { parchmentVersion ->
-			parchment("org.parchmentmc.data:parchment-${commonMod.depOrNull("parchment.mc") ?: commonMod.mc}:$parchmentVersion@zip")
+			parchment("org.parchmentmc.data:parchment-${commonMod.mc}:$parchmentVersion@zip")
 		}
 	})
 
@@ -21,7 +21,8 @@ dependencies {
 }
 
 loom {
-	accessWidenerPath = project(":common:${stonecutter.current.project}").loom.accessWidenerPath
+	accessWidenerPath = common.project.file("../../src/main/resources/${mod.id}.accesswidener")
+	//accessWidenerPath = project(":common:${stonecutter.current.project}").loom.accessWidenerPath
 
 	runs {
 		getByName("client") {

@@ -47,7 +47,7 @@ side = "BOTH"
 [[dependencies.${ modId }]]
 modId = "resourcefullib"
 type = "required"
-versionRange = "[${resourcefulLibVersion},)"
+versionRange = "[${resourcefulLibLibVersion},)"
 ordering = "NONE"
 side = "BOTH"
 [dependencies.${modId}.mc-publish]

@@ -1,7 +1,7 @@
 {
 	"required": true,
 	"package": "com.faboslav.friendsandfoes.neoforge.mixin",
-	"compatibilityLevel": "JAVA_${modJavaVersion}",
+	"compatibilityLevel": "JAVA_${javaVersion}",
 	"minVersion": "0.8",
 	"injectors": {
 		"defaultRequire": 1

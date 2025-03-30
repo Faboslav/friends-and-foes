@@ -10,12 +10,6 @@ build-chiseled: ## Builds project
 refresh: ## Refresh dependencies
 	./gradlew --refresh-dependencies
 
-clean-cache: ## Cleans cache
-	./gradlew --stop
-	rm -rf $GRADLE_HOME/caches/transforms-*
-	rm -rf $GRADLE_HOME/caches/build-cache-*
-	./gradlew clean
-
 gen-sources: ## Generate sources
 	./gradlew genSources
 
@@ -39,3 +33,9 @@ run-neoforge-server: ## Runs neoforge server
 
 run-data: ## Runs datagen
 	./gradlew runData
+
+nuke: ## Nuke the project
+	./gradlew --stop
+	rm -rf $GRADLE_HOME/caches/transforms-*
+	rm -rf $GRADLE_HOME/caches/build-cache-*
+	find . -type d \( -name ".idea" -o -name ".kotlin" -o -name ".gradle" -o -name "build" -o -name "run" \) -exec rm -rf {} +

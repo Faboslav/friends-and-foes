@@ -98,12 +98,12 @@ jobs:
 
             -   name: "Download ResourcefulLib"
                 run: |
-                    MOD_URL=$(./.github/scripts/get-modrinth-dependency-url.sh "resourceful-lib" "${{ steps.gradle-properties.outputs.DEPS_RESOURCEFUL_LIB_LIB_VERSION }}" "${{ matrix.mod_loader }}")
+                    MOD_URL=$(./.github/scripts/get-modrinth-dependency-url.sh "resourceful-lib" "${{ steps.gradle-properties.outputs.DEPS_RESOURCEFUL_LIB_LIB }}" "${{ matrix.mod_loader }}")
                     wget -P run/mods "$MOD_URL"
 
             -   name: "Download YACL"
                 run: |
-                    MOD_URL=$(./.github/scripts/get-modrinth-dependency-url.sh "yacl" "${{ steps.gradle-properties.outputs.DEPS_YACL_VERSION }}-${{ matrix.mod_loader }}" "${{ matrix.mod_loader }}")
+                    MOD_URL=$(./.github/scripts/get-modrinth-dependency-url.sh "yacl" "${{ steps.gradle-properties.outputs.DEPS_YACL }}-${{ matrix.mod_loader }}" "${{ matrix.mod_loader }}")
                     wget -P run/mods "$MOD_URL"
 
             -   name: Run ${{ matrix.version }} ${{ matrix.mod_loader }} client
@@ -113,8 +113,8 @@ jobs:
                     modloader: ${{ matrix.mod_loader }}
                     regex: .*${{ matrix.mod_loader }}.*
                     mc-runtime-test: ${{ matrix.mod_loader }}
-                    java: ${{ steps.gradle-properties.outputs.MOD_JAVA_VERSION }}
-                    fabric-api: ${{ steps.gradle-properties.outputs.FABRIC_API_VERSION }}
+                    java: ${{ steps.gradle-properties.outputs.JAVA_VERSION }}
+                    fabric-api: ${{ steps.gradle-properties.outputs.DEPS_FABRIC_API }}
                     xvfb: false
                     headlessmc-command: -lwjgl --retries 3 --jvm -Djava.awt.headless=true
 

@@ -22,16 +22,6 @@ val Project.commonMod get() = commonProject.mod
 
 val Project.loader: String? get() = prop("loader")
 
-val Project.extraProcessResourceKeys: MutableMap<String, String?>
-    get() {
-        if (extra.has("extraProcessResourceKeys")) {
-            return extra["extraProcessResourceKeys"] as MutableMap<String, String?>
-        } else {
-            extra["extraProcessResourceKeys"] = mutableMapOf<String, String?>()
-            return extraProcessResourceKeys
-        }
-    }
-
 @JvmInline
 value class ModData(private val project: Project) {
     val id: String get() = modProp("id")
@@ -47,6 +37,6 @@ value class ModData(private val project: Project) {
     fun prop(key: String) = requireNotNull(propOrNull(key)) { "Missing '$key'" }
     fun modPropOrNull(key: String) = project.prop("mod.$key")
     fun modProp(key: String) = requireNotNull(modPropOrNull(key)) { "Missing 'mod.$key'" }
-    fun depOrNull(key: String) = project.prop("deps.$key")
+	fun depOrNull(key: String): String? = project.prop("deps.$key")?.takeIf { it.isNotEmpty() }
     fun dep(key: String) = requireNotNull(depOrNull(key)) { "Missing 'deps.$key'" }
 }

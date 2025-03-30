@@ -7,8 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class DynamicGridWidget extends AbstractLayout
-{
+/**
+ * Inspired by use in Sounds mod
+ *
+ * @author IMB11
+ * <a href="https://github.com/IMB11/Sounds/blob/main/src/main/java/dev/imb11/sounds/gui/DynamicGridWidget.java">https://github.com/IMB11/Sounds/blob/main/src/main/java/dev/imb11/sounds/gui/DynamicGridWidget.java</a>
+ */
+public class DynamicGridWidget extends AbstractLayout {
 	private final List<GridItem> children = new ArrayList<>();
 	private int padding = 0;
 
@@ -133,8 +138,12 @@ public class DynamicGridWidget extends AbstractLayout
 			child.widget().setX(currentX);
 			child.widget().setY(currentY);
 			child.widget().setWidth(thisCellWidth - padding * 2);
-			child.widget().setHeight(thisCellHeight - padding * 2);
 
+			/*? >=1.21 {*/
+			child.widget().setHeight(thisCellHeight - padding * 2);
+			/*?} else {*/
+			/*child.widget().height = (thisCellHeight - padding * 2);
+			 *//*?}*/
 
 			currentX += thisCellWidth;
 			if (currentX >= this.width) {
@@ -142,6 +151,7 @@ public class DynamicGridWidget extends AbstractLayout
 				currentY += thisCellHeight;
 			}
 		}
+
 	}
 
 	@Override
@@ -149,12 +159,6 @@ public class DynamicGridWidget extends AbstractLayout
 		this.children.stream().map(GridItem::widget).forEach(consumer);
 	}
 
-	@Override
-	public void visitWidgets(Consumer<AbstractWidget> consumer) {
-		this.children.stream().map(GridItem::widget).forEach(consumer);
-	}
-
-	public record GridItem(int cellHeight, int cellWidth, AbstractWidget widget)
-	{
+	public record GridItem(int cellHeight, int cellWidth, AbstractWidget widget) {
 	}
 }

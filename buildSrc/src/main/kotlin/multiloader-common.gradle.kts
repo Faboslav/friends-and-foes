@@ -14,7 +14,6 @@ base {
 java {
     toolchain.languageVersion = JavaLanguageVersion.of( commonProject.prop("java.version")!!)
     withSourcesJar()
-    withJavadocJar()
 }
 
 repositories {
@@ -32,12 +31,28 @@ repositories {
         )
         filter { includeGroup("org.parchmentmc.data") }
     }
+	maven("https://www.cursemaven.com")
+	maven("https://api.modrinth.com/maven") {
+		name = "Modrinth"
+		content {
+			includeGroup("maven.modrinth")
+		}
+	}
 	maven("https://maven.resourcefulbees.com/repository/maven-public/") { name = "ResourcefulBees" }
 	maven("https://maven.terraformersmc.com/releases/") { name = "TerraformersMC" }
 	maven("https://maven.isxander.dev/releases")
 	maven("https://maven.isxander.dev/snapshots")
 	maven("https://maven.quiltmc.org/repository/release")
 	maven("https://oss.sonatype.org/content/repositories/snapshots")
+	maven("https://maven.ladysnake.org/releases") { name = "Ladysnake Libs" }
+	maven("https://maven.theillusivec4.top/")
+	maven("https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1")
+
+	maven("https://maven.jamieswhiteshirt.com/libs-release") {
+		content {
+			includeGroup("com.jamieswhiteshirt")
+		}
+	}
 }
 
 tasks {
@@ -60,7 +75,7 @@ tasks {
     }
 
 	processResources {
-		val expandProps = (mapOf(
+		val expandProps = mapOf(
 			"javaVersion" to commonMod.propOrNull("java.version"),
 			"modId" to commonMod.id,
 			"modName" to commonMod.name,
@@ -77,9 +92,7 @@ tasks {
 			"yaclVersion" to commonMod.depOrNull("yacl"),
 			"resourcefulLibMcVersion" to commonMod.depOrNull("resourceful-lib.mc"),
 			"resourcefulLibLibVersion" to commonMod.depOrNull("resourceful-lib.lib"),
-		) + extraProcessResourceKeys)
-			.filterValues { it?.isNotEmpty() == true }
-			.mapValues { (_, v) -> v!! }
+		).filterValues { it?.isNotEmpty() == true }.mapValues { (_, v) -> v!! }
 
 		val jsonExpandProps = expandProps.mapValues { (_, v) -> v.replace("\n", "\\\\n") }
 

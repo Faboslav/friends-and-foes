@@ -9,7 +9,7 @@ public final class PlatformCompat implements com.faboslav.friendsandfoes.common.
 		String modId = "";
 
 		try {
-			//? trinkets: >0 {
+			//? trinkets {
 			/*modId = "trinkets";
 			loadModCompat(modId, () -> new TrinketsCompat());
 			*///?}

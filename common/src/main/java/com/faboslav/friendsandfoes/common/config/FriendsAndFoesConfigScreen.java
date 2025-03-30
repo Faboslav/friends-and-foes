@@ -57,11 +57,13 @@ public class FriendsAndFoesConfigScreen extends Screen
 		grid.calculateLayout();
 		grid.visitWidgets(this::addRenderableWidget);
 
-		int discordAndKoFiButtonsWidth = 100 + 100 + 30; // button widths + left margin of Ko-Fi button + right margin of Discord button
+		int kofiButtonWidth = 135;
+		int discordButtonWidth = 135;
+		int discordAndKoFiButtonsWidth = kofiButtonWidth + discordButtonWidth + 30; // button widths + left margin of Ko-Fi button + right margin of Discord button
 		int doneButtonWidth = this.width - discordAndKoFiButtonsWidth;
 		var buttonWidget = Button.builder(CommonComponents.GUI_DONE, (btn) -> this.minecraft.setScreen(this.parent)).bounds(this.width / 2 - doneButtonWidth / 2, this.height - 30, doneButtonWidth, 20).build();
-		var donateButton = Button.builder(Component.literal("Donate").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), (btn) -> Util.getPlatform().openUri("https://ko-fi.com/faboslav")).bounds(10, this.height - 30, 100, 20).build();
-		var discordButton = Button.builder(Component.literal("Discord").withStyle(ChatFormatting.AQUA).withStyle(ChatFormatting.BOLD), (btn) -> Util.getPlatform().openUri("https://discord.gg/QGwFvvMQCn")).bounds(this.width - 110, this.height - 30, 100, 20).build();
+		var donateButton = Button.builder(Component.literal("Buy Me a Coffee").withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD), (btn) -> Util.getPlatform().openUri("https://ko-fi.com/faboslav")).bounds(10, this.height - 30, kofiButtonWidth, 20).build();
+		var discordButton = Button.builder(Component.literal("Join Our Discord").withStyle(ChatFormatting.AQUA).withStyle(ChatFormatting.BOLD), (btn) -> Util.getPlatform().openUri("https://discord.gg/QGwFvvMQCn")).bounds(this.width - discordButtonWidth - 10, this.height - 30, discordButtonWidth, 20).build();
 
 		this.addRenderableWidget(buttonWidget);
 		this.addRenderableWidget(donateButton);

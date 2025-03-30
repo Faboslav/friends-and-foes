@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.neoforge.modcompat;
 
-//? if curios: >0 {
+//? if curios {
 /*import com.faboslav.friendsandfoes.common.events.lifecycle.ClientSetupEvent;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesItems;
 import com.faboslav.friendsandfoes.common.modcompat.ModCompat;

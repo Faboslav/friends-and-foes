@@ -27,11 +27,6 @@ tasks {
         from(commonResources)
     }
 
-    javadoc {
-        dependsOn(commonJava)
-        source(commonJava)
-    }
-
     named<Jar>("sourcesJar") {
         dependsOn(commonJava)
         from(commonJava)

@@ -4,8 +4,13 @@ import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
+
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
+
+//? <1.21.3 {
+import net.minecraft.util.profiling.ProfilerFiller;
+//?}
 
 public class FabricReloadListener implements IdentifiableResourceReloadListener
 {

@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.fabric.modcompat;
 
-//? trinkets: >0 {
+//? trinkets {
 /*import com.faboslav.friendsandfoes.common.modcompat.ModCompat;
 
 import org.jetbrains.annotations.Nullable;

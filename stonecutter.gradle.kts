@@ -17,5 +17,7 @@ stonecutter {
     generateRunConfigs = listOf(RunConfigType.SWITCH)
 
     parameters {
+		const("trinkets", rootProject.project(stonecutter.current.project).property("deps.trinkets").toString() != "")
+		const("curios", rootProject.project(stonecutter.current.project).property("deps.curios").toString() != "")
     }
 }

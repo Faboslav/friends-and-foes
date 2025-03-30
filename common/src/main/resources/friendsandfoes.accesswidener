@@ -45,3 +45,5 @@ accessible field net/minecraft/world/level/block/WeatheringCopper PREVIOUS_BY_BL
 accessible method net/minecraft/world/effect/MobEffect <init> (Lnet/minecraft/world/effect/MobEffectCategory;I)V
 accessible method net/minecraft/world/level/block/ComposterBlock add (FLnet/minecraft/world/level/ItemLike;)V
 accessible method net/minecraft/world/entity/SpawnPlacements register (Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/world/entity/SpawnPlacementType;Lnet/minecraft/world/level/levelgen/Heightmap$Types;Lnet/minecraft/world/entity/SpawnPlacements$SpawnPredicate;)V
+accessible method net/minecraft/world/entity/Mob getEquipmentDropChance (Lnet/minecraft/world/entity/EquipmentSlot;)F
+accessible field net/minecraft/client/gui/components/AbstractWidget height I

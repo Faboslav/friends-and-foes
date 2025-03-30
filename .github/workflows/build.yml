@@ -94,7 +94,7 @@ jobs:
                     path: artifacts
 
             -   name: "Copy mod jar to run/mods"
-                run: mkdir -p run/mods && cp artifacts/${{ steps.gradle-properties.outputs.MOD_ID }}-${{ matrix.mod_loader }}-mc${{ matrix.version }}-${{ steps.gradle-properties.outputs.MOD_VERSION }}.jar run/mods
+                run: mkdir -p run/mods && cp artifacts/${{ steps.gradle-properties.outputs.MOD_ID }}-${{ matrix.mod_loader }}-${{ steps.gradle-properties.outputs.MOD_VERSION }}+mc${{ matrix.version }}.jar run/mods
 
             -   name: "Download ResourcefulLib"
                 run: |

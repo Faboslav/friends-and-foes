@@ -5,7 +5,7 @@ version=$2
 
 mkdir -p $mod_loader/versions/$version/run && echo "eula=true" > $mod_loader/versions/$version/run/eula.txt
 
-./gradlew $mod_loader:$version:runServer --no-daemon --args="nogui" 2>&1 | tee gradle_server_output.txt &
+./gradlew $mod_loader:$version:runServer --no-daemon 2>&1 | tee gradle_server_output.txt &
 
 SUCCESS_PATTERN='For help, type "help"'
 ERROR_PATTERNS=(

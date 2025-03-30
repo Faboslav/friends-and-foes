@@ -3,9 +3,7 @@ plugins {
 	id("idea")
 }
 
-//project.properties.forEach { println("${it.key} = ${it.value}") }
-
-version = "${commonMod.version}+${stonecutterBuild.current.version}-${loader}"
+version = "${loader}-${commonMod.version}+mc${stonecutterBuild.current.version}"
 
 base {
 	archivesName = commonMod.id
@@ -13,7 +11,6 @@ base {
 
 java {
     toolchain.languageVersion = JavaLanguageVersion.of( commonProject.prop("java.version")!!)
-    withSourcesJar()
 }
 
 repositories {
@@ -56,11 +53,12 @@ repositories {
 }
 
 tasks {
+	/*
     named<Jar>("sourcesJar") {
         from(rootProject.file("LICENSE")) {
             rename { "${it}_${commonMod.id}" }
         }
-    }
+    }*/
 
     jar {
         from(rootProject.file("LICENSE")) {

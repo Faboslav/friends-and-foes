@@ -27,11 +27,12 @@ tasks {
         from(commonResources)
     }
 
+	/*
     named<Jar>("sourcesJar") {
         dependsOn(commonJava)
         from(commonJava)
 
         dependsOn(commonResources)
         from(commonResources)
-    }
+    }*/
 }

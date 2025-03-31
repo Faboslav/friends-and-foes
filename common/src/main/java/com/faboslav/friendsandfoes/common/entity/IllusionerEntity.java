@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
+import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -99,10 +100,10 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 
 	@Override
 	public void readAdditionalSaveData(CompoundTag nbt) {
-		this.setIsIllusion(nbt.getBoolean(IS_ILLUSION_NBT_NAME));
-		this.setWasAttacked(nbt.getBoolean(WAS_ATTACKED_NBT_NAME));
-		this.setTicksUntilDespawn(nbt.getInt(TICKS_UNTIL_DESPAWN_NBT_NAME));
-		this.setTicksUntilCanCreateIllusions(nbt.getInt(TICKS_UNTIL_CAN_CREATE_ILLUSIONS_NBT_NAME));
+		this.setIsIllusion(VersionedNbt.getBoolean(nbt, IS_ILLUSION_NBT_NAME, false));
+		this.setWasAttacked(VersionedNbt.getBoolean(nbt, WAS_ATTACKED_NBT_NAME, false));
+		this.setTicksUntilDespawn(VersionedNbt.getInt(nbt, TICKS_UNTIL_DESPAWN_NBT_NAME, 0));
+		this.setTicksUntilCanCreateIllusions(VersionedNbt.getInt(nbt, TICKS_UNTIL_CAN_CREATE_ILLUSIONS_NBT_NAME, 0));
 	}
 
 	public static AttributeSupplier.Builder createAttributes() {

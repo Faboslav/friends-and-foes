@@ -38,9 +38,12 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.BodyRotationControl;
+import net.minecraft.world.entity.ai.control.JumpControl;
 import net.minecraft.world.entity.ai.control.LookControl;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.animal.AbstractGolem;
+import net.minecraft.world.entity.monster.creaking.Creaking;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.Item;
@@ -136,6 +139,7 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 		super(entityType, world);
 		this.moveControl = new CopperGolemEntity.CopperGolemMoveControl(this);
 		this.lookControl = new CopperGolemEntity.CopperGolemLookControl(this);
+		this.jumpControl = new CopperGolemEntity.CopperGolemJumpControl(this);
 	}
 
 	@Override
@@ -210,6 +214,11 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 	}
 
 	@Override
+	protected BodyRotationControl createBodyControl() {
+		return new CopperGolemEntity.CopperGolemBodyRotationControl(this);
+	}
+
+	@Override
 	protected Brain<?> makeBrain(Dynamic<?> dynamic) {
 		return CopperGolemBrain.create(dynamic);
 	}
@@ -238,30 +247,26 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 		}
 
 		if (this.isPassenger() == false) {
-			this.lerpYRot = entitySnapshot.getDouble("serverYaw");
-			this.yRotO = entitySnapshot.getFloat("prevYaw");
+			this.yRotO = VersionedNbt.getFloat(entitySnapshot, "prevYaw", 0.0F);
 			this.setYRot(this.yRotO);
-			this.yBodyRotO = entitySnapshot.getFloat("prevBodyYaw");
+			this.yBodyRotO = VersionedNbt.getFloat(entitySnapshot, "prevBodyYaw", 0.0F);
 			this.yBodyRot = this.yBodyRotO;
-			this.lerpYHeadRot = entitySnapshot.getDouble("serverHeadYaw");
-			this.yHeadRotO = entitySnapshot.getFloat("prevHeadYaw");
+			this.lerpYHeadRot = VersionedNbt.getDouble(entitySnapshot, "serverHeadYaw", 0.0D);
+			this.yHeadRotO = VersionedNbt.getFloat(entitySnapshot, "prevHeadYaw", 0.0F);
 			this.yHeadRot = this.yHeadRotO;
-			this.animStepO = entitySnapshot.getFloat("prevLookDirection");
-			this.animStep = this.animStepO;
+			//this.animStepO = VersionedNbt.getFloat(entitySnapshot, "prevLookDirection", 0.0F);
+			//this.animStep = this.animStepO;
 		}
 
-		this.xRotO = entitySnapshot.getFloat("prevPitch");
-		this.lerpXRot = this.xRotO;
+		this.xRotO = VersionedNbt.getFloat(entitySnapshot, "prevPitch", 0.0F);
 		this.setXRot(this.xRotO);
-		// TODO maybe cache model parts instead?
-		// this.roll = entitySnapshot.getInt("roll");
-		this.oAttackAnim = entitySnapshot.getFloat("lastHandSwingProgress");
+		this.oAttackAnim =  VersionedNbt.getFloat(entitySnapshot, "lastHandSwingProgress", 0.0F);
 		this.attackAnim = this.oAttackAnim;
-		((LimbAnimatorAccessor) this.walkAnimation).setPrevSpeed(entitySnapshot.getFloat("limbAnimatorPrevSpeed"));
-		this.walkAnimation.setSpeed(entitySnapshot.getFloat("limbAnimatorSpeed"));
-		((LimbAnimatorAccessor) this.walkAnimation).setPos(entitySnapshot.getFloat("limbAnimatorPos"));
-		this.oRun = entitySnapshot.getFloat("prevStepBobbingAmount");
-		this.run = this.oRun;
+		((LimbAnimatorAccessor) this.walkAnimation).setPrevSpeed(VersionedNbt.getFloat(entitySnapshot, "limbAnimatorPrevSpeed", 0.0F));
+		this.walkAnimation.setSpeed( VersionedNbt.getFloat(entitySnapshot, "limbAnimatorSpeed", 0.0F));
+		((LimbAnimatorAccessor) this.walkAnimation).setPos(VersionedNbt.getFloat(entitySnapshot, "limbAnimatorPos", 0.0F));
+		//this.oRun = entitySnapshot.getFloat("prevStepBobbingAmount");
+		//this.run = this.oRun;
 	}
 
 	public CompoundTag getEntitySnapshot() {
@@ -271,20 +276,17 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 	private CompoundTag takeEntitySnapshot() {
 		CompoundTag entitySnapshot = new CompoundTag();
 
-		entitySnapshot.putDouble("serverYaw", this.lerpYRot);
-		entitySnapshot.putFloat("prevYaw", this.yRotO); // Same as serverYaw and yaw
-		entitySnapshot.putDouble("serverPitch", this.lerpXRot);
-		entitySnapshot.putFloat("prevPitch", this.xRotO); // Same as pitch
-		//entitySnapshot.putInt("roll", this.getRoll());
-		entitySnapshot.putFloat("prevBodyYaw", this.yBodyRotO); // Same as bodyYaw
+		entitySnapshot.putFloat("prevYaw", this.yRotO);
+		entitySnapshot.putFloat("prevPitch", this.xRotO);
+		entitySnapshot.putFloat("prevBodyYaw", this.yBodyRotO);
 		entitySnapshot.putDouble("serverHeadYaw", this.lerpYHeadRot);
-		entitySnapshot.putFloat("prevHeadYaw", this.yHeadRotO); // Same as headYaw
-		entitySnapshot.putFloat("lastHandSwingProgress", this.oAttackAnim); // Same as handSwingProgress
-		entitySnapshot.putFloat("limbAnimatorPrevSpeed", ((LimbAnimatorAccessor) this.walkAnimation).getPresSpeed()); // Same as limbDistance
+		entitySnapshot.putFloat("prevHeadYaw", this.yHeadRotO);
+		entitySnapshot.putFloat("lastHandSwingProgress", this.oAttackAnim);
+		entitySnapshot.putFloat("limbAnimatorPrevSpeed", ((LimbAnimatorAccessor) this.walkAnimation).getPresSpeed());
 		entitySnapshot.putFloat("limbAnimatorSpeed", this.walkAnimation.speed());
 		entitySnapshot.putFloat("limbAnimatorPos", this.walkAnimation.position());
-		entitySnapshot.putFloat("prevLookDirection", this.animStepO); // Same as lookDirection
-		entitySnapshot.putFloat("prevStepBobbingAmount", this.oRun); // Same as stepBobbingAmount
+		//entitySnapshot.putFloat("prevLookDirection", this.animStepO);
+		//entitySnapshot.putFloat("prevStepBobbingAmount", this.oRun);
 
 		return entitySnapshot;
 	}
@@ -806,7 +808,7 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 	}
 
 	public void setSpawnYaw(float yaw) {
-		this.lerpYRot = yaw;
+		//this.lerpYRot = yaw;
 		this.yRotO = yaw;
 		this.setYRot(yaw);
 		this.yBodyRotO = yaw;
@@ -818,7 +820,7 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 
 	final class CopperGolemMoveControl extends MoveControl
 	{
-		public CopperGolemMoveControl(CopperGolemEntity copperGolem) {
+		public CopperGolemMoveControl(final CopperGolemEntity copperGolem) {
 			super(copperGolem);
 		}
 
@@ -834,7 +836,7 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 
 	final class CopperGolemLookControl extends LookControl
 	{
-		public CopperGolemLookControl(CopperGolemEntity copperGolem) {
+		public CopperGolemLookControl(final CopperGolemEntity copperGolem) {
 			super(copperGolem);
 		}
 
@@ -847,4 +849,35 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 			super.tick();
 		}
 	}
+
+	final class CopperGolemJumpControl extends JumpControl
+	{
+		public CopperGolemJumpControl(final CopperGolemEntity copperGolem) {
+			super(copperGolem);
+		}
+
+		public void tick() {
+			if (CopperGolemEntity.this.isImmobilized()) {
+				CopperGolemEntity.this.setJumping(false);
+			}
+
+			super.tick();
+		}
+	}
+
+	final class CopperGolemBodyRotationControl extends BodyRotationControl
+	{
+		public CopperGolemBodyRotationControl(final CopperGolemEntity copperGolem) {
+			super(copperGolem);
+		}
+
+		public void clientTick() {
+			if (CopperGolemEntity.this.isImmobilized()) {
+				return;
+			}
+
+			super.clientTick();
+		}
+	}
+
 }

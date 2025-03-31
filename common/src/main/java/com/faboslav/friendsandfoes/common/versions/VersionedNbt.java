@@ -12,6 +12,10 @@ public final class VersionedNbt
 		return nbt.getIntOr(key, defaultValue);
 	}
 
+	public static float getFloat(CompoundTag nbt, String key, float defaultValue) {
+		return nbt.getFloatOr(key, defaultValue);
+	}
+
 	public static double getDouble(CompoundTag nbt, String key, double defaultValue) {
 		return nbt.getDoubleOr(key, defaultValue);
 	}

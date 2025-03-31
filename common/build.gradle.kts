@@ -3,6 +3,7 @@ plugins {
 	id("java-library")
 
 	id("fabric-loom")
+	id("dev.kikugie.j52j") version "1.0.2"
 }
 
 loom {

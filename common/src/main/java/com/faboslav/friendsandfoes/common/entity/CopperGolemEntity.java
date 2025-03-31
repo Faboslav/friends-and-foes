@@ -15,6 +15,7 @@ import com.faboslav.friendsandfoes.common.util.MovementUtil;
 import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import com.faboslav.friendsandfoes.common.versions.VersionedInteractionResult;
+import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
 import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.core.BlockPos;
@@ -190,27 +191,12 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 	public void readAdditionalSaveData(CompoundTag nbt) {
 		super.readAdditionalSaveData(nbt);
 
-		if (nbt.contains(POSE_NBT_NAME)) {
-			Pose entityPose = Pose.valueOf(nbt.getString(POSE_NBT_NAME));
-			this.setPose(entityPose);
-		}
-
-		if (nbt.contains(POSE_TICKS_NBT_NAME)) {
-			this.setCurrentAnimationTick(nbt.getInt(POSE_TICKS_NBT_NAME));
-		}
-
-		if (nbt.contains(OXIDATION_LEVEL_NBT_NAME)) {
-			this.setOxidationLevel(WeatheringCopper.WeatherState.values()[nbt.getInt(OXIDATION_LEVEL_NBT_NAME)]);
-		}
-
-		if (nbt.contains(IS_WAXED_NBT_NAME)) {
-			this.setIsWaxed(nbt.getBoolean(IS_WAXED_NBT_NAME));
-		}
-
-		if (nbt.contains(ENTITY_SNAPSHOT_NBT_NAME)) {
-			this.setEntitySnapshot(nbt.getCompound(ENTITY_SNAPSHOT_NBT_NAME));
-			this.applyEntitySnapshot();
-		}
+		this.setPose(Pose.valueOf(VersionedNbt.getString(nbt, POSE_NBT_NAME, CopperGolemEntityPose.IDLE.getName())));
+		this.setCurrentAnimationTick(VersionedNbt.getInt(nbt, POSE_TICKS_NBT_NAME, 0));
+		this.setOxidationLevel(WeatheringCopper.WeatherState.values()[VersionedNbt.getInt(nbt, OXIDATION_LEVEL_NBT_NAME, 0)]);
+		this.setIsWaxed(VersionedNbt.getBoolean(nbt, IS_WAXED_NBT_NAME, false));
+		this.setEntitySnapshot(VersionedNbt.getCompound(nbt, ENTITY_SNAPSHOT_NBT_NAME));
+		this.applyEntitySnapshot();
 	}
 
 	public static AttributeSupplier.Builder createCopperGolemAttributes() {

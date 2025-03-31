@@ -8,6 +8,7 @@ import com.faboslav.friendsandfoes.common.entity.ai.brain.CrabBrain;
 import com.faboslav.friendsandfoes.common.entity.ai.control.WallClimbNavigation;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
+import com.faboslav.friendsandfoes.common.entity.pose.CopperGolemEntityPose;
 import com.faboslav.friendsandfoes.common.entity.pose.CrabEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesItems;
@@ -16,6 +17,7 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
 import com.faboslav.friendsandfoes.common.versions.VersionedGameRulesProvider;
+import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
 import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -200,15 +202,9 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 	public void readAdditionalSaveData(CompoundTag nbt) {
 		super.readAdditionalSaveData(nbt);
 
-		CrabSize crabSize = CrabSize.getCrabSizeByName(nbt.getString(SIZE_NBT_NAME));
-
-		if (crabSize == null) {
-			crabSize = CrabSize.getDefaultCrabSize();
-		}
-
-		this.setSize(crabSize);
-		this.setHome(nbt.getCompound(HOME_NBT_NAME));
-		this.setHasEgg(nbt.getBoolean(HAS_EGG_NBT_NAME));
+		this.setSize(Objects.requireNonNull(CrabSize.getCrabSizeByName(VersionedNbt.getString(nbt, SIZE_NBT_NAME, CrabSize.getDefaultCrabSize().getName()))));
+		this.setHome(VersionedNbt.getCompound(nbt, HOME_NBT_NAME));
+		this.setHasEgg(VersionedNbt.getBoolean(nbt, HAS_EGG_NBT_NAME, false));
 	}
 
 	@Override
@@ -544,10 +540,12 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 	}
 
 	public Vec3 getHomePos() {
+		var nbt = this.getHome();
+
 		return new Vec3(
-			this.getHome().getDouble(HOME_NBT_NAME_X),
-			this.getHome().getDouble(HOME_NBT_NAME_Y),
-			this.getHome().getDouble(HOME_NBT_NAME_Z)
+			VersionedNbt.getDouble(nbt, HOME_NBT_NAME_X, this.position().x()),
+			VersionedNbt.getDouble(nbt, HOME_NBT_NAME_Y, this.position().y()),
+			VersionedNbt.getDouble(nbt, HOME_NBT_NAME_Z, this.position().z())
 		);
 	}
 

@@ -9,6 +9,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BushBlock;
+import net.minecraft.world.level.block.VegetationBlock;
 
 public final class MoobloomVariant
 {
@@ -40,7 +41,7 @@ public final class MoobloomVariant
 		return this.getFlower().getName().toString();
 	}
 
-	public BushBlock getFlower() {
+	public VegetationBlock getFlower() {
 		return this.flower;
 	}
 

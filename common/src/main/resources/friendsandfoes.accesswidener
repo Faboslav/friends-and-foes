@@ -22,8 +22,11 @@ accessible method net/minecraft/world/entity/animal/Bee$BeePollinateGoal isPolli
 accessible field net/minecraft/world/level/levelgen/structure/structures/JigsawStructure startHeight Lnet/minecraft/world/level/levelgen/heightproviders/HeightProvider;
 accessible method net/minecraft/world/entity/ai/memory/MemoryModuleType <init> (Ljava/util/Optional;)V
 accessible method net/minecraft/world/entity/schedule/Activity <init> (Ljava/lang/String;)V
+accessible method net/minecraft/sounds/SoundEvent createVariableRangeEvent (Lnet/minecraft/resources/ResourceLocation;)Lnet/minecraft/sounds/SoundEvent;
+accessible method net/minecraft/world/level/block/state/properties/BlockSetType register (Lnet/minecraft/world/level/block/state/properties/BlockSetType;)Lnet/minecraft/world/level/block/state/properties/BlockSetType;
 accessible method net/minecraft/world/level/block/ButtonBlock getSound (Z)Lnet/minecraft/sounds/SoundEvent;
 accessible method net/minecraft/world/entity/ai/sensing/SensorType <init> (Ljava/util/function/Supplier;)V
+accessible method net/minecraft/advancements/CriteriaTriggers register (Ljava/lang/String;Lnet/minecraft/advancements/CriterionTrigger;)Lnet/minecraft/advancements/CriterionTrigger;
 accessible method net/minecraft/core/particles/SimpleParticleType <init> (Z)V
 accessible field net/minecraft/world/item/CreativeModeTabs BUILDING_BLOCKS Lnet/minecraft/resources/ResourceKey;
 accessible field net/minecraft/world/item/CreativeModeTabs COLORED_BLOCKS Lnet/minecraft/resources/ResourceKey;

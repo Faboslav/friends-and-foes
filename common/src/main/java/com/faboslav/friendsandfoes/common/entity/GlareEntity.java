@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-import com.faboslav.friendsandfoes.common.entity.ai.brain.CrabBrain;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.GlareBrain;
 import com.faboslav.friendsandfoes.common.entity.ai.pathing.CachedPathHolder;

@@ -60,7 +60,11 @@ public final class ZombieHorseTrapTriggerGoal extends Goal
 		this.zombieHorse.setTamed(true);
 		this.zombieHorse.setAge(0);
 		LightningBolt lightningEntity = EntityType.LIGHTNING_BOLT.create(serverWorld/*? >=1.21.3 {*/, VersionedEntitySpawnReason.TRIGGERED/*?}*/);
-		lightningEntity.moveTo(this.zombieHorse.getX(), this.zombieHorse.getY(), this.zombieHorse.getZ());
+		//? >=1.21.5 {
+		lightningEntity.snapTo(this.zombieHorse.getX(), this.zombieHorse.getY(), this.zombieHorse.getZ());
+		//?} else {
+		/*lightningEntity.moveTo(this.zombieHorse.getX(), this.zombieHorse.getY(), this.zombieHorse.getZ());
+		*///?}
 		lightningEntity.setVisualOnly(true);
 		serverWorld.addFreshEntity(lightningEntity);
 		Zombie zombie = this.getZombie(localDifficulty, this.zombieHorse);

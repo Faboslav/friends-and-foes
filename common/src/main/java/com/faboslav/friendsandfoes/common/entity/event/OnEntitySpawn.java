@@ -38,7 +38,12 @@ public final class OnEntitySpawn
 				return false;
 			}
 
-			entityToSpawn.moveTo(
+			entityToSpawn
+				//? >= 1.21.5 {
+				.snapTo(
+				//?} else {
+				/*.moveTo(
+				*///?}
 				entity.getX(),
 				entity.getY(),
 				entity.getZ(),
@@ -70,7 +75,14 @@ public final class OnEntitySpawn
 				ItemStack itemStack = entity.getItemBySlot(equipmentSlot);
 				if (!itemStack.isEmpty()) {
 					entityToSpawn.setItemSlot(equipmentSlot, itemStack.copyAndClear());
-					entityToSpawn.setDropChance(equipmentSlot, entity.getEquipmentDropChance(equipmentSlot));
+					float dropChance;
+
+					//? >= 1.21.5 {
+					dropChance = entity.getDropChances().byEquipment(equipmentSlot);
+					//?} else {
+					/*dropChance = entity.getEquipmentDropChance(equipmentSlot);
+					*///?}
+					entityToSpawn.setDropChance(equipmentSlot, dropChance);
 				}
 			}
 

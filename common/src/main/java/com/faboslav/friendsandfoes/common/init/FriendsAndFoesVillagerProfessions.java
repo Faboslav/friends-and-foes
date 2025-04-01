@@ -9,6 +9,7 @@ import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.util.BasicItemTrade;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.item.Items;
@@ -20,7 +21,13 @@ public final class FriendsAndFoesVillagerProfessions
 {
 	public static final ResourcefulRegistry<VillagerProfession> VILLAGER_PROFESSIONS = ResourcefulRegistries.create(BuiltInRegistries.VILLAGER_PROFESSION, FriendsAndFoes.MOD_ID);
 
-	public static final RegistryEntry<VillagerProfession> BEEKEEPER = VILLAGER_PROFESSIONS.register("beekeeper", () -> new VillagerProfession("beekeeper", pointOfInterest -> {
+	public static final RegistryEntry<VillagerProfession> BEEKEEPER = VILLAGER_PROFESSIONS.register("beekeeper", () -> new VillagerProfession(
+		//? >=1.21.5 {
+		Component.translatable("entity.friendsandfoes.villager.beekeeper"),
+		//?} else {
+		/*"beekeeper",
+		*///?}
+		pointOfInterest -> {
 		if(!FriendsAndFoes.getConfig().enableBeekeeperVillagerProfession) {
 			return false;
 		}

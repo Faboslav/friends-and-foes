@@ -10,6 +10,7 @@ import com.faboslav.friendsandfoes.common.entity.pose.WildfireEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
+import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
 import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.core.BlockPos;
@@ -198,9 +199,9 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 	@Override
 	public void readAdditionalSaveData(CompoundTag nbt) {
 		super.readAdditionalSaveData(nbt);
-		this.setActiveShieldsCount(nbt.getInt(ACTIVE_SHIELDS_NBT_NAME));
-		this.setTicksUntilShieldRegeneration(nbt.getInt(TICKS_UNTIL_SHIELD_REGENERATION_NBT_NAME));
-		this.setSummonedBlazesCount(nbt.getInt(SUMMONED_BLAZES_COUNT_NBT_NAME));
+		this.setActiveShieldsCount(VersionedNbt.getInt(nbt, ACTIVE_SHIELDS_NBT_NAME, DEFAULT_ACTIVE_SHIELDS_COUNT));
+		this.setTicksUntilShieldRegeneration(VersionedNbt.getInt(nbt, TICKS_UNTIL_SHIELD_REGENERATION_NBT_NAME, DEFAULT_TICKS_UNTIL_SHIELD_REGENERATION));
+		this.setSummonedBlazesCount(VersionedNbt.getInt(nbt, SUMMONED_BLAZES_COUNT_NBT_NAME, DEFAULT_SUMMONED_BLAZES_COUNT));
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.entity.ZombieHorseEntityAccess;
 import com.faboslav.friendsandfoes.common.entity.ai.goal.zombiehorse.ZombieHorseTrapTriggerGoal;
+import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
@@ -35,8 +36,8 @@ public abstract class ZombieHorseEntityMixin extends ZombieHorseAbstractHorseEnt
 
 	@Override
 	public void friendsandfoes_readCustomDataFromNbt(CompoundTag nbt, CallbackInfo ci) {
-		this.friendsandfoes_setTrapped(nbt.getBoolean("ZombieTrap"));
-		this.friendsandfoes_trapTime = nbt.getInt("ZombieTrapTime");
+		this.friendsandfoes_setTrapped(VersionedNbt.getBoolean(nbt, "ZombieTrap", false));
+		this.friendsandfoes_trapTime = VersionedNbt.getInt(nbt, "ZombieTrapTime", 0);
 	}
 
 	@Override

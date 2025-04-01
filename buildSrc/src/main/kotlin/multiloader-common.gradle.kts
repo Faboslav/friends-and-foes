@@ -1,6 +1,5 @@
 plugins {
 	id("java-library")
-	id("idea")
 }
 
 version = "${loader}-${commonMod.version}+mc${stonecutterBuild.current.version}"
@@ -10,7 +9,9 @@ base {
 }
 
 java {
-    toolchain.languageVersion = JavaLanguageVersion.of( commonProject.prop("java.version")!!)
+	toolchain.languageVersion = JavaLanguageVersion.of(commonProject.prop("java.version")!!)
+	withSourcesJar()
+	withJavadocJar()
 }
 
 repositories {

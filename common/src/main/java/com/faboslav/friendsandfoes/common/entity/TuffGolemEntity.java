@@ -10,10 +10,7 @@ import com.faboslav.friendsandfoes.common.entity.pose.TuffGolemEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.util.MovementUtil;
 import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
-import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
-import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
-import com.faboslav.friendsandfoes.common.versions.VersionedInteractionResult;
-import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
+import com.faboslav.friendsandfoes.common.versions.*;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -237,23 +234,23 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 	@Override
 	public void readAdditionalSaveData(CompoundTag nbt) {
 		super.readAdditionalSaveData(nbt);
-		this.setColor(TuffGolemEntity.Color.fromName(nbt.getString(COLOR_NBT_NAME)));
-		this.setGlued(nbt.getBoolean(IS_GLUED_NBT_NAME));
-		this.setHome(nbt.getCompound(HOME_NBT_NAME));
+		this.setColor(TuffGolemEntity.Color.fromName(VersionedNbt.getString(nbt, COLOR_NBT_NAME, TuffGolemEntity.Color.RED.getName())));
+		this.setGlued(VersionedNbt.getBoolean(nbt, IS_GLUED_NBT_NAME, false));
+		this.setHome(VersionedNbt.getCompound(nbt, HOME_NBT_NAME));
 
 		if (this.isAtHomePos()) {
 			this.setSpawnYaw(this.getHomeYaw());
 		}
 
-		String prevSavedPose = nbt.getString(PREV_POSE_NBT_NAME);
+		String prevSavedPose = VersionedNbt.getString(nbt, PREV_POSE_NBT_NAME, "");
 		if (prevSavedPose != "") {
-			this.setPrevPose(Pose.valueOf(nbt.getString(PREV_POSE_NBT_NAME)));
+			this.setPrevPose(Pose.valueOf(prevSavedPose));
 		}
 
-		String savedPose = nbt.getString(POSE_NBT_NAME);
+		String savedPose = VersionedNbt.getString(nbt, POSE_NBT_NAME, "");
 		if (savedPose != "") {
-			this.setPoseWithoutPrevPose(Pose.valueOf(nbt.getString(POSE_NBT_NAME)));
-			Pose entityPose = Pose.valueOf(nbt.getString(POSE_NBT_NAME));
+			this.setPoseWithoutPrevPose(Pose.valueOf(savedPose));
+			Pose entityPose = Pose.valueOf(savedPose);
 
 			if (
 				this.level().isClientSide() == false
@@ -623,15 +620,19 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 	}
 
 	public Vec3 getHomePos() {
+		var nbt = this.getHome();
+
 		return new Vec3(
-			this.getHome().getDouble(HOME_NBT_NAME_X),
-			this.getHome().getDouble(HOME_NBT_NAME_Y),
-			this.getHome().getDouble(HOME_NBT_NAME_Z)
+			VersionedNbt.getDouble(nbt, HOME_NBT_NAME_X, this.position().x()),
+			VersionedNbt.getDouble(nbt, HOME_NBT_NAME_Y, this.position().y()),
+			VersionedNbt.getDouble(nbt, HOME_NBT_NAME_Z, this.position().z())
 		);
 	}
 
 	public float getHomeYaw() {
-		return this.getHome().getFloat(HOME_NBT_NAME_YAW);
+		var nbt = this.getHome();
+
+		return VersionedNbt.getFloat(nbt, HOME_NBT_NAME_YAW, 0.0F);
 	}
 
 	public boolean isAtHomePos() {
@@ -643,8 +644,7 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 	}
 
 	public boolean isAtHomeYaw() {
-		return this.lerpYRot == this.getHomeYaw()
-			   && this.yRotO == this.getHomeYaw()
+		return this.yRotO == this.getHomeYaw()
 			   && this.getYRot() == this.getHomeYaw()
 			   && this.yBodyRotO == this.getHomeYaw()
 			   && this.getVisualRotationYInDegrees() == this.getHomeYaw()

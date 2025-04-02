@@ -33,6 +33,11 @@ loom {
 	accessWidenerPath = common.project.file("../../src/main/resources/${mod.id}.accesswidener")
 	//accessWidenerPath = project(":common:${stonecutter.current.project}").loom.accessWidenerPath
 
+	runConfigs.all {
+		ideConfigGenerated(true)
+	}
+
+	/*
 	runs {
 		getByName("client") {
 			client()
@@ -44,7 +49,7 @@ loom {
 			configName = "Fabric Server"
 			ideConfigGenerated(true)
 		}
-	}
+	}*/
 
 	mixin {
 		defaultRefmapName = "${mod.id}.refmap.json"

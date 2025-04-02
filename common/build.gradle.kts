@@ -1,14 +1,16 @@
 plugins {
 	id("multiloader-common")
 	id("fabric-loom")
+	id("java")
+	id("idea")
 	id("dev.kikugie.j52j") version "2.0"
 }
 
 loom {
 	accessWidenerPath = common.project.file("../../src/main/resources/${mod.id}.accesswidener")
 
-	mixin {
-		useLegacyMixinAp = false
+	runConfigs.all {
+		ideConfigGenerated(true)
 	}
 }
 
@@ -42,6 +44,13 @@ val commonResources: Configuration by configurations.creating {
 	isCanBeResolved = false
 	isCanBeConsumed = true
 }
+
+/*
+tasks {
+	named<Jar>("ideaSyncTask") {
+		enabled = true
+	}
+}*/
 
 artifacts {
 	afterEvaluate {

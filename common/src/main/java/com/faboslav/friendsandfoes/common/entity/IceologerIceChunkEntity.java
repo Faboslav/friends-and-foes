@@ -4,6 +4,7 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
+import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -95,13 +96,8 @@ public final class IceologerIceChunkEntity extends Entity
 			this.setTargetUuid(nbt.getUUID(TARGET_UUID_NBT_NAME));
 		}
 
-		if (nbt.contains(TICKS_UNTIL_FALL_NBT_NAME)) {
-			this.setTicksUntilFall(nbt.getInt(TICKS_UNTIL_FALL_NBT_NAME));
-		}
-
-		if (nbt.contains(IDLE_TICKS_NBT_NAME)) {
-			this.setIdleTicks(nbt.getInt(IDLE_TICKS_NBT_NAME));
-		}
+		this.setTicksUntilFall(VersionedNbt.getInt(nbt, TICKS_UNTIL_FALL_NBT_NAME, MAX_FLYING_TICKS));
+		this.setIdleTicks(VersionedNbt.getInt(nbt, IDLE_TICKS_NBT_NAME, MAX_IDLE_TICKS));
 	}
 
 	@Override

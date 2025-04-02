@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.fabric.modcompat;
 
 //? trinkets {
-/*import com.faboslav.friendsandfoes.common.modcompat.ModCompat;
+import com.faboslav.friendsandfoes.common.modcompat.ModCompat;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -35,4 +35,4 @@ public final class TrinketsCompat implements ModCompat
 		return null;
 	}
 }
-*///?}
+//?}

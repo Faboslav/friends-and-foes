@@ -8,6 +8,7 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import com.faboslav.friendsandfoes.common.versions.VersionedInteractionResult;
+import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -22,6 +23,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Cow;
+import net.minecraft.world.entity.animal.MushroomCow;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -37,6 +39,10 @@ import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
+//? >=1.21.5 {
+import net.minecraft.world.entity.VariantHolder;
+//?}
+
 //? >=1.21.3 {
 import net.minecraft.world.entity.EntitySpawnReason;
 
@@ -45,8 +51,13 @@ import java.util.Locale;
 /*import net.minecraft.world.entity.MobSpawnType;
 *///?}
 
-public final class MoobloomEntity extends Cow implements Shearable
+//? >=1.21.5 {
+public class MoobloomEntity extends Cow implements Shearable, VariantHolder<net.minecraft.world.entity.animal.MushroomCow.Variant>
+//?} else {
+/*public final class MoobloomEntity extends Cow implements Shearable
+*///?}
 {
+	MushroomCow mushroomCow;
 	public static final String VARIANT_NBT_NAME = "Variant";
 	public static final String FLOWER_NBT_NAME = "Flower";
 
@@ -118,7 +129,7 @@ public final class MoobloomEntity extends Cow implements Shearable
 	public void readAdditionalSaveData(CompoundTag nbt) {
 		super.readAdditionalSaveData(nbt);
 
-		MoobloomVariant moobloomVariant = MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.getMoobloomVariantByName(nbt.getString(VARIANT_NBT_NAME));
+		MoobloomVariant moobloomVariant = MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.getMoobloomVariantByName(VersionedNbt.getString(nbt, VARIANT_NBT_NAME, this.getVariant().getName()));
 
 		if (moobloomVariant == null) {
 			moobloomVariant = MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.getDefaultMoobloomVariant();

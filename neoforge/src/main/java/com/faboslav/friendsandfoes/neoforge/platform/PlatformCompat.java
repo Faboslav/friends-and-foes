@@ -10,9 +10,9 @@ public final class PlatformCompat implements com.faboslav.friendsandfoes.common.
 
 		try {
 			//? if curios {
-			/*modId = "curios";
+			modId = "curios";
 			loadModCompat(modId, () -> new CuriosCompat());
-			*///?}
+			//?}
 		} catch (Throwable e) {
 			FriendsAndFoes.getLogger().error("Failed to setup compat with " + modId);
 			e.printStackTrace();

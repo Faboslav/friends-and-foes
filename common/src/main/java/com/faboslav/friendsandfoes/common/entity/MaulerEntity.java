@@ -13,6 +13,7 @@ import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
 import com.faboslav.friendsandfoes.common.versions.VersionedInteractionResult;
+import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -77,6 +78,8 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 	private static final int MAXIMUM_STORED_EXPERIENCE_POINTS = 1395;
 	public static final int MIN_TICKS_UNTIL_NEXT_BURROWING = 3000;
 	public static final int MAX_TICKS_UNTIL_NEXT_BURROWING = 6000;
+
+	private static final Type DEFAULT_TYPE = Type.DESERT;
 
 	private static final String TYPE_NBT_NAME = "Type";
 	private static final String STORED_EXPERIENCE_POINTS_NBT_NAME = "StoredExperiencePoints";
@@ -172,7 +175,7 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 	protected void defineSynchedData(SynchedEntityData.Builder builder) {
 		super.defineSynchedData(builder);
 
-		builder.define(TYPE, Type.DESERT.name());
+		builder.define(TYPE, DEFAULT_TYPE.name());
 		builder.define(ANGER_TIME, 0);
 		builder.define(STORED_EXPERIENCE_POINTS, 0);
 		builder.define(IS_MOVING, false);
@@ -199,16 +202,16 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 
 	public void readAdditionalSaveData(CompoundTag nbt) {
 		super.readAdditionalSaveData(nbt);
-		this.readPersistentAngerSaveData(this.level(), nbt);
-		this.setType(Type.fromName(nbt.getString(TYPE_NBT_NAME)));
-		this.setStoredExperiencePoints(nbt.getInt(STORED_EXPERIENCE_POINTS_NBT_NAME));
 
-		this.setBurrowedDown(nbt.getBoolean(IS_BURROWED_DOWN_NBT_NAME));
-		this.setTicksUntilNextBurrowingDown(nbt.getInt(TICKS_UNTIL_NEXT_BURROWING_DOWN_NBT_NAME));
-		this.setBurrowingDownAnimationProgress(nbt.getFloat(BURROWING_DOWN_ANIMATION_PROGRESS_NBT_NAME));
+		this.readPersistentAngerSaveData(this.level(), nbt);
+		this.setType(Type.fromName(VersionedNbt.getString(nbt, TYPE_NBT_NAME, this.getMaulerType().getName())));
+		this.setStoredExperiencePoints(VersionedNbt.getInt(nbt, STORED_EXPERIENCE_POINTS_NBT_NAME, this.getStoredExperiencePoints()));
+		this.setBurrowedDown(VersionedNbt.getBoolean(nbt, IS_BURROWED_DOWN_NBT_NAME, this.isBurrowedDown()));
+		this.setTicksUntilNextBurrowingDown(VersionedNbt.getInt(nbt, TICKS_UNTIL_NEXT_BURROWING_DOWN_NBT_NAME, this.getTicksUntilNextBurrowingDown()));
+		this.setBurrowingDownAnimationProgress(VersionedNbt.getFloat(nbt, BURROWING_DOWN_ANIMATION_PROGRESS_NBT_NAME, this.getBurrowingDownAnimationProgress()));
 
 		if (this.burrowDownGoal != null && this.isBurrowedDown() && nbt.contains(BURROWED_DOWN_TICKS_NBT_NAME)) {
-			this.burrowDownGoal.setBurrowedDownTicks(nbt.getInt(BURROWED_DOWN_TICKS_NBT_NAME));
+			this.burrowDownGoal.setBurrowedDownTicks(VersionedNbt.getInt(nbt, BURROWED_DOWN_TICKS_NBT_NAME, 0));
 			this.setInvulnerable(true);
 			this.setInvisible(true);
 		}

@@ -26,8 +26,11 @@ val dists = mapOf(
 val uniqueVersions = dists.values.flatten().distinct()
 
 stonecutter {
+	kotlinController = true
+
 	create(rootProject) {
 		versions(*uniqueVersions.toTypedArray())
+
 		dists.forEach { (branchName, branchVersions) ->
 			branch(branchName) {
 				versions(*branchVersions.toTypedArray())

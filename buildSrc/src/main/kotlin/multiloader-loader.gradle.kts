@@ -1,4 +1,6 @@
 plugins {
+	id("java")
+	id("idea")
     id("multiloader-common")
 }
 
@@ -16,6 +18,7 @@ dependencies {
     commonResources(project(path = commonPath, configuration = "commonResources"))
 }
 
+/*
 tasks {
     compileJava {
         dependsOn(commonJava)
@@ -39,4 +42,4 @@ tasks {
 		dependsOn(commonResources)
 		from(commonResources)
 	}
-}
+}*/

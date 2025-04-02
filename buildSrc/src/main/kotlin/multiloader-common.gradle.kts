@@ -1,4 +1,6 @@
 plugins {
+	id("java")
+	id("idea")
 	id("java-library")
 }
 
@@ -54,24 +56,6 @@ repositories {
 }
 
 tasks {
-	/*
-    named<Jar>("sourcesJar") {
-        from(rootProject.file("LICENSE")) {
-            rename { "${it}_${commonMod.id}" }
-        }
-    }*/
-
-    jar {
-        from(rootProject.file("LICENSE")) {
-            rename { "${it}_${commonMod.id}" }
-        }
-
-        manifest.attributes(
-			"Specification-Title" to commonMod.name,
-			"Specification-Vendor" to commonMod.author,
-			"Specification-Version" to commonMod.version,
-        )
-    }
 
 	processResources {
 		val expandProps = mapOf(

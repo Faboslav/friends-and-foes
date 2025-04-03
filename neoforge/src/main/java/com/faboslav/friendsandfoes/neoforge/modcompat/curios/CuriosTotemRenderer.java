@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.neoforge.modcompat.curios;
 
 //? if curios {
-import com.mojang.blaze3d.vertex.PoseStack;
+/*import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -51,4 +51,4 @@ public class CuriosTotemRenderer implements ICurioRenderer
 		);
 	}
 }
-//?}
+*///?}

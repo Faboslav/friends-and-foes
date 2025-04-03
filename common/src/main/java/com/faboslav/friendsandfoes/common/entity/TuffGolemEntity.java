@@ -899,7 +899,6 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 	}
 
 	public void setSpawnYaw(float yaw) {
-		this.lerpYRot = yaw;
 		this.yRotO = yaw;
 		this.setYRot(yaw);
 		this.yBodyRotO = yaw;

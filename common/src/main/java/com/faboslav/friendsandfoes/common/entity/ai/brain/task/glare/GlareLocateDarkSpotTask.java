@@ -98,10 +98,10 @@ public final class GlareLocateDarkSpotTask extends Behavior<GlareEntity>
 	public static boolean canLocateDarkSpot(GlareEntity glare) {
 		var level = glare.level();
 		//? >=1.21.5 {
-		var isDay = level.isBrightOutside();
-		//?} else {
-		/*var isDay = level.isDay();
-		*///?}
+		/*var isDay = level.isBrightOutside();
+		*///?} else {
+		var isDay = level.isDay();
+		//?}
 		var canSeeSky = level.canSeeSky(glare.blockPosition());
 
 		if(

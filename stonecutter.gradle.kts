@@ -6,7 +6,8 @@ plugins {
     id("net.neoforged.moddev") version "2.0.78" apply false
     id("fabric-loom") version "1.10-SNAPSHOT" apply false
 }
-stonecutter active file("versions/current")
+
+stonecutter active "1.21.4" /* [SC] DO NOT EDIT */
 
 stonecutter registerChiseled tasks.register("chiseledBuild", stonecutter.chiseled) { 
     group = mod.id

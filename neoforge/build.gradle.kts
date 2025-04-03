@@ -1,6 +1,7 @@
 plugins {
 	`multiloader-loader`
 	id("net.neoforged.moddev")
+	id("dev.kikugie.j52j") version "2.0"
 }
 
 neoForge {

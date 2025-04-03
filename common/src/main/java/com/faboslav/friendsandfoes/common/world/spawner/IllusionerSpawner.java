@@ -22,20 +22,25 @@ public final class IllusionerSpawner implements CustomSpawner
 	}
 
 	@Override
-	public int tick(ServerLevel world, boolean spawnMonsters, boolean spawnAnimals) {
+	//? >=1.21.5 {
+	/*public void tick(ServerLevel world, boolean spawnMonsters, boolean spawnAnimals)
+	*///?} else {
+	public int tick(ServerLevel world, boolean spawnMonsters, boolean spawnAnimals)
+	//?}
+	{
 		if (
 			!spawnMonsters
 			|| !FriendsAndFoes.getConfig().enableIllusioner
 			|| !FriendsAndFoes.getConfig().enableIllusionerSpawn
 		) {
-			return 0;
+			return /*? <1.21.5 {*/0/*?}*/;
 		}
 
 		RandomSource random = world.getRandom();
 		--this.cooldown;
 
 		if (this.cooldown > 0) {
-			return 0;
+			return /*? <1.21.5 {*/0/*?}*/;
 		}
 
 		this.cooldown += 12000 + random.nextInt(1000);
@@ -43,15 +48,19 @@ public final class IllusionerSpawner implements CustomSpawner
 
 		if (
 			l < 5L
-			|| !world.isDay()
+			//? >=1.21.5 {
+			/*|| world.isDarkOutside()
+			*///?} else {
+			|| world.isNight()
+			//?}
 			|| random.nextIntBetweenInclusive(0, 1) != 0
 		) {
-			return 0;
+			return /*? <1.21.5 {*/0/*?}*/;
 		}
 
 		int playerCount = world.players().size();
 		if (playerCount == 0) {
-			return 0;
+			return /*? <1.21.5 {*/0/*?}*/;
 		}
 
 		Player playerEntity = world.players().get(random.nextInt(playerCount));
@@ -60,7 +69,7 @@ public final class IllusionerSpawner implements CustomSpawner
 			playerEntity.isSpectator()
 			|| world.isCloseToVillage(playerEntity.blockPosition(), 2)
 		) {
-			return 0;
+			return /*? <1.21.5 {*/0/*?}*/;
 		}
 
 		int j = (24 + random.nextInt(24)) * (random.nextBoolean() ? -1:1);
@@ -72,11 +81,11 @@ public final class IllusionerSpawner implements CustomSpawner
 		var maxX = mutable.getX() + 10;
 		var maxZ = mutable.getZ() + 10;
 		if (!world.hasChunksAt(minX, minZ, maxX, maxZ)) {
-			return 0;
+			return /*? <1.21.5 {*/0/*?}*/;
 		}
 
 		if (!world.getBiome(mutable).is(FriendsAndFoesTags.HAS_ILLUSIONER)) {
-			return 0;
+			return /*? <1.21.5 {*/0/*?}*/;
 		}
 
 		mutable.setY(world.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, mutable).getY());
@@ -86,13 +95,13 @@ public final class IllusionerSpawner implements CustomSpawner
 			!NaturalSpawner.isValidEmptySpawnBlock(world, mutable, blockState, blockState.getFluidState(), EntityType.ILLUSIONER)
 			|| !PatrollingMonster.checkPatrollingMonsterSpawnRules(EntityType.ILLUSIONER, world, VersionedEntitySpawnReason.PATROL, mutable, random)
 		) {
-			return 0;
+			return /*? <1.21.5 {*/0/*?}*/;
 		}
 
 		var illusioner = EntityType.ILLUSIONER.create(world/*? >=1.21.3 {*/, VersionedEntitySpawnReason.PATROL/*?}*/);
 
 		if (illusioner == null) {
-			return 0;
+			return /*? <1.21.5 {*/0/*?}*/;
 		}
 
 		illusioner.setPatrolLeader(false);
@@ -100,6 +109,6 @@ public final class IllusionerSpawner implements CustomSpawner
 		illusioner.setPos(mutable.getX(), mutable.getY(), mutable.getZ());
 		illusioner.finalizeSpawn(world, world.getCurrentDifficultyAt(mutable), VersionedEntitySpawnReason.PATROL, null);
 		world.addFreshEntityWithPassengers(illusioner);
-		return 1;
+		return /*? <1.21.5 {*/1/*?}*/;
 	}
 }

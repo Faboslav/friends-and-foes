@@ -6,6 +6,7 @@ import com.faboslav.friendsandfoes.common.modcompat.ModCompat;
 import com.faboslav.friendsandfoes.common.network.packet.TotemEffectPacket;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.util.TotemUtil;
+import com.faboslav.friendsandfoes.common.versions.VersionedMobEffects;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -42,8 +43,10 @@ public abstract class PlayerEntityMixin extends LivingEntity
 		super(entityType, world);
 	}
 
+	//? <=1.21.4 {
 	@Shadow
 	public abstract ItemStack getItemBySlot(EquipmentSlot slot);
+	//?}
 
 	@Inject(
 		at = @At("TAIL"),
@@ -116,7 +119,7 @@ public abstract class PlayerEntityMixin extends LivingEntity
 
 				if (totemItem == FriendsAndFoesItems.TOTEM_OF_FREEZING.get()) {
 					TotemUtil.freezeEntities(player, serverLevel);
-					this.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, TotemUtil.POSITIVE_EFFECT_TICKS, 1));
+					this.addEffect(new MobEffectInstance(VersionedMobEffects.MOVEMENT_SPEED, TotemUtil.POSITIVE_EFFECT_TICKS, 1));
 				} else if (totemItem == FriendsAndFoesItems.TOTEM_OF_ILLUSION.get()) {
 					TotemUtil.createIllusions(player, serverLevel);
 				}

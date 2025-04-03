@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.common.entity.event;
 
 import com.faboslav.friendsandfoes.common.events.entity.EntitySpawnEvent;
+import com.faboslav.friendsandfoes.common.mixin.MobAccessor;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -40,10 +41,10 @@ public final class OnEntitySpawn
 
 			entityToSpawn
 				//? >= 1.21.5 {
-				.snapTo(
-				//?} else {
-				/*.moveTo(
-				*///?}
+				/*.snapTo(
+				*///?} else {
+				.moveTo(
+				//?}
 				entity.getX(),
 				entity.getY(),
 				entity.getZ(),
@@ -78,10 +79,10 @@ public final class OnEntitySpawn
 					float dropChance;
 
 					//? >= 1.21.5 {
-					dropChance = entity.getDropChances().byEquipment(equipmentSlot);
-					//?} else {
-					/*dropChance = entity.getEquipmentDropChance(equipmentSlot);
-					*///?}
+					/*dropChance = entity.getDropChances().byEquipment(equipmentSlot);
+					*///?} else {
+					dropChance = ((MobAccessor) entity).friendsandfoes$getEquipmentDropChance(equipmentSlot);
+					//?}
 					entityToSpawn.setDropChance(equipmentSlot, dropChance);
 				}
 			}

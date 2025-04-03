@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.common.entity.ai.brain.task.glare;
 
 import com.faboslav.friendsandfoes.common.entity.GlareEntity;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -55,7 +56,7 @@ public final class GlareTeleportToOwnerTask extends Behavior<GlareEntity>
 		} else if (!this.canTeleportTo(glare, new BlockPos(x, y, z))) {
 			return false;
 		} else {
-			glare.moveTo((double) x + 0.5D, y, (double) z + 0.5D, glare.getYRot(), glare.getXRot());
+			VersionedEntity.moveTo(glare, (double) x + 0.5D, y, (double) z + 0.5D, glare.getYRot(), glare.getXRot());
 			glare.getNavigation().stop();
 			return true;
 		}

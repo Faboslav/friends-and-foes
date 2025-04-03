@@ -69,10 +69,18 @@ public record EntityAnimationsSyncPacket(Map<ResourceLocation, AnimationDefiniti
 				return new EntityAnimationsSyncPacket(parsedEntityAnimations);
 			}
 
+			//? >=1.21.5 {
+			/*ListTag entityAnimations = data.getListOrEmpty("entity_animations");
+			*///?} else {
 			ListTag entityAnimations = data.getList("entity_animations", Tag.TAG_COMPOUND);
+			//?}
 
 			for (int i = 0; i < entityAnimations.size(); i++) {
+				//? >=1.21.5 {
+				/*CompoundTag entityAnimation = entityAnimations.getCompoundOrEmpty(i);
+				*///?} else {
 				CompoundTag entityAnimation = entityAnimations.getCompound(i);
+				//?}
 
 				Tag resourceLocationTag = entityAnimation.get("resource_location");
 				Tag animationDefinitionTag = entityAnimation.get("animation_definition");

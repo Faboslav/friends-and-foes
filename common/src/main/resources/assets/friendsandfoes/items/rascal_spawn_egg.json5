@@ -1,16 +1,22 @@
 {
+	//? >=1.21.5 {
+	/*"model": {
+		"type": "minecraft:model",
+		"model": "friendsandfoes:item/rascal_spawn_egg"
+	}
+*///?} else {
     "model": {
         "type": "minecraft:model",
         "model": "minecraft:item/template_spawn_egg",
         "tints": [
             {
                 "type": "minecraft:constant",
-                "value": 4288303160
+                "value": 4278547306
             },
             {
                 "type": "minecraft:constant",
-                "value": 268421528
+                "value": 4287255068
             }
         ]
-    }
+	}//?}
 }

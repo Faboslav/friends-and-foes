@@ -18,7 +18,6 @@ dependencies {
     commonResources(project(path = commonPath, configuration = "commonResources"))
 }
 
-/*
 tasks {
     compileJava {
         dependsOn(commonJava)
@@ -29,17 +28,4 @@ tasks {
         dependsOn(commonResources)
         from(commonResources)
     }
-
-	javadoc {
-		dependsOn(commonJava)
-		source(commonJava)
-	}
-
-	named<Jar>("sourcesJar") {
-		dependsOn(commonJava)
-		from(commonJava)
-
-		dependsOn(commonResources)
-		from(commonResources)
-	}
-}*/
+}

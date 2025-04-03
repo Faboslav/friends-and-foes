@@ -16,10 +16,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 
 //? >=1.21.5 {
-import net.minecraft.client.renderer.block.model.BlockStateModel;
-//?} else {
-/*import net.minecraft.client.resources.model.BakedModel;
-*///?}
+/*import net.minecraft.client.renderer.block.model.BlockStateModel;
+*///?} else {
+import net.minecraft.client.resources.model.BakedModel;
+//?}
 
 //? >=1.21.3 {
 import com.faboslav.friendsandfoes.common.client.render.entity.state.MoobloomRenderState;
@@ -81,10 +81,10 @@ public final class MoobloomFlowerFeatureRenderer extends RenderLayer<MoobloomRen
 			Minecraft minecraftClient = Minecraft.getInstance();
 			boolean renderAsModel = minecraftClient.shouldEntityAppearGlowing(moobloom) && moobloom.isInvisible();
 			//? >=1.21.5 {
-			BlockStateModel model = this.blockRenderer.getBlockModel(blockState);
-			//?} else {
-			/*BakedModel bakedModel = this.blockRenderer.getBlockModel(blockState);
-			*///?}
+			/*BlockStateModel model = this.blockRenderer.getBlockModel(blockState);
+			*///?} else {
+			BakedModel model = this.blockRenderer.getBlockModel(blockState);
+			//?}
 
 			// Head
 			poseStack.pushPose();
@@ -127,17 +127,17 @@ public final class MoobloomFlowerFeatureRenderer extends RenderLayer<MoobloomRen
 		BlockState blockState,
 		int overlay,
 		//? >=1.21.5 {
-		BlockStateModel model
-		//?} else {
-		/*BakedModel model
-		*///?}
+		/*BlockStateModel model
+		*///?} else {
+		BakedModel model
+		//?}
 	) {
 		if (renderAsModel) {
 			//? >=1.21.5 {
-			ModelBlockRenderer.renderModel(poseStack.last(), multiBufferSource.getBuffer(RenderType.outline(TextureAtlas.LOCATION_BLOCKS)), model, 0.0F, 0.0F, 0.0F, light, overlay);
-			//?} else {
-			/*this.blockRenderer.getModelRenderer().renderModel(poseStack.last(), multiBufferSource.getBuffer(RenderType.outline(TextureAtlas.LOCATION_BLOCKS)), blockState, model, 0.0F, 0.0F, 0.0F, light, overlay);
-			*///?}
+			/*ModelBlockRenderer.renderModel(poseStack.last(), multiBufferSource.getBuffer(RenderType.outline(TextureAtlas.LOCATION_BLOCKS)), model, 0.0F, 0.0F, 0.0F, light, overlay);
+			*///?} else {
+			this.blockRenderer.getModelRenderer().renderModel(poseStack.last(), multiBufferSource.getBuffer(RenderType.outline(TextureAtlas.LOCATION_BLOCKS)), blockState, model, 0.0F, 0.0F, 0.0F, light, overlay);
+			//?}
 		} else {
 			this.blockRenderer.renderSingleBlock(blockState, poseStack, multiBufferSource, light, overlay);
 		}

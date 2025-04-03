@@ -11,6 +11,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+//? >= 1.21.5 {
+/*import net.minecraft.server.level.ServerLevel;
+*///?}
+
 @Mixin(Raid.class)
 public final class RaidMixin
 {
@@ -20,6 +24,9 @@ public final class RaidMixin
 		cancellable = true
 	)
 	public void friendsandfoes_addRaider(
+		//? >= 1.21.5 {
+		/*ServerLevel serverLevel,
+		*///?}
 		int wave,
 		Raider raider,
 		BlockPos pos,

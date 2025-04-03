@@ -4,6 +4,7 @@ import com.faboslav.friendsandfoes.common.entity.ZombieHorseEntityAccess;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesCriterias;
 import java.util.List;
 
+import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
@@ -60,11 +61,7 @@ public final class ZombieHorseTrapTriggerGoal extends Goal
 		this.zombieHorse.setTamed(true);
 		this.zombieHorse.setAge(0);
 		LightningBolt lightningEntity = EntityType.LIGHTNING_BOLT.create(serverWorld/*? >=1.21.3 {*/, VersionedEntitySpawnReason.TRIGGERED/*?}*/);
-		//? >=1.21.5 {
-		lightningEntity.snapTo(this.zombieHorse.getX(), this.zombieHorse.getY(), this.zombieHorse.getZ());
-		//?} else {
-		/*lightningEntity.moveTo(this.zombieHorse.getX(), this.zombieHorse.getY(), this.zombieHorse.getZ());
-		*///?}
+		VersionedEntity.moveTo(lightningEntity, this.zombieHorse.getX(), this.zombieHorse.getY(), this.zombieHorse.getZ());
 		lightningEntity.setVisualOnly(true);
 		serverWorld.addFreshEntity(lightningEntity);
 		Zombie zombie = this.getZombie(localDifficulty, this.zombieHorse);

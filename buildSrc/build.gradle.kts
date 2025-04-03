@@ -11,5 +11,5 @@ repositories {
 dependencies {
 	fun plugin(id: String, version: String) = "$id:$id.gradle.plugin:$version"
 
-	implementation(plugin("dev.kikugie.stonecutter", "0.6-alpha.11"))
+	implementation(plugin("dev.kikugie.stonecutter", "0.6-beta.1"))
 }

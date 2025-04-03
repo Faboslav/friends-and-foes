@@ -12,8 +12,8 @@ base {
 
 java {
 	toolchain.languageVersion = JavaLanguageVersion.of(commonProject.prop("java.version")!!)
-	withSourcesJar()
-	withJavadocJar()
+	// withSourcesJar()
+	// withJavadocJar()
 }
 
 repositories {
@@ -50,7 +50,7 @@ repositories {
 
 	maven("https://maven.jamieswhiteshirt.com/libs-release") {
 		content {
-			includeGroup("com.jamieswhiteshirt")
+			includeGroup("com.jamieswhitefshirt")
 		}
 	}
 }

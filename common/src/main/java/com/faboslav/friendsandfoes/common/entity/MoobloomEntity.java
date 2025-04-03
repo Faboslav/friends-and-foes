@@ -22,8 +22,6 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.animal.Cow;
-import net.minecraft.world.entity.animal.MushroomCow;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -38,10 +36,11 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.entity.animal.Cow;
 
 //? >=1.21.5 {
-import net.minecraft.world.entity.VariantHolder;
-//?}
+/*import net.minecraft.world.entity.animal.AbstractCow;
+*///?}
 
 //? >=1.21.3 {
 import net.minecraft.world.entity.EntitySpawnReason;
@@ -52,19 +51,18 @@ import java.util.Locale;
 *///?}
 
 //? >=1.21.5 {
-public class MoobloomEntity extends Cow implements Shearable, VariantHolder<net.minecraft.world.entity.animal.MushroomCow.Variant>
-//?} else {
-/*public final class MoobloomEntity extends Cow implements Shearable
-*///?}
+/*public final class MoobloomEntity extends AbstractCow implements Shearable
+*///?} else {
+public final class MoobloomEntity extends Cow implements Shearable
+//?}
 {
-	MushroomCow mushroomCow;
 	public static final String VARIANT_NBT_NAME = "Variant";
 	public static final String FLOWER_NBT_NAME = "Flower";
 
 	private static final EntityDataAccessor<String> VARIANT;
 
 	public MoobloomEntity(
-		EntityType<? extends Cow> entityType,
+		EntityType<? extends MoobloomEntity> entityType,
 		Level world
 	) {
 		super(entityType, world);

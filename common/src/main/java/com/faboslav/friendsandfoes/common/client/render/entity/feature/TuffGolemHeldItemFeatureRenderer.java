@@ -77,7 +77,9 @@ public final class TuffGolemHeldItemFeatureRenderer extends RenderLayer<TuffGole
 			tuffGolem,
 			itemStack,
 			ItemDisplayContext.GROUND,
+			//? <=1.21.4 {
 			false,
+			//?}
 			poseStack,
 			bufferSource,
 			packedLight

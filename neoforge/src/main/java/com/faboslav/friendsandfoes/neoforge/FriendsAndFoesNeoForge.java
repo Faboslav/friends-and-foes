@@ -100,7 +100,8 @@ public final class FriendsAndFoesNeoForge
 	}
 
 	private static void onAddVillagerTrades(VillagerTradesEvent event) {
-		RegisterVillagerTradesEvent.EVENT.invoke(new RegisterVillagerTradesEvent(event.getType(), (i, listing) -> event.getTrades().get(i.intValue()).add(listing)));
+		// TODO register villager prof again
+		//RegisterVillagerTradesEvent.EVENT.invoke(new RegisterVillagerTradesEvent(event.getType(), (i, listing) -> event.getTrades().get(i.intValue()).add(listing)));
 	}
 
 	private static void onRegisterBrewingRecipes(RegisterBrewingRecipesEvent event) {

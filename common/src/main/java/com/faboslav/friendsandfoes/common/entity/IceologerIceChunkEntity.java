@@ -8,7 +8,6 @@ import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
@@ -29,7 +28,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 
-@SuppressWarnings({"rawtypes", "unchecked"})
 public final class IceologerIceChunkEntity extends Entity
 {
 	private static final String OWNER_UUID_NBT_NAME = "OwnerUuid";
@@ -42,23 +40,23 @@ public final class IceologerIceChunkEntity extends Entity
 	private static final int MIN_IDLE_TICKS = 10;
 	private static final int MAX_IDLE_TICKS = 20;
 	private static final int SUMMON_TICKS = 30;
-	private static final EntityDataAccessor<Optional<UUID>> OWNER_UUID;
-	private static final EntityDataAccessor<Optional<UUID>> TARGET_UUID;
 	private static final EntityDataAccessor<Integer> TICKS_UNTIL_FALL;
 	private static final EntityDataAccessor<Integer> IDLE_TICKS;
 
 	@Nullable
 	private LivingEntity owner;
 	@Nullable
+	private UUID ownerUUID;
+	@Nullable
 	private LivingEntity target;
+	@Nullable
+	private UUID targetUUID;
 
 	private int lifetimeTicks;
 	private float summonAnimationProgress;
 	private float lastSummonAnimationProgress;
 
 	static {
-		OWNER_UUID = SynchedEntityData.defineId(IceologerIceChunkEntity.class, EntityDataSerializers.OPTIONAL_UUID);
-		TARGET_UUID = SynchedEntityData.defineId(IceologerIceChunkEntity.class, EntityDataSerializers.OPTIONAL_UUID);
 		TICKS_UNTIL_FALL = SynchedEntityData.defineId(IceologerIceChunkEntity.class, EntityDataSerializers.INT);
 		IDLE_TICKS = SynchedEntityData.defineId(IceologerIceChunkEntity.class, EntityDataSerializers.INT);
 	}
@@ -80,47 +78,33 @@ public final class IceologerIceChunkEntity extends Entity
 
 
 	protected void defineSynchedData(SynchedEntityData.Builder builder) {
-		builder.define(OWNER_UUID, Optional.empty());
-		builder.define(TARGET_UUID, Optional.empty());
 		builder.define(TICKS_UNTIL_FALL, RandomGenerator.generateInt(MIN_FLYING_TICKS, MAX_FLYING_TICKS));
 		builder.define(IDLE_TICKS, RandomGenerator.generateInt(MIN_IDLE_TICKS, MAX_IDLE_TICKS));
 	}
 
 	@Override
 	protected void readAdditionalSaveData(CompoundTag nbt) {
-		if (nbt.hasUUID(OWNER_UUID_NBT_NAME)) {
-			this.setOwnerUuid(nbt.getUUID(OWNER_UUID_NBT_NAME));
-		}
-
-		if (nbt.hasUUID(TARGET_UUID_NBT_NAME)) {
-			this.setTargetUuid(nbt.getUUID(TARGET_UUID_NBT_NAME));
-		}
-
+		this.setOwnerUuid(VersionedNbt.getUUID(nbt, OWNER_UUID_NBT_NAME));
+		this.setTargetUuid(VersionedNbt.getUUID(nbt, TARGET_UUID_NBT_NAME));
 		this.setTicksUntilFall(VersionedNbt.getInt(nbt, TICKS_UNTIL_FALL_NBT_NAME, MAX_FLYING_TICKS));
 		this.setIdleTicks(VersionedNbt.getInt(nbt, IDLE_TICKS_NBT_NAME, MAX_IDLE_TICKS));
 	}
 
 	@Override
 	protected void addAdditionalSaveData(CompoundTag nbt) {
-		if (this.getOwnerUuid() != null) {
-			nbt.putUUID(OWNER_UUID_NBT_NAME, this.getOwnerUuid());
-		}
-
-		if (this.getTargetUuid() != null) {
-			nbt.putUUID(TARGET_UUID_NBT_NAME, this.getTargetUuid());
-		}
-
+		VersionedNbt.putUUID(nbt, OWNER_UUID_NBT_NAME, this.getOwnerUuid());
+		VersionedNbt.putUUID(nbt, TARGET_UUID_NBT_NAME, this.getTargetUuid());
 		nbt.putInt(TICKS_UNTIL_FALL_NBT_NAME, this.getTicksUntilFall());
 		nbt.putInt(IDLE_TICKS_NBT_NAME, this.getIdleTicks());
 	}
 
 	@Nullable
 	public UUID getOwnerUuid() {
-		return (UUID) ((Optional) this.entityData.get(OWNER_UUID)).orElse(null);
+		return this.ownerUUID;
 	}
 
 	public void setOwnerUuid(@Nullable UUID uuid) {
-		this.entityData.set(OWNER_UUID, Optional.ofNullable(uuid));
+		this.ownerUUID = uuid;
 	}
 
 	@Nullable
@@ -137,11 +121,11 @@ public final class IceologerIceChunkEntity extends Entity
 
 	@Nullable
 	public UUID getTargetUuid() {
-		return (UUID) ((Optional) this.entityData.get(TARGET_UUID)).orElse(null);
+		return this.targetUUID;
 	}
 
 	public void setTargetUuid(@Nullable UUID uuid) {
-		this.entityData.set(TARGET_UUID, Optional.ofNullable(uuid));
+		this.targetUUID = uuid;
 	}
 
 	@Nullable

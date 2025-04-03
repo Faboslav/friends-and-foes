@@ -1,6 +1,8 @@
 package com.faboslav.friendsandfoes.common.util.world.processor;
 
+import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
@@ -25,36 +27,41 @@ public final class IceologerCabinArmorStandProcessorHelper
 		RandomSource random = structurePlacementData.getRandom(globalEntityInfo.blockPos);
 		CompoundTag newNbtCompound = globalEntityInfo.nbt.copy();
 
+		ListTag armorItems = VersionedNbt.getList(newNbtCompound, "ArmorItems");
+
 		if (random.nextFloat() < 0.33F) {
-			((CompoundTag) newNbtCompound.getList("ArmorItems", 10).get(0)).putString("id", Items.LEATHER_BOOTS.toString());
-			((CompoundTag) newNbtCompound.getList("ArmorItems", 10).get(0)).putByte("Count", (byte) 1);
+			CompoundTag armorItem = ((CompoundTag)armorItems.get(0));
+			armorItem.putString("id", Items.LEATHER_BOOTS.toString());
+			armorItem.putByte("Count", (byte) 1);
 			CompoundTag bootsNbtCompound = new CompoundTag();
 			bootsNbtCompound.putInt("Damage", 0);
-			((CompoundTag) newNbtCompound.getList("ArmorItems", 10).get(0)).put("tag", bootsNbtCompound);
+			armorItem.put("tag", bootsNbtCompound);
 		}
 
 		if (random.nextFloat() < 0.33F) {
-			((CompoundTag) newNbtCompound.getList("ArmorItems", 10).get(1)).putString("id", Items.LEATHER_LEGGINGS.toString());
-			((CompoundTag) newNbtCompound.getList("ArmorItems", 10).get(1)).putByte("Count", (byte) 1);
+			CompoundTag armorItem = ((CompoundTag)armorItems.get(1));
+			armorItem.putString("id", Items.LEATHER_LEGGINGS.toString());
+			armorItem.putByte("Count", (byte) 1);
 			CompoundTag bootsNbtCompound = new CompoundTag();
 			bootsNbtCompound.putInt("Damage", 0);
-			((CompoundTag) newNbtCompound.getList("ArmorItems", 10).get(1)).put("tag", bootsNbtCompound);
+			armorItem.put("tag", bootsNbtCompound);
 		}
 
 		if (random.nextFloat() < 0.33F) {
-
-			((CompoundTag) newNbtCompound.getList("ArmorItems", 10).get(2)).putString("id", Items.LEATHER_CHESTPLATE.toString());
-			((CompoundTag) newNbtCompound.getList("ArmorItems", 10).get(2)).putByte("Count", (byte) 1);
+			CompoundTag armorItem = ((CompoundTag)armorItems.get(2));
+			armorItem.putString("id", Items.LEATHER_CHESTPLATE.toString());
+			armorItem.putByte("Count", (byte) 1);
 			CompoundTag bootsNbtCompound = new CompoundTag();
 			bootsNbtCompound.putInt("Damage", 0);
-			((CompoundTag) newNbtCompound.getList("ArmorItems", 10).get(2)).put("tag", bootsNbtCompound);
+			armorItem.put("tag", bootsNbtCompound);
 		}
 
-		((CompoundTag) newNbtCompound.getList("ArmorItems", 10).get(3)).putString("id", Items.LEATHER_HELMET.toString());
-		((CompoundTag) newNbtCompound.getList("ArmorItems", 10).get(3)).putByte("Count", (byte) 1);
+		CompoundTag armorItemHelmet = ((CompoundTag)armorItems.get(3));
+		armorItemHelmet.putString("id", Items.LEATHER_HELMET.toString());
+		armorItemHelmet.putByte("Count", (byte) 1);
 		CompoundTag bootsNbtCompound = new CompoundTag();
 		bootsNbtCompound.putInt("Damage", 0);
-		((CompoundTag) newNbtCompound.getList("ArmorItems", 10).get(3)).put("tag", bootsNbtCompound);
+		armorItemHelmet.put("tag", bootsNbtCompound);
 
 		globalEntityInfo = new StructureEntityInfo(
 			globalEntityInfo.pos,

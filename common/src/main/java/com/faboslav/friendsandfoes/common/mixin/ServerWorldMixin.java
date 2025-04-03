@@ -113,10 +113,10 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel
 
 				LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(this/*? >=1.21.3 {*/, VersionedEntitySpawnReason.EVENT/*?}*/);
 				//? >= 1.21.5 {
-				lightningBolt.snapTo(Vec3.atBottomCenterOf(blockPos));
-				//?} else {
-				/*lightningBolt.moveTo(Vec3.atBottomCenterOf(blockPos));
-				*///?}
+				/*lightningBolt.snapTo(Vec3.atBottomCenterOf(blockPos));
+				*///?} else {
+				lightningBolt.moveTo(Vec3.atBottomCenterOf(blockPos));
+				//?}
 				lightningBolt.setVisualOnly(canZombieHorseSpawn);
 
 				this.addFreshEntity(lightningBolt);

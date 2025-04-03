@@ -5,6 +5,7 @@ import com.faboslav.friendsandfoes.common.entity.CrabEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -98,7 +99,7 @@ public final class CrabEggBlock extends Block
 					CrabEntity crab = FriendsAndFoesEntityTypes.CRAB.get().create(world/*? >=1.21.3 {*/, VersionedEntitySpawnReason.BREEDING/*?}*/);
 					crab.setAge(-24000);
 					crab.setHome(crab.getNewHome());
-					crab.moveTo((double) pos.getX() + 0.3 + (double) j * 0.2, pos.getY(), (double) pos.getZ() + 0.3, 0.0F, 0.0F);
+					VersionedEntity.moveTo(crab, (double) pos.getX() + 0.3 + (double) j * 0.2, pos.getY(), (double) pos.getZ() + 0.3, 0.0F, 0.0F);
 					world.addFreshEntity(crab);
 				}
 			}

@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.common.versions;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -35,6 +36,30 @@ public final class VersionedEntity
 		*///?}
 
 		return hurtResult;
+	}
+
+	public static void moveTo(Entity entity, double x, double y, double z) {
+		//? >=1.21.5 {
+		/*entity.snapTo(x, y, z);
+		*///?} else {
+		entity.moveTo(x, y, z);
+		//?}
+	}
+
+	public static void moveTo(Entity entity, double x, double y, double z, float f, float g) {
+		//? >=1.21.5 {
+		/*entity.snapTo(x, y, z, f, g);
+		*///?} else {
+		entity.moveTo(x, y, z, f, g);
+		 //?}
+	}
+
+	public static void moveTo(Entity entity, BlockPos blockPos, float f, float g) {
+		//? >=1.21.5 {
+		/*entity.snapTo(blockPos, f, g);
+		*///?} else {
+		entity.moveTo(blockPos, f, g);
+		 //?}
 	}
 
 	public static ItemEntity spawnAtLocation(Entity entity, ItemLike stack) {

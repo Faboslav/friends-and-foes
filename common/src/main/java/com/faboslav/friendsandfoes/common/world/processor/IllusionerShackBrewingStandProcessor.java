@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.common.world.processor;
 
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStructureProcessorTypes;
+import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
@@ -42,7 +43,7 @@ public final class IllusionerShackBrewingStandProcessor extends StructureProcess
 
 		RandomSource random = structurePlacementData.getRandom(currentBlockInfo.pos());
 		CompoundTag nbt = currentBlockInfo.nbt();
-		ListTag itemsListNbt = nbt.getList("Items", 10);
+		ListTag itemsListNbt = VersionedNbt.getList(nbt, "Items");
 
 		int randomNumber = random.nextInt(2);
 

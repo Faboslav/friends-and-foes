@@ -24,6 +24,7 @@ import net.minecraft.world.level.block.state.pattern.BlockPatternBuilder;
 import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -104,19 +105,7 @@ public abstract class CarvedPumpkinBlockMixin extends HorizontalDirectionalBlock
 		BlockState headBlockState = patternSearchResult.getBlock(0, 0, 0).getState();
 		BlockState woolBlockState = patternSearchResult.getBlock(0, 1, 0).getState();
 
-		for (int i = 0; i < this.friendsandfoes_getTuffGolemPattern().getHeight(); ++i) {
-			BlockInWorld cachedBlockPosition = patternSearchResult.getBlock(0, i, 0);
-			world.setBlock(
-				cachedBlockPosition.getPos(),
-				Blocks.AIR.defaultBlockState(),
-				Block.UPDATE_CLIENTS
-			);
-			world.levelEvent(
-				LevelEvent.PARTICLES_DESTROY_BLOCK,
-				cachedBlockPosition.getPos(),
-				Block.getId(cachedBlockPosition.getState())
-			);
-		}
+		CarvedPumpkinBlock.clearPatternBlocks(world, patternSearchResult);
 
 		BlockPos cachedBlockPosition = patternSearchResult.getBlock(0, 2, 0).getPos();
 		float tuffGolemYaw = headBlockState.getValue(CarvedPumpkinBlock.FACING).toYRot();
@@ -140,10 +129,7 @@ public abstract class CarvedPumpkinBlockMixin extends HorizontalDirectionalBlock
 			CriteriaTriggers.SUMMONED_ENTITY.trigger(serverPlayerEntity, tuffGolem);
 		}
 
-		for (int j = 0; j < this.friendsandfoes_getTuffGolemPattern().getHeight(); ++j) {
-			BlockInWorld cachedBlockPosition2 = patternSearchResult.getBlock(0, j, 0);
-			world.blockUpdated(cachedBlockPosition2.getPos(), Blocks.AIR);
-		}
+		CarvedPumpkinBlock.updatePatternBlocks(world, patternSearchResult);
 	}
 
 	private BlockPattern getCopperGolemDispenserPattern() {

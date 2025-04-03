@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.entity.BlazeEntityAccess;
 import com.faboslav.friendsandfoes.common.entity.WildfireEntity;
+import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -32,16 +33,12 @@ public abstract class BlazeEntityMixin extends BlazeLivingEntityMixin implements
 
 	@Override
 	public void friendsandfoes_writeCustomDataToNbt(CompoundTag nbt, CallbackInfo ci) {
-		if (this.friendsandfoes_getWildfireUuid() != null) {
-			nbt.putUUID(WILDFIRE_UUID_NBT_NAME, this.friendsandfoes_getWildfireUuid());
-		}
+		VersionedNbt.putUUID(nbt, WILDFIRE_UUID_NBT_NAME, this.friendsandfoes_getWildfireUuid());
 	}
 
 	@Override
 	public void friendsandfoes_readCustomDataFromNbt(CompoundTag nbt, CallbackInfo ci) {
-		if (nbt.hasUUID(WILDFIRE_UUID_NBT_NAME)) {
-			this.friendsandfoes_setWildfireUuid(nbt.getUUID(WILDFIRE_UUID_NBT_NAME));
-		}
+		this.friendsandfoes_setWildfireUuid(VersionedNbt.getUUID(nbt, WILDFIRE_UUID_NBT_NAME));
 	}
 
 	@Override

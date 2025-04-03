@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PatrolSpawner.class)
@@ -49,6 +50,7 @@ public final class PatrolSpawnerMixin
 		return patrolEntity;
 	}
 
+	// TODO check if this works
 	@Inject(
 		method = "tick",
 		at = @At("RETURN")
@@ -57,12 +59,20 @@ public final class PatrolSpawnerMixin
 		ServerLevel world,
 		boolean spawnMonsters,
 		boolean spawnAnimals,
-		CallbackInfoReturnable<Integer> callbackInfo
+		//? >=1.21.5 {
+		/*CallbackInfo ci
+		*///?} else {
+		CallbackInfoReturnable<Integer> ci
+		//?}
 	) {
-		var spawnerPatrolMembersCount = callbackInfo.getReturnValue();
+		//? >=1.21.5 {
+		/*this.friendsandfoes_isBiomeSpecificIllagerSpawned = false;
+		*///?} else {
+		var spawnerPatrolMembersCount = ci.getReturnValue();
 
 		if (spawnerPatrolMembersCount > 0) {
 			this.friendsandfoes_isBiomeSpecificIllagerSpawned = false;
 		}
+		//?}
 	}
 }

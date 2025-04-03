@@ -9,7 +9,10 @@ import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.util.BasicItemTrade;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.item.Items;
@@ -21,12 +24,14 @@ public final class FriendsAndFoesVillagerProfessions
 {
 	public static final ResourcefulRegistry<VillagerProfession> VILLAGER_PROFESSIONS = ResourcefulRegistries.create(BuiltInRegistries.VILLAGER_PROFESSION, FriendsAndFoes.MOD_ID);
 
+	public static final ResourceKey<VillagerProfession> BEEKEEPER_KEY = ResourceKey.create(Registries.VILLAGER_PROFESSION, FriendsAndFoes.makeID("beekeeper"));
+	// TODO add gift in GiveGiftToHero
 	public static final RegistryEntry<VillagerProfession> BEEKEEPER = VILLAGER_PROFESSIONS.register("beekeeper", () -> new VillagerProfession(
 		//? >=1.21.5 {
-		Component.translatable("entity.friendsandfoes.villager.beekeeper"),
-		//?} else {
-		/*"beekeeper",
-		*///?}
+		/*Component.translatable("entity.friendsandfoes.villager.beekeeper"),
+		*///?} else {
+		"beekeeper",
+		//?}
 		pointOfInterest -> {
 		if(!FriendsAndFoes.getConfig().enableBeekeeperVillagerProfession) {
 			return false;

@@ -4,6 +4,7 @@ import com.faboslav.friendsandfoes.common.entity.PlayerIllusionEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
+import com.faboslav.friendsandfoes.common.versions.VersionedMobEffects;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.particles.ParticleOptions;
@@ -59,7 +60,7 @@ public final class TotemUtil
 
 		nearbyEntities.forEach(nearbyEntity -> {
 			nearbyEntity.setTicksFrozen(NEGATIVE_EFFECT_TICKS);
-			nearbyEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, NEGATIVE_EFFECT_TICKS, 1));
+			nearbyEntity.addEffect(new MobEffectInstance(VersionedMobEffects.MOVEMENT_SLOWNESS, NEGATIVE_EFFECT_TICKS, 1));
 		});
 	}
 
@@ -116,7 +117,8 @@ public final class TotemUtil
 			var attacker = illusionToReplace.getLastHurtByMob();
 
 			if (attacker != null) {
-				illusionToReplace.setLastHurtByPlayer(null);
+				// TODO check
+				//illusionToReplace.setLastHurtByPlayer(null);
 				illusionToReplace.setLastHurtByMob(null);
 				illusionToReplace.setLastHurtMob(null);
 			}
@@ -146,7 +148,8 @@ public final class TotemUtil
 
 		playerIllusion.setItemSlot(EquipmentSlot.MAINHAND, player.getMainHandItem().copy());
 		playerIllusion.setItemSlot(EquipmentSlot.OFFHAND, player.getOffhandItem().copy());
-		player.getArmorSlots().forEach((item) -> playerIllusion.equipItemIfPossible(/*? >=1.21.3 {*/serverLevel, /*?}*/item.copy()));
+		// TODO replace
+		//player.getEquipmentSlotForItem().forEach((item) -> playerIllusion.equipItemIfPossible(/*? >=1.21.3 {*/serverLevel, /*?}*/item.copy()));
 
 		playerIllusion.setHealth(player.getMaxHealth());
 		playerIllusion.copyPosition(player);

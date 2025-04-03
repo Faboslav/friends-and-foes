@@ -258,23 +258,25 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 
 	@Override
 	public void travel(Vec3 movementInput) {
-		if (this.isControlledByLocalInstance()) {
-			if (this.isInWater()) {
-				this.moveRelative(0.02F, movementInput);
-				this.move(MoverType.SELF, this.getDeltaMovement());
-				this.setDeltaMovement(this.getDeltaMovement().scale(0.800000011920929));
-			} else if (this.isInLava()) {
-				this.moveRelative(0.02F, movementInput);
-				this.move(MoverType.SELF, this.getDeltaMovement());
-				this.setDeltaMovement(this.getDeltaMovement().scale(0.5));
-			} else {
-				this.moveRelative(this.getSpeed(), movementInput);
-				this.move(MoverType.SELF, this.getDeltaMovement());
-				this.setDeltaMovement(this.getDeltaMovement().scale(0.9100000262260437));
-			}
+		//? <=1.21.4 {
+		if (!this.isControlledByLocalInstance()) {
+			return;
 		}
+		//?}
 
-		this.calculateEntityAnimation(false);
+		if (this.isInWater()) {
+			this.moveRelative(0.02F, movementInput);
+			this.move(MoverType.SELF, this.getDeltaMovement());
+			this.setDeltaMovement(this.getDeltaMovement().scale(0.800000011920929));
+		} else if (this.isInLava()) {
+			this.moveRelative(0.02F, movementInput);
+			this.move(MoverType.SELF, this.getDeltaMovement());
+			this.setDeltaMovement(this.getDeltaMovement().scale(0.5));
+		} else {
+			this.moveRelative(this.getSpeed(), movementInput);
+			this.move(MoverType.SELF, this.getDeltaMovement());
+			this.setDeltaMovement(this.getDeltaMovement().scale(0.9100000262260437));
+		}
 	}
 
 	@Override
@@ -626,10 +628,11 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 		this.setDeltaMovement(this.getDeltaMovement().add(0.0, 0.01, 0.0));
 	}
 
+	//? <=1.21.4 {
 	@Override
 	public boolean causeFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
 		return false;
-	}
+	}//?}
 
 	@Override
 	protected void checkFallDamage(double heightDifference, boolean onGround, BlockState landedState, BlockPos landedPosition) {
@@ -673,7 +676,11 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 
 	public void tame(Player owner) {
 		this.setTame(true, true);
+		//? >=1.21.5 {
+		/*this.setOwner(owner);
+		*///?} else {
 		this.setOwnerUUID(owner.getUUID());
+		//?}
 
 		if (owner instanceof ServerPlayer) {
 			FriendsAndFoesCriterias.TAME_GLARE.get().trigger((ServerPlayer) owner, this);
@@ -694,7 +701,12 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 			return null;
 		}
 
+		//? >=1.21.5 {
+		/*glareEntity.setOwner(this.getOwner());
+		*///?} else {
 		glareEntity.setOwnerUUID(this.getOwnerUUID());
+		//?}
+
 		glareEntity.setTame(true, true);
 
 		GlareBrain.setDarkSpotLocatingCooldown(this);

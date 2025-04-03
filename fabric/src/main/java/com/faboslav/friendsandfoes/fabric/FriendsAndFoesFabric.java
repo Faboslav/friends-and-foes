@@ -7,6 +7,7 @@ import com.faboslav.friendsandfoes.common.events.item.RegisterBrewingRecipesEven
 import com.faboslav.friendsandfoes.common.events.lifecycle.*;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesItems;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStructurePoolElements;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesVillagerProfessions;
 import com.faboslav.friendsandfoes.common.util.ServerWorldSpawnersUtil;
 import com.faboslav.friendsandfoes.common.world.spawner.IceologerSpawner;
 import com.faboslav.friendsandfoes.common.world.spawner.IllusionerSpawner;
@@ -118,7 +119,14 @@ public final class FriendsAndFoesFabric implements ModInitializer
 				continue;
 			}
 
-			Int2ObjectMap<VillagerTrades.ItemListing[]> profTrades = trades.computeIfAbsent(profession, key -> new Int2ObjectOpenHashMap<>());
+			Int2ObjectMap<VillagerTrades.ItemListing[]> profTrades = trades.computeIfAbsent(
+				//? >=1.21.5 {
+				/*FriendsAndFoesVillagerProfessions.BEEKEEPER_KEY,
+				*///?} else {
+				profession,
+				//?}
+				key -> new Int2ObjectOpenHashMap<>()
+			);
 			Int2ObjectMap<List<VillagerTrades.ItemListing>> listings = new Int2ObjectOpenHashMap<>();
 
 			for (int i = 1; i <= 5; i++) {

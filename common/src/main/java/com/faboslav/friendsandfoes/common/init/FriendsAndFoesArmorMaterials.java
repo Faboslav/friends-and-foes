@@ -14,7 +14,7 @@ import java.util.EnumMap;
  * @see net.minecraft.world.item.equipment.ArmorMaterials
  */
 public interface FriendsAndFoesArmorMaterials {
-	ArmorMaterial WILDFIRE = new ArmorMaterial(5, Util.make(new EnumMap(ArmorType.class), enumMap -> {
+	ArmorMaterial WILDFIRE = new ArmorMaterial(37, Util.make(new EnumMap(ArmorType.class), enumMap -> {
 		enumMap.put(ArmorType.BOOTS, 3);
 		enumMap.put(ArmorType.LEGGINGS, 6);
 		enumMap.put(ArmorType.CHESTPLATE, 8);

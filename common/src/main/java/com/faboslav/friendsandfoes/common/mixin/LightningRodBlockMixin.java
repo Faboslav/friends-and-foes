@@ -113,19 +113,7 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 			return;
 		}
 
-		for (int i = 0; i < this.friendsandfoes_getCopperGolemPattern().getHeight(); ++i) {
-			BlockInWorld cachedBlockPosition = patternSearchResult.getBlock(0, i, 0);
-			world.setBlock(
-				cachedBlockPosition.getPos(),
-				Blocks.AIR.defaultBlockState(),
-				Block.UPDATE_CLIENTS
-			);
-			world.levelEvent(
-				LevelEvent.PARTICLES_DESTROY_BLOCK,
-				cachedBlockPosition.getPos(),
-				Block.getId(cachedBlockPosition.getState())
-			);
-		}
+		CarvedPumpkinBlock.clearPatternBlocks(world, patternSearchResult);
 
 		BlockPos cachedBlockPosition = patternSearchResult.getBlock(0, 2, 0).getPos();
 		float copperGolemYaw = headBlockState.getValue(CarvedPumpkinBlock.FACING).toYRot();
@@ -176,10 +164,7 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 			CriteriaTriggers.SUMMONED_ENTITY.trigger(serverPlayerEntity, copperGolem);
 		}
 
-		for (int j = 0; j < this.friendsandfoes_getCopperGolemPattern().getHeight(); ++j) {
-			BlockInWorld cachedBlockPosition2 = patternSearchResult.getBlock(0, j, 0);
-			world.blockUpdated(cachedBlockPosition2.getPos(), Blocks.AIR);
-		}
+		CarvedPumpkinBlock.updatePatternBlocks(world, patternSearchResult);
 	}
 
 	private BlockPattern friendsandfoes_getCopperGolemPattern() {

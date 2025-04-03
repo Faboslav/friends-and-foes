@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.neoforge.datagen;
 
+import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
 import com.google.common.hash.Hashing;
 import com.mojang.datafixers.DataFixer;
 import com.mojang.datafixers.DataFixerUpper;
@@ -102,7 +103,7 @@ public class StructureNbtUpdater implements DataProvider
 
 	private static CompoundTag updateNBT(CompoundTag nbt) {
 		final CompoundTag updatedNBT = DataFixTypes.STRUCTURE.updateToCurrentVersion(
-			DataFixers.getDataFixer(), nbt, nbt.getInt("DataVersion")
+			DataFixers.getDataFixer(), nbt, VersionedNbt.getInt(nbt, "DataVersion", 0)
 		);
 		StructureTemplate template = new StructureTemplate();
 		//? >=1.21.3 {

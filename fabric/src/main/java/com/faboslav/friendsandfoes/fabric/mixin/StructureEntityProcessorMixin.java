@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.fabric.mixin;
 
+import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import com.faboslav.friendsandfoes.common.world.processor.StructureEntityProcessor;
 import com.faboslav.friendsandfoes.common.world.processor.StructureProcessingContext;
@@ -124,7 +125,7 @@ public final class StructureEntityProcessorMixin
 				friendsandfoes_tryCreateEntity(serverWorldAccess, entityNbt).ifPresent((entity) -> {
 					float f = entity.mirror(ctx.structurePlacementData().getMirror());
 					f += entity.getYRot() - entity.rotate(ctx.structurePlacementData().getRotation());
-					entity.moveTo(entityPos.x, entityPos.y, entityPos.z, f, entity.getXRot());
+					VersionedEntity.moveTo(entity, entityPos.x, entityPos.y, entityPos.z, f, entity.getXRot());
 					if (ctx.structurePlacementData().shouldFinalizeEntities() && entity instanceof Mob) {
 						((Mob) entity).finalizeSpawn(
 							serverWorldAccess,

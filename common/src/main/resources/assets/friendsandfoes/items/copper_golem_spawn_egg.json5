@@ -1,16 +1,22 @@
 {
+//? >=1.21.5 {
+	/*"model": {
+		"type": "minecraft:model",
+		"model": "friendsandfoes:item/copper_golem_spawn_egg"
+	}
+*///?} else {
     "model": {
         "type": "minecraft:model",
         "model": "minecraft:item/template_spawn_egg",
         "tints": [
             {
                 "type": "minecraft:constant",
-                "value": 4281544823
+                "value": 4288303160
             },
             {
                 "type": "minecraft:constant",
-                "value": 4294875211
+                "value": 268421528
             }
         ]
-    }
+    }//?}
 }

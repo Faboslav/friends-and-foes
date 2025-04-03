@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.common.util.world.processor;
 
+import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
 import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
@@ -25,8 +26,9 @@ public final class IllusionerShackItemFrameProcessorHelper
 		RandomSource random = structurePlacementData.getRandom(globalEntityInfo.blockPos);
 
 		CompoundTag newNbt = globalEntityInfo.nbt.copy();
-		newNbt.getCompound("Item").putString("id", "minecraft:potion");
-		newNbt.getCompound("Item").put("tag", Util.make(new CompoundTag(), potionTag -> {
+		var itemNbt = VersionedNbt.getCompound(newNbt, "Item");
+		itemNbt.putString("id", "minecraft:potion");
+		itemNbt.put("tag", Util.make(new CompoundTag(), potionTag -> {
 			potionTag.putString("Potion", "minecraft:water");
 		}));
 

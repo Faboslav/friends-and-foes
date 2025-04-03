@@ -20,7 +20,7 @@ public interface FriendsAndFoesArmorMaterials {
 		enumMap.put(ArmorType.CHESTPLATE, 8);
 		enumMap.put(ArmorType.HELMET, 3);
 		enumMap.put(ArmorType.BODY, 11);
-	}), 9, SoundEvents.ARMOR_EQUIP_NETHERITE, 1.0F, 0.0F, ItemTags.REPAIRS_LEATHER_ARMOR, FriendsAndFoesEquipmentAssets.WILDFIRE);
+	}), 9, SoundEvents.ARMOR_EQUIP_NETHERITE, 1.0F, 0.0F, ItemTags.REPAIRS_LEATHER_ARMOR, FriendsAndFoesEquipmentAssets.WILDFIRE_CROWN);
 	// TODO change tag
 }
 //?} else {

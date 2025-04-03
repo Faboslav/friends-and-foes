@@ -4,7 +4,7 @@ plugins {
 	id("java-library")
 }
 
-version = "${loader}-${commonMod.version}+mc${stonecutterBuild.current.version}-dev1"
+version = "${loader}-${commonMod.version}+mc${stonecutterBuild.current.version}"
 
 base {
 	archivesName = commonMod.id

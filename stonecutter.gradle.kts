@@ -16,9 +16,7 @@ stonecutter registerChiseled tasks.register("chiseledBuild", stonecutter.chisele
 
 stonecutter {
     generateRunConfigs = listOf(RunConfigType.SWITCH)
-
-	println(stonecutter.current.version);
-	//println(mod.dep("curios"));
+	
     parameters {
 		const("trinkets", rootProject.project(stonecutter.current.project).property("deps.trinkets").toString() != "")
 		const("curios", rootProject.project(stonecutter.current.project).property("deps.curios").toString() != "")

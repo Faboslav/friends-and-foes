@@ -14,4 +14,5 @@ public interface MobAccessor
 	//? <=1.21.5 {
 	@Invoker("getEquipmentDropChance")
 	float friendsandfoes$getEquipmentDropChance(EquipmentSlot slot);
+	//?}
 }

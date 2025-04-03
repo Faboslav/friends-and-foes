@@ -24,7 +24,7 @@ public class MobSpawnsBiomeModifier implements BiomeModifier
 						new MobSpawnSettings.SpawnerData(
 							entityType,
 							// TODO resolve, where shoudl i handle spawn weight
-							//? <= 1.21.5 {
+							//? <=1.21.4 {
 							spawnWeight,
 							//?}
 							minGroupSize,

@@ -1,6 +1,7 @@
 {
 	"required": true,
 	"package": "com.faboslav.friendsandfoes.neoforge.mixin",
+	"refmap": "${modId}.refmap.json",
 	"compatibilityLevel": "JAVA_${javaVersion}",
 	"minVersion": "0.8",
 	"injectors": {

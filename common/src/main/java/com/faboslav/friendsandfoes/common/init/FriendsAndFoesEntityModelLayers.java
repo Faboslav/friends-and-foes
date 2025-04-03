@@ -26,7 +26,7 @@ public final class FriendsAndFoesEntityModelLayers
 	//?}
 	public static final ModelLayerLocation RASCAL_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("rascal"), "main");
 	public static final ModelLayerLocation TUFF_GOLEM_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("tuff_golem"), "main");
-	public static final ModelLayerLocation WILDFIRE_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("wildfire"), "main");
+	public static final ModelLayerLocation WILDFIRE_CROWN_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("wildfire_crown"), "main");
 
 	public static void registerEntityLayers(RegisterEntityLayersEvent event) {
 		event.register(COPPER_GOLEM_LAYER, CopperGolemEntityModel::getTexturedModelData);
@@ -42,7 +42,7 @@ public final class FriendsAndFoesEntityModelLayers
 		//?}
 		event.register(RASCAL_LAYER, RascalEntityModel::getTexturedModelData);
 		event.register(TUFF_GOLEM_LAYER, TuffGolemEntityModel::getTexturedModelData);
-		event.register(WILDFIRE_LAYER, WildfireEntityModel::getTexturedModelData);
+		event.register(WILDFIRE_CROWN_LAYER, WildfireEntityModel::getTexturedModelData);
 	}
 
 	private FriendsAndFoesEntityModelLayers() {

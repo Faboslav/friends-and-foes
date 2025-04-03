@@ -20,7 +20,8 @@ public interface FriendsAndFoesArmorMaterials {
 		enumMap.put(ArmorType.CHESTPLATE, 8);
 		enumMap.put(ArmorType.HELMET, 3);
 		enumMap.put(ArmorType.BODY, 11);
-	}), 9, SoundEvents.ARMOR_EQUIP_NETHERITE, 1.0F, 0.0F, ItemTags.REPAIRS_LEATHER_ARMOR, EquipmentAssets.NETHERITE);
+	}), 9, SoundEvents.ARMOR_EQUIP_NETHERITE, 1.0F, 0.0F, ItemTags.REPAIRS_LEATHER_ARMOR, FriendsAndFoesEquipmentAssets.WILDFIRE);
+	// TODO change tag
 }
 //?} else {
 /*import net.minecraft.world.item.ArmorMaterial;
@@ -33,7 +34,6 @@ import java.util.List;
 import java.util.function.Supplier;
 import net.minecraft.Util;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ArmorItem;
@@ -43,8 +43,8 @@ public final class FriendsAndFoesArmorMaterials
 {
 	public static final ResourcefulRegistry<ArmorMaterial> ARMOR_MATERIALS = ResourcefulRegistries.create(BuiltInRegistries.ARMOR_MATERIAL, FriendsAndFoes.MOD_ID);
 
-	public final static HolderRegistryEntry<ArmorMaterial> WILDFIRE = ARMOR_MATERIALS.registerHolder("wildfire", () -> createArmorMaterial(
-		"wildfire",
+	public final static HolderRegistryEntry<ArmorMaterial> WILDFIRE = ARMOR_MATERIALS.registerHolder("wildfire_crown", () -> createArmorMaterial(
+		"wildfire_crown",
 		Util.make(new EnumMap<>(ArmorItem.Type.class), enumMap -> {
 			enumMap.put(ArmorItem.Type.BOOTS, 3);
 			enumMap.put(ArmorItem.Type.LEGGINGS, 6);
@@ -74,7 +74,7 @@ public final class FriendsAndFoesArmorMaterials
 			defenseMap.put(type, enumMap.get(type));
 		}
 
-		List<ArmorMaterial.Layer> layers = List.of(new ArmorMaterial.Layer(ResourceLocation.tryParse(layerName)));
+		List<ArmorMaterial.Layer> layers = List.of(new ArmorMaterial.Layer(FriendsAndFoes.makeID(layerName)));
 
 		return new ArmorMaterial(defenseMap, enchantmentValue, equipSound, repairIngredient, layers, toughness, knockback);
 	}

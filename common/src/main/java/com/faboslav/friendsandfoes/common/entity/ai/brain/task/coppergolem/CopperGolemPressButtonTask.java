@@ -95,7 +95,8 @@ public final class CopperGolemPressButtonTask extends Behavior<CopperGolemEntity
 		}
 
 		if (
-			copperGolem.getOxidationLevel().ordinal() >= WeatheringCopper.WeatherState.WEATHERED.ordinal()
+			!copperGolem.isWaxed()
+			&& copperGolem.getOxidationLevel().ordinal() >= WeatheringCopper.WeatherState.WEATHERED.ordinal()
 			&& copperGolem.getRandom().nextFloat() > 0.99
 		) {
 			copperGolem.setOxidationLevel(WeatheringCopper.WeatherState.OXIDIZED);

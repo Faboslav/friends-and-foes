@@ -35,6 +35,7 @@
 		"${modId}-common.mixins.json",
 		"${modId}-fabric.mixins.json"
 	],
+	"accessWidener": "${modId}.accesswidener",
 	"depends": {
 		"minecraft": ">=${minMinecraftVersion}-",
 		"fabricloader": "*",

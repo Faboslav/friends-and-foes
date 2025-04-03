@@ -12,7 +12,13 @@ neoForge {
 
 dependencies {
 	// Required dependencies
-	implementation("com.teamresourceful.resourcefullib:resourcefullib-neoforge-${commonMod.dep("resourceful-lib.mc")}:${commonMod.dep("resourceful-lib.lib")}")
+	implementation(
+		"com.teamresourceful.resourcefullib:resourcefullib-neoforge-${commonMod.dep("resourceful-lib.mc")}:${
+			commonMod.dep(
+				"resourceful-lib.lib"
+			)
+		}"
+	)
 	implementation("dev.isxander:yet-another-config-lib:${commonMod.dep("yacl")}-neoforge")
 
 	// Compat dependencies

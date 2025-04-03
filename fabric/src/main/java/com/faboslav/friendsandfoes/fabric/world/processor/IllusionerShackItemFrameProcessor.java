@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.fabric.world.processor;
 
 import com.faboslav.friendsandfoes.common.util.world.processor.IllusionerShackItemFrameProcessorHelper;
+import com.faboslav.friendsandfoes.common.world.processor.StructureEntityProcessor;
 import com.faboslav.friendsandfoes.fabric.platform.ProcessorTypes;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -10,7 +11,6 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlac
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureEntityInfo;
-import com.faboslav.friendsandfoes.common.world.processor.StructureEntityProcessor;
 import org.jetbrains.annotations.Nullable;
 
 /**

@@ -11,7 +11,7 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 //? >=1.21.4 {
 //?} else {
 /*import net.neoforged.neoforge.common.data.ExistingFileHelper;
-*///?}
+ *///?}
 
 // Source: https://github.com/BluSunrize/ImmersiveEngineering/blob/1.20.1/src/datagen/java/blusunrize/immersiveengineering/data/IEDataGenerator.java
 @EventBusSubscriber(modid = FriendsAndFoes.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
@@ -23,7 +23,7 @@ public class StructureNbtUpdaterDatagen
 		GatherDataEvent.Server event
 		//?} else {
 		/*GatherDataEvent event
-		*///?}
+		 *///?}
 	) {
 		//? >=1.21.4 {
 		ResourceManager resourceManager = event.getResourceManager(PackType.SERVER_DATA);

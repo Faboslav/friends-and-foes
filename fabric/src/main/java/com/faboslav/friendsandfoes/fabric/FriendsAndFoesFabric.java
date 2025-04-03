@@ -7,7 +7,6 @@ import com.faboslav.friendsandfoes.common.events.item.RegisterBrewingRecipesEven
 import com.faboslav.friendsandfoes.common.events.lifecycle.*;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesItems;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStructurePoolElements;
-import com.faboslav.friendsandfoes.common.init.FriendsAndFoesVillagerProfessions;
 import com.faboslav.friendsandfoes.common.util.ServerWorldSpawnersUtil;
 import com.faboslav.friendsandfoes.common.world.spawner.IceologerSpawner;
 import com.faboslav.friendsandfoes.common.world.spawner.IllusionerSpawner;
@@ -40,6 +39,10 @@ import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+
+//? >=1.21.5 {
+/*import com.faboslav.friendsandfoes.common.init.FriendsAndFoesVillagerProfessions;
+*///?}
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -100,8 +103,7 @@ public final class FriendsAndFoesFabric implements ModInitializer
 		);
 
 		LootTableEvents.MODIFY.register((lootTableResourceKey, lootBuilder, lootTableSource, registries) -> {
-			if (lootTableSource.isBuiltin() && (lootTableResourceKey.equals(ResourceKey.create(Registries.LOOT_TABLE, FriendsAndFoes.makeNamespacedId("chests/abandoned_mineshaft")))))
-			{
+			if (lootTableSource.isBuiltin() && (lootTableResourceKey.equals(ResourceKey.create(Registries.LOOT_TABLE, FriendsAndFoes.makeNamespacedId("chests/abandoned_mineshaft"))))) {
 				lootBuilder.withPool(LootPool.lootPool()
 					.setRolls(ConstantValue.exactly(1))
 					.add(LootItem.lootTableItem(FriendsAndFoesItems.MUSIC_DISC_AROUND_THE_CORNER.get()))
@@ -122,7 +124,7 @@ public final class FriendsAndFoesFabric implements ModInitializer
 			Int2ObjectMap<VillagerTrades.ItemListing[]> profTrades = trades.computeIfAbsent(
 				//? >=1.21.5 {
 				/*FriendsAndFoesVillagerProfessions.BEEKEEPER_KEY,
-				*///?} else {
+				 *///?} else {
 				profession,
 				//?}
 				key -> new Int2ObjectOpenHashMap<>()

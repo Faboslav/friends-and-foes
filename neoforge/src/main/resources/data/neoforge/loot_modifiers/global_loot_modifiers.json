@@ -1,6 +1,6 @@
 {
-  "replace": false,
-  "entries": [
-    "friendsandfoes:inject_music_disc_to_abandoned_mineshafts"
-  ]
+	"replace": false,
+	"entries": [
+		"friendsandfoes:inject_music_disc_to_abandoned_mineshafts"
+	]
 }

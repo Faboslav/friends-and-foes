@@ -69,7 +69,7 @@ public final class FriendsAndFoesNeoForge
 
 		event.enqueueWork(() -> {
 			FriendsAndFoes.lateInit();
-			
+
 			RegisterFlammabilityEvent.EVENT.invoke(new RegisterFlammabilityEvent((item, igniteOdds, burnOdds) ->
 				((FireBlockAccessor) Blocks.FIRE).invokeRegisterFlammableBlock(item, igniteOdds, burnOdds)));
 		});
@@ -80,13 +80,13 @@ public final class FriendsAndFoesNeoForge
 		AddServerReloadListenersEvent event
 		//?} else {
 		/*AddReloadListenerEvent event
-		*///?}
+		 *///?}
 	) {
 		//? >=1.21.4 {
 		RegisterReloadListenerEvent.EVENT.invoke(new RegisterReloadListenerEvent(event::addListener));
 		//?} else {
 		/*RegisterReloadListenerEvent.EVENT.invoke(new RegisterReloadListenerEvent((id, listener) -> event.addListener(listener)));
-		*///?}
+		 *///?}
 	}
 
 	private static void onDatapackSync(OnDatapackSyncEvent event) {

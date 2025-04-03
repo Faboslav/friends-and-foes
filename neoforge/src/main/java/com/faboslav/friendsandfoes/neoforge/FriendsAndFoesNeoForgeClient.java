@@ -2,7 +2,10 @@ package com.faboslav.friendsandfoes.neoforge;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoesClient;
 import com.faboslav.friendsandfoes.common.config.FriendsAndFoesConfigScreen;
-import com.faboslav.friendsandfoes.common.events.client.*;
+import com.faboslav.friendsandfoes.common.events.client.RegisterEntityLayersEvent;
+import com.faboslav.friendsandfoes.common.events.client.RegisterEntityRenderersEvent;
+import com.faboslav.friendsandfoes.common.events.client.RegisterParticlesEvent;
+import com.faboslav.friendsandfoes.common.events.client.RegisterRenderLayersEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.ClientSetupEvent;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;

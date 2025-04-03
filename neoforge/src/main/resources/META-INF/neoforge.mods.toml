@@ -39,10 +39,10 @@ type = "required"
 versionRange = "[${yaclVersion},)"
 ordering = "NONE"
 side = "BOTH"
-[dependencies.${modId}.mc-publish]
-	ignore=false
-	modrinth="yacl"
-	curseforge="yacl"
+[dependencies.${ modId }.mc-publish]
+ignore = false
+modrinth = "yacl"
+curseforge = "yacl"
 
 [[dependencies.${ modId }]]
 modId = "resourcefullib"
@@ -50,10 +50,10 @@ type = "required"
 versionRange = "[${resourcefulLibLibVersion},)"
 ordering = "NONE"
 side = "BOTH"
-[dependencies.${modId}.mc-publish]
-	ignore=false
-	modrinth="resourceful-lib"
-	curseforge="resourceful-lib"
+[dependencies.${ modId }.mc-publish]
+ignore = false
+modrinth = "resourceful-lib"
+curseforge = "resourceful-lib"
 
 [modproperties.${ modId }]
 catalogueImageIcon = "catalogue_icon.png"

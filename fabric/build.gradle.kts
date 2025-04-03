@@ -17,7 +17,13 @@ dependencies {
 	modApi("net.fabricmc.fabric-api:fabric-api:${commonMod.dep("fabric-api")}+${commonMod.mc}")
 
 	// Required dependencies
-	modImplementation("com.teamresourceful.resourcefullib:resourcefullib-fabric-${commonMod.dep("resourceful-lib.mc")}:${commonMod.dep("resourceful-lib.lib")}")
+	modImplementation(
+		"com.teamresourceful.resourcefullib:resourcefullib-fabric-${commonMod.dep("resourceful-lib.mc")}:${
+			commonMod.dep(
+				"resourceful-lib.lib"
+			)
+		}"
+	)
 	modImplementation("dev.isxander:yet-another-config-lib:${commonMod.dep("yacl")}-fabric")
 
 	// Optional dependencies

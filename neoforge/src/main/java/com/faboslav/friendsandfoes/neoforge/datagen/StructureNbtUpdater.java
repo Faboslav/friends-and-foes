@@ -47,7 +47,7 @@ public class StructureNbtUpdater implements DataProvider
 		ResourceManager resourceManager,
 		//?} else {
 		/*ExistingFileHelper helper,
-		*///?}
+		 *///?}
 		PackOutput output
 	) {
 		this.basePath = basePath;
@@ -110,7 +110,7 @@ public class StructureNbtUpdater implements DataProvider
 		template.load(BuiltInRegistries.BLOCK, updatedNBT);
 		//?} else {
 		/*template.load(BuiltInRegistries.BLOCK.asLookup(), updatedNBT);
-		*///?}
+		 *///?}
 		return template.save(new CompoundTag());
 	}
 

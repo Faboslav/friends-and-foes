@@ -4,17 +4,6 @@ import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import com.faboslav.friendsandfoes.common.world.processor.StructureEntityProcessor;
 import com.faboslav.friendsandfoes.common.world.processor.StructureProcessingContext;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.DoubleTag;
@@ -29,6 +18,17 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProc
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureEntityInfo;
 import net.minecraft.world.phys.Vec3;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Allows for processing entities in Jigsaw structures.
@@ -80,8 +80,13 @@ public final class StructureEntityProcessorMixin
 		)
 	)
 	private void friendsandfoes_clearContext(
-		ServerLevelAccessor serverLevelAccessor, BlockPos structurePiecePos, BlockPos structurePiecePivotPos,
-		StructurePlaceSettings structurePlaceSettings, RandomSource randomSource, int i, CallbackInfoReturnable<Boolean> cir
+		ServerLevelAccessor serverLevelAccessor,
+		BlockPos structurePiecePos,
+		BlockPos structurePiecePivotPos,
+		StructurePlaceSettings structurePlaceSettings,
+		RandomSource randomSource,
+		int i,
+		CallbackInfoReturnable<Boolean> cir
 	) {
 		friendsandfoes_context.remove();
 	}
@@ -193,7 +198,7 @@ public final class StructureEntityProcessorMixin
 			return EntityType.create(compoundTag, serverLevelAccessor.getLevel(), VersionedEntitySpawnReason.STRUCTURE);
 			//?} else {
 			/*return EntityType.create(compoundTag, serverLevelAccessor.getLevel());
-			*///?}
+			 *///?}
 		} catch (Exception exception) {
 			return Optional.empty();
 		}

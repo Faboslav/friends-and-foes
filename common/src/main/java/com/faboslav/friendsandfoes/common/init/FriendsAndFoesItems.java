@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.ComposterBlock;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-//? <=1.21.4 {
+//? =1.21.4 {
 import net.minecraft.world.item.equipment.ArmorMaterials;
 //?}
 

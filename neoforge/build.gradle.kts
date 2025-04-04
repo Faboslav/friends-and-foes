@@ -4,6 +4,10 @@ plugins {
 	id("dev.kikugie.j52j") version "2.0"
 }
 
+stonecutter {
+	const("curios", commonMod.depOrNull("curios") != null)
+}
+
 neoForge {
 	enable {
 		version = commonMod.dep("neoforge")

@@ -4,6 +4,10 @@ plugins {
 	id("dev.kikugie.j52j") version "2.0"
 }
 
+stonecutter {
+	const("trinkets", commonMod.depOrNull("trinkets") != null)
+}
+
 dependencies {
 	minecraft("com.mojang:minecraft:${commonMod.mc}")
 	mappings(loom.layered {

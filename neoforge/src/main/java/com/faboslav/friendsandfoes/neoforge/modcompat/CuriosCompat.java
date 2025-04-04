@@ -4,7 +4,7 @@ package com.faboslav.friendsandfoes.neoforge.modcompat;
 /*import com.faboslav.friendsandfoes.common.events.lifecycle.ClientSetupEvent;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesItems;
 import com.faboslav.friendsandfoes.common.modcompat.ModCompat;
-import com.faboslav.friendsandfoes.common.modcompat.neoforge.curios.CuriosTotemRenderer;
+import com.faboslav.friendsandfoes.neoforge.modcompat.curios.CuriosTotemRenderer;
 import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotResult;

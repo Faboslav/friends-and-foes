@@ -5,12 +5,13 @@ import com.faboslav.friendsandfoes.common.events.AddItemGroupEntriesEvent;
 import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
 import com.faboslav.friendsandfoes.common.events.item.RegisterBrewingRecipesEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.*;
-import com.faboslav.friendsandfoes.common.init.FriendsAndFoesItems;
-import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStructurePoolElements;
+import com.faboslav.friendsandfoes.common.init.*;
 import com.faboslav.friendsandfoes.common.util.ServerWorldSpawnersUtil;
 import com.faboslav.friendsandfoes.common.world.spawner.IceologerSpawner;
 import com.faboslav.friendsandfoes.common.world.spawner.IllusionerSpawner;
 import com.faboslav.friendsandfoes.fabric.events.FabricReloadListener;
+import com.faboslav.friendsandfoes.fabric.mixin.PointOfInterestTypesAccessor;
+import com.teamresourceful.resourcefullib.common.registry.fabric.FabricRegistryEntry;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.fabricmc.api.ModInitializer;
@@ -31,7 +32,9 @@ import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.ai.village.poi.PoiTypes;
 import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
@@ -39,10 +42,6 @@ import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-
-//? >=1.21.5 {
-/*import com.faboslav.friendsandfoes.common.init.FriendsAndFoesVillagerProfessions;
-*///?}
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,6 +56,7 @@ public final class FriendsAndFoesFabric implements ModInitializer
 		addCustomStructurePoolElements();
 		initEvents();
 		FriendsAndFoes.lateInit();
+		registerPointOfInterestStates();
 	}
 
 	private static void initEvents() {
@@ -116,35 +116,28 @@ public final class FriendsAndFoesFabric implements ModInitializer
 
 	private static void registerVillagerTrades() {
 		var trades = VillagerTrades.TRADES;
-		for (var profession : BuiltInRegistries.VILLAGER_PROFESSION) {
-			if (profession == null) {
-				continue;
+		//? >=1.21.5 {
+		/*var profession = FriendsAndFoesVillagerProfessions.BEEKEEPER_KEY;
+		*///?} else {
+		var profession = FriendsAndFoesVillagerProfessions.BEEKEEPER.get();
+		//?}
+
+		Int2ObjectMap<VillagerTrades.ItemListing[]> profTrades = trades.computeIfAbsent(profession, key -> new Int2ObjectOpenHashMap<>());
+		Int2ObjectMap<List<VillagerTrades.ItemListing>> listings = new Int2ObjectOpenHashMap<>();
+
+		for (int i = 1; i <= 5; i++) {
+			if (profTrades.containsKey(i)) {
+				List<VillagerTrades.ItemListing> list = Arrays.stream(profTrades.get(i)).collect(Collectors.toList());
+				listings.put(i, list);
+			} else {
+				listings.put(i, new ArrayList<>());
 			}
+		}
 
-			Int2ObjectMap<VillagerTrades.ItemListing[]> profTrades = trades.computeIfAbsent(
-				//? >=1.21.5 {
-				/*FriendsAndFoesVillagerProfessions.BEEKEEPER_KEY,
-				 *///?} else {
-				profession,
-				//?}
-				key -> new Int2ObjectOpenHashMap<>()
-			);
-			Int2ObjectMap<List<VillagerTrades.ItemListing>> listings = new Int2ObjectOpenHashMap<>();
+		RegisterVillagerTradesEvent.EVENT.invoke(new RegisterVillagerTradesEvent(profession, (i, listing) -> listings.get(i.intValue()).add(listing)));
 
-			for (int i = 1; i <= 5; i++) {
-				if (profTrades.containsKey(i)) {
-					List<VillagerTrades.ItemListing> list = Arrays.stream(profTrades.get(i)).collect(Collectors.toList());
-					listings.put(i, list);
-				} else {
-					listings.put(i, new ArrayList<>());
-				}
-			}
-
-			RegisterVillagerTradesEvent.EVENT.invoke(new RegisterVillagerTradesEvent(profession, (i, listing) -> listings.get(i.intValue()).add(listing)));
-
-			for (int i = 1; i <= 5; i++) {
-				profTrades.put(i, listings.get(i).toArray(new VillagerTrades.ItemListing[0]));
-			}
+		for (int i = 1; i <= 5; i++) {
+			profTrades.put(i, listings.get(i).toArray(new VillagerTrades.ItemListing[0]));
 		}
 	}
 
@@ -153,6 +146,23 @@ public final class FriendsAndFoesFabric implements ModInitializer
 		RegisterEntitySpawnRestrictionsEvent.Placement<T> placement
 	) {
 		SpawnPlacements.register(type, placement.location(), placement.heightmap(), placement.predicate());
+	}
+
+	public static void registerPointOfInterestStates() {
+		FriendsAndFoesBlocks.BLOCKS.getEntries().forEach(block -> {
+			if(block.get() instanceof BeehiveBlock) {
+				//? >=1.21.3 {
+				var poiHolder = BuiltInRegistries.POINT_OF_INTEREST_TYPE.get(block.getId());
+				//?} else {
+				/*var poiHolder = BuiltInRegistries.POINT_OF_INTEREST_TYPE.getHolder(block.getId());
+				*///?}
+
+				poiHolder.ifPresent(poiTypeReference -> PointOfInterestTypesAccessor.callRegisterStates(
+					poiTypeReference,
+					PoiTypes.getBlockStates(block.get())
+				));
+			}
+		});
 	}
 
 	private static void addCustomStructurePoolElements() {

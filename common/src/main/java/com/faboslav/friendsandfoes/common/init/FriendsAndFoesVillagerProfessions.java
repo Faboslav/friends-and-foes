@@ -49,7 +49,11 @@ public final class FriendsAndFoesVillagerProfessions
 	public static void registerVillagerTrades(RegisterVillagerTradesEvent event) {
 		if (
 			FriendsAndFoes.getConfig().enableBeekeeperVillagerProfession
+			//? >=1.21.5 {
+			/*&& event.type() == BEEKEEPER_KEY
+			*///?} else {
 			&& event.type() == BEEKEEPER.get()
+			//?}
 		) {
 			event.register(1, new BasicItemTrade(FriendsAndFoesItems.BUTTERCUP.get(), Items.EMERALD, 10, 1, 16, 2,  0.05F));
 			event.register(1, new BasicItemTrade(Items.DANDELION, Items.EMERALD, 10, 1, 16, 2,  0.05F));

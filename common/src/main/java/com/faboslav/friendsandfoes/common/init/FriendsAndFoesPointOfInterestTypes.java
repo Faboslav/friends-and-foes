@@ -10,6 +10,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.ai.village.poi.PoiTypes;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.ComposterBlock;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -42,11 +43,6 @@ public final class FriendsAndFoesPointOfInterestTypes
 
 	@Nullable
 	private static Supplier<PoiType> registerPoi(String name, RegistryEntry<Block> block, int maxTickets, int validRange) {
-		// TODO check if this works
-		if(block == null) {
-			return null;
-		}
-
 		return POINT_OF_INTEREST_TYPES.register(name, () -> new PoiType(PoiTypes.getBlockStates(block.get()), maxTickets, validRange));
 	}
 	

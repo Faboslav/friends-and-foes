@@ -703,7 +703,7 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 		GlareBrain.setDarkSpotLocatingCooldown(this);
 		GlareBrain.setLocatingGlowBerriesCooldown(this);
 		GlareBrain.setItemPickupCooldown(this);
-		
+
 		if (this.isTame()) {
 			//? >=1.21.5 {
 			/*glareEntity.setOwner(this.getOwner());

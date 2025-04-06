@@ -22,11 +22,11 @@ public final class VillagerTaskListProviderMixin
 	private static WorkAtPoi friendsandfoes_setSecondVillagerWorkTask(
 		WorkAtPoi originalTask,
 		//? >=1.21.5 {
-		/*Holder<VillagerProfession> professionHolder
+		/*Holder<VillagerProfession> professionHolder,
 		*///?} else {
 		VillagerProfession profession,
-		float f
 		//?}
+		float f
 	) {
 		//? >=1.21.5 {
 		/*var profession = professionHolder.value();

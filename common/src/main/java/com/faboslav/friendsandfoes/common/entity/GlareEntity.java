@@ -700,21 +700,20 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 	public AgeableMob getBreedOffspring(ServerLevel serverWorld, AgeableMob entity) {
 		GlareEntity glareEntity = FriendsAndFoesEntityTypes.GLARE.get().create(serverWorld/*? >=1.21.3 {*/, EntitySpawnReason.BREEDING/*?}*/);
 
-		if (this.isTame() == false) {
-			return null;
-		}
-
-		//? >=1.21.5 {
-		/*glareEntity.setOwner(this.getOwner());
-		*///?} else {
-		glareEntity.setOwnerUUID(this.getOwnerUUID());
-		//?}
-
-		glareEntity.setTame(true, true);
-
 		GlareBrain.setDarkSpotLocatingCooldown(this);
 		GlareBrain.setLocatingGlowBerriesCooldown(this);
 		GlareBrain.setItemPickupCooldown(this);
+		
+		if (this.isTame()) {
+			//? >=1.21.5 {
+			/*glareEntity.setOwner(this.getOwner());
+			 *///?} else {
+			glareEntity.setOwnerUUID(this.getOwnerUUID());
+			//?}
+
+			glareEntity.setTame(true, true);
+
+		}
 
 		return glareEntity;
 	}

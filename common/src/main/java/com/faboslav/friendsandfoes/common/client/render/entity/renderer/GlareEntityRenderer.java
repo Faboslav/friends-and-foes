@@ -6,16 +6,19 @@ import com.faboslav.friendsandfoes.common.client.render.entity.model.GlareEntity
 import com.faboslav.friendsandfoes.common.entity.GlareEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 
 //? >=1.21.3 {
+import net.minecraft.client.renderer.entity.AgeableMobRenderer;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.GlareRenderState;
-//?}
+//?} else {
+/*import net.minecraft.client.renderer.entity.MobRenderer;
+import com.mojang.blaze3d.vertex.PoseStack;
+*///?}
 
-@SuppressWarnings({"rawtypes", "unchecked"})
+@SuppressWarnings({"all"})
 //? >=1.21.3 {
-public class GlareEntityRenderer extends MobRenderer<GlareEntity, GlareRenderState, GlareEntityModel>
+public class GlareEntityRenderer extends AgeableMobRenderer<GlareEntity, GlareRenderState, GlareEntityModel>
 //?} else {
 /*public final class GlareEntityRenderer extends MobRenderer<GlareEntity, GlareEntityModel<GlareEntity>>
 *///?}
@@ -23,7 +26,11 @@ public class GlareEntityRenderer extends MobRenderer<GlareEntity, GlareRenderSta
 	private static final ResourceLocation TEXTURE = FriendsAndFoes.makeID("textures/entity/glare/glare.png");
 
 	public GlareEntityRenderer(EntityRendererProvider.Context context) {
-		super(context, new GlareEntityModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.GLARE_LAYER)), 0.4F);
+		//? >=1.21.3 {
+		super(context, new GlareEntityModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.GLARE_LAYER)), new GlareEntityModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.GLARE_BABY_LAYER)), 0.7F);
+		//?} else {
+		/*super(context, new GlareEntityModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.GLARE_LAYER)), 0.4F);
+		*///?}
 		this.addLayer(new GlareFlowerFeatureRenderer(this));
 	}
 
@@ -39,6 +46,14 @@ public class GlareEntityRenderer extends MobRenderer<GlareEntity, GlareRenderSta
 		renderState.glare = glare;
 	}
 	//?}
+
+	//? <1.21.3 {
+	/*@Override
+	protected void scale(GlareEntity glare, PoseStack poseStack, float partialTickTime) {
+		float scale = glare.getAgeScale();
+		poseStack.scale(scale, scale, scale);
+	}
+	*///?}
 
 	@Override
 	//? >=1.21.3 {

@@ -6,17 +6,14 @@ import com.faboslav.friendsandfoes.common.entity.GlareEntity;
 import com.faboslav.friendsandfoes.common.util.animation.AnimationMath;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
-import net.minecraft.client.model.geom.builders.CubeDeformation;
-import net.minecraft.client.model.geom.builders.CubeListBuilder;
-import net.minecraft.client.model.geom.builders.LayerDefinition;
-import net.minecraft.client.model.geom.builders.MeshDefinition;
-import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
 
 //? >=1.21.3 {
 import net.minecraft.client.model.EntityModel;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.GlareRenderState;
+import net.minecraft.client.model.geom.builders.MeshTransformer;
 //?} else {
 /*import net.minecraft.client.model.HierarchicalModel;
  *///?}
@@ -27,6 +24,11 @@ public class GlareEntityModel extends EntityModel<GlareRenderState>
 /*public final class GlareEntityModel<T extends GlareEntity> extends HierarchicalModel<T>
 *///?}
 {
+	//? >=1.21.3 {
+	public static final MeshTransformer BABY_TRANSFORMER = MeshTransformer.scaling(GlareEntity.BABY_SCALE);
+	public static final MeshTransformer ADULT_TRANSFORMER = MeshTransformer.scaling(GlareEntity.ADULT_SCALE);
+	//?}
+
 	private static final String MODEL_PART_HEAD = "head";
 	private static final String MODEL_PART_EYES = "eyes";
 	private static final String MODEL_TOP_AZALEA = "topAzalea";

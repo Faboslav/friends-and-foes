@@ -42,13 +42,6 @@ public record EntityAnimationsSyncPacket(Map<ResourceLocation, AnimationDefiniti
 
 	public static class Handler implements ClientboundPacketType<EntityAnimationsSyncPacket>
 	{
-		// TODO check if this is missing somewhere
-		/*
-		@Override
-		public Class<EntityAnimationsSyncPacket> type() {
-			return EntityAnimationsSyncPacket.class;
-		}
-		*/
 		@Override
 		public ResourceLocation id() {
 			return ID;

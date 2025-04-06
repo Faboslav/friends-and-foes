@@ -66,6 +66,7 @@ import net.minecraft.world.entity.EntitySpawnReason;
 
 public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 {
+	public static final float BABY_SCALE = 0.3F;
 	private static final float MOVEMENT_SPEED = 0.225F;
 
 	private static final String SIZE_NBT_NAME = "Size";
@@ -230,7 +231,12 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 		//?} else {
 		/*var attributes = Mob.createMobAttributes();
 		*///?}
-		return attributes.add(Attributes.MAX_HEALTH, 15.0).add(Attributes.MOVEMENT_SPEED, MOVEMENT_SPEED).add(Attributes.ATTACK_DAMAGE, 2.0);
+		return attributes
+			.add(Attributes.MAX_HEALTH, 15.0)
+			.add(Attributes.MOVEMENT_SPEED, MOVEMENT_SPEED)
+			.add(Attributes.ATTACK_DAMAGE, 2.0)
+			.add(Attributes.STEP_HEIGHT, 0.0F)
+			.add(Attributes.SCALE);
 	}
 
 	@Override
@@ -593,7 +599,7 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 		float scaleModifier = size.getScaleModifier();
 
 		if (this.isBaby()) {
-			return scaleModifier * 0.3F;
+			return scaleModifier * BABY_SCALE;
 		}
 
 		return scaleModifier;

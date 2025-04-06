@@ -5,15 +5,12 @@ import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.M
 import com.faboslav.friendsandfoes.common.entity.CrabEntity;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
-import net.minecraft.client.model.geom.builders.CubeDeformation;
-import net.minecraft.client.model.geom.builders.CubeListBuilder;
-import net.minecraft.client.model.geom.builders.LayerDefinition;
-import net.minecraft.client.model.geom.builders.MeshDefinition;
-import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.client.model.geom.builders.*;
 
 //? >=1.21.3 {
 import net.minecraft.client.model.EntityModel;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.CrabRenderState;
+import net.minecraft.client.model.geom.builders.MeshTransformer;
 //?} else {
 /*import net.minecraft.client.model.HierarchicalModel;
  *///?}
@@ -24,6 +21,10 @@ public class CrabEntityModel extends EntityModel<CrabRenderState>
 /*public final class CrabEntityModel<T extends CrabEntity> extends HierarchicalModel<T>
 *///?}
 {
+	//? >=1.21.3 {
+	public static final MeshTransformer BABY_TRANSFORMER = MeshTransformer.scaling(CrabEntity.BABY_SCALE);
+	//?}
+
 	private static final String MAIN = "main";
 	private static final String BODY = "body";
 	private static final String LEFT_FEELER = "leftFeeler";

@@ -80,6 +80,9 @@ import net.minecraft.world.entity.EntitySpawnReason;
 @SuppressWarnings({"unchecked"})
 public final class GlareEntity extends TamableAnimal implements FlyingAnimal, AnimatedEntity
 {
+	public static final float ADULT_SCALE = 0.8F;
+	public static final float BABY_SCALE = 0.4F;
+
 	private static final Vec3i ITEM_PICKUP_RANGE_EXPANDER = new Vec3i(1, 1, 1);
 	public static final Predicate<ItemEntity> PICKABLE_FOOD_FILTER;
 	private static final int GRUMPY_BITMASK = 2;
@@ -640,7 +643,7 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 
 	@Override
 	public float getAgeScale() {
-		return this.isBaby() ? 0.4F : 0.8F;
+		return this.isBaby() ? BABY_SCALE : ADULT_SCALE;
 	}
 
 	public boolean canBeLeashedBy(Player player) {
@@ -759,23 +762,6 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 		/*return super.hurt(damageSource, amount);
 		 *//*?}*/
 	}
-
-	@Override
-	public Vec3 getLeashOffset() {
-		return new Vec3(0.0D, this.getEyeHeight() * 0.6D, 0.0D);
-	}
-
-	// TODO resolve
-	/*
-	@Override
-	protected float getActiveEyeHeight(EntityPose poseIn, EntityDimensions sizeIn) {
-		if (this.isBaby()) {
-			// TODO use size modifier
-			return 0.5F;
-		}
-
-		return 1.0F;
-	} */
 
 	@Override
 	public float getSpeed() {

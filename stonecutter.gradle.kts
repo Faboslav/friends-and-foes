@@ -16,4 +16,9 @@ stonecutter registerChiseled tasks.register("chiseledBuild", stonecutter.chisele
 
 stonecutter {
     generateRunConfigs = listOf(RunConfigType.SWITCH)
+
+	parameters {
+		const("trinkets", false)
+		const("curios", false)
+	}
 }

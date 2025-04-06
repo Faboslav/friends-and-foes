@@ -24,7 +24,7 @@ public final class MoobloomEntityRenderer extends AgeableMobRenderer<MoobloomEnt
 {
 	public MoobloomEntityRenderer(EntityRendererProvider.Context context) {
 		//? >=1.21.3 {
-		super(context, new CowModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.MOOBLOOM_LAYER)),  new CowModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.MOOBLOOM_BABY_LAYER)), 0.7F);
+		super(context, new CowModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.MOOBLOOM_LAYER)), new CowModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.MOOBLOOM_BABY_LAYER)), 0.7F);
 		//?} else {
 		/*super(context, new CowModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.MOOBLOOM_LAYER)), 0.7F);
 		*///?}

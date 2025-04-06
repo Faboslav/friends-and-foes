@@ -5,16 +5,19 @@ import com.faboslav.friendsandfoes.common.client.render.entity.model.CrabEntityM
 import com.faboslav.friendsandfoes.common.entity.CrabEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 
 //? >=1.21.3 {
+import net.minecraft.client.renderer.entity.AgeableMobRenderer;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.CrabRenderState;
-//?}
+//?} else {
+/*import net.minecraft.client.renderer.entity.MobRenderer;
+import com.mojang.blaze3d.vertex.PoseStack;
+*///?}
 
-@SuppressWarnings({"rawtypes", "unchecked"})
+@SuppressWarnings({"all"})
 //? >=1.21.3 {
-public class CrabEntityRenderer extends MobRenderer<CrabEntity, CrabRenderState, CrabEntityModel>
+public class CrabEntityRenderer extends AgeableMobRenderer<CrabEntity, CrabRenderState, CrabEntityModel>
 //?} else {
 /*public final class CrabEntityRenderer extends MobRenderer<CrabEntity, CrabEntityModel<CrabEntity>>
 *///?}
@@ -22,7 +25,11 @@ public class CrabEntityRenderer extends MobRenderer<CrabEntity, CrabRenderState,
 	private static final ResourceLocation TEXTURE = FriendsAndFoes.makeID("textures/entity/crab/crab.png");
 
 	public CrabEntityRenderer(EntityRendererProvider.Context context) {
-		super(context, new CrabEntityModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.CRAB_LAYER)), 0.5F);
+		//? >=1.21.3 {
+		super(context, new CrabEntityModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.CRAB_LAYER)), new CrabEntityModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.CRAB_BABY_LAYER)), 0.5F);
+		//?} else {
+		/*super(context, new CrabEntityModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.CRAB_LAYER)), 0.5F);
+		 *///?}
 	}
 
 	@Override
@@ -63,6 +70,13 @@ public class CrabEntityRenderer extends MobRenderer<CrabEntity, CrabRenderState,
 	}
 	//?}
 
+	//? <1.21.3 {
+	/*@Override
+	protected void scale(CrabEntity crab, PoseStack poseStack, float partialTickTime) {
+		float scale = crab.getAgeScale();
+		poseStack.scale(scale, scale, scale);
+	}
+	*///?}
 
 	@Override
 		//? >=1.21.3 {

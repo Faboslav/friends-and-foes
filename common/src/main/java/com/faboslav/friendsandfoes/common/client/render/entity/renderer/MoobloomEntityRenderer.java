@@ -60,6 +60,10 @@ public final class MoobloomEntityRenderer extends AgeableMobRenderer<MoobloomEnt
 		var moobloom = moobloomRenderState.moobloom;
 		//?}
 
-		return FriendsAndFoes.makeID("textures/entity/moobloom/moobloom_" + moobloom.getVariant().getName() + ".png");
+		//? >=1.21.5 {
+			/*return FriendsAndFoes.makeID("textures/entity/moobloom/" + moobloom.getVariant().getName() + "_moobloom.png");
+		*///?} else {
+			return FriendsAndFoes.makeID("textures/entity/moobloom/moobloom_" + moobloom.getVariant().getName() + ".png");
+		//?}
 	}
 }

@@ -6,14 +6,14 @@
 			{
 				"model": {
 					"type": "minecraft:model",
-					"model": "friendsandfoes:block/crimson_beehive_honey"
+					"model": "friendsandfoes:block/dark_oak_beehive_honey"
 				},
 				"when": "5"
 			}
 		],
 		"fallback": {
 			"type": "minecraft:model",
-			"model": "friendsandfoes:block/crimson_beehive"
+			"model": "friendsandfoes:block/dark_oak_beehive"
 		},
 		"property": "minecraft:block_state"
 	}

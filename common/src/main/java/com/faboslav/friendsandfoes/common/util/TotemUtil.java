@@ -121,8 +121,8 @@ public final class TotemUtil
 
 			if (attacker != null) {
 				//? <=1.21.4 {
-				illusionToReplace.setLastHurtByPlayer(null);
-				//?}
+				/*illusionToReplace.setLastHurtByPlayer(null);
+				*///?}
 				illusionToReplace.setLastHurtByMob(null);
 				illusionToReplace.setLastHurtMob(null);
 			}

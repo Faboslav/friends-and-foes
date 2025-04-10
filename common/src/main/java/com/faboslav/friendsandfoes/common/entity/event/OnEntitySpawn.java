@@ -41,10 +41,10 @@ public final class OnEntitySpawn
 
 			entityToSpawn
 				//? >= 1.21.5 {
-				/*.snapTo(
-				*///?} else {
-				.moveTo(
-				//?}
+				.snapTo(
+				//?} else {
+				/*.moveTo(
+				*///?}
 				entity.getX(),
 				entity.getY(),
 				entity.getZ(),
@@ -79,10 +79,10 @@ public final class OnEntitySpawn
 					float dropChance;
 
 					//? >= 1.21.5 {
-					/*dropChance = entity.getDropChances().byEquipment(equipmentSlot);
-					*///?} else {
-					dropChance = ((MobAccessor) entity).friendsandfoes$getEquipmentDropChance(equipmentSlot);
-					//?}
+					dropChance = entity.getDropChances().byEquipment(equipmentSlot);
+					//?} else {
+					/*dropChance = ((MobAccessor) entity).friendsandfoes$getEquipmentDropChance(equipmentSlot);
+					*///?}
 					entityToSpawn.setDropChance(equipmentSlot, dropChance);
 				}
 			}

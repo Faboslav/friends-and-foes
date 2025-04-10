@@ -262,10 +262,10 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 	@Override
 	public void travel(Vec3 movementInput) {
 		//? <=1.21.4 {
-		if (!this.isControlledByLocalInstance()) {
+		/*if (!this.isControlledByLocalInstance()) {
 			return;
 		}
-		//?}
+		*///?}
 
 		if (this.isInWater()) {
 			this.moveRelative(0.02F, movementInput);
@@ -632,10 +632,10 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 	}
 
 	//? <=1.21.4 {
-	@Override
+	/*@Override
 	public boolean causeFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
 		return false;
-	}//?}
+	}*///?}
 
 	@Override
 	protected void checkFallDamage(double heightDifference, boolean onGround, BlockState landedState, BlockPos landedPosition) {
@@ -680,10 +680,10 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 	public void tame(Player owner) {
 		this.setTame(true, true);
 		//? >=1.21.5 {
-		/*this.setOwner(owner);
-		*///?} else {
-		this.setOwnerUUID(owner.getUUID());
-		//?}
+		this.setOwner(owner);
+		//?} else {
+		/*this.setOwnerUUID(owner.getUUID());
+		*///?}
 
 		if (owner instanceof ServerPlayer) {
 			FriendsAndFoesCriterias.TAME_GLARE.get().trigger((ServerPlayer) owner, this);
@@ -706,10 +706,10 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 
 		if (this.isTame()) {
 			//? >=1.21.5 {
-			/*glareEntity.setOwner(this.getOwner());
-			 *///?} else {
-			glareEntity.setOwnerUUID(this.getOwnerUUID());
-			//?}
+			glareEntity.setOwner(this.getOwner());
+			 //?} else {
+			/*glareEntity.setOwnerUUID(this.getOwnerUUID());
+			*///?}
 
 			glareEntity.setTame(true, true);
 

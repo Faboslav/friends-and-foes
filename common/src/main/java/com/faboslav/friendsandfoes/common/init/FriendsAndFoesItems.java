@@ -13,8 +13,8 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 //? =1.21.4 {
-import net.minecraft.world.item.equipment.ArmorMaterials;
-//?}
+/*import net.minecraft.world.item.equipment.ArmorMaterials;
+*///?}
 
 //? >=1.21.4 {
 import net.minecraft.world.item.equipment.ArmorType;
@@ -82,10 +82,10 @@ public final class FriendsAndFoesItems
 	public final static RegistryEntry<Item> WAXED_OXIDIZED_LIGHTNING_ROD = registerItem("waxed_oxidized_lightning_rod", (properties) -> new BlockItem(FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get(), properties), () -> new Item.Properties().stacksTo(64));
 
 	//? >=1.21.5 {
-	/*public final static RegistryEntry<Item> WILDFIRE_CROWN = registerItem("wildfire_crown", Item::new, () -> new Item.Properties().humanoidArmor(FriendsAndFoesArmorMaterials.WILDFIRE, ArmorType.HELMET).fireResistant());
-	*///?} else if >=1.21.3 {
-	public final static RegistryEntry<Item> WILDFIRE_CROWN = registerItem("wildfire_crown", (properties) -> new ArmorItem(FriendsAndFoesArmorMaterials.WILDFIRE, ArmorType.HELMET, properties), () -> new Item.Properties().stacksTo(1).fireResistant().durability(ArmorType.HELMET.getDurability(37)));
-	//?} else {
+	public final static RegistryEntry<Item> WILDFIRE_CROWN = registerItem("wildfire_crown", Item::new, () -> new Item.Properties().humanoidArmor(FriendsAndFoesArmorMaterials.WILDFIRE, ArmorType.HELMET).fireResistant());
+	//?} else if >=1.21.3 {
+	/*public final static RegistryEntry<Item> WILDFIRE_CROWN = registerItem("wildfire_crown", (properties) -> new ArmorItem(FriendsAndFoesArmorMaterials.WILDFIRE, ArmorType.HELMET, properties), () -> new Item.Properties().stacksTo(1).fireResistant().durability(ArmorType.HELMET.getDurability(37)));
+	*///?} else {
 	/*public final static RegistryEntry<Item> WILDFIRE_CROWN = registerItem("wildfire_crown", (properties) -> new ArmorItem(FriendsAndFoesArmorMaterials.WILDFIRE.holder(), ArmorItem.Type.HELMET, properties), () -> new Item.Properties().stacksTo(1).fireResistant().durability(ArmorItem.Type.HELMET.getDurability(37)));
 	*///?}
 	public final static RegistryEntry<Item> WILDFIRE_CROWN_FRAGMENT = registerItem("wildfire_crown_fragment", Item::new, () -> new Item.Properties().fireResistant());

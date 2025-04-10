@@ -39,8 +39,8 @@ import org.jetbrains.annotations.Nullable;
 import net.minecraft.world.entity.animal.Cow;
 
 //? >=1.21.5 {
-/*import net.minecraft.world.entity.animal.AbstractCow;
-*///?}
+import net.minecraft.world.entity.animal.AbstractCow;
+//?}
 
 //? >=1.21.3 {
 import net.minecraft.world.entity.EntitySpawnReason;
@@ -51,10 +51,10 @@ import java.util.Locale;
 *///?}
 
 //? >=1.21.5 {
-/*public final class MoobloomEntity extends AbstractCow implements Shearable
-*///?} else {
-public final class MoobloomEntity extends Cow implements Shearable
-//?}
+public final class MoobloomEntity extends AbstractCow implements Shearable
+//?} else {
+/*public final class MoobloomEntity extends Cow implements Shearable
+*///?}
 {
 	public static final String VARIANT_NBT_NAME = "Variant";
 	public static final String FLOWER_NBT_NAME = "Flower";

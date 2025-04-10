@@ -44,9 +44,9 @@ public abstract class PlayerEntityMixin extends LivingEntity
 	}
 
 	//? <=1.21.4 {
-	@Shadow
+	/*@Shadow
 	public abstract ItemStack getItemBySlot(EquipmentSlot slot);
-	//?}
+	*///?}
 
 	@Inject(
 		at = @At("TAIL"),

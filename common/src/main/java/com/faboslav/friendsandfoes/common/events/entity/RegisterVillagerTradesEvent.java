@@ -7,8 +7,8 @@ import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 
 //? >=1.21.5 {
-/*import net.minecraft.resources.ResourceKey;
-*///?}
+import net.minecraft.resources.ResourceKey;
+//?}
 
 /**
  * Event related is code based on The Bumblezone/Resourceful Lib mods with permissions from the authors
@@ -20,10 +20,10 @@ import net.minecraft.world.entity.npc.VillagerTrades;
  */
 public record RegisterVillagerTradesEvent(
 	//? >=1.21.5 {
-	/*ResourceKey<VillagerProfession> type,
-	*///?} else {
-	VillagerProfession type,
-	//?}
+	ResourceKey<VillagerProfession> type,
+	//?} else {
+	/*VillagerProfession type,
+	*///?}
 	BiConsumer<Integer,
 	VillagerTrades.ItemListing> trade
 )

@@ -56,10 +56,10 @@ public record MoobloomVariantsSyncPacket(
 			}
 
 			//? >=1.21.5 {
-			/*ListTag moobloomVariants = data.getListOrEmpty("moobloom_variants");
-			*///?} else {
-			ListTag moobloomVariants = data.getList("moobloom_variants", Tag.TAG_COMPOUND);
-			 //?}
+			ListTag moobloomVariants = data.getListOrEmpty("moobloom_variants");
+			//?} else {
+			/*ListTag moobloomVariants = data.getList("moobloom_variants", Tag.TAG_COMPOUND);
+			 *///?}
 
 			for (Tag moobloomVariant : moobloomVariants) {
 				DataResult<MoobloomVariant> parsedMoobloomVariant = MoobloomVariant.CODEC.parse(NbtOps.INSTANCE, moobloomVariant);

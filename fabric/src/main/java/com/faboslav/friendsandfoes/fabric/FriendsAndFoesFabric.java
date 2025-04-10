@@ -117,10 +117,10 @@ public final class FriendsAndFoesFabric implements ModInitializer
 	private static void registerVillagerTrades() {
 		var trades = VillagerTrades.TRADES;
 		//? >=1.21.5 {
-		/*var profession = FriendsAndFoesVillagerProfessions.BEEKEEPER_KEY;
-		*///?} else {
-		var profession = FriendsAndFoesVillagerProfessions.BEEKEEPER.get();
-		//?}
+		var profession = FriendsAndFoesVillagerProfessions.BEEKEEPER_KEY;
+		//?} else {
+		/*var profession = FriendsAndFoesVillagerProfessions.BEEKEEPER.get();
+		*///?}
 
 		Int2ObjectMap<VillagerTrades.ItemListing[]> profTrades = trades.computeIfAbsent(profession, key -> new Int2ObjectOpenHashMap<>());
 		Int2ObjectMap<List<VillagerTrades.ItemListing>> listings = new Int2ObjectOpenHashMap<>();

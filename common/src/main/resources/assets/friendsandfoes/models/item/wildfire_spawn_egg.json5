@@ -1,10 +1,10 @@
 {
 	//? >=1.21.5 {
-	/*"parent": "minecraft:item/generated",
+	"parent": "minecraft:item/generated",
 	"textures": {
 		"layer0": "friendsandfoes:item/wildfire_spawn_egg"
 	}
-*///?} else {
-	"parent": "item/template_spawn_egg",
-	//?}
+//?} else {
+	/*"parent": "item/template_spawn_egg",
+	*///?}
 }

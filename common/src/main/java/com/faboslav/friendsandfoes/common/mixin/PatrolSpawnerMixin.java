@@ -16,8 +16,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 //? >=1.21.5 {
-/*import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-*///?}
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+//?}
 
 //? >=1.21.3 {
 import net.minecraft.world.entity.EntitySpawnReason;
@@ -68,19 +68,19 @@ public final class PatrolSpawnerMixin
 		boolean spawnMonsters,
 		boolean spawnAnimals,
 		//? >=1.21.5 {
-		/*CallbackInfo ci
-		*///?} else {
-		CallbackInfoReturnable<Integer> ci
-		//?}
+		CallbackInfo ci
+		//?} else {
+		/*CallbackInfoReturnable<Integer> ci
+		*///?}
 	) {
 		//? >=1.21.5 {
-		/*this.friendsandfoes$isBiomeSpecificIllagerSpawned = false;
-		*///?} else {
-		var spawnerPatrolMembersCount = ci.getReturnValue();
+		this.friendsandfoes$isBiomeSpecificIllagerSpawned = false;
+		//?} else {
+		/*var spawnerPatrolMembersCount = ci.getReturnValue();
 
 		if (spawnerPatrolMembersCount > 0) {
 			this.friendsandfoes$isBiomeSpecificIllagerSpawned = false;
 		}
-		//?}
+		*///?}
 	}
 }

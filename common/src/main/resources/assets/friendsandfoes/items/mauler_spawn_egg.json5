@@ -1,11 +1,11 @@
 {
 	//? >=1.21.5 {
-	/*"model": {
+	"model": {
 		"type": "minecraft:model",
 		"model": "friendsandfoes:item/mauler_spawn_egg"
 	}
-*///?} else {
-    "model": {
+//?} else {
+    /*"model": {
         "type": "minecraft:model",
         "model": "minecraft:item/template_spawn_egg",
         "tints": [
@@ -18,5 +18,5 @@
                 "value": 4286675769
             }
         ]
-	}//?}
+	}*///?}
 }

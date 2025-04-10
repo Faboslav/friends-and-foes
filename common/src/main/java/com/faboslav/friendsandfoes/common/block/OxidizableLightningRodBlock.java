@@ -43,7 +43,6 @@ public final class OxidizableLightningRodBlock extends LightningRodBlock impleme
 			return false;
 		}
 
-		// TODO check if this work
 		return this.getAge().ordinal() < WeatherState.OXIDIZED.ordinal();
 	}
 

@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.model;
 
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.ModelPartAnimator;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.ModelPartModelAnimator;
 import com.faboslav.friendsandfoes.common.entity.GlareEntity;
@@ -29,6 +30,7 @@ public class GlareEntityModel extends EntityModel<GlareRenderState>
 	public static final MeshTransformer ADULT_TRANSFORMER = MeshTransformer.scaling(GlareEntity.ADULT_SCALE);
 	//?}
 
+	private static final String MODEL_PART_BODY = "body";
 	private static final String MODEL_PART_HEAD = "head";
 	private static final String MODEL_PART_EYES = "eyes";
 	private static final String MODEL_TOP_AZALEA = "topAzalea";
@@ -38,6 +40,7 @@ public class GlareEntityModel extends EntityModel<GlareRenderState>
 	private static final String MODEL_FOURTH_LAYER = "fourthLayer";
 
 	private final ModelPart root;
+	private final ModelPart body;
 	private final ModelPart head;
 	private final ModelPart eyes;
 	private final ModelPart topAzalea;
@@ -54,7 +57,8 @@ public class GlareEntityModel extends EntityModel<GlareRenderState>
 		//?}
 
 		this.root = root;
-		this.head = this.root.getChild(MODEL_PART_HEAD);
+		this.body = this.root.getChild(MODEL_PART_BODY);
+		this.head = this.body.getChild(MODEL_PART_HEAD);
 		this.eyes = this.head.getChild(MODEL_PART_EYES);
 		this.topAzalea = this.head.getChild(MODEL_TOP_AZALEA);
 		this.bottomAzalea = this.head.getChild(MODEL_BOTTOM_AZALEA);
@@ -73,9 +77,12 @@ public class GlareEntityModel extends EntityModel<GlareRenderState>
 		MeshDefinition modelData = new MeshDefinition();
 		PartDefinition root = modelData.getRoot();
 
-		root.addOrReplaceChild(MODEL_PART_HEAD, CubeListBuilder.create().texOffs(0, 0).addBox(-6.0F, 0.0F, -3.0F, 12.0F, 9.0F, 9.0F, new CubeDeformation(-0.02F)), PartPose.offset(0.0F, 1.0F, 0.0F));
+		root.addOrReplaceChild(MODEL_PART_BODY, CubeListBuilder.create(), PartPose.offset(0.0F, 1.0F, 0.0F));
+		PartDefinition body = root.getChild(MODEL_PART_BODY);
 
-		PartDefinition head = root.getChild(MODEL_PART_HEAD);
+		body.addOrReplaceChild(MODEL_PART_HEAD, CubeListBuilder.create().texOffs(0, 0).addBox(-6.0F, 0.0F, -3.0F, 12.0F, 9.0F, 9.0F, new CubeDeformation(-0.02F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+		PartDefinition head = body.getChild(MODEL_PART_HEAD);
+
 		head.addOrReplaceChild(MODEL_PART_EYES, CubeListBuilder.create().texOffs(33, 0).addBox(2.0F, -1.0F, -0.3F, 2.0F, 2.0F, 1.0F, new CubeDeformation(-0.2F)).texOffs(33, 0).addBox(-4.0F, -1.0F, -0.3F, 2.0F, 2.0F, 1.0F, new CubeDeformation(-0.2F)), PartPose.offset(0.0F, 5.0F, -3.0F));
 		head.addOrReplaceChild(MODEL_TOP_AZALEA, CubeListBuilder.create().texOffs(0, 18).addBox(-7.0F, 0.0F, -7.0F, 14.0F, 8.0F, 14.0F, new CubeDeformation(0.01F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 		head.addOrReplaceChild(MODEL_BOTTOM_AZALEA, CubeListBuilder.create().texOffs(18, 101).mirror().addBox(-7.0F, 0.75F, -7.0F, 14.0F, 0.0F, 14.0F, new CubeDeformation(-0.01F)).mirror(false).texOffs(0, 40).addBox(-7.0F, -4.0F, -7.0F, 14.0F, 10.0F, 14.0F, new CubeDeformation(0.01F)), PartPose.offset(0.0F, 8.0F, 0.0F));
@@ -158,8 +165,8 @@ public class GlareEntityModel extends EntityModel<GlareRenderState>
 			horizontalFloatingOffset = 1.0F;
 		}
 
-		float targetPivotY = glare.isOrderedToSit() ? 3.0F:0.11F;
-		ModelPartModelAnimator.animateModelPartYPositionBasedOnTicks(glare.getAnimationContextTracker(), this.root, glare.tickCount, targetPivotY, 10);
+		float targetPivotY = glare.isOrderedToSit() ? 3.0F : 0.11F;
+		ModelPartModelAnimator.animateModelPartYPositionBasedOnTicks(glare.getAnimationContextTracker(), this.body, glare.tickCount, targetPivotY, 10);
 
 		if (glare.isGrumpy()) {
 			ModelPartAnimator.setXPosition(this.root, AnimationMath.sin(animationProgress, 0.5F));

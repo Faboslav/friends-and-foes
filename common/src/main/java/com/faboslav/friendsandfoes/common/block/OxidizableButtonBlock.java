@@ -36,7 +36,6 @@ public final class OxidizableButtonBlock extends CopperButtonBlock implements Fr
 
 	@Override
 	public boolean isRandomlyTicking(BlockState state) {
-		// TODO check if this work
 		return this.getAge().ordinal() < WeatherState.OXIDIZED.ordinal();
 	}
 

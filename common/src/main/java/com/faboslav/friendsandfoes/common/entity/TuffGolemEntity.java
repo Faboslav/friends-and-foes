@@ -862,14 +862,6 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 		return new Vec3(0.0D, this.getEyeHeight() * 0.45D, 0.0D);
 	}
 
-	// TODO fix eyes
-	/*
-	@Override
-	protected float getActiveEyeHeight(EntityPose poseIn, EntityDimensions sizeIn) {
-		return 0.8F;
-	}
-	 */
-
 	@Override
 	public float getSpeed() {
 		return this.isHoldingItem() ? MOVEMENT_SPEED_WITH_ITEM:MOVEMENT_SPEED;

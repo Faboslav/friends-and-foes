@@ -355,13 +355,6 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 		return new Vec3(0.0D, this.getEyeHeight() * 0.45D, 0.0D);
 	}
 
-	// TODO somehow fix
-	/*
-	@Override
-	protected float getActiveEyeHeight(EntityPose poseIn, EntityDimensions sizeIn) {
-		return 0.75F;
-	} */
-
 	public float getMovementSpeedModifier() {
 		if (this.isStructByLightning()) {
 			return (MOVEMENT_SPEED + MOVEMENT_SPEED / 2.0F) / MOVEMENT_SPEED;

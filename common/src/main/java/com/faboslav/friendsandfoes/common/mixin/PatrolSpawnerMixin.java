@@ -15,17 +15,17 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
-
 //? >=1.21.5 {
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-//?}
+//?} else {
+/*import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+*///?}
 
 //? >=1.21.3 {
 import net.minecraft.world.entity.EntitySpawnReason;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 //?} else {
 /*import net.minecraft.world.entity.MobSpawnType;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 *///?}
 
 @Mixin(PatrolSpawner.class)

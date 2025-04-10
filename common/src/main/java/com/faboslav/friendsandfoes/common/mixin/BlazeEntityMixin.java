@@ -23,12 +23,13 @@ public abstract class BlazeEntityMixin extends BlazeLivingEntityMixin implements
 {
 	private static final String WILDFIRE_UUID_NBT_NAME = "WildfireUuid";
 
-	private Optional<UUID> friendsandfoes_wildfireUuid = Optional.empty();
+	@Nullable
+	private UUID friendsandfoes_wildfireUuid;
 
 	protected BlazeEntityMixin(EntityType<? extends Monster> entityType, Level world) {
 		super(entityType, world);
 
-		this.friendsandfoes_wildfireUuid = Optional.empty();
+		this.friendsandfoes_wildfireUuid = null;
 	}
 
 	@Override
@@ -54,11 +55,11 @@ public abstract class BlazeEntityMixin extends BlazeLivingEntityMixin implements
 
 	@Nullable
 	public UUID friendsandfoes_getWildfireUuid() {
-		return this.friendsandfoes_wildfireUuid.orElse(null);
+		return this.friendsandfoes_wildfireUuid;
 	}
 
 	public void friendsandfoes_setWildfireUuid(@Nullable UUID uuid) {
-		this.friendsandfoes_wildfireUuid = Optional.ofNullable(uuid);
+		this.friendsandfoes_wildfireUuid = uuid;
 	}
 
 	public void friendsandfoes_setWildfire(WildfireEntity wildfire) {

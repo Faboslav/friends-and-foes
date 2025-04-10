@@ -27,10 +27,12 @@ public final class VersionedEntity
 	}
 
 	public static boolean hurt(Entity entity, DamageSource damageSource, float amount) {
-		boolean hurtResult;
+		boolean hurtResult = false;
 
 		//? >=1.21.3 {
-		hurtResult = entity.hurtServer((ServerLevel) entity.level(), damageSource, amount);
+		if (entity.level() instanceof ServerLevel serverLevel) {
+			hurtResult = entity.hurtServer(serverLevel, damageSource, amount);
+		}
 		//?} else {
 		/*hurtResult = entity.hurt(damageSource, amount);
 		*///?}

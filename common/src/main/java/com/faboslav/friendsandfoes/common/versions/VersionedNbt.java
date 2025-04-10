@@ -65,7 +65,11 @@ public final class VersionedNbt
 		 //?}
 	}
 
-	public static void putUUID(CompoundTag nbt, String key, UUID uuid) {
+	public static void putUUID(CompoundTag nbt, String key, @Nullable UUID uuid) {
+		if(uuid == null) {
+			return;
+		}
+
 		//? >=1.21.5 {
 		/*nbt.store(key, UUIDUtil.CODEC, uuid);
 		*///?} else {

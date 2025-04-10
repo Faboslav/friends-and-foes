@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.neoforge;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.events.AddItemGroupEntriesEvent;
+import com.faboslav.friendsandfoes.common.events.entity.EntitySpawnEvent;
 import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.*;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStructurePoolElements;
@@ -28,6 +29,7 @@ import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
+import net.neoforged.neoforge.event.entity.living.FinalizeSpawnEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
@@ -57,6 +59,7 @@ public final class FriendsAndFoesNeoForge
 		eventBus.addListener(FriendsAndFoesNeoForge::onRegisterBrewingRecipes);
 		eventBus.addListener(FriendsAndFoesNeoForge::onAddReloadListeners);
 		eventBus.addListener(FriendsAndFoesNeoForge::onDatapackSync);
+		eventBus.addListener(FriendsAndFoesNeoForge::onEntitySpawn);
 
 		modEventBus.addListener(FriendsAndFoesNeoForge::onSetup);
 		modEventBus.addListener(FriendsAndFoesNeoForge::onRegisterAttributes);
@@ -73,6 +76,18 @@ public final class FriendsAndFoesNeoForge
 			RegisterFlammabilityEvent.EVENT.invoke(new RegisterFlammabilityEvent((item, igniteOdds, burnOdds) ->
 				((FireBlockAccessor) Blocks.FIRE).invokeRegisterFlammableBlock(item, igniteOdds, burnOdds)));
 		});
+	}
+
+	private static void onEntitySpawn(FinalizeSpawnEvent event) {
+		if(event.isCanceled()) {
+			return;
+		}
+
+		boolean spawn = EntitySpawnEvent.EVENT.invoke(new EntitySpawnEvent(event.getEntity(), event.getLevel(), event.getEntity().isBaby(), event.getSpawnType()), event.isCanceled());
+
+		if(spawn) {
+			event.setSpawnCancelled(true);
+		}
 	}
 
 	private static void onAddReloadListeners(

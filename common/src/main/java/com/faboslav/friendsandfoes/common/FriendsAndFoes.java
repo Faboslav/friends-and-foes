@@ -3,7 +3,9 @@ package com.faboslav.friendsandfoes.common;
 import com.faboslav.friendsandfoes.common.api.MoobloomVariantManager;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationLoader;
 import com.faboslav.friendsandfoes.common.config.FriendsAndFoesConfig;
+import com.faboslav.friendsandfoes.common.entity.event.IllusionerOnEntitySpawn;
 import com.faboslav.friendsandfoes.common.events.AddItemGroupEntriesEvent;
+import com.faboslav.friendsandfoes.common.events.entity.EntitySpawnEvent;
 import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
 import com.faboslav.friendsandfoes.common.events.item.RegisterBrewingRecipesEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.*;
@@ -63,6 +65,7 @@ public final class FriendsAndFoes
 		RegisterBrewingRecipesEvent.EVENT.addListener(FriendsAndFoesRecipes::registerBrewingRecipes);
 		RegisterVillagerTradesEvent.EVENT.addListener(FriendsAndFoesVillagerProfessions::registerVillagerTrades);
 		AddItemGroupEntriesEvent.EVENT.addListener(FriendsAndFoesItemGroups::addItemGroupEntries);
+		EntitySpawnEvent.EVENT.addListener(IllusionerOnEntitySpawn::handleEntitySpawn);
 
 		FriendsAndFoesActivities.ACTIVITIES.init();
 		//? <1.21.3 {

@@ -20,17 +20,26 @@ public class MobSpawnsBiomeModifier implements BiomeModifier
 		if (phase == Phase.ADD) {
 			AddSpawnBiomeModificationsEvent.EVENT.invoke(new AddSpawnBiomeModificationsEvent((tag, spawnGroup, entityType, spawnWeight, minGroupSize, maxGroupSize) -> {
 				if (biome.is(tag)) {
-					builder.getMobSpawnSettings().getSpawner(spawnGroup).add(
+					//? >=1.21.5 {
+					/*builder.getMobSpawnSettings().addSpawn(
+						spawnGroup,
+						spawnWeight,
 						new MobSpawnSettings.SpawnerData(
 							entityType,
-							// TODO resolve, where shoudl i handle spawn weight
-							//? <=1.21.4 {
-							spawnWeight,
-							//?}
 							minGroupSize,
 							maxGroupSize
 						)
 					);
+					*///?} else {
+					builder.getMobSpawnSettings().getSpawner(spawnGroup).add(
+						new MobSpawnSettings.SpawnerData(
+							entityType,
+							spawnWeight,
+							minGroupSize,
+							maxGroupSize
+						)
+					);
+					//?}
 				}
 			}));
 		}

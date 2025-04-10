@@ -1,10 +1,11 @@
-package com.faboslav.friendsandfoes.common.mixin;
+package com.faboslav.friendsandfoes.fabric.mixin;
 
 import com.faboslav.friendsandfoes.common.events.entity.EntitySpawnEvent;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.NaturalSpawner;

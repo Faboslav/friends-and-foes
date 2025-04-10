@@ -1,7 +1,8 @@
-package com.faboslav.friendsandfoes.common.mixin;
+package com.faboslav.friendsandfoes.fabric.mixin;
 
 import com.faboslav.friendsandfoes.common.events.entity.EntitySpawnEvent;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Mirror;
@@ -15,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /*? >=1.21.3 {*/
 import net.minecraft.world.entity.EntitySpawnReason;
- /*?} else {*/
+/*?} else {*/
 /*import net.minecraft.world.entity.MobSpawnType;
 *//*?}*/
 

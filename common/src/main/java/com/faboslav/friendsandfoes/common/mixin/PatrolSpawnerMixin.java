@@ -1,9 +1,7 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
-import com.faboslav.friendsandfoes.common.events.entity.EntitySpawnEvent;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
-import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
@@ -16,7 +14,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 //? >=1.21.5 {
 /*import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -85,41 +82,5 @@ public final class PatrolSpawnerMixin
 			this.friendsandfoes$isBiomeSpecificIllagerSpawned = false;
 		}
 		//?}
-	}
-
-	@Inject(
-		method = "spawnPatrolMember",
-		at = @At(
-			value = "INVOKE",
-			/*? >=1.21.3 {*/
-			target = "Lnet/minecraft/world/entity/monster/PatrollingMonster;finalizeSpawn(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/world/DifficultyInstance;Lnet/minecraft/world/entity/EntitySpawnReason;Lnet/minecraft/world/entity/SpawnGroupData;)Lnet/minecraft/world/entity/SpawnGroupData;"
-			/*?} else {*/
-			/*target = "Lnet/minecraft/world/entity/monster/PatrollingMonster;finalizeSpawn(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/world/DifficultyInstance;Lnet/minecraft/world/entity/MobSpawnType;Lnet/minecraft/world/entity/SpawnGroupData;)Lnet/minecraft/world/entity/SpawnGroupData;"
-			*//*?}*/
-		),
-		cancellable = true
-	)
-	public void friendsandfoes$onSpawnEntity(
-		ServerLevel serverLevel,
-		BlockPos blockPos,
-		RandomSource randomSource,
-		boolean bl,
-		CallbackInfoReturnable<Boolean> cir,
-		@Local(ordinal = 0) PatrollingMonster patrollingMonster
-	) {
-		if (EntitySpawnEvent.EVENT.invoke(
-			new EntitySpawnEvent(
-				patrollingMonster,
-				serverLevel,
-				patrollingMonster.isBaby(),
-				/*? >=1.21.3 {*/
-				EntitySpawnReason.STRUCTURE
-				/*?} else {*/
-				/*MobSpawnType.STRUCTURE
-				 *//*?}*/
-			)
-		)) {
-			cir.setReturnValue(false);
-		}
 	}
 }

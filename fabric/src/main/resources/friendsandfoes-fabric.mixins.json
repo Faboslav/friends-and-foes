@@ -8,8 +8,11 @@
 		"defaultRequire": 1
 	},
 	"mixins": [
+		"PatrolSpawnerMixin",
 		"PointOfInterestTypesAccessor",
-		"StructureEntityProcessorMixin"
+		"SpawnHelperMixin",
+		"StructureEntityProcessorMixin",
+		"StructureTemplateEntitySpawnMixin"
 	],
 	"client": [
 		"ParticleManagerMixin"

@@ -1,12 +1,11 @@
 package com.faboslav.friendsandfoes.common.init;
 
 //? >=1.21.3 {
+import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import net.minecraft.Util;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.equipment.ArmorType;
-import net.minecraft.world.item.equipment.EquipmentAssets;
 
 import java.util.EnumMap;
 
@@ -20,8 +19,7 @@ public interface FriendsAndFoesArmorMaterials {
 		enumMap.put(ArmorType.CHESTPLATE, 8);
 		enumMap.put(ArmorType.HELMET, 3);
 		enumMap.put(ArmorType.BODY, 11);
-	}), 9, SoundEvents.ARMOR_EQUIP_NETHERITE, 1.0F, 0.0F, ItemTags.REPAIRS_LEATHER_ARMOR, FriendsAndFoesEquipmentAssets.WILDFIRE_CROWN);
-	// TODO change tag
+	}), 9, SoundEvents.ARMOR_EQUIP_NETHERITE, 1.0F, 0.0F, FriendsAndFoesTags.REPAIRS_WILDFIRE_CROWN, FriendsAndFoesEquipmentAssets.WILDFIRE_CROWN);
 }
 //?} else {
 /*import net.minecraft.world.item.ArmorMaterial;

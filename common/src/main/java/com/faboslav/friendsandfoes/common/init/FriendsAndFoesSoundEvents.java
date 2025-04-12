@@ -73,6 +73,7 @@ public final class FriendsAndFoesSoundEvents
 	public static final RegistryEntry<SoundEvent> ENTITY_WILDFIRE_SHOOT = registerSoundEvent("entity.wildfire.shoot");
 	public static final RegistryEntry<SoundEvent> ENTITY_WILDFIRE_STEP = registerSoundEvent("entity.wildfire.step");
 	public static final RegistryEntry<SoundEvent> ENTITY_WILDFIRE_SUMMON_BLAZE = registerSoundEvent("entity.wildfire.summon_blaze");
+	public static final HolderRegistryEntry<SoundEvent> ITEM_EQUIP_WILDFIRE_CROWN = registerHolderSoundEvent("item.armor.equip_wildfire_crown");
 	public static final HolderRegistryEntry<SoundEvent> MUSIC_DISC_AROUND_THE_CORNER = registerHolderSoundEvent("music_disc.around_the_corner");
 
 	private static RegistryEntry<SoundEvent> registerSoundEvent(String path) {

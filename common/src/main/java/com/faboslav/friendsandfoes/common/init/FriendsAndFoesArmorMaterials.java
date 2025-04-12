@@ -3,7 +3,6 @@ package com.faboslav.friendsandfoes.common.init;
 //? >=1.21.3 {
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import net.minecraft.Util;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.equipment.ArmorType;
 
@@ -19,10 +18,11 @@ public interface FriendsAndFoesArmorMaterials {
 		enumMap.put(ArmorType.CHESTPLATE, 8);
 		enumMap.put(ArmorType.HELMET, 3);
 		enumMap.put(ArmorType.BODY, 11);
-	}), 9, SoundEvents.ARMOR_EQUIP_NETHERITE, 1.0F, 0.0F, FriendsAndFoesTags.REPAIRS_WILDFIRE_CROWN, FriendsAndFoesEquipmentAssets.WILDFIRE_CROWN);
+	}), 9, FriendsAndFoesSoundEvents.ITEM_EQUIP_WILDFIRE_CROWN.holder(), 1.0F, 0.0F, FriendsAndFoesTags.REPAIRS_WILDFIRE_CROWN, FriendsAndFoesEquipmentAssets.WILDFIRE_CROWN);
 }
 //?} else {
-/*import net.minecraft.world.item.ArmorMaterial;
+/*import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
+import net.minecraft.world.item.ArmorMaterial;
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.teamresourceful.resourcefullib.common.registry.HolderRegistryEntry;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistries;
@@ -33,7 +33,6 @@ import java.util.function.Supplier;
 import net.minecraft.Util;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -51,10 +50,10 @@ public final class FriendsAndFoesArmorMaterials
 			enumMap.put(ArmorItem.Type.BODY, 11);
 		}),
 		9,
-		SoundEvents.ARMOR_EQUIP_NETHERITE,
+		FriendsAndFoesSoundEvents.ITEM_EQUIP_WILDFIRE_CROWN.holder(),
 		1.0F,
 		0.0F,
-		() -> Ingredient.of(FriendsAndFoesItems.WILDFIRE_CROWN_FRAGMENT.get()))
+		() -> Ingredient.of(FriendsAndFoesTags.REPAIRS_WILDFIRE_CROWN))
 	);
 
 	private static ArmorMaterial createArmorMaterial(

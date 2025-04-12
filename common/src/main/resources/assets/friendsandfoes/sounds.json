@@ -418,6 +418,14 @@
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.wildfire.summon_blaze"
 	},
+	"item.armor.equip_wildfire_crown": {
+		"sounds": [
+			"friendsandfoes:item/wildfire_crown/equip_wildfire_crown1",
+			"friendsandfoes:item/wildfire_crown/equip_wildfire_crown2",
+			"friendsandfoes:item/wildfire_crown/equip_wildfire_crown3"
+		],
+		"subtitle": "subtitle.item.friendsandfoes.armor.equip_wildfire_crown"
+	},
 	"music_disc.around_the_corner": {
 		"sounds": [
 			{

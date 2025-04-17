@@ -1,4 +1,5 @@
 plugins {
+	id("dev.kikugie.stonecutter")
 	`multiloader-loader`
 	id("net.neoforged.moddev")
 	id("dev.kikugie.j52j") version "2.0"
@@ -64,4 +65,11 @@ neoForge {
 
 sourceSets.main {
 	resources.srcDir("src/generated/resources")
+}
+
+
+tasks {
+	processResources {
+		exclude("${mod.id}.accesswidener")
+	}
 }

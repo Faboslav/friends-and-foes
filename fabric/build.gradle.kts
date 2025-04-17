@@ -1,6 +1,7 @@
 plugins {
-	`multiloader-loader`
 	id("fabric-loom")
+	id("dev.kikugie.stonecutter")
+	`multiloader-loader`
 	id("dev.kikugie.j52j") version "2.0"
 }
 

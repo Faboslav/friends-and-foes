@@ -1,12 +1,11 @@
 plugins {
-	id("dev.kikugie.stonecutter")
 	`multiloader-loader`
 	id("net.neoforged.moddev")
 	id("dev.kikugie.j52j") version "2.0"
 }
 
 stonecutter {
-	const("curios", commonMod.depOrNull("curios") != null)
+	constants["curios"] = commonMod.depOrNull("curios") != null
 }
 
 neoForge {

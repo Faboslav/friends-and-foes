@@ -9,8 +9,10 @@ plugins {
 stonecutter active "1.21.5" /* [SC] DO NOT EDIT */
 
 stonecutter {
+	//constants["trinkets"] = false
+
 	parameters {
-		const("trinkets", false)
-		const("curios", false)
+		constants["trinkets"] = false;
+		constants["curios"] = false;
 	}
 }

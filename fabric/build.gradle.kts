@@ -1,12 +1,11 @@
 plugins {
 	id("fabric-loom")
-	id("dev.kikugie.stonecutter")
 	`multiloader-loader`
 	id("dev.kikugie.j52j") version "2.0"
 }
 
 stonecutter {
-	const("trinkets", commonMod.depOrNull("trinkets") != null)
+	constants["trinkets"] = commonMod.depOrNull("trinkets") != null
 }
 
 dependencies {

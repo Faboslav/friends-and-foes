@@ -66,6 +66,9 @@ sourceSets.main {
 	resources.srcDir("src/generated/resources")
 }
 
+tasks.named("createMinecraftArtifacts") {
+	dependsOn("stonecutterGenerate")
+}
 
 tasks {
 	processResources {

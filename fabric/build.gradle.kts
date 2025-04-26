@@ -5,7 +5,7 @@ plugins {
 }
 
 stonecutter {
-	constants["trinkets"] = commonMod.depOrNull("trinkets") != null
+	const("trinkets", commonMod.depOrNull("trinkets") != null)
 }
 
 dependencies {

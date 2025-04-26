@@ -4,6 +4,8 @@ import com.faboslav.friendsandfoes.common.entity.CrabEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import java.util.Map;
+
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -67,8 +69,7 @@ public final class CrabLayEggTask extends Behavior<CrabEntity>
 		var burrowSpotPos = crab.getBurrowSpotPos();
 
 		if (burrowSpotPos != null) {
-			// TODO change sound
-			world.playSound(null, burrowSpotPos.pos(), SoundEvents.TURTLE_LAY_EGG, SoundSource.BLOCKS, 0.3f, 0.9f + world.random.nextFloat() * 0.2f);
+			world.playSound(null, burrowSpotPos.pos(), FriendsAndFoesSoundEvents.ENTITY_CRAB_LAY_EGG.get(), SoundSource.BLOCKS, 0.3f, 0.9f + world.random.nextFloat() * 0.2f);
 			world.setBlock(burrowSpotPos.pos(), FriendsAndFoesBlocks.CRAB_EGG.get().defaultBlockState().setValue(TurtleEggBlock.EGGS, crab.getRandom().nextInt(4) + 1), Block.UPDATE_ALL);
 		}
 

@@ -43,8 +43,9 @@ public final class FriendsAndFoesVillagerProfessions
 			return false;
 		}
 
+		// TODO replace sound
 		return pointOfInterest.is(FriendsAndFoesTags.BEEKEEPER_ACQUIRABLE_JOB_SITE);
-	}, ImmutableSet.of(Items.HONEYCOMB), ImmutableSet.of(),  SoundEvents.ITEM_FRAME_REMOVE_ITEM));
+	}, ImmutableSet.of(Items.HONEYCOMB), ImmutableSet.of(), SoundEvents.ITEM_FRAME_REMOVE_ITEM));
 
 	public static void registerVillagerTrades(RegisterVillagerTradesEvent event) {
 		if (

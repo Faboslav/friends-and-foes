@@ -1,4 +1,4 @@
-import dev.kikugie.stonecutter.build.StonecutterBuildExtension
+import dev.kikugie.stonecutter.build.StonecutterBuild
 import org.gradle.api.Project
 import org.gradle.api.artifacts.dsl.RepositoryHandler
 import org.gradle.kotlin.dsl.*
@@ -12,7 +12,7 @@ fun RepositoryHandler.strictMaven(url: String, alias: String, vararg groups: Str
     filter { groups.forEach(::includeGroup) }
 }
 
-val Project.stonecutterBuild get() = extensions.getByType<StonecutterBuildExtension>()
+val Project.stonecutterBuild get() = extensions.getByType<StonecutterBuild>()
 
 val Project.common get() = requireNotNull(stonecutterBuild.node.sibling("common")) {
     "No common project for $project"

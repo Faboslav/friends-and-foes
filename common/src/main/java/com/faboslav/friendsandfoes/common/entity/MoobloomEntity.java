@@ -10,11 +10,13 @@ import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import com.faboslav.friendsandfoes.common.versions.VersionedInteractionResult;
 import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -25,18 +27,22 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.SuspiciousStewEffects;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoublePlantBlock;
+import net.minecraft.world.level.block.SuspiciousEffectHolder;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.Nullable;
 import net.minecraft.world.entity.animal.Cow;
+import java.util.Optional;
 
 //? >=1.21.5 {
 import net.minecraft.world.entity.animal.AbstractCow;
@@ -44,8 +50,6 @@ import net.minecraft.world.entity.animal.AbstractCow;
 
 //? >=1.21.3 {
 import net.minecraft.world.entity.EntitySpawnReason;
-
-import java.util.Locale;
 //?} else {
 /*import net.minecraft.world.entity.MobSpawnType;
 *///?}
@@ -148,13 +152,35 @@ public final class MoobloomEntity extends AbstractCow implements Shearable
 			this.setVariant(moobloomVariant);
 			this.playSound(FriendsAndFoesSoundEvents.ENTITY_MOOBLOOM_CONVERT.get(), 2.0F, 1.0F);
 
-			boolean isClientWorld = this.level().isClientSide();
-
-			if (!isClientWorld) {
+			if (!this.level().isClientSide()) {
 				itemStack.consume(1, player);
 			}
 
 			return VersionedInteractionResult.success(this);
+		}
+
+		if (itemStack.is(Items.BOWL) && !this.isBaby()) {
+			if (!this.level().isClientSide()) {
+				ItemStack suspiciousStew;
+				SoundEvent soundEvent;
+				var stewEffect = this.getEffectsFromItemStack(this.getVariant().getFlowerAsItem().getDefaultInstance());
+
+				if (stewEffect.isPresent()) {
+					suspiciousStew = new ItemStack(Items.SUSPICIOUS_STEW);
+					suspiciousStew.set(DataComponents.SUSPICIOUS_STEW_EFFECTS, stewEffect.get());
+					soundEvent = SoundEvents.MOOSHROOM_MILK_SUSPICIOUSLY;
+				} else {
+					suspiciousStew = new ItemStack(Items.SUSPICIOUS_STEW);
+					suspiciousStew.set(DataComponents.SUSPICIOUS_STEW_EFFECTS, SuspiciousStewEffects.EMPTY);
+					soundEvent = SoundEvents.MOOSHROOM_MILK;
+				}
+
+				ItemStack itemStack3 = ItemUtils.createFilledResult(itemStack, player, suspiciousStew, false);
+				player.setItemInHand(hand, itemStack3);
+				this.playSound(soundEvent, 2.0F, 1.0F);
+			}
+
+			return InteractionResult.SUCCESS;
 		}
 
 		if (itemStack.getItem() == Items.SHEARS && this.readyForShearing()) {
@@ -181,7 +207,8 @@ public final class MoobloomEntity extends AbstractCow implements Shearable
 		/*ServerLevel level = (ServerLevel) this.level();
 		*///?}
 
-		level.playSound(null, this, SoundEvents.MOOSHROOM_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
+		// TODO replace sound
+		level.playSound(null, this, FriendsAndFoesSoundEvents.ENTITY_MOOBLOOM_SHEAR.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
 		this.transformToCow(level);
 		this.dropShearedItems(level);
 	}
@@ -226,6 +253,11 @@ public final class MoobloomEntity extends AbstractCow implements Shearable
 				)
 			);
 		}
+	}
+
+	private Optional<SuspiciousStewEffects> getEffectsFromItemStack(ItemStack stack) {
+		SuspiciousEffectHolder suspiciousEffectHolder = SuspiciousEffectHolder.tryGet(stack.getItem());
+		return suspiciousEffectHolder != null ? Optional.of(suspiciousEffectHolder.getSuspiciousEffects()) : Optional.empty();
 	}
 
 	@Override

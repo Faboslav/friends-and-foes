@@ -23,7 +23,7 @@ import static org.lwjgl.opengl.GL20.*;
 /*import net.minecraft.util.FastColor;
  *//*?} else {*/
 import net.minecraft.util.ARGB;
-	/*?}*/
+/*?}*/
 
 /**
  * Inspired by use in Sounds mod

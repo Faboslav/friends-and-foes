@@ -52,6 +52,13 @@
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.crab.hurt"
 	},
+	"entity.crab.lay_egg": {
+		"sounds": [
+			"friendsandfoes:entity/crab/lay_egg1",
+			"friendsandfoes:entity/crab/lay_egg2"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.crab.lay_egg"
+	},
 	"entity.crab.step": {
 		"sounds": [
 			"friendsandfoes:entity/crab/step1",
@@ -209,6 +216,12 @@
 			"friendsandfoes:entity/moobloom/convert2"
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.moobloom.convert"
+	},
+	"entity.moobloom.shear": {
+		"sounds": [
+			"friendsandfoes:entity/moobloom/shear"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.moobloom.shear"
 	},
 	"entity.player.mirror_move": {
 		"sounds": [
@@ -420,9 +433,9 @@
 	},
 	"item.armor.equip_wildfire_crown": {
 		"sounds": [
-			"friendsandfoes:item/wildfire_crown/equip_wildfire_crown1",
-			"friendsandfoes:item/wildfire_crown/equip_wildfire_crown2",
-			"friendsandfoes:item/wildfire_crown/equip_wildfire_crown3"
+			"friendsandfoes:item/wildfire_crown/equip1",
+			"friendsandfoes:item/wildfire_crown/equip2",
+			"friendsandfoes:item/wildfire_crown/equip3"
 		],
 		"subtitle": "subtitle.item.friendsandfoes.armor.equip_wildfire_crown"
 	},

@@ -5,7 +5,7 @@ plugins {
 }
 
 stonecutter {
-	constants["curios"] = commonMod.depOrNull("curios") != null
+	const("curios", commonMod.depOrNull("curios") != null)
 }
 
 neoForge {
@@ -64,10 +64,6 @@ neoForge {
 
 sourceSets.main {
 	resources.srcDir("src/generated/resources")
-}
-
-tasks.named("createMinecraftArtifacts") {
-	dependsOn("stonecutterGenerate")
 }
 
 tasks {

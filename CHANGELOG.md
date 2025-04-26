@@ -2,13 +2,21 @@
 
 - Added "Around the Corner" music disc composed by Cleo
 - Added Copper Golems into Trial Chambers
-- Added Pale Oak Beehive (on 1.21.4)
+- Added Pale Oak Beehive (on 1.21.4 and newer)
+- Reworked keyframe animation system (again)
 - Reworked configs
 - Reworked Wildfire animations/visuals
 - Reworked Mauler animations
 - Improved Rascal spawn conditions
+- Fixed A LOT of bugs, also introduced new ones (i am sure of that)
 
 Animations are now data driven, it's now possible to replace these via datapacks
+
+For devs:
+- Migrated arch setup to multi loader setup
+- Migrated to mojmaps
+- Migrated groovy to kotlin
+- A lot of internal changes
 
 ## 3.0.6
 

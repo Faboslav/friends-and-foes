@@ -69,7 +69,7 @@ jobs:
             matrix: ${{ fromJson(needs.build.outputs.matrix) }}
 
         name: Run ${{ matrix.mod_loader }} ${{ matrix.version }} ${{ matrix.script }} client
-        timeout-minutes: 5
+        timeout-minutes: 10
 
         steps:
             -   name: "Checkout repository"
@@ -126,7 +126,7 @@ jobs:
             matrix: ${{ fromJson(needs.build.outputs.matrix) }}
 
         name: Run ${{ matrix.mod_loader }} ${{ matrix.version }} ${{ matrix.script }} server
-        timeout-minutes: 5
+        timeout-minutes: 20
 
         steps:
             -   name: "Checkout repository"

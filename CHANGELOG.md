@@ -3,6 +3,7 @@
 - Added "Around the Corner" music disc composed by Cleo
 - Added Copper Golems into Trial Chambers
 - Added Pale Oak Beehive (on 1.21.4 and newer)
+- Added option to enable/disable lightning rod oxidation
 - Reworked keyframe animation system (again)
 - Reworked configs
 - Reworked Wildfire animations/visuals

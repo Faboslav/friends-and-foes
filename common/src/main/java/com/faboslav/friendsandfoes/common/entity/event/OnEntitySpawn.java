@@ -23,6 +23,8 @@ public final class OnEntitySpawn
 		if (event.spawnReason() == VersionedEntitySpawnReason.NATURAL
 			|| event.spawnReason() == VersionedEntitySpawnReason.CHUNK_GENERATION
 			|| event.spawnReason() == VersionedEntitySpawnReason.STRUCTURE
+			|| event.spawnReason() == VersionedEntitySpawnReason.COMMAND
+			|| event.spawnReason() == VersionedEntitySpawnReason.MOB_SUMMONED
 		) {
 			if (entity.getType() != entityTypeToReplace) {
 				return false;

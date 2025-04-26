@@ -103,7 +103,7 @@ public final class FriendsAndFoesEntityTypes
 		}
 
 		if (config.enableRascal && config.enableRascalSpawn) {
-			event.add(FriendsAndFoesTags.HAS_RASCAL, CustomSpawnGroup.getRascalsCategory(), RASCAL.get(), 4, 1, 1);
+			event.add(FriendsAndFoesTags.HAS_RASCAL, CustomSpawnGroup.getRascalsCategory(), RASCAL.get(), config.rascalSpawnWeight, config.rascalSpawnMinGroupSize, config.rascalSpawnMaxGroupSize);
 		}
 	}
 

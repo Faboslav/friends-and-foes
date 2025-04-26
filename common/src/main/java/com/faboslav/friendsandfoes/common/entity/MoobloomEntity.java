@@ -207,7 +207,6 @@ public final class MoobloomEntity extends AbstractCow implements Shearable
 		/*ServerLevel level = (ServerLevel) this.level();
 		*///?}
 
-		// TODO replace sound
 		level.playSound(null, this, FriendsAndFoesSoundEvents.ENTITY_MOOBLOOM_SHEAR.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
 		this.transformToCow(level);
 		this.dropShearedItems(level);

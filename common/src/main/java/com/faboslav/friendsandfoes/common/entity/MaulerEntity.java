@@ -2,12 +2,11 @@ package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.animation.MaulerAnimations;
-import com.faboslav.friendsandfoes.common.entity.animation.WildfireAnimations;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.common.entity.ai.goal.mauler.*;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
-import com.faboslav.friendsandfoes.common.entity.pose.WildfireEntityPose;
+import com.faboslav.friendsandfoes.common.entity.pose.MaulerEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
@@ -147,10 +146,8 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 	public AnimationHolder getAnimationByPose() {
 		AnimationHolder animation = null;
 
-		if (this.isInPose(WildfireEntityPose.IDLE) && !this.walkAnimation.isMoving()) {
-			animation = WildfireAnimations.IDLE;
-		} else if (this.isInPose(WildfireEntityPose.SHOCKWAVE)) {
-			animation = WildfireAnimations.SHOCKWAVE;
+		if (this.isInPose(MaulerEntityPose.IDLE) && !this.walkAnimation.isMoving()) {
+			animation = MaulerAnimations.IDLE;
 		}
 
 		return animation;
@@ -231,7 +228,7 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 		ResourceKey<Biome> biomeKey = world.getBiome(this.blockPosition()).unwrapKey().orElse(Biomes.SAVANNA);
 		Type type = Type.getTypeByBiome(biomeKey);
 
-		this.setPose(WildfireEntityPose.IDLE);
+		this.setPose(MaulerEntityPose.IDLE);
 		this.setPersistenceRequired();
 		this.setType(type);
 		this.setSize();
@@ -476,7 +473,7 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 		super.setPose(pose);
 	}
 
-	public void setPose(WildfireEntityPose pose) {
+	public void setPose(MaulerEntityPose pose) {
 		if (this.level().isClientSide()) {
 			return;
 		}
@@ -484,7 +481,7 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 		super.setPose(pose.get());
 	}
 
-	public boolean isInPose(WildfireEntityPose pose) {
+	public boolean isInPose(MaulerEntityPose pose) {
 		return this.getPose() == pose.get();
 	}
 

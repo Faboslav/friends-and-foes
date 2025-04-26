@@ -13,7 +13,6 @@ import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
  */
 public final class FriendsAndFoesStructurePoolElements
 {
-	// TODO change to event?
 	public static void init(MinecraftServer server) {
 		Registry<StructureTemplatePool> templatePoolRegistry;
 		//? >=1.21.3 {

@@ -60,7 +60,6 @@ public final class PatrolSpawnerMixin
 		return patrolEntity;
 	}
 
-	// TODO check if this works
 	@Inject(
 		method = "tick",
 		at = @At("RETURN")

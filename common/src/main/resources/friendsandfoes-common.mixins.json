@@ -54,7 +54,6 @@
 	],
 	"client": [
 		"ClientCommonNetworkHandlerAccessor",
-		"ClientPlayNetworkHandlerMixin",
 		"EntityRenderDispatcherMixin",
 		"IllusionerEntityRendererMixin",
 		"IntegratedServerLoaderMixin",

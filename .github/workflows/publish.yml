@@ -18,7 +18,7 @@ jobs:
     build:
         name: "Build project"
         runs-on: ubuntu-latest
-        timeout-minutes: 15
+        timeout-minutes: 30
         outputs:
             matrix: ${{ steps.set-matrix.outputs.matrix }}
 

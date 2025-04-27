@@ -1,3 +1,8 @@
+## 4.0.1
+
+- Fixed wildfire projectiles not dealing any damage
+- Fixed illusioner targetting/attacking air
+
 ## 4.0.0
 
 - Added "Around the Corner" music disc composed by Cleo

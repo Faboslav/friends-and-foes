@@ -85,9 +85,10 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 		this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 3.0F, 1.0F));
 		this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, Mob.class, 8.0F));
 		this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, Raider.class)).setAlertOthers());
-		this.targetSelector.addGoal(2, (new NearestAttackableTargetGoal<>(this, Player.class, true)).setUnseenMemoryTicks(300));
-		this.targetSelector.addGoal(3, (new NearestAttackableTargetGoal<>(this, AbstractVillager.class, false)).setUnseenMemoryTicks(300));
-		this.targetSelector.addGoal(3, (new NearestAttackableTargetGoal<>(this, IronGolem.class, false)).setUnseenMemoryTicks(300));
+		this.targetSelector.addGoal(2, (new NearestAttackableTargetGoal<>(this, PlayerIllusionEntity.class, true)).setUnseenMemoryTicks(300));
+		this.targetSelector.addGoal(3, (new NearestAttackableTargetGoal<>(this, Player.class, true)).setUnseenMemoryTicks(300));
+		this.targetSelector.addGoal(4, (new NearestAttackableTargetGoal<>(this, AbstractVillager.class, false)).setUnseenMemoryTicks(300));
+		this.targetSelector.addGoal(4, (new NearestAttackableTargetGoal<>(this, IronGolem.class, false)).setUnseenMemoryTicks(300));
 	}
 
 	@Override
@@ -322,7 +323,6 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 		illusion.setTicksUntilDespawn(ILLUSION_LIFETIME_TICKS);
 		illusion.setHealth(this.getMaxHealth());
 		illusion.copyPosition(illusioner);
-		illusion.setTarget(illusioner.getTarget());
 
 		boolean teleportResult = this.tryToTeleport(x, y, z);
 

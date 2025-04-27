@@ -49,7 +49,7 @@ public final class WildfireShieldDebrisEntity extends Fireball
 		target.igniteForSeconds(5.0F);
 
 		DamageSource damageSource = this.damageSources().fireball(this, wildfire);
-		boolean hurtResult = VersionedEntity.hurt(this, damageSource, 5.0F);
+		boolean hurtResult = VersionedEntity.hurt(target, damageSource, 5.0F);
 
 		if (!hurtResult) {
 			target.setRemainingFireTicks(i);

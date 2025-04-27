@@ -31,7 +31,7 @@ for platform in $(echo $enabled_platforms | tr ',' ' '); do
           modrinth_project_id="$modrinth_forge_project_id"
         fi
 
-        matrix_entry="{\"mod_loader\":\"$platform\",\"version\":\"$version\",\"supported_mod_loaders\":[$supported_mod_loaders]},\"curseforge_project_id\":\"$curseforge_project_id\",\"modrinth_project_id\":\"$modrinth_project_id\"},"
+        matrix_entry="{\"mod_loader\":\"$platform\",\"version\":\"$version\",\"supported_mod_loaders\":[$supported_mod_loaders],\"curseforge_project_id\":\"$curseforge_project_id\",\"modrinth_project_id\":\"$modrinth_project_id\"},"
         matrix_content+="$matrix_entry"
       fi
     done

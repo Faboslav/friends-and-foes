@@ -46,7 +46,7 @@ jobs:
 
             -   name: "Generate matrix for the run job"
                 id: set-matrix
-                run: ./.github/scripts/generate-publish-matrix.sh "${{ inputs.mod_loaders }}" "${{ inputs.versions }}"
+                run: ./.github/scripts/generate-publish-matrix.sh "${{ inputs.mod_loaders }}" "${{ inputs.versions }}" ${{ vars.CURSEFORGE_FABRIC_PROJECT_ID }} ${{ vars.CURSEFORGE_FORGE_PROJECT_ID }} ${{ vars.MODRINTH_FABRIC_PROJECT_ID }} ${{ vars.MODRINTH_FORGE_PROJECT_ID }}
 
     publish:
         runs-on: ubuntu-latest
@@ -109,12 +109,12 @@ jobs:
                 github-tag: mc${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}-${{ steps.gradle-properties.outputs.MOD_VERSION }}
                 github-commitish: ${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}
 
-                curseforge-id: ${{ vars.CURSEFORGE_PROJECT_ID }}
+                curseforge-id: ${{ matrix.curseforge_project_id }}
                 curseforge-token: ${{ secrets.CURSEFORGE_RELEASE_TOKEN }}
 
-                modrinth-id: ${{ vars.MODRINTH_PROJECT_ID }}
                 modrinth-featured: true
-                modrinth-token: ${{ secrets.MODRINTH_RELEASE_TOKEN}}
+                modrinth-id: ${{ matrix.modrinth_project_id }}
+                modrinth-token: ${{ secrets.MODRINTH_RELEASE_TOKEN }}
 
                 name: ${{ steps.gradle-properties.outputs.MOD_NAME }} ${{ steps.gradle-properties.outputs.MOD_VERSION }}
                 version: ${{ matrix.mod_loader }}-mc${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}-${{ steps.gradle-properties.outputs.MOD_VERSION }}

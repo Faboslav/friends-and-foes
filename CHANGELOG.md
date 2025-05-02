@@ -1,3 +1,8 @@
+## 4.0.2
+
+- Added es_ar translations (Thanks to Texaliuz)
+- Updated a lot of other translations (Thanks to community)
+
 ## 4.0.1
 
 - Fixed wildfire projectiles not dealing any damage

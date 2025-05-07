@@ -25,7 +25,7 @@ public abstract class EntityRenderDispatcherMixin
 	private Map<PlayerSkin.Model, EntityRenderer<? extends PlayerIllusionEntity/*? >=1.21.3 {*/, ?/*?}*/>> friendsandfoes$illusionModelRenderers = ImmutableMap.of();
 
 	@Inject(
-		method = "getRenderer",
+		method = "getRenderer(Lnet/minecraft/world/entity/Entity;)Lnet/minecraft/client/renderer/entity/EntityRenderer;",
 		at = @At("HEAD"),
 		cancellable = true
 	)

@@ -1,3 +1,7 @@
+## 4.0.3
+
+- Fixed crash related to renderer mixin
+
 ## 4.0.2
 
 - Fixed moobloom variant loading

@@ -32,7 +32,7 @@ jobs:
                     distribution: temurin
 
             -   name: "Setup gradle"
-                uses: gradle/actions/setup-gradle@v3
+                uses: gradle/actions/setup-gradle@v4
                 with:
                     cache-read-only: false
                     generate-job-summary: false
@@ -141,7 +141,7 @@ jobs:
                     distribution: temurin
 
             -   name: "Setup Gradle"
-                uses: gradle/actions/setup-gradle@v3
+                uses: gradle/actions/setup-gradle@v4
                 with:
                     cache-read-only: true
                     generate-job-summary: false

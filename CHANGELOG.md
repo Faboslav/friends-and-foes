@@ -3,6 +3,9 @@
 - Fixed moobloom variant loading
 - Added es_ar translations (Thanks to Texaliuz)
 - Updated a lot of other translations (Thanks to community)
+- Added crab to arthropod tag
+- Added music disc to music_discs tag
+- Added wildfire support for LambDynamicLights
 
 ## 4.0.1
 

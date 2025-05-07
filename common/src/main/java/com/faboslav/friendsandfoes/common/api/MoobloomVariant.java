@@ -18,7 +18,7 @@ public final class MoobloomVariant
 {
 	public static final Codec<MoobloomVariant> CODEC = RecordCodecBuilder.create((instance) -> instance.group(
 		Codec.STRING.fieldOf("name").forGetter(MoobloomVariant::getName),
-		BuiltInRegistries.BLOCK.byNameCodec().fieldOf("flower").forGetter(MoobloomVariant::getFlower),
+		BuiltInRegistries.BLOCK.byNameCodec().fieldOf("flower_block").forGetter(MoobloomVariant::getFlower),
 		TagKey.hashedCodec(Registries.BIOME).fieldOf("biomes").forGetter(MoobloomVariant::getBiomes)
 	).apply(instance, instance.stable(MoobloomVariant::new)));
 

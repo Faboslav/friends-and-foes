@@ -5,35 +5,28 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import net.minecraft.resources.FileToIdConverter;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
-import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.BushBlock;
 
 //? >=1.21.3 {
-import net.minecraft.util.ExtraCodecs;
-//?}
+import net.minecraft.resources.FileToIdConverter;
+//?} else {
+/*import com.mojang.serialization.JsonOps;
+import com.google.gson.JsonElement;
+*///?}
 
 //? >=1.21.3 {
-public final class MoobloomVariantManager extends SimpleJsonResourceReloadListener<JsonElement>
+public final class MoobloomVariantManager extends SimpleJsonResourceReloadListener<MoobloomVariant>
 //?} else {
 /*public final class MoobloomVariantManager extends SimpleJsonResourceReloadListener
 *///?}
@@ -51,7 +44,7 @@ public final class MoobloomVariantManager extends SimpleJsonResourceReloadListen
 
 	private MoobloomVariantManager() {
 		//? >=1.21.4 {
-		super(ExtraCodecs.JSON, FileToIdConverter.json("friendsandfoes/moobloom_variants"));
+		super(MoobloomVariant.CODEC, FileToIdConverter.json("moobloom_variants"));
 		//?} else {
 		/*super(GSON, "moobloom_variants");
 		*///?}
@@ -59,36 +52,37 @@ public final class MoobloomVariantManager extends SimpleJsonResourceReloadListen
 
 	@Override
 	//? >=1.21.3 {
-	protected void apply(Map<ResourceLocation, JsonElement> loader, ResourceManager resourceManager, ProfilerFiller profiler)
+	protected void apply(Map<ResourceLocation, MoobloomVariant> moobloomVariants, ResourceManager resourceManager, ProfilerFiller profiler)
 	//?} else {
-	/*protected void apply(Map<ResourceLocation, JsonElement> loader, ResourceManager resourceManager, ProfilerFiller profiler)
+	/*protected void apply(Map<ResourceLocation, JsonElement> moobloomVariantsJson, ResourceManager resourceManager, ProfilerFiller profiler)
 	*///?}
 	{
-		List<MoobloomVariant> parsedMoobloomVariants = new ArrayList<>();
-		parsedMoobloomVariants.add(DEFAULT_MOOBLOOM_VARIANT);
+		//? <1.21.3 {
+		/*Map<ResourceLocation, MoobloomVariant> moobloomVariants = new HashMap<>();
 
-		loader.forEach((fileIdentifier, jsonElement) -> {
-			try {
-				JsonObject jsonObject = GSON.fromJson(jsonElement.getAsJsonObject(), JsonObject.class);
-				if (jsonObject != null) {
-					String name = jsonObject.get("name").getAsString();
-					String flowerBlockRaw = jsonObject.get("flower_block").getAsString();
-					//? >=1.21.3 {
-					BushBlock flowerBlock = (BushBlock) BuiltInRegistries.BLOCK.getValue(ResourceLocation.parse(flowerBlockRaw));
-					//?} else {
-					/*BushBlock flowerBlock = (BushBlock) BuiltInRegistries.BLOCK.get(ResourceLocation.parse(flowerBlockRaw));
-					*///?}
-					String biomes = jsonObject.get("biomes").getAsString();
+		for (Map.Entry<ResourceLocation, JsonElement> entry : moobloomVariantsJson.entrySet()) {
+			ResourceLocation resourceLocation = entry.getKey();
+			JsonElement moobloomVariantJson = entry.getValue();
 
-					TagKey<Biome> biomesValue = TagKey.create(Registries.BIOME, ResourceLocation.parse(biomes.replaceFirst("#", "")));
-					parsedMoobloomVariants.add(new MoobloomVariant(name, flowerBlock, biomesValue));
-				}
-			} catch (Exception e) {
-				FriendsAndFoes.getLogger().error("Friends&Foes Error: Couldn't parse moobloom variant {}", fileIdentifier, e);
-			}
-		});
+			MoobloomVariant moobloomVariant = MoobloomVariant.CODEC.parse(JsonOps.INSTANCE, moobloomVariantJson).getOrThrow();
 
-		this.setMoobloomVariants(parsedMoobloomVariants);
+			moobloomVariants.put(resourceLocation, moobloomVariant);
+		}
+		*///?}
+
+		apply(moobloomVariants);
+	}
+
+	public void apply(Map<ResourceLocation, MoobloomVariant> moobloomVariants) {
+		this.moobloomVariants.clear();
+		this.moobloomVariants.add(DEFAULT_MOOBLOOM_VARIANT);
+
+		for (final var entry : moobloomVariants.entrySet()) {
+			var moobloomVariant = entry.getValue();
+			this.moobloomVariants.add(new MoobloomVariant(moobloomVariant.getName(), moobloomVariant.getFlower(), moobloomVariant.getBiomes()));
+		}
+
+		FriendsAndFoes.getLogger().info("Loaded {} moobloom variants", this.moobloomVariants.size());
 	}
 
 	public void setMoobloomVariants(List<MoobloomVariant> moobloomVariants) {

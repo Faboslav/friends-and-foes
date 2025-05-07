@@ -1,5 +1,6 @@
 ## 4.0.2
 
+- Fixed moobloom variant loading
 - Added es_ar translations (Thanks to Texaliuz)
 - Updated a lot of other translations (Thanks to community)
 

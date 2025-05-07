@@ -15,7 +15,6 @@ public final class PlatformHooks
 		T loadedService = ServiceLoader.load(service)
 			.findFirst()
 			.orElseThrow(() -> new NullPointerException("No implementation found for " + service.getName()));
-		FriendsAndFoes.getLogger().info("Loaded {} for service {}", loadedService, service);
 		return loadedService;
 	}
 }

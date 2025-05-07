@@ -39,4 +39,5 @@ value class ModData(private val project: Project) {
     fun modProp(key: String) = requireNotNull(modPropOrNull(key)) { "Missing 'mod.$key'" }
 	fun depOrNull(key: String): String? = project.prop("deps.$key")?.takeIf { it.isNotEmpty() }
     fun dep(key: String) = requireNotNull(depOrNull(key)) { "Missing 'deps.$key'" }
+	fun modrinth(name: String, version:String) = "maven.modrinth:$name:$version"
 }

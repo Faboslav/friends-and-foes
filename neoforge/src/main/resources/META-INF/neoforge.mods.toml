@@ -1,6 +1,6 @@
 modLoader = "javafml"
 loaderVersion = "*"
-license = "CC-BY-NC-ND-4.0"
+license = "${modLicense}"
 issueTrackerURL = "https://github.com/Faboslav/friends-and-foes/issues"
 
 [[mods]]

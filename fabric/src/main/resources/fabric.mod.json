@@ -14,7 +14,7 @@
 		"wiki": "https://github.com/Faboslav/friends-and-foes/wiki",
 		"discord": "https://discord.com/invite/QGwFvvMQCn"
 	},
-	"license": "CC-BY-NC-ND-4.0",
+	"license": "${modLicense}",
 	"icon": "icon.png",
 	"environment": "*",
 	"entrypoints": {

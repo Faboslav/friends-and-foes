@@ -35,7 +35,6 @@ jobs:
                 uses: gradle/actions/setup-gradle@v4
                 with:
                     cache-read-only: false
-                    generate-job-summary: false
                     gradle-version: wrapper
 
             -   name: "Parse gradle properties"
@@ -117,6 +116,7 @@ jobs:
                     fabric-api: ${{ steps.gradle-properties.outputs.DEPS_FABRIC_API }}
                     xvfb: false
                     headlessmc-command: -lwjgl --retries 3 --jvm -Djava.awt.headless=true
+                    cache-mc: true
 
     run-server:
         runs-on: ubuntu-latest
@@ -126,7 +126,7 @@ jobs:
             matrix: ${{ fromJson(needs.build.outputs.matrix) }}
 
         name: Run ${{ matrix.mod_loader }} ${{ matrix.version }} ${{ matrix.script }} server
-        timeout-minutes: 20
+        timeout-minutes: 10
 
         steps:
             -   name: "Checkout repository"
@@ -134,24 +134,41 @@ jobs:
                 with:
                     fetch-depth: 0
 
-            -   name: "Set up JDK"
-                uses: actions/setup-java@v4
+            - name: "Set up JDK"
+              uses: actions/setup-java@v4
+              with:
+                  java-version: 21
+                  distribution: temurin
+
+            -   name: "Parse gradle properties"
+                id: gradle-properties
+                run: ./.github/scripts/parse-gradle-properties.sh ${{ matrix.version }}
+
+            -   name: "Download artifacts"
+                uses: actions/download-artifact@v4
                 with:
-                    java-version: 21
-                    distribution: temurin
+                    name: ${{ steps.gradle-properties.outputs.MOD_ID }}-artifacts-${{ steps.gradle-properties.outputs.MOD_VERSION }}
+                    path: artifacts
 
-            -   name: "Setup Gradle"
-                uses: gradle/actions/setup-gradle@v4
-                with:
-                    cache-read-only: true
-                    generate-job-summary: false
-                    gradle-version: wrapper
+            -   name: "Copy mod jar to run/mods"
+                run: mkdir -p run/mods && cp artifacts/${{ steps.gradle-properties.outputs.MOD_ID }}-${{ matrix.mod_loader }}-${{ steps.gradle-properties.outputs.MOD_VERSION }}+mc${{ matrix.version }}.jar run/mods
 
-            -   name: "Switch active versions to ${{ matrix.version }}"
-                run: ./gradlew "Set active project to ${{ matrix.version }}"
+            -   name: "Download ResourcefulLib"
+                run: |
+                    MOD_URL=$(./.github/scripts/get-modrinth-dependency-url.sh "resourceful-lib" "${{ steps.gradle-properties.outputs.DEPS_RESOURCEFUL_LIB_LIB }}" "${{ matrix.mod_loader }}")
+                    wget -P run/mods "$MOD_URL"
 
-            -   name: "Accept eula"
-                run: mkdir -p ${{ matrix.mod_loader }}/versions/${{ matrix.version }}/run && echo "eula=true" > ${{ matrix.mod_loader }}/versions/${{ matrix.version }}/run/eula.txt
+            -   name: "Download YACL"
+                run: |
+                    MOD_URL=$(./.github/scripts/get-modrinth-dependency-url.sh "yacl" "${{ steps.gradle-properties.outputs.DEPS_YACL }}-${{ matrix.mod_loader }}" "${{ matrix.mod_loader }}")
+                    wget -P run/mods "$MOD_URL"
 
             -   name: Run ${{ matrix.version }} ${{ matrix.mod_loader }} server
-                run: ./.github/scripts/run-server.sh ${{ matrix.mod_loader }} ${{ matrix.version }}
+                uses: headlesshq/mc-server-test@1.0.0
+                with:
+                    mc: ${{ matrix.version }}
+                    modloader: ${{ matrix.mod_loader }}
+                    java: ${{ steps.gradle-properties.outputs.JAVA_VERSION }}
+                    fabric-api: ${{ steps.gradle-properties.outputs.DEPS_FABRIC_API }}
+                    headlessmc-command: -lwjgl --retries 3 --jvm -Djava.awt.headless=true
+                    cache-mc: true

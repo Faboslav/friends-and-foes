@@ -21,6 +21,7 @@ public final class FriendsAndFoesConfig
 
 	private static final String MOBS_CATEGORY = "mobs";
 	private static final String BEEKEEPER_GROUP = "beekeeper";
+	private static final String BARNACLE_GROUP = "barnacle";
 	private static final String COPPER_GOLEM_GROUP = "copper_golem";
 	private static final String CRAB_GROUP = "crab";
 	private static final String GLARE_GROUP = "glare";
@@ -47,6 +48,32 @@ public final class FriendsAndFoesConfig
 	@AutoGen(category = MOBS_CATEGORY, group = BEEKEEPER_GROUP)
 	@IntSlider(min = 0, max = 100, step = 1)
 	public int beekeeperAreaStructureWeight = 2;
+
+	@SerialEntry()
+	@CustomDescription("Barnacle")
+	@AutoGen(category = MOBS_CATEGORY, group = BARNACLE_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableBarnacle = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = BARNACLE_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableBarnacleSpawn = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = BARNACLE_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int barnacleSpawnWeight = 4;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = BARNACLE_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int barnacleSpawnMinGroupSize = 1;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = BARNACLE_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int barnacleSpawnMaxGroupSize = 1;
 
 	@SerialEntry()
 	@CustomDescription("Copper Golem")

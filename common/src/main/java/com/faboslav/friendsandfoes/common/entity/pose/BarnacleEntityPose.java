@@ -2,12 +2,12 @@ package com.faboslav.friendsandfoes.common.entity.pose;
 
 import net.minecraft.world.entity.Pose;
 
-public enum MaulerEntityPose implements SpecificEntityPose
+public enum BarnacleEntityPose implements SpecificEntityPose
 {
 	IDLE;
 
 	public String getName() {
-		return "MAULER_" + this.name();
+		return "BARNACLE_" + this.name();
 	}
 
 	public Pose get() {

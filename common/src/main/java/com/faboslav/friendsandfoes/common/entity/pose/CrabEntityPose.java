@@ -2,7 +2,7 @@ package com.faboslav.friendsandfoes.common.entity.pose;
 
 import net.minecraft.world.entity.Pose;
 
-public enum CrabEntityPose
+public enum CrabEntityPose implements SpecificEntityPose
 {
 	IDLE,
 	WAVE,

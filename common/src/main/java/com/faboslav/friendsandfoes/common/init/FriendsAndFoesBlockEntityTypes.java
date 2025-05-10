@@ -2,11 +2,13 @@ package com.faboslav.friendsandfoes.common.init;
 
 import com.google.common.collect.ImmutableSet;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BeaconBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
 /**
@@ -22,6 +24,7 @@ public final class FriendsAndFoesBlockEntityTypes
 			.map(block -> (BeehiveBlock) block).collect(ImmutableSet.toImmutableSet());
 		beehiveBlocks.addAll(modBeehiveBlocks);
 		BlockEntityType.BEEHIVE.validBlocks = beehiveBlocks;
+		BeaconBlockEntity.BEACON_EFFECTS.add(List.of(FriendsAndFoesStatusEffects.REACH.holder()));
 	}
 
 	private FriendsAndFoesBlockEntityTypes() {

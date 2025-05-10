@@ -2,7 +2,7 @@ package com.faboslav.friendsandfoes.common.entity.pose;
 
 import net.minecraft.world.entity.Pose;
 
-public interface CustomEntityPose
+public interface SpecificEntityPose
 {
 	String getName();
 

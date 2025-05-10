@@ -16,6 +16,8 @@ public final class FriendsAndFoesSoundEvents
 {
 	public static final ResourcefulRegistry<SoundEvent> SOUND_EVENTS = ResourcefulRegistries.create(BuiltInRegistries.SOUND_EVENT, FriendsAndFoes.MOD_ID);
 
+	public static final RegistryEntry<SoundEvent> ENTITY_BARNACLE_AMBIENT = registerSoundEvent("entity.barnacle.ambient");
+	public static final RegistryEntry<SoundEvent> ENTITY_BARNACLE_HURT = registerSoundEvent("entity.barnacle.hurt");
 	public static final RegistryEntry<SoundEvent> ENTITY_COPPER_GOLEM_DEATH = registerSoundEvent("entity.copper_golem.death");
 	public static final RegistryEntry<SoundEvent> ENTITY_COPPER_GOLEM_HEAD_SPIN = registerSoundEvent("entity.copper_golem.head_spin");
 	public static final RegistryEntry<SoundEvent> ENTITY_COPPER_GOLEM_HURT = registerSoundEvent("entity.copper_golem.hurt");
@@ -48,6 +50,8 @@ public final class FriendsAndFoesSoundEvents
 	public static final RegistryEntry<SoundEvent> ENTITY_MAULER_HURT = registerSoundEvent("entity.mauler.hurt");
 	public static final RegistryEntry<SoundEvent> ENTITY_MOOBLOOM_CONVERT = registerSoundEvent("entity.moobloom.convert");
 	public static final RegistryEntry<SoundEvent> ENTITY_MOOBLOOM_SHEAR = registerSoundEvent("entity.moobloom.shear");
+	public static final RegistryEntry<SoundEvent> ENTITY_PENGUIN_AMBIENT = registerSoundEvent("entity.penguin.ambient");
+	public static final RegistryEntry<SoundEvent> ENTITY_PENGUIN_STEP = registerSoundEvent("entity.penguin.step");
 	public static final RegistryEntry<SoundEvent> ENTITY_PLAYER_MIRROR_MOVE = registerSoundEvent("entity.player.mirror_move");
 	public static final RegistryEntry<SoundEvent> ENTITY_RASCAL_AMBIENT = registerSoundEvent("entity.rascal.ambient");
 	public static final RegistryEntry<SoundEvent> ENTITY_RASCAL_DISAPPEAR = registerSoundEvent("entity.rascal.disappear");

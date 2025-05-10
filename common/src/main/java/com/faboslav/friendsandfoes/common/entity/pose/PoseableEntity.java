@@ -3,7 +3,7 @@ package com.faboslav.friendsandfoes.common.entity.pose;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.level.Level;
 
-public interface PoseableEntity<T extends CustomEntityPose>
+public interface PoseableEntity<T extends SpecificEntityPose>
 {
 	void setPose(Pose pose);
 

@@ -13,6 +13,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 import net.minecraft.world.entity.Pose;
 
 @Mixin(Pose.class)
@@ -39,72 +41,31 @@ public final class AddCustomEntityPoseMixin
 		)
 	)
 	private static void friendsandfoes_addCustomEntityPoses(CallbackInfo ci) {
+		var specificEntityPoseEnums = List.of(
+			BarnacleEntityPose.class,
+			CopperGolemEntityPose.class,
+			RascalEntityPose.class,
+			TuffGolemEntityPose.class,
+			CrabEntityPose.class,
+			WildfireEntityPose.class,
+			MaulerEntityPose.class,
+			PenguinEntityPose.class
+		);
 		var entityPoses = new ArrayList<>(Arrays.asList($VALUES));
 		var lastEntityPose = entityPoses.get(entityPoses.size() - 1);
 		var nextEntityPoseInternalIndex = lastEntityPose.ordinal();
 		var nextEntityPoseIndex = lastEntityPose.id();
 
-		for (CopperGolemEntityPose copperGolemEntityPose : CopperGolemEntityPose.values()) {
-			var newEntityPose = newEntityPose(
-				copperGolemEntityPose.getName(),
-				++nextEntityPoseInternalIndex,
-				++nextEntityPoseIndex
-			);
+		for (var specificEntityPoseEnum : specificEntityPoseEnums) {
+			for (SpecificEntityPose specificEntityPose : specificEntityPoseEnum.getEnumConstants()) {
+				var newEntityPose = newEntityPose(
+					specificEntityPose.getName(),
+					++nextEntityPoseInternalIndex,
+					++nextEntityPoseIndex
+				);
 
-			copperGolemEntityPose.setIndex(nextEntityPoseIndex);
-			entityPoses.add(newEntityPose);
-		}
-
-		for (RascalEntityPose rascalEntityPose : RascalEntityPose.values()) {
-			var newEntityPose = newEntityPose(
-				rascalEntityPose.getName(),
-				++nextEntityPoseInternalIndex,
-				++nextEntityPoseIndex
-			);
-
-			rascalEntityPose.setIndex(nextEntityPoseIndex);
-			entityPoses.add(newEntityPose);
-		}
-
-		for (TuffGolemEntityPose tuffGolemEntityPose : TuffGolemEntityPose.values()) {
-			var newEntityPose = newEntityPose(
-				tuffGolemEntityPose.getName(),
-				++nextEntityPoseInternalIndex,
-				++nextEntityPoseIndex
-			);
-
-			tuffGolemEntityPose.setIndex(nextEntityPoseIndex);
-			entityPoses.add(newEntityPose);
-		}
-
-		for (CrabEntityPose crabEntityPose : CrabEntityPose.values()) {
-			var newEntityPose = newEntityPose(
-				crabEntityPose.getName(),
-				++nextEntityPoseInternalIndex,
-				++nextEntityPoseIndex
-			);
-
-			entityPoses.add(newEntityPose);
-		}
-
-		for (WildfireEntityPose wildfireEntityPose : WildfireEntityPose.values()) {
-			var newEntityPose = newEntityPose(
-				wildfireEntityPose.getName(),
-				++nextEntityPoseInternalIndex,
-				++nextEntityPoseIndex
-			);
-
-			entityPoses.add(newEntityPose);
-		}
-
-		for (MaulerEntityPose maulerEntityPose : MaulerEntityPose.values()) {
-			var newEntityPose = newEntityPose(
-				maulerEntityPose.getName(),
-				++nextEntityPoseInternalIndex,
-				++nextEntityPoseIndex
-			);
-
-			entityPoses.add(newEntityPose);
+				entityPoses.add(newEntityPose);
+			}
 		}
 
 		$VALUES = entityPoses.toArray(new Pose[0]);

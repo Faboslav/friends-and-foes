@@ -1,3 +1,8 @@
+## 4.0.4
+
+- Fixed crash related to renderer mixin (again, sorry)
+
+
 ## 4.0.3
 
 - Fixed crash related to renderer mixin

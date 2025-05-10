@@ -5,20 +5,18 @@ import com.faboslav.friendsandfoes.common.client.render.entity.model.PlayerIllus
 import com.faboslav.friendsandfoes.common.entity.PlayerIllusionEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.HumanoidArmorModel;
-import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
-import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.*;
 
-import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 //? >=1.21.3 {
 import net.minecraft.client.renderer.entity.state.PlayerRenderState;
+import com.faboslav.friendsandfoes.common.client.render.entity.state.PlayerIllusionRenderState;
 //?}
 
 @SuppressWarnings({"rawtypes", "unchecked"})
@@ -66,8 +64,8 @@ public final class PlayerIllusionEntityRenderer extends LivingEntityRenderer<Pla
 	}
 
 	@Override
-	public PlayerRenderState createRenderState() {
-		return new PlayerRenderState();
+	public PlayerIllusionRenderState createRenderState() {
+		return new PlayerIllusionRenderState();
 	}
 
 	@Override

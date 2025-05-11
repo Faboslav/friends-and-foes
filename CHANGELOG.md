@@ -1,3 +1,7 @@
+## 4.0.5
+
+- Fixed tuff golem not having legs
+
 ## 4.0.4
 
 - Fixed crash related to renderer mixin (again, sorry)

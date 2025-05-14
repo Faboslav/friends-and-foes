@@ -17,6 +17,11 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.world.entity.Entity;
 
+//? >= 1.21.5 {
+import com.faboslav.friendsandfoes.common.client.render.entity.state.PlayerIllusionRenderState;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
+//?}
+
 @Mixin(EntityRenderDispatcher.class)
 @SuppressWarnings({"unchecked"})
 public abstract class EntityRenderDispatcherMixin
@@ -40,6 +45,24 @@ public abstract class EntityRenderDispatcherMixin
 			cir.setReturnValue((EntityRenderer<? super T/*? >=1.21.3 {*/, ?/*?}*/>) entityRenderer);
 		}
 	}
+
+	//? >= 1.21.5 {
+	@Inject(
+		method = "getRenderer(Lnet/minecraft/client/renderer/entity/state/EntityRenderState;)Lnet/minecraft/client/renderer/entity/EntityRenderer;",
+		at = @At("HEAD"),
+		cancellable = true
+	)
+	public <S extends EntityRenderState> void friendsandfoes$getRendererBasedOnRenderState(
+		EntityRenderState renderState, CallbackInfoReturnable<EntityRenderer<?, ? super S>> cir
+	) {
+		if (renderState instanceof PlayerIllusionRenderState playerIllusionRenderState) {
+			PlayerSkin.Model model = playerIllusionRenderState.skin.model();
+			EntityRenderer<? extends PlayerIllusionEntity/*? >=1.21.3 {*/, ?/*?}*/> entityRenderer = this.friendsandfoes$illusionModelRenderers.get(model);
+			entityRenderer = entityRenderer != null ? entityRenderer:this.friendsandfoes$illusionModelRenderers.get(PlayerSkin.Model.WIDE);
+			cir.setReturnValue((EntityRenderer<?, ? super S>) entityRenderer);
+		}
+	}
+	//?}
 
 	@ModifyVariable(
 		method = "onResourceManagerReload",

@@ -1,0 +1,15 @@
+{
+  "target_pool": "repurposed_structures:villages/badlands/houses",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 6,
+      "element": {
+        "location": "friendsandfoes:village/badlands/copper_golem_area",
+        "processors": "minecraft:empty",
+        "projection": "rigid",
+        "element_type": "minecraft:legacy_single_pool_element"
+      }
+    }
+  ]
+}

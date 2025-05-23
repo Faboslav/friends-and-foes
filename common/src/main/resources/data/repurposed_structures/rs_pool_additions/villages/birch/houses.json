@@ -1,0 +1,24 @@
+{
+  "target_pool": "repurposed_structures:villages/birch/houses",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 6,
+      "element": {
+        "location": "friendsandfoes:village/birch/beekeeper_area",
+        "processors": "repurposed_structures:villages/birch/mossify",
+        "projection": "rigid",
+        "element_type": "minecraft:legacy_single_pool_element"
+      }
+    },
+    {
+      "weight": 6,
+      "element": {
+        "location": "friendsandfoes:village/birch/copper_golem_area",
+        "processors": "repurposed_structures:villages/birch/mossify",
+        "projection": "rigid",
+        "element_type": "minecraft:legacy_single_pool_element"
+      }
+    }
+  ]
+}

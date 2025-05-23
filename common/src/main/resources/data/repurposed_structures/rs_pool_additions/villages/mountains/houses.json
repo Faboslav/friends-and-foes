@@ -1,0 +1,24 @@
+{
+  "target_pool": "repurposed_structures:villages/mountains/houses",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 6,
+      "element": {
+        "location": "friendsandfoes:village/mountains/beekeeper_area",
+        "processors": "repurposed_structures:villages/mountains/mossify",
+        "projection": "rigid",
+        "element_type": "minecraft:legacy_single_pool_element"
+      }
+    },
+    {
+      "weight": 6,
+      "element": {
+        "location": "friendsandfoes:village/mountains/copper_golem_area",
+        "processors": "repurposed_structures:villages/mountains/mossify",
+        "projection": "rigid",
+        "element_type": "minecraft:legacy_single_pool_element"
+      }
+    }
+  ]
+}

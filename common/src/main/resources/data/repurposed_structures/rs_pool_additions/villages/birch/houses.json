@@ -8,7 +8,7 @@
         "location": "friendsandfoes:village/birch/beekeeper_area",
         "processors": "repurposed_structures:villages/birch/mossify",
         "projection": "rigid",
-        "element_type": "minecraft:legacy_single_pool_element"
+        "element_type": "minecraft:single_pool_element"
       }
     },
     {
@@ -17,7 +17,7 @@
         "location": "friendsandfoes:village/birch/copper_golem_area",
         "processors": "repurposed_structures:villages/birch/mossify",
         "projection": "rigid",
-        "element_type": "minecraft:legacy_single_pool_element"
+        "element_type": "minecraft:single_pool_element"
       }
     }
   ]

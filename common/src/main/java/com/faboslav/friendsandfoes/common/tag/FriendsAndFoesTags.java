@@ -27,8 +27,10 @@ public final class FriendsAndFoesTags
 	public static final TagKey<Block> MAULERS_SPAWNABLE_ON = blockTag("maulers_spawnable_on");
 	public static final TagKey<Item> GLARE_FOOD_ITEMS = itemTag("glare_food_items");
 	public static final TagKey<Item> GLARE_TEMPT_ITEMS = itemTag("glare_tempt_items");
+	public static final TagKey<Item> PENGUIN_TEMPT_ITEMS = itemTag("penguin_tempt_items");
 	public static final TagKey<Item> TOTEMS = itemTag("totems");
 	public static final TagKey<Item> REPAIRS_WILDFIRE_CROWN = itemTag("repairs_wildfire_crown");
+	public static final TagKey<Biome> HAS_BARNACLE = biomeTag("has_barnacle");
 	public static final TagKey<Biome> HAS_CRAB = biomeTag("has_crab");
 	public static final TagKey<EntityType<?>> MAULER_PREY = entityTypeTag("mauler_prey");
 	public static final TagKey<EntityType<?>> WILDFIRE_ALLIES = entityTypeTag("wildfire_allies");
@@ -38,6 +40,7 @@ public final class FriendsAndFoesTags
 	public static final TagKey<Biome> HAS_ICEOLOGER = biomeTag("has_iceologer");
 	public static final TagKey<Biome> HAS_ILLUSIONER = biomeTag("has_illusioner");
 	public static final TagKey<Biome> HAS_MOOBLOOMS = biomeTag("has_moobloom/any");
+	public static final TagKey<Biome> HAS_PENGUIN = biomeTag("has_penguin");
 	public static final TagKey<Biome> HAS_RASCAL = biomeTag("has_rascal");
 	public static final TagKey<Biome> HAS_SAVANNA_MAULER = biomeTag("has_savanna_mauler");
 

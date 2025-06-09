@@ -1,5 +1,10 @@
 ## 4.0.5
 
+- Fixed on hurt illusioner logic
+
+
+## 4.0.5
+
 - Fixed tuff golem not having legs
 
 ## 4.0.4

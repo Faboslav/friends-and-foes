@@ -186,7 +186,7 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 		Entity attacker = damageSource.getEntity();
 
 		if (
-			attacker instanceof Illusioner
+			attacker instanceof IllusionerEntity
 			|| (
 				this.isIllusion()
 				&& !(attacker instanceof LivingEntity)

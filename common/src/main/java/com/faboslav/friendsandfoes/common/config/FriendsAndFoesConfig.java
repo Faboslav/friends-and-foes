@@ -25,6 +25,7 @@ public final class FriendsAndFoesConfig
 	private static final String COPPER_GOLEM_GROUP = "copper_golem";
 	private static final String CRAB_GROUP = "crab";
 	private static final String GLARE_GROUP = "glare";
+	private static final String PENGUIN_GROUP = "penguin";
 	private static final String ICEOLOGER_GROUP = "iceologer";
 	private static final String ILLUSIONER_GROUP = "illusioner";
 	private static final String MAULER_GROUP = "mauler";
@@ -178,6 +179,32 @@ public final class FriendsAndFoesConfig
 	public int glareSpawnMaxGroupSize = 1;
 
 	@SerialEntry()
+	@CustomDescription(PENGUIN_GROUP)
+	@AutoGen(category = MOBS_CATEGORY, group = PENGUIN_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enablePenguin = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = PENGUIN_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enablePenguinSpawn = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = PENGUIN_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int penguinSpawnWeight = 4;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = PENGUIN_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int penguinSpawnMinGroupSize = 4;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = PENGUIN_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int penguinSpawnMaxGroupSize = 8;
+
+	@SerialEntry()
 	@AutoGen(category = MOBS_CATEGORY, group = ICEOLOGER_GROUP)
 	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
 	public boolean enableIceologer = true;
@@ -229,7 +256,7 @@ public final class FriendsAndFoesConfig
 
 	@SerialEntry()
 	@AutoGen(category = MOBS_CATEGORY, group = ILLUSIONER_GROUP)
-	@IntSlider(min = 0, max = 100, step = 1)
+	@IntSlider(min = 3, max = 100, step = 1)
 	public int illusionerMaxIllusionsCount = 9;
 
 	@SerialEntry()

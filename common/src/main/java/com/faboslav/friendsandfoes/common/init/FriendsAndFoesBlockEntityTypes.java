@@ -24,7 +24,7 @@ public final class FriendsAndFoesBlockEntityTypes
 			.map(block -> (BeehiveBlock) block).collect(ImmutableSet.toImmutableSet());
 		beehiveBlocks.addAll(modBeehiveBlocks);
 		BlockEntityType.BEEHIVE.validBlocks = beehiveBlocks;
-		BeaconBlockEntity.BEACON_EFFECTS.add(List.of(FriendsAndFoesStatusEffects.REACH.holder()));
+		//BeaconBlockEntity.BEACON_EFFECTS.add(List.of(FriendsAndFoesStatusEffects.REACH.holder()));
 	}
 
 	private FriendsAndFoesBlockEntityTypes() {

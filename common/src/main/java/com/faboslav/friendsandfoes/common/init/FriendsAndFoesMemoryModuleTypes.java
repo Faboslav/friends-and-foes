@@ -29,6 +29,9 @@ public final class FriendsAndFoesMemoryModuleTypes
 	public static final RegistryEntry<MemoryModuleType<Boolean>> GLARE_IS_TAMED = MEMORY_MODULE_TYPES.register("glare_is_tamed", () -> new MemoryModuleType<>(Optional.of(Codec.BOOL)));
 	public static final RegistryEntry<MemoryModuleType<Integer>> GLARE_DARK_SPOT_LOCATING_COOLDOWN = MEMORY_MODULE_TYPES.register("glare_dark_spot_locating_cooldown", () -> new MemoryModuleType<>(Optional.of(Codec.INT)));
 	public static final RegistryEntry<MemoryModuleType<Integer>> GLARE_LOCATING_GLOW_BERRIES_COOLDOWN = MEMORY_MODULE_TYPES.register("glare_locating_glow_berries_cooldown", () -> new MemoryModuleType<>(Optional.of(Codec.INT)));
+	public static final RegistryEntry<MemoryModuleType<GlobalPos>> PENGUIN_EGG_POS = MEMORY_MODULE_TYPES.register("penguin_egg_pos", () -> new MemoryModuleType<>(Optional.of(GlobalPos.CODEC)));
+	public static final RegistryEntry<MemoryModuleType<Boolean>> PENGUIN_HAS_EGG = MEMORY_MODULE_TYPES.register("penguin_has_egg", () -> new MemoryModuleType<>(Optional.of(Codec.BOOL)));
+	public static final RegistryEntry<MemoryModuleType<Integer>> PENGUIN_SLAP_COOLDOWN = MEMORY_MODULE_TYPES.register("penguin_slap_cooldown", () -> new MemoryModuleType<>(Optional.of(Codec.INT)));
 	public static final RegistryEntry<MemoryModuleType<Integer>> COPPER_GOLEM_PRESS_BUTTON_COOLDOWN = MEMORY_MODULE_TYPES.register("copper_golem_press_button_cooldown", () -> new MemoryModuleType<>(Optional.of(Codec.INT)));
 	public static final RegistryEntry<MemoryModuleType<Integer>> CRAB_WAVE_COOLDOWN = MEMORY_MODULE_TYPES.register("crab_wave_cooldown", () -> new MemoryModuleType<>(Optional.of(Codec.INT)));
 	public static final RegistryEntry<MemoryModuleType<Integer>> WILDFIRE_BARRAGE_ATTACK_COOLDOWN = MEMORY_MODULE_TYPES.register("wildfire_barrage_attack_cooldown", () -> new MemoryModuleType<>(Optional.of(Codec.INT)));

@@ -42,6 +42,7 @@ public class FriendsAndFoesItemGroups
 	public static void addItemGroupEntries(AddItemGroupEntriesEvent event) {
 		if (event.type() == AddItemGroupEntriesEvent.Type.SPAWN_EGGS) {
 			Stream.of(
+				FriendsAndFoesItems.BARNACLE_SPAWN_EGG,
 				FriendsAndFoesItems.COPPER_GOLEM_SPAWN_EGG,
 				FriendsAndFoesItems.CRAB_SPAWN_EGG,
 				FriendsAndFoesItems.GLARE_SPAWN_EGG,
@@ -49,6 +50,7 @@ public class FriendsAndFoesItemGroups
 				FriendsAndFoesItems.ILLUSIONER_SPAWN_EGG,
 				FriendsAndFoesItems.MAULER_SPAWN_EGG,
 				FriendsAndFoesItems.MOOBLOOM_SPAWN_EGG,
+				FriendsAndFoesItems.PENGUIN_SPAWN_EGG,
 				FriendsAndFoesItems.TUFF_GOLEM_SPAWN_EGG,
 				FriendsAndFoesItems.RASCAL_SPAWN_EGG,
 				FriendsAndFoesItems.WILDFIRE_SPAWN_EGG

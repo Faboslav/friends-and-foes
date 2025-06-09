@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.common.entity;
 
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.block.CrabEggBlock;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.BarnacleBrain;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.CrabBrain;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.WildfireBrain;
@@ -13,6 +14,7 @@ import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.
 import com.faboslav.friendsandfoes.common.entity.pose.BarnacleEntityPose;
 import com.faboslav.friendsandfoes.common.entity.pose.CrabEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
+import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
 import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
 import com.mojang.serialization.Dynamic;
@@ -46,6 +48,8 @@ import java.util.ArrayList;
 public final class BarnacleEntity extends Monster implements AnimatedEntity {
 	private AnimationContextTracker animationContextTracker;
 	private static final EntityDataAccessor<Integer> POSE_TICKS;
+	public static final float GENERIC_ATTACK_DAMAGE = 8.0F;
+	public static final float GENERIC_FOLLOW_RANGE = 32.0F;
 
 	public BarnacleEntity(EntityType<? extends Monster> entityType, Level level) {
 		super(entityType, level);
@@ -203,6 +207,20 @@ public final class BarnacleEntity extends Monster implements AnimatedEntity {
 		return (this.onGround() || this.onClimbable()) && this.getDeltaMovement().lengthSqr() >= 0.0001;
 	}
 
+	public static boolean canSpawn(
+		EntityType<? extends Monster> type,
+		LevelAccessor world,
+		/*? >=1.21.3 {*/
+		EntitySpawnReason spawnReason,
+		/*?} else {*/
+		/*MobSpawnType spawnReason,
+		 *//*?}*/
+		BlockPos pos,
+		RandomSource random
+	) {
+		return true;
+	}
+
 	private static boolean isValidSpawnDepth(LevelAccessor world, BlockPos pos) {
 		return pos.getY() < world.getSeaLevel() - 5;
 	}
@@ -290,7 +308,7 @@ public final class BarnacleEntity extends Monster implements AnimatedEntity {
 		AnimationHolder animation = null;
 
 		if (this.isInPose(BarnacleEntityPose.IDLE) && !this.isMoving()) {
-			animation = CrabAnimations.IDLE;
+			animation = BarnacleAnimations.IDLE;
 		}
 
 		return animation;

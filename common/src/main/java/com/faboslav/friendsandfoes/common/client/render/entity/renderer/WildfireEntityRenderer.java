@@ -26,7 +26,7 @@ public class WildfireEntityRenderer extends MobRenderer<WildfireEntity, Wildfire
 	public static final float SCALE = 1.5F;
 
 	public WildfireEntityRenderer(EntityRendererProvider.Context context) {
-		super(context, new WildfireEntityModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.WILDFIRE_CROWN_LAYER)), 0.35F);
+		super(context, new WildfireEntityModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.WILDFIRE_LAYER)), 0.35F);
 	}
 
 	@Override

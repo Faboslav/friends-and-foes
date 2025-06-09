@@ -38,6 +38,7 @@ public final class FriendsAndFoesItems
 	/*public static final ItemLikeResourcefulRegistry<Item> ITEMS = new ItemLikeResourcefulRegistry<>(BuiltInRegistries.ITEM, FriendsAndFoes.MOD_ID);
 	*///?}
 
+	public final static RegistryEntry<Item> BARNACLE_SPAWN_EGG = registerSpawnEgg("barnacle_spawn_egg", FriendsAndFoesEntityTypes.BARNACLE, 0xFF56847E, 0xFF27514B);
 	public final static RegistryEntry<Item> COPPER_GOLEM_SPAWN_EGG = registerSpawnEgg("copper_golem_spawn_egg", FriendsAndFoesEntityTypes.COPPER_GOLEM, 0xFF9A5038, 0xFFFC998);
 	public final static RegistryEntry<Item> CRAB_SPAWN_EGG = registerSpawnEgg("crab_spawn_egg", FriendsAndFoesEntityTypes.CRAB, 0xFF333077, 0xFFFE984B);
 	public final static RegistryEntry<Item> GLARE_SPAWN_EGG = registerSpawnEgg("glare_spawn_egg", FriendsAndFoesEntityTypes.GLARE, 0xFF70922D, 0xFF6A5227);
@@ -45,6 +46,7 @@ public final class FriendsAndFoesItems
 	public final static RegistryEntry<Item> ILLUSIONER_SPAWN_EGG = registerSpawnEgg("illusioner_spawn_egg", FriendsAndFoesEntityTypes.ILLUSIONER, 0xFF603E5C, 0xFF888E8E);
 	public final static RegistryEntry<Item> MAULER_SPAWN_EGG = registerSpawnEgg("mauler_spawn_egg", FriendsAndFoesEntityTypes.MAULER, 0xFF534F25, 0xFF817B39);
 	public final static RegistryEntry<Item> MOOBLOOM_SPAWN_EGG = registerSpawnEgg("moobloom_spawn_egg", FriendsAndFoesEntityTypes.MOOBLOOM, 0xFFF7EDC1, 0xFFFACA00);
+	public final static RegistryEntry<Item> PENGUIN_SPAWN_EGG = registerSpawnEgg("penguin_spawn_egg", FriendsAndFoesEntityTypes.PENGUIN, 0xFF70922D, 0xFF6A5227);
 	public final static RegistryEntry<Item> RASCAL_SPAWN_EGG = registerSpawnEgg("rascal_spawn_egg", FriendsAndFoesEntityTypes.RASCAL, 0xFF05736A, 0xFF8A521C);
 	public final static RegistryEntry<Item> TUFF_GOLEM_SPAWN_EGG = registerSpawnEgg("tuff_golem_spawn_egg", FriendsAndFoesEntityTypes.TUFF_GOLEM, 0xFFA0A297, 0xFF5D5D52);
 	public final static RegistryEntry<Item> WILDFIRE_SPAWN_EGG = registerSpawnEgg("wildfire_spawn_egg", FriendsAndFoesEntityTypes.WILDFIRE, 0xFF6C3100, 0xFFFFD528);

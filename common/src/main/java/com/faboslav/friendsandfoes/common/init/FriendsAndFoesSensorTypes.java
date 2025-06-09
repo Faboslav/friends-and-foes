@@ -4,6 +4,7 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.CopperGolemBrain;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.CrabBrain;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.GlareBrain;
+import com.faboslav.friendsandfoes.common.entity.ai.brain.PenguinBrain;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.sensor.CopperGolemSpecificSensor;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.sensor.GlareSpecificSensor;
 import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
@@ -34,6 +35,9 @@ public final class FriendsAndFoesSensorTypes
 	}));
 	public static final RegistryEntry<SensorType<GlareSpecificSensor>> GLARE_SPECIFIC_SENSOR = SENSOR_TYPES.register("glare_specific_sensor", () -> new SensorType<>(() -> {
 		return new GlareSpecificSensor();
+	}));
+	public static final RegistryEntry<SensorType<TemptingSensor>> PENGUIN_TEMPTATIONS = SENSOR_TYPES.register("penguin_temptations", () -> new SensorType<>(() -> {
+		return new TemptingSensor(PenguinBrain.getTemptations());
 	}));
 
 	private FriendsAndFoesSensorTypes() {

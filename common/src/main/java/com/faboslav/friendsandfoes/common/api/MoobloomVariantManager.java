@@ -94,7 +94,7 @@ public final class MoobloomVariantManager extends SimpleJsonResourceReloadListen
 	}
 
 	public MoobloomVariant getDefaultMoobloomVariant() {
-		return this.getMoobloomVariantByName(DEFAULT_MOOBLOOM_VARIANT.getName());
+		return DEFAULT_MOOBLOOM_VARIANT;
 	}
 
 	public MoobloomVariant getRandomMoobloomVariant(RandomSource random) {

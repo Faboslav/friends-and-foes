@@ -1,3 +1,8 @@
+## 4.0.6
+
+- Fixed on hurt illusioner logic
+- Fixed moobloom variants packet crash
+
 ## 4.0.5
 
 - Fixed on hurt illusioner logic

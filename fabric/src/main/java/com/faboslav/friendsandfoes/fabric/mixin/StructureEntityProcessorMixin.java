@@ -208,7 +208,7 @@ public final class StructureEntityProcessorMixin
 		try {
 			//? if >=1.21.6 {
 			return Optional.empty();
-			//? else if >=1.21.3 {
+			//?} else if >=1.21.3 {
 			/*return EntityType.create(compoundTag, serverLevelAccessor.getLevel(), VersionedEntitySpawnReason.STRUCTURE);
 			*///?} else {
 			/*return EntityType.create(compoundTag, serverLevelAccessor.getLevel());

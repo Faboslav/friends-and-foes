@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -10,6 +9,13 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+//? >=1.21.6 {
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+//?} else {
+/*import net.minecraft.nbt.CompoundTag;
+ *///?}
 
 @Mixin(LivingEntity.class)
 public abstract class BlazeLivingEntityMixin extends Entity
@@ -22,14 +28,24 @@ public abstract class BlazeLivingEntityMixin extends Entity
 		method = "addAdditionalSaveData",
 		at = @At("TAIL")
 	)
-	public void friendsandfoes_writeCustomDataToNbt(CompoundTag nbt, CallbackInfo ci) {
+	//? if >=1.21.6 {
+	public void friendsandfoes_writeCustomDataToNbt(ValueOutput nbt, CallbackInfo ci)
+	//?} else {
+	/*public void friendsandfoes_writeCustomDataToNbt(CompoundTag nbt, CallbackInfo ci)
+	*///?}
+	{
 	}
 
 	@Inject(
 		method = "readAdditionalSaveData",
 		at = @At("TAIL")
 	)
-	public void friendsandfoes_readCustomDataFromNbt(CompoundTag nbt, CallbackInfo ci) {
+	//? if >=1.21.6 {
+	public void friendsandfoes_writeCustomDataToNbt(ValueInput nbt, CallbackInfo ci)
+	//?} else {
+	/*public void friendsandfoes_writeCustomDataFromNbt(CompoundTag nbt, CallbackInfo ci)
+	*///?}
+	{
 	}
 
 	@Inject(

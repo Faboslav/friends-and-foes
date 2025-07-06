@@ -9,21 +9,20 @@ import net.minecraft.client.gui.narration.NarratedElementType;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-
-
 import net.minecraft.util.Mth;
 
 import java.lang.reflect.Field;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
+
 import static org.lwjgl.opengl.GL20.*;
 
-/*? if <=1.21.1 {*/
+//? <=1.21.1 {
 /*import net.minecraft.util.FastColor;
- *//*?} else {*/
+ *///?} else {
 import net.minecraft.util.ARGB;
-/*?}*/
+//?}
 
 /**
  * Inspired by use in Sounds mod
@@ -98,12 +97,20 @@ public class ImageButtonWidget extends AbstractWidget
 						float neededWidth = frameWidth * ((float) this.height / frameHeight);
 
 						// Scale the image to fit within the width and height of the button.
-						context.pose().pushPose();
+						//? >= 1.21.6 {
+						context.pose().pushMatrix();
+						 //?} else {
+						/*context.pose().pushPose();
+						*///?}
 						// gl bilinear scaling.
 						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 						contentImage.render(context, getX(), getY(), (int) Math.max(neededWidth, this.width), delta);
-						context.pose().popPose();
+						//? >= 1.21.6 {
+						context.pose().popMatrix();
+						 //?} else {
+						/*context.pose().popPose();
+						*///?}
 
 						// reset gl scaling
 
@@ -119,11 +126,11 @@ public class ImageButtonWidget extends AbstractWidget
 			}
 		}
 
-		/*? if <=1.21.1 {*/
+		//? <=1.21.1 {
 		/*int greyColor = FastColor.ABGR32.color((int) (alphaScale * 255), 0, 0, 0);
-		 *//*?} else {*/
+		 *///?} else {
 		int greyColor = ARGB.color((int) (alphaScale * 255), 0, 0, 0);
-		/*?}*/
+		//?}
 		context.fill(getX(), getY(), getX() + width, getY() + height, greyColor);
 
 		// Draw text.
@@ -140,12 +147,21 @@ public class ImageButtonWidget extends AbstractWidget
 
 		context.fill(unscaledTextX - 5, unscaledTextY - 5, unscaledTextX + this.width - 5, unscaledTextY + client.font.lineHeight + 5, 0xAF000000);
 
-		context.pose().pushPose();
+		//? >= 1.21.6 {
+		context.pose().pushMatrix();
+		context.pose().scale(fontScaling, fontScaling);
+		//?} else {
+		/*context.pose().pushPose();
 		context.pose().scale(fontScaling, fontScaling, 1.0f);
+		*///?}
 
-		renderScrollingString(context, client.font, getMessage(), textX, textY, endX, endY, 0xFFFFFF);
+		renderScrollingString(context, client.font, getMessage(), textX, textY, endX, endY, 0xFFFFFFFF);
 
-		context.pose().popPose();
+		//? >= 1.21.6 {
+		context.pose().popMatrix();
+		 //?} else {
+		/*context.pose().popPose();
+		*///?}
 
 		// Draw border.
 		context.renderOutline(getX(), getY(), width, height, 0x0FFFFFFF);

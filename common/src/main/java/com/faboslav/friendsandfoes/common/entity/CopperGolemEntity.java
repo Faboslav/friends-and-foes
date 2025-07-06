@@ -17,7 +17,9 @@ import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import com.faboslav.friendsandfoes.common.versions.VersionedInteractionResult;
 import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
 import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.Dynamic;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -58,6 +60,11 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+
+//? >=1.21.6 {
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+//?}
 
 //? >=1.21.3 {
 import net.minecraft.world.entity.EntitySpawnReason;
@@ -149,7 +156,7 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 		EntitySpawnReason spawnReason,
 		/*?} else {*/
 		/*MobSpawnType spawnReason,
-		*//*?}*/
+		 *//*?}*/
 		@Nullable SpawnGroupData entityData
 	) {
 		SpawnGroupData superEntityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData);
@@ -178,7 +185,12 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 	}
 
 	@Override
-	public void addAdditionalSaveData(CompoundTag nbt) {
+	//? >= 1.21.6 {
+	public void addAdditionalSaveData(ValueOutput nbt)
+	//?} else {
+	/*public void addAdditionalSaveData(CompoundTag nbt)
+	*///?}
+	{
 		super.addAdditionalSaveData(nbt);
 		nbt.putInt(OXIDATION_LEVEL_NBT_NAME, this.getOxidationLevel().ordinal());
 		nbt.putBoolean(IS_WAXED_NBT_NAME, this.isWaxed());
@@ -186,20 +198,39 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 		if (isOxidized()) {
 			nbt.putString(POSE_NBT_NAME, this.getPose().name());
 			nbt.putInt(POSE_TICKS_NBT_NAME, this.getCurrentAnimationTick());
-			nbt.put(ENTITY_SNAPSHOT_NBT_NAME, this.getEntitySnapshot());
+
+			var entitySnapshot = this.takeEntitySnapshot();
+
+			//? >= 1.21.6 {
+			nbt.store(ENTITY_SNAPSHOT_NBT_NAME, EntitySnapshot.CODEC, entitySnapshot);
+			//?} else {
+			/*nbt.put(ENTITY_SNAPSHOT_NBT_NAME, EntitySnapshot.toNbt(entitySnapshot));
+			 *///?}
 		}
 	}
 
 	@Override
-	public void readAdditionalSaveData(CompoundTag nbt) {
+	//? >= 1.21.6 {
+	public void readAdditionalSaveData(ValueInput nbt)
+	//?} else {
+	/*public void readAdditionalSaveData(CompoundTag nbt)
+	*///?}
+	{
 		super.readAdditionalSaveData(nbt);
 
 		this.setPose(Pose.valueOf(VersionedNbt.getString(nbt, POSE_NBT_NAME, CopperGolemEntityPose.IDLE.getName())));
 		this.setCurrentAnimationTick(VersionedNbt.getInt(nbt, POSE_TICKS_NBT_NAME, 0));
 		this.setOxidationLevel(WeatheringCopper.WeatherState.values()[VersionedNbt.getInt(nbt, OXIDATION_LEVEL_NBT_NAME, 0)]);
 		this.setIsWaxed(VersionedNbt.getBoolean(nbt, IS_WAXED_NBT_NAME, false));
-		this.setEntitySnapshot(VersionedNbt.getCompound(nbt, ENTITY_SNAPSHOT_NBT_NAME));
-		this.applyEntitySnapshot();
+		//? >= 1.21.6 {
+		this.setEntitySnapshot(nbt.read(ENTITY_SNAPSHOT_NBT_NAME, EntitySnapshot.CODEC).orElseGet(this::takeEntitySnapshot));
+		//?} else {
+		/*this.setEntitySnapshot(EntitySnapshot.fromNbt(VersionedNbt.getCompound(nbt, ENTITY_SNAPSHOT_NBT_NAME)));
+		*///?}
+
+		if(this.isOxidized()) {
+			this.applyEntitySnapshot();
+		}
 	}
 
 	public static AttributeSupplier.Builder createCopperGolemAttributes() {
@@ -234,60 +265,52 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 		DebugPackets.sendEntityBrain(this);
 	}
 
-	public void setEntitySnapshot(CompoundTag entitySnapshot) {
-		entityData.set(ENTITY_SNAPSHOT, entitySnapshot);
+	public void setEntitySnapshot(EntitySnapshot entitySnapshot) {
+		entityData.set(ENTITY_SNAPSHOT, EntitySnapshot.toNbt(entitySnapshot));
 	}
 
 	public void applyEntitySnapshot() {
-		CompoundTag entitySnapshot = this.getEntitySnapshot();
-
-		if (entitySnapshot.isEmpty()) {
-			return;
-		}
+		EntitySnapshot entitySnapshot = this.getEntitySnapshot();
 
 		if (this.isPassenger() == false) {
-			this.yRotO = VersionedNbt.getFloat(entitySnapshot, "prevYaw", 0.0F);
+			this.yRotO = entitySnapshot.prevYaw;
 			this.setYRot(this.yRotO);
-			this.yBodyRotO = VersionedNbt.getFloat(entitySnapshot, "prevBodyYaw", 0.0F);
+			this.yBodyRotO = entitySnapshot.prevBodyYaw;
 			this.yBodyRot = this.yBodyRotO;
-			this.lerpYHeadRot = VersionedNbt.getDouble(entitySnapshot, "serverHeadYaw", 0.0D);
-			this.yHeadRotO = VersionedNbt.getFloat(entitySnapshot, "prevHeadYaw", 0.0F);
+			this.lerpYHeadRot = entitySnapshot.serverHeadYaw;
+			this.yHeadRotO = entitySnapshot.prevHeadYaw;
 			this.yHeadRot = this.yHeadRotO;
 			//this.animStepO = VersionedNbt.getFloat(entitySnapshot, "prevLookDirection", 0.0F);
 			//this.animStep = this.animStepO;
 		}
 
-		this.xRotO = VersionedNbt.getFloat(entitySnapshot, "prevPitch", 0.0F);
+		this.xRotO = entitySnapshot.prevPitch;
 		this.setXRot(this.xRotO);
-		this.oAttackAnim =  VersionedNbt.getFloat(entitySnapshot, "lastHandSwingProgress", 0.0F);
+		this.oAttackAnim = entitySnapshot.lastHandSwingProgress;
 		this.attackAnim = this.oAttackAnim;
-		((LimbAnimatorAccessor) this.walkAnimation).setPrevSpeed(VersionedNbt.getFloat(entitySnapshot, "limbAnimatorPrevSpeed", 0.0F));
-		this.walkAnimation.setSpeed( VersionedNbt.getFloat(entitySnapshot, "limbAnimatorSpeed", 0.0F));
-		((LimbAnimatorAccessor) this.walkAnimation).setPos(VersionedNbt.getFloat(entitySnapshot, "limbAnimatorPos", 0.0F));
+		((LimbAnimatorAccessor) this.walkAnimation).setPrevSpeed(entitySnapshot.limbAnimatorPrevSpeed);
+		this.walkAnimation.setSpeed(entitySnapshot.limbAnimatorSpeed);
+		((LimbAnimatorAccessor) this.walkAnimation).setPos(entitySnapshot.limbAnimatorPos);
 		//this.oRun = entitySnapshot.getFloat("prevStepBobbingAmount");
 		//this.run = this.oRun;
 	}
 
-	public CompoundTag getEntitySnapshot() {
-		return this.entityData.get(ENTITY_SNAPSHOT);
+	public EntitySnapshot getEntitySnapshot() {
+		return EntitySnapshot.fromNbt(this.entityData.get(ENTITY_SNAPSHOT));
 	}
 
-	private CompoundTag takeEntitySnapshot() {
-		CompoundTag entitySnapshot = new CompoundTag();
-
-		entitySnapshot.putFloat("prevYaw", this.yRotO);
-		entitySnapshot.putFloat("prevPitch", this.xRotO);
-		entitySnapshot.putFloat("prevBodyYaw", this.yBodyRotO);
-		entitySnapshot.putDouble("serverHeadYaw", this.lerpYHeadRot);
-		entitySnapshot.putFloat("prevHeadYaw", this.yHeadRotO);
-		entitySnapshot.putFloat("lastHandSwingProgress", this.oAttackAnim);
-		entitySnapshot.putFloat("limbAnimatorPrevSpeed", ((LimbAnimatorAccessor) this.walkAnimation).getPresSpeed());
-		entitySnapshot.putFloat("limbAnimatorSpeed", this.walkAnimation.speed());
-		entitySnapshot.putFloat("limbAnimatorPos", this.walkAnimation.position());
-		//entitySnapshot.putFloat("prevLookDirection", this.animStepO);
-		//entitySnapshot.putFloat("prevStepBobbingAmount", this.oRun);
-
-		return entitySnapshot;
+	private EntitySnapshot takeEntitySnapshot() {
+		return new EntitySnapshot(
+			this.yRotO,
+			this.xRotO,
+			this.yBodyRotO,
+			this.lerpYHeadRot,
+			this.yHeadRotO,
+			this.oAttackAnim,
+			((LimbAnimatorAccessor) this.walkAnimation).getPresSpeed(),
+			this.walkAnimation.speed(),
+			this.walkAnimation.position()
+		);
 	}
 
 	@Override
@@ -328,11 +351,11 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 	}
 
 	@Override
-	/*? >=1.21.3 {*/
+		/*? >=1.21.3 {*/
 	public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
-	/*?} else {*/
-	/*public boolean hurt(DamageSource damageSource, float amount)
-	*//*?}*/
+		/*?} else {*/
+		/*public boolean hurt(DamageSource damageSource, float amount)
+		 *//*?}*/
 	{
 		Entity attacker = damageSource.getEntity();
 
@@ -347,7 +370,7 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 		return super.hurtServer(level, damageSource, amount);
 		/*?} else {*/
 		/*return super.hurt(damageSource, amount);
-		*//*?}*/
+		 *//*?}*/
 	}
 
 	@Override
@@ -478,7 +501,7 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 	{
 		//? <1.21.3 {
 		/*var level = (ServerLevel) this.level();
-		*///?}
+		 *///?}
 
 		if (this.isImmobilized()) {
 			super.customServerAiStep(/*? >=1.21.3 {*/level/*?}*/);
@@ -513,7 +536,7 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 			return;
 		}
 
-		if (this.isStructByLightning() && this.getCommandSenderWorld().isClientSide() == false) {
+		if (this.isStructByLightning() && !this.level().isClientSide()) {
 			this.setStructByLightningTicks(this.getStructByLightningTicks() - 1);
 
 			if (this.getRandom().nextFloat() < SPARK_CHANCE) {
@@ -556,17 +579,17 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 			ParticleSpawner.spawnParticles(this, ParticleTypes.WAX_OFF, 7, 1.0);
 		}
 
-		if (this.getCommandSenderWorld().isClientSide() == false) {
+		if (!this.level().isClientSide()) {
 			this.refreshStructByLightningTicks();
 
-			if (this.isWaxed() == false) {
+			if (!this.isWaxed()) {
 				this.setOxidationLevel(WeatheringCopper.WeatherState.UNAFFECTED);
 			}
 		}
 	}
 
 	private void updateKeyframeAnimations() {
-		if (this.level().isClientSide() == false && this.isOxidized() == false) {
+		if (!this.level().isClientSide() && !this.isOxidized()) {
 			this.updateCurrentAnimationTick();
 		}
 
@@ -704,7 +727,7 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 	}
 
 	public void handleOxidationIncrease() {
-		if (this.getCommandSenderWorld().isClientSide() || this.isImmobilized() || this.isWaxed()) {
+		if (this.level().isClientSide() || this.isImmobilized() || this.isWaxed()) {
 			return;
 		}
 
@@ -770,8 +793,7 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 	}
 
 	private void becomeStatue() {
-		CompoundTag entitySnapshot = this.takeEntitySnapshot();
-		this.setEntitySnapshot(entitySnapshot);
+		this.setEntitySnapshot(this.takeEntitySnapshot());
 	}
 
 	private void becomeEntity() {
@@ -800,7 +822,6 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 	}
 
 	public void setSpawnYaw(float yaw) {
-		//this.lerpYRot = yaw;
 		this.yRotO = yaw;
 		this.setYRot(yaw);
 		this.yBodyRotO = yaw;
@@ -872,4 +893,55 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 		}
 	}
 
+	public record EntitySnapshot(
+		float prevYaw,
+		float prevPitch,
+		float prevBodyYaw,
+		double serverHeadYaw,
+		float prevHeadYaw,
+		float lastHandSwingProgress,
+		float limbAnimatorPrevSpeed,
+		float limbAnimatorSpeed,
+		float limbAnimatorPos
+	) {
+		public static final Codec<EntitySnapshot> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+			Codec.FLOAT.fieldOf("prevYaw").forGetter(EntitySnapshot::prevYaw),
+			Codec.FLOAT.fieldOf("prevPitch").forGetter(EntitySnapshot::prevPitch),
+			Codec.FLOAT.fieldOf("prevBodyYaw").forGetter(EntitySnapshot::prevBodyYaw),
+			Codec.DOUBLE.fieldOf("serverHeadYaw").forGetter(EntitySnapshot::serverHeadYaw),
+			Codec.FLOAT.fieldOf("prevHeadYaw").forGetter(EntitySnapshot::prevHeadYaw),
+			Codec.FLOAT.fieldOf("lastHandSwingProgress").forGetter(EntitySnapshot::lastHandSwingProgress),
+			Codec.FLOAT.fieldOf("limbAnimatorPrevSpeed").forGetter(EntitySnapshot::limbAnimatorPrevSpeed),
+			Codec.FLOAT.fieldOf("limbAnimatorSpeed").forGetter(EntitySnapshot::limbAnimatorSpeed),
+			Codec.FLOAT.fieldOf("limbAnimatorPos").forGetter(EntitySnapshot::limbAnimatorPos)
+		).apply(instance, EntitySnapshot::new));
+
+		public static CompoundTag toNbt(EntitySnapshot snapshot) {
+			CompoundTag tag = new CompoundTag();
+			tag.putFloat("prevYaw", snapshot.prevYaw);
+			tag.putFloat("prevPitch", snapshot.prevPitch);
+			tag.putFloat("prevBodyYaw", snapshot.prevBodyYaw);
+			tag.putDouble("serverHeadYaw", snapshot.serverHeadYaw);
+			tag.putFloat("prevHeadYaw", snapshot.prevHeadYaw);
+			tag.putFloat("lastHandSwingProgress", snapshot.lastHandSwingProgress);
+			tag.putFloat("limbAnimatorPrevSpeed", snapshot.limbAnimatorPrevSpeed);
+			tag.putFloat("limbAnimatorSpeed", snapshot.limbAnimatorSpeed);
+			tag.putFloat("limbAnimatorPos", snapshot.limbAnimatorPos);
+			return tag;
+		}
+
+		public static EntitySnapshot fromNbt(CompoundTag tag) {
+			return new EntitySnapshot(
+				VersionedNbt.getFloat(tag, "prevYaw", 0.0F),
+				VersionedNbt.getFloat(tag, "prevPitch", 0.0F),
+				VersionedNbt.getFloat(tag, "prevBodyYaw", 0.0F),
+				VersionedNbt.getDouble(tag, "serverHeadYaw", 0.0D),
+				VersionedNbt.getFloat(tag, "prevHeadYaw", 0.0F),
+				VersionedNbt.getFloat(tag, "lastHandSwingProgress", 0.0F),
+				VersionedNbt.getFloat(tag, "limbAnimatorPrevSpeed", 0.0F),
+				VersionedNbt.getFloat(tag, "limbAnimatorSpeed", 0.0F),
+				VersionedNbt.getFloat(tag, "limbAnimatorPos", 0.0F)
+			);
+		}
+	}
 }

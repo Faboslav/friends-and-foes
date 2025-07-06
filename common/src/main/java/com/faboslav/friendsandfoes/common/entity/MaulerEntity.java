@@ -59,7 +59,13 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.UUID;
-import java.util.function.Predicate;
+
+//? >=1.21.6 {
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+//?} else {
+/*import net.minecraft.nbt.CompoundTag;
+*///?}
 
 //? >=1.21.3 {
 import net.minecraft.world.entity.EntitySpawnReason;
@@ -183,7 +189,12 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 	}
 
 	@Override
-	public void addAdditionalSaveData(CompoundTag nbt) {
+	//? >= 1.21.6 {
+	public void addAdditionalSaveData(ValueOutput nbt)
+	//?} else {
+	/*public void addAdditionalSaveData(CompoundTag nbt)
+	*///?}
+	{
 		super.addAdditionalSaveData(nbt);
 		this.addPersistentAngerSaveData(nbt);
 		nbt.putString(TYPE_NBT_NAME, this.getMaulerType().getName());
@@ -197,7 +208,13 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 		}
 	}
 
-	public void readAdditionalSaveData(CompoundTag nbt) {
+	@Override
+	//? >= 1.21.6 {
+	public void readAdditionalSaveData(ValueInput nbt)
+	//?} else {
+	/*public void readAdditionalSaveData(CompoundTag nbt)
+	*///?}
+	{
 		super.readAdditionalSaveData(nbt);
 
 		this.readPersistentAngerSaveData(this.level(), nbt);
@@ -207,10 +224,14 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 		this.setTicksUntilNextBurrowingDown(VersionedNbt.getInt(nbt, TICKS_UNTIL_NEXT_BURROWING_DOWN_NBT_NAME, this.getTicksUntilNextBurrowingDown()));
 		this.setBurrowingDownAnimationProgress(VersionedNbt.getFloat(nbt, BURROWING_DOWN_ANIMATION_PROGRESS_NBT_NAME, this.getBurrowingDownAnimationProgress()));
 
-		if (this.burrowDownGoal != null && this.isBurrowedDown() && nbt.contains(BURROWED_DOWN_TICKS_NBT_NAME)) {
-			this.burrowDownGoal.setBurrowedDownTicks(VersionedNbt.getInt(nbt, BURROWED_DOWN_TICKS_NBT_NAME, 0));
-			this.setInvulnerable(true);
-			this.setInvisible(true);
+		if (this.burrowDownGoal != null && this.isBurrowedDown()) {
+			var burrowedDownTicks = VersionedNbt.getInt(nbt, BURROWED_DOWN_TICKS_NBT_NAME, 0);
+
+			if(burrowedDownTicks != 0) {
+				this.burrowDownGoal.setBurrowedDownTicks(burrowedDownTicks);
+				this.setInvulnerable(true);
+				this.setInvisible(true);
+			}
 		}
 	}
 

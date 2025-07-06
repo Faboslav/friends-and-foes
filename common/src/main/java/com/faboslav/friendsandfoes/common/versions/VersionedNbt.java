@@ -1,15 +1,25 @@
 package com.faboslav.friendsandfoes.common.versions;
 
-import net.minecraft.core.UUIDUtil;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.nbt.ListTag;
 import org.jetbrains.annotations.Nullable;
+
+//? >=1.21.6 {
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+//?}
 
 import java.util.UUID;
 
 public final class VersionedNbt
 {
-	public static String getString(CompoundTag nbt, String key, String defaultValue) {
+	//? >=1.21.6 {
+	public static String getString(ValueInput nbt, String key, String defaultValue)
+	//?} else {
+	/*public static String getString(CompoundTag nbt, String key, String defaultValue)
+	*///?}
+	{
 		//? >= 1.21.5 {
 		return nbt.getStringOr(key, defaultValue);
 		//?} else {
@@ -17,7 +27,12 @@ public final class VersionedNbt
 		*///?}
 	}
 
-	public static int getInt(CompoundTag nbt, String key, int defaultValue) {
+	//? >=1.21.6 {
+	public static int getInt(ValueInput nbt, String key, int defaultValue)
+	//?} else {
+	/*public static int getInt(CompoundTag nbt, String key, int defaultValue)
+	*///?}
+	{
 		//? >= 1.21.5 {
 		return nbt.getIntOr(key, defaultValue);
 		//?} else {
@@ -25,23 +40,44 @@ public final class VersionedNbt
 		*///?}
 	}
 
-	public static float getFloat(CompoundTag nbt, String key, float defaultValue) {
-		//? >= 1.21.5 {
+	//? if >=1.21.6 {
+	public static float getFloat(ValueInput nbt, String key, float defaultValue)
+	{
+		return nbt.getFloatOr(key, defaultValue);
+	}
+	//?}
+
+	public static float getFloat(CompoundTag nbt, String key, float defaultValue)
+	{
+		//? if >=1.21.5 {
 		return nbt.getFloatOr(key, defaultValue);
 		//?} else {
 		/*return nbt.contains(key) ? nbt.getFloat(key) : defaultValue;
 		*///?}
 	}
 
-	public static double getDouble(CompoundTag nbt, String key, double defaultValue) {
-		//? >= 1.21.5 {
+	//? >=1.21.6 {
+	public static double getDouble(ValueInput nbt, String key, double defaultValue)
+	{
 		return nbt.getDoubleOr(key, defaultValue);
-		 //?} else {
+	}
+	//?}
+
+	public static double getDouble(CompoundTag nbt, String key, double defaultValue)
+	{
+		//? if >=1.21.5 {
+		return nbt.getDoubleOr(key, defaultValue);
+		//?} else {
 		/*return nbt.contains(key) ? nbt.getDouble(key) : defaultValue;
 		*///?}
 	}
 
-	public static boolean getBoolean(CompoundTag nbt, String key, boolean defaultValue) {
+	//? >=1.21.6 {
+	public static boolean getBoolean(ValueInput nbt, String key, boolean defaultValue)
+	//?} else {
+	/*public static boolean getBoolean(CompoundTag nbt, String key, boolean defaultValue)
+	*///?}
+	{
 		//? >= 1.21.5 {
 		return nbt.getBooleanOr(key, defaultValue);
 		 //?} else {
@@ -49,7 +85,12 @@ public final class VersionedNbt
 		*///?}
 	}
 
-	public static CompoundTag getCompound(CompoundTag nbt, String key) {
+	//? >=1.21.6 {
+	public static CompoundTag getCompound(CompoundTag nbt, String key)
+	//?} else {
+	/*public static CompoundTag getCompound(CompoundTag nbt, String key)
+	*///?}
+	{
 		//? >= 1.21.5 {
 		return nbt.getCompoundOrEmpty(key);
 		//?} else {
@@ -65,28 +106,44 @@ public final class VersionedNbt
 		 *///?}
 	}
 
-	public static void putUUID(CompoundTag nbt, String key, @Nullable UUID uuid) {
+	//? if >=1.21.6 {
+	public static void putUUID(ValueOutput saveData, String key, @Nullable UUID uuid)
+	//?} else {
+	/*public static void putUUID(CompoundTag saveData, String key, @Nullable UUID uuid)
+	*///?}
+	{
 		if(uuid == null) {
 			return;
 		}
 
-		//? >=1.21.5 {
-		nbt.store(key, UUIDUtil.CODEC, uuid);
-		//?} else {
-		/*nbt.putUUID(key, uuid);
+		//? if >=1.21.6 {
+		saveData.storeNullable(key, UUIDUtil.CODEC, uuid);
+		//?} else if >=1.21.5 {
+		/*saveData.store(key, UUIDUtil.CODEC, uuid);
+		*///?} else {
+		/*saveData.putUUID(key, uuid);
 		*///?}
 	}
 
 	@Nullable
-	public static UUID getUUID(CompoundTag nbt, String key) {
-		if(nbt.contains(key)) {
+	//? >=1.21.6 {
+	public static UUID getUUID(ValueInput saveData, String key)
+	//?} else {
+	/*public static UUID getUUID(CompoundTag saveData, String key)
+	*///?}
+	{
+		//? if >=1.21.6 {
+		return saveData.read(key, UUIDUtil.CODEC).orElse(null);
+		//?} else {
+		/*if(saveData.contains(key)) {
 			//? >= 1.21.5 {
-			return nbt.read(key, UUIDUtil.CODEC).orElse(null);
+			return saveData.read(key, UUIDUtil.CODEC).orElse(null);
 			 //?} else {
-			/*return nbt.getUUID(key);
-			*///?}
+			/^return saveData.getUUID(key);
+			 ^///?}
 		}
 
 		return null;
+		*///?}
 	}
 }

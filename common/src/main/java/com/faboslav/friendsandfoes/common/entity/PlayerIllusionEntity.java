@@ -9,7 +9,6 @@ import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -27,8 +26,14 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
 import java.util.UUID;
+
+//? >=1.21.6 {
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+//?} else {
+/*import net.minecraft.nbt.CompoundTag;
+*///?}
 
 //? >=1.21.3 {
 import net.minecraft.world.entity.EntitySpawnReason;
@@ -100,14 +105,25 @@ public final class PlayerIllusionEntity extends Mob
 	}
 
 	@Override
-	public void addAdditionalSaveData(CompoundTag nbt) {
+	//? >= 1.21.6 {
+	public void addAdditionalSaveData(ValueOutput nbt)
+	//?} else {
+	/*public void addAdditionalSaveData(CompoundTag nbt)
+	*///?}
+	{
 		super.addAdditionalSaveData(nbt);
 
 		nbt.putInt(TICKS_UNTIL_DESPAWN_NBT_NAME, this.getTicksUntilDespawn());
 		VersionedNbt.putUUID(nbt, PLAYER_UUID_NBT_NAME, this.getPlayerUuid());
 	}
 
-	public void readAdditionalSaveData(CompoundTag nbt) {
+	@Override
+	//? >= 1.21.6 {
+	public void readAdditionalSaveData(ValueInput nbt)
+	//?} else {
+	/*public void readAdditionalSaveData(CompoundTag nbt)
+	*///?}
+	{
 		super.readAdditionalSaveData(nbt);
 
 		this.setPlayerUuid(VersionedNbt.getUUID(nbt, PLAYER_UUID_NBT_NAME));
@@ -158,9 +174,11 @@ public final class PlayerIllusionEntity extends Mob
 		return true;
 	}
 
-	public boolean isPartVisible(PlayerModelPart modelPart) {
+	//? if <1.21.4 {
+	/*public boolean isPartVisible(PlayerModelPart modelPart) {
 		return (this.getEntityData().get(PLAYER_MODEL_PARTS) & modelPart.getMask()) == modelPart.getMask();
 	}
+	*///?}
 
 	public PlayerSkin getSkinTextures() {
 		PlayerInfo playerListEntry = this.getPlayerListEntry();
@@ -176,10 +194,6 @@ public final class PlayerIllusionEntity extends Mob
 		}
 
 		return DefaultPlayerSkin.get(uuid);
-	}
-
-	public Vec3 lerpVelocity(float tickDelta) {
-		return Vec3.ZERO.lerp(this.getDeltaMovement(), tickDelta);
 	}
 
 	@Nullable
@@ -273,7 +287,7 @@ public final class PlayerIllusionEntity extends Mob
 		}
 
 		for (int i = 0; i < amount; i++) {
-			((ServerLevel) this.getCommandSenderWorld()).sendParticles(
+			((ServerLevel) this.level()).sendParticles(
 				particleType,
 				this.getRandomX(0.5D),
 				this.getRandomY() + 0.5D,

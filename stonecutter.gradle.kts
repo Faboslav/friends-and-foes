@@ -1,5 +1,3 @@
-import dev.kikugie.stonecutter.RunConfigType
-
 plugins {
     id("dev.kikugie.stonecutter")
 
@@ -7,16 +5,9 @@ plugins {
     id("fabric-loom") version "1.10-SNAPSHOT" apply false
 }
 
-stonecutter active "1.21.5" /* [SC] DO NOT EDIT */
-
-stonecutter registerChiseled tasks.register("chiseledBuild", stonecutter.chiseled) {
-	group = mod.id
-	ofTask("build")
-}
+stonecutter active "1.21.6" /* [SC] DO NOT EDIT */
 
 stonecutter {
-	generateRunConfigs = listOf(RunConfigType.SWITCH)
-
 	parameters {
 		const("trinkets", false)
 		const("curios", false)

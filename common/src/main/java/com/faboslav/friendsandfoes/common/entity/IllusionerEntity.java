@@ -40,6 +40,13 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
+//? >=1.21.6 {
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+//?} else {
+/*import net.minecraft.nbt.CompoundTag;
+ *///?}
+
 //? >=1.21.4 {
 import net.minecraft.world.entity.monster.creaking.Creaking;
 //?}
@@ -92,7 +99,12 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 	}
 
 	@Override
-	public void addAdditionalSaveData(CompoundTag nbt) {
+	//? >= 1.21.6 {
+	public void addAdditionalSaveData(ValueOutput nbt)
+	//?} else {
+	/*public void addAdditionalSaveData(CompoundTag nbt)
+	*///?}
+	{
 		nbt.putBoolean(IS_ILLUSION_NBT_NAME, this.isIllusion());
 		nbt.putBoolean(WAS_ATTACKED_NBT_NAME, this.wasAttacked());
 		nbt.putInt(TICKS_UNTIL_DESPAWN_NBT_NAME, this.getTicksUntilDespawn());
@@ -100,7 +112,12 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 	}
 
 	@Override
-	public void readAdditionalSaveData(CompoundTag nbt) {
+	//? >= 1.21.6 {
+	public void readAdditionalSaveData(ValueInput nbt)
+	//?} else {
+	/*public void readAdditionalSaveData(CompoundTag nbt)
+	*///?}
+	{
 		this.setIsIllusion(VersionedNbt.getBoolean(nbt, IS_ILLUSION_NBT_NAME, false));
 		this.setWasAttacked(VersionedNbt.getBoolean(nbt, WAS_ATTACKED_NBT_NAME, false));
 		this.setTicksUntilDespawn(VersionedNbt.getInt(nbt, TICKS_UNTIL_DESPAWN_NBT_NAME, 0));
@@ -327,7 +344,7 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 		boolean teleportResult = this.tryToTeleport(x, y, z);
 
 		if (teleportResult) {
-			this.getCommandSenderWorld().addFreshEntity(illusion);
+			this.level().addFreshEntity(illusion);
 			this.spawnCloudParticles();
 		}
 	}
@@ -375,7 +392,7 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 		}
 
 		for (int i = 0; i < amount; i++) {
-			((ServerLevel) this.getCommandSenderWorld()).sendParticles(
+			((ServerLevel) this.level()).sendParticles(
 				particleType,
 				this.getRandomX(0.5D),
 				this.getRandomY() + 0.5D,

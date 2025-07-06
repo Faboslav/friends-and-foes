@@ -1,15 +1,9 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
-import com.faboslav.friendsandfoes.common.entity.PlayerIllusionEntity;
 import com.faboslav.friendsandfoes.common.entity.TuffGolemEntity;
-import com.google.common.collect.ImmutableMap;
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
-import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,7 +13,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.Map;
+//? if >=1.21.6 {
+import net.minecraft.world.entity.Mob;
+//?} else {
+/*import net.minecraft.world.entity.PathfinderMob;
+*///?}
 
 @Mixin(TemptGoal.class)
 public abstract class TemptGoalMixin
@@ -33,7 +31,11 @@ public abstract class TemptGoalMixin
 
 	@Final
 	@Shadow
-	protected PathfinderMob mob;
+	//? if >=1.21.6 {
+	protected Mob mob;
+	//?} else {
+	/*protected PathfinderMob mob;
+	*///?}
 
 	@Final
 	@Shadow

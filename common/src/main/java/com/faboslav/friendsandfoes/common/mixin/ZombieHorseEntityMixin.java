@@ -3,7 +3,6 @@ package com.faboslav.friendsandfoes.common.mixin;
 import com.faboslav.friendsandfoes.common.entity.ZombieHorseEntityAccess;
 import com.faboslav.friendsandfoes.common.entity.ai.goal.zombiehorse.ZombieHorseTrapTriggerGoal;
 import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.animal.horse.ZombieHorse;
@@ -11,6 +10,13 @@ import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+//? >=1.21.6 {
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+//?} else {
+/*import net.minecraft.nbt.CompoundTag;
+*///?}
 
 @Mixin(ZombieHorse.class)
 public abstract class ZombieHorseEntityMixin extends ZombieHorseAbstractHorseEntityMixin implements ZombieHorseEntityAccess
@@ -29,13 +35,23 @@ public abstract class ZombieHorseEntityMixin extends ZombieHorseAbstractHorseEnt
 	}
 
 	@Override
-	public void friendsandfoes_writeCustomDataToNbt(CompoundTag nbt, CallbackInfo ci) {
+	//? >=1.21.6 {
+	public void friendsandfoes_writeCustomDataToNbt(ValueOutput nbt, CallbackInfo ci)
+	//?} else {
+	/*public void friendsandfoes_writeCustomDataToNbt(CompoundTag nbt, CallbackInfo ci)
+	*///?}
+	{
 		nbt.putBoolean("ZombieTrap", this.friendsandfoes_isTrapped());
 		nbt.putInt("ZombieTrapTime", this.friendsandfoes_trapTime);
 	}
 
 	@Override
-	public void friendsandfoes_readCustomDataFromNbt(CompoundTag nbt, CallbackInfo ci) {
+	//? >=1.21.6 {
+	public void friendsandfoes_readCustomDataFromNbt(ValueInput nbt, CallbackInfo ci)
+	//?} else {
+	/*public void friendsandfoes_readCustomDataFromNbt(CompoundTag nbt, CallbackInfo ci)
+	*///?}
+	{
 		this.friendsandfoes_setTrapped(VersionedNbt.getBoolean(nbt, "ZombieTrap", false));
 		this.friendsandfoes_trapTime = VersionedNbt.getInt(nbt, "ZombieTrapTime", 0);
 	}

@@ -93,9 +93,17 @@ public final class FriendsAndFoesEntityTypes
 		}
 
 		if (config.enableMauler && config.enableMaulerSpawn) {
-			event.add(FriendsAndFoesTags.HAS_BADLANDS_MAULER, MobCategory.CREATURE, MAULER.get(), config.maulerBadlandsSpawnWeight, config.maulerBadlandsSpawnMinGroupSize, config.maulerBadlandsSpawnMaxGroupSize);
-			event.add(FriendsAndFoesTags.HAS_DESERT_MAULER, MobCategory.CREATURE, MAULER.get(), config.maulerDesertSpawnWeight, config.maulerDesertSpawnMinGroupSize, config.maulerDesertSpawnMaxGroupSize);
-			event.add(FriendsAndFoesTags.HAS_SAVANNA_MAULER, MobCategory.CREATURE, MAULER.get(), config.maulerSavannaSpawnWeight, config.maulerSavannaSpawnMinGroupSize, config.maulerSavannaSpawnMaxGroupSize);
+			if(config.enableMaulerSpawnInBadlands) {
+				event.add(FriendsAndFoesTags.HAS_BADLANDS_MAULER, MobCategory.CREATURE, MAULER.get(), config.maulerBadlandsSpawnWeight, config.maulerBadlandsSpawnMinGroupSize, config.maulerBadlandsSpawnMaxGroupSize);
+			}
+
+			if(config.enableMaulerSpawnInDesert) {
+				event.add(FriendsAndFoesTags.HAS_DESERT_MAULER, MobCategory.CREATURE, MAULER.get(), config.maulerDesertSpawnWeight, config.maulerDesertSpawnMinGroupSize, config.maulerDesertSpawnMaxGroupSize);
+			}
+
+			if(config.enableMaulerSpawnInSavanna) {
+				event.add(FriendsAndFoesTags.HAS_SAVANNA_MAULER, MobCategory.CREATURE, MAULER.get(), config.maulerSavannaSpawnWeight, config.maulerSavannaSpawnMinGroupSize, config.maulerSavannaSpawnMaxGroupSize);
+			}
 		}
 
 		if (config.enableMoobloom && config.enableMoobloomSpawn) {

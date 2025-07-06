@@ -45,7 +45,7 @@ public final class GlareLocateDarkSpotTask extends Behavior<GlareEntity>
 	}
 
 	private ArrayList<BlockPos> findDarkSpots(GlareEntity glare) {
-		ServerLevel serverWorld = (ServerLevel) glare.getCommandSenderWorld();
+		ServerLevel serverWorld = (ServerLevel) glare.level();
 		BlockPos blockPos = glare.blockPosition();
 		ArrayList<BlockPos> darkSpots = new ArrayList<>();
 		int searchDistance = 16;

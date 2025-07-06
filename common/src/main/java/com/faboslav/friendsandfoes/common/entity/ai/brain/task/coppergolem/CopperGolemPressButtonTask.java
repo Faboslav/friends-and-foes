@@ -144,14 +144,14 @@ public final class CopperGolemPressButtonTask extends Behavior<CopperGolemEntity
 			buttonPos,
 			null
 		);
-		copperGolem.getCommandSenderWorld().playSound(null,
+		copperGolem.level().playSound(null,
 			buttonPos,
 			buttonBlock.getSound(true),
 			SoundSource.BLOCKS,
 			0.3F,
 			0.6F
 		);
-		copperGolem.getCommandSenderWorld().gameEvent(copperGolem,
+		copperGolem.level().gameEvent(copperGolem,
 			GameEvent.BLOCK_ACTIVATE,
 			buttonPos
 		);
@@ -162,7 +162,7 @@ public final class CopperGolemPressButtonTask extends Behavior<CopperGolemEntity
 
 	@Nullable
 	private BlockState getButtonBlockState(CopperGolemEntity copperGolem, BlockPos buttonBlockPos) {
-		ServerLevel serverWorld = (ServerLevel) copperGolem.getCommandSenderWorld();
+		ServerLevel serverWorld = (ServerLevel) copperGolem.level();
 		BlockState blockState = serverWorld.getBlockState(buttonBlockPos);
 
 		if (blockState.getBlock() instanceof ButtonBlock == false) {

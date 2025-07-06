@@ -1,3 +1,7 @@
+## 4.0.7
+
+- Fixed invisible illusioner bow
+
 ## 4.0.6
 
 - Fixed on hurt illusioner logic

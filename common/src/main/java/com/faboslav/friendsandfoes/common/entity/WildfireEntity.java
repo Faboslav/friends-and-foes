@@ -16,7 +16,6 @@ import com.mojang.serialization.Dynamic;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.DebugPackets;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -42,6 +41,13 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+
+//? >=1.21.6 {
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+//?} else {
+/*import net.minecraft.nbt.CompoundTag;
+*///?}
 
 //? >=1.21.3 {
 import net.minecraft.world.entity.EntitySpawnReason;
@@ -189,7 +195,12 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 	}
 
 	@Override
-	public void addAdditionalSaveData(CompoundTag nbt) {
+	//? >= 1.21.6 {
+	public void addAdditionalSaveData(ValueOutput nbt)
+	//?} else {
+	/*public void addAdditionalSaveData(CompoundTag nbt)
+	*///?}
+	{
 		super.addAdditionalSaveData(nbt);
 		nbt.putInt(ACTIVE_SHIELDS_NBT_NAME, this.getActiveShieldsCount());
 		nbt.putInt(TICKS_UNTIL_SHIELD_REGENERATION_NBT_NAME, this.getTicksUntilShieldRegeneration());
@@ -197,7 +208,12 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 	}
 
 	@Override
-	public void readAdditionalSaveData(CompoundTag nbt) {
+	//? >= 1.21.6 {
+	public void readAdditionalSaveData(ValueInput nbt)
+	//?} else {
+	/*public void readAdditionalSaveData(CompoundTag nbt)
+	*///?}
+	{
 		super.readAdditionalSaveData(nbt);
 		this.setActiveShieldsCount(VersionedNbt.getInt(nbt, ACTIVE_SHIELDS_NBT_NAME, DEFAULT_ACTIVE_SHIELDS_COUNT));
 		this.setTicksUntilShieldRegeneration(VersionedNbt.getInt(nbt, TICKS_UNTIL_SHIELD_REGENERATION_NBT_NAME, DEFAULT_TICKS_UNTIL_SHIELD_REGENERATION));

@@ -72,7 +72,7 @@ public final class BeePollinateMoobloomGoal extends Goal
 			return false;
 		} else if (this.bee.isAngry()) {
 			return false;
-		} else if (this.bee.getCommandSenderWorld().isRaining()) {
+		} else if (this.bee.level().isRaining()) {
 			return false;
 		} else if (this.completedPollination()) {
 			return this.bee.getRandom().nextFloat() < 0.2F;

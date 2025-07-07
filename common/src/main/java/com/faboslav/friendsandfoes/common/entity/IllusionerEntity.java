@@ -311,6 +311,10 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 		this.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, INVISIBILITY_TICKS));
 		this.spawnCloudParticles();
 
+		if(MAX_ILLUSIONS_COUNT == 0) {
+			return;
+		}
+
 		Vec3 illusionerPosition = this.position();
 		float slice = 2.0F * (float) Math.PI / MAX_ILLUSIONS_COUNT;
 		int radius = 9;

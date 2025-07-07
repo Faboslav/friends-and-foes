@@ -64,9 +64,9 @@ public final class TuffGolemHeldItemFeatureRenderer extends RenderLayer<TuffGole
 		}
 		ItemStack itemStack = tuffGolem.getItemBySlot(EquipmentSlot.MAINHAND);
 
-		float yItemOffset = 0.2F;
-		float levitationOffset = Mth.sin(((float) tuffGolem.tickCount + tickDelta) / 10.0F + 3.1415927F) * 0.1F + 0.1F;
-		float yOffset = levitationOffset + (0.85F - yItemOffset * 0.5F);
+		float yItemOffset = 0.4F;
+		float levitationOffset = Mth.sin(((float) tuffGolem.tickCount + tickDelta) / 10.0F + 3.1415927F) * 0.05F + 0.05F;
+		float yOffset = levitationOffset + (1.0F - yItemOffset * 0.7F);
 		float rotationAngle = (float) Math.toDegrees((animationProgress * 0.05F) % (2.0F * (float) Math.PI));
 		poseStack.pushPose();
 		poseStack.translate(0.0, yOffset, -0.575);

@@ -27,11 +27,14 @@ public final class VersionedNbt
 		*///?}
 	}
 
-	//? >=1.21.6 {
+	//? if >=1.21.6 {
 	public static int getInt(ValueInput nbt, String key, int defaultValue)
-	//?} else {
-	/*public static int getInt(CompoundTag nbt, String key, int defaultValue)
-	*///?}
+	{
+		return nbt.getIntOr(key, defaultValue);
+	}
+	//?}
+
+	public static int getInt(CompoundTag nbt, String key, int defaultValue)
 	{
 		//? >= 1.21.5 {
 		return nbt.getIntOr(key, defaultValue);

@@ -45,7 +45,7 @@ public class IllusionerEntityRenderer<T extends SpellcasterIllager> extends Illa
 			}
 		});
 		//?} else {
-				/*this.addLayer(new ItemInHandLayer<>(this, context.getItemInHandRenderer())
+		/*this.addLayer(new ItemInHandLayer<>(this, context.getItemInHandRenderer())
 		{
 			public void render(PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int i, T spellcastingIllagerEntity, float f, float g, float h, float j, float k, float l) {
 				if (spellcastingIllagerEntity.isCastingSpell()) {
@@ -66,9 +66,9 @@ public class IllusionerEntityRenderer<T extends SpellcasterIllager> extends Illa
 	}
 
 	@Override
-	public void extractRenderState(T iceologer, IllusionerRenderState renderState, float partialTick) {
-		super.extractRenderState(iceologer, renderState, partialTick);
-		renderState.isCastingSpell = iceologer.isCastingSpell();
+	public void extractRenderState(T illusioner, IllusionerRenderState renderState, float partialTick) {
+		super.extractRenderState(illusioner, renderState, partialTick);
+		renderState.isCastingSpell = illusioner.isCastingSpell();
 	}
 	//?}
 

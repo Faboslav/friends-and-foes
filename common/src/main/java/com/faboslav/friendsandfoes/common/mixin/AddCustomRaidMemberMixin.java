@@ -66,7 +66,7 @@ public final class AddCustomRaidMemberMixin
 			var illusionerRaidMember = newRaidMember(
 				CustomRaidMember.ILLUSIONER_INTERNAL_NAME,
 				lastRaidMember.ordinal() + 2,
-				EntityType.ILLUSIONER,
+				FriendsAndFoesEntityTypes.ILLUSIONER.get(),
 				CustomRaidMember.ILLUSIONER_COUNT_IN_WAVE
 			);
 			CustomRaidMember.ILLUSIONER = illusionerRaidMember;

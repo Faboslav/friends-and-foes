@@ -115,14 +115,7 @@ public class PlayerIllusionCapeLayer extends RenderLayer<PlayerIllusionEntity, P
 		float headPitch
 	) {
 		if (!playerIllusion.isInvisible() && playerIllusion.isPartVisible(PlayerModelPart.CAPE)) {
-			UUID uuid = playerIllusion.getPlayerUuid();
-
-			if (uuid == null) {
-				uuid = playerIllusion.getUUID();
-			}
-
-			PlayerSkin playerSkin = PlayerSkinProvider.getSkinTextures(uuid);
-
+			PlayerSkin playerSkin = PlayerSkinProvider.getSkinTextures(playerIllusion);
 			if (playerSkin.capeTexture() != null) {
 				ItemStack itemStack = playerIllusion.getItemBySlot(EquipmentSlot.CHEST);
 				if (!itemStack.is(Items.ELYTRA)) {

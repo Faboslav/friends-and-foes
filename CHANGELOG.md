@@ -1,6 +1,10 @@
 ## 4.0.7
 
-- Fixed invisible illusioner bow
+- Player illusion can now be summoned with a command (and without any time restriction)
+- Added illusioner to the raiders and illager tags
+- Fixed totem of illusion related crash
+- Fixed illusioner related crash
+- Tweaked how tuff golem displays items
 
 ## 4.0.6
 

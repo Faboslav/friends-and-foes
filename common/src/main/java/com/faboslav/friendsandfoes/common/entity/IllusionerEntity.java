@@ -9,6 +9,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
@@ -156,11 +157,7 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 		}
 
 		if (
-			(
-				this.getTarget() instanceof Player
-				|| this.getTarget() instanceof IronGolem
-			)
-			&& this.wasAttacked()
+			this.wasAttacked()
 			&& this.getTicksUntilCanCreateIllusions() == 0
 		) {
 			this.createIllusions();
@@ -201,9 +198,20 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 	*//*?}*/
 	{
 		Entity attacker = damageSource.getEntity();
+		EntityType<?> attackerType = null;
+
+		if(attacker != null) {
+			attackerType = attacker.getType();
+		}
 
 		if (
-			attacker instanceof IllusionerEntity
+			(
+				attackerType != null
+				&& (
+					attackerType.is(EntityTypeTags.ILLAGER_FRIENDS)
+					|| attackerType.is(EntityTypeTags.RAIDERS)
+				)
+			)
 			|| (
 				this.isIllusion()
 				&& !(attacker instanceof LivingEntity)
@@ -213,7 +221,7 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 		}
 
 		if (!this.level().isClientSide()) {
-			if (attacker instanceof Player || attacker instanceof IronGolem) {
+			if (attackerType != null && !attackerType.is(EntityTypeTags.ILLAGER_FRIENDS) && !attackerType.is(EntityTypeTags.RAIDERS)) {
 				if (this.isIllusion()) {
 					this.discardIllusion();
 					return false;
@@ -222,8 +230,9 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 				if (
 					this.getTicksUntilCanCreateIllusions() == 0
 					&& (
-						attacker instanceof Player
-						&& !((Player) damageSource.getEntity()).getAbilities().instabuild
+						!attackerType.is(EntityTypeTags.ILLAGER_FRIENDS)
+						&& !attackerType.is(EntityTypeTags.RAIDERS)
+						&& !(damageSource.getEntity() instanceof Player player && player.getAbilities().instabuild)
 					)
 				) {
 					this.createIllusions();

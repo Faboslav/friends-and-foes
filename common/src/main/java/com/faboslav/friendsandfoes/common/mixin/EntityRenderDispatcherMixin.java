@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.PlayerIllusionEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityRenderers;
 import com.faboslav.friendsandfoes.common.util.PlayerSkinProvider;
@@ -43,15 +44,9 @@ public abstract class EntityRenderDispatcherMixin
 	) {
 		if (entity instanceof PlayerIllusionEntity) {
 			PlayerIllusionEntity playerIllusion = (PlayerIllusionEntity) entity;
-			UUID uuid = playerIllusion.getPlayerUuid();
-
-			if (uuid == null) {
-				uuid = playerIllusion.getUUID();
-			}
-
-			PlayerSkin.Model model = PlayerSkinProvider.getSkinTextures(uuid).model();
+			PlayerSkin.Model model = PlayerSkinProvider.getSkinTextures(playerIllusion).model();
 			EntityRenderer<? extends PlayerIllusionEntity/*? >=1.21.3 {*/, ?/*?}*/> entityRenderer = this.friendsandfoes$illusionModelRenderers.get(model);
-			entityRenderer = entityRenderer != null ? entityRenderer:this.friendsandfoes$illusionModelRenderers.get(PlayerSkin.Model.WIDE);
+			entityRenderer = entityRenderer != null ? entityRenderer : this.friendsandfoes$illusionModelRenderers.get(PlayerSkin.Model.WIDE);
 			cir.setReturnValue((EntityRenderer<? super T/*? >=1.21.3 {*/, ?/*?}*/>) entityRenderer);
 		}
 	}

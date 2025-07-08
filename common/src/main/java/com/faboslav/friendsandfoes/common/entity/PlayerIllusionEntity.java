@@ -12,19 +12,15 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.PlayerModelPart;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
 import java.util.UUID;
-
-//? if <1.21.4 {
-/*import net.minecraft.world.entity.player.PlayerModelPart;
-*///?}
 
 //? >=1.21.6 {
 import net.minecraft.world.level.storage.ValueInput;
@@ -34,7 +30,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 *///?}
 
 //? >=1.21.3 {
-import net.minecraft.world.entity.EntitySpawnReason;
+
 //?} else {
 /*import net.minecraft.world.entity.MobSpawnType;
 *///?}
@@ -45,11 +41,14 @@ public final class PlayerIllusionEntity extends Mob
 	private static final EntityDataAccessor<Integer> TICKS_UNTIL_DESPAWN;
 	private static final String PLAYER_UUID_NBT_NAME = "PlayerUuid";
 	private static final EntityDataAccessor<Byte> PLAYER_MODEL_PARTS;
+	//? if >=1.21.5 {
+	private static final EntityDataAccessor<Optional<EntityReference<LivingEntity>>> PLAYER_UUID;
+	//?} else {
+	/*private static final EntityDataAccessor<Optional<UUID>> PLAYER_UUID;
+	*///?}
 
 	@Nullable
 	private Player player;
-	@Nullable
-	private UUID playerUUID;
 
 	public double prevCapeX;
 	public double prevCapeY;
@@ -76,17 +75,20 @@ public final class PlayerIllusionEntity extends Mob
 		@Nullable SpawnGroupData entityData
 	) {
 		if(spawnReason == VersionedEntitySpawnReason.COMMAND) {
-			//this.setPlayerUuid(this.getUUID());
-			this.setTicksUntilDespawn(600);
+			this.setTicksUntilDespawn(-1);
+
+			if(this.getPlayerUuid() == null) {
+				var player = this.level().getNearestPlayer(
+					this.getX(),
+					this.getY(),
+					this.getZ(),
+					10.0,
+					null
+				);
+				this.setPlayer(player);
+				this.setPlayerUuid(player.getUUID());
+			}
 		}
-
-		/*
-		this.shouldShowName()
-
-		this.createCommandSourceStack()
-
-		this.getCommandSenderWorld()
-		 */
 
 		return super.finalizeSpawn(world, difficulty, spawnReason, entityData);
 	}
@@ -97,6 +99,7 @@ public final class PlayerIllusionEntity extends Mob
 
 		builder.define(PLAYER_MODEL_PARTS, (byte) 0);
 		builder.define(TICKS_UNTIL_DESPAWN, 0);
+		builder.define(PLAYER_UUID, Optional.empty());
 	}
 
 	@Override
@@ -169,19 +172,25 @@ public final class PlayerIllusionEntity extends Mob
 		return true;
 	}
 
-	//? if <1.21.4 {
-	/*public boolean isPartVisible(PlayerModelPart modelPart) {
+	public boolean isPartVisible(PlayerModelPart modelPart) {
 		return (this.getEntityData().get(PLAYER_MODEL_PARTS) & modelPart.getMask()) == modelPart.getMask();
 	}
-	*///?}
 
 	@Nullable
 	public UUID getPlayerUuid() {
-		return this.playerUUID;
+		//? if >=1.21.5 {
+		return this.entityData.get(PLAYER_UUID).map(EntityReference::getUUID).orElse(null);
+		//?} else {
+		/*return this.entityData.get(PLAYER_UUID).orElse(null);
+		*///?}
 	}
 
 	public void setPlayerUuid(@Nullable UUID uuid) {
-		this.playerUUID = uuid;
+		//? if >=1.21.5 {
+		this.entityData.set(PLAYER_UUID, Optional.ofNullable(uuid).map(EntityReference::new));
+		//?} else {
+		/*this.entityData.set(PLAYER_UUID, Optional.ofNullable(uuid));
+		*///?}
 	}
 
 	@Nullable
@@ -268,5 +277,10 @@ public final class PlayerIllusionEntity extends Mob
 	static {
 		PLAYER_MODEL_PARTS = SynchedEntityData.defineId(PlayerIllusionEntity.class, EntityDataSerializers.BYTE);
 		TICKS_UNTIL_DESPAWN = SynchedEntityData.defineId(PlayerIllusionEntity.class, EntityDataSerializers.INT);
+		//? if >=1.21.5 {
+		PLAYER_UUID = SynchedEntityData.defineId(PlayerIllusionEntity.class, EntityDataSerializers.OPTIONAL_LIVING_ENTITY_REFERENCE);
+		//?} else {
+		/*PLAYER_UUID = SynchedEntityData.defineId(PlayerIllusionEntity.class, EntityDataSerializers.OPTIONAL_UUID);
+		*///?}
 	}
 }

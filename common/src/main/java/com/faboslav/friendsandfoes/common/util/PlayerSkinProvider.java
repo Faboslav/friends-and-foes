@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.common.util;
 
+import com.faboslav.friendsandfoes.common.entity.PlayerIllusionEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.client.resources.DefaultPlayerSkin;
@@ -15,7 +16,13 @@ public final class PlayerSkinProvider
 	@Nullable
 	private static final Map<UUID, PlayerInfo> playerListEntry = new HashMap<>();
 
-	public static PlayerSkin getSkinTextures(UUID uuid) {
+	public static PlayerSkin getSkinTextures(PlayerIllusionEntity playerIllusion) {
+		UUID uuid = playerIllusion.getPlayerUuid();
+
+		if (uuid == null) {
+			uuid = playerIllusion.getUUID();
+		}
+
 		PlayerInfo playerListEntry = getPlayerListEntry(uuid);
 
 		if (playerListEntry != null) {

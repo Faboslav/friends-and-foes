@@ -53,6 +53,8 @@ repositories {
 			includeGroup("com.jamieswhitefshirt")
 		}
 	}
+
+	maven("https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1")
 }
 
 tasks {

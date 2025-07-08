@@ -86,7 +86,6 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 	private static final EntityDataAccessor<Integer> POSE_TICKS = SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<Boolean> IS_CLIMBING_WALL = SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<String> SIZE = SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.STRING);
-	private static final EntityDataAccessor<CompoundTag> HOME = SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.COMPOUND_TAG);
 	private static final EntityDataAccessor<Boolean> HAS_EGG = SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<Boolean> IS_DANCING = SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.BOOLEAN);
 

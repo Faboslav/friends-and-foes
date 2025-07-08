@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes.common.client.render.entity.renderer;
 import com.faboslav.friendsandfoes.common.client.render.entity.feature.PlayerIllusionCapeLayer;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.PlayerIllusionEntityModel;
 import com.faboslav.friendsandfoes.common.entity.PlayerIllusionEntity;
+import com.faboslav.friendsandfoes.common.util.PlayerSkinProvider;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -13,6 +14,8 @@ import net.minecraft.client.renderer.entity.layers.*;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+
+import java.util.UUID;
 
 //? >=1.21.3 {
 import net.minecraft.client.renderer.entity.state.PlayerRenderState;
@@ -98,7 +101,13 @@ public final class PlayerIllusionEntityRenderer extends LivingEntityRenderer<Pla
 		//? >=1.21.3 {
 		return playerIllusionRenderState.skin.texture();
 		//?} else {
-		/*return playerIllusion.getSkinTextures().texture();
+		/*UUID uuid = playerIllusion.getPlayerUuid();
+
+		if (uuid == null) {
+			uuid = playerIllusion.getUUID();
+		}
+
+		return PlayerSkinProvider.getSkinTextures(uuid).texture();
 		*///?}
 	}
 }

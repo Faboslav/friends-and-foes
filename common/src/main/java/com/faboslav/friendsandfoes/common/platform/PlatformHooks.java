@@ -1,7 +1,5 @@
 package com.faboslav.friendsandfoes.common.platform;
 
-import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-
 import java.util.ServiceLoader;
 
 public final class PlatformHooks

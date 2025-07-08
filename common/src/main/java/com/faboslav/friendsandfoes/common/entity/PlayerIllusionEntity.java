@@ -3,10 +3,6 @@ package com.faboslav.friendsandfoes.common.entity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.PlayerInfo;
-import net.minecraft.client.resources.DefaultPlayerSkin;
-import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -20,13 +16,15 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.PlayerModelPart;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
+
+//? if <1.21.4 {
+/*import net.minecraft.world.entity.player.PlayerModelPart;
+*///?}
 
 //? >=1.21.6 {
 import net.minecraft.world.level.storage.ValueInput;
@@ -52,9 +50,6 @@ public final class PlayerIllusionEntity extends Mob
 	private Player player;
 	@Nullable
 	private UUID playerUUID;
-
-	@Nullable
-	private PlayerInfo playerListEntry;
 
 	public double prevCapeX;
 	public double prevCapeY;
@@ -179,37 +174,6 @@ public final class PlayerIllusionEntity extends Mob
 		return (this.getEntityData().get(PLAYER_MODEL_PARTS) & modelPart.getMask()) == modelPart.getMask();
 	}
 	*///?}
-
-	public PlayerSkin getSkinTextures() {
-		PlayerInfo playerListEntry = this.getPlayerListEntry();
-
-		if (playerListEntry != null) {
-			return playerListEntry.getSkin();
-		}
-
-		UUID uuid = this.getPlayerUuid();
-
-		if (uuid == null) {
-			uuid = this.getUUID();
-		}
-
-		return DefaultPlayerSkin.get(uuid);
-	}
-
-	@Nullable
-	private PlayerInfo getPlayerListEntry() {
-		if (this.playerListEntry == null) {
-			UUID uuid = this.getPlayerUuid();
-
-			if (uuid == null) {
-				uuid = this.getUUID();
-			}
-
-			this.playerListEntry = Minecraft.getInstance().getConnection().getPlayerInfo(uuid);
-		}
-
-		return this.playerListEntry;
-	}
 
 	@Nullable
 	public UUID getPlayerUuid() {

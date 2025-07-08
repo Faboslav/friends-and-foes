@@ -5,6 +5,9 @@
 - Fixed totem of illusion related crash
 - Fixed illusioner related crash
 - Tweaked how tuff golem displays items
+- Updated es_cl translations (Thankas to Ganbare-Lucifer)
+- Updated es_mx translations (Thankas to CANALETA)
+- Updated fr_fr translations (Thankas to condor00fr)
 
 ## 4.0.6
 

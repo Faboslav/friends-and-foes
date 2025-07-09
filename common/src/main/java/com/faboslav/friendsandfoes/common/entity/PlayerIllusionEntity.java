@@ -85,8 +85,11 @@ public final class PlayerIllusionEntity extends Mob
 					10.0,
 					null
 				);
-				this.setPlayer(player);
-				this.setPlayerUuid(player.getUUID());
+
+				if(player != null) {
+					this.setPlayer(player);
+					this.setPlayerUuid(player.getUUID());
+				}
 			}
 		}
 

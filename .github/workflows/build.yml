@@ -41,8 +41,8 @@ jobs:
                 id: gradle-properties
                 run: ./.github/scripts/parse-gradle-properties.sh
 
-            -   name: "Run chiseled build"
-                run: ./gradlew chiseledBuild
+            -   name: "Run build"
+                run: ./gradlew build
 
             -   name: "Prepare artifacts"
                 run: |

@@ -9,13 +9,9 @@ import com.faboslav.friendsandfoes.common.events.client.RegisterRenderLayersEven
 import com.faboslav.friendsandfoes.common.events.lifecycle.RegisterFlammabilityEvent;
 import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistries;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -31,6 +27,12 @@ import net.minecraft.world.level.material.PushReaction;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
+
+//? if >=1.21.6 {
+import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
+//?} else {
+/*import net.minecraft.client.renderer.RenderType;
+*///?}
 
 //? >=1.21.4 {
 import com.teamresourceful.resourcefullib.common.registry.builtin.ResourcefulBlockRegistry;
@@ -93,7 +95,7 @@ public final class FriendsAndFoesBlocks
 
 	public static void registerRenderLayers(RegisterRenderLayersEvent event) {
 		event.register(
-			RenderType.cutout(),
+			/*? >=1.21.6 {*/ ChunkSectionLayer.CUTOUT /*?} else {*//*RenderType.cutout()*//*?}*/,
 			FriendsAndFoesBlocks.BUTTERCUP.get(),
 			FriendsAndFoesBlocks.POTTED_BUTTERCUP.get()
 		);

@@ -6,16 +6,20 @@ import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.Optional;
 import java.util.UUID;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Blaze;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
+
+//? >=1.21.6 {
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+//?} else {
+/*import net.minecraft.nbt.CompoundTag;
+ *///?}
 
 @Mixin(Blaze.class)
 @SuppressWarnings({"rawtypes", "unchecked"})
@@ -33,12 +37,22 @@ public abstract class BlazeEntityMixin extends BlazeLivingEntityMixin implements
 	}
 
 	@Override
-	public void friendsandfoes_writeCustomDataToNbt(CompoundTag nbt, CallbackInfo ci) {
+	//? if >=1.21.6 {
+	public void friendsandfoes_writeCustomDataToNbt(ValueOutput nbt, CallbackInfo ci)
+	//?} else {
+	/*public void friendsandfoes_writeCustomDataToNbt(CompoundTag nbt, CallbackInfo ci)
+	*///?}
+	{
 		VersionedNbt.putUUID(nbt, WILDFIRE_UUID_NBT_NAME, this.friendsandfoes_getWildfireUuid());
 	}
 
 	@Override
-	public void friendsandfoes_readCustomDataFromNbt(CompoundTag nbt, CallbackInfo ci) {
+	//? if >=1.21.6 {
+	public void friendsandfoes_writeCustomDataToNbt(ValueInput nbt, CallbackInfo ci)
+	//?} else {
+	/*public void friendsandfoes_writeCustomDataFromNbt(CompoundTag nbt, CallbackInfo ci)
+	*///?}
+	{
 		this.friendsandfoes_setWildfireUuid(VersionedNbt.getUUID(nbt, WILDFIRE_UUID_NBT_NAME));
 	}
 

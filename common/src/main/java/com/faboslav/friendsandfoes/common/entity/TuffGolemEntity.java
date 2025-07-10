@@ -11,10 +11,11 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.util.MovementUtil;
 import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
 import com.faboslav.friendsandfoes.common.versions.*;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.Dynamic;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.DebugPackets;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -33,7 +34,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.animal.AbstractGolem;
-import net.minecraft.world.entity.animal.Fox;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.DyeColor;
@@ -55,6 +55,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
+//? >=1.21.6 {
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+//?} else {
+/*import net.minecraft.nbt.CompoundTag;
+*///?}
+
 //? >=1.21.3 {
 import net.minecraft.world.entity.EntitySpawnReason;
 //?} else {
@@ -67,7 +74,6 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 	private static final EntityDataAccessor<Pose> PREV_POSE;
 	private static final EntityDataAccessor<Integer> POSE_TICKS;
 	private static final EntityDataAccessor<Boolean> IS_GLUED;
-	private static final EntityDataAccessor<CompoundTag> HOME;
 
 	private static final float MOVEMENT_SPEED = 0.225F;
 	private static final float MOVEMENT_SPEED_WITH_ITEM = 0.175F;
@@ -78,20 +84,19 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 	private static final String PREV_POSE_NBT_NAME = "PrevPose";
 	private static final String POSE_NBT_NAME = "Pose";
 	private static final String IS_GLUED_NBT_NAME = "IsGlued";
-	private static final String HOME_NBT_NAME = "Home";
 	private static final String HOME_NBT_NAME_X = "x";
 	private static final String HOME_NBT_NAME_Y = "y";
 	private static final String HOME_NBT_NAME_Z = "z";
 	private static final String HOME_NBT_NAME_YAW = "yaw";
 
 	private int inactiveTicksAfterSpawn = 0;
+	private Home home;
 
 	static {
 		COLOR = SynchedEntityData.defineId(TuffGolemEntity.class, EntityDataSerializers.STRING);
 		PREV_POSE = SynchedEntityData.defineId(TuffGolemEntity.class, EntityDataSerializers.POSE);
 		POSE_TICKS = SynchedEntityData.defineId(TuffGolemEntity.class, EntityDataSerializers.INT);
 		IS_GLUED = SynchedEntityData.defineId(TuffGolemEntity.class, EntityDataSerializers.BOOLEAN);
-		HOME = SynchedEntityData.defineId(TuffGolemEntity.class, EntityDataSerializers.COMPOUND_TAG);
 	}
 
 	private AnimationContextTracker animationContextTracker;
@@ -218,25 +223,43 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 		builder.define(PREV_POSE, TuffGolemEntityPose.STANDING.get());
 		builder.define(POSE_TICKS, 0);
 		builder.define(IS_GLUED, false);
-		builder.define(HOME, new CompoundTag());
 	}
 
 	@Override
-	public void addAdditionalSaveData(CompoundTag nbt) {
+	//? >= 1.21.6 {
+	public void addAdditionalSaveData(ValueOutput nbt)
+	//?} else {
+	/*public void addAdditionalSaveData(CompoundTag nbt)
+	*///?}
+	{
 		super.addAdditionalSaveData(nbt);
 		nbt.putString(COLOR_NBT_NAME, this.getColor().getName());
 		nbt.putString(PREV_POSE_NBT_NAME, this.getPrevPose().name());
 		nbt.putString(POSE_NBT_NAME, this.getPose().name());
 		nbt.putBoolean(IS_GLUED_NBT_NAME, this.isGlued());
-		nbt.put(HOME_NBT_NAME, this.getHome());
+		nbt.putDouble(HOME_NBT_NAME_X, this.getHomePos().x);
+		nbt.putDouble(HOME_NBT_NAME_Y, this.getHomePos().y);
+		nbt.putDouble(HOME_NBT_NAME_Z, this.getHomePos().z);
+		nbt.putFloat(HOME_NBT_NAME_YAW, this.yBodyRot);
 	}
 
 	@Override
-	public void readAdditionalSaveData(CompoundTag nbt) {
+	//? >= 1.21.6 {
+	public void readAdditionalSaveData(ValueInput nbt)
+	//?} else {
+	/*public void readAdditionalSaveData(CompoundTag nbt)
+	*///?}
+	{
 		super.readAdditionalSaveData(nbt);
+
 		this.setColor(TuffGolemEntity.Color.fromName(VersionedNbt.getString(nbt, COLOR_NBT_NAME, TuffGolemEntity.Color.RED.getName())));
 		this.setGlued(VersionedNbt.getBoolean(nbt, IS_GLUED_NBT_NAME, false));
-		this.setHome(VersionedNbt.getCompound(nbt, HOME_NBT_NAME));
+		this.setHome(new Home(
+			VersionedNbt.getDouble(nbt, HOME_NBT_NAME_X, this.position().x()),
+			VersionedNbt.getDouble(nbt, HOME_NBT_NAME_Y, this.position().y()),
+			VersionedNbt.getDouble(nbt, HOME_NBT_NAME_Z, this.position().z()),
+			VersionedNbt.getFloat(nbt, HOME_NBT_NAME_YAW, this.yBodyRot)
+		));
 
 		if (this.isAtHomePos()) {
 			this.setSpawnYaw(this.getHomeYaw());
@@ -600,39 +623,30 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 		return entityData.get(IS_GLUED);
 	}
 
-	public CompoundTag getNewHome() {
-		CompoundTag home = new CompoundTag();
-
-		home.putDouble(HOME_NBT_NAME_X, this.position().x());
-		home.putDouble(HOME_NBT_NAME_Y, this.position().y());
-		home.putDouble(HOME_NBT_NAME_Z, this.position().z());
-		home.putFloat(HOME_NBT_NAME_YAW, this.yBodyRot);
-
-		return home;
+	public Home getNewHome() {
+		return new Home(this.position().x(), this.position().y(), this.position().z(), this.yBodyRot);
 	}
 
-	public void setHome(CompoundTag home) {
-		entityData.set(HOME, home);
+	public void setHome(Home home) {
+		this.home = home;
 	}
 
-	public CompoundTag getHome() {
-		return entityData.get(HOME);
+	public Home getHome() {
+		return this.home;
 	}
 
 	public Vec3 getHomePos() {
-		var nbt = this.getHome();
+		var home = this.getHome();
 
 		return new Vec3(
-			VersionedNbt.getDouble(nbt, HOME_NBT_NAME_X, this.position().x()),
-			VersionedNbt.getDouble(nbt, HOME_NBT_NAME_Y, this.position().y()),
-			VersionedNbt.getDouble(nbt, HOME_NBT_NAME_Z, this.position().z())
+			home.x,
+			home.y,
+			home.z
 		);
 	}
 
 	public float getHomeYaw() {
-		var nbt = this.getHome();
-
-		return VersionedNbt.getFloat(nbt, HOME_NBT_NAME_YAW, 0.0F);
+		return this.getHome().yaw;
 	}
 
 	public boolean isAtHomePos() {
@@ -996,5 +1010,19 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 
 			return Color.RED;
 		}
+	}
+
+	public record Home(
+		double x,
+		double y,
+		double z,
+		float yaw
+	) {
+		public static final Codec<TuffGolemEntity.Home> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+			Codec.DOUBLE.fieldOf("x").forGetter(TuffGolemEntity.Home::x),
+			Codec.DOUBLE.fieldOf("y").forGetter(TuffGolemEntity.Home::y),
+			Codec.DOUBLE.fieldOf("z").forGetter(TuffGolemEntity.Home::z),
+			Codec.FLOAT.fieldOf("yaw").forGetter(TuffGolemEntity.Home::yaw)
+		).apply(instance, TuffGolemEntity.Home::new));
 	}
 }

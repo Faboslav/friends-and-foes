@@ -3,13 +3,8 @@ package com.faboslav.friendsandfoes.common.entity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.PlayerInfo;
-import net.minecraft.client.resources.DefaultPlayerSkin;
-import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -17,21 +12,25 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.PlayerModelPart;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 import java.util.UUID;
 
+//? >=1.21.6 {
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+//?} else {
+/*import net.minecraft.nbt.CompoundTag;
+*///?}
+
 //? >=1.21.3 {
-import net.minecraft.world.entity.EntitySpawnReason;
+
 //?} else {
 /*import net.minecraft.world.entity.MobSpawnType;
 *///?}
@@ -42,14 +41,14 @@ public final class PlayerIllusionEntity extends Mob
 	private static final EntityDataAccessor<Integer> TICKS_UNTIL_DESPAWN;
 	private static final String PLAYER_UUID_NBT_NAME = "PlayerUuid";
 	private static final EntityDataAccessor<Byte> PLAYER_MODEL_PARTS;
+	//? if >=1.21.5 {
+	private static final EntityDataAccessor<Optional<EntityReference<LivingEntity>>> PLAYER_UUID;
+	//?} else {
+	/*private static final EntityDataAccessor<Optional<UUID>> PLAYER_UUID;
+	*///?}
 
 	@Nullable
 	private Player player;
-	@Nullable
-	private UUID playerUUID;
-
-	@Nullable
-	private PlayerInfo playerListEntry;
 
 	public double prevCapeX;
 	public double prevCapeY;
@@ -76,17 +75,23 @@ public final class PlayerIllusionEntity extends Mob
 		@Nullable SpawnGroupData entityData
 	) {
 		if(spawnReason == VersionedEntitySpawnReason.COMMAND) {
-			//this.setPlayerUuid(this.getUUID());
-			this.setTicksUntilDespawn(600);
+			this.setTicksUntilDespawn(-1);
+
+			if(this.getPlayerUuid() == null) {
+				var player = this.level().getNearestPlayer(
+					this.getX(),
+					this.getY(),
+					this.getZ(),
+					10.0,
+					null
+				);
+
+				if(player != null) {
+					this.setPlayer(player);
+					this.setPlayerUuid(player.getUUID());
+				}
+			}
 		}
-
-		/*
-		this.shouldShowName()
-
-		this.createCommandSourceStack()
-
-		this.getCommandSenderWorld()
-		 */
 
 		return super.finalizeSpawn(world, difficulty, spawnReason, entityData);
 	}
@@ -97,17 +102,29 @@ public final class PlayerIllusionEntity extends Mob
 
 		builder.define(PLAYER_MODEL_PARTS, (byte) 0);
 		builder.define(TICKS_UNTIL_DESPAWN, 0);
+		builder.define(PLAYER_UUID, Optional.empty());
 	}
 
 	@Override
-	public void addAdditionalSaveData(CompoundTag nbt) {
+	//? >= 1.21.6 {
+	public void addAdditionalSaveData(ValueOutput nbt)
+	//?} else {
+	/*public void addAdditionalSaveData(CompoundTag nbt)
+	*///?}
+	{
 		super.addAdditionalSaveData(nbt);
 
 		nbt.putInt(TICKS_UNTIL_DESPAWN_NBT_NAME, this.getTicksUntilDespawn());
 		VersionedNbt.putUUID(nbt, PLAYER_UUID_NBT_NAME, this.getPlayerUuid());
 	}
 
-	public void readAdditionalSaveData(CompoundTag nbt) {
+	@Override
+	//? >= 1.21.6 {
+	public void readAdditionalSaveData(ValueInput nbt)
+	//?} else {
+	/*public void readAdditionalSaveData(CompoundTag nbt)
+	*///?}
+	{
 		super.readAdditionalSaveData(nbt);
 
 		this.setPlayerUuid(VersionedNbt.getUUID(nbt, PLAYER_UUID_NBT_NAME));
@@ -162,48 +179,21 @@ public final class PlayerIllusionEntity extends Mob
 		return (this.getEntityData().get(PLAYER_MODEL_PARTS) & modelPart.getMask()) == modelPart.getMask();
 	}
 
-	public PlayerSkin getSkinTextures() {
-		PlayerInfo playerListEntry = this.getPlayerListEntry();
-
-		if (playerListEntry != null) {
-			return playerListEntry.getSkin();
-		}
-
-		UUID uuid = this.getPlayerUuid();
-
-		if (uuid == null) {
-			uuid = this.getUUID();
-		}
-
-		return DefaultPlayerSkin.get(uuid);
-	}
-
-	public Vec3 lerpVelocity(float tickDelta) {
-		return Vec3.ZERO.lerp(this.getDeltaMovement(), tickDelta);
-	}
-
-	@Nullable
-	private PlayerInfo getPlayerListEntry() {
-		if (this.playerListEntry == null) {
-			UUID uuid = this.getPlayerUuid();
-
-			if (uuid == null) {
-				uuid = this.getUUID();
-			}
-
-			this.playerListEntry = Minecraft.getInstance().getConnection().getPlayerInfo(uuid);
-		}
-
-		return this.playerListEntry;
-	}
-
 	@Nullable
 	public UUID getPlayerUuid() {
-		return this.playerUUID;
+		//? if >=1.21.5 {
+		return this.entityData.get(PLAYER_UUID).map(EntityReference::getUUID).orElse(null);
+		//?} else {
+		/*return this.entityData.get(PLAYER_UUID).orElse(null);
+		*///?}
 	}
 
 	public void setPlayerUuid(@Nullable UUID uuid) {
-		this.playerUUID = uuid;
+		//? if >=1.21.5 {
+		this.entityData.set(PLAYER_UUID, Optional.ofNullable(uuid).map(EntityReference::new));
+		//?} else {
+		/*this.entityData.set(PLAYER_UUID, Optional.ofNullable(uuid));
+		*///?}
 	}
 
 	@Nullable
@@ -273,7 +263,7 @@ public final class PlayerIllusionEntity extends Mob
 		}
 
 		for (int i = 0; i < amount; i++) {
-			((ServerLevel) this.getCommandSenderWorld()).sendParticles(
+			((ServerLevel) this.level()).sendParticles(
 				particleType,
 				this.getRandomX(0.5D),
 				this.getRandomY() + 0.5D,
@@ -290,5 +280,10 @@ public final class PlayerIllusionEntity extends Mob
 	static {
 		PLAYER_MODEL_PARTS = SynchedEntityData.defineId(PlayerIllusionEntity.class, EntityDataSerializers.BYTE);
 		TICKS_UNTIL_DESPAWN = SynchedEntityData.defineId(PlayerIllusionEntity.class, EntityDataSerializers.INT);
+		//? if >=1.21.5 {
+		PLAYER_UUID = SynchedEntityData.defineId(PlayerIllusionEntity.class, EntityDataSerializers.OPTIONAL_LIVING_ENTITY_REFERENCE);
+		//?} else {
+		/*PLAYER_UUID = SynchedEntityData.defineId(PlayerIllusionEntity.class, EntityDataSerializers.OPTIONAL_UUID);
+		*///?}
 	}
 }

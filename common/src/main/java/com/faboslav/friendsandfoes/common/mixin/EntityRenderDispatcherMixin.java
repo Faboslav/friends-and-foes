@@ -1,7 +1,9 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.PlayerIllusionEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityRenderers;
+import com.faboslav.friendsandfoes.common.util.PlayerSkinProvider;
 import com.google.common.collect.ImmutableMap;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -11,6 +13,8 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Map;
+import java.util.UUID;
+
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -39,9 +43,10 @@ public abstract class EntityRenderDispatcherMixin
 		CallbackInfoReturnable<EntityRenderer<? super T/*? >=1.21.3 {*/, ?/*?}*/>> cir
 	) {
 		if (entity instanceof PlayerIllusionEntity) {
-			PlayerSkin.Model model = ((PlayerIllusionEntity) entity).getSkinTextures().model();
+			PlayerIllusionEntity playerIllusion = (PlayerIllusionEntity) entity;
+			PlayerSkin.Model model = PlayerSkinProvider.getSkinTextures(playerIllusion).model();
 			EntityRenderer<? extends PlayerIllusionEntity/*? >=1.21.3 {*/, ?/*?}*/> entityRenderer = this.friendsandfoes$illusionModelRenderers.get(model);
-			entityRenderer = entityRenderer != null ? entityRenderer:this.friendsandfoes$illusionModelRenderers.get(PlayerSkin.Model.WIDE);
+			entityRenderer = entityRenderer != null ? entityRenderer : this.friendsandfoes$illusionModelRenderers.get(PlayerSkin.Model.WIDE);
 			cir.setReturnValue((EntityRenderer<? super T/*? >=1.21.3 {*/, ?/*?}*/>) entityRenderer);
 		}
 	}

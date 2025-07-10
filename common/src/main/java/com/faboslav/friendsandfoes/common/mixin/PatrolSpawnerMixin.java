@@ -51,7 +51,7 @@ public final class PatrolSpawnerMixin
 
 		if (!this.friendsandfoes$isBiomeSpecificIllagerSpawned) {
 			if (biomeEntry.is(FriendsAndFoesTags.HAS_ILLUSIONER)) {
-				patrolEntity = EntityType.ILLUSIONER.create(world/*? >=1.21.3 {*/, VersionedEntitySpawnReason.PATROL/*?}*/);
+				patrolEntity = FriendsAndFoesEntityTypes.ILLUSIONER.get().create(world/*? >=1.21.3 {*/, VersionedEntitySpawnReason.PATROL/*?}*/);
 			} else if (biomeEntry.is(FriendsAndFoesTags.HAS_ICEOLOGER)) {
 				patrolEntity = FriendsAndFoesEntityTypes.ICEOLOGER.get().create(world/*? >=1.21.3 {*/, VersionedEntitySpawnReason.PATROL/*?}*/);
 			}

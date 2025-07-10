@@ -18,7 +18,9 @@ import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
 import com.faboslav.friendsandfoes.common.versions.VersionedGameRulesProvider;
 import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
 import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.Dynamic;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
@@ -57,6 +59,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Objects;
 
+//? >=1.21.6 {
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+//?}
+
 //? >=1.21.3 {
 import net.minecraft.world.entity.EntitySpawnReason;
 //?} else {
@@ -79,11 +86,11 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 	private static final EntityDataAccessor<Integer> POSE_TICKS = SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<Boolean> IS_CLIMBING_WALL = SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<String> SIZE = SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.STRING);
-	private static final EntityDataAccessor<CompoundTag> HOME = SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.COMPOUND_TAG);
 	private static final EntityDataAccessor<Boolean> HAS_EGG = SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<Boolean> IS_DANCING = SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.BOOLEAN);
 
 	private int climbingTicks = 0;
+	private Home home;
 
 	public CrabEntity(EntityType<? extends CrabEntity> entityType, Level world) {
 		super(entityType, world);
@@ -184,27 +191,46 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 		builder.define(POSE_TICKS, 0);
 		builder.define(IS_CLIMBING_WALL, false);
 		builder.define(SIZE, CrabSize.getDefaultCrabSize().getName());
-		builder.define(HOME, new CompoundTag());
 		builder.define(HAS_EGG, false);
 		builder.define(IS_DANCING, false);
 	}
 
 	@Override
-	public void addAdditionalSaveData(CompoundTag nbt) {
+	//? >= 1.21.6 {
+	public void addAdditionalSaveData(ValueOutput nbt)
+	//?} else {
+	/*public void addAdditionalSaveData(CompoundTag nbt)
+	*///?}
+	{
 		super.addAdditionalSaveData(nbt);
 
 		nbt.putString(SIZE_NBT_NAME, this.getSize().getName());
-		nbt.put(HOME_NBT_NAME, this.getHome());
 		nbt.putBoolean(HAS_EGG_NBT_NAME, this.hasEgg());
+
+		//? >= 1.21.6 {
+		nbt.store(HOME_NBT_NAME, Home.CODEC, this.home);
+		//?} else {
+		/*nbt.put(HOME_NBT_NAME, Home.toNbt(this.home));
+		*///?}
 	}
 
 	@Override
-	public void readAdditionalSaveData(CompoundTag nbt) {
-		super.readAdditionalSaveData(nbt);
+	//? >= 1.21.6 {
+	public void readAdditionalSaveData(ValueInput saveData)
+	//?} else {
+	/*public void readAdditionalSaveData(CompoundTag saveData)
+	*///?}
+	{
+		super.readAdditionalSaveData(saveData);
 
-		this.setSize(Objects.requireNonNull(CrabSize.getCrabSizeByName(VersionedNbt.getString(nbt, SIZE_NBT_NAME, CrabSize.getDefaultCrabSize().getName()))));
-		this.setHome(VersionedNbt.getCompound(nbt, HOME_NBT_NAME));
-		this.setHasEgg(VersionedNbt.getBoolean(nbt, HAS_EGG_NBT_NAME, false));
+		this.setSize(Objects.requireNonNull(CrabSize.getCrabSizeByName(VersionedNbt.getString(saveData, SIZE_NBT_NAME, CrabSize.getDefaultCrabSize().getName()))));
+		this.setHasEgg(VersionedNbt.getBoolean(saveData, HAS_EGG_NBT_NAME, false));
+
+		//? >= 1.21.6 {
+		this.setHome(saveData.read(HOME_NBT_NAME, Home.CODEC).orElseGet(this::getNewHome));
+		//?} else {
+		/*this.setHome(Home.fromNbt(VersionedNbt.getCompound(saveData, HOME_NBT_NAME)));
+		 *///?}
 	}
 
 	@Override
@@ -526,31 +552,25 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 		return isBlockSand && isBlockAccessible;
 	}
 
-	public CompoundTag getNewHome() {
-		CompoundTag home = new CompoundTag();
-
-		home.putDouble(HOME_NBT_NAME_X, this.position().x());
-		home.putDouble(HOME_NBT_NAME_Y, this.position().y());
-		home.putDouble(HOME_NBT_NAME_Z, this.position().z());
-
-		return home;
+	public Home getNewHome() {
+		return new Home(this.position().x(), this.position().y(), this.position().z());
 	}
 
-	public void setHome(CompoundTag home) {
-		entityData.set(HOME, home);
+	public void setHome(Home home) {
+		this.home = home;
 	}
 
-	public CompoundTag getHome() {
-		return entityData.get(HOME);
+	public Home getHome() {
+		return this.home;
 	}
 
 	public Vec3 getHomePos() {
-		var nbt = this.getHome();
+		var home = this.getHome();
 
 		return new Vec3(
-			VersionedNbt.getDouble(nbt, HOME_NBT_NAME_X, this.position().x()),
-			VersionedNbt.getDouble(nbt, HOME_NBT_NAME_Y, this.position().y()),
-			VersionedNbt.getDouble(nbt, HOME_NBT_NAME_Z, this.position().z())
+			home.x,
+			home.y,
+			home.z
 		);
 	}
 
@@ -672,6 +692,36 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 			if (!CrabEntity.this.isDancing()) {
 				super.tick();
 			}
+		}
+	}
+
+	public record Home(
+		double x,
+		double y,
+		double z
+	) {
+		public static final Codec<Home> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+			Codec.DOUBLE.fieldOf(HOME_NBT_NAME_X).forGetter(Home::x),
+			Codec.DOUBLE.fieldOf(HOME_NBT_NAME_Y).forGetter(Home::y),
+			Codec.DOUBLE.fieldOf("z").forGetter(Home::z)
+		).apply(instance, Home::new));
+
+		public static CompoundTag toNbt(Home home) {
+			CompoundTag tag = new CompoundTag();
+
+			tag.putDouble(HOME_NBT_NAME_X, home.x);
+			tag.putDouble(HOME_NBT_NAME_Y, home.y);
+			tag.putDouble(HOME_NBT_NAME_Y, home.z);
+
+			return tag;
+		}
+
+		public static Home fromNbt(CompoundTag tag) {
+			return new Home(
+				VersionedNbt.getDouble(tag, HOME_NBT_NAME_X, 0.0D),
+				VersionedNbt.getDouble(tag, HOME_NBT_NAME_Y, 0.0D),
+				VersionedNbt.getDouble(tag, HOME_NBT_NAME_Z, 0.0D)
+			);
 		}
 	}
 }

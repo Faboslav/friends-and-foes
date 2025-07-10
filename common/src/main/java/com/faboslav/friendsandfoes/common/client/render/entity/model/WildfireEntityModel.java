@@ -62,7 +62,11 @@ public final class WildfireEntityModel extends EntityModel<WildfireRenderState>
 		this.backShield = this.shields.getChild(MODEL_PART_BACK_SHIELD);
 		this.leftShield = this.shields.getChild(MODEL_PART_LEFT_SHIELD);
 
-		this.shieldsModelParts = this.shields.getAllParts().toList();
+		//? if >=1.21.6 {
+		this.shieldsModelParts = this.shields.getAllParts();
+		//?} else {
+		/*this.shieldsModelParts = this.shields.getAllParts().toList();
+		*///?}
 	}
 
 	public static LayerDefinition getTexturedModelData() {

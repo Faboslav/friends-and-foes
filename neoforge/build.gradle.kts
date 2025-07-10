@@ -71,3 +71,7 @@ tasks {
 		exclude("${mod.id}.accesswidener")
 	}
 }
+
+tasks.named("createMinecraftArtifacts") {
+	dependsOn(":neoforge:${commonMod.propOrNull("minecraft_version")}:stonecutterGenerate")
+}

@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.common.world.spawner;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import net.minecraft.core.BlockPos.MutableBlockPos;
@@ -92,13 +93,13 @@ public final class IllusionerSpawner implements CustomSpawner
 		BlockState blockState = world.getBlockState(mutable);
 
 		if (
-			!NaturalSpawner.isValidEmptySpawnBlock(world, mutable, blockState, blockState.getFluidState(), EntityType.ILLUSIONER)
-			|| !PatrollingMonster.checkPatrollingMonsterSpawnRules(EntityType.ILLUSIONER, world, VersionedEntitySpawnReason.PATROL, mutable, random)
+			!NaturalSpawner.isValidEmptySpawnBlock(world, mutable, blockState, blockState.getFluidState(), FriendsAndFoesEntityTypes.ILLUSIONER.get())
+			|| !PatrollingMonster.checkPatrollingMonsterSpawnRules(FriendsAndFoesEntityTypes.ILLUSIONER.get(), world, VersionedEntitySpawnReason.PATROL, mutable, random)
 		) {
 			return /*? <1.21.5 {*//*0*//*?}*/;
 		}
 
-		var illusioner = EntityType.ILLUSIONER.create(world/*? >=1.21.3 {*/, VersionedEntitySpawnReason.PATROL/*?}*/);
+		var illusioner = FriendsAndFoesEntityTypes.ILLUSIONER.get().create(world/*? >=1.21.3 {*/, VersionedEntitySpawnReason.PATROL/*?}*/);
 
 		if (illusioner == null) {
 			return /*? <1.21.5 {*//*0*//*?}*/;

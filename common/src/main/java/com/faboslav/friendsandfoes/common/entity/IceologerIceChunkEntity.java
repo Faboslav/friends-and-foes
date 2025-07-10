@@ -5,28 +5,31 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
 import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
+import net.minecraft.world.entity.*;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.UUID;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
+
+//? >=1.21.6 {
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+//?} else {
+/*import net.minecraft.nbt.CompoundTag;
+import java.util.UUID;
+*///?}
 
 public final class IceologerIceChunkEntity extends Entity
 {
@@ -43,14 +46,22 @@ public final class IceologerIceChunkEntity extends Entity
 	private static final EntityDataAccessor<Integer> TICKS_UNTIL_FALL;
 	private static final EntityDataAccessor<Integer> IDLE_TICKS;
 
-	@Nullable
+	//? if >=1.21.6 {
+	private EntityReference<LivingEntity> owner;
+	private EntityReference<LivingEntity> target;
+	//?} else {
+	/*@Nullable
 	private LivingEntity owner;
+
 	@Nullable
 	private UUID ownerUUID;
+
 	@Nullable
 	private LivingEntity target;
+
 	@Nullable
 	private UUID targetUUID;
+	*///?}
 
 	private int lifetimeTicks;
 	private float summonAnimationProgress;
@@ -83,22 +94,61 @@ public final class IceologerIceChunkEntity extends Entity
 	}
 
 	@Override
-	protected void readAdditionalSaveData(CompoundTag nbt) {
-		this.setOwnerUuid(VersionedNbt.getUUID(nbt, OWNER_UUID_NBT_NAME));
-		this.setTargetUuid(VersionedNbt.getUUID(nbt, TARGET_UUID_NBT_NAME));
-		this.setTicksUntilFall(VersionedNbt.getInt(nbt, TICKS_UNTIL_FALL_NBT_NAME, MAX_FLYING_TICKS));
-		this.setIdleTicks(VersionedNbt.getInt(nbt, IDLE_TICKS_NBT_NAME, MAX_IDLE_TICKS));
+	//? >= 1.21.6 {
+	public void addAdditionalSaveData(ValueOutput saveData)
+	//?} else {
+	/*public void addAdditionalSaveData(CompoundTag saveData)
+	*///?}
+	{
+		//? if >=1.21.6 {
+		EntityReference.store(this.owner, saveData, OWNER_UUID_NBT_NAME);
+		EntityReference.store(this.target, saveData, TARGET_UUID_NBT_NAME);
+		//?} else {
+		/*VersionedNbt.putUUID(saveData, OWNER_UUID_NBT_NAME, this.getOwnerUuid());
+		VersionedNbt.putUUID(saveData, TARGET_UUID_NBT_NAME, this.getTargetUuid());
+		*///?}
+		saveData.putInt(TICKS_UNTIL_FALL_NBT_NAME, this.getTicksUntilFall());
+		saveData.putInt(IDLE_TICKS_NBT_NAME, this.getIdleTicks());
 	}
 
 	@Override
-	protected void addAdditionalSaveData(CompoundTag nbt) {
-		VersionedNbt.putUUID(nbt, OWNER_UUID_NBT_NAME, this.getOwnerUuid());
-		VersionedNbt.putUUID(nbt, TARGET_UUID_NBT_NAME, this.getTargetUuid());
-		nbt.putInt(TICKS_UNTIL_FALL_NBT_NAME, this.getTicksUntilFall());
-		nbt.putInt(IDLE_TICKS_NBT_NAME, this.getIdleTicks());
+	//? >= 1.21.6 {
+	public void readAdditionalSaveData(ValueInput saveData)
+	//?} else {
+	/*public void readAdditionalSaveData(CompoundTag saveData)
+	*///?}
+	{
+		//? if >=1.21.6 {
+		this.owner = EntityReference.read(saveData, OWNER_UUID_NBT_NAME);
+		this.target = EntityReference.read(saveData, TARGET_UUID_NBT_NAME);
+		//?} else {
+		/*this.setOwnerUuid(VersionedNbt.getUUID(saveData, OWNER_UUID_NBT_NAME));
+		this.setTargetUuid(VersionedNbt.getUUID(saveData, TARGET_UUID_NBT_NAME));
+		*///?}
+		this.setTicksUntilFall(VersionedNbt.getInt(saveData, TICKS_UNTIL_FALL_NBT_NAME, MAX_FLYING_TICKS));
+		this.setIdleTicks(VersionedNbt.getInt(saveData, IDLE_TICKS_NBT_NAME, MAX_IDLE_TICKS));
+	}
+
+	//? if >=1.21.6 {
+	public void setOwner(@Nullable LivingEntity livingEntity) {
+		this.owner = livingEntity != null ? new EntityReference(livingEntity) : null;
 	}
 
 	@Nullable
+	public LivingEntity getOwner() {
+		return EntityReference.get(this.owner, this.level(), LivingEntity.class);
+	}
+
+	public void setTarget(@Nullable LivingEntity livingEntity) {
+		this.target = livingEntity != null ? new EntityReference(livingEntity) : null;
+	}
+
+	@Nullable
+	public LivingEntity getTarget() {
+		return EntityReference.get(this.target, this.level(), LivingEntity.class);
+	}
+	//?} else {
+	/*@Nullable
 	public UUID getOwnerUuid() {
 		return this.ownerUUID;
 	}
@@ -109,10 +159,10 @@ public final class IceologerIceChunkEntity extends Entity
 
 	@Nullable
 	public LivingEntity getOwner() {
-		if (this.owner == null && this.getOwnerUuid() != null && !this.level().isClientSide()) {
-			Entity entity = ((ServerLevel) this.level()).getEntity(this.getOwnerUuid());
+		if (this.owner == null && this.ownerUUID != null && this.level() instanceof ServerLevel serverLevel) {
+			Entity entity = serverLevel.getEntity(this.ownerUUID);
 			if (entity instanceof LivingEntity) {
-				this.owner = (LivingEntity) entity;
+				this.owner = (LivingEntity)entity;
 			}
 		}
 
@@ -139,6 +189,7 @@ public final class IceologerIceChunkEntity extends Entity
 
 		return this.target;
 	}
+	*///?}
 
 	@Override
 	public void tick() {
@@ -366,8 +417,14 @@ public final class IceologerIceChunkEntity extends Entity
 			world
 		);
 
-		chunkEntity.setOwnerUuid(owner.getUUID());
+		//? if >=1.21.6 {
+		chunkEntity.setOwner(owner);
+		chunkEntity.setTarget(target);
+		//?} else {
+		/*chunkEntity.setOwnerUuid(owner.getUUID());
 		chunkEntity.setTargetUuid(target.getUUID());
+		*///?}
+
 		chunkEntity.setPos(
 			target.getX(),
 			chunkEntity.getYPositionWithHeightOffset(

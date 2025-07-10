@@ -1,3 +1,14 @@
+## 4.0.7
+
+- Player illusion can now be summoned with a command (and without any time restriction)
+- Added illusioner to the raiders and illager tags
+- Fixed totem of illusion related crash
+- Fixed illusioner related crash
+- Tweaked how tuff golem displays items
+- Updated es_cl translations (Thankas to Ganbare-Lucifer)
+- Updated es_mx translations (Thankas to CANALETA)
+- Updated fr_fr translations (Thankas to condor00fr)
+
 ## 4.0.6
 
 - Fixed on hurt illusioner logic

@@ -11,7 +11,7 @@ on:
             versions:
                 description: 'List of versions to be published'
                 required: true
-                default: "['1.21.1', '1.21.4', '1.21.5']"
+                default: "['1.21.1', '1.21.4', '1.21.5', '1.21.6']"
                 type: string
 
 jobs:
@@ -40,8 +40,8 @@ jobs:
                     cache-read-only: false
                     gradle-version: wrapper
 
-            - name: "Run chiseled build"
-              run: ./gradlew chiseledBuild
+            - name: "Run build"
+              run: ./gradlew build
 
             -   name: "Generate matrix for the run job"
                 id: set-matrix

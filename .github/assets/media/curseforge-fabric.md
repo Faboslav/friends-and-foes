@@ -1,20 +1,20 @@
 <br>
 
 <p align="center" style="text-align: center;">
-	<img title="Friends&amp;Foes" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/page/logo.png" alt="Friends&amp;Foes" width="743" height="110">
+	<img title="Friends&amp;Foes" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/logo.png" alt="Friends&amp;Foes" width="836">
 </p>
 
 <br>
 
 <p align="center" style="text-align: center;">
 	<a style="text-decoration: none;" href="https://ko-fi.com/faboslav">
-		<img src="https://img.shields.io/static/v1?label=Support me on&message=Ko-fi&color=5b9c51&labelColor=5b9c51&logoColor=ffffff&style=for-the-badge&logo=ko-fi" alt="Ko-fi">
+		<img src="https://img.shields.io/static/v1?label=&message=Buy Me a Coffee&color=5b9c51&labelColor=5b9c51&logoColor=ffffff&style=for-the-badge&logo=ko-fi" alt="Buy Me a Coffee">
 	</a>
 	<a style="text-decoration: none;" href="https://www.patreon.com/Faboslav">
-		<img src="https://img.shields.io/endpoint.svg?color=5b9c51&label=Support me on&labelColor=5b9c51&logoColor=ffffff&url=https://shieldsio-patreon.vercel.app/api?username=Faboslav&type=patrons&style=for-the-badge" alt="Patreon">
+		<img src="https://img.shields.io/static/v1?label=&message=Become a Patron&color=5b9c51&labelColor=5b9c51&logoColor=ffffff&style=for-the-badge&logo=patreon" alt="Patreon">
 	</a>
 	<a style="text-decoration: none;" href="https://discord.gg/QGwFvvMQCn">
-		<img src="https://img.shields.io/discord/924964658169913404?style=for-the-badge&logo=discord&logoColor=ffffff&label=Community&labelColor=5b9c51&color=5b9c51" alt="Discord">
+		<img src="https://img.shields.io/discord/924964658169913404?style=for-the-badge&logo=discord&logoColor=ffffff&label=Join Our Discord&labelColor=5b9c51&color=5b9c51" alt="Join Our Discord">
 	</a>
 	<a style="text-decoration: none;" href="https://github.com/Faboslav/friends-and-foes/wiki">
 		<img src="https://img.shields.io/static/v1?label=&message=Wiki&logoColor=ffffff&style=for-the-badge&logo=github&labelColor=5b9c51&color=5b9c51" alt="Wiki">
@@ -30,6 +30,44 @@
 <p style="font-size: 18px;">
 	You can check <a title="wiki" href="https://github.com/Faboslav/friends-and-foes/wiki">wiki</a> for a detailed overview of implemented mobs and features.
 </p>
+
+<br>
+<br>
+
+<table style="text-align: center;">
+	<tbody>
+		<tr>
+			<td><img title="Crab" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/crab.gif" alt="Crab" width="60"></td>
+			<td>&emsp;</td>		
+			<td><span style="font-size: 28px;color:#e5e5e5">Crab</span></td>
+		</tr>
+	</tbody>
+</table>
+
+<hr>
+
+<p style="font-size: 18px;">
+	Introducing the <a href="https://github.com/Faboslav/friends-and-foes/wiki/Crab">Crab</a>, a friendly creature wandering the mangrove swamps and beaches.
+	Looking to extend your reach? The crab claw can be used to craft a potion that increases your reach, giving you a valuable advantage in your adventures.
+	If you want to <a href="https://github.com/Faboslav/friends-and-foes/wiki/Crab#breeding">breed</a> this little fella, you’ll need kelp and patience, as crabs need to "bury" their eggs in a safe place.
+</p>
+
+<p align="center" style="text-align: center;">
+	<a href="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/crab_1.webp" style="text-decoration: none;">
+		<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/crab_1.webp" width="49.4%" alt="Waving Crab" title="Waving Crab">
+	</a>
+	<a href="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/crab_2.webp" style="text-decoration: none;">
+		<img src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/crab_2.webp" width="49.4%" alt="Crab climbing a mangrove tree" title="Crab climbing a mangrove tree">
+	</a>
+</p>
+
+<p style="font-size: 18px;">
+	Other features related to the crab:
+</p>
+<ul style="font-size: 18px;">
+	<li><a href="https://github.com/Faboslav/friends-and-foes/wiki/Craw-Claw">Crab Claw</a> item</li>
+	<li><a href="https://github.com/Faboslav/friends-and-foes/wiki/Reaching">Reaching</a> status effect</li>
+</ul>
 
 <br>
 <br>

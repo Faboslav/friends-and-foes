@@ -78,6 +78,7 @@ public class PlayerIllusionCapeLayer extends RenderLayer<PlayerRenderState, Play
 
 /*import com.faboslav.friendsandfoes.common.client.render.entity.model.PlayerIllusionEntityModel;
 import com.faboslav.friendsandfoes.common.entity.PlayerIllusionEntity;
+import com.faboslav.friendsandfoes.common.util.PlayerSkinProvider;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -93,6 +94,8 @@ import net.minecraft.world.entity.player.PlayerModelPart;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
+import java.util.UUID;
+
 public class PlayerIllusionCapeLayer extends RenderLayer<PlayerIllusionEntity, PlayerIllusionEntityModel<PlayerIllusionEntity>>
 {
 	public PlayerIllusionCapeLayer(RenderLayerParent<PlayerIllusionEntity, PlayerIllusionEntityModel<PlayerIllusionEntity>> renderer) {
@@ -103,7 +106,7 @@ public class PlayerIllusionCapeLayer extends RenderLayer<PlayerIllusionEntity, P
 		PoseStack poseStack,
 		MultiBufferSource buffer,
 		int packedLight,
-		PlayerIllusionEntity livingEntity,
+		PlayerIllusionEntity playerIllusion,
 		float limbSwing,
 		float limbSwingAmount,
 		float partialTicks,
@@ -111,17 +114,17 @@ public class PlayerIllusionCapeLayer extends RenderLayer<PlayerIllusionEntity, P
 		float netHeadYaw,
 		float headPitch
 	) {
-		if (!livingEntity.isInvisible() && livingEntity.isPartVisible(PlayerModelPart.CAPE)) {
-			PlayerSkin playerSkin = livingEntity.getSkinTextures();
+		if (!playerIllusion.isInvisible() && playerIllusion.isPartVisible(PlayerModelPart.CAPE)) {
+			PlayerSkin playerSkin = PlayerSkinProvider.getSkinTextures(playerIllusion);
 			if (playerSkin.capeTexture() != null) {
-				ItemStack itemStack = livingEntity.getItemBySlot(EquipmentSlot.CHEST);
+				ItemStack itemStack = playerIllusion.getItemBySlot(EquipmentSlot.CHEST);
 				if (!itemStack.is(Items.ELYTRA)) {
 					poseStack.pushPose();
 					poseStack.translate(0.0F, 0.0F, 0.125F);
-					double d = Mth.lerp(partialTicks, livingEntity.prevCapeX, livingEntity.capeX) - Mth.lerp(partialTicks, livingEntity.xo, livingEntity.getX());
-					double e = Mth.lerp(partialTicks, livingEntity.prevCapeY, livingEntity.capeY) - Mth.lerp(partialTicks, livingEntity.yo, livingEntity.getY());
-					double f = Mth.lerp(partialTicks, livingEntity.prevCapeZ, livingEntity.capeZ) - Mth.lerp(partialTicks, livingEntity.zo, livingEntity.getZ());
-					float g = Mth.rotLerp(partialTicks, livingEntity.yBodyRotO, livingEntity.yBodyRot);
+					double d = Mth.lerp(partialTicks, playerIllusion.prevCapeX, playerIllusion.capeX) - Mth.lerp(partialTicks, playerIllusion.xo, playerIllusion.getX());
+					double e = Mth.lerp(partialTicks, playerIllusion.prevCapeY, playerIllusion.capeY) - Mth.lerp(partialTicks, playerIllusion.yo, playerIllusion.getY());
+					double f = Mth.lerp(partialTicks, playerIllusion.prevCapeZ, playerIllusion.capeZ) - Mth.lerp(partialTicks, playerIllusion.zo, playerIllusion.getZ());
+					float g = Mth.rotLerp(partialTicks, playerIllusion.yBodyRotO, playerIllusion.yBodyRot);
 					double h = Mth.sin(g * (float) (Math.PI / 180.0));
 					double i = -Mth.cos(g * (float) (Math.PI / 180.0));
 					float j = (float)e * 10.0F;
@@ -134,9 +137,9 @@ public class PlayerIllusionCapeLayer extends RenderLayer<PlayerIllusionEntity, P
 						k = 0.0F;
 					}
 
-					float m = Mth.lerp(partialTicks, livingEntity.prevStrideDistance, livingEntity.strideDistance);
-					j += Mth.sin(Mth.lerp(partialTicks, livingEntity.walkDistO, livingEntity.walkDist) * 6.0F) * 32.0F * m;
-					if (livingEntity.isCrouching()) {
+					float m = Mth.lerp(partialTicks, playerIllusion.prevStrideDistance, playerIllusion.strideDistance);
+					j += Mth.sin(Mth.lerp(partialTicks, playerIllusion.walkDistO, playerIllusion.walkDist) * 6.0F) * 32.0F * m;
+					if (playerIllusion.isCrouching()) {
 						j += 25.0F;
 					}
 

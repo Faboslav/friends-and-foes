@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.TuffGolemEntity;
+import com.faboslav.friendsandfoes.common.entity.ai.brain.TuffGolemBrain;
 import com.faboslav.friendsandfoes.common.entity.pose.TuffGolemEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
@@ -105,6 +106,8 @@ public abstract class StrongholdGeneratorMixin extends StructurePiece
 
 		tuffGolem.setPrevPose(TuffGolemEntityPose.STANDING_WITH_ITEM.get());
 		tuffGolem.setPoseWithoutPrevPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM.get());
+
+		tuffGolem.setHome(tuffGolem.getNewHome());
 
 		boolean isTuffGolemSpawned = world.addFreshEntity(tuffGolem);
 

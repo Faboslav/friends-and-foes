@@ -53,6 +53,8 @@ repositories {
 			includeGroup("com.jamieswhitefshirt")
 		}
 	}
+
+	maven("https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1")
 }
 
 tasks {
@@ -89,4 +91,8 @@ tasks {
 
 		inputs.properties(expandProps)
 	}
+}
+
+tasks.named("processResources") {
+	dependsOn(":common:${commonMod.propOrNull("minecraft_version")}:stonecutterGenerate")
 }

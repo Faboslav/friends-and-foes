@@ -9,6 +9,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
@@ -39,6 +40,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
+
+//? >=1.21.6 {
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+//?} else {
+/*import net.minecraft.nbt.CompoundTag;
+ *///?}
 
 //? >=1.21.4 {
 import net.minecraft.world.entity.monster.creaking.Creaking;
@@ -92,7 +100,12 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 	}
 
 	@Override
-	public void addAdditionalSaveData(CompoundTag nbt) {
+	//? >= 1.21.6 {
+	public void addAdditionalSaveData(ValueOutput nbt)
+	//?} else {
+	/*public void addAdditionalSaveData(CompoundTag nbt)
+	*///?}
+	{
 		nbt.putBoolean(IS_ILLUSION_NBT_NAME, this.isIllusion());
 		nbt.putBoolean(WAS_ATTACKED_NBT_NAME, this.wasAttacked());
 		nbt.putInt(TICKS_UNTIL_DESPAWN_NBT_NAME, this.getTicksUntilDespawn());
@@ -100,7 +113,12 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 	}
 
 	@Override
-	public void readAdditionalSaveData(CompoundTag nbt) {
+	//? >= 1.21.6 {
+	public void readAdditionalSaveData(ValueInput nbt)
+	//?} else {
+	/*public void readAdditionalSaveData(CompoundTag nbt)
+	*///?}
+	{
 		this.setIsIllusion(VersionedNbt.getBoolean(nbt, IS_ILLUSION_NBT_NAME, false));
 		this.setWasAttacked(VersionedNbt.getBoolean(nbt, WAS_ATTACKED_NBT_NAME, false));
 		this.setTicksUntilDespawn(VersionedNbt.getInt(nbt, TICKS_UNTIL_DESPAWN_NBT_NAME, 0));
@@ -139,11 +157,7 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 		}
 
 		if (
-			(
-				this.getTarget() instanceof Player
-				|| this.getTarget() instanceof IronGolem
-			)
-			&& this.wasAttacked()
+			this.wasAttacked()
 			&& this.getTicksUntilCanCreateIllusions() == 0
 		) {
 			this.createIllusions();
@@ -184,9 +198,20 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 	*//*?}*/
 	{
 		Entity attacker = damageSource.getEntity();
+		EntityType<?> attackerType = null;
+
+		if(attacker != null) {
+			attackerType = attacker.getType();
+		}
 
 		if (
-			attacker instanceof IllusionerEntity
+			(
+				attackerType != null
+				&& (
+					attackerType.is(EntityTypeTags.ILLAGER_FRIENDS)
+					|| attackerType.is(EntityTypeTags.RAIDERS)
+				)
+			)
 			|| (
 				this.isIllusion()
 				&& !(attacker instanceof LivingEntity)
@@ -196,7 +221,7 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 		}
 
 		if (!this.level().isClientSide()) {
-			if (attacker instanceof Player || attacker instanceof IronGolem) {
+			if (attackerType != null && !attackerType.is(EntityTypeTags.ILLAGER_FRIENDS) && !attackerType.is(EntityTypeTags.RAIDERS)) {
 				if (this.isIllusion()) {
 					this.discardIllusion();
 					return false;
@@ -205,8 +230,9 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 				if (
 					this.getTicksUntilCanCreateIllusions() == 0
 					&& (
-						attacker instanceof Player
-						&& !((Player) damageSource.getEntity()).getAbilities().instabuild
+						!attackerType.is(EntityTypeTags.ILLAGER_FRIENDS)
+						&& !attackerType.is(EntityTypeTags.RAIDERS)
+						&& !(damageSource.getEntity() instanceof Player player && player.getAbilities().instabuild)
 					)
 				) {
 					this.createIllusions();
@@ -294,6 +320,10 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 		this.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, INVISIBILITY_TICKS));
 		this.spawnCloudParticles();
 
+		if(MAX_ILLUSIONS_COUNT == 0) {
+			return;
+		}
+
 		Vec3 illusionerPosition = this.position();
 		float slice = 2.0F * (float) Math.PI / MAX_ILLUSIONS_COUNT;
 		int radius = 9;
@@ -327,7 +357,7 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 		boolean teleportResult = this.tryToTeleport(x, y, z);
 
 		if (teleportResult) {
-			this.getCommandSenderWorld().addFreshEntity(illusion);
+			this.level().addFreshEntity(illusion);
 			this.spawnCloudParticles();
 		}
 	}
@@ -375,7 +405,7 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 		}
 
 		for (int i = 0; i < amount; i++) {
-			((ServerLevel) this.getCommandSenderWorld()).sendParticles(
+			((ServerLevel) this.level()).sendParticles(
 				particleType,
 				this.getRandomX(0.5D),
 				this.getRandomY() + 0.5D,

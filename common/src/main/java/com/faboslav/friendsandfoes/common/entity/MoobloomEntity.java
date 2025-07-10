@@ -44,6 +44,13 @@ import org.jetbrains.annotations.Nullable;
 import net.minecraft.world.entity.animal.Cow;
 import java.util.Optional;
 
+//? >=1.21.6 {
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+//?} else {
+/*import net.minecraft.nbt.CompoundTag;
+*///?}
+
 //? >=1.21.5 {
 import net.minecraft.world.entity.animal.AbstractCow;
 //?}
@@ -119,8 +126,14 @@ public final class MoobloomEntity extends AbstractCow implements Shearable
 		builder.define(VARIANT, MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.getDefaultMoobloomVariant().getName());
 	}
 
+
 	@Override
-	public void addAdditionalSaveData(CompoundTag nbt) {
+	//? >= 1.21.6 {
+	public void addAdditionalSaveData(ValueOutput nbt)
+	//?} else {
+	/*public void addAdditionalSaveData(CompoundTag nbt)
+	*///?}
+	{
 		super.addAdditionalSaveData(nbt);
 
 		nbt.putString(VARIANT_NBT_NAME, this.getVariant().getName());
@@ -128,7 +141,12 @@ public final class MoobloomEntity extends AbstractCow implements Shearable
 	}
 
 	@Override
-	public void readAdditionalSaveData(CompoundTag nbt) {
+	//? >= 1.21.6 {
+	public void readAdditionalSaveData(ValueInput nbt)
+	//?} else {
+	/*public void readAdditionalSaveData(CompoundTag nbt)
+	*///?}
+	{
 		super.readAdditionalSaveData(nbt);
 
 		MoobloomVariant moobloomVariant = MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.getMoobloomVariantByName(VersionedNbt.getString(nbt, VARIANT_NBT_NAME, this.getVariant().getName()));

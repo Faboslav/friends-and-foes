@@ -16,9 +16,6 @@ public final class FriendsAndFoesConfig
 		.serializer(config -> GsonConfigSerializerBuilder.create(config).setPath(Path.of("config", FriendsAndFoes.MOD_ID + ".json")).build())
 		.build();
 
-	private boolean isLoaded = false;
-	private boolean isLoading = false;
-
 	private static final String MOBS_CATEGORY = "mobs";
 	private static final String BEEKEEPER_GROUP = "beekeeper";
 	private static final String BARNACLE_GROUP = "barnacle";

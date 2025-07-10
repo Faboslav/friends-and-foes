@@ -38,6 +38,10 @@ dependencies {
 	commonMod.depOrNull("trinkets")?.let { trinketsVersion ->
 		modImplementation("dev.emi:trinkets:${trinketsVersion}")
 	}
+
+	commonMod.depOrNull("devauth")?.let { devauthVersion ->
+		modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:${devauthVersion}")
+	}
 }
 
 loom {

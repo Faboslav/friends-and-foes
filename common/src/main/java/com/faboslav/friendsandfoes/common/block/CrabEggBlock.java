@@ -98,8 +98,8 @@ public final class CrabEggBlock extends Block
 					world.levelEvent(2001, pos, Block.getId(state));
 					CrabEntity crab = FriendsAndFoesEntityTypes.CRAB.get().create(world/*? >=1.21.3 {*/, VersionedEntitySpawnReason.BREEDING/*?}*/);
 					crab.setAge(-24000);
-					crab.setHome(crab.getNewHome());
 					VersionedEntity.moveTo(crab, (double) pos.getX() + 0.3 + (double) j * 0.2, pos.getY(), (double) pos.getZ() + 0.3, 0.0F, 0.0F);
+					crab.setHome(crab.getNewHome());
 					world.addFreshEntity(crab);
 				}
 			}

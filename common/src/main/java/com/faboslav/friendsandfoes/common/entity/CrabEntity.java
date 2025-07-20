@@ -90,7 +90,7 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 	private static final EntityDataAccessor<Boolean> IS_DANCING = SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.BOOLEAN);
 
 	private int climbingTicks = 0;
-	private Home home;
+	private Home home = new Home(0, 0, 0);
 
 	public CrabEntity(EntityType<? extends CrabEntity> entityType, Level world) {
 		super(entityType, world);

@@ -703,7 +703,7 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 		public static final Codec<Home> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			Codec.DOUBLE.fieldOf(HOME_NBT_NAME_X).forGetter(Home::x),
 			Codec.DOUBLE.fieldOf(HOME_NBT_NAME_Y).forGetter(Home::y),
-			Codec.DOUBLE.fieldOf("z").forGetter(Home::z)
+			Codec.DOUBLE.fieldOf(HOME_NBT_NAME_Z).forGetter(Home::z)
 		).apply(instance, Home::new));
 
 		public static CompoundTag toNbt(Home home) {
@@ -711,7 +711,7 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 
 			tag.putDouble(HOME_NBT_NAME_X, home.x);
 			tag.putDouble(HOME_NBT_NAME_Y, home.y);
-			tag.putDouble(HOME_NBT_NAME_Y, home.z);
+			tag.putDouble(HOME_NBT_NAME_Z, home.z);
 
 			return tag;
 		}

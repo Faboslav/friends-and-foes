@@ -11,7 +11,7 @@ on:
             versions:
                 description: 'List of versions to be published'
                 required: true
-                default: "['1.21.1', '1.21.4', '1.21.5', '1.21.6']"
+                default: "['1.21.1', '1.21.4', '1.21.5', '1.21.8']"
                 type: string
 
 jobs:
@@ -114,7 +114,8 @@ jobs:
                 version: ${{ matrix.mod_loader }}-${{ steps.gradle-properties.outputs.MOD_VERSION }}+mc${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}
                 loaders: ${{ join(matrix.supported_mod_loaders, ' ') }}
                 game-versions: |
-                    ${{ join(fromJSON(format('["{0}"]', replace(steps.gradle-properties.outputs.COMPATIBLE_MINECRAFT_VERSIONS, ', +', '","'))), ' ') }}
+                    ${{ join(fromJSON(format('["{0}"]', steps.gradle-properties.outputs.COMPATIBLE_MINECRAFT_VERSIONS)), '
+                    ') }}
                 changelog-file: RELEASE_CHANGELOG.md
                 files: |
                     ${{ matrix.mod_loader }}/versions/${{ matrix.version }}/build/libs/!(*-@(dev|dev-shadow|sources|javadoc)).jar

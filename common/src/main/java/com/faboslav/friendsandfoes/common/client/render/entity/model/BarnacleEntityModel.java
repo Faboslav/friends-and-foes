@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.model;
 
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.KeyframeModelAnimator;
 import com.faboslav.friendsandfoes.common.entity.BarnacleEntity;
 import net.minecraft.client.model.geom.ModelPart;
@@ -82,7 +83,7 @@ public final class BarnacleEntityModel extends EntityModel<BarnacleRenderState>
 	//? >=1.21.3 {
 	public void setupAnim(BarnacleRenderState renderState)
 	//?} else {
-	/*public void setupAnim(T rascal, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
+	/*public void setupAnim(T barnacle, float limbAngle, float limbDistance, float animationPraogress, float headYaw, float headPitch)
 	*///?}
 	{
 		//? >=1.21.3 {
@@ -107,7 +108,7 @@ public final class BarnacleEntityModel extends EntityModel<BarnacleRenderState>
 		var currentTick = barnacle.tickCount;
 		var animationSpeedModifier = 1.0F;
 
-		KeyframeModelAnimator.updateMovementKeyframeAnimations(this, movementAnimation, limbAngle, limbDistance, 1.5F, 2.5F, animationSpeedModifier);
+		KeyframeModelAnimator.updateMovementKeyframeAnimations(this, movementAnimation, limbAngle, limbDistance, 2.5F, 4.0F, animationSpeedModifier);
 		KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, animations, currentTick, animationProgress, animationSpeedModifier);
 	}
 }

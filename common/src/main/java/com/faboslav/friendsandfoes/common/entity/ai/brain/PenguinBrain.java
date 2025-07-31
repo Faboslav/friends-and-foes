@@ -1,22 +1,29 @@
 package com.faboslav.friendsandfoes.common.entity.ai.brain;
 
 import com.faboslav.friendsandfoes.common.entity.PenguinEntity;
+import com.faboslav.friendsandfoes.common.entity.ai.brain.task.penguin.PenguinSwimWithPlayerTask;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesActivities;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSensorTypes;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.behavior.*;
+import net.minecraft.world.entity.ai.behavior.declarative.BehaviorBuilder;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.sensing.Sensor;
 import net.minecraft.world.entity.ai.sensing.SensorType;
+import net.minecraft.world.entity.animal.axolotl.Axolotl;
+import net.minecraft.world.entity.animal.axolotl.AxolotlAi;
 import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.item.ItemStack;
 import java.util.List;
@@ -26,7 +33,6 @@ public final class PenguinBrain
 {
 	public static final List<MemoryModuleType<?>> MEMORY_MODULES;
 	public static final List<SensorType<? extends Sensor<? super PenguinEntity>>> SENSORS;
-	private static final UniformInt SLAP_COOLDOWN_PROVIDER;
 
 	public static Brain<?> create(Dynamic<?> dynamic) {
 		Brain.Provider<PenguinEntity> profile = Brain.provider(MEMORY_MODULES, SENSORS);
@@ -36,7 +42,7 @@ public final class PenguinBrain
 		addIdleActivities(brain);
 		addLayEggActivities(brain);
 		addGuardEggActivities(brain);
-		addSlapActivities(brain);
+		addSwimActivities(brain);
 
 		brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
 		brain.setDefaultActivity(Activity.IDLE);
@@ -52,8 +58,7 @@ public final class PenguinBrain
 			ImmutableList.of(
 				new LookAtTargetSink(45, 90),
 				new MoveToTargetSink(),
-				new CountDownCooldownTicks(MemoryModuleType.TEMPTATION_COOLDOWN_TICKS),
-				new CountDownCooldownTicks(FriendsAndFoesMemoryModuleTypes.PENGUIN_SLAP_COOLDOWN.get())
+				new CountDownCooldownTicks(MemoryModuleType.TEMPTATION_COOLDOWN_TICKS)
 			)
 		);
 	}
@@ -81,27 +86,50 @@ public final class PenguinBrain
 		);
 	}
 
-	private static void addSlapActivities(Brain<PenguinEntity> brain) {
+	private static void addSwimActivities(Brain<PenguinEntity> brain) {
 		brain.addActivityWithConditions(
-			FriendsAndFoesActivities.PENGUIN_SLAP.get(),
+			FriendsAndFoesActivities.PENGUIN_SWIM.get(),
+			0,
 			ImmutableList.of(
-
+				new PenguinSwimWithPlayerTask()
 			),
 			ImmutableSet.of(
-				Pair.of(MemoryModuleType.NEAREST_VISIBLE_PLAYER, MemoryStatus.VALUE_PRESENT),
 				Pair.of(MemoryModuleType.BREED_TARGET, MemoryStatus.VALUE_ABSENT),
 				Pair.of(MemoryModuleType.TEMPTING_PLAYER, MemoryStatus.VALUE_ABSENT),
-				Pair.of(FriendsAndFoesMemoryModuleTypes.PENGUIN_SLAP_COOLDOWN.get(), MemoryStatus.VALUE_ABSENT),
 				Pair.of(FriendsAndFoesMemoryModuleTypes.PENGUIN_HAS_EGG.get(), MemoryStatus.VALUE_ABSENT),
 				Pair.of(FriendsAndFoesMemoryModuleTypes.PENGUIN_EGG_POS.get(), MemoryStatus.VALUE_ABSENT)
 			)
 		);
 	}
 
+	/*
+	private static void initIdleActivity(Brain<Axolotl> brain) {
+		brain.addActivity(Activity.IDLE,
+			ImmutableList.of(
+				Pair.of(0, SetEntityLookTargetSometimes.create(EntityType.PLAYER, 6.0F, UniformInt.of(30, 60))),
+				Pair.of(1, new AnimalMakeLove(EntityType.AXOLOTL, 0.2F, 2)),
+				Pair.of(2, new RunOne(ImmutableList.of(
+					Pair.of(new FollowTemptation(AxolotlAi::getSpeedModifier), 1),
+					Pair.of(BabyFollowAdult.create(ADULT_FOLLOW_RANGE, AxolotlAi::getSpeedModifierFollowingAdult, MemoryModuleType.NEAREST_VISIBLE_ADULT, false), 1)))
+				),
+				Pair.of(3, StartAttacking.create(AxolotlAi::findNearestValidAttackTarget)),
+				Pair.of(3, TryFindWater.create(6, 0.15F)),
+				Pair.of(4, new GateBehavior(ImmutableMap.of(MemoryModuleType.WALK_TARGET, MemoryStatus.VALUE_ABSENT), ImmutableSet.of(), GateBehavior.OrderPolicy.ORDERED, GateBehavior.RunningPolicy.TRY_ALL, ImmutableList.of(
+					Pair.of(RandomStroll.swim(0.5F), 2),
+					Pair.of(RandomStroll.stroll(0.15F, false), 2),
+					Pair.of(SetWalkTargetFromLookTarget.create(AxolotlAi::canSetWalkTargetFromLookTarget, AxolotlAi::getSpeedModifier, 3), 3),
+					Pair.of(BehaviorBuilder.triggerIf(Entity::isInWater), 5),
+					Pair.of(BehaviorBuilder.triggerIf(Entity::onGround), 5)))
+				)
+			)
+		);
+	}*/
+
 	private static void addIdleActivities(Brain<PenguinEntity> brain) {
 		brain.addActivityWithConditions(
 			Activity.IDLE,
 			ImmutableList.of(
+				Pair.of(0, SetEntityLookTargetSometimes.create(EntityType.PLAYER, 6.0F, UniformInt.of(30, 60))),
 				Pair.of(0, new FollowTemptation(penguin -> 1.25f)),
 				//Pair.of(1, new CrabBreedTask(FriendsAndFoesEntityTypes.PENGUIN.get())),
 				Pair.of(2, BabyFollowAdult.create(UniformInt.of(5, 16), 1.25f)),
@@ -113,7 +141,6 @@ public final class PenguinBrain
 				)
 			),
 			ImmutableSet.of(
-				Pair.of(FriendsAndFoesMemoryModuleTypes.PENGUIN_SLAP_COOLDOWN.get(), MemoryStatus.VALUE_PRESENT),
 				Pair.of(FriendsAndFoesMemoryModuleTypes.PENGUIN_HAS_EGG.get(), MemoryStatus.VALUE_ABSENT),
 				Pair.of(FriendsAndFoesMemoryModuleTypes.PENGUIN_EGG_POS.get(), MemoryStatus.VALUE_ABSENT)
 			));
@@ -136,10 +163,6 @@ public final class PenguinBrain
 			penguin.getBrain().eraseMemory(FriendsAndFoesMemoryModuleTypes.PENGUIN_HAS_EGG.get());
 		}
 
-	}
-
-	public static void setSlapCooldown(PenguinEntity penguin) {
-		penguin.getBrain().setMemory(FriendsAndFoesMemoryModuleTypes.PENGUIN_SLAP_COOLDOWN.get(), SLAP_COOLDOWN_PROVIDER.sample(penguin.getRandom()));
 	}
 
 	public static Predicate<ItemStack> getTemptations() {
@@ -167,9 +190,7 @@ public final class PenguinBrain
 			MemoryModuleType.NEAREST_VISIBLE_PLAYER,
 			MemoryModuleType.NEAREST_VISIBLE_WANTED_ITEM,
 			FriendsAndFoesMemoryModuleTypes.PENGUIN_HAS_EGG.get(),
-			FriendsAndFoesMemoryModuleTypes.PENGUIN_EGG_POS.get(),
-			FriendsAndFoesMemoryModuleTypes.PENGUIN_SLAP_COOLDOWN.get()
+			FriendsAndFoesMemoryModuleTypes.PENGUIN_EGG_POS.get()
 		);
-		SLAP_COOLDOWN_PROVIDER = TimeUtil.rangeOfSeconds(20, 40);
 	}
 }

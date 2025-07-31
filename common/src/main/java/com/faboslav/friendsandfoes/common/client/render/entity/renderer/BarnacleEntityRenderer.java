@@ -19,7 +19,7 @@ import com.faboslav.friendsandfoes.common.client.render.entity.state.BarnacleRen
 //? >=1.21.3 {
 public class BarnacleEntityRenderer extends MobRenderer<BarnacleEntity, BarnacleRenderState, BarnacleEntityModel>
 //?} else {
-/*public final class BarnacleEntityRenderer extends MobRenderer<WildfireEntity, WildfireEntityModel<WildfireEntity>>
+/*public final class BarnacleEntityRenderer extends MobRenderer<BarnacleEntity, BarnacleEntityModel<BarnacleEntity>>
 *///?}
 {
 	private static final ResourceLocation BARNACLE_TEXTURE = FriendsAndFoes.makeID("textures/entity/barnacle/barnacle.png");

@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.model;
 
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.context.KeyframeAnimationContext;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.KeyframeModelAnimator;
@@ -161,7 +162,7 @@ public class CopperGolemEntityModel extends EntityModel<CopperGolemRenderState>
 		var animationContextTracker = copperGolem.getAnimationContextTracker();
 		var currentTick = copperGolem.tickCount;
 		var animationSpeedModifier = copperGolem.getAnimationSpeedModifier();
-
+		//FriendsAndFoes.getLogger().info("limbAngle: " + limbAngle + " | limbDistance: " + limbDistance + " | animationProgress: " + animationProgress);
 		KeyframeModelAnimator.updateMovementKeyframeAnimations(this, movementAnimation, limbAngle, limbDistance, 2.5F * copperGolem.getMovementSpeedModifier(), 3.5F * copperGolem.getMovementSpeedModifier(), animationSpeedModifier);
 		KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, animations, currentTick, animationProgress, animationSpeedModifier);
 	}

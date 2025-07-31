@@ -16,7 +16,7 @@ import com.faboslav.friendsandfoes.common.client.render.entity.state.PenguinRend
 //? >=1.21.3 {
 public class PenguinEntityRenderer extends MobRenderer<PenguinEntity, PenguinRenderState, PenguinEntityModel>
 //?} else {
-/*public final class PenguinEntityRenderer extends MobRenderer<WildfireEntity, WildfireEntityModel<WildfireEntity>>
+/*public final class PenguinEntityRenderer extends MobRenderer<PenguinEntity, PenguinEntityModel<PenguinEntity>>
 *///?}
 {
 	private static final ResourceLocation PENGUIN_TEXTURE = FriendsAndFoes.makeID("textures/entity/penguin/penguin.png");

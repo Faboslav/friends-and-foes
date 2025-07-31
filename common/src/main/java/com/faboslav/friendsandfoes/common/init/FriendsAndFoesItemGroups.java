@@ -97,7 +97,8 @@ public class FriendsAndFoesItemGroups
 		} else if (event.type() == AddItemGroupEntriesEvent.Type.INGREDIENTS) {
 			Stream.of(
 				FriendsAndFoesItems.WILDFIRE_CROWN_FRAGMENT,
-				FriendsAndFoesItems.CRAB_CLAW
+				FriendsAndFoesItems.CRAB_CLAW,
+				FriendsAndFoesItems.PENGUIN_FEATHER
 			).map(item -> item.get().getDefaultInstance()).forEach(event::add);
 		} else if (event.type() == AddItemGroupEntriesEvent.Type.COMBAT) {
 			Stream.of(

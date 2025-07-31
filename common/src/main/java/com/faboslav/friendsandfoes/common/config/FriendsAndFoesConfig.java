@@ -202,6 +202,11 @@ public final class FriendsAndFoesConfig
 	public int penguinSpawnMaxGroupSize = 8;
 
 	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = PENGUIN_GROUP)
+	@FloatSlider(min = 0.0F, max = 10.0F, step = 0.1F)
+	public float penguinBoatSpeedStatusEffectModifier = 0.2F;
+
+	@SerialEntry()
 	@AutoGen(category = MOBS_CATEGORY, group = ICEOLOGER_GROUP)
 	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
 	public boolean enableIceologer = true;

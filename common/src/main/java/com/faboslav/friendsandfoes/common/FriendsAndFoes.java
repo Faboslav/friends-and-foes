@@ -16,6 +16,7 @@ import com.faboslav.friendsandfoes.common.network.packet.EntityAnimationsSyncPac
 import com.faboslav.friendsandfoes.common.network.packet.MoobloomVariantsSyncPacket;
 import com.faboslav.friendsandfoes.common.platform.PlatformHooks;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.entity.BeaconBlockEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,6 +49,10 @@ public final class FriendsAndFoes
 
 	public static Logger getLogger() {
 		return LOGGER;
+	}
+
+	public static void earlyInit() {
+		//FriendsAndFoesBlockEntityTypes.earlyInit();
 	}
 
 	public static void init() {

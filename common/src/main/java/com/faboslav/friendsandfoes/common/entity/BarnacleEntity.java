@@ -40,6 +40,7 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
@@ -204,7 +205,7 @@ public final class BarnacleEntity extends Monster implements AnimatedEntity {
 	}
 
 	public boolean isMoving() {
-		return (this.onGround() || this.onClimbable()) && this.getDeltaMovement().lengthSqr() >= 0.0001;
+		return this.isInWater() && this.getDeltaMovement().lengthSqr() >= 0.0001;
 	}
 
 	public static boolean canSpawn(
@@ -289,6 +290,16 @@ public final class BarnacleEntity extends Monster implements AnimatedEntity {
 		} else {
 			super.travel(travelVector);
 		}
+	}
+
+	@Override
+	protected AABB getAttackBoundingBox() {
+		AABB original = super.getAttackBoundingBox();
+		return original.inflate(
+			-original.getXsize() / 4.0,
+			-original.getYsize() / 4.0,
+			-original.getZsize() / 4.0
+		);
 	}
 
 	private void updateKeyframeAnimations() {

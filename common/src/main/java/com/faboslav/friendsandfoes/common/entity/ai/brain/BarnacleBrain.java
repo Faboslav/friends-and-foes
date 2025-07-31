@@ -75,6 +75,8 @@ public final class BarnacleBrain
 			Activity.FIGHT,
 			10,
 			ImmutableList.of(
+				SetWalkTargetFromAttackTargetIfTargetOutOfReach.create(0.6F),
+				MeleeAttack.create(20)
 			),
 			MemoryModuleType.ATTACK_TARGET
 		);

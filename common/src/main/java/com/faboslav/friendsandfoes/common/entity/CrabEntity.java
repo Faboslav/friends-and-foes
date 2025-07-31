@@ -257,7 +257,7 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 		/*var attributes = Mob.createMobAttributes();
 		*///?}
 		return attributes
-			.add(Attributes.MAX_HEALTH, 15.0)
+			.add(Attributes.MAX_HEALTH, 12.0)
 			.add(Attributes.MOVEMENT_SPEED, MOVEMENT_SPEED)
 			.add(Attributes.ATTACK_DAMAGE, 2.0)
 			.add(Attributes.STEP_HEIGHT, 0.0F)

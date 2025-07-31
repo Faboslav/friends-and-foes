@@ -2,17 +2,18 @@ package com.faboslav.friendsandfoes.common.client.render.entity.feature;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.BarnacleEntityModel;
-import com.faboslav.friendsandfoes.common.client.render.entity.state.BarnacleRenderState;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
+//? if >=1.21.3 {
+import com.faboslav.friendsandfoes.common.client.render.entity.state.BarnacleRenderState;
 //?} else {
 /*import com.faboslav.friendsandfoes.common.entity.BarnacleEntity;
- *///?}
+*///?}
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 public final class BarnacleKelpFeatureRenderer extends RenderLayer<BarnacleRenderState, BarnacleEntityModel>
 //?} else {
 /*public final class BarnacleKelpFeatureRenderer extends RenderLayer<BarnacleEntity, BarnacleEntityModel<BarnacleEntity>>
@@ -25,7 +26,7 @@ public final class BarnacleKelpFeatureRenderer extends RenderLayer<BarnacleRende
 		super(renderLayerParent);
 	}
 	//?} else {
-	/*public BarnacleKelpHeadFeatureRenderer(RenderLayerParent<BarnacleEntity, BarnacleEntityModel<BarnacleEntity>> featureRendererContext) {
+	/*public BarnacleKelpFeatureRenderer(RenderLayerParent<BarnacleEntity, BarnacleEntityModel<BarnacleEntity>> featureRendererContext) {
 		super(featureRendererContext);
 	}*///?}
 

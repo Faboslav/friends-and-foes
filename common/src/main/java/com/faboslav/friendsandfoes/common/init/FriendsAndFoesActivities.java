@@ -23,7 +23,7 @@ public final class FriendsAndFoesActivities
 	public final static RegistryEntry<Activity> GLARE_SHOW_DARK_SPOT = ACTIVITIES.register("glare_show_dark_spot", () -> new Activity("glare_dark_spot"));
 	public final static RegistryEntry<Activity> PENGUIN_LAY_EGG = ACTIVITIES.register("penguin_lay_egg", () -> new Activity("penguin_lay_egg"));
 	public final static RegistryEntry<Activity> PENGUIN_GUARD_EGG = ACTIVITIES.register("penguin_guard_egg", () -> new Activity("penguin_guard_egg"));
-	public final static RegistryEntry<Activity> PENGUIN_SLAP = ACTIVITIES.register("penguin_slap", () -> new Activity("penguin_slap"));
+	public final static RegistryEntry<Activity> PENGUIN_SWIM = ACTIVITIES.register("penguin_swim", () -> new Activity("penguin_swim"));
 	public final static RegistryEntry<Activity> TUFF_GOLEM_HOME = ACTIVITIES.register("tuff_golem_home", () -> new Activity("tuff_golem_home"));
 	public final static RegistryEntry<Activity> RASCAL_WAIT = ACTIVITIES.register("rascal_wait", () -> new Activity("rascal_wait"));
 

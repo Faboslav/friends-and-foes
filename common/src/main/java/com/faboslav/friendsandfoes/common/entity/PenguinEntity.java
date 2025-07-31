@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.common.entity;
 
-
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.CrabBrain;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.PenguinBrain;
@@ -9,16 +8,20 @@ import com.faboslav.friendsandfoes.common.entity.animation.PenguinAnimations;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
 import com.faboslav.friendsandfoes.common.entity.pose.PenguinEntityPose;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
-import com.faboslav.friendsandfoes.common.util.RandomGenerator;
+import com.faboslav.friendsandfoes.common.versions.VersionedGameRulesProvider;
 import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
 import com.mojang.serialization.Dynamic;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.stats.Stats;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.*;
@@ -27,11 +30,11 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
+import net.minecraft.world.entity.ai.navigation.AmphibiousPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
@@ -43,6 +46,8 @@ import java.util.ArrayList;
 public final class PenguinEntity extends Animal implements AnimatedEntity {
 	private AnimationContextTracker animationContextTracker;
 	private static final EntityDataAccessor<Integer> POSE_TICKS;
+	private static final float MOVEMENT_SPEED = 0.2F;
+
 	public static final float GENERIC_ATTACK_DAMAGE = 8.0F;
 	public static final float GENERIC_FOLLOW_RANGE = 32.0F;
 
@@ -67,7 +72,6 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 		SpawnGroupData superEntityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData);
 
 		this.setPose(PenguinEntityPose.IDLE);
-		PenguinBrain.setSlapCooldown(this);
 
 		return superEntityData;
 	}
@@ -79,11 +83,6 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 
 	@Override
 	public void setBaby(boolean baby) {
-	}
-
-	@Override
-	public @Nullable AgeableMob getBreedOffspring(ServerLevel level, AgeableMob otherParent) {
-		return null;
 	}
 
 	@Override
@@ -106,7 +105,7 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 
 	@Override
 	public AnimationHolder getMovementAnimation() {
-		if(isInWater()) {
+		if(isUnderWater()) {
 			return PenguinAnimations.SWIM;
 		}
 
@@ -171,11 +170,9 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 		/*var attributes = Mob.createMobAttributes();
 		 *///?}
 		return attributes
-			.add(Attributes.MAX_HEALTH, 10.0D)
-			.add(Attributes.MOVEMENT_SPEED, 0.55D)
-			.add(Attributes.ATTACK_DAMAGE, 4.0)
-			.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
-			.add(Attributes.SCALE);
+			.add(Attributes.MAX_HEALTH, 12.0D)
+			.add(Attributes.MOVEMENT_SPEED, MOVEMENT_SPEED)
+			.add(Attributes.STEP_HEIGHT, 1.0D);
 	}
 
 	@Override
@@ -190,11 +187,11 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 
 	@Override
 	protected PathNavigation createNavigation(Level world) {
-		return new WaterBoundPathNavigation(this, world);
+		return new AmphibiousPathNavigation(this, world);
 	}
 
 	public boolean isMoving() {
-		return (this.onGround() || this.onClimbable()) && this.getDeltaMovement().lengthSqr() >= 0.0001;
+		return (this.isUnderWater() || (this.onGround() || this.onClimbable())) && this.getDeltaMovement().lengthSqr() >= 0.0001;
 	}
 
 	public static boolean canSpawn(
@@ -212,23 +209,58 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 	}
 
 	@Override
-	public boolean isPushedByFluid() {
-		return false;
+	protected float nextStep() {
+		return this.moveDist + 0.275f;
 	}
 
 	@Override
-	protected MovementEmission getMovementEmission() {
-		return MovementEmission.EVENTS;
+	public float getSpeed() {
+		if (this.isUnderWater()) {
+			return MOVEMENT_SPEED * 1.25F;
+		}
+
+		return MOVEMENT_SPEED;
 	}
 
 	@Override
-	public int getAmbientSoundInterval() {
-		return 160;
+	public boolean isFood(ItemStack itemStack) {
+		return PenguinBrain.getTemptations().test(itemStack);
 	}
 
 	@Override
-	public boolean isFood(ItemStack stack) {
-		return false;
+	@Nullable
+	public AgeableMob getBreedOffspring(ServerLevel serverWorld, AgeableMob entity) {
+		PenguinEntity penguin = FriendsAndFoesEntityTypes.PENGUIN.get().create(serverWorld/*? >=1.21.3 {*/, EntitySpawnReason.BREEDING/*?}*/);
+
+		return penguin;
+	}
+
+	@Override
+	public void spawnChildFromBreeding(ServerLevel world, Animal mate) {
+		ServerPlayer serverPlayerEntity = this.getLoveCause();
+
+		if (serverPlayerEntity == null && mate.getLoveCause() != null) {
+			serverPlayerEntity = mate.getLoveCause();
+		}
+
+		if (serverPlayerEntity != null) {
+			serverPlayerEntity.awardStat(Stats.ANIMALS_BRED);
+			CriteriaTriggers.BRED_ANIMALS.trigger(serverPlayerEntity, this, mate, null);
+		}
+
+		//this.setHasEgg(true);
+		this.resetLove();
+		mate.resetLove();
+		RandomSource random = this.getRandom();
+
+		if (VersionedGameRulesProvider.getGameRules(this).getBoolean(GameRules.RULE_DOMOBLOOT)) {
+			this.level().addFreshEntity(new ExperienceOrb(this.level(), this.getX(), this.getY(), this.getZ(), random.nextInt(7) + 1));
+		}
+	}
+
+	@Override
+	public int getMaxAirSupply() {
+		return 720;
 	}
 
 	@Override
@@ -238,8 +270,13 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 
 	@Override
 	public void playAmbientSound() {
+		if(this.isUnderWater()) {
+			return;
+		}
+
 		SoundEvent soundEvent = this.getAmbientSound();
-		this.playSound(soundEvent, 0.5F, RandomGenerator.generateFloat(1.25F, 1.45F));
+		super.playAmbientSound();
+		this.playSound(soundEvent, this.getSoundVolume() * 0.5F, this.getVoicePitch());
 	}
 
 	/*
@@ -259,11 +296,11 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 		BlockPos pos,
 		BlockState state
 	) {
-		if (!this.onGround() && state.liquid()) {
+		if (!this.onGround() || state.liquid()) {
 			return;
 		}
 
-		this.playSound(FriendsAndFoesSoundEvents.ENTITY_PENGUIN_STEP.get(), 0.15f, 1.0f + this.random.nextFloat() * 0.2f);
+		this.playSound(FriendsAndFoesSoundEvents.ENTITY_PENGUIN_STEP.get(), 0.1f, 1.0f + this.random.nextFloat() * 0.2f);
 	}
 
 	public boolean hasEgg() {
@@ -271,7 +308,7 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 	}
 
 	public void travel(Vec3 travelVector) {
-		if (this.isInWater()) {
+		if (this.isUnderWater()) {
 			this.moveRelative(this.getSpeed(), travelVector);
 			this.move(MoverType.SELF, this.getDeltaMovement());
 			this.setDeltaMovement(this.getDeltaMovement().scale(0.9));
@@ -299,8 +336,12 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 	public AnimationHolder getAnimationByPose() {
 		AnimationHolder animation = null;
 
-		if (this.isInPose(PenguinEntityPose.IDLE) && !this.isMoving()) {
-			animation = PenguinAnimations.IDLE;
+		if(this.isInPose(PenguinEntityPose.IDLE) && !this.isMoving()) {
+			if (this.isUnderWater()) {
+				animation = PenguinAnimations.IDLE_WATER;
+			} else {
+				animation = PenguinAnimations.IDLE;
+			}
 		}
 
 		return animation;

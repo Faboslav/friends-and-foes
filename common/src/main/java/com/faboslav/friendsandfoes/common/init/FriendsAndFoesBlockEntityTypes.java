@@ -16,6 +16,11 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
  */
 public final class FriendsAndFoesBlockEntityTypes
 {
+	public static void earlyInit() {
+		//BeaconBlockEntity.BEACON_EFFECTS.get(0).add(FriendsAndFoesStatusEffects.REACH.holder());
+		//BeaconBlockEntity.BEACON_EFFECTS.add(List.of(FriendsAndFoesStatusEffects.BOAT_SPEED.holder()));
+	}
+
 	public static void lateInit() {
 		Set<Block> beehiveBlocks = new HashSet<>(BlockEntityType.BEEHIVE.validBlocks);
 		Set<Block> modBeehiveBlocks = FriendsAndFoesBlocks.BLOCKS.stream()
@@ -24,7 +29,6 @@ public final class FriendsAndFoesBlockEntityTypes
 			.map(block -> (BeehiveBlock) block).collect(ImmutableSet.toImmutableSet());
 		beehiveBlocks.addAll(modBeehiveBlocks);
 		BlockEntityType.BEEHIVE.validBlocks = beehiveBlocks;
-		//BeaconBlockEntity.BEACON_EFFECTS.add(List.of(FriendsAndFoesStatusEffects.REACH.holder()));
 	}
 
 	private FriendsAndFoesBlockEntityTypes() {

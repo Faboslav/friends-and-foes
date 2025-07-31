@@ -355,7 +355,7 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 
 		this.setTargetEyesPositionOffset(
 			-0.5F + this.getRandom().nextFloat(),
-			-0.4F + this.getRandom().nextFloat() * (0.4F - -0.4F)
+			-0.4F + this.getRandom().nextFloat() * (0.8F)
 		);
 	}
 

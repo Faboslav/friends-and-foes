@@ -11,9 +11,11 @@ public final class PenguinAnimations
 	public static final AnimationHolder IDLE = AnimationLoader.INSTANCE.getAnimationHolder(FriendsAndFoes.makeID("penguin/idle"));
 	public static final AnimationHolder WALK = AnimationLoader.INSTANCE.getAnimationHolder(FriendsAndFoes.makeID("penguin/walk"));
 	public static final AnimationHolder SWIM = AnimationLoader.INSTANCE.getAnimationHolder(FriendsAndFoes.makeID("penguin/swim"));
+	public static final AnimationHolder IDLE_WATER = AnimationLoader.INSTANCE.getAnimationHolder(FriendsAndFoes.makeID("penguin/idle_water"));
 	public static final ArrayList<AnimationHolder> TRACKED_ANIMATIONS = new ArrayList<>()
 	{{
 		add(IDLE);
+		add(IDLE_WATER);
 	}};
 
 }

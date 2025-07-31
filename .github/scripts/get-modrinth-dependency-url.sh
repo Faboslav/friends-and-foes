@@ -18,9 +18,9 @@ if [ -z "$SANITIZED_DATA" ]; then
     exit 1
 fi
 
-# Extract the download URL for the specified loader and version
-DOWNLOAD_URL=$(echo "$SANITIZED_DATA" | jq -r --arg loader "$LOADER" --arg mod_version "$MOD_VERSION" \
-    '.[] | select(.version_number == $mod_version) | select(.loaders | index($loader)) | .files[] | select(.primary == true) | .url')
+# Extract the first matching download URL for the specified loader and version
+DOWNLOAD_URL=$(echo "$SANITIZED_DATA" | jq -r --arg loader "$LOADER" --arg mod_version "$MOD_VERSION" '
+    .[] | select(.version_number == $mod_version) | select(.loaders | index($loader)) | .files[] | select(.primary == true) | .url' | head -n 1)
 
 # Output the download URL
 if [ -n "$DOWNLOAD_URL" ]; then

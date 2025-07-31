@@ -1,25 +1,12 @@
 {
-	"entity.copper_golem.death": {
+	"entity.copper_golem.oxidation": {
 		"sounds": [
-			"friendsandfoes:entity/copper_golem/death"
+			"friendsandfoes:entity/copper_golem/oxidation1",
+			"friendsandfoes:entity/copper_golem/oxidation2",
+			"friendsandfoes:entity/copper_golem/oxidation3",
+			"friendsandfoes:entity/copper_golem/oxidation4"
 		],
-		"subtitle": "subtitle.entity.friendsandfoes.copper_golem.death"
-	},
-	"entity.copper_golem.head_spin": {
-		"sounds": [
-			"friendsandfoes:entity/copper_golem/head_spin1",
-			"friendsandfoes:entity/copper_golem/head_spin2"
-		],
-		"subtitle": "subtitle.entity.friendsandfoes.copper_golem.head_spin"
-	},
-	"entity.copper_golem.hurt": {
-		"sounds": [
-			"friendsandfoes:entity/copper_golem/hurt1",
-			"friendsandfoes:entity/copper_golem/hurt2",
-			"friendsandfoes:entity/copper_golem/hurt3",
-			"friendsandfoes:entity/copper_golem/hurt4"
-		],
-		"subtitle": "subtitle.entity.friendsandfoes.copper_golem.hurt"
+		"subtitle": "subtitle.entity.friendsandfoes.copper_golem.oxidation"
 	},
 	"entity.copper_golem.repair": {
 		"sounds": [
@@ -27,12 +14,141 @@
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.copper_golem.repair"
 	},
+	"entity.copper_golem.spawn": {
+		"sounds": [
+			"friendsandfoes:entity/copper_golem/spawn"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.copper_golem.spawn"
+	},
+	"entity.copper_golem.death": {
+		"sounds": [
+			"friendsandfoes:entity/copper_golem/regular/death"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.copper_golem.death"
+	},
+	"entity.copper_golem.hurt": {
+		"sounds": [
+			"friendsandfoes:entity/copper_golem/regular/hurt1",
+			"friendsandfoes:entity/copper_golem/regular/hurt2",
+			"friendsandfoes:entity/copper_golem/regular/hurt3",
+			"friendsandfoes:entity/copper_golem/regular/hurt4"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.copper_golem.hurt"
+	},
+	"entity.copper_golem.spin": {
+		"sounds": [
+			"friendsandfoes:entity/copper_golem/regular/spin1",
+			"friendsandfoes:entity/copper_golem/regular/spin2",
+			"friendsandfoes:entity/copper_golem/regular/spin3",
+			"friendsandfoes:entity/copper_golem/regular/spin4",
+			"friendsandfoes:entity/copper_golem/regular/spin5",
+			"friendsandfoes:entity/copper_golem/regular/spin6",
+			"friendsandfoes:entity/copper_golem/regular/spin7"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.copper_golem.head_spin"
+	},
 	"entity.copper_golem.step": {
 		"sounds": [
-			"friendsandfoes:entity/copper_golem/step1",
-			"friendsandfoes:entity/copper_golem/step2",
-			"friendsandfoes:entity/copper_golem/step3",
-			"friendsandfoes:entity/copper_golem/step4"
+			"friendsandfoes:entity/copper_golem/regular/step1",
+			"friendsandfoes:entity/copper_golem/regular/step2",
+			"friendsandfoes:entity/copper_golem/regular/step3",
+			"friendsandfoes:entity/copper_golem/regular/step4",
+			"friendsandfoes:entity/copper_golem/regular/step5",
+			"friendsandfoes:entity/copper_golem/regular/step6",
+			"friendsandfoes:entity/copper_golem/regular/step7",
+			"friendsandfoes:entity/copper_golem/regular/step8",
+			"friendsandfoes:entity/copper_golem/regular/step9"
+		],
+		"subtitle": "subtitles.block.generic.footsteps"
+	},
+	"entity.copper_golem_become_statue": {
+		"sounds": [
+			"block/copper_statue/become_statue1",
+			"block/copper_statue/become_statue2",
+			"block/copper_statue/become_statue3",
+			"block/copper_statue/become_statue4"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.copper_golem_become_statue"
+	},
+	"entity.copper_golem_oxidized.death": {
+		"sounds": [
+			"friendsandfoes:entity/copper_golem/oxidized/death"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.copper_golem.death"
+	},
+	"entity.copper_golem_oxidized.hurt": {
+		"sounds": [
+			"friendsandfoes:entity/copper_golem/oxidized/hurt1",
+			"friendsandfoes:entity/copper_golem/oxidized/hurt2",
+			"friendsandfoes:entity/copper_golem/oxidized/hurt3",
+			"friendsandfoes:entity/copper_golem/oxidized/hurt4"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.copper_golem.hurt"
+	},
+	"entity.copper_golem_oxidized.spin": {
+		"sounds": [
+			"friendsandfoes:entity/copper_golem/oxidized/spin1",
+			"friendsandfoes:entity/copper_golem/oxidized/spin2",
+			"friendsandfoes:entity/copper_golem/oxidized/spin3",
+			"friendsandfoes:entity/copper_golem/oxidized/spin4",
+			"friendsandfoes:entity/copper_golem/oxidized/spin5",
+			"friendsandfoes:entity/copper_golem/oxidized/spin6",
+			"friendsandfoes:entity/copper_golem/oxidized/spin7"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.copper_golem.head_spin"
+	},
+	"entity.copper_golem_oxidized.step": {
+		"sounds": [
+			"friendsandfoes:entity/copper_golem/oxidized/step1",
+			"friendsandfoes:entity/copper_golem/oxidized/step2",
+			"friendsandfoes:entity/copper_golem/oxidized/step3",
+			"friendsandfoes:entity/copper_golem/oxidized/step4",
+			"friendsandfoes:entity/copper_golem/oxidized/step5",
+			"friendsandfoes:entity/copper_golem/oxidized/step6",
+			"friendsandfoes:entity/copper_golem/oxidized/step7",
+			"friendsandfoes:entity/copper_golem/oxidized/step8",
+			"friendsandfoes:entity/copper_golem/oxidized/step9"
+		],
+		"subtitle": "subtitles.block.generic.footsteps"
+	},
+	"entity.copper_golem_weathered.death": {
+		"sounds": [
+			"friendsandfoes:entity/copper_golem/weathered/death"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.copper_golem.death"
+	},
+	"entity.copper_golem_weathered.hurt": {
+		"sounds": [
+			"friendsandfoes:entity/copper_golem/weathered/hurt1",
+			"friendsandfoes:entity/copper_golem/weathered/hurt2",
+			"friendsandfoes:entity/copper_golem/weathered/hurt3",
+			"friendsandfoes:entity/copper_golem/weathered/hurt4"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.copper_golem.hurt"
+	},
+	"entity.copper_golem_weathered.spin": {
+		"sounds": [
+			"friendsandfoes:entity/copper_golem/weathered/spin1",
+			"friendsandfoes:entity/copper_golem/weathered/spin2",
+			"friendsandfoes:entity/copper_golem/weathered/spin3",
+			"friendsandfoes:entity/copper_golem/weathered/spin4",
+			"friendsandfoes:entity/copper_golem/weathered/spin5",
+			"friendsandfoes:entity/copper_golem/weathered/spin6",
+			"friendsandfoes:entity/copper_golem/weathered/spin7"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.copper_golem.head_spin"
+	},
+	"entity.copper_golem_weathered.step": {
+		"sounds": [
+			"friendsandfoes:entity/copper_golem/weathered/step1",
+			"friendsandfoes:entity/copper_golem/weathered/step2",
+			"friendsandfoes:entity/copper_golem/weathered/step3",
+			"friendsandfoes:entity/copper_golem/weathered/step4",
+			"friendsandfoes:entity/copper_golem/weathered/step5",
+			"friendsandfoes:entity/copper_golem/weathered/step6",
+			"friendsandfoes:entity/copper_golem/weathered/step7",
+			"friendsandfoes:entity/copper_golem/weathered/step8",
+			"friendsandfoes:entity/copper_golem/weathered/step9"
 		],
 		"subtitle": "subtitles.block.generic.footsteps"
 	},

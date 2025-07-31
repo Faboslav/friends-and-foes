@@ -136,6 +136,8 @@
 	"subtitle.entity.friendsandfoes.glare.hurt": "Glare hurts",
 	"subtitle.entity.friendsandfoes.glare.rustle": "Glare grumps",
 	"subtitle.entity.friendsandfoes.glare.shake": "Glare shakes off glow berries",
+	"subtitle.entity.friendsandfoes.copper_golem.oxidation": "Copper Golem oxidizes",
+	"subtitle.entity.friendsandfoes.copper_golem.spawn": "Copper Golem clanks",
 	"subtitle.entity.friendsandfoes.copper_golem.death": "Copper Golem dies",
 	"subtitle.entity.friendsandfoes.copper_golem.head_spin": "Copper Golem spins head",
 	"subtitle.entity.friendsandfoes.copper_golem.hurt": "Copper Golem hurts",

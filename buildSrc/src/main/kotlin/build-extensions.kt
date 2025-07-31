@@ -33,6 +33,8 @@ value class ModData(private val project: Project) {
 	val author: String get() = modProp("author")
 	val description: String get() = modProp("description")
 	val license: String get() = modProp("license")
+	val github: String get() = modProp("github")
+	val discord: String get() = modProp("discord")
 	val mc: String get() = depOrNull("minecraft") ?: project.stonecutterBuild.current.version
 
 	fun propOrNull(key: String) = project.prop(key)

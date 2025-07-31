@@ -69,6 +69,8 @@ tasks {
 			"modAuthor" to commonMod.author,
 			"modDescription" to commonMod.description,
 			"modLicense" to commonMod.license,
+			"modGitHub" to commonMod.github,
+			"modDiscord" to commonMod.discord,
 			"minecraftVersion" to commonMod.propOrNull("minecraft_version"),
 			"minMinecraftVersion" to commonMod.propOrNull("min_minecraft_version"),
 			"fabricLoaderVersion" to commonMod.depOrNull("fabric-loader"),

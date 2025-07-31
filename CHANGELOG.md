@@ -1,3 +1,8 @@
+## 4.0.8
+- Fixed invalid translation file
+- Statue poses of copper golem can now be changed by right clicking
+- Changed copper golem sounds
+
 ## 4.0.7
 
 - Player illusion can now be summoned with a command (and without any time restriction)

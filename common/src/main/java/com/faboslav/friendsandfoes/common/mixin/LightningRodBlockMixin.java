@@ -8,12 +8,15 @@ import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.
 import com.faboslav.friendsandfoes.common.entity.pose.CopperGolemEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.util.CopperGolemBuildPatternPredicates;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -156,6 +159,7 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 		CopperGolemBrain.setPressButtonCooldown(copperGolem);
 
 		world.addFreshEntity(copperGolem);
+		copperGolem.playSound(FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_SPAWN.get(), 1.0F, copperGolem.getVoicePitch());
 
 		for (ServerPlayer serverPlayerEntity : world.getEntitiesOfClass(
 			ServerPlayer.class,

@@ -118,7 +118,8 @@ jobs:
                 version: ${{ matrix.mod_loader }}-${{ steps.gradle-properties.outputs.MOD_VERSION }}+mc${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}
                 loaders: ${{ join(matrix.supported_mod_loaders, ' ') }}
                 game-versions: |
-                    ${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}
+                    ${{ join(fromJSON('["' + replace(steps.gradle-properties.outputs.COMPATIBLE_MINECRAFT_VERSIONS, ', +', '","') + '"]'), '
+                    ') }}
                 changelog-file: RELEASE_CHANGELOG.md
                 files: |
                     ${{ matrix.mod_loader }}/versions/${{ matrix.version }}/build/libs/!(*-@(dev|dev-shadow|sources|javadoc)).jar

@@ -319,17 +319,28 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 	}
 
 	@Override
-	public float getVoicePitch() {
-		return (this.getRandom().nextFloat() - this.getRandom().nextFloat()) * 0.2F + 2.5F;
-	}
-
-	@Override
 	protected SoundEvent getHurtSound(DamageSource source) {
+		var oxidationLevel = this.getOxidationLevel();
+
+		if(oxidationLevel == WeatheringCopper.WeatherState.OXIDIZED) {
+			return FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_OXIDIZED_HURT.get();
+		} else if(oxidationLevel == WeatheringCopper.WeatherState.WEATHERED) {
+			return FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_WEATHERED_HURT.get();
+		}
+
 		return FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_HURT.get();
 	}
 
 	@Override
 	protected SoundEvent getDeathSound() {
+		var oxidationLevel = this.getOxidationLevel();
+
+		if(oxidationLevel == WeatheringCopper.WeatherState.OXIDIZED) {
+			return FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_OXIDIZED_DEATH.get();
+		} else if(oxidationLevel == WeatheringCopper.WeatherState.WEATHERED) {
+			return FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_WEATHERED_DEATH.get();
+		}
+
 		return FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_DEATH.get();
 	}
 
@@ -347,7 +358,19 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 
 		BlockState blockState = this.level().getBlockState(pos.above());
 		SoundType blockSoundGroup = blockState.is(BlockTags.INSIDE_STEP_SOUND_BLOCKS) ? blockState.getSoundType():state.getSoundType();
-		this.playSound(FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_STEP.get(), blockSoundGroup.getVolume() * 0.15F, this.getVoicePitch());
+
+		var oxidationLevel = this.getOxidationLevel();
+		SoundEvent stepSound;
+
+		if(oxidationLevel == WeatheringCopper.WeatherState.OXIDIZED) {
+			stepSound = FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_OXIDIZED_STEP.get();
+		} else if(oxidationLevel == WeatheringCopper.WeatherState.WEATHERED) {
+			stepSound = FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_WEATHERED_STEP.get();
+		} else {
+			stepSound = FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_STEP.get();
+		}
+
+		this.playSound(stepSound, blockSoundGroup.getVolume() * 0.15F, this.getVoicePitch());
 	}
 
 	@Override
@@ -414,6 +437,8 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 			interactionResult = this.tryToInteractMobWithHoneycomb(player, itemStack);
 		} else if (itemInHand instanceof AxeItem) {
 			interactionResult = this.tryToInteractMobWithAxe(player, hand, itemStack);
+		} else {
+			interactionResult = this.tryToInteractMobWithHand();
 		}
 
 		if (interactionResult) {
@@ -496,6 +521,50 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 		return true;
 	}
 
+	private boolean tryToInteractMobWithHand() {
+		if (this.isWaxed() || !this.isOxidized()) {
+			return false;
+		}
+
+		if (this.level() instanceof ServerLevel) {
+			ArrayList<AnimationHolder> possibleAnimations = new ArrayList<>()
+			{{
+				add(CopperGolemAnimations.IDLE);
+				add(CopperGolemAnimations.SPIN_HEAD);
+				add(CopperGolemAnimations.PRESS_BUTTON_UP);
+				add(CopperGolemAnimations.PRESS_BUTTON_DOWN);
+			}};
+			int randomPoseIndex = this.getRandom().nextInt(possibleAnimations.size());
+			AnimationHolder randomAnimation = possibleAnimations.get(randomPoseIndex);
+			CopperGolemEntityPose copperGolemEntityPose = CopperGolemEntityPose.IDLE;
+
+			if(randomAnimation == CopperGolemAnimations.SPIN_HEAD) {
+				copperGolemEntityPose = CopperGolemEntityPose.SPIN_HEAD;
+			} else if(randomAnimation == CopperGolemAnimations.PRESS_BUTTON_UP) {
+				copperGolemEntityPose = CopperGolemEntityPose.PRESS_BUTTON_UP;
+			} else if(randomAnimation == CopperGolemAnimations.PRESS_BUTTON_DOWN) {
+				copperGolemEntityPose = CopperGolemEntityPose.PRESS_BUTTON_DOWN;
+			}
+
+			this.setPose(copperGolemEntityPose);
+			int keyFrameAnimationLengthInTicks = randomAnimation.get().lengthInTicks();
+			int randomKeyframeAnimationTick = this.getRandom().nextIntBetweenInclusive(0, keyFrameAnimationLengthInTicks);
+			this.setCurrentAnimationTick(randomKeyframeAnimationTick);
+			this.playSound(FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_OXIDATION.get(), this.getSoundVolume(), this.getVoicePitch());
+		}
+
+		return true;
+	}
+
+	@Override
+	protected void updateWalkAnimation(float f) {
+		if(this.isImmobilized()) {
+			return;
+		}
+
+		super.updateWalkAnimation(f);
+	}
+
 	@Override
 	protected void customServerAiStep(/*? >=1.21.3 {*/ServerLevel level/*?}*/)
 	{
@@ -523,7 +592,7 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 
 	@Override
 	public void tick() {
-		if (FriendsAndFoes.getConfig().enableCopperGolem == false) {
+		if (!FriendsAndFoes.getConfig().enableCopperGolem) {
 			this.discard();
 		}
 
@@ -703,7 +772,18 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 			return;
 		}
 
-		this.playSound(FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_HEAD_SPIN.get(), 1.0F, this.getVoicePitch() - 1.5F);
+		var oxidationLevel = this.getOxidationLevel();
+		SoundEvent spinHeadSound;
+
+		if(oxidationLevel == WeatheringCopper.WeatherState.OXIDIZED) {
+			spinHeadSound = FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_OXIDIZED_SPIN.get();
+		} else if(oxidationLevel == WeatheringCopper.WeatherState.WEATHERED) {
+			spinHeadSound = FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_WEATHERED_SPIN.get();
+		} else {
+			spinHeadSound = FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_SPIN.get();
+		}
+
+		this.playSound(spinHeadSound, this.getSoundVolume(), this.getVoicePitch());
 		this.gameEvent(GameEvent.ENTITY_ACTION);
 		this.setPose(CopperGolemEntityPose.SPIN_HEAD);
 	}
@@ -735,6 +815,7 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 			int degradedOxidationLevelOrdinal = getOxidationLevel().ordinal() + 1;
 			WeatheringCopper.WeatherState[] OxidationLevels = WeatheringCopper.WeatherState.values();
 			this.setOxidationLevel(OxidationLevels[degradedOxidationLevelOrdinal]);
+			this.playSound(FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_OXIDATION.get(), this.getSoundVolume(), this.getVoicePitch());
 		}
 	}
 

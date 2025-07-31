@@ -103,15 +103,11 @@ jobs:
         -   name: Publish ${{ matrix.mod_loader }}
             uses: Kir-Antipov/mc-publish@v3.3.0
             with:
-                github-token: ${{ secrets.GITHUB_TOKEN }}
-                github-tag: mc${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}-${{ steps.gradle-properties.outputs.MOD_VERSION }}
-                github-commitish: ${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}
-
-                curseforge-id: ${{ matrix.curseforge_project_id }}
+                curseforge-id: a${{ matrix.curseforge_project_id }}
                 curseforge-token: ${{ secrets.CURSEFORGE_RELEASE_TOKEN }}
 
                 modrinth-featured: true
-                modrinth-id: ${{ matrix.modrinth_project_id }}
+                modrinth-id: b${{ matrix.modrinth_project_id }}
                 modrinth-token: ${{ secrets.MODRINTH_RELEASE_TOKEN }}
 
                 name: ${{ steps.gradle-properties.outputs.MOD_NAME }} ${{ steps.gradle-properties.outputs.MOD_VERSION }}

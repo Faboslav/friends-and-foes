@@ -32,6 +32,7 @@ jobs:
                 with:
                     cache-read-only: false
                     gradle-version: wrapper
+                    add-job-summary: 'on-failure'
 
             -   name: "Parse gradle properties"
                 id: gradle-properties

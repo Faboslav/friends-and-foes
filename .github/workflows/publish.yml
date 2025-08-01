@@ -37,6 +37,7 @@ jobs:
                 with:
                     cache-read-only: false
                     gradle-version: wrapper
+                    add-job-summary: 'on-failure'
 
             - name: "Run build"
               run: ./gradlew build
@@ -102,6 +103,7 @@ jobs:
             with:
                 cache-read-only: true
                 gradle-version: wrapper
+                add-job-summary: 'on-failure'
 
         -   name: "Switch active versions"
             run: ./gradlew "Set active project to ${{ matrix.version }}"

@@ -12,12 +12,8 @@ on:
 jobs:
     build:
         runs-on: ubuntu-latest
-        strategy:
-            fail-fast: false
         name: Run build
         timeout-minutes: 30
-        outputs:
-            matrix: ${{ steps.set-matrix.outputs.matrix }}
 
         steps:
             -   name: "Checkout repository"
@@ -59,13 +55,28 @@ jobs:
             -   name: "Generate matrix for the run job"
                 id: set-matrix
                 run: ./.github/scripts/generate-run-matrix.sh
+    
+    generate-build-matrix:
+        runs-on: ubuntu-latest
+        name: Generate build matrix
+        outputs:
+            matrix: ${{ steps.set-matrix.outputs.matrix }}
+        steps:
+            -   name: "Checkout repository"
+                uses: actions/checkout@v4
+                with:
+                    fetch-depth: 1
+
+            -   name: "Generate matrix for the run job"
+                id: set-matrix
+                run: ./.github/scripts/generate-run-matrix.sh
 
     run-client:
         runs-on: ubuntu-latest
-        needs: build
+        needs: [build, generate-build-matrix]
         strategy:
             fail-fast: false
-            matrix: ${{ fromJson(needs.build.outputs.matrix) }}
+            matrix: ${{ fromJson(needs.generate-build-matrix.outputs.matrix) }}
 
         name: Run ${{ matrix.mod_loader }} ${{ matrix.version }} ${{ matrix.script }} client
         timeout-minutes: 10
@@ -120,10 +131,10 @@ jobs:
 
     run-server:
         runs-on: ubuntu-latest
-        needs: build
+        needs: [build, generate-build-matrix]
         strategy:
             fail-fast: false
-            matrix: ${{ fromJson(needs.build.outputs.matrix) }}
+            matrix: ${{ fromJson(needs.generate-build-matrix.outputs.matrix) }}
 
         name: Run ${{ matrix.mod_loader }} ${{ matrix.version }} ${{ matrix.script }} server
         timeout-minutes: 10

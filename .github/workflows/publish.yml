@@ -19,14 +19,12 @@ jobs:
         name: "Build project"
         runs-on: ubuntu-latest
         timeout-minutes: 30
-        outputs:
-            matrix: ${{ steps.set-matrix.outputs.matrix }}
 
         steps:
             -   name: "Checkout repository"
                 uses: actions/checkout@v4
                 with:
-                    fetch-depth: 0
+                    fetch-depth: 1
 
             -   name: "Set up JDK"
                 uses: actions/setup-java@v4
@@ -43,25 +41,36 @@ jobs:
             - name: "Run build"
               run: ./gradlew build
 
-            -   name: "Generate matrix for the run job"
+    generate-publish-matrix:
+        runs-on: ubuntu-latest
+        name: Generate build matrix
+        outputs:
+            matrix: ${{ steps.set-matrix.outputs.matrix }}
+        steps:
+            -   name: "Checkout repository"
+                uses: actions/checkout@v4
+                with:
+                    fetch-depth: 1
+
+            -   name: "Generate matrix for the publish job"
                 id: set-matrix
                 run: ./.github/scripts/generate-publish-matrix.sh "${{ inputs.mod_loaders }}" "${{ inputs.versions }}" ${{ vars.CURSEFORGE_FABRIC_PROJECT_ID }} ${{ vars.CURSEFORGE_FORGE_PROJECT_ID }} ${{ vars.MODRINTH_FABRIC_PROJECT_ID }} ${{ vars.MODRINTH_FORGE_PROJECT_ID }}
 
     publish:
         runs-on: ubuntu-latest
-        needs: build
+        needs: [build, generate-publish-matrix]
         name: Publish ${{ matrix.mod_loader }} ${{ matrix.version }}
         timeout-minutes: 60
         strategy:
             max-parallel: 3
             fail-fast: false
-            matrix: ${{ fromJson(needs.build.outputs.matrix) }}
+            matrix: ${{ fromJson(needs.generate-publish-matrix.outputs.matrix) }}
 
         steps:
         -   name: "Checkout repository"
             uses: actions/checkout@v4
             with:
-                fetch-depth: 0
+                fetch-depth: 1
 
         -   name: "Parse gradle properties"
             id: gradle-properties
@@ -103,29 +112,26 @@ jobs:
         -   name: Publish ${{ matrix.mod_loader }}
             uses: Kir-Antipov/mc-publish@v3.3.0
             with:
-                curseforge-id: a${{ matrix.curseforge_project_id }}
+                github-token: ${{ secrets.GITHUB_TOKEN }}
+                github-tag: mc${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}-${{ steps.gradle-properties.outputs.MOD_VERSION }}
+                github-commitish: ${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}
+
+                curseforge-id: ${{ matrix.curseforge_project_id }}
                 curseforge-token: ${{ secrets.CURSEFORGE_RELEASE_TOKEN }}
 
                 modrinth-featured: true
-                modrinth-id: b${{ matrix.modrinth_project_id }}
+                modrinth-id: ${{ matrix.modrinth_project_id }}
                 modrinth-token: ${{ secrets.MODRINTH_RELEASE_TOKEN }}
 
                 name: ${{ steps.gradle-properties.outputs.MOD_NAME }} ${{ steps.gradle-properties.outputs.MOD_VERSION }}
                 version: ${{ matrix.mod_loader }}-${{ steps.gradle-properties.outputs.MOD_VERSION }}+mc${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}
                 loaders: ${{ join(matrix.supported_mod_loaders, ' ') }}
-                game-versions: ${{ join(steps.gradle-properties.outputs.COMPATIBLE_MINECRAFT_VERSIONS, ' ') }}
+                game-versions: |
+                    >=${{ steps.gradle-properties.outputs.MIN_MINECRAFT_VERSION }} <=${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}
+                game-version-filter: releases
                 changelog-file: RELEASE_CHANGELOG.md
                 files: |
                     ${{ matrix.mod_loader }}/versions/${{ matrix.version }}/build/libs/!(*-@(dev|dev-shadow|sources|javadoc)).jar
 
-    clear-cache:
-        needs: publish
-        runs-on: ubuntu-latest
-        name: "Clear cache"
-        timeout-minutes: 60
-        steps:
-            -   uses: MyAlbum/purge-cache@v2
-                with:
-                    accessed: true
-                    created: true
-                    max-age: 21600
+                retry-attempts: 6
+                retry-delay: 30000

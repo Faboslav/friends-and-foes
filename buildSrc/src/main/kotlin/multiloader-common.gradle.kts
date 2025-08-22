@@ -1,7 +1,7 @@
 plugins {
-	id("java")
-	id("idea")
+	id("java-gradle-plugin")
 	id("java-library")
+	id("idea")
 }
 
 version = "${loader}-${commonMod.version}+mc${stonecutterBuild.current.version}"

@@ -1,6 +1,4 @@
 plugins {
-	id("java")
-	id("idea")
     id("multiloader-common")
 }
 

@@ -1,3 +1,7 @@
+## 4.0.9
+
+- Improved crab breeding logic
+
 ## 4.0.8
 
 - Fixed es_mx translation

@@ -39,7 +39,7 @@ jobs:
                 run: ./.github/scripts/parse-gradle-properties.sh
 
             -   name: "Run build"
-                run: ./gradlew build --stacktrace
+                run: ./gradlew build --debug --info --stacktrace
 
             -   name: "Prepare artifacts"
                 run: |

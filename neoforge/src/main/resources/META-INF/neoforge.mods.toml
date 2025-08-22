@@ -1,7 +1,7 @@
 modLoader = "javafml"
 loaderVersion = "*"
 license = "${modLicense}"
-issueTrackerURL = "https://github.com/Faboslav/friends-and-foes/issues"
+issueTrackerURL = "${modGitHub}/issues"
 
 [[mods]]
 modId = "${modId}"
@@ -11,7 +11,7 @@ authors = "${modAuthor}"
 description = "${modDescription}"
 logoFile = "icon.png"
 logoBlur = false
-displayURL = "https://github.com/Faboslav/friends-and-foes"
+displayURL = "${modGitHub}"
 
 [[mixins]]
 config = "friendsandfoes-neoforge.mixins.json"

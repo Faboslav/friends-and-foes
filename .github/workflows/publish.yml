@@ -44,7 +44,7 @@ jobs:
 
     generate-publish-matrix:
         runs-on: ubuntu-latest
-        name: Generate build matrix
+        name: Generate publish matrix
         outputs:
             matrix: ${{ steps.set-matrix.outputs.matrix }}
         steps:

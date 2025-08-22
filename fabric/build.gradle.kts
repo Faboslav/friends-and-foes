@@ -54,7 +54,6 @@ dependencies {
 
 loom {
 	accessWidenerPath = common.project.file("../../src/main/resources/${mod.id}.accesswidener")
-	//accessWidenerPath = project(":common:${stonecutter.current.project}").loom.accessWidenerPath
 
 	runs {
 		getByName("client") {

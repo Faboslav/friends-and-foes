@@ -1,3 +1,8 @@
+val isCi = System.getenv("CI") == "true"
+gradle.startParameter.isParallelProjectExecutionEnabled = !isCi
+gradle.startParameter.isBuildCacheEnabled = !isCi
+gradle.startParameter.isConfigureOnDemand = !isCi
+
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -11,7 +16,7 @@ pluginManagement {
 }
 
 plugins {
-	id("dev.kikugie.stonecutter") version "0.7.7"
+	id("dev.kikugie.stonecutter") version "0.7"
 	id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
 }
 

@@ -139,11 +139,11 @@ public class DynamicGridWidget extends AbstractLayout {
 			child.widget().setY(currentY);
 			child.widget().setWidth(thisCellWidth - padding * 2);
 
-			/*? >=1.21 {*/
+			//? >=1.21 {
 			child.widget().setHeight(thisCellHeight - padding * 2);
-			/*?} else {*/
-			/*child.widget().height = (thisCellHeight - padding * 2);
-			 *//*?}*/
+			//?} else {
+			/*((AbstractWidgetInvoker)child.widget()).setHeight((thisCellHeight - padding * 2));
+			 *///?}
 
 			currentX += thisCellWidth;
 			if (currentX >= this.width) {
@@ -159,6 +159,7 @@ public class DynamicGridWidget extends AbstractLayout {
 		this.children.stream().map(GridItem::widget).forEach(consumer);
 	}
 
-	public record GridItem(int cellHeight, int cellWidth, AbstractWidget widget) {
+	public record GridItem(int cellHeight, int cellWidth, AbstractWidget widget)
+	{
 	}
 }

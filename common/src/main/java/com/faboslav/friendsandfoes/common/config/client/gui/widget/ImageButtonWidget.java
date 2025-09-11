@@ -99,18 +99,18 @@ public class ImageButtonWidget extends AbstractWidget
 						// Scale the image to fit within the width and height of the button.
 						//? >= 1.21.6 {
 						context.pose().pushMatrix();
-						 //?} else {
+						//?} else {
 						/*context.pose().pushPose();
-						*///?}
+						 *///?}
 						// gl bilinear scaling.
 						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 						contentImage.render(context, getX(), getY(), (int) Math.max(neededWidth, this.width), delta);
 						//? >= 1.21.6 {
 						context.pose().popMatrix();
-						 //?} else {
+						//?} else {
 						/*context.pose().popPose();
-						*///?}
+						 *///?}
 
 						// reset gl scaling
 
@@ -153,15 +153,15 @@ public class ImageButtonWidget extends AbstractWidget
 		//?} else {
 		/*context.pose().pushPose();
 		context.pose().scale(fontScaling, fontScaling, 1.0f);
-		*///?}
+		 *///?}
 
 		renderScrollingString(context, client.font, getMessage(), textX, textY, endX, endY, 0xFFFFFFFF);
 
 		//? >= 1.21.6 {
 		context.pose().popMatrix();
-		 //?} else {
+		//?} else {
 		/*context.pose().popPose();
-		*///?}
+		 *///?}
 
 		// Draw border.
 		context.renderOutline(getX(), getY(), width, height, 0x0FFFFFFF);

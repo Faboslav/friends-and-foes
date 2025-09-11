@@ -1,3 +1,8 @@
+## 4.0.10
+
+- Fixed catalogue related crash
+- Fixed config related crash
+
 ## 4.0.9
 
 - Improved crab breeding logic

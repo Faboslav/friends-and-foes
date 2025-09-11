@@ -2,6 +2,7 @@
 
 - Fixed catalogue related crash
 - Fixed config related crash
+- Nerfed iceologr and illusioner max health to 24
 
 ## 4.0.9
 

@@ -18,6 +18,8 @@ import net.minecraft.world.entity.player.PlayerModelPart;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier.Builder;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -94,6 +96,11 @@ public final class PlayerIllusionEntity extends Mob
 		}
 
 		return super.finalizeSpawn(world, difficulty, spawnReason, entityData);
+	}
+
+	public static Builder createPlayerIllusionAttributes() {
+		return Mob.createMobAttributes()
+			.add(Attributes.ATTACK_DAMAGE, 1.0);
 	}
 
 	@Override

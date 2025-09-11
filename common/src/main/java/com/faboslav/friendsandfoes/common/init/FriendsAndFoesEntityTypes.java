@@ -68,7 +68,7 @@ public final class FriendsAndFoesEntityTypes
 		event.register(FriendsAndFoesEntityTypes.RASCAL.get(), RascalEntity.createRascalAttributes());
 		event.register(FriendsAndFoesEntityTypes.TUFF_GOLEM.get(), TuffGolemEntity.createTuffGolemAttributes());
 		event.register(FriendsAndFoesEntityTypes.WILDFIRE.get(), WildfireEntity.createWildfireAttributes());
-		event.register(FriendsAndFoesEntityTypes.PLAYER_ILLUSION.get(), PlayerIllusionEntity.createMobAttributes());
+		event.register(FriendsAndFoesEntityTypes.PLAYER_ILLUSION.get(), PlayerIllusionEntity.createPlayerIllusionAttributes());
 	}
 
 	public static void registerEntitySpawnRestrictions(RegisterEntitySpawnRestrictionsEvent event) {

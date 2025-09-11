@@ -100,7 +100,10 @@ public final class PlayerIllusionEntity extends Mob
 
 	public static Builder createPlayerIllusionAttributes() {
 		return Mob.createMobAttributes()
-			.add(Attributes.ATTACK_DAMAGE, 1.0);
+			.add(Attributes.MAX_HEALTH, 1.0)
+			.add(Attributes.ATTACK_DAMAGE, 1.0)
+			.add(Attributes.MOVEMENT_SPEED, 0.0D)
+			.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D);
 	}
 
 	@Override

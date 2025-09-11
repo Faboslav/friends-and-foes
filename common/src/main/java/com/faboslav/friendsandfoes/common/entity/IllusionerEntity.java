@@ -126,7 +126,7 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 	}
 
 	public static AttributeSupplier.Builder createAttributes() {
-		return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.5F).add(Attributes.FOLLOW_RANGE, 18.0F).add(Attributes.MAX_HEALTH, 32.0F);
+		return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.5F).add(Attributes.FOLLOW_RANGE, 18.0F).add(Attributes.MAX_HEALTH, 24.0F);
 	}
 
 	@Override

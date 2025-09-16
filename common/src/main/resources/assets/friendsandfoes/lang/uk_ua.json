@@ -271,5 +271,5 @@
 	"yacl3.config.friendsandfoes:friendsandfoes.enableWildfire": "Увімкнути",
 	"yacl3.config.friendsandfoes:friendsandfoes.generateCitadelStructure": "Генерувати структуру цитаделі",
 	"yacl3.config.friendsandfoes:friendsandfoes.enableZombieHorseTrap": "Увімкнути пастку зомбоконей",
-	"modmenu.descriptionTranslation.friendsandfoes": "Додає не забутих мобів із голосування ща мобів, розширюючи їхні оригінальні концепції та вводячи нові схожі на стандартні функції"
+	"modmenu.descriptionTranslation.friendsandfoes": "Додає забутих мобів із голосування за мобів, розширюючи їхні оригінальні концепції та вводячи нові схожі на стандартні функції"
 }

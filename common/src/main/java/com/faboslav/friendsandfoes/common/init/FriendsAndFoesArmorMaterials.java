@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.init;
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import net.minecraft.Util;
 import net.minecraft.world.item.equipment.ArmorMaterial;

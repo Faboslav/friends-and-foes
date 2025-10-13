@@ -69,7 +69,7 @@ public class FriendsAndFoesItemGroups
 				FriendsAndFoesItems.JUNGLE_BEEHIVE,
 				FriendsAndFoesItems.MANGROVE_BEEHIVE,
 				FriendsAndFoesItems.SPRUCE_BEEHIVE,
-				//? >=1.21.4 {
+				//? if >=1.21.4 {
 				FriendsAndFoesItems.PALE_OAK_BEEHIVE,
 				//?}
 				FriendsAndFoesItems.WARPED_BEEHIVE

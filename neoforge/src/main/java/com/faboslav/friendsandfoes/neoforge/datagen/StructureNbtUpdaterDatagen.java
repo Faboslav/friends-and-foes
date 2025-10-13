@@ -8,7 +8,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
-//? >=1.21.4 {
+//? if >=1.21.4 {
 //?} else {
 /*import net.neoforged.neoforge.common.data.ExistingFileHelper;
  *///?}
@@ -19,13 +19,13 @@ public class StructureNbtUpdaterDatagen
 {
 	@SubscribeEvent
 	public static void gatherData(
-		//? >=1.21.4 {
+		//? if >=1.21.4 {
 		GatherDataEvent.Server event
 		//?} else {
 		/*GatherDataEvent event
 		 *///?}
 	) {
-		//? >=1.21.4 {
+		//? if >=1.21.4 {
 		ResourceManager resourceManager = event.getResourceManager(PackType.SERVER_DATA);
 		DataGenerator gen = event.getGenerator();
 		final var output = gen.getPackOutput();

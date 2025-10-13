@@ -10,12 +10,12 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import java.util.Map;
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 import com.faboslav.friendsandfoes.common.client.render.entity.state.MaulerRenderState;
 //?}
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-//? >=1.21.3 {
+//? if >=1.21.3 {
 public class MaulerEntityRenderer extends MobRenderer<MaulerEntity, MaulerRenderState, MaulerEntityModel>
 //?} else {
 /*public final class MaulerEntityRenderer extends MobRenderer<MaulerEntity, MaulerEntityModel<MaulerEntity>>
@@ -33,7 +33,7 @@ public class MaulerEntityRenderer extends MobRenderer<MaulerEntity, MaulerRender
 		super(context, new MaulerEntityModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.MAULER_LAYER)), SHADOW_RADIUS);
 	}
 
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	@Override
 	public MaulerRenderState createRenderState() {
 		return new MaulerRenderState();
@@ -47,13 +47,13 @@ public class MaulerEntityRenderer extends MobRenderer<MaulerEntity, MaulerRender
 	//?}
 
 	@Override
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	protected float getShadowRadius(MaulerRenderState renderState)
 	//?} else {
 	/*protected float getShadowRadius(MaulerEntity mauler)
 	*///?}
 	{
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		var mauler = renderState.mauler;
 		 //?}
 
@@ -61,13 +61,13 @@ public class MaulerEntityRenderer extends MobRenderer<MaulerEntity, MaulerRender
 	}
 
 	@Override
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	public ResourceLocation getTextureLocation(MaulerRenderState renderState)
 	//?} else {
 	/*public ResourceLocation getTextureLocation(MaulerEntity mauler)
 	*///?}
 	{
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		var mauler = renderState.mauler;
 		//?}
 

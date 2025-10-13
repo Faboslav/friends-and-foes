@@ -24,7 +24,6 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.protocol.game.DebugPackets;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -69,7 +68,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.function.Predicate;
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 import net.minecraft.world.entity.EntitySpawnReason;
 //?} else {
 /*import net.minecraft.world.entity.MobSpawnType;
@@ -149,7 +148,7 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 	public SpawnGroupData finalizeSpawn(
 		ServerLevelAccessor world,
 		DifficultyInstance difficulty,
-		/*? >=1.21.3 {*/
+		/*? if >=1.21.3 {*/
 		EntitySpawnReason spawnReason,
 		/*?} else {*/
 		/*MobSpawnType spawnReason,
@@ -194,7 +193,7 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 	public static boolean canSpawn(
 		EntityType<GlareEntity> glareEntityEntityType,
 		ServerLevelAccessor serverWorldAccess,
-		/*? >=1.21.3 {*/
+		/*? if >=1.21.3 {*/
 		EntitySpawnReason spawnReason,
 		/*?} else {*/
 		/*MobSpawnType spawnReason,
@@ -235,9 +234,9 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 	}
 
 	@Override
-	protected void customServerAiStep(/*? >=1.21.3 {*/ServerLevel level/*?}*/)
+	protected void customServerAiStep(/*? if >=1.21.3 {*/ServerLevel level/*?}*/)
 	{
-		//? <1.21.3 {
+		//? if <1.21.3 {
 		/*var level = (ServerLevel) this.level();
 		*///?}
 
@@ -254,12 +253,12 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 		GlareBrain.updateActivities(this);
 		profiler.pop();
 
-		super.customServerAiStep(/*? >=1.21.3 {*/level/*?}*/);
+		super.customServerAiStep(/*? if >=1.21.3 {*/level/*?}*/);
 	}
 
 	@Override
 	public void travel(Vec3 movementInput) {
-		//? <=1.21.4 {
+		//? if <=1.21.4 {
 		/*if (!this.isControlledByLocalInstance()) {
 			return;
 		}
@@ -286,8 +285,8 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 	}
 
 	@Override
-	public boolean wantsToPickUp(/*? >=1.21.3 {*/ServerLevel level, /*?}*/ItemStack itemStack) {
-		return !itemStack.isEmpty() && itemStack.getItem() == Items.GLOW_BERRIES && super.wantsToPickUp(/*? >=1.21.3 {*/level, /*?}*/itemStack);
+	public boolean wantsToPickUp(/*? if >=1.21.3 {*/ServerLevel level, /*?}*/ItemStack itemStack) {
+		return !itemStack.isEmpty() && itemStack.getItem() == Items.GLOW_BERRIES && super.wantsToPickUp(/*? if >=1.21.3 {*/level, /*?}*/itemStack);
 	}
 
 	@Override
@@ -299,7 +298,7 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 		return !this.getItemInHand(InteractionHand.MAIN_HAND).isEmpty();
 	}
 
-	//? <1.21.3 {
+	//? if <1.21.3 {
 	/*@Override
 	public boolean canTakeItem(ItemStack stack) {
 		return false;
@@ -316,7 +315,7 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 	}
 
 	@Override
-	protected void pickUpItem(/*? >=1.21.3 {*/ServerLevel level, /*?}*/ItemEntity item) {
+	protected void pickUpItem(/*? if >=1.21.3 {*/ServerLevel level, /*?}*/ItemEntity item) {
 		ItemStack itemStack = item.getItem();
 
 		if (this.canHoldItem(itemStack) && PICKABLE_FOOD_FILTER.test(item)) {
@@ -364,7 +363,7 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 			.add(Attributes.MAX_HEALTH, 10.0D)
 			.add(Attributes.FLYING_SPEED, MOVEMENT_SPEED)
 			.add(Attributes.MOVEMENT_SPEED, MOVEMENT_SPEED)
-			//? >= 1.21.4 {
+			//? if >= 1.21.4 {
 			.add(Attributes.TEMPT_RANGE, 10.0D)
 			//?}
 			.add(Attributes.FOLLOW_RANGE, 48.0D);
@@ -398,7 +397,7 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 		//flyingPathNavigation.setCanPassDoors(true);
 
 		// TODO check this if this is useful or not
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		flyingPathNavigation.setRequiredPathLength(48.0F);
 		//?}
 
@@ -414,12 +413,6 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 	@SuppressWarnings("all")
 	public Brain<GlareEntity> getBrain() {
 		return (Brain<GlareEntity>) super.getBrain();
-	}
-
-	@Override
-	protected void sendDebugPackets() {
-		super.sendDebugPackets();
-		DebugPackets.sendEntityBrain(this);
 	}
 
 	@Override
@@ -629,7 +622,7 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 		this.setDeltaMovement(this.getDeltaMovement().add(0.0, 0.01, 0.0));
 	}
 
-	//? <=1.21.4 {
+	//? if <=1.21.4 {
 	/*@Override
 	public boolean causeFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
 		return false;
@@ -677,7 +670,7 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 
 	public void tame(Player owner) {
 		this.setTame(true, true);
-		//? >=1.21.5 {
+		//? if >=1.21.5 {
 		this.setOwner(owner);
 		//?} else {
 		/*this.setOwnerUUID(owner.getUUID());
@@ -696,14 +689,14 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 	@Override
 	@Nullable
 	public AgeableMob getBreedOffspring(ServerLevel serverWorld, AgeableMob entity) {
-		GlareEntity glareEntity = FriendsAndFoesEntityTypes.GLARE.get().create(serverWorld/*? >=1.21.3 {*/, EntitySpawnReason.BREEDING/*?}*/);
+		GlareEntity glareEntity = FriendsAndFoesEntityTypes.GLARE.get().create(serverWorld/*? if >=1.21.3 {*/, EntitySpawnReason.BREEDING/*?}*/);
 
 		GlareBrain.setDarkSpotLocatingCooldown(this);
 		GlareBrain.setLocatingGlowBerriesCooldown(this);
 		GlareBrain.setItemPickupCooldown(this);
 
 		if (this.isTame()) {
-			//? >=1.21.5 {
+			//? if >=1.21.5 {
 			glareEntity.setOwner(this.getOwner());
 			 //?} else {
 			/*glareEntity.setOwnerUUID(this.getOwnerUUID());
@@ -738,13 +731,13 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 	}
 
 	@Override
-	/*? >=1.21.3 {*/
+	/*? if >=1.21.3 {*/
 	public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
 	/*?} else {*/
 	/*public boolean hurt(DamageSource damageSource, float amount)
 	*//*?}*/
 	{
-		//? <1.21.3 {
+		//? if <1.21.3 {
 		/*var level = this.level();
 		*///?}
 		if (!level.isClientSide()) {
@@ -753,7 +746,7 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 			this.getNavigation().stop();
 		}
 
-		/*? >=1.21.3 {*/
+		/*? if >=1.21.3 {*/
 		return super.hurtServer(level, damageSource, amount);
 		/*?} else {*/
 		/*return super.hurt(damageSource, amount);

@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-//? >=1.21.6 {
+//? if >=1.21.6 {
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 //?} else {
@@ -35,7 +35,7 @@ public abstract class ZombieHorseEntityMixin extends ZombieHorseAbstractHorseEnt
 	}
 
 	@Override
-	//? >=1.21.6 {
+	//? if >=1.21.6 {
 	public void friendsandfoes_writeCustomDataToNbt(ValueOutput nbt, CallbackInfo ci)
 	//?} else {
 	/*public void friendsandfoes_writeCustomDataToNbt(CompoundTag nbt, CallbackInfo ci)
@@ -46,7 +46,7 @@ public abstract class ZombieHorseEntityMixin extends ZombieHorseAbstractHorseEnt
 	}
 
 	@Override
-	//? >=1.21.6 {
+	//? if >=1.21.6 {
 	public void friendsandfoes_readCustomDataFromNbt(ValueInput nbt, CallbackInfo ci)
 	//?} else {
 	/*public void friendsandfoes_readCustomDataFromNbt(CompoundTag nbt, CallbackInfo ci)

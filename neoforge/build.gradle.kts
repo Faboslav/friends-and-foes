@@ -1,19 +1,21 @@
 plugins {
 	`multiloader-loader`
 	id("net.neoforged.moddev")
-	kotlin("jvm") version "2.2.0"
-	id("com.google.devtools.ksp") version "2.2.0-2.0.2"
-	id("dev.kikugie.fletching-table.neoforge") version "0.1.0-alpha.14"
-}
-
-stonecutter {
-	const("curios", commonMod.depOrNull("curios") != null)
+	id("dev.kikugie.fletching-table.neoforge") version "0.1.0-alpha.22"
 }
 
 fletchingTable {
 	j52j.register("main") {
 		extension("json", "**/*.json5")
 	}
+
+	accessConverter.register("main") {
+		add("accesswideners/${commonMod.mc}-friendsandfoes.accesswidener")
+	}
+}
+
+stonecutter {
+	constants["curios"] = commonMod.depOrNull("curios") != null
 }
 
 neoForge {
@@ -43,7 +45,10 @@ dependencies {
 }
 
 neoForge {
-	accessTransformers.from(project.file("../../src/main/resources/META-INF/accesstransformer.cfg").absolutePath)
+	val at = project.file("build/resources/main/META-INF/accesstransformer.cfg");
+
+	accessTransformers.from(at.absolutePath)
+	validateAccessTransformers = true
 
 	runs {
 		register("client") {
@@ -81,5 +86,5 @@ tasks {
 }
 
 tasks.named("createMinecraftArtifacts") {
-	dependsOn(":neoforge:${commonMod.propOrNull("minecraft_version")}:stonecutterGenerate")
+	dependsOn(":neoforge:${commonMod.propOrNull("minecraft_version")}:processResources")
 }

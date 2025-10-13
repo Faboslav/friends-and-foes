@@ -20,7 +20,7 @@ public class MobSpawnsBiomeModifier implements BiomeModifier
 		if (phase == Phase.ADD) {
 			AddSpawnBiomeModificationsEvent.EVENT.invoke(new AddSpawnBiomeModificationsEvent((tag, spawnGroup, entityType, spawnWeight, minGroupSize, maxGroupSize) -> {
 				if (biome.is(tag)) {
-					//? >=1.21.5 {
+					//? if >=1.21.5 {
 					builder.getMobSpawnSettings().addSpawn(
 						spawnGroup,
 						spawnWeight,

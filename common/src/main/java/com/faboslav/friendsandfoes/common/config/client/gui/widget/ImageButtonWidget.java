@@ -18,7 +18,7 @@ import java.util.function.Consumer;
 
 import static org.lwjgl.opengl.GL20.*;
 
-//? <=1.21.1 {
+//? if <=1.21.1 {
 /*import net.minecraft.util.FastColor;
  *///?} else {
 import net.minecraft.util.ARGB;
@@ -48,13 +48,6 @@ public class ImageButtonWidget extends AbstractWidget
 		super(x, y, width, height, message);
 		this.image = ImageRendererManager.registerOrGetImage(image, () -> AnimatedDynamicTextureImage.createWEBPFromTexture(image));
 		this.onPress = clickEvent;
-	}
-
-	@Override
-	public void onClick(double mouseX, double mouseY) {
-		if (this.onPress != null) {
-			this.onPress.accept(this);
-		}
 	}
 
 	@Override
@@ -97,7 +90,7 @@ public class ImageButtonWidget extends AbstractWidget
 						float neededWidth = frameWidth * ((float) this.height / frameHeight);
 
 						// Scale the image to fit within the width and height of the button.
-						//? >= 1.21.6 {
+						//? if >= 1.21.6 {
 						context.pose().pushMatrix();
 						//?} else {
 						/*context.pose().pushPose();
@@ -106,7 +99,7 @@ public class ImageButtonWidget extends AbstractWidget
 						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 						contentImage.render(context, getX(), getY(), (int) Math.max(neededWidth, this.width), delta);
-						//? >= 1.21.6 {
+						//? if >= 1.21.6 {
 						context.pose().popMatrix();
 						//?} else {
 						/*context.pose().popPose();
@@ -126,7 +119,7 @@ public class ImageButtonWidget extends AbstractWidget
 			}
 		}
 
-		//? <=1.21.1 {
+		//? if <=1.21.1 {
 		/*int greyColor = FastColor.ABGR32.color((int) (alphaScale * 255), 0, 0, 0);
 		 *///?} else {
 		int greyColor = ARGB.color((int) (alphaScale * 255), 0, 0, 0);
@@ -147,7 +140,7 @@ public class ImageButtonWidget extends AbstractWidget
 
 		context.fill(unscaledTextX - 5, unscaledTextY - 5, unscaledTextX + this.width - 5, unscaledTextY + client.font.lineHeight + 5, 0xAF000000);
 
-		//? >= 1.21.6 {
+		//? if >= 1.21.6 {
 		context.pose().pushMatrix();
 		context.pose().scale(fontScaling, fontScaling);
 		//?} else {
@@ -157,14 +150,18 @@ public class ImageButtonWidget extends AbstractWidget
 
 		renderScrollingString(context, client.font, getMessage(), textX, textY, endX, endY, 0xFFFFFFFF);
 
-		//? >= 1.21.6 {
+		//? if >= 1.21.6 {
 		context.pose().popMatrix();
 		//?} else {
 		/*context.pose().popPose();
 		 *///?}
 
 		// Draw border.
+		//? if >= 1.21.9 {
+		/*context.submitOutline(getX(), getY(), width, height, 0x0FFFFFFF);
+		*///?} else {
 		context.renderOutline(getX(), getY(), width, height, 0x0FFFFFFF);
+		//?}
 		context.disableScissor();
 	}
 

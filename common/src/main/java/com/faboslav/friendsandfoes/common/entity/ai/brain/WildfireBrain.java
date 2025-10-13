@@ -30,7 +30,7 @@ import net.minecraft.world.entity.schedule.Activity;
 import java.util.List;
 import java.util.Optional;
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 import net.minecraft.server.level.ServerLevel;
 //?}
 
@@ -80,7 +80,7 @@ public final class WildfireBrain
 		brain.addActivity(
 			Activity.IDLE,
 			ImmutableList.of(
-				Pair.of(0, StartAttacking.create((/*? >=1.21.3 {*/serverLevel, /*?}*/wildfire) -> true, WildfireBrain::getTarget)),
+				Pair.of(0, StartAttacking.create((/*? if >=1.21.3 {*/serverLevel, /*?}*/wildfire) -> true, WildfireBrain::getTarget)),
 				Pair.of(1, makeRandomWanderTask())
 			)
 		);
@@ -177,7 +177,7 @@ public final class WildfireBrain
 		}
 	}
 
-	private static Optional<? extends LivingEntity> getTarget(/*? >=1.21.3 {*/ServerLevel level, /*?}*/WildfireEntity wildfire) {
+	private static Optional<? extends LivingEntity> getTarget(/*? if >=1.21.3 {*/ServerLevel level, /*?}*/WildfireEntity wildfire) {
 		Player nearestVisibleTargetablePlayer = wildfire.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER).orElse(
 			wildfire.level().getNearestPlayer(wildfire, WildfireEntity.GENERIC_FOLLOW_RANGE)
 		);

@@ -116,7 +116,7 @@ public final class FriendsAndFoesFabric implements ModInitializer
 
 	private static void registerVillagerTrades() {
 		var trades = VillagerTrades.TRADES;
-		//? >=1.21.5 {
+		//? if >=1.21.5 {
 		var profession = FriendsAndFoesVillagerProfessions.BEEKEEPER_KEY;
 		//?} else {
 		/*var profession = FriendsAndFoesVillagerProfessions.BEEKEEPER.get();
@@ -151,7 +151,7 @@ public final class FriendsAndFoesFabric implements ModInitializer
 	public static void registerPointOfInterestStates() {
 		FriendsAndFoesBlocks.BLOCKS.getEntries().forEach(block -> {
 			if(block.get() instanceof BeehiveBlock) {
-				//? >=1.21.3 {
+				//? if >=1.21.3 {
 				var poiHolder = BuiltInRegistries.POINT_OF_INTEREST_TYPE.get(block.getId());
 				//?} else {
 				/*var poiHolder = BuiltInRegistries.POINT_OF_INTEREST_TYPE.getHolder(block.getId());

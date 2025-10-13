@@ -11,7 +11,7 @@ import net.minecraft.world.level.NaturalSpawner;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-/*? >=1.21.3 {*/
+/*? if >=1.21.3 {*/
 import net.minecraft.world.entity.EntitySpawnReason;
 /*?} else {*/
 /*import net.minecraft.world.entity.MobSpawnType;
@@ -44,7 +44,7 @@ public final class SpawnHelperMixin
 		method = "spawnMobsForChunkGeneration",
 		at = @At(
 			value = "INVOKE",
-			/*? >=1.21.3 {*/
+			/*? if >=1.21.3 {*/
 			target = "Lnet/minecraft/world/entity/Mob;checkSpawnRules(Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/world/entity/EntitySpawnReason;)Z"
 			/*?} else {*/
 			/*target = "Lnet/minecraft/world/entity/Mob;checkSpawnRules(Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/world/entity/MobSpawnType;)Z"
@@ -54,7 +54,7 @@ public final class SpawnHelperMixin
 	private static boolean friendsandfoes$onCheckEntitySpawn(
 		Mob instance,
 		LevelAccessor worldAccess,
-		/*? >=1.21.3 {*/
+		/*? if >=1.21.3 {*/
 		EntitySpawnReason spawnReason,
 		/*?} else {*/
 		/*MobSpawnType spawnReason,

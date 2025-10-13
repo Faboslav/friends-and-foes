@@ -30,7 +30,7 @@ public final class MaulerBurrowDownGoal extends Goal
 	public boolean canUse() {
 		if (
 			this.mauler.isAngry()
-			//? >=1.21.5 {
+			//? if >=1.21.5 {
 			|| this.mauler.level().isDarkOutside()
 			//?} else {
 			/*|| this.mauler.level().isNight()

@@ -121,7 +121,7 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 		BlockPos cachedBlockPosition = patternSearchResult.getBlock(0, 2, 0).getPos();
 		float copperGolemYaw = headBlockState.getValue(CarvedPumpkinBlock.FACING).toYRot();
 
-		CopperGolemEntity copperGolem = FriendsAndFoesEntityTypes.COPPER_GOLEM.get().create(world/*? >=1.21.3 {*/, VersionedEntitySpawnReason.TRIGGERED/*?}*/);
+		CopperGolemEntity copperGolem = FriendsAndFoesEntityTypes.COPPER_GOLEM.get().create(world/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.TRIGGERED/*?}*/);
 
 		copperGolem.setPos(
 			(double) cachedBlockPosition.getX() + 0.5D,

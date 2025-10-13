@@ -1,4 +1,4 @@
-//? >=1.21.3 {
+//? if >=1.21.3 {
 package com.faboslav.friendsandfoes.common.client.render.entity.state;
 
 import com.faboslav.friendsandfoes.common.entity.MaulerEntity;

@@ -7,7 +7,7 @@
 		"PPP"
 	],
 	"key": {
-		//? >=1.21.4 {
+		//? if >=1.21.4 {
 		"P": "minecraft:crimson_planks",
 		"H": "minecraft:honeycomb"
 		//?} else {

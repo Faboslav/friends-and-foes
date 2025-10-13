@@ -1,5 +1,5 @@
 {
-	//? >=1.21.5 {
+	//? if >=1.21.5 {
 	"model": {
 		"type": "minecraft:model",
 		"model": "friendsandfoes:item/tuff_golem_spawn_egg"

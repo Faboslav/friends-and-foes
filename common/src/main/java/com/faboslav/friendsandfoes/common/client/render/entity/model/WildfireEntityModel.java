@@ -13,14 +13,14 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 
 import java.util.List;
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 import net.minecraft.client.model.EntityModel;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.WildfireRenderState;
 //?} else {
 /*import net.minecraft.client.model.HierarchicalModel;
 *///?}
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 public final class WildfireEntityModel extends EntityModel<WildfireRenderState>
 //?} else {
 /*public final class WildfireEntityModel<T extends WildfireEntity> extends HierarchicalModel<T>
@@ -48,7 +48,7 @@ public final class WildfireEntityModel extends EntityModel<WildfireRenderState>
 	private final List<ModelPart> shieldsModelParts;
 
 	public WildfireEntityModel(ModelPart root) {
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		super(root);
 		//?}
 
@@ -89,7 +89,7 @@ public final class WildfireEntityModel extends EntityModel<WildfireRenderState>
 		return LayerDefinition.create(modelData, 64, 64);
 	}
 
-	//? <1.21.3 {
+	//? if <1.21.3 {
 	/*@Override
 	public ModelPart root() {
 		return this.root;
@@ -97,13 +97,13 @@ public final class WildfireEntityModel extends EntityModel<WildfireRenderState>
 	*///?}
 
 	@Override
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	public void setupAnim(WildfireRenderState wildfireRenderState)
 	//?} else {
 	/*public void setupAnim(T wildfire, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
 	*///?}
 	{
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		var wildfire = wildfireRenderState.wildfire;
 		var limbAngle = wildfireRenderState.walkAnimationPos;
 		var limbDistance = wildfireRenderState.walkAnimationSpeed;

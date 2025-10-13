@@ -1,5 +1,5 @@
 {
-	//? >=1.21.5 {
+	//? if >=1.21.5 {
 	"model": {
 		"type": "minecraft:model",
 		"model": "friendsandfoes:item/glare_spawn_egg"

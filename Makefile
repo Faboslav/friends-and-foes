@@ -31,6 +31,9 @@ run-neoforge-server: ## Runs neoforge server
 run-data: ## Runs datagen
 	./gradlew runData
 
+run-validate-aw: ##
+	./gradlew common:1.21.9:validateAccessWidener
+
 nuke: ## Nuke the project
 	./gradlew --stop
 	rm -rf $GRADLE_HOME/caches/transforms-*

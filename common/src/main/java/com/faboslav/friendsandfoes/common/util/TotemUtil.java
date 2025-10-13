@@ -1,8 +1,7 @@
 package com.faboslav.friendsandfoes.common.util;
 
-import com.faboslav.friendsandfoes.common.entity.PlayerIllusionEntity;
-import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
+import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
 import com.faboslav.friendsandfoes.common.versions.VersionedMobEffects;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -15,10 +14,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -28,7 +24,15 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-//? >=1.21.3 {
+//? if >=1.21.9 {
+/*import net.minecraft.world.item.component.ResolvableProfile;
+import com.faboslav.friendsandfoes.common.mixin.MannequinAccessor;
+*///?} else {
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
+import com.faboslav.friendsandfoes.common.entity.PlayerIllusionEntity;
+//?}
+
+//? if >=1.21.3 {
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 //?}
 
@@ -38,7 +42,7 @@ public final class TotemUtil
 	private static final int ILLUSION_LIFETIME_TICKS = 600;
 	private static final int NEGATIVE_EFFECT_TICKS = 400;
 	public static final int POSITIVE_EFFECT_TICKS = 200;
-	private static final TargetingConditions FREEZE_TARGET_PREDICATE = TargetingConditions.forNonCombat().ignoreInvisibilityTesting().ignoreLineOfSight().selector((livingEntity/*? >=1.21.3 {*/, serverLevel/*?}*/) -> !(livingEntity instanceof Player) || !((Player) livingEntity).isCreative());
+	private static final TargetingConditions FREEZE_TARGET_PREDICATE = TargetingConditions.forNonCombat().ignoreInvisibilityTesting().ignoreLineOfSight().selector((livingEntity/*? if >= 1.21.3 {*/, serverLevel/*?}*/) -> !(livingEntity instanceof Player) || !((Player) livingEntity).isCreative());
 	private static final TargetingConditions ATTACK_TARGET_PREDICATE = TargetingConditions.forNonCombat().ignoreInvisibilityTesting().ignoreLineOfSight();
 
 	public static void playActivateAnimation(ItemStack itemStack, Entity entity, ParticleType<?> particleType) {
@@ -58,7 +62,7 @@ public final class TotemUtil
 
 	public static void freezeEntities(Player player, ServerLevel level) {
 		List<LivingEntity> nearbyEntities = level.getEntitiesOfClass(LivingEntity.class, player.getBoundingBox().inflate(9.0), (livingEntity) -> {
-			return FREEZE_TARGET_PREDICATE.test(/*? >=1.21.3 {*/level, /*?}*/player, livingEntity);
+			return FREEZE_TARGET_PREDICATE.test(/*? if >=1.21.3 {*/level, /*?}*/player, livingEntity);
 		});
 
 		nearbyEntities.forEach(nearbyEntity -> {
@@ -78,7 +82,7 @@ public final class TotemUtil
 		float slice = 2.0F * (float) Math.PI / MAX_ILLUSIONS_COUNT;
 		int radius = 9;
 
-		ArrayList<PlayerIllusionEntity> createdPlayerIllusions = new ArrayList<>();
+		ArrayList<LivingEntity> createdPlayerIllusions = new ArrayList<>();
 
 		for (int point = 0; point < MAX_ILLUSIONS_COUNT; ++point) {
 			float angle = slice * point;
@@ -86,7 +90,7 @@ public final class TotemUtil
 			int y = (int) illusionerPosition.y();
 			int z = (int) (illusionerPosition.z() + radius * Mth.sin(angle));
 
-			PlayerIllusionEntity createdPlayerIllusion = createIllusion(player, level, x, y, z);
+			var createdPlayerIllusion = createIllusion(player, level, x, y, z);
 
 			if (createdPlayerIllusion != null) {
 				createdPlayerIllusions.add(createdPlayerIllusion);
@@ -94,7 +98,7 @@ public final class TotemUtil
 		}
 
 		List<Mob> nearbyEntities = level.getEntitiesOfClass(Mob.class, player.getBoundingBox().inflate(18.0), (mobEntity) -> {
-			return ATTACK_TARGET_PREDICATE.test(/*? >=1.21.3 {*/level, /*?}*/player, mobEntity);
+			return ATTACK_TARGET_PREDICATE.test(/*? if >=1.21.3 {*/level, /*?}*/player, mobEntity);
 		});
 
 		nearbyEntities.forEach(nearbyEntity -> {
@@ -120,7 +124,7 @@ public final class TotemUtil
 			var attacker = illusionToReplace.getLastHurtByMob();
 
 			if (attacker != null) {
-				//? <=1.21.4 {
+				//? if <=1.21.4 {
 				/*illusionToReplace.setLastHurtByPlayer(null);
 				*///?}
 				illusionToReplace.setLastHurtByMob(null);
@@ -134,13 +138,20 @@ public final class TotemUtil
 	}
 
 	@Nullable
-	private static PlayerIllusionEntity createIllusion(Player player, ServerLevel serverLevel, int x, int y, int z) {
-		PlayerIllusionEntity playerIllusion = FriendsAndFoesEntityTypes.PLAYER_ILLUSION.get().create(serverLevel/*? >=1.21.3 {*/, VersionedEntitySpawnReason.MOB_SUMMONED/*?}*/);
+	private static LivingEntity createIllusion(Player player, ServerLevel serverLevel, int x, int y, int z) {
+		//? if >= 1.21.9 {
+		/*var playerIllusion = EntityType.MANNEQUIN.create(serverLevel, VersionedEntitySpawnReason.MOB_SUMMONED);
+		*///?} else if >= 1.21.3 {
+		var playerIllusion = FriendsAndFoesEntityTypes.PLAYER_ILLUSION.get().create(serverLevel, VersionedEntitySpawnReason.MOB_SUMMONED);
+		//?} else {
+		/*var playerIllusion = FriendsAndFoesEntityTypes.PLAYER_ILLUSION.get().create(serverLevel);
+		*///?}
 
 		if (playerIllusion == null) {
 			return null;
 		}
 
+		//? if <= 1.21.8 {
 		playerIllusion.prevCapeX = player.xCloakO;
 		playerIllusion.prevCapeY = player.yCloakO;
 		playerIllusion.prevCapeZ = player.zCloakO;
@@ -149,6 +160,7 @@ public final class TotemUtil
 		playerIllusion.capeZ = player.zCloak;
 		playerIllusion.prevStrideDistance = player.oBob;
 		playerIllusion.strideDistance = player.bob;
+		//?}
 
 		playerIllusion.setItemSlot(EquipmentSlot.MAINHAND, player.getMainHandItem().copy());
 		playerIllusion.setItemSlot(EquipmentSlot.OFFHAND, player.getOffhandItem().copy());
@@ -156,10 +168,10 @@ public final class TotemUtil
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
 			ItemStack item = player.getItemBySlot(slot);
 			if (!item.isEmpty()) {
-				playerIllusion.equipItemIfPossible(/*? >=1.21.4 {*/ serverLevel, /*?}*/item.copy());
+				playerIllusion.equipItemIfPossible(/*? if >=1.21.4 {*/ serverLevel, /*?}*/item.copy());
 			}
 		}
-		
+
 		playerIllusion.setHealth(player.getMaxHealth());
 		playerIllusion.copyPosition(player);
 		float randomYaw = 360.F * player.getRandom().nextFloat();
@@ -169,15 +181,21 @@ public final class TotemUtil
 		playerIllusion.setYBodyRot(randomYaw);
 		playerIllusion.yHeadRotO = randomYaw;
 		playerIllusion.setYHeadRot(randomYaw);
+
+		//? if >= 1.21.9 {
+		/*MannequinAccessor mannequinAccessor = ((MannequinAccessor) playerIllusion);
+		((MannequinAccessor) playerIllusion).friendsandfoes$setProfile(ResolvableProfile.createResolved(player.getGameProfile()));
+		*///?} else {
 		playerIllusion.setPlayerUuid(player.getUUID());
 		playerIllusion.setPlayer(player);
 		playerIllusion.setTicksUntilDespawn(ILLUSION_LIFETIME_TICKS);
+		//?}
 
-		boolean teleportResult = playerIllusion.tryToTeleport(x, y, z);
+		boolean teleportResult = PlayerIllusionUtil.tryToTeleport(serverLevel, playerIllusion, x, y, z);
 
 		if (teleportResult) {
 			serverLevel.addFreshEntity(playerIllusion);
-			playerIllusion.spawnCloudParticles();
+			ParticleSpawner.spawnParticles(playerIllusion, ParticleTypes.CLOUD, 16, 0.1D);
 		}
 
 		return playerIllusion;
@@ -185,7 +203,7 @@ public final class TotemUtil
 
 	private static boolean tryToTeleport(Player player, ServerLevel level, int x, int y, int z) {
 		y -= 8;
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		int worldBottomY = level.getMinY();
 		//?} else {
 		/*int worldBottomY = level.getMinBuildHeight();

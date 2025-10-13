@@ -27,7 +27,7 @@ public final class FriendsAndFoesVillagerProfessions
 	public static final ResourceKey<VillagerProfession> BEEKEEPER_KEY = ResourceKey.create(Registries.VILLAGER_PROFESSION, FriendsAndFoes.makeID("beekeeper"));
 	// TODO add gift in GiveGiftToHero
 	public static final RegistryEntry<VillagerProfession> BEEKEEPER = VILLAGER_PROFESSIONS.register("beekeeper", () -> new VillagerProfession(
-		//? >=1.21.5 {
+		//? if >=1.21.5 {
 		Component.translatable("entity.friendsandfoes.villager.beekeeper"),
 		//?} else {
 		/*"beekeeper",
@@ -50,7 +50,7 @@ public final class FriendsAndFoesVillagerProfessions
 	public static void registerVillagerTrades(RegisterVillagerTradesEvent event) {
 		if (
 			FriendsAndFoes.getConfig().enableBeekeeperVillagerProfession
-			//? >=1.21.5 {
+			//? if >=1.21.5 {
 			&& event.type() == BEEKEEPER_KEY
 			//?} else {
 			/*&& event.type() == BEEKEEPER.get()

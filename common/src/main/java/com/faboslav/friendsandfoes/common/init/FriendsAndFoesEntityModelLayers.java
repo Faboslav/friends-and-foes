@@ -25,7 +25,7 @@ public final class FriendsAndFoesEntityModelLayers
 	public static final ModelLayerLocation TUFF_GOLEM_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("tuff_golem"), "main");
 	public static final ModelLayerLocation WILDFIRE_CROWN_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("wildfire_crown"), "main");
 
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	public static final ModelLayerLocation CRAB_BABY_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("crab_baby"), "main");
 	public static final ModelLayerLocation GLARE_BABY_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("glare_baby"), "main");
 	public static final ModelLayerLocation MOOBLOOM_BABY_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("moobloom_baby"), "main");
@@ -34,7 +34,7 @@ public final class FriendsAndFoesEntityModelLayers
 	public static void registerEntityLayers(RegisterEntityLayersEvent event) {
 		event.register(COPPER_GOLEM_LAYER, CopperGolemEntityModel::getTexturedModelData);
 		event.register(CRAB_LAYER, CrabEntityModel::getTexturedModelData);
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		event.register(GLARE_LAYER, () -> GlareEntityModel.getTexturedModelData().apply(GlareEntityModel.ADULT_TRANSFORMER));
 		//?} else {
 		/*event.register(GLARE_LAYER, GlareEntityModel::getTexturedModelData);
@@ -48,7 +48,7 @@ public final class FriendsAndFoesEntityModelLayers
 		event.register(TUFF_GOLEM_LAYER, TuffGolemEntityModel::getTexturedModelData);
 		event.register(WILDFIRE_CROWN_LAYER, WildfireEntityModel::getTexturedModelData);
 
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		event.register(CRAB_BABY_LAYER, () -> CrabEntityModel.getTexturedModelData().apply(CrabEntityModel.BABY_TRANSFORMER));
 		event.register(GLARE_BABY_LAYER, () -> GlareEntityModel.getTexturedModelData().apply(GlareEntityModel.BABY_TRANSFORMER));
 		event.register(MOOBLOOM_BABY_LAYER, () -> CowModel.createBodyLayer().apply(CowModel.BABY_TRANSFORMER));

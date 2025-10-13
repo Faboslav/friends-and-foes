@@ -144,6 +144,7 @@
 <hr>
 
 <p style="font-size: 18px;">
+<p style="font-size: 18px;">
 	Meet the <a href="https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem">Copper Golem</a>, a pocket-sized, comedic marvel that finds joy in randomly pressing copper buttons.
 	Like any other copper creations it will <a href="https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem#oxidation">oxidize</a> over time, but do not worry, maintenance is a breeze! For a quick makeover, grab an <a href="https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem#scraping">axe</a> or a <a href="https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem#waxing">honeycomb</a>.
 	If you want to <a href="https://github.com/Faboslav/friends-and-foes/wiki/Copper-Golem#creation">build</a> this little creature, gather a copper block, a pumpkin, and a lightning rod.

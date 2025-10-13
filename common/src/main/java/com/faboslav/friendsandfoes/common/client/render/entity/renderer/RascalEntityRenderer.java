@@ -8,12 +8,12 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 import com.faboslav.friendsandfoes.common.client.render.entity.state.RascalRenderState;
 //?}
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-//? >=1.21.3 {
+//? if >=1.21.3 {
 public class RascalEntityRenderer extends MobRenderer<RascalEntity, RascalRenderState, RascalEntityModel>
 //?} else {
 /*public final class RascalEntityRenderer extends MobRenderer<RascalEntity, RascalEntityModel<RascalEntity>>
@@ -25,7 +25,7 @@ public class RascalEntityRenderer extends MobRenderer<RascalEntity, RascalRender
 		super(context, new RascalEntityModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.RASCAL_LAYER)), 0.5F);
 	}
 
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	@Override
 	public RascalRenderState createRenderState() {
 		return new RascalRenderState();
@@ -39,7 +39,7 @@ public class RascalEntityRenderer extends MobRenderer<RascalEntity, RascalRender
 	//?}
 
 	@Override
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	public ResourceLocation getTextureLocation(RascalRenderState renderState)
 	//?} else {
 	/*public ResourceLocation getTextureLocation(RascalEntity rascal)

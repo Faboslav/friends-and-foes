@@ -31,7 +31,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Optional;
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 import net.minecraft.util.profiling.Profiler;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 //?} else {
@@ -43,7 +43,7 @@ import net.minecraft.util.profiling.ProfilerFiller;
 @Mixin(ServerLevel.class)
 public abstract class ServerWorldMixin extends Level implements WorldGenLevel
 {
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	protected ServerWorldMixin(
 		WritableLevelData levelData,
 		ResourceKey<Level> dimension,
@@ -87,7 +87,7 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel
 			ChunkPos chunkPos = chunk.getPos();
 			int i = chunkPos.getMinBlockX();
 			int j = chunkPos.getMinBlockZ();
-			//? >=1.21.3 {
+			//? if >=1.21.3 {
 			var profiler = Profiler.get();
 			//?} else {
 			/*var profiler = this.getProfiler();
@@ -104,15 +104,15 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel
 				boolean canZombieHorseSpawn = ((ServerLevel)(Object)this).getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && this.random.nextDouble() < (double) localDifficulty.getEffectiveDifficulty() * 0.01 && !this.getBlockState(blockPos.below()).is(FriendsAndFoesTags.LIGHTNING_RODS);
 
 				if (canZombieHorseSpawn) {
-					ZombieHorse zombieHorse = EntityType.ZOMBIE_HORSE.create(this/*? >=1.21.3 {*/, VersionedEntitySpawnReason.EVENT/*?}*/);
+					ZombieHorse zombieHorse = EntityType.ZOMBIE_HORSE.create(this/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.EVENT/*?}*/);
 					((ZombieHorseEntityAccess) zombieHorse).friendsandfoes_setTrapped(true);
 					zombieHorse.setAge(0);
 					zombieHorse.setPos(blockPos.getX(), blockPos.getY(), blockPos.getZ());
 					this.addFreshEntity(zombieHorse);
 				}
 
-				LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(this/*? >=1.21.3 {*/, VersionedEntitySpawnReason.EVENT/*?}*/);
-				//? >= 1.21.5 {
+				LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(this/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.EVENT/*?}*/);
+				//? if >= 1.21.5 {
 				lightningBolt.snapTo(Vec3.atBottomCenterOf(blockPos));
 				//?} else {
 				/*lightningBolt.moveTo(Vec3.atBottomCenterOf(blockPos));

@@ -30,7 +30,7 @@ public class FriendsAndFoesConfigScreen extends Screen
 
 	@Override
 	public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
-		//? <1.20.2 {
+		//? if <1.20.2 {
 		/*super.renderBackground(context);
 		 *///?} else if <=1.21.5 {
 		/*super.renderBackground(context, mouseX, mouseY, delta);

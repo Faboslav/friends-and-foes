@@ -18,14 +18,14 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ServerLevelAccessor;
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 import net.minecraft.resources.FileToIdConverter;
 //?} else {
 /*import com.mojang.serialization.JsonOps;
 import com.google.gson.JsonElement;
 *///?}
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 public final class MoobloomVariantManager extends SimpleJsonResourceReloadListener<MoobloomVariant>
 //?} else {
 /*public final class MoobloomVariantManager extends SimpleJsonResourceReloadListener
@@ -43,7 +43,7 @@ public final class MoobloomVariantManager extends SimpleJsonResourceReloadListen
 	};
 
 	private MoobloomVariantManager() {
-		//? >=1.21.4 {
+		//? if >=1.21.4 {
 		super(MoobloomVariant.CODEC, FileToIdConverter.json("moobloom_variants"));
 		//?} else {
 		/*super(GSON, "moobloom_variants");
@@ -51,13 +51,13 @@ public final class MoobloomVariantManager extends SimpleJsonResourceReloadListen
 	}
 
 	@Override
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	protected void apply(Map<ResourceLocation, MoobloomVariant> moobloomVariants, ResourceManager resourceManager, ProfilerFiller profiler)
 	//?} else {
 	/*protected void apply(Map<ResourceLocation, JsonElement> moobloomVariantsJson, ResourceManager resourceManager, ProfilerFiller profiler)
 	*///?}
 	{
-		//? <1.21.3 {
+		//? if <1.21.3 {
 		/*Map<ResourceLocation, MoobloomVariant> moobloomVariants = new HashMap<>();
 
 		for (Map.Entry<ResourceLocation, JsonElement> entry : moobloomVariantsJson.entrySet()) {

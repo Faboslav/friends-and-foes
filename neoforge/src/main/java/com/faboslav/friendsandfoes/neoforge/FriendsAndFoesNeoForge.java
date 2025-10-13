@@ -34,7 +34,7 @@ import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 
-//? >=1.21.4 {
+//? if >=1.21.4 {
 import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
 //?} else {
 /*import net.neoforged.neoforge.event.AddReloadListenerEvent;
@@ -91,13 +91,13 @@ public final class FriendsAndFoesNeoForge
 	}
 
 	private static void onAddReloadListeners(
-		//? >=1.21.4 {
+		//? if >=1.21.4 {
 		AddServerReloadListenersEvent event
 		//?} else {
 		/*AddReloadListenerEvent event
 		 *///?}
 	) {
-		//? >=1.21.4 {
+		//? if >=1.21.4 {
 		RegisterReloadListenerEvent.EVENT.invoke(new RegisterReloadListenerEvent(event::addListener));
 		//?} else {
 		/*RegisterReloadListenerEvent.EVENT.invoke(new RegisterReloadListenerEvent((id, listener) -> event.addListener(listener)));

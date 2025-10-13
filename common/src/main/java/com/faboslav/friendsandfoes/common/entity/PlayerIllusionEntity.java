@@ -1,15 +1,15 @@
+//? if <= 1.21.8 {
 package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
+import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
-import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -24,14 +24,14 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import java.util.Optional;
 import java.util.UUID;
 
-//? >=1.21.6 {
+//? if >=1.21.6 {
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 //?} else {
 /*import net.minecraft.nbt.CompoundTag;
 *///?}
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 
 //?} else {
 /*import net.minecraft.world.entity.MobSpawnType;
@@ -69,7 +69,7 @@ public final class PlayerIllusionEntity extends Mob
 	public SpawnGroupData finalizeSpawn(
 		ServerLevelAccessor world,
 		DifficultyInstance difficulty,
-		/*? >=1.21.3 {*/
+		/*? if >=1.21.3 {*/
 		EntitySpawnReason spawnReason,
 		/*?} else {*/
 		/*MobSpawnType spawnReason,
@@ -116,7 +116,7 @@ public final class PlayerIllusionEntity extends Mob
 	}
 
 	@Override
-	//? >= 1.21.6 {
+	//? if >= 1.21.6 {
 	public void addAdditionalSaveData(ValueOutput nbt)
 	//?} else {
 	/*public void addAdditionalSaveData(CompoundTag nbt)
@@ -129,7 +129,7 @@ public final class PlayerIllusionEntity extends Mob
 	}
 
 	@Override
-	//? >= 1.21.6 {
+	//? if >= 1.21.6 {
 	public void readAdditionalSaveData(ValueInput nbt)
 	//?} else {
 	/*public void readAdditionalSaveData(CompoundTag nbt)
@@ -147,7 +147,12 @@ public final class PlayerIllusionEntity extends Mob
 	}
 
 	@Override
-	protected boolean shouldDropLoot() {
+	/*? if >= 1.21.9 {*/
+	/*protected boolean shouldDropLoot(ServerLevel serverLevel)
+	*//*?} else {*/
+	protected boolean shouldDropLoot()
+	/*?}*/
+	{
 		return false;
 	}
 
@@ -175,7 +180,7 @@ public final class PlayerIllusionEntity extends Mob
 	}
 
 	@Override
-	/*? >=1.21.3 {*/
+	/*? if >=1.21.3 {*/
 	public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
 	/*?} else {*/
 	/*public boolean hurt(DamageSource damageSource, float amount)
@@ -225,7 +230,7 @@ public final class PlayerIllusionEntity extends Mob
 
 	private void discardIllusion() {
 		this.playMirrorSound();
-		this.spawnCloudParticles();
+		ParticleSpawner.spawnParticles(this, ParticleTypes.CLOUD, 16, 0.1D);
 		this.discard();
 	}
 
@@ -235,56 +240,6 @@ public final class PlayerIllusionEntity extends Mob
 			this.getSoundVolume(),
 			this.getVoicePitch()
 		);
-	}
-
-	public boolean tryToTeleport(int x, int y, int z) {
-		y -= 8;
-		//? >=1.21.3 {
-		int worldBottomY = this.level().getMinY();
-		//?} else {
-		/*int worldBottomY = this.level().getMinBuildHeight();
-		*///?}
-		int logicalHeight = ((ServerLevel)(this.level())).getLogicalHeight();
-		double bottomY = Math.max(y, worldBottomY);
-		double topY = Math.min(bottomY + 16, logicalHeight- 1);
-
-		for (int i = 0; i < 16; ++i) {
-			y = (int) Mth.clamp(y + 1, bottomY, topY);
-			boolean teleportResult = this.randomTeleport(x, y, z, false);
-
-			if (teleportResult) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	public void spawnCloudParticles() {
-		this.spawnParticles(ParticleTypes.CLOUD, 16);
-	}
-
-	private <T extends ParticleOptions> void spawnParticles(
-		T particleType,
-		int amount
-	) {
-		if (this.level().isClientSide()) {
-			return;
-		}
-
-		for (int i = 0; i < amount; i++) {
-			((ServerLevel) this.level()).sendParticles(
-				particleType,
-				this.getRandomX(0.5D),
-				this.getRandomY() + 0.5D,
-				this.getRandomZ(0.5D),
-				1,
-				0.0D,
-				0.0D,
-				0.0D,
-				0.0D
-			);
-		}
 	}
 
 	static {
@@ -297,3 +252,4 @@ public final class PlayerIllusionEntity extends Mob
 		*///?}
 	}
 }
+//?}

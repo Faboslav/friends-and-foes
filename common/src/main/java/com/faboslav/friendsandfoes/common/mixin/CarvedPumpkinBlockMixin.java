@@ -110,7 +110,7 @@ public abstract class CarvedPumpkinBlockMixin extends HorizontalDirectionalBlock
 		BlockPos cachedBlockPosition = patternSearchResult.getBlock(0, 2, 0).getPos();
 		float tuffGolemYaw = headBlockState.getValue(CarvedPumpkinBlock.FACING).toYRot();
 
-		TuffGolemEntity tuffGolem = FriendsAndFoesEntityTypes.TUFF_GOLEM.get().create(world/*? >=1.21.3 {*/, VersionedEntitySpawnReason.TRIGGERED/*?}*/);
+		TuffGolemEntity tuffGolem = FriendsAndFoesEntityTypes.TUFF_GOLEM.get().create(world/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.TRIGGERED/*?}*/);
 
 		tuffGolem.setPos(
 			(double) cachedBlockPosition.getX() + 0.5D,

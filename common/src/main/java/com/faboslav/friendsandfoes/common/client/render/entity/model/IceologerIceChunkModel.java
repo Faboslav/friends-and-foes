@@ -7,7 +7,7 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 import net.minecraft.client.model.EntityModel;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.IceologerIceChunkRenderState;
 //?} else {
@@ -15,7 +15,7 @@ import com.faboslav.friendsandfoes.common.client.render.entity.state.IceologerIc
 import com.faboslav.friendsandfoes.common.entity.IceologerIceChunkEntity;
 *///?}
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 public final class IceologerIceChunkModel extends EntityModel<IceologerIceChunkRenderState>
 //?} else {
 /*public final class IceologerIceChunkModel<T extends IceologerIceChunkEntity> extends HierarchicalModel<T>
@@ -35,7 +35,7 @@ public final class IceologerIceChunkModel extends EntityModel<IceologerIceChunkR
 	private final ModelPart secondVerticalSlab;
 
 	public IceologerIceChunkModel(ModelPart root) {
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		super(root);
 		//?}
 
@@ -60,7 +60,7 @@ public final class IceologerIceChunkModel extends EntityModel<IceologerIceChunkR
 		return LayerDefinition.create(modelData, 64, 64);
 	}
 
-	//? <1.21.3 {
+	//? if <1.21.3 {
 	/*@Override
 	public ModelPart root() {
 		return this.root;
@@ -68,7 +68,7 @@ public final class IceologerIceChunkModel extends EntityModel<IceologerIceChunkR
 	*///?}
 
 	@Override
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	public void setupAnim(IceologerIceChunkRenderState renderState)
 	//?} else {
 	/*public void setupAnim(T glare, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)

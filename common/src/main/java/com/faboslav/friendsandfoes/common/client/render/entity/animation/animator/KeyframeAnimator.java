@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 import net.minecraft.client.model.EntityModel;
 //?} else {
 /*import net.minecraft.client.model.HierarchicalModel;
@@ -20,7 +20,7 @@ import net.minecraft.client.model.EntityModel;
 public final class KeyframeAnimator
 {
 	public static void animateKeyframe(
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		EntityModel<?> model,
 		//?} else {
 		/*HierarchicalModel<?> model,

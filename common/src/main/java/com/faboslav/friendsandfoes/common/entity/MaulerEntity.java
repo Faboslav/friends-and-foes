@@ -60,14 +60,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.UUID;
 
-//? >=1.21.6 {
+//? if >=1.21.6 {
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 //?} else {
 /*import net.minecraft.nbt.CompoundTag;
 *///?}
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 import net.minecraft.world.entity.EntitySpawnReason;
 //?} else {
 /*import net.minecraft.world.entity.MobSpawnType;
@@ -189,7 +189,7 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 	}
 
 	@Override
-	//? >= 1.21.6 {
+	//? if >= 1.21.6 {
 	public void addAdditionalSaveData(ValueOutput nbt)
 	//?} else {
 	/*public void addAdditionalSaveData(CompoundTag nbt)
@@ -209,7 +209,7 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 	}
 
 	@Override
-	//? >= 1.21.6 {
+	//? if >= 1.21.6 {
 	public void readAdditionalSaveData(ValueInput nbt)
 	//?} else {
 	/*public void readAdditionalSaveData(CompoundTag nbt)
@@ -239,7 +239,7 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 	public SpawnGroupData finalizeSpawn(
 		ServerLevelAccessor world,
 		DifficultyInstance difficulty,
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		EntitySpawnReason spawnReason,
 		//?} else {
 		/*MobSpawnType spawnReason,
@@ -250,7 +250,6 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 		Type type = Type.getTypeByBiome(biomeKey);
 
 		this.setPose(MaulerEntityPose.IDLE);
-		this.setPersistenceRequired();
 		this.setType(type);
 		this.setSize();
 
@@ -265,7 +264,7 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 	public static boolean canSpawn(
 		EntityType<MaulerEntity> maulerEntityType,
 		ServerLevelAccessor serverWorldAccess,
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		EntitySpawnReason spawnReason,
 		//?} else {
 		/*MobSpawnType spawnReason,
@@ -286,7 +285,7 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 		this.burrowDownGoal = new MaulerBurrowDownGoal(this);
 		this.goalSelector.addGoal(6, this.burrowDownGoal);
 		this.targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setAlertOthers());
-		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, PathfinderMob.class, 10, true, true, (livingEntity/*? >=1.21.3 {*/, serverLevel/*?}*/) -> {
+		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, PathfinderMob.class, 10, true, true, (livingEntity/*? if >=1.21.3 {*/, serverLevel/*?}*/) -> {
 			if (
 				livingEntity instanceof Slime slimeEntity && slimeEntity.getSize() != Slime.MIN_SIZE
 				|| livingEntity instanceof Zombie zombie && !zombie.isBaby()
@@ -337,7 +336,7 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 	}
 
 	@Override
-	/*? >=1.21.3 {*/
+	/*? if >=1.21.3 {*/
 	public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
 	/*?} else {*/
 	/*public boolean hurt(DamageSource damageSource, float amount)
@@ -347,7 +346,7 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 			this.burrowDownGoal.stop();
 		}
 
-		/*? >=1.21.3 {*/
+		/*? if >=1.21.3 {*/
 		return super.hurtServer(level, damageSource, amount);
 		/*?} else {*/
 		/*return super.hurt(damageSource, amount);
@@ -397,6 +396,8 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 		}
 
 		if (this.level() instanceof ServerLevel serverLevel) {
+			this.setPersistenceRequired();
+
 			int experiencePoints = this.getExperiencePoints(itemStack);
 			int recalculatedExperiencePoints = storedExperiencePoints + experiencePoints;
 
@@ -441,6 +442,8 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 		}
 
 		if (this.level() instanceof ServerLevel serverLevel) {
+			this.setPersistenceRequired();
+
 			int glassBottlesCount = itemStack.getCount();
 			int experienceBottleCount = storedExperiencePoints / 7;
 
@@ -546,7 +549,7 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 	}
 
 	@Override
-	public boolean doHurtTarget(/*? >=1.21.3 {*/ServerLevel level,/*?}*/Entity target) {
+	public boolean doHurtTarget(/*? if >=1.21.3 {*/ServerLevel level,/*?}*/Entity target) {
 		if (this.isBurrowedDown()) {
 			return false;
 		}

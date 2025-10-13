@@ -11,12 +11,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.WeatheringCopper;
 import java.util.Map;
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 import com.faboslav.friendsandfoes.common.client.render.entity.state.CopperGolemRenderState;
 //?}
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-//? >=1.21.3 {
+//? if >=1.21.3 {
 public class CopperGolemEntityRenderer extends MobRenderer<CopperGolemEntity, CopperGolemRenderState, CopperGolemEntityModel>
 //?} else {
 /*public final class CopperGolemEntityRenderer extends MobRenderer<CopperGolemEntity, CopperGolemEntityModel<CopperGolemEntity>>
@@ -37,7 +37,7 @@ public class CopperGolemEntityRenderer extends MobRenderer<CopperGolemEntity, Co
 		);
 	}
 
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	@Override
 	public CopperGolemRenderState createRenderState() {
 		return new CopperGolemRenderState();
@@ -51,13 +51,13 @@ public class CopperGolemEntityRenderer extends MobRenderer<CopperGolemEntity, Co
 	//?}
 
 	@Override
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	public ResourceLocation getTextureLocation(CopperGolemRenderState renderState)
 	//?} else {
 	/*public ResourceLocation getTextureLocation(CopperGolemEntity copperGolem)
 	*///?}
 	{
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		var copperGolem = renderState.copperGolem;
 		//?}
 

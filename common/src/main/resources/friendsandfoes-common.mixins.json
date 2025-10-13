@@ -29,6 +29,8 @@
     "LightningRodBlockOxidizableMixin",
     "LimbAnimatorAccessor",
     "LivingEntityMixin",
+    "MannequinAccessor",
+    "MannequinMixin",
     "MobAccessor",
     "PatrolSpawnerAccessor",
     "PatrolSpawnerMixin",

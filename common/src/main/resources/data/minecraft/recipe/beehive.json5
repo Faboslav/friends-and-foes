@@ -3,7 +3,7 @@
 	"category": "misc",
 	"key": {
 
-		//? >=1.21.4 {
+		//? if >=1.21.4 {
 		"P": "minecraft:oak_planks",
 		"H": "minecraft:honeycomb"
 		//?} else {

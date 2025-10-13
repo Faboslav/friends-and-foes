@@ -78,7 +78,7 @@ public final class CitadelBottomProcessor extends StructureProcessor
 
 			int worldBottomY;
 			int worldTopY;
-			//? >=1.21.3 {
+			//? if >=1.21.3 {
 			worldBottomY = worldView.getMinY();
 			worldTopY = worldView.getMaxY();
 			//?} else {
@@ -91,7 +91,7 @@ public final class CitadelBottomProcessor extends StructureProcessor
 				&& mutable.getY() < worldTopY
 				&& (currentBlockState.isAir() || !worldView.getFluidState(mutable).isEmpty())
 			) {
-				//? >=1.21.5 {
+				//? if >=1.21.5 {
 				worldView.getChunk(mutable).setBlockState(mutable, targetBlockOutput);
 				//?} else {
 				/*worldView.getChunk(mutable).setBlockState(mutable, targetBlockOutput, false);

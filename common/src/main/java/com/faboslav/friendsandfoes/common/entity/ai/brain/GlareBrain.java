@@ -75,7 +75,7 @@ public final class GlareBrain
 		brain.addActivity(Activity.CORE,
 			0,
 			ImmutableList.of(
-				new Swim/*? >=1.21.3 {*/<>/*?}*/(0.8f),
+				new Swim/*? if >=1.21.3 {*/<>/*?}*/(0.8f),
 				new LookAtTargetSink(45, 90),
 				new MoveToTargetSink(),
 				new CountDownCooldownTicks(MemoryModuleType.TEMPTATION_COOLDOWN_TICKS),

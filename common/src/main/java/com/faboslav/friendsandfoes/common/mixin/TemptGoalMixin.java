@@ -67,7 +67,7 @@ public abstract class TemptGoalMixin
 	}
 
 	private boolean friendsandfoes_canStartWithReturn() {
-		this.closestTuffGolem = (/*? >=1.21.3 {*/(ServerLevel)/*?}*/this.mob.level()).getNearestEntity(
+		this.closestTuffGolem = (/*? if >=1.21.3 {*/(ServerLevel)/*?}*/this.mob.level()).getNearestEntity(
 			TuffGolemEntity.class,
 			this.targetingConditions,
 			this.mob,

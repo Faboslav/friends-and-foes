@@ -15,7 +15,7 @@ public final class FriendsAndFoesStructurePoolElements
 {
 	public static void init(MinecraftServer server) {
 		Registry<StructureTemplatePool> templatePoolRegistry;
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		templatePoolRegistry = server.registryAccess().lookupOrThrow(Registries.TEMPLATE_POOL);
 		//?} else {
 		/*templatePoolRegistry = server.registryAccess().registryOrThrow(Registries.TEMPLATE_POOL);

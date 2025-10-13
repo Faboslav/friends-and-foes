@@ -1,3 +1,7 @@
+## 4.0.11
+
+- Fixed persistent maulers (they should properly despawn now)
+
 ## 4.0.10
 
 - Fixed catalogue related crash

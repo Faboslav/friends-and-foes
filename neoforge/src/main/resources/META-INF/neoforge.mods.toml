@@ -19,6 +19,9 @@ config = "friendsandfoes-neoforge.mixins.json"
 [[mixins]]
 config = "friendsandfoes-common.mixins.json"
 
+[[accessTransformers]]
+file="META-INF/accesstransformer.cfg"
+
 [[dependencies.${ modId }]]
 modId = "neoforge"
 type = "required"

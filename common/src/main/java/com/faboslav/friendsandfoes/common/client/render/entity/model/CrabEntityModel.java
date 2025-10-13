@@ -7,7 +7,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 import net.minecraft.client.model.EntityModel;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.CrabRenderState;
 import net.minecraft.client.model.geom.builders.MeshTransformer;
@@ -15,13 +15,13 @@ import net.minecraft.client.model.geom.builders.MeshTransformer;
 /*import net.minecraft.client.model.HierarchicalModel;
  *///?}
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 public class CrabEntityModel extends EntityModel<CrabRenderState>
 //?} else {
 /*public final class CrabEntityModel<T extends CrabEntity> extends HierarchicalModel<T>
 *///?}
 {
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	public static final MeshTransformer BABY_TRANSFORMER = MeshTransformer.scaling(CrabEntity.BABY_SCALE);
 	//?}
 
@@ -67,7 +67,7 @@ public class CrabEntityModel extends EntityModel<CrabRenderState>
 	private final ModelPart rightBackLeg;
 
 	public CrabEntityModel(ModelPart root) {
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		super(root);
 		//?}
 
@@ -122,7 +122,7 @@ public class CrabEntityModel extends EntityModel<CrabRenderState>
 		return LayerDefinition.create(modelData, 64, 64);
 	}
 
-	//? <1.21.3 {
+	//? if <1.21.3 {
 	/*@Override
 	public ModelPart root() {
 		return this.root;
@@ -130,13 +130,13 @@ public class CrabEntityModel extends EntityModel<CrabRenderState>
 	*///?}
 
 	@Override
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	public void setupAnim(CrabRenderState renderState)
 	//?} else {
 	/*public void setupAnim(T crab, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
 	*///?}
 	{
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		var crab = renderState.crab;
 		var limbAngle = renderState.walkAnimationPos;
 		var limbDistance = renderState.walkAnimationSpeed;

@@ -8,7 +8,7 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
-//? <1.21.3 {
+//? if <1.21.3 {
 /*import net.minecraft.util.profiling.ProfilerFiller;
  *///?}
 
@@ -33,13 +33,13 @@ public class FabricReloadListener implements IdentifiableResourceReloadListener
 	public CompletableFuture<Void> reload(
 		PreparationBarrier barrier,
 		ResourceManager manager,
-		//? <1.21.3 {
+		//? if <1.21.3 {
 		/*ProfilerFiller prepareProfiler,
 		ProfilerFiller applyProfiler,
 		*///?}
 		Executor backgroundExecutor,
 		Executor gameExecutor
 	) {
-		return listener.reload(barrier, manager, /*? <1.21.3 {*//*prepareProfiler, applyProfiler, *//*?}*/ backgroundExecutor, gameExecutor);
+		return listener.reload(barrier, manager, /*? if <1.21.3 {*//*prepareProfiler, applyProfiler, *//*?}*/ backgroundExecutor, gameExecutor);
 	}
 }

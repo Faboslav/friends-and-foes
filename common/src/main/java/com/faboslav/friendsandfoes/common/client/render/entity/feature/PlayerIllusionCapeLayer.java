@@ -1,6 +1,7 @@
+//? if <= 1.21.8 {
 package com.faboslav.friendsandfoes.common.client.render.entity.feature;
 
-//? >=1.21.4 {
+//? if >=1.21.4 {
 import com.faboslav.friendsandfoes.common.client.render.entity.model.PlayerIllusionEntityModel;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -155,3 +156,4 @@ public class PlayerIllusionCapeLayer extends RenderLayer<PlayerIllusionEntity, P
 	}
 }
 *///?}
+//?}

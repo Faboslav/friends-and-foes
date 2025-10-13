@@ -2,7 +2,7 @@
 	"type": "minecraft:crafting_shapeless",
 	"category": "redstone",
 	"ingredients": [
-		//? >=1.21.4 {
+		//? if >=1.21.4 {
 		"friendsandfoes:copper_button",
 		"minecraft:honeycomb"
 		//?} else {

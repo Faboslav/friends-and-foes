@@ -16,7 +16,6 @@ import com.mojang.serialization.Dynamic;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.protocol.game.DebugPackets;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -42,14 +41,14 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
-//? >=1.21.6 {
+//? if >=1.21.6 {
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 //?} else {
 /*import net.minecraft.nbt.CompoundTag;
 *///?}
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 import net.minecraft.world.entity.EntitySpawnReason;
 //?} else {
 /*import net.minecraft.world.entity.MobSpawnType;
@@ -91,7 +90,7 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 	public SpawnGroupData finalizeSpawn(
 		ServerLevelAccessor world,
 		DifficultyInstance difficulty,
-		/*? >=1.21.3 {*/
+		/*? if >=1.21.3 {*/
 		EntitySpawnReason spawnReason,
 		/*?} else {*/
 		/*MobSpawnType spawnReason,
@@ -150,15 +149,9 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 	}
 
 	@Override
-	protected void sendDebugPackets() {
-		super.sendDebugPackets();
-		DebugPackets.sendEntityBrain(this);
-	}
-
-	@Override
-	protected void customServerAiStep(/*? >=1.21.3 {*/ServerLevel level/*?}*/)
+	protected void customServerAiStep(/*? if >=1.21.3 {*/ServerLevel level/*?}*/)
 	{
-		//? <1.21.3 {
+		//? if <1.21.3 {
 		/*var level = (ServerLevel) this.level();
 		 *///?}
 
@@ -171,7 +164,7 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 		WildfireBrain.updateActivities(this);
 		profiler.pop();
 
-		super.customServerAiStep(/*? >=1.21.3 {*/level/*?}*/);
+		super.customServerAiStep(/*? if >=1.21.3 {*/level/*?}*/);
 	}
 
 	public static AttributeSupplier.Builder createWildfireAttributes() {
@@ -195,7 +188,7 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 	}
 
 	@Override
-	//? >= 1.21.6 {
+	//? if >= 1.21.6 {
 	public void addAdditionalSaveData(ValueOutput nbt)
 	//?} else {
 	/*public void addAdditionalSaveData(CompoundTag nbt)
@@ -208,7 +201,7 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 	}
 
 	@Override
-	//? >= 1.21.6 {
+	//? if >= 1.21.6 {
 	public void readAdditionalSaveData(ValueInput nbt)
 	//?} else {
 	/*public void readAdditionalSaveData(CompoundTag nbt)
@@ -357,7 +350,7 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 			f = Math.min(partialTick * 4.0F, 1.0F);
 		}
 		
-		this.walkAnimation.update(f, 0.4F/*? >=1.21.3 {*/, 1.0F /*?}*/);
+		this.walkAnimation.update(f, 0.4F/*? if >=1.21.3 {*/, 1.0F /*?}*/);
 	}
 
 	private void updateKeyframeAnimations() {
@@ -474,18 +467,18 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 	}
 
 	@Override
-	/*? >=1.21.3 {*/
+	/*? if >=1.21.3 {*/
 	public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
 	/*?} else {*/
 	/*public boolean hurt(DamageSource damageSource, float amount)
 	 *//*?}*/
 	{
-		//? <1.21.3 {
+		//? if <1.21.3 {
 		/*var level = this.level();
 		*///?}
 
 		if (damageSource == this.damageSources().generic() || damageSource == this.damageSources().genericKill()) {
-			/*? >=1.21.3 {*/
+			/*? if >=1.21.3 {*/
 			return super.hurtServer(level, damageSource, amount);
 			/*?} else {*/
 			/*return super.hurt(damageSource, amount);
@@ -520,7 +513,7 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 
 		this.resetTicksUntilShieldRegeneration();
 
-		/*? >=1.21.3 {*/
+		/*? if >=1.21.3 {*/
 		boolean damageResult = super.hurtServer(level, damageSource, amount);
 		/*?} else {*/
 		/*boolean damageResult = super.hurt(damageSource, amount);

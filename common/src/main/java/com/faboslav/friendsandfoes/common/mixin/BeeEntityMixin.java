@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 import net.minecraft.server.level.ServerLevel;
 //?}
 
@@ -44,7 +44,7 @@ public abstract class BeeEntityMixin extends Animal
 		this.goalSelector.addGoal(3, this.friendsandfoes$pollinateMoobloomGoal);
 	}
 
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	@Inject(
 		method = "hurtServer",
 		at = @At("HEAD")
@@ -66,7 +66,7 @@ public abstract class BeeEntityMixin extends Animal
 		CallbackInfoReturnable<Boolean> callbackInfo
 	) {
 	*///?}
-		if (!this.isInvulnerableTo(/*? >=1.21.3 {*/level, /*?}*/damageSource))
+		if (!this.isInvulnerableTo(/*? if >=1.21.3 {*/level, /*?}*/damageSource))
 		{
 			if (
 				!this.level().isClientSide()

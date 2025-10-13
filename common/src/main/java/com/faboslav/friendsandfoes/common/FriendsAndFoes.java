@@ -68,7 +68,7 @@ public final class FriendsAndFoes
 		EntitySpawnEvent.EVENT.addListener(IllusionerOnEntitySpawn::handleEntitySpawn);
 
 		FriendsAndFoesActivities.ACTIVITIES.init();
-		//? <1.21.3 {
+		//? if <1.21.3 {
 		/*FriendsAndFoesArmorMaterials.ARMOR_MATERIALS.init();
 		*///?}
 		FriendsAndFoesBlocks.BLOCKS.init();

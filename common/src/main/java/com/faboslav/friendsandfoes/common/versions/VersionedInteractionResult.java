@@ -8,7 +8,7 @@ public class VersionedInteractionResult
 	public static InteractionResult success(Entity entity) {
 		InteractionResult interactionResult;
 
-		/*? >=1.21.3 {*/
+		/*? if >=1.21.3 {*/
 		interactionResult = InteractionResult.SUCCESS;
 		/*?} else {*/
 		/*interactionResult = InteractionResult.sidedSuccess(entity.level().isClientSide());

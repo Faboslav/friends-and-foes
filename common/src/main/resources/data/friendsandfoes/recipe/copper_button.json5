@@ -6,7 +6,7 @@
 		"C"
 	],
 	"key": {
-		//? >=1.21.4 {
+		//? if >=1.21.4 {
 		"C": "minecraft:copper_ingot"
 		//?} else {
 		/*"C": {

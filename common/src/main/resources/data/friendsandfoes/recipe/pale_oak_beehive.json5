@@ -1,4 +1,4 @@
-//? >=1.21.4 {
+//? if >=1.21.4 {
 {
 	"type": "minecraft:crafting_shaped",
 	"category": "misc",

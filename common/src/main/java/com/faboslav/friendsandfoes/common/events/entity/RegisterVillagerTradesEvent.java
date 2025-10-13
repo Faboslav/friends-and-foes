@@ -6,7 +6,7 @@ import java.util.function.BiConsumer;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 
-//? >=1.21.5 {
+//? if >=1.21.5 {
 import net.minecraft.resources.ResourceKey;
 //?}
 
@@ -19,7 +19,7 @@ import net.minecraft.resources.ResourceKey;
  * <a href="https://github.com/Team-Resourceful/ResourcefulLib">https://github.com/Team-Resourceful/ResourcefulLib</a>
  */
 public record RegisterVillagerTradesEvent(
-	//? >=1.21.5 {
+	//? if >=1.21.5 {
 	ResourceKey<VillagerProfession> type,
 	//?} else {
 	/*VillagerProfession type,

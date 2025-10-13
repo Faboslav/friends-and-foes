@@ -1,19 +1,18 @@
 plugins {
 	id("fabric-loom")
 	`multiloader-loader`
-	kotlin("jvm") version "2.2.0"
-	id("com.google.devtools.ksp") version "2.2.0-2.0.2"
-	id("dev.kikugie.fletching-table.fabric") version "0.1.0-alpha.14"
-}
-
-stonecutter {
-	const("trinkets", commonMod.depOrNull("trinkets") != null)
+	id("dev.kikugie.fletching-table.fabric") version "0.1.0-alpha.22"
 }
 
 fletchingTable {
 	j52j.register("main") {
 		extension("json", "**/*.json5")
 	}
+}
+
+stonecutter {
+	constants["modMenu"] = commonMod.depOrNull("mod_menu") != null
+	constants["trinkets"] = commonMod.depOrNull("trinkets") != null
 }
 
 dependencies {
@@ -39,7 +38,10 @@ dependencies {
 	modImplementation("dev.isxander:yet-another-config-lib:${commonMod.dep("yacl")}-fabric")
 
 	// Optional dependencies
-	modImplementation("com.terraformersmc:modmenu:${commonMod.dep("modmenu")}")
+	// Mod Menu (https://www.curseforge.com/minecraft/mc-mods/modmenu)
+	commonMod.depOrNull("mod_menu")?.let { modMenuVersion ->
+		modImplementation("com.terraformersmc:modmenu:${modMenuVersion}")
+	}
 
 	// Compat dependencies
 	// Trinkets (https://www.curseforge.com/minecraft/mc-mods/trinkets)
@@ -53,7 +55,7 @@ dependencies {
 }
 
 loom {
-	accessWidenerPath = common.project.file("../../src/main/resources/${mod.id}.accesswidener")
+	accessWidenerPath = common.project.file("../../src/main/resources/accesswideners/${commonMod.mc}-${mod.id}.accesswidener")
 
 	runs {
 		getByName("client") {
@@ -71,4 +73,18 @@ loom {
 	mixin {
 		defaultRefmapName = "${mod.id}.refmap.json"
 	}
+}
+
+tasks.named<ProcessResources>("processResources") {
+	val awFile = project(":common").file("src/main/resources/accesswideners/${commonMod.mc}-${mod.id}.accesswidener")
+
+	from(awFile.parentFile) {
+		include(awFile.name)
+		rename(awFile.name, "${mod.id}.accesswidener")
+		into("")
+	}
+}
+
+tasks.withType<Jar>().configureEach {
+	exclude("accesswideners/**")
 }

@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.common.versions;
 
-/*? >=1.21.3 {*/
+/*? if >=1.21.3 {*/
 import net.minecraft.world.entity.EntitySpawnReason;
  /*?} else {*/
 /*import net.minecraft.world.entity.MobSpawnType;
@@ -8,7 +8,7 @@ import net.minecraft.world.entity.EntitySpawnReason;
 
 public class VersionedEntitySpawnReason
 {
-	/*? >=1.21.3 {*/
+	/*? if >=1.21.3 {*/
 	public static final EntitySpawnReason NATURAL = EntitySpawnReason.NATURAL;
 	public static final EntitySpawnReason SPAWNER = EntitySpawnReason.SPAWNER;
 	public static final EntitySpawnReason CHUNK_GENERATION = EntitySpawnReason.CHUNK_GENERATION;

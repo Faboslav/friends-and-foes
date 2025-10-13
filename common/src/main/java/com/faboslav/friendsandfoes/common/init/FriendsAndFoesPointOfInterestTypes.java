@@ -28,7 +28,7 @@ public final class FriendsAndFoesPointOfInterestTypes
 	public final static Supplier<PoiType> DARK_OAK_BEEHIVE = registerPoi("dark_oak_beehive", FriendsAndFoesBlocks.DARK_OAK_BEEHIVE, 1, 1);
 	public final static Supplier<PoiType> JUNGLE_BEEHIVE = registerPoi("jungle_beehive", FriendsAndFoesBlocks.JUNGLE_BEEHIVE, 1, 1);
 	public final static Supplier<PoiType> MANGROVE_BEEHIVE = registerPoi("mangrove_beehive", FriendsAndFoesBlocks.MANGROVE_BEEHIVE, 1, 1);
-	//? >=1.21.4 {
+	//? if >=1.21.4 {
 	public static final Supplier<PoiType> PALE_OAK_BEEHIVE =  registerPoi("pale_oak_beehive", FriendsAndFoesBlocks.PALE_OAK_BEEHIVE, 1, 1);
 	//?}
 	public final static Supplier<PoiType> SPRUCE_BEEHIVE = registerPoi("spruce_beehive", FriendsAndFoesBlocks.SPRUCE_BEEHIVE, 1, 1);

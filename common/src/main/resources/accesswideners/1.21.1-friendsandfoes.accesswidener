@@ -4,15 +4,10 @@ accessible class net/minecraft/world/entity/raid/Raid$RaiderType
 accessible class net/minecraft/world/entity/monster/Illusioner$IllusionerBlindnessSpellGoal
 accessible class net/minecraft/world/entity/monster/SpellcasterIllager$IllagerSpell
 accessible class net/minecraft/world/level/levelgen/structure/structures/JigsawStructure
+extendable class net/minecraft/world/level/levelgen/structure/structures/JigsawStructure
 accessible class net/minecraft/client/animation/AnimationDefinition
 accessible class net/minecraft/client/particle/ParticleEngine$MutableSpriteSet
 accessible method net/minecraft/client/particle/ParticleEngine$MutableSpriteSet <init> ()V
-accessible field net/minecraft/world/entity/ai/village/poi/PoiType matchingStates Ljava/util/Set;
-mutable field net/minecraft/world/entity/ai/village/poi/PoiType matchingStates Ljava/util/Set;
-accessible field net/minecraft/world/entity/ai/village/poi/PoiType maxTickets I
-mutable field net/minecraft/world/entity/ai/village/poi/PoiType maxTickets I
-accessible field net/minecraft/world/entity/ai/village/poi/PoiTypes TYPE_BY_STATE Ljava/util/Map;
-mutable field net/minecraft/world/entity/ai/village/poi/PoiTypes TYPE_BY_STATE Ljava/util/Map;
 accessible field net/minecraft/world/level/block/entity/BlockEntityType validBlocks Ljava/util/Set;
 mutable field net/minecraft/world/level/block/entity/BlockEntityType validBlocks Ljava/util/Set;
 accessible method net/minecraft/world/entity/ai/village/poi/PoiTypes getBlockStates (Lnet/minecraft/world/level/block/Block;)Ljava/util/Set;
@@ -42,7 +37,6 @@ accessible field net/minecraft/world/item/CreativeModeTabs INGREDIENTS Lnet/mine
 accessible field net/minecraft/world/item/CreativeModeTabs SPAWN_EGGS Lnet/minecraft/resources/ResourceKey;
 accessible field net/minecraft/world/item/CreativeModeTabs OP_BLOCKS Lnet/minecraft/resources/ResourceKey;
 accessible field net/minecraft/world/item/CreativeModeTabs INVENTORY Lnet/minecraft/resources/ResourceKey;
-accessible method net/minecraft/world/entity/Pose <init> (Ljava/lang/String;II)V
 accessible field net/minecraft/world/level/block/WeatheringCopper NEXT_BY_BLOCK Ljava/util/function/Supplier;
 accessible field net/minecraft/world/level/block/WeatheringCopper PREVIOUS_BY_BLOCK Ljava/util/function/Supplier;
 accessible method net/minecraft/world/effect/MobEffect <init> (Lnet/minecraft/world/effect/MobEffectCategory;I)V

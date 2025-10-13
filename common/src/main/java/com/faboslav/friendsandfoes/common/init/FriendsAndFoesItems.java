@@ -12,11 +12,11 @@ import net.minecraft.world.level.block.ComposterBlock;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-//? =1.21.4 {
+//? if = 1.21.4 {
 /*import net.minecraft.world.item.equipment.ArmorMaterials;
 *///?}
 
-//? >=1.21.4 {
+//? if >=1.21.4 {
 import net.minecraft.world.item.equipment.ArmorType;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistries;
 import com.teamresourceful.resourcefullib.common.registry.builtin.ResourcefulItemRegistry;
@@ -32,7 +32,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
  */
 public final class FriendsAndFoesItems
 {
-	//? >=1.21.4 {
+	//? if >=1.21.4 {
 	public static final ResourcefulItemRegistry ITEMS = ResourcefulRegistries.createForItems(FriendsAndFoes.MOD_ID);
 	//?} else {
 	/*public static final ItemLikeResourcefulRegistry<Item> ITEMS = new ItemLikeResourcefulRegistry<>(BuiltInRegistries.ITEM, FriendsAndFoes.MOD_ID);
@@ -61,7 +61,7 @@ public final class FriendsAndFoesItems
 	public final static RegistryEntry<Item> JUNGLE_BEEHIVE = registerItem("jungle_beehive", (properties) -> new BlockItem(FriendsAndFoesBlocks.JUNGLE_BEEHIVE.get(), properties), () -> new Item.Properties().stacksTo(64));
 	public final static RegistryEntry<Item> MANGROVE_BEEHIVE = registerItem("mangrove_beehive", (properties) -> new BlockItem(FriendsAndFoesBlocks.MANGROVE_BEEHIVE.get(), properties), () -> new Item.Properties().stacksTo(64));
 	public final static RegistryEntry<Item> SPRUCE_BEEHIVE = registerItem("spruce_beehive", (properties) -> new BlockItem(FriendsAndFoesBlocks.SPRUCE_BEEHIVE.get(), properties), () -> new Item.Properties().stacksTo(64));
-	//? >=1.21.4 {
+	//? if >=1.21.4 {
 	public final static RegistryEntry<Item> PALE_OAK_BEEHIVE = registerItem("pale_oak_beehive", (properties) -> new BlockItem(FriendsAndFoesBlocks.PALE_OAK_BEEHIVE.get(), properties), () -> new Item.Properties().stacksTo(64));
 	//?}
 	public final static RegistryEntry<Item> WARPED_BEEHIVE = registerItem("warped_beehive", (properties) -> new BlockItem(FriendsAndFoesBlocks.WARPED_BEEHIVE.get(), properties), () -> new Item.Properties().stacksTo(64));
@@ -81,7 +81,7 @@ public final class FriendsAndFoesItems
 	public final static RegistryEntry<Item> WAXED_WEATHERED_LIGHTNING_ROD = registerItem("waxed_weathered_lightning_rod", (properties) -> new BlockItem(FriendsAndFoesBlocks.WAXED_WEATHERED_LIGHTNING_ROD.get(), properties), () -> new Item.Properties().stacksTo(64));
 	public final static RegistryEntry<Item> WAXED_OXIDIZED_LIGHTNING_ROD = registerItem("waxed_oxidized_lightning_rod", (properties) -> new BlockItem(FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get(), properties), () -> new Item.Properties().stacksTo(64));
 
-	//? >=1.21.5 {
+	//? if >=1.21.5 {
 	public final static RegistryEntry<Item> WILDFIRE_CROWN = registerItem("wildfire_crown", Item::new, () -> new Item.Properties().humanoidArmor(FriendsAndFoesArmorMaterials.WILDFIRE, ArmorType.HELMET).fireResistant());
 	//?} else if >=1.21.3 {
 	/*public final static RegistryEntry<Item> WILDFIRE_CROWN = registerItem("wildfire_crown", (properties) -> new ArmorItem(FriendsAndFoesArmorMaterials.WILDFIRE, ArmorType.HELMET, properties), () -> new Item.Properties().stacksTo(1).fireResistant().durability(ArmorType.HELMET.getDurability(37)));
@@ -98,7 +98,7 @@ public final class FriendsAndFoesItems
 	}
 
 	private static RegistryEntry<Item> registerItem(String id, Function<Item.Properties, Item> factory, Supplier<Item.Properties> getter) {
-		//? >=1.21.4 {
+		//? if >=1.21.4 {
 		return ITEMS.register(id, factory, getter);
 		//?} else {
 		/*return ITEMS.register(id, () -> factory.apply(getter.get()));
@@ -112,13 +112,13 @@ public final class FriendsAndFoesItems
 		int secondaryColorIn
 	) {
 		return ITEMS.register(id, () -> {
-			//? >=1.21.4 {
+			//? if >= 1.21.9 {
+			/*var spawnEgg = new SpawnEggItem(new Item.Properties().spawnEgg(typeIn.get()).stacksTo(64).setId(ResourceKey.create(Registries.ITEM, FriendsAndFoes.makeID(id))));
+			*///?} else if >=1.21.4 {
 			var spawnEgg = new SpawnEggItem(typeIn.get(), new Item.Properties().stacksTo(64).setId(ResourceKey.create(Registries.ITEM, FriendsAndFoes.makeID(id))));
-			 /*?}*/
-			//? =1.21.3 {
-			/*var spawnEgg = new SpawnEggItem(typeIn.get(), primaryColorIn, secondaryColorIn, new Item.Properties().stacksTo(64).setId(ResourceKey.create(Registries.ITEM, FriendsAndFoes.makeID(id))));
-			*///?}
-			//? <=1.21.1 {
+			 //?} else =1.21.3 {
+			/*var spawnEgg = new SpawnEggItem(typeIn.get(), primaryColorIn, secondaryColorIn, new Item.Properties().stacksTo(64).setId(ResourceKey.create(Registries.ITEM, FriendsAndFoes.makeId(id))));
+			/*///?} else <=1.21.1 {
 			/*var spawnEgg = new SpawnEggItem(typeIn.get(), primaryColorIn, secondaryColorIn, new Item.Properties().stacksTo(64));
 			 *///?}
 			var spawnEggMap = SpawnEggItemAccessor.friendsandfoes$getSpawnEggs();

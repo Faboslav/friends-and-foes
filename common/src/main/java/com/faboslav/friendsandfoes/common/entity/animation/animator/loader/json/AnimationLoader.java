@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 import net.minecraft.resources.FileToIdConverter;
 //?} else {
 /*import com.google.gson.Gson;
@@ -31,7 +31,7 @@ import com.mojang.serialization.JsonOps;
  * @author NeoForge team
  * <a href="https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation">https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation</a>
  */
-//? >=1.21.3 {
+//? if >=1.21.3 {
 public final class AnimationLoader extends SimpleJsonResourceReloadListener<AnimationDefinition>
 //?} else {
 /*public final class AnimationLoader extends SimpleJsonResourceReloadListener
@@ -44,7 +44,7 @@ public final class AnimationLoader extends SimpleJsonResourceReloadListener<Anim
 	private final List<AnimationHolder> strongHolderReferences = new ArrayList<>();
 
 	private AnimationLoader() {
-		//? >=1.21.4 {
+		//? if >=1.21.4 {
 		super(AnimationParser.CODEC, FileToIdConverter.json("friendsandfoes/animations/entity"));
 		//?} else {
 		/*super(new Gson(), "friendsandfoes/animations/entity");
@@ -77,13 +77,13 @@ public final class AnimationLoader extends SimpleJsonResourceReloadListener<Anim
 	}
 
 	@Override
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	protected void apply(Map<ResourceLocation, AnimationDefinition> entityAnimations, ResourceManager resourceManager, ProfilerFiller profiler)
 	//?} else {
 	/*protected void apply(Map<ResourceLocation, JsonElement> entityAnimationsJson, ResourceManager resourceManager, ProfilerFiller profiler)
 	*///?}
 	{
-		//? <1.21.3 {
+		//? if <1.21.3 {
 		/*Map<ResourceLocation, AnimationDefinition> entityAnimations = new HashMap<>();
 
 		for (Map.Entry<ResourceLocation, JsonElement> entry : entityAnimationsJson.entrySet()) {

@@ -1,5 +1,5 @@
 {
-	//? >=1.21.5 {
+	//? if >=1.21.5 {
 	"parent": "minecraft:item/generated",
 	"textures": {
 		"layer0": "friendsandfoes:item/moobloom_spawn_egg"

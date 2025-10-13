@@ -15,14 +15,14 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 import net.minecraft.client.model.EntityModel;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.CopperGolemRenderState;
 //?} else {
 /*import net.minecraft.client.model.HierarchicalModel;
 *///?}
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 public class CopperGolemEntityModel extends EntityModel<CopperGolemRenderState>
 //?} else {
 /*public final class CopperGolemEntityModel<T extends CopperGolemEntity> extends HierarchicalModel<T>
@@ -48,7 +48,7 @@ public class CopperGolemEntityModel extends EntityModel<CopperGolemRenderState>
 	private final ModelPart rightLeg;
 
 	public CopperGolemEntityModel(ModelPart root) {
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		super(root);
 		//?}
 
@@ -86,7 +86,7 @@ public class CopperGolemEntityModel extends EntityModel<CopperGolemRenderState>
 		return LayerDefinition.create(modelData, 64, 64);
 	}
 
-	//? <1.21.3 {
+	//? if <1.21.3 {
 	/*@Override
 	public ModelPart root() {
 		return this.root;
@@ -94,13 +94,13 @@ public class CopperGolemEntityModel extends EntityModel<CopperGolemRenderState>
 	*///?}
 
 	@Override
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	public void setupAnim(CopperGolemRenderState renderState)
 	//?} else {
 	/*public void setupAnim(T copperGolem, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
 	*///?}
 	{
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		var copperGolem = renderState.copperGolem;
 		var limbAngle = renderState.walkAnimationPos;
 		var limbDistance = renderState.walkAnimationSpeed;

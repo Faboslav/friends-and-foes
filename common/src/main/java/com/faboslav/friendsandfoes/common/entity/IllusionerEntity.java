@@ -114,6 +114,7 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 	/*public void addAdditionalSaveData(CompoundTag nbt)
 	*///?}
 	{
+		super.addAdditionalSaveData(nbt);
 		nbt.putBoolean(IS_ILLUSION_NBT_NAME, this.isIllusion());
 		nbt.putBoolean(WAS_ATTACKED_NBT_NAME, this.wasAttacked());
 		nbt.putInt(TICKS_UNTIL_DESPAWN_NBT_NAME, this.getTicksUntilDespawn());
@@ -127,6 +128,7 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 	/*public void readAdditionalSaveData(CompoundTag nbt)
 	*///?}
 	{
+		super.readAdditionalSaveData(nbt);
 		this.setIsIllusion(VersionedNbt.getBoolean(nbt, IS_ILLUSION_NBT_NAME, false));
 		this.setWasAttacked(VersionedNbt.getBoolean(nbt, WAS_ATTACKED_NBT_NAME, false));
 		this.setTicksUntilDespawn(VersionedNbt.getInt(nbt, TICKS_UNTIL_DESPAWN_NBT_NAME, 0));
@@ -150,6 +152,15 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 	) {
 		this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
 		return super.finalizeSpawn(level, difficulty, spawnReason, entityData);
+	}
+
+	@Override
+	public void tick() {
+		if (!FriendsAndFoes.getConfig().enableIllusioner) {
+			this.discard();
+		}
+
+		super.tick();
 	}
 
 	@Override

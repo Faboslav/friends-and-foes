@@ -2,6 +2,9 @@
 
 - Fixed persistent maulers (they should properly despawn now)
 - Fixed tuff golems having empty enchanted books in strongholds
+- Fixed illusioner not saving/loading vanilla nbt data
+- Fixed illusioner having invisible bow
+- Corrected multiple data tags
 
 ## 4.0.10
 

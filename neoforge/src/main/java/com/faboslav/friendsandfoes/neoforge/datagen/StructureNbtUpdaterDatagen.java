@@ -2,10 +2,6 @@ package com.faboslav.friendsandfoes.neoforge.datagen;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.server.packs.PackType;
-import net.minecraft.server.packs.resources.ResourceManager;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 //? if >=1.21.4 {
@@ -14,10 +10,10 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
  *///?}
 
 // Source: https://github.com/BluSunrize/ImmersiveEngineering/blob/1.20.1/src/datagen/java/blusunrize/immersiveengineering/data/IEDataGenerator.java
-@EventBusSubscriber(modid = FriendsAndFoes.MOD_ID)
+//@EventBusSubscriber(modid = FriendsAndFoes.MOD_ID)
 public class StructureNbtUpdaterDatagen
 {
-	@SubscribeEvent
+	//@SubscribeEvent
 	public static void gatherData(
 		//? if >=1.21.4 {
 		GatherDataEvent.Server event

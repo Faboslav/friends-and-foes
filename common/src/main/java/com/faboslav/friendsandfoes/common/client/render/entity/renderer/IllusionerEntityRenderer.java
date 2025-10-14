@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.IllagerModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.client.renderer.entity.IllagerRenderer;
+import net.minecraft.client.renderer.entity.IllusionerRenderer;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.monster.SpellcasterIllager;
@@ -38,7 +39,7 @@ public class IllusionerEntityRenderer<T extends SpellcasterIllager> extends Illa
 		/*this.addLayer(new ItemInHandLayer<>(this)
 		{
 			public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int i, IllusionerRenderState renderState, float f, float g) {
-				if (renderState.isCastingSpell) {
+				if (illusionerRenderState.isCastingSpell || illusionerRenderState.isAggressive) {
 					super.submit(poseStack, submitNodeCollector, i, renderState, f, g);
 				}
 
@@ -57,9 +58,9 @@ public class IllusionerEntityRenderer<T extends SpellcasterIllager> extends Illa
 		//?} else {
 		/*this.addLayer(new ItemInHandLayer<>(this, context.getItemInHandRenderer())
 		{
-			public void render(PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int i, T spellcastingIllagerEntity, float f, float g, float h, float j, float k, float l) {
-				if (spellcastingIllagerEntity.isCastingSpell()) {
-					super.render(matrixStack, vertexConsumerProvider, i, spellcastingIllagerEntity, f, g, h, j, k, l);
+			public void render(PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int i, T illusioner, float f, float g, float h, float j, float k, float l) {
+				if (illusioner.isCastingSpell() || illusioner.isAggressive()) {
+					super.render(matrixStack, vertexConsumerProvider, i, illusioner, f, g, h, j, k, l);
 				}
 
 			}

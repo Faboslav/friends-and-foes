@@ -143,22 +143,20 @@ public final class RascalWaitForPlayerTask extends Behavior<RascalEntity>
 
 	@Override
 	protected void stop(ServerLevel world, RascalEntity rascal, long time) {
-		if (rascal.hasCustomName()) {
-			RascalBrain.setNodCooldown(rascal);
-			return;
-		}
+		if (!rascal.hasCustomName()) {
+			rascal.spawnCloudParticles();
+			rascal.playDisappearSound();
 
-		rascal.spawnCloudParticles();
-		rascal.playDisappearSound();
+			if (rascal.shouldGiveReward()) {
+				rascal.discard();
+				return;
+			}
 
-		if (rascal.shouldGiveReward()) {
-			rascal.discard();
-			return;
+			rascal.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, RascalBrain.NOD_COOLDOWN * 20));
+			this.tryToTeleport(world, rascal);
 		}
 
 		rascal.setPose(RascalEntityPose.IDLE);
-		rascal.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, RascalBrain.NOD_COOLDOWN * 20));
-		this.tryToTeleport(world, rascal);
 		RascalBrain.setNodCooldown(rascal);
 		rascal.enableAmbientSounds();
 	}

@@ -2,6 +2,8 @@ package com.faboslav.friendsandfoes.neoforge.datagen;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 //? if >=1.21.4 {

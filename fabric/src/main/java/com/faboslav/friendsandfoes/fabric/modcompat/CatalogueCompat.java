@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.fabric.modcompat;
 
-import com.faboslav.friendsandfoes.common.config.FriendsAndFoesConfigScreen;
+import com.faboslav.friendsandfoes.common.FriendsAndFoesClient;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.client.gui.screens.Screen;
@@ -15,6 +15,6 @@ public final class CatalogueCompat
 			return null;
 		}
 
-		return new FriendsAndFoesConfigScreen(screen);
+		return FriendsAndFoesClient.getConfigScreen(screen);
 	}
 }

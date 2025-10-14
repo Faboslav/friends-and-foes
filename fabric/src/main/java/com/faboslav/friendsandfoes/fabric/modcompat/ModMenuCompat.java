@@ -1,6 +1,6 @@
 package com.faboslav.friendsandfoes.fabric.modcompat;
 
-import com.faboslav.friendsandfoes.common.config.FriendsAndFoesConfigScreen;
+import com.faboslav.friendsandfoes.common.FriendsAndFoesClient;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
 import net.fabricmc.loader.api.FabricLoader;
@@ -14,7 +14,7 @@ public final class ModMenuCompat implements ModMenuApi
 				return null;
 			}
 
-			return new FriendsAndFoesConfigScreen(screen);
+			return FriendsAndFoesClient.getConfigScreen(screen);
 		};
 	}
 }

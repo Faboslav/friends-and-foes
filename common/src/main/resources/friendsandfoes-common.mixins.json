@@ -15,8 +15,6 @@
     "AnimalMakeLoveAccessor",
     "BeeEntityAccessor",
     "BeeEntityMixin",
-    "BeeEntityMoveToFlowerGoalMixin",
-    "BeeEntityMoveToHiveGoalMixin",
     "BlazeEntityMixin",
     "BlazeLivingEntityMixin",
     "CarvedPumpkinBlockMixin",

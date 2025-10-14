@@ -31,6 +31,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -44,6 +45,7 @@ import net.minecraft.world.entity.ai.control.JumpControl;
 import net.minecraft.world.entity.ai.control.LookControl;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.animal.AbstractGolem;
+import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.Item;
@@ -977,7 +979,7 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 		float limbAnimatorPrevSpeed,
 		float limbAnimatorSpeed,
 		float limbAnimatorPos
-	) {
+	) implements StringRepresentable {
 		public static final Codec<EntitySnapshot> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			Codec.FLOAT.fieldOf("prevYaw").forGetter(EntitySnapshot::prevYaw),
 			Codec.FLOAT.fieldOf("prevPitch").forGetter(EntitySnapshot::prevPitch),
@@ -1016,6 +1018,11 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 				VersionedNbt.getFloat(tag, "limbAnimatorSpeed", 0.0F),
 				VersionedNbt.getFloat(tag, "limbAnimatorPos", 0.0F)
 			);
+		}
+
+		@Override
+		public String getSerializedName() {
+			return "";
 		}
 	}
 }

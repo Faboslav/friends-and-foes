@@ -76,6 +76,8 @@ public final class FriendsAndFoesBlocks
 	public static final RegistryEntry<Block> WAXED_EXPOSED_COPPER_BUTTON = registerBlock("waxed_exposed_copper_button", (properties) -> new CopperButtonBlock(7, properties), () -> BlockBehaviour.Properties.ofFullCopy(COPPER_BUTTON.get()));
 	public static final RegistryEntry<Block> WAXED_WEATHERED_COPPER_BUTTON = registerBlock("waxed_weathered_copper_button", (properties) -> new CopperButtonBlock(4, properties), () -> BlockBehaviour.Properties.ofFullCopy(COPPER_BUTTON.get()));
 	public static final RegistryEntry<Block> WAXED_OXIDIZED_COPPER_BUTTON = registerBlock("waxed_oxidized_copper_button", (properties) -> new CopperButtonBlock(1, properties), () -> BlockBehaviour.Properties.ofFullCopy(COPPER_BUTTON.get()));
+
+	//? if <=1.21.8 {
 	public static final RegistryEntry<Block> EXPOSED_LIGHTNING_ROD = registerBlock("exposed_lightning_rod", (properties) -> new OxidizableLightningRodBlock(WeatheringCopper.WeatherState.EXPOSED, properties), () -> BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHTNING_ROD));
 	public static final RegistryEntry<Block> WEATHERED_LIGHTNING_ROD = registerBlock("weathered_lightning_rod", (properties) -> new OxidizableLightningRodBlock(WeatheringCopper.WeatherState.WEATHERED, properties), () -> BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHTNING_ROD));
 	public static final RegistryEntry<Block> OXIDIZED_LIGHTNING_ROD = registerBlock("oxidized_lightning_rod", (properties) -> new OxidizableLightningRodBlock(WeatheringCopper.WeatherState.OXIDIZED, properties), () -> BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHTNING_ROD));
@@ -83,6 +85,7 @@ public final class FriendsAndFoesBlocks
 	public static final RegistryEntry<Block> WAXED_EXPOSED_LIGHTNING_ROD = registerBlock("waxed_exposed_lightning_rod", LightningRodBlock::new, () -> BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHTNING_ROD));
 	public static final RegistryEntry<Block> WAXED_WEATHERED_LIGHTNING_ROD = registerBlock("waxed_weathered_lightning_rod", LightningRodBlock::new, () -> BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHTNING_ROD));
 	public static final RegistryEntry<Block> WAXED_OXIDIZED_LIGHTNING_ROD = registerBlock("waxed_oxidized_lightning_rod", LightningRodBlock::new, () -> BlockBehaviour.Properties.ofFullCopy(Blocks.LIGHTNING_ROD));
+	//?}
 
 	private static RegistryEntry<Block> registerBlock(String id, Function<BlockBehaviour.Properties, Block> factory, Supplier<BlockBehaviour.Properties> getter) {
 		//? if >=1.21.4 {

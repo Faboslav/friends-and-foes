@@ -1,5 +1,9 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
+import org.spongepowered.asm.mixin.Mixin;
+import net.minecraft.world.level.block.LightningRodBlock;
+
+//? if <=1.21.8 {
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.block.OnUseOxidizable;
 import com.faboslav.friendsandfoes.common.entity.CopperGolemEntity;
@@ -15,18 +19,13 @@ import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CarvedPumpkinBlock;
 import net.minecraft.world.level.block.ChangeOverTimeBlock;
-import net.minecraft.world.level.block.LevelEvent;
-import net.minecraft.world.level.block.LightningRodBlock;
 import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.WeatheringCopperFullBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -35,7 +34,6 @@ import net.minecraft.world.level.block.state.pattern.BlockPattern;
 import net.minecraft.world.level.block.state.pattern.BlockPatternBuilder;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -235,4 +233,8 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 			cir.setReturnValue(actionResult);
 		}
 	}
+}//?} else {
+/*@Mixin(value = LightningRodBlock.class, priority = 1001)
+public abstract class LightningRodBlockMixin {
 }
+*///?}

@@ -6,12 +6,22 @@ import com.faboslav.friendsandfoes.common.entity.ai.brain.TuffGolemBrain;
 import com.faboslav.friendsandfoes.common.entity.pose.TuffGolemEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.EnchantmentTags;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentInstance;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
@@ -96,14 +106,17 @@ public abstract class StrongholdGeneratorMixin extends StructurePiece
 		float randomSpawnYaw = 90.0F * (float) random.nextIntBetweenInclusive(0, 3);
 		tuffGolem.setSpawnYaw(randomSpawnYaw);
 
-		ItemStack enchantedBook = Items.ENCHANTED_BOOK.getDefaultInstance();
+		ItemStack enchantedBook = Items.BOOK.getDefaultInstance();
 		enchantedBook.setCount(1);
 
-		enchantedBook.set(DataComponents.ENCHANTMENTS, ItemEnchantments.EMPTY);
-		EnchantmentHelper.enchantItemFromProvider(enchantedBook, serverWorld.registryAccess(), VanillaEnchantmentProviders.MOB_SPAWN_EQUIPMENT, new DifficultyInstance(serverWorld.getDifficulty(), 0, 0, 0.0F), random);
+		int enchantmentLevel = 30;
+		var enchantmentList = this.friendsAndFoes$getEnchantmentList(random, serverWorld.registryAccess(), enchantedBook, enchantmentLevel);
+
+		if (!enchantmentList.isEmpty()) {
+			enchantedBook = EnchantmentHelper.enchantItem(random, enchantedBook, enchantmentLevel, enchantmentList.stream());
+		}
 
 		tuffGolem.setItemSlot(EquipmentSlot.MAINHAND, enchantedBook);
-
 		tuffGolem.setPrevPose(TuffGolemEntityPose.STANDING_WITH_ITEM.get());
 		tuffGolem.setPoseWithoutPrevPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM.get());
 
@@ -114,5 +127,34 @@ public abstract class StrongholdGeneratorMixin extends StructurePiece
 		if (isTuffGolemSpawned) {
 			this.isTuffGolemGenerated = true;
 		}
+	}
+
+	private List<Holder<Enchantment>> friendsAndFoes$getEnchantmentList(RandomSource random, RegistryAccess registryAccess, ItemStack itemStack, int cost) {
+		Optional<HolderSet.Named<Enchantment>> optional = registryAccess
+			.lookupOrThrow(Registries.ENCHANTMENT)
+			.get(EnchantmentTags.IN_ENCHANTING_TABLE);
+
+		if (optional.isEmpty()) {
+			return List.of();
+		}
+
+		List<EnchantmentInstance> instances = EnchantmentHelper.selectEnchantment(
+			random,
+			itemStack,
+			cost,
+			optional.get().stream()
+		);
+
+		if (itemStack.is(Items.ENCHANTED_BOOK) && instances.size() > 1) {
+			instances.remove(random.nextInt(instances.size()));
+		}
+
+		return instances.stream()
+			//? if >= 1.21.5 {
+			.map(EnchantmentInstance::enchantment)
+			//?} else {
+			/*.map(enchantmentInstance -> enchantmentInstance.enchantment)
+			*///?}
+			.toList();
 	}
 }

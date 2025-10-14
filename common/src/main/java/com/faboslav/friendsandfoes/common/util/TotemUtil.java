@@ -168,7 +168,7 @@ public final class TotemUtil
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
 			ItemStack item = player.getItemBySlot(slot);
 			if (!item.isEmpty()) {
-				playerIllusion.equipItemIfPossible(/*? if >=1.21.4 {*/ serverLevel, /*?}*/item.copy());
+				playerIllusion.setItemSlot(slot, item.copy());
 			}
 		}
 

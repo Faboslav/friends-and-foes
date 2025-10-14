@@ -20,19 +20,13 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.LiquidSetting
 public final class IllusionerTrainingGroundsStructure extends JigsawStructure
 {
 	public IllusionerTrainingGroundsStructure(
-		StructureSettings settings,
-		Holder<StructureTemplatePool> startPool,
-		Optional<ResourceLocation> startJigsawName,
-		int maxDepth,
-		HeightProvider startHeight,
-		boolean useExpansionHack,
-		Optional<Heightmap.Types> projectStartToHeightmap,
-		int maxDistanceFromCenter,
-		List<PoolAliasBinding> poolAliases,
-		DimensionPadding dimensionPadding,
-		LiquidSettings liquidSettings
+		StructureSettings structureSettings,
+		Holder<StructureTemplatePool> holder,
+		int i,
+		HeightProvider heightProvider,
+		boolean bl
 	) {
-		super(settings, startPool, startJigsawName, maxDepth, startHeight, useExpansionHack, projectStartToHeightmap, maxDistanceFromCenter, poolAliases, dimensionPadding, liquidSettings);
+		super(structureSettings, holder, i, heightProvider, bl);
 	}
 
 	@Override

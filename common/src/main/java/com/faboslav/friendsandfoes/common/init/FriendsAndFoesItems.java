@@ -73,6 +73,8 @@ public final class FriendsAndFoesItems
 	public final static RegistryEntry<Item> WAXED_EXPOSED_COPPER_BUTTON = registerItem("waxed_exposed_copper_button", (properties) -> new BlockItem(FriendsAndFoesBlocks.WAXED_EXPOSED_COPPER_BUTTON.get(), properties), () -> new Item.Properties().stacksTo(64));
 	public final static RegistryEntry<Item> WAXED_WEATHERED_COPPER_BUTTON = registerItem("waxed_weathered_copper_button", (properties) -> new BlockItem(FriendsAndFoesBlocks.WAXED_WEATHERED_COPPER_BUTTON.get(), properties), () -> new Item.Properties().stacksTo(64));
 	public final static RegistryEntry<Item> WAXED_OXIDIZED_COPPER_BUTTON = registerItem("waxed_oxidized_copper_button", (properties) -> new BlockItem(FriendsAndFoesBlocks.WAXED_OXIDIZED_COPPER_BUTTON.get(), properties),() -> new Item.Properties().stacksTo(64));
+
+	//? if <=1.21.8 {
 	public final static RegistryEntry<Item> EXPOSED_LIGHTNING_ROD = registerItem("exposed_lightning_rod", (properties) -> new BlockItem(FriendsAndFoesBlocks.EXPOSED_LIGHTNING_ROD.get(), properties), () -> new Item.Properties().stacksTo(64));
 	public final static RegistryEntry<Item> WEATHERED_LIGHTNING_ROD = registerItem("weathered_lightning_rod", (properties) -> new BlockItem(FriendsAndFoesBlocks.WEATHERED_LIGHTNING_ROD.get(), properties), () -> new Item.Properties().stacksTo(64));
 	public final static RegistryEntry<Item> OXIDIZED_LIGHTNING_ROD = registerItem("oxidized_lightning_rod", (properties) -> new BlockItem(FriendsAndFoesBlocks.OXIDIZED_LIGHTNING_ROD.get(), properties), () -> new Item.Properties().stacksTo(64));
@@ -80,6 +82,7 @@ public final class FriendsAndFoesItems
 	public final static RegistryEntry<Item> WAXED_EXPOSED_LIGHTNING_ROD = registerItem("waxed_exposed_lightning_rod", (properties) -> new BlockItem(FriendsAndFoesBlocks.WAXED_EXPOSED_LIGHTNING_ROD.get(), properties), () -> new Item.Properties().stacksTo(64));
 	public final static RegistryEntry<Item> WAXED_WEATHERED_LIGHTNING_ROD = registerItem("waxed_weathered_lightning_rod", (properties) -> new BlockItem(FriendsAndFoesBlocks.WAXED_WEATHERED_LIGHTNING_ROD.get(), properties), () -> new Item.Properties().stacksTo(64));
 	public final static RegistryEntry<Item> WAXED_OXIDIZED_LIGHTNING_ROD = registerItem("waxed_oxidized_lightning_rod", (properties) -> new BlockItem(FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get(), properties), () -> new Item.Properties().stacksTo(64));
+	//?}
 
 	//? if >=1.21.5 {
 	public final static RegistryEntry<Item> WILDFIRE_CROWN = registerItem("wildfire_crown", Item::new, () -> new Item.Properties().humanoidArmor(FriendsAndFoesArmorMaterials.WILDFIRE, ArmorType.HELMET).fireResistant());

@@ -1,6 +1,7 @@
 ## 4.0.11
 
 - Fixed persistent maulers (they should properly despawn now)
+- Fixed tuff golems having empty enchanted books in strongholds
 
 ## 4.0.10
 

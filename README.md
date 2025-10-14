@@ -48,7 +48,7 @@ This mod would not exist in the state as it is without the following people:
 
 [Modrinth (Forge)]: https://modrinth.com/mod/friends-and-foes-forge
 
-[Discord]: https://discord.gg/faboland
+[Discord]: https://discord.com/invite/QGwFvvMQCn
 
 [Patreon]: https://www.patreon.com/Faboslav
 

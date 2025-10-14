@@ -3,14 +3,15 @@ package com.faboslav.friendsandfoes.common.client.render.entity.feature;
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.TuffGolemEntityModel;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 
 //? if >=1.21.9 {
 /*import net.minecraft.client.renderer.SubmitNodeCollector;
- *///?}
+*///?} else {
+import net.minecraft.client.renderer.MultiBufferSource;
+//?}
 
 //? if >=1.21.3 {
 import com.faboslav.friendsandfoes.common.client.render.entity.state.TuffGolemRenderState;
@@ -40,7 +41,7 @@ public final class TuffGolemClosedEyesRenderer extends RenderLayer<TuffGolemRend
 	*///?} else if >=1.21.3 {
 	public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, TuffGolemRenderState renderState, float yRot, float xRot)
 	//?} else {
-	/*public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, TuffGolemEntity tuffGolem, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float yRot, float xRot)
+	/*public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, TuffGolemEntity tuffGolem, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch)
 	 *///?}
 	{
 		//? if >=1.21.3 {
@@ -55,7 +56,11 @@ public final class TuffGolemClosedEyesRenderer extends RenderLayer<TuffGolemRend
 			this.getParentModel(),
 			CLOSED_EYES_TEXTURE,
 			poseStack,
+			//? if >=1.21.9 {
+			/*submitNodeCollector,
+			*///?} else {
 			bufferSource,
+			 //?}
 			packedLight,
 			//? if >=1.21.3 {
 			renderState,
@@ -63,6 +68,9 @@ public final class TuffGolemClosedEyesRenderer extends RenderLayer<TuffGolemRend
 			/*tuffGolem,
 			 *///?}
 			-1
+			//? if >=1.21.9 {
+			/*, 0
+			*///?}
 		);
 	}
 }

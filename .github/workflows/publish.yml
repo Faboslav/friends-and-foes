@@ -30,7 +30,7 @@ jobs:
                 id: set-matrix
                 run: ./.github/scripts/generate-publish-matrix.sh "${{ inputs.mod_loaders }}" "${{ inputs.versions }}" ${{ vars.CURSEFORGE_FABRIC_PROJECT_ID }} ${{ vars.CURSEFORGE_FORGE_PROJECT_ID }} ${{ vars.MODRINTH_FABRIC_PROJECT_ID }} ${{ vars.MODRINTH_FORGE_PROJECT_ID }}
 
-    publish-to-github:
+    create-github-release:
         runs-on: ubuntu-latest
         name: Publish to github publish matrix
         steps:
@@ -52,15 +52,17 @@ jobs:
                 with:
                     skipIfReleaseExists: true
                     allowUpdates: true
-                    omitNameDuringUpdate: true
                     omitBodyDuringUpdate: true
+                    omitDraftDuringUpdate: true
+                    omitNameDuringUpdate: true
+                    omitPrereleaseDuringUpdate: true
                     tag: ${{ steps.gradle-properties.outputs.MOD_VERSION }}
                     name: ${{ steps.gradle-properties.outputs.MOD_NAME }} ${{ steps.gradle-properties.outputs.MOD_VERSION }}
                     bodyFile: RELEASE_CHANGELOG.md
 
     publish-to-platforms:
         runs-on: ubuntu-latest
-        needs: [generate-publish-matrix]
+        needs: [generate-publish-matrix, create-github-release]
         name: Publish ${{ matrix.mod_loader }} ${{ matrix.version }}
         timeout-minutes: 60
         strategy:
@@ -102,7 +104,11 @@ jobs:
             uses: ncipollo/release-action@v1
             with:
                 allowUpdates: true
+                omitBodyDuringUpdate: true
+                omitDraftDuringUpdate: true
+                omitNameDuringUpdate: true
+                omitPrereleaseDuringUpdate: true
                 tag: ${{ steps.gradle-properties.outputs.MOD_VERSION }}
                 name: ${{ steps.gradle-properties.outputs.MOD_NAME }} ${{ steps.gradle-properties.outputs.MOD_VERSION }}
-                artifact: |
+                artifacts: |
                     ${{ matrix.mod_loader }}/versions/${{ matrix.version }}/build/libs/!(*-@(dev|dev-shadow|sources|javadoc)).jar

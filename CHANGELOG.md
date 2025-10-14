@@ -6,7 +6,7 @@
 - Fixed illusioner having invisible bow
 - Fixed villagers not running from illusioners
 - Fixed lightning rods lightning bolt attraction
-- Fixed lightning rods oxidation
+- Fixed all oxidation cases related to lightning bolts and lightning rods
 - Corrected multiple data tags
 
 ## 4.0.10

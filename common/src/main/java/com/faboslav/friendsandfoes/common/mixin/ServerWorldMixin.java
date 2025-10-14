@@ -3,7 +3,6 @@ package com.faboslav.friendsandfoes.common.mixin;
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.ZombieHorseEntityAccess;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
-import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.core.BlockPos;
@@ -27,10 +26,6 @@ import net.minecraft.world.level.storage.WritableLevelData;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Optional;
 
@@ -143,7 +138,6 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel
 			return originalLightningRodPos;
 		}
 
-		FriendsAndFoes.getLogger().info("Trying to find lightning rod at" + pos);
 		ServerLevel serverWorld = (ServerLevel) (Object) this;
 
 		Optional<BlockPos> optional = serverWorld.getPoiManager().findClosest((registryEntry) -> {
@@ -152,13 +146,6 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel
 			return posx.getY() == this.getHeight(Heightmap.Types.WORLD_SURFACE, posx.getX(), posx.getZ()) - 1;
 		}, pos, 128, PoiManager.Occupancy.ANY);
 
-		var value = optional.map((posx) -> posx.above(1));
-
-		if(value.isPresent()) {
-			FriendsAndFoes.getLogger().info("Found: " + value.get());
-		} else {
-			FriendsAndFoes.getLogger().info("Cant find");
-		}
-		return value;
+		return optional.map((posx) -> posx.above(1));
 	}
 }

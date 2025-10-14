@@ -32,7 +32,7 @@ jobs:
 
     create-github-release:
         runs-on: ubuntu-latest
-        name: Publish to github publish matrix
+        name: Create github release
         steps:
             -   name: "Checkout repository"
                 uses: actions/checkout@v4
@@ -99,16 +99,21 @@ jobs:
         -   name: "Parse changelog"
             run: ./.github/scripts/parse-changelog.sh ${{ steps.gradle-properties.outputs.MOD_VERSION }}
 
-        -   name: "Update github release"
-            continue-on-error: true
-            uses: ncipollo/release-action@v1
+        -   name: Publish ${{ matrix.mod_loader }}
+            uses: Kir-Antipov/mc-publish@v3.3.0
             with:
-                allowUpdates: true
-                omitBodyDuringUpdate: true
-                omitDraftDuringUpdate: true
-                omitNameDuringUpdate: true
-                omitPrereleaseDuringUpdate: true
-                tag: ${{ steps.gradle-properties.outputs.MOD_VERSION }}
+                github-token: ${{ secrets.GITHUB_TOKEN }}
+                github-tag: ${{ steps.gradle-properties.outputs.MOD_VERSION }}
+
                 name: ${{ steps.gradle-properties.outputs.MOD_NAME }} ${{ steps.gradle-properties.outputs.MOD_VERSION }}
-                artifacts: |
+                version: ${{ matrix.mod_loader }}-${{ steps.gradle-properties.outputs.MOD_VERSION }}+mc${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}
+                loaders: ${{ join(matrix.supported_mod_loaders, ' ') }}
+                game-versions: |
+                    >=${{ steps.gradle-properties.outputs.MIN_MINECRAFT_VERSION }} <=${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}
+                game-version-filter: releases
+                changelog-file: RELEASE_CHANGELOG.md
+                files: |
                     ${{ matrix.mod_loader }}/versions/${{ matrix.version }}/build/libs/!(*-@(dev|dev-shadow|sources|javadoc)).jar
+
+                retry-attempts: 6
+                retry-delay: 30000

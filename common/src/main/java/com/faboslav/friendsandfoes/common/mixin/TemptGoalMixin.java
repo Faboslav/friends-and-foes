@@ -1,6 +1,9 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.entity.TuffGolemEntity;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
@@ -8,10 +11,8 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 //? if >=1.21.6 {
 import net.minecraft.world.entity.Mob;
@@ -24,7 +25,7 @@ public abstract class TemptGoalMixin
 {
 	@Shadow
 	@Final
-	private double speedModifier;
+	protected double speedModifier;
 
 	@Shadow
 	private boolean isRunning;
@@ -45,29 +46,28 @@ public abstract class TemptGoalMixin
 	@Shadow
 	protected abstract boolean canScare();
 
+	@Unique
 	@Nullable
-	private TuffGolemEntity closestTuffGolem;
-	private double lastTuffGolemX;
-	private double lastTuffGolemY;
-	private double lastTuffGolemZ;
-	private double lastTuffGolemPitch;
-	private double lastTuffGolemYaw;
+	private TuffGolemEntity friendsandfoes$closestTuffGolem;
 
-	@Inject(
-		method = "canUse",
-		at = @At("RETURN"),
-		cancellable = true
-	)
-	private void friendsandfoes_canStart(
-		CallbackInfoReturnable<Boolean> cir
-	) {
-		if (!cir.getReturnValue()) {
-			cir.setReturnValue(this.friendsandfoes_canStartWithReturn());
-		}
-	}
+	@Unique
+	private double friendsandfoes$lastTuffGolemX;
 
-	private boolean friendsandfoes_canStartWithReturn() {
-		this.closestTuffGolem = (/*? if >=1.21.3 {*/(ServerLevel)/*?}*/this.mob.level()).getNearestEntity(
+	@Unique
+	private double friendsandfoes$lastTuffGolemY;
+
+	@Unique
+	private double friendsandfoes$lastTuffGolemZ;
+
+	@Unique
+	private double friendsandfoes$lastTuffGolemPitch;
+
+	@Unique
+	private double friendsandfoes$lastTuffGolemYaw;
+
+	@Unique
+	private boolean friendsandfoes$canStartWithReturn() {
+		this.friendsandfoes$closestTuffGolem = (/*? if >=1.21.3 {*/(ServerLevel)/*?}*/this.mob.level()).getNearestEntity(
 			TuffGolemEntity.class,
 			this.targetingConditions,
 			this.mob,
@@ -77,81 +77,93 @@ public abstract class TemptGoalMixin
 			this.mob.getBoundingBox().inflate(16.0F, 3.0D, 16.0F)
 		);
 
-		return this.closestTuffGolem != null;
+		return this.friendsandfoes$closestTuffGolem != null;
 	}
 
-	@Inject(
-		method = "canContinueToUse",
-		at = @At("RETURN"),
-		cancellable = true
+	@ModifyReturnValue(
+		method = "canUse",
+		at = @At("RETURN")
 	)
-	private void friendsandfoes_shouldContinue(
-		CallbackInfoReturnable<Boolean> cir
+	private boolean friendsandfoes$canStart(
+		boolean original
 	) {
-		if (!cir.getReturnValue() && this.closestTuffGolem != null) {
-			if (this.canScare()) {
-				if (this.mob.distanceToSqr(this.closestTuffGolem) < 36.0) {
-					if (this.closestTuffGolem.distanceToSqr(this.lastTuffGolemX, this.lastTuffGolemY, this.lastTuffGolemZ) > 0.010000000000000002) {
-						cir.setReturnValue(false);
-					}
+		if(original) {
+			return original;
+		}
 
-					if (Math.abs((double) this.closestTuffGolem.getXRot() - this.lastTuffGolemPitch) > 5.0 || Math.abs((double) this.closestTuffGolem.getYRot() - this.lastTuffGolemYaw) > 5.0) {
-						cir.setReturnValue(false);
-					}
-				} else {
-					this.lastTuffGolemX = this.closestTuffGolem.getX();
-					this.lastTuffGolemY = this.closestTuffGolem.getY();
-					this.lastTuffGolemZ = this.closestTuffGolem.getZ();
-				}
+		return this.friendsandfoes$canStartWithReturn();
+	}
 
-				this.lastTuffGolemPitch = this.closestTuffGolem.getXRot();
-				this.lastTuffGolemYaw = this.closestTuffGolem.getYRot();
+	@ModifyReturnValue(
+		method = "canContinueToUse",
+		at = @At("RETURN")
+	)
+	private boolean friendsandfoes$canContinueToUse(
+		boolean original
+	) {
+		if(original || this.friendsandfoes$closestTuffGolem == null || !this.canScare()) {
+			return original;
+		}
+
+		if (this.mob.distanceToSqr(this.friendsandfoes$closestTuffGolem) < 36.0) {
+			if (this.friendsandfoes$closestTuffGolem.distanceToSqr(this.friendsandfoes$lastTuffGolemX, this.friendsandfoes$lastTuffGolemY, this.friendsandfoes$lastTuffGolemZ) > 0.010000000000000002) {
+				return false;
 			}
 
-			cir.setReturnValue(this.friendsandfoes_canStartWithReturn());
+			if (Math.abs((double) this.friendsandfoes$closestTuffGolem.getXRot() - this.friendsandfoes$lastTuffGolemPitch) > 5.0 || Math.abs((double) this.friendsandfoes$closestTuffGolem.getYRot() - this.friendsandfoes$lastTuffGolemYaw) > 5.0) {
+				return false;
+			}
+		} else {
+			this.friendsandfoes$lastTuffGolemX = this.friendsandfoes$closestTuffGolem.getX();
+			this.friendsandfoes$lastTuffGolemY = this.friendsandfoes$closestTuffGolem.getY();
+			this.friendsandfoes$lastTuffGolemZ = this.friendsandfoes$closestTuffGolem.getZ();
 		}
+
+		this.friendsandfoes$lastTuffGolemPitch = this.friendsandfoes$closestTuffGolem.getXRot();
+		this.friendsandfoes$lastTuffGolemYaw = this.friendsandfoes$closestTuffGolem.getYRot();
+
+		return friendsandfoes$canStartWithReturn();
 	}
 
-	@Inject(
-		method = "start",
-		at = @At("HEAD"),
-		cancellable = true
+	@WrapMethod(
+		method = "start"
 	)
-	public void friendsandfoes_start(CallbackInfo ci) {
-		if (this.closestTuffGolem != null) {
-			this.lastTuffGolemX = this.closestTuffGolem.getX();
-			this.lastTuffGolemY = this.closestTuffGolem.getY();
-			this.lastTuffGolemZ = this.closestTuffGolem.getZ();
-			this.isRunning = true;
-			ci.cancel();
+	public void friendsandfoes$start(Operation<Void> original) {
+		if (this.friendsandfoes$closestTuffGolem == null) {
+			original.call();
 		}
+
+		this.friendsandfoes$lastTuffGolemX = this.friendsandfoes$closestTuffGolem.getX();
+		this.friendsandfoes$lastTuffGolemY = this.friendsandfoes$closestTuffGolem.getY();
+		this.friendsandfoes$lastTuffGolemZ = this.friendsandfoes$closestTuffGolem.getZ();
+		this.isRunning = true;
 	}
 
-	@Inject(
-		at = @At("TAIL"),
+	@WrapMethod(
 		method = "stop"
 	)
-	private void friendsandfoes_stop(
-		CallbackInfo ci
+	private void friendsandfoes$stop(
+		Operation<Void> original
 	) {
-		this.closestTuffGolem = null;
+		original.call();
+
+		this.friendsandfoes$closestTuffGolem = null;
 	}
 
-	@Inject(
-		at = @At("HEAD"),
-		method = "tick",
-		cancellable = true)
-	public void friendsandfoes_tick(CallbackInfo ci) {
-		if (this.closestTuffGolem != null) {
-			this.mob.getLookControl().setLookAt(this.closestTuffGolem, (float) (this.mob.getMaxHeadYRot() + 20), (float) this.mob.getMaxHeadXRot());
+	@WrapMethod(
+		method = "tick"
+	)
+	public void friendsandfoes$tick(Operation<Void> original) {
+		if (this.friendsandfoes$closestTuffGolem == null) {
+			original.call();
+		}
 
-			if (this.mob.distanceToSqr(this.closestTuffGolem) < 6.25) {
-				this.mob.getNavigation().stop();
-			} else {
-				this.mob.getNavigation().moveTo(this.closestTuffGolem, this.speedModifier);
-			}
+		this.mob.getLookControl().setLookAt(this.friendsandfoes$closestTuffGolem, (float) (this.mob.getMaxHeadYRot() + 20), (float) this.mob.getMaxHeadXRot());
 
-			ci.cancel();
+		if (this.mob.distanceToSqr(this.friendsandfoes$closestTuffGolem) < 6.25) {
+			this.mob.getNavigation().stop();
+		} else {
+			this.mob.getNavigation().moveTo(this.friendsandfoes$closestTuffGolem, this.speedModifier);
 		}
 	}
 }

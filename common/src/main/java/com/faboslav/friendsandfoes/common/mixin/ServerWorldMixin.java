@@ -3,6 +3,9 @@ package com.faboslav.friendsandfoes.common.mixin;
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.ZombieHorseEntityAccess;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
@@ -75,13 +78,14 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel
 	@Shadow
 	protected abstract BlockPos findLightningTargetAround(BlockPos pos);
 
-	@Inject(
-		method = "tickChunk",
-		at = @At("TAIL")
+	@WrapMethod(
+		method = "tickChunk"
 	)
-	public void friendsandfoes_addZombieHorseSpawnEvent(
-		LevelChunk chunk, int randomTickSpeed, CallbackInfo ci
+	public void friendsandfoes$addZombieHorseSpawnEvent(
+		LevelChunk chunk, int randomTickSpeed, Operation<Void> original
 	) {
+		original.call(chunk, randomTickSpeed);
+
 		if (FriendsAndFoes.getConfig().enableZombieHorseTrap) {
 			BlockPos blockPos;
 			ChunkPos chunkPos = chunk.getPos();
@@ -126,28 +130,35 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel
 		}
 	}
 
-	@Inject(
-		method = "findLightningRod",
-		at = @At("TAIL"),
-		cancellable = true
+	@WrapMethod(
+		method = "findLightningRod"
 	)
-	public void friendsandfoes_getLightningRodPos(
+	protected Optional<BlockPos> friendsandfoes$getLightningRodPos(
 		BlockPos pos,
-		CallbackInfoReturnable<Optional<BlockPos>> cir
+		Operation<Optional<BlockPos>> original
 	) {
-		if (cir.getReturnValue().isEmpty()) {
-			ServerLevel serverWorld = (ServerLevel) (Object) this;
+		var originalLightningRodPos = original.call(pos);
 
-			Optional<BlockPos> optional = serverWorld.getPoiManager().findClosest((registryEntry) -> {
-				return registryEntry.is(FriendsAndFoesTags.LIGHTNING_ROD_POI);
-			}, (posx) -> {
-				return posx.getY() == this.getHeight(Heightmap.Types.WORLD_SURFACE, posx.getX(), posx.getZ()) - 1;
-			}, pos, 128, PoiManager.Occupancy.ANY);
-
-
-			if (optional.isPresent()) {
-				cir.setReturnValue(optional.map((posx) -> posx.above(1)));
-			}
+		if(originalLightningRodPos.isPresent()) {
+			return originalLightningRodPos;
 		}
+
+		FriendsAndFoes.getLogger().info("Trying to find lightning rod at" + pos);
+		ServerLevel serverWorld = (ServerLevel) (Object) this;
+
+		Optional<BlockPos> optional = serverWorld.getPoiManager().findClosest((registryEntry) -> {
+			return registryEntry.is(FriendsAndFoesTags.LIGHTNING_ROD_POI);
+		}, (posx) -> {
+			return posx.getY() == this.getHeight(Heightmap.Types.WORLD_SURFACE, posx.getX(), posx.getZ()) - 1;
+		}, pos, 128, PoiManager.Occupancy.ANY);
+
+		var value = optional.map((posx) -> posx.above(1));
+
+		if(value.isPresent()) {
+			FriendsAndFoes.getLogger().info("Found: " + value.get());
+		} else {
+			FriendsAndFoes.getLogger().info("Cant find");
+		}
+		return value;
 	}
 }

@@ -214,7 +214,10 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 		RandomSource random,
 		CallbackInfo ci
 	) {
-		((ChangeOverTimeBlock) this).changeOverTime(state, world, pos, random);
+		if(FriendsAndFoes.getConfig().enableLightningRodOxidation) {
+			((ChangeOverTimeBlock) this).changeOverTime(state, world, pos, random);
+		}
+
 		ci.cancel();
 	}
 

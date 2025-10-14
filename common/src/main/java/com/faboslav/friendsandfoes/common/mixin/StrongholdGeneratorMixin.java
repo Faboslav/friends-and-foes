@@ -2,10 +2,11 @@ package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.TuffGolemEntity;
-import com.faboslav.friendsandfoes.common.entity.ai.brain.TuffGolemBrain;
 import com.faboslav.friendsandfoes.common.entity.pose.TuffGolemEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryAccess;
@@ -14,26 +15,20 @@ import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentInstance;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.Unique;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.Tuple;
-import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.ItemEnchantments;
-import net.minecraft.world.item.enchantment.providers.VanillaEnchantmentProviders;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.WorldGenLevel;
@@ -46,6 +41,7 @@ import net.minecraft.world.level.levelgen.structure.structures.StrongholdPieces;
 @Mixin(StrongholdPieces.Library.class)
 public abstract class StrongholdGeneratorMixin extends StructurePiece
 {
+	@Unique
 	private boolean isTuffGolemGenerated;
 
 	protected StrongholdGeneratorMixin(StructurePieceType type, int length, BoundingBox boundingBox) {
@@ -53,20 +49,21 @@ public abstract class StrongholdGeneratorMixin extends StructurePiece
 		this.isTuffGolemGenerated = false;
 	}
 
-	@Inject(
-		at = @At("TAIL"),
+	@WrapMethod(
 		method = "postProcess"
 	)
-	private void friendsandfoes_generate(
-		WorldGenLevel world,
-		StructureManager structureAccessor,
-		ChunkGenerator chunkGenerator,
+	private void friendsandfoes$generate(
+		WorldGenLevel level,
+		StructureManager structureManager,
+		ChunkGenerator generator,
 		RandomSource random,
-		BoundingBox chunkBox,
+		BoundingBox box,
 		ChunkPos chunkPos,
-		BlockPos pivot,
-		CallbackInfo ci
+		BlockPos pos,
+		Operation<Void> original
 	) {
+		original.call(level, structureManager, generator, random, box, chunkPos, pos);
+
 		if (
 			!FriendsAndFoes.getConfig().generateTuffGolemInStronghold
 			|| this.isTuffGolemGenerated
@@ -75,7 +72,7 @@ public abstract class StrongholdGeneratorMixin extends StructurePiece
 			return;
 		}
 
-		ServerLevel serverWorld = world.getLevel();
+		ServerLevel serverWorld = level.getLevel();
 
 		TuffGolemEntity tuffGolem = FriendsAndFoesEntityTypes.TUFF_GOLEM.get().create(serverWorld/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.STRUCTURE/*?}*/);
 
@@ -122,13 +119,14 @@ public abstract class StrongholdGeneratorMixin extends StructurePiece
 
 		tuffGolem.setHome(tuffGolem.getNewHome());
 
-		boolean isTuffGolemSpawned = world.addFreshEntity(tuffGolem);
+		boolean isTuffGolemSpawned = level.addFreshEntity(tuffGolem);
 
 		if (isTuffGolemSpawned) {
 			this.isTuffGolemGenerated = true;
 		}
 	}
 
+	@Unique
 	private List<Holder<Enchantment>> friendsAndFoes$getEnchantmentList(RandomSource random, RegistryAccess registryAccess, ItemStack itemStack, int cost) {
 		Optional<HolderSet.Named<Enchantment>> optional = registryAccess
 			.lookupOrThrow(Registries.ENCHANTMENT)

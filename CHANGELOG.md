@@ -4,6 +4,9 @@
 - Fixed tuff golems having empty enchanted books in strongholds
 - Fixed illusioner not saving/loading vanilla nbt data
 - Fixed illusioner having invisible bow
+- Fixed villagers not running from illusioners
+- Fixed lightning rods lightning bolt attraction
+- Fixed lightning rods oxidation
 - Corrected multiple data tags
 
 ## 4.0.10

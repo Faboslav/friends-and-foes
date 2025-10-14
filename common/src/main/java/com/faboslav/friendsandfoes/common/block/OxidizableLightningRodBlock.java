@@ -34,7 +34,9 @@ public final class OxidizableLightningRodBlock extends LightningRodBlock impleme
 		BlockPos pos,
 		RandomSource random
 	) {
-		this.changeOverTime(state, world, pos, random);
+		if(FriendsAndFoes.getConfig().enableLightningRodOxidation) {
+			this.changeOverTime(state, world, pos, random);
+		}
 	}
 
 	@Override

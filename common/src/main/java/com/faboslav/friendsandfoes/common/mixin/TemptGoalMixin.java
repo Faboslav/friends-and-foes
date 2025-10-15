@@ -131,6 +131,7 @@ public abstract class TemptGoalMixin
 	public void friendsandfoes$start(Operation<Void> original) {
 		if (this.friendsandfoes$closestTuffGolem == null) {
 			original.call();
+			return;
 		}
 
 		this.friendsandfoes$lastTuffGolemX = this.friendsandfoes$closestTuffGolem.getX();
@@ -156,6 +157,7 @@ public abstract class TemptGoalMixin
 	public void friendsandfoes$tick(Operation<Void> original) {
 		if (this.friendsandfoes$closestTuffGolem == null) {
 			original.call();
+			return;
 		}
 
 		this.mob.getLookControl().setLookAt(this.friendsandfoes$closestTuffGolem, (float) (this.mob.getMaxHeadYRot() + 20), (float) this.mob.getMaxHeadXRot());

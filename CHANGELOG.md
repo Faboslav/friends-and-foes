@@ -1,3 +1,7 @@
+## 4.0.12
+
+- Fixed raid member mixin crash
+
 ## 4.0.11
 
 - Fixed persistent maulers (they should properly despawn now)

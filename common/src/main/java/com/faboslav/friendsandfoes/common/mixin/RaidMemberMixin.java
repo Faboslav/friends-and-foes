@@ -1,18 +1,16 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.raid.Raid;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Slice;
 
 @Mixin(Raid.RaiderType.class)
 public final class RaidMemberMixin
 {
-	@WrapOperation(
+	@ModifyArg(
 		method = "<clinit>",
 		slice = @Slice(
 			from = @At(
@@ -22,15 +20,12 @@ public final class RaidMemberMixin
 		),
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/world/entity/raid/Raid$RaiderType;<init>(Ljava/lang/String;ILnet/minecraft/world/entity/EntityType;[I)V"
+			target = "Lnet/minecraft/world/entity/raid/Raid$RaiderType;<init>(Ljava/lang/String;ILnet/minecraft/world/entity/EntityType;[I)V",
+			ordinal = 0
 		)
 	)
-	private static void friendsandfoes$wrapEvokerCtor(
-		String name,
-		int id,
-		EntityType<?> type,
-		int[] countInWave,
-		Operation<Void> original
+	private static int[] friendsandfoes_updateCountInWave(
+		int[] countInWave
 	) {
 		if (
 			(
@@ -42,9 +37,9 @@ public final class RaidMemberMixin
 				&& FriendsAndFoes.getConfig().enableIceologerInRaids
 			)
 		) {
-			original.call(name, id, type, new int[]{0, 0, 0, 0, 0, 1, 1, 1});
-		} else {
-			original.call(name, id, type, countInWave);
+			return new int[]{0, 0, 0, 0, 0, 1, 1, 1};
 		}
+
+		return new int[]{0, 0, 0, 0, 0, 1, 1, 2};
 	}
 }

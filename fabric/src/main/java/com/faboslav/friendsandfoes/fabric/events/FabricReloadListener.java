@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.util.profiling.ProfilerFiller;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -29,17 +30,29 @@ public class FabricReloadListener implements IdentifiableResourceReloadListener
 	}
 
 
-	@Override
+	//? if <= 1.21.8 {
+	/*@Override
 	public CompletableFuture<Void> reload(
 		PreparationBarrier barrier,
 		ResourceManager manager,
 		//? if <1.21.3 {
-		/*ProfilerFiller prepareProfiler,
+		/^ProfilerFiller prepareProfiler,
 		ProfilerFiller applyProfiler,
-		*///?}
+		^///?}
 		Executor backgroundExecutor,
 		Executor gameExecutor
 	) {
-		return listener.reload(barrier, manager, /*? if <1.21.3 {*//*prepareProfiler, applyProfiler, *//*?}*/ backgroundExecutor, gameExecutor);
+		return listener.reload(barrier, manager, /^? if <1.21.3 {^//^prepareProfiler, applyProfiler, ^//^?}^/ backgroundExecutor, gameExecutor);
 	}
+	*///?} else {
+	@Override
+	public CompletableFuture<Void> reload(
+		SharedState sharedState,
+		Executor exectutor,
+		PreparationBarrier barrier,
+		Executor applyExectutor
+	) {
+		return listener.reload(sharedState, exectutor, barrier, applyExectutor);
+	}
+	//?}
 }

@@ -7,16 +7,14 @@ import com.faboslav.friendsandfoes.common.entity.ai.brain.CopperGolemBrain;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
 import com.faboslav.friendsandfoes.common.entity.pose.CopperGolemEntityPose;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityDataSerializers;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.mixin.LimbAnimatorAccessor;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.util.MovementUtil;
 import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
-import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
-import com.faboslav.friendsandfoes.common.versions.VersionedInteractionResult;
-import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
-import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
+import com.faboslav.friendsandfoes.common.versions.*;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.Dynamic;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -24,6 +22,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -45,7 +46,6 @@ import net.minecraft.world.entity.ai.control.JumpControl;
 import net.minecraft.world.entity.ai.control.LookControl;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.animal.AbstractGolem;
-import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.Item;
@@ -78,6 +78,7 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 	private AnimationContextTracker animationContextTracker;
 	private static final EntityDataAccessor<Integer> POSE_TICKS;
 
+
 	private static final float MOVEMENT_SPEED = 0.2F;
 	private static final int COPPER_INGOT_HEAL_AMOUNT = 5;
 	private static final float SPARK_CHANCE = 0.025F;
@@ -95,7 +96,11 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 	private static final EntityDataAccessor<Integer> STRUCT_BY_LIGHTNING_TICKS;
 	private static final EntityDataAccessor<Boolean> WAS_STATUE;
 	private static final EntityDataAccessor<Boolean> IS_WAXED;
-	private static final EntityDataAccessor<CompoundTag> ENTITY_SNAPSHOT;
+	//? if >= 1.21.9 {
+	private static final EntityDataAccessor<CopperGolemEntity.EntitySnapshot> COPPER_GOLEM_SNAPSHOT;
+	//?} else {
+	/*private static final EntityDataAccessor<CompoundTag> ENTITY_SNAPSHOT;
+	*///?}
 
 	static {
 		POSE_TICKS = SynchedEntityData.defineId(CopperGolemEntity.class, EntityDataSerializers.INT);
@@ -103,7 +108,11 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 		STRUCT_BY_LIGHTNING_TICKS = SynchedEntityData.defineId(CopperGolemEntity.class, EntityDataSerializers.INT);
 		WAS_STATUE = SynchedEntityData.defineId(CopperGolemEntity.class, EntityDataSerializers.BOOLEAN);
 		IS_WAXED = SynchedEntityData.defineId(CopperGolemEntity.class, EntityDataSerializers.BOOLEAN);
-		ENTITY_SNAPSHOT = SynchedEntityData.defineId(CopperGolemEntity.class, EntityDataSerializers.COMPOUND_TAG);
+		//? if >= 1.21.9 {
+		COPPER_GOLEM_SNAPSHOT = SynchedEntityData.defineId(CopperGolemEntity.class, FriendsAndFoesEntityDataSerializers.COPPER_GOLEM_SNAPSHOT);
+		//?} else {
+		/*ENTITY_SNAPSHOT = SynchedEntityData.defineId(CopperGolemEntity.class, EntityDataSerializers.COMPOUND_TAG);
+		*///?}
 	}
 
 	@Override
@@ -182,7 +191,11 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 		builder.define(STRUCT_BY_LIGHTNING_TICKS, 0);
 		builder.define(WAS_STATUE, false);
 		builder.define(IS_WAXED, false);
-		builder.define(ENTITY_SNAPSHOT, new CompoundTag());
+		//? if >= 1.21.9 {
+		builder.define(COPPER_GOLEM_SNAPSHOT, new EntitySnapshot(0.0F, 0.0F, 0.0F, 0.0D, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+		//?} else {
+		/*builder.define(ENTITY_SNAPSHOT, new CompoundTag());
+		*///?}
 	}
 
 	@Override
@@ -261,7 +274,11 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 	}
 
 	public void setEntitySnapshot(EntitySnapshot entitySnapshot) {
-		entityData.set(ENTITY_SNAPSHOT, EntitySnapshot.toNbt(entitySnapshot));
+		//? if >= 1.21.9 {
+		entityData.set(COPPER_GOLEM_SNAPSHOT, entitySnapshot);
+		//?} else {
+		/*entityData.set(ENTITY_SNAPSHOT, EntitySnapshot.toNbt(entitySnapshot));
+		*///?}
 	}
 
 	public void applyEntitySnapshot() {
@@ -291,7 +308,11 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 	}
 
 	public EntitySnapshot getEntitySnapshot() {
-		return EntitySnapshot.fromNbt(this.entityData.get(ENTITY_SNAPSHOT));
+		//? if >= 1.21.9 {
+		return this.entityData.get(COPPER_GOLEM_SNAPSHOT);
+		//?} else {
+		/*return EntitySnapshot.fromNbt(this.entityData.get(ENTITY_SNAPSHOT));
+		*///?}
 	}
 
 	private EntitySnapshot takeEntitySnapshot() {
@@ -509,7 +530,7 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 			}
 
 			if (!player.getAbilities().instabuild) {
-				itemStack.hurtAndBreak(1, player, Player.getSlotForHand(hand));
+				itemStack.hurtAndBreak(1, player, VersionedEntity.getEquipmentSlotForItem(hand));
 			}
 		}
 
@@ -991,6 +1012,21 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 			Codec.FLOAT.fieldOf("limbAnimatorSpeed").forGetter(EntitySnapshot::limbAnimatorSpeed),
 			Codec.FLOAT.fieldOf("limbAnimatorPos").forGetter(EntitySnapshot::limbAnimatorPos)
 		).apply(instance, EntitySnapshot::new));
+
+		//? if >= 1.21.9 {
+		public static final StreamCodec<RegistryFriendlyByteBuf, EntitySnapshot> STREAM_CODEC = StreamCodec.composite(
+			ByteBufCodecs.FLOAT, EntitySnapshot::prevYaw,
+			ByteBufCodecs.FLOAT, EntitySnapshot::prevPitch,
+			ByteBufCodecs.FLOAT, EntitySnapshot::prevBodyYaw,
+			ByteBufCodecs.DOUBLE, EntitySnapshot::serverHeadYaw,
+			ByteBufCodecs.FLOAT, EntitySnapshot::prevHeadYaw,
+			ByteBufCodecs.FLOAT, EntitySnapshot::lastHandSwingProgress,
+			ByteBufCodecs.FLOAT, EntitySnapshot::limbAnimatorPrevSpeed,
+			ByteBufCodecs.FLOAT, EntitySnapshot::limbAnimatorSpeed,
+			ByteBufCodecs.FLOAT, EntitySnapshot::limbAnimatorPos,
+			EntitySnapshot::new
+		);
+		//?}
 
 		public static CompoundTag toNbt(EntitySnapshot snapshot) {
 			CompoundTag tag = new CompoundTag();

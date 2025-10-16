@@ -1,0 +1,23 @@
+{
+	"replace": false,
+	"values": [
+		"minecraft:lightning_rod",
+		//? if <= 1.21.8 {
+		/*"friendsandfoes:exposed_lightning_rod",
+		"friendsandfoes:weathered_lightning_rod",
+		"friendsandfoes:oxidized_lightning_rod",
+		"friendsandfoes:waxed_lightning_rod",
+		"friendsandfoes:waxed_exposed_lightning_rod",
+		"friendsandfoes:waxed_oxidized_lightning_rod",
+		"friendsandfoes:waxed_weathered_lightning_rod"
+		*///?} else {
+		"minecraft:exposed_lightning_rod",
+		"minecraft:weathered_lightning_rod",
+		"minecraft:oxidized_lightning_rod",
+		"minecraft:waxed_lightning_rod",
+		"minecraft:waxed_exposed_lightning_rod",
+		"minecraft:waxed_oxidized_lightning_rod",
+		"minecraft:waxed_weathered_lightning_rod",
+		//?}
+	]
+}

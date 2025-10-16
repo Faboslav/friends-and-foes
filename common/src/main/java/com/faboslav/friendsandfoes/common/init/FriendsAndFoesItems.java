@@ -75,14 +75,14 @@ public final class FriendsAndFoesItems
 	public final static RegistryEntry<Item> WAXED_OXIDIZED_COPPER_BUTTON = registerItem("waxed_oxidized_copper_button", (properties) -> new BlockItem(FriendsAndFoesBlocks.WAXED_OXIDIZED_COPPER_BUTTON.get(), properties),() -> new Item.Properties().stacksTo(64));
 
 	//? if <=1.21.8 {
-	public final static RegistryEntry<Item> EXPOSED_LIGHTNING_ROD = registerItem("exposed_lightning_rod", (properties) -> new BlockItem(FriendsAndFoesBlocks.EXPOSED_LIGHTNING_ROD.get(), properties), () -> new Item.Properties().stacksTo(64));
+	/*public final static RegistryEntry<Item> EXPOSED_LIGHTNING_ROD = registerItem("exposed_lightning_rod", (properties) -> new BlockItem(FriendsAndFoesBlocks.EXPOSED_LIGHTNING_ROD.get(), properties), () -> new Item.Properties().stacksTo(64));
 	public final static RegistryEntry<Item> WEATHERED_LIGHTNING_ROD = registerItem("weathered_lightning_rod", (properties) -> new BlockItem(FriendsAndFoesBlocks.WEATHERED_LIGHTNING_ROD.get(), properties), () -> new Item.Properties().stacksTo(64));
 	public final static RegistryEntry<Item> OXIDIZED_LIGHTNING_ROD = registerItem("oxidized_lightning_rod", (properties) -> new BlockItem(FriendsAndFoesBlocks.OXIDIZED_LIGHTNING_ROD.get(), properties), () -> new Item.Properties().stacksTo(64));
 	public final static RegistryEntry<Item> WAXED_LIGHTNING_ROD = registerItem("waxed_lightning_rod", (properties) -> new BlockItem(FriendsAndFoesBlocks.WAXED_LIGHTNING_ROD.get(), properties), () -> new Item.Properties().stacksTo(64));
 	public final static RegistryEntry<Item> WAXED_EXPOSED_LIGHTNING_ROD = registerItem("waxed_exposed_lightning_rod", (properties) -> new BlockItem(FriendsAndFoesBlocks.WAXED_EXPOSED_LIGHTNING_ROD.get(), properties), () -> new Item.Properties().stacksTo(64));
 	public final static RegistryEntry<Item> WAXED_WEATHERED_LIGHTNING_ROD = registerItem("waxed_weathered_lightning_rod", (properties) -> new BlockItem(FriendsAndFoesBlocks.WAXED_WEATHERED_LIGHTNING_ROD.get(), properties), () -> new Item.Properties().stacksTo(64));
 	public final static RegistryEntry<Item> WAXED_OXIDIZED_LIGHTNING_ROD = registerItem("waxed_oxidized_lightning_rod", (properties) -> new BlockItem(FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get(), properties), () -> new Item.Properties().stacksTo(64));
-	//?}
+	*///?}
 
 	//? if >=1.21.5 {
 	public final static RegistryEntry<Item> WILDFIRE_CROWN = registerItem("wildfire_crown", Item::new, () -> new Item.Properties().humanoidArmor(FriendsAndFoesArmorMaterials.WILDFIRE, ArmorType.HELMET).fireResistant());
@@ -116,10 +116,10 @@ public final class FriendsAndFoesItems
 	) {
 		return ITEMS.register(id, () -> {
 			//? if >= 1.21.9 {
-			/*var spawnEgg = new SpawnEggItem(new Item.Properties().spawnEgg(typeIn.get()).stacksTo(64).setId(ResourceKey.create(Registries.ITEM, FriendsAndFoes.makeID(id))));
-			*///?} else if >=1.21.4 {
-			var spawnEgg = new SpawnEggItem(typeIn.get(), new Item.Properties().stacksTo(64).setId(ResourceKey.create(Registries.ITEM, FriendsAndFoes.makeID(id))));
-			 //?} else =1.21.3 {
+			var spawnEgg = new SpawnEggItem(new Item.Properties().spawnEgg(typeIn.get()).stacksTo(64).setId(ResourceKey.create(Registries.ITEM, FriendsAndFoes.makeID(id))));
+			//?} else if >=1.21.4 {
+			/*var spawnEgg = new SpawnEggItem(typeIn.get(), new Item.Properties().stacksTo(64).setId(ResourceKey.create(Registries.ITEM, FriendsAndFoes.makeID(id))));
+			 *///?} else =1.21.3 {
 			/*var spawnEgg = new SpawnEggItem(typeIn.get(), primaryColorIn, secondaryColorIn, new Item.Properties().stacksTo(64).setId(ResourceKey.create(Registries.ITEM, FriendsAndFoes.makeId(id))));
 			/*///?} else <=1.21.1 {
 			/*var spawnEgg = new SpawnEggItem(typeIn.get(), primaryColorIn, secondaryColorIn, new Item.Properties().stacksTo(64));

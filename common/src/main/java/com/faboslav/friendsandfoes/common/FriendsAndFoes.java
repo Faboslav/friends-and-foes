@@ -87,6 +87,9 @@ public final class FriendsAndFoes
 		FriendsAndFoesStructureProcessorTypes.init();
 		FriendsAndFoesStructureTypes.STRUCTURES.init();
 		FriendsAndFoesVillagerProfessions.VILLAGER_PROFESSIONS.init();
+		//? if >= 1.21.9 {
+		FriendsAndFoesEntityDataSerializers.init();
+		//?}
 	}
 
 	public static void lateInit() {

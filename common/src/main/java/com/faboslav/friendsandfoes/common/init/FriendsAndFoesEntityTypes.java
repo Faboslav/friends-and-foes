@@ -39,8 +39,8 @@ public final class FriendsAndFoesEntityTypes
 	public static final RegistryEntry<EntityType<TuffGolemEntity>> TUFF_GOLEM;
 	public static final RegistryEntry<EntityType<WildfireEntity>> WILDFIRE;
 	//? if <= 1.21.8 {
-	public static final RegistryEntry<EntityType<PlayerIllusionEntity>> PLAYER_ILLUSION;
-	//?}
+	/*public static final RegistryEntry<EntityType<PlayerIllusionEntity>> PLAYER_ILLUSION;
+	*///?}
 
 	static {
 		SharedConstants.CHECK_DATA_FIXER_SCHEMA = false;
@@ -56,8 +56,8 @@ public final class FriendsAndFoesEntityTypes
 		TUFF_GOLEM = ENTITY_TYPES.register("tuff_golem", () -> EntityType.Builder.of(TuffGolemEntity::new, MobCategory.MISC).sized(0.75F, 1.0625F).eyeHeight(0.8F).clientTrackingRange(10).build(VersionedEntityTypeResourceId.create("tuff_golem")));
 		WILDFIRE = ENTITY_TYPES.register("wildfire", () -> EntityType.Builder.of(WildfireEntity::new, MobCategory.MONSTER).sized(0.7F * WildfireEntityRenderer.SCALE, 1.875F * WildfireEntityRenderer.SCALE).clientTrackingRange(10).fireImmune().build(VersionedEntityTypeResourceId.create("wildfire")));
 		//? if <= 1.21.8 {
-		PLAYER_ILLUSION = ENTITY_TYPES.register("player_illusion", () -> EntityType.Builder.of(PlayerIllusionEntity::new, MobCategory.MISC).sized(0.7F, 1.875F).clientTrackingRange(10).fireImmune().build(VersionedEntityTypeResourceId.create("player_illusion")));
-		//?}
+		/*PLAYER_ILLUSION = ENTITY_TYPES.register("player_illusion", () -> EntityType.Builder.of(PlayerIllusionEntity::new, MobCategory.MISC).sized(0.7F, 1.875F).clientTrackingRange(10).fireImmune().build(VersionedEntityTypeResourceId.create("player_illusion")));
+		*///?}
 		SharedConstants.CHECK_DATA_FIXER_SCHEMA = previousUseChoiceTypeRegistrations;
 	}
 
@@ -73,8 +73,8 @@ public final class FriendsAndFoesEntityTypes
 		event.register(FriendsAndFoesEntityTypes.TUFF_GOLEM.get(), TuffGolemEntity.createTuffGolemAttributes());
 		event.register(FriendsAndFoesEntityTypes.WILDFIRE.get(), WildfireEntity.createWildfireAttributes());
 		//? if <= 1.21.8 {
-		event.register(FriendsAndFoesEntityTypes.PLAYER_ILLUSION.get(), PlayerIllusionEntity.createPlayerIllusionAttributes());
-		//?}
+		/*event.register(FriendsAndFoesEntityTypes.PLAYER_ILLUSION.get(), PlayerIllusionEntity.createPlayerIllusionAttributes());
+		*///?}
 	}
 
 	public static void registerEntitySpawnRestrictions(RegisterEntitySpawnRestrictionsEvent event) {

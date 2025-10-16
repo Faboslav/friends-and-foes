@@ -1,12 +1,13 @@
 {
-	"type": "minecraft:block",
+	//? if <= 1.21.8 {
+	/*"type": "minecraft:block",
 	"pools": [
 		{
 			"rolls": 1,
 			"entries": [
 				{
 					"type": "minecraft:item",
-					"name": "friendsandfoes:waxed_oxidized_lightning_rod"
+					"name": "friendsandfoes:waxed_weathered_lightning_rod"
 				}
 			],
 			"conditions": [
@@ -15,5 +16,6 @@
 				}
 			]
 		}
-	]
+	],
+	*///?}
 }

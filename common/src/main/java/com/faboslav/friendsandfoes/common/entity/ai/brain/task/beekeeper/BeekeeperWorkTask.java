@@ -80,9 +80,9 @@ public final class BeekeeperWorkTask extends WorkAtPoi
 		world.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.BEEHIVE_SHEAR, SoundSource.NEUTRAL, 1.0F, 1.0F);
 
 		//? if >= 1.21.9 {
-		/*BeehiveBlock.dropHoneycomb(world, Items.SHEARS.getDefaultInstance(), beehiveState, world.getBlockEntity(blockPos), this.villagerEntity, blockPos);
-		*///?} else {
-		BeehiveBlock.dropHoneycomb(world, blockPos);
-		//?}
+		BeehiveBlock.dropHoneycomb(world, Items.SHEARS.getDefaultInstance(), beehiveState, world.getBlockEntity(blockPos), this.villagerEntity, blockPos);
+		//?} else {
+		/*BeehiveBlock.dropHoneycomb(world, blockPos);
+		*///?}
 	}
 }

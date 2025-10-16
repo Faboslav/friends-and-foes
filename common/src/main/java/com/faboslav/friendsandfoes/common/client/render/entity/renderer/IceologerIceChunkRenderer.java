@@ -13,12 +13,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 //? if >=1.21.9 {
-/*import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.state.CameraRenderState;
-*///?} else {
-import com.mojang.blaze3d.vertex.VertexConsumer;
+//?} else {
+/*import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
-//?}
+*///?}
 
 //? if >=1.21.3 {
 import com.faboslav.friendsandfoes.common.client.render.entity.state.IceologerIceChunkRenderState;
@@ -46,10 +46,10 @@ public class IceologerIceChunkRenderer extends EntityRenderer<IceologerIceChunkE
 	}
 
 	//? if >= 1.21.9 {
-	/*public void submit(IceologerIceChunkRenderState renderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState)
-	*///?} else if >=1.21.3 {
-	public void render(IceologerIceChunkRenderState renderState, PoseStack poseStack, MultiBufferSource multiBufferSource, int i)
-	//?} else {
+	public void submit(IceologerIceChunkRenderState renderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState)
+	//?} else if >=1.21.3 {
+	/*public void render(IceologerIceChunkRenderState renderState, PoseStack poseStack, MultiBufferSource multiBufferSource, int i)
+	*///?} else {
 	/*public void render(IceologerIceChunkEntity iceChunk, float f, float tickDelta, PoseStack poseStack, MultiBufferSource multiBufferSource, int i)
 	*///?}
 	{
@@ -81,11 +81,11 @@ public class IceologerIceChunkRenderer extends EntityRenderer<IceologerIceChunkE
 		poseStack.scale(summonAnimationProgress, summonAnimationProgress, summonAnimationProgress);
 
 		//? if >= 1.21.9 {
-		/*submitNodeCollector.submitModel(this.model, renderState, poseStack, this.model.renderType(TEXTURE), renderState.lightCoords, OverlayTexture.NO_OVERLAY, renderState.outlineColor, null);
-		*///?} else if >= 1.21.3 {
-		VertexConsumer vertexConsumer = multiBufferSource.getBuffer(this.model.renderType(TEXTURE));
+		submitNodeCollector.submitModel(this.model, renderState, poseStack, this.model.renderType(TEXTURE), renderState.lightCoords, OverlayTexture.NO_OVERLAY, renderState.outlineColor, null);
+		//?} else if >= 1.21.3 {
+		/*VertexConsumer vertexConsumer = multiBufferSource.getBuffer(this.model.renderType(TEXTURE));
 		this.model.renderToBuffer(poseStack, vertexConsumer, i, OverlayTexture.NO_OVERLAY, -1);
-		//?} else {
+		*///?} else {
 		/*VertexConsumer vertexConsumer = multiBufferSource.getBuffer(this.model.renderType(TEXTURE));
 		this.model.setupAnim(iceChunk, 0.0F, 0.0F, 0.0F, iceChunk.getYRot(), iceChunk.getXRot());
 		this.model.prepareMobModel(iceChunk, 0.0F, 0.0F, tickDelta);
@@ -95,10 +95,10 @@ public class IceologerIceChunkRenderer extends EntityRenderer<IceologerIceChunkE
 
 
 		//? if >= 1.21.9 {
-		/*super.submit(renderState, poseStack, submitNodeCollector, cameraRenderState);
-		*///?} else if >=1.21.3 {
-		super.render(renderState, poseStack, multiBufferSource, i);
-		//?} else {
+		super.submit(renderState, poseStack, submitNodeCollector, cameraRenderState);
+		//?} else if >=1.21.3 {
+		/*super.render(renderState, poseStack, multiBufferSource, i);
+		*///?} else {
 		/*super.render(iceChunk, f, tickDelta, poseStack, multiBufferSource, i);
 		*///?}
 	}

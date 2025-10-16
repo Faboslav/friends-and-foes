@@ -25,12 +25,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 //? if >=1.21.9 {
-/*import net.minecraft.world.item.component.ResolvableProfile;
+import net.minecraft.world.item.component.ResolvableProfile;
 import com.faboslav.friendsandfoes.common.mixin.MannequinAccessor;
-*///?} else {
-import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
+//?} else {
+/*import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.entity.PlayerIllusionEntity;
-//?}
+*///?}
 
 //? if >=1.21.3 {
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
@@ -140,10 +140,10 @@ public final class TotemUtil
 	@Nullable
 	private static LivingEntity createIllusion(Player player, ServerLevel serverLevel, int x, int y, int z) {
 		//? if >= 1.21.9 {
-		/*var playerIllusion = EntityType.MANNEQUIN.create(serverLevel, VersionedEntitySpawnReason.MOB_SUMMONED);
-		*///?} else if >= 1.21.3 {
-		var playerIllusion = FriendsAndFoesEntityTypes.PLAYER_ILLUSION.get().create(serverLevel, VersionedEntitySpawnReason.MOB_SUMMONED);
-		//?} else {
+		var playerIllusion = EntityType.MANNEQUIN.create(serverLevel, VersionedEntitySpawnReason.MOB_SUMMONED);
+		//?} else if >= 1.21.3 {
+		/*var playerIllusion = FriendsAndFoesEntityTypes.PLAYER_ILLUSION.get().create(serverLevel, VersionedEntitySpawnReason.MOB_SUMMONED);
+		*///?} else {
 		/*var playerIllusion = FriendsAndFoesEntityTypes.PLAYER_ILLUSION.get().create(serverLevel);
 		*///?}
 
@@ -152,7 +152,7 @@ public final class TotemUtil
 		}
 
 		//? if <= 1.21.8 {
-		playerIllusion.prevCapeX = player.xCloakO;
+		/*playerIllusion.prevCapeX = player.xCloakO;
 		playerIllusion.prevCapeY = player.yCloakO;
 		playerIllusion.prevCapeZ = player.zCloakO;
 		playerIllusion.capeX = player.xCloak;
@@ -160,7 +160,7 @@ public final class TotemUtil
 		playerIllusion.capeZ = player.zCloak;
 		playerIllusion.prevStrideDistance = player.oBob;
 		playerIllusion.strideDistance = player.bob;
-		//?}
+		*///?}
 
 		playerIllusion.setItemSlot(EquipmentSlot.MAINHAND, player.getMainHandItem().copy());
 		playerIllusion.setItemSlot(EquipmentSlot.OFFHAND, player.getOffhandItem().copy());
@@ -183,13 +183,13 @@ public final class TotemUtil
 		playerIllusion.setYHeadRot(randomYaw);
 
 		//? if >= 1.21.9 {
-		/*MannequinAccessor mannequinAccessor = ((MannequinAccessor) playerIllusion);
+		MannequinAccessor mannequinAccessor = ((MannequinAccessor) playerIllusion);
 		((MannequinAccessor) playerIllusion).friendsandfoes$setProfile(ResolvableProfile.createResolved(player.getGameProfile()));
-		*///?} else {
-		playerIllusion.setPlayerUuid(player.getUUID());
+		//?} else {
+		/*playerIllusion.setPlayerUuid(player.getUUID());
 		playerIllusion.setPlayer(player);
 		playerIllusion.setTicksUntilDespawn(ILLUSION_LIFETIME_TICKS);
-		//?}
+		*///?}
 
 		boolean teleportResult = PlayerIllusionUtil.tryToTeleport(serverLevel, playerIllusion, x, y, z);
 

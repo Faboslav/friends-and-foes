@@ -54,8 +54,8 @@ public final class IllusionTotemParticle extends SimpleAnimatedParticle
 			double h,
 			double i
 			//? if >=1.21.9 {
-			/*, RandomSource randomSource
-			*///?}
+			, RandomSource randomSource
+			//?}
 		) {
 			return new IllusionTotemParticle(clientWorld, d, e, f, g, h, i, this.spriteProvider);
 		}

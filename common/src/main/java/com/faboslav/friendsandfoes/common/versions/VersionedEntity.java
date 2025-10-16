@@ -11,8 +11,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 
 //? if <= 1.21.8 {
-import net.minecraft.world.entity.LivingEntity;
-//?}
+/*import net.minecraft.world.entity.LivingEntity;
+*///?}
 
 //? if >=1.21.3 {
 import net.minecraft.server.level.ServerLevel;
@@ -23,10 +23,10 @@ public final class VersionedEntity
 	public static EquipmentSlot getEquipmentSlotForItem(InteractionHand hand) {
 		EquipmentSlot equipmentSlot;
 		//? if >= 1.21.9 {
-		/*equipmentSlot = hand.asEquipmentSlot();
-		*///?} else {
-		equipmentSlot = LivingEntity.getSlotForHand(hand);
-		//?}
+		equipmentSlot = hand.asEquipmentSlot();
+		//?} else {
+		/*equipmentSlot = LivingEntity.getSlotForHand(hand);
+		*///?}
 
 		return equipmentSlot;
 	}

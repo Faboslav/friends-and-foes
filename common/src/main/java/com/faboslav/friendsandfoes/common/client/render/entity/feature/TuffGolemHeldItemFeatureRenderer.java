@@ -11,10 +11,10 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
 //? if >=1.21.9 {
-/*import net.minecraft.client.renderer.SubmitNodeCollector;
-*///?} else {
-import net.minecraft.client.renderer.MultiBufferSource;
-//?}
+import net.minecraft.client.renderer.SubmitNodeCollector;
+//?} else {
+/*import net.minecraft.client.renderer.MultiBufferSource;
+*///?}
 
 //? if >=1.21.4 {
 import com.faboslav.friendsandfoes.common.client.render.entity.state.TuffGolemRenderState;
@@ -50,10 +50,10 @@ public final class TuffGolemHeldItemFeatureRenderer extends RenderLayer<TuffGole
 	*///?}
 
 	//? if >=1.21.9 {
-	/*public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, TuffGolemRenderState renderState, float yRot, float xRot)
-	*///?} else if >=1.21.3 {
-	public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, TuffGolemRenderState renderState, float yRot, float xRot)
-	 //?} else {
+	public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, TuffGolemRenderState renderState, float yRot, float xRot)
+	//?} else if >=1.21.3 {
+	/*public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, TuffGolemRenderState renderState, float yRot, float xRot)
+	 *///?} else {
 	/*public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, TuffGolemEntity tuffGolem, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch)
 	 *///?}
 	{
@@ -89,10 +89,10 @@ public final class TuffGolemHeldItemFeatureRenderer extends RenderLayer<TuffGole
 			*///?}
 			poseStack,
 			//? if >=1.21.9 {
-			/*submitNodeCollector,
-			*///?} else {
-			bufferSource,
-			 //?}
+			submitNodeCollector,
+			//?} else {
+			/*bufferSource,
+			 *///?}
 			packedLight
 		);
 		poseStack.popPose();

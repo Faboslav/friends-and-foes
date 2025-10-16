@@ -42,8 +42,8 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 //? if >= 1.21.9 {
-/*import net.minecraft.world.entity.decoration.Mannequin;
-*///?}
+import net.minecraft.world.entity.decoration.Mannequin;
+//?}
 
 //? if >=1.21.6 {
 import net.minecraft.world.level.storage.ValueInput;
@@ -98,10 +98,10 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 		this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, Mob.class, 8.0F));
 		this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, Raider.class)).setAlertOthers());
 		//? if >= 1.21.9 {
-		/*this.targetSelector.addGoal(2, (new NearestAttackableTargetGoal<>(this, Mannequin.class, true)).setUnseenMemoryTicks(300));
-		*///?} else {
-		this.targetSelector.addGoal(2, (new NearestAttackableTargetGoal<>(this, PlayerIllusionEntity.class, true)).setUnseenMemoryTicks(300));
-		//?}
+		this.targetSelector.addGoal(2, (new NearestAttackableTargetGoal<>(this, Mannequin.class, true)).setUnseenMemoryTicks(300));
+		//?} else {
+		/*this.targetSelector.addGoal(2, (new NearestAttackableTargetGoal<>(this, PlayerIllusionEntity.class, true)).setUnseenMemoryTicks(300));
+		*///?}
 		this.targetSelector.addGoal(3, (new NearestAttackableTargetGoal<>(this, Player.class, true)).setUnseenMemoryTicks(300));
 		this.targetSelector.addGoal(4, (new NearestAttackableTargetGoal<>(this, AbstractVillager.class, false)).setUnseenMemoryTicks(300));
 		this.targetSelector.addGoal(4, (new NearestAttackableTargetGoal<>(this, IronGolem.class, false)).setUnseenMemoryTicks(300));

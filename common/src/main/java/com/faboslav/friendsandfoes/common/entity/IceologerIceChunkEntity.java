@@ -134,10 +134,10 @@ public final class IceologerIceChunkEntity extends Entity
 		if (livingEntity != null) {
 			EntityReference<LivingEntity> owner;
 			//? if >= 1.21.9 {
-			/*owner = EntityReference.of(livingEntity);
-			*///?} else {
-			owner = new EntityReference(livingEntity);
-			 //?}
+			owner = EntityReference.of(livingEntity);
+			//?} else {
+			/*owner = new EntityReference(livingEntity);
+			 *///?}
 
 			this.owner = owner;
 		} else {
@@ -155,10 +155,10 @@ public final class IceologerIceChunkEntity extends Entity
 			EntityReference<LivingEntity> target;
 
 			//? if >= 1.21.9 {
-			/*target = EntityReference.of(livingEntity);
-			*///?} else {
-			target = new EntityReference(livingEntity);
-			 //?}
+			target = EntityReference.of(livingEntity);
+			//?} else {
+			/*target = new EntityReference(livingEntity);
+			 *///?}
 
 			this.target = target;
 		} else {

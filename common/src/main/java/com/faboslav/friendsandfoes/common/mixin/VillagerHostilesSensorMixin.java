@@ -2,48 +2,27 @@ package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.google.common.collect.ImmutableMap;
-import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.sensing.VillagerHostilesSensor;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(VillagerHostilesSensor.class)
 public final class VillagerHostilesSensorMixin
 {
-	private static final ImmutableMap<EntityType<?>, Float> CUSTOM_SQUARED_DISTANCES_FOR_DANGER = ImmutableMap.<EntityType<?>, Float>builder().put(FriendsAndFoesEntityTypes.ILLUSIONER.get(), 12.0F).put(FriendsAndFoesEntityTypes.ICEOLOGER.get(), 12.0F).build();
-
-	@WrapMethod(
-		method = "isClose"
+	@WrapOperation(
+		method = "<clinit>",
+		at = @At(
+			value = "INVOKE",
+			target = "Lcom/google/common/collect/ImmutableMap$Builder;build()Lcom/google/common/collect/ImmutableMap;"
+		)
 	)
-	private boolean friendsandfoes_isCloseEnoughForDanger(
-		LivingEntity attacker,
-		LivingEntity target,
-		Operation<Boolean> original
+	private static ImmutableMap<EntityType<?>, Float> addDanger(
+		ImmutableMap.Builder<EntityType<?>, Float> instance,
+		Operation<ImmutableMap<EntityType<?>, Float>> original
 	) {
-		if(original.call(attacker, target)) {
-			return true;
-		}
-
-		if (CUSTOM_SQUARED_DISTANCES_FOR_DANGER.containsKey(target.getType())) {
-			float distance = CUSTOM_SQUARED_DISTANCES_FOR_DANGER.get(target.getType());
-			return target.distanceToSqr(attacker) <= (double) (distance * distance);
-		}
-
-		return false;
-	}
-
-	@WrapMethod(
-		method = "isHostile"
-	)
-	private boolean friendsandfoes$isHostile(
-		LivingEntity entity, Operation<Boolean> original
-	) {
-		if(original.call(entity)) {
-			return true;
-		}
-
-		return CUSTOM_SQUARED_DISTANCES_FOR_DANGER.containsKey(entity.getType());
+		return original.call(instance.put(FriendsAndFoesEntityTypes.ILLUSIONER.get(), 12.0F).put(FriendsAndFoesEntityTypes.ICEOLOGER.get(), 12.0F));
 	}
 }

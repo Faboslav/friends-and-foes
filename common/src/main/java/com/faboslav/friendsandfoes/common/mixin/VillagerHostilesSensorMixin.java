@@ -8,10 +8,12 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.sensing.VillagerHostilesSensor;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(VillagerHostilesSensor.class)
 public final class VillagerHostilesSensorMixin
 {
+	@Unique
 	private static final ImmutableMap<EntityType<?>, Float> CUSTOM_SQUARED_DISTANCES_FOR_DANGER = ImmutableMap.<EntityType<?>, Float>builder().put(FriendsAndFoesEntityTypes.ILLUSIONER.get(), 12.0F).put(FriendsAndFoesEntityTypes.ICEOLOGER.get(), 12.0F).build();
 
 	@WrapMethod(
@@ -26,8 +28,14 @@ public final class VillagerHostilesSensorMixin
 			return true;
 		}
 
-		if (CUSTOM_SQUARED_DISTANCES_FOR_DANGER.containsKey(target.getType())) {
-			float distance = CUSTOM_SQUARED_DISTANCES_FOR_DANGER.get(target.getType());
+		var entityType = target.getType();
+		if (CUSTOM_SQUARED_DISTANCES_FOR_DANGER.containsKey(entityType)) {
+			var distance = CUSTOM_SQUARED_DISTANCES_FOR_DANGER.get(entityType);
+
+			if(distance == null) {
+				return false;
+			}
+
 			return target.distanceToSqr(attacker) <= (double) (distance * distance);
 		}
 

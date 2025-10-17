@@ -1,3 +1,7 @@
+## 4.0.13
+
+- Fixed illusioner/iceologer mixin crash
+
 ## 4.0.12
 
 - Fixed raid member mixin crash

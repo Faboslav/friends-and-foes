@@ -12,7 +12,6 @@ import com.faboslav.friendsandfoes.common.world.spawner.IceologerSpawner;
 import com.faboslav.friendsandfoes.common.world.spawner.IllusionerSpawner;
 import com.faboslav.friendsandfoes.fabric.events.FabricReloadListener;
 import com.faboslav.friendsandfoes.fabric.mixin.PointOfInterestTypesAccessor;
-import com.teamresourceful.resourcefullib.common.registry.fabric.FabricRegistryEntry;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.fabricmc.api.ModInitializer;

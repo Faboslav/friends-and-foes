@@ -2,8 +2,15 @@ package com.faboslav.friendsandfoes.fabric.mixin;
 
 import com.faboslav.friendsandfoes.common.events.client.RegisterParticlesEvent;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import net.minecraft.client.particle.ParticleEngine;
+//? if <= 1.21.8 {
+/*import net.minecraft.client.particle.ParticleEngine;
+import net.minecraft.client.particle.ParticleEngine.MutableSpriteSet;
+*///?}
 import net.minecraft.client.particle.ParticleProvider;
+//? if >= 1.21.9 {
+import net.minecraft.client.particle.ParticleResources;
+import net.minecraft.client.particle.ParticleResources.MutableSpriteSet;
+//?}
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
@@ -20,12 +27,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Map;
 import java.util.function.Function;
 
-@Mixin(ParticleEngine.class)
-public abstract class ParticleManagerMixin
+//? if >= 1.21.9 {
+@Mixin(ParticleResources.class)
+//?} else {
+/*@Mixin(ParticleEngine.class)
+*///?}
+public abstract class ParticleResourcesMixin
 {
 	@Final
 	@Shadow
-	private Map<ResourceLocation, ParticleEngine.MutableSpriteSet> spriteSets;
+	private Map<ResourceLocation, MutableSpriteSet> spriteSets;
 
 	@Final
 	@Shadow
@@ -44,7 +55,7 @@ public abstract class ParticleManagerMixin
 		ParticleType<T> particleType,
 		Function<SpriteSet, ParticleProvider<T>> spriteParticleRegistration
 	) {
-		ParticleEngine.MutableSpriteSet mutableSpriteSet = new ParticleEngine.MutableSpriteSet();
+		MutableSpriteSet mutableSpriteSet = new MutableSpriteSet();
 		this.spriteSets.put(BuiltInRegistries.PARTICLE_TYPE.getKey(particleType), mutableSpriteSet);
 		this.providers.put(BuiltInRegistries.PARTICLE_TYPE.getId(particleType), spriteParticleRegistration.apply(mutableSpriteSet));
 	}

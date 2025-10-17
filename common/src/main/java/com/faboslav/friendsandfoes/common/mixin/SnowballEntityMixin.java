@@ -22,7 +22,7 @@ public abstract class SnowballEntityMixin extends ThrowableItemProjectile
 	@WrapMethod(
 		method = "onHitEntity"
 	)
-	private void friendsandfoes$isCloseEnoughForDanger(
+	private void friendsandfoes$snowballDamage(
 		EntityHitResult result,
 		Operation<Void> original
 	) {

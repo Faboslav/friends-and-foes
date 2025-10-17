@@ -24,10 +24,10 @@ public final class IllusionerSpawner implements CustomSpawner
 
 	@Override
 	//? if >= 1.21.9 {
-	/*public void tick(ServerLevel world, boolean spawnMonsters)
-	*///?} else if >=1.21.5 {
-	public void tick(ServerLevel world, boolean spawnMonsters, boolean spawnAnimals)
-	 //?} else {
+	public void tick(ServerLevel world, boolean spawnMonsters)
+	//?} else if >=1.21.5 {
+	/*public void tick(ServerLevel world, boolean spawnMonsters, boolean spawnAnimals)
+	 *///?} else {
 	/*public int tick(ServerLevel world, boolean spawnMonsters, boolean spawnAnimals)
 	*///?}
 	{

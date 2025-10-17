@@ -35,10 +35,8 @@ import java.util.function.Predicate;
 @Mixin(CarvedPumpkinBlock.class)
 public abstract class CarvedPumpkinBlockMixin extends HorizontalDirectionalBlock
 {
-	//? if <=1.21.8 {
 	@Nullable
 	private BlockPattern friendsandfoes_copperGolemDispenserPattern;
-	//?}
 
 	@Nullable
 	private BlockPattern friendsandfoes_tuffGolemDispenserPattern;

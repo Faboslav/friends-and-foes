@@ -5,13 +5,13 @@ import com.faboslav.friendsandfoes.common.events.client.RegisterEntityRenderersE
 import net.minecraft.client.renderer.entity.EntityRenderers;
 
 //? if <= 1.21.8 {
-import com.faboslav.friendsandfoes.common.entity.PlayerIllusionEntity;
+/*import com.faboslav.friendsandfoes.common.entity.PlayerIllusionEntity;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.resources.PlayerSkin;
 import java.util.Map;
-//?}
+*///?}
 
 /**
  * @see EntityRenderers
@@ -20,13 +20,13 @@ import java.util.Map;
 public final class FriendsAndFoesEntityRenderers
 {
 	//? if <= 1.21.8 {
-	private static final Map<PlayerSkin.Model, EntityRendererProvider<PlayerIllusionEntity>> PLAYER_ILLUSION_RENDERER_FACTORIES = Map.of(
+	/*private static final Map<PlayerSkin.Model, EntityRendererProvider<PlayerIllusionEntity>> PLAYER_ILLUSION_RENDERER_FACTORIES = Map.of(
 		PlayerSkin.Model.WIDE,
 		(EntityRendererProvider)context -> new PlayerIllusionEntityRenderer(context, false),
 		PlayerSkin.Model.SLIM,
 		(EntityRendererProvider)context -> new PlayerIllusionEntityRenderer(context, true)
 	);
-	//?}
+	*///?}
 
 	public static void registerEntityRenderers(RegisterEntityRenderersEvent event) {
 		event.register(FriendsAndFoesEntityTypes.COPPER_GOLEM.get(), CopperGolemEntityRenderer::new);
@@ -43,11 +43,11 @@ public final class FriendsAndFoesEntityRenderers
 	}
 
 	//? if <= 1.21.8 {
-	//? if >=1.21.3 {
+	/*//? if >=1.21.3 {
 	public static Map<PlayerSkin.Model, EntityRenderer<? extends PlayerIllusionEntity, ?>> reloadPlayerIllusionRenderers(EntityRendererProvider.Context ctx)
 	//?} else {
-	/*public static Map<PlayerSkin.Model, EntityRenderer<? extends PlayerIllusionEntity>> reloadPlayerIllusionRenderers(EntityRendererProvider.Context ctx)
-	*///?}
+	/^public static Map<PlayerSkin.Model, EntityRenderer<? extends PlayerIllusionEntity>> reloadPlayerIllusionRenderers(EntityRendererProvider.Context ctx)
+	^///?}
 	{
 		ImmutableMap.Builder builder = ImmutableMap.builder();
 		PLAYER_ILLUSION_RENDERER_FACTORIES.forEach((model, factory) -> {
@@ -59,7 +59,7 @@ public final class FriendsAndFoesEntityRenderers
 		});
 		return builder.build();
 	}
-	//?}
+	*///?}
 
 	private FriendsAndFoesEntityRenderers() {
 	}

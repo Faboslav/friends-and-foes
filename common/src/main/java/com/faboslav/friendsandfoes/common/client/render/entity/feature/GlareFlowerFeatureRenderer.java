@@ -10,8 +10,8 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 
 //? if >=1.21.9 {
-/*import net.minecraft.client.renderer.SubmitNodeCollector;
-*///?}
+import net.minecraft.client.renderer.SubmitNodeCollector;
+//?}
 
 //? if >=1.21.3 {
 import com.faboslav.friendsandfoes.common.client.render.entity.state.GlareRenderState;
@@ -37,10 +37,10 @@ public final class GlareFlowerFeatureRenderer extends RenderLayer<GlareRenderSta
 	}*///?}
 
 	//? if >=1.21.9 {
-	/*public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, GlareRenderState renderState, float yRot, float xRot)
-	*///?} else if >=1.21.3 {
-	public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, GlareRenderState renderState, float yRot, float xRot)
-	//?} else {
+	public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, GlareRenderState renderState, float yRot, float xRot)
+	//?} else if >=1.21.3 {
+	/*public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, GlareRenderState renderState, float yRot, float xRot)
+	*///?} else {
 	/*public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, GlareEntity glare, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float yRot, float xRot)
 	*///?}
 	{
@@ -63,10 +63,10 @@ public final class GlareFlowerFeatureRenderer extends RenderLayer<GlareRenderSta
 				FLOWERING_TEXTURE,
 				poseStack,
 				//? if >=1.21.9 {
-				/*submitNodeCollector,
-				*///?} else {
-				bufferSource,
-				//?}
+				submitNodeCollector,
+				//?} else {
+				/*bufferSource,
+				*///?}
 				packedLight,
 				//? if >=1.21.3 {
 				renderState,
@@ -75,8 +75,8 @@ public final class GlareFlowerFeatureRenderer extends RenderLayer<GlareRenderSta
 				*///?}
 				-1
 				//? if >=1.21.9 {
-				/*, 0
-				*///?}
+				, 0
+				//?}
 			);
 		}
 	}

@@ -8,10 +8,10 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 
 //? if >=1.21.9 {
-/*import net.minecraft.client.renderer.SubmitNodeCollector;
-*///?} else {
-import net.minecraft.client.renderer.MultiBufferSource;
-//?}
+import net.minecraft.client.renderer.SubmitNodeCollector;
+//?} else {
+/*import net.minecraft.client.renderer.MultiBufferSource;
+*///?}
 
 //? if >=1.21.3 {
 import com.faboslav.friendsandfoes.common.client.render.entity.state.TuffGolemRenderState;
@@ -35,10 +35,10 @@ public final class TuffGolemClothFeatureRenderer extends RenderLayer<TuffGolemRe
 	}*///?}
 
 	//? if >=1.21.9 {
-	/*public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, TuffGolemRenderState renderState, float yRot, float xRot)
-	*///?} else if >=1.21.3 {
-	public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, TuffGolemRenderState renderState, float yRot, float xRot)
-	 //?} else {
+	public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, TuffGolemRenderState renderState, float yRot, float xRot)
+	//?} else if >=1.21.3 {
+	/*public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, TuffGolemRenderState renderState, float yRot, float xRot)
+	 *///?} else {
 	/*public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, TuffGolemEntity tuffGolem, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch)
 	 *///?}
 	{
@@ -56,10 +56,10 @@ public final class TuffGolemClothFeatureRenderer extends RenderLayer<TuffGolemRe
 			clothTexture,
 			poseStack,
 			//? if >=1.21.9 {
-			/*submitNodeCollector,
-			*///?} else {
-			bufferSource,
-			//?}
+			submitNodeCollector,
+			//?} else {
+			/*bufferSource,
+			*///?}
 			packedLight,
 			//? if >=1.21.3 {
 			renderState,
@@ -68,8 +68,8 @@ public final class TuffGolemClothFeatureRenderer extends RenderLayer<TuffGolemRe
 			 *///?}
 			-1
 			//? if >=1.21.9 {
-			/*, 0
-			*///?}
+			, 0
+			//?}
 		);
 	}
 }

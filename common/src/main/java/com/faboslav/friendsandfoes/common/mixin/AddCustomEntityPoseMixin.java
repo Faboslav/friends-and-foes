@@ -20,7 +20,7 @@ import net.minecraft.world.entity.Pose;
 public final class AddCustomEntityPoseMixin
 {
 	@Invoker("<init>")
-	private static Pose newEntityPose(String internalName, int internalIndex, int index) {
+	private static Pose newEntityPose(String internalName, int internalIndex, int index, String name) {
 		throw new AssertionError();
 	}
 
@@ -48,7 +48,8 @@ public final class AddCustomEntityPoseMixin
 			var newEntityPose = newEntityPose(
 				copperGolemEntityPose.getName(),
 				++nextEntityPoseInternalIndex,
-				++nextEntityPoseIndex
+				++nextEntityPoseIndex,
+				copperGolemEntityPose.getName().toLowerCase()
 			);
 
 			copperGolemEntityPose.setIndex(nextEntityPoseIndex);
@@ -59,7 +60,8 @@ public final class AddCustomEntityPoseMixin
 			var newEntityPose = newEntityPose(
 				rascalEntityPose.getName(),
 				++nextEntityPoseInternalIndex,
-				++nextEntityPoseIndex
+				++nextEntityPoseIndex,
+				rascalEntityPose.getName().toLowerCase()
 			);
 
 			rascalEntityPose.setIndex(nextEntityPoseIndex);
@@ -70,7 +72,8 @@ public final class AddCustomEntityPoseMixin
 			var newEntityPose = newEntityPose(
 				tuffGolemEntityPose.getName(),
 				++nextEntityPoseInternalIndex,
-				++nextEntityPoseIndex
+				++nextEntityPoseIndex,
+				tuffGolemEntityPose.getName().toLowerCase()
 			);
 
 			tuffGolemEntityPose.setIndex(nextEntityPoseIndex);
@@ -81,7 +84,8 @@ public final class AddCustomEntityPoseMixin
 			var newEntityPose = newEntityPose(
 				crabEntityPose.getName(),
 				++nextEntityPoseInternalIndex,
-				++nextEntityPoseIndex
+				++nextEntityPoseIndex,
+				crabEntityPose.getName().toLowerCase()
 			);
 
 			entityPoses.add(newEntityPose);
@@ -91,7 +95,8 @@ public final class AddCustomEntityPoseMixin
 			var newEntityPose = newEntityPose(
 				wildfireEntityPose.getName(),
 				++nextEntityPoseInternalIndex,
-				++nextEntityPoseIndex
+				++nextEntityPoseIndex,
+				wildfireEntityPose.getName().toLowerCase()
 			);
 
 			entityPoses.add(newEntityPose);
@@ -101,7 +106,8 @@ public final class AddCustomEntityPoseMixin
 			var newEntityPose = newEntityPose(
 				maulerEntityPose.getName(),
 				++nextEntityPoseInternalIndex,
-				++nextEntityPoseIndex
+				++nextEntityPoseIndex,
+				maulerEntityPose.getName().toLowerCase()
 			);
 
 			entityPoses.add(newEntityPose);

@@ -4,7 +4,7 @@ import net.minecraft.world.entity.LightningBolt;
 import org.spongepowered.asm.mixin.Mixin;
 
 //? if <=1.21.8 {
-import org.spongepowered.asm.mixin.Shadow;
+/*import org.spongepowered.asm.mixin.Shadow;
 import net.minecraft.world.entity.Entity;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
@@ -113,9 +113,9 @@ public abstract class LightningEntityMixin extends Entity
 		return Optional.empty();
 	}
 }
-//?} else {
-/*@Mixin(LightningBolt.class)
+*///?} else {
+@Mixin(LightningBolt.class)
 public class LightningEntityMixin
 {
 }
-*///?}
+//?}

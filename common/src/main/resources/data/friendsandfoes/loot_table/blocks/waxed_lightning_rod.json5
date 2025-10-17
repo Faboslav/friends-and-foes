@@ -1,5 +1,6 @@
 {
-	"type": "minecraft:block",
+	//? if <= 1.21.8 {
+	/*"type": "minecraft:block",
 	"pools": [
 		{
 			"rolls": 1,
@@ -15,5 +16,6 @@
 				}
 			]
 		}
-	]
+	],
+	*///?}
 }

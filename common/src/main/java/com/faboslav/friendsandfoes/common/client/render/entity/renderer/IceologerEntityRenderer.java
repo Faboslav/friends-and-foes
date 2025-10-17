@@ -11,12 +11,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.monster.SpellcasterIllager;
 
 //? if >=1.21.9 {
-/*import net.minecraft.client.renderer.SubmitNodeCollector;
-*///?}
+import net.minecraft.client.renderer.SubmitNodeCollector;
+//?}
 
 //? if <= 1.21.8 {
-import net.minecraft.client.renderer.MultiBufferSource;
-//?}
+/*import net.minecraft.client.renderer.MultiBufferSource;
+*///?}
 
 //? if >=1.21.3 {
 import com.faboslav.friendsandfoes.common.client.render.entity.state.IceologerRenderState;
@@ -35,7 +35,7 @@ public class IceologerEntityRenderer<T extends SpellcasterIllager> extends Illag
 		super(context, new IllagerModel<>(context.bakeLayer(FriendsAndFoesEntityModelLayers.ICEOLOGER_LAYER)), 0.5F);
 
 		//? if >= 1.21.9 {
-		/*this.addLayer(new ItemInHandLayer<>(this)
+		this.addLayer(new ItemInHandLayer<>(this)
 		{
 			public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int i, IceologerRenderState renderState, float f, float g) {
 				if (renderState.isCastingSpell) {
@@ -44,8 +44,8 @@ public class IceologerEntityRenderer<T extends SpellcasterIllager> extends Illag
 
 			}
 		});
-		*///?} else if >= 1.21.3 {
-		this.addLayer(new ItemInHandLayer<>(this)
+		//?} else if >= 1.21.3 {
+		/*this.addLayer(new ItemInHandLayer<>(this)
 		{
 			public void render(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, IceologerRenderState renderState, float f, float g) {
 				if (renderState.isCastingSpell) {
@@ -53,7 +53,7 @@ public class IceologerEntityRenderer<T extends SpellcasterIllager> extends Illag
 				}
 			}
 		});
-		//?} else {
+		*///?} else {
 		/*this.addLayer(new ItemInHandLayer<>(this, context.getItemInHandRenderer())
 		{
 			public void render(PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int i, T spellcastingIllagerEntity, float f, float g, float h, float j, float k, float l) {

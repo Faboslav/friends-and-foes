@@ -67,7 +67,9 @@ public final class PatrolSpawnerMixin
 	private void friendsandfoes$resetBiomeSpecificIllagerSpawnFlag(
 		ServerLevel world,
 		boolean spawnMonsters,
-		boolean spawnAnimals,
+		//? if <= 1.21.8 {
+		/*boolean spawnAnimals,
+		*///?}
 		//? if >=1.21.5 {
 		CallbackInfo ci
 		//?} else {

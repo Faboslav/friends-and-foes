@@ -4,7 +4,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 
 //? if <= 1.21.8 {
-import com.faboslav.friendsandfoes.common.FriendsAndFoes;
+/*import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.PlayerIllusionEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityRenderers;
 import com.faboslav.friendsandfoes.common.util.PlayerSkinProvider;
@@ -33,7 +33,7 @@ import net.minecraft.client.renderer.entity.state.EntityRenderState;
 public abstract class EntityRenderDispatcherMixin
 {
 	@Unique
-	private Map<PlayerSkin.Model, EntityRenderer<? extends PlayerIllusionEntity/*? if >=1.21.3 {*/, ?/*?}*/>> friendsandfoes$illusionModelRenderers = ImmutableMap.of();
+	private Map<PlayerSkin.Model, EntityRenderer<? extends PlayerIllusionEntity/^? if >=1.21.3 {^/, ?/^?}^/>> friendsandfoes$illusionModelRenderers = ImmutableMap.of();
 
 	@Inject(
 		method = "getRenderer(Lnet/minecraft/world/entity/Entity;)Lnet/minecraft/client/renderer/entity/EntityRenderer;",
@@ -42,14 +42,14 @@ public abstract class EntityRenderDispatcherMixin
 	)
 	public <T extends Entity> void friendsandfoes$getRenderer(
 		T entity,
-		CallbackInfoReturnable<EntityRenderer<? super T/*? if >=1.21.3 {*/, ?/*?}*/>> cir
+		CallbackInfoReturnable<EntityRenderer<? super T/^? if >=1.21.3 {^/, ?/^?}^/>> cir
 	) {
 		if (entity instanceof PlayerIllusionEntity) {
 			PlayerIllusionEntity playerIllusion = (PlayerIllusionEntity) entity;
 			PlayerSkin.Model model = PlayerSkinProvider.getSkinTextures(playerIllusion).model();
-			EntityRenderer<? extends PlayerIllusionEntity/*? if >=1.21.3 {*/, ?/*?}*/> entityRenderer = this.friendsandfoes$illusionModelRenderers.get(model);
+			EntityRenderer<? extends PlayerIllusionEntity/^? if >=1.21.3 {^/, ?/^?}^/> entityRenderer = this.friendsandfoes$illusionModelRenderers.get(model);
 			entityRenderer = entityRenderer != null ? entityRenderer : this.friendsandfoes$illusionModelRenderers.get(PlayerSkin.Model.WIDE);
-			cir.setReturnValue((EntityRenderer<? super T/*? if >=1.21.3 {*/, ?/*?}*/>) entityRenderer);
+			cir.setReturnValue((EntityRenderer<? super T/^? if >=1.21.3 {^/, ?/^?}^/>) entityRenderer);
 		}
 	}
 
@@ -64,7 +64,7 @@ public abstract class EntityRenderDispatcherMixin
 	) {
 		if (renderState instanceof PlayerIllusionRenderState playerIllusionRenderState) {
 			PlayerSkin.Model model = playerIllusionRenderState.skin.model();
-			EntityRenderer<? extends PlayerIllusionEntity/*? if >=1.21.3 {*/, ?/*?}*/> entityRenderer = this.friendsandfoes$illusionModelRenderers.get(model);
+			EntityRenderer<? extends PlayerIllusionEntity/^? if >=1.21.3 {^/, ?/^?}^/> entityRenderer = this.friendsandfoes$illusionModelRenderers.get(model);
 			entityRenderer = entityRenderer != null ? entityRenderer:this.friendsandfoes$illusionModelRenderers.get(PlayerSkin.Model.WIDE);
 			cir.setReturnValue((EntityRenderer<?, ? super S>) entityRenderer);
 		}
@@ -85,9 +85,9 @@ public abstract class EntityRenderDispatcherMixin
 		return context;
 	}
 }
-//?} else {
-/*@Mixin(EntityRenderDispatcher.class)
+*///?} else {
+@Mixin(EntityRenderDispatcher.class)
 public abstract class EntityRenderDispatcherMixin
 {
 }
-*///?}
+//?}

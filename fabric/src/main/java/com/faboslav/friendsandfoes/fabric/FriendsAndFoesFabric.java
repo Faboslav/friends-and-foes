@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.fabric;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.block.OxidizableLightningRodBlock;
 import com.faboslav.friendsandfoes.common.events.AddItemGroupEntriesEvent;
 import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
 import com.faboslav.friendsandfoes.common.events.item.RegisterBrewingRecipesEvent;
@@ -35,6 +36,7 @@ import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.ai.village.poi.PoiTypes;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.level.block.BeehiveBlock;
+import net.minecraft.world.level.block.LightningRodBlock;
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
@@ -150,7 +152,7 @@ public final class FriendsAndFoesFabric implements ModInitializer
 
 	public static void registerPointOfInterestStates() {
 		FriendsAndFoesBlocks.BLOCKS.getEntries().forEach(block -> {
-			if(block.get() instanceof BeehiveBlock) {
+			if(block.get() instanceof BeehiveBlock || block.get() instanceof LightningRodBlock) {
 				//? if >=1.21.3 {
 				var poiHolder = BuiltInRegistries.POINT_OF_INTEREST_TYPE.get(block.getId());
 				//?} else {

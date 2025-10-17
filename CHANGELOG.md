@@ -1,6 +1,9 @@
 ## 4.0.13
 
 - Fixed illusioner/iceologer mixin crash
+- Fixed lightning rods lightning bolt attraction again (on Fabric)
+- Fixed invalid c tags
+- Fixed missing sound assets warnings
 
 ## 4.0.12
 

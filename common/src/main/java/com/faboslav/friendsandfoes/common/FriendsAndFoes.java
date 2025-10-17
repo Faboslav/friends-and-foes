@@ -15,6 +15,7 @@ import com.faboslav.friendsandfoes.common.network.MessageHandler;
 import com.faboslav.friendsandfoes.common.network.packet.EntityAnimationsSyncPacket;
 import com.faboslav.friendsandfoes.common.network.packet.MoobloomVariantsSyncPacket;
 import com.faboslav.friendsandfoes.common.platform.PlatformHooks;
+import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +52,7 @@ public final class FriendsAndFoes
 	}
 
 	public static void init() {
+		FriendsAndFoesTags.init();
 		FriendsAndFoes.getConfig().load();
 		ModChecker.setupModCompat();
 

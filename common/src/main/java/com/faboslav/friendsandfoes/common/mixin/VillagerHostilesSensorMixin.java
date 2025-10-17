@@ -14,23 +14,20 @@ import org.spongepowered.asm.mixin.Unique;
 public final class VillagerHostilesSensorMixin
 {
 	@Unique
-	private static final ImmutableMap<EntityType<?>, Float> CUSTOM_SQUARED_DISTANCES_FOR_DANGER = ImmutableMap.<EntityType<?>, Float>builder().put(FriendsAndFoesEntityTypes.ILLUSIONER.get(), 12.0F).put(FriendsAndFoesEntityTypes.ICEOLOGER.get(), 12.0F).build();
+	private static final ImmutableMap<EntityType<?>, Float> FRIENDSANDFOES_SQUARED_DISTANCES_FOR_DANGER = ImmutableMap.<EntityType<?>, Float>builder().put(FriendsAndFoesEntityTypes.ILLUSIONER.get(), 12.0F).put(FriendsAndFoesEntityTypes.ICEOLOGER.get(), 12.0F).build();
 
 	@WrapMethod(
 		method = "isClose"
 	)
-	private boolean friendsandfoes_isCloseEnoughForDanger(
+	private boolean friendsandfoes$isCloseEnoughForDanger(
 		LivingEntity attacker,
 		LivingEntity target,
 		Operation<Boolean> original
 	) {
-		if(original.call(attacker, target)) {
-			return true;
-		}
-
 		var entityType = target.getType();
-		if (CUSTOM_SQUARED_DISTANCES_FOR_DANGER.containsKey(entityType)) {
-			var distance = CUSTOM_SQUARED_DISTANCES_FOR_DANGER.get(entityType);
+
+		if (FRIENDSANDFOES_SQUARED_DISTANCES_FOR_DANGER.containsKey(entityType)) {
+			var distance = FRIENDSANDFOES_SQUARED_DISTANCES_FOR_DANGER.get(entityType);
 
 			if(distance == null) {
 				return false;
@@ -39,7 +36,7 @@ public final class VillagerHostilesSensorMixin
 			return target.distanceToSqr(attacker) <= (double) (distance * distance);
 		}
 
-		return false;
+		return original.call(attacker, target);
 	}
 
 	@WrapMethod(
@@ -52,6 +49,6 @@ public final class VillagerHostilesSensorMixin
 			return true;
 		}
 
-		return CUSTOM_SQUARED_DISTANCES_FOR_DANGER.containsKey(entity.getType());
+		return FRIENDSANDFOES_SQUARED_DISTANCES_FOR_DANGER.containsKey(entity.getType());
 	}
 }

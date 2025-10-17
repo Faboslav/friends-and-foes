@@ -60,4 +60,6 @@ public final class FriendsAndFoesTags
 	private static TagKey<PoiType> pointOfInterestTypeTag(String name) {
 		return TagKey.create(Registries.POINT_OF_INTEREST_TYPE, FriendsAndFoes.makeID(name));
 	}
+
+	public static void init() {}
 }

@@ -61,15 +61,6 @@
 		],
 		"subtitle": "subtitles.block.generic.footsteps"
 	},
-	"entity.copper_golem_become_statue": {
-		"sounds": [
-			"block/copper_statue/become_statue1",
-			"block/copper_statue/become_statue2",
-			"block/copper_statue/become_statue3",
-			"block/copper_statue/become_statue4"
-		],
-		"subtitle": "subtitle.entity.friendsandfoes.copper_golem_become_statue"
-	},
 	"entity.copper_golem_oxidized.death": {
 		"sounds": [
 			"friendsandfoes:entity/copper_golem/oxidized/death"

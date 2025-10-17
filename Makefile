@@ -34,6 +34,12 @@ run-data: ## Runs datagen
 run-validate-aw: ##
 	./gradlew common:1.21.9:validateAccessWidener
 
+clean-cache: ## Cleans cache
+	./gradlew --stop
+	rm -rf $GRADLE_HOME/caches/transforms-*
+	rm -rf $GRADLE_HOME/caches/build-cache-*
+	./gradlew clean
+
 nuke: ## Nuke the project
 	./gradlew --stop
 	rm -rf $GRADLE_HOME/caches/transforms-*

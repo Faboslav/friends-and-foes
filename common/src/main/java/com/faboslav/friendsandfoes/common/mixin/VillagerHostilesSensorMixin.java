@@ -7,22 +7,48 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.sensing.VillagerHostilesSensor;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(VillagerHostilesSensor.class)
 public final class VillagerHostilesSensorMixin
 {
-	@WrapOperation(
-		method = "<clinit>",
-		at = @At(
-			value = "INVOKE",
-			target = "Lcom/google/common/collect/ImmutableMap$Builder;build()Lcom/google/common/collect/ImmutableMap;"
-		)
+	@Unique
+	private static final ImmutableMap<EntityType<?>, Float> FRIENDSANDFOES_SQUARED_DISTANCES_FOR_DANGER = ImmutableMap.<EntityType<?>, Float>builder().put(FriendsAndFoesEntityTypes.ILLUSIONER.get(), 12.0F).put(FriendsAndFoesEntityTypes.ICEOLOGER.get(), 12.0F).build();
+
+	@WrapMethod(
+		method = "isClose"
+	)
+	private boolean friendsandfoes$isCloseEnoughForDanger(
+		LivingEntity attacker,
+		LivingEntity target,
+		Operation<Boolean> original
+	) {
+		var entityType = target.getType();
+
+		if (FRIENDSANDFOES_SQUARED_DISTANCES_FOR_DANGER.containsKey(entityType)) {
+			var distance = FRIENDSANDFOES_SQUARED_DISTANCES_FOR_DANGER.get(entityType);
+
+			if(distance == null) {
+				return false;
+			}
+
+			return target.distanceToSqr(attacker) <= (double) (distance * distance);
+		}
+
+		return original.call(attacker, target);
+	}
+
+	@WrapMethod(
+		method = "isHostile"
 	)
 	private static ImmutableMap<EntityType<?>, Float> addDanger(
 		ImmutableMap.Builder<EntityType<?>, Float> instance,
 		Operation<ImmutableMap<EntityType<?>, Float>> original
 	) {
-		return original.call(instance.put(FriendsAndFoesEntityTypes.ILLUSIONER.get(), 12.0F).put(FriendsAndFoesEntityTypes.ICEOLOGER.get(), 12.0F));
+		if(original.call(entity)) {
+			return true;
+		}
+
+		return FRIENDSANDFOES_SQUARED_DISTANCES_FOR_DANGER.containsKey(entity.getType());
 	}
 }

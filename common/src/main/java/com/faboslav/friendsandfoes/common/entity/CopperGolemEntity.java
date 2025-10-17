@@ -46,6 +46,8 @@ import net.minecraft.world.entity.ai.control.JumpControl;
 import net.minecraft.world.entity.ai.control.LookControl;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.animal.AbstractGolem;
+import net.minecraft.world.entity.animal.coppergolem.CopperGolem;
+import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.Item;

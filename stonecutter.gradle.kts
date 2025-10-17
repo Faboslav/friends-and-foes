@@ -7,7 +7,7 @@ plugins {
 }
 
 if (IS_CI) stonecutter active null
-else stonecutter active "1.21.9" /* [SC] DO NOT EDIT */
+else stonecutter active "1.21.10" /* [SC] DO NOT EDIT */
 
 stonecutter {
 	parameters {

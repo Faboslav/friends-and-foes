@@ -209,6 +209,8 @@
 	"yacl3.config.friendsandfoes:friendsandfoes.generateBeekeeperAreaStructureInVillages": "Generate beekeeper area structure in villages",
 	"yacl3.config.friendsandfoes:friendsandfoes.beekeeperAreaStructureWeight": "Beekeeper area structure spawn weight",
 	"yacl3.config.friendsandfoes:friendsandfoes.enableCopperGolem": "Enable",
+	"yacl3.config.friendsandfoes:friendsandfoes.replaceVanillaCopperGolem": "Replace vanilla copper golem",
+	"yacl3.config.friendsandfoes:friendsandfoes.replaceCopperGolem": "Replace vanilla copper golem",
 	"yacl3.config.friendsandfoes:friendsandfoes.enableCopperGolemSpawn": "Enable spawn",
 	"yacl3.config.friendsandfoes:friendsandfoes.generateCopperGolemWorkstationStructureInVillages": "Generate workstation structure in villages",
 	"yacl3.config.friendsandfoes:friendsandfoes.copperGolemWorkstationStructureWeight": "Workstation structure spawn weight",

@@ -95,7 +95,7 @@ public abstract class PlayerEntityMixin extends LivingEntity
 			&& !damageSource.is(DamageTypes.FALLING_BLOCK)
 			&& damageSource.getEntity() != null
 			&& !player.isDeadOrDying()
-			&& this.getHealth() <= this.getMaxHealth() / 2.0F
+			&& this.getHealth() <= (this.getMaxHealth() / 2.0F)
 		) {
 			ItemStack totemItemStack = friendsandfoes$getTotem(
 				friendsandfoes$getTotemFromHands(player),

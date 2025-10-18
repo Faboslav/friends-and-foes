@@ -51,6 +51,11 @@ public final class FriendsAndFoesConfig
 	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
 	public boolean enableCopperGolem = true;
 
+	@SerialEntry
+	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	@EnumCycler(allowedOrdinals = {0, 1, 2})
+	public PreferredCopperGolem replaceCopperGolem = PreferredCopperGolem.VANILLA;
+
 	@SerialEntry()
 	@CustomDescription("Copper Golem")
 	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
@@ -359,5 +364,17 @@ public final class FriendsAndFoesConfig
 
 	public void load() {
 		HANDLER.load();
+	}
+
+	public enum PreferredCopperGolem implements EnumCycler.CyclableEnum
+	{
+		BOTH,
+		VANILLA,
+		FRIENDSANDFOES;
+
+		@Override
+		public PreferredCopperGolem[] allowedValues() {
+			return PreferredCopperGolem.values();
+		}
 	}
 }

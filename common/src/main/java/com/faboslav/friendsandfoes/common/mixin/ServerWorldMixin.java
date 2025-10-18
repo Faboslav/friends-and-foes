@@ -13,7 +13,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
-import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.entity.animal.horse.ZombieHorse;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.GameRules;
@@ -21,13 +20,16 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.dimension.DimensionType;
-import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.storage.WritableLevelData;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
+//? if <=1.21.8 {
+/*import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import java.util.Optional;
+import net.minecraft.world.level.levelgen.Heightmap;
+*///?}
 
 //? if >=1.21.3 {
 import net.minecraft.util.profiling.Profiler;
@@ -125,7 +127,8 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel
 		}
 	}
 
-	@WrapMethod(
+	//? if <=1.21.8 {
+	/*@WrapMethod(
 		method = "findLightningRod"
 	)
 	protected Optional<BlockPos> friendsandfoes$getLightningRodPos(
@@ -148,4 +151,5 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel
 
 		return optional.map((posx) -> posx.above(1));
 	}
+	*///?}
 }

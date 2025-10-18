@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.common.util;
 
+import com.faboslav.friendsandfoes.common.entity.MannequinEntityAccess;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
 import com.faboslav.friendsandfoes.common.versions.VersionedMobEffects;
@@ -121,16 +122,6 @@ public final class TotemUtil
 				spawnCloudParticles(player, level);
 			}
 
-			var attacker = illusionToReplace.getLastHurtByMob();
-
-			if (attacker != null) {
-				//? if <=1.21.4 {
-				/*illusionToReplace.setLastHurtByPlayer(null);
-				*///?}
-				illusionToReplace.setLastHurtByMob(null);
-				illusionToReplace.setLastHurtMob(null);
-			}
-
 			illusionToReplace.discard();
 		}
 
@@ -184,7 +175,12 @@ public final class TotemUtil
 
 		//? if >= 1.21.9 {
 		MannequinAccessor mannequinAccessor = ((MannequinAccessor) playerIllusion);
-		((MannequinAccessor) playerIllusion).friendsandfoes$setProfile(ResolvableProfile.createResolved(player.getGameProfile()));
+		mannequinAccessor.friendsandfoes$setProfile(ResolvableProfile.createResolved(player.getGameProfile()));
+		MannequinEntityAccess mannequinEntityAccess = (MannequinEntityAccess) playerIllusion;
+		mannequinEntityAccess.friendsandfoes$setPlayerUuid(player.getUUID());
+		mannequinEntityAccess.friendsandfoes$setPlayer(player);
+		mannequinEntityAccess.friendsandfoes$setIsIllusion(true);
+		mannequinEntityAccess.friendsandfoes$setTicksUntilDespawn(ILLUSION_LIFETIME_TICKS);
 		//?} else {
 		/*playerIllusion.setPlayerUuid(player.getUUID());
 		playerIllusion.setPlayer(player);

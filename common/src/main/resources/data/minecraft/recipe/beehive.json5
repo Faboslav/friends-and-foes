@@ -2,7 +2,6 @@
 	"type": "minecraft:crafting_shaped",
 	"category": "misc",
 	"key": {
-
 		//? if >=1.21.4 {
 		"P": "minecraft:oak_planks",
 		"H": "minecraft:honeycomb"
@@ -13,7 +12,8 @@
 		"H": {
 			"item": "minecraft:honeycomb"
 		}
-		*///?}
+		*/
+		//?}
 	},
 	"pattern": [
 		"PPP",

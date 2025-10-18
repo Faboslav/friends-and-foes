@@ -1,6 +1,6 @@
 {
-  "model": {
-    "type": "minecraft:model",
-    "model": "friendsandfoes:item/crab_egg"
-  }
+	"model": {
+		"type": "minecraft:model",
+		"model": "friendsandfoes:item/crab_egg"
+	}
 }

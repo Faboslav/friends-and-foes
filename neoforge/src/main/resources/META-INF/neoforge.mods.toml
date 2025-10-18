@@ -20,7 +20,7 @@ config = "friendsandfoes-neoforge.mixins.json"
 config = "friendsandfoes-common.mixins.json"
 
 [[accessTransformers]]
-file="META-INF/accesstransformer.cfg"
+file = "META-INF/accesstransformer.cfg"
 
 [[dependencies.${ modId }]]
 modId = "neoforge"

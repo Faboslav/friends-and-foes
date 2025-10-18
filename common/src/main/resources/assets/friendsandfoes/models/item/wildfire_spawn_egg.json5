@@ -4,7 +4,8 @@
 	"textures": {
 		"layer0": "friendsandfoes:item/wildfire_spawn_egg"
 	}
-//?} else {
+	//?} else {
 	/*"parent": "item/template_spawn_egg",
-	*///?}
+	*/
+	//?}
 }

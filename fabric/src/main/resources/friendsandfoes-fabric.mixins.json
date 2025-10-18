@@ -1,20 +1,20 @@
 {
-  "required": true,
-  "package": "com.faboslav.friendsandfoes.fabric.mixin",
-  "refmap": "${modId}.refmap.json",
-  "compatibilityLevel": "JAVA_${javaVersion}",
-  "minVersion": "0.8",
-  "injectors": {
-    "defaultRequire": 1
-  },
-  "mixins": [
-    "PatrolSpawnerMixin",
-    "PointOfInterestTypesAccessor",
-    "SpawnHelperMixin",
-    "StructureEntityProcessorMixin",
-    "StructureTemplateEntitySpawnMixin"
-  ],
-  "client": [
-	  "ParticleResourcesMixin"
-    ]
+	"required": true,
+	"package": "com.faboslav.friendsandfoes.fabric.mixin",
+	"refmap": "${modId}.refmap.json",
+	"compatibilityLevel": "JAVA_${javaVersion}",
+	"minVersion": "0.8",
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"mixins": [
+		"PatrolSpawnerMixin",
+		"PointOfInterestTypesAccessor",
+		"SpawnHelperMixin",
+		"StructureEntityProcessorMixin",
+		"StructureTemplateEntitySpawnMixin"
+	],
+	"client": [
+		"ParticleResourcesMixin"
+	]
 }

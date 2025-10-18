@@ -25,7 +25,6 @@
 	"advancements.nether.obtain_wildfire_crown.description": "Tenha uma coroa de Wildfire em seu inventário",
 	"advancements.adventure.complete_hide_and_seek_game.title": "Esconde-esconde",
 	"advancements.adventure.complete_hide_and_seek_game.description": "Encontre um Rascal três vezes em seu pequeno jogo",
-
 	"block.friendsandfoes.buttercup": "Flor de Botão",
 	"block.minecraft.beehive": "Colmeia de Carvalho",
 	"block.friendsandfoes.acacia_beehive": "Colmeia de Acácia",
@@ -84,7 +83,6 @@
 	"item.friendsandfoes.rascal_spawn_egg": "Ovo Gerador de Rascal",
 	"item.friendsandfoes.tuff_golem_spawn_egg": "Ovo Gerador de Golem de Tufo",
 	"item.friendsandfoes.wildfire_spawn_egg": "Ovo Gerador de Incêndio",
-
 	"item.friendsandfoes.crab_egg": "Ovo de Caranguejo",
 	"item.friendsandfoes.crab_claw": "Garra de Caranguejo",
 	"item.friendsandfoes.totem_of_freezing": "Totem de Congelamento",
@@ -130,12 +128,10 @@
 	"tag.item.friendsandfoes.glare_tempt_items": "Itens de tentação de Glare",
 	"tag.item.trinkets.charm/charm": "Amuletos",
 	"tag.item.friendsandfoes.totems": "Totens",
-
 	"jukebox_song.friendsandfoes.around_the_corner": "Cleo - Around the Corner",
 	"trinkets.slot.charm.charm": "Amuleto",
 	"text.betterf3.line.glares": "Glare",
 	"text.betterf3.line.rascals": "Rascals",
-
 	"subtitle.entity.friendsandfoes.glare.ambient": "Glare voa",
 	"subtitle.entity.friendsandfoes.glare.death": "Glare morre",
 	"subtitle.entity.friendsandfoes.glare.eat": "Glare come",
@@ -187,7 +183,6 @@
 	"subtitle.entity.friendsandfoes.wildfire.shockwave": "Wildfire gera onda de choque",
 	"subtitle.entity.friendsandfoes.wildfire.shoot": "Wildfire atira",
 	"subtitle.entity.friendsandfoes.wildfire.summon_blaze": "Wildfire invoca blazes",
-
 	"yacl3.config.friendsandfoes:friendsandfoes": "Amigos e Inimigos",
 	"yacl3.config.friendsandfoes:friendsandfoes.category.mobs": "Mobs",
 	"yacl3.config.friendsandfoes:friendsandfoes.category.general": "Geral",

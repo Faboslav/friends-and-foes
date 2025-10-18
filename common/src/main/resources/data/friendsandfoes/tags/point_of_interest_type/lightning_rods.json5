@@ -9,6 +9,7 @@
 		"friendsandfoes:waxed_exposed_lightning_rod",
 		"friendsandfoes:waxed_oxidized_lightning_rod",
 		"friendsandfoes:waxed_weathered_lightning_rod"
+		
 		*///?} else {
 		"minecraft:exposed_lightning_rod",
 		"minecraft:weathered_lightning_rod",

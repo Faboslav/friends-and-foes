@@ -106,6 +106,7 @@
 				{
 					//? if <= 1.21.8 {
 					/*"name": "minecraft:chain",
+					
 					*///?} else {
 					"name": "minecraft:iron_chain",
 					//?}

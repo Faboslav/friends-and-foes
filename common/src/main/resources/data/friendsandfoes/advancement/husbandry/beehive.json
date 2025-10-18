@@ -124,7 +124,6 @@
 				]
 			}
 		},
-
 		"spruce_beehive": {
 			"trigger": "minecraft:inventory_changed",
 			"conditions": {

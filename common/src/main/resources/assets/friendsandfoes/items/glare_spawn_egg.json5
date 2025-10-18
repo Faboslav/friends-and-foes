@@ -4,19 +4,20 @@
 		"type": "minecraft:model",
 		"model": "friendsandfoes:item/glare_spawn_egg"
 	}
-//?} else {
-    /*"model": {
-        "type": "minecraft:model",
-        "model": "minecraft:item/template_spawn_egg",
-        "tints": [
-            {
-                "type": "minecraft:constant",
-                "value": 4285567533
-            },
-            {
-                "type": "minecraft:constant",
-                "value": 4285157927
-            }
-        ]
-	}*///?}
+	//?} else {
+	/*"model": {
+		"type": "minecraft:model",
+		"model": "minecraft:item/template_spawn_egg",
+		"tints": [
+			{
+				"type": "minecraft:constant",
+				"value": 4285567533
+			},
+			{
+				"type": "minecraft:constant",
+				"value": 4285157927
+			}
+		]
+	}*/
+	//?}
 }

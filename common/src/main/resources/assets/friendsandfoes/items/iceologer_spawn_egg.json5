@@ -4,19 +4,20 @@
 		"type": "minecraft:model",
 		"model": "friendsandfoes:item/iceologer_spawn_egg"
 	}
-//?} else {
-    /*"model": {
-        "type": "minecraft:model",
-        "model": "minecraft:item/template_spawn_egg",
-        "tints": [
-            {
-                "type": "minecraft:constant",
-                "value": 4279711859
-            },
-            {
-                "type": "minecraft:constant",
-                "value": 4287929243
-            }
-        ]
-	}*///?}
+	//?} else {
+	/*"model": {
+		"type": "minecraft:model",
+		"model": "minecraft:item/template_spawn_egg",
+		"tints": [
+			{
+				"type": "minecraft:constant",
+				"value": 4279711859
+			},
+			{
+				"type": "minecraft:constant",
+				"value": 4287929243
+			}
+		]
+	}*/
+	//?}
 }

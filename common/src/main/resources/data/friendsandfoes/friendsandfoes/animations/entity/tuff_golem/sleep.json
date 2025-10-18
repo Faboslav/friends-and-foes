@@ -1,1 +1,182 @@
-{"length":0.9166666666666666,"animations":[{"bone":"leftArm","target":"rotation","keyframes":[{"timestamp":0,"target":[0,0,0],"interpolation":"linear"},{"timestamp":0.2916666666666667,"target":[-75,0,0],"interpolation":"linear"},{"timestamp":0.4166666666666667,"target":[-80,0,0],"interpolation":"linear"},{"timestamp":0.7083333333333334,"target":[5,0,0],"interpolation":"linear"},{"timestamp":0.9166666666666666,"target":[0,0,0],"interpolation":"linear"}]},{"bone":"rightArm","target":"rotation","keyframes":[{"timestamp":0,"target":[0,0,0],"interpolation":"linear"},{"timestamp":0.2916666666666667,"target":[-75,0,0],"interpolation":"linear"},{"timestamp":0.4166666666666667,"target":[-80,0,0],"interpolation":"linear"},{"timestamp":0.7083333333333334,"target":[5,0,0],"interpolation":"linear"},{"timestamp":0.9166666666666666,"target":[0,0,0],"interpolation":"linear"}]},{"bone":"body","target":"position","keyframes":[{"timestamp":0,"target":[0,0,0],"interpolation":"linear"},{"timestamp":0.2916666666666667,"target":[0,-1,0],"interpolation":"linear"}]},{"bone":"body","target":"rotation","keyframes":[{"timestamp":0,"target":[0,0,0],"interpolation":"linear"},{"timestamp":0.2916666666666667,"target":[20,0,0],"interpolation":"linear"},{"timestamp":0.4166666666666667,"target":[25,0,0],"interpolation":"linear"},{"timestamp":0.7083333333333334,"target":[-5,0,0],"interpolation":"linear"},{"timestamp":0.9166666666666666,"target":[0,0,0],"interpolation":"linear"}]}]}
+{
+	"length": 0.9166666666666666,
+	"animations": [
+		{
+			"bone": "leftArm",
+			"target": "rotation",
+			"keyframes": [
+				{
+					"timestamp": 0,
+					"target": [
+						0,
+						0,
+						0
+					],
+					"interpolation": "linear"
+				},
+				{
+					"timestamp": 0.2916666666666667,
+					"target": [
+						-75,
+						0,
+						0
+					],
+					"interpolation": "linear"
+				},
+				{
+					"timestamp": 0.4166666666666667,
+					"target": [
+						-80,
+						0,
+						0
+					],
+					"interpolation": "linear"
+				},
+				{
+					"timestamp": 0.7083333333333334,
+					"target": [
+						5,
+						0,
+						0
+					],
+					"interpolation": "linear"
+				},
+				{
+					"timestamp": 0.9166666666666666,
+					"target": [
+						0,
+						0,
+						0
+					],
+					"interpolation": "linear"
+				}
+			]
+		},
+		{
+			"bone": "rightArm",
+			"target": "rotation",
+			"keyframes": [
+				{
+					"timestamp": 0,
+					"target": [
+						0,
+						0,
+						0
+					],
+					"interpolation": "linear"
+				},
+				{
+					"timestamp": 0.2916666666666667,
+					"target": [
+						-75,
+						0,
+						0
+					],
+					"interpolation": "linear"
+				},
+				{
+					"timestamp": 0.4166666666666667,
+					"target": [
+						-80,
+						0,
+						0
+					],
+					"interpolation": "linear"
+				},
+				{
+					"timestamp": 0.7083333333333334,
+					"target": [
+						5,
+						0,
+						0
+					],
+					"interpolation": "linear"
+				},
+				{
+					"timestamp": 0.9166666666666666,
+					"target": [
+						0,
+						0,
+						0
+					],
+					"interpolation": "linear"
+				}
+			]
+		},
+		{
+			"bone": "body",
+			"target": "position",
+			"keyframes": [
+				{
+					"timestamp": 0,
+					"target": [
+						0,
+						0,
+						0
+					],
+					"interpolation": "linear"
+				},
+				{
+					"timestamp": 0.2916666666666667,
+					"target": [
+						0,
+						-1,
+						0
+					],
+					"interpolation": "linear"
+				}
+			]
+		},
+		{
+			"bone": "body",
+			"target": "rotation",
+			"keyframes": [
+				{
+					"timestamp": 0,
+					"target": [
+						0,
+						0,
+						0
+					],
+					"interpolation": "linear"
+				},
+				{
+					"timestamp": 0.2916666666666667,
+					"target": [
+						20,
+						0,
+						0
+					],
+					"interpolation": "linear"
+				},
+				{
+					"timestamp": 0.4166666666666667,
+					"target": [
+						25,
+						0,
+						0
+					],
+					"interpolation": "linear"
+				},
+				{
+					"timestamp": 0.7083333333333334,
+					"target": [
+						-5,
+						0,
+						0
+					],
+					"interpolation": "linear"
+				},
+				{
+					"timestamp": 0.9166666666666666,
+					"target": [
+						0,
+						0,
+						0
+					],
+					"interpolation": "linear"
+				}
+			]
+		}
+	]
+}

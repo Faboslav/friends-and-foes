@@ -4,19 +4,20 @@
 		"type": "minecraft:model",
 		"model": "friendsandfoes:item/wildfire_spawn_egg"
 	}
-//?} else {
-    /*"model": {
-        "type": "minecraft:model",
-        "model": "minecraft:item/template_spawn_egg",
-        "tints": [
-            {
-                "type": "minecraft:constant",
-                "value": 4285280512
-            },
-            {
-                "type": "minecraft:constant",
-                "value": 4294956328
-            }
-        ]
-	}*///?}
+	//?} else {
+	/*"model": {
+		"type": "minecraft:model",
+		"model": "minecraft:item/template_spawn_egg",
+		"tints": [
+			{
+				"type": "minecraft:constant",
+				"value": 4285280512
+			},
+			{
+				"type": "minecraft:constant",
+				"value": 4294956328
+			}
+		]
+	}*/
+	//?}
 }

@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0.2.1 (FabricMC 53fa44c9).
- */
 package com.faboslav.friendsandfoes.common.entity.ai.brain.sensor;
 
 import com.faboslav.friendsandfoes.common.entity.GlareEntity;

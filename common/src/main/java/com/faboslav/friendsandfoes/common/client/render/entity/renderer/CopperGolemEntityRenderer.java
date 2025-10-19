@@ -1,4 +1,5 @@
-package com.faboslav.friendsandfoes.common.client.render.entity.renderer;
+//? if <= 1.21.8 {
+/*package com.faboslav.friendsandfoes.common.client.render.entity.renderer;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.CopperGolemEntityModel;
@@ -19,8 +20,8 @@ import com.faboslav.friendsandfoes.common.client.render.entity.state.CopperGolem
 //? if >=1.21.3 {
 public class CopperGolemEntityRenderer extends MobRenderer<CopperGolemEntity, CopperGolemRenderState, CopperGolemEntityModel>
 //?} else {
-/*public final class CopperGolemEntityRenderer extends MobRenderer<CopperGolemEntity, CopperGolemEntityModel<CopperGolemEntity>>
-*///?}
+/^public final class CopperGolemEntityRenderer extends MobRenderer<CopperGolemEntity, CopperGolemEntityModel<CopperGolemEntity>>
+^///?}
 {
 	private static final Map<WeatheringCopper.WeatherState, ResourceLocation> OXIDATION_TO_TEXTURE_MAP = ImmutableMap.of(
 		WeatheringCopper.WeatherState.UNAFFECTED, FriendsAndFoes.makeID("textures/entity/copper_golem/copper_golem.png"),
@@ -54,8 +55,8 @@ public class CopperGolemEntityRenderer extends MobRenderer<CopperGolemEntity, Co
 	//? if >=1.21.3 {
 	public ResourceLocation getTextureLocation(CopperGolemRenderState renderState)
 	//?} else {
-	/*public ResourceLocation getTextureLocation(CopperGolemEntity copperGolem)
-	*///?}
+	/^public ResourceLocation getTextureLocation(CopperGolemEntity copperGolem)
+	^///?}
 	{
 		//? if >=1.21.3 {
 		var copperGolem = renderState.copperGolem;
@@ -64,3 +65,4 @@ public class CopperGolemEntityRenderer extends MobRenderer<CopperGolemEntity, Co
 		return OXIDATION_TO_TEXTURE_MAP.get(copperGolem.getOxidationLevel());
 	}
 }
+*///?}

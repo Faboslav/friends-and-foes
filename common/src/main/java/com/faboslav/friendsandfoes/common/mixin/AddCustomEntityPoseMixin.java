@@ -44,7 +44,8 @@ public final class AddCustomEntityPoseMixin
 		var nextEntityPoseInternalIndex = lastEntityPose.ordinal();
 		var nextEntityPoseIndex = lastEntityPose.id();
 
-		for (CopperGolemEntityPose copperGolemEntityPose : CopperGolemEntityPose.values()) {
+		//? if <= 1.21.8 {
+		/*for (CopperGolemEntityPose copperGolemEntityPose : CopperGolemEntityPose.values()) {
 			var newEntityPose = newEntityPose(
 				copperGolemEntityPose.getName(),
 				++nextEntityPoseInternalIndex,
@@ -55,6 +56,7 @@ public final class AddCustomEntityPoseMixin
 			copperGolemEntityPose.setIndex(nextEntityPoseIndex);
 			entityPoses.add(newEntityPose);
 		}
+		*///?}
 
 		for (RascalEntityPose rascalEntityPose : RascalEntityPose.values()) {
 			var newEntityPose = newEntityPose(

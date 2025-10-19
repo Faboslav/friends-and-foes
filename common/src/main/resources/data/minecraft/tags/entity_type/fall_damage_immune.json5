@@ -1,7 +1,9 @@
 {
 	"replace": false,
 	"values": [
-		"friendsandfoes:copper_golem",
+		//? if <= 1.21.8 {
+		/*"friendsandfoes:copper_golem",
+		*///?}
 		"friendsandfoes:tuff_golem",
 		"friendsandfoes:wildfire"
 	]

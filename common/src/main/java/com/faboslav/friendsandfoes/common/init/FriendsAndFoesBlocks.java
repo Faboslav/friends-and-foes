@@ -4,7 +4,6 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.block.CopperButtonBlock;
 import com.faboslav.friendsandfoes.common.block.CrabEggBlock;
 import com.faboslav.friendsandfoes.common.block.OxidizableButtonBlock;
-import com.faboslav.friendsandfoes.common.block.OxidizableLightningRodBlock;
 import com.faboslav.friendsandfoes.common.events.client.RegisterRenderLayersEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.RegisterFlammabilityEvent;
 import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
@@ -17,7 +16,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerBlock;
 import net.minecraft.world.level.block.FlowerPotBlock;
-import net.minecraft.world.level.block.LightningRodBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -27,6 +25,11 @@ import net.minecraft.world.level.material.PushReaction;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
+
+//? if <= 1.21.8 {
+/*import com.faboslav.friendsandfoes.common.block.OxidizableLightningRodBlock;
+import net.minecraft.world.level.block.LightningRodBlock;
+*///?}
 
 //? if >=1.21.6 {
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;

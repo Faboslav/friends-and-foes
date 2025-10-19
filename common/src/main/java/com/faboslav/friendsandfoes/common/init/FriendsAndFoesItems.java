@@ -38,7 +38,9 @@ public final class FriendsAndFoesItems
 	/*public static final ItemLikeResourcefulRegistry<Item> ITEMS = new ItemLikeResourcefulRegistry<>(BuiltInRegistries.ITEM, FriendsAndFoes.MOD_ID);
 	*///?}
 
-	public final static RegistryEntry<Item> COPPER_GOLEM_SPAWN_EGG = registerSpawnEgg("copper_golem_spawn_egg", FriendsAndFoesEntityTypes.COPPER_GOLEM, 0xFF9A5038, 0xFFFC998);
+	//? if <= 1.21.8 {
+	/*public final static RegistryEntry<Item> COPPER_GOLEM_SPAWN_EGG = registerSpawnEgg("copper_golem_spawn_egg", FriendsAndFoesEntityTypes.COPPER_GOLEM, 0xFF9A5038, 0xFFFC998);
+	*///?}
 	public final static RegistryEntry<Item> CRAB_SPAWN_EGG = registerSpawnEgg("crab_spawn_egg", FriendsAndFoesEntityTypes.CRAB, 0xFF333077, 0xFFFE984B);
 	public final static RegistryEntry<Item> GLARE_SPAWN_EGG = registerSpawnEgg("glare_spawn_egg", FriendsAndFoesEntityTypes.GLARE, 0xFF70922D, 0xFF6A5227);
 	public final static RegistryEntry<Item> ICEOLOGER_SPAWN_EGG = registerSpawnEgg("iceologer_spawn_egg", FriendsAndFoesEntityTypes.ICEOLOGER, 0xFF173873, 0xFF949B9B);

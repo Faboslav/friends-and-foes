@@ -13,7 +13,9 @@ import net.minecraft.client.model.geom.ModelLayers;
  */
 public final class FriendsAndFoesEntityModelLayers
 {
-	public static final ModelLayerLocation COPPER_GOLEM_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("copper_golem"), "main");
+	//? if <= 1.21.8 {
+	/*public static final ModelLayerLocation COPPER_GOLEM_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("copper_golem"), "main");
+	*///?}
 	public static final ModelLayerLocation CRAB_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("crab"), "main");
 	public static final ModelLayerLocation GLARE_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("glare"), "main");
 	public static final ModelLayerLocation ICEOLOGER_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("iceologer"), "main");
@@ -32,7 +34,9 @@ public final class FriendsAndFoesEntityModelLayers
 	//?}
 
 	public static void registerEntityLayers(RegisterEntityLayersEvent event) {
-		event.register(COPPER_GOLEM_LAYER, CopperGolemEntityModel::getTexturedModelData);
+		//? if <= 1.21.8 {
+		/*event.register(COPPER_GOLEM_LAYER, CopperGolemEntityModel::getTexturedModelData);
+		*///?}
 		event.register(CRAB_LAYER, CrabEntityModel::getTexturedModelData);
 		//? if >=1.21.3 {
 		event.register(GLARE_LAYER, () -> GlareEntityModel.getTexturedModelData().apply(GlareEntityModel.ADULT_TRANSFORMER));

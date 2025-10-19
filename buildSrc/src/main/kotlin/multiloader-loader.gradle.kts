@@ -27,12 +27,26 @@ tasks {
         from(commonResources)
 
 		if (project.stonecutterBuild.eval(commonMod.mc, ">=1.21.9")) {
+			// Copper Golem directory (for example sounds)
+			eachFile {
+				if (relativePath.pathString.contains("copper_golem")) {
+					exclude()
+				}
+			}
+
+			// Copper Golem resources
+			filesMatching("**/*copper_golem*") {
+				exclude()
+			}
+
+			// Lightning Rod resources
 			filesMatching("**/*lightning_rod*") {
 				exclude()
 			}
 		}
 
 		if (project.stonecutterBuild.eval(commonMod.mc, "<1.21.4")) {
+			// Pale Oak resources
 			filesMatching("**/*pale_oak*") {
 				exclude()
 			}

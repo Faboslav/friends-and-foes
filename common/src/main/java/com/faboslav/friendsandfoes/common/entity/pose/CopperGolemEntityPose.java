@@ -1,4 +1,5 @@
-package com.faboslav.friendsandfoes.common.entity.pose;
+//? if <= 1.21.8 {
+/*package com.faboslav.friendsandfoes.common.entity.pose;
 
 import net.minecraft.world.entity.Pose;
 
@@ -31,3 +32,4 @@ public enum CopperGolemEntityPose
 		Pose.values();
 	}
 }
+*///?}

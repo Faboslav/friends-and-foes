@@ -42,7 +42,9 @@ public class FriendsAndFoesItemGroups
 	public static void addItemGroupEntries(AddItemGroupEntriesEvent event) {
 		if (event.type() == AddItemGroupEntriesEvent.Type.SPAWN_EGGS) {
 			Stream.of(
-				FriendsAndFoesItems.COPPER_GOLEM_SPAWN_EGG,
+				//? if <= 1.21.8 {
+				/*FriendsAndFoesItems.COPPER_GOLEM_SPAWN_EGG,
+				*///?}
 				FriendsAndFoesItems.CRAB_SPAWN_EGG,
 				FriendsAndFoesItems.GLARE_SPAWN_EGG,
 				FriendsAndFoesItems.ICEOLOGER_SPAWN_EGG,

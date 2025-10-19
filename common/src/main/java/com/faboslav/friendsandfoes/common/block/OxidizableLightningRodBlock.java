@@ -1,4 +1,5 @@
-package com.faboslav.friendsandfoes.common.block;
+//? if <= 1.21.8 {
+/*package com.faboslav.friendsandfoes.common.block;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.config.FriendsAndFoesConfig;
@@ -70,3 +71,4 @@ public final class OxidizableLightningRodBlock extends LightningRodBlock impleme
 		return super.useWithoutItem(state, world, pos, player, hit);
 	}
 }
+*///?}

@@ -16,7 +16,8 @@ public final class FriendsAndFoesSoundEvents
 {
 	public static final ResourcefulRegistry<SoundEvent> SOUND_EVENTS = ResourcefulRegistries.create(BuiltInRegistries.SOUND_EVENT, FriendsAndFoes.MOD_ID);
 
-	public static final RegistryEntry<SoundEvent> ENTITY_COPPER_GOLEM_OXIDATION = registerSoundEvent("entity.copper_golem.oxidation");
+	//? if <= 1.21.8 {
+	/*public static final RegistryEntry<SoundEvent> ENTITY_COPPER_GOLEM_OXIDATION = registerSoundEvent("entity.copper_golem.oxidation");
 	public static final RegistryEntry<SoundEvent> ENTITY_COPPER_GOLEM_SPAWN = registerSoundEvent("entity.copper_golem.spawn");
 	public static final RegistryEntry<SoundEvent> ENTITY_COPPER_GOLEM_DEATH = registerSoundEvent("entity.copper_golem.death");
 	public static final RegistryEntry<SoundEvent> ENTITY_COPPER_GOLEM_SPIN = registerSoundEvent("entity.copper_golem.spin");
@@ -31,6 +32,7 @@ public final class FriendsAndFoesSoundEvents
 	public static final RegistryEntry<SoundEvent> ENTITY_COPPER_GOLEM_OXIDIZED_SPIN = registerSoundEvent("entity.copper_golem_oxidized.spin");
 	public static final RegistryEntry<SoundEvent> ENTITY_COPPER_GOLEM_OXIDIZED_HURT = registerSoundEvent("entity.copper_golem_oxidized.hurt");
 	public static final RegistryEntry<SoundEvent> ENTITY_COPPER_GOLEM_OXIDIZED_STEP = registerSoundEvent("entity.copper_golem_oxidized.step");
+	*///?}
 	public static final RegistryEntry<SoundEvent> ENTITY_CRAB_DEATH = registerSoundEvent("entity.crab.death");
 	public static final RegistryEntry<SoundEvent> ENTITY_CRAB_HURT = registerSoundEvent("entity.crab.hurt");
 	public static final RegistryEntry<SoundEvent> ENTITY_CRAB_LAY_EGG = registerSoundEvent("entity.crab.lay_egg");

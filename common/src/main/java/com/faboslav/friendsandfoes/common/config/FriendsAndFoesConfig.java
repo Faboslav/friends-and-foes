@@ -18,7 +18,9 @@ public final class FriendsAndFoesConfig
 
 	private static final String MOBS_CATEGORY = "mobs";
 	private static final String BEEKEEPER_GROUP = "beekeeper";
-	private static final String COPPER_GOLEM_GROUP = "copper_golem";
+	//? if <= 1.21.8 {
+	/*private static final String COPPER_GOLEM_GROUP = "copper_golem";
+	*///?}
 	private static final String CRAB_GROUP = "crab";
 	private static final String GLARE_GROUP = "glare";
 	private static final String ICEOLOGER_GROUP = "iceologer";
@@ -46,50 +48,58 @@ public final class FriendsAndFoesConfig
 	public int beekeeperAreaStructureWeight = 2;
 
 	@SerialEntry()
-	@CustomDescription("Copper Golem")
-	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	//? if <= 1.21.8 {
+	/*@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
 	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	*///?}
 	public boolean enableCopperGolem = true;
 
-	@SerialEntry
-	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
-	@EnumCycler(allowedOrdinals = {0, 1, 2})
-	public PreferredCopperGolem replaceCopperGolem = PreferredCopperGolem.VANILLA;
-
 	@SerialEntry()
-	@CustomDescription("Copper Golem")
-	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	//? if <= 1.21.8 {
+	/*@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
 	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	*///?}
 	public boolean generateCopperGolemWorkstationStructureInVillages = true;
 
 	@SerialEntry()
-	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	//? if <= 1.21.8 {
+	/*@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
 	@IntSlider(min = 0, max = 100, step = 1)
+	*///?}
 	public int copperGolemWorkstationStructureWeight = 1;
 
 	@SerialEntry()
-	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	//? if <= 1.21.8 {
+	/*@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
 	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	*///?}
 	public boolean generateCopperGolemInAncientCity = true;
 
 	@SerialEntry()
-	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	//? if <= 1.21.8 {
+	/*@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
 	@IntSlider(min = 0, max = 100, step = 1)
 	public int copperGolemAncientCityCenterWeight = 10;
 
 	@SerialEntry()
-	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	//? if <= 1.21.8 {
+	/*@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
 	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	*///?}
 	public boolean enableCopperGolemsInTrialChambers = true;
 
 	@SerialEntry()
-	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	//? if <= 1.21.8 {
+	/*@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
 	@IntSlider(min = 0, max = 100, step = 1)
+	*///?}
 	public int copperGolemInTrialChambersWeight = 4;
 
 	@SerialEntry()
-	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	//? if <= 1.21.8 {
+	/*@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
 	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	*///?}
 	public boolean enableLightningRodOxidation = true;
 
 	@SerialEntry()
@@ -364,17 +374,5 @@ public final class FriendsAndFoesConfig
 
 	public void load() {
 		HANDLER.load();
-	}
-
-	public enum PreferredCopperGolem implements EnumCycler.CyclableEnum
-	{
-		BOTH,
-		VANILLA,
-		FRIENDSANDFOES;
-
-		@Override
-		public PreferredCopperGolem[] allowedValues() {
-			return PreferredCopperGolem.values();
-		}
 	}
 }

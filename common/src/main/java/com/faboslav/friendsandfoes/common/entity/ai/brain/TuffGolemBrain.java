@@ -88,7 +88,9 @@ public final class TuffGolemBrain
 					new RunOne(
 						ImmutableList.of(
 							Pair.of(SetEntityLookTargetSometimes.create(EntityType.PLAYER, 6.0F, UniformInt.of(30, 60)), 3),
-							Pair.of(SetEntityLookTargetSometimes.create(FriendsAndFoesEntityTypes.COPPER_GOLEM.get(), 6.0F, UniformInt.of(30, 60)), 2),
+							//? if <= 1.21.8 {
+							/*Pair.of(SetEntityLookTargetSometimes.create(FriendsAndFoesEntityTypes.COPPER_GOLEM.get(), 6.0F, UniformInt.of(30, 60)), 2),
+							*///?}
 							Pair.of(SetEntityLookTargetSometimes.create(FriendsAndFoesEntityTypes.TUFF_GOLEM.get(), 6.0F, UniformInt.of(30, 60)), 2),
 							Pair.of(SetEntityLookTargetSometimes.create(EntityType.IRON_GOLEM, 6.0F, UniformInt.of(30, 60)), 1)
 						)

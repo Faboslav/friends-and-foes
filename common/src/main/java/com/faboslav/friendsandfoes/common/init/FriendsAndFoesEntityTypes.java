@@ -27,7 +27,9 @@ public final class FriendsAndFoesEntityTypes
 	public static final ResourcefulRegistry<EntityType<?>> ENTITY_TYPES = ResourcefulRegistries.create(BuiltInRegistries.ENTITY_TYPE, FriendsAndFoes.MOD_ID);
 	public static boolean previousUseChoiceTypeRegistrations = SharedConstants.CHECK_DATA_FIXER_SCHEMA;
 
-	public static final RegistryEntry<EntityType<CopperGolemEntity>> COPPER_GOLEM;
+	//? if <= 1.21.8 {
+	/*public static final RegistryEntry<EntityType<CopperGolemEntity>> COPPER_GOLEM;
+	*///?}
 	public static final RegistryEntry<EntityType<CrabEntity>> CRAB;
 	public static final RegistryEntry<EntityType<GlareEntity>> GLARE;
 	public static final RegistryEntry<EntityType<IceologerEntity>> ICEOLOGER;
@@ -44,7 +46,9 @@ public final class FriendsAndFoesEntityTypes
 
 	static {
 		SharedConstants.CHECK_DATA_FIXER_SCHEMA = false;
-		COPPER_GOLEM = ENTITY_TYPES.register("copper_golem", () -> EntityType.Builder.of(CopperGolemEntity::new, MobCategory.MISC).sized(0.75F, 1.375F).eyeHeight(0.75F).clientTrackingRange(10).build(VersionedEntityTypeResourceId.create("copper_golem")));
+		//? if <= 1.21.8 {
+		/*COPPER_GOLEM = ENTITY_TYPES.register("copper_golem", () -> EntityType.Builder.of(CopperGolemEntity::new, MobCategory.MISC).sized(0.75F, 1.375F).eyeHeight(0.75F).clientTrackingRange(10).build(VersionedEntityTypeResourceId.create("copper_golem")));
+		*///?}
 		CRAB = ENTITY_TYPES.register("crab", () -> EntityType.Builder.of(CrabEntity::new, MobCategory.CREATURE).sized(0.875F, 0.5625F).clientTrackingRange(10).build(VersionedEntityTypeResourceId.create("crab")));
 		GLARE = ENTITY_TYPES.register("glare", () -> EntityType.Builder.of(GlareEntity::new, CustomSpawnGroup.getGlaresCategory()).sized(0.875F, 1.1875F).clientTrackingRange(8).updateInterval(2).build(VersionedEntityTypeResourceId.create("glare")));
 		ICEOLOGER = ENTITY_TYPES.register("iceologer", () -> EntityType.Builder.of(IceologerEntity::new, MobCategory.MONSTER).sized(0.6F, 1.95F).clientTrackingRange(10).build(VersionedEntityTypeResourceId.create("iceologer")));
@@ -62,7 +66,9 @@ public final class FriendsAndFoesEntityTypes
 	}
 
 	public static void registerEntityAttributes(RegisterEntityAttributesEvent event) {
-		event.register(FriendsAndFoesEntityTypes.COPPER_GOLEM.get(), CopperGolemEntity.createCopperGolemAttributes());
+		//? if <= 1.21.8 {
+		/*event.register(FriendsAndFoesEntityTypes.COPPER_GOLEM.get(), CopperGolemEntity.createCopperGolemAttributes());
+		*///?}
 		event.register(FriendsAndFoesEntityTypes.CRAB.get(), CrabEntity.createCrabAttributes());
 		event.register(FriendsAndFoesEntityTypes.GLARE.get(), GlareEntity.createGlareAttributes());
 		event.register(FriendsAndFoesEntityTypes.ICEOLOGER.get(), IceologerEntity.createIceologerAttributes());

@@ -3,7 +3,6 @@ package com.faboslav.friendsandfoes.common.mixin;
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.TuffGolemEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
-import com.faboslav.friendsandfoes.common.util.CopperGolemBuildPatternPredicates;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
@@ -12,11 +11,9 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CarvedPumpkinBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.pattern.BlockInWorld;
 import net.minecraft.world.level.block.state.pattern.BlockPattern;
@@ -24,7 +21,6 @@ import net.minecraft.world.level.block.state.pattern.BlockPatternBuilder;
 import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -32,11 +28,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.function.Predicate;
 
+//? if <= 1.21.8 {
+/*import com.faboslav.friendsandfoes.common.util.CopperGolemBuildPatternPredicates;
+*///?}
+
 @Mixin(CarvedPumpkinBlock.class)
 public abstract class CarvedPumpkinBlockMixin extends HorizontalDirectionalBlock
 {
-	@Nullable
+	//? if <= 1.21.8 {
+	/*@Nullable
 	private BlockPattern friendsandfoes_copperGolemDispenserPattern;
+	*///?}
 
 	@Nullable
 	private BlockPattern friendsandfoes_tuffGolemDispenserPattern;
@@ -63,9 +65,15 @@ public abstract class CarvedPumpkinBlockMixin extends HorizontalDirectionalBlock
 		cancellable = true
 	)
 	public void friendsandfoes_canDispense(LevelReader world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-		if (this.getTuffGolemDispenserPattern().find(world, pos) != null || this.getCopperGolemDispenserPattern().find(world, pos) != null) {
+		if (this.getTuffGolemDispenserPattern().find(world, pos) != null) {
 			cir.setReturnValue(true);
 		}
+
+		//? if <= 1.21.8 {
+		/*if (this.getCopperGolemDispenserPattern().find(world, pos) != null) {
+			cir.setReturnValue(true);
+		}
+		*///?}
 	}
 
 	@Inject(
@@ -132,7 +140,8 @@ public abstract class CarvedPumpkinBlockMixin extends HorizontalDirectionalBlock
 		CarvedPumpkinBlock.updatePatternBlocks(world, patternSearchResult);
 	}
 
-	private BlockPattern getCopperGolemDispenserPattern() {
+	//? if <= 1.21.8 {
+	/*private BlockPattern getCopperGolemDispenserPattern() {
 		if (this.friendsandfoes_copperGolemDispenserPattern == null) {
 			this.friendsandfoes_copperGolemDispenserPattern = BlockPatternBuilder.start()
 				.aisle("|", " ", "#")
@@ -143,6 +152,7 @@ public abstract class CarvedPumpkinBlockMixin extends HorizontalDirectionalBlock
 
 		return this.friendsandfoes_copperGolemDispenserPattern;
 	}
+	*///?}
 
 	private BlockPattern getTuffGolemDispenserPattern() {
 		if (this.friendsandfoes_tuffGolemDispenserPattern == null) {

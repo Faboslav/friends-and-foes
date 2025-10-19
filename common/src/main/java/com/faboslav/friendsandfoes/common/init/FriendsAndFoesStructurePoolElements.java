@@ -22,11 +22,14 @@ public final class FriendsAndFoesStructurePoolElements
 		*///?}
 
 		ResourceLocation plainsPoolLocation = ResourceLocation.parse("minecraft:village/plains/houses");
-		ResourceLocation desertPoolLocation = ResourceLocation.parse("minecraft:village/desert/houses");
 		ResourceLocation savannaPoolLocation = ResourceLocation.parse("minecraft:village/savanna/houses");
 		ResourceLocation taigaPoolLocation = ResourceLocation.parse("minecraft:village/taiga/houses");
+
+		//? if <= 1.21.8 {
+		/*ResourceLocation desertPoolLocation = ResourceLocation.parse("minecraft:village/desert/houses");
 		ResourceLocation ancientCityCenterPoolLocation = ResourceLocation.parse("minecraft:ancient_city/city_center");
 		ResourceLocation trialChambersCorridorPoolLocation = ResourceLocation.parse("minecraft:trial_chambers/corridor");
+		*///?}
 
 		if (FriendsAndFoes.getConfig().generateBeekeeperAreaStructureInVillages) {
 			StructurePoolHelper.addLegacyElementToPool(templatePoolRegistry, plainsPoolLocation, "village/plains/houses/plains_beekeeper_area", FriendsAndFoes.getConfig().beekeeperAreaStructureWeight);
@@ -34,7 +37,8 @@ public final class FriendsAndFoesStructurePoolElements
 			StructurePoolHelper.addLegacyElementToPool(templatePoolRegistry, taigaPoolLocation, "village/taiga/houses/taiga_beekeeper_area", FriendsAndFoes.getConfig().beekeeperAreaStructureWeight);
 		}
 
-		if(FriendsAndFoes.getConfig().enableCopperGolemsInTrialChambers) {
+		//? if <= 1.21.8 {
+		/*if(FriendsAndFoes.getConfig().enableCopperGolemsInTrialChambers) {
 			StructurePoolHelper.addSingleElementToPool(templatePoolRegistry, trialChambersCorridorPoolLocation, "trial_chambers/corridor/entrance_1_copper_golem", FriendsAndFoes.getConfig().copperGolemInTrialChambersWeight);
 			StructurePoolHelper.addSingleElementToPool(templatePoolRegistry, trialChambersCorridorPoolLocation, "trial_chambers/corridor/entrance_2_copper_golem", FriendsAndFoes.getConfig().copperGolemInTrialChambersWeight);
 			StructurePoolHelper.addSingleElementToPool(templatePoolRegistry, trialChambersCorridorPoolLocation, "trial_chambers/corridor/entrance_3_copper_golem", FriendsAndFoes.getConfig().copperGolemInTrialChambersWeight);
@@ -52,6 +56,7 @@ public final class FriendsAndFoesStructurePoolElements
 			StructurePoolHelper.addLegacyElementToPool(templatePoolRegistry, ancientCityCenterPoolLocation, "ancient_city/city_center/city_center_2", FriendsAndFoes.getConfig().copperGolemAncientCityCenterWeight);
 			StructurePoolHelper.addLegacyElementToPool(templatePoolRegistry, ancientCityCenterPoolLocation, "ancient_city/city_center/city_center_3", FriendsAndFoes.getConfig().copperGolemAncientCityCenterWeight);
 		}
+		*///?}
 	}
 
 	private FriendsAndFoesStructurePoolElements() {

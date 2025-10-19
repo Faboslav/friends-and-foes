@@ -29,7 +29,9 @@ public final class FriendsAndFoesEntityRenderers
 	*///?}
 
 	public static void registerEntityRenderers(RegisterEntityRenderersEvent event) {
-		event.register(FriendsAndFoesEntityTypes.COPPER_GOLEM.get(), CopperGolemEntityRenderer::new);
+		//? if <= 1.21.8 {
+		/*event.register(FriendsAndFoesEntityTypes.COPPER_GOLEM.get(), CopperGolemEntityRenderer::new);
+		*///?}
 		event.register(FriendsAndFoesEntityTypes.CRAB.get(), CrabEntityRenderer::new);
 		event.register(FriendsAndFoesEntityTypes.GLARE.get(), GlareEntityRenderer::new);
 		event.register(FriendsAndFoesEntityTypes.ICEOLOGER.get(), IceologerEntityRenderer::new);

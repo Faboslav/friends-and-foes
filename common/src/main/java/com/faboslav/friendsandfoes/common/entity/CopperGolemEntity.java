@@ -1,4 +1,5 @@
-package com.faboslav.friendsandfoes.common.entity;
+//? if <= 1.21.8 {
+/*package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.animation.CopperGolemAnimations;
@@ -7,7 +8,6 @@ import com.faboslav.friendsandfoes.common.entity.ai.brain.CopperGolemBrain;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
 import com.faboslav.friendsandfoes.common.entity.pose.CopperGolemEntityPose;
-import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityDataSerializers;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.mixin.LimbAnimatorAccessor;
@@ -70,8 +70,8 @@ import net.minecraft.world.level.storage.ValueOutput;
 //? if >=1.21.3 {
 import net.minecraft.world.entity.EntitySpawnReason;
 //?} else {
-/*import net.minecraft.world.entity.MobSpawnType;
- *///?}
+/^import net.minecraft.world.entity.MobSpawnType;
+ ^///?}
 
 public final class CopperGolemEntity extends AbstractGolem implements AnimatedEntity
 {
@@ -96,11 +96,7 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 	private static final EntityDataAccessor<Integer> STRUCT_BY_LIGHTNING_TICKS;
 	private static final EntityDataAccessor<Boolean> WAS_STATUE;
 	private static final EntityDataAccessor<Boolean> IS_WAXED;
-	//? if >= 1.21.9 {
-	private static final EntityDataAccessor<CopperGolemEntity.EntitySnapshot> COPPER_GOLEM_SNAPSHOT;
-	//?} else {
-	/*private static final EntityDataAccessor<CompoundTag> ENTITY_SNAPSHOT;
-	*///?}
+	private static final EntityDataAccessor<CompoundTag> ENTITY_SNAPSHOT;
 
 	static {
 		POSE_TICKS = SynchedEntityData.defineId(CopperGolemEntity.class, EntityDataSerializers.INT);
@@ -108,11 +104,7 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 		STRUCT_BY_LIGHTNING_TICKS = SynchedEntityData.defineId(CopperGolemEntity.class, EntityDataSerializers.INT);
 		WAS_STATUE = SynchedEntityData.defineId(CopperGolemEntity.class, EntityDataSerializers.BOOLEAN);
 		IS_WAXED = SynchedEntityData.defineId(CopperGolemEntity.class, EntityDataSerializers.BOOLEAN);
-		//? if >= 1.21.9 {
-		COPPER_GOLEM_SNAPSHOT = SynchedEntityData.defineId(CopperGolemEntity.class, FriendsAndFoesEntityDataSerializers.COPPER_GOLEM_SNAPSHOT);
-		//?} else {
-		/*ENTITY_SNAPSHOT = SynchedEntityData.defineId(CopperGolemEntity.class, EntityDataSerializers.COMPOUND_TAG);
-		*///?}
+		ENTITY_SNAPSHOT = SynchedEntityData.defineId(CopperGolemEntity.class, EntityDataSerializers.COMPOUND_TAG);
 	}
 
 	@Override
@@ -162,11 +154,11 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 	public SpawnGroupData finalizeSpawn(
 		ServerLevelAccessor world,
 		DifficultyInstance difficulty,
-		/*? if >=1.21.3 {*/
+		/^? if >=1.21.3 {^/
 		EntitySpawnReason spawnReason,
-		/*?} else {*/
-		/*MobSpawnType spawnReason,
-		 *//*?}*/
+		/^?} else {^/
+		/^MobSpawnType spawnReason,
+		 ^//^?}^/
 		@Nullable SpawnGroupData entityData
 	) {
 		SpawnGroupData superEntityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData);
@@ -191,19 +183,15 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 		builder.define(STRUCT_BY_LIGHTNING_TICKS, 0);
 		builder.define(WAS_STATUE, false);
 		builder.define(IS_WAXED, false);
-		//? if >= 1.21.9 {
-		builder.define(COPPER_GOLEM_SNAPSHOT, new EntitySnapshot(0.0F, 0.0F, 0.0F, 0.0D, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
-		//?} else {
-		/*builder.define(ENTITY_SNAPSHOT, new CompoundTag());
-		*///?}
+		builder.define(ENTITY_SNAPSHOT, new CompoundTag());
 	}
 
 	@Override
 	//? if >= 1.21.6 {
 	public void addAdditionalSaveData(ValueOutput nbt)
 	//?} else {
-	/*public void addAdditionalSaveData(CompoundTag nbt)
-	*///?}
+	/^public void addAdditionalSaveData(CompoundTag nbt)
+	^///?}
 	{
 		super.addAdditionalSaveData(nbt);
 		nbt.putInt(OXIDATION_LEVEL_NBT_NAME, this.getOxidationLevel().ordinal());
@@ -218,8 +206,8 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 			//? if >= 1.21.6 {
 			nbt.store(ENTITY_SNAPSHOT_NBT_NAME, EntitySnapshot.CODEC, entitySnapshot);
 			//?} else {
-			/*nbt.put(ENTITY_SNAPSHOT_NBT_NAME, EntitySnapshot.toNbt(entitySnapshot));
-			 *///?}
+			/^nbt.put(ENTITY_SNAPSHOT_NBT_NAME, EntitySnapshot.toNbt(entitySnapshot));
+			 ^///?}
 		}
 	}
 
@@ -227,8 +215,8 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 	//? if >= 1.21.6 {
 	public void readAdditionalSaveData(ValueInput nbt)
 	//?} else {
-	/*public void readAdditionalSaveData(CompoundTag nbt)
-	*///?}
+	/^public void readAdditionalSaveData(CompoundTag nbt)
+	^///?}
 	{
 		super.readAdditionalSaveData(nbt);
 
@@ -239,8 +227,8 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 		//? if >= 1.21.6 {
 		this.setEntitySnapshot(nbt.read(ENTITY_SNAPSHOT_NBT_NAME, EntitySnapshot.CODEC).orElseGet(this::takeEntitySnapshot));
 		//?} else {
-		/*this.setEntitySnapshot(EntitySnapshot.fromNbt(VersionedNbt.getCompound(nbt, ENTITY_SNAPSHOT_NBT_NAME)));
-		*///?}
+		/^this.setEntitySnapshot(EntitySnapshot.fromNbt(VersionedNbt.getCompound(nbt, ENTITY_SNAPSHOT_NBT_NAME)));
+		^///?}
 
 		if(this.isOxidized()) {
 			this.applyEntitySnapshot();
@@ -274,11 +262,7 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 	}
 
 	public void setEntitySnapshot(EntitySnapshot entitySnapshot) {
-		//? if >= 1.21.9 {
-		entityData.set(COPPER_GOLEM_SNAPSHOT, entitySnapshot);
-		//?} else {
-		/*entityData.set(ENTITY_SNAPSHOT, EntitySnapshot.toNbt(entitySnapshot));
-		*///?}
+		entityData.set(ENTITY_SNAPSHOT, EntitySnapshot.toNbt(entitySnapshot));
 	}
 
 	public void applyEntitySnapshot() {
@@ -308,11 +292,7 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 	}
 
 	public EntitySnapshot getEntitySnapshot() {
-		//? if >= 1.21.9 {
-		return this.entityData.get(COPPER_GOLEM_SNAPSHOT);
-		//?} else {
-		/*return EntitySnapshot.fromNbt(this.entityData.get(ENTITY_SNAPSHOT));
-		*///?}
+		return EntitySnapshot.fromNbt(this.entityData.get(ENTITY_SNAPSHOT));
 	}
 
 	private EntitySnapshot takeEntitySnapshot() {
@@ -390,11 +370,11 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 	}
 
 	@Override
-		/*? if >=1.21.3 {*/
+		/^? if >=1.21.3 {^/
 	public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
-		/*?} else {*/
-		/*public boolean hurt(DamageSource damageSource, float amount)
-		 *//*?}*/
+		/^?} else {^/
+		/^public boolean hurt(DamageSource damageSource, float amount)
+		 ^//^?}^/
 	{
 		Entity attacker = damageSource.getEntity();
 
@@ -405,11 +385,11 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 			return false;
 		}
 
-		/*? if >=1.21.3 {*/
+		/^? if >=1.21.3 {^/
 		return super.hurtServer(level, damageSource, amount);
-		/*?} else {*/
-		/*return super.hurt(damageSource, amount);
-		 *//*?}*/
+		/^?} else {^/
+		/^return super.hurt(damageSource, amount);
+		 ^//^?}^/
 	}
 
 	@Override
@@ -582,14 +562,14 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 	}
 
 	@Override
-	protected void customServerAiStep(/*? if >=1.21.3 {*/ServerLevel level/*?}*/)
+	protected void customServerAiStep(/^? if >=1.21.3 {^/ServerLevel level/^?}^/)
 	{
 		//? if <1.21.3 {
-		/*var level = (ServerLevel) this.level();
-		 *///?}
+		/^var level = (ServerLevel) this.level();
+		 ^///?}
 
 		if (this.isImmobilized()) {
-			super.customServerAiStep(/*? if >=1.21.3 {*/level/*?}*/);
+			super.customServerAiStep(/^? if >=1.21.3 {^/level/^?}^/);
 			return;
 		}
 
@@ -603,7 +583,7 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 		CopperGolemBrain.updateActivities(this);
 		profiler.pop();
 
-		super.customServerAiStep(/*? if >=1.21.3 {*/level/*?}*/);
+		super.customServerAiStep(/^? if >=1.21.3 {^/level/^?}^/);
 	}
 
 	@Override
@@ -1013,21 +993,6 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 			Codec.FLOAT.fieldOf("limbAnimatorPos").forGetter(EntitySnapshot::limbAnimatorPos)
 		).apply(instance, EntitySnapshot::new));
 
-		//? if >= 1.21.9 {
-		public static final StreamCodec<RegistryFriendlyByteBuf, EntitySnapshot> STREAM_CODEC = StreamCodec.composite(
-			ByteBufCodecs.FLOAT, EntitySnapshot::prevYaw,
-			ByteBufCodecs.FLOAT, EntitySnapshot::prevPitch,
-			ByteBufCodecs.FLOAT, EntitySnapshot::prevBodyYaw,
-			ByteBufCodecs.DOUBLE, EntitySnapshot::serverHeadYaw,
-			ByteBufCodecs.FLOAT, EntitySnapshot::prevHeadYaw,
-			ByteBufCodecs.FLOAT, EntitySnapshot::lastHandSwingProgress,
-			ByteBufCodecs.FLOAT, EntitySnapshot::limbAnimatorPrevSpeed,
-			ByteBufCodecs.FLOAT, EntitySnapshot::limbAnimatorSpeed,
-			ByteBufCodecs.FLOAT, EntitySnapshot::limbAnimatorPos,
-			EntitySnapshot::new
-		);
-		//?}
-
 		public static CompoundTag toNbt(EntitySnapshot snapshot) {
 			CompoundTag tag = new CompoundTag();
 			tag.putFloat("prevYaw", snapshot.prevYaw);
@@ -1062,3 +1027,4 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 		}
 	}
 }
+*///?}

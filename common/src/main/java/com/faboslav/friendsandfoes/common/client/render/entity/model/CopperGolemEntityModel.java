@@ -1,4 +1,5 @@
-package com.faboslav.friendsandfoes.common.client.render.entity.model;
+//? if <= 1.21.8 {
+/*package com.faboslav.friendsandfoes.common.client.render.entity.model;
 
 import com.faboslav.friendsandfoes.common.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.context.KeyframeAnimationContext;
@@ -19,14 +20,14 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.model.EntityModel;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.CopperGolemRenderState;
 //?} else {
-/*import net.minecraft.client.model.HierarchicalModel;
-*///?}
+/^import net.minecraft.client.model.HierarchicalModel;
+^///?}
 
 //? if >=1.21.3 {
 public class CopperGolemEntityModel extends EntityModel<CopperGolemRenderState>
 //?} else {
-/*public final class CopperGolemEntityModel<T extends CopperGolemEntity> extends HierarchicalModel<T>
-*///?}
+/^public final class CopperGolemEntityModel<T extends CopperGolemEntity> extends HierarchicalModel<T>
+^///?}
 {
 	private static final String MODEL_PART_BODY = "body";
 	private static final String MODEL_PART_LEFT_ARM = "leftArm";
@@ -87,18 +88,18 @@ public class CopperGolemEntityModel extends EntityModel<CopperGolemRenderState>
 	}
 
 	//? if <1.21.3 {
-	/*@Override
+	/^@Override
 	public ModelPart root() {
 		return this.root;
 	}
-	*///?}
+	^///?}
 
 	@Override
 	//? if >=1.21.3 {
 	public void setupAnim(CopperGolemRenderState renderState)
 	//?} else {
-	/*public void setupAnim(T copperGolem, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
-	*///?}
+	/^public void setupAnim(T copperGolem, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
+	^///?}
 	{
 		//? if >=1.21.3 {
 		var copperGolem = renderState.copperGolem;
@@ -166,3 +167,4 @@ public class CopperGolemEntityModel extends EntityModel<CopperGolemRenderState>
 		KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, animations, currentTick, animationProgress, animationSpeedModifier);
 	}
 }
+*///?}

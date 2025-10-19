@@ -25,5 +25,21 @@ tasks {
     processResources {
         dependsOn(commonResources)
         from(commonResources)
+
+		if (project.stonecutterBuild.eval(commonMod.mc, ">=1.21.9")) {
+			filesMatching("**/*lightning_rod*") {
+				exclude()
+			}
+		}
+
+		if (project.stonecutterBuild.eval(commonMod.mc, "<1.21.4")) {
+			filesMatching("**/*pale_oak*") {
+				exclude()
+			}
+		}
     }
+
+	jar {
+		exclude("accesswideners/**")
+	}
 }

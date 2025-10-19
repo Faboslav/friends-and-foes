@@ -18,8 +18,6 @@ public final class FriendsAndFoesTags
 {
 	public static final TagKey<PoiType> BEEKEEPER_ACQUIRABLE_JOB_SITE = pointOfInterestTypeTag("beekeeper_acquirable_job_site");
 	public static final TagKey<Block> COPPER_BUTTONS = blockTag("copper_buttons");
-	public static final TagKey<Block> LIGHTNING_RODS = blockTag("lightning_rods");
-	public static final TagKey<PoiType> LIGHTNING_ROD_POI = pointOfInterestTypeTag("lightning_rods");
 	public static final TagKey<Item> CRAB_TEMPT_ITEMS = itemTag("crab_tempt_items");
 	public static final TagKey<Block> CRABS_SPAWNABLE_ON = blockTag("crabs_spawnable_on");
 	public static final TagKey<Block> CRAB_BURROW_SPOT_BLOCKS = blockTag("crab_burrow_spot_blocks");
@@ -40,6 +38,10 @@ public final class FriendsAndFoesTags
 	public static final TagKey<Biome> HAS_MOOBLOOMS = biomeTag("has_moobloom/any");
 	public static final TagKey<Biome> HAS_RASCAL = biomeTag("has_rascal");
 	public static final TagKey<Biome> HAS_SAVANNA_MAULER = biomeTag("has_savanna_mauler");
+	//? if <= 1.21.8 {
+	/*public static final TagKey<Block> LIGHTNING_RODS = blockTag("lightning_rods");
+	public static final TagKey<PoiType> LIGHTNING_ROD_POI = pointOfInterestTypeTag("lightning_rods");
+	*///?}
 
 	private static TagKey<Block> blockTag(String name) {
 		return TagKey.create(Registries.BLOCK, FriendsAndFoes.makeID(name));

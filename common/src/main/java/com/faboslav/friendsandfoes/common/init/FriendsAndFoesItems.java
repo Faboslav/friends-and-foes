@@ -61,7 +61,7 @@ public final class FriendsAndFoesItems
 	public final static RegistryEntry<Item> JUNGLE_BEEHIVE = registerItem("jungle_beehive", (properties) -> new BlockItem(FriendsAndFoesBlocks.JUNGLE_BEEHIVE.get(), properties), () -> new Item.Properties().stacksTo(64));
 	public final static RegistryEntry<Item> MANGROVE_BEEHIVE = registerItem("mangrove_beehive", (properties) -> new BlockItem(FriendsAndFoesBlocks.MANGROVE_BEEHIVE.get(), properties), () -> new Item.Properties().stacksTo(64));
 	public final static RegistryEntry<Item> SPRUCE_BEEHIVE = registerItem("spruce_beehive", (properties) -> new BlockItem(FriendsAndFoesBlocks.SPRUCE_BEEHIVE.get(), properties), () -> new Item.Properties().stacksTo(64));
-	//? if >=1.21.4 {
+	//? if >= 1.21.4 {
 	public final static RegistryEntry<Item> PALE_OAK_BEEHIVE = registerItem("pale_oak_beehive", (properties) -> new BlockItem(FriendsAndFoesBlocks.PALE_OAK_BEEHIVE.get(), properties), () -> new Item.Properties().stacksTo(64));
 	//?}
 	public final static RegistryEntry<Item> WARPED_BEEHIVE = registerItem("warped_beehive", (properties) -> new BlockItem(FriendsAndFoesBlocks.WARPED_BEEHIVE.get(), properties), () -> new Item.Properties().stacksTo(64));

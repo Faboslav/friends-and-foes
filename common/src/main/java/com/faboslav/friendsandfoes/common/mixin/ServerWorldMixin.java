@@ -2,7 +2,6 @@ package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.ZombieHorseEntityAccess;
-import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.core.BlockPos;
@@ -29,6 +28,7 @@ import org.spongepowered.asm.mixin.Shadow;
 /*import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import java.util.Optional;
 import net.minecraft.world.level.levelgen.Heightmap;
+import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 *///?}
 
 //? if >=1.21.3 {
@@ -102,7 +102,11 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel
 				&& this.isRainingAt(blockPos = this.findLightningTargetAround(this.getBlockRandomPos(i, 0, j, 15)))
 			) {
 				DifficultyInstance localDifficulty = this.getCurrentDifficultyAt(blockPos);
-				boolean canZombieHorseSpawn = ((ServerLevel)(Object)this).getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && this.random.nextDouble() < (double) localDifficulty.getEffectiveDifficulty() * 0.01 && !this.getBlockState(blockPos.below()).is(FriendsAndFoesTags.LIGHTNING_RODS);
+				boolean canZombieHorseSpawn = ((ServerLevel)(Object)this).getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && this.random.nextDouble() < (double) localDifficulty.getEffectiveDifficulty() * 0.01;
+
+				//? if <= 1.21.8 {
+				/*canZombieHorseSpawn = canZombieHorseSpawn && !this.getBlockState(blockPos.below()).is(FriendsAndFoesTags.LIGHTNING_RODS);
+				*///?}
 
 				if (canZombieHorseSpawn) {
 					ZombieHorse zombieHorse = EntityType.ZOMBIE_HORSE.create(this/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.EVENT/*?}*/);

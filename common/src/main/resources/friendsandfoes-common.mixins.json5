@@ -3,6 +3,11 @@
 	"package": "com.faboslav.friendsandfoes.common.mixin",
 	"refmap": "${modId}.refmap.json",
 	"compatibilityLevel": "JAVA_${javaVersion}",
+	//? if >= 1.21.9 {
+	"mixinextras": {
+		"minVersion": "0.5.0"
+	},
+	//?}
 	"minVersion": "0.8",
 	"plugin": "com.faboslav.friendsandfoes.common.mixin.plugin.FriendsAndFoesMixinPlugin",
 	"injectors": {
@@ -51,7 +56,9 @@
 		"VillagerTaskListProviderMixin",
 		"ZombieHorseAbstractHorseEntityMixin",
 		"ZombieHorseAnimalEntityMixin",
-		"ZombieHorseEntityMixin"
+		"ZombieHorseEntityMixin",
+		"datafix.DataFixersMixin",
+		"datafix.V1460Mixin"
 	],
 	"client": [
 		"EntityRenderDispatcherMixin",

@@ -79,6 +79,7 @@ public final class FriendsAndFoesConfig
 	//? if <= 1.21.8 {
 	/*@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
 	@IntSlider(min = 0, max = 100, step = 1)
+	*///?}
 	public int copperGolemAncientCityCenterWeight = 10;
 
 	@SerialEntry()

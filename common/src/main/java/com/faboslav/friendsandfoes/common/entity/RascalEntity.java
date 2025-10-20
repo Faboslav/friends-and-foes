@@ -6,7 +6,8 @@ import com.faboslav.friendsandfoes.common.entity.animation.animator.context.Anim
 import com.faboslav.friendsandfoes.common.entity.ai.brain.RascalBrain;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
-import com.faboslav.friendsandfoes.common.entity.pose.RascalEntityPose;
+import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityDataSerializers;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
 import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
@@ -55,13 +56,14 @@ import net.minecraft.world.entity.EntitySpawnReason;
 public final class RascalEntity extends AgeableMob implements AnimatedEntity
 {
 	private AnimationContextTracker animationContextTracker;
-	private static final EntityDataAccessor<Integer> POSE_TICKS;
-	private static final EntityDataAccessor<Integer> CAUGHT_COUNT;
+	private static final EntityDataAccessor<Integer> POSE_TICKS = SynchedEntityData.defineId(RascalEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<FriendsAndFoesEntityPose> ENTITY_POSE = SynchedEntityData.defineId(RascalEntity.class, FriendsAndFoesEntityDataSerializers.ENTITY_POSE);
+	private static final EntityDataAccessor<Integer> CAUGHT_COUNT = SynchedEntityData.defineId(RascalEntity.class, EntityDataSerializers.INT);
 	private boolean ambientSounds;
 
 	public RascalEntity(EntityType<? extends AgeableMob> entityType, Level world) {
 		super(entityType, world);
-		this.setPose(RascalEntityPose.IDLE);
+		this.setEntityPose(FriendsAndFoesEntityPose.IDLE);
 		this.enableAmbientSounds();
 		this.setPathfindingMalus(PathType.RAIL, 0.0F);
 		this.setPathfindingMalus(PathType.UNPASSABLE_RAIL, 0.0F);
@@ -82,7 +84,7 @@ public final class RascalEntity extends AgeableMob implements AnimatedEntity
 	) {
 		SpawnGroupData superEntityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData);
 
-		this.setPose(RascalEntityPose.IDLE);
+		this.setEntityPose(FriendsAndFoesEntityPose.IDLE);
 		RascalBrain.setNodCooldown(this);
 
 		return superEntityData;
@@ -169,6 +171,7 @@ public final class RascalEntity extends AgeableMob implements AnimatedEntity
 		super.defineSynchedData(builder);
 
 		builder.define(POSE_TICKS, 0);
+		builder.define(ENTITY_POSE, FriendsAndFoesEntityPose.IDLE);
 		builder.define(CAUGHT_COUNT, 0);
 	}
 
@@ -248,11 +251,11 @@ public final class RascalEntity extends AgeableMob implements AnimatedEntity
 	public AnimationHolder getAnimationByPose() {
 		AnimationHolder animation = null;
 
-		if (this.isInPose(RascalEntityPose.IDLE) && !this.isMoving()) {
+		if (this.isInEntityPose(FriendsAndFoesEntityPose.IDLE) && !this.isMoving()) {
 			animation = RascalAnimations.IDLE;
-		} else if (this.isInPose(RascalEntityPose.NOD)) {
+		} else if (this.isInEntityPose(FriendsAndFoesEntityPose.NOD)) {
 			animation = RascalAnimations.NOD;
-		} else if (this.isInPose(RascalEntityPose.GIVE_REWARD)) {
+		} else if (this.isInEntityPose(FriendsAndFoesEntityPose.GIVE_REWARD)) {
 			animation = RascalAnimations.GIVE_REWARD;
 		}
 
@@ -283,45 +286,40 @@ public final class RascalEntity extends AgeableMob implements AnimatedEntity
 		this.startKeyframeAnimation(animationToStart, this.tickCount);
 	}
 
-	@Override
-	public void setPose(Pose pose) {
+	public void setEntityPose(FriendsAndFoesEntityPose pose) {
 		if (this.level().isClientSide()) {
 			return;
 		}
 
-		super.setPose(pose);
+		this.entityData.set(ENTITY_POSE, pose);
 	}
 
-	public void setPose(RascalEntityPose pose) {
-		if (this.level().isClientSide()) {
-			return;
-		}
-
-		super.setPose(pose.get());
+	public FriendsAndFoesEntityPose getEntityPose() {
+		return this.entityData.get(ENTITY_POSE);
 	}
 
-	public boolean isInPose(RascalEntityPose pose) {
-		return this.getPose() == pose.get();
+	public boolean isInEntityPose(FriendsAndFoesEntityPose pose) {
+		return this.getEntityPose() == pose;
 	}
 
 	public void startNodAnimation() {
-		if (this.isInPose(RascalEntityPose.NOD)) {
+		if (this.isInEntityPose(FriendsAndFoesEntityPose.NOD)) {
 			return;
 		}
 
 		this.playNodSound();
 		this.gameEvent(GameEvent.ENTITY_ACTION);
-		this.setPose(RascalEntityPose.NOD);
+		this.setEntityPose(FriendsAndFoesEntityPose.NOD);
 	}
 
 	public void startGiveRewardAnimation() {
-		if (this.isInPose(RascalEntityPose.GIVE_REWARD)) {
+		if (this.isInEntityPose(FriendsAndFoesEntityPose.GIVE_REWARD)) {
 			return;
 		}
 
 		this.playRewardSound();
 		this.gameEvent(GameEvent.ENTITY_ACTION);
-		this.setPose(RascalEntityPose.GIVE_REWARD);
+		this.setEntityPose(FriendsAndFoesEntityPose.GIVE_REWARD);
 	}
 
 	@Override
@@ -470,10 +468,5 @@ public final class RascalEntity extends AgeableMob implements AnimatedEntity
 
 	public void spawnAngerParticles() {
 		ParticleSpawner.spawnParticles(this, ParticleTypes.ANGRY_VILLAGER, 16, 0.1D);
-	}
-
-	static {
-		POSE_TICKS = SynchedEntityData.defineId(RascalEntity.class, EntityDataSerializers.INT);
-		CAUGHT_COUNT = SynchedEntityData.defineId(RascalEntity.class, EntityDataSerializers.INT);
 	}
 }

@@ -2,9 +2,8 @@ package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.TuffGolemEntity;
-import com.faboslav.friendsandfoes.common.entity.pose.TuffGolemEntityPose;
+import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
-import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.core.Holder;
@@ -114,8 +113,8 @@ public abstract class StrongholdGeneratorMixin extends StructurePiece
 		}
 
 		tuffGolem.setItemSlot(EquipmentSlot.MAINHAND, enchantedBook);
-		tuffGolem.setPrevPose(TuffGolemEntityPose.STANDING_WITH_ITEM.get());
-		tuffGolem.setPoseWithoutPrevPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM.get());
+		tuffGolem.setPrevEntityPose(FriendsAndFoesEntityPose.STANDING_WITH_ITEM);
+		tuffGolem.setEntityPoseWithoutPrevPose(FriendsAndFoesEntityPose.SLEEPING_WITH_ITEM);
 
 		tuffGolem.setHome(tuffGolem.getNewHome());
 

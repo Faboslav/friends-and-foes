@@ -6,7 +6,8 @@ import com.faboslav.friendsandfoes.common.entity.animation.animator.context.Anim
 import com.faboslav.friendsandfoes.common.entity.ai.goal.mauler.*;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
-import com.faboslav.friendsandfoes.common.entity.pose.MaulerEntityPose;
+import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityDataSerializers;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
@@ -101,6 +102,7 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 	private static final EntityDataAccessor<Integer> TICKS_UNTIL_NEXT_BURROWING_DOWN;
 	private static final EntityDataAccessor<Float> BURROWING_DOWN_ANIMATION_PROGRESS;
 	private static final EntityDataAccessor<Integer> POSE_TICKS;
+	private static final EntityDataAccessor<FriendsAndFoesEntityPose> ENTITY_POSE = SynchedEntityData.defineId(MaulerEntity.class, FriendsAndFoesEntityDataSerializers.ENTITY_POSE);
 
 	@Nullable
 	private UUID angryAt;
@@ -152,7 +154,7 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 	public AnimationHolder getAnimationByPose() {
 		AnimationHolder animation = null;
 
-		if (this.isInPose(MaulerEntityPose.IDLE) && !this.walkAnimation.isMoving()) {
+		if (this.isInEntityPose(FriendsAndFoesEntityPose.IDLE) && !this.walkAnimation.isMoving()) {
 			animation = MaulerAnimations.IDLE;
 		}
 
@@ -186,6 +188,7 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 		builder.define(TICKS_UNTIL_NEXT_BURROWING_DOWN, this.getRandom().nextIntBetweenInclusive(MIN_TICKS_UNTIL_NEXT_BURROWING, MAX_TICKS_UNTIL_NEXT_BURROWING));
 		builder.define(BURROWING_DOWN_ANIMATION_PROGRESS, 0.0F);
 		builder.define(POSE_TICKS, 0);
+		builder.define(ENTITY_POSE, FriendsAndFoesEntityPose.IDLE);
 	}
 
 	@Override
@@ -249,7 +252,7 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 		ResourceKey<Biome> biomeKey = world.getBiome(this.blockPosition()).unwrapKey().orElse(Biomes.SAVANNA);
 		Type type = Type.getTypeByBiome(biomeKey);
 
-		this.setPose(MaulerEntityPose.IDLE);
+		this.setEntityPose(FriendsAndFoesEntityPose.IDLE);
 		this.setType(type);
 		this.setSize();
 
@@ -488,25 +491,21 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 		super.doPush(entity);
 	}
 
-	@Override
-	public void setPose(Pose pose) {
+	public void setEntityPose(FriendsAndFoesEntityPose pose) {
 		if (this.level().isClientSide()) {
 			return;
 		}
 
-		super.setPose(pose);
+		this.entityData.set(ENTITY_POSE, pose);
 	}
 
-	public void setPose(MaulerEntityPose pose) {
-		if (this.level().isClientSide()) {
-			return;
-		}
-
-		super.setPose(pose.get());
+	public FriendsAndFoesEntityPose getEntityPose() {
+		return this.entityData.get(ENTITY_POSE);
 	}
 
-	public boolean isInPose(MaulerEntityPose pose) {
-		return this.getPose() == pose.get();
+
+	public boolean isInEntityPose(FriendsAndFoesEntityPose pose) {
+		return this.getEntityPose() == pose;
 	}
 
 	@Override

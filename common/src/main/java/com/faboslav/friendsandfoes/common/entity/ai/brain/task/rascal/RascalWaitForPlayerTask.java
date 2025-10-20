@@ -3,7 +3,7 @@ package com.faboslav.friendsandfoes.common.entity.ai.brain.task.rascal;
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.RascalEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.RascalBrain;
-import com.faboslav.friendsandfoes.common.entity.pose.RascalEntityPose;
+import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesCriterias;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.util.MovementUtil;
@@ -156,7 +156,7 @@ public final class RascalWaitForPlayerTask extends Behavior<RascalEntity>
 			this.tryToTeleport(world, rascal);
 		}
 
-		rascal.setPose(RascalEntityPose.IDLE);
+		rascal.setEntityPose(FriendsAndFoesEntityPose.IDLE);
 		RascalBrain.setNodCooldown(rascal);
 		rascal.enableAmbientSounds();
 	}

@@ -2,7 +2,7 @@ package com.faboslav.friendsandfoes.common.entity.ai.brain.task.tuffgolem;
 
 import com.faboslav.friendsandfoes.common.entity.TuffGolemEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.TuffGolemBrain;
-import com.faboslav.friendsandfoes.common.entity.pose.TuffGolemEntityPose;
+import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.util.MovementUtil;
 import com.google.common.collect.ImmutableMap;
@@ -40,9 +40,9 @@ public final class TuffGolemSleepTask extends Behavior<TuffGolemEntity>
 		tuffGolem.setPos(tuffGolem.getHomePos());
 		tuffGolem.setSpawnYaw(tuffGolem.getHomeYaw());
 
-		if (tuffGolem.hasPose(TuffGolemEntityPose.STANDING.get())) {
+		if (tuffGolem.isInEntityPose(FriendsAndFoesEntityPose.STANDING)) {
 			tuffGolem.startSleeping();
-		} else if (tuffGolem.hasPose(TuffGolemEntityPose.STANDING_WITH_ITEM.get())) {
+		} else if (tuffGolem.isInEntityPose(FriendsAndFoesEntityPose.STANDING_WITH_ITEM)) {
 			tuffGolem.startSleepingWithItem();
 		}
 	}
@@ -65,7 +65,7 @@ public final class TuffGolemSleepTask extends Behavior<TuffGolemEntity>
 		TuffGolemBrain.setSleepCooldown(tuffGolem);
 		MovementUtil.stopMovement(tuffGolem);
 
-		if (tuffGolem.hasPose(TuffGolemEntityPose.SLEEPING.get())) {
+		if (tuffGolem.isInEntityPose(FriendsAndFoesEntityPose.SLEEPING)) {
 			tuffGolem.startStanding();
 
 			if (tuffGolem.isInSleepingPose()) {
@@ -73,7 +73,7 @@ public final class TuffGolemSleepTask extends Behavior<TuffGolemEntity>
 			} else {
 				tuffGolem.playMoveSound();
 			}
-		} else if (tuffGolem.hasPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM.get())) {
+		} else if (tuffGolem.isInEntityPose(FriendsAndFoesEntityPose.SLEEPING_WITH_ITEM)) {
 			tuffGolem.startStandingWithItem();
 
 			if (tuffGolem.isInSleepingPose()) {

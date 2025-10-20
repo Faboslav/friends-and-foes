@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
+import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import org.spongepowered.asm.mixin.Mixin;
 import net.minecraft.world.level.block.LightningRodBlock;
 
@@ -9,12 +10,10 @@ import com.faboslav.friendsandfoes.common.block.OnUseOxidizable;
 import com.faboslav.friendsandfoes.common.entity.CopperGolemEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.CopperGolemBrain;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
-import com.faboslav.friendsandfoes.common.entity.pose.CopperGolemEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.util.CopperGolemBuildPatternPredicates;
-import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -130,15 +129,15 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 		copperGolem.setOxidationLevel(bodyOxidationLevel);
 
 		if (lightningRodOxidationLevel == WeatheringCopper.WeatherState.OXIDIZED) {
-			ArrayList<CopperGolemEntityPose> possiblePoses = new ArrayList<>()
+			ArrayList<FriendsAndFoesEntityPose> possiblePoses = new ArrayList<>()
 			{{
-				add(CopperGolemEntityPose.SPIN_HEAD);
-				add(CopperGolemEntityPose.PRESS_BUTTON_UP);
-				add(CopperGolemEntityPose.PRESS_BUTTON_DOWN);
+				add(FriendsAndFoesEntityPose.SPIN_HEAD);
+				add(FriendsAndFoesEntityPose.PRESS_BUTTON_UP);
+				add(FriendsAndFoesEntityPose.PRESS_BUTTON_DOWN);
 			}};
 			int randomPoseIndex = copperGolem.getRandom().nextInt(possiblePoses.size());
-			CopperGolemEntityPose randomPose = possiblePoses.get(randomPoseIndex);
-			copperGolem.setPose(randomPose);
+			FriendsAndFoesEntityPose randomPose = possiblePoses.get(randomPoseIndex);
+			copperGolem.setEntityPose(randomPose);
 			AnimationHolder animation = copperGolem.getAnimationByPose();
 
 			if (animation != null) {

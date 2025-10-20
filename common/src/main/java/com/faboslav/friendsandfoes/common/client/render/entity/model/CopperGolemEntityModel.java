@@ -7,7 +7,7 @@ import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.K
 import com.faboslav.friendsandfoes.common.entity.CopperGolemEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimationState;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
-import com.faboslav.friendsandfoes.common.entity.pose.CopperGolemEntityPose;
+import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -129,7 +129,7 @@ public class CopperGolemEntityModel extends EntityModel<CopperGolemRenderState>
 	}
 
 	private void updateStatueAnimations(CopperGolemEntity copperGolem) {
-		if (copperGolem.isInPose(CopperGolemEntityPose.IDLE)) {
+		if (copperGolem.isInEntityPose(FriendsAndFoesEntityPose.IDLE)) {
 			return;
 		}
 

@@ -7,7 +7,8 @@ import com.faboslav.friendsandfoes.common.entity.animation.animator.context.Anim
 import com.faboslav.friendsandfoes.common.entity.ai.brain.CopperGolemBrain;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
-import com.faboslav.friendsandfoes.common.entity.pose.CopperGolemEntityPose;
+import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityDataSerializers;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.mixin.LimbAnimatorAccessor;
@@ -22,9 +23,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -75,9 +73,20 @@ import net.minecraft.world.entity.EntitySpawnReason;
 
 public final class CopperGolemEntity extends AbstractGolem implements AnimatedEntity
 {
-	private AnimationContextTracker animationContextTracker;
-	private static final EntityDataAccessor<Integer> POSE_TICKS;
+	private static final String POSE_NBT_NAME = "Pose";
+	private static final String POSE_TICKS_NBT_NAME = "PoseTicks";
+	private static final String OXIDATION_LEVEL_NBT_NAME = "OxidationLevel";
+	private static final String IS_WAXED_NBT_NAME = "IsWaxed";
+	private static final String ENTITY_SNAPSHOT_NBT_NAME = "EntitySnapshot";
 
+	private AnimationContextTracker animationContextTracker;
+	private static final EntityDataAccessor<Integer> POSE_TICKS = SynchedEntityData.defineId(CopperGolemEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<FriendsAndFoesEntityPose> ENTITY_POSE = SynchedEntityData.defineId(CopperGolemEntity.class, FriendsAndFoesEntityDataSerializers.ENTITY_POSE);
+	private static final EntityDataAccessor<Integer> OXIDATION_LEVEL = SynchedEntityData.defineId(CopperGolemEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<Integer> STRUCT_BY_LIGHTNING_TICKS = SynchedEntityData.defineId(CopperGolemEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<Boolean> WAS_STATUE = SynchedEntityData.defineId(CopperGolemEntity.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<Boolean> IS_WAXED = SynchedEntityData.defineId(CopperGolemEntity.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<CompoundTag> ENTITY_SNAPSHOT = SynchedEntityData.defineId(CopperGolemEntity.class, EntityDataSerializers.COMPOUND_TAG);
 
 	private static final float MOVEMENT_SPEED = 0.2F;
 	private static final int COPPER_INGOT_HEAL_AMOUNT = 5;
@@ -85,27 +94,6 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 	private static final float OXIDATION_CHANCE = 0.00002F;
 	public static final int MIN_STRUCT_BY_LIGHTNING_TICKS = 1200;
 	public static final int MAX_STRUCT_BY_LIGHTNING_TICKS = 2400;
-
-	private static final String POSE_NBT_NAME = "Pose";
-	private static final String POSE_TICKS_NBT_NAME = "PoseTicks";
-	private static final String OXIDATION_LEVEL_NBT_NAME = "OxidationLevel";
-	private static final String IS_WAXED_NBT_NAME = "IsWaxed";
-	private static final String ENTITY_SNAPSHOT_NBT_NAME = "EntitySnapshot";
-
-	private static final EntityDataAccessor<Integer> OXIDATION_LEVEL;
-	private static final EntityDataAccessor<Integer> STRUCT_BY_LIGHTNING_TICKS;
-	private static final EntityDataAccessor<Boolean> WAS_STATUE;
-	private static final EntityDataAccessor<Boolean> IS_WAXED;
-	private static final EntityDataAccessor<CompoundTag> ENTITY_SNAPSHOT;
-
-	static {
-		POSE_TICKS = SynchedEntityData.defineId(CopperGolemEntity.class, EntityDataSerializers.INT);
-		OXIDATION_LEVEL = SynchedEntityData.defineId(CopperGolemEntity.class, EntityDataSerializers.INT);
-		STRUCT_BY_LIGHTNING_TICKS = SynchedEntityData.defineId(CopperGolemEntity.class, EntityDataSerializers.INT);
-		WAS_STATUE = SynchedEntityData.defineId(CopperGolemEntity.class, EntityDataSerializers.BOOLEAN);
-		IS_WAXED = SynchedEntityData.defineId(CopperGolemEntity.class, EntityDataSerializers.BOOLEAN);
-		ENTITY_SNAPSHOT = SynchedEntityData.defineId(CopperGolemEntity.class, EntityDataSerializers.COMPOUND_TAG);
-	}
 
 	@Override
 	public AnimationContextTracker getAnimationContextTracker() {
@@ -167,7 +155,7 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 			return superEntityData;
 		}
 
-		this.setPose(CopperGolemEntityPose.IDLE);
+		this.setEntityPose(FriendsAndFoesEntityPose.IDLE);
 		CopperGolemBrain.setSpinHeadCooldown(this);
 		CopperGolemBrain.setPressButtonCooldown(this);
 
@@ -179,6 +167,7 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 		super.defineSynchedData(builder);
 
 		builder.define(POSE_TICKS, 0);
+		builder.define(ENTITY_POSE, FriendsAndFoesEntityPose.IDLE);
 		builder.define(OXIDATION_LEVEL, WeatheringCopper.WeatherState.UNAFFECTED.ordinal());
 		builder.define(STRUCT_BY_LIGHTNING_TICKS, 0);
 		builder.define(WAS_STATUE, false);
@@ -198,7 +187,7 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 		nbt.putBoolean(IS_WAXED_NBT_NAME, this.isWaxed());
 
 		if (isOxidized()) {
-			nbt.putString(POSE_NBT_NAME, this.getPose().name());
+			nbt.putString(POSE_NBT_NAME, this.getEntityPose().name());
 			nbt.putInt(POSE_TICKS_NBT_NAME, this.getCurrentAnimationTick());
 
 			var entitySnapshot = this.takeEntitySnapshot();
@@ -220,7 +209,17 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 	{
 		super.readAdditionalSaveData(nbt);
 
-		this.setPose(Pose.valueOf(VersionedNbt.getString(nbt, POSE_NBT_NAME, CopperGolemEntityPose.IDLE.getName())));
+		String savedEntityPose = VersionedNbt.getString(nbt, POSE_NBT_NAME, FriendsAndFoesEntityPose.IDLE.name());
+		FriendsAndFoesEntityPose entityPose;
+
+		try {
+			entityPose = FriendsAndFoesEntityPose.valueOf(savedEntityPose);
+		} catch (Exception e) {
+			entityPose = FriendsAndFoesEntityPose.IDLE;
+		}
+
+		this.setEntityPose(entityPose);
+
 		this.setCurrentAnimationTick(VersionedNbt.getInt(nbt, POSE_TICKS_NBT_NAME, 0));
 		this.setOxidationLevel(WeatheringCopper.WeatherState.values()[VersionedNbt.getInt(nbt, OXIDATION_LEVEL_NBT_NAME, 0)]);
 		this.setIsWaxed(VersionedNbt.getBoolean(nbt, IS_WAXED_NBT_NAME, false));
@@ -532,17 +531,17 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 			}};
 			int randomPoseIndex = this.getRandom().nextInt(possibleAnimations.size());
 			AnimationHolder randomAnimation = possibleAnimations.get(randomPoseIndex);
-			CopperGolemEntityPose copperGolemEntityPose = CopperGolemEntityPose.IDLE;
+			var copperGolemEntityPose = FriendsAndFoesEntityPose.IDLE;
 
 			if(randomAnimation == CopperGolemAnimations.SPIN_HEAD) {
-				copperGolemEntityPose = CopperGolemEntityPose.SPIN_HEAD;
+				copperGolemEntityPose = FriendsAndFoesEntityPose.SPIN_HEAD;
 			} else if(randomAnimation == CopperGolemAnimations.PRESS_BUTTON_UP) {
-				copperGolemEntityPose = CopperGolemEntityPose.PRESS_BUTTON_UP;
+				copperGolemEntityPose = FriendsAndFoesEntityPose.PRESS_BUTTON_UP;
 			} else if(randomAnimation == CopperGolemAnimations.PRESS_BUTTON_DOWN) {
-				copperGolemEntityPose = CopperGolemEntityPose.PRESS_BUTTON_DOWN;
+				copperGolemEntityPose = FriendsAndFoesEntityPose.PRESS_BUTTON_DOWN;
 			}
 
-			this.setPose(copperGolemEntityPose);
+			this.setEntityPose(copperGolemEntityPose);
 			int keyFrameAnimationLengthInTicks = randomAnimation.get().lengthInTicks();
 			int randomKeyframeAnimationTick = this.getRandom().nextIntBetweenInclusive(0, keyFrameAnimationLengthInTicks);
 			this.setCurrentAnimationTick(randomKeyframeAnimationTick);
@@ -678,7 +677,7 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 			&& this.wasStatue()
 			&& this.getCurrentAnimationTick() == 1
 		) {
-			this.setPose(CopperGolemEntityPose.IDLE);
+			this.setEntityPose(FriendsAndFoesEntityPose.IDLE);
 			this.setWasStatue(false);
 		}
 
@@ -704,13 +703,13 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 	public AnimationHolder getAnimationByPose() {
 		AnimationHolder animationHolder = null;
 
-		if (this.isInPose(CopperGolemEntityPose.IDLE)) {
+		if (this.isInEntityPose(FriendsAndFoesEntityPose.IDLE)) {
 			animationHolder = CopperGolemAnimations.IDLE;
-		} else if (this.isInPose(CopperGolemEntityPose.SPIN_HEAD)) {
+		} else if (this.isInEntityPose(FriendsAndFoesEntityPose.SPIN_HEAD)) {
 			animationHolder = CopperGolemAnimations.SPIN_HEAD;
-		} else if (this.isInPose(CopperGolemEntityPose.PRESS_BUTTON_UP)) {
+		} else if (this.isInEntityPose(FriendsAndFoesEntityPose.PRESS_BUTTON_UP)) {
 			animationHolder = CopperGolemAnimations.PRESS_BUTTON_UP;
-		} else if (this.isInPose(CopperGolemEntityPose.PRESS_BUTTON_DOWN)) {
+		} else if (this.isInEntityPose(FriendsAndFoesEntityPose.PRESS_BUTTON_DOWN)) {
 			animationHolder = CopperGolemAnimations.PRESS_BUTTON_DOWN;
 		}
 
@@ -742,29 +741,26 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 		this.startKeyframeAnimation(animationToStart, initialTick);
 	}
 
-	@Override
-	public void setPose(Pose pose) {
+	public void setEntityPose(FriendsAndFoesEntityPose pose) {
 		if (this.level().isClientSide()) {
 			return;
 		}
 
-		super.setPose(pose);
+		this.entityData.set(ENTITY_POSE, pose);
 	}
 
-	public void setPose(CopperGolemEntityPose pose) {
-		if (this.level().isClientSide()) {
-			return;
-		}
-
-		super.setPose(pose.get());
+	public FriendsAndFoesEntityPose getEntityPose() {
+		return this.entityData.get(ENTITY_POSE);
 	}
 
-	public boolean isInPose(CopperGolemEntityPose pose) {
-		return this.getPose() == pose.get();
+
+	public boolean isInEntityPose(FriendsAndFoesEntityPose pose) {
+		return this.getEntityPose() == pose;
 	}
+
 
 	public void startSpinHeadAnimation() {
-		if (this.isInPose(CopperGolemEntityPose.SPIN_HEAD)) {
+		if (this.isInEntityPose(FriendsAndFoesEntityPose.SPIN_HEAD)) {
 			return;
 		}
 
@@ -781,25 +777,25 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 
 		this.playSound(spinHeadSound, this.getSoundVolume(), this.getVoicePitch());
 		this.gameEvent(GameEvent.ENTITY_ACTION);
-		this.setPose(CopperGolemEntityPose.SPIN_HEAD);
+		this.setEntityPose(FriendsAndFoesEntityPose.SPIN_HEAD);
 	}
 
 	public void startPressButtonUpAnimation() {
-		if (this.isInPose(CopperGolemEntityPose.PRESS_BUTTON_UP)) {
+		if (this.isInEntityPose(FriendsAndFoesEntityPose.PRESS_BUTTON_UP)) {
 			return;
 		}
 
 		this.gameEvent(GameEvent.ENTITY_ACTION);
-		this.setPose(CopperGolemEntityPose.PRESS_BUTTON_UP);
+		this.setEntityPose(FriendsAndFoesEntityPose.PRESS_BUTTON_UP);
 	}
 
 	public void startPressButtonDownAnimation() {
-		if (this.isInPose(CopperGolemEntityPose.PRESS_BUTTON_DOWN)) {
+		if (this.isInEntityPose(FriendsAndFoesEntityPose.PRESS_BUTTON_DOWN)) {
 			return;
 		}
 
 		this.gameEvent(GameEvent.ENTITY_ACTION);
-		this.setPose(CopperGolemEntityPose.PRESS_BUTTON_DOWN);
+		this.setEntityPose(FriendsAndFoesEntityPose.PRESS_BUTTON_DOWN);
 	}
 
 	public void handleOxidationIncrease() {

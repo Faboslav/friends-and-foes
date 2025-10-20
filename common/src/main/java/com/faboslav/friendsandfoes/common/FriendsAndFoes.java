@@ -75,6 +75,7 @@ public final class FriendsAndFoes
 		*///?}
 		FriendsAndFoesBlocks.BLOCKS.init();
 		FriendsAndFoesCriterias.CRITERIAS.init();
+		FriendsAndFoesEntityDataSerializers.init();
 		FriendsAndFoesEntityTypes.ENTITY_TYPES.init();
 		FriendsAndFoesItemGroups.ITEM_GROUPS.init();
 		FriendsAndFoesItems.ITEMS.init();

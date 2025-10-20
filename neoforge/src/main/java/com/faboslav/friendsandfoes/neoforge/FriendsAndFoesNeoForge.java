@@ -11,6 +11,7 @@ import com.faboslav.friendsandfoes.common.world.spawner.IceologerSpawner;
 import com.faboslav.friendsandfoes.common.world.spawner.IllusionerSpawner;
 import com.faboslav.friendsandfoes.neoforge.init.FriendsAndFoesBiomeModifiers;
 import com.faboslav.friendsandfoes.neoforge.mixin.FireBlockAccessor;
+import com.faboslav.friendsandfoes.neoforge.platform.EntitySerializers;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
@@ -65,6 +66,8 @@ public final class FriendsAndFoesNeoForge
 		modEventBus.addListener(FriendsAndFoesNeoForge::onRegisterAttributes);
 		modEventBus.addListener(FriendsAndFoesNeoForge::onRegisterSpawnRestrictions);
 		modEventBus.addListener(FriendsAndFoesNeoForge::onAddItemGroupEntries);
+
+		EntitySerializers.ENTITY_DATA_SERIALIZERS.register(modEventBus);
 	}
 
 	private static void onSetup(final FMLCommonSetupEvent event) {

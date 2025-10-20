@@ -6,7 +6,8 @@ import com.faboslav.friendsandfoes.common.entity.animation.animator.context.Anim
 import com.faboslav.friendsandfoes.common.entity.ai.brain.TuffGolemBrain;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
-import com.faboslav.friendsandfoes.common.entity.pose.TuffGolemEntityPose;
+import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityDataSerializers;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.util.MovementUtil;
 import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
@@ -69,11 +70,6 @@ import net.minecraft.world.entity.EntitySpawnReason;
 
 public final class TuffGolemEntity extends AbstractGolem implements AnimatedEntity
 {
-	private static final EntityDataAccessor<String> COLOR;
-	private static final EntityDataAccessor<Pose> PREV_POSE;
-	private static final EntityDataAccessor<Integer> POSE_TICKS;
-	private static final EntityDataAccessor<Boolean> IS_GLUED;
-
 	private static final float MOVEMENT_SPEED = 0.225F;
 	private static final float MOVEMENT_SPEED_WITH_ITEM = 0.175F;
 	private static final int TUFF_HEAL_AMOUNT = 5;
@@ -88,15 +84,14 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 	private static final String HOME_NBT_NAME_Z = "z";
 	private static final String HOME_NBT_NAME_YAW = "yaw";
 
+	private static final EntityDataAccessor<String> COLOR = SynchedEntityData.defineId(TuffGolemEntity.class, EntityDataSerializers.STRING);
+	private static final EntityDataAccessor<Integer> POSE_TICKS = SynchedEntityData.defineId(TuffGolemEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<FriendsAndFoesEntityPose> ENTITY_POSE = SynchedEntityData.defineId(TuffGolemEntity.class, FriendsAndFoesEntityDataSerializers.ENTITY_POSE);
+	private static final EntityDataAccessor<FriendsAndFoesEntityPose> PREV_ENTITY_POSE = SynchedEntityData.defineId(TuffGolemEntity.class, FriendsAndFoesEntityDataSerializers.ENTITY_POSE);
+	private static final EntityDataAccessor<Boolean> IS_GLUED = SynchedEntityData.defineId(TuffGolemEntity.class, EntityDataSerializers.BOOLEAN);
+
 	private int inactiveTicksAfterSpawn = 0;
 	private Home home;
-
-	static {
-		COLOR = SynchedEntityData.defineId(TuffGolemEntity.class, EntityDataSerializers.STRING);
-		PREV_POSE = SynchedEntityData.defineId(TuffGolemEntity.class, EntityDataSerializers.POSE);
-		POSE_TICKS = SynchedEntityData.defineId(TuffGolemEntity.class, EntityDataSerializers.INT);
-		IS_GLUED = SynchedEntityData.defineId(TuffGolemEntity.class, EntityDataSerializers.BOOLEAN);
-	}
 
 	private AnimationContextTracker animationContextTracker;
 
@@ -162,8 +157,8 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 			this.setSpawnYaw(randomSpawnYaw);
 		}
 
-		this.setPrevPose(TuffGolemEntityPose.STANDING.get());
-		this.setPoseWithoutPrevPose(TuffGolemEntityPose.STANDING.get());
+		this.setPrevEntityPose(FriendsAndFoesEntityPose.STANDING);
+		this.setEntityPoseWithoutPrevPose(FriendsAndFoesEntityPose.STANDING);
 		this.setHome(this.getNewHome());
 		TuffGolemBrain.setSleepCooldown(this);
 		this.inactiveTicksAfterSpawn = INACTIVE_TICKS_AFTER_SPAWN;
@@ -213,8 +208,9 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 		super.defineSynchedData(builder);
 
 		builder.define(COLOR, Color.RED.getName());
-		builder.define(PREV_POSE, TuffGolemEntityPose.STANDING.get());
+		builder.define(PREV_ENTITY_POSE, FriendsAndFoesEntityPose.STANDING);
 		builder.define(POSE_TICKS, 0);
+		builder.define(ENTITY_POSE, FriendsAndFoesEntityPose.STANDING);
 		builder.define(IS_GLUED, false);
 	}
 
@@ -227,8 +223,8 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 	{
 		super.addAdditionalSaveData(nbt);
 		nbt.putString(COLOR_NBT_NAME, this.getColor().getName());
-		nbt.putString(PREV_POSE_NBT_NAME, this.getPrevPose().name());
-		nbt.putString(POSE_NBT_NAME, this.getPose().name());
+		nbt.putString(PREV_POSE_NBT_NAME, this.getPrevEntityPose().name());
+		nbt.putString(POSE_NBT_NAME, this.getEntityPose().name());
 		nbt.putBoolean(IS_GLUED_NBT_NAME, this.isGlued());
 		nbt.putDouble(HOME_NBT_NAME_X, this.getHomePos().x);
 		nbt.putDouble(HOME_NBT_NAME_Y, this.getHomePos().y);
@@ -259,27 +255,40 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 		}
 
 		String prevSavedPose = VersionedNbt.getString(nbt, PREV_POSE_NBT_NAME, "");
+
 		if (prevSavedPose != "") {
-			this.setPrevPose(Pose.valueOf(prevSavedPose));
+			try {
+				this.setPrevEntityPose(FriendsAndFoesEntityPose.valueOf(prevSavedPose));
+			} catch (Exception e) {
+			}
 		}
 
 		String savedPose = VersionedNbt.getString(nbt, POSE_NBT_NAME, "");
 		if (savedPose != "") {
-			this.setPoseWithoutPrevPose(Pose.valueOf(savedPose));
-			Pose entityPose = Pose.valueOf(savedPose);
+			FriendsAndFoesEntityPose entityPose;
+
+			try {
+				entityPose = FriendsAndFoesEntityPose.valueOf(savedPose);
+			} catch (Exception e) {
+				if(this.isHoldingItem()) {
+					entityPose = FriendsAndFoesEntityPose.STANDING_WITH_ITEM;
+				} else {
+					entityPose = FriendsAndFoesEntityPose.STANDING;
+				}
+			}
+
+			this.setEntityPoseWithoutPrevPose(entityPose);
 
 			if (
-				this.level().isClientSide() == false
+				!this.level().isClientSide()
 				&& (
-					entityPose == TuffGolemEntityPose.SLEEPING.get()
-					|| entityPose == TuffGolemEntityPose.SLEEPING_WITH_ITEM.get()
+					entityPose == FriendsAndFoesEntityPose.SLEEPING
+					|| entityPose == FriendsAndFoesEntityPose.SLEEPING_WITH_ITEM
 				)
 			) {
 				this.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);
 				this.getBrain().eraseMemory(MemoryModuleType.LOOK_TARGET);
 				TuffGolemBrain.resetSleepCooldown(this);
-			} else {
-				this.setPoseWithoutPrevPose(entityPose);
 			}
 		}
 	}
@@ -552,60 +561,64 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 		return TuffGolemEntity.Color.fromName(this.entityData.get(COLOR));
 	}
 
-	@Override
-	public void setPose(Pose pose) {
+	public void setEntityPose(FriendsAndFoesEntityPose pose) {
 		if (this.level().isClientSide()) {
 			return;
 		}
 
-		this.setPrevPose(this.getPose());
-		super.setPose(pose);
+		this.setPrevEntityPose(this.getEntityPose());
+		this.entityData.set(ENTITY_POSE, pose);
 	}
 
-	public void setPoseWithoutPrevPose(Pose pose) {
+	public FriendsAndFoesEntityPose getEntityPose() {
+		return this.entityData.get(ENTITY_POSE);
+	}
+
+	public boolean isInEntityPose(FriendsAndFoesEntityPose pose) {
+		return this.getEntityPose() == pose;
+	}
+
+	public void setEntityPoseWithoutPrevPose(FriendsAndFoesEntityPose pose) {
 		if (this.level().isClientSide()) {
 			return;
 		}
 
-		super.setPose(pose);
+		this.setEntityPose(pose);
 	}
 
-	public void setPrevPose(Pose pose) {
+	public void setPrevEntityPose(FriendsAndFoesEntityPose pose) {
 		if (this.level().isClientSide()) {
 			return;
 		}
 
-		this.entityData.set(PREV_POSE, pose);
+		this.entityData.set(PREV_ENTITY_POSE, pose);
 	}
 
-	public Pose getPrevPose() {
-		return this.entityData.get(PREV_POSE);
+	public FriendsAndFoesEntityPose getPrevEntityPose() {
+		return this.entityData.get(PREV_ENTITY_POSE);
 	}
 
-	public boolean isInPose(TuffGolemEntityPose pose) {
-		return this.getPose() == pose.get();
-	}
 
-	public boolean wasInPose(TuffGolemEntityPose pose) {
-		return this.getPrevPose() == pose.get();
+	public boolean wasInEntityPose(FriendsAndFoesEntityPose pose) {
+		return this.getPrevEntityPose() == pose;
 	}
 
 	public boolean isInStandingPose() {
 		return
-			this.isInPose(TuffGolemEntityPose.STANDING)
-			|| this.isInPose(TuffGolemEntityPose.STANDING_WITH_ITEM);
+			this.isInEntityPose(FriendsAndFoesEntityPose.STANDING)
+			|| this.isInEntityPose(FriendsAndFoesEntityPose.STANDING_WITH_ITEM);
 	}
 
 	public boolean isInSleepingPose() {
 		return
-			this.isInPose(TuffGolemEntityPose.SLEEPING)
-			|| this.isInPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM);
+			this.isInEntityPose(FriendsAndFoesEntityPose.SLEEPING)
+			|| this.isInEntityPose(FriendsAndFoesEntityPose.SLEEPING_WITH_ITEM);
 	}
 
 	public boolean isInHoldingItemPose() {
 		return
-			this.isInPose(TuffGolemEntityPose.STANDING_WITH_ITEM)
-			|| this.isInPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM);
+			this.isInEntityPose(FriendsAndFoesEntityPose.STANDING_WITH_ITEM)
+			|| this.isInEntityPose(FriendsAndFoesEntityPose.SLEEPING_WITH_ITEM);
 	}
 
 	public void setGlued(boolean isGlued) {
@@ -681,37 +694,37 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 	}
 
 	public void startSleeping() {
-		if (this.isInPose(TuffGolemEntityPose.SLEEPING)) {
+		if (this.isInEntityPose(FriendsAndFoesEntityPose.SLEEPING)) {
 			return;
 		}
 
 		this.playSleepSound();
-		this.setPose(TuffGolemEntityPose.SLEEPING.get());
+		this.setEntityPose(FriendsAndFoesEntityPose.SLEEPING);
 	}
 
 	public void startSleepingWithItem() {
-		if (this.isInPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM)) {
+		if (this.isInEntityPose(FriendsAndFoesEntityPose.SLEEPING_WITH_ITEM)) {
 			return;
 		}
 
 		this.playSleepSound();
-		this.setPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM.get());
+		this.setEntityPose(FriendsAndFoesEntityPose.SLEEPING_WITH_ITEM);
 	}
 
 	public void startStanding() {
-		if (this.isInPose(TuffGolemEntityPose.STANDING)) {
+		if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING)) {
 			return;
 		}
 
-		this.setPose(TuffGolemEntityPose.STANDING.get());
+		this.setEntityPose(FriendsAndFoesEntityPose.STANDING);
 	}
 
 	public void startStandingWithItem() {
-		if (this.isInPose(TuffGolemEntityPose.STANDING_WITH_ITEM)) {
+		if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING_WITH_ITEM)) {
 			return;
 		}
 
-		this.setPose(TuffGolemEntityPose.STANDING_WITH_ITEM.get());
+		this.setEntityPose(FriendsAndFoesEntityPose.STANDING_WITH_ITEM);
 	}
 
 	@Override
@@ -767,8 +780,8 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 
 	@Nullable
 	public AnimationHolder getAnimationByPose() {
-		Pose prevPose = this.getPrevPose();
-		Pose pose = this.getPose();
+		var prevPose = this.getPrevEntityPose();
+		var pose = this.getEntityPose();
 
 		if (pose == prevPose) {
 			return null;
@@ -776,32 +789,32 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 
 		AnimationHolder animationHolder = null;
 
-		if (this.wasInPose(TuffGolemEntityPose.STANDING)) {
-			if (this.isInPose(TuffGolemEntityPose.STANDING_WITH_ITEM)) {
+		if (this.wasInEntityPose(FriendsAndFoesEntityPose.STANDING)) {
+			if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING_WITH_ITEM)) {
 				animationHolder = TuffGolemAnimations.SHOW_ITEM;
-			} else if (this.isInPose(TuffGolemEntityPose.SLEEPING)) {
+			} else if (this.isInEntityPose(FriendsAndFoesEntityPose.SLEEPING)) {
 				animationHolder = TuffGolemAnimations.SLEEP;
 			}
-		} else if (this.wasInPose(TuffGolemEntityPose.STANDING_WITH_ITEM)) {
-			if (this.isInPose(TuffGolemEntityPose.STANDING)) {
+		} else if (this.wasInEntityPose(FriendsAndFoesEntityPose.STANDING_WITH_ITEM)) {
+			if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING)) {
 				animationHolder = TuffGolemAnimations.HIDE_ITEM;
-			} else if (this.isInPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM)) {
+			} else if (this.isInEntityPose(FriendsAndFoesEntityPose.SLEEPING_WITH_ITEM)) {
 				animationHolder = TuffGolemAnimations.SLEEP_WITH_ITEM;
 			}
-		} else if (this.wasInPose(TuffGolemEntityPose.SLEEPING)) {
-			if (this.isInPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM)) {
+		} else if (this.wasInEntityPose(FriendsAndFoesEntityPose.SLEEPING)) {
+			if (this.isInEntityPose(FriendsAndFoesEntityPose.SLEEPING_WITH_ITEM)) {
 				animationHolder = TuffGolemAnimations.SHOW_ITEM;
-			} else if (this.isInPose(TuffGolemEntityPose.STANDING_WITH_ITEM)) {
+			} else if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING_WITH_ITEM)) {
 				animationHolder = TuffGolemAnimations.WAKE_AND_SHOW_ITEM;
-			} else if (this.isInPose(TuffGolemEntityPose.STANDING)) {
+			} else if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING)) {
 				animationHolder = TuffGolemAnimations.WAKE;
 			}
-		} else if (this.wasInPose(TuffGolemEntityPose.SLEEPING_WITH_ITEM)) {
-			if (this.isInPose(TuffGolemEntityPose.SLEEPING)) {
+		} else if (this.wasInEntityPose(FriendsAndFoesEntityPose.SLEEPING_WITH_ITEM)) {
+			if (this.isInEntityPose(FriendsAndFoesEntityPose.SLEEPING)) {
 				animationHolder = TuffGolemAnimations.HIDE_ITEM;
-			} else if (this.isInPose(TuffGolemEntityPose.STANDING)) {
+			} else if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING)) {
 				animationHolder = TuffGolemAnimations.WAKE_AND_HIDE_ITEM;
-			} else if (this.isInPose(TuffGolemEntityPose.STANDING_WITH_ITEM)) {
+			} else if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING_WITH_ITEM)) {
 				animationHolder = TuffGolemAnimations.WAKE_WITH_ITEM;
 			}
 		}

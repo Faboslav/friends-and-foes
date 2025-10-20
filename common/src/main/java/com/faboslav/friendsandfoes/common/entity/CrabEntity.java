@@ -8,11 +8,8 @@ import com.faboslav.friendsandfoes.common.entity.ai.brain.CrabBrain;
 import com.faboslav.friendsandfoes.common.entity.ai.control.WallClimbNavigation;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
-import com.faboslav.friendsandfoes.common.entity.pose.CrabEntityPose;
-import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
-import com.faboslav.friendsandfoes.common.init.FriendsAndFoesItems;
-import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
-import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
+import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
+import com.faboslav.friendsandfoes.common.init.*;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
 import com.faboslav.friendsandfoes.common.versions.VersionedGameRulesProvider;
@@ -83,6 +80,7 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 
 	private AnimationContextTracker animationContextTracker;
 	private static final EntityDataAccessor<Integer> POSE_TICKS = SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<FriendsAndFoesEntityPose> ENTITY_POSE = SynchedEntityData.defineId(CrabEntity.class, FriendsAndFoesEntityDataSerializers.ENTITY_POSE);
 	private static final EntityDataAccessor<Boolean> IS_CLIMBING_WALL = SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<String> SIZE = SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.STRING);
 	private static final EntityDataAccessor<Boolean> HAS_EGG = SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.BOOLEAN);
@@ -94,7 +92,7 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 	public CrabEntity(EntityType<? extends CrabEntity> entityType, Level world) {
 		super(entityType, world);
 
-		this.setPose(CrabEntityPose.IDLE);
+		this.setEntityPose(FriendsAndFoesEntityPose.IDLE);
 		this.setPathfindingMalus(PathType.WATER, 0.0F);
 		this.setPathfindingMalus(PathType.DOOR_IRON_CLOSED, -1.0F);
 		this.setPathfindingMalus(PathType.DOOR_WOOD_CLOSED, -1.0F);
@@ -118,7 +116,7 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 
 		this.setHome(this.getNewHome());
 		this.setSize(CrabSize.getRandomCrabSize(world.getRandom()));
-		this.setPose(CrabEntityPose.IDLE);
+		this.setEntityPose(FriendsAndFoesEntityPose.IDLE);
 		CrabBrain.setWaveCooldown(this);
 
 		return superEntityData;
@@ -188,6 +186,7 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 		super.defineSynchedData(builder);
 
 		builder.define(POSE_TICKS, 0);
+		builder.define(ENTITY_POSE, FriendsAndFoesEntityPose.IDLE);
 		builder.define(IS_CLIMBING_WALL, false);
 		builder.define(SIZE, CrabSize.getDefaultCrabSize().getName());
 		builder.define(HAS_EGG, false);
@@ -377,11 +376,11 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 	public AnimationHolder getAnimationByPose() {
 		AnimationHolder animation = null;
 
-		if (this.isInPose(CrabEntityPose.IDLE) && !this.isMoving()) {
+		if (this.isInEntityPose(FriendsAndFoesEntityPose.IDLE) && !this.isMoving()) {
 			animation = CrabAnimations.IDLE;
-		} else if (this.isInPose(CrabEntityPose.WAVE)) {
+		} else if (this.isInEntityPose(FriendsAndFoesEntityPose.WAVE)) {
 			animation = CrabAnimations.WAVE;
-		} else if (this.isInPose(CrabEntityPose.DANCE)) {
+		} else if (this.isInEntityPose(FriendsAndFoesEntityPose.DANCE)) {
 			animation = CrabAnimations.DANCE;
 		}
 
@@ -413,35 +412,35 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 	}
 
 	public void startWaveAnimation() {
-		if (this.isInPose(CrabEntityPose.WAVE)) {
+		if (this.isInEntityPose(FriendsAndFoesEntityPose.WAVE)) {
 			return;
 		}
 
-		this.setPose(CrabEntityPose.WAVE);
+		this.setEntityPose(FriendsAndFoesEntityPose.WAVE);
 	}
 
 	public void startDanceAnimation() {
-		if (this.isInPose(CrabEntityPose.DANCE)) {
+		if (this.isInEntityPose(FriendsAndFoesEntityPose.DANCE)) {
 			return;
 		}
 
-		this.setPose(CrabEntityPose.DANCE);
+		this.setEntityPose(FriendsAndFoesEntityPose.DANCE);
 	}
 
-	public void setPose(CrabEntityPose pose) {
+	public void setEntityPose(FriendsAndFoesEntityPose pose) {
 		if (this.level().isClientSide()) {
 			return;
 		}
 
-		setPose(pose.get());
+		this.entityData.set(ENTITY_POSE, pose);
 	}
 
-	public boolean hasPose(Pose pose) {
-		return this.getPose() == pose;
+	public FriendsAndFoesEntityPose getEntityPose() {
+		return this.entityData.get(ENTITY_POSE);
 	}
 
-	public boolean isInPose(CrabEntityPose pose) {
-		return this.getPose() == pose.get();
+	public boolean isInEntityPose(FriendsAndFoesEntityPose pose) {
+		return this.getEntityPose() == pose;
 	}
 
 	@Override

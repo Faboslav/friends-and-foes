@@ -6,7 +6,8 @@ import com.faboslav.friendsandfoes.common.entity.animation.animator.context.Anim
 import com.faboslav.friendsandfoes.common.entity.ai.brain.WildfireBrain;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
-import com.faboslav.friendsandfoes.common.entity.pose.WildfireEntityPose;
+import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityDataSerializers;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
@@ -72,10 +73,11 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 	private static final String TICKS_UNTIL_SHIELD_REGENERATION_NBT_NAME = "TicksUntilShieldRegeneration";
 	private static final String SUMMONED_BLAZES_COUNT_NBT_NAME = "SummonedBlazesCount";
 
-	private static final EntityDataAccessor<Integer> ACTIVE_SHIELDS_COUNT;
-	private static final EntityDataAccessor<Integer> TICKS_UNTIL_SHIELD_REGENERATION;
-	private static final EntityDataAccessor<Integer> SUMMONED_BLAZES_COUNT;
-	private static final EntityDataAccessor<Integer> POSE_TICKS;
+	private static final EntityDataAccessor<Integer> ACTIVE_SHIELDS_COUNT = SynchedEntityData.defineId(WildfireEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<Integer> TICKS_UNTIL_SHIELD_REGENERATION = SynchedEntityData.defineId(WildfireEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<Integer> SUMMONED_BLAZES_COUNT = SynchedEntityData.defineId(WildfireEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<Integer> POSE_TICKS = SynchedEntityData.defineId(WildfireEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<FriendsAndFoesEntityPose> ENTITY_POSE = SynchedEntityData.defineId(WildfireEntity.class, FriendsAndFoesEntityDataSerializers.ENTITY_POSE);
 
 	public WildfireEntity(EntityType<? extends WildfireEntity> entityType, Level world) {
 		super(entityType, world);
@@ -97,7 +99,7 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 		*//*?}*/
 		@Nullable SpawnGroupData entityData
 	) {
-		this.setPose(WildfireEntityPose.IDLE);
+		this.setEntityPose(FriendsAndFoesEntityPose.IDLE);
 		this.setActiveShieldsCount(DEFAULT_ACTIVE_SHIELDS_COUNT);
 		this.setSummonedBlazesCount(DEFAULT_SUMMONED_BLAZES_COUNT);
 		return super.finalizeSpawn(world, difficulty, spawnReason, entityData);
@@ -185,6 +187,7 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 		builder.define(TICKS_UNTIL_SHIELD_REGENERATION, DEFAULT_TICKS_UNTIL_SHIELD_REGENERATION);
 		builder.define(SUMMONED_BLAZES_COUNT, DEFAULT_SUMMONED_BLAZES_COUNT);
 		builder.define(POSE_TICKS, 0);
+		builder.define(ENTITY_POSE, FriendsAndFoesEntityPose.IDLE);
 	}
 
 	@Override
@@ -369,9 +372,9 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 	public AnimationHolder getAnimationByPose() {
 		AnimationHolder animation = null;
 
-		if (this.isInPose(WildfireEntityPose.IDLE) && !this.walkAnimation.isMoving()) {
+		if (this.isInEntityPose(FriendsAndFoesEntityPose.IDLE) && !this.walkAnimation.isMoving()) {
 			animation = WildfireAnimations.IDLE;
-		} else if (this.isInPose(WildfireEntityPose.SHOCKWAVE)) {
+		} else if (this.isInEntityPose(FriendsAndFoesEntityPose.SHOCKWAVE)) {
 			animation = WildfireAnimations.SHOCKWAVE;
 		}
 
@@ -403,34 +406,29 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 	}
 
 	public void startShockwaveAnimation() {
-		if (this.isInPose(WildfireEntityPose.SHOCKWAVE)) {
+		if (this.isInEntityPose(FriendsAndFoesEntityPose.SHOCKWAVE)) {
 			return;
 		}
 
 		this.gameEvent(GameEvent.ENTITY_ACTION);
 		this.playShockwaveSound();
-		this.setPose(WildfireEntityPose.SHOCKWAVE);
+		this.setEntityPose(FriendsAndFoesEntityPose.SHOCKWAVE);
 	}
 
-	@Override
-	public void setPose(Pose pose) {
+	public void setEntityPose(FriendsAndFoesEntityPose pose) {
 		if (this.level().isClientSide()) {
 			return;
 		}
 
-		super.setPose(pose);
+		this.entityData.set(ENTITY_POSE, pose);
 	}
 
-	public void setPose(WildfireEntityPose pose) {
-		if (this.level().isClientSide()) {
-			return;
-		}
-
-		super.setPose(pose.get());
+	public FriendsAndFoesEntityPose getEntityPose() {
+		return this.entityData.get(ENTITY_POSE);
 	}
 
-	public boolean isInPose(WildfireEntityPose pose) {
-		return this.getPose() == pose.get();
+	public boolean isInEntityPose(FriendsAndFoesEntityPose pose) {
+		return this.getEntityPose() == pose;
 	}
 
 	@Override
@@ -543,13 +541,6 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 
 	public boolean causeFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
 		return false;
-	}
-
-	static {
-		ACTIVE_SHIELDS_COUNT = SynchedEntityData.defineId(WildfireEntity.class, EntityDataSerializers.INT);
-		TICKS_UNTIL_SHIELD_REGENERATION = SynchedEntityData.defineId(WildfireEntity.class, EntityDataSerializers.INT);
-		SUMMONED_BLAZES_COUNT = SynchedEntityData.defineId(WildfireEntity.class, EntityDataSerializers.INT);
-		POSE_TICKS = SynchedEntityData.defineId(WildfireEntity.class, EntityDataSerializers.INT);
 	}
 }
 

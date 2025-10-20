@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
-import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import org.spongepowered.asm.mixin.Mixin;
 import net.minecraft.world.level.block.LightningRodBlock;
 
@@ -37,6 +36,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 
 import java.util.ArrayList;
 

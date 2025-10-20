@@ -37,6 +37,10 @@ import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
 import net.minecraft.world.level.levelgen.structure.structures.StrongholdPieces;
 
+//? if >=1.21.3 {
+import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
+//?}
+
 @Mixin(StrongholdPieces.Library.class)
 public abstract class StrongholdGeneratorMixin extends StructurePiece
 {

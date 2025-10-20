@@ -20,7 +20,6 @@ public final class FriendsAndFoesClient
 		RegisterEntityLayersEvent.EVENT.addListener(FriendsAndFoesEntityModelLayers::registerEntityLayers);
 	}
 
-
 	public static Screen getConfigScreen(Screen parentScreen) {
 		return FriendsAndFoesConfig.HANDLER.generateGui().generateScreen(parentScreen);
 	}

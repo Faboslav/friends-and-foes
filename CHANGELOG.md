@@ -1,3 +1,7 @@
+## 4.0.15
+
+- Fixed copper golem data fixer upper
+
 ## 4.0.14
 
 - Port to 1.21.9/1.21.10

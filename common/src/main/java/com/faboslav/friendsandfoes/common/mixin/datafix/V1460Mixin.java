@@ -22,6 +22,8 @@ public abstract class V1460Mixin
 	@Inject(method = "registerEntities", at = @At("RETURN"))
 	public void registerModdedEntities(Schema schema, CallbackInfoReturnable<Map<String, Supplier<TypeTemplate>>> cir) {
 		var registeredEntities = cir.getReturnValue();
+
+		registerMob(schema, registeredEntities, "friendsandfoes:copper_golem");
 		registerMob(schema, registeredEntities, "friendsandfoes:crab");
 		registerMob(schema, registeredEntities, "friendsandfoes:glare");
 		registerMob(schema, registeredEntities, "friendsandfoes:iceologer");
@@ -33,8 +35,7 @@ public abstract class V1460Mixin
 		registerMob(schema, registeredEntities, "friendsandfoes:tuff_golem");
 		registerMob(schema, registeredEntities, "friendsandfoes:wildfire");
 		//? if <= 1.21.8 {
-		/*registerMob(schema, registeredEntities, "friendsandfoes:copper_golem");
-		registerMob(schema, registeredEntities, "friendsandfoes:player_illusion");
+		/*registerMob(schema, registeredEntities, "friendsandfoes:player_illusion");
 		*///?}
 	}
 }

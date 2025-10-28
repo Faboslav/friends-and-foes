@@ -24,6 +24,7 @@ public abstract class V1460Mixin
 		var registeredEntities = cir.getReturnValue();
 
 		registerMob(schema, registeredEntities, "friendsandfoes:copper_golem");
+		registerMob(schema, registeredEntities, "friendsandfoes:barnacle");
 		registerMob(schema, registeredEntities, "friendsandfoes:crab");
 		registerMob(schema, registeredEntities, "friendsandfoes:glare");
 		registerMob(schema, registeredEntities, "friendsandfoes:iceologer");
@@ -31,6 +32,7 @@ public abstract class V1460Mixin
 		registerMob(schema, registeredEntities, "friendsandfoes:ice_chunk");
 		registerMob(schema, registeredEntities, "friendsandfoes:mauler");
 		registerMob(schema, registeredEntities, "friendsandfoes:moobloom");
+		registerMob(schema, registeredEntities, "friendsandfoes:penguin");
 		registerMob(schema, registeredEntities, "friendsandfoes:rascal");
 		registerMob(schema, registeredEntities, "friendsandfoes:tuff_golem");
 		registerMob(schema, registeredEntities, "friendsandfoes:wildfire");

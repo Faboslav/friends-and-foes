@@ -29,6 +29,7 @@ public final class FriendsAndFoesEntityRenderers
 	*///?}
 
 	public static void registerEntityRenderers(RegisterEntityRenderersEvent event) {
+		event.register(FriendsAndFoesEntityTypes.BARNACLE.get(), BarnacleEntityRenderer::new);
 		//? if <= 1.21.8 {
 		/*event.register(FriendsAndFoesEntityTypes.COPPER_GOLEM.get(), CopperGolemEntityRenderer::new);
 		*///?}
@@ -39,6 +40,7 @@ public final class FriendsAndFoesEntityRenderers
 		event.register(FriendsAndFoesEntityTypes.ILLUSIONER.get(), IllusionerEntityRenderer::new);
 		event.register(FriendsAndFoesEntityTypes.MAULER.get(), MaulerEntityRenderer::new);
 		event.register(FriendsAndFoesEntityTypes.MOOBLOOM.get(), MoobloomEntityRenderer::new);
+		event.register(FriendsAndFoesEntityTypes.PENGUIN.get(), PenguinEntityRenderer::new);
 		event.register(FriendsAndFoesEntityTypes.RASCAL.get(), RascalEntityRenderer::new);
 		event.register(FriendsAndFoesEntityTypes.TUFF_GOLEM.get(), TuffGolemEntityRenderer::new);
 		event.register(FriendsAndFoesEntityTypes.WILDFIRE.get(), WildfireEntityRenderer::new);

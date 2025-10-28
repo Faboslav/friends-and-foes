@@ -1,20 +1,14 @@
 package com.faboslav.friendsandfoes.common.entity;
 
-
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-import com.faboslav.friendsandfoes.common.block.CrabEggBlock;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.BarnacleBrain;
-import com.faboslav.friendsandfoes.common.entity.ai.brain.CrabBrain;
-import com.faboslav.friendsandfoes.common.entity.ai.brain.WildfireBrain;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.BarnacleAnimations;
-import com.faboslav.friendsandfoes.common.entity.animation.CrabAnimations;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
-import com.faboslav.friendsandfoes.common.entity.pose.BarnacleEntityPose;
-import com.faboslav.friendsandfoes.common.entity.pose.CrabEntityPose;
+import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityDataSerializers;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
-import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
 import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
 import com.mojang.serialization.Dynamic;
@@ -24,7 +18,6 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
@@ -48,7 +41,10 @@ import java.util.ArrayList;
 
 public final class BarnacleEntity extends Monster implements AnimatedEntity {
 	private AnimationContextTracker animationContextTracker;
-	private static final EntityDataAccessor<Integer> POSE_TICKS;
+
+	private static final EntityDataAccessor<Integer> POSE_TICKS = SynchedEntityData.defineId(BarnacleEntity.class, EntityDataSerializers.INT);;
+	private static final EntityDataAccessor<FriendsAndFoesEntityPose> ENTITY_POSE = SynchedEntityData.defineId(BarnacleEntity.class, FriendsAndFoesEntityDataSerializers.ENTITY_POSE);
+
 	public static final float GENERIC_ATTACK_DAMAGE = 8.0F;
 	public static final float GENERIC_FOLLOW_RANGE = 32.0F;
 
@@ -56,7 +52,7 @@ public final class BarnacleEntity extends Monster implements AnimatedEntity {
 		super(entityType, level);
 		this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.1f, 0.5f, false);
 		this.lookControl = new SmoothSwimmingLookControl(this, 10);
-		this.setPose(BarnacleEntityPose.IDLE);
+		this.setEntityPose(FriendsAndFoesEntityPose.IDLE);
 	}
 
 	@Override
@@ -72,7 +68,7 @@ public final class BarnacleEntity extends Monster implements AnimatedEntity {
 	) {
 		SpawnGroupData superEntityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData);
 
-		this.setPose(BarnacleEntityPose.IDLE);
+		this.setEntityPose(FriendsAndFoesEntityPose.IDLE);
 		return superEntityData;
 	}
 
@@ -114,6 +110,7 @@ public final class BarnacleEntity extends Monster implements AnimatedEntity {
 		super.defineSynchedData(builder);
 
 		builder.define(POSE_TICKS, 0);
+		builder.define(ENTITY_POSE, FriendsAndFoesEntityPose.IDLE);
 	}
 
 	@Override
@@ -318,7 +315,7 @@ public final class BarnacleEntity extends Monster implements AnimatedEntity {
 	public AnimationHolder getAnimationByPose() {
 		AnimationHolder animation = null;
 
-		if (this.isInPose(BarnacleEntityPose.IDLE) && !this.isMoving()) {
+		if (this.isInEntityPose(FriendsAndFoesEntityPose.IDLE) && !this.isMoving()) {
 			animation = BarnacleAnimations.IDLE;
 		}
 
@@ -349,28 +346,19 @@ public final class BarnacleEntity extends Monster implements AnimatedEntity {
 		this.startKeyframeAnimation(animationToStart, this.tickCount);
 	}
 
-	@Override
-	public void setPose(Pose pose) {
+	public void setEntityPose(FriendsAndFoesEntityPose pose) {
 		if (this.level().isClientSide()) {
 			return;
 		}
 
-		super.setPose(pose);
+		this.entityData.set(ENTITY_POSE, pose);
 	}
 
-	public void setPose(BarnacleEntityPose pose) {
-		if (this.level().isClientSide()) {
-			return;
-		}
-
-		super.setPose(pose.get());
+	public FriendsAndFoesEntityPose getEntityPose() {
+		return this.entityData.get(ENTITY_POSE);
 	}
 
-	public boolean isInPose(BarnacleEntityPose pose) {
-		return this.getPose() == pose.get();
-	}
-
-	static {
-		POSE_TICKS = SynchedEntityData.defineId(BarnacleEntity.class, EntityDataSerializers.INT);
+	public boolean isInEntityPose(FriendsAndFoesEntityPose pose) {
+		return this.getEntityPose() == pose;
 	}
 }

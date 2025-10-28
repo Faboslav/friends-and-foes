@@ -21,12 +21,14 @@ public final class FriendsAndFoesConfig
 	//? if <= 1.21.8 {
 	/*private static final String COPPER_GOLEM_GROUP = "copper_golem";
 	*///?}
+	private static final String BARNACLE_GROUP = "barnacle";
 	private static final String CRAB_GROUP = "crab";
 	private static final String GLARE_GROUP = "glare";
 	private static final String ICEOLOGER_GROUP = "iceologer";
 	private static final String ILLUSIONER_GROUP = "illusioner";
 	private static final String MAULER_GROUP = "mauler";
 	private static final String MOOBLOOM_GROUP = "moobloom";
+	private static final String PENGUIN_GROUP = "penguin";
 	private static final String RASCAL_GROUP = "rascal";
 	private static final String TUFF_GOLEM_GROUP = "tuff_golem";
 	private static final String WILDFIRE_GROUP = "wildfire";
@@ -46,6 +48,31 @@ public final class FriendsAndFoesConfig
 	@AutoGen(category = MOBS_CATEGORY, group = BEEKEEPER_GROUP)
 	@IntSlider(min = 0, max = 100, step = 1)
 	public int beekeeperAreaStructureWeight = 2;
+
+	@CustomDescription("Barnacle")
+	@AutoGen(category = MOBS_CATEGORY, group = BARNACLE_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableBarnacle = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = BARNACLE_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableBarnacleSpawn = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = BARNACLE_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int barnacleSpawnWeight = 4;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = BARNACLE_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int barnacleSpawnMinGroupSize = 1;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = BARNACLE_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int barnacleSpawnMaxGroupSize = 1;
 
 	@SerialEntry()
 	//? if <= 1.21.8 {
@@ -322,6 +349,37 @@ public final class FriendsAndFoesConfig
 	@AutoGen(category = MOBS_CATEGORY, group = MOOBLOOM_GROUP)
 	@IntSlider(min = 0, max = 100, step = 1)
 	public int moobloomSpawnMaxGroupSize = 4;
+
+	@SerialEntry()
+	@CustomDescription(PENGUIN_GROUP)
+	@AutoGen(category = MOBS_CATEGORY, group = PENGUIN_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enablePenguin = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = PENGUIN_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enablePenguinSpawn = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = PENGUIN_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int penguinSpawnWeight = 4;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = PENGUIN_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int penguinSpawnMinGroupSize = 4;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = PENGUIN_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int penguinSpawnMaxGroupSize = 8;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = PENGUIN_GROUP)
+	@FloatSlider(min = 0.0F, max = 10.0F, step = 0.1F)
+	public float penguinBoatSpeedStatusEffectModifier = 0.2F;
 
 	@SerialEntry()
 	@AutoGen(category = MOBS_CATEGORY, group = RASCAL_GROUP)

@@ -3,10 +3,16 @@ package com.faboslav.friendsandfoes.common.client.render.entity.feature;
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.BarnacleEntityModel;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
+
+//? if >=1.21.9 {
+import net.minecraft.client.renderer.SubmitNodeCollector;
+//?} else {
+/*import net.minecraft.client.renderer.MultiBufferSource;
+ *///?}
+
 //? if >=1.21.3 {
 import com.faboslav.friendsandfoes.common.client.render.entity.state.BarnacleRenderState;
 //?} else {
@@ -30,10 +36,12 @@ public final class BarnacleKelpFeatureRenderer extends RenderLayer<BarnacleRende
 		super(featureRendererContext);
 	}*///?}
 
-	//? >=1.21.3 {
-	public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, BarnacleRenderState renderState, float yRot, float xRot)
-	//?} else {
-	/*public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, BarnacleEntity barnacle, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch)
+	//? if >=1.21.9 {
+	public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, BarnacleRenderState renderState, float yRot, float xRot)
+	//?} else if >=1.21.3 {
+	/*public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, BarnacleRenderState renderState, float yRot, float xRot)
+	 *///?} else {
+	/*public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, BarnacleEntity barnacle, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float yRot, float xRot)
 	 *///?}
 	{
 		//? >=1.21.3 {
@@ -48,14 +56,21 @@ public final class BarnacleKelpFeatureRenderer extends RenderLayer<BarnacleRende
 			this.getParentModel(),
 			KELP_TEXTURE,
 			poseStack,
-			bufferSource,
+			//? if >=1.21.9 {
+			submitNodeCollector,
+			//?} else {
+			/*bufferSource,
+			 *///?}
 			packedLight,
-			//? >=1.21.3 {
+			//? if >=1.21.3 {
 			renderState,
 			//?} else {
-			/*barnacle,
+			/*glare,
 			 *///?}
 			-1
+			//? if >=1.21.9 {
+			, 0
+			//?}
 		);
 	}
 }

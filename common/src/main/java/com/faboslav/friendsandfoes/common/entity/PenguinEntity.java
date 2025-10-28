@@ -1,13 +1,13 @@
 package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-import com.faboslav.friendsandfoes.common.entity.ai.brain.CrabBrain;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.PenguinBrain;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.PenguinAnimations;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
-import com.faboslav.friendsandfoes.common.entity.pose.PenguinEntityPose;
+import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityDataSerializers;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.versions.VersionedGameRulesProvider;
@@ -45,7 +45,10 @@ import java.util.ArrayList;
 
 public final class PenguinEntity extends Animal implements AnimatedEntity {
 	private AnimationContextTracker animationContextTracker;
-	private static final EntityDataAccessor<Integer> POSE_TICKS;
+
+	private static final EntityDataAccessor<Integer> POSE_TICKS = SynchedEntityData.defineId(PenguinEntity.class, EntityDataSerializers.INT);;
+	private static final EntityDataAccessor<FriendsAndFoesEntityPose> ENTITY_POSE = SynchedEntityData.defineId(PenguinEntity.class, FriendsAndFoesEntityDataSerializers.ENTITY_POSE);
+
 	private static final float MOVEMENT_SPEED = 0.2F;
 
 	public static final float GENERIC_ATTACK_DAMAGE = 8.0F;
@@ -55,7 +58,7 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 		super(entityType, level);
 		this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.1f, 0.5f, false);
 		this.lookControl = new SmoothSwimmingLookControl(this, 10);
-		this.setPose(PenguinEntityPose.IDLE);
+		this.setEntityPose(FriendsAndFoesEntityPose.IDLE);
 	}
 
 	@Override
@@ -71,7 +74,7 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 	) {
 		SpawnGroupData superEntityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData);
 
-		this.setPose(PenguinEntityPose.IDLE);
+		this.setEntityPose(FriendsAndFoesEntityPose.IDLE);
 
 		return superEntityData;
 	}
@@ -127,6 +130,7 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 		super.defineSynchedData(builder);
 
 		builder.define(POSE_TICKS, 0);
+		builder.define(ENTITY_POSE, FriendsAndFoesEntityPose.IDLE);
 	}
 
 	@Override
@@ -336,7 +340,7 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 	public AnimationHolder getAnimationByPose() {
 		AnimationHolder animation = null;
 
-		if(this.isInPose(PenguinEntityPose.IDLE) && !this.isMoving()) {
+		if(this.isInEntityPose(FriendsAndFoesEntityPose.IDLE) && !this.isMoving()) {
 			if (this.isUnderWater()) {
 				animation = PenguinAnimations.IDLE_WATER;
 			} else {
@@ -371,28 +375,19 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 		this.startKeyframeAnimation(animationToStart, this.tickCount);
 	}
 
-	@Override
-	public void setPose(Pose pose) {
+	public void setEntityPose(FriendsAndFoesEntityPose pose) {
 		if (this.level().isClientSide()) {
 			return;
 		}
 
-		super.setPose(pose);
+		this.entityData.set(ENTITY_POSE, pose);
 	}
 
-	public void setPose(PenguinEntityPose pose) {
-		if (this.level().isClientSide()) {
-			return;
-		}
-
-		super.setPose(pose.get());
+	public FriendsAndFoesEntityPose getEntityPose() {
+		return this.entityData.get(ENTITY_POSE);
 	}
 
-	public boolean isInPose(PenguinEntityPose pose) {
-		return this.getPose() == pose.get();
-	}
-
-	static {
-		POSE_TICKS = SynchedEntityData.defineId(PenguinEntity.class, EntityDataSerializers.INT);
+	public boolean isInEntityPose(FriendsAndFoesEntityPose pose) {
+		return this.getEntityPose() == pose;
 	}
 }

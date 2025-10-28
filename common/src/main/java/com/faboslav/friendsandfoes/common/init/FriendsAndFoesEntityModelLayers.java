@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.common.init;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.*;
+import com.faboslav.friendsandfoes.common.client.render.entity.renderer.BarnacleEntityRenderer;
 import com.faboslav.friendsandfoes.common.events.client.RegisterEntityLayersEvent;
 import net.minecraft.client.model.CowModel;
 import net.minecraft.client.model.IllagerModel;
@@ -13,6 +14,7 @@ import net.minecraft.client.model.geom.ModelLayers;
  */
 public final class FriendsAndFoesEntityModelLayers
 {
+	public static final ModelLayerLocation BARNACLE_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("barnacle"), "main");
 	//? if <= 1.21.8 {
 	/*public static final ModelLayerLocation COPPER_GOLEM_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("copper_golem"), "main");
 	*///?}
@@ -23,8 +25,10 @@ public final class FriendsAndFoesEntityModelLayers
 	public static final ModelLayerLocation ILLUSIONER_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("illusioner"), "main");
 	public static final ModelLayerLocation MAULER_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("mauler"), "main");
 	public static final ModelLayerLocation MOOBLOOM_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("moobloom"), "main");
+	public static final ModelLayerLocation PENGUIN_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("penguin"), "main");
 	public static final ModelLayerLocation RASCAL_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("rascal"), "main");
 	public static final ModelLayerLocation TUFF_GOLEM_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("tuff_golem"), "main");
+	public static final ModelLayerLocation WILDFIRE_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("wildfire_crown"), "main");
 	public static final ModelLayerLocation WILDFIRE_CROWN_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("wildfire_crown"), "main");
 
 	//? if >=1.21.3 {
@@ -34,6 +38,7 @@ public final class FriendsAndFoesEntityModelLayers
 	//?}
 
 	public static void registerEntityLayers(RegisterEntityLayersEvent event) {
+		event.register(BARNACLE_LAYER, BarnacleEntityModel::getTexturedModelData);
 		//? if <= 1.21.8 {
 		/*event.register(COPPER_GOLEM_LAYER, CopperGolemEntityModel::getTexturedModelData);
 		*///?}
@@ -48,6 +53,7 @@ public final class FriendsAndFoesEntityModelLayers
 		event.register(ILLUSIONER_LAYER, IllagerModel::createBodyLayer);
 		event.register(MAULER_LAYER, MaulerEntityModel::getTexturedModelData);
 		event.register(MOOBLOOM_LAYER, CowModel::createBodyLayer);
+		event.register(PENGUIN_LAYER, PenguinEntityModel::getTexturedModelData);
 		event.register(RASCAL_LAYER, RascalEntityModel::getTexturedModelData);
 		event.register(TUFF_GOLEM_LAYER, TuffGolemEntityModel::getTexturedModelData);
 		event.register(WILDFIRE_CROWN_LAYER, WildfireEntityModel::getTexturedModelData);

@@ -503,7 +503,6 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 		return this.entityData.get(ENTITY_POSE);
 	}
 
-
 	public boolean isInEntityPose(FriendsAndFoesEntityPose pose) {
 		return this.getEntityPose() == pose;
 	}

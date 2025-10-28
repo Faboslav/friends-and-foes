@@ -4,14 +4,15 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.GlareEntityModel;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 
 //? if >=1.21.9 {
 import net.minecraft.client.renderer.SubmitNodeCollector;
-//?}
+//?} else {
+/*import net.minecraft.client.renderer.MultiBufferSource;
+*///?}
 
 //? if >=1.21.3 {
 import com.faboslav.friendsandfoes.common.client.render.entity.state.GlareRenderState;

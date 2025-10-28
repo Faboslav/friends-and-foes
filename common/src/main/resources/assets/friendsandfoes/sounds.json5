@@ -366,7 +366,7 @@
 			"friendsandfoes:entity/penguin/step4",
 			"friendsandfoes:entity/penguin/step5"
 		],
-		"subtitle": "subtitle.entity.friendsandfoes.penguin.step"
+		"subtitle": "subtitles.block.generic.footsteps"
 	},
 	"entity.player.mirror_move": {
 		"sounds": [

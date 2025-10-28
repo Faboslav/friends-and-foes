@@ -1,5 +1,6 @@
 {
-	"entity.copper_golem.oxidation": {
+	//? if < 1.21.9 {
+	/*"entity.copper_golem.oxidation": {
 		"sounds": [
 			"friendsandfoes:entity/copper_golem/oxidation1",
 			"friendsandfoes:entity/copper_golem/oxidation2",
@@ -143,6 +144,7 @@
 		],
 		"subtitle": "subtitles.block.generic.footsteps"
 	},
+	*///?}
 	"entity.crab.death": {
 		"sounds": [
 			"friendsandfoes:entity/crab/death1",

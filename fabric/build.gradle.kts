@@ -1,6 +1,6 @@
 plugins {
 	id("fabric-loom")
-	`multiloader-loader`
+	id("multiloader-loader")
 	id("dev.kikugie.fletching-table.fabric") version "0.1.0-alpha.22"
 }
 

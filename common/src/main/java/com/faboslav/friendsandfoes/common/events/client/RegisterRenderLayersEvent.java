@@ -20,18 +20,18 @@ import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
  * <a href="https://github.com/Team-Resourceful/ResourcefulLib">https://github.com/Team-Resourceful/ResourcefulLib</a>
  */
 public record RegisterRenderLayersEvent(
-	BiConsumer<Fluid, /*? >=1.21.6 {*/ ChunkSectionLayer /*?} else {*//*RenderType*//*?}*/> fluid,
-	BiConsumer<Block, /*? >=1.21.6 {*/ ChunkSectionLayer /*?} else {*//*RenderType*//*?}*/> block
+	BiConsumer<Fluid, /*? if >=1.21.6 {*/ ChunkSectionLayer /*?} else {*//*RenderType*//*?}*/> fluid,
+	BiConsumer<Block, /*? if >=1.21.6 {*/ ChunkSectionLayer /*?} else {*//*RenderType*//*?}*/> block
 ) {
 	public static final EventHandler<RegisterRenderLayersEvent> EVENT = new EventHandler<>();
 
-	public void register(/*? >=1.21.6 {*/ ChunkSectionLayer /*?} else {*//*RenderType*//*?}*/ layer, Fluid... fluids) {
+	public void register(/*? if >=1.21.6 {*/ ChunkSectionLayer /*?} else {*//*RenderType*//*?}*/ layer, Fluid... fluids) {
 		for (Fluid fluid : fluids) {
 			this.fluid.accept(fluid, layer);
 		}
 	}
 
-	public void register(/*? >=1.21.6 {*/ ChunkSectionLayer /*?} else {*//*RenderType*//*?}*/ layer, Block... blocks) {
+	public void register(/*? if >=1.21.6 {*/ ChunkSectionLayer /*?} else {*//*RenderType*//*?}*/ layer, Block... blocks) {
 		for (Block block : blocks) {
 			this.block.accept(block, layer);
 		}

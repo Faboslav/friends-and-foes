@@ -11,12 +11,12 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 import com.faboslav.friendsandfoes.common.client.render.entity.state.TuffGolemRenderState;
 //?}
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-//? >=1.21.3 {
+//? if >=1.21.3 {
 public final class TuffGolemEntityRenderer extends MobRenderer<TuffGolemEntity, TuffGolemRenderState, TuffGolemEntityModel>
 //?} else {
 /*public final class TuffGolemEntityRenderer extends MobRenderer<TuffGolemEntity, TuffGolemEntityModel<TuffGolemEntity>>
@@ -30,7 +30,7 @@ public final class TuffGolemEntityRenderer extends MobRenderer<TuffGolemEntity, 
 		this.addLayer(new TuffGolemClothFeatureRenderer(this));
 		this.addLayer(new TuffGolemHeldItemFeatureRenderer(
 			this,
-			//? >=1.21.3 {
+			//? if >=1.21.3 {
 			context.getEntityRenderDispatcher().getItemInHandRenderer()
 			//?} else {
 			/*context.getItemInHandRenderer()
@@ -38,7 +38,7 @@ public final class TuffGolemEntityRenderer extends MobRenderer<TuffGolemEntity, 
 		));
 	}
 
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	@Override
 	public TuffGolemRenderState createRenderState() {
 		return new TuffGolemRenderState();
@@ -53,7 +53,7 @@ public final class TuffGolemEntityRenderer extends MobRenderer<TuffGolemEntity, 
 	//?}
 
 	@Override
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	public ResourceLocation getTextureLocation(TuffGolemRenderState renderState)
 	//?} else {
 	/*public ResourceLocation getTextureLocation(TuffGolemEntity tuffGolem)

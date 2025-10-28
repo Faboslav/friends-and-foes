@@ -15,6 +15,7 @@ import com.faboslav.friendsandfoes.common.network.MessageHandler;
 import com.faboslav.friendsandfoes.common.network.packet.EntityAnimationsSyncPacket;
 import com.faboslav.friendsandfoes.common.network.packet.MoobloomVariantsSyncPacket;
 import com.faboslav.friendsandfoes.common.platform.PlatformHooks;
+import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BeaconBlockEntity;
 import org.slf4j.Logger;
@@ -56,6 +57,7 @@ public final class FriendsAndFoes
 	}
 
 	public static void init() {
+		FriendsAndFoesTags.init();
 		FriendsAndFoes.getConfig().load();
 		ModChecker.setupModCompat();
 
@@ -73,11 +75,12 @@ public final class FriendsAndFoes
 		EntitySpawnEvent.EVENT.addListener(IllusionerOnEntitySpawn::handleEntitySpawn);
 
 		FriendsAndFoesActivities.ACTIVITIES.init();
-		//? <1.21.3 {
+		//? if <1.21.3 {
 		/*FriendsAndFoesArmorMaterials.ARMOR_MATERIALS.init();
 		*///?}
 		FriendsAndFoesBlocks.BLOCKS.init();
 		FriendsAndFoesCriterias.CRITERIAS.init();
+		FriendsAndFoesEntityDataSerializers.init();
 		FriendsAndFoesEntityTypes.ENTITY_TYPES.init();
 		FriendsAndFoesItemGroups.ITEM_GROUPS.init();
 		FriendsAndFoesItems.ITEMS.init();

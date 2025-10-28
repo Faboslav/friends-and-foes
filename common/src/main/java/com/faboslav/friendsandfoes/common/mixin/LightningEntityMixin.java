@@ -1,23 +1,24 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
-import com.faboslav.friendsandfoes.common.block.FriendsAndFoesOxidizable;
-import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
+import net.minecraft.world.entity.LightningBolt;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.Iterator;
+//? if <=1.21.8 {
+/*import org.spongepowered.asm.mixin.Shadow;
+import net.minecraft.world.entity.Entity;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LightningRodBlock;
-import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.state.BlockState;
+import org.spongepowered.asm.mixin.Unique;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.WeatheringCopper;
+import com.faboslav.friendsandfoes.common.block.FriendsAndFoesOxidizable;
+import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 
 @Mixin(LightningBolt.class)
 public abstract class LightningEntityMixin extends Entity
@@ -29,68 +30,92 @@ public abstract class LightningEntityMixin extends Entity
 	@Shadow
 	protected abstract BlockPos getStrikePosition();
 
-	@Inject(
-		at = @At("TAIL"),
+	@WrapMethod(
 		method = "powerLightningRod"
 	)
 	private void friendsandfoes$powerLightningRod(
-		CallbackInfo ci
+		Operation<Void> original
 	) {
+		original.call();
+
 		BlockPos blockPos = this.getStrikePosition();
 		BlockState blockState = this.level().getBlockState(blockPos);
+		Block block = blockState.getBlock();
 
 		if (blockState.is(FriendsAndFoesTags.LIGHTNING_RODS)) {
-			this.level().setBlockAndUpdate(
-				blockPos,
-				FriendsAndFoesOxidizable.getFirst(this.level().getBlockState(blockPos))
-			);
-
-			((LightningRodBlock) this.level().getBlockState(blockPos).getBlock()).onLightningStrike(blockState, this.level(), blockPos);
+			((LightningRodBlock)block).onLightningStrike(blockState, this.level(), blockPos);
 		}
 	}
 
-
-	@Inject(
-		at = @At("HEAD"),
-		method = "randomWalkCleaningCopper"
+	@WrapMethod(
+		method = "clearCopperOnLightningStrike"
 	)
-	private static void friendsandfoes$cleanOxidationAround(
-		Level world,
-		BlockPos pos,
-		BlockPos.MutableBlockPos mutablePos,
-		int count,
-		CallbackInfo ci
+	private static void friendsandfoes$clearCopperOnLightningStrike(
+		Level level,
+		BlockPos blockPos,
+		Operation<Void> original
 	) {
-		mutablePos.set(pos);
+		original.call(level, blockPos);
 
-		for (int i = 0; i < count; ++i) {
-			Optional<BlockPos> optional = friendsandfoes$cleanOxidationAround(world, mutablePos);
-			if (!optional.isPresent()) {
+		BlockState blockState = level.getBlockState(blockPos);
+		Block block = blockState.getBlock();
+
+		if (blockState.is(FriendsAndFoesTags.LIGHTNING_RODS) || blockState.is(FriendsAndFoesTags.COPPER_BUTTONS)) {
+			level.setBlockAndUpdate(blockPos, FriendsAndFoesOxidizable.getFirst(level.getBlockState(blockPos)));
+		}
+
+		if((block instanceof WeatheringCopper && !blockState.is(FriendsAndFoesTags.LIGHTNING_RODS)) || blockState.is(FriendsAndFoesTags.COPPER_BUTTONS)) {
+			BlockPos.MutableBlockPos mutableBlockPos = blockPos.mutable();
+			int i = level.random.nextInt(3) + 3;
+
+			for(int j = 0; j < i; ++j) {
+				int k = level.random.nextInt(8) + 1;
+				friendsandfoes$randomWalkCleaningCopper(level, blockPos, mutableBlockPos, k);
+			}
+
+		}
+	}
+
+	@Unique
+	private static void friendsandfoes$randomWalkCleaningCopper(Level level, BlockPos pos, BlockPos.MutableBlockPos mutable, int steps) {
+		mutable.set(pos);
+
+		for(int i = 0; i < steps; ++i) {
+			Optional<BlockPos> optional = friendsandfoes$randomStepCleaningCopper(level, mutable);
+			if (optional.isEmpty()) {
 				break;
 			}
 
-			mutablePos.set(optional.get());
+			mutable.set(optional.get());
 		}
+
 	}
 
-	private static Optional<BlockPos> friendsandfoes$cleanOxidationAround(Level world, BlockPos pos) {
-		Iterator var2 = BlockPos.randomInCube(world.getRandom(), 10, pos, 1).iterator();
+	@Unique
+	private static Optional<BlockPos> friendsandfoes$randomStepCleaningCopper(Level level, BlockPos pos) {
+		for(BlockPos blockPos : BlockPos.randomInCube(level.random, 10, pos, 1)) {
+			BlockState blockState = level.getBlockState(blockPos);
+			Block block = blockState.getBlock();
 
-		BlockPos blockPos;
-		BlockState blockState;
-		do {
-			if (!var2.hasNext()) {
-				return Optional.empty();
+			if (blockState.is(FriendsAndFoesTags.LIGHTNING_RODS) || blockState.is(FriendsAndFoesTags.COPPER_BUTTONS)) {
+				FriendsAndFoesOxidizable.getPrevious(blockState).ifPresent((blockStatex) -> level.setBlockAndUpdate(blockPos, blockStatex));
+				level.levelEvent(3002, blockPos, -1);
+				return Optional.of(blockPos);
 			}
 
-			blockPos = (BlockPos) var2.next();
-			blockState = world.getBlockState(blockPos);
-		} while (!(blockState.getBlock() instanceof WeatheringCopper));
+			if (block instanceof WeatheringCopper) {
+				WeatheringCopper.getPrevious(blockState).ifPresent((blockStatex) -> level.setBlockAndUpdate(blockPos, blockStatex));
+				level.levelEvent(3002, blockPos, -1);
+				return Optional.of(blockPos);
+			}
+		}
 
-		BlockPos finalBlockPos = blockPos;
-		FriendsAndFoesOxidizable.getPrevious(blockState).ifPresent((state) -> world.setBlockAndUpdate(finalBlockPos, state));
-
-		world.levelEvent(3002, blockPos, -1);
-		return Optional.of(blockPos);
+		return Optional.empty();
 	}
 }
+*///?} else {
+@Mixin(LightningBolt.class)
+public class LightningEntityMixin
+{
+}
+//?}

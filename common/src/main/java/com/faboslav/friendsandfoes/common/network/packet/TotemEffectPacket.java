@@ -57,7 +57,7 @@ public record TotemEffectPacket(Item item, int entityId) implements Packet<Totem
 		}
 
 		public TotemEffectPacket decode(final RegistryFriendlyByteBuf buf) {
-			//? >=1.21.3 {
+			//? if >=1.21.3 {
 			return new TotemEffectPacket(BuiltInRegistries.ITEM.getValue(buf.readResourceLocation()), buf.readInt());
 			//?} else {
 			/*return new TotemEffectPacket(BuiltInRegistries.ITEM.getHolder(buf.readResourceLocation()).get().value(), buf.readInt());

@@ -1,9 +1,10 @@
-package com.faboslav.friendsandfoes.common.entity.ai.brain.task.coppergolem;
+//? if <= 1.21.8 {
+/*package com.faboslav.friendsandfoes.common.entity.ai.brain.task.coppergolem;
 
 import com.faboslav.friendsandfoes.common.entity.animation.CopperGolemAnimations;
 import com.faboslav.friendsandfoes.common.entity.CopperGolemEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.CopperGolemBrain;
-import com.faboslav.friendsandfoes.common.entity.pose.CopperGolemEntityPose;
+import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import org.jetbrains.annotations.Nullable;
 
@@ -121,7 +122,7 @@ public final class CopperGolemPressButtonTask extends Behavior<CopperGolemEntity
 
 	@Override
 	protected void stop(ServerLevel world, CopperGolemEntity copperGolem, long time) {
-		copperGolem.setPose(CopperGolemEntityPose.IDLE);
+		copperGolem.setEntityPose(FriendsAndFoesEntityPose.IDLE);
 		copperGolem.getBrain().eraseMemory(FriendsAndFoesMemoryModuleTypes.COPPER_GOLEM_BUTTON_POS.get());
 		CopperGolemBrain.setPressButtonCooldown(copperGolem);
 	}
@@ -172,3 +173,4 @@ public final class CopperGolemPressButtonTask extends Behavior<CopperGolemEntity
 		return blockState;
 	}
 }
+*///?}

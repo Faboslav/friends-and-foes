@@ -6,6 +6,7 @@ import com.faboslav.friendsandfoes.common.api.MoobloomVariantManager;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import com.faboslav.friendsandfoes.common.versions.VersionedInteractionResult;
 import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
@@ -44,24 +45,24 @@ import org.jetbrains.annotations.Nullable;
 import net.minecraft.world.entity.animal.Cow;
 import java.util.Optional;
 
-//? >=1.21.6 {
+//? if >=1.21.6 {
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 //?} else {
 /*import net.minecraft.nbt.CompoundTag;
 *///?}
 
-//? >=1.21.5 {
+//? if >=1.21.5 {
 import net.minecraft.world.entity.animal.AbstractCow;
 //?}
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 import net.minecraft.world.entity.EntitySpawnReason;
 //?} else {
 /*import net.minecraft.world.entity.MobSpawnType;
 *///?}
 
-//? >=1.21.5 {
+//? if >=1.21.5 {
 public final class MoobloomEntity extends AbstractCow implements Shearable
 //?} else {
 /*public final class MoobloomEntity extends Cow implements Shearable
@@ -82,7 +83,7 @@ public final class MoobloomEntity extends AbstractCow implements Shearable
 	public static boolean canSpawn(
 		EntityType<MoobloomEntity> moobloomEntityType,
 		ServerLevelAccessor serverWorldAccess,
-		/*? >=1.21.3 {*/
+		/*? if >=1.21.3 {*/
 		EntitySpawnReason spawnReason,
 		/*?} else {*/
 		/*MobSpawnType spawnReason,
@@ -97,7 +98,7 @@ public final class MoobloomEntity extends AbstractCow implements Shearable
 	public SpawnGroupData finalizeSpawn(
 		ServerLevelAccessor serverWorldAccess,
 		DifficultyInstance difficulty,
-		/*? >=1.21.3 {*/
+		/*? if >=1.21.3 {*/
 		EntitySpawnReason spawnReason,
 		/*?} else {*/
 		/*MobSpawnType spawnReason,
@@ -128,7 +129,7 @@ public final class MoobloomEntity extends AbstractCow implements Shearable
 
 
 	@Override
-	//? >= 1.21.6 {
+	//? if >= 1.21.6 {
 	public void addAdditionalSaveData(ValueOutput nbt)
 	//?} else {
 	/*public void addAdditionalSaveData(CompoundTag nbt)
@@ -141,7 +142,7 @@ public final class MoobloomEntity extends AbstractCow implements Shearable
 	}
 
 	@Override
-	//? >= 1.21.6 {
+	//? if >= 1.21.6 {
 	public void readAdditionalSaveData(ValueInput nbt)
 	//?} else {
 	/*public void readAdditionalSaveData(CompoundTag nbt)
@@ -203,9 +204,9 @@ public final class MoobloomEntity extends AbstractCow implements Shearable
 
 		if (itemStack.getItem() == Items.SHEARS && this.readyForShearing()) {
 			if(this.level() instanceof ServerLevel serverLevel) {
-				this.shear(/*? >=1.21.3 {*/serverLevel, /*?}*/SoundSource.PLAYERS/*? >=1.21.3 {*/, itemStack /*?}*/);
+				this.shear(/*? if >=1.21.3 {*/serverLevel, /*?}*/SoundSource.PLAYERS/*? if >=1.21.3 {*/, itemStack /*?}*/);
 				this.gameEvent(GameEvent.SHEAR, player);
-				itemStack.hurtAndBreak(1, player, Player.getSlotForHand(hand));
+				itemStack.hurtAndBreak(1, player, VersionedEntity.getEquipmentSlotForItem(hand));
 			}
 
 			return VersionedInteractionResult.success(this);
@@ -215,13 +216,13 @@ public final class MoobloomEntity extends AbstractCow implements Shearable
 	}
 
 	@Override
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	public void shear(ServerLevel level, SoundSource soundSource, ItemStack shears)
 	//?} else {
 	/*public void shear(SoundSource soundSource)
 	*///?}
 	{
-		//? <1.21.3 {
+		//? if <1.21.3 {
 		/*ServerLevel level = (ServerLevel) this.level();
 		*///?}
 
@@ -232,7 +233,7 @@ public final class MoobloomEntity extends AbstractCow implements Shearable
 
 	private void transformToCow(ServerLevel level) {
 		this.discard();
-		Cow cowEntity = EntityType.COW.create(level/*? >=1.21.3 {*/, VersionedEntitySpawnReason.CONVERSION/*?}*/);
+		Cow cowEntity = EntityType.COW.create(level/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.CONVERSION/*?}*/);
 
 		if (cowEntity == null) {
 			return;
@@ -287,7 +288,7 @@ public final class MoobloomEntity extends AbstractCow implements Shearable
 			moobloomVariant = ((MoobloomEntity) entity).getVariant();
 		}
 
-		MoobloomEntity moobloom = FriendsAndFoesEntityTypes.MOOBLOOM.get().create(serverWorld/*? >=1.21.3 {*/, VersionedEntitySpawnReason.BREEDING/*?}*/);
+		MoobloomEntity moobloom = FriendsAndFoesEntityTypes.MOOBLOOM.get().create(serverWorld/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.BREEDING/*?}*/);
 		moobloom.setVariant(moobloomVariant);
 
 		return moobloom;

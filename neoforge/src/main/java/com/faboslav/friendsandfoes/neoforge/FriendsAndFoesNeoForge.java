@@ -11,6 +11,7 @@ import com.faboslav.friendsandfoes.common.world.spawner.IceologerSpawner;
 import com.faboslav.friendsandfoes.common.world.spawner.IllusionerSpawner;
 import com.faboslav.friendsandfoes.neoforge.init.FriendsAndFoesBiomeModifiers;
 import com.faboslav.friendsandfoes.neoforge.mixin.FireBlockAccessor;
+import com.faboslav.friendsandfoes.neoforge.platform.EntitySerializers;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
@@ -34,7 +35,7 @@ import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 
-//? >=1.21.4 {
+//? if >=1.21.4 {
 import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
 //?} else {
 /*import net.neoforged.neoforge.event.AddReloadListenerEvent;
@@ -49,7 +50,7 @@ public final class FriendsAndFoesNeoForge
 		FriendsAndFoes.init();
 		FriendsAndFoesBiomeModifiers.BIOME_MODIFIERS.register(modEventBus);
 
-		if (FMLEnvironment.dist == Dist.CLIENT) {
+		if (FMLEnvironment./*? if >= 1.21.9 {*/ getDist() /*?} else {*/ /*dist *//*?}*/== Dist.CLIENT) {
 			FriendsAndFoesNeoForgeClient.init(modEventBus, eventBus);
 		}
 
@@ -65,6 +66,8 @@ public final class FriendsAndFoesNeoForge
 		modEventBus.addListener(FriendsAndFoesNeoForge::onRegisterAttributes);
 		modEventBus.addListener(FriendsAndFoesNeoForge::onRegisterSpawnRestrictions);
 		modEventBus.addListener(FriendsAndFoesNeoForge::onAddItemGroupEntries);
+
+		EntitySerializers.ENTITY_DATA_SERIALIZERS.register(modEventBus);
 	}
 
 	private static void onSetup(final FMLCommonSetupEvent event) {
@@ -91,13 +94,13 @@ public final class FriendsAndFoesNeoForge
 	}
 
 	private static void onAddReloadListeners(
-		//? >=1.21.4 {
+		//? if >=1.21.4 {
 		AddServerReloadListenersEvent event
 		//?} else {
 		/*AddReloadListenerEvent event
 		 *///?}
 	) {
-		//? >=1.21.4 {
+		//? if >=1.21.4 {
 		RegisterReloadListenerEvent.EVENT.invoke(new RegisterReloadListenerEvent(event::addListener));
 		//?} else {
 		/*RegisterReloadListenerEvent.EVENT.invoke(new RegisterReloadListenerEvent((id, listener) -> event.addListener(listener)));
@@ -105,7 +108,7 @@ public final class FriendsAndFoesNeoForge
 	}
 
 	private static void onDatapackSync(OnDatapackSyncEvent event) {
-		if (FMLEnvironment.dist.isDedicatedServer()) {
+		if (FMLEnvironment./*? if >= 1.21.9 {*/ getDist() /*?} else {*/ /*dist *//*?}*/.isDedicatedServer()) {
 			if (event.getPlayer() != null) {
 				DatapackSyncEvent.EVENT.invoke(new DatapackSyncEvent(event.getPlayer()));
 			} else {

@@ -5,7 +5,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-//? >=1.21.5 {
+//? if >=1.21.5 {
 import net.minecraft.world.item.component.TooltipDisplay;
 import java.util.function.Consumer;
 //?}
@@ -18,7 +18,7 @@ public class TotemItem extends Item
 		super(properties);
 	}
 
-	//? >=1.21.5 {
+	//? if >=1.21.5 {
 	
 	@Override
 	public void appendHoverText(ItemStack itemStack, TooltipContext tooltipContext, TooltipDisplay tooltipDisplay, Consumer<Component> consumer, TooltipFlag tooltipFlag) {

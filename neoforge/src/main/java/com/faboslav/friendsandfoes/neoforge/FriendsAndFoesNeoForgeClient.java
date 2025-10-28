@@ -1,7 +1,5 @@
 package com.faboslav.friendsandfoes.neoforge;
-
 import com.faboslav.friendsandfoes.common.FriendsAndFoesClient;
-import com.faboslav.friendsandfoes.common.config.FriendsAndFoesConfigScreen;
 import com.faboslav.friendsandfoes.common.events.client.RegisterEntityLayersEvent;
 import com.faboslav.friendsandfoes.common.events.client.RegisterEntityRenderersEvent;
 import com.faboslav.friendsandfoes.common.events.client.RegisterParticlesEvent;
@@ -40,7 +38,7 @@ public final class FriendsAndFoesNeoForgeClient
 		event.enqueueWork(() -> {
 			if (ModList.get().isLoaded("yet_another_config_lib_v3")) {
 				ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory.class, () -> (client, screen) -> {
-					return new FriendsAndFoesConfigScreen(screen);
+					return FriendsAndFoesClient.getConfigScreen(screen);
 				});
 			}
 		});

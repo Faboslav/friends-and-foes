@@ -1,7 +1,9 @@
-package com.faboslav.friendsandfoes.common.util;
+//? if <= 1.21.8 {
+/*package com.faboslav.friendsandfoes.common.util;
+
+import java.util.function.Predicate;
 
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
-import java.util.function.Predicate;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LightningRodBlock;
@@ -36,3 +38,4 @@ public final class CopperGolemBuildPatternPredicates
 		|| state.is(Blocks.WAXED_OXIDIZED_COPPER)
 	);
 }
+*///?}

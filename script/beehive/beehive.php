@@ -12,6 +12,7 @@ $types = [
 	'mangrove',
 	'cherry',
 	'pale_oak',
+	'azure',
 ];
 
 $blocks = [

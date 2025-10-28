@@ -2,7 +2,8 @@ package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.ZombieHorseEntityAccess;
-import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
@@ -11,7 +12,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
-import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.entity.animal.horse.ZombieHorse;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.GameRules;
@@ -19,19 +19,19 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.dimension.DimensionType;
-import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.storage.WritableLevelData;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+//? if <=1.21.8 {
+/*import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import java.util.Optional;
+import net.minecraft.world.level.levelgen.Heightmap;
+import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
+*///?}
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 import net.minecraft.util.profiling.Profiler;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 //?} else {
@@ -43,7 +43,7 @@ import net.minecraft.util.profiling.ProfilerFiller;
 @Mixin(ServerLevel.class)
 public abstract class ServerWorldMixin extends Level implements WorldGenLevel
 {
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	protected ServerWorldMixin(
 		WritableLevelData levelData,
 		ResourceKey<Level> dimension,
@@ -75,19 +75,20 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel
 	@Shadow
 	protected abstract BlockPos findLightningTargetAround(BlockPos pos);
 
-	@Inject(
-		method = "tickChunk",
-		at = @At("TAIL")
+	@WrapMethod(
+		method = "tickChunk"
 	)
-	public void friendsandfoes_addZombieHorseSpawnEvent(
-		LevelChunk chunk, int randomTickSpeed, CallbackInfo ci
+	public void friendsandfoes$addZombieHorseSpawnEvent(
+		LevelChunk chunk, int randomTickSpeed, Operation<Void> original
 	) {
+		original.call(chunk, randomTickSpeed);
+
 		if (FriendsAndFoes.getConfig().enableZombieHorseTrap) {
 			BlockPos blockPos;
 			ChunkPos chunkPos = chunk.getPos();
 			int i = chunkPos.getMinBlockX();
 			int j = chunkPos.getMinBlockZ();
-			//? >=1.21.3 {
+			//? if >=1.21.3 {
 			var profiler = Profiler.get();
 			//?} else {
 			/*var profiler = this.getProfiler();
@@ -101,18 +102,22 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel
 				&& this.isRainingAt(blockPos = this.findLightningTargetAround(this.getBlockRandomPos(i, 0, j, 15)))
 			) {
 				DifficultyInstance localDifficulty = this.getCurrentDifficultyAt(blockPos);
-				boolean canZombieHorseSpawn = ((ServerLevel)(Object)this).getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && this.random.nextDouble() < (double) localDifficulty.getEffectiveDifficulty() * 0.01 && !this.getBlockState(blockPos.below()).is(FriendsAndFoesTags.LIGHTNING_RODS);
+				boolean canZombieHorseSpawn = ((ServerLevel)(Object)this).getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && this.random.nextDouble() < (double) localDifficulty.getEffectiveDifficulty() * 0.01;
+
+				//? if <= 1.21.8 {
+				/*canZombieHorseSpawn = canZombieHorseSpawn && !this.getBlockState(blockPos.below()).is(FriendsAndFoesTags.LIGHTNING_RODS);
+				*///?}
 
 				if (canZombieHorseSpawn) {
-					ZombieHorse zombieHorse = EntityType.ZOMBIE_HORSE.create(this/*? >=1.21.3 {*/, VersionedEntitySpawnReason.EVENT/*?}*/);
+					ZombieHorse zombieHorse = EntityType.ZOMBIE_HORSE.create(this/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.EVENT/*?}*/);
 					((ZombieHorseEntityAccess) zombieHorse).friendsandfoes_setTrapped(true);
 					zombieHorse.setAge(0);
 					zombieHorse.setPos(blockPos.getX(), blockPos.getY(), blockPos.getZ());
 					this.addFreshEntity(zombieHorse);
 				}
 
-				LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(this/*? >=1.21.3 {*/, VersionedEntitySpawnReason.EVENT/*?}*/);
-				//? >= 1.21.5 {
+				LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(this/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.EVENT/*?}*/);
+				//? if >= 1.21.5 {
 				lightningBolt.snapTo(Vec3.atBottomCenterOf(blockPos));
 				//?} else {
 				/*lightningBolt.moveTo(Vec3.atBottomCenterOf(blockPos));
@@ -126,28 +131,29 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel
 		}
 	}
 
-	@Inject(
-		method = "findLightningRod",
-		at = @At("TAIL"),
-		cancellable = true
+	//? if <=1.21.8 {
+	/*@WrapMethod(
+		method = "findLightningRod"
 	)
-	public void friendsandfoes_getLightningRodPos(
+	protected Optional<BlockPos> friendsandfoes$getLightningRodPos(
 		BlockPos pos,
-		CallbackInfoReturnable<Optional<BlockPos>> cir
+		Operation<Optional<BlockPos>> original
 	) {
-		if (cir.getReturnValue().isEmpty()) {
-			ServerLevel serverWorld = (ServerLevel) (Object) this;
+		var originalLightningRodPos = original.call(pos);
 
-			Optional<BlockPos> optional = serverWorld.getPoiManager().findClosest((registryEntry) -> {
-				return registryEntry.is(FriendsAndFoesTags.LIGHTNING_ROD_POI);
-			}, (posx) -> {
-				return posx.getY() == this.getHeight(Heightmap.Types.WORLD_SURFACE, posx.getX(), posx.getZ()) - 1;
-			}, pos, 128, PoiManager.Occupancy.ANY);
-
-
-			if (optional.isPresent()) {
-				cir.setReturnValue(optional.map((posx) -> posx.above(1)));
-			}
+		if(originalLightningRodPos.isPresent()) {
+			return originalLightningRodPos;
 		}
+
+		ServerLevel serverWorld = (ServerLevel) (Object) this;
+
+		Optional<BlockPos> optional = serverWorld.getPoiManager().findClosest((registryEntry) -> {
+			return registryEntry.is(FriendsAndFoesTags.LIGHTNING_ROD_POI);
+		}, (posx) -> {
+			return posx.getY() == this.getHeight(Heightmap.Types.WORLD_SURFACE, posx.getX(), posx.getZ()) - 1;
+		}, pos, 128, PoiManager.Occupancy.ANY);
+
+		return optional.map((posx) -> posx.above(1));
 	}
+	*///?}
 }

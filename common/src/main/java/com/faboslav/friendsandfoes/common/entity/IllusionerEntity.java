@@ -41,14 +41,18 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-//? >=1.21.6 {
+//? if >= 1.21.9 {
+import net.minecraft.world.entity.decoration.Mannequin;
+//?}
+
+//? if >=1.21.6 {
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 //?} else {
 /*import net.minecraft.nbt.CompoundTag;
  *///?}
 
-//? >=1.21.4 {
+//? if >=1.21.4 {
 import net.minecraft.world.entity.monster.creaking.Creaking;
 //?}
 
@@ -84,7 +88,7 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 		super.registerGoals();
 		this.goalSelector.addGoal(0, new FloatGoal(this));
 		this.goalSelector.addGoal(1, new SpellcasterIllager.SpellcasterCastingSpellGoal());
-		//? >=1.21.4 {
+		//? if >=1.21.4 {
 		this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, Creaking.class, 8.0F, 1.0F, 1.2));
 		//?}
 		this.goalSelector.addGoal(5, new IllusionerBlindnessSpellGoal());
@@ -93,19 +97,24 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 		this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 3.0F, 1.0F));
 		this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, Mob.class, 8.0F));
 		this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, Raider.class)).setAlertOthers());
-		this.targetSelector.addGoal(2, (new NearestAttackableTargetGoal<>(this, PlayerIllusionEntity.class, true)).setUnseenMemoryTicks(300));
+		//? if >= 1.21.9 {
+		this.targetSelector.addGoal(2, (new NearestAttackableTargetGoal<>(this, Mannequin.class, true)).setUnseenMemoryTicks(300));
+		//?} else {
+		/*this.targetSelector.addGoal(2, (new NearestAttackableTargetGoal<>(this, PlayerIllusionEntity.class, true)).setUnseenMemoryTicks(300));
+		*///?}
 		this.targetSelector.addGoal(3, (new NearestAttackableTargetGoal<>(this, Player.class, true)).setUnseenMemoryTicks(300));
 		this.targetSelector.addGoal(4, (new NearestAttackableTargetGoal<>(this, AbstractVillager.class, false)).setUnseenMemoryTicks(300));
 		this.targetSelector.addGoal(4, (new NearestAttackableTargetGoal<>(this, IronGolem.class, false)).setUnseenMemoryTicks(300));
 	}
 
 	@Override
-	//? >= 1.21.6 {
+	//? if >= 1.21.6 {
 	public void addAdditionalSaveData(ValueOutput nbt)
 	//?} else {
 	/*public void addAdditionalSaveData(CompoundTag nbt)
 	*///?}
 	{
+		super.addAdditionalSaveData(nbt);
 		nbt.putBoolean(IS_ILLUSION_NBT_NAME, this.isIllusion());
 		nbt.putBoolean(WAS_ATTACKED_NBT_NAME, this.wasAttacked());
 		nbt.putInt(TICKS_UNTIL_DESPAWN_NBT_NAME, this.getTicksUntilDespawn());
@@ -113,12 +122,13 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 	}
 
 	@Override
-	//? >= 1.21.6 {
+	//? if >= 1.21.6 {
 	public void readAdditionalSaveData(ValueInput nbt)
 	//?} else {
 	/*public void readAdditionalSaveData(CompoundTag nbt)
 	*///?}
 	{
+		super.readAdditionalSaveData(nbt);
 		this.setIsIllusion(VersionedNbt.getBoolean(nbt, IS_ILLUSION_NBT_NAME, false));
 		this.setWasAttacked(VersionedNbt.getBoolean(nbt, WAS_ATTACKED_NBT_NAME, false));
 		this.setTicksUntilDespawn(VersionedNbt.getInt(nbt, TICKS_UNTIL_DESPAWN_NBT_NAME, 0));
@@ -126,14 +136,14 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 	}
 
 	public static AttributeSupplier.Builder createAttributes() {
-		return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.5F).add(Attributes.FOLLOW_RANGE, 18.0F).add(Attributes.MAX_HEALTH, 32.0F);
+		return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.5F).add(Attributes.FOLLOW_RANGE, 18.0F).add(Attributes.MAX_HEALTH, 24.0F);
 	}
 
 	@Override
 	public SpawnGroupData finalizeSpawn(
 		ServerLevelAccessor level,
 		DifficultyInstance difficulty,
-		/*? >=1.21.3 {*/
+		/*? if >=1.21.3 {*/
 		EntitySpawnReason spawnReason,
 		/*?} else {*/
 		/*MobSpawnType spawnReason,
@@ -142,6 +152,15 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 	) {
 		this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
 		return super.finalizeSpawn(level, difficulty, spawnReason, entityData);
+	}
+
+	@Override
+	public void tick() {
+		if (!FriendsAndFoes.getConfig().enableIllusioner) {
+			this.discard();
+		}
+
+		super.tick();
 	}
 
 	@Override
@@ -191,7 +210,7 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 	}
 
 	@Override
-	/*? >=1.21.3 {*/
+	/*? if >=1.21.3 {*/
 	public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
 	/*?} else {*/
 	/*public boolean hurt(DamageSource damageSource, float amount)
@@ -240,7 +259,7 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 			}
 		}
 
-		/*? >=1.21.3 {*/
+		/*? if >=1.21.3 {*/
 		return super.hurtServer(level, damageSource, amount);
 		/*?} else {*/
 		/*return super.hurt(damageSource, amount);
@@ -286,7 +305,7 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 		double g = Math.sqrt(d * d + f * f);
 		Level var15 = this.level();
 
-		//? >= 1.21.4 {
+		//? if >= 1.21.4 {
 		if (var15 instanceof ServerLevel serverLevel) {
 			Projectile.spawnProjectileUsingShoot(abstractArrow, serverLevel, itemStack2, d, e + g * (double)0.2F, f, 1.6F, (float)(14 - serverLevel.getDifficulty().getId() * 4));
 		}
@@ -345,7 +364,7 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 
 	private void createIllusion(int x, int y, int z) {
 		IllusionerEntity illusioner = this;
-		IllusionerEntity illusion = FriendsAndFoesEntityTypes.ILLUSIONER.get().create(this.level()/*? >=1.21.3 {*/, EntitySpawnReason.MOB_SUMMONED/*?}*/);
+		IllusionerEntity illusion = FriendsAndFoesEntityTypes.ILLUSIONER.get().create(this.level()/*? if >=1.21.3 {*/, EntitySpawnReason.MOB_SUMMONED/*?}*/);
 
 		illusion.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
 		illusion.setIsIllusion(true);
@@ -364,7 +383,7 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 
 	public boolean tryToTeleport(int x, int y, int z) {
 		y -= 8;
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		int worldBottomY = this.level().getMinY();
 		//?} else {
 		/*int worldBottomY = this.level().getMinBuildHeight();

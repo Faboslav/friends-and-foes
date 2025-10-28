@@ -40,4 +40,4 @@ done
 
 matrix_content="${matrix_content%,}]}"
 echo "Generated matrix: $matrix_content"
-echo "::set-output name=matrix::$matrix_content"
+echo "matrix=$matrix_content" >> $GITHUB_OUTPUT

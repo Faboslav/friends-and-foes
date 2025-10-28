@@ -3,12 +3,13 @@
 	"category": "misc",
 	"group": "yellow_dye",
 	"ingredients": [
-		//? >=1.21.4 {
+		//? if >=1.21.4 {
 		"friendsandfoes:buttercup"
 		//?} else {
 		/*{
 			"item": "friendsandfoes:buttercup"
 		}
+		
 		*///?}
 	],
 	"result": {

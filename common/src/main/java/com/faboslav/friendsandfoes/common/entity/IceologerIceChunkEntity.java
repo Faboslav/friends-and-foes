@@ -23,7 +23,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 
-//? >=1.21.6 {
+//? if >=1.21.6 {
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 //?} else {
@@ -94,7 +94,7 @@ public final class IceologerIceChunkEntity extends Entity
 	}
 
 	@Override
-	//? >= 1.21.6 {
+	//? if >= 1.21.6 {
 	public void addAdditionalSaveData(ValueOutput saveData)
 	//?} else {
 	/*public void addAdditionalSaveData(CompoundTag saveData)
@@ -112,7 +112,7 @@ public final class IceologerIceChunkEntity extends Entity
 	}
 
 	@Override
-	//? >= 1.21.6 {
+	//? if >= 1.21.6 {
 	public void readAdditionalSaveData(ValueInput saveData)
 	//?} else {
 	/*public void readAdditionalSaveData(CompoundTag saveData)
@@ -131,7 +131,18 @@ public final class IceologerIceChunkEntity extends Entity
 
 	//? if >=1.21.6 {
 	public void setOwner(@Nullable LivingEntity livingEntity) {
-		this.owner = livingEntity != null ? new EntityReference(livingEntity) : null;
+		if (livingEntity != null) {
+			EntityReference<LivingEntity> owner;
+			//? if >= 1.21.9 {
+			owner = EntityReference.of(livingEntity);
+			//?} else {
+			/*owner = new EntityReference(livingEntity);
+			 *///?}
+
+			this.owner = owner;
+		} else {
+			this.owner = null;
+		}
 	}
 
 	@Nullable
@@ -140,7 +151,19 @@ public final class IceologerIceChunkEntity extends Entity
 	}
 
 	public void setTarget(@Nullable LivingEntity livingEntity) {
-		this.target = livingEntity != null ? new EntityReference(livingEntity) : null;
+		if (livingEntity != null) {
+			EntityReference<LivingEntity> target;
+
+			//? if >= 1.21.9 {
+			target = EntityReference.of(livingEntity);
+			//?} else {
+			/*target = new EntityReference(livingEntity);
+			 *///?}
+
+			this.target = target;
+		} else {
+			this.target = null;
+		}
 	}
 
 	@Nullable
@@ -234,7 +257,7 @@ public final class IceologerIceChunkEntity extends Entity
 	}
 
 	@Override
-	/*? >=1.21.3 {*/
+	/*? if >=1.21.3 {*/
 	public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
 	/*?} else {*/
 	/*public boolean hurt(DamageSource damageSource, float amount)

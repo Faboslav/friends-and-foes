@@ -8,11 +8,8 @@ import com.faboslav.friendsandfoes.common.entity.ai.brain.CrabBrain;
 import com.faboslav.friendsandfoes.common.entity.ai.control.WallClimbNavigation;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
-import com.faboslav.friendsandfoes.common.entity.pose.CrabEntityPose;
-import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
-import com.faboslav.friendsandfoes.common.init.FriendsAndFoesItems;
-import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
-import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
+import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
+import com.faboslav.friendsandfoes.common.init.*;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
 import com.faboslav.friendsandfoes.common.versions.VersionedGameRulesProvider;
@@ -25,7 +22,6 @@ import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.game.DebugPackets;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -59,12 +55,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Objects;
 
-//? >=1.21.6 {
+//? if >=1.21.6 {
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 //?}
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 import net.minecraft.world.entity.EntitySpawnReason;
 //?} else {
 /*import net.minecraft.world.entity.MobSpawnType;
@@ -84,18 +80,19 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 
 	private AnimationContextTracker animationContextTracker;
 	private static final EntityDataAccessor<Integer> POSE_TICKS = SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<FriendsAndFoesEntityPose> ENTITY_POSE = SynchedEntityData.defineId(CrabEntity.class, FriendsAndFoesEntityDataSerializers.ENTITY_POSE);
 	private static final EntityDataAccessor<Boolean> IS_CLIMBING_WALL = SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<String> SIZE = SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.STRING);
 	private static final EntityDataAccessor<Boolean> HAS_EGG = SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<Boolean> IS_DANCING = SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.BOOLEAN);
 
 	private int climbingTicks = 0;
-	private Home home;
+	private Home home = new Home(0, 0, 0);
 
 	public CrabEntity(EntityType<? extends CrabEntity> entityType, Level world) {
 		super(entityType, world);
 
-		this.setPose(CrabEntityPose.IDLE);
+		this.setEntityPose(FriendsAndFoesEntityPose.IDLE);
 		this.setPathfindingMalus(PathType.WATER, 0.0F);
 		this.setPathfindingMalus(PathType.DOOR_IRON_CLOSED, -1.0F);
 		this.setPathfindingMalus(PathType.DOOR_WOOD_CLOSED, -1.0F);
@@ -108,7 +105,7 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 	public SpawnGroupData finalizeSpawn(
 		ServerLevelAccessor world,
 		DifficultyInstance difficulty,
-		/*? >=1.21.3 {*/
+		/*? if >=1.21.3 {*/
 		EntitySpawnReason spawnReason,
 		/*?} else {*/
 		/*MobSpawnType spawnReason,
@@ -119,7 +116,7 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 
 		this.setHome(this.getNewHome());
 		this.setSize(CrabSize.getRandomCrabSize(world.getRandom()));
-		this.setPose(CrabEntityPose.IDLE);
+		this.setEntityPose(FriendsAndFoesEntityPose.IDLE);
 		CrabBrain.setWaveCooldown(this);
 
 		return superEntityData;
@@ -189,6 +186,7 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 		super.defineSynchedData(builder);
 
 		builder.define(POSE_TICKS, 0);
+		builder.define(ENTITY_POSE, FriendsAndFoesEntityPose.IDLE);
 		builder.define(IS_CLIMBING_WALL, false);
 		builder.define(SIZE, CrabSize.getDefaultCrabSize().getName());
 		builder.define(HAS_EGG, false);
@@ -196,7 +194,7 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 	}
 
 	@Override
-	//? >= 1.21.6 {
+	//? if >= 1.21.6 {
 	public void addAdditionalSaveData(ValueOutput nbt)
 	//?} else {
 	/*public void addAdditionalSaveData(CompoundTag nbt)
@@ -207,7 +205,7 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 		nbt.putString(SIZE_NBT_NAME, this.getSize().getName());
 		nbt.putBoolean(HAS_EGG_NBT_NAME, this.hasEgg());
 
-		//? >= 1.21.6 {
+		//? if >= 1.21.6 {
 		nbt.store(HOME_NBT_NAME, Home.CODEC, this.home);
 		//?} else {
 		/*nbt.put(HOME_NBT_NAME, Home.toNbt(this.home));
@@ -215,7 +213,7 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 	}
 
 	@Override
-	//? >= 1.21.6 {
+	//? if >= 1.21.6 {
 	public void readAdditionalSaveData(ValueInput saveData)
 	//?} else {
 	/*public void readAdditionalSaveData(CompoundTag saveData)
@@ -226,7 +224,7 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 		this.setSize(Objects.requireNonNull(CrabSize.getCrabSizeByName(VersionedNbt.getString(saveData, SIZE_NBT_NAME, CrabSize.getDefaultCrabSize().getName()))));
 		this.setHasEgg(VersionedNbt.getBoolean(saveData, HAS_EGG_NBT_NAME, false));
 
-		//? >= 1.21.6 {
+		//? if >= 1.21.6 {
 		this.setHome(saveData.read(HOME_NBT_NAME, Home.CODEC).orElseGet(this::getNewHome));
 		//?} else {
 		/*this.setHome(Home.fromNbt(VersionedNbt.getCompound(saveData, HOME_NBT_NAME)));
@@ -244,14 +242,8 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 		return (Brain<CrabEntity>) super.getBrain();
 	}
 
-	@Override
-	protected void sendDebugPackets() {
-		super.sendDebugPackets();
-		DebugPackets.sendEntityBrain(this);
-	}
-
 	public static AttributeSupplier.Builder createCrabAttributes() {
-		//? >= 1.21.4 {
+		//? if >= 1.21.4 {
 		var attributes = Animal.createAnimalAttributes();
 		//?} else {
 		/*var attributes = Mob.createMobAttributes();
@@ -384,11 +376,11 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 	public AnimationHolder getAnimationByPose() {
 		AnimationHolder animation = null;
 
-		if (this.isInPose(CrabEntityPose.IDLE) && !this.isMoving()) {
+		if (this.isInEntityPose(FriendsAndFoesEntityPose.IDLE) && !this.isMoving()) {
 			animation = CrabAnimations.IDLE;
-		} else if (this.isInPose(CrabEntityPose.WAVE)) {
+		} else if (this.isInEntityPose(FriendsAndFoesEntityPose.WAVE)) {
 			animation = CrabAnimations.WAVE;
-		} else if (this.isInPose(CrabEntityPose.DANCE)) {
+		} else if (this.isInEntityPose(FriendsAndFoesEntityPose.DANCE)) {
 			animation = CrabAnimations.DANCE;
 		}
 
@@ -420,41 +412,41 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 	}
 
 	public void startWaveAnimation() {
-		if (this.isInPose(CrabEntityPose.WAVE)) {
+		if (this.isInEntityPose(FriendsAndFoesEntityPose.WAVE)) {
 			return;
 		}
 
-		this.setPose(CrabEntityPose.WAVE);
+		this.setEntityPose(FriendsAndFoesEntityPose.WAVE);
 	}
 
 	public void startDanceAnimation() {
-		if (this.isInPose(CrabEntityPose.DANCE)) {
+		if (this.isInEntityPose(FriendsAndFoesEntityPose.DANCE)) {
 			return;
 		}
 
-		this.setPose(CrabEntityPose.DANCE);
+		this.setEntityPose(FriendsAndFoesEntityPose.DANCE);
 	}
 
-	public void setPose(CrabEntityPose pose) {
+	public void setEntityPose(FriendsAndFoesEntityPose pose) {
 		if (this.level().isClientSide()) {
 			return;
 		}
 
-		setPose(pose.get());
+		this.entityData.set(ENTITY_POSE, pose);
 	}
 
-	public boolean hasPose(Pose pose) {
-		return this.getPose() == pose;
+	public FriendsAndFoesEntityPose getEntityPose() {
+		return this.entityData.get(ENTITY_POSE);
 	}
 
-	public boolean isInPose(CrabEntityPose pose) {
-		return this.getPose() == pose.get();
+	public boolean isInEntityPose(FriendsAndFoesEntityPose pose) {
+		return this.getEntityPose() == pose;
 	}
 
 	@Override
-	protected void customServerAiStep(/*? >=1.21.3 {*/ServerLevel level/*?}*/)
+	protected void customServerAiStep(/*? if >=1.21.3 {*/ServerLevel level/*?}*/)
 	{
-		//? <1.21.3 {
+		//? if <1.21.3 {
 		/*var level = (ServerLevel) this.level();
 		*///?}
 
@@ -471,14 +463,14 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 		CrabBrain.updateActivities(this);
 		profiler.pop();
 
-		super.customServerAiStep(/*? >=1.21.3 {*/level/*?}*/);
+		super.customServerAiStep(/*? if >=1.21.3 {*/level/*?}*/);
 	}
 
 	@Override
 	protected void ageBoundaryReached() {
 		super.ageBoundaryReached();
 
-		if (!this.isBaby() && VersionedGameRulesProvider.getGameRules(this).getBoolean(GameRules.RULE_DOMOBLOOT)/*? >=1.21.3 {*/&& this.level() instanceof ServerLevel serverLevel/*?}*/) {
+		if (!this.isBaby() && VersionedGameRulesProvider.getGameRules(this).getBoolean(GameRules.RULE_DOMOBLOOT)/*? if >=1.21.3 {*/&& this.level() instanceof ServerLevel serverLevel/*?}*/) {
 			VersionedEntity.spawnAtLocation(this, FriendsAndFoesItems.CRAB_CLAW.get().getDefaultInstance(), 1);
 		}
 	}
@@ -490,7 +482,7 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 	public static boolean canSpawn(
 		EntityType<? extends Animal> type,
 		LevelAccessor world,
-		/*? >=1.21.3 {*/
+		/*? if >=1.21.3 {*/
 		EntitySpawnReason spawnReason,
 		/*?} else {*/
 		/*MobSpawnType spawnReason,
@@ -509,7 +501,7 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 	@Override
 	@Nullable
 	public AgeableMob getBreedOffspring(ServerLevel serverWorld, AgeableMob entity) {
-		CrabEntity crab = FriendsAndFoesEntityTypes.CRAB.get().create(serverWorld/*? >=1.21.3 {*/, EntitySpawnReason.BREEDING/*?}*/);
+		CrabEntity crab = FriendsAndFoesEntityTypes.CRAB.get().create(serverWorld/*? if >=1.21.3 {*/, EntitySpawnReason.BREEDING/*?}*/);
 
 		CrabBrain.setWaveCooldown(crab);
 
@@ -703,7 +695,7 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 		public static final Codec<Home> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			Codec.DOUBLE.fieldOf(HOME_NBT_NAME_X).forGetter(Home::x),
 			Codec.DOUBLE.fieldOf(HOME_NBT_NAME_Y).forGetter(Home::y),
-			Codec.DOUBLE.fieldOf("z").forGetter(Home::z)
+			Codec.DOUBLE.fieldOf(HOME_NBT_NAME_Z).forGetter(Home::z)
 		).apply(instance, Home::new));
 
 		public static CompoundTag toNbt(Home home) {
@@ -711,7 +703,7 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 
 			tag.putDouble(HOME_NBT_NAME_X, home.x);
 			tag.putDouble(HOME_NBT_NAME_Y, home.y);
-			tag.putDouble(HOME_NBT_NAME_Y, home.z);
+			tag.putDouble(HOME_NBT_NAME_Z, home.z);
 
 			return tag;
 		}

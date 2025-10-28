@@ -123,7 +123,7 @@ public final class WildfireBarrageAttackTask extends Behavior<WildfireEntity>
 		}
 
 		if (this.canDoMeeleAttack && wildfire.distanceTo(attackTarget) < 3.0F) {
-			wildfire.doHurtTarget(/*? >=1.21.3 {*/serverLevel, /*?}*/attackTarget);
+			wildfire.doHurtTarget(/*? if >=1.21.3 {*/serverLevel, /*?}*/attackTarget);
 			this.canDoMeeleAttack = false;
 		} else {
 			this.canDoMeeleAttack = true;

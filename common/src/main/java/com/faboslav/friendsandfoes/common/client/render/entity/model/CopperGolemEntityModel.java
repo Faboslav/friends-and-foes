@@ -1,4 +1,5 @@
-package com.faboslav.friendsandfoes.common.client.render.entity.model;
+//? if <= 1.21.8 {
+/*package com.faboslav.friendsandfoes.common.client.render.entity.model;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.context.AnimationContextTracker;
@@ -7,7 +8,7 @@ import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.K
 import com.faboslav.friendsandfoes.common.entity.CopperGolemEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimationState;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
-import com.faboslav.friendsandfoes.common.entity.pose.CopperGolemEntityPose;
+import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -16,18 +17,18 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 import net.minecraft.client.model.EntityModel;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.CopperGolemRenderState;
 //?} else {
-/*import net.minecraft.client.model.HierarchicalModel;
-*///?}
+/^import net.minecraft.client.model.HierarchicalModel;
+^///?}
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 public class CopperGolemEntityModel extends EntityModel<CopperGolemRenderState>
 //?} else {
-/*public final class CopperGolemEntityModel<T extends CopperGolemEntity> extends HierarchicalModel<T>
-*///?}
+/^public final class CopperGolemEntityModel<T extends CopperGolemEntity> extends HierarchicalModel<T>
+^///?}
 {
 	private static final String MODEL_PART_BODY = "body";
 	private static final String MODEL_PART_LEFT_ARM = "leftArm";
@@ -49,7 +50,7 @@ public class CopperGolemEntityModel extends EntityModel<CopperGolemRenderState>
 	private final ModelPart rightLeg;
 
 	public CopperGolemEntityModel(ModelPart root) {
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		super(root);
 		//?}
 
@@ -87,21 +88,21 @@ public class CopperGolemEntityModel extends EntityModel<CopperGolemRenderState>
 		return LayerDefinition.create(modelData, 64, 64);
 	}
 
-	//? <1.21.3 {
-	/*@Override
+	//? if <1.21.3 {
+	/^@Override
 	public ModelPart root() {
 		return this.root;
 	}
-	*///?}
+	^///?}
 
 	@Override
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	public void setupAnim(CopperGolemRenderState renderState)
 	//?} else {
-	/*public void setupAnim(T copperGolem, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
-	*///?}
+	/^public void setupAnim(T copperGolem, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
+	^///?}
 	{
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		var copperGolem = renderState.copperGolem;
 		var limbAngle = renderState.walkAnimationPos;
 		var limbDistance = renderState.walkAnimationSpeed;
@@ -129,7 +130,7 @@ public class CopperGolemEntityModel extends EntityModel<CopperGolemRenderState>
 	}
 
 	private void updateStatueAnimations(CopperGolemEntity copperGolem) {
-		if (copperGolem.isInPose(CopperGolemEntityPose.IDLE)) {
+		if (copperGolem.isInEntityPose(FriendsAndFoesEntityPose.IDLE)) {
 			return;
 		}
 
@@ -167,3 +168,4 @@ public class CopperGolemEntityModel extends EntityModel<CopperGolemRenderState>
 		KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, animations, currentTick, animationProgress, animationSpeedModifier);
 	}
 }
+*///?}

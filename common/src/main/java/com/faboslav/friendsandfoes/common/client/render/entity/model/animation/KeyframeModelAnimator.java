@@ -10,7 +10,7 @@ import org.joml.Vector3f;
 
 import java.util.*;
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 import net.minecraft.client.model.EntityModel;
 //?} else {
 /*import net.minecraft.client.model.HierarchicalModel;
@@ -21,7 +21,7 @@ public final class KeyframeModelAnimator
 	private static final Vector3f TEMP = new Vector3f();
 
 	public static void updateKeyframeAnimations(
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		EntityModel<?> model,
 		//?} else {
 		/*HierarchicalModel<?> model,
@@ -38,7 +38,7 @@ public final class KeyframeModelAnimator
 	}
 
 	public static void updateMovementKeyframeAnimations(
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		EntityModel<?> model,
 		//?} else {
 		/*HierarchicalModel<?> model,
@@ -56,7 +56,7 @@ public final class KeyframeModelAnimator
 	}
 
 	public static void updateStaticKeyframeAnimation(
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		EntityModel<?> model,
 		//?} else {
 		/*HierarchicalModel<?> model,
@@ -82,7 +82,7 @@ public final class KeyframeModelAnimator
 	}
 
 	public static void updateKeyframeAnimation(
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		EntityModel<?> model,
 		//?} else {
 		/*HierarchicalModel<?> model,
@@ -106,7 +106,7 @@ public final class KeyframeModelAnimator
 	}
 
 	public static void updateMovementKeyframeAnimation(
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		EntityModel<?> model,
 		//?} else {
 		/*HierarchicalModel<?> model,

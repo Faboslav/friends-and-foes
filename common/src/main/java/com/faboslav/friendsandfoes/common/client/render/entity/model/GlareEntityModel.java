@@ -11,7 +11,7 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 import net.minecraft.client.model.EntityModel;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.GlareRenderState;
 import net.minecraft.client.model.geom.builders.MeshTransformer;
@@ -19,13 +19,13 @@ import net.minecraft.client.model.geom.builders.MeshTransformer;
 /*import net.minecraft.client.model.HierarchicalModel;
  *///?}
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 public class GlareEntityModel extends EntityModel<GlareRenderState>
 //?} else {
 /*public final class GlareEntityModel<T extends GlareEntity> extends HierarchicalModel<T>
 *///?}
 {
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	public static final MeshTransformer BABY_TRANSFORMER = MeshTransformer.scaling(GlareEntity.BABY_SCALE);
 	public static final MeshTransformer ADULT_TRANSFORMER = MeshTransformer.scaling(GlareEntity.ADULT_SCALE);
 	//?}
@@ -52,7 +52,7 @@ public class GlareEntityModel extends EntityModel<GlareRenderState>
 	private final ModelPart[] layers;
 
 	public GlareEntityModel(ModelPart root) {
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		super(root);
 		//?}
 
@@ -99,7 +99,7 @@ public class GlareEntityModel extends EntityModel<GlareRenderState>
 		return LayerDefinition.create(modelData, 64, 128);
 	}
 
-	//? <1.21.3 {
+	//? if <1.21.3 {
 	/*@Override
 	public ModelPart root() {
 		return this.root;
@@ -107,13 +107,13 @@ public class GlareEntityModel extends EntityModel<GlareRenderState>
 	*///?}
 
 	@Override
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	public void setupAnim(GlareRenderState renderState)
 	//?} else {
 	/*public void setupAnim(T glare, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
 	*///?}
 	{
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		var glare = renderState.glare;
 		var limbAngle = renderState.walkAnimationPos;
 		var limbDistance = renderState.walkAnimationSpeed;

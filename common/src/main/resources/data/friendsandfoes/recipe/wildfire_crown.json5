@@ -2,12 +2,13 @@
 	"type": "minecraft:crafting_shaped",
 	"category": "equipment",
 	"key": {
-		//? >=1.21.4 {
+		//? if >=1.21.4 {
 		"C": "friendsandfoes:wildfire_crown_fragment"
 		//?} else {
 		/*"C": {
 			"item": "friendsandfoes:wildfire_crown_fragment"
 		}
+		
 		
 		*///?}
 	},

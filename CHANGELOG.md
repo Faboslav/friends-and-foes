@@ -1,3 +1,50 @@
+## 4.0.15
+
+- Fixed copper golem data fixer upper
+
+## 4.0.14
+
+- Port to 1.21.9/1.21.10
+- Internal cleanup and changes
+
+## 4.0.13
+
+- Fixed illusioner/iceologer mixin crash
+- Fixed lightning rods lightning bolt attraction again (on Fabric)
+- Fixed invalid c tags
+- Fixed missing sound assets warnings
+
+## 4.0.12
+
+- Fixed raid member mixin crash
+
+## 4.0.11
+
+- Fixed persistent maulers (they should properly despawn now)
+- Fixed tuff golems having empty enchanted books in strongholds
+- Fixed illusioner not saving/loading vanilla nbt data
+- Fixed illusioner having invisible bow
+- Fixed villagers not running from illusioners
+- Fixed lightning rods lightning bolt attraction
+- Fixed all oxidation cases related to lightning bolts and lightning rods
+- Corrected multiple data tags
+
+## 4.0.10
+
+- Fixed catalogue related crash
+- Fixed config related crash
+- Nerfed iceologr and illusioner max health to 24
+
+## 4.0.9
+
+- Improved crab breeding logic
+
+## 4.0.8
+
+- Fixed es_mx translation
+- Statue poses of copper golem can now be changed by right clicking
+- Changed copper golem sounds
+
 ## 4.0.7
 
 - Player illusion can now be summoned with a command (and without any time restriction)

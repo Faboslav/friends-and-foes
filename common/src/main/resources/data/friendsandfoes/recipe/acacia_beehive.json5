@@ -7,7 +7,7 @@
 		"PPP"
 	],
 	"key": {
-		//? >=1.21.4 {
+		//? if >=1.21.4 {
 		"P": "minecraft:acacia_planks",
 		"H": "minecraft:honeycomb"
 		//?} else {
@@ -17,6 +17,7 @@
 		"H": {
 			"item": "minecraft:honeycomb"
 		}
+		
 		*///?}
 	},
 	"result": {

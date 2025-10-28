@@ -3,7 +3,7 @@ package com.faboslav.friendsandfoes.common.entity.ai.brain.task.wildfire;
 import com.faboslav.friendsandfoes.common.entity.animation.WildfireAnimations;
 import com.faboslav.friendsandfoes.common.entity.WildfireEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.WildfireBrain;
-import com.faboslav.friendsandfoes.common.entity.pose.WildfireEntityPose;
+import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.google.common.collect.ImmutableMap;
@@ -98,7 +98,7 @@ public final class WildfireShockwaveAttackTask extends Behavior<WildfireEntity>
 				}
 
 				this.spawnShockwaveParticles(wildfire);
-				wildfire.doHurtTarget(/*? >=1.21.3 {*/serverLevel, /*?}*/closeEntity);
+				wildfire.doHurtTarget(/*? if >=1.21.3 {*/serverLevel, /*?}*/closeEntity);
 			}
 		}
 
@@ -141,7 +141,7 @@ public final class WildfireShockwaveAttackTask extends Behavior<WildfireEntity>
 
 	@Override
 	protected void stop(ServerLevel world, WildfireEntity wildfire, long time) {
-		wildfire.setPose(WildfireEntityPose.IDLE);
+		wildfire.setEntityPose(FriendsAndFoesEntityPose.IDLE);
 		WildfireBrain.setShockwaveAttackCooldown(wildfire);
 	}
 }

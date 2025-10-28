@@ -1,9 +1,10 @@
-package com.faboslav.friendsandfoes.common.entity.ai.brain.task.coppergolem;
+//? if <= 1.21.8 {
+/*package com.faboslav.friendsandfoes.common.entity.ai.brain.task.coppergolem;
 
 import com.faboslav.friendsandfoes.common.entity.animation.CopperGolemAnimations;
 import com.faboslav.friendsandfoes.common.entity.CopperGolemEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.CopperGolemBrain;
-import com.faboslav.friendsandfoes.common.entity.pose.CopperGolemEntityPose;
+import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import java.util.Map;
 import net.minecraft.server.level.ServerLevel;
@@ -45,7 +46,8 @@ public final class CopperGolemSpinHeadTask extends Behavior<CopperGolemEntity>
 	}
 
 	protected void stop(ServerLevel world, CopperGolemEntity copperGolem, long time) {
-		copperGolem.setPose(CopperGolemEntityPose.IDLE);
+		copperGolem.setEntityPose(FriendsAndFoesEntityPose.IDLE);
 		CopperGolemBrain.setSpinHeadCooldown(copperGolem);
 	}
 }
+*///?}

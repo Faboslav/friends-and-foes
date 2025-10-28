@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.concurrent.CompletableFuture;
 
-//? >=1.21.4 {
+//? if >=1.21.4 {
 import net.minecraft.server.packs.resources.ResourceManager;
 //?} else {
 /*import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -43,7 +43,7 @@ public class StructureNbtUpdater implements DataProvider
 	public StructureNbtUpdater(
 		String basePath,
 		String modid,
-		//? >=1.21.4 {
+		//? if >=1.21.4 {
 		ResourceManager resourceManager,
 		//?} else {
 		/*ExistingFileHelper helper,
@@ -54,7 +54,7 @@ public class StructureNbtUpdater implements DataProvider
 		this.modid = modid;
 		this.output = output;
 
-		//? >=1.21.4 {
+		//? if >=1.21.4 {
 		this.resources = (MultiPackResourceManager) resourceManager;
 		//?} else {
 		/*try {
@@ -106,7 +106,7 @@ public class StructureNbtUpdater implements DataProvider
 			DataFixers.getDataFixer(), nbt, VersionedNbt.getInt(nbt, "DataVersion", 0)
 		);
 		StructureTemplate template = new StructureTemplate();
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		template.load(BuiltInRegistries.BLOCK, updatedNBT);
 		//?} else {
 		/*template.load(BuiltInRegistries.BLOCK.asLookup(), updatedNBT);

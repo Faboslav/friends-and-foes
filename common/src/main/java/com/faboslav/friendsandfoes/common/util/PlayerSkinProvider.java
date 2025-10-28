@@ -1,4 +1,5 @@
-package com.faboslav.friendsandfoes.common.util;
+//? if <= 1.21.8 {
+/*package com.faboslav.friendsandfoes.common.util;
 
 import com.faboslav.friendsandfoes.common.entity.PlayerIllusionEntity;
 import net.minecraft.client.Minecraft;
@@ -41,3 +42,4 @@ public final class PlayerSkinProvider
 		return playerListEntry.get(uuid);
 	}
 }
+*///?}

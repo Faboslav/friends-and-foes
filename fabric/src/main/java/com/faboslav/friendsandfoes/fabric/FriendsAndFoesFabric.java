@@ -11,7 +11,6 @@ import com.faboslav.friendsandfoes.common.world.spawner.IceologerSpawner;
 import com.faboslav.friendsandfoes.common.world.spawner.IllusionerSpawner;
 import com.faboslav.friendsandfoes.fabric.events.FabricReloadListener;
 import com.faboslav.friendsandfoes.fabric.mixin.PointOfInterestTypesAccessor;
-import com.teamresourceful.resourcefullib.common.registry.fabric.FabricRegistryEntry;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.fabricmc.api.ModInitializer;
@@ -35,6 +34,7 @@ import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.ai.village.poi.PoiTypes;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.level.block.BeehiveBlock;
+import net.minecraft.world.level.block.LightningRodBlock;
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
@@ -117,7 +117,7 @@ public final class FriendsAndFoesFabric implements ModInitializer
 
 	private static void registerVillagerTrades() {
 		var trades = VillagerTrades.TRADES;
-		//? >=1.21.5 {
+		//? if >=1.21.5 {
 		var profession = FriendsAndFoesVillagerProfessions.BEEKEEPER_KEY;
 		//?} else {
 		/*var profession = FriendsAndFoesVillagerProfessions.BEEKEEPER.get();
@@ -151,8 +151,8 @@ public final class FriendsAndFoesFabric implements ModInitializer
 
 	public static void registerPointOfInterestStates() {
 		FriendsAndFoesBlocks.BLOCKS.getEntries().forEach(block -> {
-			if(block.get() instanceof BeehiveBlock) {
-				//? >=1.21.3 {
+			if(block.get() instanceof BeehiveBlock || block.get() instanceof LightningRodBlock) {
+				//? if >=1.21.3 {
 				var poiHolder = BuiltInRegistries.POINT_OF_INTEREST_TYPE.get(block.getId());
 				//?} else {
 				/*var poiHolder = BuiltInRegistries.POINT_OF_INTEREST_TYPE.getHolder(block.getId());

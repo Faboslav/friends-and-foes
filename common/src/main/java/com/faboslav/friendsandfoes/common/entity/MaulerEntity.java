@@ -6,7 +6,8 @@ import com.faboslav.friendsandfoes.common.entity.animation.animator.context.Anim
 import com.faboslav.friendsandfoes.common.entity.ai.goal.mauler.*;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
-import com.faboslav.friendsandfoes.common.entity.pose.MaulerEntityPose;
+import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityDataSerializers;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
@@ -60,14 +61,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.UUID;
 
-//? >=1.21.6 {
+//? if >=1.21.6 {
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 //?} else {
 /*import net.minecraft.nbt.CompoundTag;
 *///?}
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 import net.minecraft.world.entity.EntitySpawnReason;
 //?} else {
 /*import net.minecraft.world.entity.MobSpawnType;
@@ -101,6 +102,7 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 	private static final EntityDataAccessor<Integer> TICKS_UNTIL_NEXT_BURROWING_DOWN;
 	private static final EntityDataAccessor<Float> BURROWING_DOWN_ANIMATION_PROGRESS;
 	private static final EntityDataAccessor<Integer> POSE_TICKS;
+	private static final EntityDataAccessor<FriendsAndFoesEntityPose> ENTITY_POSE = SynchedEntityData.defineId(MaulerEntity.class, FriendsAndFoesEntityDataSerializers.ENTITY_POSE);
 
 	@Nullable
 	private UUID angryAt;
@@ -152,7 +154,7 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 	public AnimationHolder getAnimationByPose() {
 		AnimationHolder animation = null;
 
-		if (this.isInPose(MaulerEntityPose.IDLE) && !this.walkAnimation.isMoving()) {
+		if (this.isInEntityPose(FriendsAndFoesEntityPose.IDLE) && !this.walkAnimation.isMoving()) {
 			animation = MaulerAnimations.IDLE;
 		}
 
@@ -186,10 +188,11 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 		builder.define(TICKS_UNTIL_NEXT_BURROWING_DOWN, this.getRandom().nextIntBetweenInclusive(MIN_TICKS_UNTIL_NEXT_BURROWING, MAX_TICKS_UNTIL_NEXT_BURROWING));
 		builder.define(BURROWING_DOWN_ANIMATION_PROGRESS, 0.0F);
 		builder.define(POSE_TICKS, 0);
+		builder.define(ENTITY_POSE, FriendsAndFoesEntityPose.IDLE);
 	}
 
 	@Override
-	//? >= 1.21.6 {
+	//? if >= 1.21.6 {
 	public void addAdditionalSaveData(ValueOutput nbt)
 	//?} else {
 	/*public void addAdditionalSaveData(CompoundTag nbt)
@@ -209,7 +212,7 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 	}
 
 	@Override
-	//? >= 1.21.6 {
+	//? if >= 1.21.6 {
 	public void readAdditionalSaveData(ValueInput nbt)
 	//?} else {
 	/*public void readAdditionalSaveData(CompoundTag nbt)
@@ -239,7 +242,7 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 	public SpawnGroupData finalizeSpawn(
 		ServerLevelAccessor world,
 		DifficultyInstance difficulty,
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		EntitySpawnReason spawnReason,
 		//?} else {
 		/*MobSpawnType spawnReason,
@@ -249,8 +252,7 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 		ResourceKey<Biome> biomeKey = world.getBiome(this.blockPosition()).unwrapKey().orElse(Biomes.SAVANNA);
 		Type type = Type.getTypeByBiome(biomeKey);
 
-		this.setPose(MaulerEntityPose.IDLE);
-		this.setPersistenceRequired();
+		this.setEntityPose(FriendsAndFoesEntityPose.IDLE);
 		this.setType(type);
 		this.setSize();
 
@@ -265,7 +267,7 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 	public static boolean canSpawn(
 		EntityType<MaulerEntity> maulerEntityType,
 		ServerLevelAccessor serverWorldAccess,
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		EntitySpawnReason spawnReason,
 		//?} else {
 		/*MobSpawnType spawnReason,
@@ -286,7 +288,7 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 		this.burrowDownGoal = new MaulerBurrowDownGoal(this);
 		this.goalSelector.addGoal(6, this.burrowDownGoal);
 		this.targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setAlertOthers());
-		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, PathfinderMob.class, 10, true, true, (livingEntity/*? >=1.21.3 {*/, serverLevel/*?}*/) -> {
+		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, PathfinderMob.class, 10, true, true, (livingEntity/*? if >=1.21.3 {*/, serverLevel/*?}*/) -> {
 			if (
 				livingEntity instanceof Slime slimeEntity && slimeEntity.getSize() != Slime.MIN_SIZE
 				|| livingEntity instanceof Zombie zombie && !zombie.isBaby()
@@ -337,7 +339,7 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 	}
 
 	@Override
-	/*? >=1.21.3 {*/
+	/*? if >=1.21.3 {*/
 	public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
 	/*?} else {*/
 	/*public boolean hurt(DamageSource damageSource, float amount)
@@ -347,7 +349,7 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 			this.burrowDownGoal.stop();
 		}
 
-		/*? >=1.21.3 {*/
+		/*? if >=1.21.3 {*/
 		return super.hurtServer(level, damageSource, amount);
 		/*?} else {*/
 		/*return super.hurt(damageSource, amount);
@@ -397,6 +399,8 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 		}
 
 		if (this.level() instanceof ServerLevel serverLevel) {
+			this.setPersistenceRequired();
+
 			int experiencePoints = this.getExperiencePoints(itemStack);
 			int recalculatedExperiencePoints = storedExperiencePoints + experiencePoints;
 
@@ -441,6 +445,8 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 		}
 
 		if (this.level() instanceof ServerLevel serverLevel) {
+			this.setPersistenceRequired();
+
 			int glassBottlesCount = itemStack.getCount();
 			int experienceBottleCount = storedExperiencePoints / 7;
 
@@ -485,25 +491,21 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 		super.doPush(entity);
 	}
 
-	@Override
-	public void setPose(Pose pose) {
+	public void setEntityPose(FriendsAndFoesEntityPose pose) {
 		if (this.level().isClientSide()) {
 			return;
 		}
 
-		super.setPose(pose);
+		this.entityData.set(ENTITY_POSE, pose);
 	}
 
-	public void setPose(MaulerEntityPose pose) {
-		if (this.level().isClientSide()) {
-			return;
-		}
-
-		super.setPose(pose.get());
+	public FriendsAndFoesEntityPose getEntityPose() {
+		return this.entityData.get(ENTITY_POSE);
 	}
 
-	public boolean isInPose(MaulerEntityPose pose) {
-		return this.getPose() == pose.get();
+
+	public boolean isInEntityPose(FriendsAndFoesEntityPose pose) {
+		return this.getEntityPose() == pose;
 	}
 
 	@Override
@@ -546,7 +548,7 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 	}
 
 	@Override
-	public boolean doHurtTarget(/*? >=1.21.3 {*/ServerLevel level,/*?}*/Entity target) {
+	public boolean doHurtTarget(/*? if >=1.21.3 {*/ServerLevel level,/*?}*/Entity target) {
 		if (this.isBurrowedDown()) {
 			return false;
 		}

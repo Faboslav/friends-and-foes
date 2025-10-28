@@ -10,14 +10,14 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 import net.minecraft.client.model.EntityModel;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.RascalRenderState;
 //?} else {
 /*import net.minecraft.client.model.HierarchicalModel;
  *///?}
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 public final class RascalEntityModel extends EntityModel<RascalRenderState>
 //?} else {
 /*public final class RascalEntityModel<T extends RascalEntity> extends HierarchicalModel<T>
@@ -41,7 +41,7 @@ public final class RascalEntityModel extends EntityModel<RascalRenderState>
 	private final ModelPart rightLeg;
 
 	public RascalEntityModel(ModelPart root) {
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		super(root);
 		//?}
 
@@ -73,7 +73,7 @@ public final class RascalEntityModel extends EntityModel<RascalRenderState>
 		return LayerDefinition.create(modelData, 64, 64);
 	}
 
-	//? <1.21.3 {
+	//? if <1.21.3 {
 	/*@Override
 	public ModelPart root() {
 		return this.root;
@@ -81,13 +81,13 @@ public final class RascalEntityModel extends EntityModel<RascalRenderState>
 	*///?}
 
 	@Override
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	public void setupAnim(RascalRenderState renderState)
 	//?} else {
 	/*public void setupAnim(T rascal, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
 	*///?}
 	{
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		var rascal = renderState.rascal;
 		var limbAngle = renderState.walkAnimationPos;
 		var limbDistance = renderState.walkAnimationSpeed;

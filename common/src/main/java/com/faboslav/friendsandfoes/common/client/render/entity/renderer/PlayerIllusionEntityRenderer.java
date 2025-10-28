@@ -1,4 +1,5 @@
-package com.faboslav.friendsandfoes.common.client.render.entity.renderer;
+//? if <= 1.21.8 {
+/*package com.faboslav.friendsandfoes.common.client.render.entity.renderer;
 
 import com.faboslav.friendsandfoes.common.client.render.entity.feature.PlayerIllusionCapeLayer;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.PlayerIllusionEntityModel;
@@ -23,7 +24,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.UUID;
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 import net.minecraft.client.renderer.entity.state.PlayerRenderState;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.PlayerIllusionRenderState;
 import net.minecraft.world.InteractionHand;
@@ -38,14 +39,14 @@ import net.minecraft.world.scores.Scoreboard;
 //?}
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-//? >=1.21.3 {
+//? if >=1.21.3 {
 public final class PlayerIllusionEntityRenderer extends LivingEntityRenderer<PlayerIllusionEntity, PlayerRenderState, PlayerIllusionEntityModel>
 //?} else {
-/*public final class PlayerIllusionEntityRenderer extends LivingEntityRenderer<PlayerIllusionEntity, PlayerIllusionEntityModel<PlayerIllusionEntity>>
-*///?}
+/^public final class PlayerIllusionEntityRenderer extends LivingEntityRenderer<PlayerIllusionEntity, PlayerIllusionEntityModel<PlayerIllusionEntity>>
+^///?}
 {
 	public PlayerIllusionEntityRenderer(EntityRendererProvider.Context context, boolean useSlimModel) {
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		super(context, new PlayerIllusionEntityModel(context.bakeLayer(useSlimModel ? ModelLayers.PLAYER_SLIM:ModelLayers.PLAYER), useSlimModel), 0.5F);
 		this.addLayer(
 			new HumanoidArmorLayer(
@@ -62,7 +63,7 @@ public final class PlayerIllusionEntityRenderer extends LivingEntityRenderer<Pla
 		this.addLayer(new WingsLayer(this, context.getModelSet(), context.getEquipmentRenderer()));
 		this.addLayer(new BeeStingerLayer(this, context));
 		//?} else {
-		/*super(context, new PlayerIllusionEntityModel<>(context.bakeLayer(useSlimModel ? ModelLayers.PLAYER_SLIM:ModelLayers.PLAYER), useSlimModel), 0.5F);
+		/^super(context, new PlayerIllusionEntityModel<>(context.bakeLayer(useSlimModel ? ModelLayers.PLAYER_SLIM:ModelLayers.PLAYER), useSlimModel), 0.5F);
 
 		this.addLayer(new HumanoidArmorLayer(this, new HumanoidArmorModel(context.bakeLayer(useSlimModel ? ModelLayers.PLAYER_SLIM_INNER_ARMOR : ModelLayers.PLAYER_INNER_ARMOR)), new HumanoidArmorModel(context.bakeLayer(useSlimModel ? ModelLayers.PLAYER_SLIM_OUTER_ARMOR : ModelLayers.PLAYER_OUTER_ARMOR)), context.getModelManager()));
 		this.addLayer(new PlayerItemInHandLayer(this, context.getItemInHandRenderer()));
@@ -71,10 +72,10 @@ public final class PlayerIllusionEntityRenderer extends LivingEntityRenderer<Pla
 		this.addLayer(new CustomHeadLayer(this, context.getModelSet(), context.getItemInHandRenderer()));
 		this.addLayer(new ElytraLayer(this, context.getModelSet()));
 		this.addLayer(new BeeStingerLayer(this));
-		*///?}
+		^///?}
 	}
 
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	@Override
 	protected void scale(PlayerRenderState renderState, PoseStack poseStack) {
 		float scale = 0.9375F;
@@ -166,25 +167,26 @@ public final class PlayerIllusionEntityRenderer extends LivingEntityRenderer<Pla
 	//?}
 
 	@Override
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	protected void renderNameTag(PlayerRenderState renderState, Component displayName, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight)
 	//?} else {
-	/*protected void renderNameTag(PlayerIllusionEntity entity, Component displayName, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, float partialTick)
-	*///?}
+	/^protected void renderNameTag(PlayerIllusionEntity entity, Component displayName, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, float partialTick)
+	^///?}
 	{
 	}
 
 	@Override
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	public ResourceLocation getTextureLocation(PlayerRenderState playerIllusionRenderState)
 	//?} else {
-	/*public ResourceLocation getTextureLocation(PlayerIllusionEntity playerIllusion)
-	*///?}
+	/^public ResourceLocation getTextureLocation(PlayerIllusionEntity playerIllusion)
+	^///?}
 	{
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		return playerIllusionRenderState.skin.texture();
 		//?} else {
-		/*return PlayerSkinProvider.getSkinTextures(playerIllusion).texture();
-		*///?}
+		/^return PlayerSkinProvider.getSkinTextures(playerIllusion).texture();
+		^///?}
 	}
 }
+*///?}

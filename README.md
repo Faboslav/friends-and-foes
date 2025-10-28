@@ -1,13 +1,10 @@
 <p align="center">
-    <img src="https://github.com/Faboslav/friends-and-foes/blob/master/.github/assets/logo/logo.jpg?raw=true" title="Friends&Foes" alt="Friends&Foes">
+    <img src="https://github.com/Faboslav/friends-and-foes/blob/master/.github/assets/media/images/logo.png?raw=true" title="Friends&Foes" alt="Friends&Foes">
 </p>
 
 ---
 
-Friends&Foes adds all eliminated mobs from the minecraft mob votes along with the forgotten mobs like the Illusioner. One of the main goals is to also further expand upon original concepts and add new vanilla like features related to all the mobs.
-
-You can check [wiki] for a detailed overview of implemented features. Also feel free to [report crash/bug, share your ideas or give some feedback].
-
+Friends&amp;Foes adds outvoted and forgotten mobs from the mob vote. One of the main goals is to further expand upon original concepts and add new vanilla-like features related to all the mobs.
 ## Important links
 
 - [CurseForge (Fabric)]
@@ -66,3 +63,5 @@ This mod would not exist in the state as it is without the following people:
 [LlamaLad7]: https://gist.github.com/LlamaLad7
 
 [Furti Two]: https://www.curseforge.com/members/furti_two/projects
+
+[TelepathicGrunt]: https://github.com/TelepathicGrunt

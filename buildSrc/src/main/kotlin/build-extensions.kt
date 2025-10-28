@@ -1,17 +1,11 @@
 import dev.kikugie.stonecutter.build.StonecutterBuildExtension
 import dev.kikugie.stonecutter.controller.StonecutterControllerExtension
 import org.gradle.api.Project
-import org.gradle.api.artifacts.dsl.RepositoryHandler
 import org.gradle.kotlin.dsl.*
 
 val Project.mod: ModData get() = ModData(this)
 fun Project.prop(key: String): String? = findProperty(key)?.toString()
-fun String.upperCaseFirst() = replaceFirstChar { if (it.isLowerCase()) it.uppercaseChar() else it }
 
-fun RepositoryHandler.strictMaven(url: String, alias: String, vararg groups: String) = exclusiveContent {
-	forRepository { maven(url) { name = alias } }
-	filter { groups.forEach(::includeGroup) }
-}
 
 val Project.stonecutterBuild get() = extensions.getByType<StonecutterBuildExtension>()
 val Project.stonecutterController get() = extensions.getByType<StonecutterControllerExtension>()
@@ -33,6 +27,8 @@ value class ModData(private val project: Project) {
 	val author: String get() = modProp("author")
 	val description: String get() = modProp("description")
 	val license: String get() = modProp("license")
+	val github: String get() = modProp("github")
+	val discord: String get() = modProp("discord")
 	val mc: String get() = depOrNull("minecraft") ?: project.stonecutterBuild.current.version
 
 	fun propOrNull(key: String) = project.prop(key)

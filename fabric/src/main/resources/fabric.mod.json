@@ -8,11 +8,11 @@
 		"${modAuthor}"
 	],
 	"contact": {
-		"homepage": "https://github.com/Faboslav/friends-and-foes",
-		"sources": "https://github.com/Faboslav/friends-and-foes",
-		"issues": "https://github.com/Faboslav/friends-and-foes/issues",
-		"wiki": "https://github.com/Faboslav/friends-and-foes/wiki",
-		"discord": "https://discord.gg/faboland"
+		"homepage": "${modGitHub}",
+		"sources": "${modGitHub}",
+		"issues": "${modGitHub}/issues",
+		"wiki": "${modGitHub}/wiki",
+		"discord": "${modDiscord}"
 	},
 	"license": "${modLicense}",
 	"icon": "icon.png",
@@ -37,17 +37,17 @@
 	],
 	"accessWidener": "${modId}.accesswidener",
 	"depends": {
-		"minecraft": ">=${minMinecraftVersion}-",
+		"minecraft": ">=${minMinecraftVersion}",
 		"fabricloader": "*",
 		"fabric": "*",
-		"yet_another_config_lib_v3": ">=${yaclVersion}-",
-		"resourcefullib": ">=${resourcefulLibLibVersion}-"
+		"yet_another_config_lib_v3": ">=${yaclVersion}",
+		"resourcefullib": ">=${resourcefulLibLibVersion}"
 	},
 	"custom": {
 		"modmenu": {
 			"links": {
-				"Discord": "https://discord.com/invite/QGwFvvMQCn",
-				"Wiki": "https://github.com/Faboslav/friends-and-foes/wiki",
+				"Discord": "${modDiscord}",
+				"Wiki": "${modGitHub}/wiki",
 				"CurseForge": "https://www.curseforge.com/minecraft/mc-mods/friends-and-foes",
 				"Modrinth": "https://modrinth.com/mod/friends-and-foes"
 			}

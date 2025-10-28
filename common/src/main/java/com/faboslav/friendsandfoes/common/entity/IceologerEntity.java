@@ -57,7 +57,7 @@ public final class IceologerEntity extends SpellcasterIllager
 	}
 
 	public static Builder createIceologerAttributes() {
-		return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.5D).add(Attributes.FOLLOW_RANGE, 18.0D).add(Attributes.MAX_HEALTH, 40.0D);
+		return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.5D).add(Attributes.FOLLOW_RANGE, 18.0D).add(Attributes.MAX_HEALTH, 24.0D);
 	}
 
 	public SoundEvent getCelebrateSound() {

@@ -2,51 +2,53 @@ package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.google.common.collect.ImmutableMap;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.sensing.VillagerHostilesSensor;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(VillagerHostilesSensor.class)
 public final class VillagerHostilesSensorMixin
 {
-	private static final ImmutableMap<EntityType<?>, Float> CUSTOM_SQUARED_DISTANCES_FOR_DANGER;
+	@Unique
+	private static final ImmutableMap<EntityType<?>, Float> FRIENDSANDFOES_SQUARED_DISTANCES_FOR_DANGER = ImmutableMap.<EntityType<?>, Float>builder().put(FriendsAndFoesEntityTypes.ILLUSIONER.get(), 12.0F).put(FriendsAndFoesEntityTypes.ICEOLOGER.get(), 12.0F).build();
 
-	static {
-		CUSTOM_SQUARED_DISTANCES_FOR_DANGER = ImmutableMap.<EntityType<?>, Float>builder().put(FriendsAndFoesEntityTypes.ICEOLOGER.get(), 12.0F).build();
-	}
-
-	@Inject(
-		at = @At("HEAD"),
-		method = "isClose",
-		cancellable = true
+	@WrapMethod(
+		method = "isClose"
 	)
-	private void friendsandfoes_isCloseEnoughForDanger(
-		LivingEntity villager,
+	private boolean friendsandfoes$isCloseEnoughForDanger(
+		LivingEntity attacker,
 		LivingEntity target,
-		CallbackInfoReturnable<Boolean> cir
+		Operation<Boolean> original
 	) {
-		if (CUSTOM_SQUARED_DISTANCES_FOR_DANGER.containsKey(target.getType())) {
-			float distance = CUSTOM_SQUARED_DISTANCES_FOR_DANGER.get(target.getType());
-			boolean isCloseEnoughForDanger = target.distanceToSqr(villager) <= (double) (distance * distance);
-			cir.setReturnValue(isCloseEnoughForDanger);
+		var entityType = target.getType();
+
+		if (FRIENDSANDFOES_SQUARED_DISTANCES_FOR_DANGER.containsKey(entityType)) {
+			var distance = FRIENDSANDFOES_SQUARED_DISTANCES_FOR_DANGER.get(entityType);
+
+			if(distance == null) {
+				return false;
+			}
+
+			return target.distanceToSqr(attacker) <= (double) (distance * distance);
 		}
+
+		return original.call(attacker, target);
 	}
 
-	@Inject(
-		at = @At("HEAD"),
-		method = "isHostile",
-		cancellable = true
+	@WrapMethod(
+		method = "isHostile"
 	)
-	private void friendsandfoes_isHostile(
-		LivingEntity entity,
-		CallbackInfoReturnable<Boolean> cir
+	private boolean friendsandfoes$isHostile(
+		LivingEntity entity, Operation<Boolean> original
 	) {
-		if (CUSTOM_SQUARED_DISTANCES_FOR_DANGER.containsKey(entity.getType())) {
-			cir.setReturnValue(true);
+		if(original.call(entity)) {
+			return true;
 		}
+
+		return FRIENDSANDFOES_SQUARED_DISTANCES_FOR_DANGER.containsKey(entity.getType());
 	}
 }

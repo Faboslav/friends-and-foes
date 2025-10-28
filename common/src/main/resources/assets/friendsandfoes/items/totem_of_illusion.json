@@ -1,6 +1,6 @@
 {
-  "model": {
-    "type": "minecraft:model",
-    "model": "friendsandfoes:item/totem_of_illusion"
-  }
+	"model": {
+		"type": "minecraft:model",
+		"model": "friendsandfoes:item/totem_of_illusion"
+	}
 }

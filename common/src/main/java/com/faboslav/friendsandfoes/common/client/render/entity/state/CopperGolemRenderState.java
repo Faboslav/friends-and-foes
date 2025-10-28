@@ -1,5 +1,5 @@
-//? >=1.21.3 {
-package com.faboslav.friendsandfoes.common.client.render.entity.state;
+//? if >=1.21.3 && <= 1.21.8 {
+/*package com.faboslav.friendsandfoes.common.client.render.entity.state;
 
 import com.faboslav.friendsandfoes.common.entity.CopperGolemEntity;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
@@ -11,4 +11,4 @@ public final class CopperGolemRenderState extends LivingEntityRenderState
 	public CopperGolemRenderState() {
 	}
 }
-//?}
+*///?}

@@ -42,15 +42,15 @@ public class FriendsAndFoesItemGroups
 	public static void addItemGroupEntries(AddItemGroupEntriesEvent event) {
 		if (event.type() == AddItemGroupEntriesEvent.Type.SPAWN_EGGS) {
 			Stream.of(
-				FriendsAndFoesItems.BARNACLE_SPAWN_EGG,
-				FriendsAndFoesItems.COPPER_GOLEM_SPAWN_EGG,
+				//? if <= 1.21.8 {
+				/*FriendsAndFoesItems.COPPER_GOLEM_SPAWN_EGG,
+				*///?}
 				FriendsAndFoesItems.CRAB_SPAWN_EGG,
 				FriendsAndFoesItems.GLARE_SPAWN_EGG,
 				FriendsAndFoesItems.ICEOLOGER_SPAWN_EGG,
 				FriendsAndFoesItems.ILLUSIONER_SPAWN_EGG,
 				FriendsAndFoesItems.MAULER_SPAWN_EGG,
 				FriendsAndFoesItems.MOOBLOOM_SPAWN_EGG,
-				FriendsAndFoesItems.PENGUIN_SPAWN_EGG,
 				FriendsAndFoesItems.TUFF_GOLEM_SPAWN_EGG,
 				FriendsAndFoesItems.RASCAL_SPAWN_EGG,
 				FriendsAndFoesItems.WILDFIRE_SPAWN_EGG
@@ -71,7 +71,7 @@ public class FriendsAndFoesItemGroups
 				FriendsAndFoesItems.JUNGLE_BEEHIVE,
 				FriendsAndFoesItems.MANGROVE_BEEHIVE,
 				FriendsAndFoesItems.SPRUCE_BEEHIVE,
-				//? >=1.21.4 {
+				//? if >=1.21.4 {
 				FriendsAndFoesItems.PALE_OAK_BEEHIVE,
 				//?}
 				FriendsAndFoesItems.WARPED_BEEHIVE
@@ -85,20 +85,21 @@ public class FriendsAndFoesItemGroups
 				FriendsAndFoesItems.WAXED_COPPER_BUTTON,
 				FriendsAndFoesItems.WAXED_EXPOSED_COPPER_BUTTON,
 				FriendsAndFoesItems.WAXED_WEATHERED_COPPER_BUTTON,
-				FriendsAndFoesItems.WAXED_OXIDIZED_COPPER_BUTTON,
-				FriendsAndFoesItems.EXPOSED_LIGHTNING_ROD,
+				FriendsAndFoesItems.WAXED_OXIDIZED_COPPER_BUTTON
+				//? if <=1.21.8 {
+				/*,FriendsAndFoesItems.EXPOSED_LIGHTNING_ROD,
 				FriendsAndFoesItems.WEATHERED_LIGHTNING_ROD,
 				FriendsAndFoesItems.OXIDIZED_LIGHTNING_ROD,
 				FriendsAndFoesItems.WAXED_LIGHTNING_ROD,
 				FriendsAndFoesItems.WAXED_EXPOSED_LIGHTNING_ROD,
 				FriendsAndFoesItems.WAXED_WEATHERED_LIGHTNING_ROD,
 				FriendsAndFoesItems.WAXED_OXIDIZED_LIGHTNING_ROD
+				*///?}
 			).map(item -> item.get().getDefaultInstance()).forEach(event::add);
 		} else if (event.type() == AddItemGroupEntriesEvent.Type.INGREDIENTS) {
 			Stream.of(
 				FriendsAndFoesItems.WILDFIRE_CROWN_FRAGMENT,
-				FriendsAndFoesItems.CRAB_CLAW,
-				FriendsAndFoesItems.PENGUIN_FEATHER
+				FriendsAndFoesItems.CRAB_CLAW
 			).map(item -> item.get().getDefaultInstance()).forEach(event::add);
 		} else if (event.type() == AddItemGroupEntriesEvent.Type.COMBAT) {
 			Stream.of(

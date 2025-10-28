@@ -7,7 +7,7 @@ import net.minecraft.world.entity.EntityType;
 
 public final class VersionedEntityTypeResourceId
 {
-	/*? >=1.21.3 {*/
+	/*? if >=1.21.3 {*/
 	public static ResourceKey<EntityType<?>> create(String id) {
 		return ResourceKey.create(Registries.ENTITY_TYPE, FriendsAndFoes.makeID(id));
 	}

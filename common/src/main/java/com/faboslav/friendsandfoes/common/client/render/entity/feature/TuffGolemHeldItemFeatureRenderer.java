@@ -3,7 +3,6 @@ package com.faboslav.friendsandfoes.common.client.render.entity.feature;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.ItemInHandRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.util.Mth;
@@ -11,7 +10,13 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
-//? >=1.21.4 {
+//? if >=1.21.9 {
+import net.minecraft.client.renderer.SubmitNodeCollector;
+//?} else {
+/*import net.minecraft.client.renderer.MultiBufferSource;
+*///?}
+
+//? if >=1.21.4 {
 import com.faboslav.friendsandfoes.common.client.render.entity.state.TuffGolemRenderState;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.TuffGolemEntityModel;
 //?} else {
@@ -19,7 +24,7 @@ import com.faboslav.friendsandfoes.common.client.render.entity.model.TuffGolemEn
 import net.minecraft.client.model.EntityModel;
 *///?}
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 public final class TuffGolemHeldItemFeatureRenderer extends RenderLayer<TuffGolemRenderState, TuffGolemEntityModel>
 //?} else {
 /*public final class TuffGolemHeldItemFeatureRenderer<T extends TuffGolemEntity, M extends EntityModel<T>> extends RenderLayer<T, M>
@@ -27,7 +32,7 @@ public final class TuffGolemHeldItemFeatureRenderer extends RenderLayer<TuffGole
 {
 	private final ItemInHandRenderer heldItemRenderer;
 
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	public TuffGolemHeldItemFeatureRenderer(RenderLayerParent<TuffGolemRenderState, TuffGolemEntityModel> renderer, ItemInHandRenderer heldItemRenderer) {
 		super(renderer);
 		this.heldItemRenderer = heldItemRenderer;
@@ -44,13 +49,15 @@ public final class TuffGolemHeldItemFeatureRenderer extends RenderLayer<TuffGole
 	}
 	*///?}
 
-	//? >=1.21.3 {
-	public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, TuffGolemRenderState renderState, float yRot, float xRot)
-	//?} else {
-	/*public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, T tuffGolem, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch)
-	*///?}
+	//? if >=1.21.9 {
+	public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, TuffGolemRenderState renderState, float yRot, float xRot)
+	//?} else if >=1.21.3 {
+	/*public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, TuffGolemRenderState renderState, float yRot, float xRot)
+	 *///?} else {
+	/*public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, TuffGolemEntity tuffGolem, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch)
+	 *///?}
 	{
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		var tuffGolem = renderState.tuffGolem;
 		var tickDelta = renderState.partialTick;
 		var animationProgress = renderState.ageInTicks;
@@ -77,11 +84,15 @@ public final class TuffGolemHeldItemFeatureRenderer extends RenderLayer<TuffGole
 			tuffGolem,
 			itemStack,
 			ItemDisplayContext.GROUND,
-			//? <=1.21.4 {
+			//? if <=1.21.4 {
 			/*false,
 			*///?}
 			poseStack,
-			bufferSource,
+			//? if >=1.21.9 {
+			submitNodeCollector,
+			//?} else {
+			/*bufferSource,
+			 *///?}
 			packedLight
 		);
 		poseStack.popPose();

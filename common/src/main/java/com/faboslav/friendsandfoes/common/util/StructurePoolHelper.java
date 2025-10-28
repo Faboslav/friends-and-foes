@@ -21,7 +21,7 @@ public final class StructurePoolHelper
 		int weight
 	) {
 		StructureTemplatePool pool;
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		pool = templatePoolRegistry.getValue(poolRL);
 		//?} else {
 		/*pool = templatePoolRegistry.get(poolRL);
@@ -49,7 +49,7 @@ public final class StructurePoolHelper
 		int weight
 	) {
 		StructureTemplatePool pool;
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		pool = templatePoolRegistry.getValue(poolRL);
 		//?} else {
 		/*pool = templatePoolRegistry.get(poolRL);

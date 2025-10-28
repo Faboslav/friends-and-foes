@@ -1,1 +1,30 @@
-{"length":0.20833333333333334,"animations":[{"bone":"body","target":"rotation","keyframes":[{"timestamp":0,"target":[10,0,0],"interpolation":"linear"},{"timestamp":0.20833333333333334,"target":[10,0,0],"interpolation":"linear"}]}],"loop":true}
+{
+	"length": 0.20833333333333334,
+	"animations": [
+		{
+			"bone": "body",
+			"target": "rotation",
+			"keyframes": [
+				{
+					"timestamp": 0,
+					"target": [
+						10,
+						0,
+						0
+					],
+					"interpolation": "linear"
+				},
+				{
+					"timestamp": 0.20833333333333334,
+					"target": [
+						10,
+						0,
+						0
+					],
+					"interpolation": "linear"
+				}
+			]
+		}
+	],
+	"loop": true
+}

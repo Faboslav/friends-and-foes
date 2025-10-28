@@ -1,10 +1,12 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
-import com.faboslav.friendsandfoes.common.block.FriendsAndFoesOxidizable;
 import org.spongepowered.asm.mixin.Mixin;
+import net.minecraft.world.level.block.LightningRodBlock;
+
+//? if <=1.21.8 {
+/*import com.faboslav.friendsandfoes.common.block.FriendsAndFoesOxidizable;
 
 import java.util.Optional;
-import net.minecraft.world.level.block.LightningRodBlock;
 import net.minecraft.world.level.block.RodBlock;
 import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.state.BlockState;
@@ -21,3 +23,9 @@ public abstract class LightningRodBlockOxidizableMixin extends RodBlock implemen
 		return FriendsAndFoesOxidizable.getNext(state.getBlock()).map((block) -> block.withPropertiesOf(state));
 	}
 }
+*///?} else {
+@Mixin(LightningRodBlock.class)
+public abstract class LightningRodBlockOxidizableMixin
+{
+}
+//?}

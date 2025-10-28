@@ -3,7 +3,7 @@ package com.faboslav.friendsandfoes.common.entity.ai.brain.task.rascal;
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.RascalEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.RascalBrain;
-import com.faboslav.friendsandfoes.common.entity.pose.RascalEntityPose;
+import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesCriterias;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.util.MovementUtil;
@@ -143,29 +143,27 @@ public final class RascalWaitForPlayerTask extends Behavior<RascalEntity>
 
 	@Override
 	protected void stop(ServerLevel world, RascalEntity rascal, long time) {
-		if (rascal.hasCustomName()) {
-			RascalBrain.setNodCooldown(rascal);
-			return;
+		if (!rascal.hasCustomName()) {
+			rascal.spawnCloudParticles();
+			rascal.playDisappearSound();
+
+			if (rascal.shouldGiveReward()) {
+				rascal.discard();
+				return;
+			}
+
+			rascal.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, RascalBrain.NOD_COOLDOWN * 20));
+			this.tryToTeleport(world, rascal);
 		}
 
-		rascal.spawnCloudParticles();
-		rascal.playDisappearSound();
-
-		if (rascal.shouldGiveReward()) {
-			rascal.discard();
-			return;
-		}
-
-		rascal.setPose(RascalEntityPose.IDLE);
-		rascal.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, RascalBrain.NOD_COOLDOWN * 20));
-		this.tryToTeleport(world, rascal);
+		rascal.setEntityPose(FriendsAndFoesEntityPose.IDLE);
 		RascalBrain.setNodCooldown(rascal);
 		rascal.enableAmbientSounds();
 	}
 
 	private void tryToTeleport(ServerLevel world, RascalEntity rascal) {
 		StructureManager structureAccessor = world.structureManager();
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		int worldBottomY = world.getMinY();
 		//?} else {
 		/*int worldBottomY = world.getMinBuildHeight();

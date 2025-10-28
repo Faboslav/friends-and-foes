@@ -6,7 +6,7 @@ import net.minecraft.world.effect.MobEffects;
 
 public final class VersionedMobEffects
 {
-	/*? >=1.21.5 {*/
+	/*? if >=1.21.5 {*/
 	public static final Holder<MobEffect> MOVEMENT_SPEED = MobEffects.SPEED;
 	public static final Holder<MobEffect> MOVEMENT_SLOWNESS = MobEffects.SLOWNESS;
 	/*?} else {*/

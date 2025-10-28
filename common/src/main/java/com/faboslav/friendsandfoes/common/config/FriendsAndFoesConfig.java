@@ -18,11 +18,11 @@ public final class FriendsAndFoesConfig
 
 	private static final String MOBS_CATEGORY = "mobs";
 	private static final String BEEKEEPER_GROUP = "beekeeper";
-	private static final String BARNACLE_GROUP = "barnacle";
-	private static final String COPPER_GOLEM_GROUP = "copper_golem";
+	//? if <= 1.21.8 {
+	/*private static final String COPPER_GOLEM_GROUP = "copper_golem";
+	*///?}
 	private static final String CRAB_GROUP = "crab";
 	private static final String GLARE_GROUP = "glare";
-	private static final String PENGUIN_GROUP = "penguin";
 	private static final String ICEOLOGER_GROUP = "iceologer";
 	private static final String ILLUSIONER_GROUP = "illusioner";
 	private static final String MAULER_GROUP = "mauler";
@@ -48,71 +48,59 @@ public final class FriendsAndFoesConfig
 	public int beekeeperAreaStructureWeight = 2;
 
 	@SerialEntry()
-	@CustomDescription("Barnacle")
-	@AutoGen(category = MOBS_CATEGORY, group = BARNACLE_GROUP)
+	//? if <= 1.21.8 {
+	/*@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
 	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
-	public boolean enableBarnacle = true;
-
-	@SerialEntry()
-	@AutoGen(category = MOBS_CATEGORY, group = BARNACLE_GROUP)
-	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
-	public boolean enableBarnacleSpawn = true;
-
-	@SerialEntry()
-	@AutoGen(category = MOBS_CATEGORY, group = BARNACLE_GROUP)
-	@IntSlider(min = 0, max = 100, step = 1)
-	public int barnacleSpawnWeight = 4;
-
-	@SerialEntry()
-	@AutoGen(category = MOBS_CATEGORY, group = BARNACLE_GROUP)
-	@IntSlider(min = 0, max = 100, step = 1)
-	public int barnacleSpawnMinGroupSize = 1;
-
-	@SerialEntry()
-	@AutoGen(category = MOBS_CATEGORY, group = BARNACLE_GROUP)
-	@IntSlider(min = 0, max = 100, step = 1)
-	public int barnacleSpawnMaxGroupSize = 1;
-
-	@SerialEntry()
-	@CustomDescription("Copper Golem")
-	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
-	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	*///?}
 	public boolean enableCopperGolem = true;
 
 	@SerialEntry()
-	@CustomDescription("Copper Golem")
-	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	//? if <= 1.21.8 {
+	/*@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
 	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	*///?}
 	public boolean generateCopperGolemWorkstationStructureInVillages = true;
 
 	@SerialEntry()
-	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	//? if <= 1.21.8 {
+	/*@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
 	@IntSlider(min = 0, max = 100, step = 1)
+	*///?}
 	public int copperGolemWorkstationStructureWeight = 1;
 
 	@SerialEntry()
-	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	//? if <= 1.21.8 {
+	/*@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
 	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	*///?}
 	public boolean generateCopperGolemInAncientCity = true;
 
 	@SerialEntry()
-	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	//? if <= 1.21.8 {
+	/*@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
 	@IntSlider(min = 0, max = 100, step = 1)
+	*///?}
 	public int copperGolemAncientCityCenterWeight = 10;
 
 	@SerialEntry()
-	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	//? if <= 1.21.8 {
+	/*@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
 	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	*///?}
 	public boolean enableCopperGolemsInTrialChambers = true;
 
 	@SerialEntry()
-	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	//? if <= 1.21.8 {
+	/*@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
 	@IntSlider(min = 0, max = 100, step = 1)
+	*///?}
 	public int copperGolemInTrialChambersWeight = 4;
 
 	@SerialEntry()
-	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	//? if <= 1.21.8 {
+	/*@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
 	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	*///?}
 	public boolean enableLightningRodOxidation = true;
 
 	@SerialEntry()
@@ -176,37 +164,6 @@ public final class FriendsAndFoesConfig
 	public int glareSpawnMaxGroupSize = 1;
 
 	@SerialEntry()
-	@CustomDescription(PENGUIN_GROUP)
-	@AutoGen(category = MOBS_CATEGORY, group = PENGUIN_GROUP)
-	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
-	public boolean enablePenguin = true;
-
-	@SerialEntry()
-	@AutoGen(category = MOBS_CATEGORY, group = PENGUIN_GROUP)
-	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
-	public boolean enablePenguinSpawn = true;
-
-	@SerialEntry()
-	@AutoGen(category = MOBS_CATEGORY, group = PENGUIN_GROUP)
-	@IntSlider(min = 0, max = 100, step = 1)
-	public int penguinSpawnWeight = 4;
-
-	@SerialEntry()
-	@AutoGen(category = MOBS_CATEGORY, group = PENGUIN_GROUP)
-	@IntSlider(min = 0, max = 100, step = 1)
-	public int penguinSpawnMinGroupSize = 4;
-
-	@SerialEntry()
-	@AutoGen(category = MOBS_CATEGORY, group = PENGUIN_GROUP)
-	@IntSlider(min = 0, max = 100, step = 1)
-	public int penguinSpawnMaxGroupSize = 8;
-
-	@SerialEntry()
-	@AutoGen(category = MOBS_CATEGORY, group = PENGUIN_GROUP)
-	@FloatSlider(min = 0.0F, max = 10.0F, step = 0.1F)
-	public float penguinBoatSpeedStatusEffectModifier = 0.2F;
-
-	@SerialEntry()
 	@AutoGen(category = MOBS_CATEGORY, group = ICEOLOGER_GROUP)
 	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
 	public boolean enableIceologer = true;
@@ -258,7 +215,7 @@ public final class FriendsAndFoesConfig
 
 	@SerialEntry()
 	@AutoGen(category = MOBS_CATEGORY, group = ILLUSIONER_GROUP)
-	@IntSlider(min = 3, max = 100, step = 1)
+	@IntSlider(min = 0, max = 100, step = 1)
 	public int illusionerMaxIllusionsCount = 9;
 
 	@SerialEntry()

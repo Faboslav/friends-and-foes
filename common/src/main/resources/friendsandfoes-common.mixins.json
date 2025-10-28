@@ -3,19 +3,20 @@
 	"package": "com.faboslav.friendsandfoes.common.mixin",
 	"refmap": "${modId}.refmap.json",
 	"compatibilityLevel": "JAVA_${javaVersion}",
+	"mixinextras": {
+		"minVersion": "0.5.0"
+	},
 	"minVersion": "0.8",
 	"plugin": "com.faboslav.friendsandfoes.common.mixin.plugin.FriendsAndFoesMixinPlugin",
 	"injectors": {
 		"defaultRequire": 1
 	},
 	"mixins": [
-		"AddCustomEntityPoseMixin",
 		"AddCustomRaidMemberMixin",
 		"AddCustomSpawnGroupMixin",
+		"AnimalMakeLoveAccessor",
 		"BeeEntityAccessor",
 		"BeeEntityMixin",
-		"BeeEntityMoveToFlowerGoalMixin",
-		"BeeEntityMoveToHiveGoalMixin",
 		"BlazeEntityMixin",
 		"BlazeLivingEntityMixin",
 		"CarvedPumpkinBlockMixin",
@@ -28,6 +29,11 @@
 		"LightningRodBlockOxidizableMixin",
 		"LimbAnimatorAccessor",
 		"LivingEntityMixin",
+		"MannequinAccessor",
+		"MannequinAvatarMixin",
+		"MannequinEntityMixin",
+		"MannequinLivingEntityMixin",
+		"MannequinMixin",
 		"MobAccessor",
 		"PatrolSpawnerAccessor",
 		"PatrolSpawnerMixin",
@@ -47,7 +53,9 @@
 		"VillagerTaskListProviderMixin",
 		"ZombieHorseAbstractHorseEntityMixin",
 		"ZombieHorseAnimalEntityMixin",
-		"ZombieHorseEntityMixin"
+		"ZombieHorseEntityMixin",
+		"datafix.DataFixersMixin",
+		"datafix.V1460Mixin"
 	],
 	"client": [
 		"EntityRenderDispatcherMixin",

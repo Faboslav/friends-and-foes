@@ -1,15 +1,18 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
-import com.faboslav.friendsandfoes.common.FriendsAndFoes;
+import org.spongepowered.asm.mixin.Mixin;
+import net.minecraft.world.level.block.LightningRodBlock;
+
+//? if <=1.21.8 {
+/*import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.block.OnUseOxidizable;
 import com.faboslav.friendsandfoes.common.entity.CopperGolemEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.CopperGolemBrain;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
-import com.faboslav.friendsandfoes.common.entity.pose.CopperGolemEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.util.CopperGolemBuildPatternPredicates;
-import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -18,12 +21,9 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CarvedPumpkinBlock;
 import net.minecraft.world.level.block.ChangeOverTimeBlock;
-import net.minecraft.world.level.block.LevelEvent;
-import net.minecraft.world.level.block.LightningRodBlock;
 import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.WeatheringCopperFullBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -32,11 +32,12 @@ import net.minecraft.world.level.block.state.pattern.BlockPattern;
 import net.minecraft.world.level.block.state.pattern.BlockPatternBuilder;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 
 import java.util.ArrayList;
 
@@ -118,7 +119,7 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 		BlockPos cachedBlockPosition = patternSearchResult.getBlock(0, 2, 0).getPos();
 		float copperGolemYaw = headBlockState.getValue(CarvedPumpkinBlock.FACING).toYRot();
 
-		CopperGolemEntity copperGolem = FriendsAndFoesEntityTypes.COPPER_GOLEM.get().create(world/*? >=1.21.3 {*/, VersionedEntitySpawnReason.TRIGGERED/*?}*/);
+		CopperGolemEntity copperGolem = FriendsAndFoesEntityTypes.COPPER_GOLEM.get().create(world/^? if >=1.21.3 {^/, VersionedEntitySpawnReason.TRIGGERED/^?}^/);
 
 		copperGolem.setPos(
 			(double) cachedBlockPosition.getX() + 0.5D,
@@ -129,15 +130,15 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 		copperGolem.setOxidationLevel(bodyOxidationLevel);
 
 		if (lightningRodOxidationLevel == WeatheringCopper.WeatherState.OXIDIZED) {
-			ArrayList<CopperGolemEntityPose> possiblePoses = new ArrayList<>()
+			ArrayList<FriendsAndFoesEntityPose> possiblePoses = new ArrayList<>()
 			{{
-				add(CopperGolemEntityPose.SPIN_HEAD);
-				add(CopperGolemEntityPose.PRESS_BUTTON_UP);
-				add(CopperGolemEntityPose.PRESS_BUTTON_DOWN);
+				add(FriendsAndFoesEntityPose.SPIN_HEAD);
+				add(FriendsAndFoesEntityPose.PRESS_BUTTON_UP);
+				add(FriendsAndFoesEntityPose.PRESS_BUTTON_DOWN);
 			}};
 			int randomPoseIndex = copperGolem.getRandom().nextInt(possiblePoses.size());
-			CopperGolemEntityPose randomPose = possiblePoses.get(randomPoseIndex);
-			copperGolem.setPose(randomPose);
+			FriendsAndFoesEntityPose randomPose = possiblePoses.get(randomPoseIndex);
+			copperGolem.setEntityPose(randomPose);
 			AnimationHolder animation = copperGolem.getAnimationByPose();
 
 			if (animation != null) {
@@ -156,6 +157,7 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 		CopperGolemBrain.setPressButtonCooldown(copperGolem);
 
 		world.addFreshEntity(copperGolem);
+		copperGolem.playSound(FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_SPAWN.get(), 1.0F, copperGolem.getVoicePitch());
 
 		for (ServerPlayer serverPlayerEntity : world.getEntitiesOfClass(
 			ServerPlayer.class,
@@ -212,7 +214,10 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 		RandomSource random,
 		CallbackInfo ci
 	) {
-		((ChangeOverTimeBlock) this).changeOverTime(state, world, pos, random);
+		if(FriendsAndFoes.getConfig().enableLightningRodOxidation) {
+			((ChangeOverTimeBlock) this).changeOverTime(state, world, pos, random);
+		}
+
 		ci.cancel();
 	}
 
@@ -231,4 +236,8 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 			cir.setReturnValue(actionResult);
 		}
 	}
+}*///?} else {
+@Mixin(value = LightningRodBlock.class, priority = 1001)
+public abstract class LightningRodBlockMixin {
 }
+//?}

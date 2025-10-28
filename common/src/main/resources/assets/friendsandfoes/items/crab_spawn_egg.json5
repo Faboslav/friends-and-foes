@@ -1,22 +1,23 @@
 {
-	//? >=1.21.5 {
+	//? if >=1.21.5 {
 	"model": {
 		"type": "minecraft:model",
 		"model": "friendsandfoes:item/crab_spawn_egg"
 	}
-//?} else {
-    /*"model": {
-        "type": "minecraft:model",
-        "model": "minecraft:item/template_spawn_egg",
-        "tints": [
-            {
-                "type": "minecraft:constant",
-                "value": 4281544823
-            },
-            {
-                "type": "minecraft:constant",
-                "value": 4294875211
-            }
-        ]
-	}*///?}
+	//?} else {
+	/*"model": {
+		"type": "minecraft:model",
+		"model": "minecraft:item/template_spawn_egg",
+		"tints": [
+			{
+				"type": "minecraft:constant",
+				"value": 4281544823
+			},
+			{
+				"type": "minecraft:constant",
+				"value": 4294875211
+			}
+		]
+	}
+	*///?}
 }

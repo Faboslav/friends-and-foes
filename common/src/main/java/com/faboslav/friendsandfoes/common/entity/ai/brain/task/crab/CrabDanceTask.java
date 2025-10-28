@@ -2,7 +2,7 @@ package com.faboslav.friendsandfoes.common.entity.ai.brain.task.crab;
 
 import com.faboslav.friendsandfoes.common.entity.animation.CrabAnimations;
 import com.faboslav.friendsandfoes.common.entity.CrabEntity;
-import com.faboslav.friendsandfoes.common.entity.pose.CrabEntityPose;
+import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.util.MovementUtil;
 import java.util.Map;
@@ -47,6 +47,6 @@ public final class CrabDanceTask extends Behavior<CrabEntity>
 
 	@Override
 	protected void stop(ServerLevel world, CrabEntity crab, long time) {
-		crab.setPose(CrabEntityPose.IDLE);
+		crab.setEntityPose(FriendsAndFoesEntityPose.IDLE);
 	}
 }

@@ -1,15 +1,15 @@
-package com.faboslav.friendsandfoes.common.entity;
+//? if <= 1.21.8 {
+/*package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
+import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
-import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -18,22 +18,24 @@ import net.minecraft.world.entity.player.PlayerModelPart;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier.Builder;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 
 import java.util.Optional;
 import java.util.UUID;
 
-//? >=1.21.6 {
+//? if >=1.21.6 {
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 //?} else {
-/*import net.minecraft.nbt.CompoundTag;
-*///?}
+/^import net.minecraft.nbt.CompoundTag;
+^///?}
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 
 //?} else {
-/*import net.minecraft.world.entity.MobSpawnType;
-*///?}
+/^import net.minecraft.world.entity.MobSpawnType;
+^///?}
 
 public final class PlayerIllusionEntity extends Mob
 {
@@ -44,8 +46,8 @@ public final class PlayerIllusionEntity extends Mob
 	//? if >=1.21.5 {
 	private static final EntityDataAccessor<Optional<EntityReference<LivingEntity>>> PLAYER_UUID;
 	//?} else {
-	/*private static final EntityDataAccessor<Optional<UUID>> PLAYER_UUID;
-	*///?}
+	/^private static final EntityDataAccessor<Optional<UUID>> PLAYER_UUID;
+	^///?}
 
 	@Nullable
 	private Player player;
@@ -67,11 +69,11 @@ public final class PlayerIllusionEntity extends Mob
 	public SpawnGroupData finalizeSpawn(
 		ServerLevelAccessor world,
 		DifficultyInstance difficulty,
-		/*? >=1.21.3 {*/
+		/^? if >=1.21.3 {^/
 		EntitySpawnReason spawnReason,
-		/*?} else {*/
-		/*MobSpawnType spawnReason,
-		*//*?}*/
+		/^?} else {^/
+		/^MobSpawnType spawnReason,
+		^//^?}^/
 		@Nullable SpawnGroupData entityData
 	) {
 		if(spawnReason == VersionedEntitySpawnReason.COMMAND) {
@@ -96,6 +98,14 @@ public final class PlayerIllusionEntity extends Mob
 		return super.finalizeSpawn(world, difficulty, spawnReason, entityData);
 	}
 
+	public static Builder createPlayerIllusionAttributes() {
+		return Mob.createMobAttributes()
+			.add(Attributes.MAX_HEALTH, 1.0)
+			.add(Attributes.ATTACK_DAMAGE, 1.0)
+			.add(Attributes.MOVEMENT_SPEED, 0.0D)
+			.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D);
+	}
+
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder builder) {
 		super.defineSynchedData(builder);
@@ -106,11 +116,11 @@ public final class PlayerIllusionEntity extends Mob
 	}
 
 	@Override
-	//? >= 1.21.6 {
+	//? if >= 1.21.6 {
 	public void addAdditionalSaveData(ValueOutput nbt)
 	//?} else {
-	/*public void addAdditionalSaveData(CompoundTag nbt)
-	*///?}
+	/^public void addAdditionalSaveData(CompoundTag nbt)
+	^///?}
 	{
 		super.addAdditionalSaveData(nbt);
 
@@ -119,11 +129,11 @@ public final class PlayerIllusionEntity extends Mob
 	}
 
 	@Override
-	//? >= 1.21.6 {
+	//? if >= 1.21.6 {
 	public void readAdditionalSaveData(ValueInput nbt)
 	//?} else {
-	/*public void readAdditionalSaveData(CompoundTag nbt)
-	*///?}
+	/^public void readAdditionalSaveData(CompoundTag nbt)
+	^///?}
 	{
 		super.readAdditionalSaveData(nbt);
 
@@ -137,7 +147,12 @@ public final class PlayerIllusionEntity extends Mob
 	}
 
 	@Override
-	protected boolean shouldDropLoot() {
+	/^? if >= 1.21.9 {^/
+	protected boolean shouldDropLoot(ServerLevel serverLevel)
+	/^?} else {^/
+	/^protected boolean shouldDropLoot()
+	^//^?}^/
+	{
 		return false;
 	}
 
@@ -165,11 +180,11 @@ public final class PlayerIllusionEntity extends Mob
 	}
 
 	@Override
-	/*? >=1.21.3 {*/
+	/^? if >=1.21.3 {^/
 	public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
-	/*?} else {*/
-	/*public boolean hurt(DamageSource damageSource, float amount)
-	*//*?}*/
+	/^?} else {^/
+	/^public boolean hurt(DamageSource damageSource, float amount)
+	^//^?}^/
 	{
 		this.discardIllusion();
 		return true;
@@ -184,16 +199,16 @@ public final class PlayerIllusionEntity extends Mob
 		//? if >=1.21.5 {
 		return this.entityData.get(PLAYER_UUID).map(EntityReference::getUUID).orElse(null);
 		//?} else {
-		/*return this.entityData.get(PLAYER_UUID).orElse(null);
-		*///?}
+		/^return this.entityData.get(PLAYER_UUID).orElse(null);
+		^///?}
 	}
 
 	public void setPlayerUuid(@Nullable UUID uuid) {
 		//? if >=1.21.5 {
 		this.entityData.set(PLAYER_UUID, Optional.ofNullable(uuid).map(EntityReference::new));
 		//?} else {
-		/*this.entityData.set(PLAYER_UUID, Optional.ofNullable(uuid));
-		*///?}
+		/^this.entityData.set(PLAYER_UUID, Optional.ofNullable(uuid));
+		^///?}
 	}
 
 	@Nullable
@@ -215,7 +230,7 @@ public final class PlayerIllusionEntity extends Mob
 
 	private void discardIllusion() {
 		this.playMirrorSound();
-		this.spawnCloudParticles();
+		ParticleSpawner.spawnParticles(this, ParticleTypes.CLOUD, 16, 0.1D);
 		this.discard();
 	}
 
@@ -227,63 +242,14 @@ public final class PlayerIllusionEntity extends Mob
 		);
 	}
 
-	public boolean tryToTeleport(int x, int y, int z) {
-		y -= 8;
-		//? >=1.21.3 {
-		int worldBottomY = this.level().getMinY();
-		//?} else {
-		/*int worldBottomY = this.level().getMinBuildHeight();
-		*///?}
-		int logicalHeight = ((ServerLevel)(this.level())).getLogicalHeight();
-		double bottomY = Math.max(y, worldBottomY);
-		double topY = Math.min(bottomY + 16, logicalHeight- 1);
-
-		for (int i = 0; i < 16; ++i) {
-			y = (int) Mth.clamp(y + 1, bottomY, topY);
-			boolean teleportResult = this.randomTeleport(x, y, z, false);
-
-			if (teleportResult) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	public void spawnCloudParticles() {
-		this.spawnParticles(ParticleTypes.CLOUD, 16);
-	}
-
-	private <T extends ParticleOptions> void spawnParticles(
-		T particleType,
-		int amount
-	) {
-		if (this.level().isClientSide()) {
-			return;
-		}
-
-		for (int i = 0; i < amount; i++) {
-			((ServerLevel) this.level()).sendParticles(
-				particleType,
-				this.getRandomX(0.5D),
-				this.getRandomY() + 0.5D,
-				this.getRandomZ(0.5D),
-				1,
-				0.0D,
-				0.0D,
-				0.0D,
-				0.0D
-			);
-		}
-	}
-
 	static {
 		PLAYER_MODEL_PARTS = SynchedEntityData.defineId(PlayerIllusionEntity.class, EntityDataSerializers.BYTE);
 		TICKS_UNTIL_DESPAWN = SynchedEntityData.defineId(PlayerIllusionEntity.class, EntityDataSerializers.INT);
 		//? if >=1.21.5 {
 		PLAYER_UUID = SynchedEntityData.defineId(PlayerIllusionEntity.class, EntityDataSerializers.OPTIONAL_LIVING_ENTITY_REFERENCE);
 		//?} else {
-		/*PLAYER_UUID = SynchedEntityData.defineId(PlayerIllusionEntity.class, EntityDataSerializers.OPTIONAL_UUID);
-		*///?}
+		/^PLAYER_UUID = SynchedEntityData.defineId(PlayerIllusionEntity.class, EntityDataSerializers.OPTIONAL_UUID);
+		^///?}
 	}
 }
+*///?}

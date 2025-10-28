@@ -10,6 +10,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.behavior.WorkAtPoi;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.BeehiveBlock;
@@ -18,6 +19,8 @@ import org.jetbrains.annotations.Nullable;
 
 public final class BeekeeperWorkTask extends WorkAtPoi
 {
+	private Villager villagerEntity;
+
 	public BeekeeperWorkTask() {
 		super();
 	}
@@ -37,6 +40,8 @@ public final class BeekeeperWorkTask extends WorkAtPoi
 
 		villagerEntity.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.SHEARS));
 		villagerEntity.startUsingItem(InteractionHand.MAIN_HAND);
+
+		this.villagerEntity = villagerEntity;
 	}
 
 	protected void stop(ServerLevel serverWorld, Villager villagerEntity, long l) {
@@ -73,6 +78,11 @@ public final class BeekeeperWorkTask extends WorkAtPoi
 		BlockPos blockPos = globalPos.pos();
 		world.setBlock(blockPos, beehiveState.setValue(BeehiveBlock.HONEY_LEVEL, 0), 3);
 		world.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.BEEHIVE_SHEAR, SoundSource.NEUTRAL, 1.0F, 1.0F);
-		BeehiveBlock.dropHoneycomb(world, blockPos);
+
+		//? if >= 1.21.9 {
+		BeehiveBlock.dropHoneycomb(world, Items.SHEARS.getDefaultInstance(), beehiveState, world.getBlockEntity(blockPos), this.villagerEntity, blockPos);
+		//?} else {
+		/*BeehiveBlock.dropHoneycomb(world, blockPos);
+		*///?}
 	}
 }

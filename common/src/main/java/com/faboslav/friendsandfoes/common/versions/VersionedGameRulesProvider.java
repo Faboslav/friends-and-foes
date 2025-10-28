@@ -9,7 +9,7 @@ public final class VersionedGameRulesProvider
 	public static GameRules getGameRules(Entity entity) {
 		GameRules gameRules;
 
-		/*? >=1.21.3 {*/
+		/*? if >=1.21.3 {*/
 		gameRules = ((ServerLevel)entity.level()).getGameRules();
 		/*?} else {*/
 		/*gameRules = entity.level().getGameRules();

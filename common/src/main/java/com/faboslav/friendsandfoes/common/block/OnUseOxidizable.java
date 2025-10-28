@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.common.block;
 
 import com.faboslav.friendsandfoes.common.util.WaxableBlocksMap;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
 import com.faboslav.friendsandfoes.common.versions.VersionedInteractionResult;
 import com.google.common.collect.BiMap;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -102,7 +103,7 @@ public final class OnUseOxidizable
 				world.gameEvent(GameEvent.BLOCK_CHANGE, blockPos, GameEvent.Context.of(player, possibleState.get()));
 
 				if (player != null) {
-					itemStack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
+					itemStack.hurtAndBreak(1, player, VersionedEntity.getEquipmentSlotForItem(hand));
 				}
 
 				return VersionedInteractionResult.success(player);

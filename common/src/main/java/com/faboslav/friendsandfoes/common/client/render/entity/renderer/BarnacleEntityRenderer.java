@@ -30,7 +30,7 @@ public class BarnacleEntityRenderer extends MobRenderer<BarnacleEntity, Barnacle
 		super(context, new BarnacleEntityModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.BARNACLE_LAYER)), 0.5F);
 
 		this.addLayer(new BarnacleKelpFeatureRenderer(this));
-		this.addLayer(new BarnacleKelpHeadFeatureRenderer(this));
+		//this.addLayer(new BarnacleKelpHeadFeatureRenderer(this));
 	}
 
 	@Override

@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.model;
 
-import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.KeyframeModelAnimator;
 import com.faboslav.friendsandfoes.common.entity.BarnacleEntity;
 import net.minecraft.client.model.geom.ModelPart;
@@ -83,7 +82,7 @@ public final class BarnacleEntityModel extends EntityModel<BarnacleRenderState>
 	//? >=1.21.3 {
 	public void setupAnim(BarnacleRenderState renderState)
 	//?} else {
-	/*public void setupAnim(T barnacle, float limbAngle, float limbDistance, float animationPraogress, float headYaw, float headPitch)
+	/*public void setupAnim(T barnacle, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
 	*///?}
 	{
 		//? >=1.21.3 {

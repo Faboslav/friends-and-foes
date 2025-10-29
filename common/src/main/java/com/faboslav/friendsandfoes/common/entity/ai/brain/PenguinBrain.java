@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.common.entity.ai.brain;
 
 import com.faboslav.friendsandfoes.common.entity.PenguinEntity;
+import com.faboslav.friendsandfoes.common.entity.ai.brain.task.glare.GlareLocateDarkSpotTask;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.task.penguin.PenguinSwimWithPlayerTask;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesActivities;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
@@ -89,9 +90,8 @@ public final class PenguinBrain
 	private static void addSwimActivities(Brain<PenguinEntity> brain) {
 		brain.addActivityWithConditions(
 			FriendsAndFoesActivities.PENGUIN_SWIM.get(),
-			0,
 			ImmutableList.of(
-				new PenguinSwimWithPlayerTask()
+				Pair.of(0, new PenguinSwimWithPlayerTask())
 			),
 			ImmutableSet.of(
 				Pair.of(MemoryModuleType.BREED_TARGET, MemoryStatus.VALUE_ABSENT),

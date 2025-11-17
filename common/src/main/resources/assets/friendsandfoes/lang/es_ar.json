@@ -209,6 +209,8 @@
 	"yacl3.config.friendsandfoes:friendsandfoes.generateBeekeeperAreaStructureInVillages": "Generar estructura de zona de apicultor en aldeas",
 	"yacl3.config.friendsandfoes:friendsandfoes.beekeeperAreaStructureWeight": "Peso de aparición de estructura de zona de apicultor",
 	"yacl3.config.friendsandfoes:friendsandfoes.enableCopperGolem": "Habilitar golem de cobre",
+	"yacl3.config.friendsandfoes:friendsandfoes.replaceVanillaCopperGolem": "Reemplazar gólem de cobre vanilla",
+	"yacl3.config.friendsandfoes:friendsandfoes.replaceCopperGolem": "Reemplazar gólem de cobre vanilla"
 	"yacl3.config.friendsandfoes:friendsandfoes.enableCopperGolemSpawn": "Habilitar aparición del golem de cobre",
 	"yacl3.config.friendsandfoes:friendsandfoes.generateCopperGolemWorkstationStructureInVillages": "Generar estructura de estación de trabajo del golem de cobre en aldeas",
 	"yacl3.config.friendsandfoes:friendsandfoes.copperGolemWorkstationStructureWeight": "Peso de aparición de la estructura de estación de trabajo del golem de cobre",

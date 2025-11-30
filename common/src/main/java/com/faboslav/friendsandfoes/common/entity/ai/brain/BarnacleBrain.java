@@ -136,6 +136,7 @@ public final class BarnacleBrain
 	public static void setAttackTarget(BarnacleEntity barnacle, LivingEntity target) {
 		barnacle.getBrain().eraseMemory(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE);
 		barnacle.getBrain().setMemoryWithExpiry(MemoryModuleType.ATTACK_TARGET, target, 200L);
+		barnacle.setLeashedTo(target, true);
 	}
 
 	private static void runAwayFrom(BarnacleEntity barnacle, LivingEntity target) {

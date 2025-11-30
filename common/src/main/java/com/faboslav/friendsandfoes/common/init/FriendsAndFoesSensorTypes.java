@@ -5,6 +5,7 @@ import com.faboslav.friendsandfoes.common.entity.ai.brain.CrabBrain;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.GlareBrain;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.PenguinBrain;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.sensor.GlareSpecificSensor;
+import com.faboslav.friendsandfoes.common.entity.ai.brain.sensor.PenguinSpecificSensor;
 import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistries;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistry;
@@ -40,6 +41,9 @@ public final class FriendsAndFoesSensorTypes
 	}));
 	public static final RegistryEntry<SensorType<GlareSpecificSensor>> GLARE_SPECIFIC_SENSOR = SENSOR_TYPES.register("glare_specific_sensor", () -> new SensorType<>(() -> {
 		return new GlareSpecificSensor();
+	}));
+	public static final RegistryEntry<SensorType<PenguinSpecificSensor>> PENGUIN_SPECIFIC_SENSOR = SENSOR_TYPES.register("penguin_specific_sensor", () -> new SensorType<>(() -> {
+		return new PenguinSpecificSensor();
 	}));
 	public static final RegistryEntry<SensorType<TemptingSensor>> PENGUIN_TEMPTATIONS = SENSOR_TYPES.register("penguin_temptations", () -> new SensorType<>(() -> {
 		return new TemptingSensor(PenguinBrain.getTemptations());

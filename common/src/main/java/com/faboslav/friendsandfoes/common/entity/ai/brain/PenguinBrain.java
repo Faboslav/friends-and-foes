@@ -1,6 +1,8 @@
 package com.faboslav.friendsandfoes.common.entity.ai.brain;
 
+import com.faboslav.friendsandfoes.common.entity.BarnacleEntity;
 import com.faboslav.friendsandfoes.common.entity.PenguinEntity;
+import com.faboslav.friendsandfoes.common.entity.WildfireEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.task.glare.GlareLocateDarkSpotTask;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.task.penguin.PenguinSwimWithPlayerTask;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesActivities;
@@ -19,6 +21,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.behavior.*;
 import net.minecraft.world.entity.ai.behavior.declarative.BehaviorBuilder;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.sensing.Sensor;
@@ -41,6 +44,8 @@ public final class PenguinBrain
 
 		addCoreActivities(brain);
 		addIdleActivities(brain);
+		addFightActivities(brain);
+		addAvoidActivities(brain);
 		addLayEggActivities(brain);
 		addGuardEggActivities(brain);
 		addSwimActivities(brain);
@@ -102,6 +107,43 @@ public final class PenguinBrain
 		);
 	}
 
+	private static void addFightActivities(Brain<PenguinEntity> brain) {
+		/*
+		brain.addActivityAndRemoveMemoryWhenStopped(
+			Activity.FIGHT,
+			0,
+			ImmutableList.of(
+				StopAttackingIfTargetInvalid.create(Axolotl::onStopAttacking),
+				SetWalkTargetFromAttackTargetIfTargetOutOfReach.create(0.6F),
+				MeleeAttack.create(20),
+				EraseMemoryIf.create(BehaviorUtils::isBreeding, MemoryModuleType.ATTACK_TARGET)
+			),
+			MemoryModuleType.ATTACK_TARGET
+		);*/
+	}
+
+
+	private static void addAvoidActivities(Brain<PenguinEntity> brain) {
+		brain.addActivityAndRemoveMemoryWhenStopped(
+			Activity.AVOID,
+			10,
+			ImmutableList.of(
+				SetWalkTargetAwayFrom.entity(MemoryModuleType.AVOID_TARGET, 1.4F, 16, true)
+			),
+			MemoryModuleType.AVOID_TARGET
+		);
+	}
+
+	private static RunOne<PenguinEntity> makeRandomWanderTask() {
+		return new RunOne(
+			ImmutableList.of(
+				Pair.of(RandomStroll.stroll(1.0f), 2),
+				Pair.of(SetWalkTargetFromLookTarget.create(1.0f, 3), 2),
+				Pair.of(new DoNothing(30, 60), 1)
+			)
+		);
+	}
+
 	/*
 	private static void initIdleActivity(Brain<Axolotl> brain) {
 		brain.addActivity(Activity.IDLE,
@@ -151,6 +193,8 @@ public final class PenguinBrain
 			ImmutableList.of(
 				FriendsAndFoesActivities.PENGUIN_LAY_EGG.get(),
 				FriendsAndFoesActivities.PENGUIN_GUARD_EGG.get(),
+				Activity.AVOID,
+				Activity.FIGHT,
 				Activity.IDLE
 			)
 		);
@@ -174,6 +218,7 @@ public final class PenguinBrain
 			SensorType.NEAREST_LIVING_ENTITIES,
 			SensorType.NEAREST_PLAYERS,
 			SensorType.NEAREST_ADULT,
+			FriendsAndFoesSensorTypes.PENGUIN_SPECIFIC_SENSOR.get(),
 			FriendsAndFoesSensorTypes.PENGUIN_TEMPTATIONS.get()
 		);
 		MEMORY_MODULES = List.of(
@@ -189,6 +234,7 @@ public final class PenguinBrain
 			MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
 			MemoryModuleType.NEAREST_VISIBLE_PLAYER,
 			MemoryModuleType.NEAREST_VISIBLE_WANTED_ITEM,
+			MemoryModuleType.AVOID_TARGET,
 			FriendsAndFoesMemoryModuleTypes.PENGUIN_HAS_EGG.get(),
 			FriendsAndFoesMemoryModuleTypes.PENGUIN_EGG_POS.get()
 		);

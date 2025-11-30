@@ -6,15 +6,20 @@ import com.faboslav.friendsandfoes.common.entity.ai.brain.WildfireBrain;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.task.wildfire.WildfireShockwaveAttackTask;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStatusEffects;
+import com.twelvemonkeys.imageio.metadata.iptc.IPTC;
+import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.vehicle.Boat;
 
 import java.util.Map;
 
@@ -64,7 +69,7 @@ public class PenguinSwimWithPlayerTask extends Behavior<PenguinEntity>
 			return false;
 		}
 
-		return this.player != null && this.player.isSwimming() && penguin.distanceToSqr(this.player) < 256.0D;
+			return this.player != null && this.player.isPassenger() && penguin.distanceToSqr(this.player) < 256.0D;
 	}
 
 	@Override

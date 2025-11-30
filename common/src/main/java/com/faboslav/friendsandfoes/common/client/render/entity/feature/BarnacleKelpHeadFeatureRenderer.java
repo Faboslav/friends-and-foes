@@ -25,8 +25,6 @@ public final class BarnacleKelpHeadFeatureRenderer extends RenderLayer<BarnacleR
 /*public final class BarnacleKelpHeadFeatureRenderer extends RenderLayer<BarnacleEntity, BarnacleEntityModel<BarnacleEntity>>
 *///?}
 {
-	private static final ResourceLocation KELP_TEXTURE = FriendsAndFoes.makeID("textures/entity/barnacle/barnacle_kelp_head_1.png");
-
 	//? >=1.21.3 {
 	public BarnacleKelpHeadFeatureRenderer(RenderLayerParent<BarnacleRenderState, BarnacleEntityModel> renderLayerParent) {
 		super(renderLayerParent);
@@ -52,13 +50,17 @@ public final class BarnacleKelpHeadFeatureRenderer extends RenderLayer<BarnacleR
 			return;
 		}
 
+		//int textureFrame = barnacle.tickCount % 10;
+		int textureFrame = 1;
+		ResourceLocation kelpTexture = FriendsAndFoes.makeID("textures/entity/barnacle/barnacle_kelp_head_" + textureFrame + ".png");
+
 		//? if >= 1.21.9 {
 		coloredCutoutModelCopyLayerRender(
 		//?} else {
 		/*renderColoredCutoutModel(
 		*///?}
 			this.getParentModel(),
-			KELP_TEXTURE,
+			kelpTexture,
 			poseStack,
 			//? if >=1.21.9 {
 			submitNodeCollector,

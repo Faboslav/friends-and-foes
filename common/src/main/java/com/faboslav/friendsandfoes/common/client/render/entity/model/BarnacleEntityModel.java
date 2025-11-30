@@ -107,6 +107,10 @@ public final class BarnacleEntityModel extends EntityModel<BarnacleRenderState>
 		var currentTick = barnacle.tickCount;
 		var animationSpeedModifier = 1.0F;
 
+		/*
+		if(barnacle.isAttacking()) {
+		}*/
+
 		KeyframeModelAnimator.updateMovementKeyframeAnimations(this, movementAnimation, limbAngle, limbDistance, 2.5F, 4.0F, animationSpeedModifier);
 		KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, animations, currentTick, animationProgress, animationSpeedModifier);
 	}

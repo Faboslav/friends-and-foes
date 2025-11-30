@@ -45,7 +45,7 @@ public final class BarnacleEntity extends Monster implements AnimatedEntity {
 	private static final EntityDataAccessor<Integer> POSE_TICKS = SynchedEntityData.defineId(BarnacleEntity.class, EntityDataSerializers.INT);;
 	private static final EntityDataAccessor<FriendsAndFoesEntityPose> ENTITY_POSE = SynchedEntityData.defineId(BarnacleEntity.class, FriendsAndFoesEntityDataSerializers.ENTITY_POSE);
 
-	public static final float GENERIC_ATTACK_DAMAGE = 8.0F;
+	public static final float GENERIC_ATTACK_DAMAGE = 1.0F;
 	public static final float GENERIC_FOLLOW_RANGE = 32.0F;
 
 	public BarnacleEntity(EntityType<? extends Monster> entityType, Level level) {
@@ -156,7 +156,7 @@ public final class BarnacleEntity extends Monster implements AnimatedEntity {
 		return attributes
 			.add(Attributes.MAX_HEALTH, 40.0D)
 			.add(Attributes.MOVEMENT_SPEED, 0.55D)
-			.add(Attributes.ATTACK_DAMAGE, 4.0)
+			.add(Attributes.ATTACK_DAMAGE, GENERIC_ATTACK_DAMAGE)
 			.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
 			.add(Attributes.SCALE);
 	}

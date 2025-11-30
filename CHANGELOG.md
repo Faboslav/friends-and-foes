@@ -4,6 +4,7 @@
 - Fixed iceologer cabingeneration conditions
 - Fixed illusioner shack generation conditions
 - Fixed illusioner training grounds generation conditions
+- Updated zh_cn translation (Thanks to Bishop-06)
 
 ## 4.0.15
 

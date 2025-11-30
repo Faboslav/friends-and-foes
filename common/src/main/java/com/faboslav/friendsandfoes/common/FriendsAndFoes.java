@@ -88,7 +88,7 @@ public final class FriendsAndFoes
 		FriendsAndFoesStatusEffects.STATUS_EFFECTS.init();
 		FriendsAndFoesStructureProcessorTypes.STRUCTURE_PROCESSOR.init();
 		FriendsAndFoesStructureProcessorTypes.init();
-		FriendsAndFoesStructureTypes.STRUCTURES.init();
+		FriendsAndFoesStructureTypes.STRUCTURE_TYPES.init();
 		FriendsAndFoesVillagerProfessions.VILLAGER_PROFESSIONS.init();
 	}
 

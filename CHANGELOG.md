@@ -1,3 +1,10 @@
+## 4.0.16
+
+- Fixed citadel generation conditions
+- Fixed iceologer cabingeneration conditions
+- Fixed illusioner shack generation conditions
+- Fixed illusioner training grounds generation conditions
+
 ## 4.0.15
 
 - Fixed copper golem data fixer upper

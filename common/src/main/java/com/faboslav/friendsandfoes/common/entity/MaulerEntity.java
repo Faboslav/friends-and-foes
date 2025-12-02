@@ -39,6 +39,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
@@ -75,7 +76,7 @@ import net.minecraft.world.entity.EntitySpawnReason;
  *///?}
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-public final class MaulerEntity extends PathfinderMob implements NeutralMob, AnimatedEntity
+public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEntity
 {
 	private static final int HEALTH = 20;
 	private static final float ANGERED_MOVEMENT_SPEED = 0.5F;
@@ -260,8 +261,13 @@ public final class MaulerEntity extends PathfinderMob implements NeutralMob, Ani
 	}
 
 	@Override
-	public boolean removeWhenFarAway(double distanceSquared) {
-		return !this.hasCustomName();
+	public @Nullable AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
+		return null;
+	}
+
+	@Override
+	public boolean isFood(ItemStack itemStack) {
+		return false;
 	}
 
 	public static boolean canSpawn(

@@ -1,3 +1,7 @@
+## 4.0.17
+
+- Fixed maulers despawning
+
 ## 4.0.16
 
 - Fixed citadel generation conditions

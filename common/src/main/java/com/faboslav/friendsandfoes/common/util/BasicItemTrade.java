@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.common.util;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.npc.VillagerTrades;
@@ -32,7 +33,13 @@ public class BasicItemTrade implements VillagerTrades.ItemListing  {
 	}
 
 	@Override
-	public MerchantOffer getOffer(Entity entity, RandomSource random) {
+	public MerchantOffer getOffer(
+		//? if >= 1.21.11 {
+		/*ServerLevel serverLevel,
+		*///?}
+		Entity entity,
+		RandomSource random
+	) {
 		ItemCost in = new ItemCost(this.itemToTrade, this.amountToGive);
 		ItemStack out = new ItemStack(this.itemToReceive, this.amountToReceive);
 		return new MerchantOffer(in, out, this.maxUses, this.experience, this.multiplier);

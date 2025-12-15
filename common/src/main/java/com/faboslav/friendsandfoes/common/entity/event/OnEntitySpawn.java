@@ -91,7 +91,7 @@ public final class OnEntitySpawn
 
 			entityToSpawn.finalizeSpawn(
 				(ServerLevelAccessor) world,
-				world.getCurrentDifficultyAt(entity.blockPosition()),
+				((ServerLevelAccessor) world).getCurrentDifficultyAt(entity.blockPosition()),
 				event.spawnReason(),
 				null
 			);

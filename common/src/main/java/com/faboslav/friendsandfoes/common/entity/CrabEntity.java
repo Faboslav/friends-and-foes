@@ -40,7 +40,6 @@ import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.FlyingAnimal;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -470,7 +469,7 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 	protected void ageBoundaryReached() {
 		super.ageBoundaryReached();
 
-		if (!this.isBaby() && VersionedGameRulesProvider.getGameRules(this).getBoolean(GameRules.RULE_DOMOBLOOT)/*? if >=1.21.3 {*/&& this.level() instanceof ServerLevel serverLevel/*?}*/) {
+		if (!this.isBaby() && VersionedGameRulesProvider.getBoolean(this, VersionedGameRulesProvider.MOB_DROPS)/*? if >=1.21.3 {*/&& this.level() instanceof ServerLevel serverLevel/*?}*/) {
 			VersionedEntity.spawnAtLocation(this, FriendsAndFoesItems.CRAB_CLAW.get().getDefaultInstance(), 1);
 		}
 	}
@@ -526,7 +525,7 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 		mate.resetLove();
 		RandomSource random = this.getRandom();
 
-		if (VersionedGameRulesProvider.getGameRules(this).getBoolean(GameRules.RULE_DOMOBLOOT)) {
+		if (VersionedGameRulesProvider.getBoolean(this, VersionedGameRulesProvider.MOB_DROPS)) {
 			this.level().addFreshEntity(new ExperienceOrb(this.level(), this.getX(), this.getY(), this.getZ(), random.nextInt(7) + 1));
 		}
 	}

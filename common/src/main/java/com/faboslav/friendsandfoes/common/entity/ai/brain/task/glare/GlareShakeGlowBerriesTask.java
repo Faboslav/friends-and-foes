@@ -12,7 +12,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.CaveVines;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -34,7 +33,7 @@ public final class GlareShakeGlowBerriesTask extends Behavior<GlareEntity>
 	protected boolean checkExtraStartConditions(ServerLevel world, GlareEntity glare) {
 		GlobalPos glowBerriesPos = glare.getGlowBerriesPos();
 
-		return VersionedGameRulesProvider.getGameRules(glare).getBoolean(GameRules.RULE_MOBGRIEFING) != false
+		return VersionedGameRulesProvider.getBoolean(glare, VersionedGameRulesProvider.MOB_GRIEFING) != false
 			   && FriendsAndFoes.getConfig().enableGlareGriefing != false
 			   && !glare.isLeashed()
 			   && !glare.isOrderedToSit()
@@ -53,7 +52,7 @@ public final class GlareShakeGlowBerriesTask extends Behavior<GlareEntity>
 	protected boolean canStillUse(ServerLevel world, GlareEntity glare, long time) {
 		GlobalPos glowBerriesPos = glare.getGlowBerriesPos();
 
-		return VersionedGameRulesProvider.getGameRules(glare).getBoolean(GameRules.RULE_MOBGRIEFING) != false
+		return VersionedGameRulesProvider.getBoolean(glare, VersionedGameRulesProvider.MOB_GRIEFING) != false
 			   && FriendsAndFoes.getConfig().enableGlareGriefing != false
 			   && !glare.isLeashed()
 			   && !glare.isOrderedToSit()
@@ -84,7 +83,7 @@ public final class GlareShakeGlowBerriesTask extends Behavior<GlareEntity>
 
 	private void shakeOffGlowBerries(GlareEntity glare) {
 		if (
-			VersionedGameRulesProvider.getGameRules(glare).getBoolean(GameRules.RULE_MOBGRIEFING) == false
+			VersionedGameRulesProvider.getBoolean(glare, VersionedGameRulesProvider.MOB_GRIEFING) == false
 			|| FriendsAndFoes.getConfig().enableGlareGriefing == false
 		) {
 			return;

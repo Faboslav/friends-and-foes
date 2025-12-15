@@ -61,11 +61,11 @@ public final class KeyframeAnimator
 					keyframe2.interpolation().apply(vector3f, k, keyframes, i, j, scale);
 					var target = animationChannel.target();
 
-					if(target == AnimationChannel.Target.POSITION) {
+					if(target == AnimationChannel.Targets.POSITION) {
 						modelPart.offsetPos(vector3f);
-					} else if(target == AnimationChannel.Target.ROTATION) {
+					} else if(target == AnimationChannel.Targets.ROTATION) {
 						modelPart.offsetRotation(vector3f);
-					} else if(target == AnimationChannel.Target.SCALE) {
+					} else if(target == AnimationChannel.Targets.SCALE) {
 						modelPart.offsetScale(vector3f);
 					}
 				});

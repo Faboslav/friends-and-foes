@@ -130,6 +130,11 @@ public final class FriendsAndFoesConfig
 
 	@SerialEntry()
 	@AutoGen(category = MOBS_CATEGORY, group = CRAB_GROUP)
+	@IntField(min = 1, max = 100000)
+	public int crabPotionOfReachingDuration = 3600;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = CRAB_GROUP)
 	@IntSlider(min = 0, max = 100, step = 1)
 	public int reachingStatusEffectModifier = 1;
 

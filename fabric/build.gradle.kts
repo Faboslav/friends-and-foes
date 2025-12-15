@@ -1,3 +1,6 @@
+import java.nio.file.StandardOpenOption
+import kotlin.io.path.writeText
+
 plugins {
 	id("fabric-loom")
 	id("multiloader-loader")
@@ -49,14 +52,16 @@ dependencies {
 		modImplementation("dev.emi:trinkets:${trinketsVersion}")
 	}
 
+	/*
 	commonMod.depOrNull("devauth")?.let { devauthVersion ->
 		modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:${devauthVersion}")
-	}
+	}*/
 }
 
 loom {
 	accessWidenerPath = common.project.file("../../src/main/resources/accesswideners/${commonMod.mc}-${mod.id}.accesswidener")
 
+	/*
 	runs {
 		getByName("client") {
 			client()
@@ -68,12 +73,47 @@ loom {
 			configName = "Fabric Server"
 			ideConfigGenerated(true)
 		}
-	}
+	}*/
 
 	mixin {
 		defaultRefmapName = "${mod.id}.refmap.json"
 	}
 }
+
+// Use this, until https://github.com/FabricMC/fabric-loom/issues/1349 is fixed
+val loader = "fabric"
+val version = stonecutter.current.project
+val text = """
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" factoryName="Gradle" name="$loader (:$loader:$version)" type="GradleRunConfiguration" folderName="Client" nameIsGenerated="false">
+    <ExternalSystemSettings>
+      <option name="executionName" />
+      <option name="externalProjectPath" value="${project.projectDir}" />
+      <option name="externalSystemIdString" value="GRADLE" />
+      <option name="scriptParameters" value="" />
+      <option name="taskDescriptions">
+        <list />
+      </option>
+      <option name="taskNames">
+        <list>
+          <option value=":$loader:$version:runClient" />
+        </list>
+      </option>
+      <option name="vmOptions" />
+    </ExternalSystemSettings>
+    <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+    <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+    <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
+    <DebugAllEnabled>false</DebugAllEnabled>
+    <RunAsTest>false</RunAsTest>
+    <GradleProfilingDisabled>false</GradleProfilingDisabled>
+    <GradleCoverageDisabled>false</GradleCoverageDisabled>
+    <method v="2" />
+  </configuration>
+</component>
+"""
+rootProject.file(".idea/runConfigurations/client_${version}_${loader}.run.xml").toPath()
+	.writeText(text, Charsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)
 
 tasks.named<ProcessResources>("processResources") {
 	val awFile = project(":common").file("src/main/resources/accesswideners/${commonMod.mc}-${mod.id}.accesswidener")

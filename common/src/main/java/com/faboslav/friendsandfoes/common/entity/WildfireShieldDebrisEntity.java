@@ -69,7 +69,7 @@ public final class WildfireShieldDebrisEntity extends Fireball
 
 		if (
 			!(entity instanceof Mob)
-			|| VersionedGameRulesProvider.getGameRules(this).getBoolean(GameRules.RULE_MOBGRIEFING)
+			|| VersionedGameRulesProvider.getBoolean(this, VersionedGameRulesProvider.MOB_GRIEFING)
 		) {
 			BlockPos blockPos = blockHitResult.getBlockPos().relative(blockHitResult.getDirection());
 

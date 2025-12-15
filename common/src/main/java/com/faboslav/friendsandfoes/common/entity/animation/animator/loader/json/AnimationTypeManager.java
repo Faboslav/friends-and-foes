@@ -1,8 +1,8 @@
 package com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json;
 
 import com.faboslav.friendsandfoes.common.entity.animation.AnimationChannel;
-import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.AnimationTarget;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.Keyframe;
+import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.AnimationTarget;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.serialization.Codec;
@@ -48,65 +48,40 @@ public final class AnimationTypeManager {
 
 	private AnimationTypeManager() {}
 
-	/**
-	 * Gets the {@link AnimationTarget} associated with the given {@code name}.
-	 */
 	@Nullable
 	public static AnimationTarget getTarget(ResourceLocation name) {
 		return TARGETS.get(name);
 	}
 
-	/**
-	 * Gets the {@link ResourceLocation} associated with the given {@code target}.
-	 */
 	@Nullable
 	public static ResourceLocation getTargetName(AnimationTarget target) {
 		return TARGETS.inverse().get(target);
 	}
 
-	/**
-	 * Gets the full {@link AnimationTarget} from its {@link AnimationTarget#channelTarget() channelTarget}.
-	 */
 	@Nullable
 	public static AnimationTarget getTargetFromChannelTarget(AnimationChannel.Target target) {
 		return TARGETS_BY_CHANNEL_TARGET.get(target);
 	}
 
-	/**
-	 * Gets the {@link Codec} used to decode a {@link Keyframe} with the specified {@link AnimationTarget}.
-	 */
 	@Nullable
 	public static Codec<Keyframe> getKeyframeCodec(AnimationTarget target) {
 		return KEYFRAME_CODECS.get(target);
 	}
 
-	/**
-	 * Gets the {@link AnimationChannel.Interpolation interpolation function} associated with the given {@code name}.
-	 */
 	@Nullable
 	public static AnimationChannel.Interpolation getInterpolation(ResourceLocation name) {
 		return INTERPOLATIONS.get(name);
 	}
 
-	/**
-	 * Gets the {@link ResourceLocation} associated with the given {@code interpolation}.
-	 */
 	@Nullable
 	public static ResourceLocation getInterpolationName(AnimationChannel.Interpolation interpolation) {
 		return INTERPOLATIONS.inverse().get(interpolation);
 	}
 
-	/**
-	 * Retrieves a comma-separated list of all available {@link AnimationTarget}s, for use in error messages.
-	 */
 	public static String getTargetList() {
 		return TARGET_LIST;
 	}
 
-	/**
-	 * Retrieves a comma-separated list of all available
-	 * {@link AnimationChannel.Interpolation interpolation function}s, for use in error messages.
-	 */
 	public static String getInterpolationList() {
 		return INTERPOLATION_LIST;
 	}

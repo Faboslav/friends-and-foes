@@ -6,9 +6,15 @@ import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistries;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistry;
 import net.minecraft.advancements.CriterionTrigger;
+import net.minecraft.core.registries.BuiltInRegistries;
+
+//? if 1.21.11 {
+/*import net.minecraft.advancements.criterion.LightningStrikeTrigger;
+import net.minecraft.advancements.criterion.TameAnimalTrigger;
+*///?} else {
 import net.minecraft.advancements.critereon.LightningStrikeTrigger;
 import net.minecraft.advancements.critereon.TameAnimalTrigger;
-import net.minecraft.core.registries.BuiltInRegistries;
+//?}
 
 public final class FriendsAndFoesCriterias
 {

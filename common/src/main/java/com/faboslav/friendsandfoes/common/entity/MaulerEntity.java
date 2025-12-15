@@ -40,6 +40,7 @@ import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
@@ -104,9 +105,17 @@ public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEn
 	private static final EntityDataAccessor<Float> BURROWING_DOWN_ANIMATION_PROGRESS;
 	private static final EntityDataAccessor<Integer> POSE_TICKS;
 	private static final EntityDataAccessor<FriendsAndFoesEntityPose> ENTITY_POSE = SynchedEntityData.defineId(MaulerEntity.class, FriendsAndFoesEntityDataSerializers.ENTITY_POSE);
+	//? if >= 1.21.11 {
+	/*private static final EntityDataAccessor<Long> ANGER_END_TIME = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.LONG);
+	*///?}
 
+	//? if >= 1.21.11 {
+	/*@Nullable
+	private EntityReference<LivingEntity> angryAt;
+	*///?} else {
 	@Nullable
 	private UUID angryAt;
+	//?}
 
 	public MaulerBurrowDownGoal burrowDownGoal;
 
@@ -190,6 +199,10 @@ public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEn
 		builder.define(BURROWING_DOWN_ANIMATION_PROGRESS, 0.0F);
 		builder.define(POSE_TICKS, 0);
 		builder.define(ENTITY_POSE, FriendsAndFoesEntityPose.IDLE);
+
+		//? if >= 1.21.11 {
+		/*builder.define(ANGER_END_TIME, -1L);
+		*///?}
 	}
 
 	@Override
@@ -576,13 +589,34 @@ public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEn
 	}
 
 	@Nullable
-	public UUID getPersistentAngerTarget() {
+	//? if >= 1.21.11 {
+	/*public EntityReference<LivingEntity> getPersistentAngerTarget()
+	*///?} else {
+	public UUID getPersistentAngerTarget()
+	//?}
+	{
 		return this.angryAt;
 	}
 
-	public void setPersistentAngerTarget(@Nullable UUID angryAt) {
+	public void setPersistentAngerTarget(
+	//? if >= 1.21.11 {
+	/*@Nullable EntityReference<LivingEntity> angryAt
+	*///?} else {
+	@Nullable UUID angryAt
+	//?}
+	) {
 		this.angryAt = angryAt;
 	}
+
+	//? if >= 1.21.11 {
+	/*public long getPersistentAngerEndTime() {
+		return this.entityData.get(ANGER_END_TIME);
+	}
+
+	public void setPersistentAngerEndTime(long persistentAngerEndTime) {
+		this.entityData.set(ANGER_END_TIME, persistentAngerEndTime);
+	}
+	*///? }
 
 	public Type getMaulerType() {
 		return MaulerEntity.Type.fromName(this.entityData.get(TYPE));

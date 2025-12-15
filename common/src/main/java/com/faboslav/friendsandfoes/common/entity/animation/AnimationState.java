@@ -69,4 +69,3 @@ public class AnimationState {
 		return this.lastTime != Long.MAX_VALUE;
 	}
 }
-

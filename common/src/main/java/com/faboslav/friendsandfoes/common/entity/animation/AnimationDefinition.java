@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.common.entity.animation;
 
 import com.google.common.collect.Maps;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +57,10 @@ public record AnimationDefinition(String name, float lengthInSeconds, boolean lo
 		public Builder(String name, float lengthInSeconds) {
 			this.name = name;
 			this.lengthInSeconds = lengthInSeconds;
+		}
+
+		public static AnimationDefinition.Builder create(String name, float lengthInSeconds) {
+			return new AnimationDefinition.Builder(name, lengthInSeconds);
 		}
 
 		public AnimationDefinition.Builder looping() {

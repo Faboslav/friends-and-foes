@@ -77,7 +77,7 @@ public final class VersionedNbt
 
 	//? if >=1.21.6 {
 	public static boolean getBoolean(ValueInput nbt, String key, boolean defaultValue)
-	//?} else {
+	 //?} else {
 	/*public static boolean getBoolean(CompoundTag nbt, String key, boolean defaultValue)
 	*///?}
 	{

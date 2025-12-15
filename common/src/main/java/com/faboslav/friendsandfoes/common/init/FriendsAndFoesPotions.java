@@ -15,7 +15,7 @@ public final class FriendsAndFoesPotions
 {
 	public static final ResourcefulRegistry<Potion> POTIONS = ResourcefulRegistries.create(BuiltInRegistries.POTION, FriendsAndFoes.MOD_ID);
 
-	public static final HolderRegistryEntry<Potion> REACHING = POTIONS.registerHolder("reaching", () -> new Potion("reaching", new MobEffectInstance(FriendsAndFoesStatusEffects.REACH.holder(), 72000)));
-	public static final HolderRegistryEntry<Potion> LONG_REACHING = POTIONS.registerHolder("long_reaching", () -> new Potion("reaching", new MobEffectInstance(FriendsAndFoesStatusEffects.REACH.holder(), 144000)));
-	public static final HolderRegistryEntry<Potion> STRONG_REACHING = POTIONS.registerHolder("strong_reaching", () -> new Potion("reaching", new MobEffectInstance(FriendsAndFoesStatusEffects.REACH.holder(), 36000, 1)));
+	public static final HolderRegistryEntry<Potion> REACHING = POTIONS.registerHolder("reaching", () -> new Potion("reaching", new MobEffectInstance(FriendsAndFoesStatusEffects.REACH.holder(), FriendsAndFoes.getConfig().crabPotionOfReachingDuration * 20)));
+	public static final HolderRegistryEntry<Potion> LONG_REACHING = POTIONS.registerHolder("long_reaching", () -> new Potion("reaching", new MobEffectInstance(FriendsAndFoesStatusEffects.REACH.holder(), (FriendsAndFoes.getConfig().crabPotionOfReachingDuration * 2) * 20)));
+	public static final HolderRegistryEntry<Potion> STRONG_REACHING = POTIONS.registerHolder("strong_reaching", () -> new Potion("reaching", new MobEffectInstance(FriendsAndFoesStatusEffects.REACH.holder(), (FriendsAndFoes.getConfig().crabPotionOfReachingDuration / 2) * 20, 1)));
 }

@@ -1,3 +1,8 @@
+## 4.0.18
+
+- Fixed maulers despawning
+
+
 ## 4.0.17
 
 - Fixed maulers despawning

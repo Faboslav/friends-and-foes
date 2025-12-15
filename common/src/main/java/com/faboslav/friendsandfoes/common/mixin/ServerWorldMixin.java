@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.ZombieHorseEntityAccess;
+import com.faboslav.friendsandfoes.common.versions.VersionedGameRulesProvider;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.core.BlockPos;
@@ -14,7 +15,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.animal.horse.ZombieHorse;
 import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.chunk.LevelChunk;
@@ -102,7 +102,7 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel
 				&& this.isRainingAt(blockPos = this.findLightningTargetAround(this.getBlockRandomPos(i, 0, j, 15)))
 			) {
 				DifficultyInstance localDifficulty = this.getCurrentDifficultyAt(blockPos);
-				boolean canZombieHorseSpawn = ((ServerLevel)(Object)this).getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && this.random.nextDouble() < (double) localDifficulty.getEffectiveDifficulty() * 0.01;
+				boolean canZombieHorseSpawn = VersionedGameRulesProvider.getBoolean((ServerLevel)(Object)this, VersionedGameRulesProvider.SPAWN_MOBS) && this.random.nextDouble() < (double) localDifficulty.getEffectiveDifficulty() * 0.01;
 
 				//? if <= 1.21.8 {
 				/*canZombieHorseSpawn = canZombieHorseSpawn && !this.getBlockState(blockPos.below()).is(FriendsAndFoesTags.LIGHTNING_RODS);

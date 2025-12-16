@@ -1,7 +1,7 @@
 ## 4.0.18
 
-- Fixed maulers despawning
-
+- Added potion of reaching duration as a configurable option to the config
+- Port to 1.21.11
 
 ## 4.0.17
 

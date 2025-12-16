@@ -61,7 +61,6 @@ dependencies {
 loom {
 	accessWidenerPath = common.project.file("../../src/main/resources/accesswideners/${commonMod.mc}-${mod.id}.accesswidener")
 
-	/*
 	runs {
 		getByName("client") {
 			client()
@@ -73,7 +72,7 @@ loom {
 			configName = "Fabric Server"
 			ideConfigGenerated(true)
 		}
-	}*/
+	}
 
 	mixin {
 		defaultRefmapName = "${mod.id}.refmap.json"
@@ -81,6 +80,7 @@ loom {
 }
 
 // Use this, until https://github.com/FabricMC/fabric-loom/issues/1349 is fixed
+/*
 val loader = "fabric"
 val version = stonecutter.current.project
 val text = """
@@ -113,7 +113,7 @@ val text = """
 </component>
 """
 rootProject.file(".idea/runConfigurations/client_${version}_${loader}.run.xml").toPath()
-	.writeText(text, Charsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)
+	.writeText(text, Charsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)*/
 
 tasks.named<ProcessResources>("processResources") {
 	val awFile = project(":common").file("src/main/resources/accesswideners/${commonMod.mc}-${mod.id}.accesswidener")

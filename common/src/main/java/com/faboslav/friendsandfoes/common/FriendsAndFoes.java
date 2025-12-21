@@ -16,7 +16,7 @@ import com.faboslav.friendsandfoes.common.network.packet.EntityAnimationsSyncPac
 import com.faboslav.friendsandfoes.common.network.packet.MoobloomVariantsSyncPacket;
 import com.faboslav.friendsandfoes.common.platform.PlatformHooks;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,8 +26,8 @@ public final class FriendsAndFoes
 	private static final FriendsAndFoesConfig CONFIG = new FriendsAndFoesConfig();
 	public static final String MOD_ID = "friendsandfoes";
 
-	public static ResourceLocation makeID(String path) {
-		return ResourceLocation.fromNamespaceAndPath(
+	public static Identifier makeID(String path) {
+		return Identifier.fromNamespaceAndPath(
 			MOD_ID,
 			path
 		);
@@ -37,8 +37,8 @@ public final class FriendsAndFoes
 		return MOD_ID + ":" + name;
 	}
 
-	public static ResourceLocation makeNamespacedId(String id) {
-		return ResourceLocation.tryParse(
+	public static Identifier makeNamespacedId(String id) {
+		return Identifier.tryParse(
 			id
 		);
 	}

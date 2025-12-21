@@ -3,7 +3,7 @@ package com.faboslav.friendsandfoes.common.util;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.entity.npc.villager.VillagerTrades;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.trading.ItemCost;
@@ -35,8 +35,8 @@ public class BasicItemTrade implements VillagerTrades.ItemListing  {
 	@Override
 	public MerchantOffer getOffer(
 		//? if >= 1.21.11 {
-		/*ServerLevel serverLevel,
-		*///?}
+		ServerLevel serverLevel,
+		//?}
 		Entity entity,
 		RandomSource random
 	) {

@@ -3,7 +3,7 @@ package com.faboslav.friendsandfoes.common.world.processor;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStructureProcessorTypes;
 import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
 import com.mojang.serialization.MapCodec;
-import net.minecraft.Util;
+import net.minecraft.util.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;

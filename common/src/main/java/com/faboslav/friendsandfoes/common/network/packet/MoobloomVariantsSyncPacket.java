@@ -14,14 +14,14 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import java.util.ArrayList;
 import java.util.List;
 
 public record MoobloomVariantsSyncPacket(
 	List<MoobloomVariant> moobloomVariants) implements Packet<MoobloomVariantsSyncPacket>
 {
-	public static final ResourceLocation ID = FriendsAndFoes.makeID("moobloom_variants_sync_packet");
+	public static final Identifier ID = FriendsAndFoes.makeID("moobloom_variants_sync_packet");
 	public static final ClientboundPacketType<MoobloomVariantsSyncPacket> TYPE = new MoobloomVariantsSyncPacket.Handler();
 
 	public static void sendToClient(DatapackSyncEvent event) {
@@ -36,7 +36,7 @@ public record MoobloomVariantsSyncPacket(
 	public static class Handler implements ClientboundPacketType<MoobloomVariantsSyncPacket>
 	{
 		@Override
-		public ResourceLocation id() {
+		public Identifier id() {
 			return ID;
 		}
 

@@ -11,14 +11,14 @@ import com.faboslav.friendsandfoes.common.util.TotemUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 
 public record TotemEffectPacket(Item item, int entityId) implements Packet<TotemEffectPacket>
 {
-	public static final ResourceLocation ID = FriendsAndFoes.makeID("totem_effect_packet");
+	public static final Identifier ID = FriendsAndFoes.makeID("totem_effect_packet");
 	public static final ClientboundPacketType<TotemEffectPacket> TYPE = new TotemEffectPacket.Handler();
 
 	public static void sendToClient(Player player, Item totem) {
@@ -35,7 +35,7 @@ public record TotemEffectPacket(Item item, int entityId) implements Packet<Totem
 	public static class Handler implements ClientboundPacketType<TotemEffectPacket>
 	{
 		@Override
-		public ResourceLocation id() {
+		public Identifier id() {
 			return ID;
 		}
 
@@ -58,14 +58,14 @@ public record TotemEffectPacket(Item item, int entityId) implements Packet<Totem
 
 		public TotemEffectPacket decode(final RegistryFriendlyByteBuf buf) {
 			//? if >=1.21.3 {
-			return new TotemEffectPacket(BuiltInRegistries.ITEM.getValue(buf.readResourceLocation()), buf.readInt());
+			return new TotemEffectPacket(BuiltInRegistries.ITEM.getValue(buf.readIdentifier()), buf.readInt());
 			//?} else {
 			/*return new TotemEffectPacket(BuiltInRegistries.ITEM.getHolder(buf.readResourceLocation()).get().value(), buf.readInt());
 			*///?}
 		}
 
 		public void encode(final TotemEffectPacket packet, final RegistryFriendlyByteBuf buf) {
-			buf.writeResourceLocation(BuiltInRegistries.ITEM.getKey(packet.item));
+			buf.writeIdentifier(BuiltInRegistries.ITEM.getKey(packet.item));
 			buf.writeInt(packet.entityId);
 		}
 	}

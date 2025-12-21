@@ -5,7 +5,7 @@ import com.faboslav.friendsandfoes.common.client.render.entity.model.CrabEntityM
 import com.faboslav.friendsandfoes.common.entity.CrabEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 //? if >=1.21.3 {
 import net.minecraft.client.renderer.entity.AgeableMobRenderer;
@@ -22,7 +22,7 @@ public class CrabEntityRenderer extends AgeableMobRenderer<CrabEntity, CrabRende
 /*public final class CrabEntityRenderer extends MobRenderer<CrabEntity, CrabEntityModel<CrabEntity>>
 *///?}
 {
-	private static final ResourceLocation TEXTURE = FriendsAndFoes.makeID("textures/entity/crab/crab.png");
+	private static final Identifier TEXTURE = FriendsAndFoes.makeID("textures/entity/crab/crab.png");
 
 	public CrabEntityRenderer(EntityRendererProvider.Context context) {
 		//? if >=1.21.3 {
@@ -80,7 +80,7 @@ public class CrabEntityRenderer extends AgeableMobRenderer<CrabEntity, CrabRende
 
 	@Override
 		//? if >=1.21.3 {
-	public ResourceLocation getTextureLocation(CrabRenderState renderState)
+	public Identifier getTextureLocation(CrabRenderState renderState)
 		//?} else {
 		/*public ResourceLocation getTextureLocation(CrabEntity crab)
 		 *///?}

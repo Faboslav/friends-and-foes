@@ -9,12 +9,12 @@ import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.core.registries.BuiltInRegistries;
 
 //? if 1.21.11 {
-/*import net.minecraft.advancements.criterion.LightningStrikeTrigger;
+import net.minecraft.advancements.criterion.LightningStrikeTrigger;
 import net.minecraft.advancements.criterion.TameAnimalTrigger;
-*///?} else {
-import net.minecraft.advancements.critereon.LightningStrikeTrigger;
+//?} else {
+/*import net.minecraft.advancements.critereon.LightningStrikeTrigger;
 import net.minecraft.advancements.critereon.TameAnimalTrigger;
-//?}
+*///?}
 
 public final class FriendsAndFoesCriterias
 {

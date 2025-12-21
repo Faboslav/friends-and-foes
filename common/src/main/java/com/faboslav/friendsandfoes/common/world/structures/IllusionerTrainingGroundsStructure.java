@@ -8,7 +8,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.WorldGenerationContext;
 import net.minecraft.world.level.levelgen.heightproviders.HeightProvider;
@@ -24,7 +24,7 @@ public final class IllusionerTrainingGroundsStructure extends Structure
 	public static final MapCodec<IllusionerTrainingGroundsStructure> CODEC = RecordCodecBuilder.<IllusionerTrainingGroundsStructure>mapCodec(instance ->
 		instance.group(IllusionerTrainingGroundsStructure.settingsCodec(instance),
 			StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(structure -> structure.startPool),
-			ResourceLocation.CODEC.optionalFieldOf("start_jigsaw_name").forGetter(structure -> structure.startJigsawName),
+			Identifier.CODEC.optionalFieldOf("start_jigsaw_name").forGetter(structure -> structure.startJigsawName),
 			Codec.intRange(0, 30).fieldOf("size").forGetter(structure -> structure.size),
 			HeightProvider.CODEC.fieldOf("start_height").forGetter(structure -> structure.startHeight),
 			Heightmap.Types.CODEC.optionalFieldOf("project_start_to_heightmap").forGetter(structure -> structure.projectStartToHeightmap),
@@ -36,7 +36,7 @@ public final class IllusionerTrainingGroundsStructure extends Structure
 		).apply(instance, IllusionerTrainingGroundsStructure::new));
 
 	private final Holder<StructureTemplatePool> startPool;
-	private final Optional<ResourceLocation> startJigsawName;
+	private final Optional<Identifier> startJigsawName;
 	private final int size;
 	private final HeightProvider startHeight;
 	private final Optional<Heightmap.Types> projectStartToHeightmap;
@@ -49,7 +49,7 @@ public final class IllusionerTrainingGroundsStructure extends Structure
 	public IllusionerTrainingGroundsStructure(
 		StructureSettings config,
 		Holder<StructureTemplatePool> startPool,
-		Optional<ResourceLocation> startJigsawName,
+		Optional<Identifier> startJigsawName,
 		int size,
 		HeightProvider startHeight,
 		Optional<Heightmap.Types> projectStartToHeightmap,

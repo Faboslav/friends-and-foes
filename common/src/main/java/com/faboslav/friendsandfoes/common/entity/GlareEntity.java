@@ -81,13 +81,15 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 	public static final float BABY_SCALE = 0.4F;
 
 	private static final Vec3i ITEM_PICKUP_RANGE_EXPANDER = new Vec3i(1, 1, 1);
-	public static final Predicate<ItemEntity> PICKABLE_FOOD_FILTER;
+	public static final Predicate<ItemEntity> PICKABLE_FOOD_FILTER = (itemEntity) -> {
+		return itemEntity.getItem().is(FriendsAndFoesTags.GLARE_FOOD_ITEMS) && itemEntity.isAlive() && !itemEntity.hasPickUpDelay();
+	};
 	private static final int GRUMPY_BITMASK = 2;
 	private static final float MOVEMENT_SPEED = 0.1F;
 	public static final int MIN_EYE_ANIMATION_TICK_AMOUNT = 10;
 	public static final int LIGHT_THRESHOLD = 5;
 
-	private static final EntityDataAccessor<Byte> GLARE_FLAGS;
+	private static final EntityDataAccessor<Byte> GLARE_FLAGS = SynchedEntityData.defineId(GlareEntity.class, EntityDataSerializers.BYTE);
 
 	private Vec2 targetEyesPositionOffset;
 
@@ -160,13 +162,6 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 		GlareBrain.setItemPickupCooldown(this);
 
 		return super.finalizeSpawn(world, difficulty, spawnReason, entityData);
-	}
-
-	static {
-		GLARE_FLAGS = SynchedEntityData.defineId(GlareEntity.class, EntityDataSerializers.BYTE);
-		PICKABLE_FOOD_FILTER = (itemEntity) -> {
-			return itemEntity.getItem().is(FriendsAndFoesTags.GLARE_FOOD_ITEMS) && itemEntity.isAlive() && !itemEntity.hasPickUpDelay();
-		};
 	}
 
 	@Override

@@ -15,12 +15,12 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ambient.Bat;
-import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.monster.zombie.Zombie;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -36,8 +36,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 //? if >= 1.21.11 {
-/*import net.minecraft.world.attribute.EnvironmentAttributes;
-*///?}
+import net.minecraft.world.attribute.EnvironmentAttributes;
+//?}
 
 public final class CrabEggBlock extends Block
 {
@@ -122,10 +122,10 @@ public final class CrabEggBlock extends Block
 
 	private boolean shouldHatchProgress(Level world, BlockPos blockPos) {
 		//? if >= 1.21.11 {
-		/*float f = world.environmentAttributes().getValue(EnvironmentAttributes.TURTLE_EGG_HATCH_CHANCE, blockPos);
-		*///?} else {
-		float f = world.getTimeOfDay(1.0F);
-		//?}
+		float f = world.environmentAttributes().getValue(EnvironmentAttributes.TURTLE_EGG_HATCH_CHANCE, blockPos);
+		//?} else {
+		/*float f = world.getTimeOfDay(1.0F);
+		*///?}
 
 		return f > 0.0F && world.getRandom().nextFloat() < f;
 	}

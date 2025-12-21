@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.common.util.world.processor;
 
 import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
-import net.minecraft.Util;
+import net.minecraft.util.Util;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;

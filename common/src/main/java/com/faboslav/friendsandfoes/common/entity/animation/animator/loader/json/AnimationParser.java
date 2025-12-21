@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.ExtraCodecs;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
@@ -40,7 +40,7 @@ public final class AnimationParser {
 	 * {@snippet lang = JSON : "minecraft:rotation"
 	 * }
 	 */
-	private static final Codec<AnimationTarget> TARGET_CODEC = ResourceLocation.CODEC
+	private static final Codec<AnimationTarget> TARGET_CODEC = Identifier.CODEC
 		.flatXmap(
 			name -> Optional.ofNullable(AnimationTypeManager.getTarget(name))
 				.map(DataResult::success)
@@ -57,7 +57,7 @@ public final class AnimationParser {
 	 * {@snippet lang = JSON : "minecraft:linear"
 	 * }
 	 */
-	private static final Codec<AnimationChannel.Interpolation> INTERPOLATION_CODEC = ResourceLocation.CODEC
+	private static final Codec<AnimationChannel.Interpolation> INTERPOLATION_CODEC = Identifier.CODEC
 		.flatXmap(
 			name -> Optional.ofNullable(AnimationTypeManager.getInterpolation(name))
 				.map(DataResult::success)
@@ -86,11 +86,11 @@ public final class AnimationParser {
 	 */
 	public static final MapCodec<AnimationChannel> CHANNEL_CODEC = new KeyDispatchCodec<>(
 		//? if >= 1.21.11 {
-		/*TARGET_CODEC.fieldOf("target"),
-		*///?} else {
-		"target",
+		TARGET_CODEC.fieldOf("target"),
+		//?} else {
+		/*"target",
 		TARGET_CODEC,
-		//?}
+		*///?}
 		channel -> Optional.ofNullable(AnimationTypeManager.getTargetFromChannelTarget(channel.target()))
 			.map(DataResult::success)
 			.orElseGet(() -> DataResult.error(() -> String.format(

@@ -3,8 +3,8 @@ package com.faboslav.friendsandfoes.common.init;
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.*;
 import com.faboslav.friendsandfoes.common.events.client.RegisterEntityLayersEvent;
-import net.minecraft.client.model.CowModel;
-import net.minecraft.client.model.IllagerModel;
+import net.minecraft.client.model.animal.cow.CowModel;
+import net.minecraft.client.model.monster.illager.IllagerModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelLayers;
 

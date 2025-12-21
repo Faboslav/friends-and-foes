@@ -25,18 +25,13 @@ import net.minecraft.world.item.ItemStack;
 
 public class CopperGolemSpecificSensor extends Sensor<CopperGolemEntity>
 {
-	private static final Predicate<Player> NOTICEABLE_PLAYER_FILTER;
-	private static final UniformInt AVOID_MEMORY_DURATION;
+	private static final Predicate<Player> NOTICEABLE_PLAYER_FILTER = (player) -> {
+		ItemStack itemStack = player.getItemInHand(InteractionHand.MAIN_HAND);
+		Item itemInHand = itemStack.getItem();
 
-	static {
-		NOTICEABLE_PLAYER_FILTER = (player) -> {
-			ItemStack itemStack = player.getItemInHand(InteractionHand.MAIN_HAND);
-			Item itemInHand = itemStack.getItem();
-
-			return itemInHand instanceof AxeItem && EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(player);
-		};
-		AVOID_MEMORY_DURATION = TimeUtil.rangeOfSeconds(5, 10);
-	}
+		return itemInHand instanceof AxeItem && EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(player);
+	};
+	private static final UniformInt AVOID_MEMORY_DURATION = TimeUtil.rangeOfSeconds(5, 10);
 
 	@Override
 	public Set<MemoryModuleType<?>> requires() {

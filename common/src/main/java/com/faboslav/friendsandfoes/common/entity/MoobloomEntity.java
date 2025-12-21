@@ -41,7 +41,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.Nullable;
-import net.minecraft.world.entity.animal.Cow;
+import net.minecraft.world.entity.animal.cow.Cow;
 import java.util.Optional;
 
 //? if >=1.21.6 {
@@ -52,7 +52,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 *///?}
 
 //? if >=1.21.5 {
-import net.minecraft.world.entity.animal.AbstractCow;
+import net.minecraft.world.entity.animal.cow.AbstractCow;
 //?}
 
 //? if >=1.21.3 {
@@ -70,7 +70,7 @@ public final class MoobloomEntity extends AbstractCow implements Shearable
 	public static final String VARIANT_NBT_NAME = "Variant";
 	public static final String FLOWER_NBT_NAME = "Flower";
 
-	private static final EntityDataAccessor<String> VARIANT;
+	private static final EntityDataAccessor<String> VARIANT = SynchedEntityData.defineId(MoobloomEntity.class, EntityDataSerializers.STRING);
 
 	public MoobloomEntity(
 		EntityType<? extends MoobloomEntity> entityType,
@@ -361,9 +361,5 @@ public final class MoobloomEntity extends AbstractCow implements Shearable
 		}
 
 		return moobloomVariant;
-	}
-
-	static {
-		VARIANT = SynchedEntityData.defineId(MoobloomEntity.class, EntityDataSerializers.STRING);
 	}
 }

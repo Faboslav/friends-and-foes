@@ -5,7 +5,7 @@ import com.faboslav.friendsandfoes.common.client.render.entity.model.TuffGolemEn
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 //? if >=1.21.9 {
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -25,7 +25,7 @@ public final class TuffGolemClosedEyesRenderer extends RenderLayer<TuffGolemRend
 /*public final class TuffGolemClosedEyesRenderer extends RenderLayer<TuffGolemEntity, TuffGolemEntityModel<TuffGolemEntity>>
 *///?}
 {
-	private static final ResourceLocation CLOSED_EYES_TEXTURE = FriendsAndFoes.makeID("textures/entity/tuff_golem/closed_eyes.png");
+	private static final Identifier CLOSED_EYES_TEXTURE = FriendsAndFoes.makeID("textures/entity/tuff_golem/closed_eyes.png");
 
 	//? if >=1.21.3 {
 	public TuffGolemClosedEyesRenderer(RenderLayerParent<TuffGolemRenderState, TuffGolemEntityModel> renderLayerParent) {

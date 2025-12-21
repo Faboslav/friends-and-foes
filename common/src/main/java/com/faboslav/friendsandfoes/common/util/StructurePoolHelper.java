@@ -4,7 +4,7 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.mixin.StructurePoolAccessor;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
@@ -16,7 +16,7 @@ public final class StructurePoolHelper
 {
 	public static void addLegacyElementToPool(
 		Registry<StructureTemplatePool> templatePoolRegistry,
-		ResourceLocation poolRL,
+		Identifier poolRL,
 		String name,
 		int weight
 	) {
@@ -44,7 +44,7 @@ public final class StructurePoolHelper
 
 	public static void addSingleElementToPool(
 		Registry<StructureTemplatePool> templatePoolRegistry,
-		ResourceLocation poolRL,
+		Identifier poolRL,
 		String name,
 		int weight
 	) {

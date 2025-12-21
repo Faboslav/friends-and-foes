@@ -6,7 +6,7 @@ import com.faboslav.friendsandfoes.common.entity.RascalEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 //? if >=1.21.3 {
 import com.faboslav.friendsandfoes.common.client.render.entity.state.RascalRenderState;
@@ -19,7 +19,7 @@ public class RascalEntityRenderer extends MobRenderer<RascalEntity, RascalRender
 /*public final class RascalEntityRenderer extends MobRenderer<RascalEntity, RascalEntityModel<RascalEntity>>
 *///?}
 {
-	private static final ResourceLocation TEXTURE = FriendsAndFoes.makeID("textures/entity/rascal/rascal.png");
+	private static final Identifier TEXTURE = FriendsAndFoes.makeID("textures/entity/rascal/rascal.png");
 
 	public RascalEntityRenderer(EntityRendererProvider.Context context) {
 		super(context, new RascalEntityModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.RASCAL_LAYER)), 0.5F);
@@ -40,7 +40,7 @@ public class RascalEntityRenderer extends MobRenderer<RascalEntity, RascalRender
 
 	@Override
 	//? if >=1.21.3 {
-	public ResourceLocation getTextureLocation(RascalRenderState renderState)
+	public Identifier getTextureLocation(RascalRenderState renderState)
 	//?} else {
 	/*public ResourceLocation getTextureLocation(RascalEntity rascal)
 	*///?}

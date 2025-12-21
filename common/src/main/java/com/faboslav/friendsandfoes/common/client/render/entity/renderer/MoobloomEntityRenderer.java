@@ -4,9 +4,9 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.feature.MoobloomFlowerFeatureRenderer;
 import com.faboslav.friendsandfoes.common.entity.MoobloomEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
-import net.minecraft.client.model.CowModel;
+import net.minecraft.client.model.animal.cow.CowModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 //? if >=1.21.3 {
 import net.minecraft.client.renderer.entity.AgeableMobRenderer;
@@ -51,7 +51,7 @@ public final class MoobloomEntityRenderer extends AgeableMobRenderer<MoobloomEnt
 
 	@Override
 	//? if >=1.21.3 {
-	public ResourceLocation getTextureLocation(MoobloomRenderState moobloomRenderState)
+	public Identifier getTextureLocation(MoobloomRenderState moobloomRenderState)
 	//?} else {
 	/*public ResourceLocation getTextureLocation(MoobloomEntity moobloom)
 	*///?}

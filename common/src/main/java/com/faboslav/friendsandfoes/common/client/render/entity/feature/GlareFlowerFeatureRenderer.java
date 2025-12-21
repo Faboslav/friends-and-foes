@@ -6,7 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 //? if <= 1.21.8 {
 /*import net.minecraft.client.renderer.MultiBufferSource;
@@ -28,7 +28,7 @@ public final class GlareFlowerFeatureRenderer extends RenderLayer<GlareRenderSta
 /*public final class GlareFlowerFeatureRenderer extends RenderLayer<GlareEntity, GlareEntityModel<GlareEntity>>
 *///?}
 {
-	private static final ResourceLocation FLOWERING_TEXTURE = FriendsAndFoes.makeID("textures/entity/glare/flowering_glare.png");
+	private static final Identifier FLOWERING_TEXTURE = FriendsAndFoes.makeID("textures/entity/glare/flowering_glare.png");
 
 	//? if >=1.21.3 {
 	public GlareFlowerFeatureRenderer(RenderLayerParent<GlareRenderState, GlareEntityModel> renderLayerParent) {

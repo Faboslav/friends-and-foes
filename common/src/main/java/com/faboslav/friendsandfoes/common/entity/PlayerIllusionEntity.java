@@ -9,7 +9,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -40,13 +39,13 @@ import net.minecraft.world.level.storage.ValueOutput;
 public final class PlayerIllusionEntity extends Mob
 {
 	private static final String TICKS_UNTIL_DESPAWN_NBT_NAME = "TicksUntilDespawn";
-	private static final EntityDataAccessor<Integer> TICKS_UNTIL_DESPAWN;
+	private static final EntityDataAccessor<Integer> TICKS_UNTIL_DESPAWN = SynchedEntityData.defineId(PlayerIllusionEntity.class, EntityDataSerializers.INT);
 	private static final String PLAYER_UUID_NBT_NAME = "PlayerUuid";
-	private static final EntityDataAccessor<Byte> PLAYER_MODEL_PARTS;
+	private static final EntityDataAccessor<Byte> PLAYER_MODEL_PARTS = SynchedEntityData.defineId(PlayerIllusionEntity.class, EntityDataSerializers.BYTE);
 	//? if >=1.21.5 {
-	private static final EntityDataAccessor<Optional<EntityReference<LivingEntity>>> PLAYER_UUID;
+	private static final EntityDataAccessor<Optional<EntityReference<LivingEntity>>> PLAYER_UUID = SynchedEntityData.defineId(PlayerIllusionEntity.class, EntityDataSerializers.OPTIONAL_LIVING_ENTITY_REFERENCE);
 	//?} else {
-	/^private static final EntityDataAccessor<Optional<UUID>> PLAYER_UUID;
+	/^private static final EntityDataAccessor<Optional<UUID>> PLAYER_UUID = SynchedEntityData.defineId(PlayerIllusionEntity.class, EntityDataSerializers.OPTIONAL_UUID);
 	^///?}
 
 	@Nullable
@@ -240,16 +239,6 @@ public final class PlayerIllusionEntity extends Mob
 			this.getSoundVolume(),
 			this.getVoicePitch()
 		);
-	}
-
-	static {
-		PLAYER_MODEL_PARTS = SynchedEntityData.defineId(PlayerIllusionEntity.class, EntityDataSerializers.BYTE);
-		TICKS_UNTIL_DESPAWN = SynchedEntityData.defineId(PlayerIllusionEntity.class, EntityDataSerializers.INT);
-		//? if >=1.21.5 {
-		PLAYER_UUID = SynchedEntityData.defineId(PlayerIllusionEntity.class, EntityDataSerializers.OPTIONAL_LIVING_ENTITY_REFERENCE);
-		//?} else {
-		/^PLAYER_UUID = SynchedEntityData.defineId(PlayerIllusionEntity.class, EntityDataSerializers.OPTIONAL_UUID);
-		^///?}
 	}
 }
 *///?}

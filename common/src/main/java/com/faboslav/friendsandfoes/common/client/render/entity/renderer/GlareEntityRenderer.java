@@ -6,7 +6,7 @@ import com.faboslav.friendsandfoes.common.client.render.entity.model.GlareEntity
 import com.faboslav.friendsandfoes.common.entity.GlareEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 //? if >=1.21.3 {
 import net.minecraft.client.renderer.entity.AgeableMobRenderer;
@@ -23,7 +23,7 @@ public class GlareEntityRenderer extends AgeableMobRenderer<GlareEntity, GlareRe
 /*public final class GlareEntityRenderer extends MobRenderer<GlareEntity, GlareEntityModel<GlareEntity>>
 *///?}
 {
-	private static final ResourceLocation TEXTURE = FriendsAndFoes.makeID("textures/entity/glare/glare.png");
+	private static final Identifier TEXTURE = FriendsAndFoes.makeID("textures/entity/glare/glare.png");
 
 	public GlareEntityRenderer(EntityRendererProvider.Context context) {
 		//? if >=1.21.3 {
@@ -57,7 +57,7 @@ public class GlareEntityRenderer extends AgeableMobRenderer<GlareEntity, GlareRe
 
 	@Override
 	//? if >=1.21.3 {
-	public ResourceLocation getTextureLocation(GlareRenderState renderState)
+	public Identifier getTextureLocation(GlareRenderState renderState)
 	//?} else {
 	/*public ResourceLocation getTextureLocation(GlareEntity glare)
 	*///?}

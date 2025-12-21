@@ -3,8 +3,8 @@ package com.faboslav.friendsandfoes.common.events.entity;
 import com.faboslav.friendsandfoes.common.events.base.EventHandler;
 import java.util.function.BiConsumer;
 
-import net.minecraft.world.entity.npc.VillagerProfession;
-import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.entity.npc.villager.VillagerProfession;
+import net.minecraft.world.entity.npc.villager.VillagerTrades;
 
 //? if >=1.21.5 {
 import net.minecraft.resources.ResourceKey;

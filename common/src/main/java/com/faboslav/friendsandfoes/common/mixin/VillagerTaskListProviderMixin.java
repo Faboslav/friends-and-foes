@@ -6,7 +6,7 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesVillagerProfessions
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.ai.behavior.VillagerGoalPackages;
 import net.minecraft.world.entity.ai.behavior.WorkAtPoi;
-import net.minecraft.world.entity.npc.VillagerProfession;
+import net.minecraft.world.entity.npc.villager.VillagerProfession;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;

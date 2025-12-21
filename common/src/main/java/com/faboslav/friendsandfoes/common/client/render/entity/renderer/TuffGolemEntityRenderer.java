@@ -9,7 +9,7 @@ import com.faboslav.friendsandfoes.common.entity.TuffGolemEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 //? if >=1.21.3 {
 import com.faboslav.friendsandfoes.common.client.render.entity.state.TuffGolemRenderState;
@@ -22,7 +22,7 @@ public final class TuffGolemEntityRenderer extends MobRenderer<TuffGolemEntity, 
 /*public final class TuffGolemEntityRenderer extends MobRenderer<TuffGolemEntity, TuffGolemEntityModel<TuffGolemEntity>>
 *///?}
 {
-	private static final ResourceLocation TEXTURE = FriendsAndFoes.makeID("textures/entity/tuff_golem/tuff_golem.png");
+	private static final Identifier TEXTURE = FriendsAndFoes.makeID("textures/entity/tuff_golem/tuff_golem.png");
 
 	public TuffGolemEntityRenderer(EntityRendererProvider.Context context) {
 		super(context, new TuffGolemEntityModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.TUFF_GOLEM_LAYER)), 0.3F);
@@ -54,7 +54,7 @@ public final class TuffGolemEntityRenderer extends MobRenderer<TuffGolemEntity, 
 
 	@Override
 	//? if >=1.21.3 {
-	public ResourceLocation getTextureLocation(TuffGolemRenderState renderState)
+	public Identifier getTextureLocation(TuffGolemRenderState renderState)
 	//?} else {
 	/*public ResourceLocation getTextureLocation(TuffGolemEntity tuffGolem)
 	 *///?}

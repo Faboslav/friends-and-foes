@@ -40,9 +40,9 @@ import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.animal.bee.Bee;
 import net.minecraft.world.entity.monster.Slime;
-import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.monster.zombie.Zombie;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -96,26 +96,26 @@ public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEn
 	private static final String BURROWING_DOWN_ANIMATION_PROGRESS_NBT_NAME = "BurrowingDownAnimationProgress";
 	private static final String BURROWED_DOWN_TICKS_NBT_NAME = "BurrowedDownTicks";
 
-	private static final EntityDataAccessor<String> TYPE;
-	private static final EntityDataAccessor<Integer> ANGER_TIME;
-	private static final EntityDataAccessor<Integer> STORED_EXPERIENCE_POINTS;
-	private static final EntityDataAccessor<Boolean> IS_MOVING;
-	private static final EntityDataAccessor<Boolean> IS_BURROWED_DOWN;
-	private static final EntityDataAccessor<Integer> TICKS_UNTIL_NEXT_BURROWING_DOWN;
-	private static final EntityDataAccessor<Float> BURROWING_DOWN_ANIMATION_PROGRESS;
-	private static final EntityDataAccessor<Integer> POSE_TICKS;
+	private static final EntityDataAccessor<String> TYPE = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.STRING);
+	private static final EntityDataAccessor<Integer> ANGER_TIME = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<Integer> STORED_EXPERIENCE_POINTS = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<Boolean> IS_MOVING = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<Boolean> IS_BURROWED_DOWN = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<Integer> TICKS_UNTIL_NEXT_BURROWING_DOWN = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<Float> BURROWING_DOWN_ANIMATION_PROGRESS = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.FLOAT);
+	private static final EntityDataAccessor<Integer> POSE_TICKS = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<FriendsAndFoesEntityPose> ENTITY_POSE = SynchedEntityData.defineId(MaulerEntity.class, FriendsAndFoesEntityDataSerializers.ENTITY_POSE);
 	//? if >= 1.21.11 {
-	/*private static final EntityDataAccessor<Long> ANGER_END_TIME = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.LONG);
-	*///?}
+	private static final EntityDataAccessor<Long> ANGER_END_TIME = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.LONG);
+	//?}
 
 	//? if >= 1.21.11 {
-	/*@Nullable
-	private EntityReference<LivingEntity> angryAt;
-	*///?} else {
 	@Nullable
+	private EntityReference<LivingEntity> angryAt;
+	//?} else {
+	/*@Nullable
 	private UUID angryAt;
-	//?}
+	*///?}
 
 	public MaulerBurrowDownGoal burrowDownGoal;
 
@@ -175,17 +175,6 @@ public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEn
 		super(entityType, world);
 	}
 
-	static {
-		TYPE = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.STRING);
-		ANGER_TIME = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.INT);
-		STORED_EXPERIENCE_POINTS = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.INT);
-		IS_MOVING = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.BOOLEAN);
-		IS_BURROWED_DOWN = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.BOOLEAN);
-		TICKS_UNTIL_NEXT_BURROWING_DOWN = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.INT);
-		BURROWING_DOWN_ANIMATION_PROGRESS = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.FLOAT);
-		POSE_TICKS = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.INT);
-	}
-
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder builder) {
 		super.defineSynchedData(builder);
@@ -201,8 +190,8 @@ public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEn
 		builder.define(ENTITY_POSE, FriendsAndFoesEntityPose.IDLE);
 
 		//? if >= 1.21.11 {
-		/*builder.define(ANGER_END_TIME, -1L);
-		*///?}
+		builder.define(ANGER_END_TIME, -1L);
+		//?}
 	}
 
 	@Override
@@ -590,33 +579,33 @@ public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEn
 
 	@Nullable
 	//? if >= 1.21.11 {
-	/*public EntityReference<LivingEntity> getPersistentAngerTarget()
-	*///?} else {
-	public UUID getPersistentAngerTarget()
-	//?}
+	public EntityReference<LivingEntity> getPersistentAngerTarget()
+	//?} else {
+	/*public UUID getPersistentAngerTarget()
+	*///?}
 	{
 		return this.angryAt;
 	}
 
 	public void setPersistentAngerTarget(
 	//? if >= 1.21.11 {
-	/*@Nullable EntityReference<LivingEntity> angryAt
-	*///?} else {
-	@Nullable UUID angryAt
-	//?}
+	@Nullable EntityReference<LivingEntity> angryAt
+	//?} else {
+	/*@Nullable UUID angryAt
+	*///?}
 	) {
 		this.angryAt = angryAt;
 	}
 
 	//? if >= 1.21.11 {
-	/*public long getPersistentAngerEndTime() {
+	public long getPersistentAngerEndTime() {
 		return this.entityData.get(ANGER_END_TIME);
 	}
 
 	public void setPersistentAngerEndTime(long persistentAngerEndTime) {
 		this.entityData.set(ANGER_END_TIME, persistentAngerEndTime);
 	}
-	*///? }
+	//? }
 
 	public Type getMaulerType() {
 		return MaulerEntity.Type.fromName(this.entityData.get(TYPE));

@@ -1,6 +1,7 @@
 ## 4.0.18
 
 - Added potion of reaching duration as a configurable option to the config
+- Fixed order of entity data, which should prevent some random crashes
 - Port to 1.21.11
 
 ## 4.0.17

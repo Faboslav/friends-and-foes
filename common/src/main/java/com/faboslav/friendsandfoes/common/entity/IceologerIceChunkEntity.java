@@ -43,8 +43,8 @@ public final class IceologerIceChunkEntity extends Entity
 	private static final int MIN_IDLE_TICKS = 10;
 	private static final int MAX_IDLE_TICKS = 20;
 	private static final int SUMMON_TICKS = 30;
-	private static final EntityDataAccessor<Integer> TICKS_UNTIL_FALL;
-	private static final EntityDataAccessor<Integer> IDLE_TICKS;
+	private static final EntityDataAccessor<Integer> TICKS_UNTIL_FALL = SynchedEntityData.defineId(IceologerIceChunkEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<Integer> IDLE_TICKS = SynchedEntityData.defineId(IceologerIceChunkEntity.class, EntityDataSerializers.INT);
 
 	//? if >=1.21.6 {
 	private EntityReference<LivingEntity> owner;
@@ -66,11 +66,6 @@ public final class IceologerIceChunkEntity extends Entity
 	private int lifetimeTicks;
 	private float summonAnimationProgress;
 	private float lastSummonAnimationProgress;
-
-	static {
-		TICKS_UNTIL_FALL = SynchedEntityData.defineId(IceologerIceChunkEntity.class, EntityDataSerializers.INT);
-		IDLE_TICKS = SynchedEntityData.defineId(IceologerIceChunkEntity.class, EntityDataSerializers.INT);
-	}
 
 	public IceologerIceChunkEntity(
 		EntityType<? extends IceologerIceChunkEntity> entityType,

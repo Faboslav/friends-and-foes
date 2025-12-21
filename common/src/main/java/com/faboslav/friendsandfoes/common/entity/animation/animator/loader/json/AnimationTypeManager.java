@@ -6,7 +6,7 @@ import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.Anima
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.serialization.Codec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import java.util.function.Function;
@@ -27,18 +27,18 @@ import java.util.stream.Collectors;
  * <a href="https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation">https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation</a>
  */
 public final class AnimationTypeManager {
-	private static final ImmutableBiMap<ResourceLocation, AnimationTarget> DEFAULT_TARGETS = ImmutableBiMap.of(
-		ResourceLocation.withDefaultNamespace("position"), AnimationTarget.POSITION,
-		ResourceLocation.withDefaultNamespace("rotation"), AnimationTarget.ROTATION,
-		ResourceLocation.withDefaultNamespace("scale"), AnimationTarget.SCALE);
-	private static final ImmutableBiMap<ResourceLocation, AnimationChannel.Interpolation> DEFAULT_INTERPOLATIONS = ImmutableBiMap.of(
-		ResourceLocation.withDefaultNamespace("linear"), AnimationChannel.Interpolations.LINEAR,
-		ResourceLocation.withDefaultNamespace("catmullrom"), AnimationChannel.Interpolations.CATMULLROM);
+	private static final ImmutableBiMap<Identifier, AnimationTarget> DEFAULT_TARGETS = ImmutableBiMap.of(
+		Identifier.withDefaultNamespace("position"), AnimationTarget.POSITION,
+		Identifier.withDefaultNamespace("rotation"), AnimationTarget.ROTATION,
+		Identifier.withDefaultNamespace("scale"), AnimationTarget.SCALE);
+	private static final ImmutableBiMap<Identifier, AnimationChannel.Interpolation> DEFAULT_INTERPOLATIONS = ImmutableBiMap.of(
+		Identifier.withDefaultNamespace("linear"), AnimationChannel.Interpolations.LINEAR,
+		Identifier.withDefaultNamespace("catmullrom"), AnimationChannel.Interpolations.CATMULLROM);
 
-	private static ImmutableBiMap<ResourceLocation, AnimationTarget> TARGETS = DEFAULT_TARGETS;
+	private static ImmutableBiMap<Identifier, AnimationTarget> TARGETS = DEFAULT_TARGETS;
 	private static ImmutableMap<AnimationChannel.Target, AnimationTarget> TARGETS_BY_CHANNEL_TARGET = ImmutableMap.of();
 	private static ImmutableMap<AnimationTarget, Codec<Keyframe>> KEYFRAME_CODECS = ImmutableMap.of();
-	private static ImmutableBiMap<ResourceLocation, AnimationChannel.Interpolation> INTERPOLATIONS = DEFAULT_INTERPOLATIONS;
+	private static ImmutableBiMap<Identifier, AnimationChannel.Interpolation> INTERPOLATIONS = DEFAULT_INTERPOLATIONS;
 	private static String TARGET_LIST = "";
 	private static String INTERPOLATION_LIST = "";
 
@@ -49,12 +49,12 @@ public final class AnimationTypeManager {
 	private AnimationTypeManager() {}
 
 	@Nullable
-	public static AnimationTarget getTarget(ResourceLocation name) {
+	public static AnimationTarget getTarget(Identifier name) {
 		return TARGETS.get(name);
 	}
 
 	@Nullable
-	public static ResourceLocation getTargetName(AnimationTarget target) {
+	public static Identifier getTargetName(AnimationTarget target) {
 		return TARGETS.inverse().get(target);
 	}
 
@@ -69,12 +69,12 @@ public final class AnimationTypeManager {
 	}
 
 	@Nullable
-	public static AnimationChannel.Interpolation getInterpolation(ResourceLocation name) {
+	public static AnimationChannel.Interpolation getInterpolation(Identifier name) {
 		return INTERPOLATIONS.get(name);
 	}
 
 	@Nullable
-	public static ResourceLocation getInterpolationName(AnimationChannel.Interpolation interpolation) {
+	public static Identifier getInterpolationName(AnimationChannel.Interpolation interpolation) {
 		return INTERPOLATIONS.inverse().get(interpolation);
 	}
 
@@ -88,8 +88,8 @@ public final class AnimationTypeManager {
 
 	@ApiStatus.Internal
 	public static void init() {
-		final var targets = ImmutableBiMap.<ResourceLocation, AnimationTarget>builder().putAll(DEFAULT_TARGETS);
-		final var interpolations = ImmutableBiMap.<ResourceLocation, AnimationChannel.Interpolation>builder().putAll(DEFAULT_INTERPOLATIONS);
+		final var targets = ImmutableBiMap.<Identifier, AnimationTarget>builder().putAll(DEFAULT_TARGETS);
+		final var interpolations = ImmutableBiMap.<Identifier, AnimationChannel.Interpolation>builder().putAll(DEFAULT_INTERPOLATIONS);
 		// final var event = new RegisterJsonAnimationTypesEvent(targets, interpolations);
 		// ModLoader.postEventWrapContainerInModOrder(event);
 		TARGETS = targets.buildOrThrow();
@@ -106,11 +106,11 @@ public final class AnimationTypeManager {
 			.collect(ImmutableMap.toImmutableMap(Function.identity(), AnimationParser::keyframeCodec));
 		TARGET_LIST = TARGETS.keySet()
 			.stream()
-			.map(ResourceLocation::toString)
+			.map(Identifier::toString)
 			.collect(Collectors.joining(", "));
 		INTERPOLATION_LIST = INTERPOLATIONS.keySet()
 			.stream()
-			.map(ResourceLocation::toString)
+			.map(Identifier::toString)
 			.collect(Collectors.joining(", "));
 	}
 }

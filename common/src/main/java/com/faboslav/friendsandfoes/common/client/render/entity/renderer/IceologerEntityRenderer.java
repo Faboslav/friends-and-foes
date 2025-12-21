@@ -3,12 +3,12 @@ package com.faboslav.friendsandfoes.common.client.render.entity.renderer;
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.model.IllagerModel;
+import net.minecraft.client.model.monster.illager.IllagerModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.client.renderer.entity.IllagerRenderer;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.monster.SpellcasterIllager;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.monster.illager.SpellcasterIllager;
 
 //? if >=1.21.9 {
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -29,7 +29,7 @@ public class IceologerEntityRenderer<T extends SpellcasterIllager> extends Illag
 /*public final class IceologerEntityRenderer<T extends SpellcasterIllager> extends IllagerRenderer<T>
 *///?}
 {
-	private static final ResourceLocation TEXTURE = FriendsAndFoes.makeID("textures/entity/illager/iceologer.png");
+	private static final Identifier TEXTURE = FriendsAndFoes.makeID("textures/entity/illager/iceologer.png");
 
 	public IceologerEntityRenderer(Context context) {
 		super(context, new IllagerModel<>(context.bakeLayer(FriendsAndFoesEntityModelLayers.ICEOLOGER_LAYER)), 0.5F);
@@ -83,7 +83,7 @@ public class IceologerEntityRenderer<T extends SpellcasterIllager> extends Illag
 
 	@Override
 	//? if >=1.21.3 {
-	public ResourceLocation getTextureLocation(IceologerRenderState renderState)
+	public Identifier getTextureLocation(IceologerRenderState renderState)
 	//?} else {
 	/*public ResourceLocation getTextureLocation(T iceologer)
 	*///?}

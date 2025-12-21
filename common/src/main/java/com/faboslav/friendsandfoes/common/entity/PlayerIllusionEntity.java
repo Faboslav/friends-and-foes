@@ -31,7 +31,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 ^///?}
 
 //? if >=1.21.3 {
-
+import net.minecraft.server.level.ServerLevel;
 //?} else {
 /^import net.minecraft.world.entity.MobSpawnType;
 ^///?}

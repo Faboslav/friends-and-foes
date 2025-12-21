@@ -1,17 +1,11 @@
 package com.faboslav.friendsandfoes.common.entity.animation;
 
 import com.faboslav.friendsandfoes.common.entity.animation.animator.Keyframe;
-import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.util.Mth;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
 public record AnimationChannel(Target target, Keyframe... keyframes) {
-	public static class Targets {
-		public static final Target POSITION = ModelPart::offsetPos;
-		public static final Target ROTATION = ModelPart::offsetRotation;
-		public static final Target SCALE = ModelPart::offsetScale;
-	}
 
 	public static class Interpolations {
 		public static final AnimationChannel.Interpolation LINEAR = (vector3f, f, keyframes, i, j, g) -> {
@@ -33,7 +27,9 @@ public record AnimationChannel(Target target, Keyframe... keyframes) {
 		Vector3f apply(Vector3f vector3f, float f, Keyframe[] keyframes, int i, int j, float g);
 	}
 
-	public interface Target {
-		void apply(ModelPart modelPart, Vector3f vector3f);
+	public enum Target {
+		POSITION,
+		ROTATION,
+		SCALE;
 	}
 }

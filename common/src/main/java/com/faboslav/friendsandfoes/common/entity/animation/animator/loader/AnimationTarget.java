@@ -14,16 +14,16 @@ public record AnimationTarget(
 	AnimationKeyframeTarget inverseKeyframeTarget
 ) {
 	public static final AnimationTarget POSITION = new AnimationTarget(
-		AnimationChannel.Targets.POSITION,
+		AnimationChannel.Target.POSITION,
 		KeyframeAnimations::posVec,
 		KeyframeAnimations::posVec // It's its own inverse
 	);
 	public static final AnimationTarget ROTATION = new AnimationTarget(
-		AnimationChannel.Targets.ROTATION,
+		AnimationChannel.Target.ROTATION,
 		AnimationTarget::degreeVec,
 		AnimationTarget::inverseDegreeVec);
 	public static final AnimationTarget SCALE = new AnimationTarget(
-		AnimationChannel.Targets.SCALE,
+		AnimationChannel.Target.SCALE,
 		AnimationTarget::scaleVec,
 		AnimationTarget::inverseScaleVec);
 	private static Vector3f inverseDegreeVec(float x, float y, float z) {

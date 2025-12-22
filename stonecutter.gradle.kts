@@ -3,11 +3,8 @@ val IS_CI = System.getenv("CI") == "true"
 plugins {
 	id("dev.kikugie.stonecutter")
 	id("net.neoforged.moddev") version "2.0.115" apply false
-	id("fabric-loom") version "1.13-SNAPSHOT" apply false
+	id("fabric-loom") version "1.14-SNAPSHOT" apply false
 }
-
-if (IS_CI) stonecutter active null
-else stonecutter active "1.21.11" /* [SC] DO NOT EDIT */
 
 stonecutter {
 	parameters {
@@ -45,3 +42,6 @@ stonecutter {
 		}
 	}
 }
+
+if (IS_CI) stonecutter active null
+else stonecutter active "1.21.11" /* [SC] DO NOT EDIT */

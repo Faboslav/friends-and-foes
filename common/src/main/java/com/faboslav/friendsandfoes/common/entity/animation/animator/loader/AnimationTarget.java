@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.common.entity.animation.animator.loader;
 
 import com.faboslav.friendsandfoes.common.entity.animation.AnimationChannel;
-import net.minecraft.client.animation.KeyframeAnimations;
 import org.joml.Vector3f;
 
 /**
@@ -15,8 +14,8 @@ public record AnimationTarget(
 ) {
 	public static final AnimationTarget POSITION = new AnimationTarget(
 		AnimationChannel.Target.POSITION,
-		KeyframeAnimations::posVec,
-		KeyframeAnimations::posVec // It's its own inverse
+		AnimationTarget::posVec,
+		AnimationTarget::posVec // It's its own inverse
 	);
 	public static final AnimationTarget ROTATION = new AnimationTarget(
 		AnimationChannel.Target.ROTATION,

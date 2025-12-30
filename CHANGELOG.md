@@ -1,3 +1,7 @@
+## 4.0.19
+
+- Removed copper golem config options for 1.21.10/1.21.11
+
 ## 4.0.18
 
 - Added potion of reaching duration as a configurable option to the config

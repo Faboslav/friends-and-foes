@@ -108,12 +108,10 @@ public final class FriendsAndFoesNeoForge
 	}
 
 	private static void onDatapackSync(OnDatapackSyncEvent event) {
-		if (FMLEnvironment./*? if >= 1.21.9 {*/ getDist() /*?} else {*/ /*dist *//*?}*/.isDedicatedServer()) {
-			if (event.getPlayer() != null) {
-				DatapackSyncEvent.EVENT.invoke(new DatapackSyncEvent(event.getPlayer()));
-			} else {
-				event.getPlayerList().getPlayers().forEach(player -> DatapackSyncEvent.EVENT.invoke(new DatapackSyncEvent(player)));
-			}
+		if (event.getPlayer() != null) {
+			DatapackSyncEvent.EVENT.invoke(new DatapackSyncEvent(event.getPlayer()));
+		} else {
+			event.getPlayerList().getPlayers().forEach(player -> DatapackSyncEvent.EVENT.invoke(new DatapackSyncEvent(player)));
 		}
 	}
 

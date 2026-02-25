@@ -1,3 +1,7 @@
+## 4.0.20
+
+- Fixed beehive tooltips for 1.21.10/1.21.11
+
 ## 4.0.19
 
 - Removed copper golem config options for 1.21.10/1.21.11

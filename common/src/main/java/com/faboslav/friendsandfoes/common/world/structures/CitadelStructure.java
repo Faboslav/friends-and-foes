@@ -68,7 +68,6 @@ public final class CitadelStructure extends Structure
 		this.size = size;
 		this.startHeight = startHeight;
 		this.projectStartToHeightmap = projectStartToHeightmap;
-
 		this.maxDistanceFromCenter = maxDistanceFromCenter;
 	}
 

@@ -15,11 +15,7 @@ import net.minecraft.world.entity.monster.Monster;
 
 public class GlareSpecificSensor extends Sensor<GlareEntity>
 {
-	private static final UniformInt AVOID_MEMORY_DURATION;
-
-	static {
-		AVOID_MEMORY_DURATION = TimeUtil.rangeOfSeconds(5, 10);
-	}
+	private static final UniformInt AVOID_MEMORY_DURATION = TimeUtil.rangeOfSeconds(5, 10);
 
 	@Override
 	public Set<MemoryModuleType<?>> requires() {

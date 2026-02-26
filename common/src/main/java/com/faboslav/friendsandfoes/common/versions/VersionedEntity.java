@@ -30,6 +30,7 @@ public final class VersionedEntity
 
 		return equipmentSlot;
 	}
+
 	public static InteractionResult success(Entity entity) {
 		InteractionResult interactionResult;
 

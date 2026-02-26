@@ -11,7 +11,7 @@ on:
             versions:
                 description: 'List of versions to be published'
                 required: true
-                default: "['1.21.1', '1.21.4', '1.21.5', '1.21.8', '1.21.10']"
+                default: "['1.21.1', '1.21.4', '1.21.5', '1.21.8', '1.21.10', '1.21.11']"
                 type: string
 
 jobs:

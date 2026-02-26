@@ -9,7 +9,7 @@ import com.mojang.math.Axis;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
 //? if >=1.21.9 {
@@ -33,7 +33,7 @@ public class IceologerIceChunkRenderer extends EntityRenderer<IceologerIceChunkE
 /*public final class IceologerIceChunkRenderer extends EntityRenderer<IceologerIceChunkEntity>
 *///?}
 {
-	private static final ResourceLocation TEXTURE = FriendsAndFoes.makeID("textures/entity/illager/ice_chunk.png");
+	private static final Identifier TEXTURE = FriendsAndFoes.makeID("textures/entity/illager/ice_chunk.png");
 	//? if >=1.21.3 {
 	private final IceologerIceChunkModel model;
 	//?} else {

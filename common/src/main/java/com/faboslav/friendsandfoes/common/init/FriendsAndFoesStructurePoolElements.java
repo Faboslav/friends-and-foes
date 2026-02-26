@@ -4,7 +4,7 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.util.StructurePoolHelper;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 
@@ -21,9 +21,9 @@ public final class FriendsAndFoesStructurePoolElements
 		/*templatePoolRegistry = server.registryAccess().registryOrThrow(Registries.TEMPLATE_POOL);
 		*///?}
 
-		ResourceLocation plainsPoolLocation = ResourceLocation.parse("minecraft:village/plains/houses");
-		ResourceLocation savannaPoolLocation = ResourceLocation.parse("minecraft:village/savanna/houses");
-		ResourceLocation taigaPoolLocation = ResourceLocation.parse("minecraft:village/taiga/houses");
+		Identifier plainsPoolLocation = Identifier.parse("minecraft:village/plains/houses");
+		Identifier savannaPoolLocation = Identifier.parse("minecraft:village/savanna/houses");
+		Identifier taigaPoolLocation = Identifier.parse("minecraft:village/taiga/houses");
 
 		//? if <= 1.21.8 {
 		/*ResourceLocation desertPoolLocation = ResourceLocation.parse("minecraft:village/desert/houses");

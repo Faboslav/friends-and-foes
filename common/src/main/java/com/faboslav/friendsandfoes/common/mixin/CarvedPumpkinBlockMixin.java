@@ -127,7 +127,7 @@ public abstract class CarvedPumpkinBlockMixin extends HorizontalDirectionalBlock
 		);
 		tuffGolem.setSpawnYaw(tuffGolemYaw);
 		tuffGolem.setColor(TuffGolemEntity.Color.fromWool(woolBlockState.getBlock()));
-		tuffGolem.finalizeSpawn((ServerLevelAccessor) world, world.getCurrentDifficultyAt(cachedBlockPosition), VersionedEntitySpawnReason.TRIGGERED, null);
+		tuffGolem.finalizeSpawn((ServerLevelAccessor) world, ((ServerLevelAccessor) world).getCurrentDifficultyAt(cachedBlockPosition), VersionedEntitySpawnReason.TRIGGERED, null);
 		world.addFreshEntity(tuffGolem);
 
 		for (ServerPlayer serverPlayerEntity : world.getEntitiesOfClass(

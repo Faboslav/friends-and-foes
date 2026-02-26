@@ -5,7 +5,6 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -26,11 +25,12 @@ import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.RangedBowAttackGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.animal.golem.IronGolem;
 import net.minecraft.world.entity.monster.*;
-import net.minecraft.world.entity.npc.AbstractVillager;
+import net.minecraft.world.entity.monster.illager.SpellcasterIllager;
+import net.minecraft.world.entity.npc.villager.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.entity.raid.Raider;
@@ -318,7 +318,7 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 	}
 
 	@Override
-	public AbstractIllager.IllagerArmPose getArmPose() {
+	public IllagerArmPose getArmPose() {
 		if (this.isCastingSpell()) {
 			return IllagerArmPose.SPELLCASTING;
 		} else {
@@ -494,7 +494,7 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 			} else if (IllusionerEntity.this.getTarget().getId() == this.lastTargetId) {
 				return false;
 			} else {
-				return IllusionerEntity.this.level().getCurrentDifficultyAt(IllusionerEntity.this.blockPosition()).isHarderThan((float)Difficulty.NORMAL.ordinal());
+				return ((ServerLevelAccessor)IllusionerEntity.this.level()).getCurrentDifficultyAt(IllusionerEntity.this.blockPosition()).isHarderThan((float)Difficulty.NORMAL.ordinal());
 			}
 		}
 

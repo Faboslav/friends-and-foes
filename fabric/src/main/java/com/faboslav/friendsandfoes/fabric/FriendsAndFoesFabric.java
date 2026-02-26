@@ -32,7 +32,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.ai.village.poi.PoiTypes;
-import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.entity.npc.villager.VillagerTrades;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.LightningRodBlock;
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes;

@@ -5,7 +5,7 @@ import com.faboslav.friendsandfoes.common.client.render.entity.model.TuffGolemEn
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 //? if >=1.21.9 {
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -49,7 +49,7 @@ public final class TuffGolemClothFeatureRenderer extends RenderLayer<TuffGolemRe
 			return;
 		}
 
-		ResourceLocation clothTexture = FriendsAndFoes.makeID("textures/entity/tuff_golem/" + tuffGolem.getColor().getName() + ".png");
+		Identifier clothTexture = FriendsAndFoes.makeID("textures/entity/tuff_golem/" + tuffGolem.getColor().getName() + ".png");
 
 		renderColoredCutoutModel(
 			this.getParentModel(),

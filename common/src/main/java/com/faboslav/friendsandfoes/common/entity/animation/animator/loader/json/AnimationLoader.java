@@ -4,7 +4,7 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimationDefinition;
 import com.google.common.collect.MapMaker;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -39,7 +39,7 @@ public final class AnimationLoader extends SimpleJsonResourceReloadListener<Anim
 {
 	public static final AnimationLoader INSTANCE = new AnimationLoader();
 
-	private Map<ResourceLocation, AnimationHolder> animations = new MapMaker().weakValues().concurrencyLevel(1).makeMap();
+	private Map<Identifier, AnimationHolder> animations = new MapMaker().weakValues().concurrencyLevel(1).makeMap();
 	@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
 	private final List<AnimationHolder> strongHolderReferences = new ArrayList<>();
 
@@ -51,11 +51,11 @@ public final class AnimationLoader extends SimpleJsonResourceReloadListener<Anim
 		*///?}
 	}
 
-	public Map<ResourceLocation, AnimationHolder> getAnimations() {
+	public Map<Identifier, AnimationHolder> getAnimations() {
 		return animations;
 	}
 
-	public void setAnimations(Map<ResourceLocation, AnimationHolder> animations) {
+	public void setAnimations(Map<Identifier, AnimationHolder> animations) {
 		this.animations = animations;
 	}
 
@@ -63,7 +63,7 @@ public final class AnimationLoader extends SimpleJsonResourceReloadListener<Anim
 	 * Gets a loaded {@link AnimationDefinition} with the specified {@code key}.
 	 */
 	@Nullable
-	public AnimationDefinition getAnimation(ResourceLocation key) {
+	public AnimationDefinition getAnimation(Identifier key) {
 		final var holder = animations.get(key);
 		return holder != null ? holder.getOrNull() : null;
 	}
@@ -72,13 +72,13 @@ public final class AnimationLoader extends SimpleJsonResourceReloadListener<Anim
 	 * Returns an {@link AnimationHolder} for an animation. If the specified animation has not been loaded, the holder
 	 * will be unbound, but may be bound in the future.
 	 */
-	public AnimationHolder getAnimationHolder(ResourceLocation key) {
+	public AnimationHolder getAnimationHolder(Identifier key) {
 		return animations.computeIfAbsent(key, AnimationHolder::new);
 	}
 
 	@Override
 	//? if >=1.21.3 {
-	protected void apply(Map<ResourceLocation, AnimationDefinition> entityAnimations, ResourceManager resourceManager, ProfilerFiller profiler)
+	protected void apply(Map<Identifier, AnimationDefinition> entityAnimations, ResourceManager resourceManager, ProfilerFiller profiler)
 	//?} else {
 	/*protected void apply(Map<ResourceLocation, JsonElement> entityAnimationsJson, ResourceManager resourceManager, ProfilerFiller profiler)
 	*///?}
@@ -99,7 +99,7 @@ public final class AnimationLoader extends SimpleJsonResourceReloadListener<Anim
 		apply(entityAnimations);
 	}
 
-	public void apply(Map<ResourceLocation, AnimationDefinition> entityAnimations) {
+	public void apply(Map<Identifier, AnimationDefinition> entityAnimations) {
 		animations.values().forEach(AnimationHolder::unbind);
 		strongHolderReferences.clear();
 		int loaded = 0;

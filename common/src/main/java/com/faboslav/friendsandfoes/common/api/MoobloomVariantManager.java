@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.RandomSource;
@@ -52,7 +52,7 @@ public final class MoobloomVariantManager extends SimpleJsonResourceReloadListen
 
 	@Override
 	//? if >=1.21.3 {
-	protected void apply(Map<ResourceLocation, MoobloomVariant> moobloomVariants, ResourceManager resourceManager, ProfilerFiller profiler)
+	protected void apply(Map<Identifier, MoobloomVariant> moobloomVariants, ResourceManager resourceManager, ProfilerFiller profiler)
 	//?} else {
 	/*protected void apply(Map<ResourceLocation, JsonElement> moobloomVariantsJson, ResourceManager resourceManager, ProfilerFiller profiler)
 	*///?}
@@ -73,7 +73,7 @@ public final class MoobloomVariantManager extends SimpleJsonResourceReloadListen
 		apply(moobloomVariants);
 	}
 
-	public void apply(Map<ResourceLocation, MoobloomVariant> moobloomVariants) {
+	public void apply(Map<Identifier, MoobloomVariant> moobloomVariants) {
 		this.moobloomVariants.clear();
 		this.moobloomVariants.add(DEFAULT_MOOBLOOM_VARIANT);
 

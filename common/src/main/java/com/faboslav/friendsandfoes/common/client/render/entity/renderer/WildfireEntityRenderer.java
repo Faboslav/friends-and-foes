@@ -8,7 +8,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 //? if >=1.21.3 {
 import com.faboslav.friendsandfoes.common.client.render.entity.state.WildfireRenderState;
@@ -21,7 +21,7 @@ public class WildfireEntityRenderer extends MobRenderer<WildfireEntity, Wildfire
 /*public final class WildfireEntityRenderer extends MobRenderer<WildfireEntity, WildfireEntityModel<WildfireEntity>>
 *///?}
 {
-	private static final ResourceLocation WILDFIRE_TEXTURE = FriendsAndFoes.makeID("textures/entity/wildfire/wildfire.png");
+	private static final Identifier WILDFIRE_TEXTURE = FriendsAndFoes.makeID("textures/entity/wildfire/wildfire.png");
 
 	public static final float SCALE = 1.5F;
 
@@ -64,7 +64,7 @@ public class WildfireEntityRenderer extends MobRenderer<WildfireEntity, Wildfire
 
 	@Override
 	//? if >=1.21.3 {
-	public ResourceLocation getTextureLocation(WildfireRenderState wildfireRenderState)
+	public Identifier getTextureLocation(WildfireRenderState wildfireRenderState)
 	//?} else {
 	/*public ResourceLocation getTextureLocation(WildfireEntity wildfire)
 	*///?}

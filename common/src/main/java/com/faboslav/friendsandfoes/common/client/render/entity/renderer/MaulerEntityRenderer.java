@@ -7,7 +7,7 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import java.util.Map;
 
 //? if >=1.21.3 {
@@ -21,7 +21,7 @@ public class MaulerEntityRenderer extends MobRenderer<MaulerEntity, MaulerRender
 /*public final class MaulerEntityRenderer extends MobRenderer<MaulerEntity, MaulerEntityModel<MaulerEntity>>
 *///?}
 {
-	private static final Map<MaulerEntity.Type, ResourceLocation> VARIANT_TEXTURE_MAP = ImmutableMap.of(
+	private static final Map<MaulerEntity.Type, Identifier> VARIANT_TEXTURE_MAP = ImmutableMap.of(
 		MaulerEntity.Type.BADLANDS, FriendsAndFoes.makeID("textures/entity/mauler/mauler_badlands.png"),
 		MaulerEntity.Type.DESERT, FriendsAndFoes.makeID("textures/entity/mauler/mauler_desert.png"),
 		MaulerEntity.Type.SAVANNA, FriendsAndFoes.makeID("textures/entity/mauler/mauler_savanna.png")
@@ -62,7 +62,7 @@ public class MaulerEntityRenderer extends MobRenderer<MaulerEntity, MaulerRender
 
 	@Override
 	//? if >=1.21.3 {
-	public ResourceLocation getTextureLocation(MaulerRenderState renderState)
+	public Identifier getTextureLocation(MaulerRenderState renderState)
 	//?} else {
 	/*public ResourceLocation getTextureLocation(MaulerEntity mauler)
 	*///?}

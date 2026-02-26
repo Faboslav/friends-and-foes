@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.fabric.modcompat;
 
 //? if modMenu {
-import com.faboslav.friendsandfoes.common.FriendsAndFoesClient;
+/*import com.faboslav.friendsandfoes.common.FriendsAndFoesClient;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
 import net.fabricmc.loader.api.FabricLoader;
@@ -19,4 +19,4 @@ public final class ModMenuCompat implements ModMenuApi
 		};
 	}
 }
-//?}
+*///?}

@@ -2,8 +2,7 @@ package com.faboslav.friendsandfoes.common.client.render.entity.feature;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.CowModel;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.model.animal.cow.CowModel;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
@@ -12,6 +11,12 @@ import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+
+//? if >= 1.21.11 {
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+//?} else {
+/*import net.minecraft.client.renderer.RenderType;
+*///?}
 
 //? if >=1.21.9 {
 import net.minecraft.client.renderer.state.CameraRenderState;
@@ -158,7 +163,11 @@ public final class MoobloomFlowerFeatureRenderer extends RenderLayer<MoobloomRen
 	) {
 		//? if >=1.21.9 {
 		if (renderAsModel) {
-			submitNodeCollector.submitBlockModel(poseStack, RenderType.outline(TextureAtlas.LOCATION_BLOCKS), model, 0.0F, 0.0F, 0.0F, light, overlay, 0);
+			//? if >= 1.21.11 {
+			submitNodeCollector.submitBlockModel(poseStack, RenderTypes.outline(TextureAtlas.LOCATION_BLOCKS), model, 0.0F, 0.0F, 0.0F, light, overlay, 0);
+			//?} else {
+			/*submitNodeCollector.submitBlockModel(poseStack, RenderType.outline(TextureAtlas.LOCATION_BLOCKS), model, 0.0F, 0.0F, 0.0F, light, overlay, 0);
+			*///?}
 		} else {
 			submitNodeCollector.submitBlock(poseStack, blockState, light, overlay, 0);
 		}

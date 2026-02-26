@@ -4,24 +4,14 @@ import com.faboslav.friendsandfoes.common.entity.animation.AnimationChannel;
 import org.joml.Vector3f;
 
 /**
- * Wrapper for a {@link AnimationChannel.Target} and a way to transform a simple keyframe vector into a vector that
- * makes sense for the given target.
- *
- * @param channelTarget         The associated {@link AnimationChannel.Target}.
- * @param keyframeTarget        An {@link AnimationKeyframeTarget} that transforms simple vectors into ones that make sense
- *                              for the {@link #channelTarget}.
- * @param inverseKeyframeTarget The inverse function of {@link #keyframeTarget}, used for serialization.
- *
- * Animation loading related code is based on NeoForge code
- *
  * @author NeoForge team
  * <a href="https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation">https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation</a>
  */
 public record AnimationTarget(
 	AnimationChannel.Target channelTarget,
 	AnimationKeyframeTarget keyframeTarget,
-	AnimationKeyframeTarget inverseKeyframeTarget) {
-
+	AnimationKeyframeTarget inverseKeyframeTarget
+) {
 	public static final AnimationTarget POSITION = new AnimationTarget(
 		AnimationChannel.Target.POSITION,
 		AnimationTarget::posVec,

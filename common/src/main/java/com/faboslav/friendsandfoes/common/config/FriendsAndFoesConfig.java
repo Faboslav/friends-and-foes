@@ -49,7 +49,7 @@ public final class FriendsAndFoesConfig
 	@IntSlider(min = 0, max = 100, step = 1)
 	public int beekeeperAreaStructureWeight = 2;
 
-	@CustomDescription("Barnacle")
+	@SerialEntry()
 	@AutoGen(category = MOBS_CATEGORY, group = BARNACLE_GROUP)
 	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
 	public boolean enableBarnacle = true;
@@ -74,61 +74,61 @@ public final class FriendsAndFoesConfig
 	@IntSlider(min = 0, max = 100, step = 1)
 	public int barnacleSpawnMaxGroupSize = 1;
 
-	@SerialEntry()
 	//? if <= 1.21.8 {
-	/*@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	/*@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
 	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
-	*///?}
 	public boolean enableCopperGolem = true;
-
-	@SerialEntry()
-	//? if <= 1.21.8 {
-	/*@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
-	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
 	*///?}
+
+	//? if <= 1.21.8 {
+	/*@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
 	public boolean generateCopperGolemWorkstationStructureInVillages = true;
-
-	@SerialEntry()
-	//? if <= 1.21.8 {
-	/*@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
-	@IntSlider(min = 0, max = 100, step = 1)
 	*///?}
+
+	//? if <= 1.21.8 {
+	/*@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
 	public int copperGolemWorkstationStructureWeight = 1;
-
-	@SerialEntry()
-	//? if <= 1.21.8 {
-	/*@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
-	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
 	*///?}
+
+	//? if <= 1.21.8 {
+	/*@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
 	public boolean generateCopperGolemInAncientCity = true;
-
-	@SerialEntry()
-	//? if <= 1.21.8 {
-	/*@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
-	@IntSlider(min = 0, max = 100, step = 1)
 	*///?}
+
+	//? if <= 1.21.8 {
+	/*@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
 	public int copperGolemAncientCityCenterWeight = 10;
-
-	@SerialEntry()
-	//? if <= 1.21.8 {
-	/*@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
-	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
 	*///?}
+
+	//? if <= 1.21.8 {
+	/*@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
 	public boolean enableCopperGolemsInTrialChambers = true;
+	*///?}
 
-	@SerialEntry()
 	//? if <= 1.21.8 {
-	/*@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	/*@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
 	@IntSlider(min = 0, max = 100, step = 1)
-	*///?}
 	public int copperGolemInTrialChambersWeight = 4;
-
-	@SerialEntry()
-	//? if <= 1.21.8 {
-	/*@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
-	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
 	*///?}
+
+	//? if <= 1.21.8 {
+	/*@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = COPPER_GOLEM_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
 	public boolean enableLightningRodOxidation = true;
+	*///?}
 
 	@SerialEntry()
 	@AutoGen(category = MOBS_CATEGORY, group = CRAB_GROUP)
@@ -154,6 +154,11 @@ public final class FriendsAndFoesConfig
 	@AutoGen(category = MOBS_CATEGORY, group = CRAB_GROUP)
 	@IntSlider(min = 0, max = 100, step = 1)
 	public int crabSpawnMaxGroupSize = 4;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = CRAB_GROUP)
+	@IntField(min = 1, max = 100000)
+	public int crabPotionOfReachingDuration = 3600;
 
 	@SerialEntry()
 	@AutoGen(category = MOBS_CATEGORY, group = CRAB_GROUP)

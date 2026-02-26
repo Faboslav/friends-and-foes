@@ -10,9 +10,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.projectile.Fireball;
+import net.minecraft.world.entity.projectile.hurtingprojectile.Fireball;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseFireBlock;
 import net.minecraft.world.phys.BlockHitResult;
@@ -69,7 +69,7 @@ public final class WildfireShieldDebrisEntity extends Fireball
 
 		if (
 			!(entity instanceof Mob)
-			|| VersionedGameRulesProvider.getGameRules(this).getBoolean(GameRules.RULE_MOBGRIEFING)
+			|| VersionedGameRulesProvider.getBoolean(this, VersionedGameRulesProvider.MOB_GRIEFING)
 		) {
 			BlockPos blockPos = blockHitResult.getBlockPos().relative(blockHitResult.getDirection());
 

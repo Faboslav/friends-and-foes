@@ -2,7 +2,7 @@ package com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimationDefinition;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 import java.util.Map;
 
@@ -19,12 +19,12 @@ public final class AnimationHolder
 {
 	public static final AnimationDefinition EMPTY_ANIMATION = new AnimationDefinition("empty", 0f, false, Map.of());
 
-	private final ResourceLocation key;
+	private final Identifier key;
 	@Nullable
 	private AnimationDefinition value;
 	private boolean absentWarned;
 
-	AnimationHolder(ResourceLocation key) {
+	AnimationHolder(Identifier key) {
 		this.key = key;
 	}
 
@@ -40,7 +40,7 @@ public final class AnimationHolder
 	/**
 	 * Gets the key associated with this animation.
 	 */
-	public ResourceLocation key() {
+	public Identifier key() {
 		return key;
 	}
 

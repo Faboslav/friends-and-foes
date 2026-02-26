@@ -6,11 +6,10 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import java.util.List;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.NoiseColumn;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -18,33 +17,85 @@ import net.minecraft.world.level.levelgen.WorldGenerationContext;
 import net.minecraft.world.level.levelgen.heightproviders.HeightProvider;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
-import net.minecraft.world.level.levelgen.structure.pools.DimensionPadding;
 import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
-import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasBinding;
 import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasLookup;
 import net.minecraft.world.level.levelgen.structure.structures.JigsawStructure;
-import net.minecraft.world.level.levelgen.structure.templatesystem.LiquidSettings;
 
-public final class CitadelStructure extends JigsawStructure
+public final class CitadelStructure extends Structure
 {
+	public static final MapCodec<CitadelStructure> CODEC = RecordCodecBuilder.mapCodec(instance ->
+		instance.group(CitadelStructure.settingsCodec(instance),
+			StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(structure -> structure.startPool),
+			Identifier.CODEC.optionalFieldOf("start_jigsaw_name").forGetter(structure -> structure.startJigsawName),
+			Codec.intRange(0, 30).fieldOf("size").forGetter(structure -> structure.size),
+			HeightProvider.CODEC.fieldOf("start_height").forGetter(structure -> structure.startHeight),
+			Heightmap.Types.CODEC.optionalFieldOf("project_start_to_heightmap").forGetter(structure -> structure.projectStartToHeightmap),
+			//? >= 1.21.10 {
+			JigsawStructure.MaxDistance.CODEC.fieldOf("max_distance_from_center").forGetter((structure) -> structure.maxDistanceFromCenter)
+			//?} else {
+			/*Codec.intRange(1, 128).fieldOf("max_distance_from_center").forGetter(structure -> structure.maxDistanceFromCenter)
+			*///?}
+		).apply(instance, CitadelStructure::new));
+
+	private final Holder<StructureTemplatePool> startPool;
+	private final Optional<Identifier> startJigsawName;
+	private final int size;
+	private final HeightProvider startHeight;
+	private final Optional<Heightmap.Types> projectStartToHeightmap;
+	//? >= 1.21.10 {
+	private final JigsawStructure.MaxDistance maxDistanceFromCenter;
+	//?} else {
+	/*private final int maxDistanceFromCenter;
+	*///?}
+
 	public CitadelStructure(
-		StructureSettings settings,
+		Structure.StructureSettings config,
 		Holder<StructureTemplatePool> startPool,
-		int maxDepth,
+		Optional<Identifier> startJigsawName,
+		int size,
 		HeightProvider startHeight,
-		boolean useExpansionHack
+		Optional<Heightmap.Types> projectStartToHeightmap,
+		//? >= 1.21.10 {
+		JigsawStructure.MaxDistance maxDistanceFromCenter
+		//?} else {
+		/*int maxDistanceFromCenter
+		 *///?}
 	) {
-		super(settings, startPool, maxDepth, startHeight, useExpansionHack);
+		super(config);
+		this.startPool = startPool;
+		this.startJigsawName = startJigsawName;
+		this.size = size;
+		this.startHeight = startHeight;
+		this.projectStartToHeightmap = projectStartToHeightmap;
+		this.maxDistanceFromCenter = maxDistanceFromCenter;
 	}
 
 	@Override
 	public Optional<Structure.GenerationStub> findGenerationPoint(Structure.GenerationContext context) {
-		if (!FriendsAndFoes.getConfig().generateCitadelStructure) {
+		int offsetY = this.startHeight.sample(context.random(), new WorldGenerationContext(context.chunkGenerator(), context.heightAccessor()));
+		BlockPos blockPos = new BlockPos(context.chunkPos().getMinBlockX(), offsetY, context.chunkPos().getMinBlockZ());
+
+		if (
+			!FriendsAndFoes.getConfig().generateCitadelStructure
+			|| !extraSpawningChecks(context, blockPos)
+		) {
 			return Optional.empty();
 		}
 
-		return super.findGenerationPoint(context);
+		return JigsawPlacement.addPieces(
+			context,
+			this.startPool,
+			this.startJigsawName,
+			this.size,
+			blockPos,
+			false,
+			this.projectStartToHeightmap,
+			this.maxDistanceFromCenter,
+			PoolAliasLookup.EMPTY,
+			JigsawStructure.DEFAULT_DIMENSION_PADDING,
+			JigsawStructure.DEFAULT_LIQUID_SETTINGS
+		);
 	}
 
 	private boolean extraSpawningChecks(Structure.GenerationContext context, BlockPos blockPos) {

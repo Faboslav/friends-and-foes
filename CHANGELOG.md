@@ -1,3 +1,29 @@
+## 4.0.20
+
+- Fixed beehive tooltips for 1.21.10/1.21.11
+
+## 4.0.19
+
+- Removed copper golem config options for 1.21.10/1.21.11
+
+## 4.0.18
+
+- Added potion of reaching duration as a configurable option to the config
+- Fixed order of entity data, which should prevent some random crashes
+- Port to 1.21.11
+
+## 4.0.17
+
+- Fixed maulers despawning
+
+## 4.0.16
+
+- Fixed citadel generation conditions
+- Fixed iceologer cabingeneration conditions
+- Fixed illusioner shack generation conditions
+- Fixed illusioner training grounds generation conditions
+- Updated zh_cn translation (Thanks to Bishop-06)
+
 ## 4.0.15
 
 - Fixed copper golem data fixer upper

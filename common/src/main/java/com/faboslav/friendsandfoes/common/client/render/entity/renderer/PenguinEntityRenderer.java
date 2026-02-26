@@ -6,7 +6,7 @@ import com.faboslav.friendsandfoes.common.entity.PenguinEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 //? >=1.21.3 {
 import com.faboslav.friendsandfoes.common.client.render.entity.state.PenguinRenderState;
@@ -19,7 +19,7 @@ public class PenguinEntityRenderer extends MobRenderer<PenguinEntity, PenguinRen
 /*public final class PenguinEntityRenderer extends MobRenderer<PenguinEntity, PenguinEntityModel<PenguinEntity>>
 *///?}
 {
-	private static final ResourceLocation PENGUIN_TEXTURE = FriendsAndFoes.makeID("textures/entity/penguin/penguin.png");
+	private static final Identifier PENGUIN_TEXTURE = FriendsAndFoes.makeID("textures/entity/penguin/penguin.png");
 
 	public PenguinEntityRenderer(EntityRendererProvider.Context context) {
 		super(context, new PenguinEntityModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.PENGUIN_LAYER)), 0.5F);
@@ -40,7 +40,7 @@ public class PenguinEntityRenderer extends MobRenderer<PenguinEntity, PenguinRen
 
 	@Override
 	//? >=1.21.3 {
-	public ResourceLocation getTextureLocation(PenguinRenderState penguinRenderState)
+	public Identifier getTextureLocation(PenguinRenderState penguinRenderState)
 	//?} else {
 	/*public ResourceLocation getTextureLocation(PenguinEntity penguin)
 	*///?}

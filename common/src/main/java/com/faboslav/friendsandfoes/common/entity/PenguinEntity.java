@@ -34,7 +34,6 @@ import net.minecraft.world.entity.ai.navigation.AmphibiousPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
@@ -257,7 +256,7 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 		mate.resetLove();
 		RandomSource random = this.getRandom();
 
-		if (VersionedGameRulesProvider.getGameRules(this).getBoolean(GameRules.RULE_DOMOBLOOT)) {
+		if (VersionedGameRulesProvider.getBoolean(this, VersionedGameRulesProvider.MOB_DROPS)) {
 			this.level().addFreshEntity(new ExperienceOrb(this.level(), this.getX(), this.getY(), this.getZ(), random.nextInt(7) + 1));
 		}
 	}

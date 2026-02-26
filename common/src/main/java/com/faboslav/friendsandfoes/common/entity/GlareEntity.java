@@ -248,24 +248,7 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 		GlareBrain.updateActivities(this);
 		profiler.pop();
 
-		super.customServerAiStep(/*? if >=1.21.3 {*/leve		//? if <1.21.3 {
-														/*var level = (ServerLevel) this.level();
-														 *///?}
-
-													var profiler = VersionedProfilerProvider.getProfiler(this);
-		profiler.push("glareBrain");
-		this.getBrain().tick(level, this);
-		profiler.pop();
-
-		profiler.push("glareMemoryUpdate");
-		GlareBrain.updateMemories(this);
-		profiler.pop();
-
-		profiler.push("glareActivityUpdate");
-		GlareBrain.updateActivities(this);
-		profiler.pop();
-
-		super.customServerAiStep(/*? if >=1.21.3 {*/level/*?}*/);l/*?}*/);
+		super.customServerAiStep(/*? if >=1.21.3 {*/level/*?}*/);
 	}
 
 	@Override

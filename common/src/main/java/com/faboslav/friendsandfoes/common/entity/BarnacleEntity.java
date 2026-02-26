@@ -289,6 +289,8 @@ public final class BarnacleEntity extends Monster implements AnimatedEntity {
 		}
 	}
 
+	// TODO check
+	/*
 	@Override
 	protected AABB getAttackBoundingBox() {
 		AABB original = super.getAttackBoundingBox();
@@ -297,7 +299,7 @@ public final class BarnacleEntity extends Monster implements AnimatedEntity {
 			-original.getYsize() / 4.0,
 			-original.getZsize() / 4.0
 		);
-	}
+	}*/
 
 	private void updateKeyframeAnimations() {
 		if (!this.level().isClientSide()) {

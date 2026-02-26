@@ -5,7 +5,7 @@ import com.faboslav.friendsandfoes.common.client.render.entity.model.BarnacleEnt
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 //? if >=1.21.9 {
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -52,7 +52,7 @@ public final class BarnacleKelpHeadFeatureRenderer extends RenderLayer<BarnacleR
 
 		//int textureFrame = barnacle.tickCount % 10;
 		int textureFrame = 1;
-		ResourceLocation kelpTexture = FriendsAndFoes.makeID("textures/entity/barnacle/barnacle_kelp_head_" + textureFrame + ".png");
+		Identifier kelpTexture = FriendsAndFoes.makeID("textures/entity/barnacle/barnacle_kelp_head_" + textureFrame + ".png");
 
 		//? if >= 1.21.9 {
 		coloredCutoutModelCopyLayerRender(

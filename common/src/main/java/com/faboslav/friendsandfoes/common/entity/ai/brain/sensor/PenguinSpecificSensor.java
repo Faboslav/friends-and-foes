@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.common.entity.ai.brain.sensor;
 
-import com.faboslav.friendsandfoes.common.entity.GlareEntity;
 import com.faboslav.friendsandfoes.common.entity.PenguinEntity;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.server.level.ServerLevel;
@@ -11,9 +10,8 @@ import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.NearestVisibleLivingEntities;
 import net.minecraft.world.entity.ai.sensing.Sensor;
-import net.minecraft.world.entity.animal.Pufferfish;
-import net.minecraft.world.entity.monster.Drowned;
-import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.animal.fish.Pufferfish;
+import net.minecraft.world.entity.monster.zombie.Drowned;
 
 import java.util.Set;
 

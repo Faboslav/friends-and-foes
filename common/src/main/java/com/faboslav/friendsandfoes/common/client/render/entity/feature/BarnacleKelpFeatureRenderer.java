@@ -5,7 +5,7 @@ import com.faboslav.friendsandfoes.common.client.render.entity.model.BarnacleEnt
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 //? if >=1.21.9 {
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -25,7 +25,7 @@ public final class BarnacleKelpFeatureRenderer extends RenderLayer<BarnacleRende
 /*public final class BarnacleKelpFeatureRenderer extends RenderLayer<BarnacleEntity, BarnacleEntityModel<BarnacleEntity>>
 *///?}
 {
-	private static final ResourceLocation KELP_TEXTURE = FriendsAndFoes.makeID("textures/entity/barnacle/barnacle_kelp.png");
+	private static final Identifier KELP_TEXTURE = FriendsAndFoes.makeID("textures/entity/barnacle/barnacle_kelp.png");
 
 	//? >=1.21.3 {
 	public BarnacleKelpFeatureRenderer(RenderLayerParent<BarnacleRenderState, BarnacleEntityModel> renderLayerParent) {

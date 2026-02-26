@@ -4,15 +4,18 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.item.TotemItem;
 import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
 import com.faboslav.friendsandfoes.common.mixin.SpawnEggItemAccessor;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.ComposterBlock;
+
+//? if >=1.21.11 {
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.component.Bees;
 import net.minecraft.world.item.component.BlockItemStateProperties;
 import net.minecraft.world.level.block.BeehiveBlock;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.ComposterBlock;
+//?}
 
 import java.util.function.Function;
 import java.util.function.Supplier;

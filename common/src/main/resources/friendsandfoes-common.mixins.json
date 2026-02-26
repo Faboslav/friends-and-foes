@@ -12,15 +12,15 @@
 		"defaultRequire": 1
 	},
 	"mixins": [
+		"AbstractBoatMixin",
 		"AddCustomRaidMemberMixin",
 		"AddCustomSpawnGroupMixin",
 		"AnimalMakeLoveAccessor",
+		"BeaconBlockEntityMixin",
 		"BeeEntityAccessor",
 		"BeeEntityMixin",
 		"BlazeEntityMixin",
 		"BlazeLivingEntityMixin",
-		"AbstractBoatMixin",
-		"BeaconBlockEntityMixin",
 		"CarvedPumpkinBlockMixin",
 		"ChickenEntityMixin",
 		"LightningEntityMixin",

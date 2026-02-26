@@ -1,3 +1,7 @@
+## 4.0.21
+
+- Fixed entity serializers for 1.21.5/1.21.8
+
 ## 4.0.20
 
 - Fixed beehive tooltips for 1.21.10/1.21.11

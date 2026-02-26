@@ -20,6 +20,7 @@ import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 
 import java.util.Map;
 
@@ -42,6 +43,8 @@ public class PenguinSwimWithPlayerTask extends Behavior<PenguinEntity>
 		if (
 			player == null
 			|| !player.isAlive()
+			|| !player.isPassenger()
+			|| !(player.getVehicle() instanceof AbstractBoat)
 		) {
 			return false;
 		}
@@ -63,11 +66,14 @@ public class PenguinSwimWithPlayerTask extends Behavior<PenguinEntity>
 		if (
 			this.player == null
 			|| !this.player.isAlive()
+			|| !this.player.isPassenger()
+			|| !this.player.isPassenger()
+			|| !(this.player.getVehicle() instanceof AbstractBoat)
 		) {
 			return false;
 		}
 
-		return this.player.isPassenger() && penguin.distanceToSqr(this.player) < 256.0D;
+		return penguin.distanceToSqr(this.player) < 256.0D;
 	}
 
 	@Override
@@ -79,7 +85,7 @@ public class PenguinSwimWithPlayerTask extends Behavior<PenguinEntity>
 			penguin.getNavigation().moveTo(this.player, 1.0F);
 		}
 
-		if (this.player.isPassenger() && this.player.level().random.nextInt(6) == 0) {
+		if (this.player.isPassenger() && (this.player.getVehicle() instanceof AbstractBoat) && this.player.level().random.nextInt(6) == 0) {
 			this.player.addEffect(new MobEffectInstance(FriendsAndFoesStatusEffects.BOAT_SPEED.holder(), 100), penguin);
 		}
 

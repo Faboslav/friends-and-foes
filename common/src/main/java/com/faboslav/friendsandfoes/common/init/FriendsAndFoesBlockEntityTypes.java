@@ -1,11 +1,15 @@
 package com.faboslav.friendsandfoes.common.init;
 
 import com.google.common.collect.ImmutableSet;
+
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
+import net.minecraft.core.Holder;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BeaconBlockEntity;

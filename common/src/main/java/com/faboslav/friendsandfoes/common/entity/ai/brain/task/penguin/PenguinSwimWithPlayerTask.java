@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.common.entity.ai.brain.task.penguin;
 
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.PenguinEntity;
 import com.faboslav.friendsandfoes.common.entity.WildfireEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.WildfireBrain;
@@ -54,9 +55,7 @@ public class PenguinSwimWithPlayerTask extends Behavior<PenguinEntity>
 	protected void start(ServerLevel world, PenguinEntity penguin, long time) {
 		BehaviorUtils.lookAtEntity(penguin, this.player);
 		penguin.getLookControl().setLookAt(this.player);
-
-		// TODO check
-		//WildfireBrain.setTa(wildfire, this.attackTarget);
+		this.player.addEffect(new MobEffectInstance(FriendsAndFoesStatusEffects.BOAT_SPEED.holder(), 100), penguin);
 	}
 
 	@Override
@@ -68,7 +67,7 @@ public class PenguinSwimWithPlayerTask extends Behavior<PenguinEntity>
 			return false;
 		}
 
-			return this.player != null && this.player.isPassenger() && penguin.distanceToSqr(this.player) < 256.0D;
+		return this.player.isPassenger() && penguin.distanceToSqr(this.player) < 256.0D;
 	}
 
 	@Override
@@ -80,7 +79,7 @@ public class PenguinSwimWithPlayerTask extends Behavior<PenguinEntity>
 			penguin.getNavigation().moveTo(this.player, 1.0F);
 		}
 
-		if (this.player.isSwimming() && this.player.level().random.nextInt(6) == 0) {
+		if (this.player.isPassenger() && this.player.level().random.nextInt(6) == 0) {
 			this.player.addEffect(new MobEffectInstance(FriendsAndFoesStatusEffects.BOAT_SPEED.holder(), 100), penguin);
 		}
 

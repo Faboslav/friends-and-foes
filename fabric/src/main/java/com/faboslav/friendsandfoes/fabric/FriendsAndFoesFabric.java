@@ -52,7 +52,6 @@ public final class FriendsAndFoesFabric implements ModInitializer
 {
 	@Override
 	public void onInitialize() {
-		FriendsAndFoes.earlyInit();
 		FriendsAndFoes.init();
 		addCustomStructurePoolElements();
 		initEvents();

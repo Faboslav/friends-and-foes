@@ -73,6 +73,8 @@
 	"entity.friendsandfoes.player_illusion": "Player Illusion",
 	"effect.friendsandfoes.reach": "Reach",
 	"effect.friendsandfoes.reach.description": "Increases the range of block interaction.",
+	"effect.friendsandfoes.boat_speed": "Boat Speed",
+	"effect.friendsandfoes.boat_speed.description": "Increases the speed of boats while riding; higher levels further increase boat movement speed.",
 	"item_group.friendsandfoes.main_tab": "Friends&Foes",
 	"item.friendsandfoes.buttercup": "Buttercup",
 	"item.friendsandfoes.barnacle_spawn_egg": "Barnacle Spawn Egg",

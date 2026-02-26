@@ -2,7 +2,6 @@ package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStatusEffects;
-import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -15,15 +14,6 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(AbstractBoat.class)
 public abstract class AbstractBoatMixin
 {
-	@WrapMethod(
-		method = "tick"
-	)
-	protected void friendsandfoes$tick(
-		Operation<Void> original
-	) {
-		original.call();
-	}
-
 	@WrapOperation(
 		method = "controlBoat",
 		at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/Vec3;add(DDD)Lnet/minecraft/world/phys/Vec3;")

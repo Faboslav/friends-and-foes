@@ -193,6 +193,7 @@ public final class PenguinBrain
 			ImmutableList.of(
 				FriendsAndFoesActivities.PENGUIN_LAY_EGG.get(),
 				FriendsAndFoesActivities.PENGUIN_GUARD_EGG.get(),
+				FriendsAndFoesActivities.PENGUIN_SWIM.get(),
 				Activity.AVOID,
 				Activity.FIGHT,
 				Activity.IDLE

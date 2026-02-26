@@ -10,7 +10,7 @@ public class ReachStatusEffect extends MobEffect
 {
 	public ReachStatusEffect(MobEffectCategory statusEffectCategory, int color) {
 		super(statusEffectCategory, color);
-		this.addAttributeModifier(Attributes.MOVEMENT_SPEED, FriendsAndFoes.makeID("effect.reach"), FriendsAndFoes.getConfig().reachingStatusEffectModifier, AttributeModifier.Operation.ADD_VALUE);
+		this.addAttributeModifier(Attributes.BLOCK_INTERACTION_RANGE, FriendsAndFoes.makeID("effect.reach"), FriendsAndFoes.getConfig().reachingStatusEffectModifier, AttributeModifier.Operation.ADD_VALUE);
 	}
 
 	@Override

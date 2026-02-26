@@ -384,7 +384,7 @@ public final class FriendsAndFoesConfig
 	@SerialEntry()
 	@AutoGen(category = MOBS_CATEGORY, group = PENGUIN_GROUP)
 	@FloatSlider(min = 0.0F, max = 10.0F, step = 0.1F)
-	public float penguinBoatSpeedStatusEffectModifier = 0.025F;
+	public float penguinBoatSpeedStatusEffectModifier = 0.5F;
 
 	@SerialEntry()
 	@AutoGen(category = MOBS_CATEGORY, group = RASCAL_GROUP)

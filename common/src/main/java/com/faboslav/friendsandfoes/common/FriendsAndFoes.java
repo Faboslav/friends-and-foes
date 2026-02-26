@@ -51,10 +51,6 @@ public final class FriendsAndFoes
 		return LOGGER;
 	}
 
-	public static void earlyInit() {
-		//FriendsAndFoesBlockEntityTypes.earlyInit();
-	}
-
 	public static void init() {
 		FriendsAndFoesTags.init();
 		FriendsAndFoes.getConfig().load();

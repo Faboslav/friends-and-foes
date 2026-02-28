@@ -16,6 +16,7 @@ fletchingTable {
 stonecutter {
 	constants["modMenu"] = commonMod.depOrNull("mod_menu") != null
 	constants["trinkets"] = commonMod.depOrNull("trinkets") != null
+	constants["trinkets-canary-fork"] = commonMod.depOrNull("trinkets-canary-fork") != null
 }
 
 dependencies {
@@ -50,6 +51,15 @@ dependencies {
 	// Trinkets (https://www.curseforge.com/minecraft/mc-mods/trinkets)
 	commonMod.depOrNull("trinkets")?.let { trinketsVersion ->
 		modImplementation("dev.emi:trinkets:${trinketsVersion}")
+	}
+
+	commonMod.depOrNull("trinkets-canary-fork")?.let { trinketsCanaryVersion -> 
+		modImplementation("maven.modrinth:trinkets-canary-fork:${trinketsCanaryVersion}") 
+
+		commonMod.depOrNull("cca")?.let { ccaVersion ->
+			modImplementation("org.ladysnake.cardinal-components-api:cardinal-components-base:$ccaVersion")
+			modImplementation("org.ladysnake.cardinal-components-api:cardinal-components-entity:$ccaVersion")
+		}
 	}
 
 	/*

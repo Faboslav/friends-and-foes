@@ -34,15 +34,7 @@
 <br>
 <br>
 
-<table style="text-align: center;">
-	<tbody>
-		<tr>
-			<td><img title="Crab" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/crab.gif" alt="Crab" width="60"></td>
-			<td>&emsp;</td>		
-			<td><span style="font-size: 28px;color:#e5e5e5">Crab</span></td>
-		</tr>
-	</tbody>
-</table>
+<span style="font-size: 28px;line-height: 33px;color:#e5e5e5"><img title="Crab" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/crab.gif" alt="Crab" width="60">&nbsp;&nbsp;Crab</span>
 
 <hr>
 
@@ -72,15 +64,7 @@
 <br>
 <br>
 
-<table style="text-align: center;">
-	<tbody>
-		<tr>
-			<td><img title="Tuff Golem" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/tuff_golem.gif" alt="Tuff Golem" width="40"></td>
-			<td>&emsp;</td>		
-			<td><span style="font-size: 28px;color:#e5e5e5">Tuff Golem</span></td>
-		</tr>
-	</tbody>
-</table>
+<span style="font-size: 28px;line-height: 41px;color:#e5e5e5"><img title="Tuff Golem" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/tuff_golem.gif" alt="Tuff Golem" width="40">&nbsp;&nbsp;Tuff Golem</span>
 
 <hr>
 
@@ -101,15 +85,7 @@
 <br>
 <br>	
 
-<table style="text-align: center;">
-	<tbody>
-		<tr>
-			<td><img title="Rascal" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/rascal.gif" alt="Rascal" width="40"></td>
-			<td>&emsp;</td>		
-			<td><span style="font-size: 28px;color:#e5e5e5">Rascal</span></td>
-		</tr>
-	</tbody>
-</table>
+<span style="font-size: 28px;color:#e5e5e5"><img title="Rascal" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/rascal.gif" alt="Rascal" width="40">&nbsp;&nbsp;Rascal</span></td>
 
 <hr>
 
@@ -131,15 +107,7 @@
 <br>
 <br>
 
-<table style="text-align: center;">
-	<tbody>
-		<tr>
-			<td><img title="Copper Golem" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/copper_golem.gif" alt="Copper Golem" width="40"></td>
-			<td>&emsp;</td>		
-			<td><span style="font-size: 28px;color:#e5e5e5">Copper Golem</span></td>
-		</tr>
-	</tbody>
-</table>
+<span style="font-size: 28px;color:#e5e5e5"><img title="Copper Golem" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/copper_golem.gif" alt="Copper Golem" width="40">&nbsp;&nbsp;Copper Golem</span>
 
 <hr>
 
@@ -170,15 +138,7 @@
 <br>
 <br>
 
-<table style="text-align: center;">
-	<tbody>
-		<tr>
-			<td><img style="height: 40px; margin-bottom: 0px;" title="Glare" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/glare.webp" alt="Glare" width="40"></td>
-			<td>&emsp;</td>		
-			<td><span style="font-size: 28px;color:#e5e5e5">Glare</span></td>
-		</tr>
-	</tbody>
-</table>
+<span style="font-size: 28px;color:#e5e5e5"><img style="height: 40px; margin-bottom: 0px;" title="Glare" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/glare.webp" alt="Glare" width="40">&nbsp;&nbsp;Glare</span>
 
 <hr>
 
@@ -200,15 +160,7 @@
 <br>
 <br>
 
-<table style="text-align: center;">
-	<tbody>
-		<tr>
-			<td><img title="Iceologer" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/iceologer.webp" alt="Iceologer" width="25"></td>
-			<td>&emsp;</td>		
-			<td><span style="font-size: 28px;color:#e5e5e5">Iceologer</span></td>
-		</tr>
-	</tbody>
-</table>
+<span style="font-size: 28px;color:#e5e5e5"><img title="Iceologer" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/iceologer.webp" alt="Iceologer" width="25">&nbsp;&nbsp;Iceologer</span>
 
 <hr>
 
@@ -238,15 +190,7 @@
 <br>
 <br>
 
-<table style="text-align: center;">
-	<tbody>
-		<tr>
-			<td><img title="Moobloom" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/moobloom.webp" alt="Moobloom" width="40"></td>
-			<td>&emsp;</td>		
-			<td><span style="font-size: 28px;color:#e5e5e5">Moobloom</span></td>
-		</tr>
-	</tbody>
-</table>
+<span style="font-size: 28px;color:#e5e5e5"><img title="Moobloom" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/moobloom.webp" alt="Moobloom" width="40">&nbsp;&nbsp;Moobloom</span>
 
 <hr>
 
@@ -278,15 +222,7 @@
 <br>
 <br>
 
-<table style="text-align: center;">
-	<tbody>
-		<tr>
-			<td><img title="Wildfire" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/wildfire.webp" alt="Wildfire" width="50"></td>
-			<td>&emsp;</td>		
-			<td><span style="font-size: 28px;color:#e5e5e5">Wildfire</span></td>
-		</tr>
-	</tbody>
-</table>
+<span style="font-size: 28px;color:#e5e5e5"><img title="Wildfire" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/wildfire.webp" alt="Wildfire" width="50">&nbsp;&nbsp;Wildfire</span>
 
 <hr>
 
@@ -317,15 +253,7 @@
 <br>
 <br>
 
-<table style="text-align: center;">
-	<tbody>
-		<tr>
-			<td><img title="Mauler (The Great Hunger)" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/mauler.webp" alt="Mauler" width="40"></td>
-			<td>&emsp;</td>		
-			<td><span style="font-size: 28px;color:#e5e5e5">Mauler (The Great Hunger)</span></td>
-		</tr>
-	</tbody>
-</table>
+<span style="font-size: 28px;color:#e5e5e5"><img title="Mauler (The Great Hunger)" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/mauler.webp" alt="Mauler" width="40">&nbsp;&nbsp;Mauler (The Great Hunger)</span>
 
 <hr>
 
@@ -346,15 +274,7 @@
 <br>
 <br>
 
-<table style="text-align: center;">
-	<tbody>
-		<tr>
-			<td><img title="Illusioner" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/illusioner.webp" alt="Illusioner" width="25"></td>
-			<td>&emsp;</td>		
-			<td><span style="font-size: 28px;color:#e5e5e5">Illusioner</span></td>
-		</tr>
-	</tbody>
-</table>
+<span style="font-size: 28px;color:#e5e5e5"><img title="Illusioner" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/illusioner.webp" alt="Illusioner" width="25">&nbsp;&nbsp;Illusioner</span>
 
 <hr>
 
@@ -383,15 +303,7 @@
 <br>
 <br>
 
-<table style="text-align: center;">
-	<tbody>
-		<tr>
-			<td><img title="Zombie Horse (Trap)" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/zombie_horse.webp" alt="Zombie Horse (Trap)" width="50"></td>
-			<td>&emsp;</td>		
-			<td><span style="font-size: 28px;color:#e5e5e5">Zombie Horse (Trap)</span></td>
-		</tr>
-	</tbody>
-</table>
+<span style="font-size: 28px;color:#e5e5e5"><img title="Zombie Horse (Trap)" src="https://raw.githubusercontent.com/Faboslav/friends-and-foes/master/.github/assets/media/images/zombie_horse.webp" alt="Zombie Horse (Trap)" width="50">&nbsp;&nbsp;Zombie Horse (Trap)</span>
 
 <hr>
 

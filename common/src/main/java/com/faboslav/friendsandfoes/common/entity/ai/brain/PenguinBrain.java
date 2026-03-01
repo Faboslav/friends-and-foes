@@ -48,7 +48,6 @@ public final class PenguinBrain
 		addAvoidActivities(brain);
 		addLayEggActivities(brain);
 		addGuardEggActivities(brain);
-		addSwimActivities(brain);
 
 		brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
 		brain.setDefaultActivity(Activity.IDLE);
@@ -92,21 +91,6 @@ public final class PenguinBrain
 		);
 	}
 
-	private static void addSwimActivities(Brain<PenguinEntity> brain) {
-		brain.addActivityWithConditions(
-			FriendsAndFoesActivities.PENGUIN_SWIM.get(),
-			ImmutableList.of(
-				Pair.of(0, new PenguinSwimWithPlayerTask())
-			),
-			ImmutableSet.of(
-				Pair.of(MemoryModuleType.BREED_TARGET, MemoryStatus.VALUE_ABSENT),
-				Pair.of(MemoryModuleType.TEMPTING_PLAYER, MemoryStatus.VALUE_ABSENT),
-				Pair.of(FriendsAndFoesMemoryModuleTypes.PENGUIN_HAS_EGG.get(), MemoryStatus.VALUE_ABSENT),
-				Pair.of(FriendsAndFoesMemoryModuleTypes.PENGUIN_EGG_POS.get(), MemoryStatus.VALUE_ABSENT)
-			)
-		);
-	}
-
 	private static void addFightActivities(Brain<PenguinEntity> brain) {
 		/*
 		brain.addActivityAndRemoveMemoryWhenStopped(
@@ -144,29 +128,6 @@ public final class PenguinBrain
 		);
 	}
 
-	/*
-	private static void initIdleActivity(Brain<Axolotl> brain) {
-		brain.addActivity(Activity.IDLE,
-			ImmutableList.of(
-				Pair.of(0, SetEntityLookTargetSometimes.create(EntityType.PLAYER, 6.0F, UniformInt.of(30, 60))),
-				Pair.of(1, new AnimalMakeLove(EntityType.AXOLOTL, 0.2F, 2)),
-				Pair.of(2, new RunOne(ImmutableList.of(
-					Pair.of(new FollowTemptation(AxolotlAi::getSpeedModifier), 1),
-					Pair.of(BabyFollowAdult.create(ADULT_FOLLOW_RANGE, AxolotlAi::getSpeedModifierFollowingAdult, MemoryModuleType.NEAREST_VISIBLE_ADULT, false), 1)))
-				),
-				Pair.of(3, StartAttacking.create(AxolotlAi::findNearestValidAttackTarget)),
-				Pair.of(3, TryFindWater.create(6, 0.15F)),
-				Pair.of(4, new GateBehavior(ImmutableMap.of(MemoryModuleType.WALK_TARGET, MemoryStatus.VALUE_ABSENT), ImmutableSet.of(), GateBehavior.OrderPolicy.ORDERED, GateBehavior.RunningPolicy.TRY_ALL, ImmutableList.of(
-					Pair.of(RandomStroll.swim(0.5F), 2),
-					Pair.of(RandomStroll.stroll(0.15F, false), 2),
-					Pair.of(SetWalkTargetFromLookTarget.create(AxolotlAi::canSetWalkTargetFromLookTarget, AxolotlAi::getSpeedModifier, 3), 3),
-					Pair.of(BehaviorBuilder.triggerIf(Entity::isInWater), 5),
-					Pair.of(BehaviorBuilder.triggerIf(Entity::onGround), 5)))
-				)
-			)
-		);
-	}*/
-
 	private static void addIdleActivities(Brain<PenguinEntity> brain) {
 		brain.addActivityWithConditions(
 			Activity.IDLE,
@@ -175,7 +136,8 @@ public final class PenguinBrain
 				Pair.of(0, new FollowTemptation(penguin -> 1.25f)),
 				//Pair.of(1, new CrabBreedTask(FriendsAndFoesEntityTypes.PENGUIN.get())),
 				Pair.of(2, BabyFollowAdult.create(UniformInt.of(5, 16), 1.25f)),
-				Pair.of(3, new RunOne(
+				Pair.of(3, new PenguinSwimWithPlayerTask()),
+				Pair.of(4, new RunOne(
 					ImmutableList.of(
 						Pair.of(RandomStroll.stroll(1.0f), 2),
 						Pair.of(SetWalkTargetFromLookTarget.create(1.0f, 3), 2),
@@ -193,7 +155,6 @@ public final class PenguinBrain
 			ImmutableList.of(
 				FriendsAndFoesActivities.PENGUIN_LAY_EGG.get(),
 				FriendsAndFoesActivities.PENGUIN_GUARD_EGG.get(),
-				FriendsAndFoesActivities.PENGUIN_SWIM.get(),
 				Activity.AVOID,
 				Activity.FIGHT,
 				Activity.IDLE

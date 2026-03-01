@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.common.block;
 
 import com.faboslav.friendsandfoes.common.entity.CrabEntity;
+import com.faboslav.friendsandfoes.common.entity.PenguinEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
@@ -20,6 +21,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -38,16 +40,14 @@ import org.jetbrains.annotations.Nullable;
 import net.minecraft.world.attribute.EnvironmentAttributes;
 //?}
 
-public final class CrabEggBlock extends Block
+public final class PenguinEggBlock extends Block
 {
-	private static final VoxelShape SMALL_SHAPE = Block.box(3.0, 0.0, 3.0, 12.0, 7.0, 12.0);
-	private static final VoxelShape LARGE_SHAPE = Block.box(1.0, 0.0, 1.0, 15.0, 7.0, 15.0);
-	public static final IntegerProperty HATCH;
-	public static final IntegerProperty EGGS;
+	private static final VoxelShape SHAPE = Block.box(5.5, 0.0, 5.5, 10.5, 7.0, 10.5);
+	public static final IntegerProperty HATCH = BlockStateProperties.HATCH;
 
-	public CrabEggBlock(BlockBehaviour.Properties settings) {
+	public PenguinEggBlock(Properties settings) {
 		super(settings);
-		this.registerDefaultState(this.stateDefinition.any().setValue(HATCH, 0).setValue(EGGS, 1));
+		this.registerDefaultState(this.stateDefinition.any().setValue(HATCH, 0));
 	}
 
 	public void stepOn(Level world, BlockPos pos, BlockState state, Entity entity) {
@@ -74,36 +74,29 @@ public final class CrabEggBlock extends Block
 
 	private void breakEgg(Level world, BlockPos pos, BlockState state) {
 		world.playSound(null, pos, SoundEvents.TURTLE_EGG_BREAK, SoundSource.BLOCKS, 0.7F, 0.9F + world.random.nextFloat() * 0.2F);
-		int i = state.getValue(EGGS);
-
-		if (i <= 1) {
-			world.destroyBlock(pos, false);
-		} else {
-			world.setBlock(pos, state.setValue(EGGS, i - 1), 2);
-			world.gameEvent(GameEvent.BLOCK_DESTROY, pos, Context.of(state));
-			world.levelEvent(2001, pos, Block.getId(state));
-		}
-
+		world.destroyBlock(pos, false);
 	}
 
 	public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
 		if (this.shouldHatchProgress(world, pos) && isSuitableBelow(world, pos)) {
-			int i = state.getValue(HATCH);
-			if (i < 2) {
+			int hatchProgress = state.getValue(HATCH);
+			if (hatchProgress < 2) {
 				world.playSound(null, pos, SoundEvents.TURTLE_EGG_CRACK, SoundSource.BLOCKS, 0.7F, 0.9F + random.nextFloat() * 0.2F);
-				world.setBlock(pos, state.setValue(HATCH, i + 1), 2);
+				world.setBlock(pos, state.setValue(HATCH, hatchProgress + 1), 2);
 			} else {
+				PenguinEntity penguin = FriendsAndFoesEntityTypes.PENGUIN.get().create(world/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.BREEDING/*?}*/);
+
+				if(penguin == null) {
+					return;
+				}
+
+				world.levelEvent(2001, pos, Block.getId(state));
+				penguin.setAge(-24000);
+				VersionedEntity.moveTo(penguin, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, 0.0F, 0.0F);
+				world.addFreshEntity(penguin);
+
 				world.playSound(null, pos, SoundEvents.TURTLE_EGG_HATCH, SoundSource.BLOCKS, 0.7F, 0.9F + random.nextFloat() * 0.2F);
 				world.removeBlock(pos, false);
-
-				for (int j = 0; j < state.getValue(EGGS); ++j) {
-					world.levelEvent(2001, pos, Block.getId(state));
-					CrabEntity crab = FriendsAndFoesEntityTypes.CRAB.get().create(world/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.BREEDING/*?}*/);
-					crab.setAge(-24000);
-					VersionedEntity.moveTo(crab, (double) pos.getX() + 0.3 + (double) j * 0.2, pos.getY(), (double) pos.getZ() + 0.3, 0.0F, 0.0F);
-					crab.setHome(crab.getNewHome());
-					world.addFreshEntity(crab);
-				}
 			}
 		}
 
@@ -141,22 +134,14 @@ public final class CrabEggBlock extends Block
 		this.breakEgg(world, pos, state);
 	}
 
-	public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
-		return !context.isSecondaryUseActive() && context.getItemInHand().is(this.asItem()) && state.getValue(EGGS) < 4 || super.canBeReplaced(state, context);
+	@Override
+	public VoxelShape getShape(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, CollisionContext collisionContext) {
+		return SHAPE;
 	}
 
-	@Nullable
-	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
-		BlockState blockState = ctx.getLevel().getBlockState(ctx.getClickedPos());
-		return blockState.is(this) ? blockState.setValue(EGGS, Math.min(4, blockState.getValue(EGGS) + 1)):super.getStateForPlacement(ctx);
-	}
-
-	public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-		return state.getValue(EGGS) > 1 ? LARGE_SHAPE:SMALL_SHAPE;
-	}
-
-	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-		builder.add(HATCH, EGGS);
+	@Override
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateBuilder) {
+		stateBuilder.add(HATCH);
 	}
 
 	private boolean canBreaksEgg(ServerLevel world, Entity entity) {
@@ -169,10 +154,5 @@ public final class CrabEggBlock extends Block
 		} else {
 			return false;
 		}
-	}
-
-	static {
-		HATCH = BlockStateProperties.HATCH;
-		EGGS = BlockStateProperties.EGGS;
 	}
 }

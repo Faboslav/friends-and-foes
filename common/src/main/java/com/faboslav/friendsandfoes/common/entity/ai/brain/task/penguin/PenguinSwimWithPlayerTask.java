@@ -41,7 +41,8 @@ public class PenguinSwimWithPlayerTask extends Behavior<PenguinEntity>
 		var player = penguin.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_PLAYER).orElse(null);
 
 		if (
-			player == null
+			!penguin.isInWater()
+			|| player == null
 			|| !player.isAlive()
 			|| !player.isPassenger()
 			|| !(player.getVehicle() instanceof AbstractBoat)
@@ -64,7 +65,8 @@ public class PenguinSwimWithPlayerTask extends Behavior<PenguinEntity>
 	@Override
 	protected boolean canStillUse(ServerLevel world, PenguinEntity penguin, long time) {
 		if (
-			this.player == null
+			!penguin.isInWater()
+			|| this.player == null
 			|| !this.player.isAlive()
 			|| !this.player.isPassenger()
 			|| !this.player.isPassenger()

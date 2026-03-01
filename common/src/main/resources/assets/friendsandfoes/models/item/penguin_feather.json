@@ -1,6 +1,13 @@
 {
-	"parent": "minecraft:item/generated",
+	"parent": "item/generated",
 	"textures": {
 		"layer0": "friendsandfoes:item/penguin_feather"
+	},
+	"display": {
+		"head": {
+			"rotation": [ 0, 0, 45 ],
+			"translation": [ -1, 13, 7],
+			"scale":[ 1, 1, 1]
+		}
 	}
 }

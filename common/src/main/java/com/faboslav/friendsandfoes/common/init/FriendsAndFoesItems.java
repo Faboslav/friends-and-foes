@@ -64,6 +64,8 @@ public final class FriendsAndFoesItems
 	public final static RegistryEntry<Item> BUTTERCUP = registerItem("buttercup", (properties) -> new BlockItem(FriendsAndFoesBlocks.BUTTERCUP.get(), properties), () -> new Item.Properties().stacksTo(64));
 	public final static RegistryEntry<Item> CRAB_CLAW = registerItem("crab_claw", Item::new, Item.Properties::new);
 	public final static RegistryEntry<Item> CRAB_EGG = registerItem("crab_egg", (properties) -> new BlockItem(FriendsAndFoesBlocks.CRAB_EGG.get(), properties), () -> new Item.Properties().stacksTo(64));
+	public final static RegistryEntry<Item> PENGUIN_EGG = registerItem("penguin_egg", (properties) -> new BlockItem(FriendsAndFoesBlocks.PENGUIN_EGG.get(), properties), () -> new Item.Properties().stacksTo(64));
+	public final static RegistryEntry<Item> PENGUIN_FEATHER = registerItem("penguin_feather", Item::new, Item.Properties::new);
 	public final static RegistryEntry<Item> ACACIA_BEEHIVE = registerBeehive("acacia_beehive", FriendsAndFoesBlocks.ACACIA_BEEHIVE);
 	public final static RegistryEntry<Item> BAMBOO_BEEHIVE = registerBeehive("bamboo_beehive", FriendsAndFoesBlocks.BAMBOO_BEEHIVE);
 	public final static RegistryEntry<Item> BIRCH_BEEHIVE = registerBeehive("birch_beehive", FriendsAndFoesBlocks.BIRCH_BEEHIVE);

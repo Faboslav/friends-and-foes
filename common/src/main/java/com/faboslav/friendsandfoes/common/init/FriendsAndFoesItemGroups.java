@@ -60,7 +60,8 @@ public class FriendsAndFoesItemGroups
 		} else if (event.type() == AddItemGroupEntriesEvent.Type.NATURAL) {
 			Stream.of(
 				FriendsAndFoesItems.BUTTERCUP,
-				FriendsAndFoesItems.CRAB_EGG
+				FriendsAndFoesItems.CRAB_EGG,
+				FriendsAndFoesItems.PENGUIN_EGG
 			).map(item -> item.get().getDefaultInstance()).forEach(event::add);
 		} else if (event.type() == AddItemGroupEntriesEvent.Type.FUNCTIONAL) {
 			Stream.of(
@@ -101,7 +102,8 @@ public class FriendsAndFoesItemGroups
 		} else if (event.type() == AddItemGroupEntriesEvent.Type.INGREDIENTS) {
 			Stream.of(
 				FriendsAndFoesItems.WILDFIRE_CROWN_FRAGMENT,
-				FriendsAndFoesItems.CRAB_CLAW
+				FriendsAndFoesItems.CRAB_CLAW,
+				FriendsAndFoesItems.PENGUIN_FEATHER
 			).map(item -> item.get().getDefaultInstance()).forEach(event::add);
 		} else if (event.type() == AddItemGroupEntriesEvent.Type.COMBAT) {
 			Stream.of(

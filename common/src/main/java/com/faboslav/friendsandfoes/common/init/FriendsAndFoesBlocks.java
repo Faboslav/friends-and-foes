@@ -4,6 +4,7 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.block.CopperButtonBlock;
 import com.faboslav.friendsandfoes.common.block.CrabEggBlock;
 import com.faboslav.friendsandfoes.common.block.OxidizableButtonBlock;
+import com.faboslav.friendsandfoes.common.block.PenguinEggBlock;
 import com.faboslav.friendsandfoes.common.events.client.RegisterRenderLayersEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.RegisterFlammabilityEvent;
 import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
@@ -58,6 +59,7 @@ public final class FriendsAndFoesBlocks
 	public static final RegistryEntry<Block> BUTTERCUP = registerBlock("buttercup", (properties) -> new FlowerBlock(MobEffects.SATURATION, 6, properties), () ->  BlockBehaviour.Properties.of().mapColor(MapColor.PLANT)/*? if >=1.21.9 {*/.noCollision()/*?} else {*//*.noCollission()*//*?}*/.instabreak().sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY));
 	public static final RegistryEntry<Block> POTTED_BUTTERCUP = registerBlock("potted_buttercup", (properties) -> new FlowerPotBlock(BUTTERCUP.get(), properties), () -> BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY));
 	public static final RegistryEntry<Block> CRAB_EGG = registerBlock("crab_egg", CrabEggBlock::new, () -> BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).forceSolidOn().strength(0.5F).sound(SoundType.METAL).randomTicks().noOcclusion().pushReaction(PushReaction.DESTROY));
+	public static final RegistryEntry<Block> PENGUIN_EGG = registerBlock("penguin_egg", PenguinEggBlock::new, () -> BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_YELLOW).forceSolidOn().strength(0.5F).sound(SoundType.METAL).randomTicks().noOcclusion().pushReaction(PushReaction.DESTROY));
 	public static final RegistryEntry<Block> ACACIA_BEEHIVE = registerBlock("acacia_beehive", BeehiveBlock::new, () -> BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).strength(0.6F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava());
 	public static final RegistryEntry<Block> BAMBOO_BEEHIVE = registerBlock("bamboo_beehive", BeehiveBlock::new, () -> BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_YELLOW).strength(0.6F).sound(SoundType.BAMBOO_WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava());
 	public static final RegistryEntry<Block> BIRCH_BEEHIVE = registerBlock("birch_beehive", BeehiveBlock::new, () -> BlockBehaviour.Properties.of().mapColor(MapColor.SAND).strength(0.6F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava());

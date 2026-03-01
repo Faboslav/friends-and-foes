@@ -1,0 +1,6 @@
+{
+	"parent": "friendsandfoes:block/penguin_egg_template",
+	"textures": {
+		"all": "friendsandfoes:block/penguin_egg_very_cracked"
+	}
+}

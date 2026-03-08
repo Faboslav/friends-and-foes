@@ -1,14 +1,17 @@
 package com.faboslav.friendsandfoes.neoforge.modcompat;
 
 //? if curios {
-/*import com.faboslav.friendsandfoes.common.events.lifecycle.ClientSetupEvent;
+import com.faboslav.friendsandfoes.common.events.lifecycle.ClientSetupEvent;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesItems;
 import com.faboslav.friendsandfoes.common.modcompat.ModCompat;
 import com.faboslav.friendsandfoes.neoforge.modcompat.curios.CuriosTotemRenderer;
 import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotResult;
-import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
+
+//? < 1.21.4 {
+/*import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
+*///?}
 
 import java.util.EnumSet;
 import java.util.function.Predicate;
@@ -16,6 +19,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import top.theillusivec4.curios.api.client.ICurioRenderer;
 
 @SuppressWarnings({"all", "removal"})
 public final class CuriosCompat implements ModCompat
@@ -30,9 +34,15 @@ public final class CuriosCompat implements ModCompat
 	}
 
 	private static void registerRenderers(final ClientSetupEvent clientSetupEvent) {
-		CuriosRendererRegistry.register(Items.TOTEM_OF_UNDYING, CuriosTotemRenderer::new);
+		//? >= 1.21.4 {
+		ICurioRenderer.register(Items.TOTEM_OF_UNDYING, CuriosTotemRenderer::new);
+		ICurioRenderer.register(FriendsAndFoesItems.TOTEM_OF_FREEZING.get(), CuriosTotemRenderer::new);
+		ICurioRenderer.register(FriendsAndFoesItems.TOTEM_OF_ILLUSION.get(), CuriosTotemRenderer::new);
+		//?} else {
+		/*CuriosRendererRegistry.register(Items.TOTEM_OF_UNDYING, CuriosTotemRenderer::new);
 		CuriosRendererRegistry.register(FriendsAndFoesItems.TOTEM_OF_FREEZING.get(), CuriosTotemRenderer::new);
 		CuriosRendererRegistry.register(FriendsAndFoesItems.TOTEM_OF_ILLUSION.get(), CuriosTotemRenderer::new);
+		*///?}
 	}
 
 	@Override
@@ -45,4 +55,4 @@ public final class CuriosCompat implements ModCompat
 		return null;
 	}
 }
-*///?}
+//?}

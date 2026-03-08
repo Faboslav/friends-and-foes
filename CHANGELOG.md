@@ -2,6 +2,8 @@
 
 - Fixed crash related to bees and worldgen
 - Fixed modmenu compatibility
+- Fixed trinkets compatibility for 1.21.4 and newer versions
+- Fixed curios compatibility for 1.21.4 and newer versions
 
 ## 4.0.21
 

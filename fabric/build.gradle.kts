@@ -1,6 +1,3 @@
-import java.nio.file.StandardOpenOption
-import kotlin.io.path.writeText
-
 plugins {
 	id("fabric-loom")
 	id("multiloader-loader")
@@ -49,7 +46,11 @@ dependencies {
 	// Compat dependencies
 	// Trinkets (https://www.curseforge.com/minecraft/mc-mods/trinkets)
 	commonMod.depOrNull("trinkets")?.let { trinketsVersion ->
-		modImplementation("dev.emi:trinkets:${trinketsVersion}")
+		if (commonMod.mc == "1.21.1") {
+			modImplementation("dev.emi:trinkets:${trinketsVersion}")
+		} else {
+			modImplementation(fletchingTable.modrinth("trinkets-canary", commonMod.mc, "fabric"))
+		}
 	}
 
 	/*

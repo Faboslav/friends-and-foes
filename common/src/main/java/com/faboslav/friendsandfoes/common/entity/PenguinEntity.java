@@ -10,6 +10,7 @@ import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityDataSerializers;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
+import com.faboslav.friendsandfoes.common.util.RandomGenerator;
 import com.faboslav.friendsandfoes.common.versions.VersionedGameRulesProvider;
 import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
 import com.mojang.serialization.Dynamic;
@@ -28,6 +29,7 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.JumpControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.navigation.AmphibiousPathNavigation;
@@ -37,6 +39,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
@@ -55,7 +58,8 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 
 	public PenguinEntity(EntityType<? extends Animal> entityType, Level level) {
 		super(entityType, level);
-		this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.1f, 0.5f, false);
+		this.moveControl = new PenguinSmoothSwimmingMoveControl(this, 85, 10, 0.1f, 0.5f, false);
+		this.jumpControl = new PenguinJumpControl(this);
 		this.lookControl = new SmoothSwimmingLookControl(this, 10);
 		this.setEntityPose(FriendsAndFoesEntityPose.IDLE);
 	}
@@ -74,6 +78,7 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 		SpawnGroupData superEntityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData);
 
 		this.setEntityPose(FriendsAndFoesEntityPose.IDLE);
+		PenguinBrain.setWingFlapCooldown(this);
 
 		return superEntityData;
 	}
@@ -92,12 +97,20 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 		if (this.animationContextTracker == null) {
 			this.animationContextTracker = new AnimationContextTracker();
 
-			for (var animation: this.getTrackedAnimations()) {
-				this.animationContextTracker.add(animation);
+			for (var trackedAnimation: this.getTrackedAnimations()) {
+				this.animationContextTracker.add(trackedAnimation);
+			}
+
+			for (var idleAnimation: this.getIdleAnimations()) {
+				this.animationContextTracker.add(idleAnimation);
 			}
 		}
 
 		return this.animationContextTracker;
+	}
+
+	public ArrayList<AnimationHolder> getIdleAnimations() {
+		return PenguinAnimations.IDLE_ANIMATIONS;
 	}
 
 	@Override
@@ -188,13 +201,25 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 		super.tick();
 	}
 
+	public void onSyncedDataUpdated(EntityDataAccessor<?> dataAccessor) {
+		if (ENTITY_POSE.equals(dataAccessor)) {
+			var animationToStart = this.getAnimationByPose();
+
+			if (animationToStart != null) {
+				this.tryToStartAnimation(animationToStart);
+			}
+		}
+
+		super.onSyncedDataUpdated(dataAccessor);
+	}
+
 	@Override
 	protected PathNavigation createNavigation(Level world) {
 		return new AmphibiousPathNavigation(this, world);
 	}
 
 	public boolean isMoving() {
-		return (this.isUnderWater() || (this.onGround() || this.onClimbable())) && this.getDeltaMovement().lengthSqr() >= 0.0001;
+		return (this.isUnderWater() || this.onGround()) && this.getDeltaMovement().lengthSqr() >= 0.01;
 	}
 
 	public static boolean canSpawn(
@@ -234,6 +259,8 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 	@Nullable
 	public AgeableMob getBreedOffspring(ServerLevel serverWorld, AgeableMob entity) {
 		PenguinEntity penguin = FriendsAndFoesEntityTypes.PENGUIN.get().create(serverWorld/*? >=1.21.3 {*/, EntitySpawnReason.BREEDING/*?}*/);
+
+		PenguinBrain.setWingFlapCooldown(penguin);
 
 		return penguin;
 	}
@@ -306,6 +333,14 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 		this.playSound(FriendsAndFoesSoundEvents.ENTITY_PENGUIN_STEP.get(), 0.1f, 1.0f + this.random.nextFloat() * 0.2f);
 	}
 
+	public SoundEvent getWingFlapSound() {
+		return FriendsAndFoesSoundEvents.ENTITY_PENGUIN_WING_FLAP.get();
+	}
+
+	public void playWingFlapSound() {
+		this.playSound(this.getWingFlapSound(), 1.0F, RandomGenerator.generateFloat(0.5F, 0.55F));
+	}
+
 	public boolean hasEgg() {
 		return false;
 	}
@@ -330,9 +365,11 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 
 		AnimationHolder animationToStart = this.getAnimationByPose();
 
+		/*
 		if (animationToStart != null) {
+			//FriendsAndFoes.getLogger().info("Animation to start: " + animationToStart.get().name());
 			this.tryToStartAnimation(animationToStart);
-		}
+		}*/
 	}
 
 	@Nullable
@@ -345,6 +382,8 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 			} else {
 				animation = PenguinAnimations.IDLE;
 			}
+		} else if (this.isInEntityPose(FriendsAndFoesEntityPose.WING_FLAP)) {
+			animation = PenguinAnimations.WING_FLAP;
 		}
 
 		return animation;
@@ -355,10 +394,7 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 			return;
 		}
 
-		if (!this.level().isClientSide()) {
-			this.setCurrentAnimationTick(animationToStart.get().lengthInTicks());
-		}
-
+		//FriendsAndFoes.getLogger().info("Starting animation: " + animationToStart.get().name());
 		this.startKeyframeAnimation(animationToStart);
 	}
 
@@ -368,17 +404,38 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 				continue;
 			}
 
+			if(!animation.get().looping() && isKeyframeAnimationAtLastKeyframe(animation)) {
+				//FriendsAndFoes.getLogger().info("Stopping animation: " + animation.get().name());
+			}
+
 			this.stopKeyframeAnimation(animation);
 		}
 
+		if (!this.level().isClientSide()) {
+			this.setCurrentAnimationTick(animationToStart.get().lengthInTicks());
+		}
+
+		//FriendsAndFoes.getLogger().info("Starting animation: " + animationToStart.get().name() + " with tick count: " + this.tickCount);
 		this.startKeyframeAnimation(animationToStart, this.tickCount);
+	}
+
+	public void startWingFlapAnimation() {
+		if (this.isInEntityPose(FriendsAndFoesEntityPose.WING_FLAP)) {
+			return;
+		}
+
+		this.gameEvent(GameEvent.ENTITY_ACTION);
+		this.playWingFlapSound();
+		this.setEntityPose(FriendsAndFoesEntityPose.WING_FLAP);
 	}
 
 	public void setEntityPose(FriendsAndFoesEntityPose pose) {
 		if (this.level().isClientSide()) {
+			//FriendsAndFoes.getLogger().info("nope");
 			return;
 		}
 
+		//FriendsAndFoes.getLogger().info("Setting entity pose to: " + pose);
 		this.entityData.set(ENTITY_POSE, pose);
 	}
 
@@ -389,4 +446,36 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 	public boolean isInEntityPose(FriendsAndFoesEntityPose pose) {
 		return this.getEntityPose() == pose;
 	}
+
+	final class PenguinSmoothSwimmingMoveControl extends SmoothSwimmingMoveControl
+	{
+		public PenguinSmoothSwimmingMoveControl(final PenguinEntity penguin, int maxTurnX, int maxTurnY, float inWaterSpeedModifier, float outsideWaterSpeedModifier, boolean applyGravity) {
+			super(penguin, maxTurnX, maxTurnY, inWaterSpeedModifier, outsideWaterSpeedModifier, applyGravity);
+		}
+
+		@Override
+		public void tick() {
+			if (PenguinEntity.this.isInEntityPose(FriendsAndFoesEntityPose.WING_FLAP)) {
+				return;
+			}
+
+			super.tick();
+		}
+	}
+
+	final class PenguinJumpControl extends JumpControl
+	{
+		public PenguinJumpControl(final PenguinEntity penguin) {
+			super(penguin);
+		}
+
+		public void tick() {
+			if (PenguinEntity.this.isInEntityPose(FriendsAndFoesEntityPose.WING_FLAP)) {
+				PenguinEntity.this.setJumping(false);
+			}
+
+			super.tick();
+		}
+	}
+
 }

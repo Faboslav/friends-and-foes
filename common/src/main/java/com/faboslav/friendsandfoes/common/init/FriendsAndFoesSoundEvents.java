@@ -64,6 +64,7 @@ public final class FriendsAndFoesSoundEvents
 	public static final RegistryEntry<SoundEvent> ENTITY_MOOBLOOM_SHEAR = registerSoundEvent("entity.moobloom.shear");
 	public static final RegistryEntry<SoundEvent> ENTITY_PENGUIN_AMBIENT = registerSoundEvent("entity.penguin.ambient");
 	public static final RegistryEntry<SoundEvent> ENTITY_PENGUIN_STEP = registerSoundEvent("entity.penguin.step");
+	public static final RegistryEntry<SoundEvent> ENTITY_PENGUIN_WING_FLAP = registerSoundEvent("entity.penguin.wing_flap");
 	public static final RegistryEntry<SoundEvent> ENTITY_PLAYER_MIRROR_MOVE = registerSoundEvent("entity.player.mirror_move");
 	public static final RegistryEntry<SoundEvent> ENTITY_RASCAL_AMBIENT = registerSoundEvent("entity.rascal.ambient");
 	public static final RegistryEntry<SoundEvent> ENTITY_RASCAL_DISAPPEAR = registerSoundEvent("entity.rascal.disappear");

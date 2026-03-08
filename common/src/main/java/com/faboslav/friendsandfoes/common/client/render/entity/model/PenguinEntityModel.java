@@ -131,7 +131,6 @@ public final class PenguinEntityModel extends EntityModel<PenguinRenderState>
 		float animationProgress
 	) {
 		var movementAnimation = penguin.getMovementAnimation();
-		var animations = penguin.getTrackedAnimations();
 		var animationContextTracker = penguin.getAnimationContextTracker();
 		var currentTick = penguin.tickCount;
 		var animationSpeedModifier = 1.0F;
@@ -140,6 +139,10 @@ public final class PenguinEntityModel extends EntityModel<PenguinRenderState>
 		var limbDistanceScale = penguin.isUnderWater() ? 4.0F : 4.5F;
 
 		KeyframeModelAnimator.updateMovementKeyframeAnimations(this, movementAnimation, limbAngle, limbDistance, limbAngleScale, limbDistanceScale, animationSpeedModifier);
-		KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, animations, currentTick, animationProgress, animationSpeedModifier);
+		KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, penguin.getTrackedAnimations(), currentTick, animationProgress, animationSpeedModifier);
+
+		if(!penguin.isMoving()) {
+			KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, penguin.getIdleAnimations(), currentTick, animationProgress, animationSpeedModifier);
+		}
 	}
 }

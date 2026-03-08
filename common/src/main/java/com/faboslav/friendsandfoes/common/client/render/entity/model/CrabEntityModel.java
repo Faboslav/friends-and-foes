@@ -155,13 +155,16 @@ public class CrabEntityModel extends EntityModel<CrabRenderState>
 		float animationProgress
 	) {
 		var movementAnimation = crab.getMovementAnimation();
-		var animations = crab.getTrackedAnimations();
 		var animationContextTracker = crab.getAnimationContextTracker();
 		var currentTick = crab.tickCount;
 		var animationSpeedModifier = 1.0F;
 
 		KeyframeModelAnimator.updateMovementKeyframeAnimations(this, movementAnimation, limbAngle, limbDistance, 2.5F, 4.5F, animationSpeedModifier);
-		KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, animations, currentTick, animationProgress, animationSpeedModifier);
+		KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, crab.getTrackedAnimations(), currentTick, animationProgress, animationSpeedModifier);
+
+		if(!crab.isMoving()) {
+			KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, crab.getIdleAnimations(), currentTick, animationProgress, animationSpeedModifier);
+		}
 	}
 
 	public void updateModelPartAnimations(

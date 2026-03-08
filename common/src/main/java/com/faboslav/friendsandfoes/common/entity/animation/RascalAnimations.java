@@ -12,11 +12,14 @@ public final class RascalAnimations
 	public static final AnimationHolder NOD = AnimationLoader.INSTANCE.getAnimationHolder(FriendsAndFoes.makeID("rascal/nod"));
 	public static final AnimationHolder GIVE_REWARD = AnimationLoader.INSTANCE.getAnimationHolder(FriendsAndFoes.makeID("rascal/give_reward"));
 	public static final AnimationHolder WALK = AnimationLoader.INSTANCE.getAnimationHolder(FriendsAndFoes.makeID("rascal/walk"));
-	public static final ArrayList<AnimationHolder> ANIMATIONS = new ArrayList<>()
+	public static final ArrayList<AnimationHolder> TRACKED_ANIMATIONS = new ArrayList<>()
 	{{
-		add(IDLE);
 		add(NOD);
 		add(GIVE_REWARD);
+	}};
+	public static final ArrayList<AnimationHolder> IDLE_ANIMATIONS = new ArrayList<>()
+	{{
+		add(IDLE);
 	}};
 
 	private RascalAnimations() {

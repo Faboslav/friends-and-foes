@@ -46,6 +46,7 @@
 		"RabbitEntityMixin",
 		"RaidMemberMixin",
 		"RaidMixin",
+		"RecipeManagerMixin",
 		"ServerWorldAccessor",
 		"ServerWorldMixin",
 		"SnowballEntityMixin",

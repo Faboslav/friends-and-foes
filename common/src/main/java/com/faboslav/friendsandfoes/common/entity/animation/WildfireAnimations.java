@@ -14,8 +14,11 @@ public final class WildfireAnimations
 	public static final AnimationHolder SHOCKWAVE = AnimationLoader.INSTANCE.getAnimationHolder(FriendsAndFoes.makeID("wildfire/shockwave"));
 	public static final ArrayList<AnimationHolder> TRACKED_ANIMATIONS = new ArrayList<>()
 	{{
-		add(IDLE);
 		add(SHOCKWAVE);
+	}};
+	public static final ArrayList<AnimationHolder> IDLE_ANIMATIONS = new ArrayList<>()
+	{{
+		add(IDLE);
 	}};
 
 	private WildfireAnimations() {

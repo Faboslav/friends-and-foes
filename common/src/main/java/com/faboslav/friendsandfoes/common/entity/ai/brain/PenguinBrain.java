@@ -1,33 +1,26 @@
 package com.faboslav.friendsandfoes.common.entity.ai.brain;
 
-import com.faboslav.friendsandfoes.common.entity.BarnacleEntity;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.PenguinEntity;
-import com.faboslav.friendsandfoes.common.entity.WildfireEntity;
-import com.faboslav.friendsandfoes.common.entity.ai.brain.task.glare.GlareLocateDarkSpotTask;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.task.penguin.PenguinSwimWithPlayerTask;
+import com.faboslav.friendsandfoes.common.entity.ai.brain.task.penguin.PenguinWingFlapTask;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesActivities;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSensorTypes;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.behavior.*;
-import net.minecraft.world.entity.ai.behavior.declarative.BehaviorBuilder;
-import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.sensing.Sensor;
 import net.minecraft.world.entity.ai.sensing.SensorType;
-import net.minecraft.world.entity.animal.axolotl.Axolotl;
-import net.minecraft.world.entity.animal.axolotl.AxolotlAi;
 import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.item.ItemStack;
 import java.util.List;
@@ -37,6 +30,7 @@ public final class PenguinBrain
 {
 	public static final List<MemoryModuleType<?>> MEMORY_MODULES;
 	public static final List<SensorType<? extends Sensor<? super PenguinEntity>>> SENSORS;
+	private static final UniformInt WING_FLAP_COOLDOWN;
 
 	public static Brain<?> create(Dynamic<?> dynamic) {
 		Brain.Provider<PenguinEntity> profile = Brain.provider(MEMORY_MODULES, SENSORS);
@@ -63,7 +57,8 @@ public final class PenguinBrain
 			ImmutableList.of(
 				new LookAtTargetSink(45, 90),
 				new MoveToTargetSink(),
-				new CountDownCooldownTicks(MemoryModuleType.TEMPTATION_COOLDOWN_TICKS)
+				new CountDownCooldownTicks(MemoryModuleType.TEMPTATION_COOLDOWN_TICKS),
+				new CountDownCooldownTicks(FriendsAndFoesMemoryModuleTypes.PENGUIN_WING_FLAP_COOLDOWN.get())
 			)
 		);
 	}
@@ -136,6 +131,7 @@ public final class PenguinBrain
 				Pair.of(0, new FollowTemptation(penguin -> 1.25f)),
 				//Pair.of(1, new CrabBreedTask(FriendsAndFoesEntityTypes.PENGUIN.get())),
 				Pair.of(2, BabyFollowAdult.create(UniformInt.of(5, 16), 1.25f)),
+				Pair.of(2, new PenguinWingFlapTask()),
 				Pair.of(3, new PenguinSwimWithPlayerTask()),
 				Pair.of(4, new RunOne(
 					ImmutableList.of(
@@ -168,7 +164,10 @@ public final class PenguinBrain
 		} else {
 			penguin.getBrain().eraseMemory(FriendsAndFoesMemoryModuleTypes.PENGUIN_HAS_EGG.get());
 		}
+	}
 
+	public static void setWingFlapCooldown(PenguinEntity penguin) {
+		penguin.getBrain().setMemory(FriendsAndFoesMemoryModuleTypes.PENGUIN_WING_FLAP_COOLDOWN.get(), WING_FLAP_COOLDOWN.sample(penguin.getRandom()));
 	}
 
 	public static Predicate<ItemStack> getTemptations() {
@@ -198,7 +197,9 @@ public final class PenguinBrain
 			MemoryModuleType.NEAREST_VISIBLE_WANTED_ITEM,
 			MemoryModuleType.AVOID_TARGET,
 			FriendsAndFoesMemoryModuleTypes.PENGUIN_HAS_EGG.get(),
-			FriendsAndFoesMemoryModuleTypes.PENGUIN_EGG_POS.get()
+			FriendsAndFoesMemoryModuleTypes.PENGUIN_EGG_POS.get(),
+			FriendsAndFoesMemoryModuleTypes.PENGUIN_WING_FLAP_COOLDOWN.get()
 		);
+		WING_FLAP_COOLDOWN = TimeUtil.rangeOfSeconds(5, 6);
 	}
 }

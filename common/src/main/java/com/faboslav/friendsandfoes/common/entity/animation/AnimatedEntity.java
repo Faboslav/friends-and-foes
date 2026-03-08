@@ -11,13 +11,26 @@ public interface AnimatedEntity
 {
 	AnimationContextTracker getAnimationContextTracker();
 
-	ArrayList<AnimationHolder> getTrackedAnimations();
+	default ArrayList<AnimationHolder> getTrackedAnimations() {
+		return new ArrayList<>();
+	}
 
-	AnimationHolder getMovementAnimation();
+	default ArrayList<AnimationHolder> getIdleAnimations() {
+		return new ArrayList<>();
+	}
 
-	int getCurrentAnimationTick();
+	@Nullable
+	default AnimationHolder getMovementAnimation() {
+		return null;
+	}
 
-	void setCurrentAnimationTick(int currentAnimationTick);
+	default int getCurrentAnimationTick() {
+		return 0;
+	}
+
+	default void setCurrentAnimationTick(int currentAnimationTick) {
+
+	}
 
 	@Nullable
 	AnimationHolder getAnimationByPose();

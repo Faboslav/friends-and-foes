@@ -155,7 +155,6 @@ public final class MaulerEntityModel extends EntityModel<MaulerRenderState>
 		float animationProgress
 	) {
 		var movementAnimation = mauler.getMovementAnimation();
-		var animations = mauler.getTrackedAnimations();
 		var animationContextTracker = mauler.getAnimationContextTracker();
 		var currentTick = mauler.tickCount;
 		var animationSpeedModifier = mauler.getAnimationSpeedModifier();
@@ -166,6 +165,10 @@ public final class MaulerEntityModel extends EntityModel<MaulerRenderState>
 			KeyframeModelAnimator.updateStaticKeyframeAnimation(this, animationContextTracker, MaulerAnimations.SNAP, currentTick, animationProgress, animationSpeedModifier);
 		}
 
-		KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, animations, currentTick, animationProgress, animationSpeedModifier);
+		KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, mauler.getTrackedAnimations(), currentTick, animationProgress, animationSpeedModifier);
+
+		if(!mauler.isMoving()) {
+			KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, mauler.getIdleAnimations(), currentTick, animationProgress, animationSpeedModifier);
+		}
 	}
 }

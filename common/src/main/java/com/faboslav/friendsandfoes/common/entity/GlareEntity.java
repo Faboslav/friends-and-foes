@@ -106,26 +106,6 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 	}
 
 	@Override
-	public ArrayList<AnimationHolder> getTrackedAnimations() {
-		return new ArrayList<>();
-	}
-
-	@Override
-	public AnimationHolder getMovementAnimation() {
-		return null;
-	}
-
-	@Override
-	public int getCurrentAnimationTick() {
-		return 0;
-	}
-
-	@Override
-	public void setCurrentAnimationTick(int currentAnimationTick) {
-
-	}
-
-	@Override
 	public @Nullable AnimationHolder getAnimationByPose() {
 		return null;
 	}

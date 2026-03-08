@@ -132,7 +132,6 @@ public final class WildfireEntityModel extends EntityModel<WildfireRenderState>
 		float animationProgress
 	) {
 		var movementAnimation = wildfire.getMovementAnimation();
-		var animations = wildfire.getTrackedAnimations();
 		var animationContextTracker = wildfire.getAnimationContextTracker();
 		var currentTick = wildfire.tickCount;
 		var animationSpeedModifier = wildfire.getAnimationSpeedModifier();
@@ -140,6 +139,10 @@ public final class WildfireEntityModel extends EntityModel<WildfireRenderState>
 
 		KeyframeModelAnimator.updateMovementKeyframeAnimations(this, movementAnimation, limbAngle, limbDistance, 1.0F, 1.0F, animationSpeedModifier);
 		KeyframeModelAnimator.updateStaticKeyframeAnimation(this, animationContextTracker, WildfireAnimations.SHIELD_ROTATION, currentTick, animationProgress, animationSpeedModifier);
-		KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, animations, currentTick, animationProgress, animationSpeedModifier);
+		KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, wildfire.getTrackedAnimations(), currentTick, animationProgress, animationSpeedModifier);
+
+		if(!wildfire.walkAnimation.isMoving()) {
+			KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, wildfire.getIdleAnimations(), currentTick, animationProgress, animationSpeedModifier);
+		}
 	}
 }

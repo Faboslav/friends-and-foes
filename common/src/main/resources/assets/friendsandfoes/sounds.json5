@@ -368,6 +368,15 @@
 		],
 		"subtitle": "subtitles.block.generic.footsteps"
 	},
+	"entity.penguin.wing_flap": {
+		"sounds": [
+			"friendsandfoes:entity/penguin/wing_flap1",
+			"friendsandfoes:entity/penguin/wing_flap2",
+			"friendsandfoes:entity/penguin/wing_flap3",
+			"friendsandfoes:entity/penguin/wing_flap4"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.penguin.wing_flap"
+	},
 	"entity.player.mirror_move": {
 		"sounds": [
 			"friendsandfoes:entity/player/mirror_move1",

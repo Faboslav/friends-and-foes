@@ -102,7 +102,6 @@ public final class BarnacleEntityModel extends EntityModel<BarnacleRenderState>
 		float animationProgress
 	) {
 		var movementAnimation = barnacle.getMovementAnimation();
-		var animations = barnacle.getTrackedAnimations();
 		var animationContextTracker = barnacle.getAnimationContextTracker();
 		var currentTick = barnacle.tickCount;
 		var animationSpeedModifier = 1.0F;
@@ -112,6 +111,10 @@ public final class BarnacleEntityModel extends EntityModel<BarnacleRenderState>
 		}*/
 
 		KeyframeModelAnimator.updateMovementKeyframeAnimations(this, movementAnimation, limbAngle, limbDistance, 2.5F, 4.0F, animationSpeedModifier);
-		KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, animations, currentTick, animationProgress, animationSpeedModifier);
+		KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, barnacle.getTrackedAnimations(), currentTick, animationProgress, animationSpeedModifier);
+
+		if(!barnacle.isMoving()) {
+			KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, barnacle.getIdleAnimations(), currentTick, animationProgress, animationSpeedModifier);
+		}
 	}
 }

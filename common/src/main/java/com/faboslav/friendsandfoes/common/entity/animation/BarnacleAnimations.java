@@ -10,9 +10,12 @@ public final class BarnacleAnimations
 {
 	public static final AnimationHolder IDLE = AnimationLoader.INSTANCE.getAnimationHolder(FriendsAndFoes.makeID("barnacle/idle"));
 	public static final AnimationHolder SWIM = AnimationLoader.INSTANCE.getAnimationHolder(FriendsAndFoes.makeID("barnacle/swim"));
-	public static final ArrayList<AnimationHolder> TRACKED_ANIMATIONS = new ArrayList<>()
+	public static final ArrayList<AnimationHolder> TRACKED_ANIMATIONS = new ArrayList<>();
+	public static final ArrayList<AnimationHolder> IDLE_ANIMATIONS = new ArrayList<>()
 	{{
 		add(IDLE);
 	}};
 
+	private BarnacleAnimations() {
+	}
 }

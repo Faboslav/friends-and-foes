@@ -77,8 +77,12 @@ public final class BarnacleEntity extends Monster implements AnimatedEntity {
 		if (this.animationContextTracker == null) {
 			this.animationContextTracker = new AnimationContextTracker();
 
-			for (var animation: this.getTrackedAnimations()) {
-				this.animationContextTracker.add(animation);
+			for (var trackedAnimation: this.getTrackedAnimations()) {
+				this.animationContextTracker.add(trackedAnimation);
+			}
+
+			for (var idleAnimation: this.getIdleAnimations()) {
+				this.animationContextTracker.add(idleAnimation);
 			}
 		}
 
@@ -88,6 +92,11 @@ public final class BarnacleEntity extends Monster implements AnimatedEntity {
 	@Override
 	public ArrayList<AnimationHolder> getTrackedAnimations() {
 		return BarnacleAnimations.TRACKED_ANIMATIONS;
+	}
+
+	@Override
+	public ArrayList<AnimationHolder> getIdleAnimations() {
+		return BarnacleAnimations.IDLE_ANIMATIONS;
 	}
 
 	@Override
@@ -202,7 +211,7 @@ public final class BarnacleEntity extends Monster implements AnimatedEntity {
 	}
 
 	public boolean isMoving() {
-		return this.isInWater() && this.getDeltaMovement().lengthSqr() >= 0.0001;
+		return this.isInWater() && this.getDeltaMovement().lengthSqr() >= 0.01;
 	}
 
 	public static boolean canSpawn(

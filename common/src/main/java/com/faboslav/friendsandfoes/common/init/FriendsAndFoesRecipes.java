@@ -13,5 +13,9 @@ public final class FriendsAndFoesRecipes
 		event.registrator().accept(Potions.AWKWARD, FriendsAndFoesItems.CRAB_CLAW.get(), FriendsAndFoesPotions.REACHING.holder());
 		event.registrator().accept(FriendsAndFoesPotions.REACHING.holder(), Items.REDSTONE, FriendsAndFoesPotions.LONG_REACHING.holder());
 		event.registrator().accept(FriendsAndFoesPotions.REACHING.holder(), Items.GLOWSTONE_DUST, FriendsAndFoesPotions.STRONG_REACHING.holder());
+
+		event.registrator().accept(Potions.AWKWARD, FriendsAndFoesItems.PENGUIN_FEATHER.get(), FriendsAndFoesPotions.GLIDING.holder());
+		event.registrator().accept(FriendsAndFoesPotions.GLIDING.holder(), Items.REDSTONE, FriendsAndFoesPotions.LONG_GLIDING.holder());
+		event.registrator().accept(FriendsAndFoesPotions.GLIDING.holder(), Items.GLOWSTONE_DUST, FriendsAndFoesPotions.STRONG_GLIDING.holder());
 	}
 }

@@ -126,8 +126,12 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 		if (this.animationContextTracker == null) {
 			this.animationContextTracker = new AnimationContextTracker();
 
-			for (var animation: this.getTrackedAnimations()) {
-				this.animationContextTracker.add(animation);
+			for (var trackedAnimation: this.getTrackedAnimations()) {
+				this.animationContextTracker.add(trackedAnimation);
+			}
+
+			for (var idleAnimation: this.getIdleAnimations()) {
+				this.animationContextTracker.add(idleAnimation);
 			}
 		}
 
@@ -136,7 +140,12 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 
 	@Override
 	public ArrayList<AnimationHolder> getTrackedAnimations() {
-		return CrabAnimations.ANIMATIONS;
+		return CrabAnimations.TRACKED_ANIMATIONS;
+	}
+
+	@Override
+	public ArrayList<AnimationHolder> getIdleAnimations() {
+		return CrabAnimations.IDLE_ANIMATIONS;
 	}
 
 	@Override
@@ -326,6 +335,18 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 		}
 	}
 
+	public void onSyncedDataUpdated(EntityDataAccessor<?> dataAccessor) {
+		if (ENTITY_POSE.equals(dataAccessor)) {
+			var animationToStart = this.getAnimationByPose();
+
+			if (animationToStart != null) {
+				this.tryToStartAnimation(animationToStart);
+			}
+		}
+
+		super.onSyncedDataUpdated(dataAccessor);
+	}
+
 	@Override
 	public void aiStep() {
 		super.aiStep();
@@ -475,7 +496,7 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 	}
 
 	public boolean isMoving() {
-		return (this.onGround() || this.onClimbable()) && this.getDeltaMovement().lengthSqr() >= 0.0001;
+		return (this.onGround() || this.onClimbable()) && this.getDeltaMovement().lengthSqr() >= 0.01;
 	}
 
 	public static boolean canSpawn(

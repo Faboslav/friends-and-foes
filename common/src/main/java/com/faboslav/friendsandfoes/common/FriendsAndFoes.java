@@ -77,8 +77,8 @@ public final class FriendsAndFoes
 		FriendsAndFoesCriterias.CRITERIAS.init();
 		FriendsAndFoesEntityDataSerializers.init();
 		FriendsAndFoesEntityTypes.ENTITY_TYPES.init();
-		FriendsAndFoesItemGroups.ITEM_GROUPS.init();
 		FriendsAndFoesItems.ITEMS.init();
+		FriendsAndFoesItemGroups.ITEM_GROUPS.init();
 		FriendsAndFoesMemoryModuleTypes.MEMORY_MODULE_TYPES.init();
 		FriendsAndFoesParticleTypes.PARTICLE_TYPES.init();
 		FriendsAndFoesPointOfInterestTypes.POINT_OF_INTEREST_TYPES.init();

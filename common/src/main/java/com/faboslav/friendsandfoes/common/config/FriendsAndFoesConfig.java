@@ -17,7 +17,9 @@ public final class FriendsAndFoesConfig
 		.build();
 
 	private static final String MOBS_CATEGORY = "mobs";
+	private static final String BLOCKS_CATEGORY = "blocks";
 	private static final String BEEKEEPER_GROUP = "beekeeper";
+	private static final String BEEHIVES_GROUP = "beehives";
 	//? if <= 1.21.8 {
 	/*private static final String COPPER_GOLEM_GROUP = "copper_golem";
 	*///?}
@@ -387,6 +389,16 @@ public final class FriendsAndFoesConfig
 	public float penguinBoatSpeedStatusEffectModifier = 0.5F;
 
 	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = PENGUIN_GROUP)
+	@IntField(min = 1, max = 100000)
+	public int penguinPotionOfGlidingDuration = 3600;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = PENGUIN_GROUP)
+	@IntSlider(min = 0, max = 100, step = 1)
+	public int glidingStatusEffectModifier = 1;
+
+	@SerialEntry()
 	@AutoGen(category = MOBS_CATEGORY, group = RASCAL_GROUP)
 	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
 	public boolean enableRascal = true;
@@ -436,7 +448,65 @@ public final class FriendsAndFoesConfig
 	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
 	public boolean enableZombieHorseTrap = true;
 
+	@SerialEntry()
+	@AutoGen(category = BLOCKS_CATEGORY, group = BEEHIVES_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableAcaciaBeehive = true;
+
+	@SerialEntry()
+	@AutoGen(category = BLOCKS_CATEGORY, group = BEEHIVES_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableBambooBeehive = true;
+
+	@SerialEntry()
+	@AutoGen(category = BLOCKS_CATEGORY, group = BEEHIVES_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableBirchBeehive = true;
+
+	@SerialEntry()
+	@AutoGen(category = BLOCKS_CATEGORY, group = BEEHIVES_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableCherryBeehive = true;
+
+	@SerialEntry()
+	@AutoGen(category = BLOCKS_CATEGORY, group = BEEHIVES_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableCrimsonBeehive = true;
+
+	@SerialEntry()
+	@AutoGen(category = BLOCKS_CATEGORY, group = BEEHIVES_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableDarkOakBeehive = true;
+
+	@SerialEntry()
+	@AutoGen(category = BLOCKS_CATEGORY, group = BEEHIVES_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableJungleBeehive = true;
+
+	@SerialEntry()
+	@AutoGen(category = BLOCKS_CATEGORY, group = BEEHIVES_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableMangroveBeehive = true;
+
+	@SerialEntry()
+	@AutoGen(category = BLOCKS_CATEGORY, group = BEEHIVES_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableSpruceBeehive = true;
+
+	//? if >=1.21.4 {
+	@SerialEntry()
+	@AutoGen(category = BLOCKS_CATEGORY, group = BEEHIVES_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enablePaleOakBeehive = true;
+	//?}
+
+	@SerialEntry()
+	@AutoGen(category = BLOCKS_CATEGORY, group = BEEHIVES_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean enableWarpedBeehive = true;
+
 	public void load() {
+		FriendsAndFoes.getLogger().info("CONFIG LOADED");
 		HANDLER.load();
 	}
 }

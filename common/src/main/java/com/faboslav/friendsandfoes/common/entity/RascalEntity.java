@@ -139,8 +139,12 @@ public final class RascalEntity extends AgeableMob implements AnimatedEntity
 		if (this.animationContextTracker == null) {
 			this.animationContextTracker = new AnimationContextTracker();
 
-			for (var animation: this.getTrackedAnimations()) {
-				this.animationContextTracker.add(animation);
+			for (var trackedAnimation: this.getTrackedAnimations()) {
+				this.animationContextTracker.add(trackedAnimation);
+			}
+
+			for (var idleAnimation: this.getIdleAnimations()) {
+				this.animationContextTracker.add(idleAnimation);
 			}
 		}
 
@@ -148,8 +152,13 @@ public final class RascalEntity extends AgeableMob implements AnimatedEntity
 	}
 
 	@Override
+	public ArrayList<AnimationHolder> getIdleAnimations() {
+		return RascalAnimations.IDLE_ANIMATIONS;
+	}
+
+	@Override
 	public ArrayList<AnimationHolder> getTrackedAnimations() {
-		return RascalAnimations.ANIMATIONS;
+		return RascalAnimations.TRACKED_ANIMATIONS;
 	}
 
 	@Override
@@ -439,7 +448,7 @@ public final class RascalEntity extends AgeableMob implements AnimatedEntity
 	}
 
 	public boolean isMoving() {
-		return this.onGround() && this.getDeltaMovement().lengthSqr() >= 0.0001;
+		return this.onGround() && this.getDeltaMovement().lengthSqr() >= 0.01;
 	}
 
 	public int getCaughtCount() {

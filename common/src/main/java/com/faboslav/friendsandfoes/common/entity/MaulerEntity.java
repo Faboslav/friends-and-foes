@@ -126,8 +126,12 @@ public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEn
 		if (this.animationContextTracker == null) {
 			this.animationContextTracker = new AnimationContextTracker();
 
-			for (var animation: this.getTrackedAnimations()) {
-				this.animationContextTracker.add(animation);
+			for (var trackedAnimation: this.getTrackedAnimations()) {
+				this.animationContextTracker.add(trackedAnimation);
+			}
+
+			for (var idleAnimation: this.getIdleAnimations()) {
+				this.animationContextTracker.add(idleAnimation);
 			}
 
 			this.animationContextTracker.add(MaulerAnimations.SNAP);
@@ -139,6 +143,11 @@ public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEn
 	@Override
 	public ArrayList<AnimationHolder> getTrackedAnimations() {
 		return MaulerAnimations.TRACKED_ANIMATIONS;
+	}
+
+	@Override
+	public ArrayList<AnimationHolder> getIdleAnimations() {
+		return MaulerAnimations.IDLE_ANIMATIONS;
 	}
 
 	@Override

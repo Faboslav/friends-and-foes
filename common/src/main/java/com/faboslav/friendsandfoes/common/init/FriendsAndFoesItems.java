@@ -4,6 +4,7 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.item.TotemItem;
 import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
 import com.faboslav.friendsandfoes.common.mixin.SpawnEggItemAccessor;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.*;
@@ -17,6 +18,9 @@ import net.minecraft.world.item.component.BlockItemStateProperties;
 import net.minecraft.world.level.block.BeehiveBlock;
 //?}
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.BooleanSupplier;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -46,6 +50,8 @@ public final class FriendsAndFoesItems
 	/*public static final ItemLikeResourcefulRegistry<Item> ITEMS = new ItemLikeResourcefulRegistry<>(BuiltInRegistries.ITEM, FriendsAndFoes.MOD_ID);
 	*///?}
 
+	public static final Map<Identifier, BooleanSupplier> CONFIG_ITEMS = new HashMap<>();
+
 	public final static RegistryEntry<Item> BARNACLE_SPAWN_EGG = registerSpawnEgg("barnacle_spawn_egg", FriendsAndFoesEntityTypes.BARNACLE, 0xFF56847E, 0xFF27514B);
 	//? if <= 1.21.8 {
 	/*public final static RegistryEntry<Item> COPPER_GOLEM_SPAWN_EGG = registerSpawnEgg("copper_golem_spawn_egg", FriendsAndFoesEntityTypes.COPPER_GOLEM, 0xFF9A5038, 0xFFFC998);
@@ -66,19 +72,19 @@ public final class FriendsAndFoesItems
 	public final static RegistryEntry<Item> CRAB_EGG = registerItem("crab_egg", (properties) -> new BlockItem(FriendsAndFoesBlocks.CRAB_EGG.get(), properties), () -> new Item.Properties().stacksTo(64));
 	public final static RegistryEntry<Item> PENGUIN_EGG = registerItem("penguin_egg", (properties) -> new BlockItem(FriendsAndFoesBlocks.PENGUIN_EGG.get(), properties), () -> new Item.Properties().stacksTo(64));
 	public final static RegistryEntry<Item> PENGUIN_FEATHER = registerItem("penguin_feather", Item::new, Item.Properties::new);
-	public final static RegistryEntry<Item> ACACIA_BEEHIVE = registerBeehive("acacia_beehive", FriendsAndFoesBlocks.ACACIA_BEEHIVE);
-	public final static RegistryEntry<Item> BAMBOO_BEEHIVE = registerBeehive("bamboo_beehive", FriendsAndFoesBlocks.BAMBOO_BEEHIVE);
-	public final static RegistryEntry<Item> BIRCH_BEEHIVE = registerBeehive("birch_beehive", FriendsAndFoesBlocks.BIRCH_BEEHIVE);
-	public final static RegistryEntry<Item> CHERRY_BEEHIVE = registerBeehive("cherry_beehive", FriendsAndFoesBlocks.CHERRY_BEEHIVE);
-	public final static RegistryEntry<Item> CRIMSON_BEEHIVE = registerBeehive("crimson_beehive", FriendsAndFoesBlocks.CRIMSON_BEEHIVE);
-	public final static RegistryEntry<Item> DARK_OAK_BEEHIVE = registerBeehive("dark_oak_beehive", FriendsAndFoesBlocks.DARK_OAK_BEEHIVE);
-	public final static RegistryEntry<Item> JUNGLE_BEEHIVE = registerBeehive("jungle_beehive", FriendsAndFoesBlocks.JUNGLE_BEEHIVE);
-	public final static RegistryEntry<Item> MANGROVE_BEEHIVE = registerBeehive("mangrove_beehive", FriendsAndFoesBlocks.MANGROVE_BEEHIVE);
-	public final static RegistryEntry<Item> SPRUCE_BEEHIVE = registerBeehive("spruce_beehive", FriendsAndFoesBlocks.SPRUCE_BEEHIVE);
+	public final static RegistryEntry<Item> ACACIA_BEEHIVE = registerBeehive("acacia_beehive", FriendsAndFoes.getConfig().enableAcaciaBeehive, FriendsAndFoesBlocks.ACACIA_BEEHIVE);
+	public final static RegistryEntry<Item> BAMBOO_BEEHIVE = registerBeehive("bamboo_beehive", FriendsAndFoes.getConfig().enableBambooBeehive, FriendsAndFoesBlocks.BAMBOO_BEEHIVE);
+	public final static RegistryEntry<Item> BIRCH_BEEHIVE = registerBeehive("birch_beehive", FriendsAndFoes.getConfig().enableBirchBeehive, FriendsAndFoesBlocks.BIRCH_BEEHIVE);
+	public final static RegistryEntry<Item> CHERRY_BEEHIVE = registerBeehive("cherry_beehive", FriendsAndFoes.getConfig().enableCherryBeehive, FriendsAndFoesBlocks.CHERRY_BEEHIVE);
+	public final static RegistryEntry<Item> CRIMSON_BEEHIVE = registerBeehive("crimson_beehive", FriendsAndFoes.getConfig().enableCrimsonBeehive, FriendsAndFoesBlocks.CRIMSON_BEEHIVE);
+	public final static RegistryEntry<Item> DARK_OAK_BEEHIVE = registerBeehive("dark_oak_beehive", FriendsAndFoes.getConfig().enableDarkOakBeehive, FriendsAndFoesBlocks.DARK_OAK_BEEHIVE);
+	public final static RegistryEntry<Item> JUNGLE_BEEHIVE = registerBeehive("jungle_beehive", FriendsAndFoes.getConfig().enableJungleBeehive, FriendsAndFoesBlocks.JUNGLE_BEEHIVE);
+	public final static RegistryEntry<Item> MANGROVE_BEEHIVE = registerBeehive("mangrove_beehive", FriendsAndFoes.getConfig().enableMangroveBeehive, FriendsAndFoesBlocks.MANGROVE_BEEHIVE);
+	public final static RegistryEntry<Item> SPRUCE_BEEHIVE = registerBeehive("spruce_beehive", FriendsAndFoes.getConfig().enableSpruceBeehive, FriendsAndFoesBlocks.SPRUCE_BEEHIVE);
 	//? if >= 1.21.4 {
-	public final static RegistryEntry<Item> PALE_OAK_BEEHIVE = registerBeehive("pale_oak_beehive", FriendsAndFoesBlocks.PALE_OAK_BEEHIVE);
+	public final static RegistryEntry<Item> PALE_OAK_BEEHIVE = registerBeehive("pale_oak_beehive", FriendsAndFoes.getConfig().enablePaleOakBeehive, FriendsAndFoesBlocks.PALE_OAK_BEEHIVE);
 	//?}
-	public final static RegistryEntry<Item> WARPED_BEEHIVE = registerBeehive("warped_beehive", FriendsAndFoesBlocks.WARPED_BEEHIVE);
+	public final static RegistryEntry<Item> WARPED_BEEHIVE = registerBeehive("warped_beehive", FriendsAndFoes.getConfig().enableWarpedBeehive, FriendsAndFoesBlocks.WARPED_BEEHIVE);
 	public final static RegistryEntry<Item> COPPER_BUTTON = registerItem("copper_button", (properties) -> new BlockItem(FriendsAndFoesBlocks.COPPER_BUTTON.get(), properties), () -> new Item.Properties().stacksTo(64));
 	public final static RegistryEntry<Item> EXPOSED_COPPER_BUTTON = registerItem("exposed_copper_button", (properties) -> new BlockItem(FriendsAndFoesBlocks.EXPOSED_COPPER_BUTTON.get(), properties), () -> new Item.Properties().stacksTo(64));
 	public final static RegistryEntry<Item> WEATHERED_COPPER_BUTTON = registerItem("weathered_copper_button", (properties) -> new BlockItem(FriendsAndFoesBlocks.WEATHERED_COPPER_BUTTON.get(), properties), () -> new Item.Properties().stacksTo(64));
@@ -110,11 +116,10 @@ public final class FriendsAndFoesItems
 	public final static RegistryEntry<Item> TOTEM_OF_ILLUSION = registerItem("totem_of_illusion", TotemItem::new, () -> new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
 	public static final RegistryEntry<Item> MUSIC_DISC_AROUND_THE_CORNER = registerItem("music_disc_around_the_corner", Item::new, () -> new Item.Properties().stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(FriendsAndFoesJukeboxSongs.AROUND_THE_CORNER));
 
-
 	private FriendsAndFoesItems() {
 	}
 
-	private static RegistryEntry<Item> registerBeehive(String id, RegistryEntry<Block> block) {
+	private static RegistryEntry<Item> registerBeehive(String id, boolean isEnabled, RegistryEntry<Block> block) {
 		var beehiveProperties = new Item.Properties().stacksTo(64);
 
 		//? if >=1.21.11 {
@@ -125,11 +130,18 @@ public final class FriendsAndFoesItems
 	}
 
 	private static RegistryEntry<Item> registerItem(String id, Function<Item.Properties, Item> factory, Supplier<Item.Properties> getter) {
+		return registerItem(id, true, factory, getter);
+	}
+
+	private static RegistryEntry<Item> registerItem(String id, boolean isEnabled, Function<Item.Properties, Item> factory, Supplier<Item.Properties> getter) {
 		//? if >=1.21.4 {
-		return ITEMS.register(id, factory, getter);
+		var item = ITEMS.register(id, factory, getter);
 		//?} else {
-		/*return ITEMS.register(id, () -> factory.apply(getter.get()));
+		/*var item = ITEMS.register(id, () -> factory.apply(getter.get()));
 		*///?}
+
+		CONFIG_ITEMS.put(item.getId(), () -> isEnabled);
+		return item;
 	}
 
 	private static RegistryEntry<Item> registerSpawnEgg(

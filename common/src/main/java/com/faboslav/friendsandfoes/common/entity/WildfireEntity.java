@@ -110,8 +110,12 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 		if (this.animationContextTracker == null) {
 			this.animationContextTracker = new AnimationContextTracker();
 
-			for (var animation: this.getTrackedAnimations()) {
-				this.animationContextTracker.add(animation);
+			for (var trackedAnimation: this.getTrackedAnimations()) {
+				this.animationContextTracker.add(trackedAnimation);
+			}
+
+			for (var idleAnimation: this.getIdleAnimations()) {
+				this.animationContextTracker.add(idleAnimation);
 			}
 
 			this.animationContextTracker.add(WildfireAnimations.SHIELD_ROTATION);
@@ -123,6 +127,11 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 	@Override
 	public ArrayList<AnimationHolder> getTrackedAnimations() {
 		return WildfireAnimations.TRACKED_ANIMATIONS;
+	}
+
+	@Override
+	public ArrayList<AnimationHolder> getIdleAnimations() {
+		return WildfireAnimations.IDLE_ANIMATIONS;
 	}
 
 	@Override

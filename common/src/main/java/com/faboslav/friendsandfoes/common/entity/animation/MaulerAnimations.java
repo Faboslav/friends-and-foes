@@ -12,7 +12,8 @@ public final class MaulerAnimations
 	public static final AnimationHolder WALK = AnimationLoader.INSTANCE.getAnimationHolder(FriendsAndFoes.makeID("mauler/walk"));
 	public static final AnimationHolder RUN = AnimationLoader.INSTANCE.getAnimationHolder(FriendsAndFoes.makeID("mauler/run"));
 	public static final AnimationHolder SNAP = AnimationLoader.INSTANCE.getAnimationHolder(FriendsAndFoes.makeID("mauler/snap"));
-	public static final ArrayList<AnimationHolder> TRACKED_ANIMATIONS = new ArrayList<>()
+	public static final ArrayList<AnimationHolder> TRACKED_ANIMATIONS = new ArrayList<>();
+	public static final ArrayList<AnimationHolder> IDLE_ANIMATIONS = new ArrayList<>()
 	{{
 		add(IDLE);
 	}};

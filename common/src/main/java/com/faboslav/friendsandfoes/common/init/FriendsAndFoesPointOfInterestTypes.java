@@ -10,7 +10,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.ai.village.poi.PoiTypes;
 import net.minecraft.world.level.block.Block;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * @see PoiTypes
@@ -42,7 +41,6 @@ public final class FriendsAndFoesPointOfInterestTypes
 	public static final Supplier<PoiType> WAXED_OXIDIZED_LIGHTNING_ROD = registerPoi("waxed_oxidized_lightning_rod", FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD, 0, 1);
 	*///?}
 
-	@Nullable
 	private static Supplier<PoiType> registerPoi(String name, RegistryEntry<Block> block, int maxTickets, int validRange) {
 		return POINT_OF_INTEREST_TYPES.register(name, () -> new PoiType(PoiTypes.getBlockStates(block.get()), maxTickets, validRange));
 	}

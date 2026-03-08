@@ -33,8 +33,14 @@ public final class FriendsAndFoesStructurePoolElements
 
 		if (FriendsAndFoes.getConfig().generateBeekeeperAreaStructureInVillages) {
 			StructurePoolHelper.addLegacyElementToPool(templatePoolRegistry, plainsPoolLocation, "village/plains/houses/plains_beekeeper_area", FriendsAndFoes.getConfig().beekeeperAreaStructureWeight);
-			StructurePoolHelper.addLegacyElementToPool(templatePoolRegistry, savannaPoolLocation, "village/savanna/houses/savanna_beekeeper_area", FriendsAndFoes.getConfig().beekeeperAreaStructureWeight);
-			StructurePoolHelper.addLegacyElementToPool(templatePoolRegistry, taigaPoolLocation, "village/taiga/houses/taiga_beekeeper_area", FriendsAndFoes.getConfig().beekeeperAreaStructureWeight);
+
+			if(FriendsAndFoes.getConfig().enableAcaciaBeehive) {
+				StructurePoolHelper.addLegacyElementToPool(templatePoolRegistry, savannaPoolLocation, "village/savanna/houses/savanna_beekeeper_area", FriendsAndFoes.getConfig().beekeeperAreaStructureWeight);
+			}
+
+			if(FriendsAndFoes.getConfig().enableSpruceBeehive) {
+				StructurePoolHelper.addLegacyElementToPool(templatePoolRegistry, taigaPoolLocation, "village/taiga/houses/taiga_beekeeper_area", FriendsAndFoes.getConfig().beekeeperAreaStructureWeight);
+			}
 		}
 
 		//? if <= 1.21.8 {

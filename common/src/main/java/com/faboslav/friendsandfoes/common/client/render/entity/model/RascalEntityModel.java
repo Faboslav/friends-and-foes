@@ -104,12 +104,15 @@ public final class RascalEntityModel extends EntityModel<RascalRenderState>
 		float animationProgress
 	) {
 		var movementAnimation = rascal.getMovementAnimation();
-		var animations = rascal.getTrackedAnimations();
 		var animationContextTracker = rascal.getAnimationContextTracker();
 		var currentTick = rascal.tickCount;
 		var animationSpeedModifier = 1.0F;
 
 		KeyframeModelAnimator.updateMovementKeyframeAnimations(this, movementAnimation, limbAngle, limbDistance, 1.5F, 2.5F, animationSpeedModifier);
-		KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, animations, currentTick, animationProgress, animationSpeedModifier);
+		KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, rascal.getTrackedAnimations(), currentTick, animationProgress, animationSpeedModifier);
+
+		if(!rascal.isMoving()) {
+			KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, rascal.getIdleAnimations(), currentTick, animationProgress, animationSpeedModifier);
+		}
 	}
 }

@@ -21,7 +21,8 @@ public enum FriendsAndFoesEntityPose
 	STANDING_WITH_ITEM(9),
 	SLEEPING(10),
 	SLEEPING_WITH_ITEM(11),
-	SHOCKWAVE(12);
+	SHOCKWAVE(12),
+	WING_FLAP(13);
 
 	public static final IntFunction<FriendsAndFoesEntityPose> BY_ID = ByIdMap.continuous(FriendsAndFoesEntityPose::id, values(), ByIdMap.OutOfBoundsStrategy.ZERO);
 	public static final StreamCodec<ByteBuf, FriendsAndFoesEntityPose> STREAM_CODEC = ByteBufCodecs.idMapper(BY_ID, FriendsAndFoesEntityPose::id);

@@ -12,11 +12,14 @@ public final class CrabAnimations
 	public static final AnimationHolder WAVE = AnimationLoader.INSTANCE.getAnimationHolder(FriendsAndFoes.makeID("crab/wave"));
 	public static final AnimationHolder DANCE = AnimationLoader.INSTANCE.getAnimationHolder(FriendsAndFoes.makeID("crab/dance"));
 	public static final AnimationHolder WALK = AnimationLoader.INSTANCE.getAnimationHolder(FriendsAndFoes.makeID("crab/walk"));
-	public static final ArrayList<AnimationHolder> ANIMATIONS = new ArrayList<>()
+	public static final ArrayList<AnimationHolder> TRACKED_ANIMATIONS = new ArrayList<>()
 	{{
-		add(IDLE);
 		add(WAVE);
 		add(DANCE);
+	}};
+	public static final ArrayList<AnimationHolder> IDLE_ANIMATIONS = new ArrayList<>()
+	{{
+		add(IDLE);
 	}};
 
 	private CrabAnimations() {

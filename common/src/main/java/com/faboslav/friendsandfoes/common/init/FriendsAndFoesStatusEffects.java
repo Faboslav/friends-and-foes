@@ -18,5 +18,6 @@ public final class FriendsAndFoesStatusEffects
 	public static final ResourcefulRegistry<MobEffect> STATUS_EFFECTS = ResourcefulRegistries.create(BuiltInRegistries.MOB_EFFECT, FriendsAndFoes.MOD_ID);
 
 	public static final HolderRegistryEntry<MobEffect> REACH = STATUS_EFFECTS.registerHolder("reach", () -> new ReachStatusEffect(MobEffectCategory.BENEFICIAL, 0xFE984B));
+	public static final HolderRegistryEntry<MobEffect> GLIDE = STATUS_EFFECTS.registerHolder("glide", () -> new BoatSpeedStatusEffect(MobEffectCategory.BENEFICIAL, 0x745784));
 	public static final HolderRegistryEntry<MobEffect> BOAT_SPEED = STATUS_EFFECTS.registerHolder("boat_speed", () -> new BoatSpeedStatusEffect(MobEffectCategory.BENEFICIAL, 0x745784));
 }

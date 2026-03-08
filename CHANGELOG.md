@@ -1,3 +1,8 @@
+## 4.0.22
+
+- Fixed crash related to bees and worldgen
+- Fixed modmenu compatibility
+
 ## 4.0.21
 
 - Fixed entity serializers for 1.21.5/1.21.8

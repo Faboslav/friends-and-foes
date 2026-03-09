@@ -177,7 +177,7 @@ public final class PlayerIllusionEntityRenderer extends LivingEntityRenderer<Pla
 
 	@Override
 	//? if >=1.21.3 {
-	public Identifier getTextureLocation(PlayerRenderState playerIllusionRenderState)
+	public ResourceLocation getTextureLocation(PlayerRenderState playerIllusionRenderState)
 	//?} else {
 	/^public ResourceLocation getTextureLocation(PlayerIllusionEntity playerIllusion)
 	^///?}

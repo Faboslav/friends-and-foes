@@ -53,7 +53,7 @@ public class CopperGolemEntityRenderer extends MobRenderer<CopperGolemEntity, Co
 
 	@Override
 	//? if >=1.21.3 {
-	public Identifier getTextureLocation(CopperGolemRenderState renderState)
+	public ResourceLocation getTextureLocation(CopperGolemRenderState renderState)
 	//?} else {
 	/^public ResourceLocation getTextureLocation(CopperGolemEntity copperGolem)
 	^///?}

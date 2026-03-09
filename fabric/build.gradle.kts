@@ -50,6 +50,9 @@ dependencies {
 			modImplementation("dev.emi:trinkets:${trinketsVersion}")
 		} else {
 			modImplementation(fletchingTable.modrinth("trinkets-canary", commonMod.mc, "fabric"))
+
+			modImplementation("org.ladysnake.cardinal-components-api:cardinal-components-base:7.3.0")
+			modImplementation("org.ladysnake.cardinal-components-api:cardinal-components-entity:7.3.0")
 		}
 	}
 

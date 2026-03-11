@@ -59,6 +59,7 @@ public final class RascalEntity extends AgeableMob implements AnimatedEntity
 	private static final EntityDataAccessor<Integer> POSE_TICKS = SynchedEntityData.defineId(RascalEntity.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<FriendsAndFoesEntityPose> ENTITY_POSE = SynchedEntityData.defineId(RascalEntity.class, FriendsAndFoesEntityDataSerializers.ENTITY_POSE);
 	private static final EntityDataAccessor<Integer> CAUGHT_COUNT = SynchedEntityData.defineId(RascalEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<Integer> DAMAGE_COUNT = SynchedEntityData.defineId(RascalEntity.class, EntityDataSerializers.INT);
 	private boolean ambientSounds;
 
 	public RascalEntity(EntityType<? extends AgeableMob> entityType, Level world) {
@@ -173,6 +174,7 @@ public final class RascalEntity extends AgeableMob implements AnimatedEntity
 		builder.define(POSE_TICKS, 0);
 		builder.define(ENTITY_POSE, FriendsAndFoesEntityPose.IDLE);
 		builder.define(CAUGHT_COUNT, 0);
+		builder.define(DAMAGE_COUNT, 0);
 	}
 
 	@Nullable
@@ -343,10 +345,14 @@ public final class RascalEntity extends AgeableMob implements AnimatedEntity
 		}
 
 		this.playHurtSound(damageSource);
-		this.playDisappearSound();
-		this.spawnCloudParticles();
 		this.spawnAngerParticles();
-		this.discard();
+		this.addToDamageCount();
+
+		if(this.getDamageCount() >= 3) {
+			this.playDisappearSound();
+			this.spawnCloudParticles();
+			this.discard();
+		}
 
 		return false;
 	}
@@ -442,6 +448,14 @@ public final class RascalEntity extends AgeableMob implements AnimatedEntity
 		return this.onGround() && this.getDeltaMovement().lengthSqr() >= 0.0001;
 	}
 
+	public int getDamageCount() {
+		return this.entityData.get(DAMAGE_COUNT);
+	}
+
+	public void addToDamageCount() {
+		this.entityData.set(DAMAGE_COUNT, this.getDamageCount() + 1);
+	}
+
 	public int getCaughtCount() {
 		return this.entityData.get(CAUGHT_COUNT);
 	}
@@ -464,6 +478,10 @@ public final class RascalEntity extends AgeableMob implements AnimatedEntity
 
 	public void spawnCloudParticles() {
 		ParticleSpawner.spawnParticles(this, ParticleTypes.CLOUD, 16, 0.1D);
+	}
+
+	public void spawnHappyParticles() {
+		ParticleSpawner.spawnParticles(this, ParticleTypes.HAPPY_VILLAGER, 16, 0.1D);
 	}
 
 	public void spawnAngerParticles() {

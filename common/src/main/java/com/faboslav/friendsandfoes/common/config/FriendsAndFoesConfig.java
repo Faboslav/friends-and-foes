@@ -186,6 +186,11 @@ public final class FriendsAndFoesConfig
 	@SerialEntry()
 	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
 	@AutoGen(category = MOBS_CATEGORY, group = ICEOLOGER_GROUP)
+	public boolean fleeAwayFromIronGolems = true;
+
+	@SerialEntry()
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	@AutoGen(category = MOBS_CATEGORY, group = ICEOLOGER_GROUP)
 	public boolean generateIceologerCabinStructure = true;
 
 	@SerialEntry()
@@ -206,17 +211,17 @@ public final class FriendsAndFoesConfig
 	@SerialEntry()
 	@AutoGen(category = MOBS_CATEGORY, group = ILLUSIONER_GROUP)
 	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean replaceVanillaIllusioner = true;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = ILLUSIONER_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
 	public boolean generateIllusionerShackStructure = true;
 
 	@SerialEntry()
 	@AutoGen(category = MOBS_CATEGORY, group = ILLUSIONER_GROUP)
 	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
 	public boolean generateIllusionerTrainingGroundsStructure = true;
-
-	@SerialEntry()
-	@AutoGen(category = MOBS_CATEGORY, group = ILLUSIONER_GROUP)
-	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
-	public boolean replaceVanillaIllusioner = true;
 
 	@SerialEntry()
 	@AutoGen(category = MOBS_CATEGORY, group = ILLUSIONER_GROUP)
@@ -352,6 +357,11 @@ public final class FriendsAndFoesConfig
 	@AutoGen(category = MOBS_CATEGORY, group = RASCAL_GROUP)
 	@IntSlider(min = 0, max = 100, step = 1)
 	public int rascalSpawnMaxGroupSize = 1;
+
+	@SerialEntry()
+	@AutoGen(category = MOBS_CATEGORY, group = RASCAL_GROUP)
+	@Boolean(formatter = Boolean.Formatter.YES_NO, colored = true)
+	public boolean rascalGiveRewardInBundle = true;
 
 	@SerialEntry()
 	@AutoGen(category = MOBS_CATEGORY, group = TUFF_GOLEM_GROUP)

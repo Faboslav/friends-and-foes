@@ -43,7 +43,9 @@ public final class IceologerEntity extends SpellcasterIllager
 		this.goalSelector.addGoal(0, new FloatGoal(this));
 		this.goalSelector.addGoal(1, new SpellcasterCastingSpellGoal());
 		this.goalSelector.addGoal(2, new AvoidEntityGoal(this, Player.class, 8.0F, 0.6D, 1.0D));
-		this.goalSelector.addGoal(2, new AvoidEntityGoal(this, IronGolem.class, 8.0F, 0.6D, 1.0D));
+		if(FriendsAndFoes.getConfig().fleeAwayFromIronGolems) {
+			this.goalSelector.addGoal(2, new AvoidEntityGoal(this, IronGolem.class, 8.0F, 0.6D, 1.0D));
+		}
 		this.goalSelector.addGoal(3, new SummonIceChunkGoal());
 		this.goalSelector.addGoal(4, new SlowTargetGoal());
 		this.goalSelector.addGoal(5, new RandomStrollGoal(this, 0.6D));

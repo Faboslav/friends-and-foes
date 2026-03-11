@@ -1,3 +1,8 @@
+## 4.0.23
+
+- Added config option for rascals to give items in bundles
+- Added config option for iceologers to flee from Iron Golems
+
 ## 4.0.22
 
 - Fixed crash related to bees and worldgen

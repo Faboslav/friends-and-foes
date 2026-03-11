@@ -2,6 +2,7 @@
 
 - Added config option for rascals to give items in bundles
 - Added config option for iceologers to flee from Iron Golems
+- Added Xaero's Minimap compatibility
 
 ## 4.0.22
 

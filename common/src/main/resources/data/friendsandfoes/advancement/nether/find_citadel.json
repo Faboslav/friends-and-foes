@@ -5,10 +5,10 @@
 			"id": "minecraft:red_nether_bricks"
 		},
 		"title": {
-			"translate": "advancements.nether.find_citadel.title"
+			"translate": "advancements.friendsandfoes.nether.find_citadel.title"
 		},
 		"description": {
-			"translate": "advancements.nether.find_citadel.description"
+			"translate": "advancements.friendsandfoes.nether.find_citadel.description"
 		},
 		"show_toast": true,
 		"announce_to_chat": true,

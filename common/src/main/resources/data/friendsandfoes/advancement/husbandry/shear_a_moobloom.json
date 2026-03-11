@@ -5,10 +5,10 @@
 			"id": "minecraft:shears"
 		},
 		"title": {
-			"translate": "advancements.husbandry.shear_a_moobloom.title"
+			"translate": "advancements.friendsandfoes.husbandry.shear_a_moobloom.title"
 		},
 		"description": {
-			"translate": "advancements.husbandry.shear_a_moobloom.description"
+			"translate": "advancements.friendsandfoes.husbandry.shear_a_moobloom.description"
 		},
 		"frame": "goal",
 		"show_toast": true,

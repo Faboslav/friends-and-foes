@@ -5,10 +5,10 @@
 			"id": "minecraft:glow_berries"
 		},
 		"title": {
-			"translate": "advancements.husbandry.tame_a_glare.title"
+			"translate": "advancements.friendsandfoes.husbandry.tame_a_glare.title"
 		},
 		"description": {
-			"translate": "advancements.husbandry.tame_a_glare.description"
+			"translate": "advancements.friendsandfoes.husbandry.tame_a_glare.description"
 		},
 		"frame": "goal",
 		"show_toast": true,

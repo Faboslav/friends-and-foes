@@ -5,10 +5,10 @@
 			"id": "minecraft:bow"
 		},
 		"title": {
-			"translate": "advancements.adventure.kill_illusioner.title"
+			"translate": "advancements.friendsandfoes.adventure.kill_illusioner.title"
 		},
 		"description": {
-			"translate": "advancements.adventure.kill_illusioner.description"
+			"translate": "advancements.friendsandfoes.adventure.kill_illusioner.description"
 		},
 		"frame": "task",
 		"show_toast": true,

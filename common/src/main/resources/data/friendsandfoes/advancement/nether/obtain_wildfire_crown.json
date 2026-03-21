@@ -6,10 +6,10 @@
 			"nbt": "{Damage:0}"
 		},
 		"title": {
-			"translate": "advancements.nether.obtain_wildfire_crown.title"
+			"translate": "advancements.friendsandfoes.nether.obtain_wildfire_crown.title"
 		},
 		"description": {
-			"translate": "advancements.nether.obtain_wildfire_crown.description"
+			"translate": "advancements.friendsandfoes.nether.obtain_wildfire_crown.description"
 		},
 		"frame": "challenge",
 		"show_toast": true,

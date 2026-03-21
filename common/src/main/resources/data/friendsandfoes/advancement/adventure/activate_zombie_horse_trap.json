@@ -5,10 +5,10 @@
 			"id": "minecraft:chainmail_helmet"
 		},
 		"title": {
-			"translate": "advancements.survival.activate_zombie_horse_trap.title"
+			"translate": "advancements.friendsandfoes.survival.activate_zombie_horse_trap.title"
 		},
 		"description": {
-			"translate": "advancements.survival.activate_zombie_horse_trap.description"
+			"translate": "advancements.friendsandfoes.survival.activate_zombie_horse_trap.description"
 		},
 		"frame": "goal",
 		"show_toast": true,

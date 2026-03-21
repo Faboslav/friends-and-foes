@@ -103,6 +103,7 @@ public final class RascalWaitForPlayerTask extends Behavior<RascalEntity>
 	@Override
 	protected void tick(ServerLevel world, RascalEntity rascal, long time) {
 		if (nodTicks == 20) {
+			rascal.spawnHappyParticles();
 			rascal.startNodAnimation();
 			rascal.getLookControl().setLookAt(this.nearestTarget);
 		}
@@ -120,21 +121,27 @@ public final class RascalWaitForPlayerTask extends Behavior<RascalEntity>
 				.create(LootContextParamSets.GIFT);
 			ObjectArrayList<ItemStack> rascalGoodRewards = rascalGoodItemsLootTable.getRandomItems(lootContextParameterSet);
 
-
 			for (ItemStack rascalReward : rascalGoodRewards) {
-				ItemStack bundleItemStack = Items.BUNDLE.getDefaultInstance();
-				BundleContents bundleContentsComponent = bundleItemStack.get(DataComponents.BUNDLE_CONTENTS);
+				ItemStack thrownStack;
 
-				if (bundleContentsComponent == null) {
-					break;
+				if (FriendsAndFoes.getConfig().rascalGiveRewardInBundle) {
+					ItemStack bundleItemStack = Items.BUNDLE.getDefaultInstance();
+					BundleContents bundleContentsComponent = bundleItemStack.get(DataComponents.BUNDLE_CONTENTS);
+
+					if (bundleContentsComponent == null) {
+						break;
+					}
+
+					BundleContents.Mutable builder = new BundleContents.Mutable(bundleContentsComponent);
+					builder.tryInsert(rascalReward);
+					bundleItemStack.set(DataComponents.BUNDLE_CONTENTS, builder.toImmutable());
+					thrownStack = bundleItemStack;
+				} else {
+					thrownStack = rascalReward;
 				}
 
-				BundleContents.Mutable builder = new BundleContents.Mutable(bundleContentsComponent);
-				builder.tryInsert(rascalReward);
-				bundleItemStack.set(DataComponents.BUNDLE_CONTENTS, builder.toImmutable());
-				BehaviorUtils.throwItem(rascal, bundleItemStack, nearestTarget.position().add(0.0, 1.0, 0.0));
-
-				FriendsAndFoesCriterias.COMPLETE_HIDE_AND_SEEK_GAME.get().trigger((ServerPlayer) this.nearestTarget, rascal, bundleItemStack);
+				BehaviorUtils.throwItem(rascal, thrownStack, nearestTarget.position().add(0.0, 1.0, 0.0));
+				FriendsAndFoesCriterias.COMPLETE_HIDE_AND_SEEK_GAME.get().trigger((ServerPlayer) this.nearestTarget, rascal, thrownStack);
 			}
 		}
 

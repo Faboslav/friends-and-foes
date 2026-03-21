@@ -1,3 +1,16 @@
+## 4.0.23
+
+- Added config option for rascals to give items in bundles
+- Added config option for iceologers to flee from Iron Golems
+- Added Xaero's Minimap compatibility
+
+## 4.0.22
+
+- Fixed crash related to bees and worldgen
+- Fixed modmenu compatibility
+- Fixed trinkets compatibility for 1.21.4 and newer versions
+- Fixed curios compatibility for 1.21.4 and newer versions
+
 ## 4.0.21
 
 - Fixed entity serializers for 1.21.5/1.21.8

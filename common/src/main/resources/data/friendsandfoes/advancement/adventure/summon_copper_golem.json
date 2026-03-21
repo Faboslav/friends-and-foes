@@ -5,10 +5,10 @@
 			"id": "minecraft:copper_block"
 		},
 		"title": {
-			"translate": "advancements.adventure.summon_copper_golem.title"
+			"translate": "advancements.friendsandfoes.adventure.summon_copper_golem.title"
 		},
 		"description": {
-			"translate": "advancements.adventure.summon_copper_golem.description"
+			"translate": "advancements.friendsandfoes.adventure.summon_copper_golem.description"
 		},
 		"frame": "goal",
 		"show_toast": true,

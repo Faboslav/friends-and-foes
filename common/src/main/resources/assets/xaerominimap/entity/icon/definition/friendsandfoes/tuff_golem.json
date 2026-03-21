@@ -1,0 +1,21 @@
+{
+    "variants": {
+        "default": "model:0"
+    },
+    "modelConfigs": [
+        {
+            "baseScale": 0.7,
+            "rotationY": 0,
+            "rotationX": 0,
+            "rotationZ": 0,
+            "offsetX": 0,
+            "offsetY": 0,
+            "modelMainPartFieldAliases": [
+                "com.faboslav.friendsandfoes.common.client.render.entity.model.TuffGolemEntityModel;body"
+            ],
+            "renderingFullModel": false,
+            "modelPartsRotationReset": true,
+            "layersAllowed": true
+        }
+    ]
+}

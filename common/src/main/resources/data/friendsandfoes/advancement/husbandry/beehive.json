@@ -2,10 +2,10 @@
 	"parent": "minecraft:husbandry/root",
 	"display": {
 		"title": {
-			"translate": "advancements.husbandry.beehive.title"
+			"translate": "advancements.friendsandfoes.husbandry.beehive.title"
 		},
 		"description": {
-			"translate": "advancements.husbandry.beehive.description"
+			"translate": "advancements.friendsandfoes.husbandry.beehive.description"
 		},
 		"icon": {
 			"id": "minecraft:beehive"

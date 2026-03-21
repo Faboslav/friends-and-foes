@@ -5,10 +5,10 @@
 			"id": "minecraft:stone_sword"
 		},
 		"title": {
-			"translate": "advancements.adventure.it_bites.title"
+			"translate": "advancements.friendsandfoes.adventure.it_bites.title"
 		},
 		"description": {
-			"translate": "advancements.adventure.it_bites.description"
+			"translate": "advancements.friendsandfoes.adventure.it_bites.description"
 		},
 		"frame": "task",
 		"show_toast": true,

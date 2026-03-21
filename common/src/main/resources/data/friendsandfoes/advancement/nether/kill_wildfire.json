@@ -5,10 +5,10 @@
 			"id": "friendsandfoes:wildfire_crown_fragment"
 		},
 		"title": {
-			"translate": "advancements.nether.kill_wildfire.title"
+			"translate": "advancements.friendsandfoes.nether.kill_wildfire.title"
 		},
 		"description": {
-			"translate": "advancements.nether.kill_wildfire.description"
+			"translate": "advancements.friendsandfoes.nether.kill_wildfire.description"
 		},
 		"frame": "task",
 		"show_toast": true,

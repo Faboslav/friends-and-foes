@@ -5,10 +5,10 @@
 			"id": "minecraft:bundle"
 		},
 		"title": {
-			"translate": "advancements.adventure.complete_hide_and_seek_game.title"
+			"translate": "advancements.friendsandfoes.adventure.complete_hide_and_seek_game.title"
 		},
 		"description": {
-			"translate": "advancements.adventure.complete_hide_and_seek_game.description"
+			"translate": "advancements.friendsandfoes.adventure.complete_hide_and_seek_game.description"
 		},
 		"frame": "task",
 		"show_toast": true,

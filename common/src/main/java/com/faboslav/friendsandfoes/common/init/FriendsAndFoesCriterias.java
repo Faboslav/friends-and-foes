@@ -12,8 +12,8 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.advancements.criterion.LightningStrikeTrigger;
 import net.minecraft.advancements.criterion.TameAnimalTrigger;
 //?} else {
-/*import net.minecraft.advancements.critereon.LightningStrikeTrigger;
-import net.minecraft.advancements.critereon.TameAnimalTrigger;
+/*import net.minecraft.advancements.criterion.LightningStrikeTrigger;
+import net.minecraft.advancements.criterion.TameAnimalTrigger;
 *///?}
 
 public final class FriendsAndFoesCriterias

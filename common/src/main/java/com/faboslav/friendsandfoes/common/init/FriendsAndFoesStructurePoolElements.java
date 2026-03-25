@@ -26,9 +26,9 @@ public final class FriendsAndFoesStructurePoolElements
 		Identifier taigaPoolLocation = Identifier.parse("minecraft:village/taiga/houses");
 
 		//? if <= 1.21.8 {
-		/*ResourceLocation desertPoolLocation = ResourceLocation.parse("minecraft:village/desert/houses");
-		ResourceLocation ancientCityCenterPoolLocation = ResourceLocation.parse("minecraft:ancient_city/city_center");
-		ResourceLocation trialChambersCorridorPoolLocation = ResourceLocation.parse("minecraft:trial_chambers/corridor");
+		/*Identifier desertPoolLocation = Identifier.parse("minecraft:village/desert/houses");
+		Identifier ancientCityCenterPoolLocation = Identifier.parse("minecraft:ancient_city/city_center");
+		Identifier trialChambersCorridorPoolLocation = Identifier.parse("minecraft:trial_chambers/corridor");
 		*///?}
 
 		if (FriendsAndFoes.getConfig().generateBeekeeperAreaStructureInVillages) {

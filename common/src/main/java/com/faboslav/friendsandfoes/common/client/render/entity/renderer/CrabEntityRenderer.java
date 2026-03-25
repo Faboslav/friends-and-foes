@@ -82,7 +82,7 @@ public class CrabEntityRenderer extends AgeableMobRenderer<CrabEntity, CrabRende
 		//? if >=1.21.3 {
 	public Identifier getTextureLocation(CrabRenderState renderState)
 		//?} else {
-		/*public ResourceLocation getTextureLocation(CrabEntity crab)
+		/*public Identifier getTextureLocation(CrabEntity crab)
 		 *///?}
 	{
 		return TEXTURE;

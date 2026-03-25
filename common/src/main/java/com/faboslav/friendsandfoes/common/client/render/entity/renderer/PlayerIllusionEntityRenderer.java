@@ -20,7 +20,7 @@ import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.numbers.StyledFormat;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.UUID;
 
@@ -179,7 +179,7 @@ public final class PlayerIllusionEntityRenderer extends LivingEntityRenderer<Pla
 	//? if >=1.21.3 {
 	public Identifier getTextureLocation(PlayerRenderState playerIllusionRenderState)
 	//?} else {
-	/^public ResourceLocation getTextureLocation(PlayerIllusionEntity playerIllusion)
+	/^public Identifier getTextureLocation(PlayerIllusionEntity playerIllusion)
 	^///?}
 	{
 		//? if >=1.21.3 {

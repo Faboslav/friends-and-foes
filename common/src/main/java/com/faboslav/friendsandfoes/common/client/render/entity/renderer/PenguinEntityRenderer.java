@@ -42,7 +42,7 @@ public class PenguinEntityRenderer extends MobRenderer<PenguinEntity, PenguinRen
 	//? >=1.21.3 {
 	public Identifier getTextureLocation(PenguinRenderState penguinRenderState)
 	//?} else {
-	/*public ResourceLocation getTextureLocation(PenguinEntity penguin)
+	/*public Identifier getTextureLocation(PenguinEntity penguin)
 	*///?}
 	{
 		return PENGUIN_TEXTURE;

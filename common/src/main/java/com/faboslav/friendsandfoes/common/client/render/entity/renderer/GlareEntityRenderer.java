@@ -59,7 +59,7 @@ public class GlareEntityRenderer extends AgeableMobRenderer<GlareEntity, GlareRe
 	//? if >=1.21.3 {
 	public Identifier getTextureLocation(GlareRenderState renderState)
 	//?} else {
-	/*public ResourceLocation getTextureLocation(GlareEntity glare)
+	/*public Identifier getTextureLocation(GlareEntity glare)
 	*///?}
 	{
 		return TEXTURE;

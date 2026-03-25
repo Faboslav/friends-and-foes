@@ -38,11 +38,7 @@ public class FriendsAndFoesItemGroups
 				return iconStack;
 			})
 			.displayItems((itemDisplayParameters, entries) -> {
-				FriendsAndFoes.getLogger().info(FriendsAndFoesItems.CONFIG_ITEMS.toString());
-				FriendsAndFoesItems.ITEMS.stream().filter(entry -> {
-					FriendsAndFoes.getLogger().info(entry.get().toString() +": " + FriendsAndFoesItems.CONFIG_ITEMS.containsKey(entry.getId()));
-					return FriendsAndFoesItems.CONFIG_ITEMS.getOrDefault(entry, () -> true).getAsBoolean();
-				}).toList().stream().map(item -> item.get().getDefaultInstance()).forEach(entries::accept);
+				FriendsAndFoesItems.ITEMS.stream().filter(entry -> FriendsAndFoesItems.CONFIG_ITEMS.getOrDefault(entry.getId(), () -> true).getAsBoolean()).toList().stream().map(item -> item.get().getDefaultInstance()).forEach(entries::accept);
 			}).build());
 
 	public static void addItemGroupEntries(AddItemGroupEntriesEvent event) {

@@ -8,7 +8,7 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.WeatheringCopper;
 import java.util.Map;
 
@@ -23,7 +23,7 @@ public class CopperGolemEntityRenderer extends MobRenderer<CopperGolemEntity, Co
 /^public final class CopperGolemEntityRenderer extends MobRenderer<CopperGolemEntity, CopperGolemEntityModel<CopperGolemEntity>>
 ^///?}
 {
-	private static final Map<WeatheringCopper.WeatherState, ResourceLocation> OXIDATION_TO_TEXTURE_MAP = ImmutableMap.of(
+	private static final Map<WeatheringCopper.WeatherState, Identifier> OXIDATION_TO_TEXTURE_MAP = ImmutableMap.of(
 		WeatheringCopper.WeatherState.UNAFFECTED, FriendsAndFoes.makeID("textures/entity/copper_golem/copper_golem.png"),
 		WeatheringCopper.WeatherState.EXPOSED, FriendsAndFoes.makeID("textures/entity/copper_golem/exposed_copper_golem.png"),
 		WeatheringCopper.WeatherState.WEATHERED, FriendsAndFoes.makeID("textures/entity/copper_golem/weathered_copper_golem.png"),
@@ -55,7 +55,7 @@ public class CopperGolemEntityRenderer extends MobRenderer<CopperGolemEntity, Co
 	//? if >=1.21.3 {
 	public Identifier getTextureLocation(CopperGolemRenderState renderState)
 	//?} else {
-	/^public ResourceLocation getTextureLocation(CopperGolemEntity copperGolem)
+	/^public Identifier getTextureLocation(CopperGolemEntity copperGolem)
 	^///?}
 	{
 		//? if >=1.21.3 {

@@ -53,7 +53,7 @@ public final class MoobloomEntityRenderer extends AgeableMobRenderer<MoobloomEnt
 	//? if >=1.21.3 {
 	public Identifier getTextureLocation(MoobloomRenderState moobloomRenderState)
 	//?} else {
-	/*public ResourceLocation getTextureLocation(MoobloomEntity moobloom)
+	/*public Identifier getTextureLocation(MoobloomEntity moobloom)
 	*///?}
 	{
 		//? if >=1.21.3 {

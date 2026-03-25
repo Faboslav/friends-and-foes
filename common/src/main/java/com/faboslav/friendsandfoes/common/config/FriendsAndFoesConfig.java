@@ -516,7 +516,6 @@ public final class FriendsAndFoesConfig
 	public boolean enableWarpedBeehive = true;
 
 	public void load() {
-		FriendsAndFoes.getLogger().info("CONFIG LOADED");
 		HANDLER.load();
 	}
 }

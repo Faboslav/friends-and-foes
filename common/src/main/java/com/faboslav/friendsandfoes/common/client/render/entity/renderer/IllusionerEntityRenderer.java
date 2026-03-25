@@ -87,7 +87,7 @@ public class IllusionerEntityRenderer<T extends SpellcasterIllager> extends Illa
 	//? if >=1.21.3 {
 	public Identifier getTextureLocation(IllusionerRenderState renderState)
 	//?} else {
-	/*public ResourceLocation getTextureLocation(T illusioner)
+	/*public Identifier getTextureLocation(T illusioner)
 	*///?}
 	{
 		return TEXTURE;

@@ -7,7 +7,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.gamerules.GameRule;
 import net.minecraft.world.level.gamerules.GameRules;
 //?} else {
-/*import net.minecraft.world.level.GameRules;
+/*import net.minecraft.world.level.gamerules.GameRules;
 *///?}
 
 public final class VersionedGameRulesProvider

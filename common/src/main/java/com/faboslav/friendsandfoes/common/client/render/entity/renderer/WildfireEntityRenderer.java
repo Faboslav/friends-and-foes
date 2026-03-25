@@ -66,7 +66,7 @@ public class WildfireEntityRenderer extends MobRenderer<WildfireEntity, Wildfire
 	//? if >=1.21.3 {
 	public Identifier getTextureLocation(WildfireRenderState wildfireRenderState)
 	//?} else {
-	/*public ResourceLocation getTextureLocation(WildfireEntity wildfire)
+	/*public Identifier getTextureLocation(WildfireEntity wildfire)
 	*///?}
 	{
 		return WILDFIRE_TEXTURE;

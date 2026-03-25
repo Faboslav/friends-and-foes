@@ -116,7 +116,7 @@ public class IceologerIceChunkRenderer extends EntityRenderer<IceologerIceChunkE
 	}
 	//?} else {
 	/*@Override
-	public ResourceLocation getTextureLocation(IceologerIceChunkEntity iceologerIceChunk)
+	public Identifier getTextureLocation(IceologerIceChunkEntity iceologerIceChunk)
 	{
 		return TEXTURE;
 	}

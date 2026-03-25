@@ -65,7 +65,7 @@ public class BarnacleEntityRenderer extends MobRenderer<BarnacleEntity, Barnacle
 	//? >=1.21.3 {
 	public Identifier getTextureLocation(BarnacleRenderState barnacleRenderState)
 	//?} else {
-	/*public ResourceLocation getTextureLocation(BarnacleEntity barnacle)
+	/*public Identifier getTextureLocation(BarnacleEntity barnacle)
 	*///?}
 	{
 		return BARNACLE_TEXTURE;

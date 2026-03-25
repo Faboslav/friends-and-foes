@@ -54,14 +54,14 @@ public final class MoobloomVariantManager extends SimpleJsonResourceReloadListen
 	//? if >=1.21.3 {
 	protected void apply(Map<Identifier, MoobloomVariant> moobloomVariants, ResourceManager resourceManager, ProfilerFiller profiler)
 	//?} else {
-	/*protected void apply(Map<ResourceLocation, JsonElement> moobloomVariantsJson, ResourceManager resourceManager, ProfilerFiller profiler)
+	/*protected void apply(Map<Identifier, JsonElement> moobloomVariantsJson, ResourceManager resourceManager, ProfilerFiller profiler)
 	*///?}
 	{
 		//? if <1.21.3 {
-		/*Map<ResourceLocation, MoobloomVariant> moobloomVariants = new HashMap<>();
+		/*Map<Identifier, MoobloomVariant> moobloomVariants = new HashMap<>();
 
-		for (Map.Entry<ResourceLocation, JsonElement> entry : moobloomVariantsJson.entrySet()) {
-			ResourceLocation resourceLocation = entry.getKey();
+		for (Map.Entry<Identifier, JsonElement> entry : moobloomVariantsJson.entrySet()) {
+			Identifier resourceLocation = entry.getKey();
 			JsonElement moobloomVariantJson = entry.getValue();
 
 			MoobloomVariant moobloomVariant = MoobloomVariant.CODEC.parse(JsonOps.INSTANCE, moobloomVariantJson).getOrThrow();

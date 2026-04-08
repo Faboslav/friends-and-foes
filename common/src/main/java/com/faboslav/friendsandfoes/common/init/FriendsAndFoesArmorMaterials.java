@@ -30,7 +30,7 @@ import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistry;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.function.Supplier;
-import net.minecraft.Util;
+import net.minecraft.util.Util;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.ArmorItem;

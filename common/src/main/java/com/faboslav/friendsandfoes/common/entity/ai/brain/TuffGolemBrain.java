@@ -12,7 +12,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
-import com.mojang.serialization.Dynamic;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.Brain;
@@ -30,23 +29,29 @@ import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraft.world.entity.schedule.Activity;
 import java.util.List;
 
+//? if >= 26.1 {
+import net.minecraft.world.entity.ai.ActivityData;
+//?} else {
+/*import com.mojang.serialization.Dynamic;
+*///?}
+
 @SuppressWarnings({"rawtypes", "unchecked"})
 public final class TuffGolemBrain
 {
 	public static final List<MemoryModuleType<?>> MEMORY_MODULES;
 	public static final List<SensorType<? extends Sensor<? super TuffGolemEntity>>> SENSORS;
+	public static final Brain.Provider<TuffGolemEntity> BRAIN_PROVIDER;
 	private static final UniformInt SLEEP_COOLDOWN_PROVIDER;
 
-	public TuffGolemBrain() {
+	//? if >= 26.1 {
+	public static Brain<TuffGolemEntity> create(TuffGolemEntity tuffGolem, final Brain.Packed packedBrain) {
+		return BRAIN_PROVIDER.makeBrain(tuffGolem, packedBrain);
 	}
+	//?} else {
+	/*public static Brain<TuffGolemEntity> create(Dynamic<?> dynamic) {
+		Brain<TuffGolemEntity> brain = BRAIN_PROVIDER.makeBrain(dynamic);
 
-	public static Brain<?> create(Dynamic<?> dynamic) {
-		Brain.Provider<TuffGolemEntity> profile = Brain.provider(MEMORY_MODULES, SENSORS);
-		Brain<TuffGolemEntity> brain = profile.makeBrain(dynamic);
-
-		addCoreActivities(brain);
-		addHomeActivities(brain);
-		addIdleActivities(brain);
+		getActivities(brain);
 
 		brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
 		brain.setDefaultActivity(Activity.IDLE);
@@ -54,9 +59,39 @@ public final class TuffGolemBrain
 
 		return brain;
 	}
+	*///?}
 
-	private static void addCoreActivities(Brain<TuffGolemEntity> brain) {
-		brain.addActivity(Activity.CORE,
+	//? if >= 26.1 {
+	private static List<ActivityData<TuffGolemEntity>> getActivities(TuffGolemEntity tuffGolem)
+	//?} else {
+	/*private static void addActivities(Brain<TuffGolemEntity> brain)
+	 *///?}
+	{
+		//? if >= 26.1 {
+		return List.of(
+			addCoreActivities(),
+			addHomeActivities(),
+			addIdleActivities()
+		);
+		//?} else {
+		/*addCoreActivities(brain);
+		addHomeActivities(brain);
+		addIdleActivities(brain);
+		*///?}
+	}
+
+	//? if >= 26.1 {
+	private static ActivityData<TuffGolemEntity> addCoreActivities()
+	//?} else {
+	/*private static void addCoreActivities(Brain<TuffGolemEntity> brain)
+	 *///?}
+	{
+		//? if >= 26.1 {
+		return ActivityData.create(
+		//?} else {
+		/*brain.addActivity(
+		*///?}
+			Activity.CORE,
 			0,
 			ImmutableList.of(
 				new TuffGolemLookAroundTask(45, 90),
@@ -65,8 +100,17 @@ public final class TuffGolemBrain
 			));
 	}
 
-	private static void addHomeActivities(Brain<TuffGolemEntity> brain) {
-		brain.addActivityWithConditions(
+	//? if >= 26.1 {
+	private static ActivityData<TuffGolemEntity> addHomeActivities()
+	//?} else {
+	/*private static void addHomeActivities(Brain<TuffGolemEntity> brain)
+	 *///?}
+	{
+		//? if >= 26.1 {
+		return ActivityData.create(
+		//?} else {
+		/*brain.addActivityWithConditions(
+		*///?}
 			FriendsAndFoesActivities.TUFF_GOLEM_HOME.get(),
 			ImmutableList.of(
 				Pair.of(0, new TuffGolemGoToHomePositionTask()),
@@ -80,8 +124,17 @@ public final class TuffGolemBrain
 		);
 	}
 
-	private static void addIdleActivities(Brain<TuffGolemEntity> brain) {
-		brain.addActivityWithConditions(
+	//? if >= 26.1 {
+	private static ActivityData<TuffGolemEntity> addIdleActivities()
+	//?} else {
+	/*private static void addIdleActivities(Brain<TuffGolemEntity> brain)
+	 *///?}
+	{
+		//? if >= 26.1 {
+		return ActivityData.create(
+		//?} else {
+		/*brain.addActivityWithConditions(
+		*///?}
 			Activity.IDLE,
 			ImmutableList.of(
 				Pair.of(0,
@@ -148,6 +201,13 @@ public final class TuffGolemBrain
 			MemoryModuleType.WALK_TARGET,
 			MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
 			FriendsAndFoesMemoryModuleTypes.TUFF_GOLEM_SLEEP_COOLDOWN.get()
+		);
+		BRAIN_PROVIDER = Brain.provider(
+			MEMORY_MODULES,
+			SENSORS
+			//? if >= 26.1 {
+			, TuffGolemBrain::getActivities
+			//?}
 		);
 		SLEEP_COOLDOWN_PROVIDER = UniformInt.of(6000, 8000);
 	}

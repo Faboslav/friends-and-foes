@@ -33,8 +33,8 @@ public final class CrabLayEggTask extends Behavior<CrabEntity>
 	protected boolean checkExtraStartConditions(ServerLevel world, CrabEntity crab) {
 		if (
 			crab.getBurrowSpotPos() == null
-			|| crab.isBurrowSpotAccessible(crab.getBurrowSpotPos().pos()) == false
-			|| crab.getBurrowSpotPos().pos().closerToCenterThan(crab.position(), WITHING_DISTANCE) == false
+			|| !crab.isBurrowSpotAccessible(crab.getBurrowSpotPos().pos())
+			|| !crab.getBurrowSpotPos().pos().closerToCenterThan(crab.position(), WITHING_DISTANCE)
 			|| crab.getNavigation().isInProgress()
 		) {
 			return false;
@@ -69,7 +69,7 @@ public final class CrabLayEggTask extends Behavior<CrabEntity>
 		var burrowSpotPos = crab.getBurrowSpotPos();
 
 		if (burrowSpotPos != null) {
-			world.playSound(null, burrowSpotPos.pos(), FriendsAndFoesSoundEvents.ENTITY_CRAB_LAY_EGG.get(), SoundSource.BLOCKS, 0.3f, 0.9f + world.random.nextFloat() * 0.2f);
+			world.playSound(null, burrowSpotPos.pos(), FriendsAndFoesSoundEvents.ENTITY_CRAB_LAY_EGG.get(), SoundSource.BLOCKS, 0.3f, 0.9f + world.getRandom().nextFloat() * 0.2f);
 			world.setBlock(burrowSpotPos.pos(), FriendsAndFoesBlocks.CRAB_EGG.get().defaultBlockState().setValue(TurtleEggBlock.EGGS, crab.getRandom().nextInt(4) + 1), Block.UPDATE_ALL);
 		}
 

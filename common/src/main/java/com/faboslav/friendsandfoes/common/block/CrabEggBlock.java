@@ -74,7 +74,7 @@ public final class CrabEggBlock extends Block
 	}
 
 	private void breakEgg(Level world, BlockPos pos, BlockState state) {
-		world.playSound(null, pos, SoundEvents.TURTLE_EGG_BREAK, SoundSource.BLOCKS, 0.7F, 0.9F + world.random.nextFloat() * 0.2F);
+		world.playSound(null, pos, SoundEvents.TURTLE_EGG_BREAK, SoundSource.BLOCKS, 0.7F, 0.9F + world.getRandom().nextFloat() * 0.2F);
 		int i = state.getValue(EGGS);
 
 		if (i <= 1) {

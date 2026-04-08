@@ -37,7 +37,7 @@ public final class IceologerSpawner implements CustomSpawner
 			return /*? if <1.21.5 {*//*0*//*?}*/;
 		}
 
-		RandomSource random = world.random;
+		RandomSource random = world.getRandom();
 		--this.cooldown;
 
 		if (this.cooldown > 0) {
@@ -45,7 +45,11 @@ public final class IceologerSpawner implements CustomSpawner
 		}
 
 		this.cooldown += 12000 + random.nextInt(1000);
-		long l = world.getDayTime() / 24000L;
+		//? if >= 26.1 {
+		long l = world.getGameTime() / 24000L;
+		//?} else {
+		/*long l = world.getDayTime() / 24000L;
+		 *///?}
 
 		if (
 			l < 5L

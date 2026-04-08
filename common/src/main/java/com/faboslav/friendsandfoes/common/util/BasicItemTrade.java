@@ -1,15 +1,17 @@
-package com.faboslav.friendsandfoes.common.util;
+//? if <= 1.21.11 {
+/*package com.faboslav.friendsandfoes.common.util;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.npc.villager.VillagerTrades;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
+import net.minecraft.world.item.trading.VillagerTrades;
 
-public class BasicItemTrade implements VillagerTrades.ItemListing  {
+
+public class BasicItemTrade implements VillagerTrades.ItemListing {
 	private final Item itemToTrade;
 	private final Item itemToReceive;
 	private final int amountToGive;
@@ -45,3 +47,4 @@ public class BasicItemTrade implements VillagerTrades.ItemListing  {
 		return new MerchantOffer(in, out, this.maxUses, this.experience, this.multiplier);
 	}
 }
+*///?}

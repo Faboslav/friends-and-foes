@@ -85,7 +85,7 @@ public class IceologerEntityRenderer<T extends SpellcasterIllager> extends Illag
 	//? if >=1.21.3 {
 	public Identifier getTextureLocation(IceologerRenderState renderState)
 	//?} else {
-	/*public ResourceLocation getTextureLocation(T iceologer)
+	/*public Identifier getTextureLocation(T iceologer)
 	*///?}
 	{
 		return TEXTURE;

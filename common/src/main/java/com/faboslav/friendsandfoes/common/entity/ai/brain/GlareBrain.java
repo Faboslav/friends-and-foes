@@ -10,7 +10,6 @@ import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
-import com.mojang.serialization.Dynamic;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.ai.Brain;
@@ -34,35 +33,39 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.sensing.Sensor;
 import net.minecraft.world.entity.ai.sensing.SensorType;
-import net.minecraft.world.entity.animal.goat.Goat;
-import net.minecraft.world.entity.animal.goat.GoatAi;
 import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
+
+//? if >= 26.1 {
+import net.minecraft.world.entity.ai.ActivityData;
+//?} else {
+/*import com.mojang.serialization.Dynamic;
+ *///?}
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public final class GlareBrain
 {
 	public static final List<MemoryModuleType<?>> MEMORY_MODULES;
 	public static final List<SensorType<? extends Sensor<? super GlareEntity>>> SENSORS;
+	public static final Brain.Provider<GlareEntity> BRAIN_PROVIDER;
 	private static final UniformInt DARK_SPOT_LOCATING_COOLDOWN_PROVIDER;
 	private static final UniformInt EAT_GLOW_BERRIES_COOLDOWN_PROVIDER;
 
 	public GlareBrain() {
 	}
 
-	public static Brain<?> create(Dynamic<?> dynamic) {
-		Brain.Provider<GlareEntity> profile = Brain.provider(MEMORY_MODULES, SENSORS);
-		Brain<GlareEntity> brain = profile.makeBrain(dynamic);
+	//? if >= 26.1 {
+	public static Brain<GlareEntity> create(GlareEntity glare, final Brain.Packed packedBrain) {
+		return BRAIN_PROVIDER.makeBrain(glare, packedBrain);
+	}
+	//?} else {
+	/*public static Brain<GlareEntity> create(Dynamic<?> dynamic) {
+		Brain<GlareEntity> brain = BRAIN_PROVIDER.makeBrain(dynamic);
 
-		addCoreActivities(brain);
-		addAvoidActivities(brain);
-		addIdleActivities(brain);
-		addDarkSpotActivities(brain);
-		addGlowBerriesActivities(brain);
+		addActivities(brain);
 
 		brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
 		brain.setDefaultActivity(Activity.IDLE);
@@ -70,9 +73,43 @@ public final class GlareBrain
 
 		return brain;
 	}
+	*///?}
 
-	private static void addCoreActivities(Brain<GlareEntity> brain) {
-		brain.addActivity(Activity.CORE,
+	//? if >= 26.1 {
+	protected static List<ActivityData<GlareEntity>> getActivities(GlareEntity glare)
+	//?} else {
+	/*protected static void addActivities(Brain<GlareEntity> brain)
+	 *///?}
+	{
+		//? if >= 26.1 {
+		return List.of(
+			addCoreActivities(),
+			addAvoidActivities(),
+			addIdleActivities(),
+			addDarkSpotActivities(),
+			addGlowBerriesActivities()
+		);
+		//?} else {
+		/*addCoreActivities(brain);
+		addAvoidActivities(brain);
+		addIdleActivities(brain);
+		addDarkSpotActivities(brain);
+		addGlowBerriesActivities(brain);
+		*///?}
+	}
+
+	//? if >= 26.1 {
+	private static ActivityData<GlareEntity> addCoreActivities()
+	//?} else {
+	/*private static void addCoreActivities(Brain<GlareEntity> brain)
+	*///?}
+	{
+		//? if >= 26.1 {
+		return ActivityData.create(
+		//?} else {
+		/*brain.addActivity(
+		 *///?}
+			Activity.CORE,
 			0,
 			ImmutableList.of(
 				new Swim/*? if >=1.21.3 {*/<>/*?}*/(0.8f),
@@ -86,10 +123,17 @@ public final class GlareBrain
 		);
 	}
 
-	private static void addDarkSpotActivities(
-		Brain<GlareEntity> brain
-	) {
-		brain.addActivityWithConditions(
+	//? if >= 26.1 {
+	private static ActivityData<GlareEntity> addDarkSpotActivities()
+	//?} else {
+	/*private static void addDarkSpotActivities(Brain<GlareEntity> brain)
+	*///?}
+	{
+		//? if >= 26.1 {
+		return ActivityData.create(
+		//?} else {
+		/*brain.addActivityWithConditions(
+		*///?}
 			FriendsAndFoesActivities.GLARE_SHOW_DARK_SPOT.get(),
 			ImmutableList.of(
 				Pair.of(0, new GlareLocateDarkSpotTask()),
@@ -107,10 +151,17 @@ public final class GlareBrain
 		);
 	}
 
-	private static void addGlowBerriesActivities(
-		Brain<GlareEntity> brain
-	) {
-		brain.addActivityWithConditions(
+	//? if >= 26.1 {
+	private static ActivityData<GlareEntity> addGlowBerriesActivities()
+	//?} else {
+	/*private static void addGlowBerriesActivities(Brain<GlareEntity> brain)
+	*///?}
+	{
+		//? if >= 26.1 {
+		return ActivityData.create(
+		//?} else {
+		/*brain.addActivityWithConditions(
+		*///?}
 			FriendsAndFoesActivities.GLARE_EAT_GLOW_BERRIES.get(),
 			ImmutableList.of(
 				Pair.of(0, GoToWantedItem.create(glare -> true, 1.25F, true, 32)),
@@ -128,8 +179,17 @@ public final class GlareBrain
 		);
 	}
 
-	private static void addAvoidActivities(Brain<GlareEntity> brain) {
-		brain.addActivityWithConditions(
+	//? if >= 26.1 {
+	private static ActivityData<GlareEntity> addAvoidActivities()
+	//?} else {
+	/*private static void addAvoidActivities(Brain<GlareEntity> brain)
+	 *///?}
+	{
+		//? if >= 26.1 {
+		return ActivityData.create(
+		//?} else {
+		/*brain.addActivityWithConditions(
+		*///?}
 			Activity.AVOID,
 			ImmutableList.of(
 				Pair.of(0, SetWalkTargetAwayFrom.entity(MemoryModuleType.AVOID_TARGET, 1.25F, 16, false))
@@ -142,8 +202,17 @@ public final class GlareBrain
 		);
 	}
 
-	private static void addIdleActivities(Brain<GlareEntity> brain) {
-		brain.addActivityWithConditions(
+	//? if >= 26.1 {
+	private static ActivityData<GlareEntity> addIdleActivities()
+	//?} else {
+	/*private static void addIdleActivities(Brain<GlareEntity> brain)
+	*///?}
+	{
+		//? if >= 26.1 {
+		return ActivityData.create(
+		//?} else {
+		/*brain.addActivityWithConditions(
+		*///?}
 			Activity.IDLE,
 			ImmutableList.of(
 				Pair.of(0, new FollowTemptation(glare -> 1.25f)),
@@ -274,6 +343,13 @@ public final class GlareBrain
 			FriendsAndFoesMemoryModuleTypes.GLARE_IS_TAMED.get(),
 			FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_LOCATING_COOLDOWN.get(),
 			FriendsAndFoesMemoryModuleTypes.GLARE_LOCATING_GLOW_BERRIES_COOLDOWN.get()
+		);
+		BRAIN_PROVIDER = Brain.provider(
+			MEMORY_MODULES,
+			SENSORS
+			//? if >= 26.1 {
+			, GlareBrain::getActivities
+			//?}
 		);
 		DARK_SPOT_LOCATING_COOLDOWN_PROVIDER = TimeUtil.rangeOfSeconds(20, 40);
 		EAT_GLOW_BERRIES_COOLDOWN_PROVIDER = TimeUtil.rangeOfSeconds(30, 60);

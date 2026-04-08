@@ -80,14 +80,14 @@ public final class AnimationLoader extends SimpleJsonResourceReloadListener<Anim
 	//? if >=1.21.3 {
 	protected void apply(Map<Identifier, AnimationDefinition> entityAnimations, ResourceManager resourceManager, ProfilerFiller profiler)
 	//?} else {
-	/*protected void apply(Map<ResourceLocation, JsonElement> entityAnimationsJson, ResourceManager resourceManager, ProfilerFiller profiler)
+	/*protected void apply(Map<Identifier, JsonElement> entityAnimationsJson, ResourceManager resourceManager, ProfilerFiller profiler)
 	*///?}
 	{
 		//? if <1.21.3 {
-		/*Map<ResourceLocation, AnimationDefinition> entityAnimations = new HashMap<>();
+		/*Map<Identifier, AnimationDefinition> entityAnimations = new HashMap<>();
 
-		for (Map.Entry<ResourceLocation, JsonElement> entry : entityAnimationsJson.entrySet()) {
-			ResourceLocation resourceLocation = entry.getKey();
+		for (Map.Entry<Identifier, JsonElement> entry : entityAnimationsJson.entrySet()) {
+			Identifier resourceLocation = entry.getKey();
 			JsonElement animationDefinitionJson = entry.getValue();
 
 			AnimationDefinition animationDefinition = AnimationParser.CODEC.parse(JsonOps.INSTANCE, animationDefinitionJson).getOrThrow();

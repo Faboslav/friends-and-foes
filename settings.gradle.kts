@@ -12,8 +12,8 @@ pluginManagement {
 }
 
 plugins {
-	id("dev.kikugie.stonecutter") version "0.8"
-	id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
+	id("dev.kikugie.stonecutter") version providers.gradleProperty("stonecutter_version").get()
+	id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
 val commonVersions = providers.gradleProperty("stonecutter_enabled_common_versions").orNull?.split(",")?.map { it.trim() } ?: emptyList()
@@ -25,6 +25,7 @@ val dists = mapOf(
 	"neoforge" to neoforgeVersions
 )
 val uniqueVersions = dists.values.flatten().distinct()
+
 
 stonecutter {
 	kotlinController = true

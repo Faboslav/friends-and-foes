@@ -42,7 +42,7 @@ public class RascalEntityRenderer extends MobRenderer<RascalEntity, RascalRender
 	//? if >=1.21.3 {
 	public Identifier getTextureLocation(RascalRenderState renderState)
 	//?} else {
-	/*public ResourceLocation getTextureLocation(RascalEntity rascal)
+	/*public Identifier getTextureLocation(RascalEntity rascal)
 	*///?}
 	{
 		return TEXTURE;

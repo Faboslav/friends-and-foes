@@ -14,7 +14,7 @@ import net.minecraft.util.Mth;
 
 //? if >=1.21.9 {
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 //?} else {
 /*import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -116,7 +116,7 @@ public class IceologerIceChunkRenderer extends EntityRenderer<IceologerIceChunkE
 	}
 	//?} else {
 	/*@Override
-	public ResourceLocation getTextureLocation(IceologerIceChunkEntity iceologerIceChunk)
+	public Identifier getTextureLocation(IceologerIceChunkEntity iceologerIceChunk)
 	{
 		return TEXTURE;
 	}

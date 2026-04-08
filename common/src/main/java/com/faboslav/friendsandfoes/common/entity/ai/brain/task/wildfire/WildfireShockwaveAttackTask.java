@@ -6,6 +6,7 @@ import com.faboslav.friendsandfoes.common.entity.ai.brain.WildfireBrain;
 import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -93,7 +94,7 @@ public final class WildfireShockwaveAttackTask extends Behavior<WildfireEntity>
 			);
 
 			for (Entity closeEntity : closeEntities) {
-				if (closeEntity.getType().is(FriendsAndFoesTags.WILDFIRE_ALLIES)) {
+				if (VersionedEntity.isEntityType(closeEntity, FriendsAndFoesTags.WILDFIRE_ALLIES)) {
 					continue;
 				}
 

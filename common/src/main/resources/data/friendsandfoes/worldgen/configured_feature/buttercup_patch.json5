@@ -1,4 +1,22 @@
+//? if >= 26.1 {
 {
+	"type": "minecraft:simple_block",
+	"config": {
+		"to_place": {
+			"type": "minecraft:weighted_state_provider",
+			"entries": [
+				{
+					"weight": 1,
+					"data": {
+						"Name": "friendsandfoes:buttercup"
+					}
+				}
+			]
+		}
+	}
+}
+//?} else {
+/*{
 	"type": "minecraft:flower",
 	"config": {
 		"tries": 64,
@@ -33,3 +51,4 @@
 		}
 	}
 }
+*///?}

@@ -304,7 +304,11 @@ public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEn
 				return false;
 			}
 
-			return ((LivingEntity) livingEntity).getType().is(FriendsAndFoesTags.MAULER_PREY);
+			//? if >= 26.1 {
+			return livingEntity.is(FriendsAndFoesTags.MAULER_PREY);
+			//?} else {
+			/*return livingEntity.getType().is(FriendsAndFoesTags.MAULER_PREY);
+			*///?}
 		}));
 	}
 

@@ -56,7 +56,7 @@ public final class TuffGolemEntityRenderer extends MobRenderer<TuffGolemEntity, 
 	//? if >=1.21.3 {
 	public Identifier getTextureLocation(TuffGolemRenderState renderState)
 	//?} else {
-	/*public ResourceLocation getTextureLocation(TuffGolemEntity tuffGolem)
+	/*public Identifier getTextureLocation(TuffGolemEntity tuffGolem)
 	 *///?}
 	{
 		return TEXTURE;

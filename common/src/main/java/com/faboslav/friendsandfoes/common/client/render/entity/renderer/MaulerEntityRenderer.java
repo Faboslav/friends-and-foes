@@ -64,7 +64,7 @@ public class MaulerEntityRenderer extends MobRenderer<MaulerEntity, MaulerRender
 	//? if >=1.21.3 {
 	public Identifier getTextureLocation(MaulerRenderState renderState)
 	//?} else {
-	/*public ResourceLocation getTextureLocation(MaulerEntity mauler)
+	/*public Identifier getTextureLocation(MaulerEntity mauler)
 	*///?}
 	{
 		//? if >=1.21.3 {

@@ -10,9 +10,11 @@ base {
 }
 
 java {
-	toolchain.languageVersion = JavaLanguageVersion.of(commonProject.prop("java.version")!!)
-	// withSourcesJar()
-	// withJavadocJar()
+	val javaVersion = commonProject.prop("java.version")!!.toInt()
+
+	toolchain.languageVersion = JavaLanguageVersion.of(javaVersion)
+	sourceCompatibility = JavaVersion.toVersion(javaVersion)
+	targetCompatibility = JavaVersion.toVersion(javaVersion)
 }
 
 repositories {

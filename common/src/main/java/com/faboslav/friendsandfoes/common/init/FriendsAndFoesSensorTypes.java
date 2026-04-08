@@ -8,6 +8,7 @@ import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistries;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.entity.ai.sensing.Sensor;
 import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraft.world.entity.ai.sensing.TemptingSensor;
 
@@ -21,7 +22,7 @@ import com.faboslav.friendsandfoes.common.entity.ai.brain.sensor.CopperGolemSpec
  */
 public final class FriendsAndFoesSensorTypes
 {
-	public static final ResourcefulRegistry<SensorType<?>> SENSOR_TYPES = ResourcefulRegistries.create(BuiltInRegistries.SENSOR_TYPE, FriendsAndFoes.MOD_ID);
+	public static final ResourcefulRegistry<SensorType<? extends Sensor<?>>> SENSOR_TYPES = ResourcefulRegistries.create(BuiltInRegistries.SENSOR_TYPE, FriendsAndFoes.MOD_ID);
 
 	//? if <= 1.21.8 {
 	/*public static final RegistryEntry<SensorType<TemptingSensor>> COPPER_GOLEM_TEMPTATIONS = SENSOR_TYPES.register("copper_golem_temptations", () -> new SensorType<>(() -> {
@@ -31,15 +32,9 @@ public final class FriendsAndFoesSensorTypes
 		return new CopperGolemSpecificSensor();
 	}));
 	*///?}
-	public static final RegistryEntry<SensorType<TemptingSensor>> CRAB_TEMPTATIONS = SENSOR_TYPES.register("crab_temptations", () -> new SensorType<>(() -> {
-		return new TemptingSensor(CrabBrain.getTemptations());
-	}));
-	public static final RegistryEntry<SensorType<TemptingSensor>> GLARE_TEMPTATIONS = SENSOR_TYPES.register("glare_temptations", () -> new SensorType<>(() -> {
-		return new TemptingSensor(GlareBrain.getTemptations());
-	}));
-	public static final RegistryEntry<SensorType<GlareSpecificSensor>> GLARE_SPECIFIC_SENSOR = SENSOR_TYPES.register("glare_specific_sensor", () -> new SensorType<>(() -> {
-		return new GlareSpecificSensor();
-	}));
+	public static final RegistryEntry<SensorType<TemptingSensor>> CRAB_TEMPTATIONS = SENSOR_TYPES.register("crab_temptations", () -> new SensorType<TemptingSensor>(() -> new TemptingSensor(CrabBrain.getTemptations())));
+	public static final RegistryEntry<SensorType<TemptingSensor>> GLARE_TEMPTATIONS = SENSOR_TYPES.register("glare_temptations", () -> new SensorType<TemptingSensor>(() -> new TemptingSensor(GlareBrain.getTemptations())));
+	public static final RegistryEntry<SensorType<GlareSpecificSensor>> GLARE_SPECIFIC_SENSOR = SENSOR_TYPES.register("glare_specific_sensor", () -> new SensorType<>(GlareSpecificSensor::new));
 
 	private FriendsAndFoesSensorTypes() {
 	}

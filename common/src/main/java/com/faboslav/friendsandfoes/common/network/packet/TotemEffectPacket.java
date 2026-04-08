@@ -60,7 +60,7 @@ public record TotemEffectPacket(Item item, int entityId) implements Packet<Totem
 			//? if >=1.21.3 {
 			return new TotemEffectPacket(BuiltInRegistries.ITEM.getValue(buf.readIdentifier()), buf.readInt());
 			//?} else {
-			/*return new TotemEffectPacket(BuiltInRegistries.ITEM.getHolder(buf.readResourceLocation()).get().value(), buf.readInt());
+			/*return new TotemEffectPacket(BuiltInRegistries.ITEM.getHolder(buf.readIdentifier()).get().value(), buf.readInt());
 			*///?}
 		}
 

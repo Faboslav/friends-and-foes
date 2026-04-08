@@ -47,7 +47,11 @@ public final class IllusionerSpawner implements CustomSpawner
 		}
 
 		this.cooldown += 12000 + random.nextInt(1000);
-		long l = world.getDayTime() / 24000L;
+		//? if >= 26.1 {
+		long l = world.getGameTime() / 24000L;
+		//?} else {
+		/*long l = world.getDayTime() / 24000L;
+		*///?}
 
 		if (
 			l < 5L

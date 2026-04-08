@@ -5,6 +5,8 @@ import com.faboslav.friendsandfoes.common.client.render.entity.feature.MoobloomF
 import com.faboslav.friendsandfoes.common.entity.MoobloomEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
 import net.minecraft.client.model.animal.cow.CowModel;
+import net.minecraft.client.renderer.block.BlockModelResolver;
+import net.minecraft.client.renderer.block.model.BlockDisplayContext;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.Identifier;
 
@@ -22,6 +24,11 @@ public final class MoobloomEntityRenderer extends AgeableMobRenderer<MoobloomEnt
 /*public final class MoobloomEntityRenderer extends MobRenderer<MoobloomEntity, CowModel<MoobloomEntity>>
 *///?}
 {
+	//? if >= 26.1 {
+	public static final BlockDisplayContext BLOCK_DISPLAY_CONTEXT = BlockDisplayContext.create();
+	private final BlockModelResolver blockModelResolver;
+	//?}
+
 	public MoobloomEntityRenderer(EntityRendererProvider.Context context) {
 		//? if >=1.21.3 {
 		super(context, new CowModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.MOOBLOOM_LAYER)), new CowModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.MOOBLOOM_BABY_LAYER)), 0.7F);
@@ -29,8 +36,17 @@ public final class MoobloomEntityRenderer extends AgeableMobRenderer<MoobloomEnt
 		/*super(context, new CowModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.MOOBLOOM_LAYER)), 0.7F);
 		*///?}
 
+		//? if >= 26.1 {
+		this.blockModelResolver = context.getBlockModelResolver();
+		//?}
+
 		//? if >=1.21.3 {
-		this.addLayer(new MoobloomFlowerFeatureRenderer(this, context.getBlockRenderDispatcher()));
+		this.addLayer(new MoobloomFlowerFeatureRenderer(
+			this
+			//? if <= 1.21.11 {
+			/*, context.getBlockRenderDispatcher()
+			*///?}
+		));
 		//?} else {
 		/*this.addLayer(new MoobloomFlowerFeatureRenderer(this));
 		*///?}
@@ -46,6 +62,9 @@ public final class MoobloomEntityRenderer extends AgeableMobRenderer<MoobloomEnt
 	public void extractRenderState(MoobloomEntity moobloom, MoobloomRenderState moobloomRenderState, float partialTick) {
 		super.extractRenderState(moobloom, moobloomRenderState, partialTick);
 		moobloomRenderState.moobloom = moobloom;
+		//? if >= 26.1 {
+		this.blockModelResolver.update(moobloomRenderState.flowerModel, moobloom.getVariant().getFlower().defaultBlockState(), BLOCK_DISPLAY_CONTEXT);
+		//?}
 	}
 	//?}
 
@@ -53,7 +72,7 @@ public final class MoobloomEntityRenderer extends AgeableMobRenderer<MoobloomEnt
 	//? if >=1.21.3 {
 	public Identifier getTextureLocation(MoobloomRenderState moobloomRenderState)
 	//?} else {
-	/*public ResourceLocation getTextureLocation(MoobloomEntity moobloom)
+	/*public Identifier getTextureLocation(MoobloomEntity moobloom)
 	*///?}
 	{
 		//? if >=1.21.3 {

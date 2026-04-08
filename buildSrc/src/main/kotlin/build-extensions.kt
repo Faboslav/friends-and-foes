@@ -6,7 +6,6 @@ import org.gradle.kotlin.dsl.*
 val Project.mod: ModData get() = ModData(this)
 fun Project.prop(key: String): String? = findProperty(key)?.toString()
 
-
 val Project.stonecutterBuild get() = extensions.getByType<StonecutterBuildExtension>()
 val Project.stonecutterController get() = extensions.getByType<StonecutterControllerExtension>()
 
@@ -29,7 +28,7 @@ value class ModData(private val project: Project) {
 	val license: String get() = modProp("license")
 	val github: String get() = modProp("github")
 	val discord: String get() = modProp("discord")
-	val mc: String get() = depOrNull("minecraft") ?: project.stonecutterBuild.current.version
+	val mc: String get() = prop("minecraft_version")
 
 	fun propOrNull(key: String) = project.prop(key)
 	fun prop(key: String) = requireNotNull(propOrNull(key)) { "Missing '$key'" }

@@ -35,9 +35,12 @@ public class FriendsAndFoesItemGroups
 				iconStack.set(DataComponents.CUSTOM_DATA, CustomData.of(nbtCompound));
 				return iconStack;
 			})
-			.displayItems((itemDisplayParameters, entries) ->
-				CUSTOM_CREATIVE_TAB_ITEMS.stream().map(item -> item.get().getDefaultInstance()).forEach(entries::accept)
-			).build());
+			.displayItems((itemDisplayParameters, entries) -> {
+				for (var item : CUSTOM_CREATIVE_TAB_ITEMS) {
+					entries.accept(item.get().getDefaultInstance());
+				}
+			})
+			.build());
 
 	public static void addItemGroupEntries(AddItemGroupEntriesEvent event) {
 		if (event.type() == AddItemGroupEntriesEvent.Type.SPAWN_EGGS) {

@@ -56,7 +56,9 @@ import java.util.ArrayList;
 
 //? if >= 26.1 {
 import net.minecraft.core.component.DataComponents;
-//?}
+//?} else {
+/*import com.mojang.serialization.Dynamic;
+*///?}
 
 //? if >=1.21.6 {
 import net.minecraft.world.level.storage.ValueInput;

@@ -14,11 +14,11 @@ import net.minecraft.world.item.trading.TradeSet;
  */
 public class FriendsAndFoesTradeSets
 {
-	public static final ResourceKey<TradeSet> BEEKEEPER_LEVEL_1 = resourceKey("armorer/level_1");
-	public static final ResourceKey<TradeSet> BEEKEEPER_LEVEL_2 = resourceKey("armorer/level_2");
-	public static final ResourceKey<TradeSet> BEEKEEPER_LEVEL_3 = resourceKey("armorer/level_3");
-	public static final ResourceKey<TradeSet> BEEKEEPER_LEVEL_4 = resourceKey("armorer/level_4");
-	public static final ResourceKey<TradeSet> BEEKEEPER_LEVEL_5 = resourceKey("armorer/level_5");
+	public static final ResourceKey<TradeSet> BEEKEEPER_LEVEL_1 = resourceKey("beekeeper/level_1");
+	public static final ResourceKey<TradeSet> BEEKEEPER_LEVEL_2 = resourceKey("beekeeper/level_2");
+	public static final ResourceKey<TradeSet> BEEKEEPER_LEVEL_3 = resourceKey("beekeeper/level_3");
+	public static final ResourceKey<TradeSet> BEEKEEPER_LEVEL_4 = resourceKey("beekeeper/level_4");
+	public static final ResourceKey<TradeSet> BEEKEEPER_LEVEL_5 = resourceKey("beekeeper/level_5");
 
 	private static ResourceKey<TradeSet> resourceKey(final String path) {
 		return ResourceKey.create(Registries.TRADE_SET, FriendsAndFoes.makeID(path));

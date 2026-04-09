@@ -3,11 +3,9 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoesClient;
 import com.faboslav.friendsandfoes.common.events.client.RegisterEntityLayersEvent;
 import com.faboslav.friendsandfoes.common.events.client.RegisterEntityRenderersEvent;
 import com.faboslav.friendsandfoes.common.events.client.RegisterParticlesEvent;
-import com.faboslav.friendsandfoes.common.events.client.RegisterRenderLayersEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.ClientSetupEvent;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.neoforged.bus.api.IEventBus;
@@ -17,6 +15,11 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+
+//? if <= 1.21.11 {
+/*import com.faboslav.friendsandfoes.common.events.client.RegisterRenderLayersEvent;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+*///?}
 
 import java.util.function.Function;
 
@@ -33,7 +36,9 @@ public final class FriendsAndFoesNeoForgeClient
 
 	public static void onClientSetup(final FMLClientSetupEvent event) {
 		ClientSetupEvent.EVENT.invoke(new ClientSetupEvent(Runnable::run));
-		RegisterRenderLayersEvent.EVENT.invoke(new RegisterRenderLayersEvent(ItemBlockRenderTypes::setRenderLayer, ItemBlockRenderTypes::setRenderLayer));
+		//? if <= 1.21.11 {
+		/*RegisterRenderLayersEvent.EVENT.invoke(new RegisterRenderLayersEvent(ItemBlockRenderTypes::setRenderLayer, ItemBlockRenderTypes::setRenderLayer));
+		*///?}
 
 		event.enqueueWork(() -> {
 			if (ModList.get().isLoaded("yet_another_config_lib_v3")) {

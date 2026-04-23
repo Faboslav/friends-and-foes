@@ -1,3 +1,8 @@
+## 4.0.24
+
+- Ported to 26.1
+- Fixed some internal mod problems
+
 ## 4.0.23
 
 - Added config option for rascals to give items in bundles

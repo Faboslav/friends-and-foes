@@ -51,7 +51,7 @@ public final class TuffGolemBrain
 	/*public static Brain<TuffGolemEntity> create(Dynamic<?> dynamic) {
 		Brain<TuffGolemEntity> brain = BRAIN_PROVIDER.makeBrain(dynamic);
 
-		getActivities(brain);
+		addActivities(brain);
 
 		brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
 		brain.setDefaultActivity(Activity.IDLE);
@@ -62,7 +62,7 @@ public final class TuffGolemBrain
 	*///?}
 
 	//? if >= 26.1 {
-	private static List<ActivityData<TuffGolemEntity>> getActivities(TuffGolemEntity tuffGolem)
+	private static List<ActivityData<TuffGolemEntity>> addActivities(TuffGolemEntity tuffGolem)
 	//?} else {
 	/*private static void addActivities(Brain<TuffGolemEntity> brain)
 	 *///?}
@@ -206,7 +206,7 @@ public final class TuffGolemBrain
 			MEMORY_MODULES,
 			SENSORS
 			//? if >= 26.1 {
-			, TuffGolemBrain::getActivities
+			, TuffGolemBrain::addActivities
 			//?}
 		);
 		SLEEP_COOLDOWN_PROVIDER = UniformInt.of(6000, 8000);

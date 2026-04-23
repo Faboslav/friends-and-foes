@@ -1,7 +1,7 @@
 {
-  "values": [
-    "minecraft:farmer/2/pumpkin_emerald",
-    "minecraft:farmer/2/emerald_pumpkin_pie",
-    "minecraft:farmer/2/emerald_apple"
-  ]
+	"replace": false,
+	"values": [
+		"friendsandfoes:beekeeper/2/glass_bottle_emerald",
+		"friendsandfoes:beekeeper/2/emerald_honey_bottle"
+	]
 }

@@ -48,7 +48,7 @@ import java.util.stream.Collectors;
 
 //? if <= 1.21.11 {
 /*import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
-import net.minecraft.world.entity.npc.villager.VillagerTrades;
+import net.minecraft.world.item.trading.VillagerTrade;
 *///?}
 
 public final class FriendsAndFoesFabric implements ModInitializer

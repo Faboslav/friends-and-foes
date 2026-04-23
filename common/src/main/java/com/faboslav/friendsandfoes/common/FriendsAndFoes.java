@@ -97,6 +97,9 @@ public final class FriendsAndFoes
 		FriendsAndFoesStructureProcessorTypes.STRUCTURE_PROCESSOR.init();
 		FriendsAndFoesStructureProcessorTypes.init();
 		FriendsAndFoesStructureTypes.STRUCTURE_TYPES.init();
+		//? if >= 26.1 {
+		FriendsAndFoesTradeSets.init();
+		//?}
 		FriendsAndFoesVillagerProfessions.VILLAGER_PROFESSIONS.init();
 	}
 

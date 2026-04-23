@@ -53,6 +53,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Objects;
 
+//? if <= 1.21.11 {
+/*import com.mojang.serialization.Dynamic;
+*///?}
+
 //? if >=1.21.6 {
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;

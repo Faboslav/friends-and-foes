@@ -1,6 +1,7 @@
 {
-  "values": [
-    "minecraft:farmer/3/emerald_cookie",
-    "minecraft:farmer/3/melon_emerald"
-  ]
+	"replace": false,
+	"values": [
+		"friendsandfoes:beekeeper/3/shears_emerald",
+		"friendsandfoes:beekeeper/3/emerald_honey_block"
+	]
 }

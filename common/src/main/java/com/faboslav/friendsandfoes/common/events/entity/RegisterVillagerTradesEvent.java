@@ -5,7 +5,7 @@ import com.faboslav.friendsandfoes.common.events.base.EventHandler;
 import java.util.function.BiConsumer;
 
 import net.minecraft.world.entity.npc.villager.VillagerProfession;
-import net.minecraft.world.entity.npc.villager.VillagerTrades;
+import net.minecraft.world.item.trading.VillagerTrade;
 
 //? if >=1.21.5 {
 import net.minecraft.resources.ResourceKey;

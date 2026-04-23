@@ -3,13 +3,16 @@ package com.faboslav.friendsandfoes.common.client.render.entity.feature;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.animal.cow.CowModel;
-import net.minecraft.client.renderer.block.BlockModelRenderState;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+
+//? if >= 26.1 {
+import net.minecraft.client.renderer.block.BlockModelRenderState;
+//?}
 
 //? if <= 1.21.11 {
 /*import net.minecraft.client.renderer.block.BlockRenderDispatcher;

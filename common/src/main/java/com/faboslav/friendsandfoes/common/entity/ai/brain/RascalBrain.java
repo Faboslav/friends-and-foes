@@ -29,6 +29,7 @@ import java.util.List;
 import net.minecraft.world.entity.ai.ActivityData;
 //?} else {
 /*import com.mojang.serialization.Dynamic;
+import com.google.common.collect.ImmutableSet;
  *///?}
 
 @SuppressWarnings({"rawtypes", "unchecked"})
@@ -60,7 +61,7 @@ public final class RascalBrain
 	*///?}
 
 	//? if >= 26.1 {
-	private static List<ActivityData<RascalEntity>> getActivities(RascalEntity rascal)
+	private static List<ActivityData<RascalEntity>> addActivities(RascalEntity rascal)
 	//?} else {
 	/*protected static void addActivities(Brain<RascalEntity> brain)
 	 *///?}
@@ -144,7 +145,7 @@ public final class RascalBrain
 	//? if >= 26.1 {
 	private static ActivityData<RascalEntity> addAvoidActivities()
 	//?} else {
-	/*private static void addWaitActivities(Brain<RascalEntity> brain)
+	/*private static void addAvoidActivities(Brain<RascalEntity> brain)
 	 *///?}
 	{
 		//? if >= 26.1 {
@@ -235,7 +236,7 @@ public final class RascalBrain
 			MEMORY_MODULES,
 			SENSORS
 			//? if >= 26.1 {
-			, RascalBrain::getActivities
+			, RascalBrain::addActivities
 			//?}
 		);
 		NOD_COOLDOWN_PROVIDER = TimeUtil.rangeOfSeconds(NOD_COOLDOWN, NOD_COOLDOWN);

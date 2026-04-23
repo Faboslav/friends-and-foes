@@ -67,6 +67,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.function.Predicate;
 
+//? if <= 1.21.11 {
+/*import com.mojang.serialization.Dynamic;
+*///?}
+
 //? if >=1.21.3 {
 import net.minecraft.world.entity.EntitySpawnReason;
 //?} else {

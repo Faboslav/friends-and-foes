@@ -1,13 +1,10 @@
 package com.faboslav.friendsandfoes.fabric.mixin;
 
 import com.faboslav.friendsandfoes.common.events.entity.EntitySpawnEvent;
-import com.llamalad7.mixinextras.injector.WrapWithCondition;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -18,9 +15,11 @@ import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-/*? if <1.21.3 {*/
+//? if >= 1.21.3 {
+import net.minecraft.world.entity.EntitySpawnReason;
+//?} else {
 /*import net.minecraft.world.entity.MobSpawnType;
- *//*?}*/
+*///?}
 
 @Mixin(StructureTemplate.class)
 public class StructureTemplateEntitySpawnMixin

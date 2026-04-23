@@ -1,6 +1,7 @@
 {
-  "values": [
-    "minecraft:farmer/4/emerald_cake",
-    "minecraft:farmer/4/emerald_suspicious_stew"
-  ]
+	"replace": false,
+	"values": [
+		"friendsandfoes:beekeeper/4/emerald_honeycomb",
+		"friendsandfoes:beekeeper/4/emerald_honeycomb_block"
+	]
 }

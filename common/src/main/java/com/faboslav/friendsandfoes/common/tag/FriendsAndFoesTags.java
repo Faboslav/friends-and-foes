@@ -2,15 +2,17 @@ package com.faboslav.friendsandfoes.common.tag;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.trading.VillagerTrade;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
+
+//? if >= 26.1 {
+import net.minecraft.world.item.trading.VillagerTrade;
+//?}
 
 /**
  * @see BlockTags

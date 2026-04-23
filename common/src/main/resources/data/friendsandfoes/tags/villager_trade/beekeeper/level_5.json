@@ -1,6 +1,7 @@
 {
-  "values": [
-    "minecraft:farmer/5/emerald_golden_carrot",
-    "minecraft:farmer/5/emerald_glistening_melon_slice"
-  ]
+	"replace": false,
+	"values": [
+		"friendsandfoes:beekeeper/5/emerald_beehive",
+		"friendsandfoes:beekeeper/5/emerald_bee_nest"
+	]
 }

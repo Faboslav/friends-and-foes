@@ -108,6 +108,12 @@ jobs:
                     MOD_URL=$(./.github/scripts/get-modrinth-dependency-url.sh "yacl" "${{ steps.gradle-properties.outputs.DEPS_YACL }}-${{ matrix.mod_loader }}" "${{ matrix.mod_loader }}")
                     wget -P run/mods "$MOD_URL"
 
+            -   name: "Download ModMenu"
+                if: ${{ matrix.mod_loader == 'fabric' }}
+                run: |
+                    MOD_URL=$(./.github/scripts/get-modrinth-dependency-url.sh "modmenu" "${{ steps.gradle-properties.outputs.DEPS_MOD_MENU }}" "${{ matrix.mod_loader }}")
+                    wget -P run/mods "$MOD_URL"
+
             -   name: Run ${{ matrix.version }} ${{ matrix.mod_loader }} client
                 uses: 3arthqu4ke/mc-runtime-test@a099315cbed61f71bfd6c899a76ae5ab10f52adb # 4.3.1
                 with:
@@ -160,11 +166,6 @@ jobs:
             -   name: "Download ResourcefulLib"
                 run: |
                     MOD_URL=$(./.github/scripts/get-modrinth-dependency-url.sh "resourceful-lib" "${{ steps.gradle-properties.outputs.DEPS_RESOURCEFUL_LIB_LIB }}" "${{ matrix.mod_loader }}")
-                    wget -P run/mods "$MOD_URL"
-
-            -   name: "Download YACL"
-                run: |
-                    MOD_URL=$(./.github/scripts/get-modrinth-dependency-url.sh "yacl" "${{ steps.gradle-properties.outputs.DEPS_YACL }}-${{ matrix.mod_loader }}" "${{ matrix.mod_loader }}")
                     wget -P run/mods "$MOD_URL"
 
             -   name: Run ${{ matrix.version }} ${{ matrix.mod_loader }} server

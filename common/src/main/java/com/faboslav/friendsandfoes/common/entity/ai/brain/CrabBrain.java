@@ -55,7 +55,7 @@ public final class CrabBrain
 	*///?}
 
 	//? if >= 26.1 {
-	protected static List<ActivityData<CrabEntity>> getActivities(CrabEntity crab)
+	protected static List<ActivityData<CrabEntity>> addActivities(CrabEntity crab)
 	//?} else {
 	/*protected static void addActivities(Brain<CrabEntity> brain)
 	 *///?}
@@ -269,7 +269,7 @@ public final class CrabBrain
 			MEMORY_MODULES,
 			SENSORS
 			//? if >= 26.1 {
-			, CrabBrain::getActivities
+			, CrabBrain::addActivities
 			//?}
 		);
 		WAVE_COOLDOWN_PROVIDER = TimeUtil.rangeOfSeconds(20, 40);

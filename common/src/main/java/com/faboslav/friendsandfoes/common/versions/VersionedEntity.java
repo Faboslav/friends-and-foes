@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.common.versions;
 
-import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
@@ -12,6 +11,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
+import org.jetbrains.annotations.Nullable;
 
 //? if <= 1.21.8 {
 /*import net.minecraft.world.entity.LivingEntity;
@@ -19,7 +19,6 @@ import net.minecraft.world.level.ItemLike;
 
 //? if >=1.21.3 {
 import net.minecraft.server.level.ServerLevel;
-import org.jetbrains.annotations.Nullable;
 //?}
 
 public final class VersionedEntity

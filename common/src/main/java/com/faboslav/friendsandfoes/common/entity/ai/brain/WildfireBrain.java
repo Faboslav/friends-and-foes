@@ -61,7 +61,7 @@ public final class WildfireBrain
 	/*public static Brain<WildfireEntity> create(Dynamic<?> dynamic) {
 		Brain<WildfireEntity> brain = BRAIN_PROVIDER.makeBrain(dynamic);
 
-		getActivities(brain);
+		addActivities(brain);
 
 		brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
 		brain.setDefaultActivity(Activity.IDLE);
@@ -72,7 +72,7 @@ public final class WildfireBrain
 	*///?}
 
 	//? if >= 26.1 {
-	private static List<ActivityData<WildfireEntity>> getActivities(WildfireEntity wildfire)
+	private static List<ActivityData<WildfireEntity>> addActivities(WildfireEntity wildfire)
 	//?} else {
 	/*private static void addActivities(Brain<WildfireEntity> brain)
 	*///?}
@@ -288,7 +288,7 @@ public final class WildfireBrain
 			MEMORY_MODULES,
 			SENSORS
 			//? if >= 26.1 {
-			, WildfireBrain::getActivities
+			, WildfireBrain::addActivities
 			//?}
 		);
 		SUMMON_BLAZE_COOLDOWN_PROVIDER = UniformInt.of(600, 1200);

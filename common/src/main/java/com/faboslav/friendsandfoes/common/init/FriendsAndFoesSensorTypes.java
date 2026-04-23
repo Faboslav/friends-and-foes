@@ -22,7 +22,7 @@ import com.faboslav.friendsandfoes.common.entity.ai.brain.sensor.CopperGolemSpec
  */
 public final class FriendsAndFoesSensorTypes
 {
-	public static final ResourcefulRegistry<SensorType<? extends Sensor<?>>> SENSOR_TYPES = ResourcefulRegistries.create(BuiltInRegistries.SENSOR_TYPE, FriendsAndFoes.MOD_ID);
+	public static final ResourcefulRegistry<SensorType<?>> SENSOR_TYPES = ResourcefulRegistries.create(BuiltInRegistries.SENSOR_TYPE, FriendsAndFoes.MOD_ID);
 
 	//? if <= 1.21.8 {
 	/*public static final RegistryEntry<SensorType<TemptingSensor>> COPPER_GOLEM_TEMPTATIONS = SENSOR_TYPES.register("copper_golem_temptations", () -> new SensorType<>(() -> {

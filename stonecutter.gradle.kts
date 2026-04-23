@@ -22,6 +22,11 @@ stonecutter {
 			replace("net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents", "net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents")
 			replace("ItemGroupEvents.MODIFY_ENTRIES_ALL", "CreativeModeTabEvents.MODIFY_OUTPUT_ALL")
 			replace("net.minecraft.client.renderer.state.CameraRenderState", "net.minecraft.client.renderer.state.level.CameraRenderState")
+			replace("net.minecraft.world.entity.npc.villager.VillagerTrades", "net.minecraft.world.item.trading.VillagerTrade")
+		}
+
+		replacements.string(current.parsed < "1.21.11") {
+			replace("net.minecraft.world.entity.npc.villager.VillagerTrades", "net.minecraft.world.entity.npc.VillagerTrades")
 		}
 
 		replacements.string(current.parsed >= "1.21.11") {

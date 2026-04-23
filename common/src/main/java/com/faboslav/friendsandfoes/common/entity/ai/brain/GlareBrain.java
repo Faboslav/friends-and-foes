@@ -76,7 +76,7 @@ public final class GlareBrain
 	*///?}
 
 	//? if >= 26.1 {
-	protected static List<ActivityData<GlareEntity>> getActivities(GlareEntity glare)
+	protected static List<ActivityData<GlareEntity>> addActivities(GlareEntity glare)
 	//?} else {
 	/*protected static void addActivities(Brain<GlareEntity> brain)
 	 *///?}
@@ -348,7 +348,7 @@ public final class GlareBrain
 			MEMORY_MODULES,
 			SENSORS
 			//? if >= 26.1 {
-			, GlareBrain::getActivities
+			, GlareBrain::addActivities
 			//?}
 		);
 		DARK_SPOT_LOCATING_COOLDOWN_PROVIDER = TimeUtil.rangeOfSeconds(20, 40);

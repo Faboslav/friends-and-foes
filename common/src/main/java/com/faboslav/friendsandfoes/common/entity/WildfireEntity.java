@@ -484,7 +484,7 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 	protected boolean considersEntityAsAlly(final Entity entity) {
 		if (super.considersEntityAsAlly(entity)) {
 			return true;
-		} else if (!entity.is(FriendsAndFoesTags.WILDFIRE_ALLIES)) {
+		} else if (!VersionedEntity.isEntityType(entity, FriendsAndFoesTags.WILDFIRE_ALLIES)) {
 			return false;
 		} else {
 			return this.getTeam() == null && entity.getTeam() == null;

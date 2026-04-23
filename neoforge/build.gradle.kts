@@ -55,10 +55,12 @@ neoForge {
 	runs {
 		register("client") {
 			client()
+			ideFolderName = "NeoForge"
 			ideName = "NeoForge Client (${project.path})"
 		}
 		register("server") {
 			server()
+			ideFolderName = "NeoForge"
 			ideName = "NeoForge Server (${project.path})"
 		}
 	}

@@ -464,6 +464,15 @@
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.tuff_golem.wake"
 	},
+	"entity.villager.work_beekeeper": {
+		"sounds": [
+			"friendsandfoes:entity/villager/work_beekeeper1",
+			"friendsandfoes:entity/villager/work_beekeeper2",
+			"friendsandfoes:entity/villager/work_beekeeper3",
+			"friendsandfoes:entity/villager/work_beekeeper4"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.villager.work_beekeeper"
+	},
 	"entity.shield_debris.impact": {
 		"sounds": [
 			"friendsandfoes:entity/shield_debris/impact1",

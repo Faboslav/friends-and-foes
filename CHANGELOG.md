@@ -1,7 +1,9 @@
 ## 4.0.24
 
 - Ported to 26.1
-- Fixed some internal mod problems
+- Added beekeeper loot table for hero of the village
+- Fixed missing sounds
+- Fixed missing subtitles for sounds
 
 ## 4.0.23
 

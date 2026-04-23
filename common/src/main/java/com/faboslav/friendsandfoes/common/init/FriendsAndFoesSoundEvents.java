@@ -78,6 +78,7 @@ public final class FriendsAndFoesSoundEvents
 	public static final RegistryEntry<SoundEvent> ENTITY_TUFF_GOLEM_SLEEP = registerSoundEvent("entity.tuff_golem.sleep");
 	public static final RegistryEntry<SoundEvent> ENTITY_TUFF_GOLEM_STEP = registerSoundEvent("entity.tuff_golem.step");
 	public static final RegistryEntry<SoundEvent> ENTITY_TUFF_GOLEM_WAKE = registerSoundEvent("entity.tuff_golem.wake");
+	public static final RegistryEntry<SoundEvent> ENTITY_VILLAGER_WORK_BEEKEEPER = registerSoundEvent("entity.villager.work_beekeeper");
 	public static final RegistryEntry<SoundEvent> ENTITY_WILDFIRE_SHIELD_DEBRIS_IMPACT = registerSoundEvent("entity.shield_debris.impact");
 	public static final RegistryEntry<SoundEvent> ENTITY_WILDFIRE_AMBIENT = registerSoundEvent("entity.wildfire.ambient");
 	public static final RegistryEntry<SoundEvent> ENTITY_WILDFIRE_DEATH = registerSoundEvent("entity.wildfire.death");

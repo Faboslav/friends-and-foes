@@ -28,7 +28,6 @@ public final class FriendsAndFoesVillagerProfessions
 	public static final ResourcefulRegistry<VillagerProfession> VILLAGER_PROFESSIONS = ResourcefulRegistries.create(BuiltInRegistries.VILLAGER_PROFESSION, FriendsAndFoes.MOD_ID);
 
 	public static final ResourceKey<VillagerProfession> BEEKEEPER_KEY = ResourceKey.create(Registries.VILLAGER_PROFESSION, FriendsAndFoes.makeID("beekeeper"));
-	// TODO add gift in GiveGiftToHero
 	public static final RegistryEntry<VillagerProfession> BEEKEEPER = VILLAGER_PROFESSIONS.register("beekeeper", () -> new VillagerProfession(
 		//? if >=1.21.5 {
 		Component.translatable("entity.friendsandfoes.villager.beekeeper"),
@@ -46,12 +45,11 @@ public final class FriendsAndFoesVillagerProfessions
 				return false;
 			}
 
-			// TODO replace sound
 			return pointOfInterest.is(FriendsAndFoesTags.BEEKEEPER_ACQUIRABLE_JOB_SITE);
 		},
 		ImmutableSet.of(Items.HONEYCOMB),
 		ImmutableSet.of(),
-		SoundEvents.ITEM_FRAME_REMOVE_ITEM
+		FriendsAndFoesSoundEvents.ENTITY_VILLAGER_WORK_BEEKEEPER.get()
 		//? if >= 26.1 {
 		, Int2ObjectMap.ofEntries(
 			Int2ObjectMap.entry(1, FriendsAndFoesTradeSets.BEEKEEPER_LEVEL_1),

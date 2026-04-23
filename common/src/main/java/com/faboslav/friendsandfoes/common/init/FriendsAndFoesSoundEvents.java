@@ -37,6 +37,9 @@ public final class FriendsAndFoesSoundEvents
 	public static final RegistryEntry<SoundEvent> ENTITY_CRAB_HURT = registerSoundEvent("entity.crab.hurt");
 	public static final RegistryEntry<SoundEvent> ENTITY_CRAB_LAY_EGG = registerSoundEvent("entity.crab.lay_egg");
 	public static final RegistryEntry<SoundEvent> ENTITY_CRAB_STEP = registerSoundEvent("entity.crab.step");
+	public static final RegistryEntry<SoundEvent> ENTITY_CRAB_EGG_BREAK = registerSoundEvent("entity.crab.egg_break");
+	public static final RegistryEntry<SoundEvent> ENTITY_CRAB_EGG_CRACK = registerSoundEvent("entity.crab.egg_crack");
+	public static final RegistryEntry<SoundEvent> ENTITY_CRAB_EGG_HATCH = registerSoundEvent("entity.crab.egg_hatch");
 	public static final RegistryEntry<SoundEvent> ENTITY_GLARE_AMBIENT = registerSoundEvent("entity.glare.ambient");
 	public static final RegistryEntry<SoundEvent> ENTITY_GLARE_DEATH = registerSoundEvent("entity.glare.death");
 	public static final RegistryEntry<SoundEvent> ENTITY_GLARE_EAT = registerSoundEvent("entity.glare.eat");

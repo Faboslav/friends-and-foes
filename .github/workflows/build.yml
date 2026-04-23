@@ -168,6 +168,11 @@ jobs:
                     MOD_URL=$(./.github/scripts/get-modrinth-dependency-url.sh "resourceful-lib" "${{ steps.gradle-properties.outputs.DEPS_RESOURCEFUL_LIB_LIB }}" "${{ matrix.mod_loader }}")
                     wget -P run/mods "$MOD_URL"
 
+            -   name: "Download YACL"
+                run: |
+                    MOD_URL=$(./.github/scripts/get-modrinth-dependency-url.sh "yacl" "${{ steps.gradle-properties.outputs.DEPS_YACL }}-${{ matrix.mod_loader }}" "${{ matrix.mod_loader }}")
+                    wget -P run/mods "$MOD_URL"
+
             -   name: Run ${{ matrix.version }} ${{ matrix.mod_loader }} server
                 uses: headlesshq/mc-server-test@42de00da95e997b046a43eb9beb516494e542ba9 # 1.1.1
                 with:

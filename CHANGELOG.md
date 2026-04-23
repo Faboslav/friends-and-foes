@@ -4,6 +4,7 @@
 - Added beekeeper loot table for hero of the village
 - Fixed missing sounds
 - Fixed missing subtitles for sounds
+- Updated zh_cn and zh_tw translations (Thanks to BoredYukolin)
 
 ## 4.0.23
 

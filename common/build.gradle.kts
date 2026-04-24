@@ -20,6 +20,10 @@ fletchingTable {
 	}
 }
 
+stonecutter {
+	constants["yacl"] = commonMod.depOrNull("yacl") != null
+}
+
 dependencies {
 	minecraft("com.mojang:minecraft:${commonMod.mc}")
 

@@ -1,3 +1,7 @@
+## 4.0.25
+
+- YACL is now optional dependency
+
 ## 4.0.24
 
 - Ported to 26.1

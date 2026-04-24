@@ -47,7 +47,7 @@ public final class FriendsAndFoes
 	}
 
 	public static FriendsAndFoesConfig getConfig() {
-		return CONFIG.HANDLER.instance();
+		return CONFIG;
 	}
 
 	public static Logger getLogger() {

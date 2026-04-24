@@ -32,6 +32,7 @@ dependencies {
 
 	// Required dependencies
 	modImplementation("com.teamresourceful.resourcefullib:resourcefullib-fabric-${commonMod.dep("resourceful-lib.mc")}:${commonMod.dep("resourceful-lib.lib")}")
+
 	commonMod.depOrNull("yacl")?.let { yaclVersion ->
 		modImplementation("dev.isxander:yet-another-config-lib:${yaclVersion}-fabric")
 	}

@@ -86,7 +86,7 @@ public class PenguinSwimWithPlayerTask extends Behavior<PenguinEntity>
 			penguin.getNavigation().moveTo(this.player, 1.0F);
 		}
 
-		if (this.player.isPassenger() && (this.player.getVehicle() instanceof AbstractBoat) && this.player.level().random.nextInt(6) == 0) {
+		if (this.player.isPassenger() && (this.player.getVehicle() instanceof AbstractBoat) && this.player.level().getRandom().nextInt(6) == 0) {
 			this.player.addEffect(new MobEffectInstance(FriendsAndFoesStatusEffects.BOAT_SPEED.holder(), 100), penguin);
 		}
 

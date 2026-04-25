@@ -30,7 +30,7 @@ import net.minecraft.world.entity.ai.ActivityData;
 //?} else {
 /*import com.mojang.serialization.Dynamic;
 import com.google.common.collect.ImmutableSet;
- *///?}
+*///?}
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public final class RascalBrain

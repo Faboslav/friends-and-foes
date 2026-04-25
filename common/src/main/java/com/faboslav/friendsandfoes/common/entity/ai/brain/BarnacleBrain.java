@@ -1,16 +1,13 @@
 package com.faboslav.friendsandfoes.common.entity.ai.brain;
 
 import com.faboslav.friendsandfoes.common.entity.BarnacleEntity;
-import com.faboslav.friendsandfoes.common.entity.WildfireEntity;
-import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
-import com.mojang.serialization.Dynamic;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.ActivityData;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.behavior.*;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
@@ -18,22 +15,33 @@ import net.minecraft.world.entity.ai.sensing.Sensor;
 import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.schedule.Activity;
-
 import java.util.List;
 import java.util.Optional;
+
+//? if >= 26.1 {
+import net.minecraft.world.entity.ai.ActivityData;
+//?} else {
+/*import com.mojang.serialization.Dynamic;
+import com.google.common.collect.ImmutableSet;
+*///?}
 
 public final class BarnacleBrain
 {
 	public static final List<MemoryModuleType<?>> MEMORY_MODULES;
 	public static final List<SensorType<? extends Sensor<? super BarnacleEntity>>> SENSORS;
+	public static final Brain.Provider<BarnacleEntity> BRAIN_PROVIDER;
 	private static final UniformInt AVOID_MEMORY_DURATION;
 
 	public BarnacleBrain() {
 	}
 
-	public static Brain<BarnacleEntity> create(Dynamic<?> dynamic) {
-		Brain.Provider<BarnacleEntity> profile = Brain.provider(MEMORY_MODULES, SENSORS);
-		Brain<BarnacleEntity> brain = profile.makeBrain(dynamic);
+	//? if >= 26.1 {
+	public static Brain<BarnacleEntity> create(BarnacleEntity barnacle, final Brain.Packed packedBrain) {
+		return BRAIN_PROVIDER.makeBrain(barnacle, packedBrain);
+	}
+	//?} else {
+	/*public static Brain<BarnacleEntity> create(Dynamic<?> dynamic) {
+		Brain<BarnacleEntity> brain = BRAIN_PROVIDER.makeBrain(dynamic);
 
 		addCoreActivities(brain);
 		addFightActivities(brain);
@@ -46,9 +54,41 @@ public final class BarnacleBrain
 
 		return brain;
 	}
+	*///?}
 
-	private static void addCoreActivities(Brain<BarnacleEntity> brain) {
-		brain.addActivity(
+	//? if >= 26.1 {
+	protected static List<ActivityData<BarnacleEntity>> addActivities(BarnacleEntity barnacle)
+	//?} else {
+	/*protected static void addActivities(Brain<BarnacleEntity> brain)
+	 *///?}
+	{
+		//? if >= 26.1 {
+		return List.of(
+			addCoreActivities(),
+			addFightActivities(),
+			addAvoidActivities(),
+			addIdleActivities()
+
+		);
+		//?} else {
+		/*addCoreActivities(brain);
+		addFightActivities(brain);
+		addAvoidActivities(brain);
+		addIdleActivities(brain);
+		*///?}
+	}
+
+	//? if >= 26.1 {
+	private static ActivityData<BarnacleEntity> addCoreActivities()
+	//?} else {
+	/*private static void addCoreActivities(Brain<BarnacleEntity> brain)
+	*///?}
+	{
+		//? if >= 26.1 {
+		return ActivityData.create(
+			//?} else {
+			/*brain.addActivity(
+			*///?}
 			Activity.CORE,
 			0,
 			ImmutableList.of(
@@ -58,8 +98,17 @@ public final class BarnacleBrain
 		);
 	}
 
-		private static void addIdleActivities(Brain<BarnacleEntity> brain) {
-		brain.addActivity(
+	//? if >= 26.1 {
+	private static ActivityData<BarnacleEntity> addIdleActivities()
+	//?} else {
+	/*private static void addIdleActivities(Brain<BarnacleEntity> brain)
+	 *///?}
+	{
+		//? if >= 26.1 {
+		return ActivityData.create(
+			//?} else {
+			/*brain.addActivity(
+			*///?}
 			Activity.IDLE,
 			ImmutableList.of(
 				Pair.of(0, StartAttacking.create((/*? >=1.21.3 {*/serverLevel, /*?}*/barnacle) -> true, BarnacleBrain::getTarget)),
@@ -68,10 +117,17 @@ public final class BarnacleBrain
 		);
 	}
 
-	private static void addFightActivities(
-		Brain<BarnacleEntity> brain
-	) {
-		brain.addActivityAndRemoveMemoryWhenStopped(
+	//? if >= 26.1 {
+	private static ActivityData<BarnacleEntity> addFightActivities()
+	//?} else {
+	/*private static void addFightActivities(Brain<BarnacleEntity> brain)
+	 *///?}
+	{
+		//? if >= 26.1 {
+		return ActivityData.create(
+			//?} else {
+			/*brain.addActivityAndRemoveMemoryWhenStopped(
+			 *///?}
 			Activity.FIGHT,
 			10,
 			ImmutableList.of(
@@ -82,8 +138,17 @@ public final class BarnacleBrain
 		);
 	}
 
-	private static void addAvoidActivities(Brain<BarnacleEntity> brain) {
-		brain.addActivityAndRemoveMemoryWhenStopped(
+	//? if >= 26.1 {
+	private static ActivityData<BarnacleEntity> addAvoidActivities()
+	//?} else {
+	/*private static void addAvoidActivities(Brain<BarnacleEntity> brain)
+	 *///?}
+	{
+		//? if >= 26.1 {
+		return ActivityData.create(
+			//?} else {
+			/*brain.addActivityAndRemoveMemoryWhenStopped(
+			*///?}
 			Activity.AVOID,
 			10,
 			ImmutableList.of(
@@ -173,6 +238,13 @@ public final class BarnacleBrain
 			MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
 			MemoryModuleType.HAS_HUNTING_COOLDOWN,
 			MemoryModuleType.ATTACK_COOLING_DOWN
+		);
+		BRAIN_PROVIDER = Brain.provider(
+			MEMORY_MODULES,
+			SENSORS
+			//? if >= 26.1 {
+			, BarnacleBrain::addActivities
+			//?}
 		);
 		AVOID_MEMORY_DURATION = TimeUtil.rangeOfSeconds(5, 20);
 	}

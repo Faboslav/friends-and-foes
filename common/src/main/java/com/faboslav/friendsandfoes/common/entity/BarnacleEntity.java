@@ -36,8 +36,11 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayList;
+
+//? if <= 1.21.11 {
+/*import com.mojang.serialization.Dynamic;
+ *///?}
 
 public final class BarnacleEntity extends Monster implements AnimatedEntity {
 	private AnimationContextTracker animationContextTracker;
@@ -123,9 +126,15 @@ public final class BarnacleEntity extends Monster implements AnimatedEntity {
 	}
 
 	@Override
-	protected Brain<?> makeBrain(Dynamic<?> dynamic) {
+		//? if >= 26.1 {
+	protected Brain<BarnacleEntity> makeBrain(final Brain.Packed packedBrain) {
+		return BarnacleBrain.create(this, packedBrain);
+	}
+	//?} else {
+	/*protected Brain<BarnacleEntity> makeBrain(Dynamic<?> dynamic) {
 		return BarnacleBrain.create(dynamic);
 	}
+	*///?}
 
 	@Override
 	@SuppressWarnings("unchecked")

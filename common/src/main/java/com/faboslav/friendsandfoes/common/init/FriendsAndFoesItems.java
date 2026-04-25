@@ -12,9 +12,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ComposterBlock;
 
 //? if <= 1.21.11 {
-import com.faboslav.friendsandfoes.common.events.lifecycle.SetupEvent;
+/*import com.faboslav.friendsandfoes.common.events.lifecycle.SetupEvent;
 import com.faboslav.friendsandfoes.common.mixin.SpawnEggItemAccessor;
-//?}
+*///?}
 
 //? if >=1.21.11 {
 import net.minecraft.core.component.DataComponents;

@@ -13,7 +13,6 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
 import com.faboslav.friendsandfoes.common.versions.VersionedGameRulesProvider;
 import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
-import com.mojang.serialization.Dynamic;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -42,8 +41,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayList;
+
+//? if <= 1.21.11 {
+/*import com.mojang.serialization.Dynamic;
+*///?}
 
 public final class PenguinEntity extends Animal implements AnimatedEntity {
 	private AnimationContextTracker animationContextTracker;
@@ -146,9 +148,15 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 	}
 
 	@Override
-	protected Brain<?> makeBrain(Dynamic<?> dynamic) {
+	//? if >= 26.1 {
+	protected Brain<PenguinEntity> makeBrain(final Brain.Packed packedBrain) {
+		return PenguinBrain.create(this, packedBrain);
+	}
+	//?} else {
+	/*protected Brain<PenguinEntity> makeBrain(Dynamic<?> dynamic) {
 		return PenguinBrain.create(dynamic);
 	}
+	*///?}
 
 	@Override
 	@SuppressWarnings("unchecked")

@@ -1,17 +1,13 @@
 package com.faboslav.friendsandfoes.common.entity.ai.brain;
 
-import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.PenguinEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.task.penguin.PenguinSwimWithPlayerTask;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.task.penguin.PenguinWingFlapTask;
-import com.faboslav.friendsandfoes.common.init.FriendsAndFoesActivities;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSensorTypes;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
-import com.mojang.serialization.Dynamic;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.EntityType;
@@ -25,23 +21,33 @@ import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.item.ItemStack;
 import java.util.List;
 import java.util.function.Predicate;
+import com.google.common.collect.ImmutableSet;
+
+//? if >= 26.1 {
+import net.minecraft.world.entity.ai.ActivityData;
+//?} else {
+/*import com.mojang.serialization.Dynamic;
+*///?}
 
 public final class PenguinBrain
 {
 	public static final List<MemoryModuleType<?>> MEMORY_MODULES;
 	public static final List<SensorType<? extends Sensor<? super PenguinEntity>>> SENSORS;
+	public static final Brain.Provider<PenguinEntity> BRAIN_PROVIDER;
 	private static final UniformInt WING_FLAP_COOLDOWN;
 
-	public static Brain<?> create(Dynamic<?> dynamic) {
-		Brain.Provider<PenguinEntity> profile = Brain.provider(MEMORY_MODULES, SENSORS);
-		Brain<PenguinEntity> brain = profile.makeBrain(dynamic);
+	//? if >= 26.1 {
+	public static Brain<PenguinEntity> create(PenguinEntity penguin, final Brain.Packed packedBrain) {
+		return BRAIN_PROVIDER.makeBrain(penguin, packedBrain);
+	}
+	//?} else {
+	/*public static Brain<PenguinEntity> create(Dynamic<?> dynamic) {
+		Brain<PenguinEntity> brain = BRAIN_PROVIDER.makeBrain(dynamic);
 
 		addCoreActivities(brain);
-		addIdleActivities(brain);
 		addFightActivities(brain);
 		addAvoidActivities(brain);
-		addLayEggActivities(brain);
-		addGuardEggActivities(brain);
+		addIdleActivities(brain);
 
 		brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
 		brain.setDefaultActivity(Activity.IDLE);
@@ -49,9 +55,39 @@ public final class PenguinBrain
 
 		return brain;
 	}
+	*///?}
 
-	private static void addCoreActivities(Brain<PenguinEntity> brain) {
-		brain.addActivity(
+	//? if >= 26.1 {
+	protected static List<ActivityData<PenguinEntity>> addActivities(PenguinEntity penguin)
+	//?} else {
+	/*protected static void addActivities(Brain<PenguinEntity> brain)
+	 *///?}
+	{
+		//? if >= 26.1 {
+		return List.of(
+			addCoreActivities(),
+			addIdleActivities(),
+			addAvoidActivities()
+
+		);
+		//?} else {
+		/*addCoreActivities(brain);
+		addIdleActivities(brain);
+		addAvoidActivities(brain);
+		*///?}
+	}
+
+	//? if >= 26.1 {
+	private static ActivityData<PenguinEntity> addCoreActivities()
+	//?} else {
+	/*private static void addCoreActivities(Brain<PenguinEntity> brain)
+	 *///?}
+	{
+		//? if >= 26.1 {
+		return ActivityData.create(
+			//?} else {
+			/*brain.addActivity(
+			*///?}
 			Activity.CORE,
 			0,
 			ImmutableList.of(
@@ -63,47 +99,17 @@ public final class PenguinBrain
 		);
 	}
 
-	private static void addLayEggActivities(Brain<PenguinEntity> brain) {
-		brain.addActivityWithConditions(
-			FriendsAndFoesActivities.PENGUIN_LAY_EGG.get(),
-			ImmutableList.of(
-			),
-			ImmutableSet.of(
-				Pair.of(FriendsAndFoesMemoryModuleTypes.PENGUIN_HAS_EGG.get(), MemoryStatus.VALUE_PRESENT)
-			)
-		);
-	}
-
-	private static void addGuardEggActivities(Brain<PenguinEntity> brain) {
-		brain.addActivityWithConditions(
-			FriendsAndFoesActivities.PENGUIN_GUARD_EGG.get(),
-			ImmutableList.of(
-
-			),
-			ImmutableSet.of(
-				Pair.of(FriendsAndFoesMemoryModuleTypes.PENGUIN_HAS_EGG.get(), MemoryStatus.VALUE_PRESENT)
-			)
-		);
-	}
-
-	private static void addFightActivities(Brain<PenguinEntity> brain) {
-		/*
-		brain.addActivityAndRemoveMemoryWhenStopped(
-			Activity.FIGHT,
-			0,
-			ImmutableList.of(
-				StopAttackingIfTargetInvalid.create(Axolotl::onStopAttacking),
-				SetWalkTargetFromAttackTargetIfTargetOutOfReach.create(0.6F),
-				MeleeAttack.create(20),
-				EraseMemoryIf.create(BehaviorUtils::isBreeding, MemoryModuleType.ATTACK_TARGET)
-			),
-			MemoryModuleType.ATTACK_TARGET
-		);*/
-	}
-
-
-	private static void addAvoidActivities(Brain<PenguinEntity> brain) {
-		brain.addActivityAndRemoveMemoryWhenStopped(
+	//? if >= 26.1 {
+	private static ActivityData<PenguinEntity> addAvoidActivities()
+	//?} else {
+	/*private static void addAvoidActivities(Brain<PenguinEntity> brain)
+	 *///?}
+	{
+		//? if >= 26.1 {
+		return ActivityData.create(
+			//?} else {
+			/*brain.addActivityAndRemoveMemoryWhenStopped(
+			 *///?}
 			Activity.AVOID,
 			10,
 			ImmutableList.of(
@@ -123,8 +129,17 @@ public final class PenguinBrain
 		);
 	}
 
-	private static void addIdleActivities(Brain<PenguinEntity> brain) {
-		brain.addActivityWithConditions(
+	//? if >= 26.1 {
+	private static ActivityData<PenguinEntity> addIdleActivities()
+	//?} else {
+	/*private static void addIdleActivities(Brain<PenguinEntity> brain)
+	 *///?}
+	{
+		//? if >= 26.1 {
+		return ActivityData.create(
+			//?} else {
+			/*brain.addActivityWithConditions(
+			 *///?}
 			Activity.IDLE,
 			ImmutableList.of(
 				Pair.of(0, SetEntityLookTargetSometimes.create(EntityType.PLAYER, 6.0F, UniformInt.of(30, 60))),
@@ -149,8 +164,6 @@ public final class PenguinBrain
 	public static void updateActivities(PenguinEntity penguin) {
 		penguin.getBrain().setActiveActivityToFirstValid(
 			ImmutableList.of(
-				FriendsAndFoesActivities.PENGUIN_LAY_EGG.get(),
-				FriendsAndFoesActivities.PENGUIN_GUARD_EGG.get(),
 				Activity.AVOID,
 				Activity.FIGHT,
 				Activity.IDLE
@@ -199,6 +212,13 @@ public final class PenguinBrain
 			FriendsAndFoesMemoryModuleTypes.PENGUIN_HAS_EGG.get(),
 			FriendsAndFoesMemoryModuleTypes.PENGUIN_EGG_POS.get(),
 			FriendsAndFoesMemoryModuleTypes.PENGUIN_WING_FLAP_COOLDOWN.get()
+		);
+		BRAIN_PROVIDER = Brain.provider(
+			MEMORY_MODULES,
+			SENSORS
+			//? if >= 26.1 {
+			, PenguinBrain::addActivities
+			//?}
 		);
 		WING_FLAP_COOLDOWN = TimeUtil.rangeOfSeconds(5, 6);
 	}

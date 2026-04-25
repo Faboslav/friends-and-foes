@@ -25,6 +25,7 @@
 		"BlazeLivingEntityMixin",
 		"CarvedPumpkinBlockMixin",
 		"ChickenEntityMixin",
+		"GiveGiftToHeroMixin",
 		"LightningEntityMixin",
 		"LightningRodAbstractBlockMixin",
 		"LightningRodBlockBlockMixin",

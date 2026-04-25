@@ -7,6 +7,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.SectionPos;
 import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
@@ -62,7 +63,7 @@ public final class CitadelBottomProcessor extends StructureProcessor
 		if (blockInfoGlobal.state().is(this.targetBlock.getBlock())) {
 			if (
 				worldView instanceof WorldGenRegion chunkRegion
-				&& !chunkRegion.getCenter().equals(new ChunkPos(blockInfoGlobal.pos()))
+				&& !chunkRegion.getCenter().equals(new ChunkPos(SectionPos.blockToSectionCoord(blockInfoGlobal.pos().getX()), SectionPos.blockToSectionCoord(blockInfoGlobal.pos().getZ())))
 			) {
 				return blockInfoGlobal;
 			}

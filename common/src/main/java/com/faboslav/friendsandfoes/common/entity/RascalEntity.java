@@ -13,7 +13,6 @@ import com.faboslav.friendsandfoes.common.util.RandomGenerator;
 import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
-import com.mojang.serialization.Dynamic;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
@@ -46,6 +45,10 @@ import net.minecraft.world.level.pathfinder.PathType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+
+//? if <= 1.21.11 {
+/*import com.mojang.serialization.Dynamic;
+*///?}
 
 //? if >=1.21.3 {
 import net.minecraft.world.entity.EntitySpawnReason;
@@ -193,9 +196,15 @@ public final class RascalEntity extends AgeableMob implements AnimatedEntity
 	}
 
 	@Override
-	protected Brain<?> makeBrain(Dynamic<?> dynamic) {
+	//? if >= 26.1 {
+	protected Brain<RascalEntity> makeBrain(final Brain.Packed packedBrain) {
+		return RascalBrain.create(this, packedBrain);
+	}
+	//?} else {
+	/*protected Brain<RascalEntity> makeBrain(Dynamic<?> dynamic) {
 		return RascalBrain.create(dynamic);
 	}
+	*///?}
 
 	@Override
 	@SuppressWarnings("all")

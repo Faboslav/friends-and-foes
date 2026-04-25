@@ -38,8 +38,8 @@ side = "BOTH"
 
 [[dependencies.${ modId }]]
 modId = "yet_another_config_lib_v3"
-type = "required"
-versionRange = "[${yaclVersion},)"
+type = "optional"
+versionRange = "*"
 ordering = "NONE"
 side = "BOTH"
 [dependencies.${ modId }.mc-publish]

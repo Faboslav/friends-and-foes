@@ -6,9 +6,7 @@ import com.faboslav.friendsandfoes.common.entity.ai.brain.task.wildfire.Wildfire
 import com.faboslav.friendsandfoes.common.entity.ai.brain.task.wildfire.WildfireSummonBlazeTask;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
-import com.mojang.serialization.Dynamic;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.LivingEntity;
@@ -30,6 +28,16 @@ import net.minecraft.world.entity.schedule.Activity;
 import java.util.List;
 import java.util.Optional;
 
+//? if >= 26.1 {
+import net.minecraft.world.entity.ai.ActivityData;
+//?} else {
+/*import com.mojang.serialization.Dynamic;
+ *///?}
+
+//? if <=1.21.11 {
+/*import com.google.common.collect.ImmutableSet;
+*///?}
+
 //? if >=1.21.3 {
 import net.minecraft.server.level.ServerLevel;
 //?}
@@ -39,22 +47,21 @@ public final class WildfireBrain
 {
 	public static final List<MemoryModuleType<?>> MEMORY_MODULES;
 	public static final List<SensorType<? extends Sensor<? super WildfireEntity>>> SENSORS;
+	public static final Brain.Provider<WildfireEntity> BRAIN_PROVIDER;
 	private static final UniformInt BARRAGE_ATTACK_COOLDOWN_PROVIDER;
 	private static final UniformInt SHOCKWAVE_ATTACK_COOLDOWN_PROVIDER;
 	private static final UniformInt SUMMON_BLAZE_COOLDOWN_PROVIDER;
 	private static final UniformInt AVOID_MEMORY_DURATION;
 
-	public WildfireBrain() {
+	//? if >= 26.1 {
+	public static Brain<WildfireEntity> create(WildfireEntity wildfire, final Brain.Packed packedBrain) {
+		return BRAIN_PROVIDER.makeBrain(wildfire, packedBrain);
 	}
+	//?} else {
+	/*public static Brain<WildfireEntity> create(Dynamic<?> dynamic) {
+		Brain<WildfireEntity> brain = BRAIN_PROVIDER.makeBrain(dynamic);
 
-	public static Brain<?> create(Dynamic<?> dynamic) {
-		Brain.Provider<WildfireEntity> profile = Brain.provider(MEMORY_MODULES, SENSORS);
-		Brain<WildfireEntity> brain = profile.makeBrain(dynamic);
-
-		addCoreActivities(brain);
-		addIdleActivities(brain);
-		addFightActivities(brain);
-		addAvoidActivities(brain);
+		addActivities(brain);
 
 		brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
 		brain.setDefaultActivity(Activity.IDLE);
@@ -62,9 +69,41 @@ public final class WildfireBrain
 
 		return brain;
 	}
+	*///?}
 
-	private static void addCoreActivities(Brain<WildfireEntity> brain) {
-		brain.addActivity(Activity.CORE,
+	//? if >= 26.1 {
+	private static List<ActivityData<WildfireEntity>> addActivities(WildfireEntity wildfire)
+	//?} else {
+	/*private static void addActivities(Brain<WildfireEntity> brain)
+	*///?}
+	{
+		//? if >= 26.1 {
+		return List.of(
+			addCoreActivities(),
+			addIdleActivities(),
+			addFightActivities(),
+			addAvoidActivities()
+		);
+		//?} else {
+		/*addCoreActivities(brain);
+		addIdleActivities(brain);
+		addFightActivities(brain);
+		addAvoidActivities(brain);
+		*///?}
+	}
+
+	//? if >= 26.1 {
+	private static ActivityData<WildfireEntity> addCoreActivities()
+	//?} else {
+	/*private static void addCoreActivities(Brain<WildfireEntity> brain)
+	*///?}
+	{
+		//? if >= 26.1 {
+		return ActivityData.create(
+		//?} else {
+		/*brain.addActivity(
+		*///?}
+			Activity.CORE,
 			0,
 			ImmutableList.of(
 				new LookAtTargetSink(45, 90),
@@ -76,8 +115,18 @@ public final class WildfireBrain
 		);
 	}
 
-	private static void addIdleActivities(Brain<WildfireEntity> brain) {
-		brain.addActivity(
+
+	//? if >= 26.1 {
+	private static ActivityData<WildfireEntity> addIdleActivities()
+	//?} else {
+	/*private static void addIdleActivities(Brain<WildfireEntity> brain)
+	*///?}
+	{
+		//? if >= 26.1 {
+		return ActivityData.create(
+		//?} else {
+		/*brain.addActivity(
+		*///?}
 			Activity.IDLE,
 			ImmutableList.of(
 				Pair.of(0, StartAttacking.create((/*? if >=1.21.3 {*/serverLevel, /*?}*/wildfire) -> true, WildfireBrain::getTarget)),
@@ -86,10 +135,17 @@ public final class WildfireBrain
 		);
 	}
 
-	private static void addFightActivities(
-		Brain<WildfireEntity> brain
-	) {
-		brain.addActivityAndRemoveMemoryWhenStopped(
+	//? if >= 26.1 {
+	private static ActivityData<WildfireEntity> addFightActivities()
+	//?} else {
+	/*private static void addFightActivities(Brain<WildfireEntity> brain)
+	*///?}
+	{
+		//? if >= 26.1 {
+		return ActivityData.create(
+		//?} else {
+		/*brain.addActivityAndRemoveMemoryWhenStopped(
+		*///?}
 			Activity.FIGHT,
 			10,
 			ImmutableList.of(
@@ -101,8 +157,17 @@ public final class WildfireBrain
 		);
 	}
 
-	private static void addAvoidActivities(Brain<WildfireEntity> brain) {
-		brain.addActivityAndRemoveMemoryWhenStopped(
+	//? if >= 26.1 {
+	private static ActivityData<WildfireEntity> addAvoidActivities()
+	//?} else {
+	/*private static void addAvoidActivities(Brain<WildfireEntity> brain)
+	*///?}
+	{
+		//? if >= 26.1 {
+		return ActivityData.create(
+		//?} else {
+		/*brain.addActivityAndRemoveMemoryWhenStopped(
+		*///?}
 			Activity.AVOID,
 			10,
 			ImmutableList.of(
@@ -218,6 +283,13 @@ public final class WildfireBrain
 			FriendsAndFoesMemoryModuleTypes.WILDFIRE_SUMMON_BLAZE_COOLDOWN.get(),
 			FriendsAndFoesMemoryModuleTypes.WILDFIRE_BARRAGE_ATTACK_COOLDOWN.get(),
 			FriendsAndFoesMemoryModuleTypes.WILDFIRE_SHOCKWAVE_ATTACK_COOLDOWN.get()
+		);
+		BRAIN_PROVIDER = Brain.provider(
+			MEMORY_MODULES,
+			SENSORS
+			//? if >= 26.1 {
+			, WildfireBrain::addActivities
+			//?}
 		);
 		SUMMON_BLAZE_COOLDOWN_PROVIDER = UniformInt.of(600, 1200);
 		BARRAGE_ATTACK_COOLDOWN_PROVIDER = UniformInt.of(150, 300);

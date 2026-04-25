@@ -10,9 +10,11 @@ base {
 }
 
 java {
-	toolchain.languageVersion = JavaLanguageVersion.of(commonProject.prop("java.version")!!)
-	// withSourcesJar()
-	// withJavadocJar()
+	val javaVersion = commonProject.prop("java.version")!!.toInt()
+
+	toolchain.languageVersion = JavaLanguageVersion.of(javaVersion)
+	sourceCompatibility = JavaVersion.toVersion(javaVersion)
+	targetCompatibility = JavaVersion.toVersion(javaVersion)
 }
 
 repositories {
@@ -74,7 +76,6 @@ tasks {
 			"fabricLoaderVersion" to commonMod.depOrNull("fabric-loader"),
 			"fabricApiVersion" to commonMod.depOrNull("fabric-api"),
 			"neoForgeVersion" to commonMod.depOrNull("neoforge"),
-			"yaclVersion" to commonMod.depOrNull("yacl"),
 			"resourcefulLibMcVersion" to commonMod.depOrNull("resourceful-lib.mc"),
 			"resourcefulLibLibVersion" to commonMod.depOrNull("resourceful-lib.lib"),
 		).filterValues { it?.isNotEmpty() == true }.mapValues { (_, v) -> v!! }

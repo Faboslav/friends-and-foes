@@ -1,14 +1,17 @@
 package com.faboslav.friendsandfoes.common.versions;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
+import org.jetbrains.annotations.Nullable;
 
 //? if <= 1.21.8 {
 /*import net.minecraft.world.entity.LivingEntity;
@@ -103,5 +106,13 @@ public final class VersionedEntity
 		*///?}
 
 		return item;
+	}
+
+	public static boolean isEntityType(@Nullable Entity entity, TagKey<EntityType<?>> entityType) {
+		//? if >= 26.1 {
+		return entity != null && entity.is(entityType);
+		//?} else {
+		 /*return entity != null && entity.getType().is(entityType);
+		*///?}
 	}
 }

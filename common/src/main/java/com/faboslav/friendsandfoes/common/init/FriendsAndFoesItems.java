@@ -1,16 +1,20 @@
 package com.faboslav.friendsandfoes.common.init;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-import com.faboslav.friendsandfoes.common.config.FriendsAndFoesConfig;
 import com.faboslav.friendsandfoes.common.item.TotemItem;
+import com.mojang.datafixers.util.Pair;
 import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
-import com.faboslav.friendsandfoes.common.mixin.SpawnEggItemAccessor;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ComposterBlock;
+
+//? if <= 1.21.11 {
+import com.faboslav.friendsandfoes.common.events.lifecycle.SetupEvent;
+import com.faboslav.friendsandfoes.common.mixin.SpawnEggItemAccessor;
+//?}
 
 //? if >=1.21.11 {
 import net.minecraft.core.component.DataComponents;
@@ -22,6 +26,8 @@ import net.minecraft.world.level.block.BeehiveBlock;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BooleanSupplier;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -50,6 +56,7 @@ public final class FriendsAndFoesItems
 	//?} else {
 	/*public static final ItemLikeResourcefulRegistry<Item> ITEMS = new ItemLikeResourcefulRegistry<>(BuiltInRegistries.ITEM, FriendsAndFoes.MOD_ID);
 	*///?}
+	private static final List<Pair<Supplier<? extends EntityType<? extends Mob>>, SpawnEggItem>> SPAWN_EGGS = new ArrayList<>();
 
 	public static final Map<Identifier, BooleanSupplier> CONFIG_ITEMS = new HashMap<>();
 
@@ -154,19 +161,31 @@ public final class FriendsAndFoesItems
 		return ITEMS.register(id, () -> {
 			//? if >= 1.21.9 {
 			var spawnEgg = new SpawnEggItem(new Item.Properties().spawnEgg(typeIn.get()).stacksTo(64).setId(ResourceKey.create(Registries.ITEM, FriendsAndFoes.makeID(id))));
-			//?} else if >=1.21.4 {
+			 //?} else if >=1.21.4 {
 			/*var spawnEgg = new SpawnEggItem(typeIn.get(), new Item.Properties().stacksTo(64).setId(ResourceKey.create(Registries.ITEM, FriendsAndFoes.makeID(id))));
 			 *///?} else =1.21.3 {
 			/*var spawnEgg = new SpawnEggItem(typeIn.get(), primaryColorIn, secondaryColorIn, new Item.Properties().stacksTo(64).setId(ResourceKey.create(Registries.ITEM, FriendsAndFoes.makeId(id))));
-			/*///?} else <=1.21.1 {
+			/*///?} else >=1.21.1 {
 			/*var spawnEgg = new SpawnEggItem(typeIn.get(), primaryColorIn, secondaryColorIn, new Item.Properties().stacksTo(64));
+			*///?} else {
+			/*var spawnEgg = new DispenserAddedSpawnEgg(typeIn, primaryColorIn, secondaryColorIn, new Item.Properties().stacksTo(64));
 			 *///?}
-			var spawnEggMap = SpawnEggItemAccessor.friendsandfoes$getSpawnEggs();
-			spawnEggMap.put(typeIn.get(), spawnEgg);
+
+			SPAWN_EGGS.add(new Pair<>(typeIn, spawnEgg));
 
 			return spawnEgg;
 		});
 	}
+
+	//? if <= 1.21.11 {
+	/*public static void registerSpawnEggs(SetupEvent event) {
+		var spawnEggMap = SpawnEggItemAccessor.friendsandfoes$getSpawnEggs();
+
+		for (var entry : FriendsAndFoesItems.SPAWN_EGGS) {
+			spawnEggMap.put(entry.getFirst().get(), entry.getSecond());
+		}
+	}
+	*///?}
 
 	public static void registerCompostableItems() {
 		ComposterBlock.add(0.65F, FriendsAndFoesItems.BUTTERCUP.get());

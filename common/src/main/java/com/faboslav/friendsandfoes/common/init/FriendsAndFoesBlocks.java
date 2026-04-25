@@ -5,7 +5,6 @@ import com.faboslav.friendsandfoes.common.block.CopperButtonBlock;
 import com.faboslav.friendsandfoes.common.block.CrabEggBlock;
 import com.faboslav.friendsandfoes.common.block.OxidizableButtonBlock;
 import com.faboslav.friendsandfoes.common.block.PenguinEggBlock;
-import com.faboslav.friendsandfoes.common.events.client.RegisterRenderLayersEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.RegisterFlammabilityEvent;
 import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistries;
@@ -26,6 +25,10 @@ import net.minecraft.world.level.material.PushReaction;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
+
+//? if <= 1.21.11 {
+/*import com.faboslav.friendsandfoes.common.events.client.RegisterRenderLayersEvent;
+*///?}
 
 //? if <= 1.21.8 {
 /*import com.faboslav.friendsandfoes.common.block.OxidizableLightningRodBlock;
@@ -101,13 +104,15 @@ public final class FriendsAndFoesBlocks
 		 *///?}
 	}
 
-	public static void registerRenderLayers(RegisterRenderLayersEvent event) {
+	//? if <= 1.21.11 {
+	/*public static void registerRenderLayers(RegisterRenderLayersEvent event) {
 		event.register(
-			/*? if >=1.21.6 {*/ ChunkSectionLayer.CUTOUT /*?} else {*//*RenderType.cutout()*//*?}*/,
+			/^? if >=1.21.6 {^/ ChunkSectionLayer.CUTOUT /^?} else {^//^RenderType.cutout()^//^?}^/,
 			FriendsAndFoesBlocks.BUTTERCUP.get(),
 			FriendsAndFoesBlocks.POTTED_BUTTERCUP.get()
 		);
 	}
+	*///?}
 
 	public static void registerFlammablity(RegisterFlammabilityEvent event) {
 		FriendsAndFoesBlocks.BLOCKS.stream()

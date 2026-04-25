@@ -13,7 +13,6 @@ import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
 import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
 import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
-import com.mojang.serialization.Dynamic;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -41,6 +40,10 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+
+//? if <= 1.21.11 {
+/*import com.mojang.serialization.Dynamic;
+*///?}
 
 //? if >=1.21.6 {
 import net.minecraft.world.level.storage.ValueInput;
@@ -83,8 +86,14 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 		super(entityType, world);
 		this.setPathfindingMalus(PathType.WATER, -1.0F);
 		this.setPathfindingMalus(PathType.LAVA, 8.0F);
-		this.setPathfindingMalus(PathType.DANGER_FIRE, 0.0F);
+		//? if >= 26.1 {
+		this.setPathfindingMalus(PathType.FIRE, 0.0F);
+		this.setPathfindingMalus(PathType.FIRE_IN_NEIGHBOR, 0.0F);
+		this.setPathfindingMalus(PathType.WATER_BORDER, -1.0F);
+		//?} else {
+		/*this.setPathfindingMalus(PathType.DANGER_FIRE, 0.0F);
 		this.setPathfindingMalus(PathType.DAMAGE_FIRE, 0.0F);
+		*///?}
 		this.xpReward = 10;
 	}
 
@@ -149,9 +158,15 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 	}
 
 	@Override
-	protected Brain<?> makeBrain(Dynamic<?> dynamic) {
+	//? if >= 26.1 {
+	protected Brain<WildfireEntity> makeBrain(final Brain.Packed packedBrain) {
+		return WildfireBrain.create(this, packedBrain);
+	}
+	//?} else {
+	/*protected Brain<WildfireEntity> makeBrain(Dynamic<?> dynamic) {
 		return WildfireBrain.create(dynamic);
 	}
+	*///?}
 
 	@Override
 	@SuppressWarnings("all")
@@ -474,6 +489,29 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 	}
 
 	@Override
+	//? if >= 1.21.4 {
+	protected boolean considersEntityAsAlly(final Entity entity) {
+		if (super.considersEntityAsAlly(entity)) {
+			return true;
+		} else if (!VersionedEntity.isEntityType(entity, FriendsAndFoesTags.WILDFIRE_ALLIES)) {
+			return false;
+		} else {
+			return this.getTeam() == null && entity.getTeam() == null;
+		}
+	}
+	//?} else {
+	/*public boolean isAlliedTo(Entity entity) {
+		if (super.isAlliedTo(entity)) {
+			return true;
+		} else if (!entity.getType().is(FriendsAndFoesTags.WILDFIRE_ALLIES)) {
+			return false;
+		} else {
+			return this.getTeam() == null && entity.getTeam() == null;
+		}
+	}
+	*///?}
+
+	@Override
 	/*? if >=1.21.3 {*/
 	public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
 	/*?} else {*/
@@ -494,10 +532,7 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 
 		Entity attacker = damageSource.getEntity();
 
-		if (
-			damageSource == this.damageSources().inFire()
-			|| (attacker != null && attacker.getType().is(FriendsAndFoesTags.WILDFIRE_ALLIES))
-		) {
+		if (damageSource == this.damageSources().inFire() || VersionedEntity.isEntityType(attacker, FriendsAndFoesTags.WILDFIRE_ALLIES)) {
 			return false;
 		}
 

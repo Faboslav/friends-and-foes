@@ -16,7 +16,6 @@ import com.faboslav.friendsandfoes.common.versions.VersionedGameRulesProvider;
 import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
 import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.Dynamic;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
@@ -53,6 +52,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Objects;
+
+//? if <= 1.21.11 {
+/*import com.mojang.serialization.Dynamic;
+*///?}
 
 //? if >=1.21.6 {
 import net.minecraft.world.level.storage.ValueInput;
@@ -240,10 +243,15 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 	}
 
 	@Override
-	protected Brain<?> makeBrain(Dynamic<?> dynamic) {
+	//? if >= 26.1 {
+	protected Brain<CrabEntity> makeBrain(final Brain.Packed packedBrain) {
+		return CrabBrain.create(this, packedBrain);
+	}
+	//?} else {
+	/*protected Brain<CrabEntity> makeBrain(Dynamic<?> dynamic) {
 		return CrabBrain.create(dynamic);
 	}
-
+	*///?}
 	@Override
 	@SuppressWarnings("all")
 	public Brain<CrabEntity> getBrain() {

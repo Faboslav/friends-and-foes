@@ -8,6 +8,12 @@ import net.minecraft.client.model.animal.cow.CowModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.Identifier;
 
+//? if >= 26.1 {
+import net.minecraft.client.renderer.block.BlockModelResolver;
+import net.minecraft.client.renderer.block.model.BlockDisplayContext;
+import net.minecraft.client.model.animal.cow.BabyCowModel;
+//?}
+
 //? if >=1.21.3 {
 import net.minecraft.client.renderer.entity.AgeableMobRenderer;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.MoobloomRenderState;
@@ -22,15 +28,31 @@ public final class MoobloomEntityRenderer extends AgeableMobRenderer<MoobloomEnt
 /*public final class MoobloomEntityRenderer extends MobRenderer<MoobloomEntity, CowModel<MoobloomEntity>>
 *///?}
 {
+	//? if >= 26.1 {
+	public static final BlockDisplayContext BLOCK_DISPLAY_CONTEXT = BlockDisplayContext.create();
+	private final BlockModelResolver blockModelResolver;
+	//?}
+
 	public MoobloomEntityRenderer(EntityRendererProvider.Context context) {
-		//? if >=1.21.3 {
-		super(context, new CowModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.MOOBLOOM_LAYER)), new CowModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.MOOBLOOM_BABY_LAYER)), 0.7F);
-		//?} else {
+		//? if >= 26.1 {
+		super(context, new CowModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.MOOBLOOM_LAYER)), new BabyCowModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.MOOBLOOM_BABY_LAYER)), 0.7F);
+		//?} else if >=1.21.3 {
+		/*super(context, new CowModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.MOOBLOOM_LAYER)), new CowModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.MOOBLOOM_BABY_LAYER)), 0.7F);
+		*///?} else {
 		/*super(context, new CowModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.MOOBLOOM_LAYER)), 0.7F);
 		*///?}
 
+		//? if >= 26.1 {
+		this.blockModelResolver = context.getBlockModelResolver();
+		//?}
+
 		//? if >=1.21.3 {
-		this.addLayer(new MoobloomFlowerFeatureRenderer(this, context.getBlockRenderDispatcher()));
+		this.addLayer(new MoobloomFlowerFeatureRenderer(
+			this
+			//? if <= 1.21.11 {
+			/*, context.getBlockRenderDispatcher()
+			*///?}
+		));
 		//?} else {
 		/*this.addLayer(new MoobloomFlowerFeatureRenderer(this));
 		*///?}
@@ -46,6 +68,9 @@ public final class MoobloomEntityRenderer extends AgeableMobRenderer<MoobloomEnt
 	public void extractRenderState(MoobloomEntity moobloom, MoobloomRenderState moobloomRenderState, float partialTick) {
 		super.extractRenderState(moobloom, moobloomRenderState, partialTick);
 		moobloomRenderState.moobloom = moobloom;
+		//? if >= 26.1 {
+		this.blockModelResolver.update(moobloomRenderState.flowerModel, moobloom.getVariant().getFlower().defaultBlockState(), BLOCK_DISPLAY_CONTEXT);
+		//?}
 	}
 	//?}
 
@@ -60,10 +85,14 @@ public final class MoobloomEntityRenderer extends AgeableMobRenderer<MoobloomEnt
 		var moobloom = moobloomRenderState.moobloom;
 		//?}
 
-		//? if >=1.21.5 {
-			return FriendsAndFoes.makeID("textures/entity/moobloom/" + moobloom.getVariant().getName() + "_moobloom.png");
-		//?} else {
-			/*return FriendsAndFoes.makeID("textures/entity/moobloom/moobloom_" + moobloom.getVariant().getName() + ".png");
-		*///?}
+		var textureId = "textures/entity/moobloom/moobloom_" + moobloom.getVariant().getName();
+
+		//? if >= 26.1 {
+		if(moobloomRenderState.isBaby) {
+			textureId += "_baby";
+		}
+		//?}
+
+		return FriendsAndFoes.makeID(textureId + ".png");
 	}
 }

@@ -10,8 +10,6 @@ import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
-import com.mojang.serialization.Dynamic;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.ai.Brain;
@@ -22,25 +20,31 @@ import net.minecraft.world.entity.ai.sensing.Sensor;
 import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import java.util.List;
 import java.util.function.Predicate;
+
+//? if >= 26.1 {
+import net.minecraft.world.entity.ai.ActivityData;
+//?} else {
+/*import com.mojang.serialization.Dynamic;
+ *///?}
 
 public final class CrabBrain
 {
 	public static final List<MemoryModuleType<?>> MEMORY_MODULES;
 	public static final List<SensorType<? extends Sensor<? super CrabEntity>>> SENSORS;
+	public static final Brain.Provider<CrabEntity> BRAIN_PROVIDER;
 	private static final UniformInt WAVE_COOLDOWN_PROVIDER;
 
-	public static Brain<?> create(Dynamic<?> dynamic) {
-		Brain.Provider<CrabEntity> profile = Brain.provider(MEMORY_MODULES, SENSORS);
-		Brain<CrabEntity> brain = profile.makeBrain(dynamic);
+	//? if >= 26.1 {
+	public static Brain<CrabEntity> create(CrabEntity crab, final Brain.Packed packedBrain) {
+		return BRAIN_PROVIDER.makeBrain(crab, packedBrain);
+	}
+	//?} else {
+	/*public static Brain<CrabEntity> create(Dynamic<?> dynamic) {
+		Brain<CrabEntity> brain = BRAIN_PROVIDER.makeBrain(dynamic);
 
-		addCoreActivities(brain);
-		addIdleActivities(brain);
-		addLayEggActivities(brain);
-		addDanceActivities(brain);
-		addWaveActivities(brain);
+		addActivities(brain);
 
 		brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
 		brain.setDefaultActivity(Activity.IDLE);
@@ -48,9 +52,42 @@ public final class CrabBrain
 
 		return brain;
 	}
+	*///?}
 
-	private static void addCoreActivities(Brain<CrabEntity> brain) {
-		brain.addActivity(
+	//? if >= 26.1 {
+	protected static List<ActivityData<CrabEntity>> addActivities(CrabEntity crab)
+	//?} else {
+	/*protected static void addActivities(Brain<CrabEntity> brain)
+	 *///?}
+	{
+		//? if >= 26.1 {
+		return List.of(
+			addCoreActivities(),
+			addIdleActivities(),
+			addLayEggActivities(),
+			addDanceActivities(),
+			addWaveActivities()
+		);
+		//?} else {
+		/*addCoreActivities(brain);
+		addIdleActivities(brain);
+		addLayEggActivities(brain);
+		addDanceActivities(brain);
+		addWaveActivities(brain);
+		*///?}
+	}
+
+	//? if >= 26.1 {
+	private static ActivityData<CrabEntity> addCoreActivities()
+	//?} else {
+	/*private static void addCoreActivities(Brain<CrabEntity> brain)
+	*///?}
+	{
+		//? if >= 26.1 {
+		return ActivityData.create(
+		//?} else {
+		/*brain.addActivity(
+		*///?}
 			Activity.CORE,
 			0,
 			ImmutableList.of(
@@ -63,8 +100,17 @@ public final class CrabBrain
 		);
 	}
 
-	private static void addLayEggActivities(Brain<CrabEntity> brain) {
-		brain.addActivityWithConditions(
+	//? if >= 26.1 {
+	private static ActivityData<CrabEntity> addLayEggActivities()
+	//?} else {
+	/*private static void addLayEggActivities(Brain<CrabEntity> brain)
+	*///?}
+	{
+		//? if >= 26.1 {
+		return ActivityData.create(
+		//?} else {
+		/*brain.addActivityWithConditions(
+		*///?}
 			FriendsAndFoesActivities.CRAB_LAY_EGG.get(),
 			ImmutableList.of(
 				Pair.of(0, new CrabGoToHomePositionTask()),
@@ -78,8 +124,17 @@ public final class CrabBrain
 		);
 	}
 
-	private static void addDanceActivities(Brain<CrabEntity> brain) {
-		brain.addActivityWithConditions(
+	//? if >= 26.1 {
+	private static ActivityData<CrabEntity> addDanceActivities()
+	//?} else {
+	/*private static void addDanceActivities(Brain<CrabEntity> brain)
+	 *///?}
+	{
+		//? if >= 26.1 {
+		return ActivityData.create(
+		//?} else {
+		/*brain.addActivityWithConditions(
+		*///?}
 			FriendsAndFoesActivities.CRAB_DANCE.get(),
 			ImmutableList.of(
 				Pair.of(0, new CrabDanceTask())
@@ -94,8 +149,17 @@ public final class CrabBrain
 		);
 	}
 
-	private static void addWaveActivities(Brain<CrabEntity> brain) {
-		brain.addActivityWithConditions(
+	//? if >= 26.1 {
+	private static ActivityData<CrabEntity> addWaveActivities()
+	//?} else {
+	/*private static void addWaveActivities(Brain<CrabEntity> brain)
+	 *///?}
+	{
+		//? if >= 26.1 {
+		return ActivityData.create(
+		//?} else {
+		/*brain.addActivityWithConditions(
+		*///?}
 			FriendsAndFoesActivities.CRAB_WAVE.get(),
 			ImmutableList.of(
 				Pair.of(0, new CrabWaveTask())
@@ -112,8 +176,17 @@ public final class CrabBrain
 		);
 	}
 
-	private static void addIdleActivities(Brain<CrabEntity> brain) {
-		brain.addActivityWithConditions(
+	//? if >= 26.1 {
+	private static ActivityData<CrabEntity> addIdleActivities()
+	//?} else {
+	/*private static void addIdleActivities(Brain<CrabEntity> brain)
+	 *///?}
+	{
+		//? if >= 26.1 {
+		return ActivityData.create(
+		//?} else {
+		/*brain.addActivityWithConditions(
+		*///?}
 			Activity.IDLE,
 			ImmutableList.of(
 				Pair.of(0, new FollowTemptation(crab -> 1.25f)),
@@ -191,6 +264,13 @@ public final class CrabBrain
 			FriendsAndFoesMemoryModuleTypes.CRAB_IS_DANCING.get(),
 			FriendsAndFoesMemoryModuleTypes.CRAB_BURROW_POS.get(),
 			FriendsAndFoesMemoryModuleTypes.CRAB_WAVE_COOLDOWN.get()
+		);
+		BRAIN_PROVIDER = Brain.provider(
+			MEMORY_MODULES,
+			SENSORS
+			//? if >= 26.1 {
+			, CrabBrain::addActivities
+			//?}
 		);
 		WAVE_COOLDOWN_PROVIDER = TimeUtil.rangeOfSeconds(20, 40);
 	}

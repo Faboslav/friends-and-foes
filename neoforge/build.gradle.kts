@@ -1,7 +1,7 @@
 plugins {
 	`multiloader-loader`
 	id("net.neoforged.moddev")
-	id("dev.kikugie.fletching-table.neoforge") version "0.1.0-alpha.22"
+	id("dev.kikugie.fletching-table.neoforge") version "0.1.0-alpha.23"
 }
 
 fletchingTable {
@@ -33,7 +33,9 @@ dependencies {
 			)
 		}"
 	)
-	implementation("dev.isxander:yet-another-config-lib:${commonMod.dep("yacl")}-neoforge")
+	commonMod.depOrNull("yacl")?.let { yaclVersion ->
+		implementation("dev.isxander:yet-another-config-lib:${yaclVersion}-neoforge")
+	}
 
 	// Compat dependencies
 	// Curios (https://www.curseforge.com/minecraft/mc-mods/curios)
@@ -53,16 +55,18 @@ neoForge {
 	runs {
 		register("client") {
 			client()
+			ideFolderName = "NeoForge"
 			ideName = "NeoForge Client (${project.path})"
 		}
 		register("server") {
 			server()
+			ideFolderName = "NeoForge"
 			ideName = "NeoForge Server (${project.path})"
 		}
 	}
 
-	parchment {
-		commonMod.depOrNull("parchment")?.let {
+	commonMod.depOrNull("parchment")?.let {
+		parchment {
 			mappingsVersion = it
 			minecraftVersion = commonMod.mc
 		}

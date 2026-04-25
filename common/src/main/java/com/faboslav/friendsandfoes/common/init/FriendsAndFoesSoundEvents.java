@@ -39,6 +39,9 @@ public final class FriendsAndFoesSoundEvents
 	public static final RegistryEntry<SoundEvent> ENTITY_CRAB_HURT = registerSoundEvent("entity.crab.hurt");
 	public static final RegistryEntry<SoundEvent> ENTITY_CRAB_LAY_EGG = registerSoundEvent("entity.crab.lay_egg");
 	public static final RegistryEntry<SoundEvent> ENTITY_CRAB_STEP = registerSoundEvent("entity.crab.step");
+	public static final RegistryEntry<SoundEvent> ENTITY_CRAB_EGG_BREAK = registerSoundEvent("entity.crab.egg_break");
+	public static final RegistryEntry<SoundEvent> ENTITY_CRAB_EGG_CRACK = registerSoundEvent("entity.crab.egg_crack");
+	public static final RegistryEntry<SoundEvent> ENTITY_CRAB_EGG_HATCH = registerSoundEvent("entity.crab.egg_hatch");
 	public static final RegistryEntry<SoundEvent> ENTITY_GLARE_AMBIENT = registerSoundEvent("entity.glare.ambient");
 	public static final RegistryEntry<SoundEvent> ENTITY_GLARE_DEATH = registerSoundEvent("entity.glare.death");
 	public static final RegistryEntry<SoundEvent> ENTITY_GLARE_EAT = registerSoundEvent("entity.glare.eat");
@@ -83,6 +86,7 @@ public final class FriendsAndFoesSoundEvents
 	public static final RegistryEntry<SoundEvent> ENTITY_TUFF_GOLEM_SLEEP = registerSoundEvent("entity.tuff_golem.sleep");
 	public static final RegistryEntry<SoundEvent> ENTITY_TUFF_GOLEM_STEP = registerSoundEvent("entity.tuff_golem.step");
 	public static final RegistryEntry<SoundEvent> ENTITY_TUFF_GOLEM_WAKE = registerSoundEvent("entity.tuff_golem.wake");
+	public static final RegistryEntry<SoundEvent> ENTITY_VILLAGER_WORK_BEEKEEPER = registerSoundEvent("entity.villager.work_beekeeper");
 	public static final RegistryEntry<SoundEvent> ENTITY_WILDFIRE_SHIELD_DEBRIS_IMPACT = registerSoundEvent("entity.shield_debris.impact");
 	public static final RegistryEntry<SoundEvent> ENTITY_WILDFIRE_AMBIENT = registerSoundEvent("entity.wildfire.ambient");
 	public static final RegistryEntry<SoundEvent> ENTITY_WILDFIRE_DEATH = registerSoundEvent("entity.wildfire.death");

@@ -9,6 +9,10 @@ import net.minecraft.client.model.monster.illager.IllagerModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelLayers;
 
+//? if >= 26.1 {
+import net.minecraft.client.model.animal.cow.BabyCowModel;
+//?}
+
 /**
  * @see ModelLayers
  */
@@ -41,13 +45,13 @@ public final class FriendsAndFoesEntityModelLayers
 		event.register(BARNACLE_LAYER, BarnacleEntityModel::getTexturedModelData);
 		//? if <= 1.21.8 {
 		/*event.register(COPPER_GOLEM_LAYER, CopperGolemEntityModel::getTexturedModelData);
-		*///?}
+		 *///?}
 		event.register(CRAB_LAYER, CrabEntityModel::getTexturedModelData);
 		//? if >=1.21.3 {
 		event.register(GLARE_LAYER, () -> GlareEntityModel.getTexturedModelData().apply(GlareEntityModel.ADULT_TRANSFORMER));
 		//?} else {
 		/*event.register(GLARE_LAYER, GlareEntityModel::getTexturedModelData);
-		*///?}
+		 *///?}
 		event.register(ICEOLOGER_LAYER, IllagerModel::createBodyLayer);
 		event.register(ICEOLOGER_ICE_CHUNK_LAYER, IceologerIceChunkModel::getTexturedModelData);
 		event.register(ILLUSIONER_LAYER, IllagerModel::createBodyLayer);
@@ -61,8 +65,13 @@ public final class FriendsAndFoesEntityModelLayers
 		//? if >=1.21.3 {
 		event.register(CRAB_BABY_LAYER, () -> CrabEntityModel.getTexturedModelData().apply(CrabEntityModel.BABY_TRANSFORMER));
 		event.register(GLARE_BABY_LAYER, () -> GlareEntityModel.getTexturedModelData().apply(GlareEntityModel.BABY_TRANSFORMER));
-		event.register(MOOBLOOM_BABY_LAYER, () -> CowModel.createBodyLayer().apply(CowModel.BABY_TRANSFORMER));
 		//?}
+
+		//? if >= 26.1 {
+		event.register(MOOBLOOM_BABY_LAYER, BabyCowModel::createBodyLayer);
+		//?} else if >= 1.21.3 {
+		/*event.register(MOOBLOOM_BABY_LAYER, () -> CowModel.createBodyLayer().apply(CowModel.BABY_TRANSFORMER));
+		*///?}
 	}
 
 	private FriendsAndFoesEntityModelLayers() {

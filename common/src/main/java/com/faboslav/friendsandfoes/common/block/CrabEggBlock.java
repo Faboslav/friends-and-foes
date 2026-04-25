@@ -3,13 +3,13 @@ package com.faboslav.friendsandfoes.common.block;
 import com.faboslav.friendsandfoes.common.entity.CrabEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import com.faboslav.friendsandfoes.common.versions.VersionedGameRulesProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -73,7 +73,7 @@ public final class CrabEggBlock extends Block
 	}
 
 	private void breakEgg(Level world, BlockPos pos, BlockState state) {
-		world.playSound(null, pos, SoundEvents.TURTLE_EGG_BREAK, SoundSource.BLOCKS, 0.7F, 0.9F + world.random.nextFloat() * 0.2F);
+		world.playSound(null, pos, FriendsAndFoesSoundEvents.ENTITY_CRAB_EGG_BREAK.get(), SoundSource.BLOCKS, 0.7F, 0.9F + world.getRandom().nextFloat() * 0.2F);
 		int i = state.getValue(EGGS);
 
 		if (i <= 1) {
@@ -90,10 +90,10 @@ public final class CrabEggBlock extends Block
 		if (this.shouldHatchProgress(world, pos) && isSuitableBelow(world, pos)) {
 			int i = state.getValue(HATCH);
 			if (i < 2) {
-				world.playSound(null, pos, SoundEvents.TURTLE_EGG_CRACK, SoundSource.BLOCKS, 0.7F, 0.9F + random.nextFloat() * 0.2F);
+				world.playSound(null, pos, FriendsAndFoesSoundEvents.ENTITY_CRAB_EGG_CRACK.get(), SoundSource.BLOCKS, 0.7F, 0.9F + random.nextFloat() * 0.2F);
 				world.setBlock(pos, state.setValue(HATCH, i + 1), 2);
 			} else {
-				world.playSound(null, pos, SoundEvents.TURTLE_EGG_HATCH, SoundSource.BLOCKS, 0.7F, 0.9F + random.nextFloat() * 0.2F);
+				world.playSound(null, pos, FriendsAndFoesSoundEvents.ENTITY_CRAB_EGG_HATCH.get(), SoundSource.BLOCKS, 0.7F, 0.9F + random.nextFloat() * 0.2F);
 				world.removeBlock(pos, false);
 
 				for (int j = 0; j < state.getValue(EGGS); ++j) {

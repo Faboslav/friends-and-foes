@@ -2,8 +2,9 @@ val IS_CI = System.getenv("CI") == "true"
 
 plugins {
 	id("dev.kikugie.stonecutter")
-	id("net.neoforged.moddev") version "2.0.115" apply false
-	id("fabric-loom") version "1.14-SNAPSHOT" apply false
+	id("net.neoforged.moddev") version "2.0.140" apply false
+	id("net.fabricmc.fabric-loom") version "1.15-SNAPSHOT" apply false
+	id("net.fabricmc.fabric-loom-remap") version "1.15-SNAPSHOT" apply false
 }
 
 stonecutter {
@@ -12,6 +13,21 @@ stonecutter {
 		constants["curios"] = false
 
 		filters.exclude("**/*.accesswidener")
+
+		replacements.string(current.parsed >= "26.1") {
+			replace("ServerWorldEvents", "ServerLevelEvents")
+			replace("FabricTrackedDataRegistry", "FabricEntityDataRegistry")
+			replace("EntityModelLayerRegistry", "ModelLayerRegistry")
+			replace("FabricBrewingRecipeRegistryBuilder", "FabricPotionBrewingBuilder")
+			replace("net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents", "net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents")
+			replace("ItemGroupEvents.MODIFY_ENTRIES_ALL", "CreativeModeTabEvents.MODIFY_OUTPUT_ALL")
+			replace("net.minecraft.client.renderer.state.CameraRenderState", "net.minecraft.client.renderer.state.level.CameraRenderState")
+			replace("net.minecraft.world.entity.npc.villager.VillagerTrades", "net.minecraft.world.item.trading.VillagerTrade")
+		}
+
+		replacements.string(current.parsed < "1.21.11") {
+			replace("net.minecraft.world.entity.npc.villager.VillagerTrades", "net.minecraft.world.entity.npc.VillagerTrades")
+		}
 
 		replacements.string(current.parsed >= "1.21.11") {
 			replace("ResourceLocation", "Identifier")
@@ -46,4 +62,4 @@ stonecutter {
 }
 
 if (IS_CI) stonecutter active null
-else stonecutter active "1.21.11" /* [SC] DO NOT EDIT */
+else stonecutter active "26.1.2" /* [SC] DO NOT EDIT */

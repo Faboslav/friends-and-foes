@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
 import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -225,10 +226,9 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 
 		if (
 			(
-				attackerType != null
-				&& (
-					attackerType.is(EntityTypeTags.ILLAGER_FRIENDS)
-					|| attackerType.is(EntityTypeTags.RAIDERS)
+				(
+					VersionedEntity.isEntityType(attacker, EntityTypeTags.ILLAGER_FRIENDS)
+					|| VersionedEntity.isEntityType(attacker, EntityTypeTags.RAIDERS)
 				)
 			)
 			|| (
@@ -240,7 +240,11 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 		}
 
 		if (!this.level().isClientSide()) {
-			if (attackerType != null && !attackerType.is(EntityTypeTags.ILLAGER_FRIENDS) && !attackerType.is(EntityTypeTags.RAIDERS)) {
+			if (
+				attackerType != null
+				&& !VersionedEntity.isEntityType(attacker, EntityTypeTags.ILLAGER_FRIENDS)
+				&& !VersionedEntity.isEntityType(attacker, EntityTypeTags.RAIDERS)
+			) {
 				if (this.isIllusion()) {
 					this.discardIllusion();
 					return false;
@@ -249,8 +253,8 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 				if (
 					this.getTicksUntilCanCreateIllusions() == 0
 					&& (
-						!attackerType.is(EntityTypeTags.ILLAGER_FRIENDS)
-						&& !attackerType.is(EntityTypeTags.RAIDERS)
+						!VersionedEntity.isEntityType(attacker, EntityTypeTags.ILLAGER_FRIENDS)
+						&& !VersionedEntity.isEntityType(attacker, EntityTypeTags.RAIDERS)
 						&& !(damageSource.getEntity() instanceof Player player && player.getAbilities().instabuild)
 					)
 				) {

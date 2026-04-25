@@ -1,7 +1,7 @@
 plugins {
 	id("multiloader-common")
 	id("fabric-loom-compat")
-	id("dev.kikugie.fletching-table.fabric") version "0.1.0-alpha.22"
+	id("dev.kikugie.fletching-table.fabric") version "0.1.0-alpha.23"
 }
 
 loom {
@@ -18,6 +18,10 @@ fletchingTable {
 	j52j.register("main") {
 		extension("json", "**/*.json5")
 	}
+}
+
+stonecutter {
+	constants["yacl"] = commonMod.depOrNull("yacl") != null
 }
 
 dependencies {

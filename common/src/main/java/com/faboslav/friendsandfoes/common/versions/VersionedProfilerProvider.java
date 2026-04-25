@@ -13,11 +13,11 @@ public final class VersionedProfilerProvider
 	public static ProfilerFiller getProfiler(@Nullable Entity entity) {
 		ProfilerFiller profiler;
 
-		/*? if >=1.21.3 {*/
+		//? if >=1.21.3 {
 		profiler = Profiler.get();
-		/*?} else {*/
+		//?} else {
 		/*profiler = entity.level().getProfiler();
-		 *//*?}*/
+		*///?}
 
 		return profiler;
 	}

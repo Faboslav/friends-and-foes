@@ -13,7 +13,6 @@ import com.faboslav.friendsandfoes.common.util.MovementUtil;
 import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
 import com.faboslav.friendsandfoes.common.versions.*;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.Dynamic;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -54,6 +53,12 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+
+//? if >= 26.1 {
+import net.minecraft.core.component.DataComponents;
+//?} else {
+/*import com.mojang.serialization.Dynamic;
+*///?}
 
 //? if >=1.21.6 {
 import net.minecraft.world.level.storage.ValueInput;
@@ -167,9 +172,15 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 	}
 
 	@Override
-	protected Brain<?> makeBrain(Dynamic<?> dynamic) {
+	//? if >= 26.1 {
+	protected Brain<TuffGolemEntity> makeBrain(final Brain.Packed packedBrain) {
+		return TuffGolemBrain.create(this, packedBrain);
+	}
+	//?} else {
+	/*protected Brain<TuffGolemEntity> makeBrain(Dynamic<?> dynamic) {
 		return TuffGolemBrain.create(dynamic);
 	}
+	*///?}
 
 	@Override
 	@SuppressWarnings("all")
@@ -441,7 +452,17 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 		Player player,
 		ItemStack itemStack
 	) {
-		Color usedColor = TuffGolemEntity.Color.fromDyeColor(((DyeItem) itemStack.getItem()).getDyeColor());
+		//? if >= 26.1 {
+		DyeColor dyeColor = itemStack.get(DataComponents.DYE);
+
+		if(dyeColor == null) {
+			return false;
+		}
+		//?} else {
+		/*DyeColor dyeColor = ((DyeItem) itemStack.getItem()).getDyeColor();
+		*///?}
+
+		Color usedColor = TuffGolemEntity.Color.fromDyeColor(dyeColor);
 
 		if (this.getColor() == usedColor) {
 			return false;

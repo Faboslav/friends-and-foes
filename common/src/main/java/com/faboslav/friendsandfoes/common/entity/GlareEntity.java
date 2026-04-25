@@ -16,7 +16,6 @@ import com.faboslav.friendsandfoes.common.util.RandomGenerator;
 import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
 import com.faboslav.friendsandfoes.common.versions.VersionedInteractionResult;
 import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
-import com.mojang.serialization.Dynamic;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.Vec3i;
@@ -68,6 +67,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.function.Predicate;
 
+//? if <= 1.21.11 {
+/*import com.mojang.serialization.Dynamic;
+*///?}
+
 //? if >=1.21.3 {
 import net.minecraft.world.entity.EntitySpawnReason;
 //?} else {
@@ -115,7 +118,13 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 
 		this.setTame(false, false);
 		this.moveControl = new GlareMoveControl(this, 24, true);
-		this.setPathfindingMalus(PathType.DANGER_FIRE, -1.0F);
+		//? if >= 26.1 {
+		this.setPathfindingMalus(PathType.FIRE, -1.0F);
+		this.setPathfindingMalus(PathType.FIRE_IN_NEIGHBOR, -1.0F);
+		//?} else {
+		/*this.setPathfindingMalus(PathType.DANGER_FIRE, -1.0F);
+		this.setPathfindingMalus(PathType.DAMAGE_FIRE, -1.0F);
+		*///?}
 		this.setPathfindingMalus(PathType.WATER, -1.0F);
 		this.setPathfindingMalus(PathType.LAVA, -1.0F);
 		this.setPathfindingMalus(PathType.WATER_BORDER, 16.0F);
@@ -299,7 +308,11 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 				this.dropItem(itemStack.split(i - 1));
 			}
 
-			ItemParticleOption particleEffect = new ItemParticleOption(ParticleTypes.ITEM, itemStack);
+			//? if >= 26.1 {
+			ItemParticleOption particleEffect = new ItemParticleOption(ParticleTypes.ITEM, itemStack.getItem());
+			//?} else {
+			/*ItemParticleOption particleEffect = new ItemParticleOption(ParticleTypes.ITEM, itemStack);
+			*///?}
 			FoodProperties foodComponent = itemStack.get(DataComponents.FOOD);
 			float foodNutritionMultiplier = foodComponent != null ? (float) foodComponent.nutrition():1.0F;
 			this.heal(2.0F * foodNutritionMultiplier);
@@ -368,10 +381,10 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 		flyingPathNavigation.setCanOpenDoors(false);
 		flyingPathNavigation.setCanFloat(false);
 
-		// TODO check this on other classes
-		//flyingPathNavigation.setCanPassDoors(true);
+		//? if <= 1.21.1 {
+		/*flyingPathNavigation.setCanPassDoors(true);
+		*///?}
 
-		// TODO check this if this is useful or not
 		//? if >=1.21.3 {
 		flyingPathNavigation.setRequiredPathLength(48.0F);
 		//?}
@@ -380,9 +393,15 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 	}
 
 	@Override
-	protected Brain<?> makeBrain(Dynamic<?> dynamic) {
+	//? if >= 26.1 {
+	protected Brain<GlareEntity> makeBrain(final Brain.Packed packedBrain) {
+		return GlareBrain.create(this, packedBrain);
+	}
+	//?} else {
+	/*protected Brain<GlareEntity> makeBrain(Dynamic<?> dynamic) {
 		return GlareBrain.create(dynamic);
 	}
+	*///?}
 
 	@Override
 	@SuppressWarnings("all")
@@ -530,7 +549,11 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 			this.playEatSound(itemStack);
 			itemStack.consume(1, player);
 
-			ItemParticleOption particleEffect = new ItemParticleOption(ParticleTypes.ITEM, itemStack);
+			//? if >= 26.1 {
+			ItemParticleOption particleEffect = new ItemParticleOption(ParticleTypes.ITEM, itemStack.getItem());
+			//?} else {
+			/*ItemParticleOption particleEffect = new ItemParticleOption(ParticleTypes.ITEM, itemStack);
+			*///?}
 			ParticleSpawner.spawnParticles(this, particleEffect, 7, 0.1D);
 		}
 

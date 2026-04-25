@@ -196,6 +196,29 @@
 		],
 		"subtitle": "subtitles.block.generic.footsteps"
 	},
+	"entity.crab.egg_break": {
+		"sounds": [
+			"friendsandfoes:entity/crab/egg_break1",
+			"friendsandfoes:entity/crab/egg_break2"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.crab.egg_break"
+	},
+	"entity.crab.egg_crack": {
+		"sounds": [
+			"friendsandfoes:entity/crab/egg_crack1",
+			"friendsandfoes:entity/crab/egg_crack2",
+			"friendsandfoes:entity/crab/egg_crack3",
+			"friendsandfoes:entity/crab/egg_crack4",
+			"friendsandfoes:entity/crab/egg_crack5"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.crab.egg_crack"
+	},
+	"entity.crab.egg_hatch": {
+		"sounds": [
+			"friendsandfoes:entity/crab/egg_hatch1"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.crab.egg_hatch"
+	},
 	"entity.glare.ambient": {
 		"sounds": [
 			"friendsandfoes:entity/glare/ambient1",
@@ -508,6 +531,15 @@
 			"friendsandfoes:entity/tuff_golem/wake"
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.tuff_golem.wake"
+	},
+	"entity.villager.work_beekeeper": {
+		"sounds": [
+			"friendsandfoes:entity/villager/work_beekeeper1",
+			"friendsandfoes:entity/villager/work_beekeeper2",
+			"friendsandfoes:entity/villager/work_beekeeper3",
+			"friendsandfoes:entity/villager/work_beekeeper4"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.villager.work_beekeeper"
 	},
 	"entity.shield_debris.impact": {
 		"sounds": [

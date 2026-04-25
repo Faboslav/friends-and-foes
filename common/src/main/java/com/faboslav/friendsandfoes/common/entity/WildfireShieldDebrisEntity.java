@@ -39,7 +39,7 @@ public final class WildfireShieldDebrisEntity extends Fireball
 
 		Entity target = entityHitResult.getEntity();
 
-		if (target.getType().is(FriendsAndFoesTags.WILDFIRE_ALLIES)) {
+		if (VersionedEntity.isEntityType(target, FriendsAndFoesTags.WILDFIRE_ALLIES)) {
 			return;
 		}
 

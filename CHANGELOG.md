@@ -1,3 +1,16 @@
+## 4.0.25
+
+- Fixed baby moobloom cow model and texture
+- YACL is now optional dependency
+
+## 4.0.24
+
+- Ported to 26.1
+- Added beekeeper loot table for hero of the village
+- Fixed missing sounds
+- Fixed missing subtitles for sounds
+- Updated zh_cn and zh_tw translations (Thanks to BoredYukolin)
+
 ## 4.0.23
 
 - Added config option for rascals to give items in bundles

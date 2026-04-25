@@ -4,15 +4,14 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.feature.MoobloomFlowerFeatureRenderer;
 import com.faboslav.friendsandfoes.common.entity.MoobloomEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
-import net.minecraft.client.model.animal.cow.BabyCowModel;
 import net.minecraft.client.model.animal.cow.CowModel;
-import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.Identifier;
 
 //? if >= 26.1 {
 import net.minecraft.client.renderer.block.BlockModelResolver;
 import net.minecraft.client.renderer.block.model.BlockDisplayContext;
+import net.minecraft.client.model.animal.cow.BabyCowModel;
 //?}
 
 //? if >=1.21.3 {

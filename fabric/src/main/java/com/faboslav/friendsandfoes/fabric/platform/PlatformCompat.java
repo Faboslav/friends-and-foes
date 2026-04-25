@@ -2,7 +2,7 @@ package com.faboslav.friendsandfoes.fabric.platform;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 
-//? trinkets {
+//? if trinkets {
 /*import com.faboslav.friendsandfoes.fabric.modcompat.TrinketsCompat;
 import com.faboslav.friendsandfoes.common.modcompat.ModChecker;
 *///?}
@@ -14,7 +14,7 @@ public final class PlatformCompat implements com.faboslav.friendsandfoes.common.
 		String modId = "";
 
 		try {
-			//? trinkets {
+			//? if trinkets {
 			/*modId = "trinkets";
 			ModChecker.loadModCompat(modId, () -> new TrinketsCompat());
 			*///?}

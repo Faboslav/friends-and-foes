@@ -6,6 +6,7 @@ import com.faboslav.friendsandfoes.common.events.client.RegisterEntityRenderersE
 import com.faboslav.friendsandfoes.common.events.client.RegisterParticlesEvent;
 //? if <= 1.21.11 {
 /*import com.faboslav.friendsandfoes.common.events.client.RegisterRenderLayersEvent;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
 *///?}
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityRenderers;

@@ -63,6 +63,36 @@ tasks {
 				exclude()
 			}
 		}
+
+		// Moobloom textures
+		if (project.stonecutterBuild.eval(commonMod.mc, ">=26.1")) {
+			eachFile {
+				if (path.contains("moobloom/26.1/")) {
+					path = path.replace("moobloom/26.1/", "moobloom/")
+				}
+			}
+
+			exclude("**/moobloom/1.21.11/**")
+			exclude("**/moobloom/1.21.4/**")
+		} else if (project.stonecutterBuild.eval(commonMod.mc, ">=1.21.5")) {
+			eachFile {
+				if (path.contains("moobloom/1.21.11/")) {
+					path = path.replace("moobloom/1.21.11/", "moobloom/")
+				}
+			}
+
+			exclude("**/moobloom/1.21.4/**")
+			exclude("**/moobloom/26.1/**")
+		} else {
+			eachFile {
+				if (path.contains("moobloom/1.21.4/")) {
+					path = path.replace("moobloom/1.21.4/", "moobloom/")
+				}
+			}
+
+			exclude("**/moobloom/1.21.11/**")
+			exclude("**/moobloom/26.1/**")
+		}
     }
 
 	jar {

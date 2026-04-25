@@ -4,7 +4,9 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.feature.MoobloomFlowerFeatureRenderer;
 import com.faboslav.friendsandfoes.common.entity.MoobloomEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
+import net.minecraft.client.model.animal.cow.BabyCowModel;
 import net.minecraft.client.model.animal.cow.CowModel;
+import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.Identifier;
 
@@ -33,9 +35,11 @@ public final class MoobloomEntityRenderer extends AgeableMobRenderer<MoobloomEnt
 	//?}
 
 	public MoobloomEntityRenderer(EntityRendererProvider.Context context) {
-		//? if >=1.21.3 {
-		super(context, new CowModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.MOOBLOOM_LAYER)), new CowModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.MOOBLOOM_BABY_LAYER)), 0.7F);
-		//?} else {
+		//? if >= 26.1 {
+		super(context, new CowModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.MOOBLOOM_LAYER)), new BabyCowModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.MOOBLOOM_BABY_LAYER)), 0.7F);
+		//?} else if >=1.21.3 {
+		/*super(context, new CowModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.MOOBLOOM_LAYER)), new CowModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.MOOBLOOM_BABY_LAYER)), 0.7F);
+		*///?} else {
 		/*super(context, new CowModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.MOOBLOOM_LAYER)), 0.7F);
 		*///?}
 
@@ -82,10 +86,14 @@ public final class MoobloomEntityRenderer extends AgeableMobRenderer<MoobloomEnt
 		var moobloom = moobloomRenderState.moobloom;
 		//?}
 
-		//? if >=1.21.5 {
-			return FriendsAndFoes.makeID("textures/entity/moobloom/" + moobloom.getVariant().getName() + "_moobloom.png");
-		//?} else {
-			/*return FriendsAndFoes.makeID("textures/entity/moobloom/moobloom_" + moobloom.getVariant().getName() + ".png");
-		*///?}
+		var textureId = "textures/entity/moobloom/moobloom_" + moobloom.getVariant().getName();
+
+		//? if >= 26.1 {
+		if(moobloomRenderState.isBaby) {
+			textureId += "_baby";
+		}
+		//?}
+
+		return FriendsAndFoes.makeID(textureId + ".png");
 	}
 }

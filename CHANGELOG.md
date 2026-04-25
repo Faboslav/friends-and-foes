@@ -1,5 +1,6 @@
 ## 4.0.25
 
+- Fixed baby moobloom cow model and texture
 - YACL is now optional dependency
 
 ## 4.0.24

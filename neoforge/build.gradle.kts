@@ -27,9 +27,9 @@ neoForge {
 dependencies {
 	// Required dependencies
 	implementation(
-		"com.teamresourceful.resourcefullib:resourcefullib-neoforge-${commonMod.dep("resourceful-lib.mc")}:${
+		"com.teamresourceful.resourcefullib:resourcefullib-neoforge-${commonMod.dep("resourceful_lib.mc")}:${
 			commonMod.dep(
-				"resourceful-lib.lib"
+				"resourceful_lib.lib"
 			)
 		}"
 	)

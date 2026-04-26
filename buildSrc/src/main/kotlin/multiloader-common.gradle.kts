@@ -73,11 +73,11 @@ tasks {
 			"modDiscord" to commonMod.discord,
 			"minecraftVersion" to commonMod.propOrNull("minecraft_version"),
 			"minMinecraftVersion" to commonMod.propOrNull("min_minecraft_version"),
-			"fabricLoaderVersion" to commonMod.depOrNull("fabric-loader"),
+			"fabricLoaderVersion" to commonMod.depOrNull("fabric_loader"),
 			"fabricApiVersion" to commonMod.depOrNull("fabric-api"),
 			"neoForgeVersion" to commonMod.depOrNull("neoforge"),
-			"resourcefulLibMcVersion" to commonMod.depOrNull("resourceful-lib.mc"),
-			"resourcefulLibLibVersion" to commonMod.depOrNull("resourceful-lib.lib"),
+			"resourcefulLibMcVersion" to commonMod.depOrNull("resourceful_lib.mc"),
+			"resourcefulLibLibVersion" to commonMod.depOrNull("resourceful_lib.lib"),
 		).filterValues { it?.isNotEmpty() == true }.mapValues { (_, v) -> v!! }
 
 		val jsonExpandProps = expandProps.mapValues { (_, v) -> v.replace("\n", "\\\\n") }

@@ -43,8 +43,8 @@ dependencies {
         annotationProcessor(it)
     }
 
-	modCompileOnly("net.fabricmc:fabric-loader:${commonMod.dep("fabric-loader")}")
-	modCompileOnly("com.teamresourceful.resourcefullib:resourcefullib-common-${commonMod.dep("resourceful-lib.mc")}:${commonMod.dep("resourceful-lib.lib")}")
+	modCompileOnly("net.fabricmc:fabric-loader:${commonMod.dep("fabric_loader")}")
+	modCompileOnly("com.teamresourceful.resourcefullib:resourcefullib-common-${commonMod.dep("resourceful_lib.mc")}:${commonMod.dep("resourceful_lib.lib")}")
 	commonMod.depOrNull("yacl")?.let { yaclVersion ->
 		modCompileOnly("dev.isxander:yet-another-config-lib:${yaclVersion}-fabric")
 	}

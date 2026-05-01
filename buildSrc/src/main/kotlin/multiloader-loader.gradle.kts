@@ -2,7 +2,9 @@ import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 
 plugins {
-    id("multiloader-common")
+	id("java")
+	id("idea")
+	id("multiloader-common")
 }
 
 val commonJava: Configuration by configurations.creating {

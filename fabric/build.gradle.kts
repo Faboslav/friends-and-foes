@@ -1,6 +1,6 @@
 plugins {
-	id("fabric-loom-compat")
 	id("multiloader-loader")
+	id("fabric-loom-compat")
 	id("dev.kikugie.fletching-table.fabric") version "0.1.0-alpha.23"
 }
 
@@ -27,11 +27,11 @@ dependencies {
 		})
 	}
 
-	modImplementation("net.fabricmc:fabric-loader:${commonMod.dep("fabric-loader")}")
-	modApi("net.fabricmc.fabric-api:fabric-api:${commonMod.dep("fabric-api")}+${commonMod.mc}")
+	modImplementation("net.fabricmc:fabric-loader:${commonMod.dep("fabric_loader")}")
+	modApi("net.fabricmc.fabric-api:fabric-api:${commonMod.dep("fabric_api")}+${commonMod.mc}")
 
 	// Required dependencies
-	modImplementation("com.teamresourceful.resourcefullib:resourcefullib-fabric-${commonMod.dep("resourceful-lib.mc")}:${commonMod.dep("resourceful-lib.lib")}")
+	modImplementation("com.teamresourceful.resourcefullib:resourcefullib-fabric-${commonMod.dep("resourceful_lib.mc")}:${commonMod.dep("resourceful_lib.lib")}")
 
 	commonMod.depOrNull("yacl")?.let { yaclVersion ->
 		modImplementation("dev.isxander:yet-another-config-lib:${yaclVersion}-fabric")
@@ -80,8 +80,11 @@ loom {
 		}
 	}
 
-	mixin {
-		defaultRefmapName = "${mod.id}.refmap.json"
+	if (stonecutter.eval(commonMod.mc, "<=1.21.11")) {
+		mixin {
+			useLegacyMixinAp = true
+			defaultRefmapName = "${mod.id}.refmap.json"
+		}
 	}
 }
 

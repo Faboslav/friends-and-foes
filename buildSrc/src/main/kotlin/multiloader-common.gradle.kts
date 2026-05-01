@@ -1,6 +1,7 @@
 plugins {
-	id("java-library")
+	id("java")
 	id("idea")
+	id("java-library")
 }
 
 version = "${loader}-${commonMod.version}+mc${stonecutterBuild.current.version}"
@@ -18,44 +19,105 @@ java {
 }
 
 repositories {
-    mavenCentral()
-    exclusiveContent {
-        forRepository {
-            maven("https://repo.spongepowered.org/repository/maven-public") { name = "Sponge" }
-        }
-        filter { includeGroupAndSubgroups("org.spongepowered") }
-    }
-    exclusiveContent {
-        forRepositories(
-            maven("https://maven.parchmentmc.org") { name = "ParchmentMC" },
-            maven("https://maven.neoforged.net/releases") { name = "NeoForge" },
-        )
-        filter { includeGroup("org.parchmentmc.data") }
-    }
-	maven("https://www.cursemaven.com")
+	mavenCentral()
+	exclusiveContent {
+		forRepository {
+			maven("https://repo.spongepowered.org/repository/maven-public") { name = "Sponge" }
+		}
+		filter { includeGroupAndSubgroups("org.spongepowered") }
+	}
+	exclusiveContent {
+		forRepositories(
+			maven("https://maven.parchmentmc.org") { name = "ParchmentMC" },
+			maven("https://maven.neoforged.net/releases") { name = "NeoForge" },
+		)
+		filter { includeGroup("org.parchmentmc.data") }
+	}
 	maven("https://api.modrinth.com/maven") {
 		name = "Modrinth"
 		content {
 			includeGroup("maven.modrinth")
 		}
 	}
-	maven("https://maven.resourcefulbees.com/repository/maven-public/") { name = "ResourcefulBees" }
-	maven("https://maven.terraformersmc.com/releases/") { name = "TerraformersMC" }
-	maven("https://maven.isxander.dev/releases")
-	maven("https://maven.isxander.dev/snapshots")
-	maven("https://maven.quiltmc.org/repository/release")
-	maven("https://oss.sonatype.org/content/repositories/snapshots")
-	maven("https://maven.ladysnake.org/releases") { name = "Ladysnake Libs" }
-	maven("https://maven.theillusivec4.top/")
-	maven("https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1")
-
-	maven("https://maven.jamieswhiteshirt.com/libs-release") {
+	maven("https://www.cursemaven.com") {
 		content {
-			includeGroup("com.jamieswhitefshirt")
+			includeGroup("curse.maven")
 		}
 	}
-
-	maven("https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1")
+	maven("https://maven.terraformersmc.com/releases/") {
+		name = "TerraformersMC"
+		content {
+			includeGroup("dev.emi")
+			includeGroupAndSubgroups("com.terraformersmc")
+		}
+	}
+	maven("https://thedarkcolour.github.io/KotlinForForge/") {
+		name = "KotlinForForge"
+		content {
+			includeGroup("thedarkcolour")
+		}
+	}
+	maven("https://maven.isxander.dev/releases") {
+		content {
+			includeGroupAndSubgroups("dev.isxander")
+			includeGroupAndSubgroups("org.quiltmc.parsers")
+		}
+	}
+	maven("https://maven.isxander.dev/snapshots") {
+		content {
+			includeGroupAndSubgroups("dev.isxander")
+		}
+	}
+	maven("https://maven.quiltmc.org/repository/release") {
+		content {
+			includeGroupAndSubgroups("org.quiltmc")
+		}
+	}
+	maven("https://maven.ladysnake.org/releases") {
+		name = "Ladysnake Libs"
+		content {
+			includeGroupAndSubgroups("org.ladysnake")
+			includeGroupAndSubgroups("org.ladysnake.cardinal-components-api")
+			includeGroupAndSubgroups("dev.onyxstudios")
+			includeGroup("dev.emi")
+		}
+	}
+	maven("https://maven.theillusivec4.top/") {
+		content {
+			includeGroupAndSubgroups("top.theillusivec4")
+		}
+	}
+	maven("https://maven.jamieswhiteshirt.com/libs-release") {
+		content {
+			includeGroup("com.jamieswhiteshirt")
+		}
+	}
+	maven("https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1") {
+		name = "DevAuth"
+		content {
+			includeGroup("me.djtheredstoner")
+		}
+	}
+	maven("https://maven.resourcefulbees.com/repository/maven-public/") {
+		name = "ResourcefulBees"
+		content {
+			includeGroupAndSubgroups("com.teamresourceful")
+			includeGroupAndSubgroups("earth.terrarium")
+		}
+	}
+	maven("https://oss.sonatype.org/content/repositories/snapshots") {
+		content {
+			includeGroupByRegex(".*")
+		}
+	}
+	maven("https://maven.ladysnake.org/releases") {
+		name = "Ladysnake Libs"
+		content {
+			includeGroup("dev.emi")
+			includeGroupAndSubgroups("io.github.ladysnake")
+			includeGroupAndSubgroups("dev.onyxstudios")
+		}
+	}
 }
 
 tasks {
@@ -73,11 +135,11 @@ tasks {
 			"modDiscord" to commonMod.discord,
 			"minecraftVersion" to commonMod.propOrNull("minecraft_version"),
 			"minMinecraftVersion" to commonMod.propOrNull("min_minecraft_version"),
-			"fabricLoaderVersion" to commonMod.depOrNull("fabric-loader"),
-			"fabricApiVersion" to commonMod.depOrNull("fabric-api"),
+			"fabricLoaderVersion" to commonMod.depOrNull("fabric_loader"),
+			"fabricApiVersion" to commonMod.depOrNull("fabric_api"),
 			"neoForgeVersion" to commonMod.depOrNull("neoforge"),
-			"resourcefulLibMcVersion" to commonMod.depOrNull("resourceful-lib.mc"),
-			"resourcefulLibLibVersion" to commonMod.depOrNull("resourceful-lib.lib"),
+			"resourcefulLibMcVersion" to commonMod.depOrNull("resourceful_lib.mc"),
+			"resourcefulLibLibVersion" to commonMod.depOrNull("resourceful_lib.lib"),
 		).filterValues { it?.isNotEmpty() == true }.mapValues { (_, v) -> v!! }
 
 		val jsonExpandProps = expandProps.mapValues { (_, v) -> v.replace("\n", "\\\\n") }

@@ -36,15 +36,9 @@ dependencies {
 		})
 	}
 
-    compileOnly("org.spongepowered:mixin:0.8.5")
+	modCompileOnly("net.fabricmc:fabric-loader:${commonMod.dep("fabric_loader")}")
+	modCompileOnly("com.teamresourceful.resourcefullib:resourcefullib-common-${commonMod.dep("resourceful_lib.mc")}:${commonMod.dep("resourceful_lib.lib")}")
 
-    "io.github.llamalad7:mixinextras-common:0.5.0".let {
-        compileOnly(it)
-        annotationProcessor(it)
-    }
-
-	modCompileOnly("net.fabricmc:fabric-loader:${commonMod.dep("fabric-loader")}")
-	modCompileOnly("com.teamresourceful.resourcefullib:resourcefullib-common-${commonMod.dep("resourceful-lib.mc")}:${commonMod.dep("resourceful-lib.lib")}")
 	commonMod.depOrNull("yacl")?.let { yaclVersion ->
 		modCompileOnly("dev.isxander:yet-another-config-lib:${yaclVersion}-fabric")
 	}
@@ -61,13 +55,15 @@ val commonResources: Configuration by configurations.creating {
 }
 
 artifacts {
-	val mainSourceSet = sourceSets.main.get()
+	afterEvaluate {
+		val mainSourceSet = sourceSets.main.get()
 
-	mainSourceSet.java.sourceDirectories.files.forEach {
-		add(commonJava.name, it)
-	}
+		mainSourceSet.java.sourceDirectories.files.forEach {
+			add(commonJava.name, it)
+		}
 
-	mainSourceSet.resources.sourceDirectories.files.forEach {
-		add(commonResources.name, it)
+		mainSourceSet.resources.sourceDirectories.files.forEach {
+			add(commonResources.name, it)
+		}
 	}
 }

@@ -26,13 +26,7 @@ neoForge {
 
 dependencies {
 	// Required dependencies
-	implementation(
-		"com.teamresourceful.resourcefullib:resourcefullib-neoforge-${commonMod.dep("resourceful-lib.mc")}:${
-			commonMod.dep(
-				"resourceful-lib.lib"
-			)
-		}"
-	)
+	implementation("com.teamresourceful.resourcefullib:resourcefullib-neoforge-${commonMod.dep("resourceful_lib.mc")}:${commonMod.dep("resourceful_lib.lib")}")
 	commonMod.depOrNull("yacl")?.let { yaclVersion ->
 		implementation("dev.isxander:yet-another-config-lib:${yaclVersion}-neoforge")
 	}

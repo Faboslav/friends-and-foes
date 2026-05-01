@@ -44,10 +44,7 @@ public final class PenguinBrain
 	/*public static Brain<PenguinEntity> create(Dynamic<?> dynamic) {
 		Brain<PenguinEntity> brain = BRAIN_PROVIDER.makeBrain(dynamic);
 
-		addCoreActivities(brain);
-		addFightActivities(brain);
-		addAvoidActivities(brain);
-		addIdleActivities(brain);
+		addActivities(brain);
 
 		brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
 		brain.setDefaultActivity(Activity.IDLE);

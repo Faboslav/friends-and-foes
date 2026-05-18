@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.fabric.modcompat;
 
 //? if trinkets {
-/*import com.faboslav.friendsandfoes.common.modcompat.ModCompat;
+import com.faboslav.friendsandfoes.common.modcompat.ModCompat;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -10,10 +10,16 @@ import java.util.List;
 import java.util.function.Predicate;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import dev.emi.trinkets.api.SlotReference;
+
+//? if >=26.1 {
+import eu.pb4.trinkets.api.TrinketSlotAccess;
+import eu.pb4.trinkets.api.TrinketsApi;
+//?} else {
+/*import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.TrinketsApi;
+*///?}
 
 public final class TrinketsCompat implements ModCompat
 {
@@ -25,14 +31,19 @@ public final class TrinketsCompat implements ModCompat
 	@Override
 	@Nullable
 	public ItemStack getEquippedItemFromCustomSlots(Entity entity, Predicate<ItemStack> itemStackPredicate) {
-		if (entity instanceof Player player) {
-			return TrinketsApi.getTrinketComponent(player).map(component -> {
+		if (entity instanceof LivingEntity livingEntity) {
+			//? if >=26.1 {
+			List<Tuple<TrinketSlotAccess, ItemStack>> res = TrinketsApi.getAttachment(livingEntity).getEquipped(itemStackPredicate);
+			return !res.isEmpty() ? res.get(0).getB() : null;
+			//?} else {
+			/*return TrinketsApi.getTrinketComponent(livingEntity).map(component -> {
 				List<Tuple<SlotReference, ItemStack>> res = component.getEquipped(itemStackPredicate);
-				return !res.isEmpty() ? res.get(0).getB():null;
+				return !res.isEmpty() ? res.get(0).getB() : null;
 			}).orElse(null);
+			*///?}
 		}
 
 		return null;
 	}
 }
-*///?}
+//?}

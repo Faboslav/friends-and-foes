@@ -46,7 +46,9 @@ dependencies {
 	// Compat dependencies
 	// Trinkets (https://www.curseforge.com/minecraft/mc-mods/trinkets)
 	commonMod.depOrNull("trinkets")?.let { trinketsVersion ->
-		if (commonMod.mc == "1.21.1") {
+		if (stonecutter.eval(commonMod.mc, ">=26.1")) {
+			modImplementation(fletchingTable.modrinth("trinkets-updated", commonMod.mc, "fabric"))
+		} else if (commonMod.mc == "1.21.1") {
 			modImplementation("dev.emi:trinkets:${trinketsVersion}")
 		} else {
 			modImplementation(fletchingTable.modrinth("trinkets-canary", commonMod.mc, "fabric"))

@@ -46,13 +46,15 @@ dependencies {
 	// Compat dependencies
 	// Trinkets (https://www.curseforge.com/minecraft/mc-mods/trinkets)
 	commonMod.depOrNull("trinkets")?.let { trinketsVersion ->
-		if (commonMod.mc == "1.21.1") {
-			modImplementation("dev.emi:trinkets:${trinketsVersion}")
-		} else {
+		if (stonecutter.eval(commonMod.mc, ">=26.1")) {
+			modImplementation(fletchingTable.modrinth("trinkets-updated", commonMod.mc, "fabric"))
+		} else if (stonecutter.eval(commonMod.mc, ">1.21.1")) {
 			modImplementation(fletchingTable.modrinth("trinkets-canary", commonMod.mc, "fabric"))
 
 			modImplementation("org.ladysnake.cardinal-components-api:cardinal-components-base:7.3.0")
 			modImplementation("org.ladysnake.cardinal-components-api:cardinal-components-entity:7.3.0")
+		} else {
+			modImplementation("dev.emi:trinkets:${trinketsVersion}")
 		}
 	}
 

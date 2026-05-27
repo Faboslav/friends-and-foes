@@ -1,0 +1,7 @@
+{
+	//? if >=26.1 {
+	"icon": "trinkets:container/slots/charm"
+	//?} else {
+	/*"icon": "trinkets:gui/slots/charm"
+	*///?}
+}

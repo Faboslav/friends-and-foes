@@ -30,7 +30,6 @@ public class GlareStrollTask extends Behavior<GlareEntity>
 	@Override
 	protected void start(ServerLevel world, GlareEntity glare, long time) {
 		this.updateCachedPathHolder(glare);
-		glare.getNavigation().moveTo(glare.cachedPathHolder.cachedPath, 1);
 	}
 
 	@Override
@@ -42,7 +41,7 @@ public class GlareStrollTask extends Behavior<GlareEntity>
 		if (
 			glare.cachedPathHolder.pathTimer > 20
 			|| glare.cachedPathHolder.cachedPath == null
-			|| (glare.getSpeed() <= 0.05d && glare.cachedPathHolder.pathTimer > 5)
+			|| (glare.getDeltaMovement().length() <= 0.05d && glare.cachedPathHolder.pathTimer > 5)
 			|| glare.blockPosition().distManhattan(glare.cachedPathHolder.cachedPath.getTarget()) <= 4
 		) {
 			BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos().set(glare.blockPosition());
@@ -81,10 +80,14 @@ public class GlareStrollTask extends Behavior<GlareEntity>
 			}
 
 			Path newPath = glare.getNavigation().createPath(mutable, 1);
+			glare.getNavigation().moveTo(newPath, 1);
 
-			glare.cachedPathHolder.cachedPath = newPath;
-			glare.cachedPathHolder.pathTimer = 0;
+			if(newPath != null) {
+				glare.cachedPathHolder.cachedPath = newPath;
+				glare.cachedPathHolder.pathTimer = 0;
+			}
 		} else {
+			glare.getNavigation().moveTo(glare.cachedPathHolder.cachedPath, 1);
 			glare.cachedPathHolder.pathTimer += 1;
 		}
 	}

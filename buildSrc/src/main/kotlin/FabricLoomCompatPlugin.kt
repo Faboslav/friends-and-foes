@@ -5,6 +5,7 @@ import org.gradle.api.tasks.TaskProvider
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.the
+import org.gradle.kotlin.dsl.named
 
 open class FabricLoomCompatPlugin : Plugin<Project> {
 	override fun apply(target: Project): Unit = with(target) {
@@ -45,15 +46,13 @@ open class FabricLoomCompatPlugin : Plugin<Project> {
 
 	open class FabricExtensions(val project: Project, val isNew: Boolean) {
 		val modJar: TaskProvider<Jar> by lazy {
-			val candidate = if (isNew) project.tasks.named("jar")
-			else project.tasks.named("remapJar")
-			candidate as TaskProvider<Jar>
+			if (isNew) project.tasks.named<Jar>("jar")
+			else project.tasks.named<Jar>("remapJar")
 		}
 
 		val modSourcesJar: TaskProvider<Jar> by lazy {
-			val candidate = if (isNew) project.tasks.named("sourcesJar")
-			else project.tasks.named("remapSourcesJar")
-			candidate as TaskProvider<Jar>
+			if (isNew) project.tasks.named<Jar>("sourcesJar")
+			else project.tasks.named<Jar>("remapSourcesJar")
 		}
 	}
 }

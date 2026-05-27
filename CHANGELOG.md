@@ -1,3 +1,8 @@
+## 4.0.26
+
+- Fixed trinket compatibility and missing texture
+- Fixed wax_on/wax_off advancement trigger and translation
+
 ## 4.0.25
 
 - Fixed baby moobloom cow model and texture

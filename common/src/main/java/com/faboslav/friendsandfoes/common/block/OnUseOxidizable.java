@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.common.block;
 
+import com.faboslav.friendsandfoes.common.util.AdvancementHelper;
 import com.faboslav.friendsandfoes.common.util.WaxableBlocksMap;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
 import com.faboslav.friendsandfoes.common.versions.VersionedInteractionResult;
@@ -65,8 +66,9 @@ public final class OnUseOxidizable
 			Optional<BlockState> possibleWaxedState = OnUseOxidizable.getWaxedState(blockState);
 
 			if (possibleWaxedState.isPresent()) {
-				if (player instanceof ServerPlayer) {
-					CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, blockPos, itemStack);
+				if (player instanceof ServerPlayer serverPlayer) {
+					CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, blockPos, itemStack);
+					AdvancementHelper.triggerWaxOn(world, serverPlayer);
 				}
 
 				if (!player.isCreative()) {
@@ -95,8 +97,9 @@ public final class OnUseOxidizable
 			}
 
 			if (possibleState.isPresent()) {
-				if (player instanceof ServerPlayer) {
-					CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, blockPos, itemStack);
+				if (player instanceof ServerPlayer serverPlayer) {
+					CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, blockPos, itemStack);
+					AdvancementHelper.triggerWaxOff(world, serverPlayer);
 				}
 
 				world.setBlock(blockPos, possibleState.get(), 11);

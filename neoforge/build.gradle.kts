@@ -10,7 +10,7 @@ fletchingTable {
 	}
 
 	accessConverter.register("main") {
-		add("accesswideners/${commonMod.mc}-friendsandfoes.accesswidener")
+		add("accesswideners/${commonMod.mc}-${mod.id}.accesswidener")
 	}
 }
 

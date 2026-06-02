@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.common.entity.animation;
 
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.context.KeyframeAnimationContext;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
@@ -102,9 +103,17 @@ public interface AnimatedEntity
 		keyframeAnimationContext.getAnimationState().start(initialTick);
 	}
 
+	default void stopAllKeyframeAnimations() {
+		for (AnimationHolder animationHolder : this.getTrackedAnimations()) {
+			this.stopKeyframeAnimation(animationHolder);
+		}
+	}
+
 	default void stopRunningAnimations() {
 		for (AnimationHolder animationHolder : this.getTrackedAnimations()) {
+			FriendsAndFoes.getLogger().info("Will stop:" + animationHolder.get() + " at initial tick: " + this.getAnimationContextTracker().get(animationHolder).initialTick + " and current tick: " + this.getAnimationContextTracker().get(animationHolder).currentTick);
 			if (!this.getAnimationContextTracker().get(animationHolder).isRunning()) {
+				FriendsAndFoes.getLogger().info("Stopping: " + animationHolder.get().name());
 				this.stopKeyframeAnimation(animationHolder);
 			}
 		}

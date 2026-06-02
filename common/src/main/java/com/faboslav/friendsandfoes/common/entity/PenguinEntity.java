@@ -214,7 +214,11 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 			var animationToStart = this.getAnimationByPose();
 
 			if (animationToStart != null) {
+				FriendsAndFoes.getLogger().info("Will start animation: " + animationToStart.get().name());
 				this.tryToStartAnimation(animationToStart);
+			} else {
+				FriendsAndFoes.getLogger().info("Stopping all animations");
+				this.stopAllKeyframeAnimations();
 			}
 		}
 
@@ -384,13 +388,7 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 	public AnimationHolder getAnimationByPose() {
 		AnimationHolder animation = null;
 
-		if(this.isInEntityPose(FriendsAndFoesEntityPose.IDLE) && !this.isMoving()) {
-			if (this.isUnderWater()) {
-				animation = PenguinAnimations.IDLE_WATER;
-			} else {
-				animation = PenguinAnimations.IDLE;
-			}
-		} else if (this.isInEntityPose(FriendsAndFoesEntityPose.WING_FLAP)) {
+		if (this.isInEntityPose(FriendsAndFoesEntityPose.WING_FLAP)) {
 			animation = PenguinAnimations.WING_FLAP;
 		}
 
@@ -402,7 +400,7 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 			return;
 		}
 
-		//FriendsAndFoes.getLogger().info("Starting animation: " + animationToStart.get().name());
+		FriendsAndFoes.getLogger().info("Starting animation: " + animationToStart.get().name());
 		this.startKeyframeAnimation(animationToStart);
 	}
 
@@ -412,10 +410,12 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 				continue;
 			}
 
+			/*
 			if(!animation.get().looping() && isKeyframeAnimationAtLastKeyframe(animation)) {
-				//FriendsAndFoes.getLogger().info("Stopping animation: " + animation.get().name());
-			}
+				FriendsAndFoes.getLogger().info("Stopping animation: " + animation.get().name());
+			}*/
 
+			FriendsAndFoes.getLogger().info("Stopping animation: " + animation.get().name());
 			this.stopKeyframeAnimation(animation);
 		}
 
@@ -423,7 +423,7 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 			this.setCurrentAnimationTick(animationToStart.get().lengthInTicks());
 		}
 
-		//FriendsAndFoes.getLogger().info("Starting animation: " + animationToStart.get().name() + " with tick count: " + this.tickCount);
+		FriendsAndFoes.getLogger().info("Starting animation: " + animationToStart.get().name() + " with tick count: " + this.tickCount);
 		this.startKeyframeAnimation(animationToStart, this.tickCount);
 	}
 
@@ -443,7 +443,7 @@ public final class PenguinEntity extends Animal implements AnimatedEntity {
 			return;
 		}
 
-		//FriendsAndFoes.getLogger().info("Setting entity pose to: " + pose);
+		FriendsAndFoes.getLogger().info("Setting entity pose to: " + pose);
 		this.entityData.set(ENTITY_POSE, pose);
 	}
 

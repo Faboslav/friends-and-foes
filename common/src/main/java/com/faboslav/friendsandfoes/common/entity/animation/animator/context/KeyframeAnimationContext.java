@@ -5,8 +5,8 @@ import com.faboslav.friendsandfoes.common.entity.animation.AnimationState;
 public final class KeyframeAnimationContext
 {
 	private AnimationState animationState;
-	private int initialTick;
-	private int currentTick;
+	public int initialTick;
+	public int currentTick;
 
 	public KeyframeAnimationContext() {
 		this.initialTick = 0;

@@ -91,6 +91,8 @@
 	"item.friendsandfoes.wildfire_spawn_egg": "Wildfire Spawn Egg",
 	"item.friendsandfoes.crab_egg": "Crab Egg",
 	"item.friendsandfoes.crab_claw": "Crab Claw",
+	"item.friendsandfoes.penguin_egg": "Penguin Egg",
+	"item.friendsandfoes.penguin_feather": "Penguin Feather",
 	"item.friendsandfoes.totem_of_freezing": "Totem of Freezing",
 	"item.friendsandfoes.totem_of_illusion": "Totem of Illusion",
 	"friendsandfoes.totem_trigger_tooltip": "Triggers when taking damage and health falls below half of your max health.",

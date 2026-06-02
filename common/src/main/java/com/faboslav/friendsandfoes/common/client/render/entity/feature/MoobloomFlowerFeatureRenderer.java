@@ -98,7 +98,7 @@ public final class MoobloomFlowerFeatureRenderer extends RenderLayer<MoobloomRen
 			}
 
 			float scaleFactor = (flower instanceof DoublePlantBlock) ? 0.6F : 0.8F;
-			float yOffset    = (flower instanceof DoublePlantBlock) ? -0.666F : -0.5F;
+			float yOffset = (flower instanceof DoublePlantBlock) ? -0.666F : -0.5F;
 
 			Minecraft minecraft = Minecraft.getInstance();
 			boolean renderAsModel = minecraft.shouldEntityAppearGlowing(moobloom) && moobloom.isInvisible();

@@ -164,11 +164,9 @@ public final class FriendsAndFoesItems
 			 //?} else if >=1.21.4 {
 			/*var spawnEgg = new SpawnEggItem(typeIn.get(), new Item.Properties().stacksTo(64).setId(ResourceKey.create(Registries.ITEM, FriendsAndFoes.makeID(id))));
 			 *///?} else =1.21.3 {
-			/*var spawnEgg = new SpawnEggItem(typeIn.get(), primaryColorIn, secondaryColorIn, new Item.Properties().stacksTo(64).setId(ResourceKey.create(Registries.ITEM, FriendsAndFoes.makeId(id))));
-			/*///?} else >=1.21.1 {
+			/*var spawnEgg = new SpawnEggItem(typeIn.get(), primaryColorIn, secondaryColorIn, new Item.Properties().stacksTo(64).setId(ResourceKey.create(Registries.ITEM, FriendsAndFoes.makeID(id))));
+			/*///?} else {
 			/*var spawnEgg = new SpawnEggItem(typeIn.get(), primaryColorIn, secondaryColorIn, new Item.Properties().stacksTo(64));
-			*///?} else {
-			/*var spawnEgg = new DispenserAddedSpawnEgg(typeIn, primaryColorIn, secondaryColorIn, new Item.Properties().stacksTo(64));
 			 *///?}
 
 			SPAWN_EGGS.add(new Pair<>(typeIn, spawnEgg));

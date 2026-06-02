@@ -84,7 +84,7 @@ public final class PenguinWingFlapTask extends Behavior<PenguinEntity>
 			return;
 		}
 
-		if (wingFlapTicks % 5 == 0 && penguin.getRandom().nextFloat() > 0.98 && !this.hasDroppedFeather) {
+		if (wingFlapTicks % 5 == 0 && penguin.getRandom().nextFloat() > 0.99 && !this.hasDroppedFeather) {
 			if (VersionedGameRulesProvider.getBoolean(penguin, VersionedGameRulesProvider.MOB_DROPS)) {
 				this.hasDroppedFeather = true;
 				VersionedEntity.spawnAtLocation(penguin, FriendsAndFoesItems.PENGUIN_FEATHER.get().getDefaultInstance(), 1);

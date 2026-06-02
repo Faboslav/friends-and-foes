@@ -4,7 +4,7 @@ version=${1:-}
 
 parse_properties_file() {
     local file=$1
-    while IFS='=' read -r key value; do
+    while IFS='=' read -r key value || [[ -n "$key" ]]; do
         key=$(echo "$key" | awk '{$1=$1;print}')
         value=$(echo "$value" | awk '{$1=$1;print}')
 

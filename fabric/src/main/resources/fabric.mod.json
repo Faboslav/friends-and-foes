@@ -58,10 +58,8 @@
 		"catalogue": {
 			"configFactory": "com.faboslav.friendsandfoes.fabric.modcompat.CatalogueCompat",
 			"icon": {
-				"image": "catalogue_icon.png"
-			},
-			"banner": "catalogue_logo.png",
-			"background": "catalogue_background.png"
+				"image": "icon.png"
+			}
 		},
 		"mc-publish": {
 			"dependencies": [

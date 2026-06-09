@@ -59,6 +59,4 @@ modrinth = "resourceful-lib"
 curseforge = "resourceful-lib"
 
 [modproperties.${ modId }]
-catalogueImageIcon = "catalogue_icon.png"
-catalogueBackground = "catalogue_background.png"
-configuredBackground = "catalogue_background.png"
+catalogueImageIcon = "icon.png"

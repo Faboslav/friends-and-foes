@@ -56,14 +56,17 @@ import net.minecraft.world.entity.EntitySpawnReason;
 /*import net.minecraft.world.entity.MobSpawnType;
  *///?}
 
-public final class RascalEntity extends AgeableMob implements AnimatedEntity
+public final class RascalEntity extends AgeableMob
 {
-	private AnimationContextTracker animationContextTracker;
-	private static final EntityDataAccessor<Integer> POSE_TICKS = SynchedEntityData.defineId(RascalEntity.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<FriendsAndFoesEntityPose> ENTITY_POSE = SynchedEntityData.defineId(RascalEntity.class, FriendsAndFoesEntityDataSerializers.ENTITY_POSE);
 	private static final EntityDataAccessor<Integer> CAUGHT_COUNT = SynchedEntityData.defineId(RascalEntity.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<Integer> DAMAGE_COUNT = SynchedEntityData.defineId(RascalEntity.class, EntityDataSerializers.INT);
 	private boolean ambientSounds;
+
+	public final AnimationState idleAnimationState = new AnimationState();
+	public final AnimationState nodAnimationState = new AnimationState();
+	public final AnimationState giveRewardAnimationState = new AnimationState();
+	public final AnimationState walkAnimationState = new AnimationState();
 
 	public RascalEntity(EntityType<? extends AgeableMob> entityType, Level world) {
 		super(entityType, world);
@@ -138,52 +141,11 @@ public final class RascalEntity extends AgeableMob implements AnimatedEntity
 		return true;
 	}
 
-	@Override
-	public AnimationContextTracker getAnimationContextTracker() {
-		if (this.animationContextTracker == null) {
-			this.animationContextTracker = new AnimationContextTracker();
-
-			for (var trackedAnimation: this.getTrackedAnimations()) {
-				this.animationContextTracker.add(trackedAnimation);
-			}
-
-			for (var idleAnimation: this.getIdleAnimations()) {
-				this.animationContextTracker.add(idleAnimation);
-			}
-		}
-
-		return this.animationContextTracker;
-	}
-
-	@Override
-	public ArrayList<AnimationHolder> getIdleAnimations() {
-		return RascalAnimations.IDLE_ANIMATIONS;
-	}
-
-	@Override
-	public ArrayList<AnimationHolder> getTrackedAnimations() {
-		return RascalAnimations.TRACKED_ANIMATIONS;
-	}
-
-	@Override
-	public AnimationHolder getMovementAnimation() {
-		return RascalAnimations.WALK;
-	}
-
-	@Override
-	public int getCurrentAnimationTick() {
-		return this.entityData.get(POSE_TICKS);
-	}
-
-	public void setCurrentAnimationTick(int keyframeAnimationTicks) {
-		this.entityData.set(POSE_TICKS, keyframeAnimationTicks);
-	}
 
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder builder) {
 		super.defineSynchedData(builder);
 
-		builder.define(POSE_TICKS, 0);
 		builder.define(ENTITY_POSE, FriendsAndFoesEntityPose.IDLE);
 		builder.define(CAUGHT_COUNT, 0);
 		builder.define(DAMAGE_COUNT, 0);
@@ -250,60 +212,30 @@ public final class RascalEntity extends AgeableMob implements AnimatedEntity
 			this.playReappearSound();
 		}
 
-		this.updateKeyframeAnimations();
+		if (this.level().isClientSide()) {
+			this.idleAnimationState.animateWhen(!this.isInWater() && !this.walkAnimation.isMoving(), this.tickCount);
+		}
 
 		super.tick();
 	}
 
-	private void updateKeyframeAnimations() {
-		if (!this.level().isClientSide()) {
-			this.updateCurrentAnimationTick();
-		}
-
-		AnimationHolder animationToStart = this.getAnimationByPose();
-
-		if (animationToStart != null) {
-			this.tryToStartAnimation(animationToStart);
-		}
-	}
-
-	@Nullable
-	public AnimationHolder getAnimationByPose() {
-		AnimationHolder animation = null;
-
-		if (this.isInEntityPose(FriendsAndFoesEntityPose.IDLE) && !this.isMoving()) {
-			animation = RascalAnimations.IDLE;
-		} else if (this.isInEntityPose(FriendsAndFoesEntityPose.NOD)) {
-			animation = RascalAnimations.NOD;
-		} else if (this.isInEntityPose(FriendsAndFoesEntityPose.GIVE_REWARD)) {
-			animation = RascalAnimations.GIVE_REWARD;
-		}
-
-		return animation;
-	}
-
-	private void tryToStartAnimation(AnimationHolder animationToStart) {
-		if (this.isKeyframeAnimationRunning(animationToStart)) {
-			return;
-		}
-
-		if (!this.level().isClientSide()) {
-			this.setCurrentAnimationTick(animationToStart.get().lengthInTicks());
-		}
-
-		this.startKeyframeAnimation(animationToStart);
-	}
-
-	private void startKeyframeAnimation(AnimationHolder animationToStart) {
-		for (var animation : this.getTrackedAnimations()) {
-			if (animation == animationToStart) {
-				continue;
+	@Override
+	public void onSyncedDataUpdated(EntityDataAccessor<?> dataAccessor) {
+		if (ENTITY_POSE.equals(dataAccessor)) {
+			if (this.isInEntityPose(FriendsAndFoesEntityPose.NOD)) {
+				this.nodAnimationState.start(this.tickCount);
+			} else {
+				this.nodAnimationState.stop();
 			}
 
-			this.stopKeyframeAnimation(animation);
+			if (this.isInEntityPose(FriendsAndFoesEntityPose.GIVE_REWARD)) {
+				this.giveRewardAnimationState.start(this.tickCount);
+			} else {
+				this.giveRewardAnimationState.stop();
+			}
 		}
 
-		this.startKeyframeAnimation(animationToStart, this.tickCount);
+		super.onSyncedDataUpdated(dataAccessor);
 	}
 
 	public void setEntityPose(FriendsAndFoesEntityPose pose) {

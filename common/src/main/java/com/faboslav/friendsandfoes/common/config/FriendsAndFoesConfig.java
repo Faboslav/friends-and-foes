@@ -80,7 +80,7 @@ public final class FriendsAndFoesConfig
 	public int penguinSpawnWeight = 4;
 	public int penguinSpawnMinGroupSize = 4;
 	public int penguinSpawnMaxGroupSize = 8;
-	public float penguinAbstractBoatSpeedStatusEffectModifier = 0.5F;
+	public float penguinBoatSpeedStatusEffectModifier = 0.5F;
 	public int penguinPotionOfGlidingDuration = 3600;
 	public int glidingStatusEffectModifier = 1;
 

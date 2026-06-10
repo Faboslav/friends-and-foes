@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.model;
 
-import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.KeyframeModelAnimator;
-import com.faboslav.friendsandfoes.common.entity.RascalEntity;
+import com.faboslav.friendsandfoes.common.entity.animation.RascalAnimations;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -9,6 +9,13 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
+
+//? if >= 1.21.6 {
+import net.minecraft.client.animation.KeyframeAnimation;
+//?} else {
+/*import net.minecraft.client.animation.AnimationDefinition;
+ *///?}
+
 
 //? if >=1.21.3 {
 import net.minecraft.client.model.EntityModel;
@@ -40,6 +47,18 @@ public final class RascalEntityModel extends EntityModel<RascalRenderState>
 	private final ModelPart leftLeg;
 	private final ModelPart rightLeg;
 
+	//? if >= 1.21.6 {
+	private final KeyframeAnimation idleAnimation;
+	private final KeyframeAnimation nodAnimation;
+	private final KeyframeAnimation giveRewardAnimation;
+	private final KeyframeAnimation walkAnimation;
+	//?} else {
+	/*private final AnimationDefinition idleAnimation;
+	private final AnimationDefinition nodAnimation;
+	private final AnimationDefinition giveRewardAnimation;
+	private final AnimationDefinition walkAnimation;
+	*///?}
+
 	public RascalEntityModel(ModelPart root) {
 		//? if >=1.21.3 {
 		super(root);
@@ -53,6 +72,18 @@ public final class RascalEntityModel extends EntityModel<RascalRenderState>
 		this.rightArm = this.root.getChild(MODEL_PART_RIGHT_ARM);
 		this.leftLeg = this.root.getChild(MODEL_PART_LEFT_LEG);
 		this.rightLeg = this.root.getChild(MODEL_PART_RIGHT_LEG);
+
+		//? if >= 1.21.6 {
+		this.idleAnimation = RascalAnimations.IDLE.bake(root);
+		this.nodAnimation = RascalAnimations.NOD.bake(root);
+		this.giveRewardAnimation = RascalAnimations.GIVE_REWARD.bake(root);
+		this.walkAnimation = RascalAnimations.WALK.bake(root);
+		//?} else {
+		/*this.idleAnimation = RascalAnimations.IDLE;
+		this.nodAnimation = RascalAnimations.NOD;
+		this.giveRewardAnimation = RascalAnimations.GIVE_REWARD;
+		this.walkAnimation = RascalAnimations.WALK;
+		*///?}
 	}
 
 	public static LayerDefinition getTexturedModelData() {
@@ -88,31 +119,18 @@ public final class RascalEntityModel extends EntityModel<RascalRenderState>
 	*///?}
 	{
 		//? if >=1.21.3 {
+		super.setupAnim(renderState);
 		var rascal = renderState.rascal;
-		var limbAngle = renderState.walkAnimationPos;
-		var limbDistance = renderState.walkAnimationSpeed;
-		var animationProgress = renderState.ageInTicks;
-		//?}
+		var limbSwing = renderState.walkAnimationPos;
+		var limbSwingAmount = renderState.walkAnimationSpeed;
+		var ageInTicks = renderState.ageInTicks;
+		//?} else {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
-		this.updateAnimations(rascal, limbAngle, limbDistance, animationProgress);
-	}
+		//?}
 
-	public void updateAnimations(
-		RascalEntity rascal,
-		float limbAngle,
-		float limbDistance,
-		float animationProgress
-	) {
-		var movementAnimation = rascal.getMovementAnimation();
-		var animationContextTracker = rascal.getAnimationContextTracker();
-		var currentTick = rascal.tickCount;
-		var animationSpeedModifier = 1.0F;
-
-		KeyframeModelAnimator.updateMovementKeyframeAnimations(this, movementAnimation, limbAngle, limbDistance, 1.5F, 2.5F, animationSpeedModifier);
-		KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, rascal.getTrackedAnimations(), currentTick, animationProgress, animationSpeedModifier);
-
-		if(!rascal.isMoving()) {
-			KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, rascal.getIdleAnimations(), currentTick, animationProgress, animationSpeedModifier);
-		}
+		VersionedEntityModel.Animate(this, this.idleAnimation, rascal.idleAnimationState, ageInTicks);
+		VersionedEntityModel.Animate(this, this.nodAnimation, rascal.nodAnimationState, ageInTicks);
+		VersionedEntityModel.Animate(this, this.giveRewardAnimation, rascal.giveRewardAnimationState, ageInTicks);
+		VersionedEntityModel.AnimateWalk(this, this.walkAnimation, limbSwing, limbSwingAmount, 1.5F, 2.5F);
 	}
 }

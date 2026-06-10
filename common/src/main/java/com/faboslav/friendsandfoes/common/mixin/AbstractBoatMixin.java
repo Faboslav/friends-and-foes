@@ -45,7 +45,7 @@ public abstract class AbstractBoatMixin
 		if (controllingPassenger != null && controllingPassenger.hasEffect(FriendsAndFoesStatusEffects.BOAT_SPEED.holder())) {
 			MobEffectInstance effectInstance = controllingPassenger.getEffect(FriendsAndFoesStatusEffects.BOAT_SPEED.holder());
 			int amplifier = effectInstance == null ? 0 : effectInstance.getAmplifier();
-			double bonusPerLevel = FriendsAndFoes.getConfig().penguinAbstractBoatSpeedStatusEffectModifier;
+			double bonusPerLevel = FriendsAndFoes.getConfig().penguinBoatSpeedStatusEffectModifier;
 			multiplier += bonusPerLevel * (amplifier + 1);
 		}
 

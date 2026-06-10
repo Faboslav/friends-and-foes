@@ -12,16 +12,15 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesItems;
 
-import java.util.Map;
-
 //? if >=1.21.3 {
-
+import java.util.HashMap;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeMap;
 //?} else {
 /*import net.minecraft.world.item.crafting.RecipeType;
+import java.util.Map;
 *///?}
 
 @Mixin(RecipeManager.class)

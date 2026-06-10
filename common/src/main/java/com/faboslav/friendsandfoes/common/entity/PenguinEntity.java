@@ -178,6 +178,7 @@ public final class PenguinEntity extends Animal {
 		super.tick();
 	}
 
+	@Override
 	public void onSyncedDataUpdated(EntityDataAccessor<?> dataAccessor) {
 		if (ENTITY_POSE.equals(dataAccessor)) {
 			if (this.isInEntityPose(FriendsAndFoesEntityPose.WING_FLAP)) {

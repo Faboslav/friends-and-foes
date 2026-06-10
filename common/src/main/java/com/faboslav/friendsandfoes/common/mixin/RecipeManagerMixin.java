@@ -1,15 +1,6 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-//? if >=1.21.3 {
-import com.faboslav.friendsandfoes.common.init.FriendsAndFoesItems;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.RecipeMap;
-//?} else {
-/*import net.minecraft.world.item.crafting.RecipeType;
-*///?}
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -19,16 +10,27 @@ import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesItems;
 
-import java.util.HashMap;
+import java.util.Map;
+
+//? if >=1.21.3 {
+
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeMap;
+//?} else {
+/*import net.minecraft.world.item.crafting.RecipeType;
+*///?}
 
 @Mixin(RecipeManager.class)
 public final class RecipeManagerMixin
 {
-	@Shadow
 	@Final
 	@Mutable
 	//? if >=1.21.3 {
+	@Shadow
 	private RecipeMap recipes;
 	//?} else {
 	/*private Map<RecipeType<?>, Map<Identifier, Recipe<?>>> recipes;

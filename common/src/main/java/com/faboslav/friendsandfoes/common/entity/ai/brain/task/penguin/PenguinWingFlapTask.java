@@ -22,7 +22,7 @@ import java.util.Map;
 public final class PenguinWingFlapTask extends Behavior<PenguinEntity>
 {
 	private final static int WAIT_TICKS = 5;
-	private final static int WING_FLAP_DURATION = PenguinAnimations.WING_FLAP.get().lengthInTicks();
+	private final static int WING_FLAP_DURATION = (int) Math.ceil(PenguinAnimations.WING_FLAP.lengthInSeconds() * 20) + 1;
 	private final static int WING_FLAP_TASK_DURATION = WING_FLAP_DURATION + (2 * WAIT_TICKS);
 
 	@Nullable
@@ -46,7 +46,7 @@ public final class PenguinWingFlapTask extends Behavior<PenguinEntity>
 
 	@Override
 	protected boolean checkExtraStartConditions(ServerLevel world, PenguinEntity penguin) {
-		if (penguin.getNavigation().isInProgress()) {
+		if (penguin.getNavigation().isInProgress() && penguin.isUnderWater()) {
 			return false;
 		}
 

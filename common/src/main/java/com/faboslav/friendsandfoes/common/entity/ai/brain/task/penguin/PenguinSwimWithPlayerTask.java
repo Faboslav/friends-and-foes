@@ -1,25 +1,20 @@
 package com.faboslav.friendsandfoes.common.entity.ai.brain.task.penguin;
 
-import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.PenguinEntity;
-import com.faboslav.friendsandfoes.common.entity.WildfireEntity;
-import com.faboslav.friendsandfoes.common.entity.ai.brain.WildfireBrain;
-import com.faboslav.friendsandfoes.common.entity.ai.brain.task.wildfire.WildfireShockwaveAttackTask;
-import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStatusEffects;
-import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import net.minecraft.world.entity.player.Player;
+
+//? if >= 1.21.10 {
 import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
+//?} else {
+/*import net.minecraft.world.entity.vehicle.Boat;
+*///?}
 
 import java.util.Map;
 
@@ -44,7 +39,11 @@ public class PenguinSwimWithPlayerTask extends Behavior<PenguinEntity>
 			|| player == null
 			|| !player.isAlive()
 			|| !player.isPassenger()
-			|| !(player.getVehicle() instanceof AbstractBoat)
+			//? if >= 1.21.10 {
+			|| !(this.player.getVehicle() instanceof AbstractBoat)
+			//?} else {
+			/*|| !(this.player.getVehicle() instanceof Boat)
+			*///?}
 		) {
 			return false;
 		}
@@ -69,7 +68,11 @@ public class PenguinSwimWithPlayerTask extends Behavior<PenguinEntity>
 			|| !this.player.isAlive()
 			|| !this.player.isPassenger()
 			|| !this.player.isPassenger()
+			//? if >= 1.21.10 {
 			|| !(this.player.getVehicle() instanceof AbstractBoat)
+			//?} else {
+			/*|| !(this.player.getVehicle() instanceof Boat)
+			*///?}
 		) {
 			return false;
 		}
@@ -86,7 +89,15 @@ public class PenguinSwimWithPlayerTask extends Behavior<PenguinEntity>
 			penguin.getNavigation().moveTo(this.player, 1.0F);
 		}
 
-		if (this.player.isPassenger() && (this.player.getVehicle() instanceof AbstractBoat) && this.player.level().getRandom().nextInt(6) == 0) {
+		if (
+			this.player.isPassenger()
+			//? if >= 1.21.10 {
+			&& this.player.getVehicle() instanceof AbstractBoat
+			//?} else {
+			/*&& this.player.getVehicle() instanceof Boat
+			*///?}
+			&& this.player.level().getRandom().nextInt(6) == 0
+		) {
 			this.player.addEffect(new MobEffectInstance(FriendsAndFoesStatusEffects.BOAT_SPEED.holder(), 100), penguin);
 		}
 

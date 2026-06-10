@@ -1,12 +1,20 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.model;
 
-import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.KeyframeModelAnimator;
-import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.ModelPartModelAnimator;
 import com.faboslav.friendsandfoes.common.entity.PenguinEntity;
+import com.faboslav.friendsandfoes.common.entity.animation.PenguinAnimations;
 import com.faboslav.friendsandfoes.common.util.animation.AnimationMath;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.util.Mth;
+
+//? if >= 1.21.6 {
+import net.minecraft.client.animation.KeyframeAnimation;
+//?} else {
+/*import net.minecraft.client.animation.AnimationDefinition;
+*///?}
+
 //? >=1.21.3 {
 import com.faboslav.friendsandfoes.common.client.render.entity.state.PenguinRenderState;
 import net.minecraft.client.model.EntityModel;
@@ -41,6 +49,20 @@ public final class PenguinEntityModel extends EntityModel<PenguinRenderState>
 	private final ModelPart leftLeg;
 	private final ModelPart rightLeg;
 
+	//? if >= 1.21.6 {
+	private final KeyframeAnimation wingFlapAnimation;
+	private final KeyframeAnimation idleAnimation;
+	private final KeyframeAnimation idleWaterAnimation;
+	private final KeyframeAnimation walkAnimation;
+	private final KeyframeAnimation swimAnimation;
+	//?} else {
+	/*private final AnimationDefinition wingFlapAnimation;
+	private final AnimationDefinition idleAnimation;
+	private final AnimationDefinition idleWaterAnimation;
+	private final AnimationDefinition walkAnimation;
+	private final AnimationDefinition swimAnimation;
+	*///?}
+
 	public PenguinEntityModel(ModelPart root) {
 		//? >=1.21.3 {
 		super(root);
@@ -56,6 +78,20 @@ public final class PenguinEntityModel extends EntityModel<PenguinRenderState>
 		this.rightWing = this.body.getChild(RIGHT_WING);
 		this.leftLeg = this.main.getChild(LEFT_LEG);
 		this.rightLeg = this.main.getChild(RIGHT_LEG);
+
+		//? if >= 1.21.6 {
+		this.wingFlapAnimation = PenguinAnimations.WING_FLAP.bake(root);
+		this.idleAnimation = PenguinAnimations.IDLE.bake(root);
+		this.idleWaterAnimation = PenguinAnimations.IDLE_WATER.bake(root);
+		this.walkAnimation = PenguinAnimations.WALK.bake(root);
+		this.swimAnimation = PenguinAnimations.SWIM.bake(root);
+		//?} else {
+		/*this.wingFlapAnimation = PenguinAnimations.WING_FLAP;
+		this.idleAnimation = PenguinAnimations.IDLE;
+		this.idleWaterAnimation = PenguinAnimations.IDLE_WATER;
+		this.walkAnimation = PenguinAnimations.WALK;
+		this.swimAnimation = PenguinAnimations.SWIM;
+		*///?}
 	}
 
 	public static LayerDefinition getTexturedModelData() {
@@ -92,57 +128,47 @@ public final class PenguinEntityModel extends EntityModel<PenguinRenderState>
 	//? >=1.21.3 {
 	public void setupAnim(PenguinRenderState renderState)
 	//?} else {
-	/*public void setupAnim(T penguin, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
+	/*public void setupAnim(T penguin, float limbSwing, float limbSwingAmount, float ageInTicks, float headYaw, float headPitch)
 	*///?}
 	{
 		//? >=1.21.3 {
+		super.setupAnim(renderState);
 		var penguin = renderState.penguin;
-		var limbAngle = renderState.walkAnimationPos;
-		var limbDistance = renderState.walkAnimationSpeed;
-		var animationProgress = renderState.ageInTicks;
-		//?}
-		this.root().getAllParts().forEach(ModelPart::resetPose);
-		this.animateSwimming(penguin);
-		this.updateAnimations(penguin, limbAngle, limbDistance, animationProgress);
+		var limbSwing = renderState.walkAnimationPos;
+		var limbSwingAmount = renderState.walkAnimationSpeed;
+		var ageInTicks = renderState.ageInTicks;
+		//?} else {
+		/*this.root().getAllParts().forEach(ModelPart::resetPose);
+		*///?}
+
+		var timeMultiplier = penguin.isUnderWater() ? 1.5F : 5.5F;
+		var speedMultiplier = penguin.isUnderWater() ? 4.0F : 4.5F;
+
+		VersionedEntityModel.Animate(this, this.wingFlapAnimation, penguin.wingFlapAnimationState, ageInTicks);
+		VersionedEntityModel.Animate(this, this.idleAnimation, penguin.idleAnimationState, ageInTicks);
+		VersionedEntityModel.Animate(this, this.idleWaterAnimation, penguin.idleWaterAnimationState, ageInTicks);
+
+		if (penguin.isSwimming()) {
+			VersionedEntityModel.AnimateWalk(this, this.swimAnimation, limbSwing, limbSwingAmount, timeMultiplier, speedMultiplier);
+		} else {
+			VersionedEntityModel.AnimateWalk(this, this.walkAnimation, limbSwing, limbSwingAmount, timeMultiplier, speedMultiplier);
+		}
+
+		animateSwimming(penguin, ageInTicks);
 	}
 
 	public void animateSwimming(
-		PenguinEntity penguin
+		final PenguinEntity penguin,
+		final float ageInTicks
 	) {
-		var penguinContextTracker = penguin.getAnimationContextTracker();
-		var transitionTicks = 25;
-		if(penguin.isUnderWater()) {
-			ModelPartModelAnimator.animateModelPartXRotationBasedOnTicks(penguinContextTracker, this.main, penguin.tickCount, AnimationMath.toRadians(90.0F), transitionTicks);
-			ModelPartModelAnimator.animateModelPartPositionBasedOnTicks(penguinContextTracker, this.main, penguin.tickCount, 0, 21, -5, transitionTicks);
-			ModelPartModelAnimator.animateModelPartXRotationBasedOnTicks(penguinContextTracker, this.head, penguin.tickCount, AnimationMath.toRadians(-90.0F), transitionTicks);
-			ModelPartModelAnimator.animateModelPartPositionBasedOnTicks(penguinContextTracker, this.head, penguin.tickCount, 0, -16, -2, transitionTicks);
-		} else {
-			ModelPartModelAnimator.animateModelPartXPositionBasedOnTicks(penguinContextTracker, this.main, penguin.tickCount, AnimationMath.toRadians(0.0F), transitionTicks);
-			ModelPartModelAnimator.animateModelPartPositionBasedOnTicks(penguinContextTracker, this.main, penguin.tickCount, 0, 11, 0 , transitionTicks);
-			ModelPartModelAnimator.animateModelPartXRotationBasedOnTicks(penguinContextTracker, this.head, penguin.tickCount, AnimationMath.toRadians(0.0F), transitionTicks);
-			ModelPartModelAnimator.animateModelPartPositionBasedOnTicks(penguinContextTracker, this.head, penguin.tickCount, 0, -12, 0, transitionTicks);
-		}
-	}
+		float swimProgress = penguin.getSwimProgress(ageInTicks - penguin.tickCount);
 
-	public void updateAnimations(
-		PenguinEntity penguin,
-		float limbAngle,
-		float limbDistance,
-		float animationProgress
-	) {
-		var movementAnimation = penguin.getMovementAnimation();
-		var animationContextTracker = penguin.getAnimationContextTracker();
-		var currentTick = penguin.tickCount;
-		var animationSpeedModifier = 1.0F;
+		this.main.xRot = Mth.lerp(swimProgress, 0.0F, AnimationMath.toRadians(90.0F));
+		this.main.y = Mth.lerp(swimProgress, 11.0F, 21.0F);
+		this.main.z = Mth.lerp(swimProgress, 0.0F, -5.0F);
 
-		var limbAngleScale = penguin.isUnderWater() ? 1.5F : 5.5F;
-		var limbDistanceScale = penguin.isUnderWater() ? 4.0F : 4.5F;
-
-		KeyframeModelAnimator.updateMovementKeyframeAnimations(this, movementAnimation, limbAngle, limbDistance, limbAngleScale, limbDistanceScale, animationSpeedModifier);
-		KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, penguin.getTrackedAnimations(), currentTick, animationProgress, animationSpeedModifier);
-
-		if(!penguin.isMoving()) {
-			KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, penguin.getIdleAnimations(), currentTick, animationProgress, animationSpeedModifier);
-		}
+		this.head.xRot = Mth.lerp(swimProgress, 0.0F, AnimationMath.toRadians(-90.0F));
+		this.head.y = Mth.lerp(swimProgress, -12.0F, -16.0F);
+		this.head.z = Mth.lerp(swimProgress, 0.0F, -2.0F);
 	}
 }

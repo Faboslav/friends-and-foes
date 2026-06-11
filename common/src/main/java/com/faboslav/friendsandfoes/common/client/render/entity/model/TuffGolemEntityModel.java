@@ -1,6 +1,11 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.model;
 
 import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.KeyframeModelAnimator;
+import com.faboslav.friendsandfoes.common.client.render.entity.state.RascalRenderState;
+import com.faboslav.friendsandfoes.common.entity.animation.RascalAnimations;
+import com.faboslav.friendsandfoes.common.entity.animation.TuffGolemAnimations;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntityModel;
+import net.minecraft.client.animation.KeyframeAnimation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -44,6 +49,30 @@ public final class TuffGolemEntityModel extends EntityModel<TuffGolemRenderState
 	private final ModelPart leftLeg;
 	private final ModelPart rightLeg;
 
+	//? if >= 1.21.6 {
+	private final KeyframeAnimation showItemAnimation;
+	private final KeyframeAnimation hideItemAnimation;
+	private final KeyframeAnimation sleepAnimation;
+	private final KeyframeAnimation sleepWithItemAnimation;
+	private final KeyframeAnimation wakeAnimation;
+	private final KeyframeAnimation wakeWithItemAnimation;
+	private final KeyframeAnimation wakeAndShowItemAnimation;
+	private final KeyframeAnimation wakeAndHideItemAnimation;
+	private final KeyframeAnimation walkAnimation;
+	private final KeyframeAnimation walkWithItemAnimation;
+	//?} else {
+	/*private final AnimationDefinition showItemAnimation;
+	private final AnimationDefinition hideItemAnimation;
+	private final AnimationDefinition sleepAnimation;
+	private final AnimationDefinition sleepWithItemAnimation;
+	private final AnimationDefinition wakeAnimation;
+	private final AnimationDefinition wakeWithItemAnimation;
+	private final AnimationDefinition wakeAndShowItemAnimation;
+	private final AnimationDefinition wakeAndHideItemAnimation;
+	private final AnimationDefinition walkAnimation;
+	private final AnimationDefinition walkWithItemAnimation;
+	*///?}
+
 	public TuffGolemEntityModel(ModelPart root) {
 		//? if >=1.21.3 {
 		super(root);
@@ -59,6 +88,30 @@ public final class TuffGolemEntityModel extends EntityModel<TuffGolemRenderState
 		this.rightArm = this.body.getChild(MODEL_PART_RIGHT_ARM);
 		this.leftLeg = this.root.getChild(MODEL_PART_LEFT_LEG);
 		this.rightLeg = this.root.getChild(MODEL_PART_RIGHT_LEG);
+
+		//? if >= 1.21.6 {
+		this.showItemAnimation = TuffGolemAnimations.SHOW_ITEM.bake(root);
+		this.hideItemAnimation = TuffGolemAnimations.HIDE_ITEM.bake(root);
+		this.sleepAnimation = TuffGolemAnimations.SLEEP.bake(root);
+		this.sleepWithItemAnimation = TuffGolemAnimations.SLEEP_WITH_ITEM.bake(root);
+		this.wakeAnimation = TuffGolemAnimations.WAKE.bake(root);
+		this.wakeWithItemAnimation = TuffGolemAnimations.WAKE_WITH_ITEM.bake(root);
+		this.wakeAndShowItemAnimation = TuffGolemAnimations.WAKE_AND_SHOW_ITEM.bake(root);
+		this.wakeAndHideItemAnimation = TuffGolemAnimations.WAKE_AND_HIDE_ITEM.bake(root);
+		this.walkAnimation = TuffGolemAnimations.WALK.bake(root);
+		this.walkWithItemAnimation = TuffGolemAnimations.WALK_WITH_ITEM.bake(root);
+		//?} else {
+		/*this.showItemAnimation = TuffGolemAnimations.SHOW_ITEM;
+		this.hideItemAnimation = TuffGolemAnimations.HIDE_ITEM;
+		this.sleepAnimation = TuffGolemAnimations.SLEEP;
+		this.sleepWithItemAnimation = TuffGolemAnimations.SLEEP_WITH_ITEM;
+		this.wakeAnimation = TuffGolemAnimations.WAKE;
+		this.wakeWithItemAnimation = TuffGolemAnimations.WAKE_WITH_ITEM;
+		this.wakeAndShowItemAnimation = TuffGolemAnimations.WAKE_AND_SHOW_ITEM;
+		this.wakeAndHideItemAnimation = TuffGolemAnimations.WAKE_AND_HIDE_ITEM;
+		this.walkAnimation = TuffGolemAnimations.WALK;
+		this.walkWithItemAnimation = TuffGolemAnimations.WALK_WITH_ITEM;
+		*///?}
 	}
 
 	public static LayerDefinition getTexturedModelData() {
@@ -93,23 +146,33 @@ public final class TuffGolemEntityModel extends EntityModel<TuffGolemRenderState
 	public void setupAnim(TuffGolemRenderState renderState)
 	//?} else {
 	/*public void setupAnim(T tuffGolem, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
-	*///?}
+	 *///?}
 	{
 		//? if >=1.21.3 {
+		super.setupAnim(renderState);
 		var tuffGolem = renderState.tuffGolem;
-		var limbAngle = renderState.walkAnimationPos;
-		var limbDistance = renderState.walkAnimationSpeed;
-		var animationProgress = renderState.ageInTicks;
-		//?}
+		var limbSwing = renderState.walkAnimationPos;
+		var limbSwingAmount = renderState.walkAnimationSpeed;
+		var ageInTicks = renderState.ageInTicks;
+		//?} else {
+		/*this.root().getAllParts().forEach(ModelPart::resetPose);
+		*///?}
 
-		var movementAnimation = tuffGolem.getMovementAnimation();
-		var animations = tuffGolem.getTrackedAnimations();
-		var animationContextTracker = tuffGolem.getAnimationContextTracker();
-		var currentTick = tuffGolem.tickCount;
-		var animationSpeedModifier = 1.0F;
+		var walkMultiplier = 4.0F * tuffGolem.getMovementSpeedModifier();
 
-		this.root().getAllParts().forEach(ModelPart::resetPose);
-		KeyframeModelAnimator.updateMovementKeyframeAnimations(this, movementAnimation, limbAngle, limbDistance, 4.0F * tuffGolem.getMovementSpeedModifier(), 4.0F * tuffGolem.getMovementSpeedModifier(), animationSpeedModifier);
-		KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, animations, currentTick, animationProgress, animationSpeedModifier);
+		if(tuffGolem.isHoldingItem()) {
+			VersionedEntityModel.AnimateWalk(this, this.walkWithItemAnimation, limbSwing, limbSwingAmount, walkMultiplier, walkMultiplier);
+		} else {
+			VersionedEntityModel.AnimateWalk(this, this.walkAnimation, limbSwing, limbSwingAmount, walkMultiplier, walkMultiplier);
+		}
+		
+		VersionedEntityModel.Animate(this, this.showItemAnimation, tuffGolem.showItemAnimationState, ageInTicks);
+		VersionedEntityModel.Animate(this, this.hideItemAnimation, tuffGolem.hideItemAnimationState, ageInTicks);
+		VersionedEntityModel.Animate(this, this.sleepAnimation, tuffGolem.sleepAnimationState, ageInTicks);
+		VersionedEntityModel.Animate(this, this.sleepWithItemAnimation, tuffGolem.sleepWithItemAnimationState, ageInTicks);
+		VersionedEntityModel.Animate(this, this.wakeAnimation, tuffGolem.wakeAnimationState, ageInTicks);
+		VersionedEntityModel.Animate(this, this.wakeWithItemAnimation, tuffGolem.wakeWithItemAnimationState, ageInTicks);
+		VersionedEntityModel.Animate(this, this.wakeAndShowItemAnimation, tuffGolem.wakeAndShowItemAnimationState, ageInTicks);
+		VersionedEntityModel.Animate(this, this.wakeAndHideItemAnimation, tuffGolem.wakeAndHideItemAnimationState, ageInTicks);
 	}
 }

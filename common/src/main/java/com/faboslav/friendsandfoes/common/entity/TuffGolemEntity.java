@@ -4,7 +4,6 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.animation.TuffGolemAnimations;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.TuffGolemBrain;
-import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
 import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityDataSerializers;
@@ -73,7 +72,7 @@ import net.minecraft.world.entity.EntitySpawnReason;
 /*import net.minecraft.world.entity.MobSpawnType;
 *///?}
 
-public final class TuffGolemEntity extends AbstractGolem implements AnimatedEntity
+public final class TuffGolemEntity extends AbstractGolem
 {
 	private static final float MOVEMENT_SPEED = 0.225F;
 	private static final float MOVEMENT_SPEED_WITH_ITEM = 0.175F;
@@ -90,7 +89,6 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 	private static final String HOME_NBT_NAME_YAW = "yaw";
 
 	private static final EntityDataAccessor<String> COLOR = SynchedEntityData.defineId(TuffGolemEntity.class, EntityDataSerializers.STRING);
-	private static final EntityDataAccessor<Integer> POSE_TICKS = SynchedEntityData.defineId(TuffGolemEntity.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<FriendsAndFoesEntityPose> ENTITY_POSE = SynchedEntityData.defineId(TuffGolemEntity.class, FriendsAndFoesEntityDataSerializers.ENTITY_POSE);
 	private static final EntityDataAccessor<FriendsAndFoesEntityPose> PREV_ENTITY_POSE = SynchedEntityData.defineId(TuffGolemEntity.class, FriendsAndFoesEntityDataSerializers.ENTITY_POSE);
 	private static final EntityDataAccessor<Boolean> IS_GLUED = SynchedEntityData.defineId(TuffGolemEntity.class, EntityDataSerializers.BOOLEAN);
@@ -98,44 +96,14 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 	private int inactiveTicksAfterSpawn = 0;
 	private Home home;
 
-	private AnimationContextTracker animationContextTracker;
-
-	@Override
-	public AnimationContextTracker getAnimationContextTracker() {
-		if (this.animationContextTracker == null) {
-			this.animationContextTracker = new AnimationContextTracker();
-
-			for (var animation: this.getTrackedAnimations()) {
-				this.animationContextTracker.add(animation);
-			}
-		}
-
-		return this.animationContextTracker;
-	}
-
-	@Override
-	public ArrayList<AnimationHolder> getTrackedAnimations() {
-		return TuffGolemAnimations.ANIMATIONS;
-	}
-
-	@Override
-	public AnimationHolder getMovementAnimation() {
-		if (this.isHoldingItem()) {
-			return TuffGolemAnimations.WALK_WITH_ITEM;
-		}
-
-		return TuffGolemAnimations.WALK;
-	}
-
-	@Override
-	public int getCurrentAnimationTick() {
-		return this.entityData.get(POSE_TICKS);
-	}
-
-	@Override
-	public void setCurrentAnimationTick(int keyframeAnimationTicks) {
-		this.entityData.set(POSE_TICKS, keyframeAnimationTicks);
-	}
+	public final AnimationState showItemAnimationState = new AnimationState();
+	public final AnimationState hideItemAnimationState = new AnimationState();
+	public final AnimationState sleepAnimationState = new AnimationState();
+	public final AnimationState sleepWithItemAnimationState = new AnimationState();
+	public final AnimationState wakeAnimationState = new AnimationState();
+	public final AnimationState wakeWithItemAnimationState = new AnimationState();
+	public final AnimationState wakeAndShowItemAnimationState = new AnimationState();
+	public final AnimationState wakeAndHideItemAnimationState = new AnimationState();
 
 	public TuffGolemEntity(
 		EntityType<? extends TuffGolemEntity> entityType,
@@ -220,7 +188,6 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 
 		builder.define(COLOR, Color.RED.getName());
 		builder.define(PREV_ENTITY_POSE, FriendsAndFoesEntityPose.STANDING);
-		builder.define(POSE_TICKS, 0);
 		builder.define(ENTITY_POSE, FriendsAndFoesEntityPose.STANDING);
 		builder.define(IS_GLUED, false);
 	}
@@ -535,7 +502,6 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 				this.getItemBySlot(EquipmentSlot.MAINHAND).getItem() == Items.AIR
 				&& itemStack.getItem() == Items.AIR
 			) || itemStack.getItem() instanceof SpawnEggItem
-			|| isAnyKeyframeAnimationRunning()
 		) {
 			return false;
 		}
@@ -708,8 +674,7 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 	}
 
 	public boolean isNotImmobilized() {
-		return this.getCurrentAnimationTick() == 0
-			   && this.inactiveTicksAfterSpawn == 0
+		return this.inactiveTicksAfterSpawn == 0
 			   && this.isGlued() == false
 			   && this.isInSleepingPose() == false;
 	}
@@ -758,9 +723,76 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 			this.inactiveTicksAfterSpawn--;
 		}
 
-		this.updateKeyframeAnimations();
-
 		super.tick();
+	}
+
+	@Override
+	public void onSyncedDataUpdated(EntityDataAccessor<?> dataAccessor) {
+		if (PREV_ENTITY_POSE.equals(dataAccessor) || ENTITY_POSE.equals(dataAccessor)) {
+			if (this.wasInEntityPose(FriendsAndFoesEntityPose.STANDING)) {
+				if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING_WITH_ITEM)) {
+					this.showItemAnimationState.start(this.tickCount);
+				} else {
+					this.showItemAnimationState.stop();
+				}
+
+				if (this.isInEntityPose(FriendsAndFoesEntityPose.SLEEPING)) {
+					this.sleepAnimationState.start(this.tickCount);
+				} else {
+					this.sleepAnimationState.stop();
+				}
+			} else if (this.wasInEntityPose(FriendsAndFoesEntityPose.STANDING_WITH_ITEM)) {
+				if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING)) {
+					this.hideItemAnimationState.start(this.tickCount);
+				} else {
+					this.hideItemAnimationState.stop();
+				}
+
+				if (this.isInEntityPose(FriendsAndFoesEntityPose.SLEEPING_WITH_ITEM)) {
+					this.sleepWithItemAnimationState.start(this.tickCount);
+				} else {
+					this.sleepWithItemAnimationState.stop();
+				}
+			} else if (this.wasInEntityPose(FriendsAndFoesEntityPose.SLEEPING)) {
+				if (this.isInEntityPose(FriendsAndFoesEntityPose.SLEEPING_WITH_ITEM)) {
+					this.showItemAnimationState.start(this.tickCount);
+				} else {
+					this.showItemAnimationState.stop();
+				}
+
+				if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING_WITH_ITEM)) {
+					this.wakeAndShowItemAnimationState.start(this.tickCount);
+				} else {
+					this.wakeAndShowItemAnimationState.stop();
+				}
+
+				if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING)) {
+					this.wakeAnimationState.start(this.tickCount);
+				} else {
+					this.wakeAnimationState.stop();
+				}
+			} else if (this.wasInEntityPose(FriendsAndFoesEntityPose.SLEEPING_WITH_ITEM)) {
+				if (this.isInEntityPose(FriendsAndFoesEntityPose.SLEEPING)) {
+					this.hideItemAnimationState.start(this.tickCount);
+				} else {
+					this.hideItemAnimationState.stop();
+				}
+
+				if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING)) {
+					this.wakeAndHideItemAnimationState.start(this.tickCount);
+				} else {
+					this.wakeAndHideItemAnimationState.stop();
+				}
+
+				if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING_WITH_ITEM)) {
+					this.wakeWithItemAnimationState.start(this.tickCount);
+				} else {
+					this.wakeWithItemAnimationState.stop();
+				}
+			}
+		}
+
+		super.onSyncedDataUpdated(dataAccessor);
 	}
 
 	@Override
@@ -768,37 +800,7 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 		return !this.isSleeping();
 	}
 
-	private void updateKeyframeAnimations() {
-		if (this.level().isClientSide() == false) {
-			this.updateCurrentAnimationTick();
-		}
-
-		AnimationHolder animationToStart = this.getAnimationByPose();
-
-		if (
-			animationToStart != null
-			&& this.isKeyframeAnimationRunning(animationToStart) == false
-		) {
-			if (this.level().isClientSide() == false) {
-				this.setCurrentAnimationTick(animationToStart.get().lengthInTicks());
-			}
-
-			this.startKeyframeAnimation(animationToStart);
-		}
-	}
-
-	private void startKeyframeAnimation(AnimationHolder animationToStart) {
-		for (AnimationHolder animation : this.getTrackedAnimations()) {
-			if (animation == animationToStart) {
-				continue;
-			}
-
-			this.stopKeyframeAnimation(animation);
-		}
-
-		this.startKeyframeAnimation(animationToStart, this.tickCount);
-	}
-
+	/*
 	@Nullable
 	public AnimationHolder getAnimationByPose() {
 		var prevPose = this.getPrevEntityPose();
@@ -841,7 +843,7 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 		}
 
 		return animationHolder;
-	}
+	}*/
 
 	@Override
 	/*? if >=1.21.3 {*/

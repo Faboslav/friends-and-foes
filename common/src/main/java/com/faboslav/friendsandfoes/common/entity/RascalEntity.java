@@ -1,11 +1,7 @@
 package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-import com.faboslav.friendsandfoes.common.entity.animation.RascalAnimations;
-import com.faboslav.friendsandfoes.common.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.RascalBrain;
-import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
-import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
 import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityDataSerializers;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
@@ -66,7 +62,6 @@ public final class RascalEntity extends AgeableMob
 	public final AnimationState idleAnimationState = new AnimationState();
 	public final AnimationState nodAnimationState = new AnimationState();
 	public final AnimationState giveRewardAnimationState = new AnimationState();
-	public final AnimationState walkAnimationState = new AnimationState();
 
 	public RascalEntity(EntityType<? extends AgeableMob> entityType, Level world) {
 		super(entityType, world);

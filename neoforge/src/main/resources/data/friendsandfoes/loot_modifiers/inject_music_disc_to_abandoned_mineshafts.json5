@@ -6,5 +6,8 @@
 			"loot_table_id": "minecraft:chests/abandoned_mineshaft"
 		}
 	],
+	//? if >= 26.2 {
+	"priority": 1000,
+	//?}
 	"table": "friendsandfoes:chests/abandoned_mineshaft_music_disc"
 }

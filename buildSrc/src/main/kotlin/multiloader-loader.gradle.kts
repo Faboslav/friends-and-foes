@@ -31,6 +31,15 @@ tasks {
         dependsOn(commonResources)
         from(commonResources)
 
+		if (project.stonecutterBuild.eval(commonMod.mc, ">=26.2")) {
+			// Beekeeper trades
+			eachFile {
+				if (relativePath.pathString.contains("global_loot_modifiers")) {
+					exclude()
+				}
+			}
+		}
+
 		if (project.stonecutterBuild.eval(commonMod.mc, "<=1.21.11")) {
 			// Beekeeper trades
 			eachFile {

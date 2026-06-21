@@ -7,6 +7,8 @@ import com.faboslav.friendsandfoes.common.entity.ai.brain.CopperGolemBrain;
 import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import java.util.Map;
+
+import com.faboslav.friendsandfoes.common.util.animation.AnimationMath;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
@@ -31,7 +33,7 @@ public final class CopperGolemSpinHeadTask extends Behavior<CopperGolemEntity>
 	@Override
 	protected void start(ServerLevel world, CopperGolemEntity copperGolem, long time) {
 		this.spinHeadTicks = 0;
-		this.maxSpinHeadTicks = CopperGolemAnimations.SPIN_HEAD.get().lengthInTicks(copperGolem.getAnimationSpeedModifier());
+		this.maxSpinHeadTicks = AnimationMath.toLengthInTicks(CopperGolemAnimations.SPIN_HEAD.lengthInSeconds(), copperGolem.getAnimationSpeedModifier());
 		copperGolem.startSpinHeadAnimation();
 	}
 

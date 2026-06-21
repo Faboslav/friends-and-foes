@@ -14,14 +14,14 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.animation.KeyframeAnimation;
 //?} else {
 /*import net.minecraft.client.animation.AnimationDefinition;
- *///?}
-
+*///?}
 
 //? if >=1.21.3 {
 import net.minecraft.client.model.EntityModel;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.RascalRenderState;
 //?} else {
 /*import net.minecraft.client.model.HierarchicalModel;
+import com.faboslav.friendsandfoes.common.entity.RascalEntity;
  *///?}
 
 //? if >=1.21.3 {
@@ -115,7 +115,7 @@ public final class RascalEntityModel extends EntityModel<RascalRenderState>
 	//? if >=1.21.3 {
 	public void setupAnim(RascalRenderState renderState)
 	//?} else {
-	/*public void setupAnim(T rascal, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
+	/*public void setupAnim(T rascal, float limbSwing, float limbSwingAmount, float ageInTicks, float headYaw, float headPitch)
 	*///?}
 	{
 		//? if >=1.21.3 {
@@ -125,8 +125,8 @@ public final class RascalEntityModel extends EntityModel<RascalRenderState>
 		var limbSwingAmount = renderState.walkAnimationSpeed;
 		var ageInTicks = renderState.ageInTicks;
 		//?} else {
-		this.root().getAllParts().forEach(ModelPart::resetPose);
-		//?}
+		/*this.root().getAllParts().forEach(ModelPart::resetPose);
+		*///?}
 
 		VersionedEntityModel.Animate(this, this.idleAnimation, rascal.idleAnimationState, ageInTicks);
 		VersionedEntityModel.Animate(this, this.nodAnimation, rascal.nodAnimationState, ageInTicks);

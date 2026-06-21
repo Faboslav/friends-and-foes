@@ -4,12 +4,13 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimationDefinition;
 import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
+
 import java.util.Map;
 
 /**
  * Holds a single {@link AnimationDefinition} loaded from resource packs. Objects of this class will be automatically updated with new
  * {@link AnimationDefinition}s on reload.
- *
+ * <p>
  * Animation loading related code is based on NeoForge code
  *
  * @author NeoForge team

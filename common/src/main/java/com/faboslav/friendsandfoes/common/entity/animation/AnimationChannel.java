@@ -5,9 +5,11 @@ import net.minecraft.util.Mth;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
-public record AnimationChannel(Target target, Keyframe... keyframes) {
+public record AnimationChannel(Target target, Keyframe... keyframes)
+{
 
-	public static class Interpolations {
+	public static class Interpolations
+	{
 		public static final AnimationChannel.Interpolation LINEAR = (vector3f, f, keyframes, i, j, g) -> {
 			Vector3fc vector3fc = keyframes[i].postTarget();
 			Vector3fc vector3fc2 = keyframes[j].preTarget();
@@ -23,11 +25,13 @@ public record AnimationChannel(Target target, Keyframe... keyframes) {
 		};
 	}
 
-	public interface Interpolation {
+	public interface Interpolation
+	{
 		Vector3f apply(Vector3f vector3f, float f, Keyframe[] keyframes, int i, int j, float g);
 	}
 
-	public enum Target {
+	public enum Target
+	{
 		POSITION,
 		ROTATION,
 		SCALE;

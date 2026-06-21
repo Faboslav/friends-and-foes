@@ -12,8 +12,15 @@ import java.util.Map;
  * @author NeoForge team
  * <a href="https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation">https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation</a>
  */
-public record AnimationDefinition(String name, float lengthInSeconds, boolean looping, Map<String, List<AnimationChannel>> boneAnimations) {
-	public AnimationDefinition(String name, float lengthInSeconds, boolean looping, Map<String, List<AnimationChannel>> boneAnimations) {
+public record AnimationDefinition(String name, float lengthInSeconds, boolean looping,
+								  Map<String, List<AnimationChannel>> boneAnimations)
+{
+	public AnimationDefinition(
+		String name,
+		float lengthInSeconds,
+		boolean looping,
+		Map<String, List<AnimationChannel>> boneAnimations
+	) {
 		this.name = name;
 		this.lengthInSeconds = lengthInSeconds;
 		this.looping = looping;
@@ -48,7 +55,8 @@ public record AnimationDefinition(String name, float lengthInSeconds, boolean lo
 		return this.boneAnimations;
 	}
 
-	public static class Builder {
+	public static class Builder
+	{
 		private final String name;
 		private final float lengthInSeconds;
 		private final Map<String, List<AnimationChannel>> animationByBone = Maps.newHashMap();

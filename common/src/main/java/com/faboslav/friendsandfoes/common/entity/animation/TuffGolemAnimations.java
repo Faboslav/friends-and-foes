@@ -5,7 +5,8 @@ import net.minecraft.client.animation.KeyframeAnimations;
 import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.animation.AnimationChannel;
 
-public class TuffGolemAnimations {
+public class TuffGolemAnimations
+{
 	public static final AnimationDefinition SHOW_ITEM = AnimationDefinition.Builder.withLength(0.4583F)
 		.addAnimation("clothStand", new AnimationChannel(AnimationChannel.Targets.ROTATION,
 			new Keyframe(0.0F, KeyframeAnimations.degreeVec(90.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),

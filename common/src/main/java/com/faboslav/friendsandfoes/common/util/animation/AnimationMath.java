@@ -68,6 +68,14 @@ public final class AnimationMath
 		return (float) Math.toRadians(angleDegree);
 	}
 
+	public static int toLengthInTicks(float lengthInSeconds) {
+		return (int) Math.ceil(lengthInSeconds * 20) + 1;
+	}
+
+	public static int toLengthInTicks(float lengthInSeconds, float speedModifier) {
+		return (int) (toLengthInTicks(lengthInSeconds) * speedModifier);
+	}
+
 	private AnimationMath() {
 	}
 }

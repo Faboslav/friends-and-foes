@@ -44,7 +44,6 @@ import org.jetbrains.annotations.Nullable;
 *///?}
 
 public final class PenguinEntity extends Animal {
-	private static final EntityDataAccessor<Integer> POSE_TICKS = SynchedEntityData.defineId(PenguinEntity.class, EntityDataSerializers.INT);;
 	private static final EntityDataAccessor<FriendsAndFoesEntityPose> ENTITY_POSE = SynchedEntityData.defineId(PenguinEntity.class, FriendsAndFoesEntityDataSerializers.ENTITY_POSE);
 
 	private static final float MOVEMENT_SPEED = 0.2F;
@@ -99,7 +98,6 @@ public final class PenguinEntity extends Animal {
 	protected void defineSynchedData(SynchedEntityData.Builder builder) {
 		super.defineSynchedData(builder);
 
-		builder.define(POSE_TICKS, 0);
 		builder.define(ENTITY_POSE, FriendsAndFoesEntityPose.IDLE);
 	}
 

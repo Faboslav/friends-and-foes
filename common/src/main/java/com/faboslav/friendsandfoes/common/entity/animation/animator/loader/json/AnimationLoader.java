@@ -9,6 +9,7 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +26,7 @@ import com.mojang.serialization.JsonOps;
 
 /**
  * A loader for entity animations written in JSON. You can also get parsed animations from this class.
- *
+ * <p>
  * Animation loading related code is based on NeoForge code
  *
  * @author NeoForge team
@@ -34,8 +35,8 @@ import com.mojang.serialization.JsonOps;
 //? if >=1.21.3 {
 public final class AnimationLoader extends SimpleJsonResourceReloadListener<AnimationDefinition>
 //?} else {
-/*public final class AnimationLoader extends SimpleJsonResourceReloadListener
-*///?}
+	/*public final class AnimationLoader extends SimpleJsonResourceReloadListener
+	 *///?}
 {
 	public static final AnimationLoader INSTANCE = new AnimationLoader();
 
@@ -48,7 +49,7 @@ public final class AnimationLoader extends SimpleJsonResourceReloadListener<Anim
 		super(AnimationParser.CODEC, FileToIdConverter.json("friendsandfoes/animations/entity"));
 		//?} else {
 		/*super(new Gson(), "friendsandfoes/animations/entity");
-		*///?}
+		 *///?}
 	}
 
 	public Map<Identifier, AnimationHolder> getAnimations() {
@@ -65,7 +66,7 @@ public final class AnimationLoader extends SimpleJsonResourceReloadListener<Anim
 	@Nullable
 	public AnimationDefinition getAnimation(Identifier key) {
 		final var holder = animations.get(key);
-		return holder != null ? holder.getOrNull() : null;
+		return holder != null ? holder.getOrNull():null;
 	}
 
 	/**
@@ -78,10 +79,14 @@ public final class AnimationLoader extends SimpleJsonResourceReloadListener<Anim
 
 	@Override
 	//? if >=1.21.3 {
-	protected void apply(Map<Identifier, AnimationDefinition> entityAnimations, ResourceManager resourceManager, ProfilerFiller profiler)
-	//?} else {
-	/*protected void apply(Map<Identifier, JsonElement> entityAnimationsJson, ResourceManager resourceManager, ProfilerFiller profiler)
-	*///?}
+	protected void apply(
+		Map<Identifier, AnimationDefinition> entityAnimations,
+		ResourceManager resourceManager,
+		ProfilerFiller profiler
+	)
+		//?} else {
+		/*protected void apply(Map<Identifier, JsonElement> entityAnimationsJson, ResourceManager resourceManager, ProfilerFiller profiler)
+		 *///?}
 	{
 		//? if <1.21.3 {
 		/*Map<Identifier, AnimationDefinition> entityAnimations = new HashMap<>();

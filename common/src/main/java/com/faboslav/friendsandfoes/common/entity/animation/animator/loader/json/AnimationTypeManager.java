@@ -9,6 +9,7 @@ import com.mojang.serialization.Codec;
 import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
+
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -20,13 +21,14 @@ import java.util.stream.Collectors;
  * <p>
  * The built-in {@link AnimationChannel.Interpolation interpolation function}s are {@code minecraft:linear} and
  * {@code minecraft:catmullrom}.
- *
+ * <p>
  * Animation loading related code is based on NeoForge code
  *
  * @author NeoForge team
  * <a href="https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation">https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation</a>
  */
-public final class AnimationTypeManager {
+public final class AnimationTypeManager
+{
 	private static final ImmutableBiMap<Identifier, AnimationTarget> DEFAULT_TARGETS = ImmutableBiMap.of(
 		Identifier.withDefaultNamespace("position"), AnimationTarget.POSITION,
 		Identifier.withDefaultNamespace("rotation"), AnimationTarget.ROTATION,
@@ -46,7 +48,8 @@ public final class AnimationTypeManager {
 		recomputeDerivedFields();
 	}
 
-	private AnimationTypeManager() {}
+	private AnimationTypeManager() {
+	}
 
 	@Nullable
 	public static AnimationTarget getTarget(Identifier name) {

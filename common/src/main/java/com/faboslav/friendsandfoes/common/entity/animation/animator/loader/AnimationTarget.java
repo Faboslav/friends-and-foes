@@ -11,7 +11,8 @@ public record AnimationTarget(
 	AnimationChannel.Target channelTarget,
 	AnimationKeyframeTarget keyframeTarget,
 	AnimationKeyframeTarget inverseKeyframeTarget
-) {
+)
+{
 	public static final AnimationTarget POSITION = new AnimationTarget(
 		AnimationChannel.Target.POSITION,
 		AnimationTarget::posVec,
@@ -25,6 +26,7 @@ public record AnimationTarget(
 		AnimationChannel.Target.SCALE,
 		AnimationTarget::scaleVec,
 		AnimationTarget::inverseScaleVec);
+
 	private static Vector3f inverseDegreeVec(float x, float y, float z) {
 		return new Vector3f(
 			x / (float) (Math.PI / 180.0),
@@ -45,7 +47,7 @@ public record AnimationTarget(
 	}
 
 	private static Vector3f scaleVec(double d, double e, double f) {
-		return new Vector3f((float)(d - 1.0), (float)(e - 1.0), (float)(f - 1.0));
+		return new Vector3f((float) (d - 1.0), (float) (e - 1.0), (float) (f - 1.0));
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
+import com.faboslav.friendsandfoes.common.util.animation.AnimationMath;
 import org.spongepowered.asm.mixin.Mixin;
 import net.minecraft.world.level.block.LightningRodBlock;
 
@@ -139,10 +140,10 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 			int randomPoseIndex = copperGolem.getRandom().nextInt(possiblePoses.size());
 			FriendsAndFoesEntityPose randomPose = possiblePoses.get(randomPoseIndex);
 			copperGolem.setEntityPose(randomPose);
-			AnimationHolder animation = copperGolem.getAnimationByPose();
+			var animation = copperGolem.getAnimationByPose();
 
 			if (animation != null) {
-				int keyFrameAnimationLengthInTicks = animation.get().lengthInTicks();
+				int keyFrameAnimationLengthInTicks = AnimationMath.toLengthInTicks(animation.lengthInSeconds());
 				int randomKeyframeAnimationTick = copperGolem.getRandom().nextIntBetweenInclusive(keyFrameAnimationLengthInTicks / 6, keyFrameAnimationLengthInTicks - (keyFrameAnimationLengthInTicks / 6));
 				copperGolem.setCurrentAnimationTick(randomKeyframeAnimationTick);
 			}

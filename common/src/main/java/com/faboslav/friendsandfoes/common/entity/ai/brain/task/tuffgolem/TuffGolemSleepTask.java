@@ -27,7 +27,6 @@ public final class TuffGolemSleepTask extends Behavior<TuffGolemEntity>
 		TuffGolemEntity tuffGolem
 	) {
 		return tuffGolem.isAtHome()
-			   && tuffGolem.getCurrentAnimationTick() == 0
 			   && tuffGolem.getBrain().getMemoryInternal(FriendsAndFoesMemoryModuleTypes.TUFF_GOLEM_SLEEP_COOLDOWN.get()).isEmpty();
 	}
 

@@ -2,13 +2,9 @@
 /*package com.faboslav.friendsandfoes.common.client.render.entity.model;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-import com.faboslav.friendsandfoes.common.entity.animation.animator.context.AnimationContextTracker;
-import com.faboslav.friendsandfoes.common.entity.animation.animator.context.KeyframeAnimationContext;
-import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.KeyframeModelAnimator;
-import com.faboslav.friendsandfoes.common.entity.CopperGolemEntity;
-import com.faboslav.friendsandfoes.common.entity.animation.AnimationState;
-import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
-import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
+import com.faboslav.friendsandfoes.common.entity.animation.CopperGolemAnimations;
+import com.faboslav.friendsandfoes.common.mixin.KeyframeAnimationMixin;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -17,11 +13,19 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 
+//? if >= 1.21.6 {
+import net.minecraft.client.animation.KeyframeAnimation;
+//?} else {
+/^import net.minecraft.client.animation.AnimationDefinition;
+ ^///?}
+
+
 //? if >=1.21.3 {
 import net.minecraft.client.model.EntityModel;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.CopperGolemRenderState;
 //?} else {
-/^import net.minecraft.client.model.HierarchicalModel;
+/^import com.faboslav.friendsandfoes.common.entity.CopperGolemEntity;
+import net.minecraft.client.model.HierarchicalModel;
 ^///?}
 
 //? if >=1.21.3 {
@@ -49,6 +53,18 @@ public class CopperGolemEntityModel extends EntityModel<CopperGolemRenderState>
 	private final ModelPart leftLeg;
 	private final ModelPart rightLeg;
 
+	//? if >= 1.21.6 {
+	private KeyframeAnimation walkAnimation;
+	private KeyframeAnimation spinHeadAnimation;
+	private KeyframeAnimation pressButtonUp;
+	private KeyframeAnimation pressButtonDown;
+	//?} else {
+	/^private AnimationDefinition walkAnimation;
+	private AnimationDefinition spinHeadAnimation;
+	private AnimationDefinition pressButtonUp;
+	private AnimationDefinition pressButtonDown;
+	^///?}
+
 	public CopperGolemEntityModel(ModelPart root) {
 		//? if >=1.21.3 {
 		super(root);
@@ -63,6 +79,18 @@ public class CopperGolemEntityModel extends EntityModel<CopperGolemRenderState>
 		this.rightArm = this.body.getChild(MODEL_PART_RIGHT_ARM);
 		this.leftLeg = this.root.getChild(MODEL_PART_LEFT_LEG);
 		this.rightLeg = this.root.getChild(MODEL_PART_RIGHT_LEG);
+
+		//? if >= 1.21.6 {
+		this.walkAnimation = CopperGolemAnimations.WALK.bake(root);
+		this.spinHeadAnimation = CopperGolemAnimations.SPIN_HEAD.bake(root);
+		this.pressButtonUp = CopperGolemAnimations.PRESS_BUTTON_UP.bake(root);
+		this.pressButtonDown = CopperGolemAnimations.PRESS_BUTTON_DOWN.bake(root);
+		//?} else {
+		/^this.walkAnimation = CopperGolemAnimations.WALK;
+		this.spinHeadAnimation = CopperGolemAnimations.SPIN_HEAD;
+		this.pressButtonUp = CopperGolemAnimations.PRESS_BUTTON_UP;
+		this.pressButtonDown = CopperGolemAnimations.PRESS_BUTTON_DOWN;
+		^///?}
 	}
 
 	public static LayerDefinition getTexturedModelData() {
@@ -99,73 +127,38 @@ public class CopperGolemEntityModel extends EntityModel<CopperGolemRenderState>
 	//? if >=1.21.3 {
 	public void setupAnim(CopperGolemRenderState renderState)
 	//?} else {
-	/^public void setupAnim(T copperGolem, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
+	/^public void setupAnim(T copperGolem, float limbSwing, float limbSwingAmount, float ageInTicks, float headYaw, float headPitch)
 	^///?}
 	{
 		//? if >=1.21.3 {
+		super.setupAnim(renderState);
 		var copperGolem = renderState.copperGolem;
-		var limbAngle = renderState.walkAnimationPos;
-		var limbDistance = renderState.walkAnimationSpeed;
-		var animationProgress = renderState.ageInTicks;
+		var limbSwing = renderState.walkAnimationPos;
+		var limbSwingAmount = renderState.walkAnimationSpeed;
+		var ageInTicks = renderState.ageInTicks;
 		var headYaw = renderState.yRot;
-		//?}
+		//?} else {
+		/^this.root().getAllParts().forEach(ModelPart::resetPose);
+		^///?}
+
+		var animationSpeedModifier = copperGolem.getAnimationSpeedModifier();
 
 		if (copperGolem.isOxidized()) {
-			animationProgress = copperGolem.tickCount;
+			ageInTicks = copperGolem.getCurrentAnimationTick();
 		}
 
-		this.root().getAllParts().forEach(ModelPart::resetPose);
 		this.setHeadAngle(headYaw);
+		//FriendsAndFoes.getLogger().info(String.valueOf(limbSwing));
+		//FriendsAndFoes.getLogger().info(String.valueOf(limbSwingAmount));
 
-		if (copperGolem.isOxidized()) {
-			this.updateStatueAnimations(copperGolem);
-		}
-
-		this.updateAnimations(copperGolem, limbAngle, limbDistance, animationProgress);
+		VersionedEntityModel.AnimateWalk(this, this.walkAnimation, limbSwing, limbSwingAmount, 2.5F * copperGolem.getMovementSpeedModifier(), 3.5F * copperGolem.getMovementSpeedModifier());
+		VersionedEntityModel.Animate(this, this.spinHeadAnimation, copperGolem.spinHeadAnimationState, ageInTicks, animationSpeedModifier);
+		VersionedEntityModel.Animate(this, this.pressButtonUp, copperGolem.pressButtonUpAnimationState, ageInTicks, animationSpeedModifier);
+		VersionedEntityModel.Animate(this, this.pressButtonDown, copperGolem.pressButtonDownAnimationState, ageInTicks, animationSpeedModifier);
 	}
-
 
 	private void setHeadAngle(float yaw) {
 		this.head.yRot = yaw * ((float) Math.PI / 180);
-	}
-
-	private void updateStatueAnimations(CopperGolemEntity copperGolem) {
-		if (copperGolem.isInEntityPose(FriendsAndFoesEntityPose.IDLE)) {
-			return;
-		}
-
-		AnimationHolder animation = copperGolem.getAnimationByPose();
-
-		if (animation == null) {
-			return;
-		}
-
-		int initialTick = copperGolem.tickCount - copperGolem.getCurrentKeyframeAnimationTick();
-		int currentTick = copperGolem.tickCount;
-
-		AnimationContextTracker animationContextTracker = copperGolem.getAnimationContextTracker();
-		KeyframeAnimationContext keyframeAnimationContext = animationContextTracker.get(animation);
-		keyframeAnimationContext.setInitialTick(initialTick);
-		keyframeAnimationContext.setCurrentTick(currentTick);
-		AnimationState animationState = new AnimationState();
-		keyframeAnimationContext.setAnimationState(animationState);
-		animationState.start(initialTick);
-	}
-
-	public void updateAnimations(
-		CopperGolemEntity copperGolem,
-		float limbAngle,
-		float limbDistance,
-		float animationProgress
-	) {
-		var movementAnimation = copperGolem.getMovementAnimation();
-		var animations = copperGolem.getTrackedAnimations();
-		var animationContextTracker = copperGolem.getAnimationContextTracker();
-		var currentTick = copperGolem.tickCount;
-		var animationSpeedModifier = copperGolem.getAnimationSpeedModifier();
-		//FriendsAndFoes.getLogger().info("limbAngle: " + limbAngle + " | limbDistance: " + limbDistance + " | animationProgress: " + animationProgress);
-		KeyframeModelAnimator.updateMovementKeyframeAnimations(this, movementAnimation, limbAngle, limbDistance, 2.5F * copperGolem.getMovementSpeedModifier(), 3.5F * copperGolem.getMovementSpeedModifier(), animationSpeedModifier);
-		KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, animations, currentTick, animationProgress, animationSpeedModifier);
 	}
 }
 *///?}

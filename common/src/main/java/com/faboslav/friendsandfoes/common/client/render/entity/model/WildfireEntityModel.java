@@ -104,13 +104,16 @@ public final class WildfireEntityModel extends EntityModel<WildfireRenderState>
 	*///?}
 	{
 		//? if >=1.21.3 {
+		super.setupAnim(wildfireRenderState);
 		var wildfire = wildfireRenderState.wildfire;
 		var limbAngle = wildfireRenderState.walkAnimationPos;
 		var limbDistance = wildfireRenderState.walkAnimationSpeed;
 		var animationProgress = wildfireRenderState.ageInTicks;
 		var headYaw = wildfireRenderState.yRot;
 		var headPitch = wildfireRenderState.xRot;
-		//?}
+		//?} else {
+		/*this.root().getAllParts().forEach(ModelPart::resetPose);
+		*///?}
 
 		int activeShieldsCount = wildfire.getActiveShieldsCount();
 
@@ -118,7 +121,6 @@ public final class WildfireEntityModel extends EntityModel<WildfireRenderState>
 			this.shieldsModelParts.get(i).skipDraw = i > activeShieldsCount;
 		}
 
-		this.root().getAllParts().forEach(ModelPart::resetPose);
 		this.updateKeyframeAnimations(wildfire, limbAngle, limbDistance, animationProgress);
 
 		this.head.yRot = headYaw * 0.017453292F;

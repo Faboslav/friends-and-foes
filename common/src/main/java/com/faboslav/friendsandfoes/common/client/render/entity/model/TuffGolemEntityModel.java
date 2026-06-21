@@ -1,11 +1,7 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.model;
 
-import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.KeyframeModelAnimator;
-import com.faboslav.friendsandfoes.common.client.render.entity.state.RascalRenderState;
-import com.faboslav.friendsandfoes.common.entity.animation.RascalAnimations;
 import com.faboslav.friendsandfoes.common.entity.animation.TuffGolemAnimations;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntityModel;
-import net.minecraft.client.animation.KeyframeAnimation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -13,6 +9,12 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
+
+//? if >= 1.21.6 {
+import net.minecraft.client.animation.KeyframeAnimation;
+ //?} else {
+/*import net.minecraft.client.animation.AnimationDefinition;
+*///?}
 
 //? if >=1.21.3 {
 import net.minecraft.client.model.EntityModel;
@@ -145,7 +147,7 @@ public final class TuffGolemEntityModel extends EntityModel<TuffGolemRenderState
 	//? if >=1.21.3 {
 	public void setupAnim(TuffGolemRenderState renderState)
 	//?} else {
-	/*public void setupAnim(T tuffGolem, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
+	/*public void setupAnim(T tuffGolem, float limbSwing, float limbSwingAmount, float ageInTicks, float headYaw, float headPitch)
 	 *///?}
 	{
 		//? if >=1.21.3 {
@@ -165,7 +167,7 @@ public final class TuffGolemEntityModel extends EntityModel<TuffGolemRenderState
 		} else {
 			VersionedEntityModel.AnimateWalk(this, this.walkAnimation, limbSwing, limbSwingAmount, walkMultiplier, walkMultiplier);
 		}
-		
+
 		VersionedEntityModel.Animate(this, this.showItemAnimation, tuffGolem.showItemAnimationState, ageInTicks);
 		VersionedEntityModel.Animate(this, this.hideItemAnimation, tuffGolem.hideItemAnimationState, ageInTicks);
 		VersionedEntityModel.Animate(this, this.sleepAnimation, tuffGolem.sleepAnimationState, ageInTicks);

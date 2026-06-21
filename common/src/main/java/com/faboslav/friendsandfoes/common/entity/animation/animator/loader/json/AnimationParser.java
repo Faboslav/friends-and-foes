@@ -12,6 +12,7 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.KeyDispatchCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -21,6 +22,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
+
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ExtraCodecs;
 import org.joml.Vector3f;
@@ -29,16 +31,17 @@ import org.joml.Vector3fc;
 
 /**
  * A parser for parsing JSON-based entity animation files.
- *
+ * <p>
  * Animation loading related code is based on NeoForge code
  *
  * @author NeoForge team
  * <a href="https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation">https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation</a>
  */
-public final class AnimationParser {
+public final class AnimationParser
+{
 	/**
-	 * {@snippet lang = JSON : "minecraft:rotation"
-	 * }
+	 * {@snippet lang = JSON: "minecraft:rotation"
+	 *}
 	 */
 	private static final Codec<AnimationTarget> TARGET_CODEC = Identifier.CODEC
 		.flatXmap(
@@ -54,8 +57,8 @@ public final class AnimationParser {
 					target, AnimationTypeManager.getTargetList()))));
 
 	/**
-	 * {@snippet lang = JSON : "minecraft:linear"
-	 * }
+	 * {@snippet lang = JSON: "minecraft:linear"
+	 *}
 	 */
 	private static final Codec<AnimationChannel.Interpolation> INTERPOLATION_CODEC = Identifier.CODEC
 		.flatXmap(
@@ -71,7 +74,7 @@ public final class AnimationParser {
 					target, AnimationTypeManager.getInterpolationList()))));
 
 	/**
-	 * {@snippet lang = JSON :
+	 * {@snippet lang = JSON:
 	 * {
 	 *   "keyframes": [
 	 *     {
@@ -82,12 +85,12 @@ public final class AnimationParser {
 	 *   ],
 	 *   "target": "minecraft:rotation"
 	 * }
-	 * }
+	 *}
 	 */
 	public static final MapCodec<AnimationChannel> CHANNEL_CODEC = new KeyDispatchCodec<>(
 		//? if >= 1.21.11 {
 		TARGET_CODEC.fieldOf("target"),
-		//?} else {
+		 //?} else {
 		/*"target",
 		TARGET_CODEC,
 		*///?}
@@ -106,7 +109,7 @@ public final class AnimationParser {
 				.fieldOf("keyframes")));
 
 	/**
-	 * {@snippet lang = JSON :
+	 * {@snippet lang = JSON:
 	 * {
 	 *   "bone": "head",
 	 *   "keyframes": [
@@ -118,7 +121,7 @@ public final class AnimationParser {
 	 *   ],
 	 *   "target": "minecraft:rotation"
 	 * }
-	 * }
+	 *}
 	 */
 	private static final Codec<Pair<String, AnimationChannel>> NAMED_CHANNEL_CODEC = RecordCodecBuilder.create(
 		instance -> instance.group(
@@ -126,7 +129,7 @@ public final class AnimationParser {
 			CHANNEL_CODEC.forGetter(Pair::getSecond)).apply(instance, Pair::of));
 
 	/**
-	 * {@snippet lang = JSON :
+	 * {@snippet lang = JSON:
 	 * {
 	 *   "length": 1.125,
 	 *   "loop": true,
@@ -143,7 +146,7 @@ public final class AnimationParser {
 	 *     }
 	 *   ]
 	 * }
-	 * }
+	 *}
 	 */
 	public static final Codec<AnimationDefinition> CODEC = RecordCodecBuilder.create(
 		instance -> instance.group(
@@ -171,16 +174,17 @@ public final class AnimationParser {
 					.forGetter(AnimationDefinition::boneAnimations))
 			.apply(instance, (lengthInSeconds, looping, boneAnimations) -> new AnimationDefinition("", lengthInSeconds, looping, boneAnimations)));
 
-	private AnimationParser() {}
+	private AnimationParser() {
+	}
 
 	/**
-	 * {@snippet lang = JSON :
+	 * {@snippet lang = JSON:
 	 * {
 	 *   "timestamp": 0.5,
 	 *   "target": [22.5, 0.0, 0.0],
 	 *   "interpolation": "minecraft:linear"
 	 * }
-	 * }
+	 *}
 	 */
 	static Codec<Keyframe> keyframeCodec(AnimationTarget target) {
 		return RecordCodecBuilder.create(
@@ -201,13 +205,17 @@ public final class AnimationParser {
 
 	private static Codec<Vector3fc> targetCodec(AnimationTarget target) {
 		return ExtraCodecs.VECTOR3F
-			.xmap(vec -> (Vector3fc) vec, vec -> vec instanceof Vector3f vector3f ? vector3f : new Vector3f(vec))
+			.xmap(vec -> (Vector3fc) vec, vec -> vec instanceof Vector3f vector3f ? vector3f:new Vector3f(vec))
 			.xmap(
 				keyframeTargetToUnaryOp(target.keyframeTarget()),
 				keyframeTargetToUnaryOp(target.inverseKeyframeTarget()));
 	}
 
-	private static Keyframe constructKeyframe(float timestamp, Either<Pair<Vector3fc, Vector3fc>, Vector3fc> target, AnimationChannel.Interpolation interpolation) {
+	private static Keyframe constructKeyframe(
+		float timestamp,
+		Either<Pair<Vector3fc, Vector3fc>, Vector3fc> target,
+		AnimationChannel.Interpolation interpolation
+	) {
 		Vector3fc preTarget = target.map(Pair::getFirst, Function.identity());
 		Vector3fc postTarget = target.map(Pair::getSecond, Function.identity());
 		return new Keyframe(timestamp, preTarget, postTarget, interpolation);

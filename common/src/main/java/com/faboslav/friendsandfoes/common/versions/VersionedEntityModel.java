@@ -19,17 +19,32 @@ public class VersionedEntityModel
 	//? if >= 1.21.6 {
 	public static void Animate(EntityModel<?> entityModel, KeyframeAnimation animation, AnimationState animationState, float ageInTicks)
 	{
-		animation.apply(animationState, ageInTicks);
+		Animate(entityModel, animation, animationState, ageInTicks, 1.0F);
+	}
+
+	public static void Animate(EntityModel<?> entityModel, KeyframeAnimation animation, AnimationState animationState, float ageInTicks, float speedMultiplier)
+	{
+		animation.apply(animationState, ageInTicks, speedMultiplier);
 	}
 	//?} else if >= 1.21.3 {
 	/*public static void Animate(EntityModel<?> entityModel, AnimationDefinition animation, AnimationState animationState, float ageInTicks)
+	{
+		Animate(entityModel, animation, animationState, ageInTicks, 1.0F);
+	}
+
+	public static void Animate(EntityModel<?> entityModel, AnimationDefinition animation, AnimationState animationState, float ageInTicks, float speedMultiplier)
 	{
 		entityModel.animate(animationState, animation, ageInTicks);
 	}
 	*///?} else {
 	/*public static void Animate(HierarchicalModel<?> entityModel, AnimationDefinition animation, AnimationState animationState, float ageInTicks)
 	{
-		entityModel.animate(animationState, animation, ageInTicks);
+		Animate(entityModel, animation, animationState, ageInTicks, 1.0F);
+	}
+
+	public static void Animate(HierarchicalModel<?> entityModel, AnimationDefinition animation, AnimationState animationState, float ageInTicks, float speedMultiplier)
+	{
+		entityModel.animate(animationState, animation, ageInTicks, speedMultiplier);
 	}
 	*///?}
 

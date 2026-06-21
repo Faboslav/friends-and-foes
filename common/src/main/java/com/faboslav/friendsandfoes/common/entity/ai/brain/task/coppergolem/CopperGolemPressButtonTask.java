@@ -6,6 +6,7 @@ import com.faboslav.friendsandfoes.common.entity.CopperGolemEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.CopperGolemBrain;
 import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
+import com.faboslav.friendsandfoes.common.util.animation.AnimationMath;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
@@ -66,9 +67,9 @@ public final class CopperGolemPressButtonTask extends Behavior<CopperGolemEntity
 		this.heightDifference = buttonPos.pos().getY() - copperGolem.blockPosition().getY();
 
 		if (this.heightDifference >= 1) {
-			this.maxPressButtonTicks = CopperGolemAnimations.PRESS_BUTTON_UP.get().lengthInTicks(copperGolem.getAnimationSpeedModifier());
+			this.maxPressButtonTicks = AnimationMath.toLengthInTicks(CopperGolemAnimations.PRESS_BUTTON_UP.lengthInSeconds(), copperGolem.getAnimationSpeedModifier());
 		} else {
-			this.maxPressButtonTicks = CopperGolemAnimations.PRESS_BUTTON_DOWN.get().lengthInTicks(copperGolem.getAnimationSpeedModifier());
+			this.maxPressButtonTicks = AnimationMath.toLengthInTicks(CopperGolemAnimations.PRESS_BUTTON_DOWN.lengthInSeconds(), copperGolem.getAnimationSpeedModifier());
 		}
 
 		this.minPressButtonTick = copperGolem.getRandom().nextIntBetweenInclusive((int) (this.maxPressButtonTicks * 0.4), (int) (this.maxPressButtonTicks * 0.6));

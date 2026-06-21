@@ -24,6 +24,9 @@ public final class AddCustomSpawnGroupMixin
 		String internalName,
 		int internalId,
 		String name,
+		//? if >=26.2 {
+		String debugAbbreviation,
+		//?}
 		int spawnCap,
 		boolean peaceful,
 		boolean rare,
@@ -54,6 +57,9 @@ public final class AddCustomSpawnGroupMixin
 			CustomSpawnGroup.GLARES_INTERNAL_NAME,
 			lastSpawnGroup.ordinal() + 1,
 			CustomSpawnGroup.GLARES_NAME,
+			//? if >=26.2 {
+			"GL",
+			//?}
 			CustomSpawnGroup.GLARES_SPAWN_CAP,
 			CustomSpawnGroup.GLARES_PEACEFUL,
 			CustomSpawnGroup.GLARES_RARE,
@@ -66,6 +72,9 @@ public final class AddCustomSpawnGroupMixin
 			CustomSpawnGroup.RASCALS_INTERNAL_NAME,
 			lastSpawnGroup.ordinal() + 2,
 			CustomSpawnGroup.RASCALS_NAME,
+			//? if >=26.2 {
+			"RA",
+			//?}
 			CustomSpawnGroup.RASCALS_SPAWN_CAP,
 			CustomSpawnGroup.RASCALS_PEACEFUL,
 			CustomSpawnGroup.RASCALS_RARE,

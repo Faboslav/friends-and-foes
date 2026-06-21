@@ -6,10 +6,7 @@ import com.faboslav.friendsandfoes.common.api.MoobloomVariantManager;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
-import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
-import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
-import com.faboslav.friendsandfoes.common.versions.VersionedInteractionResult;
-import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
+import com.faboslav.friendsandfoes.common.versions.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -232,7 +229,7 @@ public final class MoobloomEntity extends AbstractCow implements Shearable
 
 	private void transformToCow(ServerLevel level) {
 		this.discard();
-		Cow cowEntity = EntityType.COW.create(level/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.CONVERSION/*?}*/);
+		Cow cowEntity = VersionedEntityType.COW.create(level/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.CONVERSION/*?}*/);
 
 		if (cowEntity == null) {
 			return;

@@ -17,7 +17,7 @@ import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
 import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.advancements.triggers.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
@@ -37,7 +37,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.FlyingAnimal;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -52,6 +51,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Objects;
+
+//? if < 26.2 {
+/*import net.minecraft.world.entity.animal.FlyingAnimal;
+*///?}
 
 //? if <= 1.21.11 {
 /*import com.mojang.serialization.Dynamic;
@@ -68,7 +71,11 @@ import net.minecraft.world.entity.EntitySpawnReason;
 /*import net.minecraft.world.entity.MobSpawnType;
  *///?}
 
-public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
+//? if >= 26.2 {
+public class CrabEntity extends Animal implements AnimatedEntity
+//?} else {
+/*public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
+*///?}
 {
 	public static final float BABY_SCALE = 0.3F;
 	private static final float MOVEMENT_SPEED = 0.225F;
@@ -161,9 +168,11 @@ public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
 	public void jumpFromGround() {
 	}
 
-	public boolean isFlying() {
+	//? if < 26.2 {
+	/*public boolean isFlying() {
 		return this.onClimbable();
 	}
+	*///?}
 
 	@Override
 	public float getSpeed() {

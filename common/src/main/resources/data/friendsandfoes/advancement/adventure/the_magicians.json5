@@ -25,10 +25,14 @@
 				"entity": [
 					{
 						"condition": "minecraft:entity_properties",
+						"entity": "this",
 						"predicate": {
-							"type": "minecraft:evoker"
-						},
-						"entity": "this"
+							//? if >=26.2 {
+							"entity_type": "minecraft:evoker"
+							//?} else {
+							/*"type": "minecraft:evoker"
+							*///?}
+						}
 					}
 				]
 			}
@@ -39,10 +43,14 @@
 				"entity": [
 					{
 						"condition": "minecraft:entity_properties",
+						"entity": "this",
 						"predicate": {
-							"type": "friendsandfoes:iceologer"
-						},
-						"entity": "this"
+							//? if >=26.2 {
+							"entity_type": "friendsandfoes:iceologer"
+							//?} else {
+							/*"type": "friendsandfoes:iceologer"
+							*///?}
+						}
 					}
 				]
 			}
@@ -53,10 +61,14 @@
 				"entity": [
 					{
 						"condition": "minecraft:entity_properties",
+						"entity": "this",
 						"predicate": {
-							"type": "friendsandfoes:illusioner"
-						},
-						"entity": "this"
+							//? if >=26.2 {
+							"entity_type": "friendsandfoes:illusioner"
+							//?} else {
+							/*"type": "friendsandfoes:illusioner"
+							*///?}
+						}
 					}
 				]
 			}

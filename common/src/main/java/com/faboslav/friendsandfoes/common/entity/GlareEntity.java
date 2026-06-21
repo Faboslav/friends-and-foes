@@ -45,7 +45,6 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.FlyingAnimal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
@@ -67,6 +66,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.function.Predicate;
 
+//? if < 26.2 {
+/*import net.minecraft.world.entity.animal.FlyingAnimal;
+*///?}
+
 //? if <= 1.21.11 {
 /*import com.mojang.serialization.Dynamic;
 *///?}
@@ -78,7 +81,11 @@ import net.minecraft.world.entity.EntitySpawnReason;
  *///?}
 
 @SuppressWarnings({"unchecked"})
-public final class GlareEntity extends TamableAnimal implements FlyingAnimal, AnimatedEntity
+//? if >= 26.2 {
+public final class GlareEntity extends TamableAnimal implements AnimatedEntity
+//?} else {
+/*public final class GlareEntity extends TamableAnimal implements FlyingAnimal, AnimatedEntity
+*///?}
 {
 	public static final float ADULT_SCALE = 0.8F;
 	public static final float BABY_SCALE = 0.4F;
@@ -631,9 +638,11 @@ public final class GlareEntity extends TamableAnimal implements FlyingAnimal, An
 		return this.level().getBrightness(LightLayer.BLOCK, pos) == 0;
 	}
 
-	public boolean isFlying() {
+	//? if < 26.2 {
+	/*public boolean isFlying() {
 		return this.onGround() == false;
 	}
+	*///?}
 
 	@Override
 	protected void jumpInLiquid(TagKey<Fluid> tagKey) {

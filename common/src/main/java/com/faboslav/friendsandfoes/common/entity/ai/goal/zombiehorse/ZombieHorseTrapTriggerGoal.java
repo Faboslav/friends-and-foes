@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntityType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -60,7 +61,7 @@ public final class ZombieHorseTrapTriggerGoal extends Goal
 		((ZombieHorseEntityAccess) this.zombieHorse).friendsandfoes_setTrapped(false);
 		this.zombieHorse.setTamed(true);
 		this.zombieHorse.setAge(0);
-		LightningBolt lightningEntity = EntityType.LIGHTNING_BOLT.create(serverWorld/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.TRIGGERED/*?}*/);
+		LightningBolt lightningEntity = VersionedEntityType.LIGHTNING_BOLT.create(serverWorld/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.TRIGGERED/*?}*/);
 		VersionedEntity.moveTo(lightningEntity, this.zombieHorse.getX(), this.zombieHorse.getY(), this.zombieHorse.getZ());
 		lightningEntity.setVisualOnly(true);
 		serverWorld.addFreshEntity(lightningEntity);
@@ -80,7 +81,7 @@ public final class ZombieHorseTrapTriggerGoal extends Goal
 	}
 
 	private ZombieHorse getHorse(DifficultyInstance localDifficulty) {
-		ZombieHorse zombieHorse = EntityType.ZOMBIE_HORSE.create(this.zombieHorse.level()/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.TRIGGERED/*?}*/);
+		ZombieHorse zombieHorse = VersionedEntityType.ZOMBIE_HORSE.create(this.zombieHorse.level()/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.TRIGGERED/*?}*/);
 
 		if(zombieHorse != null) {
 			zombieHorse.finalizeSpawn((ServerLevel) this.zombieHorse.level(), localDifficulty, VersionedEntitySpawnReason.TRIGGERED, null);
@@ -95,7 +96,7 @@ public final class ZombieHorseTrapTriggerGoal extends Goal
 	}
 
 	private Zombie getZombie(DifficultyInstance localDifficulty, AbstractHorse vehicle) {
-		Zombie zombie = EntityType.ZOMBIE.create(vehicle.level()/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.TRIGGERED/*?}*/);
+		Zombie zombie = VersionedEntityType.ZOMBIE.create(vehicle.level()/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.TRIGGERED/*?}*/);
 
 		if(zombie != null) {
 			zombie.finalizeSpawn((ServerLevel) vehicle.level(), localDifficulty, VersionedEntitySpawnReason.TRIGGERED, null);

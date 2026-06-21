@@ -10,7 +10,11 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
  * Originally from YUNG's API by.
  * YUNGNICKYOUNG (https://github.com/YUNG-GANG/YUNGs-API)
  */
-public abstract class StructureEntityProcessor extends StructureProcessor
+//? if >= 26.2 {
+public abstract class StructureEntityProcessor implements StructureProcessor
+//?} else {
+/*public abstract class StructureEntityProcessor extends StructureProcessor
+*///?}
 {
 	public abstract StructureEntityInfo processEntity(
 		ServerLevelAccessor serverWorldAccess,

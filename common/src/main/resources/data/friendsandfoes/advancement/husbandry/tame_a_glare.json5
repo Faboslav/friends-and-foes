@@ -25,7 +25,11 @@
 					]
 				},
 				"entity": {
-					"type": "friendsandfoes:glare"
+					//? if >=26.2 {
+					"entity_type": "friendsandfoes:glare"
+					//?} else {
+					/*"type": "friendsandfoes:glare"
+					*///?}
 				}
 			}
 		}

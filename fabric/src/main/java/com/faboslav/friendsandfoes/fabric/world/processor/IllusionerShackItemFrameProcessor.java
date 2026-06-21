@@ -8,17 +8,14 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureEntityInfo;
 import org.jetbrains.annotations.Nullable;
 
-/**
- * Inspired by use in Better Strongholds mod
- *
- * @author YUNGNICKYOUNG
- * <a href="https://github.com/YUNG-GANG/YUNGs-Better-Strongholds">https://github.com/YUNG-GANG/YUNGs-Better-Strongholds</a>
- */
+//? if <26.2 {
+/*import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
+ *///?}
+
 public final class IllusionerShackItemFrameProcessor extends StructureEntityProcessor
 {
 	public static final MapCodec<IllusionerShackItemFrameProcessor> CODEC = MapCodec.unit(IllusionerShackItemFrameProcessor::new);
@@ -43,19 +40,37 @@ public final class IllusionerShackItemFrameProcessor extends StructureEntityProc
 
 	@Nullable
 	@Override
+	//? if >=26.2 {
 	public StructureTemplate.StructureBlockInfo processBlock(
+		LevelReader world,
+		BlockPos pos,
+		BlockPos pivot,
+		BlockPos templateRelativePos,
+		StructureTemplate.StructureBlockInfo globalEntityInfo,
+		StructurePlaceSettings data
+	)
+	//?} else {
+	/*public StructureTemplate.StructureBlockInfo processBlock(
 		LevelReader world,
 		BlockPos pos,
 		BlockPos pivot,
 		StructureTemplate.StructureBlockInfo localEntityInfo,
 		StructureTemplate.StructureBlockInfo globalEntityInfo,
 		StructurePlaceSettings data
-	) {
+	)
+	*///?}
+	{
 		return globalEntityInfo;
 	}
 
 	@Override
-	protected StructureProcessorType<?> getType() {
+	//? if >=26.2 {
+	public MapCodec<? extends net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor> codec() {
 		return ProcessorTypes.ILLUSIONER_SHACK_ITEM_FRAME_PROCESSOR.get();
 	}
+	//?} else {
+	/*protected StructureProcessorType<?> getType() {
+		return ProcessorTypes.ILLUSIONER_SHACK_ITEM_FRAME_PROCESSOR.get();
+	}
+	*///?}
 }

@@ -4,6 +4,7 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntityType;
 import com.faboslav.friendsandfoes.common.versions.VersionedGameRulesProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -12,7 +13,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.projectile.hurtingprojectile.Fireball;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseFireBlock;
 import net.minecraft.world.phys.BlockHitResult;
@@ -27,7 +27,7 @@ public final class WildfireShieldDebrisEntity extends Fireball
 		LivingEntity owner,
 		Vec3 velocity
 	) {
-		super(EntityType.SMALL_FIREBALL, owner, velocity, world);
+		super(VersionedEntityType.SMALL_FIREBALL, owner, velocity, world);
 	}
 
 	protected void onHitEntity(EntityHitResult entityHitResult) {

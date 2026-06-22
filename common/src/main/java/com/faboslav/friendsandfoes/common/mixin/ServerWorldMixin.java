@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.ZombieHorseEntityAccess;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntityType;
 import com.faboslav.friendsandfoes.common.versions.VersionedGameRulesProvider;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -11,7 +12,6 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.*;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.animal.equine.ZombieHorse;
 import net.minecraft.world.level.ChunkPos;
@@ -109,14 +109,14 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel
 				*///?}
 
 				if (canZombieHorseSpawn) {
-					ZombieHorse zombieHorse = EntityType.ZOMBIE_HORSE.create(this/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.EVENT/*?}*/);
+					ZombieHorse zombieHorse = VersionedEntityType.ZOMBIE_HORSE.create(this/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.EVENT/*?}*/);
 					((ZombieHorseEntityAccess) zombieHorse).friendsandfoes_setTrapped(true);
 					zombieHorse.setAge(0);
 					zombieHorse.setPos(blockPos.getX(), blockPos.getY(), blockPos.getZ());
 					this.addFreshEntity(zombieHorse);
 				}
 
-				LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(this/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.EVENT/*?}*/);
+				LightningBolt lightningBolt = VersionedEntityType.LIGHTNING_BOLT.create(this/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.EVENT/*?}*/);
 				//? if >= 1.21.5 {
 				lightningBolt.snapTo(Vec3.atBottomCenterOf(blockPos));
 				//?} else {

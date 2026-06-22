@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.common.world.processor;
 
-import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStructureProcessorTypes;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -15,16 +14,19 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 
-/**
- * Inspired by use in Better Fortresses mod
- *
- * @author YUNGNICKYOUNG
- * <a href="https://github.com/YUNG-GANG/YUNGs-Better-Fortresses">https://github.com/YUNG-GANG/YUNGs-Better-Fortresses</a>
- */
-public final class CitadelBottomProcessor extends StructureProcessor
+//? if <26.2 {
+/*import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
+*///?} else {
+import org.jspecify.annotations.Nullable;
+//?}
+
+//? if >=26.2 {
+public final class CitadelBottomProcessor implements StructureProcessor
+//?} else {
+/*public final class CitadelBottomProcessor extends StructureProcessor
+*///?}
 {
 	public static final MapCodec<CitadelBottomProcessor> CODEC = RecordCodecBuilder.mapCodec(instance -> instance
 		.group(
@@ -53,59 +55,70 @@ public final class CitadelBottomProcessor extends StructureProcessor
 
 	@Override
 	public StructureTemplate.StructureBlockInfo processBlock(
-		LevelReader worldView,
+		LevelReader world,
 		BlockPos pos,
 		BlockPos pivot,
-		StructureTemplate.StructureBlockInfo blockInfoLocal,
-		StructureTemplate.StructureBlockInfo blockInfoGlobal,
+		//? if >=26.2 {
+		BlockPos templateRelativePos,
+		 //?} else {
+		/*StructureTemplate.StructureBlockInfo originalBlockInfo,
+		*///?}
+		StructureTemplate.StructureBlockInfo currentBlockInfo,
 		StructurePlaceSettings structurePlacementData
 	) {
-		if (blockInfoGlobal.state().is(this.targetBlock.getBlock())) {
+		if (currentBlockInfo.state().is(this.targetBlock.getBlock())) {
 			if (
-				worldView instanceof WorldGenRegion chunkRegion
-				&& !chunkRegion.getCenter().equals(new ChunkPos(SectionPos.blockToSectionCoord(blockInfoGlobal.pos().getX()), SectionPos.blockToSectionCoord(blockInfoGlobal.pos().getZ())))
+				world instanceof WorldGenRegion chunkRegion
+				&& !chunkRegion.getCenter().equals(new ChunkPos(SectionPos.blockToSectionCoord(currentBlockInfo.pos().getX()), SectionPos.blockToSectionCoord(currentBlockInfo.pos().getZ())))
 			) {
-				return blockInfoGlobal;
+				return currentBlockInfo;
 			}
 
-			blockInfoGlobal = new StructureTemplate.StructureBlockInfo(
-				blockInfoGlobal.pos(),
+			currentBlockInfo = new StructureTemplate.StructureBlockInfo(
+				currentBlockInfo.pos(),
 				targetBlockOutput,
-				blockInfoGlobal.nbt()
+				currentBlockInfo.nbt()
 			);
-			BlockPos.MutableBlockPos mutable = blockInfoGlobal.pos().mutable().move(Direction.DOWN);
-			BlockState currentBlockState = worldView.getBlockState(mutable);
-			RandomSource random = structurePlacementData.getRandom(blockInfoGlobal.pos());
+			BlockPos.MutableBlockPos mutable = currentBlockInfo.pos().mutable().move(Direction.DOWN);
+			BlockState currentBlockState = world.getBlockState(mutable);
+			RandomSource random = structurePlacementData.getRandom(currentBlockInfo.pos());
 
 			int worldBottomY;
 			int worldTopY;
 			//? if >=1.21.3 {
-			worldBottomY = worldView.getMinY();
-			worldTopY = worldView.getMaxY();
+			worldBottomY = world.getMinY();
+			worldTopY = world.getMaxY();
 			//?} else {
-			/*worldBottomY = worldView.getMinBuildHeight();
-			worldTopY = worldView.getMaxBuildHeight();
+			/*worldBottomY = world.getMinBuildHeight();
+			worldTopY = world.getMaxBuildHeight();
 			*///?}
-			
+
 			while (
 				mutable.getY() > worldBottomY
 				&& mutable.getY() < worldTopY
-				&& (currentBlockState.isAir() || !worldView.getFluidState(mutable).isEmpty())
+				&& (currentBlockState.isAir() || !world.getFluidState(mutable).isEmpty())
 			) {
 				//? if >=1.21.5 {
-				worldView.getChunk(mutable).setBlockState(mutable, targetBlockOutput);
+				world.getChunk(mutable).setBlockState(mutable, targetBlockOutput);
 				//?} else {
-				/*worldView.getChunk(mutable).setBlockState(mutable, targetBlockOutput, false);
-				*///?}
+				/*world.getChunk(mutable).setBlockState(mutable, targetBlockOutput, false);
+				 *///?}
 				mutable.move(Direction.DOWN);
-				currentBlockState = worldView.getBlockState(mutable);
+				currentBlockState = world.getBlockState(mutable);
 			}
 		}
 
-		return blockInfoGlobal;
+		return currentBlockInfo;
 	}
 
-	protected StructureProcessorType<?> getType() {
+	@Override
+	//? if >=26.2 {
+	public MapCodec<? extends StructureProcessor> codec() {
 		return FriendsAndFoesStructureProcessorTypes.CITADEL_BOTTOM_PROCESSOR.get();
 	}
+	//?} else {
+	/*protected StructureProcessorType<?> getType() {
+		return FriendsAndFoesStructureProcessorTypes.CITADEL_BOTTOM_PROCESSOR.get();
+	}
+	*///?}
 }

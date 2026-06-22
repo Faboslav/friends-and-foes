@@ -6,6 +6,7 @@ import com.faboslav.friendsandfoes.common.entity.ai.brain.WildfireBrain;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntityType;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -94,7 +95,7 @@ public final class WildfireSummonBlazeTask extends Behavior<WildfireEntity>
 				1,
 				-2 + wildfire.getRandom().nextInt(5)
 			);
-			Blaze blaze = EntityType.BLAZE.create(serverWorld/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.MOB_SUMMONED/*?}*/);
+			Blaze blaze = VersionedEntityType.BLAZE.create(serverWorld/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.MOB_SUMMONED/*?}*/);
 			VersionedEntity.moveTo(blaze, blockPos, 0.0F, 0.0F);
 			blaze.setTarget(this.attackTarget);
 			((BlazeEntityAccess) blaze).friendsandfoes_setWildfire(wildfire);

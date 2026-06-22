@@ -22,10 +22,14 @@
 				"entity": [
 					{
 						"condition": "minecraft:entity_properties",
+						"entity": "this",
 						"predicate": {
-							"type": "friendsandfoes:wildfire"
-						},
-						"entity": "this"
+							//? if >=26.2 {
+							"entity_type": "friendsandfoes:wildfire"
+							//?} else {
+							/*"type": "friendsandfoes:wildfire"
+							*///?}
+						}
 					}
 				]
 			}

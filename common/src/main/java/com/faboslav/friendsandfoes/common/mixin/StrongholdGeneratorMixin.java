@@ -23,7 +23,6 @@ import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -83,19 +82,19 @@ public abstract class StrongholdGeneratorMixin extends StructurePiece
 			return;
 		}
 
-		ArrayList<Tuple> possibleSpawnPositions = new ArrayList<>();
+		ArrayList<int[]> possibleSpawnPositions = new ArrayList<>();
 
 		for (int x = 5; x < 8; x = x + 3) {
-			for (int y = 4; y < 12; y = y + 2) {
-				possibleSpawnPositions.add(new Tuple(x, y));
+			for (int z = 4; z < 12; z = z + 2) {
+				possibleSpawnPositions.add(new int[]{ x, z });
 			}
 		}
 
-		Tuple<Integer, Integer> pickedXYPair = possibleSpawnPositions.get(random.nextIntBetweenInclusive(0, possibleSpawnPositions.size() - 1));
+		int[] pickedSpawnPosition = possibleSpawnPositions.get(random.nextIntBetweenInclusive(0, possibleSpawnPositions.size() - 1));
 		BlockPos.MutableBlockPos tuffGolemPos = this.getWorldPos(
-			pickedXYPair.getA(),
+			pickedSpawnPosition[0],
 			1,
-			pickedXYPair.getB()
+			pickedSpawnPosition[1]
 		);
 		tuffGolem.setPos(
 			tuffGolemPos.getX() + 0.5F,
@@ -155,7 +154,7 @@ public abstract class StrongholdGeneratorMixin extends StructurePiece
 			.map(EnchantmentInstance::enchantment)
 			//?} else {
 			/*.map(enchantmentInstance -> enchantmentInstance.enchantment)
-			*///?}
+			 *///?}
 			.toList();
 	}
 }

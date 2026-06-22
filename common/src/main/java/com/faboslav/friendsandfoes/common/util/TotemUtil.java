@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes.common.util;
 import com.faboslav.friendsandfoes.common.entity.MannequinEntityAccess;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntityType;
 import com.faboslav.friendsandfoes.common.versions.VersionedMobEffects;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -131,7 +132,7 @@ public final class TotemUtil
 	@Nullable
 	private static LivingEntity createIllusion(Player player, ServerLevel serverLevel, int x, int y, int z) {
 		//? if >= 1.21.9 {
-		var playerIllusion = EntityType.MANNEQUIN.create(serverLevel, VersionedEntitySpawnReason.MOB_SUMMONED);
+		var playerIllusion = VersionedEntityType.MANNEQUIN.create(serverLevel, VersionedEntitySpawnReason.MOB_SUMMONED);
 		//?} else if >= 1.21.3 {
 		/*var playerIllusion = FriendsAndFoesEntityTypes.PLAYER_ILLUSION.get().create(serverLevel, VersionedEntitySpawnReason.MOB_SUMMONED);
 		*///?} else {

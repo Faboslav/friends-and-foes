@@ -76,7 +76,14 @@ public final class FriendsAndFoesFabric implements ModInitializer
 			/*registerVillagerTrades();
 			*///?}
 
-			if (world.isClientSide() || world.dimensionTypeRegistration() != BuiltinDimensionTypes.OVERWORLD) {
+			if (
+				world.isClientSide()
+				//? if >=26.2 {
+				|| !world.dimensionTypeRegistration().is(BuiltinDimensionTypes.OVERWORLD)
+				//?} else {
+				/*|| world.dimensionTypeRegistration() != BuiltinDimensionTypes.OVERWORLD
+				 *///?}
+			) {
 				return;
 			}
 

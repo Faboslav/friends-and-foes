@@ -43,15 +43,17 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+
+//? if >= 26.2 {
+import java.util.concurrent.atomic.AtomicReference;
+//?}
 
 //? if >= 26.1 {
 import net.minecraft.core.component.DataComponents;
@@ -1005,7 +1007,22 @@ public final class TuffGolemEntity extends AbstractGolem
 		}
 
 		public static TuffGolemEntity.Color fromWool(Block block) {
-			if (block == Blocks.BLACK_WOOL) {
+			//? if >= 26.2 {
+			AtomicReference<Color> color = new AtomicReference<>(Color.RED);
+
+			ColorCollection.zipApply(
+				Blocks.WOOL,
+				ColorCollection.VALUES,
+				(woolBlock, dyeColor) -> {
+					if (block == woolBlock) {
+						color.set(Color.valueOf(dyeColor.name()));
+					}
+				}
+			);
+
+			return color.get();
+			//?} else {
+			/*if (block == Blocks.BLACK_WOOL) {
 				return Color.BLACK;
 			} else if (block == Blocks.BLUE_WOOL) {
 				return Color.BLUE;
@@ -1038,6 +1055,7 @@ public final class TuffGolemEntity extends AbstractGolem
 			}
 
 			return Color.RED;
+			*///?}
 		}
 	}
 

@@ -3,25 +3,26 @@ package com.faboslav.friendsandfoes.common.world.processor;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStructureProcessorTypes;
 import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
 import com.mojang.serialization.MapCodec;
-import net.minecraft.util.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.Util;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 
-/**
- * Inspired by use in Better Witch Huts mod
- *
- * @author YUNGNICKYOUNG
- * <a href="https://github.com/YUNG-GANG/YUNGs-Better-Witch-Huts">https://github.com/YUNG-GANG/YUNGs-Better-Witch-Huts</a>
- */
-public final class IllusionerShackBrewingStandProcessor extends StructureProcessor
+//? if <26.2 {
+/*import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
+ *///?}
+
+//? if >=26.2 {
+public final class IllusionerShackBrewingStandProcessor implements StructureProcessor
+//?} else {
+/*public final class IllusionerShackBrewingStandProcessor extends StructureProcessor
+ *///?}
 {
 	public static final MapCodec<IllusionerShackBrewingStandProcessor> CODEC = MapCodec.unit(IllusionerShackBrewingStandProcessor::new);
 
@@ -33,7 +34,11 @@ public final class IllusionerShackBrewingStandProcessor extends StructureProcess
 		LevelReader world,
 		BlockPos pos,
 		BlockPos pivot,
-		StructureBlockInfo originalBlockInfo,
+		//? if >=26.2 {
+		BlockPos templateRelativePos,
+		//?} else {
+		/*StructureBlockInfo originalBlockInfo,
+		 *///?}
 		StructureBlockInfo currentBlockInfo,
 		StructurePlaceSettings structurePlacementData
 	) {
@@ -79,8 +84,12 @@ public final class IllusionerShackBrewingStandProcessor extends StructureProcess
 
 		itemsListTag.add(Util.make(new CompoundTag(), itemTag -> {
 			putPotionInSlot(itemTag, (byte) 1, outputPotionId);
-			if (randomSource.nextFloat() < .5f) putPotionInSlot(itemTag, (byte) 0, outputPotionId);
-			if (randomSource.nextFloat() < .5f) putPotionInSlot(itemTag, (byte) 2, outputPotionId);
+			if (randomSource.nextFloat() < .5f) {
+				putPotionInSlot(itemTag, (byte) 0, outputPotionId);
+			}
+			if (randomSource.nextFloat() < .5f) {
+				putPotionInSlot(itemTag, (byte) 2, outputPotionId);
+			}
 		}));
 	}
 
@@ -100,7 +109,13 @@ public final class IllusionerShackBrewingStandProcessor extends StructureProcess
 	}
 
 	@Override
-	protected StructureProcessorType<?> getType() {
+	//? if >=26.2 {
+	public MapCodec<? extends StructureProcessor> codec() {
 		return FriendsAndFoesStructureProcessorTypes.ILLUSIONER_SHACK_BREWING_STAND_PROCESSOR.get();
 	}
+	//?} else {
+	/*protected StructureProcessorType<?> getType() {
+		return FriendsAndFoesStructureProcessorTypes.ILLUSIONER_SHACK_BREWING_STAND_PROCESSOR.get();
+	}
+	*///?}
 }

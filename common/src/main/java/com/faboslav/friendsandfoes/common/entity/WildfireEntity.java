@@ -1,11 +1,7 @@
 package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-import com.faboslav.friendsandfoes.common.entity.animation.WildfireAnimations;
-import com.faboslav.friendsandfoes.common.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.WildfireBrain;
-import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
-import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
 import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityDataSerializers;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
@@ -58,9 +54,8 @@ import net.minecraft.world.entity.EntitySpawnReason;
 /*import net.minecraft.world.entity.MobSpawnType;
  *///?}
 
-public final class WildfireEntity extends Monster implements AnimatedEntity
+public final class WildfireEntity extends Monster
 {
-	private AnimationContextTracker animationContextTracker;
 	private float damageAmountCounter = 0.0F;
 
 	public static final float GENERIC_ATTACK_DAMAGE = 8.0F;
@@ -79,8 +74,11 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 	private static final EntityDataAccessor<Integer> ACTIVE_SHIELDS_COUNT = SynchedEntityData.defineId(WildfireEntity.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<Integer> TICKS_UNTIL_SHIELD_REGENERATION = SynchedEntityData.defineId(WildfireEntity.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<Integer> SUMMONED_BLAZES_COUNT = SynchedEntityData.defineId(WildfireEntity.class, EntityDataSerializers.INT);
-	private static final EntityDataAccessor<Integer> POSE_TICKS = SynchedEntityData.defineId(WildfireEntity.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<FriendsAndFoesEntityPose> ENTITY_POSE = SynchedEntityData.defineId(WildfireEntity.class, FriendsAndFoesEntityDataSerializers.ENTITY_POSE);
+
+	public final AnimationState idleAnimationState = new AnimationState();
+	public final AnimationState shieldRotationAnimationState = new AnimationState();
+	public final AnimationState shockwaveAnimationState = new AnimationState();
 
 	public WildfireEntity(EntityType<? extends WildfireEntity> entityType, Level world) {
 		super(entityType, world);
@@ -112,49 +110,6 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 		this.setActiveShieldsCount(DEFAULT_ACTIVE_SHIELDS_COUNT);
 		this.setSummonedBlazesCount(DEFAULT_SUMMONED_BLAZES_COUNT);
 		return super.finalizeSpawn(world, difficulty, spawnReason, entityData);
-	}
-
-	@Override
-	public AnimationContextTracker getAnimationContextTracker() {
-		if (this.animationContextTracker == null) {
-			this.animationContextTracker = new AnimationContextTracker();
-
-			for (var trackedAnimation: this.getTrackedAnimations()) {
-				this.animationContextTracker.add(trackedAnimation);
-			}
-
-			for (var idleAnimation: this.getIdleAnimations()) {
-				this.animationContextTracker.add(idleAnimation);
-			}
-
-			this.animationContextTracker.add(WildfireAnimations.SHIELD_ROTATION);
-		}
-
-		return this.animationContextTracker;
-	}
-
-	@Override
-	public ArrayList<AnimationHolder> getTrackedAnimations() {
-		return WildfireAnimations.TRACKED_ANIMATIONS;
-	}
-
-	@Override
-	public ArrayList<AnimationHolder> getIdleAnimations() {
-		return WildfireAnimations.IDLE_ANIMATIONS;
-	}
-
-	@Override
-	public AnimationHolder getMovementAnimation() {
-		return WildfireAnimations.WALK;
-	}
-
-	@Override
-	public int getCurrentAnimationTick() {
-		return this.entityData.get(POSE_TICKS);
-	}
-
-	public void setCurrentAnimationTick(int keyframeAnimationTicks) {
-		this.entityData.set(POSE_TICKS, keyframeAnimationTicks);
 	}
 
 	@Override
@@ -210,7 +165,6 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 		builder.define(ACTIVE_SHIELDS_COUNT, DEFAULT_ACTIVE_SHIELDS_COUNT);
 		builder.define(TICKS_UNTIL_SHIELD_REGENERATION, DEFAULT_TICKS_UNTIL_SHIELD_REGENERATION);
 		builder.define(SUMMONED_BLAZES_COUNT, DEFAULT_SUMMONED_BLAZES_COUNT);
-		builder.define(POSE_TICKS, 0);
 		builder.define(ENTITY_POSE, FriendsAndFoesEntityPose.IDLE);
 	}
 
@@ -358,7 +312,11 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 		}
 
 		super.tick();
-		this.updateKeyframeAnimations();
+
+		if (this.level().isClientSide()) {
+			this.idleAnimationState.animateWhen(!this.walkAnimation.isMoving(), this.tickCount);
+			this.shieldRotationAnimationState.animateWhen(this.hasActiveShields(), this.tickCount);
+		}
 
 		this.setTicksUntilShieldRegeneration(this.getTicksUntilShieldRegeneration() - 1);
 
@@ -371,7 +329,7 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 	protected void updateWalkAnimation(float partialTick) {
 		float f;
 
-		if (this.getAnimationContextTracker().get(WildfireAnimations.SHOCKWAVE).isRunning()) {
+		if (this.shockwaveAnimationState.isStarted()) {
 			f = 0.0F;
 		} else {
 			f = Math.min(partialTick * 4.0F, 1.0F);
@@ -380,53 +338,17 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 		this.walkAnimation.update(f, 0.4F/*? if >=1.21.3 {*/, 1.0F /*?}*/);
 	}
 
-	private void updateKeyframeAnimations() {
-		if (!this.level().isClientSide()) {
-			this.updateCurrentAnimationTick();
-		}
-
-		AnimationHolder animationToStart = this.getAnimationByPose();
-
-		if (animationToStart != null) {
-			this.tryToStartAnimation(animationToStart);
-		}
-	}
-
-	@Nullable
-	public AnimationHolder getAnimationByPose() {
-		AnimationHolder animation = null;
-
-		if (this.isInEntityPose(FriendsAndFoesEntityPose.IDLE) && !this.walkAnimation.isMoving()) {
-			animation = WildfireAnimations.IDLE;
-		} else if (this.isInEntityPose(FriendsAndFoesEntityPose.SHOCKWAVE)) {
-			animation = WildfireAnimations.SHOCKWAVE;
-		}
-
-		return animation;
-	}
-
-	private void tryToStartAnimation(AnimationHolder animationToStart) {
-		if (this.isKeyframeAnimationRunning(animationToStart)) {
-			return;
-		}
-
-		if (!this.level().isClientSide()) {
-			this.setCurrentAnimationTick(animationToStart.get().lengthInTicks());
-		}
-
-		this.startKeyframeAnimation(animationToStart);
-	}
-
-	private void startKeyframeAnimation(AnimationHolder animationToStart) {
-		for (var animation : this.getTrackedAnimations()) {
-			if (animation == animationToStart) {
-				continue;
+	@Override
+	public void onSyncedDataUpdated(EntityDataAccessor<?> dataAccessor) {
+		if (ENTITY_POSE.equals(dataAccessor)) {
+			if (this.isInEntityPose(FriendsAndFoesEntityPose.SHOCKWAVE)) {
+				this.shockwaveAnimationState.start(this.tickCount);
+			} else {
+				this.shockwaveAnimationState.stop();
 			}
-
-			this.stopKeyframeAnimation(animation);
 		}
 
-		this.startKeyframeAnimation(animationToStart, this.tickCount);
+		super.onSyncedDataUpdated(dataAccessor);
 	}
 
 	public void startShockwaveAnimation() {

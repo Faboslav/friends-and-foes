@@ -6,10 +6,6 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlac
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureEntityInfo;
 
-/**
- * Originally from YUNG's API by.
- * YUNGNICKYOUNG (https://github.com/YUNG-GANG/YUNGs-API)
- */
 //? if >= 26.2 {
 public abstract class StructureEntityProcessor implements StructureProcessor
 //?} else {

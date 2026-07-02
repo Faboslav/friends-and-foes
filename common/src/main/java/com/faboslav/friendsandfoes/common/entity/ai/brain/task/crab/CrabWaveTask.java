@@ -7,6 +7,8 @@ import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.util.MovementUtil;
 import java.util.Map;
+
+import com.faboslav.friendsandfoes.common.util.animation.AnimationMath;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.behavior.Behavior;
@@ -16,7 +18,7 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 
 public final class CrabWaveTask extends Behavior<CrabEntity>
 {
-	private final static int WAVE_DURATION = CrabAnimations.WAVE.get().lengthInTicks();
+	private final static int WAVE_DURATION = AnimationMath.toLengthInTicks(CrabAnimations.WAVE.lengthInSeconds());
 
 	private LivingEntity nearestTarget;
 	private int waveTicks = 0;

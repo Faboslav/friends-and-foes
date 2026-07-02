@@ -2,7 +2,8 @@ package com.faboslav.friendsandfoes.common.client.render.entity.model;
 
 import com.faboslav.friendsandfoes.common.entity.WildfireEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.WildfireAnimations;
-import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.KeyframeModelAnimator;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntityModel;
+import net.minecraft.client.animation.KeyframeAnimation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -47,6 +48,18 @@ public final class WildfireEntityModel extends EntityModel<WildfireRenderState>
 
 	private final List<ModelPart> shieldsModelParts;
 
+	//? if >= 1.21.6 {
+	private final KeyframeAnimation idleAnimation;
+	private final KeyframeAnimation shieldRotationAnimation;
+	private final KeyframeAnimation walkAnimation;
+	private final KeyframeAnimation shockwaveAnimation;
+	//?} else {
+	/*private final AnimationDefinition idleAnimation;
+	private final AnimationDefinition shieldRotationAnimation;
+	private final AnimationDefinition walkAnimation;
+	private final AnimationDefinition shockwaveAnimation;
+	*///?}
+
 	public WildfireEntityModel(ModelPart root) {
 		//? if >=1.21.3 {
 		super(root);
@@ -66,6 +79,18 @@ public final class WildfireEntityModel extends EntityModel<WildfireRenderState>
 		this.shieldsModelParts = this.shields.getAllParts();
 		//?} else {
 		/*this.shieldsModelParts = this.shields.getAllParts().toList();
+		*///?}
+
+		//? if >= 1.21.6 {
+		this.idleAnimation = WildfireAnimations.IDLE.bake(root);
+		this.shieldRotationAnimation = WildfireAnimations.SHIELD_ROTATION.bake(root);
+		this.walkAnimation = WildfireAnimations.WALK.bake(root);
+		this.shockwaveAnimation = WildfireAnimations.SHOCKWAVE.bake(root);
+		//?} else {
+		/*this.idleAnimation = WildfireAnimations.IDLE;
+		this.shieldRotationAnimation = WildfireAnimations.SHIELD_ROTATION;
+		this.walkAnimation = WildfireAnimations.WALK;
+		this.shockwaveAnimation = WildfireAnimations.SHOCKWAVE;
 		*///?}
 	}
 
@@ -100,20 +125,25 @@ public final class WildfireEntityModel extends EntityModel<WildfireRenderState>
 	//? if >=1.21.3 {
 	public void setupAnim(WildfireRenderState wildfireRenderState)
 	//?} else {
-	/*public void setupAnim(T wildfire, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
+	/*public void setupAnim(T wildfire, float limbSwing, float limbSwingAmount, float ageInTicks, float headYaw, float headPitch)
 	*///?}
 	{
 		//? if >=1.21.3 {
 		super.setupAnim(wildfireRenderState);
 		var wildfire = wildfireRenderState.wildfire;
-		var limbAngle = wildfireRenderState.walkAnimationPos;
-		var limbDistance = wildfireRenderState.walkAnimationSpeed;
-		var animationProgress = wildfireRenderState.ageInTicks;
+		var limbSwing = wildfireRenderState.walkAnimationPos;
+		var limbSwingAmount = wildfireRenderState.walkAnimationSpeed;
+		var ageInTicks = wildfireRenderState.ageInTicks;
 		var headYaw = wildfireRenderState.yRot;
 		var headPitch = wildfireRenderState.xRot;
 		//?} else {
 		/*this.root().getAllParts().forEach(ModelPart::resetPose);
 		*///?}
+
+		VersionedEntityModel.Animate(this, this.idleAnimation, wildfire.idleAnimationState, ageInTicks);
+		VersionedEntityModel.Animate(this, this.shieldRotationAnimation, wildfire.shieldRotationAnimationState, ageInTicks);
+		VersionedEntityModel.Animate(this, this.shockwaveAnimation, wildfire.shockwaveAnimationState, ageInTicks);
+		VersionedEntityModel.AnimateWalk(this, this.walkAnimation, limbSwing, limbSwingAmount, 1.0F, 1.0F);
 
 		int activeShieldsCount = wildfire.getActiveShieldsCount();
 
@@ -121,30 +151,7 @@ public final class WildfireEntityModel extends EntityModel<WildfireRenderState>
 			this.shieldsModelParts.get(i).skipDraw = i > activeShieldsCount;
 		}
 
-		this.updateKeyframeAnimations(wildfire, limbAngle, limbDistance, animationProgress);
-
 		this.head.yRot = headYaw * 0.017453292F;
 		this.head.xRot = headPitch * 0.017453292F;
-	}
-
-	public void updateKeyframeAnimations(
-		WildfireEntity wildfire,
-		float limbAngle,
-		float limbDistance,
-		float animationProgress
-	) {
-		var movementAnimation = wildfire.getMovementAnimation();
-		var animationContextTracker = wildfire.getAnimationContextTracker();
-		var currentTick = wildfire.tickCount;
-		var animationSpeedModifier = wildfire.getAnimationSpeedModifier();
-
-
-		KeyframeModelAnimator.updateMovementKeyframeAnimations(this, movementAnimation, limbAngle, limbDistance, 1.0F, 1.0F, animationSpeedModifier);
-		KeyframeModelAnimator.updateStaticKeyframeAnimation(this, animationContextTracker, WildfireAnimations.SHIELD_ROTATION, currentTick, animationProgress, animationSpeedModifier);
-		KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, wildfire.getTrackedAnimations(), currentTick, animationProgress, animationSpeedModifier);
-
-		if(!wildfire.walkAnimation.isMoving()) {
-			KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, wildfire.getIdleAnimations(), currentTick, animationProgress, animationSpeedModifier);
-		}
 	}
 }

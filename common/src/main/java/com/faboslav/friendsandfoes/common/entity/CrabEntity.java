@@ -2,12 +2,8 @@ package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.block.CrabEggBlock;
-import com.faboslav.friendsandfoes.common.entity.animation.CrabAnimations;
-import com.faboslav.friendsandfoes.common.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.CrabBrain;
 import com.faboslav.friendsandfoes.common.entity.ai.control.WallClimbNavigation;
-import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
-import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
 import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import com.faboslav.friendsandfoes.common.init.*;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
@@ -72,9 +68,9 @@ import net.minecraft.world.entity.EntitySpawnReason;
  *///?}
 
 //? if >= 26.2 {
-public class CrabEntity extends Animal implements AnimatedEntity
+public class CrabEntity extends Animal
 //?} else {
-/*public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
+/*public class CrabEntity extends Animal implements FlyingAnimal
 *///?}
 {
 	public static final float BABY_SCALE = 0.3F;
@@ -87,8 +83,6 @@ public class CrabEntity extends Animal implements AnimatedEntity
 	private static final String HOME_NBT_NAME_Z = "z";
 	private static final String HAS_EGG_NBT_NAME = "HasEgg";
 
-	private AnimationContextTracker animationContextTracker;
-	private static final EntityDataAccessor<Integer> POSE_TICKS = SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<FriendsAndFoesEntityPose> ENTITY_POSE = SynchedEntityData.defineId(CrabEntity.class, FriendsAndFoesEntityDataSerializers.ENTITY_POSE);
 	private static final EntityDataAccessor<Boolean> IS_CLIMBING_WALL = SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<String> SIZE = SynchedEntityData.defineId(CrabEntity.class, EntityDataSerializers.STRING);
@@ -97,6 +91,11 @@ public class CrabEntity extends Animal implements AnimatedEntity
 
 	private int climbingTicks = 0;
 	private Home home = new Home(0, 0, 0);
+
+	public final AnimationState idleAnimationState = new AnimationState();
+	public final AnimationState walkAnimationState = new AnimationState();
+	public final AnimationState waveAnimationState = new AnimationState();
+	public final AnimationState danceAnimationState = new AnimationState();
 
 	public CrabEntity(EntityType<? extends CrabEntity> entityType, Level world) {
 		super(entityType, world);
@@ -132,38 +131,6 @@ public class CrabEntity extends Animal implements AnimatedEntity
 	}
 
 	@Override
-	public AnimationContextTracker getAnimationContextTracker() {
-		if (this.animationContextTracker == null) {
-			this.animationContextTracker = new AnimationContextTracker();
-
-			for (var trackedAnimation: this.getTrackedAnimations()) {
-				this.animationContextTracker.add(trackedAnimation);
-			}
-
-			for (var idleAnimation: this.getIdleAnimations()) {
-				this.animationContextTracker.add(idleAnimation);
-			}
-		}
-
-		return this.animationContextTracker;
-	}
-
-	@Override
-	public ArrayList<AnimationHolder> getTrackedAnimations() {
-		return CrabAnimations.TRACKED_ANIMATIONS;
-	}
-
-	@Override
-	public ArrayList<AnimationHolder> getIdleAnimations() {
-		return CrabAnimations.IDLE_ANIMATIONS;
-	}
-
-	@Override
-	public AnimationHolder getMovementAnimation() {
-		return CrabAnimations.WALK;
-	}
-
-	@Override
 	public boolean isPushedByFluid() {
 		return !this.isSwimming();
 	}
@@ -193,19 +160,9 @@ public class CrabEntity extends Animal implements AnimatedEntity
 	}
 
 	@Override
-	public int getCurrentAnimationTick() {
-		return this.entityData.get(POSE_TICKS);
-	}
-
-	public void setCurrentAnimationTick(int keyframeAnimationTicks) {
-		this.entityData.set(POSE_TICKS, keyframeAnimationTicks);
-	}
-
-	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder builder) {
 		super.defineSynchedData(builder);
 
-		builder.define(POSE_TICKS, 0);
 		builder.define(ENTITY_POSE, FriendsAndFoesEntityPose.IDLE);
 		builder.define(IS_CLIMBING_WALL, false);
 		builder.define(SIZE, CrabSize.getDefaultCrabSize().getName());
@@ -327,7 +284,10 @@ public class CrabEntity extends Animal implements AnimatedEntity
 			this.discard();
 		}
 
-		this.updateKeyframeAnimations();
+		if (this.level().isClientSide()) {
+			this.idleAnimationState.animateWhen(!this.walkAnimation.isMoving(), this.tickCount);
+		}
+
 		this.calculateSize();
 		super.tick();
 
@@ -350,18 +310,6 @@ public class CrabEntity extends Animal implements AnimatedEntity
 			Vec3 velocity = this.getDeltaMovement();
 			this.setDeltaMovement(velocity.x, velocity.y * 0.33F, velocity.z);
 		}
-	}
-
-	public void onSyncedDataUpdated(EntityDataAccessor<?> dataAccessor) {
-		if (ENTITY_POSE.equals(dataAccessor)) {
-			var animationToStart = this.getAnimationByPose();
-
-			if (animationToStart != null) {
-				this.tryToStartAnimation(animationToStart);
-			}
-		}
-
-		super.onSyncedDataUpdated(dataAccessor);
 	}
 
 	@Override
@@ -397,55 +345,23 @@ public class CrabEntity extends Animal implements AnimatedEntity
 		}
 	}
 
-	private void updateKeyframeAnimations() {
-		if (!this.level().isClientSide()) {
-			this.updateCurrentAnimationTick();
-		}
-
-		AnimationHolder animationToStart = this.getAnimationByPose();
-
-		if (animationToStart != null) {
-			this.tryToStartAnimation(animationToStart);
-		}
-	}
-
-	@Nullable
-	public AnimationHolder getAnimationByPose() {
-		AnimationHolder animation = null;
-
-		if (this.isInEntityPose(FriendsAndFoesEntityPose.IDLE) && !this.isMoving()) {
-			animation = CrabAnimations.IDLE;
-		} else if (this.isInEntityPose(FriendsAndFoesEntityPose.WAVE)) {
-			animation = CrabAnimations.WAVE;
-		} else if (this.isInEntityPose(FriendsAndFoesEntityPose.DANCE)) {
-			animation = CrabAnimations.DANCE;
-		}
-
-		return animation;
-	}
-
-	private void tryToStartAnimation(AnimationHolder animationToStart) {
-		if (this.isKeyframeAnimationRunning(animationToStart)) {
-			return;
-		}
-
-		if (!this.level().isClientSide()) {
-			this.setCurrentAnimationTick(animationToStart.get().lengthInTicks());
-		}
-
-		this.startKeyframeAnimation(animationToStart);
-	}
-
-	private void startKeyframeAnimation(AnimationHolder animationToStart) {
-		for (var animation : this.getTrackedAnimations()) {
-			if (animation == animationToStart) {
-				continue;
+	@Override
+	public void onSyncedDataUpdated(EntityDataAccessor<?> dataAccessor) {
+		if (!this.firstTick && ENTITY_POSE.equals(dataAccessor)) {
+			if (this.isInEntityPose(FriendsAndFoesEntityPose.WAVE)) {
+				this.waveAnimationState.start(this.tickCount);
+			} else {
+				this.waveAnimationState.stop();
 			}
 
-			this.stopKeyframeAnimation(animation);
+			if (this.isInEntityPose(FriendsAndFoesEntityPose.DANCE)) {
+				this.danceAnimationState.start(this.tickCount);
+			} else {
+				this.danceAnimationState.stop();
+			}
 		}
 
-		this.startKeyframeAnimation(animationToStart, this.tickCount);
+		super.onSyncedDataUpdated(dataAccessor);
 	}
 
 	public void startWaveAnimation() {

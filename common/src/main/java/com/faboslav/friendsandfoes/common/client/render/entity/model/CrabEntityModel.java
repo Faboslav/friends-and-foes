@@ -1,11 +1,18 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.model;
 
-import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.KeyframeModelAnimator;
-import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.ModelPartModelAnimator;
 import com.faboslav.friendsandfoes.common.entity.CrabEntity;
+import com.faboslav.friendsandfoes.common.entity.animation.CrabAnimations;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+
+
+//? if >= 1.21.6 {
+import net.minecraft.client.animation.KeyframeAnimation;
+//?} else {
+/*import net.minecraft.client.animation.AnimationDefinition;
+ *///?}
 
 //? if >=1.21.3 {
 import net.minecraft.client.model.EntityModel;
@@ -66,6 +73,18 @@ public class CrabEntityModel extends EntityModel<CrabRenderState>
 	private final ModelPart rightBackLegJoint;
 	private final ModelPart rightBackLeg;
 
+	//? if >= 1.21.6 {
+	private final KeyframeAnimation idleAnimation;
+	private final KeyframeAnimation walkAnimation;
+	private final KeyframeAnimation waveAnimation;
+	private final KeyframeAnimation danceAnimation;
+	//?} else {
+	/*private final AnimationDefinition idleAnimation;
+	private final AnimationDefinition walkAnimation;
+	private final AnimationDefinition waveAnimation;
+	private final AnimationDefinition danceAnimation;
+	*///?}
+
 	public CrabEntityModel(ModelPart root) {
 		//? if >=1.21.3 {
 		super(root);
@@ -91,6 +110,18 @@ public class CrabEntityModel extends EntityModel<CrabRenderState>
 		this.rightMiddleLeg = this.rightMiddleLegJoint.getChild(RIGHT_MIDDLE_LEG);
 		this.rightBackLegJoint = this.main.getChild(RIGHT_BACK_LEG_JOINT);
 		this.rightBackLeg = this.rightBackLegJoint.getChild(RIGHT_BACK_LEG);
+
+		//? if >= 1.21.6 {
+		this.idleAnimation = CrabAnimations.IDLE.bake(root);
+		this.walkAnimation = CrabAnimations.WALK.bake(root);
+		this.waveAnimation = CrabAnimations.WAVE.bake(root);
+		this.danceAnimation = CrabAnimations.DANCE.bake(root);
+		//?} else {
+		/*		this.idleAnimation = CrabAnimations.IDLE;
+		this.walkAnimation = CrabAnimations.WALK;
+		this.waveAnimation = CrabAnimations.WAVE;
+		this.danceAnimation = CrabAnimations.DANCE;
+		*///?}
 	}
 
 	public static LayerDefinition getTexturedModelData() {
@@ -133,38 +164,32 @@ public class CrabEntityModel extends EntityModel<CrabRenderState>
 	//? if >=1.21.3 {
 	public void setupAnim(CrabRenderState renderState)
 	//?} else {
-	/*public void setupAnim(T crab, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
+	/*public void setupAnim(T crab, float limbSwing, float limbSwingAmount, float ageInTicks, float headYaw, float headPitch)
 	*///?}
 	{
 		//? if >=1.21.3 {
 		var crab = renderState.crab;
-		var limbAngle = renderState.walkAnimationPos;
-		var limbDistance = renderState.walkAnimationSpeed;
-		var animationProgress = renderState.ageInTicks;
+		var limbSwing = renderState.walkAnimationPos;
+		var limbSwingAmount = renderState.walkAnimationSpeed;
+		var ageInTicks = renderState.ageInTicks;
+		//?} else {
+		this.root().getAllParts().forEach(ModelPart::resetPose);
 		//?}
 
-		this.root().getAllParts().forEach(ModelPart::resetPose);
-		this.updateKeyframeAnimations(crab, limbAngle, limbDistance, animationProgress);
+		this.updateKeyframeAnimations(crab, limbSwing, limbSwingAmount, ageInTicks);
 		this.updateModelPartAnimations(crab);
 	}
 
 	public void updateKeyframeAnimations(
 		CrabEntity crab,
-		float limbAngle,
-		float limbDistance,
-		float animationProgress
+		float limbSwing,
+		float limbSwingAmount,
+		float ageInTicks
 	) {
-		var movementAnimation = crab.getMovementAnimation();
-		var animationContextTracker = crab.getAnimationContextTracker();
-		var currentTick = crab.tickCount;
-		var animationSpeedModifier = 1.0F;
-
-		KeyframeModelAnimator.updateMovementKeyframeAnimations(this, movementAnimation, limbAngle, limbDistance, 2.5F, 4.5F, animationSpeedModifier);
-		KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, crab.getTrackedAnimations(), currentTick, animationProgress, animationSpeedModifier);
-
-		if(!crab.isMoving()) {
-			KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, crab.getIdleAnimations(), currentTick, animationProgress, animationSpeedModifier);
-		}
+		VersionedEntityModel.Animate(this, this.idleAnimation, crab.idleAnimationState, ageInTicks);
+		VersionedEntityModel.Animate(this, this.waveAnimation, crab.waveAnimationState, ageInTicks);
+		VersionedEntityModel.Animate(this, this.danceAnimation, crab.danceAnimationState, ageInTicks);
+		VersionedEntityModel.AnimateWalk(this, this.walkAnimation, limbSwing, limbSwingAmount, 2.5F, 4.5F);
 	}
 
 	public void updateModelPartAnimations(
@@ -179,6 +204,8 @@ public class CrabEntityModel extends EntityModel<CrabRenderState>
 		float yaw = crab.onClimbable() ? 0.0F:-1.5708F;
 		float roll = 1.5708F;
 
+		// TODO replace
+		/*
 		ModelPartModelAnimator.animateModelPartPositionBasedOnTicks(
 			crab.getAnimationContextTracker(),
 			this.main,
@@ -196,6 +223,6 @@ public class CrabEntityModel extends EntityModel<CrabRenderState>
 			yaw,
 			roll,
 			20
-		);
+		);*/
 	}
 }

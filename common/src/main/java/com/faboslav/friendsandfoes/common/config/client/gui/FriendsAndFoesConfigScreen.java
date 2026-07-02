@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.common.config.client.gui;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
+import dev.isxander.yacl3.api.controller.FloatSliderControllerBuilder;
 import net.minecraft.client.gui.screens.Screen;
 
 //? if yacl {
@@ -44,6 +45,13 @@ public final class FriendsAndFoesConfigScreen
 					.option(bool("enableLightningRodOxidation", config.enableLightningRodOxidation, () -> config.enableLightningRodOxidation, value -> config.enableLightningRodOxidation = value))
 					.build())
 				*///?}
+				.group(group("mobs", "barnacle")
+					.option(bool("enableBarnacle", config.enableBarnacle, () -> config.enableBarnacle, value -> config.enableBarnacle = value))
+					.option(bool("enableBarnacleSpawn", config.enableBarnacleSpawn, () -> config.enableBarnacleSpawn, value -> config.enableBarnacleSpawn = value))
+					.option(slider("barnacleSpawnWeight", config.barnacleSpawnWeight, () -> config.barnacleSpawnWeight, value -> config.barnacleSpawnWeight = value, 0, 100))
+					.option(slider("barnacleSpawnMinGroupSize", config.barnacleSpawnMinGroupSize, () -> config.barnacleSpawnMinGroupSize, value -> config.barnacleSpawnMinGroupSize = value, 0, 100))
+					.option(slider("barnacleSpawnMaxGroupSize", config.barnacleSpawnMaxGroupSize, () -> config.barnacleSpawnMaxGroupSize, value -> config.barnacleSpawnMaxGroupSize = value, 0, 100))
+					.build())
 				.group(group("mobs", "crab")
 					.option(bool("enableCrab", config.enableCrab, () -> config.enableCrab, value -> config.enableCrab = value))
 					.option(bool("enableCrabSpawn", config.enableCrabSpawn, () -> config.enableCrabSpawn, value -> config.enableCrabSpawn = value))
@@ -102,6 +110,16 @@ public final class FriendsAndFoesConfigScreen
 					.option(slider("moobloomSpawnMinGroupSize", config.moobloomSpawnMinGroupSize, () -> config.moobloomSpawnMinGroupSize, value -> config.moobloomSpawnMinGroupSize = value, 0, 100))
 					.option(slider("moobloomSpawnMaxGroupSize", config.moobloomSpawnMaxGroupSize, () -> config.moobloomSpawnMaxGroupSize, value -> config.moobloomSpawnMaxGroupSize = value, 0, 100))
 					.build())
+				.group(group("mobs", "penguin")
+					.option(bool("enablePenguin", config.enablePenguin, () -> config.enablePenguin, value -> config.enablePenguin = value))
+					.option(bool("enablePenguinSpawn", config.enablePenguinSpawn, () -> config.enablePenguinSpawn, value -> config.enablePenguinSpawn = value))
+					.option(slider("penguinSpawnWeight", config.penguinSpawnWeight, () -> config.penguinSpawnWeight, value -> config.penguinSpawnWeight = value, 0, 100))
+					.option(slider("penguinSpawnMinGroupSize", config.penguinSpawnMinGroupSize, () -> config.penguinSpawnMinGroupSize, value -> config.penguinSpawnMinGroupSize = value, 0, 100))
+					.option(slider("penguinSpawnMaxGroupSize", config.penguinSpawnMaxGroupSize, () -> config.penguinSpawnMaxGroupSize, value -> config.penguinSpawnMaxGroupSize = value, 0, 100))
+					.option(field("penguinPotionOfGlidingDuration", config.penguinPotionOfGlidingDuration, () -> config.penguinPotionOfGlidingDuration, value -> config.penguinPotionOfGlidingDuration = value, 1, 100000))
+					.option(slider("penguinBoatSpeedStatusEffectModifier", config.penguinBoatSpeedStatusEffectModifier, () -> config.penguinBoatSpeedStatusEffectModifier, value -> config.penguinBoatSpeedStatusEffectModifier = value, 0, 100))
+					.option(slider("glidingStatusEffectModifier", config.glidingStatusEffectModifier, () -> config.glidingStatusEffectModifier, value -> config.glidingStatusEffectModifier = value, 0, 100))
+					.build())
 				.group(group("mobs", "rascal")
 					.option(bool("enableRascal", config.enableRascal, () -> config.enableRascal, value -> config.enableRascal = value))
 					.option(bool("enableRascalSpawn", config.enableRascalSpawn, () -> config.enableRascalSpawn, value -> config.enableRascalSpawn = value))
@@ -149,6 +167,14 @@ public final class FriendsAndFoesConfigScreen
 			.name(Component.translatable("yacl3.config.friendsandfoes:friendsandfoes." + key))
 			.binding(initialValue, getter, setter)
 			.controller(option -> IntegerSliderControllerBuilder.create(option).range(min, max).step(1))
+			.build();
+	}
+
+	private static Option<Float> slider(String key, float initialValue, Supplier<Float> getter, Consumer<Float> setter, float min, float max) {
+		return Option.<Float>createBuilder()
+			.name(Component.translatable("yacl3.config.friendsandfoes:friendsandfoes." + key))
+			.binding(initialValue, getter, setter)
+			.controller(option -> FloatSliderControllerBuilder.create(option).range(min, max).step(0.1f))
 			.build();
 	}
 

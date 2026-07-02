@@ -1,4 +1,5 @@
-package com.faboslav.friendsandfoes.common.network.packet;
+//? if <= 1.21.8 {
+/*package com.faboslav.friendsandfoes.common.network.packet;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.CopperGolemEntity;
@@ -17,8 +18,8 @@ import net.minecraft.world.entity.player.Player;
 import java.util.UUID;
 import java.util.function.Consumer;
 //?} else {
-/*import net.minecraft.network.FriendlyByteBuf;
- *///?}
+/^import net.minecraft.network.FriendlyByteBuf;
+ ^///?}
 
 public record SyncCopperGolemWalkAnimationPacket(UUID copperGolemUuid, float walkAnimationPos, float walkAnimationSpeed) implements Packet<SyncCopperGolemWalkAnimationPacket>
 {
@@ -42,8 +43,8 @@ public record SyncCopperGolemWalkAnimationPacket(UUID copperGolemUuid, float wal
 			//? if >= 1.21.1 {
 			RegistryFriendlyByteBuf buffer
 			//?} else {
-			/*FriendlyByteBuf buffer
-			 *///?}
+			/^FriendlyByteBuf buffer
+			 ^///?}
 		) {
 			buffer.writeUUID(message.copperGolemUuid());
 			buffer.writeFloat(message.walkAnimationPos());
@@ -55,8 +56,8 @@ public record SyncCopperGolemWalkAnimationPacket(UUID copperGolemUuid, float wal
 			//? if >= 1.21.1 {
 			RegistryFriendlyByteBuf buffer
 			//?} else {
-			/*FriendlyByteBuf buffer
-			 *///?}
+			/^FriendlyByteBuf buffer
+			 ^///?}
 		) {
 			return new SyncCopperGolemWalkAnimationPacket(buffer.readUUID(), buffer.readFloat(), buffer.readFloat());
 		}
@@ -72,11 +73,11 @@ public record SyncCopperGolemWalkAnimationPacket(UUID copperGolemUuid, float wal
 		}
 
 		//? if < 1.21.1 {
-		/*@Override
+		/^@Override
 		public Class<SyncCopperGolemFrozenWalkAnimationPacket> type() {
 			return SyncCopperGolemFrozenWalkAnimationPacket.class;
 		}
-		*///?}
+		^///?}
 
 		@Override
 		public Identifier id() {
@@ -84,3 +85,4 @@ public record SyncCopperGolemWalkAnimationPacket(UUID copperGolemUuid, float wal
 		}
 	}
 }
+*///?}

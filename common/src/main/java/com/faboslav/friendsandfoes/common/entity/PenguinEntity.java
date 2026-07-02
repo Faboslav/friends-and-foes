@@ -9,10 +9,9 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
 import com.faboslav.friendsandfoes.common.versions.VersionedGameRulesProvider;
 import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
-import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.advancements.triggers.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -85,7 +84,9 @@ public final class PenguinEntity extends Animal {
 		return superEntityData;
 	}
 
-	@Override
+	// TODO chedk
+	//? if < 26.2 {
+	/*@Override
 	public boolean isBaby() {
 		return false;
 	}
@@ -93,6 +94,7 @@ public final class PenguinEntity extends Animal {
 	@Override
 	public void setBaby(boolean baby) {
 	}
+	*///?}
 
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder builder) {
@@ -178,7 +180,7 @@ public final class PenguinEntity extends Animal {
 
 	@Override
 	public void onSyncedDataUpdated(EntityDataAccessor<?> dataAccessor) {
-		if (ENTITY_POSE.equals(dataAccessor)) {
+		if (!this.firstTick && ENTITY_POSE.equals(dataAccessor)) {
 			if (this.isInEntityPose(FriendsAndFoesEntityPose.WING_FLAP)) {
 				this.wingFlapAnimationState.start(this.tickCount);
 			} else {

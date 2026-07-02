@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.common;
 
 import com.faboslav.friendsandfoes.common.api.MoobloomVariantManager;
-import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationLoader;
 import com.faboslav.friendsandfoes.common.config.FriendsAndFoesConfig;
 import com.faboslav.friendsandfoes.common.entity.event.IllusionerOnEntitySpawn;
 import com.faboslav.friendsandfoes.common.events.AddItemGroupEntriesEvent;
@@ -11,7 +10,6 @@ import com.faboslav.friendsandfoes.common.events.lifecycle.*;
 import com.faboslav.friendsandfoes.common.init.*;
 import com.faboslav.friendsandfoes.common.modcompat.ModChecker;
 import com.faboslav.friendsandfoes.common.network.MessageHandler;
-import com.faboslav.friendsandfoes.common.network.packet.EntityAnimationsSyncPacket;
 import com.faboslav.friendsandfoes.common.network.packet.MoobloomVariantsSyncPacket;
 import com.faboslav.friendsandfoes.common.platform.PlatformHooks;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
@@ -65,7 +63,6 @@ public final class FriendsAndFoes
 		/*SetupEvent.EVENT.addListener(FriendsAndFoesItems::registerSpawnEggs);
 		*///?}
 		DatapackSyncEvent.EVENT.addListener(MoobloomVariantsSyncPacket::sendToClient);
-		DatapackSyncEvent.EVENT.addListener(EntityAnimationsSyncPacket::sendToClient);
 		RegisterFlammabilityEvent.EVENT.addListener(FriendsAndFoesBlocks::registerFlammablity);
 		RegisterEntityAttributesEvent.EVENT.addListener(FriendsAndFoesEntityTypes::registerEntityAttributes);
 		RegisterEntitySpawnRestrictionsEvent.EVENT.addListener(FriendsAndFoesEntityTypes::registerEntitySpawnRestrictions);
@@ -111,7 +108,6 @@ public final class FriendsAndFoes
 
 	private static void registerServerDataListeners(final RegisterReloadListenerEvent event) {
 		event.register(FriendsAndFoes.makeID("moobloom_variants"), MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER);
-		event.register(FriendsAndFoes.makeID("entity_animations"), AnimationLoader.INSTANCE);
 	}
 
 	private static void setup(final SetupEvent event) {

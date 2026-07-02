@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 //? if <26.2 {
 /*import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
- *///?}
+*///?}
 
 public final class IceologerCabinArmorStandProcessor extends StructureEntityProcessor
 {

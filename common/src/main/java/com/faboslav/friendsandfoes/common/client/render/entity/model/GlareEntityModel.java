@@ -1,15 +1,21 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.model;
 
-import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.animation.animator.ModelPartAnimator;
-import com.faboslav.friendsandfoes.common.client.render.entity.model.animation.ModelPartModelAnimator;
 import com.faboslav.friendsandfoes.common.entity.GlareEntity;
+import com.faboslav.friendsandfoes.common.entity.animation.GlareAnimations;
 import com.faboslav.friendsandfoes.common.util.animation.AnimationMath;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
-import net.minecraft.world.phys.Vec2;
+
+
+//? if >= 1.21.6 {
+import net.minecraft.client.animation.KeyframeAnimation;
+//?} else {
+/*import net.minecraft.client.animation.AnimationDefinition;
+ *///?}
 
 //? if >=1.21.3 {
 import net.minecraft.client.model.EntityModel;
@@ -51,6 +57,14 @@ public class GlareEntityModel extends EntityModel<GlareRenderState>
 
 	private final ModelPart[] layers;
 
+	//? if >= 1.21.6 {
+	private final KeyframeAnimation sitAnimation;
+	private final KeyframeAnimation flyAnimation;
+	//?} else {
+	/*private final AnimationDefinition sitAnimation;
+	private final AnimationDefinition flyAnimation;
+	*///?}
+
 	public GlareEntityModel(ModelPart root) {
 		//? if >=1.21.3 {
 		super(root);
@@ -71,6 +85,14 @@ public class GlareEntityModel extends EntityModel<GlareRenderState>
 			this.thirdLayer,
 			this.fourthLayer,
 		};
+
+		//? if >= 1.21.6 {
+		this.sitAnimation = GlareAnimations.SIT.bake(root);
+		this.flyAnimation = GlareAnimations.FLY.bake(root);
+		//?} else {
+		/*this.sitAnimation = GlareAnimations.SIT;
+		this.flyAnimation = GlareAnimations.FLY;
+		*///?}
 	}
 
 	public static LayerDefinition getTexturedModelData() {
@@ -110,20 +132,24 @@ public class GlareEntityModel extends EntityModel<GlareRenderState>
 	//? if >=1.21.3 {
 	public void setupAnim(GlareRenderState renderState)
 	//?} else {
-	/*public void setupAnim(T glare, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
+	/*public void setupAnim(T glare, float limbAngle, float limbDistance, float ageInTicks, float headYaw, float headPitch)
 	*///?}
 	{
 		//? if >=1.21.3 {
+		super.setupAnim(renderState);
 		var glare = renderState.glare;
 		var limbAngle = renderState.walkAnimationPos;
 		var limbDistance = renderState.walkAnimationSpeed;
-		var animationProgress = renderState.ageInTicks;
-		//?}
+		var ageInTicks = renderState.ageInTicks;
+		//?} else {
+		/*this.root().getAllParts().forEach(ModelPart::resetPose);
+		*///?}
 
-		this.root().getAllParts().forEach(ModelPart::resetPose);
+		VersionedEntityModel.Animate(this, this.sitAnimation, glare.sitAnimationState, ageInTicks);
+		VersionedEntityModel.Animate(this, this.flyAnimation, glare.flyAnimationState, ageInTicks);
 
 		this.animateEyes(glare);
-		this.animateFloating(glare, animationProgress);
+		this.animateFloating(glare, ageInTicks);
 
 		float movementForce = Mth.sin(limbAngle * 0.1F) * limbDistance * 0.75F;
 		float absMovementForce = Math.abs(movementForce);
@@ -137,12 +163,12 @@ public class GlareEntityModel extends EntityModel<GlareRenderState>
 				layer.zRot = AnimationMath.toRadians(15 * movementForce);
 			}
 		} else {
-			this.head.xRot = AnimationMath.toRadians(0.5F * AnimationMath.sin(animationProgress * 0.125F));
-			this.head.zRot = AnimationMath.toRadians(0.5F * AnimationMath.cos(animationProgress * 0.125F));
+			this.head.xRot = AnimationMath.toRadians(0.5F * AnimationMath.sin(ageInTicks * 0.125F));
+			this.head.zRot = AnimationMath.toRadians(0.5F * AnimationMath.cos(ageInTicks * 0.125F));
 
 			for (ModelPart layer : this.layers) {
-				layer.xRot = AnimationMath.toRadians(0.75F * AnimationMath.sin(animationProgress * 0.1F));
-				layer.zRot = AnimationMath.toRadians(0.75F * AnimationMath.cos(animationProgress * 0.1F));
+				layer.xRot = AnimationMath.toRadians(0.75F * AnimationMath.sin(ageInTicks * 0.1F));
+				layer.zRot = AnimationMath.toRadians(0.75F * AnimationMath.cos(ageInTicks * 0.1F));
 			}
 		}
 	}
@@ -165,9 +191,6 @@ public class GlareEntityModel extends EntityModel<GlareRenderState>
 			horizontalFloatingOffset = 1.0F;
 		}
 
-		float targetPivotY = glare.isOrderedToSit() ? 3.0F : 0.11F;
-		ModelPartModelAnimator.animateModelPartYPositionBasedOnTicks(glare.getAnimationContextTracker(), this.body, glare.tickCount, targetPivotY, 10);
-
 		if (glare.isGrumpy()) {
 			ModelPartAnimator.setXPosition(this.root, AnimationMath.sin(animationProgress, 0.5F));
 			ModelPartAnimator.setYPosition(this.root, AnimationMath.absSin(animationProgress, 0.1F));
@@ -182,16 +205,9 @@ public class GlareEntityModel extends EntityModel<GlareRenderState>
 	}
 
 	private void animateEyes(GlareEntity glare) {
-		Vec2 targetEyesPositionOffset = glare.getTargetEyesPositionOffset();
+		var eyesPositionOffset = glare.getCurrentEyesPositionOffset();
 
-		ModelPartModelAnimator.animateModelPartPositionBasedOnTicks(
-			glare.getAnimationContextTracker(),
-			this.eyes,
-			glare.tickCount,
-			this.eyes.x + targetEyesPositionOffset.x,
-			this.eyes.y + targetEyesPositionOffset.y,
-			this.eyes.z,
-			GlareEntity.MIN_EYE_ANIMATION_TICK_AMOUNT
-		);
+		this.eyes.x += eyesPositionOffset.x;
+		this.eyes.y += eyesPositionOffset.y;
 	}
 }

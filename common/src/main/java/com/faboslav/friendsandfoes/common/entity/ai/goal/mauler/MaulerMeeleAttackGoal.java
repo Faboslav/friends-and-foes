@@ -14,9 +14,10 @@ public final class MaulerMeeleAttackGoal extends MeleeAttackGoal
 	public void start() {
 		MaulerEntity mauler = ((MaulerEntity) this.mob);
 
+		/*
 		if (mauler.isBurrowedDown()) {
 			mauler.burrowDownGoal.stop();
-		}
+		}*/
 
 		super.start();
 	}
@@ -25,9 +26,10 @@ public final class MaulerMeeleAttackGoal extends MeleeAttackGoal
 	public void tick() {
 		MaulerEntity mauler = ((MaulerEntity) this.mob);
 
-		if (mauler.getBurrowingDownAnimationProgress() > 0.0F) {
+		/*
+		if (mauler.isBurrowedDown()) {
 			return;
-		}
+		}*/
 
 		super.tick();
 	}

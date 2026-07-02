@@ -1,11 +1,9 @@
 package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-import com.faboslav.friendsandfoes.common.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.GlareBrain;
 import com.faboslav.friendsandfoes.common.entity.ai.pathing.CachedPathHolder;
-import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
-import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
+import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesCriterias;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
@@ -30,6 +28,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
@@ -82,9 +81,9 @@ import net.minecraft.world.entity.EntitySpawnReason;
 
 @SuppressWarnings({"unchecked"})
 //? if >= 26.2 {
-public final class GlareEntity extends TamableAnimal implements AnimatedEntity
+public final class GlareEntity extends TamableAnimal
 //?} else {
-/*public final class GlareEntity extends TamableAnimal implements FlyingAnimal, AnimatedEntity
+/*public final class GlareEntity extends TamableAnimal implements FlyingAnimal
 *///?}
 {
 	public static final float ADULT_SCALE = 0.8F;
@@ -101,24 +100,13 @@ public final class GlareEntity extends TamableAnimal implements AnimatedEntity
 
 	private static final EntityDataAccessor<Byte> GLARE_FLAGS = SynchedEntityData.defineId(GlareEntity.class, EntityDataSerializers.BYTE);
 
+	private Vec2 currentEyesPositionOffset;
 	private Vec2 targetEyesPositionOffset;
 
 	public CachedPathHolder cachedPathHolder = new CachedPathHolder();
-	private AnimationContextTracker animationContextTracker;
 
-	@Override
-	public AnimationContextTracker getAnimationContextTracker() {
-		if (this.animationContextTracker == null) {
-			this.animationContextTracker = new AnimationContextTracker();
-		}
-
-		return this.animationContextTracker;
-	}
-
-	@Override
-	public @Nullable AnimationHolder getAnimationByPose() {
-		return null;
-	}
+	public final AnimationState sitAnimationState = new AnimationState();
+	public final AnimationState flyAnimationState = new AnimationState();
 
 	public GlareEntity(EntityType<? extends GlareEntity> entityType, Level world) {
 		super(entityType, world);
@@ -139,7 +127,8 @@ public final class GlareEntity extends TamableAnimal implements AnimatedEntity
 		this.setPathfindingMalus(PathType.FENCE, -1.0F);
 		this.setCanPickUpLoot(true);
 
-		this.targetEyesPositionOffset = new Vec2(0.0F, 0.0F);
+		this.currentEyesPositionOffset = Vec2.ZERO;
+		this.targetEyesPositionOffset = Vec2.ZERO;
 	}
 
 	@Override
@@ -221,7 +210,22 @@ public final class GlareEntity extends TamableAnimal implements AnimatedEntity
 		}
 
 		super.tick();
-		this.updateTargetEyesPositionOffset();
+		this.updateEyesPositionOffset();
+	}
+
+	@Override
+	public void onSyncedDataUpdated(EntityDataAccessor<?> dataAccessor) {
+		if (!this.firstTick && DATA_FLAGS_ID.equals(dataAccessor)) {
+			if (this.isOrderedToSit()) {
+				this.sitAnimationState.start(this.tickCount);
+				this.flyAnimationState.stop();
+			} else {
+				this.flyAnimationState.start(this.tickCount);
+				this.sitAnimationState.stop();
+			}
+		}
+
+		super.onSyncedDataUpdated(dataAccessor);
 	}
 
 	@Override
@@ -339,7 +343,21 @@ public final class GlareEntity extends TamableAnimal implements AnimatedEntity
 		this.targetEyesPositionOffset = new Vec2(xEyePositionOffset, yEyePositionOffset);
 	}
 
-	private void updateTargetEyesPositionOffset() {
+	public Vec2 getCurrentEyesPositionOffset() {
+		return this.currentEyesPositionOffset;
+	}
+
+	private void updateEyesPositionOffset() {
+
+		if (this.level().isClientSide()) {
+			float speedX = Math.abs(this.targetEyesPositionOffset.x - this.currentEyesPositionOffset.x) / MIN_EYE_ANIMATION_TICK_AMOUNT;
+			float speedY = Math.abs(this.targetEyesPositionOffset.y - this.currentEyesPositionOffset.y) / MIN_EYE_ANIMATION_TICK_AMOUNT;
+			this.currentEyesPositionOffset = new Vec2(
+				Mth.approach(this.currentEyesPositionOffset.x, this.targetEyesPositionOffset.x, speedX),
+				Mth.approach(this.currentEyesPositionOffset.y, this.targetEyesPositionOffset.y, speedY)
+			);
+		}
+
 		if (
 			this.tickCount % MIN_EYE_ANIMATION_TICK_AMOUNT != 0
 			|| this.getRandom().nextIntBetweenInclusive(0, 2) != 0
@@ -349,8 +367,9 @@ public final class GlareEntity extends TamableAnimal implements AnimatedEntity
 
 		this.setTargetEyesPositionOffset(
 			-0.5F + this.getRandom().nextFloat(),
-			-0.4F + this.getRandom().nextFloat() * (0.8F)
+			-0.4F + this.getRandom().nextFloat() * 0.8F
 		);
+
 	}
 
 	public static Builder createGlareAttributes() {

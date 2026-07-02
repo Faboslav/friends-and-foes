@@ -6,6 +6,7 @@ import com.faboslav.friendsandfoes.common.entity.ai.brain.task.penguin.PenguinWi
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSensorTypes;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntityType;
 import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.util.TimeUtil;
@@ -139,7 +140,7 @@ public final class PenguinBrain
 			 *///?}
 			Activity.IDLE,
 			ImmutableList.of(
-				Pair.of(0, SetEntityLookTargetSometimes.create(EntityType.PLAYER, 6.0F, UniformInt.of(30, 60))),
+				Pair.of(0, SetEntityLookTargetSometimes.create(VersionedEntityType.PLAYER, 6.0F, UniformInt.of(30, 60))),
 				Pair.of(0, new FollowTemptation(penguin -> 1.25f)),
 				//Pair.of(1, new CrabBreedTask(FriendsAndFoesEntityTypes.PENGUIN.get())),
 				Pair.of(2, BabyFollowAdult.create(UniformInt.of(5, 16), 1.25f)),
@@ -217,6 +218,6 @@ public final class PenguinBrain
 			, PenguinBrain::addActivities
 			//?}
 		);
-		WING_FLAP_COOLDOWN = TimeUtil.rangeOfSeconds(5, 6);
+		WING_FLAP_COOLDOWN = TimeUtil.rangeOfSeconds(15, 60);
 	}
 }

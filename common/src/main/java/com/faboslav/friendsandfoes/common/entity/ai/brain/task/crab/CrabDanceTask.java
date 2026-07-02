@@ -6,6 +6,8 @@ import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.util.MovementUtil;
 import java.util.Map;
+
+import com.faboslav.friendsandfoes.common.util.animation.AnimationMath;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
@@ -13,7 +15,7 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 
 public final class CrabDanceTask extends Behavior<CrabEntity>
 {
-	private final static int DANCE_DURATION = CrabAnimations.DANCE.get().lengthInTicks() * 60;
+	private final static int DANCE_DURATION = AnimationMath.toLengthInTicks(CrabAnimations.DANCE.lengthInSeconds()) * 60;
 
 	public CrabDanceTask() {
 		super(

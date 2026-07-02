@@ -1,11 +1,13 @@
 package com.faboslav.friendsandfoes.common.network;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-import com.faboslav.friendsandfoes.common.network.packet.EntityAnimationsSyncPacket;
 import com.faboslav.friendsandfoes.common.network.packet.MoobloomVariantsSyncPacket;
-import com.faboslav.friendsandfoes.common.network.packet.SyncCopperGolemWalkAnimationPacket;
 import com.faboslav.friendsandfoes.common.network.packet.TotemEffectPacket;
 import com.teamresourceful.resourcefullib.common.network.Network;
+
+//? if <= 1.21.8 {
+/*import com.faboslav.friendsandfoes.common.network.packet.SyncCopperGolemWalkAnimationPacket;
+*///?}
 
 public final class MessageHandler
 {
@@ -13,8 +15,10 @@ public final class MessageHandler
 
 	public static void init() {
 		DEFAULT_CHANNEL.register(MoobloomVariantsSyncPacket.TYPE);
-		DEFAULT_CHANNEL.register(EntityAnimationsSyncPacket.TYPE);
-		DEFAULT_CHANNEL.register(SyncCopperGolemWalkAnimationPacket.TYPE);
 		DEFAULT_CHANNEL.register(TotemEffectPacket.TYPE);
+
+		//? if <= 1.21.8 {
+		/*DEFAULT_CHANNEL.register(SyncCopperGolemWalkAnimationPacket.TYPE);
+		*///?}
 	}
 }

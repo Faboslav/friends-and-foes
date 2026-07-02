@@ -1,11 +1,7 @@
 package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-import com.faboslav.friendsandfoes.common.entity.animation.MaulerAnimations;
-import com.faboslav.friendsandfoes.common.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.common.entity.ai.goal.mauler.*;
-import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
-import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
 import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityDataSerializers;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
@@ -19,7 +15,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -37,6 +32,7 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier.Builder;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
@@ -60,7 +56,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.UUID;
 
 //? if >=1.21.6 {
 import net.minecraft.world.level.storage.ValueInput;
@@ -76,7 +71,7 @@ import net.minecraft.world.entity.EntitySpawnReason;
  *///?}
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEntity
+public final class MaulerEntity extends Animal implements NeutralMob
 {
 	private static final int HEALTH = 20;
 	private static final float ANGERED_MOVEMENT_SPEED = 0.5F;
@@ -92,7 +87,6 @@ public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEn
 	private static final String STORED_EXPERIENCE_POINTS_NBT_NAME = "StoredExperiencePoints";
 	private static final String IS_BURROWED_DOWN_NBT_NAME = "IsBurrowedDown";
 	private static final String TICKS_UNTIL_NEXT_BURROWING_DOWN_NBT_NAME = "TicksUntilNextBurrowingDown";
-	private static final String BURROWING_DOWN_ANIMATION_PROGRESS_NBT_NAME = "BurrowingDownAnimationProgress";
 	private static final String BURROWED_DOWN_TICKS_NBT_NAME = "BurrowedDownTicks";
 
 	private static final EntityDataAccessor<String> TYPE = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.STRING);
@@ -101,8 +95,6 @@ public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEn
 	private static final EntityDataAccessor<Boolean> IS_MOVING = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<Boolean> IS_BURROWED_DOWN = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<Integer> TICKS_UNTIL_NEXT_BURROWING_DOWN = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.INT);
-	private static final EntityDataAccessor<Float> BURROWING_DOWN_ANIMATION_PROGRESS = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.FLOAT);
-	private static final EntityDataAccessor<Integer> POSE_TICKS = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<FriendsAndFoesEntityPose> ENTITY_POSE = SynchedEntityData.defineId(MaulerEntity.class, FriendsAndFoesEntityDataSerializers.ENTITY_POSE);
 	//? if >= 1.21.11 {
 	private static final EntityDataAccessor<Long> ANGER_END_TIME = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.LONG);
@@ -118,66 +110,10 @@ public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEn
 
 	public MaulerBurrowDownGoal burrowDownGoal;
 
-	private AnimationContextTracker animationContextTracker;
-
-	@Override
-	public AnimationContextTracker getAnimationContextTracker() {
-		if (this.animationContextTracker == null) {
-			this.animationContextTracker = new AnimationContextTracker();
-
-			for (var trackedAnimation: this.getTrackedAnimations()) {
-				this.animationContextTracker.add(trackedAnimation);
-			}
-
-			for (var idleAnimation: this.getIdleAnimations()) {
-				this.animationContextTracker.add(idleAnimation);
-			}
-
-			this.animationContextTracker.add(MaulerAnimations.SNAP);
-		}
-
-		return this.animationContextTracker;
-	}
-
-	@Override
-	public ArrayList<AnimationHolder> getTrackedAnimations() {
-		return MaulerAnimations.TRACKED_ANIMATIONS;
-	}
-
-	@Override
-	public ArrayList<AnimationHolder> getIdleAnimations() {
-		return MaulerAnimations.IDLE_ANIMATIONS;
-	}
-
-	@Override
-	public AnimationHolder getMovementAnimation() {
-		if(this.isAngry()) {
-			return MaulerAnimations.WALK;
-		}
-
-		return MaulerAnimations.RUN;
-	}
-
-	@Override
-	public int getCurrentAnimationTick() {
-		return this.entityData.get(POSE_TICKS);
-	}
-
-	public void setCurrentAnimationTick(int keyframeAnimationTicks) {
-		this.entityData.set(POSE_TICKS, keyframeAnimationTicks);
-	}
-
-	@Override
-	@Nullable
-	public AnimationHolder getAnimationByPose() {
-		AnimationHolder animation = null;
-
-		if (this.isInEntityPose(FriendsAndFoesEntityPose.IDLE) && !this.walkAnimation.isMoving()) {
-			animation = MaulerAnimations.IDLE;
-		}
-
-		return animation;
-	}
+	public final AnimationState idleAnimationState = new AnimationState();
+	public final AnimationState snapAnimationState = new AnimationState();
+	public final AnimationState burrowDownAnimationState = new AnimationState();
+	public final AnimationState burrowUpAnimationState = new AnimationState();
 
 	public MaulerEntity(EntityType<? extends MaulerEntity> entityType, Level world) {
 		super(entityType, world);
@@ -193,8 +129,6 @@ public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEn
 		builder.define(IS_MOVING, false);
 		builder.define(IS_BURROWED_DOWN, false);
 		builder.define(TICKS_UNTIL_NEXT_BURROWING_DOWN, this.getRandom().nextIntBetweenInclusive(MIN_TICKS_UNTIL_NEXT_BURROWING, MAX_TICKS_UNTIL_NEXT_BURROWING));
-		builder.define(BURROWING_DOWN_ANIMATION_PROGRESS, 0.0F);
-		builder.define(POSE_TICKS, 0);
 		builder.define(ENTITY_POSE, FriendsAndFoesEntityPose.IDLE);
 
 		//? if >= 1.21.11 {
@@ -215,7 +149,6 @@ public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEn
 		nbt.putInt(STORED_EXPERIENCE_POINTS_NBT_NAME, this.getStoredExperiencePoints());
 		nbt.putBoolean(IS_BURROWED_DOWN_NBT_NAME, this.isBurrowedDown());
 		nbt.putInt(TICKS_UNTIL_NEXT_BURROWING_DOWN_NBT_NAME, this.getTicksUntilNextBurrowingDown());
-		nbt.putFloat(BURROWING_DOWN_ANIMATION_PROGRESS_NBT_NAME, this.getBurrowingDownAnimationProgress());
 
 		if (this.burrowDownGoal != null && this.isBurrowedDown() && this.burrowDownGoal.getBurrowedDownTicks() > 0) {
 			nbt.putInt(BURROWED_DOWN_TICKS_NBT_NAME, this.burrowDownGoal.getBurrowedDownTicks());
@@ -236,7 +169,6 @@ public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEn
 		this.setStoredExperiencePoints(VersionedNbt.getInt(nbt, STORED_EXPERIENCE_POINTS_NBT_NAME, this.getStoredExperiencePoints()));
 		this.setBurrowedDown(VersionedNbt.getBoolean(nbt, IS_BURROWED_DOWN_NBT_NAME, this.isBurrowedDown()));
 		this.setTicksUntilNextBurrowingDown(VersionedNbt.getInt(nbt, TICKS_UNTIL_NEXT_BURROWING_DOWN_NBT_NAME, this.getTicksUntilNextBurrowingDown()));
-		this.setBurrowingDownAnimationProgress(VersionedNbt.getFloat(nbt, BURROWING_DOWN_ANIMATION_PROGRESS_NBT_NAME, this.getBurrowingDownAnimationProgress()));
 
 		if (this.burrowDownGoal != null && this.isBurrowedDown()) {
 			var burrowedDownTicks = VersionedNbt.getInt(nbt, BURROWED_DOWN_TICKS_NBT_NAME, 0);
@@ -297,13 +229,14 @@ public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEn
 	@Override
 	protected void registerGoals() {
 		this.goalSelector.addGoal(1, new FloatGoal(this));
-		this.goalSelector.addGoal(2, new MaulerMeeleAttackGoal(this, ANGERED_MOVEMENT_SPEED, false));
-		this.goalSelector.addGoal(3, new MaulerWanderAroundFarGoal(this, 0.6D));
-		this.goalSelector.addGoal(4, new MaulerLookAtEntityGoal(this, Player.class, 10.0F));
-		this.goalSelector.addGoal(5, new MaulerLookAroundGoal(this));
+		this.goalSelector.addGoal(2, new LeapAtTargetGoal(this, 0.4F));
+		this.goalSelector.addGoal(3, new MaulerMeeleAttackGoal(this, ANGERED_MOVEMENT_SPEED, true));
+		this.goalSelector.addGoal(4, new MaulerWanderAroundFarGoal(this, 0.6D));
+		this.goalSelector.addGoal(5, new MaulerLookAtEntityGoal(this, Player.class, 10.0F));
+		this.goalSelector.addGoal(6, new MaulerLookAroundGoal(this));
 		this.burrowDownGoal = new MaulerBurrowDownGoal(this);
-		this.goalSelector.addGoal(6, this.burrowDownGoal);
-		this.targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setAlertOthers());
+		this.goalSelector.addGoal(7, this.burrowDownGoal);
+		this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, new Class[0])).setAlertOthers(new Class[0]));
 		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, PathfinderMob.class, 10, true, true, (livingEntity/*? if >=1.21.3 {*/, serverLevel/*?}*/) -> {
 			if (
 				livingEntity instanceof Slime slimeEntity && slimeEntity.getSize() != Slime.MIN_SIZE
@@ -327,19 +260,35 @@ public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEn
 		super.tick();
 
 		if (this.level().isClientSide()) {
+			this.idleAnimationState.animateWhen(!this.walkAnimation.isMoving(), this.tickCount);
+			this.snapAnimationState.animateWhen(this.isAngry() && this.walkAnimation.isMoving(), this.tickCount);
 			return;
 		}
 
 		if (this.getTicksUntilNextBurrowingDown() > 0) {
 			this.setTicksUntilNextBurrowingDown(this.getTicksUntilNextBurrowingDown() - 1);
 		}
-
-		this.updateBurrowingDownAnimation();
 	}
 
 	@Override
+	public void onSyncedDataUpdated(EntityDataAccessor<?> dataAccessor) {
+		if (!this.firstTick && IS_BURROWED_DOWN.equals(dataAccessor)) {
+			if (this.isBurrowedDown()) {
+				this.burrowDownAnimationState.start(this.tickCount);
+				this.burrowUpAnimationState.stop();
+			} else {
+				this.burrowUpAnimationState.start(this.tickCount);
+				this.burrowDownAnimationState.stop();
+			}
+		}
+
+		super.onSyncedDataUpdated(dataAccessor);
+	}
+
+
+	@Override
 	public void aiStep() {
-		if (!this.level().isClientSide() && this.getBurrowingDownAnimationProgress() > 0.0F) {
+		if (!this.level().isClientSide() && this.isBurrowedDown()) {
 			this.getNavigation().setSpeedModifier(0);
 			this.getNavigation().stop();
 		}
@@ -659,7 +608,8 @@ public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEn
 	}
 
 	public boolean isBurrowedDown() {
-		return this.entityData.get(IS_BURROWED_DOWN);
+		return false;
+		//return this.entityData.get(IS_BURROWED_DOWN);
 	}
 
 	public void setBurrowedDown(boolean isBurrowedDown) {
@@ -672,22 +622,6 @@ public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEn
 
 	public void setTicksUntilNextBurrowingDown(int ticksUntilNextBurrowingDown) {
 		this.entityData.set(TICKS_UNTIL_NEXT_BURROWING_DOWN, ticksUntilNextBurrowingDown);
-	}
-
-	public float getBurrowingDownAnimationProgress() {
-		return this.entityData.get(BURROWING_DOWN_ANIMATION_PROGRESS);
-	}
-
-	public void setBurrowingDownAnimationProgress(float burrowingDownAnimationProgress) {
-		this.entityData.set(BURROWING_DOWN_ANIMATION_PROGRESS, burrowingDownAnimationProgress);
-	}
-
-	private void updateBurrowingDownAnimation() {
-		if (this.isBurrowedDown()) {
-			this.setBurrowingDownAnimationProgress(Math.min(1.0F, this.getBurrowingDownAnimationProgress() + 0.04F));
-		} else {
-			this.setBurrowingDownAnimationProgress(Math.max(0.0F, this.getBurrowingDownAnimationProgress() - 0.04F));
-		}
 	}
 
 	public Vec3 getLeashOffset() {

@@ -2,19 +2,13 @@ package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.BarnacleBrain;
-import com.faboslav.friendsandfoes.common.entity.animation.AnimatedEntity;
-import com.faboslav.friendsandfoes.common.entity.animation.BarnacleAnimations;
-import com.faboslav.friendsandfoes.common.entity.animation.animator.context.AnimationContextTracker;
-import com.faboslav.friendsandfoes.common.entity.animation.animator.loader.json.AnimationHolder;
 import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityDataSerializers;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
 import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
-import com.mojang.serialization.Dynamic;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -42,14 +36,15 @@ import java.util.ArrayList;
 /*import com.mojang.serialization.Dynamic;
  *///?}
 
-public final class BarnacleEntity extends Monster implements AnimatedEntity {
-	private AnimationContextTracker animationContextTracker;
-
-	private static final EntityDataAccessor<Integer> POSE_TICKS = SynchedEntityData.defineId(BarnacleEntity.class, EntityDataSerializers.INT);;
+public final class BarnacleEntity extends Monster {
 	private static final EntityDataAccessor<FriendsAndFoesEntityPose> ENTITY_POSE = SynchedEntityData.defineId(BarnacleEntity.class, FriendsAndFoesEntityDataSerializers.ENTITY_POSE);
 
 	public static final float GENERIC_ATTACK_DAMAGE = 1.0F;
 	public static final float GENERIC_FOLLOW_RANGE = 32.0F;
+
+	public final AnimationState idleAnimationState = new AnimationState();
+	public final AnimationState swimAnimationState = new AnimationState();
+
 
 	public BarnacleEntity(EntityType<? extends Monster> entityType, Level level) {
 		super(entityType, level);
@@ -76,52 +71,9 @@ public final class BarnacleEntity extends Monster implements AnimatedEntity {
 	}
 
 	@Override
-	public AnimationContextTracker getAnimationContextTracker() {
-		if (this.animationContextTracker == null) {
-			this.animationContextTracker = new AnimationContextTracker();
-
-			for (var trackedAnimation: this.getTrackedAnimations()) {
-				this.animationContextTracker.add(trackedAnimation);
-			}
-
-			for (var idleAnimation: this.getIdleAnimations()) {
-				this.animationContextTracker.add(idleAnimation);
-			}
-		}
-
-		return this.animationContextTracker;
-	}
-
-	@Override
-	public ArrayList<AnimationHolder> getTrackedAnimations() {
-		return BarnacleAnimations.TRACKED_ANIMATIONS;
-	}
-
-	@Override
-	public ArrayList<AnimationHolder> getIdleAnimations() {
-		return BarnacleAnimations.IDLE_ANIMATIONS;
-	}
-
-	@Override
-	public AnimationHolder getMovementAnimation() {
-		return BarnacleAnimations.SWIM;
-	}
-
-	@Override
-	public int getCurrentAnimationTick() {
-		return this.entityData.get(POSE_TICKS);
-	}
-
-	@Override
-	public void setCurrentAnimationTick(int keyframeAnimationTicks) {
-		this.entityData.set(POSE_TICKS, keyframeAnimationTicks);
-	}
-
-	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder builder) {
 		super.defineSynchedData(builder);
 
-		builder.define(POSE_TICKS, 0);
 		builder.define(ENTITY_POSE, FriendsAndFoesEntityPose.IDLE);
 	}
 
@@ -185,7 +137,10 @@ public final class BarnacleEntity extends Monster implements AnimatedEntity {
 			this.discard();
 		}
 
-		this.updateKeyframeAnimations();
+		if (this.level().isClientSide()) {
+			this.idleAnimationState.animateWhen(this.isInWater() && !this.walkAnimation.isMoving(), this.tickCount);
+		}
+
 		super.tick();
 	}
 
@@ -318,53 +273,6 @@ public final class BarnacleEntity extends Monster implements AnimatedEntity {
 			-original.getZsize() / 4.0
 		);
 	}*/
-
-	private void updateKeyframeAnimations() {
-		if (!this.level().isClientSide()) {
-			this.updateCurrentAnimationTick();
-		}
-
-		AnimationHolder animationToStart = this.getAnimationByPose();
-
-		if (animationToStart != null) {
-			this.tryToStartAnimation(animationToStart);
-		}
-	}
-
-	@Nullable
-	public AnimationHolder getAnimationByPose() {
-		AnimationHolder animation = null;
-
-		if (this.isInEntityPose(FriendsAndFoesEntityPose.IDLE) && !this.isMoving()) {
-			animation = BarnacleAnimations.IDLE;
-		}
-
-		return animation;
-	}
-
-	private void tryToStartAnimation(AnimationHolder animationToStart) {
-		if (this.isKeyframeAnimationRunning(animationToStart)) {
-			return;
-		}
-
-		if (!this.level().isClientSide()) {
-			this.setCurrentAnimationTick(animationToStart.get().lengthInTicks());
-		}
-
-		this.startKeyframeAnimation(animationToStart);
-	}
-
-	private void startKeyframeAnimation(AnimationHolder animationToStart) {
-		for (var animation : this.getTrackedAnimations()) {
-			if (animation == animationToStart) {
-				continue;
-			}
-
-			this.stopKeyframeAnimation(animation);
-		}
-
-		this.startKeyframeAnimation(animationToStart, this.tickCount);
-	}
 
 	public void setEntityPose(FriendsAndFoesEntityPose pose) {
 		if (this.level().isClientSide()) {

@@ -1,6 +1,8 @@
 package com.faboslav.friendsandfoes.common.entity.ai.goal.mauler;
 
 import com.faboslav.friendsandfoes.common.entity.MaulerEntity;
+import com.faboslav.friendsandfoes.common.entity.animation.MaulerAnimations;
+import com.faboslav.friendsandfoes.common.util.animation.AnimationMath;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -16,6 +18,9 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public final class MaulerBurrowDownGoal extends Goal
 {
+	private final static int BURROW_DOWN_DURATION = AnimationMath.toLengthInTicks(MaulerAnimations.BURROW_DOWN.lengthInSeconds()) * 60;
+	private final static int BURROW_UP_DURATION = AnimationMath.toLengthInTicks(MaulerAnimations.BURROW_UP.lengthInSeconds()) * 60;
+
 	private final MaulerEntity mauler;
 	private int burrowedDownTicks;
 	private Block blockUnderMauler;
@@ -82,7 +87,6 @@ public final class MaulerBurrowDownGoal extends Goal
 	@Override
 	public void stop() {
 		this.isRunning = false;
-		this.mauler.setInvisible(false);
 		this.mauler.setInvulnerable(false);
 		this.mauler.setBurrowedDown(false);
 		this.mauler.setTicksUntilNextBurrowingDown(
@@ -95,8 +99,11 @@ public final class MaulerBurrowDownGoal extends Goal
 
 	@Override
 	public void tick() {
-		float burrowingDownAnimationProgress = this.mauler.getBurrowingDownAnimationProgress();
-		if (burrowingDownAnimationProgress > 0.0F && burrowingDownAnimationProgress < 1.0F) {
+		float burrowingAnimationProgress = this.mauler.isBurrowedDown()
+			? (float) this.mauler.burrowDownAnimationState.getTimeInMillis(this.mauler.getAge()) / BURROW_DOWN_DURATION
+			: (float) this.mauler.burrowUpAnimationState.getTimeInMillis(this.mauler.getAge()) / BURROW_UP_DURATION;
+
+		if (burrowingAnimationProgress > 0.0F && burrowingAnimationProgress < 1.0F) {
 			BlockPos blockPos = this.mauler.blockPosition();
 
 			if (this.mauler.tickCount % 3 == 0) {
@@ -125,8 +132,6 @@ public final class MaulerBurrowDownGoal extends Goal
 					0.1D
 				);
 			}
-		} else if (this.mauler.isBurrowedDown() && this.mauler.getBurrowingDownAnimationProgress() == 1.0F) {
-			this.mauler.setInvisible(true);
 		}
 
 		this.burrowedDownTicks--;

@@ -31,8 +31,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier.Builder;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
@@ -175,8 +174,7 @@ public final class MaulerEntity extends Animal implements NeutralMob
 
 			if(burrowedDownTicks != 0) {
 				this.burrowDownGoal.setBurrowedDownTicks(burrowedDownTicks);
-				this.setInvulnerable(true);
-				this.setInvisible(true);
+				//this.setInvulnerable(true);
 			}
 		}
 	}
@@ -230,13 +228,13 @@ public final class MaulerEntity extends Animal implements NeutralMob
 	protected void registerGoals() {
 		this.goalSelector.addGoal(1, new FloatGoal(this));
 		this.goalSelector.addGoal(2, new LeapAtTargetGoal(this, 0.4F));
-		this.goalSelector.addGoal(3, new MaulerMeeleAttackGoal(this, ANGERED_MOVEMENT_SPEED, true));
-		this.goalSelector.addGoal(4, new MaulerWanderAroundFarGoal(this, 0.6D));
-		this.goalSelector.addGoal(5, new MaulerLookAtEntityGoal(this, Player.class, 10.0F));
-		this.goalSelector.addGoal(6, new MaulerLookAroundGoal(this));
+			this.goalSelector.addGoal(3, new MeleeAttackGoal(this, ANGERED_MOVEMENT_SPEED, true));
+		this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 0.6D));
+		this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 10.0F));
+		this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
 		this.burrowDownGoal = new MaulerBurrowDownGoal(this);
-		this.goalSelector.addGoal(7, this.burrowDownGoal);
-		this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, new Class[0])).setAlertOthers(new Class[0]));
+		//this.goalSelector.addGoal(7, this.burrowDownGoal);
+		this.targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setAlertOthers());
 		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, PathfinderMob.class, 10, true, true, (livingEntity/*? if >=1.21.3 {*/, serverLevel/*?}*/) -> {
 			if (
 				livingEntity instanceof Slime slimeEntity && slimeEntity.getSize() != Slime.MIN_SIZE
@@ -288,19 +286,17 @@ public final class MaulerEntity extends Animal implements NeutralMob
 
 	@Override
 	public void aiStep() {
-		if (!this.level().isClientSide() && this.isBurrowedDown()) {
-			this.getNavigation().setSpeedModifier(0);
-			this.getNavigation().stop();
-		}
-
 		super.aiStep();
 
-		if (this.level().isClientSide()) {
-			return;
-		}
+		if (!this.level().isClientSide()) {
+			if(this.isBurrowedDown()) {
+				this.getNavigation().setSpeedModifier(0);
+				this.getNavigation().stop();
+			}
 
-		this.updatePersistentAnger((ServerLevel) this.level(), true);
-		this.setMoving(this.getNavigation().isInProgress());
+			//this.updatePersistentAnger((ServerLevel) this.level(), false);
+			this.setMoving(this.getNavigation().isInProgress());
+		}
 	}
 
 	@Override
@@ -311,7 +307,7 @@ public final class MaulerEntity extends Animal implements NeutralMob
 	*//*?}*/
 	{
 		if (!this.level().isClientSide() && this.burrowDownGoal.isRunning()) {
-			this.burrowDownGoal.stop();
+			//this.burrowDownGoal.stop();
 		}
 
 		/*? if >=1.21.3 {*/
@@ -520,17 +516,9 @@ public final class MaulerEntity extends Animal implements NeutralMob
 		return VersionedEntity.hurt(target, this.damageSources().mobAttack(this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
 	}
 
-	public int getRemainingPersistentAngerTime() {
-		return this.entityData.get(ANGER_TIME);
-	}
-
-	public void setRemainingPersistentAngerTime(int angerTime) {
-		this.entityData.set(ANGER_TIME, angerTime);
-	}
-
 	public void startPersistentAngerTimer() {
-		int angerTime = this.getRandom().nextIntBetweenInclusive(400, 1000);
-		this.setRemainingPersistentAngerTime(angerTime);
+		this.setRemainingPersistentAngerTime(this.getRandom().nextIntBetweenInclusive(400, 1000));
+		FriendsAndFoes.getLogger().info("startPersistentAngerTimer {}", this.getRemainingPersistentAngerTime());
 	}
 
 	@Nullable
@@ -540,6 +528,7 @@ public final class MaulerEntity extends Animal implements NeutralMob
 	/*public UUID getPersistentAngerTarget()
 	*///?}
 	{
+		FriendsAndFoes.getLogger().info("getPersistentAngerTarget {}", this.angryAt);
 		return this.angryAt;
 	}
 
@@ -550,6 +539,7 @@ public final class MaulerEntity extends Animal implements NeutralMob
 	/*@Nullable UUID angryAt
 	*///?}
 	) {
+		FriendsAndFoes.getLogger().info("setPersistentAngerTarget {}", angryAt);
 		this.angryAt = angryAt;
 	}
 
@@ -561,7 +551,15 @@ public final class MaulerEntity extends Animal implements NeutralMob
 	public void setPersistentAngerEndTime(long persistentAngerEndTime) {
 		this.entityData.set(ANGER_END_TIME, persistentAngerEndTime);
 	}
-	//? }
+	//?}
+
+	public int getRemainingPersistentAngerTime() {
+		return this.entityData.get(ANGER_TIME);
+	}
+
+	public void setRemainingPersistentAngerTime(int angerTime) {
+		this.entityData.set(ANGER_TIME, angerTime);
+	}
 
 	public Type getMaulerType() {
 		return MaulerEntity.Type.fromName(this.entityData.get(TYPE));

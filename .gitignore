@@ -9,6 +9,8 @@ output/
 bin/
 libs/
 
+.agentbridge
+.agent-work
 .kotlin
 .classpath
 .project

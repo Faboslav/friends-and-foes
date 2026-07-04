@@ -67,7 +67,6 @@ public class PenguinSwimWithPlayerTask extends Behavior<PenguinEntity>
 			|| this.player == null
 			|| !this.player.isAlive()
 			|| !this.player.isPassenger()
-			|| !this.player.isPassenger()
 			//? if >= 1.21.10 {
 			|| !(this.player.getVehicle() instanceof AbstractBoat)
 			//?} else {

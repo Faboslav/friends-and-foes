@@ -115,8 +115,8 @@ public final class BarnacleEntityModel extends EntityModel<BarnacleRenderState>
 		var limbSwingAmount = renderState.walkAnimationSpeed;
 		var ageInTicks = renderState.ageInTicks;
 		//?} else {
-		this.root().getAllParts().forEach(ModelPart::resetPose);
-		//?}
+		/*this.root().getAllParts().forEach(ModelPart::resetPose);
+		*///?}
 
 		this.updateKeyframeAnimations(barnacle, limbSwing, limbSwingAmount, ageInTicks);
 	}

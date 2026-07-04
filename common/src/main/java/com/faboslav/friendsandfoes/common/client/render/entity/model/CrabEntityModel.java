@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.model;
 
 import com.faboslav.friendsandfoes.common.entity.CrabEntity;
+import com.faboslav.friendsandfoes.common.entity.PenguinEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.CrabAnimations;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntityModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -18,6 +19,7 @@ import net.minecraft.client.animation.KeyframeAnimation;
 import net.minecraft.client.model.EntityModel;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.CrabRenderState;
 import net.minecraft.client.model.geom.builders.MeshTransformer;
+import net.minecraft.util.Mth;
 //?} else {
 /*import net.minecraft.client.model.HierarchicalModel;
  *///?}
@@ -168,16 +170,17 @@ public class CrabEntityModel extends EntityModel<CrabRenderState>
 	*///?}
 	{
 		//? if >=1.21.3 {
+		super.setupAnim(renderState);
 		var crab = renderState.crab;
 		var limbSwing = renderState.walkAnimationPos;
 		var limbSwingAmount = renderState.walkAnimationSpeed;
 		var ageInTicks = renderState.ageInTicks;
 		//?} else {
-		this.root().getAllParts().forEach(ModelPart::resetPose);
-		//?}
+		/*this.root().getAllParts().forEach(ModelPart::resetPose);
+		*///?}
 
 		this.updateKeyframeAnimations(crab, limbSwing, limbSwingAmount, ageInTicks);
-		this.updateModelPartAnimations(crab);
+		this.animateClimbing(crab, ageInTicks);
 	}
 
 	public void updateKeyframeAnimations(
@@ -192,37 +195,17 @@ public class CrabEntityModel extends EntityModel<CrabRenderState>
 		VersionedEntityModel.AnimateWalk(this, this.walkAnimation, limbSwing, limbSwingAmount, 2.5F, 4.5F);
 	}
 
-	public void updateModelPartAnimations(
-		CrabEntity crab
+	public void animateClimbing(
+		final CrabEntity crab,
+		final float ageInTicks
+
 	) {
 		float scaleModifier = crab.getSize().getScaleModifier();
+		float climbProgress = crab.getClimbProgress(ageInTicks - crab.tickCount);
 
-		float pivotX = 0.0F;
-		float pivotY = crab.onClimbable() ? 17.0F * scaleModifier:24.0F;
-		float pivotZ = crab.onClimbable() ? -9.0F * scaleModifier:0.0F;
-		float pitch = -1.5708F;
-		float yaw = crab.onClimbable() ? 0.0F:-1.5708F;
-		float roll = 1.5708F;
+		this.main.y = Mth.lerp(climbProgress, 24.0F, 17.0F * scaleModifier);
+		this.main.z = Mth.lerp(climbProgress, 0.0F, -9.0F * scaleModifier);
+		this.main.yRot = Mth.lerp(climbProgress, -1.5708F, 0.0F);
 
-		// TODO replace
-		/*
-		ModelPartModelAnimator.animateModelPartPositionBasedOnTicks(
-			crab.getAnimationContextTracker(),
-			this.main,
-			crab.tickCount,
-			pivotX,
-			pivotY,
-			pivotZ,
-			20
-		);
-		ModelPartModelAnimator.animateModelPartRotationBasedOnTicks(
-			crab.getAnimationContextTracker(),
-			this.main,
-			crab.tickCount,
-			pitch,
-			yaw,
-			roll,
-			20
-		);*/
 	}
 }

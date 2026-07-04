@@ -24,6 +24,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.stats.Stats;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.*;
 import net.minecraft.world.damagesource.DamageSource;
@@ -93,9 +94,11 @@ public class CrabEntity extends Animal
 	private Home home = new Home(0, 0, 0);
 
 	public final AnimationState idleAnimationState = new AnimationState();
-	public final AnimationState walkAnimationState = new AnimationState();
 	public final AnimationState waveAnimationState = new AnimationState();
 	public final AnimationState danceAnimationState = new AnimationState();
+
+	private float climbProgress;
+	private float prevClimbProgress;
 
 	public CrabEntity(EntityType<? extends CrabEntity> entityType, Level world) {
 		super(entityType, world);
@@ -275,7 +278,7 @@ public class CrabEntity extends Animal
 			return;
 		}
 
-		this.playSound(FriendsAndFoesSoundEvents.ENTITY_CRAB_STEP.get(), 0.15f, 1.0f + this.random.nextFloat() * 0.2f);
+		this.playSound(FriendsAndFoesSoundEvents.ENTITY_CRAB_STEP.get(), 0.125f, 1.0f + this.random.nextFloat() * 0.2f);
 	}
 
 	@Override
@@ -289,10 +292,20 @@ public class CrabEntity extends Animal
 		}
 
 		this.calculateSize();
-		super.tick();
 
 		if (!this.level().isClientSide()) {
 			this.setClimbingWall(this.horizontalCollision);
+		}
+
+		if(this.level().isClientSide()) {
+			this.prevClimbProgress = this.climbProgress;
+			float climbProgressSpeed = 1.0F / 10.0F;
+
+			if (this.isClimbingWall()) {
+				this.climbProgress = Math.min(1.0F, this.climbProgress + climbProgressSpeed);
+			} else {
+				this.climbProgress = Math.max(0.0F, this.climbProgress - climbProgressSpeed);
+			}
 		}
 
 		if (this.isClimbingWall()) {
@@ -310,6 +323,8 @@ public class CrabEntity extends Animal
 			Vec3 velocity = this.getDeltaMovement();
 			this.setDeltaMovement(velocity.x, velocity.y * 0.33F, velocity.z);
 		}
+
+		super.tick();
 	}
 
 	@Override
@@ -525,6 +540,10 @@ public class CrabEntity extends Animal
 
 	public boolean isCloseToHomePos(float distance) {
 		return this.distanceToSqr(this.getHomePos()) < distance;
+	}
+
+	public float getClimbProgress(float tickDelta) {
+		return Mth.lerp(tickDelta, this.prevClimbProgress, this.climbProgress);
 	}
 
 	public boolean hasEgg() {

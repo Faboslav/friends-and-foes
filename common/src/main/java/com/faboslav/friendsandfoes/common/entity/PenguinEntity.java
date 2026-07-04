@@ -166,13 +166,15 @@ public final class PenguinEntity extends Animal {
 			this.idleWaterAnimationState.animateWhen(this.isInWater() && !this.walkAnimation.isMoving(), this.tickCount);
 		}
 
-		this.prevSwimProgress = this.swimProgress;
-		float swimProgressSpeed = 1.0F / 10.0F;
+		if(this.level().isClientSide()) {
+			this.prevSwimProgress = this.swimProgress;
+			float swimProgressSpeed = 1.0F / 10.0F;
 
-		if (this.isInWater()) {
-			this.swimProgress = Math.min(1.0F, this.swimProgress + swimProgressSpeed);
-		} else {
-			this.swimProgress = Math.max(0.0F, this.swimProgress - swimProgressSpeed);
+			if (this.isInWater()) {
+				this.swimProgress = Math.min(1.0F, this.swimProgress + swimProgressSpeed);
+			} else {
+				this.swimProgress = Math.max(0.0F, this.swimProgress - swimProgressSpeed);
+			}
 		}
 
 		super.tick();
@@ -196,9 +198,6 @@ public final class PenguinEntity extends Animal {
 		return new AmphibiousPathNavigation(this, world);
 	}
 
-	public boolean isMoving() {
-		return (this.isUnderWater() || this.onGround()) && this.getDeltaMovement().lengthSqr() >= 0.01;
-	}
 
 	public static boolean canSpawn(
 		EntityType<? extends Animal> type,

@@ -294,7 +294,7 @@ public final class MaulerEntity extends Animal implements NeutralMob
 				this.getNavigation().stop();
 			}
 
-			//this.updatePersistentAnger((ServerLevel) this.level(), false);
+			this.updatePersistentAnger((ServerLevel) this.level(), false);
 			this.setMoving(this.getNavigation().isInProgress());
 		}
 	}
@@ -517,7 +517,13 @@ public final class MaulerEntity extends Animal implements NeutralMob
 	}
 
 	public void startPersistentAngerTimer() {
-		this.setRemainingPersistentAngerTime(this.getRandom().nextIntBetweenInclusive(400, 1000));
+		int duration = this.getRandom().nextIntBetweenInclusive(400, 1000);
+		this.setRemainingPersistentAngerTime(duration);
+
+		//? if >= 1.21.11 {
+		this.setPersistentAngerEndTime(this.level().getGameTime() + duration);
+		//?}
+
 		FriendsAndFoes.getLogger().info("startPersistentAngerTimer {}", this.getRemainingPersistentAngerTime());
 	}
 

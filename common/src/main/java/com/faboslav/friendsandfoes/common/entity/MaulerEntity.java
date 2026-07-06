@@ -289,12 +289,12 @@ public final class MaulerEntity extends Animal implements NeutralMob
 		super.aiStep();
 
 		if (!this.level().isClientSide()) {
-			if(this.isBurrowedDown()) {
+			if (this.isBurrowedDown()) {
 				this.getNavigation().setSpeedModifier(0);
 				this.getNavigation().stop();
 			}
 
-			this.updatePersistentAnger((ServerLevel) this.level(), false);
+			this.updatePersistentAnger((ServerLevel) this.level(), true);
 			this.setMoving(this.getNavigation().isInProgress());
 		}
 	}
@@ -523,8 +523,6 @@ public final class MaulerEntity extends Animal implements NeutralMob
 		//? if >= 1.21.11 {
 		this.setPersistentAngerEndTime(this.level().getGameTime() + duration);
 		//?}
-
-		FriendsAndFoes.getLogger().info("startPersistentAngerTimer {}", this.getRemainingPersistentAngerTime());
 	}
 
 	@Nullable
@@ -534,7 +532,6 @@ public final class MaulerEntity extends Animal implements NeutralMob
 	/*public UUID getPersistentAngerTarget()
 	*///?}
 	{
-		FriendsAndFoes.getLogger().info("getPersistentAngerTarget {}", this.angryAt);
 		return this.angryAt;
 	}
 
@@ -545,7 +542,6 @@ public final class MaulerEntity extends Animal implements NeutralMob
 	/*@Nullable UUID angryAt
 	*///?}
 	) {
-		FriendsAndFoes.getLogger().info("setPersistentAngerTarget {}", angryAt);
 		this.angryAt = angryAt;
 	}
 

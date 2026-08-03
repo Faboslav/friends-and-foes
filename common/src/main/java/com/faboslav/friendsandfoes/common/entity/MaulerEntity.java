@@ -55,6 +55,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.UUID;
 
 //? if >=1.21.6 {
 import net.minecraft.world.level.storage.ValueInput;

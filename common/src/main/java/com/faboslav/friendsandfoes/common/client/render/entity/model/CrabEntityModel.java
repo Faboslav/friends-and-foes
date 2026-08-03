@@ -1,12 +1,12 @@
 package com.faboslav.friendsandfoes.common.client.render.entity.model;
 
 import com.faboslav.friendsandfoes.common.entity.CrabEntity;
-import com.faboslav.friendsandfoes.common.entity.PenguinEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.CrabAnimations;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.util.Mth;
 
 
 //? if >= 1.21.6 {
@@ -19,10 +19,9 @@ import net.minecraft.client.animation.KeyframeAnimation;
 import net.minecraft.client.model.EntityModel;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.CrabRenderState;
 import net.minecraft.client.model.geom.builders.MeshTransformer;
-import net.minecraft.util.Mth;
 //?} else {
 /*import net.minecraft.client.model.HierarchicalModel;
- *///?}
+*///?}
 
 //? if >=1.21.3 {
 public class CrabEntityModel extends EntityModel<CrabRenderState>
@@ -119,7 +118,7 @@ public class CrabEntityModel extends EntityModel<CrabRenderState>
 		this.waveAnimation = CrabAnimations.WAVE.bake(root);
 		this.danceAnimation = CrabAnimations.DANCE.bake(root);
 		//?} else {
-		/*		this.idleAnimation = CrabAnimations.IDLE;
+				/*this.idleAnimation = CrabAnimations.IDLE;
 		this.walkAnimation = CrabAnimations.WALK;
 		this.waveAnimation = CrabAnimations.WAVE;
 		this.danceAnimation = CrabAnimations.DANCE;

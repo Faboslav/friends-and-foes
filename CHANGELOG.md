@@ -1,3 +1,7 @@
+## 4.0.27
+
+- Fixed tall plant flower rendering on the mooblooms
+
 ## 4.0.26
 
 - Fixed trinket compatibility and missing texture

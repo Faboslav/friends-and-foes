@@ -17,6 +17,9 @@ import net.minecraft.client.model.animal.cow.BabyCowModel;
 //? if >=1.21.3 {
 import net.minecraft.client.renderer.entity.AgeableMobRenderer;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.MoobloomRenderState;
+import net.minecraft.world.level.block.DoublePlantBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 //?} else {
 /*import net.minecraft.client.renderer.entity.MobRenderer;
 *///?}
@@ -69,7 +72,14 @@ public final class MoobloomEntityRenderer extends AgeableMobRenderer<MoobloomEnt
 		super.extractRenderState(moobloom, moobloomRenderState, partialTick);
 		moobloomRenderState.moobloom = moobloom;
 		//? if >= 26.1 {
-		this.blockModelResolver.update(moobloomRenderState.flowerModel, moobloom.getVariant().getFlower().defaultBlockState(), BLOCK_DISPLAY_CONTEXT);
+		var flower =  moobloom.getVariant().getFlower();
+		BlockState blockState = flower.defaultBlockState();
+
+		if (flower instanceof DoublePlantBlock) {
+			blockState = blockState.setValue(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER);
+		}
+
+		this.blockModelResolver.update(moobloomRenderState.flowerModel, blockState, BLOCK_DISPLAY_CONTEXT);
 		//?}
 	}
 	//?}

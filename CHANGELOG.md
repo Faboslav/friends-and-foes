@@ -2,6 +2,7 @@
 
 - Fixed tall plant flower rendering on the mooblooms
 - Fixed iceologer sitting in the boat
+- Updated es_ar translations (Thanks to Texaliuz)
 
 ## 4.0.26
 

@@ -1,6 +1,7 @@
 ## 4.0.27
 
 - Fixed tall plant flower rendering on the mooblooms
+- Fixed iceologer sitting in the boat
 
 ## 4.0.26
 

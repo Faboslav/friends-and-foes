@@ -6,14 +6,11 @@
 		"C"
 	],
 	"key": {
-		//? if >=1.21.4 {
-		/*"C": "minecraft:copper_ingot"
-		*///?} else {
+
 		"C": {
 			"item": "minecraft:copper_ingot"
 		}
-		
-		//?}
+
 	},
 	"result": {
 		"count": 1,

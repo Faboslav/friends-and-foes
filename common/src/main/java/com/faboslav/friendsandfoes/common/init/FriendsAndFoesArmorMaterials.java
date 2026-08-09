@@ -1,26 +1,5 @@
 package com.faboslav.friendsandfoes.common.init;
 
-//? if >=1.21.3 {
-/*import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
-import net.minecraft.Util;
-import net.minecraft.world.item.equipment.ArmorMaterial;
-import net.minecraft.world.item.equipment.ArmorType;
-
-import java.util.EnumMap;
-
-/^*
- * @see net.minecraft.world.item.equipment.ArmorMaterials
- ^/
-public interface FriendsAndFoesArmorMaterials {
-	ArmorMaterial WILDFIRE = new ArmorMaterial(37, Util.make(new EnumMap(ArmorType.class), enumMap -> {
-		enumMap.put(ArmorType.BOOTS, 3);
-		enumMap.put(ArmorType.LEGGINGS, 6);
-		enumMap.put(ArmorType.CHESTPLATE, 8);
-		enumMap.put(ArmorType.HELMET, 3);
-		enumMap.put(ArmorType.BODY, 11);
-	}), 9, FriendsAndFoesSoundEvents.ITEM_EQUIP_WILDFIRE_CROWN.holder(), 1.0F, 0.0F, FriendsAndFoesTags.REPAIRS_WILDFIRE_CROWN, FriendsAndFoesEquipmentAssets.WILDFIRE_CROWN);
-}
-*///?} else {
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import net.minecraft.world.item.ArmorMaterial;
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
@@ -79,4 +58,4 @@ public final class FriendsAndFoesArmorMaterials
 	private FriendsAndFoesArmorMaterials() {
 	}
 }
-//?}
+

@@ -34,8 +34,8 @@ public abstract class V1460Mixin
 		registerMob(schema, registeredEntities, "friendsandfoes:rascal");
 		registerMob(schema, registeredEntities, "friendsandfoes:tuff_golem");
 		registerMob(schema, registeredEntities, "friendsandfoes:wildfire");
-		//? if <= 1.21.8 {
+
 		registerMob(schema, registeredEntities, "friendsandfoes:player_illusion");
-		//?}
+
 	}
 }

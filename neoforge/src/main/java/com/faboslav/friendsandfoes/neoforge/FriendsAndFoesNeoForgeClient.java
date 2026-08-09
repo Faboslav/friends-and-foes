@@ -17,10 +17,8 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 
-//? if <= 1.21.11 {
 import com.faboslav.friendsandfoes.common.events.client.RegisterRenderLayersEvent;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
-//?}
 
 import java.util.function.Function;
 
@@ -37,9 +35,8 @@ public final class FriendsAndFoesNeoForgeClient
 
 	public static void onClientSetup(final FMLClientSetupEvent event) {
 		ClientSetupEvent.EVENT.invoke(new ClientSetupEvent(Runnable::run));
-		//? if <= 1.21.11 {
+
 		RegisterRenderLayersEvent.EVENT.invoke(new RegisterRenderLayersEvent(ItemBlockRenderTypes::setRenderLayer, ItemBlockRenderTypes::setRenderLayer));
-		//?}
 
 		event.enqueueWork(() -> {
 			if (!ModList.get().isLoaded("yet_another_config_lib_v3")) {

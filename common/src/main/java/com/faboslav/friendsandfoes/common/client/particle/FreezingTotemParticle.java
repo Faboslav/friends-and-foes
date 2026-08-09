@@ -53,9 +53,7 @@ public final class FreezingTotemParticle extends SimpleAnimatedParticle
 			double g,
 			double h,
 			double i
-			//? if >=1.21.9 {
-			/*, RandomSource randomSource
-			*///?}
+
 		) {
 			return new FreezingTotemParticle(clientWorld, d, e, f, g, h, i, this.spriteProvider);
 		}

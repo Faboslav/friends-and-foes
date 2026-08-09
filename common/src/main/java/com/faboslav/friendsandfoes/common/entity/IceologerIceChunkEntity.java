@@ -23,13 +23,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 
-//? if >=1.21.6 {
-/*import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
-*///?} else {
 import net.minecraft.nbt.CompoundTag;
 import java.util.UUID;
-//?}
 
 public final class IceologerIceChunkEntity extends Entity
 {
@@ -46,10 +41,6 @@ public final class IceologerIceChunkEntity extends Entity
 	private static final EntityDataAccessor<Integer> TICKS_UNTIL_FALL = SynchedEntityData.defineId(IceologerIceChunkEntity.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<Integer> IDLE_TICKS = SynchedEntityData.defineId(IceologerIceChunkEntity.class, EntityDataSerializers.INT);
 
-	//? if >=1.21.6 {
-	/*private EntityReference<LivingEntity> owner;
-	private EntityReference<LivingEntity> target;
-	*///?} else {
 	@Nullable
 	private LivingEntity owner;
 
@@ -61,7 +52,6 @@ public final class IceologerIceChunkEntity extends Entity
 
 	@Nullable
 	private UUID targetUUID;
-	//?}
 
 	private int lifetimeTicks;
 	private float summonAnimationProgress;
@@ -82,90 +72,37 @@ public final class IceologerIceChunkEntity extends Entity
 		this.playSummonSound();
 	}
 
-
 	protected void defineSynchedData(SynchedEntityData.Builder builder) {
 		builder.define(TICKS_UNTIL_FALL, RandomGenerator.generateInt(MIN_FLYING_TICKS, MAX_FLYING_TICKS));
 		builder.define(IDLE_TICKS, RandomGenerator.generateInt(MIN_IDLE_TICKS, MAX_IDLE_TICKS));
 	}
 
 	@Override
-	//? if >= 1.21.6 {
-	/*public void addAdditionalSaveData(ValueOutput saveData)
-	*///?} else {
+
 	public void addAdditionalSaveData(CompoundTag saveData)
-	//?}
+
 	{
-		//? if >=1.21.6 {
-		/*EntityReference.store(this.owner, saveData, OWNER_UUID_NBT_NAME);
-		EntityReference.store(this.target, saveData, TARGET_UUID_NBT_NAME);
-		*///?} else {
+
 		VersionedNbt.putUUID(saveData, OWNER_UUID_NBT_NAME, this.getOwnerUuid());
 		VersionedNbt.putUUID(saveData, TARGET_UUID_NBT_NAME, this.getTargetUuid());
-		//?}
+
 		saveData.putInt(TICKS_UNTIL_FALL_NBT_NAME, this.getTicksUntilFall());
 		saveData.putInt(IDLE_TICKS_NBT_NAME, this.getIdleTicks());
 	}
 
 	@Override
-	//? if >= 1.21.6 {
-	/*public void readAdditionalSaveData(ValueInput saveData)
-	*///?} else {
+
 	public void readAdditionalSaveData(CompoundTag saveData)
-	//?}
+
 	{
-		//? if >=1.21.6 {
-		/*this.owner = EntityReference.read(saveData, OWNER_UUID_NBT_NAME);
-		this.target = EntityReference.read(saveData, TARGET_UUID_NBT_NAME);
-		*///?} else {
+
 		this.setOwnerUuid(VersionedNbt.getUUID(saveData, OWNER_UUID_NBT_NAME));
 		this.setTargetUuid(VersionedNbt.getUUID(saveData, TARGET_UUID_NBT_NAME));
-		//?}
+
 		this.setTicksUntilFall(VersionedNbt.getInt(saveData, TICKS_UNTIL_FALL_NBT_NAME, MAX_FLYING_TICKS));
 		this.setIdleTicks(VersionedNbt.getInt(saveData, IDLE_TICKS_NBT_NAME, MAX_IDLE_TICKS));
 	}
 
-	//? if >=1.21.6 {
-	/*public void setOwner(@Nullable LivingEntity livingEntity) {
-		if (livingEntity != null) {
-			EntityReference<LivingEntity> owner;
-			//? if >= 1.21.9 {
-			/^owner = EntityReference.of(livingEntity);
-			^///?} else {
-			owner = new EntityReference(livingEntity);
-			 //?}
-
-			this.owner = owner;
-		} else {
-			this.owner = null;
-		}
-	}
-
-	@Nullable
-	public LivingEntity getOwner() {
-		return EntityReference.get(this.owner, this.level(), LivingEntity.class);
-	}
-
-	public void setTarget(@Nullable LivingEntity livingEntity) {
-		if (livingEntity != null) {
-			EntityReference<LivingEntity> target;
-
-			//? if >= 1.21.9 {
-			/^target = EntityReference.of(livingEntity);
-			^///?} else {
-			target = new EntityReference(livingEntity);
-			 //?}
-
-			this.target = target;
-		} else {
-			this.target = null;
-		}
-	}
-
-	@Nullable
-	public LivingEntity getTarget() {
-		return EntityReference.get(this.target, this.level(), LivingEntity.class);
-	}
-	*///?} else {
 	@Nullable
 	public UUID getOwnerUuid() {
 		return this.ownerUUID;
@@ -207,7 +144,6 @@ public final class IceologerIceChunkEntity extends Entity
 
 		return this.target;
 	}
-	//?}
 
 	@Override
 	public void tick() {
@@ -252,11 +188,9 @@ public final class IceologerIceChunkEntity extends Entity
 	}
 
 	@Override
-	/*? if >=1.21.3 {*/
-	/*public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
-	*//*?} else {*/
+
 	public boolean hurt(DamageSource damageSource, float amount)
-	/*?}*/
+
 	{
 		return false;
 	}
@@ -435,13 +369,8 @@ public final class IceologerIceChunkEntity extends Entity
 			world
 		);
 
-		//? if >=1.21.6 {
-		/*chunkEntity.setOwner(owner);
-		chunkEntity.setTarget(target);
-		*///?} else {
 		chunkEntity.setOwnerUuid(owner.getUUID());
 		chunkEntity.setTargetUuid(target.getUUID());
-		//?}
 
 		chunkEntity.setPos(
 			target.getX(),

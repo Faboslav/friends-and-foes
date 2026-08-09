@@ -14,14 +14,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//? if >=1.21.3 {
-/*import net.minecraft.resources.FileToIdConverter;
-*///?} else {
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.mojang.serialization.JsonOps;
-//?}
 
 /**
  * A loader for entity animations written in JSON. You can also get parsed animations from this class.
@@ -31,11 +27,9 @@ import com.mojang.serialization.JsonOps;
  * @author NeoForge team
  * <a href="https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation">https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation</a>
  */
-//? if >=1.21.3 {
-/*public final class AnimationLoader extends SimpleJsonResourceReloadListener<AnimationDefinition>
-*///?} else {
+
 public final class AnimationLoader extends SimpleJsonResourceReloadListener
-//?}
+
 {
 	public static final AnimationLoader INSTANCE = new AnimationLoader();
 
@@ -44,11 +38,9 @@ public final class AnimationLoader extends SimpleJsonResourceReloadListener
 	private final List<AnimationHolder> strongHolderReferences = new ArrayList<>();
 
 	private AnimationLoader() {
-		//? if >=1.21.4 {
-		/*super(AnimationParser.CODEC, FileToIdConverter.json("friendsandfoes/animations/entity"));
-		*///?} else {
+
 		super(new Gson(), "friendsandfoes/animations/entity");
-		//?}
+
 	}
 
 	public Map<ResourceLocation, AnimationHolder> getAnimations() {
@@ -77,13 +69,11 @@ public final class AnimationLoader extends SimpleJsonResourceReloadListener
 	}
 
 	@Override
-	//? if >=1.21.3 {
-	/*protected void apply(Map<ResourceLocation, AnimationDefinition> entityAnimations, ResourceManager resourceManager, ProfilerFiller profiler)
-	*///?} else {
+
 	protected void apply(Map<ResourceLocation, JsonElement> entityAnimationsJson, ResourceManager resourceManager, ProfilerFiller profiler)
-	//?}
+
 	{
-		//? if <1.21.3 {
+
 		Map<ResourceLocation, AnimationDefinition> entityAnimations = new HashMap<>();
 
 		for (Map.Entry<ResourceLocation, JsonElement> entry : entityAnimationsJson.entrySet()) {
@@ -94,7 +84,6 @@ public final class AnimationLoader extends SimpleJsonResourceReloadListener
 
 			entityAnimations.put(resourceLocation, animationDefinition);
 		}
-		//?}
 
 		apply(entityAnimations);
 	}

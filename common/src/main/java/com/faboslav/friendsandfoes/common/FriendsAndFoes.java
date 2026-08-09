@@ -19,9 +19,7 @@ import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-//? if <= 1.21.11 {
 import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
-//?}
 
 public final class FriendsAndFoes
 {
@@ -61,9 +59,9 @@ public final class FriendsAndFoes
 
 		RegisterReloadListenerEvent.EVENT.addListener(FriendsAndFoes::registerServerDataListeners);
 		SetupEvent.EVENT.addListener(FriendsAndFoes::setup);
-		//? if <= 1.21.11 {
+
 		SetupEvent.EVENT.addListener(FriendsAndFoesItems::registerSpawnEggs);
-		//?}
+
 		DatapackSyncEvent.EVENT.addListener(MoobloomVariantsSyncPacket::sendToClient);
 		DatapackSyncEvent.EVENT.addListener(EntityAnimationsSyncPacket::sendToClient);
 		RegisterFlammabilityEvent.EVENT.addListener(FriendsAndFoesBlocks::registerFlammablity);
@@ -71,16 +69,16 @@ public final class FriendsAndFoes
 		RegisterEntitySpawnRestrictionsEvent.EVENT.addListener(FriendsAndFoesEntityTypes::registerEntitySpawnRestrictions);
 		AddSpawnBiomeModificationsEvent.EVENT.addListener(FriendsAndFoesEntityTypes::addSpawnBiomeModifications);
 		RegisterBrewingRecipesEvent.EVENT.addListener(FriendsAndFoesRecipes::registerBrewingRecipes);
-		//? if <= 1.21.11 {
+
 		RegisterVillagerTradesEvent.EVENT.addListener(FriendsAndFoesVillagerProfessions::registerVillagerTrades);
-		//?}
+
 		AddItemGroupEntriesEvent.EVENT.addListener(FriendsAndFoesItemGroups::addItemGroupEntries);
 		EntitySpawnEvent.EVENT.addListener(IllusionerOnEntitySpawn::handleEntitySpawn);
 
 		FriendsAndFoesActivities.ACTIVITIES.init();
-		//? if <1.21.3 {
+
 		FriendsAndFoesArmorMaterials.ARMOR_MATERIALS.init();
-		//?}
+
 		FriendsAndFoesBlocks.BLOCKS.init();
 		FriendsAndFoesCriterias.CRITERIAS.init();
 		FriendsAndFoesEntityDataSerializers.init();
@@ -97,9 +95,7 @@ public final class FriendsAndFoes
 		FriendsAndFoesStructureProcessorTypes.STRUCTURE_PROCESSOR.init();
 		FriendsAndFoesStructureProcessorTypes.init();
 		FriendsAndFoesStructureTypes.STRUCTURE_TYPES.init();
-		//? if >= 26.1 {
-		/*FriendsAndFoesTradeSets.init();
-		*///?}
+
 		FriendsAndFoesVillagerProfessions.VILLAGER_PROFESSIONS.init();
 	}
 

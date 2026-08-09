@@ -7,23 +7,11 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 
-//? if >=1.21.3 {
-/*import net.minecraft.client.model.EntityModel;
-import com.faboslav.friendsandfoes.common.client.render.entity.state.CrabRenderState;
-import net.minecraft.client.model.geom.builders.MeshTransformer;
-*///?} else {
 import net.minecraft.client.model.HierarchicalModel;
- //?}
 
-//? if >=1.21.3 {
-/*public class CrabEntityModel extends EntityModel<CrabRenderState>
-*///?} else {
 public final class CrabEntityModel<T extends CrabEntity> extends HierarchicalModel<T>
-//?}
+
 {
-	//? if >=1.21.3 {
-	/*public static final MeshTransformer BABY_TRANSFORMER = MeshTransformer.scaling(CrabEntity.BABY_SCALE);
-	*///?}
 
 	private static final String MAIN = "main";
 	private static final String BODY = "body";
@@ -67,9 +55,6 @@ public final class CrabEntityModel<T extends CrabEntity> extends HierarchicalMod
 	private final ModelPart rightBackLeg;
 
 	public CrabEntityModel(ModelPart root) {
-		//? if >=1.21.3 {
-		/*super(root);
-		*///?}
 
 		this.root = root;
 		this.main = this.root.getChild(MAIN);
@@ -122,26 +107,16 @@ public final class CrabEntityModel<T extends CrabEntity> extends HierarchicalMod
 		return LayerDefinition.create(modelData, 64, 64);
 	}
 
-	//? if <1.21.3 {
 	@Override
 	public ModelPart root() {
 		return this.root;
 	}
-	//?}
 
 	@Override
-	//? if >=1.21.3 {
-	/*public void setupAnim(CrabRenderState renderState)
-	*///?} else {
+
 	public void setupAnim(T crab, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
-	//?}
+
 	{
-		//? if >=1.21.3 {
-		/*var crab = renderState.crab;
-		var limbAngle = renderState.walkAnimationPos;
-		var limbDistance = renderState.walkAnimationSpeed;
-		var animationProgress = renderState.ageInTicks;
-		*///?}
 
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		this.updateKeyframeAnimations(crab, limbAngle, limbDistance, animationProgress);

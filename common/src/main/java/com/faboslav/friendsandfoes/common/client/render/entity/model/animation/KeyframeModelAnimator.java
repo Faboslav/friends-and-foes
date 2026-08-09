@@ -10,22 +10,16 @@ import org.joml.Vector3f;
 
 import java.util.*;
 
-//? if >=1.21.3 {
-/*import net.minecraft.client.model.EntityModel;
-*///?} else {
 import net.minecraft.client.model.HierarchicalModel;
-//?}
 
 public final class KeyframeModelAnimator
 {
 	private static final Vector3f TEMP = new Vector3f();
 
 	public static void updateKeyframeAnimations(
-		//? if >=1.21.3 {
-		/*EntityModel<?> model,
-		*///?} else {
+
 		HierarchicalModel<?> model,
-		//?}
+
 		AnimationContextTracker animationContextTracker,
 		ArrayList<AnimationHolder> animations,
 		int currentTick,
@@ -38,11 +32,9 @@ public final class KeyframeModelAnimator
 	}
 
 	public static void updateMovementKeyframeAnimations(
-		//? if >=1.21.3 {
-		/*EntityModel<?> model,
-		*///?} else {
+
 		HierarchicalModel<?> model,
-		 //?}
+
 		AnimationHolder movementAnimation,
 		float limbAngle,
 		float limbDistance,
@@ -56,11 +48,9 @@ public final class KeyframeModelAnimator
 	}
 
 	public static void updateStaticKeyframeAnimation(
-		//? if >=1.21.3 {
-		/*EntityModel<?> model,
-		*///?} else {
+
 		HierarchicalModel<?> model,
-		 //?}
+
 		AnimationContextTracker animationContextTracker,
 		AnimationHolder animationHolder,
 		int currentTick,
@@ -82,11 +72,9 @@ public final class KeyframeModelAnimator
 	}
 
 	public static void updateKeyframeAnimation(
-		//? if >=1.21.3 {
-		/*EntityModel<?> model,
-		*///?} else {
+
 		HierarchicalModel<?> model,
-		 //?}
+
 		AnimationContextTracker animationContextTracker,
 		AnimationHolder animationHolder,
 		int currentTick,
@@ -106,11 +94,9 @@ public final class KeyframeModelAnimator
 	}
 
 	public static void updateMovementKeyframeAnimation(
-		//? if >=1.21.3 {
-		/*EntityModel<?> model,
-		*///?} else {
+
 		HierarchicalModel<?> model,
-		 //?}
+
 		AnimationHolder movementAnimation,
 		long runningTime,
 		float scale,

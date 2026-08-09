@@ -62,18 +62,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.UUID;
 
-//? if >=1.21.6 {
-/*import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
-*///?} else {
 import net.minecraft.nbt.CompoundTag;
-//?}
 
-//? if >=1.21.3 {
-/*import net.minecraft.world.entity.EntitySpawnReason;
-*///?} else {
 import net.minecraft.world.entity.MobSpawnType;
- //?}
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEntity
@@ -104,17 +95,9 @@ public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEn
 	private static final EntityDataAccessor<Float> BURROWING_DOWN_ANIMATION_PROGRESS = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.FLOAT);
 	private static final EntityDataAccessor<Integer> POSE_TICKS = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<FriendsAndFoesEntityPose> ENTITY_POSE = SynchedEntityData.defineId(MaulerEntity.class, FriendsAndFoesEntityDataSerializers.ENTITY_POSE);
-	//? if >= 1.21.11 {
-	/*private static final EntityDataAccessor<Long> ANGER_END_TIME = SynchedEntityData.defineId(MaulerEntity.class, EntityDataSerializers.LONG);
-	*///?}
 
-	//? if >= 1.21.11 {
-	/*@Nullable
-	private EntityReference<LivingEntity> angryAt;
-	*///?} else {
 	@Nullable
 	private UUID angryAt;
-	//?}
 
 	public MaulerBurrowDownGoal burrowDownGoal;
 
@@ -188,17 +171,12 @@ public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEn
 		builder.define(POSE_TICKS, 0);
 		builder.define(ENTITY_POSE, FriendsAndFoesEntityPose.IDLE);
 
-		//? if >= 1.21.11 {
-		/*builder.define(ANGER_END_TIME, -1L);
-		*///?}
 	}
 
 	@Override
-	//? if >= 1.21.6 {
-	/*public void addAdditionalSaveData(ValueOutput nbt)
-	*///?} else {
+
 	public void addAdditionalSaveData(CompoundTag nbt)
-	//?}
+
 	{
 		super.addAdditionalSaveData(nbt);
 		this.addPersistentAngerSaveData(nbt);
@@ -214,11 +192,9 @@ public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEn
 	}
 
 	@Override
-	//? if >= 1.21.6 {
-	/*public void readAdditionalSaveData(ValueInput nbt)
-	*///?} else {
+
 	public void readAdditionalSaveData(CompoundTag nbt)
-	//?}
+
 	{
 		super.readAdditionalSaveData(nbt);
 
@@ -244,11 +220,9 @@ public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEn
 	public SpawnGroupData finalizeSpawn(
 		ServerLevelAccessor world,
 		DifficultyInstance difficulty,
-		//? if >=1.21.3 {
-		/*EntitySpawnReason spawnReason,
-		*///?} else {
+
 		MobSpawnType spawnReason,
-		//?}
+
 		@Nullable SpawnGroupData entityData
 	) {
 		ResourceKey<Biome> biomeKey = world.getBiome(this.blockPosition()).unwrapKey().orElse(Biomes.SAVANNA);
@@ -274,11 +248,9 @@ public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEn
 	public static boolean canSpawn(
 		EntityType<MaulerEntity> maulerEntityType,
 		ServerLevelAccessor serverWorldAccess,
-		//? if >=1.21.3 {
-		/*EntitySpawnReason spawnReason,
-		*///?} else {
+
 		MobSpawnType spawnReason,
-		//?}
+
 		BlockPos blockPos,
 		RandomSource random
 	) {
@@ -295,7 +267,7 @@ public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEn
 		this.burrowDownGoal = new MaulerBurrowDownGoal(this);
 		this.goalSelector.addGoal(6, this.burrowDownGoal);
 		this.targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setAlertOthers());
-		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, PathfinderMob.class, 10, true, true, (livingEntity/*? if >=1.21.3 {*//*, serverLevel*//*?}*/) -> {
+		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, PathfinderMob.class, 10, true, true, (livingEntity) -> {
 			if (
 				livingEntity instanceof Slime slimeEntity && slimeEntity.getSize() != Slime.MIN_SIZE
 				|| livingEntity instanceof Zombie zombie && !zombie.isBaby()
@@ -346,21 +318,16 @@ public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEn
 	}
 
 	@Override
-	/*? if >=1.21.3 {*/
-	/*public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
-	*//*?} else {*/
+
 	public boolean hurt(DamageSource damageSource, float amount)
-	/*?}*/
+
 	{
 		if (!this.level().isClientSide() && this.burrowDownGoal.isRunning()) {
 			this.burrowDownGoal.stop();
 		}
 
-		/*? if >=1.21.3 {*/
-		/*return super.hurtServer(level, damageSource, amount);
-		*//*?} else {*/
 		return super.hurt(damageSource, amount);
-		 /*?}*/
+
 	}
 
 	@Override
@@ -510,7 +477,6 @@ public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEn
 		return this.entityData.get(ENTITY_POSE);
 	}
 
-
 	public boolean isInEntityPose(FriendsAndFoesEntityPose pose) {
 		return this.getEntityPose() == pose;
 	}
@@ -555,7 +521,7 @@ public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEn
 	}
 
 	@Override
-	public boolean doHurtTarget(/*? if >=1.21.3 {*//*ServerLevel level,*//*?}*/Entity target) {
+	public boolean doHurtTarget(Entity target) {
 		if (this.isBurrowedDown()) {
 			return false;
 		}
@@ -577,34 +543,20 @@ public final class MaulerEntity extends Animal implements NeutralMob, AnimatedEn
 	}
 
 	@Nullable
-	//? if >= 1.21.11 {
-	/*public EntityReference<LivingEntity> getPersistentAngerTarget()
-	*///?} else {
+
 	public UUID getPersistentAngerTarget()
-	//?}
+
 	{
 		return this.angryAt;
 	}
 
 	public void setPersistentAngerTarget(
-	//? if >= 1.21.11 {
-	/*@Nullable EntityReference<LivingEntity> angryAt
-	*///?} else {
+
 	@Nullable UUID angryAt
-	//?}
+
 	) {
 		this.angryAt = angryAt;
 	}
-
-	//? if >= 1.21.11 {
-	/*public long getPersistentAngerEndTime() {
-		return this.entityData.get(ANGER_END_TIME);
-	}
-
-	public void setPersistentAngerEndTime(long persistentAngerEndTime) {
-		this.entityData.set(ANGER_END_TIME, persistentAngerEndTime);
-	}
-	*///? }
 
 	public Type getMaulerType() {
 		return MaulerEntity.Type.fromName(this.entityData.get(TYPE));

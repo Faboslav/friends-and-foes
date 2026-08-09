@@ -13,18 +13,10 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 
 import java.util.List;
 
-//? if >=1.21.3 {
-/*import net.minecraft.client.model.EntityModel;
-import com.faboslav.friendsandfoes.common.client.render.entity.state.WildfireRenderState;
-*///?} else {
 import net.minecraft.client.model.HierarchicalModel;
-//?}
 
-//? if >=1.21.3 {
-/*public final class WildfireEntityModel extends EntityModel<WildfireRenderState>
-*///?} else {
 public final class WildfireEntityModel<T extends WildfireEntity> extends HierarchicalModel<T>
-//?}
+
 {
 	private static final String MODEL_PART_BODY = "body";
 	private static final String MODEL_PART_HEAD = "head";
@@ -48,9 +40,6 @@ public final class WildfireEntityModel<T extends WildfireEntity> extends Hierarc
 	private final List<ModelPart> shieldsModelParts;
 
 	public WildfireEntityModel(ModelPart root) {
-		//? if >=1.21.3 {
-		/*super(root);
-		*///?}
 
 		this.root = root;
 		this.body = this.root.getChild(MODEL_PART_BODY);
@@ -62,11 +51,8 @@ public final class WildfireEntityModel<T extends WildfireEntity> extends Hierarc
 		this.backShield = this.shields.getChild(MODEL_PART_BACK_SHIELD);
 		this.leftShield = this.shields.getChild(MODEL_PART_LEFT_SHIELD);
 
-		//? if >=1.21.6 {
-		/*this.shieldsModelParts = this.shields.getAllParts();
-		*///?} else {
 		this.shieldsModelParts = this.shields.getAllParts().toList();
-		//?}
+
 	}
 
 	public static LayerDefinition getTexturedModelData() {
@@ -89,28 +75,16 @@ public final class WildfireEntityModel<T extends WildfireEntity> extends Hierarc
 		return LayerDefinition.create(modelData, 64, 64);
 	}
 
-	//? if <1.21.3 {
 	@Override
 	public ModelPart root() {
 		return this.root;
 	}
-	//?}
 
 	@Override
-	//? if >=1.21.3 {
-	/*public void setupAnim(WildfireRenderState wildfireRenderState)
-	*///?} else {
+
 	public void setupAnim(T wildfire, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
-	//?}
+
 	{
-		//? if >=1.21.3 {
-		/*var wildfire = wildfireRenderState.wildfire;
-		var limbAngle = wildfireRenderState.walkAnimationPos;
-		var limbDistance = wildfireRenderState.walkAnimationSpeed;
-		var animationProgress = wildfireRenderState.ageInTicks;
-		var headYaw = wildfireRenderState.yRot;
-		var headPitch = wildfireRenderState.xRot;
-		*///?}
 
 		int activeShieldsCount = wildfire.getActiveShieldsCount();
 
@@ -136,7 +110,6 @@ public final class WildfireEntityModel<T extends WildfireEntity> extends Hierarc
 		var animationContextTracker = wildfire.getAnimationContextTracker();
 		var currentTick = wildfire.tickCount;
 		var animationSpeedModifier = wildfire.getAnimationSpeedModifier();
-
 
 		KeyframeModelAnimator.updateMovementKeyframeAnimations(this, movementAnimation, limbAngle, limbDistance, 1.0F, 1.0F, animationSpeedModifier);
 		KeyframeModelAnimator.updateStaticKeyframeAnimation(this, animationContextTracker, WildfireAnimations.SHIELD_ROTATION, currentTick, animationProgress, animationSpeedModifier);

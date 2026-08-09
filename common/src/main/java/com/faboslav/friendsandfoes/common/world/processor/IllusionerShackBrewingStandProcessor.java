@@ -14,15 +14,10 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlac
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 
-//? if <26.2 {
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
- //?}
 
-//? if >=26.2 {
-/*public final class IllusionerShackBrewingStandProcessor implements StructureProcessor
-*///?} else {
 public final class IllusionerShackBrewingStandProcessor extends StructureProcessor
- //?}
+
 {
 	public static final MapCodec<IllusionerShackBrewingStandProcessor> CODEC = MapCodec.unit(IllusionerShackBrewingStandProcessor::new);
 
@@ -34,11 +29,9 @@ public final class IllusionerShackBrewingStandProcessor extends StructureProcess
 		LevelReader world,
 		BlockPos pos,
 		BlockPos pivot,
-		//? if >=26.2 {
-		/*BlockPos templateRelativePos,
-		*///?} else {
+
 		StructureBlockInfo originalBlockInfo,
-		 //?}
+
 		StructureBlockInfo currentBlockInfo,
 		StructurePlaceSettings structurePlacementData
 	) {
@@ -109,13 +102,9 @@ public final class IllusionerShackBrewingStandProcessor extends StructureProcess
 	}
 
 	@Override
-	//? if >=26.2 {
-	/*public MapCodec<? extends StructureProcessor> codec() {
-		return FriendsAndFoesStructureProcessorTypes.ILLUSIONER_SHACK_BREWING_STAND_PROCESSOR.get();
-	}
-	*///?} else {
+
 	protected StructureProcessorType<?> getType() {
 		return FriendsAndFoesStructureProcessorTypes.ILLUSIONER_SHACK_BREWING_STAND_PROCESSOR.get();
 	}
-	//?}
+
 }

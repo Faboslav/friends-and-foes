@@ -9,19 +9,11 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 
-//? if >=1.21.3 {
-/*import net.minecraft.client.model.EntityModel;
-import com.faboslav.friendsandfoes.common.client.render.entity.state.TuffGolemRenderState;
-*///?} else {
 import net.minecraft.client.model.HierarchicalModel;
 import com.faboslav.friendsandfoes.common.entity.TuffGolemEntity;
-//?}
 
-//? if >=1.21.3 {
-/*public final class TuffGolemEntityModel extends EntityModel<TuffGolemRenderState>
-*///?} else {
 public final class TuffGolemEntityModel<T extends TuffGolemEntity> extends HierarchicalModel<T>
-//?}
+
 {
 	private static final String MODEL_PART_BODY = "body";
 	private static final String MODEL_PART_NOSE = "nose";
@@ -45,9 +37,6 @@ public final class TuffGolemEntityModel<T extends TuffGolemEntity> extends Hiera
 	private final ModelPart rightLeg;
 
 	public TuffGolemEntityModel(ModelPart root) {
-		//? if >=1.21.3 {
-		/*super(root);
-		*///?}
 
 		this.root = root;
 		this.body = this.root.getChild(MODEL_PART_BODY);
@@ -81,26 +70,16 @@ public final class TuffGolemEntityModel<T extends TuffGolemEntity> extends Hiera
 		return LayerDefinition.create(modelData, 64, 64);
 	}
 
-	//? if <1.21.3 {
 	@Override
 	public ModelPart root() {
 		return this.root;
 	}
-	//?}
 
 	@Override
-	//? if >=1.21.3 {
-	/*public void setupAnim(TuffGolemRenderState renderState)
-	*///?} else {
+
 	public void setupAnim(T tuffGolem, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
-	//?}
+
 	{
-		//? if >=1.21.3 {
-		/*var tuffGolem = renderState.tuffGolem;
-		var limbAngle = renderState.walkAnimationPos;
-		var limbDistance = renderState.walkAnimationSpeed;
-		var animationProgress = renderState.ageInTicks;
-		*///?}
 
 		var movementAnimation = tuffGolem.getMovementAnimation();
 		var animations = tuffGolem.getTrackedAnimations();

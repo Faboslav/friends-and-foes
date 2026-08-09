@@ -170,11 +170,9 @@ public final class RascalWaitForPlayerTask extends Behavior<RascalEntity>
 
 	private void tryToTeleport(ServerLevel world, RascalEntity rascal) {
 		StructureManager structureAccessor = world.structureManager();
-		//? if >=1.21.3 {
-		/*int worldBottomY = world.getMinY();
-		*///?} else {
+
 		int worldBottomY = world.getMinBuildHeight();
-		//?}
+
 		int logicalHeight = world.getLogicalHeight();
 
 		for (int i = 0; i < 64; ++i) {

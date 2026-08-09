@@ -25,11 +25,9 @@
 					]
 				},
 				"entity": {
-					//? if >=26.2 {
-					/*"entity_type": "friendsandfoes:moobloom"
-					*///?} else {
+
 					"type": "friendsandfoes:moobloom"
-					//?}
+
 				}
 			}
 		}

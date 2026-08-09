@@ -9,9 +9,7 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
-//? if <1.21.3 {
 import net.minecraft.util.profiling.ProfilerFiller;
- //?}
 
 public class FabricReloadListener implements IdentifiableResourceReloadListener
 {
@@ -29,30 +27,18 @@ public class FabricReloadListener implements IdentifiableResourceReloadListener
 		return id;
 	}
 
-
-	//? if <= 1.21.8 {
 	@Override
 	public CompletableFuture<Void> reload(
 		PreparationBarrier barrier,
 		ResourceManager manager,
-		//? if <1.21.3 {
+
 		ProfilerFiller prepareProfiler,
 		ProfilerFiller applyProfiler,
-		//?}
+
 		Executor backgroundExecutor,
 		Executor gameExecutor
 	) {
-		return listener.reload(barrier, manager, /*? if <1.21.3 {*/prepareProfiler, applyProfiler, /*?}*/ backgroundExecutor, gameExecutor);
+		return listener.reload(barrier, manager, prepareProfiler, applyProfiler,  backgroundExecutor, gameExecutor);
 	}
-	//?} else {
-	/*@Override
-	public CompletableFuture<Void> reload(
-		SharedState sharedState,
-		Executor exectutor,
-		PreparationBarrier barrier,
-		Executor applyExectutor
-	) {
-		return listener.reload(sharedState, exectutor, barrier, applyExectutor);
-	}
-	*///?}
+
 }

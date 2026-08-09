@@ -6,10 +6,7 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
-//? if >=1.21.4 {
-//?} else {
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
- //?}
 
 // Source: https://github.com/BluSunrize/ImmersiveEngineering/blob/1.20.1/src/datagen/java/blusunrize/immersiveengineering/data/IEDataGenerator.java
 //@EventBusSubscriber(modid = FriendsAndFoes.MOD_ID)
@@ -17,18 +14,11 @@ public class StructureNbtUpdaterDatagen
 {
 	//@SubscribeEvent
 	public static void gatherData(
-		//? if >=1.21.4 {
-		/*GatherDataEvent.Server event
-		*///?} else {
+
 		GatherDataEvent event
-		 //?}
+
 	) {
-		//? if >=1.21.4 {
-		/*ResourceManager resourceManager = event.getResourceManager(PackType.SERVER_DATA);
-		DataGenerator gen = event.getGenerator();
-		final var output = gen.getPackOutput();
-		gen.addProvider(true, new StructureNbtUpdater("structure", FriendsAndFoes.MOD_ID, resourceManager, output));
-		*///?} else {
+
 		ExistingFileHelper exHelper = event.getExistingFileHelper();
 		DataGenerator gen = event.getGenerator();
 		final var output = gen.getPackOutput();
@@ -36,6 +26,6 @@ public class StructureNbtUpdaterDatagen
 		if (event.includeServer()) {
 			gen.addProvider(true, new StructureNbtUpdater("structures", FriendsAndFoes.MOD_ID, exHelper, output));
 		}
-		//?}
+
 	}
 }

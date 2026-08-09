@@ -29,11 +29,7 @@ public final class AdvancementHelper
 
 		ResourceLocation advancementId = FriendsAndFoes.makeNamespacedId(stringAdvancementId);
 
-		//? if >= 1.21.1 {
 		var advancement = server.getAdvancements().get(advancementId);
-		//?} else {
-		/*var advancement = server.getAdvancements().getAdvancement(advancementId);
-		 *///?}
 
 		if (advancement == null){
 			return;

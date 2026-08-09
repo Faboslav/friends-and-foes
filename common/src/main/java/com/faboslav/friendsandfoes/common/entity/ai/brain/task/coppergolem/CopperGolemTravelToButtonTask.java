@@ -1,4 +1,4 @@
-//? if <= 1.21.8 {
+
 package com.faboslav.friendsandfoes.common.entity.ai.brain.task.coppergolem;
 
 import com.faboslav.friendsandfoes.common.entity.CopperGolemEntity;
@@ -101,4 +101,3 @@ public final class CopperGolemTravelToButtonTask extends Behavior<CopperGolemEnt
 		);
 	}
 }
-//?}

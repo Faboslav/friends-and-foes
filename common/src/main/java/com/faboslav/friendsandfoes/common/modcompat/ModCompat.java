@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.common.modcompat;
 
-
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;

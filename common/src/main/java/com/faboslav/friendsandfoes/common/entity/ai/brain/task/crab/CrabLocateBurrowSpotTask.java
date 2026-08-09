@@ -62,7 +62,6 @@ public final class CrabLocateBurrowSpotTask extends Behavior<CrabEntity>
 							searchDistance
 						);
 
-
 						if (isBlockWithinDistance && crab.isBurrowSpotAccessible(possibleBurrowSpotBlockPos)) {
 							darkSpots.add(possibleBurrowSpotBlockPos);
 						}

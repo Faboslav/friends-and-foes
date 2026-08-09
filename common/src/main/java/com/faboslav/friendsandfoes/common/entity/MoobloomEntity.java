@@ -41,28 +41,12 @@ import org.jetbrains.annotations.Nullable;
 import net.minecraft.world.entity.animal.Cow;
 import java.util.Optional;
 
-//? if >=1.21.6 {
-/*import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
-*///?} else {
 import net.minecraft.nbt.CompoundTag;
-//?}
 
-//? if >=1.21.5 {
-/*import net.minecraft.world.entity.animal.AbstractCow;
-*///?}
-
-//? if >=1.21.3 {
-/*import net.minecraft.world.entity.EntitySpawnReason;
-*///?} else {
 import net.minecraft.world.entity.MobSpawnType;
-//?}
 
-//? if >=1.21.5 {
-/*public final class MoobloomEntity extends AbstractCow implements Shearable
-*///?} else {
 public final class MoobloomEntity extends Cow implements Shearable
-//?}
+
 {
 	public static final String VARIANT_NBT_NAME = "Variant";
 	public static final String FLOWER_NBT_NAME = "Flower";
@@ -79,11 +63,9 @@ public final class MoobloomEntity extends Cow implements Shearable
 	public static boolean canSpawn(
 		EntityType<MoobloomEntity> moobloomEntityType,
 		ServerLevelAccessor serverWorldAccess,
-		/*? if >=1.21.3 {*/
-		/*EntitySpawnReason spawnReason,
-		*//*?} else {*/
+
 		MobSpawnType spawnReason,
-		 /*?}*/
+
 		BlockPos blockPos,
 		RandomSource random
 	) {
@@ -94,11 +76,9 @@ public final class MoobloomEntity extends Cow implements Shearable
 	public SpawnGroupData finalizeSpawn(
 		ServerLevelAccessor serverWorldAccess,
 		DifficultyInstance difficulty,
-		/*? if >=1.21.3 {*/
-		/*EntitySpawnReason spawnReason,
-		*//*?} else {*/
+
 		MobSpawnType spawnReason,
-		/*?}*/
+
 		@Nullable SpawnGroupData entityData
 	) {
 		MoobloomVariant possibleMoobloomVariant = MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.getRandomBiomeSpecificMoobloomVariant(serverWorldAccess, this.blockPosition());
@@ -123,13 +103,10 @@ public final class MoobloomEntity extends Cow implements Shearable
 		builder.define(VARIANT, MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.getDefaultMoobloomVariant().getName());
 	}
 
-
 	@Override
-	//? if >= 1.21.6 {
-	/*public void addAdditionalSaveData(ValueOutput nbt)
-	*///?} else {
+
 	public void addAdditionalSaveData(CompoundTag nbt)
-	//?}
+
 	{
 		super.addAdditionalSaveData(nbt);
 
@@ -138,11 +115,9 @@ public final class MoobloomEntity extends Cow implements Shearable
 	}
 
 	@Override
-	//? if >= 1.21.6 {
-	/*public void readAdditionalSaveData(ValueInput nbt)
-	*///?} else {
+
 	public void readAdditionalSaveData(CompoundTag nbt)
-	//?}
+
 	{
 		super.readAdditionalSaveData(nbt);
 
@@ -200,7 +175,7 @@ public final class MoobloomEntity extends Cow implements Shearable
 
 		if (itemStack.getItem() == Items.SHEARS && this.readyForShearing()) {
 			if(this.level() instanceof ServerLevel serverLevel) {
-				this.shear(/*? if >=1.21.3 {*//*serverLevel, *//*?}*/SoundSource.PLAYERS/*? if >=1.21.3 {*//*, itemStack *//*?}*/);
+				this.shear(SoundSource.PLAYERS);
 				this.gameEvent(GameEvent.SHEAR, player);
 				itemStack.hurtAndBreak(1, player, VersionedEntity.getEquipmentSlotForItem(hand));
 			}
@@ -212,15 +187,12 @@ public final class MoobloomEntity extends Cow implements Shearable
 	}
 
 	@Override
-	//? if >=1.21.3 {
-	/*public void shear(ServerLevel level, SoundSource soundSource, ItemStack shears)
-	*///?} else {
+
 	public void shear(SoundSource soundSource)
-	//?}
+
 	{
-		//? if <1.21.3 {
+
 		ServerLevel level = (ServerLevel) this.level();
-		//?}
 
 		level.playSound(null, this, FriendsAndFoesSoundEvents.ENTITY_MOOBLOOM_SHEAR.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
 		this.transformToCow(level);
@@ -229,7 +201,7 @@ public final class MoobloomEntity extends Cow implements Shearable
 
 	private void transformToCow(ServerLevel level) {
 		this.discard();
-		Cow cowEntity = VersionedEntityType.COW.create(level/*? if >=1.21.3 {*//*, VersionedEntitySpawnReason.CONVERSION*//*?}*/);
+		Cow cowEntity = VersionedEntityType.COW.create(level);
 
 		if (cowEntity == null) {
 			return;
@@ -284,7 +256,7 @@ public final class MoobloomEntity extends Cow implements Shearable
 			moobloomVariant = ((MoobloomEntity) entity).getVariant();
 		}
 
-		MoobloomEntity moobloom = FriendsAndFoesEntityTypes.MOOBLOOM.get().create(serverWorld/*? if >=1.21.3 {*//*, VersionedEntitySpawnReason.BREEDING*//*?}*/);
+		MoobloomEntity moobloom = FriendsAndFoesEntityTypes.MOOBLOOM.get().create(serverWorld);
 		moobloom.setVariant(moobloomVariant);
 
 		return moobloom;

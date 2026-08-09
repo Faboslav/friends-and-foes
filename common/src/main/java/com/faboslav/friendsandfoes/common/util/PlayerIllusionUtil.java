@@ -8,11 +8,9 @@ public final class PlayerIllusionUtil
 {
 	public static boolean tryToTeleport(ServerLevel serverLevel, LivingEntity livingEntity, int x, int y, int z) {
 		y -= 8;
-		//? if >=1.21.3 {
-		/*int worldBottomY = serverLevel.getMinY();
-		*///?} else {
+
 		int worldBottomY = serverLevel.getMinBuildHeight();
-		 //?}
+
 		int logicalHeight = serverLevel.getLogicalHeight();
 		double bottomY = Math.max(y, worldBottomY);
 		double topY = Math.min(bottomY + 16, logicalHeight- 1);

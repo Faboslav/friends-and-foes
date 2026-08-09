@@ -11,24 +11,11 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
 
-//? if >=1.21.3 {
-/*import net.minecraft.client.model.EntityModel;
-import com.faboslav.friendsandfoes.common.client.render.entity.state.GlareRenderState;
-import net.minecraft.client.model.geom.builders.MeshTransformer;
-*///?} else {
 import net.minecraft.client.model.HierarchicalModel;
- //?}
 
-//? if >=1.21.3 {
-/*public class GlareEntityModel extends EntityModel<GlareRenderState>
-*///?} else {
 public final class GlareEntityModel<T extends GlareEntity> extends HierarchicalModel<T>
-//?}
+
 {
-	//? if >=1.21.3 {
-	/*public static final MeshTransformer BABY_TRANSFORMER = MeshTransformer.scaling(GlareEntity.BABY_SCALE);
-	public static final MeshTransformer ADULT_TRANSFORMER = MeshTransformer.scaling(GlareEntity.ADULT_SCALE);
-	*///?}
 
 	private static final String MODEL_PART_BODY = "body";
 	private static final String MODEL_PART_HEAD = "head";
@@ -52,9 +39,6 @@ public final class GlareEntityModel<T extends GlareEntity> extends HierarchicalM
 	private final ModelPart[] layers;
 
 	public GlareEntityModel(ModelPart root) {
-		//? if >=1.21.3 {
-		/*super(root);
-		*///?}
 
 		this.root = root;
 		this.body = this.root.getChild(MODEL_PART_BODY);
@@ -99,26 +83,16 @@ public final class GlareEntityModel<T extends GlareEntity> extends HierarchicalM
 		return LayerDefinition.create(modelData, 64, 128);
 	}
 
-	//? if <1.21.3 {
 	@Override
 	public ModelPart root() {
 		return this.root;
 	}
-	//?}
 
 	@Override
-	//? if >=1.21.3 {
-	/*public void setupAnim(GlareRenderState renderState)
-	*///?} else {
+
 	public void setupAnim(T glare, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
-	//?}
+
 	{
-		//? if >=1.21.3 {
-		/*var glare = renderState.glare;
-		var limbAngle = renderState.walkAnimationPos;
-		var limbDistance = renderState.walkAnimationSpeed;
-		var animationProgress = renderState.ageInTicks;
-		*///?}
 
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 

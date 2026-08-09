@@ -1,4 +1,4 @@
-//? if <= 1.21.8 {
+
 package com.faboslav.friendsandfoes.common.util;
 
 import java.util.function.Predicate;
@@ -38,4 +38,3 @@ public final class CopperGolemBuildPatternPredicates
 		|| state.is(Blocks.WAXED_OXIDIZED_COPPER)
 	);
 }
-//?}

@@ -14,9 +14,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 
-//? if <= 1.21.11 {
 import net.minecraft.advancements.critereon.CriterionValidator;
-//?}
 
 public final class CompleteHideAndSeekGameCriterion extends SimpleCriterionTrigger<CompleteHideAndSeekGameCriterion.Conditions>
 {
@@ -57,12 +55,10 @@ public final class CompleteHideAndSeekGameCriterion extends SimpleCriterionTrigg
 			}
 		}
 
-		//? if <= 1.21.11 {
 		public void validate(CriterionValidator validator) {
 			SimpleCriterionTrigger.SimpleInstance.super.validate(validator);
 			validator.validateEntity(this.rascal, ".rascal");
 		}
-		//?}
 
 		public Optional<ContextAwarePredicate> player() {
 			return this.player;

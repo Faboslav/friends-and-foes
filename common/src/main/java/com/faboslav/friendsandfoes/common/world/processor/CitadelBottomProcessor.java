@@ -16,17 +16,10 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlac
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 
-//? if <26.2 {
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
-//?} else {
-/*import org.jspecify.annotations.Nullable;
-*///?}
 
-//? if >=26.2 {
-/*public final class CitadelBottomProcessor implements StructureProcessor
-*///?} else {
 public final class CitadelBottomProcessor extends StructureProcessor
-//?}
+
 {
 	public static final MapCodec<CitadelBottomProcessor> CODEC = RecordCodecBuilder.mapCodec(instance -> instance
 		.group(
@@ -58,11 +51,9 @@ public final class CitadelBottomProcessor extends StructureProcessor
 		LevelReader world,
 		BlockPos pos,
 		BlockPos pivot,
-		//? if >=26.2 {
-		/*BlockPos templateRelativePos,
-		 *///?} else {
+
 		StructureTemplate.StructureBlockInfo originalBlockInfo,
-		//?}
+
 		StructureTemplate.StructureBlockInfo currentBlockInfo,
 		StructurePlaceSettings structurePlacementData
 	) {
@@ -85,24 +76,18 @@ public final class CitadelBottomProcessor extends StructureProcessor
 
 			int worldBottomY;
 			int worldTopY;
-			//? if >=1.21.3 {
-			/*worldBottomY = world.getMinY();
-			worldTopY = world.getMaxY();
-			*///?} else {
+
 			worldBottomY = world.getMinBuildHeight();
 			worldTopY = world.getMaxBuildHeight();
-			//?}
 
 			while (
 				mutable.getY() > worldBottomY
 				&& mutable.getY() < worldTopY
 				&& (currentBlockState.isAir() || !world.getFluidState(mutable).isEmpty())
 			) {
-				//? if >=1.21.5 {
-				/*world.getChunk(mutable).setBlockState(mutable, targetBlockOutput);
-				*///?} else {
+
 				world.getChunk(mutable).setBlockState(mutable, targetBlockOutput, false);
-				 //?}
+
 				mutable.move(Direction.DOWN);
 				currentBlockState = world.getBlockState(mutable);
 			}
@@ -112,13 +97,9 @@ public final class CitadelBottomProcessor extends StructureProcessor
 	}
 
 	@Override
-	//? if >=26.2 {
-	/*public MapCodec<? extends StructureProcessor> codec() {
-		return FriendsAndFoesStructureProcessorTypes.CITADEL_BOTTOM_PROCESSOR.get();
-	}
-	*///?} else {
+
 	protected StructureProcessorType<?> getType() {
 		return FriendsAndFoesStructureProcessorTypes.CITADEL_BOTTOM_PROCESSOR.get();
 	}
-	//?}
+
 }

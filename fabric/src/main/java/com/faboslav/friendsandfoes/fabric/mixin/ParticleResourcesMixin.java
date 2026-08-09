@@ -2,15 +2,12 @@ package com.faboslav.friendsandfoes.fabric.mixin;
 
 import com.faboslav.friendsandfoes.common.events.client.RegisterParticlesEvent;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-//? if <= 1.21.8 {
+
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.ParticleEngine.MutableSpriteSet;
-//?}
+
 import net.minecraft.client.particle.ParticleProvider;
-//? if >= 1.21.9 {
-/*import net.minecraft.client.particle.ParticleResources;
-import net.minecraft.client.particle.ParticleResources.MutableSpriteSet;
-*///?}
+
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
@@ -27,11 +24,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Map;
 import java.util.function.Function;
 
-//? if >= 1.21.9 {
-/*@Mixin(ParticleResources.class)
-*///?} else {
 @Mixin(ParticleEngine.class)
-//?}
+
 public abstract class ParticleResourcesMixin
 {
 	@Final

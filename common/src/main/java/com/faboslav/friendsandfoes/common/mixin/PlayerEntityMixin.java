@@ -35,9 +35,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-//? if <=1.21.4 {
 import org.spongepowered.asm.mixin.Shadow;
-//?}
 
 @Mixin(Player.class)
 public abstract class PlayerEntityMixin extends LivingEntity
@@ -46,10 +44,8 @@ public abstract class PlayerEntityMixin extends LivingEntity
 		super(entityType, world);
 	}
 
-	//? if <=1.21.4 {
 	@Shadow
 	public abstract ItemStack getItemBySlot(EquipmentSlot slot);
-	//?}
 
 	@Inject(
 		at = @At("TAIL"),
@@ -69,15 +65,13 @@ public abstract class PlayerEntityMixin extends LivingEntity
 
 	@Inject(
 		at = @At("HEAD"),
-		//? if >=1.21.3 {
-		/*method = "hurtServer",
-		*///?} else {
+
 		method = "hurt",
-		//?}
+
 		cancellable = true
 	)
 	public void friendsandfoes_tryUseTotems(
-		/*? if >=1.21.3 {*//*ServerLevel level,*//*?}*/
+
 		DamageSource damageSource,
 		float amount,
 		CallbackInfoReturnable<Boolean> cir

@@ -2,8 +2,8 @@
 	"replace": false,
 	"values": [
 		"#friendsandfoes:copper_buttons",
-		//? if <= 1.21.8 {
+
 		"#friendsandfoes:lightning_rods"
-		//?}
+
 	]
 }

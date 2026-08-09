@@ -1,4 +1,4 @@
-//? if <= 1.21.11 {
+
 package com.faboslav.friendsandfoes.common.util;
 
 import net.minecraft.util.RandomSource;
@@ -8,10 +8,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.entity.npc.VillagerTrades;
-
-//? if >= 1.21.11 {
-/*import net.minecraft.server.level.ServerLevel;
-*///?}
 
 public class BasicItemTrade implements VillagerTrades.ItemListing {
 	private final Item itemToTrade;
@@ -38,9 +34,7 @@ public class BasicItemTrade implements VillagerTrades.ItemListing {
 
 	@Override
 	public MerchantOffer getOffer(
-		//? if >= 1.21.11 {
-		/*ServerLevel serverLevel,
-		*///?}
+
 		Entity entity,
 		RandomSource random
 	) {
@@ -49,4 +43,3 @@ public class BasicItemTrade implements VillagerTrades.ItemListing {
 		return new MerchantOffer(in, out, this.maxUses, this.experience, this.multiplier);
 	}
 }
-//?}

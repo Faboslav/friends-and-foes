@@ -10,15 +10,10 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProc
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import org.jetbrains.annotations.Nullable;
 
-//? if <26.2 {
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
-//?}
 
-//? if >=26.2 {
-/*public final class IceologerCabinArmorStandProcessor implements StructureProcessor
-*///?} else {
 public final class IceologerCabinArmorStandProcessor extends StructureProcessor
-//?}
+
 {
 	public static final MapCodec<IceologerCabinArmorStandProcessor> CODEC = MapCodec.unit(IceologerCabinArmorStandProcessor::new);
 
@@ -42,16 +37,7 @@ public final class IceologerCabinArmorStandProcessor extends StructureProcessor
 
 	@Nullable
 	@Override
-	//? if >=26.2 {
-	/*public StructureTemplate.StructureBlockInfo processBlock(
-		LevelReader world,
-		BlockPos pos,
-		BlockPos pivot,
-		BlockPos templateRelativePos,
-		StructureTemplate.StructureBlockInfo globalEntityInfo,
-		StructurePlaceSettings data
-	)
-	*///?} else {
+
 	public StructureTemplate.StructureBlockInfo processBlock(
 		LevelReader world,
 		BlockPos pos,
@@ -60,19 +46,15 @@ public final class IceologerCabinArmorStandProcessor extends StructureProcessor
 		StructureTemplate.StructureBlockInfo globalEntityInfo,
 		StructurePlaceSettings data
 	)
-	//?}
+
 	{
 		return globalEntityInfo;
 	}
 
 	@Override
-	//? if >=26.2 {
-	/*public MapCodec<? extends StructureProcessor> codec() {
-		return ProcessorTypes.ICEOLOGER_CABIN_ARMOR_STAND_PROCESSOR.get();
-	}
-	*///?} else {
+
 	protected StructureProcessorType<?> getType() {
 		return ProcessorTypes.ICEOLOGER_CABIN_ARMOR_STAND_PROCESSOR.get();
 	}
-	//?}
+
 }

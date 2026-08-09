@@ -1,4 +1,4 @@
-//? if <= 1.21.8 {
+
 package com.faboslav.friendsandfoes.common.entity.animation;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
@@ -22,4 +22,3 @@ public final class CopperGolemAnimations
 		add(PRESS_BUTTON_DOWN);
 	}};
 }
-//?}

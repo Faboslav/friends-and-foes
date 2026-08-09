@@ -3,18 +3,16 @@ package com.faboslav.friendsandfoes.common.mixin;
 import net.minecraft.world.entity.animal.Bee;
 import org.spongepowered.asm.mixin.Mixin;
 
-//? if <= 1.21.6 {
 import com.llamalad7.mixinextras.injector.ModifyReceiver;
 import net.minecraft.util.RandomSource;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-//?}
 
 @Mixin(Bee.BeeGoToKnownFlowerGoal.class)
 public class BeeGoToKnownFlowerGoalMixin
 {
-	//? if <= 1.21.6 {
+
 	@Final
 	@Shadow(aliases = {"field_226508_a_", "field_20372", "f_28009_"})
 	private Bee this$0;
@@ -33,5 +31,5 @@ public class BeeGoToKnownFlowerGoalMixin
 	private RandomSource friendsandfoes$fixGoalRandomSourceUsage2(RandomSource randomSource, int range) {
 		return this$0.getRandom();
 	}
-	//?}
+
 }

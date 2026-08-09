@@ -11,16 +11,10 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 
-//? if >=1.21.3 {
-/*import com.faboslav.friendsandfoes.common.client.render.entity.state.TuffGolemRenderState;
-*///?}
-
 @SuppressWarnings({"rawtypes", "unchecked"})
-//? if >=1.21.3 {
-/*public final class TuffGolemEntityRenderer extends MobRenderer<TuffGolemEntity, TuffGolemRenderState, TuffGolemEntityModel>
-*///?} else {
+
 public final class TuffGolemEntityRenderer extends MobRenderer<TuffGolemEntity, TuffGolemEntityModel<TuffGolemEntity>>
-//?}
+
 {
 	private static final ResourceLocation TEXTURE = FriendsAndFoes.makeID("textures/entity/tuff_golem/tuff_golem.png");
 
@@ -30,34 +24,16 @@ public final class TuffGolemEntityRenderer extends MobRenderer<TuffGolemEntity, 
 		this.addLayer(new TuffGolemClothFeatureRenderer(this));
 		this.addLayer(new TuffGolemHeldItemFeatureRenderer(
 			this,
-			//? if >=1.21.3 {
-			/*context.getEntityRenderDispatcher().getItemInHandRenderer()
-			*///?} else {
+
 			context.getItemInHandRenderer()
-			//?}
+
 		));
 	}
 
-	//? if >=1.21.3 {
-	/*@Override
-	public TuffGolemRenderState createRenderState() {
-		return new TuffGolemRenderState();
-	}
-
 	@Override
-	public void extractRenderState(TuffGolemEntity tuffGolem, TuffGolemRenderState renderState, float partialTick) {
-		super.extractRenderState(tuffGolem, renderState, partialTick);
-		renderState.tuffGolem = tuffGolem;
-		renderState.partialTick = partialTick;
-	}
-	*///?}
 
-	@Override
-	//? if >=1.21.3 {
-	/*public ResourceLocation getTextureLocation(TuffGolemRenderState renderState)
-	*///?} else {
 	public ResourceLocation getTextureLocation(TuffGolemEntity tuffGolem)
-	 //?}
+
 	{
 		return TEXTURE;
 	}

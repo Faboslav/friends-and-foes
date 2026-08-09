@@ -7,18 +7,14 @@
 		"PPP"
 	],
 	"key": {
-		//? if >=1.21.4 {
-		/*"P": "minecraft:spruce_planks",
-		"H": "minecraft:honeycomb"
-		*///?} else {
+
 		"P": {
 			"item": "minecraft:spruce_planks"
 		},
 		"H": {
 			"item": "minecraft:honeycomb"
 		}
-		
-		//?}
+
 	},
 	"result": {
 		"count": 1,

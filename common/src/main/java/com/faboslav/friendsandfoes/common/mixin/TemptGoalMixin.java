@@ -14,11 +14,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
-//? if >=1.21.6 {
-/*import net.minecraft.world.entity.Mob;
-*///?} else {
 import net.minecraft.world.entity.PathfinderMob;
-//?}
 
 @Mixin(TemptGoal.class)
 public abstract class TemptGoalMixin
@@ -32,11 +28,8 @@ public abstract class TemptGoalMixin
 
 	@Final
 	@Shadow
-	//? if >=1.21.6 {
-	/*protected Mob mob;
-	*///?} else {
+
 	protected PathfinderMob mob;
-	//?}
 
 	@Final
 	@Shadow
@@ -67,7 +60,7 @@ public abstract class TemptGoalMixin
 
 	@Unique
 	private boolean friendsandfoes$canStartWithReturn() {
-		this.friendsandfoes$closestTuffGolem = (/*? if >=1.21.3 {*//*(ServerLevel)*//*?}*/this.mob.level()).getNearestEntity(
+		this.friendsandfoes$closestTuffGolem = (this.mob.level()).getNearestEntity(
 			TuffGolemEntity.class,
 			this.targetingConditions,
 			this.mob,

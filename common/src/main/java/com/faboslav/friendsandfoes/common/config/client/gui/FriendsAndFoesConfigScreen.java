@@ -3,7 +3,6 @@ package com.faboslav.friendsandfoes.common.config.client.gui;
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import net.minecraft.client.gui.screens.Screen;
 
-//? if yacl {
 import com.faboslav.friendsandfoes.common.config.FriendsAndFoesConfig;
 import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.Option;
@@ -15,12 +14,11 @@ import dev.isxander.yacl3.api.controller.IntegerSliderControllerBuilder;
 import net.minecraft.network.chat.Component;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-//?}
 
 public final class FriendsAndFoesConfigScreen
 {
 	public Screen generateScreen(Screen parent) {
-		//? if yacl {
+
 		var config = FriendsAndFoes.getConfig();
 
 		return YetAnotherConfigLib.createBuilder()
@@ -32,7 +30,7 @@ public final class FriendsAndFoesConfigScreen
 					.option(bool("generateBeekeeperAreaStructureInVillages", config.generateBeekeeperAreaStructureInVillages, () -> config.generateBeekeeperAreaStructureInVillages, value -> config.generateBeekeeperAreaStructureInVillages = value))
 					.option(slider("beekeeperAreaStructureWeight", config.beekeeperAreaStructureWeight, () -> config.beekeeperAreaStructureWeight, value -> config.beekeeperAreaStructureWeight = value, 0, 100))
 					.build())
-				//? if <= 1.21.8 {
+
 				.group(group("mobs", "copper_golem")
 					.option(bool("enableCopperGolem", config.enableCopperGolem, () -> config.enableCopperGolem, value -> config.enableCopperGolem = value))
 					.option(bool("generateCopperGolemWorkstationStructureInVillages", config.generateCopperGolemWorkstationStructureInVillages, () -> config.generateCopperGolemWorkstationStructureInVillages, value -> config.generateCopperGolemWorkstationStructureInVillages = value))
@@ -43,7 +41,7 @@ public final class FriendsAndFoesConfigScreen
 					.option(slider("copperGolemInTrialChambersWeight", config.copperGolemInTrialChambersWeight, () -> config.copperGolemInTrialChambersWeight, value -> config.copperGolemInTrialChambersWeight = value, 0, 100))
 					.option(bool("enableLightningRodOxidation", config.enableLightningRodOxidation, () -> config.enableLightningRodOxidation, value -> config.enableLightningRodOxidation = value))
 					.build())
-				//?}
+
 				.group(group("mobs", "crab")
 					.option(bool("enableCrab", config.enableCrab, () -> config.enableCrab, value -> config.enableCrab = value))
 					.option(bool("enableCrabSpawn", config.enableCrabSpawn, () -> config.enableCrabSpawn, value -> config.enableCrabSpawn = value))
@@ -125,12 +123,9 @@ public final class FriendsAndFoesConfigScreen
 			.save(FriendsAndFoesConfig::save)
 			.build()
 			.generateScreen(parent);
-		//?} else {
-		/*return null;
-		*///?}
+
 	}
 
-	//? if yacl {
 	private static OptionGroup.Builder group(String category, String group) {
 		return OptionGroup.createBuilder()
 			.name(Component.translatable("yacl3.config.friendsandfoes:friendsandfoes.category." + category + ".group." + group));
@@ -159,5 +154,5 @@ public final class FriendsAndFoesConfigScreen
 			.controller(option -> IntegerFieldControllerBuilder.create(option).range(min, max))
 			.build();
 	}
-	//?}
+
 }

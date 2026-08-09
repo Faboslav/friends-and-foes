@@ -25,12 +25,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.concurrent.CompletableFuture;
 
-//? if >=1.21.4 {
-/*import net.minecraft.server.packs.resources.ResourceManager;
-*///?} else {
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import java.lang.reflect.Field;
-//?}
 
 // Source: https://github.com/BluSunrize/ImmersiveEngineering/blob/1.20.1/src/datagen/java/blusunrize/immersiveengineering/data/StructureUpdater.java
 public class StructureNbtUpdater implements DataProvider
@@ -43,20 +39,15 @@ public class StructureNbtUpdater implements DataProvider
 	public StructureNbtUpdater(
 		String basePath,
 		String modid,
-		//? if >=1.21.4 {
-		/*ResourceManager resourceManager,
-		*///?} else {
+
 		ExistingFileHelper helper,
-		 //?}
+
 		PackOutput output
 	) {
 		this.basePath = basePath;
 		this.modid = modid;
 		this.output = output;
 
-		//? if >=1.21.4 {
-		/*this.resources = (MultiPackResourceManager) resourceManager;
-		*///?} else {
 		try {
 			Field serverData = ExistingFileHelper.class.getDeclaredField("serverData");
 			serverData.setAccessible(true);
@@ -64,7 +55,7 @@ public class StructureNbtUpdater implements DataProvider
 		} catch (NoSuchFieldException | IllegalAccessException e) {
 			throw new RuntimeException(e);
 		}
-		//?}
+
 	}
 
 	@Override
@@ -106,11 +97,9 @@ public class StructureNbtUpdater implements DataProvider
 			DataFixers.getDataFixer(), nbt, VersionedNbt.getInt(nbt, "DataVersion", 0)
 		);
 		StructureTemplate template = new StructureTemplate();
-		//? if >=1.21.3 {
-		/*template.load(BuiltInRegistries.BLOCK, updatedNBT);
-		*///?} else {
+
 		template.load(BuiltInRegistries.BLOCK.asLookup(), updatedNBT);
-		 //?}
+
 		return template.save(new CompoundTag());
 	}
 

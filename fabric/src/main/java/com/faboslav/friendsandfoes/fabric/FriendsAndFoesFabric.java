@@ -46,10 +46,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//? if <= 1.21.11 {
 import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
 import net.minecraft.world.entity.npc.VillagerTrades;
-//?}
 
 public final class FriendsAndFoesFabric implements ModInitializer
 {
@@ -67,22 +65,18 @@ public final class FriendsAndFoesFabric implements ModInitializer
 			ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new FabricReloadListener(id, listener));
 		}));
 
-
 		ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register((player, joined) ->
 			DatapackSyncEvent.EVENT.invoke(new DatapackSyncEvent(player)));
 
 		ServerWorldEvents.LOAD.register(((server, world) -> {
-			//? if <= 1.21.11 {
+
 			registerVillagerTrades();
-			//?}
 
 			if (
 				world.isClientSide()
-				//? if >=26.2 {
-				/*|| !world.dimensionTypeRegistration().is(BuiltinDimensionTypes.OVERWORLD)
-				*///?} else {
+
 				|| world.dimensionTypeRegistration() != BuiltinDimensionTypes.OVERWORLD
-				 //?}
+
 			) {
 				return;
 			}
@@ -119,25 +113,19 @@ public final class FriendsAndFoesFabric implements ModInitializer
 				lootBuilder.withPool(LootPool.lootPool()
 					.setRolls(ConstantValue.exactly(1))
 					.add(LootItem.lootTableItem(FriendsAndFoesItems.MUSIC_DISC_AROUND_THE_CORNER.get()))
-					//? if >= 26.1 {
-					/*.when(LootItemRandomChanceCondition.randomChance(0.095F).build())
-					*///?} else {
+
 					.conditionally(LootItemRandomChanceCondition.randomChance(0.095F).build())
-					//?}
+
 					.apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 1)))
 				);
 			}
 		});
 	}
 
-	//? if <= 1.21.11 {
 	private static void registerVillagerTrades() {
 		var trades = VillagerTrades.TRADES;
-		//? if >=1.21.5 {
-		/*var profession = FriendsAndFoesVillagerProfessions.BEEKEEPER_KEY;
-		*///?} else {
+
 		var profession = FriendsAndFoesVillagerProfessions.BEEKEEPER.get();
-		//?}
 
 		Int2ObjectMap<VillagerTrades.ItemListing[]> profTrades = trades.computeIfAbsent(profession, key -> new Int2ObjectOpenHashMap<>());
 		Int2ObjectMap<List<VillagerTrades.ItemListing>> listings = new Int2ObjectOpenHashMap<>();
@@ -157,7 +145,6 @@ public final class FriendsAndFoesFabric implements ModInitializer
 			profTrades.put(i, listings.get(i).toArray(new VillagerTrades.ItemListing[0]));
 		}
 	}
-	//?}
 
 	private static <T extends Mob> void registerPlacement(
 		EntityType<T> type,
@@ -169,11 +156,8 @@ public final class FriendsAndFoesFabric implements ModInitializer
 	public static void registerPointOfInterestStates() {
 		FriendsAndFoesBlocks.BLOCKS.getEntries().forEach(block -> {
 			if(block.get() instanceof BeehiveBlock || block.get() instanceof LightningRodBlock) {
-				//? if >=1.21.3 {
-				/*var poiHolder = BuiltInRegistries.POINT_OF_INTEREST_TYPE.get(block.getId());
-				*///?} else {
+
 				var poiHolder = BuiltInRegistries.POINT_OF_INTEREST_TYPE.getHolder(block.getId());
-				//?}
 
 				poiHolder.ifPresent(poiTypeReference -> PointOfInterestTypesAccessor.callRegisterStates(
 					poiTypeReference,

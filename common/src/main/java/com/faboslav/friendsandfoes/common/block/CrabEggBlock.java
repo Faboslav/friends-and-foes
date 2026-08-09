@@ -34,10 +34,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-//? if >= 1.21.11 {
-/*import net.minecraft.world.attribute.EnvironmentAttributes;
-*///?}
-
 public final class CrabEggBlock extends Block
 {
 	private static final VoxelShape SMALL_SHAPE = Block.box(3.0, 0.0, 3.0, 12.0, 7.0, 12.0);
@@ -98,7 +94,7 @@ public final class CrabEggBlock extends Block
 
 				for (int j = 0; j < state.getValue(EGGS); ++j) {
 					world.levelEvent(2001, pos, Block.getId(state));
-					CrabEntity crab = FriendsAndFoesEntityTypes.CRAB.get().create(world/*? if >=1.21.3 {*//*, VersionedEntitySpawnReason.BREEDING*//*?}*/);
+					CrabEntity crab = FriendsAndFoesEntityTypes.CRAB.get().create(world);
 					crab.setAge(-24000);
 					VersionedEntity.moveTo(crab, (double) pos.getX() + 0.3 + (double) j * 0.2, pos.getY(), (double) pos.getZ() + 0.3, 0.0F, 0.0F);
 					crab.setHome(crab.getNewHome());
@@ -120,11 +116,8 @@ public final class CrabEggBlock extends Block
 	}
 
 	private boolean shouldHatchProgress(Level world, BlockPos blockPos) {
-		//? if >= 1.21.11 {
-		/*float f = world.environmentAttributes().getValue(EnvironmentAttributes.TURTLE_EGG_HATCH_CHANCE, blockPos);
-		*///?} else {
+
 		float f = world.getTimeOfDay(1.0F);
-		//?}
 
 		return f > 0.0F && world.getRandom().nextFloat() < f;
 	}

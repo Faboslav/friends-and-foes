@@ -3,7 +3,6 @@ package com.faboslav.friendsandfoes.common.mixin;
 import org.spongepowered.asm.mixin.Mixin;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
-//? if <=1.21.8 {
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -59,9 +58,4 @@ public abstract class LightningRodAbstractBlockMixin
 	) {
 	}
 }
-//?} else {
-/*@Mixin(BlockBehaviour.class)
-public class LightningRodAbstractBlockMixin
-{
-}
-*///?}
+

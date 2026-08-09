@@ -10,12 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-//? if >=1.21.6 {
-/*import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
-*///?} else {
 import net.minecraft.nbt.CompoundTag;
-//?}
 
 @Mixin(Animal.class)
 public abstract class ZombieHorseAnimalEntityMixin extends AgeableMob
@@ -28,11 +23,9 @@ public abstract class ZombieHorseAnimalEntityMixin extends AgeableMob
 		method = "addAdditionalSaveData",
 		at = @At("TAIL")
 	)
-	//? if >=1.21.6 {
-	/*public void friendsandfoes_writeCustomDataToNbt(ValueOutput nbt, CallbackInfo ci)
-	*///?} else {
+
 	public void friendsandfoes_writeCustomDataToNbt(CompoundTag nbt, CallbackInfo ci)
-	//?}
+
 	{
 	}
 
@@ -40,11 +33,9 @@ public abstract class ZombieHorseAnimalEntityMixin extends AgeableMob
 		method = "readAdditionalSaveData",
 		at = @At("TAIL")
 	)
-	//? if >=1.21.6 {
-	/*public void friendsandfoes_readCustomDataFromNbt(ValueInput nbt, CallbackInfo ci)
-	*///?} else {
+
 	public void friendsandfoes_readCustomDataFromNbt(CompoundTag nbt, CallbackInfo ci)
-	//?}
+
 	{
 	}
 }

@@ -1,4 +1,4 @@
-//? if <= 1.21.8 {
+
 package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
@@ -23,18 +23,9 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import java.util.Optional;
 import java.util.UUID;
 
-//? if >=1.21.6 {
-/*import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
-*///?} else {
 import net.minecraft.nbt.CompoundTag;
-//?}
 
-//? if >=1.21.3 {
-/*import net.minecraft.server.level.ServerLevel;
-*///?} else {
 import net.minecraft.world.entity.MobSpawnType;
-//?}
 
 public final class PlayerIllusionEntity extends Mob
 {
@@ -42,11 +33,8 @@ public final class PlayerIllusionEntity extends Mob
 	private static final EntityDataAccessor<Integer> TICKS_UNTIL_DESPAWN = SynchedEntityData.defineId(PlayerIllusionEntity.class, EntityDataSerializers.INT);
 	private static final String PLAYER_UUID_NBT_NAME = "PlayerUuid";
 	private static final EntityDataAccessor<Byte> PLAYER_MODEL_PARTS = SynchedEntityData.defineId(PlayerIllusionEntity.class, EntityDataSerializers.BYTE);
-	//? if >=1.21.5 {
-	/*private static final EntityDataAccessor<Optional<EntityReference<LivingEntity>>> PLAYER_UUID = SynchedEntityData.defineId(PlayerIllusionEntity.class, EntityDataSerializers.OPTIONAL_LIVING_ENTITY_REFERENCE);
-	*///?} else {
+
 	private static final EntityDataAccessor<Optional<UUID>> PLAYER_UUID = SynchedEntityData.defineId(PlayerIllusionEntity.class, EntityDataSerializers.OPTIONAL_UUID);
-	//?}
 
 	@Nullable
 	private Player player;
@@ -68,11 +56,9 @@ public final class PlayerIllusionEntity extends Mob
 	public SpawnGroupData finalizeSpawn(
 		ServerLevelAccessor world,
 		DifficultyInstance difficulty,
-		/*? if >=1.21.3 {*/
-		/*EntitySpawnReason spawnReason,
-		*//*?} else {*/
+
 		MobSpawnType spawnReason,
-		/*?}*/
+
 		@Nullable SpawnGroupData entityData
 	) {
 		if(spawnReason == VersionedEntitySpawnReason.COMMAND) {
@@ -115,11 +101,9 @@ public final class PlayerIllusionEntity extends Mob
 	}
 
 	@Override
-	//? if >= 1.21.6 {
-	/*public void addAdditionalSaveData(ValueOutput nbt)
-	*///?} else {
+
 	public void addAdditionalSaveData(CompoundTag nbt)
-	//?}
+
 	{
 		super.addAdditionalSaveData(nbt);
 
@@ -128,11 +112,9 @@ public final class PlayerIllusionEntity extends Mob
 	}
 
 	@Override
-	//? if >= 1.21.6 {
-	/*public void readAdditionalSaveData(ValueInput nbt)
-	*///?} else {
+
 	public void readAdditionalSaveData(CompoundTag nbt)
-	//?}
+
 	{
 		super.readAdditionalSaveData(nbt);
 
@@ -146,11 +128,9 @@ public final class PlayerIllusionEntity extends Mob
 	}
 
 	@Override
-	/*? if >= 1.21.9 {*/
-	/*protected boolean shouldDropLoot(ServerLevel serverLevel)
-	*//*?} else {*/
+
 	protected boolean shouldDropLoot()
-	/*?}*/
+
 	{
 		return false;
 	}
@@ -179,11 +159,9 @@ public final class PlayerIllusionEntity extends Mob
 	}
 
 	@Override
-	/*? if >=1.21.3 {*/
-	/*public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
-	*//*?} else {*/
+
 	public boolean hurt(DamageSource damageSource, float amount)
-	/*?}*/
+
 	{
 		this.discardIllusion();
 		return true;
@@ -195,19 +173,15 @@ public final class PlayerIllusionEntity extends Mob
 
 	@Nullable
 	public UUID getPlayerUuid() {
-		//? if >=1.21.5 {
-		/*return this.entityData.get(PLAYER_UUID).map(EntityReference::getUUID).orElse(null);
-		*///?} else {
+
 		return this.entityData.get(PLAYER_UUID).orElse(null);
-		//?}
+
 	}
 
 	public void setPlayerUuid(@Nullable UUID uuid) {
-		//? if >=1.21.5 {
-		/*this.entityData.set(PLAYER_UUID, Optional.ofNullable(uuid).map(EntityReference::new));
-		*///?} else {
+
 		this.entityData.set(PLAYER_UUID, Optional.ofNullable(uuid));
-		//?}
+
 	}
 
 	@Nullable
@@ -241,4 +215,4 @@ public final class PlayerIllusionEntity extends Mob
 		);
 	}
 }
-//?}
+

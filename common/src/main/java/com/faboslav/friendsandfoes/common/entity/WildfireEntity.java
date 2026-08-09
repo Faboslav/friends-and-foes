@@ -41,22 +41,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
-//? if <= 1.21.11 {
 import com.mojang.serialization.Dynamic;
-//?}
 
-//? if >=1.21.6 {
-/*import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
-*///?} else {
 import net.minecraft.nbt.CompoundTag;
-//?}
 
-//? if >=1.21.3 {
-/*import net.minecraft.world.entity.EntitySpawnReason;
-*///?} else {
 import net.minecraft.world.entity.MobSpawnType;
- //?}
 
 public final class WildfireEntity extends Monster implements AnimatedEntity
 {
@@ -86,14 +75,10 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 		super(entityType, world);
 		this.setPathfindingMalus(PathType.WATER, -1.0F);
 		this.setPathfindingMalus(PathType.LAVA, 8.0F);
-		//? if >= 26.1 {
-		/*this.setPathfindingMalus(PathType.FIRE, 0.0F);
-		this.setPathfindingMalus(PathType.FIRE_IN_NEIGHBOR, 0.0F);
-		this.setPathfindingMalus(PathType.WATER_BORDER, -1.0F);
-		*///?} else {
+
 		this.setPathfindingMalus(PathType.DANGER_FIRE, 0.0F);
 		this.setPathfindingMalus(PathType.DAMAGE_FIRE, 0.0F);
-		//?}
+
 		this.xpReward = 10;
 	}
 
@@ -101,11 +86,9 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 	public SpawnGroupData finalizeSpawn(
 		ServerLevelAccessor world,
 		DifficultyInstance difficulty,
-		/*? if >=1.21.3 {*/
-		/*EntitySpawnReason spawnReason,
-		*//*?} else {*/
+
 		MobSpawnType spawnReason,
-		/*?}*/
+
 		@Nullable SpawnGroupData entityData
 	) {
 		this.setEntityPose(FriendsAndFoesEntityPose.IDLE);
@@ -149,15 +132,10 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 	}
 
 	@Override
-	//? if >= 26.1 {
-	/*protected Brain<WildfireEntity> makeBrain(final Brain.Packed packedBrain) {
-		return WildfireBrain.create(this, packedBrain);
-	}
-	*///?} else {
+
 	protected Brain<WildfireEntity> makeBrain(Dynamic<?> dynamic) {
 		return WildfireBrain.create(dynamic);
 	}
-	//?}
 
 	@Override
 	@SuppressWarnings("all")
@@ -166,11 +144,10 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 	}
 
 	@Override
-	protected void customServerAiStep(/*? if >=1.21.3 {*//*ServerLevel level*//*?}*/)
+	protected void customServerAiStep()
 	{
-		//? if <1.21.3 {
+
 		var level = (ServerLevel) this.level();
-		 //?}
 
 		var profiler = VersionedProfilerProvider.getProfiler(this);
 		profiler.push("wildfireBrain");
@@ -181,7 +158,7 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 		WildfireBrain.updateActivities(this);
 		profiler.pop();
 
-		super.customServerAiStep(/*? if >=1.21.3 {*//*level*//*?}*/);
+		super.customServerAiStep();
 	}
 
 	public static AttributeSupplier.Builder createWildfireAttributes() {
@@ -206,11 +183,9 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 	}
 
 	@Override
-	//? if >= 1.21.6 {
-	/*public void addAdditionalSaveData(ValueOutput nbt)
-	*///?} else {
+
 	public void addAdditionalSaveData(CompoundTag nbt)
-	//?}
+
 	{
 		super.addAdditionalSaveData(nbt);
 		nbt.putInt(ACTIVE_SHIELDS_NBT_NAME, this.getActiveShieldsCount());
@@ -219,11 +194,9 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 	}
 
 	@Override
-	//? if >= 1.21.6 {
-	/*public void readAdditionalSaveData(ValueInput nbt)
-	*///?} else {
+
 	public void readAdditionalSaveData(CompoundTag nbt)
-	//?}
+
 	{
 		super.readAdditionalSaveData(nbt);
 		this.setActiveShieldsCount(VersionedNbt.getInt(nbt, ACTIVE_SHIELDS_NBT_NAME, DEFAULT_ACTIVE_SHIELDS_COUNT));
@@ -240,7 +213,6 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 		BlockState blockState = this.level().getBlockState(pos.above());
 		SoundType blockSoundGroup = blockState.is(BlockTags.INSIDE_STEP_SOUND_BLOCKS) ? blockState.getSoundType():state.getSoundType();
 		this.playSound(FriendsAndFoesSoundEvents.ENTITY_WILDFIRE_STEP.get(), blockSoundGroup.getVolume() * 0.15F, blockSoundGroup.getPitch());
-
 
 	}
 
@@ -367,8 +339,8 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 		} else {
 			f = Math.min(partialTick * 4.0F, 1.0F);
 		}
-		
-		this.walkAnimation.update(f, 0.4F/*? if >=1.21.3 {*//*, 1.0F *//*?}*/);
+
+		this.walkAnimation.update(f, 0.4F);
 	}
 
 	private void updateKeyframeAnimations() {
@@ -480,17 +452,7 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 	}
 
 	@Override
-	//? if >= 1.21.4 {
-	/*protected boolean considersEntityAsAlly(final Entity entity) {
-		if (super.considersEntityAsAlly(entity)) {
-			return true;
-		} else if (!VersionedEntity.isEntityType(entity, FriendsAndFoesTags.WILDFIRE_ALLIES)) {
-			return false;
-		} else {
-			return this.getTeam() == null && entity.getTeam() == null;
-		}
-	}
-	*///?} else {
+
 	public boolean isAlliedTo(Entity entity) {
 		if (super.isAlliedTo(entity)) {
 			return true;
@@ -500,25 +462,19 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 			return this.getTeam() == null && entity.getTeam() == null;
 		}
 	}
-	//?}
 
 	@Override
-	/*? if >=1.21.3 {*/
-	/*public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
-	*//*?} else {*/
+
 	public boolean hurt(DamageSource damageSource, float amount)
-	 /*?}*/
+
 	{
-		//? if <1.21.3 {
+
 		var level = this.level();
-		//?}
 
 		if (damageSource == this.damageSources().generic() || damageSource == this.damageSources().genericKill()) {
-			/*? if >=1.21.3 {*/
-			/*return super.hurtServer(level, damageSource, amount);
-			*//*?} else {*/
+
 			return super.hurt(damageSource, amount);
-			/*?}*/
+
 		}
 
 		Entity attacker = damageSource.getEntity();
@@ -546,11 +502,7 @@ public final class WildfireEntity extends Monster implements AnimatedEntity
 
 		this.resetTicksUntilShieldRegeneration();
 
-		/*? if >=1.21.3 {*/
-		/*boolean damageResult = super.hurtServer(level, damageSource, amount);
-		*//*?} else {*/
 		boolean damageResult = super.hurt(damageSource, amount);
-		/*?}*/
 
 		if (damageResult && attacker instanceof LivingEntity) {
 			WildfireBrain.onAttacked(this, (LivingEntity) attacker);

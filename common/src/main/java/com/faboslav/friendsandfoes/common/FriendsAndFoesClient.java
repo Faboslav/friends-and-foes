@@ -4,10 +4,10 @@ import com.faboslav.friendsandfoes.common.config.client.gui.FriendsAndFoesConfig
 import com.faboslav.friendsandfoes.common.events.client.RegisterEntityLayersEvent;
 import com.faboslav.friendsandfoes.common.events.client.RegisterEntityRenderersEvent;
 import com.faboslav.friendsandfoes.common.events.client.RegisterParticlesEvent;
-//? if <= 1.21.11 {
+
 import com.faboslav.friendsandfoes.common.events.client.RegisterRenderLayersEvent;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
-//?}
+
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityRenderers;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesParticleTypes;
@@ -19,9 +19,9 @@ public final class FriendsAndFoesClient
 	public static void init() {
 		RegisterParticlesEvent.EVENT.addListener(FriendsAndFoesParticleTypes::registerParticlesEvent);
 		RegisterEntityRenderersEvent.EVENT.addListener(FriendsAndFoesEntityRenderers::registerEntityRenderers);
-		//? if <= 1.21.11 {
+
 		RegisterRenderLayersEvent.EVENT.addListener(FriendsAndFoesBlocks::registerRenderLayers);
-		//?}
+
 		RegisterEntityLayersEvent.EVENT.addListener(FriendsAndFoesEntityModelLayers::registerEntityLayers);
 	}
 

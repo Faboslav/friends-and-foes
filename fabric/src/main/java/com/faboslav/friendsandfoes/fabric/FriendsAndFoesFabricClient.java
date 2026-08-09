@@ -10,14 +10,9 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 
-//? if <= 1.21.11 {
 import com.faboslav.friendsandfoes.common.events.client.RegisterRenderLayersEvent;
-//? if >=1.21.6 {
-/*import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
-*///?} else {
+
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-//?}
-//?}
 
 public final class FriendsAndFoesFabricClient implements ClientModInitializer
 {
@@ -33,13 +28,8 @@ public final class FriendsAndFoesFabricClient implements ClientModInitializer
 		RegisterEntityRenderersEvent.EVENT.invoke(new RegisterEntityRenderersEvent(EntityRendererRegistry::register));
 		RegisterEntityLayersEvent.EVENT.invoke(new RegisterEntityLayersEvent((type, supplier) -> EntityModelLayerRegistry.registerModelLayer(type, supplier::get)));
 
-		//? if <= 1.21.11 {
-		//? if >=1.21.6 {
-		/*RegisterRenderLayersEvent.EVENT.invoke(new RegisterRenderLayersEvent(BlockRenderLayerMap::putFluid, BlockRenderLayerMap::putBlock));
-		*///?} else {
 		RegisterRenderLayersEvent.EVENT.invoke(new RegisterRenderLayersEvent(BlockRenderLayerMap.INSTANCE::putFluid, BlockRenderLayerMap.INSTANCE::putBlock));
-		//?}
-		//?}
+
 	}
 }
 

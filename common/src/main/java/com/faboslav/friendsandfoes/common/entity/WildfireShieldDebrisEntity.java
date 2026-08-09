@@ -95,11 +95,9 @@ public final class WildfireShieldDebrisEntity extends Fireball
 	}
 
 	@Override
-	/*? if >=1.21.3 {*/
-	/*public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
-	*//*?} else {*/
+
 	public boolean hurt(DamageSource damageSource, float amount)
-	/*?}*/
+
 	{
 		return false;
 	}

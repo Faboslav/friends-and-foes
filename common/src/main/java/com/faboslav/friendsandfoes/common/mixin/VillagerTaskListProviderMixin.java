@@ -21,16 +21,12 @@ public final class VillagerTaskListProviderMixin
 	)
 	private static WorkAtPoi friendsandfoes_setSecondVillagerWorkTask(
 		WorkAtPoi originalTask,
-		//? if >=1.21.5 {
-		/*Holder<VillagerProfession> professionHolder,
-		*///?} else {
+
 		VillagerProfession profession,
-		//?}
+
 		float f
 	) {
-		//? if >=1.21.5 {
-		/*var profession = professionHolder.value();
-		*///?}
+
 		if (
 			FriendsAndFoes.getConfig().enableBeekeeperVillagerProfession
 			&& FriendsAndFoesVillagerProfessions.BEEKEEPER != null

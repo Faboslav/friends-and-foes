@@ -15,18 +15,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
-//? if >=1.21.5 {
-/*import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-*///?} else {
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-//?}
 
-//? if >=1.21.3 {
-/*import net.minecraft.world.entity.EntitySpawnReason;
-import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
-*///?} else {
 import net.minecraft.world.entity.MobSpawnType;
-//?}
 
 @Mixin(PatrolSpawner.class)
 public final class PatrolSpawnerMixin
@@ -51,9 +42,9 @@ public final class PatrolSpawnerMixin
 
 		if (!this.friendsandfoes$isBiomeSpecificIllagerSpawned) {
 			if (biomeEntry.is(FriendsAndFoesTags.HAS_ILLUSIONER)) {
-				patrolEntity = FriendsAndFoesEntityTypes.ILLUSIONER.get().create(world/*? if >=1.21.3 {*//*, VersionedEntitySpawnReason.PATROL*//*?}*/);
+				patrolEntity = FriendsAndFoesEntityTypes.ILLUSIONER.get().create(world);
 			} else if (biomeEntry.is(FriendsAndFoesTags.HAS_ICEOLOGER)) {
-				patrolEntity = FriendsAndFoesEntityTypes.ICEOLOGER.get().create(world/*? if >=1.21.3 {*//*, VersionedEntitySpawnReason.PATROL*//*?}*/);
+				patrolEntity = FriendsAndFoesEntityTypes.ICEOLOGER.get().create(world);
 			}
 		}
 
@@ -67,23 +58,18 @@ public final class PatrolSpawnerMixin
 	private void friendsandfoes$resetBiomeSpecificIllagerSpawnFlag(
 		ServerLevel world,
 		boolean spawnMonsters,
-		//? if <= 1.21.8 {
+
 		boolean spawnAnimals,
-		//?}
-		//? if >=1.21.5 {
-		/*CallbackInfo ci
-		*///?} else {
+
 		CallbackInfoReturnable<Integer> ci
-		//?}
+
 	) {
-		//? if >=1.21.5 {
-		/*this.friendsandfoes$isBiomeSpecificIllagerSpawned = false;
-		*///?} else {
+
 		var spawnerPatrolMembersCount = ci.getReturnValue();
 
 		if (spawnerPatrolMembersCount > 0) {
 			this.friendsandfoes$isBiomeSpecificIllagerSpawned = false;
 		}
-		//?}
+
 	}
 }

@@ -27,11 +27,9 @@
 						"condition": "minecraft:entity_properties",
 						"entity": "this",
 						"predicate": {
-							//? if >=26.2 {
-							/*"entity_type": "minecraft:evoker"
-							*///?} else {
+
 							"type": "minecraft:evoker"
-							//?}
+
 						}
 					}
 				]
@@ -45,11 +43,9 @@
 						"condition": "minecraft:entity_properties",
 						"entity": "this",
 						"predicate": {
-							//? if >=26.2 {
-							/*"entity_type": "friendsandfoes:iceologer"
-							*///?} else {
+
 							"type": "friendsandfoes:iceologer"
-							//?}
+
 						}
 					}
 				]
@@ -63,11 +59,9 @@
 						"condition": "minecraft:entity_properties",
 						"entity": "this",
 						"predicate": {
-							//? if >=26.2 {
-							/*"entity_type": "friendsandfoes:illusioner"
-							*///?} else {
+
 							"type": "friendsandfoes:illusioner"
-							//?}
+
 						}
 					}
 				]

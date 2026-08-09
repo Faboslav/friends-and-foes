@@ -11,7 +11,7 @@ gen-sources: ## Generate sources
 	./gradlew genSources
 
 run-fabric-client: ## Runs fabric client
-	./gradlew fabric:26.1:runClient
+	./gradlew fabric:1.21.1:runClient
 
 run-forge-client: ## Runs forge client
 	./gradlew forge:runClient
@@ -20,19 +20,19 @@ run-neoforge-client: ## Runs neoforge client
 	./gradlew neoforge:runClient
 
 run-fabric-server: ## Runs fabric server
-	./gradlew fabric:1.21.4:runServer
+	./gradlew fabric:1.21.1:runServer
 
 run-forge-server: ## Runs forge server
 	./gradlew forge:runServer
 
 run-neoforge-server: ## Runs neoforge server
-	./gradlew neoforge:1.21.4:runServer
+	./gradlew neoforge:1.21.1:runServer
 
 run-data: ## Runs datagen
 	./gradlew runData
 
 run-validate-aw: ##
-	./gradlew common:1.21.9:validateAccessWidener
+	./gradlew common:1.21.1:validateAccessWidener
 
 clean-cache: ## Cleans cache
 	./gradlew --stop

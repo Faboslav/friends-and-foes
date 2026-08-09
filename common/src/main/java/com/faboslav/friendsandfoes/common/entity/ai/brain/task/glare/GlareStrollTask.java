@@ -95,11 +95,9 @@ public class GlareStrollTask extends Behavior<GlareEntity>
 	private BlockPos getGroundBlockPosition(GlareEntity glare) {
 		Level world = glare.level();
 		BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos().set(glare.blockPosition());
-		//? if >=1.21.3 {
-		/*int worldBottomY = glare.level().getMinY();
-		*///?} else {
+
 		int worldBottomY = glare.level().getMinBuildHeight();
-		//?}
+
 		BlockState currentMutableBlockState = world.getBlockState(mutable);
 
 		while (

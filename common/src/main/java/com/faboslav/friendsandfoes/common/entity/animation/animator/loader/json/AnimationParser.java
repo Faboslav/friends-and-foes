@@ -26,7 +26,6 @@ import net.minecraft.util.ExtraCodecs;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
-
 /**
  * A parser for parsing JSON-based entity animation files.
  *
@@ -85,12 +84,10 @@ public final class AnimationParser {
 	 * }
 	 */
 	public static final MapCodec<AnimationChannel> CHANNEL_CODEC = new KeyDispatchCodec<>(
-		//? if >= 1.21.11 {
-		/*TARGET_CODEC.fieldOf("target"),
-		*///?} else {
+
 		"target",
 		TARGET_CODEC,
-		//?}
+
 		channel -> Optional.ofNullable(AnimationTypeManager.getTargetFromChannelTarget(channel.target()))
 			.map(DataResult::success)
 			.orElseGet(() -> DataResult.error(() -> String.format(

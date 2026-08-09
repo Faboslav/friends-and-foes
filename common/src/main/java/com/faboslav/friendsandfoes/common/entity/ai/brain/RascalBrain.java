@@ -25,12 +25,8 @@ import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraft.world.entity.schedule.Activity;
 import java.util.List;
 
-//? if >= 26.1 {
-/*import net.minecraft.world.entity.ai.ActivityData;
-*///?} else {
 import com.mojang.serialization.Dynamic;
 import com.google.common.collect.ImmutableSet;
- //?}
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public final class RascalBrain
@@ -42,11 +38,6 @@ public final class RascalBrain
 	private static final UniformInt NOD_COOLDOWN_PROVIDER;
 	private static final UniformInt AVOID_MEMORY_DURATION;
 
-	//? if >= 26.1 {
-	/*public static Brain<RascalEntity> create(RascalEntity rascal, final Brain.Packed packedBrain) {
-		return BRAIN_PROVIDER.makeBrain(rascal, packedBrain);
-	}
-	*///?} else {
 	public static Brain<RascalEntity> create(Dynamic<?> dynamic) {
 		Brain<RascalEntity> brain = BRAIN_PROVIDER.makeBrain(dynamic);
 
@@ -58,44 +49,28 @@ public final class RascalBrain
 
 		return brain;
 	}
-	//?}
 
-	//? if >= 26.1 {
-	/*private static List<ActivityData<RascalEntity>> addActivities(RascalEntity rascal)
-	*///?} else {
 	protected static void addActivities(Brain<RascalEntity> brain)
-	 //?}
+
 	{
-		//? if >= 26.1 {
-		/*return List.of(
-			addCoreActivities(),
-			addIdleActivities(),
-			addWaitActivities(),
-			addAvoidActivities()
-		);
-		*///?} else {
+
 		addCoreActivities(brain);
 		addIdleActivities(brain);
 		addWaitActivities(brain);
 		addAvoidActivities(brain);
-		//?}
+
 	}
 
-	//? if >= 26.1 {
-	/*private static ActivityData<RascalEntity> addCoreActivities()
-	*///?} else {
 	private static void addCoreActivities(Brain<RascalEntity> brain)
-	 //?}
+
 	{
-		//? if >= 26.1 {
-		/*return ActivityData.create(
-			*///?} else {
+
 			brain.addActivity(
-			 //?}
+
 			Activity.CORE,
 			0,
 			ImmutableList.of(
-				new Swim/*? if >=1.21.3 {*//*<>*//*?}*/(0.8F),
+				new Swim(0.8F),
 				new LookAtTargetSink(45, 90),
 				new MoveToTargetSink(),
 				new CountDownCooldownTicks(FriendsAndFoesMemoryModuleTypes.RASCAL_NOD_COOLDOWN.get())
@@ -103,17 +78,12 @@ public final class RascalBrain
 		);
 	}
 
-	//? if >= 26.1 {
-	/*private static ActivityData<RascalEntity> addIdleActivities()
-	*///?} else {
 	private static void addIdleActivities(Brain<RascalEntity> brain)
-	 //?}
+
 	{
-		//? if >= 26.1 {
-		/*return ActivityData.create(
-		*///?} else {
+
 		brain.addActivity(
-		//?}
+
 			Activity.IDLE,
 			ImmutableList.of(
 				Pair.of(0, RascalFindInteractionTargetTask.create(6)),
@@ -122,18 +92,12 @@ public final class RascalBrain
 		);
 	}
 
-
-	//? if >= 26.1 {
-	/*private static ActivityData<RascalEntity> addWaitActivities()
-	*///?} else {
 	private static void addWaitActivities(Brain<RascalEntity> brain)
-	 //?}
+
 	{
-		//? if >= 26.1 {
-		/*return ActivityData.create(
-		*///?} else {
+
 		brain.addActivityAndRemoveMemoryWhenStopped(
-		//?}
+
 			FriendsAndFoesActivities.RASCAL_WAIT.get(),
 			10,
 			ImmutableList.of(
@@ -142,17 +106,12 @@ public final class RascalBrain
 		);
 	}
 
-	//? if >= 26.1 {
-	/*private static ActivityData<RascalEntity> addAvoidActivities()
-	*///?} else {
 	private static void addAvoidActivities(Brain<RascalEntity> brain)
-	 //?}
+
 	{
-		//? if >= 26.1 {
-		/*return ActivityData.create(
-		*///?} else {
+
 		brain.addActivityAndRemoveMemoryWhenStopped(
-		//?}
+
 			Activity.AVOID,
 			10,
 			ImmutableList.of(
@@ -235,9 +194,7 @@ public final class RascalBrain
 		BRAIN_PROVIDER = Brain.provider(
 			MEMORY_MODULES,
 			SENSORS
-			//? if >= 26.1 {
-			/*, RascalBrain::addActivities
-			*///?}
+
 		);
 		NOD_COOLDOWN_PROVIDER = TimeUtil.rangeOfSeconds(NOD_COOLDOWN, NOD_COOLDOWN);
 		AVOID_MEMORY_DURATION = TimeUtil.rangeOfSeconds(NOD_COOLDOWN, NOD_COOLDOWN);

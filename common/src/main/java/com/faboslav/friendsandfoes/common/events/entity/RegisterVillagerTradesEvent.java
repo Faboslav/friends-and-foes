@@ -1,4 +1,4 @@
-//? if <= 1.21.11 {
+
 package com.faboslav.friendsandfoes.common.events.entity;
 
 import com.faboslav.friendsandfoes.common.events.base.EventHandler;
@@ -6,10 +6,6 @@ import java.util.function.BiConsumer;
 
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
-
-//? if >=1.21.5 {
-/*import net.minecraft.resources.ResourceKey;
-*///?}
 
 /**
  * Event related is code based on The Bumblezone/Resourceful Lib mods with permissions from the authors
@@ -20,11 +16,9 @@ import net.minecraft.world.entity.npc.VillagerTrades;
  * <a href="https://github.com/Team-Resourceful/ResourcefulLib">https://github.com/Team-Resourceful/ResourcefulLib</a>
  */
 public record RegisterVillagerTradesEvent(
-	//? if >=1.21.5 {
-	/*ResourceKey<VillagerProfession> type,
-	*///?} else {
+
 	VillagerProfession type,
-	//?}
+
 	BiConsumer<Integer,
 	VillagerTrades.ItemListing> trade
 )
@@ -35,4 +29,4 @@ public record RegisterVillagerTradesEvent(
 		this.trade.accept(level, trade);
 	}
 }
-//?}
+

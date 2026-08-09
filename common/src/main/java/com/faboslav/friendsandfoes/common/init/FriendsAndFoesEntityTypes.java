@@ -27,9 +27,8 @@ public final class FriendsAndFoesEntityTypes
 	public static final ResourcefulRegistry<EntityType<?>> ENTITY_TYPES = ResourcefulRegistries.create(BuiltInRegistries.ENTITY_TYPE, FriendsAndFoes.MOD_ID);
 	public static boolean previousUseChoiceTypeRegistrations = SharedConstants.CHECK_DATA_FIXER_SCHEMA;
 
-	//? if <= 1.21.8 {
 	public static final RegistryEntry<EntityType<CopperGolemEntity>> COPPER_GOLEM;
-	//?}
+
 	public static final RegistryEntry<EntityType<CrabEntity>> CRAB;
 	public static final RegistryEntry<EntityType<GlareEntity>> GLARE;
 	public static final RegistryEntry<EntityType<IceologerEntity>> ICEOLOGER;
@@ -40,15 +39,14 @@ public final class FriendsAndFoesEntityTypes
 	public static final RegistryEntry<EntityType<RascalEntity>> RASCAL;
 	public static final RegistryEntry<EntityType<TuffGolemEntity>> TUFF_GOLEM;
 	public static final RegistryEntry<EntityType<WildfireEntity>> WILDFIRE;
-	//? if <= 1.21.8 {
+
 	public static final RegistryEntry<EntityType<PlayerIllusionEntity>> PLAYER_ILLUSION;
-	//?}
 
 	static {
 		SharedConstants.CHECK_DATA_FIXER_SCHEMA = false;
-		//? if <= 1.21.8 {
+
 		COPPER_GOLEM = ENTITY_TYPES.register("copper_golem", () -> EntityType.Builder.of(CopperGolemEntity::new, MobCategory.MISC).sized(0.75F, 1.375F).eyeHeight(0.75F).clientTrackingRange(10).build(VersionedEntityTypeResourceId.create("copper_golem")));
-		//?}
+
 		CRAB = ENTITY_TYPES.register("crab", () -> EntityType.Builder.of(CrabEntity::new, MobCategory.CREATURE).sized(0.875F, 0.5625F).clientTrackingRange(10).build(VersionedEntityTypeResourceId.create("crab")));
 		GLARE = ENTITY_TYPES.register("glare", () -> EntityType.Builder.of(GlareEntity::new, CustomSpawnGroup.getGlaresCategory()).sized(0.875F, 1.1875F).clientTrackingRange(8).updateInterval(2).build(VersionedEntityTypeResourceId.create("glare")));
 		ICEOLOGER = ENTITY_TYPES.register("iceologer", () -> EntityType.Builder.of(IceologerEntity::new, MobCategory.MONSTER).sized(0.6F, 1.95F).passengerAttachments(2.0F).ridingOffset(-0.6F).clientTrackingRange(10).build(VersionedEntityTypeResourceId.create("iceologer")));
@@ -59,16 +57,16 @@ public final class FriendsAndFoesEntityTypes
 		RASCAL = ENTITY_TYPES.register("rascal", () -> EntityType.Builder.of(RascalEntity::new, CustomSpawnGroup.getRascalsCategory()).sized(0.9F, 1.25F).clientTrackingRange(10).canSpawnFarFromPlayer().build(VersionedEntityTypeResourceId.create("rascal")));
 		TUFF_GOLEM = ENTITY_TYPES.register("tuff_golem", () -> EntityType.Builder.of(TuffGolemEntity::new, MobCategory.MISC).sized(0.75F, 1.0625F).eyeHeight(0.8F).clientTrackingRange(10).build(VersionedEntityTypeResourceId.create("tuff_golem")));
 		WILDFIRE = ENTITY_TYPES.register("wildfire", () -> EntityType.Builder.of(WildfireEntity::new, MobCategory.MONSTER).sized(0.7F * WildfireEntityRenderer.SCALE, 1.875F * WildfireEntityRenderer.SCALE).clientTrackingRange(10).fireImmune().build(VersionedEntityTypeResourceId.create("wildfire")));
-		//? if <= 1.21.8 {
+
 		PLAYER_ILLUSION = ENTITY_TYPES.register("player_illusion", () -> EntityType.Builder.of(PlayerIllusionEntity::new, MobCategory.MISC).sized(0.7F, 1.875F).clientTrackingRange(10).fireImmune().build(VersionedEntityTypeResourceId.create("player_illusion")));
-		//?}
+
 		SharedConstants.CHECK_DATA_FIXER_SCHEMA = previousUseChoiceTypeRegistrations;
 	}
 
 	public static void registerEntityAttributes(RegisterEntityAttributesEvent event) {
-		//? if <= 1.21.8 {
+
 		event.register(FriendsAndFoesEntityTypes.COPPER_GOLEM.get(), CopperGolemEntity.createCopperGolemAttributes());
-		//?}
+
 		event.register(FriendsAndFoesEntityTypes.CRAB.get(), CrabEntity.createCrabAttributes());
 		event.register(FriendsAndFoesEntityTypes.GLARE.get(), GlareEntity.createGlareAttributes());
 		event.register(FriendsAndFoesEntityTypes.ICEOLOGER.get(), IceologerEntity.createIceologerAttributes());
@@ -78,9 +76,9 @@ public final class FriendsAndFoesEntityTypes
 		event.register(FriendsAndFoesEntityTypes.RASCAL.get(), RascalEntity.createRascalAttributes());
 		event.register(FriendsAndFoesEntityTypes.TUFF_GOLEM.get(), TuffGolemEntity.createTuffGolemAttributes());
 		event.register(FriendsAndFoesEntityTypes.WILDFIRE.get(), WildfireEntity.createWildfireAttributes());
-		//? if <= 1.21.8 {
+
 		event.register(FriendsAndFoesEntityTypes.PLAYER_ILLUSION.get(), PlayerIllusionEntity.createPlayerIllusionAttributes());
-		//?}
+
 	}
 
 	public static void registerEntitySpawnRestrictions(RegisterEntitySpawnRestrictionsEvent event) {

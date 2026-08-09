@@ -12,13 +12,13 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.entity.npc.villager.VillagerProfession;
+import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.item.Items;
 
 //? if <= 1.21.11 {
-/*import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
+import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
 import com.faboslav.friendsandfoes.common.util.BasicItemTrade;
-*///?}
+//?}
 
 /**
  * @see VillagerProfession
@@ -30,10 +30,10 @@ public final class FriendsAndFoesVillagerProfessions
 	public static final ResourceKey<VillagerProfession> BEEKEEPER_KEY = ResourceKey.create(Registries.VILLAGER_PROFESSION, FriendsAndFoes.makeID("beekeeper"));
 	public static final RegistryEntry<VillagerProfession> BEEKEEPER = VILLAGER_PROFESSIONS.register("beekeeper", () -> new VillagerProfession(
 		//? if >=1.21.5 {
-		Component.translatable("entity.friendsandfoes.villager.beekeeper"),
-		//?} else {
-		/*"beekeeper",
-		*///?}
+		/*Component.translatable("entity.friendsandfoes.villager.beekeeper"),
+		*///?} else {
+		"beekeeper",
+		//?}
 		pointOfInterest -> {
 			if(!FriendsAndFoes.getConfig().enableBeekeeperVillagerProfession) {
 				return false;
@@ -51,25 +51,25 @@ public final class FriendsAndFoesVillagerProfessions
 		ImmutableSet.of(),
 		FriendsAndFoesSoundEvents.ENTITY_VILLAGER_WORK_BEEKEEPER.get()
 		//? if >= 26.1 {
-		, Int2ObjectMap.ofEntries(
+		/*, Int2ObjectMap.ofEntries(
 			Int2ObjectMap.entry(1, FriendsAndFoesTradeSets.BEEKEEPER_LEVEL_1),
 			Int2ObjectMap.entry(2, FriendsAndFoesTradeSets.BEEKEEPER_LEVEL_2),
 			Int2ObjectMap.entry(3, FriendsAndFoesTradeSets.BEEKEEPER_LEVEL_3),
 			Int2ObjectMap.entry(4, FriendsAndFoesTradeSets.BEEKEEPER_LEVEL_4),
 			Int2ObjectMap.entry(5, FriendsAndFoesTradeSets.BEEKEEPER_LEVEL_5)
 		)
-		//?}
+		*///?}
 	));
 
 	//? if <= 1.21.11 {
-	/*public static void registerVillagerTrades(RegisterVillagerTradesEvent event) {
+	public static void registerVillagerTrades(RegisterVillagerTradesEvent event) {
 		if (
 			FriendsAndFoes.getConfig().enableBeekeeperVillagerProfession
 			//? if >=1.21.5 {
-			&& event.type() == BEEKEEPER_KEY
-			//?} else {
-			/^&& event.type() == BEEKEEPER.get()
-			^///?}
+			/*&& event.type() == BEEKEEPER_KEY
+			*///?} else {
+			&& event.type() == BEEKEEPER.get()
+			//?}
 		) {
 			event.register(1, new BasicItemTrade(FriendsAndFoesItems.BUTTERCUP.get(), Items.EMERALD, 10, 1, 16, 2,  0.05F));
 			event.register(1, new BasicItemTrade(Items.DANDELION, Items.EMERALD, 10, 1, 16, 2,  0.05F));
@@ -84,7 +84,7 @@ public final class FriendsAndFoesVillagerProfessions
 			event.register(5, new BasicItemTrade(Items.EMERALD, Items.BEE_NEST, 20, 1, 3, 30,  0.05F));
 		}
 	}
-	*///?}
+	//?}
 
 	private FriendsAndFoesVillagerProfessions() {
 	}

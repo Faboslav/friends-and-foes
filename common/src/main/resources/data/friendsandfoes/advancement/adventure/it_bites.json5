@@ -25,10 +25,10 @@
 						"entity": "this",
 						"predicate": {
 							//? if >=26.2 {
-							"entity_type": "friendsandfoes:mauler"
-							//?} else {
-							/*"type": "friendsandfoes:mauler"
-							*///?}
+							/*"entity_type": "friendsandfoes:mauler"
+							*///?} else {
+							"type": "friendsandfoes:mauler"
+							//?}
 						}
 					}
 				]

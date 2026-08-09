@@ -23,49 +23,49 @@ public final class IceologerSpawner implements CustomSpawner
 
 	@Override
 	//? if >= 1.21.9 {
-	public void tick(ServerLevel world, boolean spawnMonsters)
-	//?} else if >=1.21.5 {
+	/*public void tick(ServerLevel world, boolean spawnMonsters)
+	*///?} else if >=1.21.5 {
 	/*public void tick(ServerLevel world, boolean spawnMonsters, boolean spawnAnimals)
 	*///?} else {
-	/*public int tick(ServerLevel world, boolean spawnMonsters, boolean spawnAnimals)
-	 *///?}
+	public int tick(ServerLevel world, boolean spawnMonsters, boolean spawnAnimals)
+	 //?}
 	{
 		if (
 			!spawnMonsters
 			|| !FriendsAndFoes.getConfig().enableIceologerSpawn
 		) {
-			return /*? if <1.21.5 {*//*0*//*?}*/;
+			return /*? if <1.21.5 {*/0/*?}*/;
 		}
 
 		RandomSource random = world.getRandom();
 		--this.cooldown;
 
 		if (this.cooldown > 0) {
-			return /*? if <1.21.5 {*//*0*//*?}*/;
+			return /*? if <1.21.5 {*/0/*?}*/;
 		}
 
 		this.cooldown += 12000 + random.nextInt(1000);
 		//? if >= 26.1 {
-		long l = world.getGameTime() / 24000L;
-		//?} else {
-		/*long l = world.getDayTime() / 24000L;
-		 *///?}
+		/*long l = world.getGameTime() / 24000L;
+		*///?} else {
+		long l = world.getDayTime() / 24000L;
+		 //?}
 
 		if (
 			l < 5L
 			//? if >=1.21.5 {
-			|| world.isDarkOutside()
-			//?} else {
-			/*|| world.isNight()
-			*///?}
+			/*|| world.isDarkOutside()
+			*///?} else {
+			|| world.isNight()
+			//?}
 			|| random.nextIntBetweenInclusive(0, 1) != 0
 		) {
-			return /*? if <1.21.5 {*//*0*//*?}*/;
+			return /*? if <1.21.5 {*/0/*?}*/;
 		}
 
 		int playerCount = world.players().size();
 		if (playerCount == 0) {
-			return /*? if <1.21.5 {*//*0*//*?}*/;
+			return /*? if <1.21.5 {*/0/*?}*/;
 		}
 
 		Player playerEntity = world.players().get(random.nextInt(playerCount));
@@ -74,7 +74,7 @@ public final class IceologerSpawner implements CustomSpawner
 			playerEntity.isSpectator()
 			|| world.isCloseToVillage(playerEntity.blockPosition(), 2)
 		) {
-			return /*? if <1.21.5 {*//*0*//*?}*/;
+			return /*? if <1.21.5 {*/0/*?}*/;
 		}
 
 		int j = (24 + random.nextInt(24)) * (random.nextBoolean() ? -1:1);
@@ -87,11 +87,11 @@ public final class IceologerSpawner implements CustomSpawner
 		var maxZ = mutable.getZ() + 10;
 
 		if (!world.hasChunksAt(minX, minZ, maxX, maxZ)) {
-			return /*? if <1.21.5 {*//*0*//*?}*/;
+			return /*? if <1.21.5 {*/0/*?}*/;
 		}
 
 		if (!world.getBiome(mutable).is(FriendsAndFoesTags.HAS_ICEOLOGER)) {
-			return /*? if <1.21.5 {*//*0*//*?}*/;
+			return /*? if <1.21.5 {*/0/*?}*/;
 		}
 
 		mutable.setY(world.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, mutable).getY());
@@ -101,13 +101,13 @@ public final class IceologerSpawner implements CustomSpawner
 			!NaturalSpawner.isValidEmptySpawnBlock(world, mutable, blockState, blockState.getFluidState(), FriendsAndFoesEntityTypes.ICEOLOGER.get())
 			|| !PatrollingMonster.checkPatrollingMonsterSpawnRules(FriendsAndFoesEntityTypes.ICEOLOGER.get(), world, VersionedEntitySpawnReason.PATROL, mutable, random)
 		) {
-			return /*? if <1.21.5 {*//*0*//*?}*/;
+			return /*? if <1.21.5 {*/0/*?}*/;
 		}
 
-		var iceologer = FriendsAndFoesEntityTypes.ICEOLOGER.get().create(world/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.PATROL/*?}*/);
+		var iceologer = FriendsAndFoesEntityTypes.ICEOLOGER.get().create(world/*? if >=1.21.3 {*//*, VersionedEntitySpawnReason.PATROL*//*?}*/);
 
 		if (iceologer == null) {
-			return /*? if <1.21.5 {*//*0*//*?}*/;
+			return /*? if <1.21.5 {*/0/*?}*/;
 		}
 
 		iceologer.setPatrolLeader(false);
@@ -115,6 +115,6 @@ public final class IceologerSpawner implements CustomSpawner
 		iceologer.setPos(mutable.getX(), mutable.getY(), mutable.getZ());
 		iceologer.finalizeSpawn(world, world.getCurrentDifficultyAt(mutable), VersionedEntitySpawnReason.PATROL, null);
 		world.addFreshEntityWithPassengers(iceologer);
-		return /*? if <1.21.5 {*//*1*//*?}*/;
+		return /*? if <1.21.5 {*/1/*?}*/;
 	}
 }

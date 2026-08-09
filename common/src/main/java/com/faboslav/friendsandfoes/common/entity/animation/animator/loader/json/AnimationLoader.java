@@ -4,7 +4,7 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.animation.AnimationDefinition;
 import com.google.common.collect.MapMaker;
 
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -15,13 +15,13 @@ import java.util.List;
 import java.util.Map;
 
 //? if >=1.21.3 {
-import net.minecraft.resources.FileToIdConverter;
-//?} else {
-/*import com.google.gson.Gson;
+/*import net.minecraft.resources.FileToIdConverter;
+*///?} else {
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.mojang.serialization.JsonOps;
-*///?}
+//?}
 
 /**
  * A loader for entity animations written in JSON. You can also get parsed animations from this class.
@@ -32,30 +32,30 @@ import com.mojang.serialization.JsonOps;
  * <a href="https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation">https://github.com/neoforged/NeoForge/tree/1.21.x/src/main/java/net/neoforged/neoforge/client/entity/animation</a>
  */
 //? if >=1.21.3 {
-public final class AnimationLoader extends SimpleJsonResourceReloadListener<AnimationDefinition>
-//?} else {
-/*public final class AnimationLoader extends SimpleJsonResourceReloadListener
-*///?}
+/*public final class AnimationLoader extends SimpleJsonResourceReloadListener<AnimationDefinition>
+*///?} else {
+public final class AnimationLoader extends SimpleJsonResourceReloadListener
+//?}
 {
 	public static final AnimationLoader INSTANCE = new AnimationLoader();
 
-	private Map<Identifier, AnimationHolder> animations = new MapMaker().weakValues().concurrencyLevel(1).makeMap();
+	private Map<ResourceLocation, AnimationHolder> animations = new MapMaker().weakValues().concurrencyLevel(1).makeMap();
 	@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
 	private final List<AnimationHolder> strongHolderReferences = new ArrayList<>();
 
 	private AnimationLoader() {
 		//? if >=1.21.4 {
-		super(AnimationParser.CODEC, FileToIdConverter.json("friendsandfoes/animations/entity"));
-		//?} else {
-		/*super(new Gson(), "friendsandfoes/animations/entity");
-		*///?}
+		/*super(AnimationParser.CODEC, FileToIdConverter.json("friendsandfoes/animations/entity"));
+		*///?} else {
+		super(new Gson(), "friendsandfoes/animations/entity");
+		//?}
 	}
 
-	public Map<Identifier, AnimationHolder> getAnimations() {
+	public Map<ResourceLocation, AnimationHolder> getAnimations() {
 		return animations;
 	}
 
-	public void setAnimations(Map<Identifier, AnimationHolder> animations) {
+	public void setAnimations(Map<ResourceLocation, AnimationHolder> animations) {
 		this.animations = animations;
 	}
 
@@ -63,7 +63,7 @@ public final class AnimationLoader extends SimpleJsonResourceReloadListener<Anim
 	 * Gets a loaded {@link AnimationDefinition} with the specified {@code key}.
 	 */
 	@Nullable
-	public AnimationDefinition getAnimation(Identifier key) {
+	public AnimationDefinition getAnimation(ResourceLocation key) {
 		final var holder = animations.get(key);
 		return holder != null ? holder.getOrNull() : null;
 	}
@@ -72,34 +72,34 @@ public final class AnimationLoader extends SimpleJsonResourceReloadListener<Anim
 	 * Returns an {@link AnimationHolder} for an animation. If the specified animation has not been loaded, the holder
 	 * will be unbound, but may be bound in the future.
 	 */
-	public AnimationHolder getAnimationHolder(Identifier key) {
+	public AnimationHolder getAnimationHolder(ResourceLocation key) {
 		return animations.computeIfAbsent(key, AnimationHolder::new);
 	}
 
 	@Override
 	//? if >=1.21.3 {
-	protected void apply(Map<Identifier, AnimationDefinition> entityAnimations, ResourceManager resourceManager, ProfilerFiller profiler)
-	//?} else {
-	/*protected void apply(Map<Identifier, JsonElement> entityAnimationsJson, ResourceManager resourceManager, ProfilerFiller profiler)
-	*///?}
+	/*protected void apply(Map<ResourceLocation, AnimationDefinition> entityAnimations, ResourceManager resourceManager, ProfilerFiller profiler)
+	*///?} else {
+	protected void apply(Map<ResourceLocation, JsonElement> entityAnimationsJson, ResourceManager resourceManager, ProfilerFiller profiler)
+	//?}
 	{
 		//? if <1.21.3 {
-		/*Map<Identifier, AnimationDefinition> entityAnimations = new HashMap<>();
+		Map<ResourceLocation, AnimationDefinition> entityAnimations = new HashMap<>();
 
-		for (Map.Entry<Identifier, JsonElement> entry : entityAnimationsJson.entrySet()) {
-			Identifier resourceLocation = entry.getKey();
+		for (Map.Entry<ResourceLocation, JsonElement> entry : entityAnimationsJson.entrySet()) {
+			ResourceLocation resourceLocation = entry.getKey();
 			JsonElement animationDefinitionJson = entry.getValue();
 
 			AnimationDefinition animationDefinition = AnimationParser.CODEC.parse(JsonOps.INSTANCE, animationDefinitionJson).getOrThrow();
 
 			entityAnimations.put(resourceLocation, animationDefinition);
 		}
-		*///?}
+		//?}
 
 		apply(entityAnimations);
 	}
 
-	public void apply(Map<Identifier, AnimationDefinition> entityAnimations) {
+	public void apply(Map<ResourceLocation, AnimationDefinition> entityAnimations) {
 		animations.values().forEach(AnimationHolder::unbind);
 		strongHolderReferences.clear();
 		int loaded = 0;

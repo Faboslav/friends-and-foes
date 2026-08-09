@@ -3,19 +3,19 @@ package com.faboslav.friendsandfoes.fabric.mixin;
 import com.faboslav.friendsandfoes.common.events.client.RegisterParticlesEvent;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 //? if <= 1.21.8 {
-/*import net.minecraft.client.particle.ParticleEngine;
+import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.ParticleEngine.MutableSpriteSet;
-*///?}
+//?}
 import net.minecraft.client.particle.ParticleProvider;
 //? if >= 1.21.9 {
-import net.minecraft.client.particle.ParticleResources;
+/*import net.minecraft.client.particle.ParticleResources;
 import net.minecraft.client.particle.ParticleResources.MutableSpriteSet;
-//?}
+*///?}
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -28,15 +28,15 @@ import java.util.Map;
 import java.util.function.Function;
 
 //? if >= 1.21.9 {
-@Mixin(ParticleResources.class)
-//?} else {
-/*@Mixin(ParticleEngine.class)
-*///?}
+/*@Mixin(ParticleResources.class)
+*///?} else {
+@Mixin(ParticleEngine.class)
+//?}
 public abstract class ParticleResourcesMixin
 {
 	@Final
 	@Shadow
-	private Map<Identifier, MutableSpriteSet> spriteSets;
+	private Map<ResourceLocation, MutableSpriteSet> spriteSets;
 
 	@Final
 	@Shadow

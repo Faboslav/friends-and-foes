@@ -5,7 +5,7 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesVillagerProfessions
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.ai.behavior.GiveGiftToHero;
-import net.minecraft.world.entity.npc.villager.VillagerProfession;
+import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.level.storage.loot.LootTable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -13,14 +13,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 //? if >= 1.21.4 {
-import com.google.common.collect.ImmutableMap;
-//?}
+/*import com.google.common.collect.ImmutableMap;
+*///?}
 
 @Mixin(GiveGiftToHero.class)
 public abstract class GiveGiftToHeroMixin
 {
 	//? if >= 1.21.4 {
-	@ModifyExpressionValue(
+	/*@ModifyExpressionValue(
 		method = "<clinit>",
 		at = @At(
 			value = "INVOKE",
@@ -34,8 +34,8 @@ public abstract class GiveGiftToHeroMixin
 
 		return ImmutableMap.copyOf(map);
 	}
-	//?} else {
-	/*@SuppressWarnings("unchecked")
+	*///?} else {
+	@SuppressWarnings("unchecked")
 	@ModifyExpressionValue(
 		method = "<clinit>",
 		at = @At(
@@ -48,5 +48,5 @@ public abstract class GiveGiftToHeroMixin
 		map.put(FriendsAndFoesVillagerProfessions.BEEKEEPER.get(), FriendsAndFoesLootTables.BEEKEEPER_GIFT);
 		return map;
 	}
-	*///?}
+	//?}
 }

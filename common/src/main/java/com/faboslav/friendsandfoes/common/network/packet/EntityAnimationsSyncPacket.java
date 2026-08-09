@@ -15,19 +15,19 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public record EntityAnimationsSyncPacket(Map<Identifier, AnimationDefinition> entityAnimations) implements Packet<EntityAnimationsSyncPacket>
+public record EntityAnimationsSyncPacket(Map<ResourceLocation, AnimationDefinition> entityAnimations) implements Packet<EntityAnimationsSyncPacket>
 {
-	public static final Identifier ID = FriendsAndFoes.makeID("entity_animations_sync_packet");
+	public static final ResourceLocation ID = FriendsAndFoes.makeID("entity_animations_sync_packet");
 	public static final ClientboundPacketType<EntityAnimationsSyncPacket> TYPE = new EntityAnimationsSyncPacket.Handler();
 
 	public static void sendToClient(DatapackSyncEvent event) {
-		Map<Identifier, AnimationDefinition> entityAnimations = AnimationLoader.INSTANCE.getAnimations().entrySet().stream()
+		Map<ResourceLocation, AnimationDefinition> entityAnimations = AnimationLoader.INSTANCE.getAnimations().entrySet().stream()
 			.collect(Collectors.toMap(
 				Map.Entry::getKey,
 				entry -> entry.getValue().get()
@@ -43,7 +43,7 @@ public record EntityAnimationsSyncPacket(Map<Identifier, AnimationDefinition> en
 	public static class Handler implements ClientboundPacketType<EntityAnimationsSyncPacket>
 	{
 		@Override
-		public Identifier id() {
+		public ResourceLocation id() {
 			return ID;
 		}
 
@@ -53,7 +53,7 @@ public record EntityAnimationsSyncPacket(Map<Identifier, AnimationDefinition> en
 		}
 
 		public EntityAnimationsSyncPacket decode(final RegistryFriendlyByteBuf buf) {
-			Map<Identifier, AnimationDefinition> parsedEntityAnimations = new HashMap<>();
+			Map<ResourceLocation, AnimationDefinition> parsedEntityAnimations = new HashMap<>();
 
 			CompoundTag data = buf.readNbt();
 
@@ -63,17 +63,17 @@ public record EntityAnimationsSyncPacket(Map<Identifier, AnimationDefinition> en
 			}
 
 			//? if >=1.21.5 {
-			ListTag entityAnimations = data.getListOrEmpty("entity_animations");
-			//?} else {
-			/*ListTag entityAnimations = data.getList("entity_animations", Tag.TAG_COMPOUND);
-			*///?}
+			/*ListTag entityAnimations = data.getListOrEmpty("entity_animations");
+			*///?} else {
+			ListTag entityAnimations = data.getList("entity_animations", Tag.TAG_COMPOUND);
+			//?}
 
 			for (int i = 0; i < entityAnimations.size(); i++) {
 				//? if >=1.21.5 {
-				CompoundTag entityAnimation = entityAnimations.getCompoundOrEmpty(i);
-				//?} else {
-				/*CompoundTag entityAnimation = entityAnimations.getCompound(i);
-				*///?}
+				/*CompoundTag entityAnimation = entityAnimations.getCompoundOrEmpty(i);
+				*///?} else {
+				CompoundTag entityAnimation = entityAnimations.getCompound(i);
+				//?}
 
 				Tag resourceLocationTag = entityAnimation.get("resource_location");
 				Tag animationDefinitionTag = entityAnimation.get("animation_definition");
@@ -84,8 +84,8 @@ public record EntityAnimationsSyncPacket(Map<Identifier, AnimationDefinition> en
 				}
 
 				// Parse using NbtOps and actual NBT tags
-				DataResult<Identifier> parsedIdentifier = Identifier.CODEC.parse(NbtOps.INSTANCE, resourceLocationTag);
-				parsedIdentifier.error().ifPresent(error ->
+				DataResult<ResourceLocation> parsedResourceLocation = ResourceLocation.CODEC.parse(NbtOps.INSTANCE, resourceLocationTag);
+				parsedResourceLocation.error().ifPresent(error ->
 					FriendsAndFoes.getLogger().error("Failed to parse Resource Location packet entry: {}", error.message())
 				);
 
@@ -94,9 +94,9 @@ public record EntityAnimationsSyncPacket(Map<Identifier, AnimationDefinition> en
 					FriendsAndFoes.getLogger().error("Failed to parse Animation Definition packet entry: {}", error.message())
 				);
 
-				parsedIdentifier.result().ifPresent(validIdentifier ->
+				parsedResourceLocation.result().ifPresent(validResourceLocation ->
 					parsedAnimationDefinition.result().ifPresent(validAnimationDefinition ->
-						parsedEntityAnimations.put(validIdentifier, validAnimationDefinition)
+						parsedEntityAnimations.put(validResourceLocation, validAnimationDefinition)
 					)
 				);
 			}
@@ -108,7 +108,7 @@ public record EntityAnimationsSyncPacket(Map<Identifier, AnimationDefinition> en
 			CompoundTag data = new CompoundTag();
 			ListTag entityAnimationsList = new ListTag();
 
-			for (Map.Entry<Identifier, AnimationDefinition> entry : packet.entityAnimations().entrySet()) {
+			for (Map.Entry<ResourceLocation, AnimationDefinition> entry : packet.entityAnimations().entrySet()) {
 				CompoundTag animationEntry = new CompoundTag();
 
 				animationEntry.putString("resource_location", entry.getKey().toString());

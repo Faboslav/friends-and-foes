@@ -17,7 +17,7 @@ import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
 import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.advancements.triggers.CriteriaTriggers;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
@@ -53,29 +53,29 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 //? if < 26.2 {
-/*import net.minecraft.world.entity.animal.FlyingAnimal;
-*///?}
-
-//? if <= 1.21.11 {
-/*import com.mojang.serialization.Dynamic;
-*///?}
-
-//? if >=1.21.6 {
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.entity.animal.FlyingAnimal;
 //?}
 
+//? if <= 1.21.11 {
+import com.mojang.serialization.Dynamic;
+//?}
+
+//? if >=1.21.6 {
+/*import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+*///?}
+
 //? if >=1.21.3 {
-import net.minecraft.world.entity.EntitySpawnReason;
-//?} else {
-/*import net.minecraft.world.entity.MobSpawnType;
- *///?}
+/*import net.minecraft.world.entity.EntitySpawnReason;
+*///?} else {
+import net.minecraft.world.entity.MobSpawnType;
+ //?}
 
 //? if >= 26.2 {
-public class CrabEntity extends Animal implements AnimatedEntity
-//?} else {
-/*public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
-*///?}
+/*public class CrabEntity extends Animal implements AnimatedEntity
+*///?} else {
+public class CrabEntity extends Animal implements FlyingAnimal, AnimatedEntity
+//?}
 {
 	public static final float BABY_SCALE = 0.3F;
 	private static final float MOVEMENT_SPEED = 0.225F;
@@ -115,10 +115,10 @@ public class CrabEntity extends Animal implements AnimatedEntity
 		ServerLevelAccessor world,
 		DifficultyInstance difficulty,
 		/*? if >=1.21.3 {*/
-		EntitySpawnReason spawnReason,
-		/*?} else {*/
-		/*MobSpawnType spawnReason,
-		*//*?}*/
+		/*EntitySpawnReason spawnReason,
+		*//*?} else {*/
+		MobSpawnType spawnReason,
+		/*?}*/
 		@Nullable SpawnGroupData entityData
 	) {
 		SpawnGroupData superEntityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData);
@@ -169,10 +169,10 @@ public class CrabEntity extends Animal implements AnimatedEntity
 	}
 
 	//? if < 26.2 {
-	/*public boolean isFlying() {
+	public boolean isFlying() {
 		return this.onClimbable();
 	}
-	*///?}
+	//?}
 
 	@Override
 	public float getSpeed() {
@@ -206,10 +206,10 @@ public class CrabEntity extends Animal implements AnimatedEntity
 
 	@Override
 	//? if >= 1.21.6 {
-	public void addAdditionalSaveData(ValueOutput nbt)
-	//?} else {
-	/*public void addAdditionalSaveData(CompoundTag nbt)
-	*///?}
+	/*public void addAdditionalSaveData(ValueOutput nbt)
+	*///?} else {
+	public void addAdditionalSaveData(CompoundTag nbt)
+	//?}
 	{
 		super.addAdditionalSaveData(nbt);
 
@@ -217,18 +217,18 @@ public class CrabEntity extends Animal implements AnimatedEntity
 		nbt.putBoolean(HAS_EGG_NBT_NAME, this.hasEgg());
 
 		//? if >= 1.21.6 {
-		nbt.store(HOME_NBT_NAME, Home.CODEC, this.home);
-		//?} else {
-		/*nbt.put(HOME_NBT_NAME, Home.toNbt(this.home));
-		*///?}
+		/*nbt.store(HOME_NBT_NAME, Home.CODEC, this.home);
+		*///?} else {
+		nbt.put(HOME_NBT_NAME, Home.toNbt(this.home));
+		//?}
 	}
 
 	@Override
 	//? if >= 1.21.6 {
-	public void readAdditionalSaveData(ValueInput saveData)
-	//?} else {
-	/*public void readAdditionalSaveData(CompoundTag saveData)
-	*///?}
+	/*public void readAdditionalSaveData(ValueInput saveData)
+	*///?} else {
+	public void readAdditionalSaveData(CompoundTag saveData)
+	//?}
 	{
 		super.readAdditionalSaveData(saveData);
 
@@ -236,22 +236,22 @@ public class CrabEntity extends Animal implements AnimatedEntity
 		this.setHasEgg(VersionedNbt.getBoolean(saveData, HAS_EGG_NBT_NAME, false));
 
 		//? if >= 1.21.6 {
-		this.setHome(saveData.read(HOME_NBT_NAME, Home.CODEC).orElseGet(this::getNewHome));
-		//?} else {
-		/*this.setHome(Home.fromNbt(VersionedNbt.getCompound(saveData, HOME_NBT_NAME)));
-		 *///?}
+		/*this.setHome(saveData.read(HOME_NBT_NAME, Home.CODEC).orElseGet(this::getNewHome));
+		*///?} else {
+		this.setHome(Home.fromNbt(VersionedNbt.getCompound(saveData, HOME_NBT_NAME)));
+		 //?}
 	}
 
 	@Override
 	//? if >= 26.1 {
-	protected Brain<CrabEntity> makeBrain(final Brain.Packed packedBrain) {
+	/*protected Brain<CrabEntity> makeBrain(final Brain.Packed packedBrain) {
 		return CrabBrain.create(this, packedBrain);
 	}
-	//?} else {
-	/*protected Brain<CrabEntity> makeBrain(Dynamic<?> dynamic) {
+	*///?} else {
+	protected Brain<CrabEntity> makeBrain(Dynamic<?> dynamic) {
 		return CrabBrain.create(dynamic);
 	}
-	*///?}
+	//?}
 	@Override
 	@SuppressWarnings("all")
 	public Brain<CrabEntity> getBrain() {
@@ -260,10 +260,10 @@ public class CrabEntity extends Animal implements AnimatedEntity
 
 	public static AttributeSupplier.Builder createCrabAttributes() {
 		//? if >= 1.21.4 {
-		var attributes = Animal.createAnimalAttributes();
-		//?} else {
-		/*var attributes = Mob.createMobAttributes();
-		*///?}
+		/*var attributes = Animal.createAnimalAttributes();
+		*///?} else {
+		var attributes = Mob.createMobAttributes();
+		//?}
 		return attributes
 			.add(Attributes.MAX_HEALTH, 15.0)
 			.add(Attributes.MOVEMENT_SPEED, MOVEMENT_SPEED)
@@ -460,11 +460,11 @@ public class CrabEntity extends Animal implements AnimatedEntity
 	}
 
 	@Override
-	protected void customServerAiStep(/*? if >=1.21.3 {*/ServerLevel level/*?}*/)
+	protected void customServerAiStep(/*? if >=1.21.3 {*//*ServerLevel level*//*?}*/)
 	{
 		//? if <1.21.3 {
-		/*var level = (ServerLevel) this.level();
-		*///?}
+		var level = (ServerLevel) this.level();
+		//?}
 
 		var profiler = VersionedProfilerProvider.getProfiler(this);
 		profiler.push("crabBrain");
@@ -479,14 +479,14 @@ public class CrabEntity extends Animal implements AnimatedEntity
 		CrabBrain.updateActivities(this);
 		profiler.pop();
 
-		super.customServerAiStep(/*? if >=1.21.3 {*/level/*?}*/);
+		super.customServerAiStep(/*? if >=1.21.3 {*//*level*//*?}*/);
 	}
 
 	@Override
 	protected void ageBoundaryReached() {
 		super.ageBoundaryReached();
 
-		if (!this.isBaby() && VersionedGameRulesProvider.getBoolean(this, VersionedGameRulesProvider.MOB_DROPS)/*? if >=1.21.3 {*/&& this.level() instanceof ServerLevel serverLevel/*?}*/) {
+		if (!this.isBaby() && VersionedGameRulesProvider.getBoolean(this, VersionedGameRulesProvider.MOB_DROPS)/*? if >=1.21.3 {*//*&& this.level() instanceof ServerLevel serverLevel*//*?}*/) {
 			VersionedEntity.spawnAtLocation(this, FriendsAndFoesItems.CRAB_CLAW.get().getDefaultInstance(), 1);
 		}
 	}
@@ -499,10 +499,10 @@ public class CrabEntity extends Animal implements AnimatedEntity
 		EntityType<? extends Animal> type,
 		LevelAccessor world,
 		/*? if >=1.21.3 {*/
-		EntitySpawnReason spawnReason,
-		/*?} else {*/
-		/*MobSpawnType spawnReason,
-		*//*?}*/
+		/*EntitySpawnReason spawnReason,
+		*//*?} else {*/
+		MobSpawnType spawnReason,
+		/*?}*/
 		BlockPos pos,
 		RandomSource random
 	) {
@@ -517,7 +517,7 @@ public class CrabEntity extends Animal implements AnimatedEntity
 	@Override
 	@Nullable
 	public AgeableMob getBreedOffspring(ServerLevel serverWorld, AgeableMob entity) {
-		CrabEntity crab = FriendsAndFoesEntityTypes.CRAB.get().create(serverWorld/*? if >=1.21.3 {*/, EntitySpawnReason.BREEDING/*?}*/);
+		CrabEntity crab = FriendsAndFoesEntityTypes.CRAB.get().create(serverWorld/*? if >=1.21.3 {*//*, EntitySpawnReason.BREEDING*//*?}*/);
 
 		CrabBrain.setWaveCooldown(crab);
 

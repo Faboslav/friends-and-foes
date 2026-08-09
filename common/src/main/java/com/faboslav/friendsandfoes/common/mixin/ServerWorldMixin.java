@@ -13,7 +13,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.LightningBolt;
-import net.minecraft.world.entity.animal.equine.ZombieHorse;
+import net.minecraft.world.entity.animal.horse.ZombieHorse;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.WorldGenLevel;
@@ -25,26 +25,26 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 //? if <=1.21.8 {
-/*import net.minecraft.world.entity.ai.village.poi.PoiManager;
+import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import java.util.Optional;
 import net.minecraft.world.level.levelgen.Heightmap;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
-*///?}
+//?}
 
 //? if >=1.21.3 {
-import net.minecraft.util.profiling.Profiler;
+/*import net.minecraft.util.profiling.Profiler;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
-//?} else {
-/*import java.util.function.Supplier;
+*///?} else {
+import java.util.function.Supplier;
 import net.minecraft.util.profiling.ProfilerFiller;
-*///?}
+//?}
 
 
 @Mixin(ServerLevel.class)
 public abstract class ServerWorldMixin extends Level implements WorldGenLevel
 {
 	//? if >=1.21.3 {
-	protected ServerWorldMixin(
+	/*protected ServerWorldMixin(
 		WritableLevelData levelData,
 		ResourceKey<Level> dimension,
 		RegistryAccess registryAccess,
@@ -56,8 +56,8 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel
 	) {
 		super(levelData, dimension, registryAccess, dimensionTypeRegistration, isClientSide, isDebug, biomeZoomSeed, maxChainedNeighborUpdates);
 	}
-	//?} else {
-	/*protected ServerWorldMixin(
+	*///?} else {
+	protected ServerWorldMixin(
 		WritableLevelData properties,
 		ResourceKey<Level> registryRef,
 		RegistryAccess registryManager,
@@ -70,7 +70,7 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel
 	) {
 		super(properties, registryRef, registryManager, dimensionEntry, profiler, isClient, debugWorld, biomeAccess, maxChainedNeighborUpdates);
 	}
-	*///?}
+	//?}
 
 	@Shadow
 	protected abstract BlockPos findLightningTargetAround(BlockPos pos);
@@ -89,10 +89,10 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel
 			int i = chunkPos.getMinBlockX();
 			int j = chunkPos.getMinBlockZ();
 			//? if >=1.21.3 {
-			var profiler = Profiler.get();
-			//?} else {
-			/*var profiler = this.getProfiler();
-			*///?}
+			/*var profiler = Profiler.get();
+			*///?} else {
+			var profiler = this.getProfiler();
+			//?}
 			profiler.push("thunder2");
 
 			if (
@@ -105,23 +105,23 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel
 				boolean canZombieHorseSpawn = VersionedGameRulesProvider.getBoolean((ServerLevel)(Object)this, VersionedGameRulesProvider.SPAWN_MOBS) && this.random.nextDouble() < (double) localDifficulty.getEffectiveDifficulty() * 0.01;
 
 				//? if <= 1.21.8 {
-				/*canZombieHorseSpawn = canZombieHorseSpawn && !this.getBlockState(blockPos.below()).is(FriendsAndFoesTags.LIGHTNING_RODS);
-				*///?}
+				canZombieHorseSpawn = canZombieHorseSpawn && !this.getBlockState(blockPos.below()).is(FriendsAndFoesTags.LIGHTNING_RODS);
+				//?}
 
 				if (canZombieHorseSpawn) {
-					ZombieHorse zombieHorse = VersionedEntityType.ZOMBIE_HORSE.create(this/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.EVENT/*?}*/);
+					ZombieHorse zombieHorse = VersionedEntityType.ZOMBIE_HORSE.create(this/*? if >=1.21.3 {*//*, VersionedEntitySpawnReason.EVENT*//*?}*/);
 					((ZombieHorseEntityAccess) zombieHorse).friendsandfoes_setTrapped(true);
 					zombieHorse.setAge(0);
 					zombieHorse.setPos(blockPos.getX(), blockPos.getY(), blockPos.getZ());
 					this.addFreshEntity(zombieHorse);
 				}
 
-				LightningBolt lightningBolt = VersionedEntityType.LIGHTNING_BOLT.create(this/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.EVENT/*?}*/);
+				LightningBolt lightningBolt = VersionedEntityType.LIGHTNING_BOLT.create(this/*? if >=1.21.3 {*//*, VersionedEntitySpawnReason.EVENT*//*?}*/);
 				//? if >= 1.21.5 {
-				lightningBolt.snapTo(Vec3.atBottomCenterOf(blockPos));
-				//?} else {
-				/*lightningBolt.moveTo(Vec3.atBottomCenterOf(blockPos));
-				*///?}
+				/*lightningBolt.snapTo(Vec3.atBottomCenterOf(blockPos));
+				*///?} else {
+				lightningBolt.moveTo(Vec3.atBottomCenterOf(blockPos));
+				//?}
 				lightningBolt.setVisualOnly(canZombieHorseSpawn);
 
 				this.addFreshEntity(lightningBolt);
@@ -132,7 +132,7 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel
 	}
 
 	//? if <=1.21.8 {
-	/*@WrapMethod(
+	@WrapMethod(
 		method = "findLightningRod"
 	)
 	protected Optional<BlockPos> friendsandfoes$getLightningRodPos(
@@ -155,5 +155,5 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel
 
 		return optional.map((posx) -> posx.above(1));
 	}
-	*///?}
+	//?}
 }

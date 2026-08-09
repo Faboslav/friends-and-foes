@@ -3,16 +3,16 @@
 	"category": "redstone",
 	"ingredients": [
 		//? if >=1.21.4 {
-		"friendsandfoes:exposed_lightning_rod",
+		/*"friendsandfoes:exposed_lightning_rod",
 		"minecraft:honeycomb"
-		//?} else {
-		/*{
+		*///?} else {
+		{
 			"item": "friendsandfoes:exposed_lightning_rod"
 		},
 		{
 			"item": "minecraft:honeycomb"
 		}
-		*///?}
+		//?}
 	],
 	"result": {
 		"count": 1,

@@ -7,7 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.util.RandomSource;
-import net.minecraft.util.Util;
+import net.minecraft.Util;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
@@ -15,14 +15,14 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProc
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 
 //? if <26.2 {
-/*import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
- *///?}
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
+ //?}
 
 //? if >=26.2 {
-public final class IllusionerShackBrewingStandProcessor implements StructureProcessor
-//?} else {
-/*public final class IllusionerShackBrewingStandProcessor extends StructureProcessor
- *///?}
+/*public final class IllusionerShackBrewingStandProcessor implements StructureProcessor
+*///?} else {
+public final class IllusionerShackBrewingStandProcessor extends StructureProcessor
+ //?}
 {
 	public static final MapCodec<IllusionerShackBrewingStandProcessor> CODEC = MapCodec.unit(IllusionerShackBrewingStandProcessor::new);
 
@@ -35,10 +35,10 @@ public final class IllusionerShackBrewingStandProcessor implements StructureProc
 		BlockPos pos,
 		BlockPos pivot,
 		//? if >=26.2 {
-		BlockPos templateRelativePos,
-		//?} else {
-		/*StructureBlockInfo originalBlockInfo,
-		 *///?}
+		/*BlockPos templateRelativePos,
+		*///?} else {
+		StructureBlockInfo originalBlockInfo,
+		 //?}
 		StructureBlockInfo currentBlockInfo,
 		StructurePlaceSettings structurePlacementData
 	) {
@@ -110,12 +110,12 @@ public final class IllusionerShackBrewingStandProcessor implements StructureProc
 
 	@Override
 	//? if >=26.2 {
-	public MapCodec<? extends StructureProcessor> codec() {
+	/*public MapCodec<? extends StructureProcessor> codec() {
 		return FriendsAndFoesStructureProcessorTypes.ILLUSIONER_SHACK_BREWING_STAND_PROCESSOR.get();
 	}
-	//?} else {
-	/*protected StructureProcessorType<?> getType() {
+	*///?} else {
+	protected StructureProcessorType<?> getType() {
 		return FriendsAndFoesStructureProcessorTypes.ILLUSIONER_SHACK_BREWING_STAND_PROCESSOR.get();
 	}
-	*///?}
+	//?}
 }

@@ -14,12 +14,12 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
-import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLevelEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
-import net.fabricmc.fabric.api.registry.FabricPotionBrewingBuilder;
+import net.fabricmc.fabric.api.registry.FabricBrewingRecipeRegistryBuilder;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -47,9 +47,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 //? if <= 1.21.11 {
-/*import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
-import net.minecraft.world.item.trading.VillagerTrade;
-*///?}
+import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
+import net.minecraft.world.entity.npc.VillagerTrades;
+//?}
 
 public final class FriendsAndFoesFabric implements ModInitializer
 {
@@ -71,18 +71,18 @@ public final class FriendsAndFoesFabric implements ModInitializer
 		ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register((player, joined) ->
 			DatapackSyncEvent.EVENT.invoke(new DatapackSyncEvent(player)));
 
-		ServerLevelEvents.LOAD.register(((server, world) -> {
+		ServerWorldEvents.LOAD.register(((server, world) -> {
 			//? if <= 1.21.11 {
-			/*registerVillagerTrades();
-			*///?}
+			registerVillagerTrades();
+			//?}
 
 			if (
 				world.isClientSide()
 				//? if >=26.2 {
-				|| !world.dimensionTypeRegistration().is(BuiltinDimensionTypes.OVERWORLD)
-				//?} else {
-				/*|| world.dimensionTypeRegistration() != BuiltinDimensionTypes.OVERWORLD
-				 *///?}
+				/*|| !world.dimensionTypeRegistration().is(BuiltinDimensionTypes.OVERWORLD)
+				*///?} else {
+				|| world.dimensionTypeRegistration() != BuiltinDimensionTypes.OVERWORLD
+				 //?}
 			) {
 				return;
 			}
@@ -92,7 +92,7 @@ public final class FriendsAndFoesFabric implements ModInitializer
 		}));
 
 		RegisterBrewingRecipesEvent.EVENT.invoke(new RegisterBrewingRecipesEvent((input, item, output) ->
-			FabricPotionBrewingBuilder.BUILD.register(builder -> builder.addMix(input, item, output))));
+			FabricBrewingRecipeRegistryBuilder.BUILD.register(builder -> builder.addMix(input, item, output))));
 
 		RegisterFlammabilityEvent.EVENT.invoke(new RegisterFlammabilityEvent(FlammableBlockRegistry.getDefaultInstance()::add));
 		RegisterEntityAttributesEvent.EVENT.invoke(new RegisterEntityAttributesEvent(FabricDefaultAttributeRegistry::register));
@@ -103,7 +103,7 @@ public final class FriendsAndFoesFabric implements ModInitializer
 
 		SetupEvent.EVENT.invoke(new SetupEvent(Runnable::run));
 
-		CreativeModeTabEvents.MODIFY_OUTPUT_ALL.register((itemGroup, entries) ->
+		ItemGroupEvents.MODIFY_ENTRIES_ALL.register((itemGroup, entries) ->
 			AddItemGroupEntriesEvent.EVENT.invoke(
 				new AddItemGroupEntriesEvent(
 					AddItemGroupEntriesEvent.Type.toType(BuiltInRegistries.CREATIVE_MODE_TAB.getResourceKey(itemGroup).orElse(null)),
@@ -120,10 +120,10 @@ public final class FriendsAndFoesFabric implements ModInitializer
 					.setRolls(ConstantValue.exactly(1))
 					.add(LootItem.lootTableItem(FriendsAndFoesItems.MUSIC_DISC_AROUND_THE_CORNER.get()))
 					//? if >= 26.1 {
-					.when(LootItemRandomChanceCondition.randomChance(0.095F).build())
-					//?} else {
-					/*.conditionally(LootItemRandomChanceCondition.randomChance(0.095F).build())
-					*///?}
+					/*.when(LootItemRandomChanceCondition.randomChance(0.095F).build())
+					*///?} else {
+					.conditionally(LootItemRandomChanceCondition.randomChance(0.095F).build())
+					//?}
 					.apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 1)))
 				);
 			}
@@ -131,13 +131,13 @@ public final class FriendsAndFoesFabric implements ModInitializer
 	}
 
 	//? if <= 1.21.11 {
-	/*private static void registerVillagerTrades() {
+	private static void registerVillagerTrades() {
 		var trades = VillagerTrades.TRADES;
 		//? if >=1.21.5 {
-		var profession = FriendsAndFoesVillagerProfessions.BEEKEEPER_KEY;
-		//?} else {
-		/^var profession = FriendsAndFoesVillagerProfessions.BEEKEEPER.get();
-		^///?}
+		/*var profession = FriendsAndFoesVillagerProfessions.BEEKEEPER_KEY;
+		*///?} else {
+		var profession = FriendsAndFoesVillagerProfessions.BEEKEEPER.get();
+		//?}
 
 		Int2ObjectMap<VillagerTrades.ItemListing[]> profTrades = trades.computeIfAbsent(profession, key -> new Int2ObjectOpenHashMap<>());
 		Int2ObjectMap<List<VillagerTrades.ItemListing>> listings = new Int2ObjectOpenHashMap<>();
@@ -157,7 +157,7 @@ public final class FriendsAndFoesFabric implements ModInitializer
 			profTrades.put(i, listings.get(i).toArray(new VillagerTrades.ItemListing[0]));
 		}
 	}
-	*///?}
+	//?}
 
 	private static <T extends Mob> void registerPlacement(
 		EntityType<T> type,
@@ -170,10 +170,10 @@ public final class FriendsAndFoesFabric implements ModInitializer
 		FriendsAndFoesBlocks.BLOCKS.getEntries().forEach(block -> {
 			if(block.get() instanceof BeehiveBlock || block.get() instanceof LightningRodBlock) {
 				//? if >=1.21.3 {
-				var poiHolder = BuiltInRegistries.POINT_OF_INTEREST_TYPE.get(block.getId());
-				//?} else {
-				/*var poiHolder = BuiltInRegistries.POINT_OF_INTEREST_TYPE.getHolder(block.getId());
-				*///?}
+				/*var poiHolder = BuiltInRegistries.POINT_OF_INTEREST_TYPE.get(block.getId());
+				*///?} else {
+				var poiHolder = BuiltInRegistries.POINT_OF_INTEREST_TYPE.getHolder(block.getId());
+				//?}
 
 				poiHolder.ifPresent(poiTypeReference -> PointOfInterestTypesAccessor.callRegisterStates(
 					poiTypeReference,

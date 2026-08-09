@@ -3,17 +3,17 @@
 	"category": "redstone",
 	"ingredients": [
 		//? if >=1.21.4 {
-		"friendsandfoes:copper_button",
+		/*"friendsandfoes:copper_button",
 		"minecraft:honeycomb"
-		//?} else {
-		/*{
+		*///?} else {
+		{
 			"item": "friendsandfoes:copper_button"
 		},
 		{
 			"item": "minecraft:honeycomb"
 		}
 		
-		*///?}
+		//?}
 	],
 	"result": {
 		"count": 1,

@@ -11,57 +11,57 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
 //? if >=1.21.9 {
-import net.minecraft.client.renderer.SubmitNodeCollector;
-//?} else {
-/*import net.minecraft.client.renderer.MultiBufferSource;
-*///?}
+/*import net.minecraft.client.renderer.SubmitNodeCollector;
+*///?} else {
+import net.minecraft.client.renderer.MultiBufferSource;
+//?}
 
 //? if >=1.21.4 {
-import com.faboslav.friendsandfoes.common.client.render.entity.state.TuffGolemRenderState;
+/*import com.faboslav.friendsandfoes.common.client.render.entity.state.TuffGolemRenderState;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.TuffGolemEntityModel;
-//?} else {
-/*import com.faboslav.friendsandfoes.common.entity.TuffGolemEntity;
+*///?} else {
+import com.faboslav.friendsandfoes.common.entity.TuffGolemEntity;
 import net.minecraft.client.model.EntityModel;
-*///?}
+//?}
 
 //? if >=1.21.3 {
-public final class TuffGolemHeldItemFeatureRenderer extends RenderLayer<TuffGolemRenderState, TuffGolemEntityModel>
-//?} else {
-/*public final class TuffGolemHeldItemFeatureRenderer<T extends TuffGolemEntity, M extends EntityModel<T>> extends RenderLayer<T, M>
-*///?}
+/*public final class TuffGolemHeldItemFeatureRenderer extends RenderLayer<TuffGolemRenderState, TuffGolemEntityModel>
+*///?} else {
+public final class TuffGolemHeldItemFeatureRenderer<T extends TuffGolemEntity, M extends EntityModel<T>> extends RenderLayer<T, M>
+//?}
 {
 	private final ItemInHandRenderer heldItemRenderer;
 
 	//? if >=1.21.3 {
-	public TuffGolemHeldItemFeatureRenderer(RenderLayerParent<TuffGolemRenderState, TuffGolemEntityModel> renderer, ItemInHandRenderer heldItemRenderer) {
+	/*public TuffGolemHeldItemFeatureRenderer(RenderLayerParent<TuffGolemRenderState, TuffGolemEntityModel> renderer, ItemInHandRenderer heldItemRenderer) {
 		super(renderer);
 		this.heldItemRenderer = heldItemRenderer;
 	}
 
-	//?} else {
+	*///?} else {
 	
-	/*public TuffGolemHeldItemFeatureRenderer(
+	public TuffGolemHeldItemFeatureRenderer(
 		RenderLayerParent<T, M> context,
 		ItemInHandRenderer heldItemRenderer
 	) {
 		super(context);
 		this.heldItemRenderer = heldItemRenderer;
 	}
-	*///?}
+	//?}
 
 	//? if >=1.21.9 {
-	public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, TuffGolemRenderState renderState, float yRot, float xRot)
-	//?} else if >=1.21.3 {
+	/*public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, TuffGolemRenderState renderState, float yRot, float xRot)
+	*///?} else if >=1.21.3 {
 	/*public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, TuffGolemRenderState renderState, float yRot, float xRot)
 	 *///?} else {
-	/*public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, TuffGolemEntity tuffGolem, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch)
-	 *///?}
+	public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, TuffGolemEntity tuffGolem, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch)
+	 //?}
 	{
 		//? if >=1.21.3 {
-		var tuffGolem = renderState.tuffGolem;
+		/*var tuffGolem = renderState.tuffGolem;
 		var tickDelta = renderState.partialTick;
 		var animationProgress = renderState.ageInTicks;
-		//?}
+		*///?}
 
 		if (
 			tuffGolem.isDeadOrDying()
@@ -85,14 +85,14 @@ public final class TuffGolemHeldItemFeatureRenderer extends RenderLayer<TuffGole
 			itemStack,
 			ItemDisplayContext.GROUND,
 			//? if <=1.21.4 {
-			/*false,
-			*///?}
+			false,
+			//?}
 			poseStack,
 			//? if >=1.21.9 {
-			submitNodeCollector,
-			//?} else {
-			/*bufferSource,
-			 *///?}
+			/*submitNodeCollector,
+			*///?} else {
+			bufferSource,
+			 //?}
 			packedLight
 		);
 		poseStack.popPose();

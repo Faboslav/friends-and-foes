@@ -105,11 +105,11 @@
 				},
 				{
 					//? if <= 1.21.8 {
-					/*"name": "minecraft:chain",
+					"name": "minecraft:chain",
 					
-					*///?} else {
-					"name": "minecraft:iron_chain",
-					//?}
+					//?} else {
+					/*"name": "minecraft:iron_chain",
+					*///?}
 					"type": "minecraft:item",
 					"weight": 5,
 					"functions": [

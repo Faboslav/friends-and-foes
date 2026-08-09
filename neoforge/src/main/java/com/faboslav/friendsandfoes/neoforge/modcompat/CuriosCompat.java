@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.neoforge.modcompat;
 
 //? if curios {
-/*import com.faboslav.friendsandfoes.common.events.lifecycle.ClientSetupEvent;
+import com.faboslav.friendsandfoes.common.events.lifecycle.ClientSetupEvent;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesItems;
 import com.faboslav.friendsandfoes.common.modcompat.ModCompat;
 import com.faboslav.friendsandfoes.neoforge.modcompat.curios.CuriosTotemRenderer;
@@ -10,8 +10,8 @@ import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotResult;
 
 //? < 1.21.4 {
-/^import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
-^///?}
+import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
+//?}
 
 import java.util.EnumSet;
 import java.util.function.Predicate;
@@ -35,14 +35,14 @@ public final class CuriosCompat implements ModCompat
 
 	private static void registerRenderers(final ClientSetupEvent clientSetupEvent) {
 		//? >= 1.21.4 {
-		ICurioRenderer.register(Items.TOTEM_OF_UNDYING, CuriosTotemRenderer::new);
+		/*ICurioRenderer.register(Items.TOTEM_OF_UNDYING, CuriosTotemRenderer::new);
 		ICurioRenderer.register(FriendsAndFoesItems.TOTEM_OF_FREEZING.get(), CuriosTotemRenderer::new);
 		ICurioRenderer.register(FriendsAndFoesItems.TOTEM_OF_ILLUSION.get(), CuriosTotemRenderer::new);
-		//?} else {
-		/^CuriosRendererRegistry.register(Items.TOTEM_OF_UNDYING, CuriosTotemRenderer::new);
+		*///?} else {
+		CuriosRendererRegistry.register(Items.TOTEM_OF_UNDYING, CuriosTotemRenderer::new);
 		CuriosRendererRegistry.register(FriendsAndFoesItems.TOTEM_OF_FREEZING.get(), CuriosTotemRenderer::new);
 		CuriosRendererRegistry.register(FriendsAndFoesItems.TOTEM_OF_ILLUSION.get(), CuriosTotemRenderer::new);
-		^///?}
+		//?}
 	}
 
 	@Override
@@ -55,4 +55,4 @@ public final class CuriosCompat implements ModCompat
 		return null;
 	}
 }
-*///?}
+//?}

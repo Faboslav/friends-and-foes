@@ -8,7 +8,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.WorldGenerationContext;
 import net.minecraft.world.level.levelgen.heightproviders.HeightProvider;
@@ -24,40 +24,40 @@ public final class IllusionerShackStructure extends Structure
 	public static final MapCodec<IllusionerShackStructure> CODEC = RecordCodecBuilder.mapCodec(instance ->
 		instance.group(IllusionerShackStructure.settingsCodec(instance),
 			StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(structure -> structure.startPool),
-			Identifier.CODEC.optionalFieldOf("start_jigsaw_name").forGetter(structure -> structure.startJigsawName),
+			ResourceLocation.CODEC.optionalFieldOf("start_jigsaw_name").forGetter(structure -> structure.startJigsawName),
 			Codec.intRange(0, 30).fieldOf("size").forGetter(structure -> structure.size),
 			HeightProvider.CODEC.fieldOf("start_height").forGetter(structure -> structure.startHeight),
 			Heightmap.Types.CODEC.optionalFieldOf("project_start_to_heightmap").forGetter(structure -> structure.projectStartToHeightmap),
 			//? >= 1.21.10 {
-			JigsawStructure.MaxDistance.CODEC.fieldOf("max_distance_from_center").forGetter((structure) -> structure.maxDistanceFromCenter)
-			//?} else {
-			/*Codec.intRange(1, 128).fieldOf("max_distance_from_center").forGetter(structure -> structure.maxDistanceFromCenter)
-			 *///?}
+			/*JigsawStructure.MaxDistance.CODEC.fieldOf("max_distance_from_center").forGetter((structure) -> structure.maxDistanceFromCenter)
+			*///?} else {
+			Codec.intRange(1, 128).fieldOf("max_distance_from_center").forGetter(structure -> structure.maxDistanceFromCenter)
+			 //?}
 		).apply(instance, IllusionerShackStructure::new));
 
 	private final Holder<StructureTemplatePool> startPool;
-	private final Optional<Identifier> startJigsawName;
+	private final Optional<ResourceLocation> startJigsawName;
 	private final int size;
 	private final HeightProvider startHeight;
 	private final Optional<Heightmap.Types> projectStartToHeightmap;
 	//? >= 1.21.10 {
-	private final JigsawStructure.MaxDistance maxDistanceFromCenter;
-	//?} else {
-	/*private final int maxDistanceFromCenter;
-	 *///?}
+	/*private final JigsawStructure.MaxDistance maxDistanceFromCenter;
+	*///?} else {
+	private final int maxDistanceFromCenter;
+	 //?}
 
 	public IllusionerShackStructure(
 		StructureSettings config,
 		Holder<StructureTemplatePool> startPool,
-		Optional<Identifier> startJigsawName,
+		Optional<ResourceLocation> startJigsawName,
 		int size,
 		HeightProvider startHeight,
 		Optional<Heightmap.Types> projectStartToHeightmap,
 		//? >= 1.21.10 {
-		JigsawStructure.MaxDistance maxDistanceFromCenter
-		//?} else {
-		/*int maxDistanceFromCenter
-		 *///?}
+		/*JigsawStructure.MaxDistance maxDistanceFromCenter
+		*///?} else {
+		int maxDistanceFromCenter
+		 //?}
 	) {
 		super(config);
 		this.startPool = startPool;

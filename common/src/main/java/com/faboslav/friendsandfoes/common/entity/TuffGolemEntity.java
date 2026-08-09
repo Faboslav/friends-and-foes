@@ -32,7 +32,7 @@ import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.animal.golem.AbstractGolem;
+import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.DyeColor;
@@ -53,27 +53,27 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 
 //? if >= 26.2 {
-import java.util.concurrent.atomic.AtomicReference;
-//?}
+/*import java.util.concurrent.atomic.AtomicReference;
+*///?}
 
 //? if >= 26.1 {
-import net.minecraft.core.component.DataComponents;
-//?} else {
-/*import com.mojang.serialization.Dynamic;
-*///?}
+/*import net.minecraft.core.component.DataComponents;
+*///?} else {
+import com.mojang.serialization.Dynamic;
+//?}
 
 //? if >=1.21.6 {
-import net.minecraft.world.level.storage.ValueInput;
+/*import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-//?} else {
-/*import net.minecraft.nbt.CompoundTag;
-*///?}
+*///?} else {
+import net.minecraft.nbt.CompoundTag;
+//?}
 
 //? if >=1.21.3 {
-import net.minecraft.world.entity.EntitySpawnReason;
-//?} else {
-/*import net.minecraft.world.entity.MobSpawnType;
-*///?}
+/*import net.minecraft.world.entity.EntitySpawnReason;
+*///?} else {
+import net.minecraft.world.entity.MobSpawnType;
+//?}
 
 public final class TuffGolemEntity extends AbstractGolem implements AnimatedEntity
 {
@@ -151,10 +151,10 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 		ServerLevelAccessor world,
 		DifficultyInstance difficulty,
 		/*? if >=1.21.3 {*/
-		EntitySpawnReason spawnReason,
-		/*?} else {*/
-		/*MobSpawnType spawnReason,
-		*//*?}*/
+		/*EntitySpawnReason spawnReason,
+		*//*?} else {*/
+		MobSpawnType spawnReason,
+		/*?}*/
 		@Nullable SpawnGroupData entityData
 	) {
 		SpawnGroupData superEntityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData);
@@ -175,14 +175,14 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 
 	@Override
 	//? if >= 26.1 {
-	protected Brain<TuffGolemEntity> makeBrain(final Brain.Packed packedBrain) {
+	/*protected Brain<TuffGolemEntity> makeBrain(final Brain.Packed packedBrain) {
 		return TuffGolemBrain.create(this, packedBrain);
 	}
-	//?} else {
-	/*protected Brain<TuffGolemEntity> makeBrain(Dynamic<?> dynamic) {
+	*///?} else {
+	protected Brain<TuffGolemEntity> makeBrain(Dynamic<?> dynamic) {
 		return TuffGolemBrain.create(dynamic);
 	}
-	*///?}
+	//?}
 
 	@Override
 	@SuppressWarnings("all")
@@ -191,11 +191,11 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 	}
 
 	@Override
-	protected void customServerAiStep(/*? if >=1.21.3 {*/ServerLevel level/*?}*/)
+	protected void customServerAiStep(/*? if >=1.21.3 {*//*ServerLevel level*//*?}*/)
 	{
 		//? if <1.21.3 {
-		/*var level = (ServerLevel) this.level();
-		 *///?}
+		var level = (ServerLevel) this.level();
+		 //?}
 
 		var profiler = VersionedProfilerProvider.getProfiler(this);
 		profiler.push("tuffGolemBrain");
@@ -206,7 +206,7 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 		TuffGolemBrain.updateActivities(this);
 		profiler.pop();
 
-		super.customServerAiStep(/*? if >=1.21.3 {*/level/*?}*/);
+		super.customServerAiStep(/*? if >=1.21.3 {*//*level*//*?}*/);
 	}
 
 	public static AttributeSupplier.Builder createTuffGolemAttributes() {
@@ -229,10 +229,10 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 
 	@Override
 	//? if >= 1.21.6 {
-	public void addAdditionalSaveData(ValueOutput nbt)
-	//?} else {
-	/*public void addAdditionalSaveData(CompoundTag nbt)
-	*///?}
+	/*public void addAdditionalSaveData(ValueOutput nbt)
+	*///?} else {
+	public void addAdditionalSaveData(CompoundTag nbt)
+	//?}
 	{
 		super.addAdditionalSaveData(nbt);
 		nbt.putString(COLOR_NBT_NAME, this.getColor().getName());
@@ -247,10 +247,10 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 
 	@Override
 	//? if >= 1.21.6 {
-	public void readAdditionalSaveData(ValueInput nbt)
-	//?} else {
-	/*public void readAdditionalSaveData(CompoundTag nbt)
-	*///?}
+	/*public void readAdditionalSaveData(ValueInput nbt)
+	*///?} else {
+	public void readAdditionalSaveData(CompoundTag nbt)
+	//?}
 	{
 		super.readAdditionalSaveData(nbt);
 
@@ -455,14 +455,14 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 		ItemStack itemStack
 	) {
 		//? if >= 26.1 {
-		DyeColor dyeColor = itemStack.get(DataComponents.DYE);
+		/*DyeColor dyeColor = itemStack.get(DataComponents.DYE);
 
 		if(dyeColor == null) {
 			return false;
 		}
-		//?} else {
-		/*DyeColor dyeColor = ((DyeItem) itemStack.getItem()).getDyeColor();
-		*///?}
+		*///?} else {
+		DyeColor dyeColor = ((DyeItem) itemStack.getItem()).getDyeColor();
+		//?}
 
 		Color usedColor = TuffGolemEntity.Color.fromDyeColor(dyeColor);
 
@@ -847,14 +847,14 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 
 	@Override
 	/*? if >=1.21.3 {*/
-	public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
-	/*?} else {*/
-	/*public boolean hurt(DamageSource damageSource, float amount)
-	*//*?}*/
+	/*public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
+	*//*?} else {*/
+	public boolean hurt(DamageSource damageSource, float amount)
+	/*?}*/
 	{
 		//? if <1.21.3 {
-		/*var level = this.level();
-		*///?}
+		var level = this.level();
+		//?}
 
 		Entity attacker = damageSource.getEntity();
 
@@ -889,10 +889,10 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 		}
 
 		/*? if >=1.21.3 {*/
-		return super.hurtServer(level, damageSource, amount);
-		/*?} else {*/
-		/*return super.hurt(damageSource, amount);
-		*//*?}*/
+		/*return super.hurtServer(level, damageSource, amount);
+		*//*?} else {*/
+		return super.hurt(damageSource, amount);
+		/*?}*/
 	}
 
 	@Override
@@ -1006,7 +1006,7 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 
 		public static TuffGolemEntity.Color fromWool(Block block) {
 			//? if >= 26.2 {
-			AtomicReference<Color> color = new AtomicReference<>(Color.RED);
+			/*AtomicReference<Color> color = new AtomicReference<>(Color.RED);
 
 			ColorCollection.zipApply(
 				Blocks.WOOL,
@@ -1019,8 +1019,8 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 			);
 
 			return color.get();
-			//?} else {
-			/*if (block == Blocks.BLACK_WOOL) {
+			*///?} else {
+			if (block == Blocks.BLACK_WOOL) {
 				return Color.BLACK;
 			} else if (block == Blocks.BLUE_WOOL) {
 				return Color.BLUE;
@@ -1053,7 +1053,7 @@ public final class TuffGolemEntity extends AbstractGolem implements AnimatedEnti
 			}
 
 			return Color.RED;
-			*///?}
+			//?}
 		}
 	}
 

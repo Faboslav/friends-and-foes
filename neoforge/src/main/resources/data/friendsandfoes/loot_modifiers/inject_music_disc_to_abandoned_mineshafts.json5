@@ -7,7 +7,7 @@
 		}
 	],
 	//? if >= 26.2 {
-	"priority": 1000,
-	//?}
+	/*"priority": 1000,
+	*///?}
 	"table": "friendsandfoes:chests/abandoned_mineshaft_music_disc"
 }

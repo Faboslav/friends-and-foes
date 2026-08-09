@@ -8,18 +8,18 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 
 //? if >=1.21.3 {
-import net.minecraft.client.model.EntityModel;
+/*import net.minecraft.client.model.EntityModel;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.IceologerIceChunkRenderState;
-//?} else {
-/*import net.minecraft.client.model.HierarchicalModel;
+*///?} else {
+import net.minecraft.client.model.HierarchicalModel;
 import com.faboslav.friendsandfoes.common.entity.IceologerIceChunkEntity;
-*///?}
+//?}
 
 //? if >=1.21.3 {
-public final class IceologerIceChunkModel extends EntityModel<IceologerIceChunkRenderState>
-//?} else {
-/*public final class IceologerIceChunkModel<T extends IceologerIceChunkEntity> extends HierarchicalModel<T>
-*///?}
+/*public final class IceologerIceChunkModel extends EntityModel<IceologerIceChunkRenderState>
+*///?} else {
+public final class IceologerIceChunkModel<T extends IceologerIceChunkEntity> extends HierarchicalModel<T>
+//?}
 {
 	private static final String MODEL_PART_FIRST_FULL_BLOCK = "firstFullBlock";
 	private static final String MODEL_PART_SECOND_FULL_BLOCK = "secondFullBlock";
@@ -36,8 +36,8 @@ public final class IceologerIceChunkModel extends EntityModel<IceologerIceChunkR
 
 	public IceologerIceChunkModel(ModelPart root) {
 		//? if >=1.21.3 {
-		super(root);
-		//?}
+		/*super(root);
+		*///?}
 
 		this.root = root;
 		this.firstFullBlock = this.root.getChild(MODEL_PART_FIRST_FULL_BLOCK);
@@ -61,18 +61,18 @@ public final class IceologerIceChunkModel extends EntityModel<IceologerIceChunkR
 	}
 
 	//? if <1.21.3 {
-	/*@Override
+	@Override
 	public ModelPart root() {
 		return this.root;
 	}
-	*///?}
+	//?}
 
 	@Override
 	//? if >=1.21.3 {
-	public void setupAnim(IceologerIceChunkRenderState renderState)
-	//?} else {
-	/*public void setupAnim(T glare, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
-	*///?}
+	/*public void setupAnim(IceologerIceChunkRenderState renderState)
+	*///?} else {
+	public void setupAnim(T glare, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
+	//?}
 	{
 		this.secondVerticalSlab.setRotation(0.0F, -1.5708F, 0.0F);
 	}

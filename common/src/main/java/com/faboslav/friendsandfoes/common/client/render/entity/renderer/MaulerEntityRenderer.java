@@ -7,21 +7,21 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import java.util.Map;
 
 //? if >=1.21.3 {
-import com.faboslav.friendsandfoes.common.client.render.entity.state.MaulerRenderState;
-//?}
+/*import com.faboslav.friendsandfoes.common.client.render.entity.state.MaulerRenderState;
+*///?}
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 //? if >=1.21.3 {
-public class MaulerEntityRenderer extends MobRenderer<MaulerEntity, MaulerRenderState, MaulerEntityModel>
-//?} else {
-/*public final class MaulerEntityRenderer extends MobRenderer<MaulerEntity, MaulerEntityModel<MaulerEntity>>
-*///?}
+/*public class MaulerEntityRenderer extends MobRenderer<MaulerEntity, MaulerRenderState, MaulerEntityModel>
+*///?} else {
+public final class MaulerEntityRenderer extends MobRenderer<MaulerEntity, MaulerEntityModel<MaulerEntity>>
+//?}
 {
-	private static final Map<MaulerEntity.Type, Identifier> VARIANT_TEXTURE_MAP = ImmutableMap.of(
+	private static final Map<MaulerEntity.Type, ResourceLocation> VARIANT_TEXTURE_MAP = ImmutableMap.of(
 		MaulerEntity.Type.BADLANDS, FriendsAndFoes.makeID("textures/entity/mauler/mauler_badlands.png"),
 		MaulerEntity.Type.DESERT, FriendsAndFoes.makeID("textures/entity/mauler/mauler_desert.png"),
 		MaulerEntity.Type.SAVANNA, FriendsAndFoes.makeID("textures/entity/mauler/mauler_savanna.png")
@@ -34,7 +34,7 @@ public class MaulerEntityRenderer extends MobRenderer<MaulerEntity, MaulerRender
 	}
 
 	//? if >=1.21.3 {
-	@Override
+	/*@Override
 	public MaulerRenderState createRenderState() {
 		return new MaulerRenderState();
 	}
@@ -44,32 +44,32 @@ public class MaulerEntityRenderer extends MobRenderer<MaulerEntity, MaulerRender
 		super.extractRenderState(mauler, renderState, partialTick);
 		renderState.mauler = mauler;
 	}
-	//?}
+	*///?}
 
 	@Override
 	//? if >=1.21.3 {
-	protected float getShadowRadius(MaulerRenderState renderState)
-	//?} else {
-	/*protected float getShadowRadius(MaulerEntity mauler)
-	*///?}
+	/*protected float getShadowRadius(MaulerRenderState renderState)
+	*///?} else {
+	protected float getShadowRadius(MaulerEntity mauler)
+	//?}
 	{
 		//? if >=1.21.3 {
-		var mauler = renderState.mauler;
-		 //?}
+		/*var mauler = renderState.mauler;
+		 *///?}
 
 		return mauler.isBurrowedDown() ? 0.0F : SHADOW_RADIUS;
 	}
 
 	@Override
 	//? if >=1.21.3 {
-	public Identifier getTextureLocation(MaulerRenderState renderState)
-	//?} else {
-	/*public Identifier getTextureLocation(MaulerEntity mauler)
-	*///?}
+	/*public ResourceLocation getTextureLocation(MaulerRenderState renderState)
+	*///?} else {
+	public ResourceLocation getTextureLocation(MaulerEntity mauler)
+	//?}
 	{
 		//? if >=1.21.3 {
-		var mauler = renderState.mauler;
-		//?}
+		/*var mauler = renderState.mauler;
+		*///?}
 
 		return VARIANT_TEXTURE_MAP.get(mauler.getMaulerType());
 	}

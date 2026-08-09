@@ -8,17 +8,17 @@
 	],
 	"key": {
 		//? if >=1.21.4 {
-		"P": "minecraft:crimson_planks",
+		/*"P": "minecraft:crimson_planks",
 		"H": "minecraft:honeycomb"
-		//?} else {
-		/*"P": {
+		*///?} else {
+		"P": {
 			"item": "minecraft:crimson_planks"
 		},
 		"H": {
 			"item": "minecraft:honeycomb"
 		}
 		
-		*///?}
+		//?}
 	},
 	"result": {
 		"count": 1,

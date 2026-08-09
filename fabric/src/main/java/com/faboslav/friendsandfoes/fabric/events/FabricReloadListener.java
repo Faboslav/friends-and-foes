@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.fabric.events;
 
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -10,42 +10,42 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
 //? if <1.21.3 {
-/*import net.minecraft.util.profiling.ProfilerFiller;
- *///?}
+import net.minecraft.util.profiling.ProfilerFiller;
+ //?}
 
 public class FabricReloadListener implements IdentifiableResourceReloadListener
 {
 
-	private final Identifier id;
+	private final ResourceLocation id;
 	private final PreparableReloadListener listener;
 
-	public FabricReloadListener(Identifier id, PreparableReloadListener listener) {
+	public FabricReloadListener(ResourceLocation id, PreparableReloadListener listener) {
 		this.id = id;
 		this.listener = listener;
 	}
 
 	@Override
-	public Identifier getFabricId() {
+	public ResourceLocation getFabricId() {
 		return id;
 	}
 
 
 	//? if <= 1.21.8 {
-	/*@Override
+	@Override
 	public CompletableFuture<Void> reload(
 		PreparationBarrier barrier,
 		ResourceManager manager,
 		//? if <1.21.3 {
-		/^ProfilerFiller prepareProfiler,
+		ProfilerFiller prepareProfiler,
 		ProfilerFiller applyProfiler,
-		^///?}
+		//?}
 		Executor backgroundExecutor,
 		Executor gameExecutor
 	) {
-		return listener.reload(barrier, manager, /^? if <1.21.3 {^//^prepareProfiler, applyProfiler, ^//^?}^/ backgroundExecutor, gameExecutor);
+		return listener.reload(barrier, manager, /*? if <1.21.3 {*/prepareProfiler, applyProfiler, /*?}*/ backgroundExecutor, gameExecutor);
 	}
-	*///?} else {
-	@Override
+	//?} else {
+	/*@Override
 	public CompletableFuture<Void> reload(
 		SharedState sharedState,
 		Executor exectutor,
@@ -54,5 +54,5 @@ public class FabricReloadListener implements IdentifiableResourceReloadListener
 	) {
 		return listener.reload(sharedState, exectutor, barrier, applyExectutor);
 	}
-	//?}
+	*///?}
 }

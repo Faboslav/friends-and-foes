@@ -46,8 +46,8 @@ public class FriendsAndFoesItemGroups
 		if (event.type() == AddItemGroupEntriesEvent.Type.SPAWN_EGGS) {
 			Stream.of(
 				//? if <= 1.21.8 {
-				/*FriendsAndFoesItems.COPPER_GOLEM_SPAWN_EGG,
-				*///?}
+				FriendsAndFoesItems.COPPER_GOLEM_SPAWN_EGG,
+				//?}
 				FriendsAndFoesItems.CRAB_SPAWN_EGG,
 				FriendsAndFoesItems.GLARE_SPAWN_EGG,
 				FriendsAndFoesItems.ICEOLOGER_SPAWN_EGG,
@@ -75,8 +75,8 @@ public class FriendsAndFoesItemGroups
 				FriendsAndFoesItems.MANGROVE_BEEHIVE,
 				FriendsAndFoesItems.SPRUCE_BEEHIVE,
 				//? if >=1.21.4 {
-				FriendsAndFoesItems.PALE_OAK_BEEHIVE,
-				//?}
+				/*FriendsAndFoesItems.PALE_OAK_BEEHIVE,
+				*///?}
 				FriendsAndFoesItems.WARPED_BEEHIVE
 			).map(item -> item.get().getDefaultInstance()).forEach(event::add);
 		} else if (event.type() == AddItemGroupEntriesEvent.Type.REDSTONE) {
@@ -90,14 +90,14 @@ public class FriendsAndFoesItemGroups
 				FriendsAndFoesItems.WAXED_WEATHERED_COPPER_BUTTON,
 				FriendsAndFoesItems.WAXED_OXIDIZED_COPPER_BUTTON
 				//? if <=1.21.8 {
-				/*,FriendsAndFoesItems.EXPOSED_LIGHTNING_ROD,
+				,FriendsAndFoesItems.EXPOSED_LIGHTNING_ROD,
 				FriendsAndFoesItems.WEATHERED_LIGHTNING_ROD,
 				FriendsAndFoesItems.OXIDIZED_LIGHTNING_ROD,
 				FriendsAndFoesItems.WAXED_LIGHTNING_ROD,
 				FriendsAndFoesItems.WAXED_EXPOSED_LIGHTNING_ROD,
 				FriendsAndFoesItems.WAXED_WEATHERED_LIGHTNING_ROD,
 				FriendsAndFoesItems.WAXED_OXIDIZED_LIGHTNING_ROD
-				*///?}
+				//?}
 			).map(item -> item.get().getDefaultInstance()).forEach(event::add);
 		} else if (event.type() == AddItemGroupEntriesEvent.Type.INGREDIENTS) {
 			Stream.of(

@@ -35,7 +35,7 @@ public final class OnEntitySpawn
 			}
 
 			LevelAccessor world = event.worldAccess();
-			Mob entityToSpawn = entityTypeToSpawn.create(entity.level()/*? if >=1.21.3 {*/, event.spawnReason()/*?}*/);
+			Mob entityToSpawn = entityTypeToSpawn.create(entity.level()/*? if >=1.21.3 {*//*, event.spawnReason()*//*?}*/);
 
 			if (entityToSpawn == null) {
 				return false;
@@ -43,10 +43,10 @@ public final class OnEntitySpawn
 
 			entityToSpawn
 				//? if >= 1.21.5 {
-				.snapTo(
-				//?} else {
-				/*.moveTo(
-				*///?}
+				/*.snapTo(
+				*///?} else {
+				.moveTo(
+				//?}
 				entity.getX(),
 				entity.getY(),
 				entity.getZ(),
@@ -81,10 +81,10 @@ public final class OnEntitySpawn
 					float dropChance;
 
 					//? if >= 1.21.5 {
-					dropChance = entity.getDropChances().byEquipment(equipmentSlot);
-					//?} else {
-					/*dropChance = ((MobAccessor) entity).friendsandfoes$getEquipmentDropChance(equipmentSlot);
-					*///?}
+					/*dropChance = entity.getDropChances().byEquipment(equipmentSlot);
+					*///?} else {
+					dropChance = ((MobAccessor) entity).friendsandfoes$getEquipmentDropChance(equipmentSlot);
+					//?}
 					entityToSpawn.setDropChance(equipmentSlot, dropChance);
 				}
 			}

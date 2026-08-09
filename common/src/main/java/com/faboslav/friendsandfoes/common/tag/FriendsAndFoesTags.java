@@ -11,8 +11,8 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 
 //? if >= 26.1 {
-import net.minecraft.world.item.trading.VillagerTrade;
-//?}
+/*import net.minecraft.world.entity.npc.VillagerTrades;
+*///?}
 
 /**
  * @see BlockTags
@@ -43,16 +43,16 @@ public final class FriendsAndFoesTags
 	public static final TagKey<Biome> HAS_RASCAL = biomeTag("has_rascal");
 	public static final TagKey<Biome> HAS_SAVANNA_MAULER = biomeTag("has_savanna_mauler");
 	//? if <= 1.21.8 {
-	/*public static final TagKey<Block> LIGHTNING_RODS = blockTag("lightning_rods");
+	public static final TagKey<Block> LIGHTNING_RODS = blockTag("lightning_rods");
 	public static final TagKey<PoiType> LIGHTNING_ROD_POI = pointOfInterestTypeTag("lightning_rods");
-	*///?}
+	//?}
 	//? if >= 26.1 {
-	public static final TagKey<VillagerTrade> BEEKEEPER_LEVEL_1 = villagerTrade("beekeeper/level_1");
+	/*public static final TagKey<VillagerTrade> BEEKEEPER_LEVEL_1 = villagerTrade("beekeeper/level_1");
 	public static final TagKey<VillagerTrade> BEEKEEPER_LEVEL_2 = villagerTrade("beekeeper/level_2");
 	public static final TagKey<VillagerTrade> BEEKEEPER_LEVEL_3 = villagerTrade("beekeeper/level_3");
 	public static final TagKey<VillagerTrade> BEEKEEPER_LEVEL_4 = villagerTrade("beekeeper/level_4");
 	public static final TagKey<VillagerTrade> BEEKEEPER_LEVEL_5 = villagerTrade("beekeeper/level_5");
-	//?}
+	*///?}
 
 	private static TagKey<Block> blockTag(String name) {
 		return TagKey.create(Registries.BLOCK, FriendsAndFoes.makeID(name));
@@ -75,10 +75,10 @@ public final class FriendsAndFoesTags
 	}
 
 	//? if >= 26.1 {
-	private static TagKey<VillagerTrade> villagerTrade(String name) {
+	/*private static TagKey<VillagerTrade> villagerTrade(String name) {
 		return TagKey.create(Registries.VILLAGER_TRADE, FriendsAndFoes.makeID(name));
 	}
-	//?}
+	*///?}
 
 	public static void init() {}
 }

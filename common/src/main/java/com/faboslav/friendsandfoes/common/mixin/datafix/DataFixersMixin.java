@@ -4,7 +4,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import net.minecraft.util.datafix.DataFixers;
 
 //? if >= 1.21.9 {
-import com.faboslav.friendsandfoes.common.datafix.fixes.CopperGolemFix;
+/*import com.faboslav.friendsandfoes.common.datafix.fixes.CopperGolemFix;
 import com.llamalad7.mixinextras.expression.Definition;
 import com.llamalad7.mixinextras.expression.Expression;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -21,13 +21,13 @@ import org.spongepowered.asm.mixin.injection.At;
 import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.UnaryOperator;
-//?}
+*///?}
 
 @Mixin(DataFixers.class)
 public abstract class DataFixersMixin
 {
 	//? if >= 1.21.9 {
-	@Definition(id = "builder", local = @Local(type = DataFixerBuilder.class, argsOnly = true))
+	/*@Definition(id = "builder", local = @Local(type = DataFixerBuilder.class, argsOnly = true))
 	@Definition(id = "addSchema", method = "Lcom/mojang/datafixers/DataFixerBuilder;addSchema(ILjava/util/function/BiFunction;)Lcom/mojang/datafixers/schemas/Schema;", remap = false)
 	@Definition(id = "SAME_NAMESPACED", field = "Lnet/minecraft/util/datafix/DataFixers;SAME_NAMESPACED:Ljava/util/function/BiFunction;")
 	@Expression("builder.addSchema(4544, SAME_NAMESPACED)")
@@ -60,5 +60,5 @@ public abstract class DataFixersMixin
 	private static UnaryOperator<String> createRenamer(Map<String, String> map) {
 		return (string) -> map.getOrDefault(NamespacedSchema.ensureNamespaced(string), string);
 	}
-	//?}
+	*///?}
 }

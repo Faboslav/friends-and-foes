@@ -1,5 +1,5 @@
 //? if <= 1.21.8 {
-/*package com.faboslav.friendsandfoes.common.entity;
+package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.animation.CopperGolemAnimations;
@@ -43,7 +43,7 @@ import net.minecraft.world.entity.ai.control.BodyRotationControl;
 import net.minecraft.world.entity.ai.control.JumpControl;
 import net.minecraft.world.entity.ai.control.LookControl;
 import net.minecraft.world.entity.ai.control.MoveControl;
-import net.minecraft.world.entity.animal.golem.AbstractGolem;
+import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.Item;
@@ -61,15 +61,15 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 
 //? if >=1.21.6 {
-import net.minecraft.world.level.storage.ValueInput;
+/*import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-//?}
+*///?}
 
 //? if >=1.21.3 {
-import net.minecraft.world.entity.EntitySpawnReason;
-//?} else {
-/^import net.minecraft.world.entity.MobSpawnType;
- ^///?}
+/*import net.minecraft.world.entity.EntitySpawnReason;
+*///?} else {
+import net.minecraft.world.entity.MobSpawnType;
+ //?}
 
 public final class CopperGolemEntity extends AbstractGolem implements AnimatedEntity
 {
@@ -142,11 +142,11 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 	public SpawnGroupData finalizeSpawn(
 		ServerLevelAccessor world,
 		DifficultyInstance difficulty,
-		/^? if >=1.21.3 {^/
-		EntitySpawnReason spawnReason,
-		/^?} else {^/
-		/^MobSpawnType spawnReason,
-		 ^//^?}^/
+		/*? if >=1.21.3 {*/
+		/*EntitySpawnReason spawnReason,
+		*//*?} else {*/
+		MobSpawnType spawnReason,
+		 /*?}*/
 		@Nullable SpawnGroupData entityData
 	) {
 		SpawnGroupData superEntityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData);
@@ -177,10 +177,10 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 
 	@Override
 	//? if >= 1.21.6 {
-	public void addAdditionalSaveData(ValueOutput nbt)
-	//?} else {
-	/^public void addAdditionalSaveData(CompoundTag nbt)
-	^///?}
+	/*public void addAdditionalSaveData(ValueOutput nbt)
+	*///?} else {
+	public void addAdditionalSaveData(CompoundTag nbt)
+	//?}
 	{
 		super.addAdditionalSaveData(nbt);
 		nbt.putInt(OXIDATION_LEVEL_NBT_NAME, this.getOxidationLevel().ordinal());
@@ -193,19 +193,19 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 			var entitySnapshot = this.takeEntitySnapshot();
 
 			//? if >= 1.21.6 {
-			nbt.store(ENTITY_SNAPSHOT_NBT_NAME, EntitySnapshot.CODEC, entitySnapshot);
-			//?} else {
-			/^nbt.put(ENTITY_SNAPSHOT_NBT_NAME, EntitySnapshot.toNbt(entitySnapshot));
-			 ^///?}
+			/*nbt.store(ENTITY_SNAPSHOT_NBT_NAME, EntitySnapshot.CODEC, entitySnapshot);
+			*///?} else {
+			nbt.put(ENTITY_SNAPSHOT_NBT_NAME, EntitySnapshot.toNbt(entitySnapshot));
+			 //?}
 		}
 	}
 
 	@Override
 	//? if >= 1.21.6 {
-	public void readAdditionalSaveData(ValueInput nbt)
-	//?} else {
-	/^public void readAdditionalSaveData(CompoundTag nbt)
-	^///?}
+	/*public void readAdditionalSaveData(ValueInput nbt)
+	*///?} else {
+	public void readAdditionalSaveData(CompoundTag nbt)
+	//?}
 	{
 		super.readAdditionalSaveData(nbt);
 
@@ -224,10 +224,10 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 		this.setOxidationLevel(WeatheringCopper.WeatherState.values()[VersionedNbt.getInt(nbt, OXIDATION_LEVEL_NBT_NAME, 0)]);
 		this.setIsWaxed(VersionedNbt.getBoolean(nbt, IS_WAXED_NBT_NAME, false));
 		//? if >= 1.21.6 {
-		this.setEntitySnapshot(nbt.read(ENTITY_SNAPSHOT_NBT_NAME, EntitySnapshot.CODEC).orElseGet(this::takeEntitySnapshot));
-		//?} else {
-		/^this.setEntitySnapshot(EntitySnapshot.fromNbt(VersionedNbt.getCompound(nbt, ENTITY_SNAPSHOT_NBT_NAME)));
-		^///?}
+		/*this.setEntitySnapshot(nbt.read(ENTITY_SNAPSHOT_NBT_NAME, EntitySnapshot.CODEC).orElseGet(this::takeEntitySnapshot));
+		*///?} else {
+		this.setEntitySnapshot(EntitySnapshot.fromNbt(VersionedNbt.getCompound(nbt, ENTITY_SNAPSHOT_NBT_NAME)));
+		//?}
 
 		if(this.isOxidized()) {
 			this.applyEntitySnapshot();
@@ -239,8 +239,8 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 			.add(Attributes.MAX_HEALTH, 20.0D)
 			.add(Attributes.MOVEMENT_SPEED, MOVEMENT_SPEED)
 			//? if >= 1.21.4 {
-			.add(Attributes.TEMPT_RANGE, 10.0D)
-			//?}
+			/*.add(Attributes.TEMPT_RANGE, 10.0D)
+			*///?}
 			.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D);
 	}
 
@@ -369,11 +369,11 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 	}
 
 	@Override
-		/^? if >=1.21.3 {^/
-	public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
-		/^?} else {^/
-		/^public boolean hurt(DamageSource damageSource, float amount)
-		 ^//^?}^/
+		/*? if >=1.21.3 {*/
+	/*public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
+		*//*?} else {*/
+		public boolean hurt(DamageSource damageSource, float amount)
+		 /*?}*/
 	{
 		Entity attacker = damageSource.getEntity();
 
@@ -384,11 +384,11 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 			return false;
 		}
 
-		/^? if >=1.21.3 {^/
-		return super.hurtServer(level, damageSource, amount);
-		/^?} else {^/
-		/^return super.hurt(damageSource, amount);
-		 ^//^?}^/
+		/*? if >=1.21.3 {*/
+		/*return super.hurtServer(level, damageSource, amount);
+		*//*?} else {*/
+		return super.hurt(damageSource, amount);
+		 /*?}*/
 	}
 
 	@Override
@@ -561,14 +561,14 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 	}
 
 	@Override
-	protected void customServerAiStep(/^? if >=1.21.3 {^/ServerLevel level/^?}^/)
+	protected void customServerAiStep(/*? if >=1.21.3 {*//*ServerLevel level*//*?}*/)
 	{
 		//? if <1.21.3 {
-		/^var level = (ServerLevel) this.level();
-		 ^///?}
+		var level = (ServerLevel) this.level();
+		 //?}
 
 		if (this.isImmobilized()) {
-			super.customServerAiStep(/^? if >=1.21.3 {^/level/^?}^/);
+			super.customServerAiStep(/*? if >=1.21.3 {*//*level*//*?}*/);
 			return;
 		}
 
@@ -582,7 +582,7 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 		CopperGolemBrain.updateActivities(this);
 		profiler.pop();
 
-		super.customServerAiStep(/^? if >=1.21.3 {^/level/^?}^/);
+		super.customServerAiStep(/*? if >=1.21.3 {*//*level*//*?}*/);
 	}
 
 	@Override
@@ -1023,4 +1023,4 @@ public final class CopperGolemEntity extends AbstractGolem implements AnimatedEn
 		}
 	}
 }
-*///?}
+//?}

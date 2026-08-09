@@ -33,7 +33,7 @@ public final class FriendsAndFoesConfigScreen
 					.option(slider("beekeeperAreaStructureWeight", config.beekeeperAreaStructureWeight, () -> config.beekeeperAreaStructureWeight, value -> config.beekeeperAreaStructureWeight = value, 0, 100))
 					.build())
 				//? if <= 1.21.8 {
-				/*.group(group("mobs", "copper_golem")
+				.group(group("mobs", "copper_golem")
 					.option(bool("enableCopperGolem", config.enableCopperGolem, () -> config.enableCopperGolem, value -> config.enableCopperGolem = value))
 					.option(bool("generateCopperGolemWorkstationStructureInVillages", config.generateCopperGolemWorkstationStructureInVillages, () -> config.generateCopperGolemWorkstationStructureInVillages, value -> config.generateCopperGolemWorkstationStructureInVillages = value))
 					.option(slider("copperGolemWorkstationStructureWeight", config.copperGolemWorkstationStructureWeight, () -> config.copperGolemWorkstationStructureWeight, value -> config.copperGolemWorkstationStructureWeight = value, 0, 100))
@@ -43,7 +43,7 @@ public final class FriendsAndFoesConfigScreen
 					.option(slider("copperGolemInTrialChambersWeight", config.copperGolemInTrialChambersWeight, () -> config.copperGolemInTrialChambersWeight, value -> config.copperGolemInTrialChambersWeight = value, 0, 100))
 					.option(bool("enableLightningRodOxidation", config.enableLightningRodOxidation, () -> config.enableLightningRodOxidation, value -> config.enableLightningRodOxidation = value))
 					.build())
-				*///?}
+				//?}
 				.group(group("mobs", "crab")
 					.option(bool("enableCrab", config.enableCrab, () -> config.enableCrab, value -> config.enableCrab = value))
 					.option(bool("enableCrabSpawn", config.enableCrabSpawn, () -> config.enableCrabSpawn, value -> config.enableCrabSpawn = value))

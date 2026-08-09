@@ -7,7 +7,7 @@ public final class FriendsAndFoesConfig
 	public int beekeeperAreaStructureWeight = 2;
 
 	//? if <= 1.21.8 {
-	/*public boolean enableCopperGolem = true;
+	public boolean enableCopperGolem = true;
 	public boolean generateCopperGolemWorkstationStructureInVillages = true;
 	public int copperGolemWorkstationStructureWeight = 1;
 	public boolean generateCopperGolemInAncientCity = true;
@@ -15,7 +15,7 @@ public final class FriendsAndFoesConfig
 	public boolean enableCopperGolemsInTrialChambers = true;
 	public int copperGolemInTrialChambersWeight = 4;
 	public boolean enableLightningRodOxidation = true;
-	*///?}
+	//?}
 	public boolean enableCrab = true;
 	public boolean enableCrabSpawn = true;
 	public int crabSpawnWeight = 14;

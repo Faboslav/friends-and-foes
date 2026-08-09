@@ -1,5 +1,5 @@
 //? if <= 1.21.8 {
-/*package com.faboslav.friendsandfoes.common.client.render.entity.renderer;
+package com.faboslav.friendsandfoes.common.client.render.entity.renderer;
 
 import com.faboslav.friendsandfoes.common.client.render.entity.feature.PlayerIllusionCapeLayer;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.PlayerIllusionEntityModel;
@@ -20,12 +20,12 @@ import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.numbers.StyledFormat;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.UUID;
 
 //? if >=1.21.3 {
-import net.minecraft.client.renderer.entity.state.PlayerRenderState;
+/*import net.minecraft.client.renderer.entity.state.PlayerRenderState;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.PlayerIllusionRenderState;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
@@ -36,18 +36,18 @@ import net.minecraft.world.scores.DisplaySlot;
 import net.minecraft.world.scores.Objective;
 import net.minecraft.world.scores.ReadOnlyScoreInfo;
 import net.minecraft.world.scores.Scoreboard;
-//?}
+*///?}
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 //? if >=1.21.3 {
-public final class PlayerIllusionEntityRenderer extends LivingEntityRenderer<PlayerIllusionEntity, PlayerRenderState, PlayerIllusionEntityModel>
-//?} else {
-/^public final class PlayerIllusionEntityRenderer extends LivingEntityRenderer<PlayerIllusionEntity, PlayerIllusionEntityModel<PlayerIllusionEntity>>
-^///?}
+/*public final class PlayerIllusionEntityRenderer extends LivingEntityRenderer<PlayerIllusionEntity, PlayerRenderState, PlayerIllusionEntityModel>
+*///?} else {
+public final class PlayerIllusionEntityRenderer extends LivingEntityRenderer<PlayerIllusionEntity, PlayerIllusionEntityModel<PlayerIllusionEntity>>
+//?}
 {
 	public PlayerIllusionEntityRenderer(EntityRendererProvider.Context context, boolean useSlimModel) {
 		//? if >=1.21.3 {
-		super(context, new PlayerIllusionEntityModel(context.bakeLayer(useSlimModel ? ModelLayers.PLAYER_SLIM:ModelLayers.PLAYER), useSlimModel), 0.5F);
+		/*super(context, new PlayerIllusionEntityModel(context.bakeLayer(useSlimModel ? ModelLayers.PLAYER_SLIM:ModelLayers.PLAYER), useSlimModel), 0.5F);
 		this.addLayer(
 			new HumanoidArmorLayer(
 				this,
@@ -62,8 +62,8 @@ public final class PlayerIllusionEntityRenderer extends LivingEntityRenderer<Pla
 		this.addLayer(new CustomHeadLayer(this, context.getModelSet()));
 		this.addLayer(new WingsLayer(this, context.getModelSet(), context.getEquipmentRenderer()));
 		this.addLayer(new BeeStingerLayer(this, context));
-		//?} else {
-		/^super(context, new PlayerIllusionEntityModel<>(context.bakeLayer(useSlimModel ? ModelLayers.PLAYER_SLIM:ModelLayers.PLAYER), useSlimModel), 0.5F);
+		*///?} else {
+		super(context, new PlayerIllusionEntityModel<>(context.bakeLayer(useSlimModel ? ModelLayers.PLAYER_SLIM:ModelLayers.PLAYER), useSlimModel), 0.5F);
 
 		this.addLayer(new HumanoidArmorLayer(this, new HumanoidArmorModel(context.bakeLayer(useSlimModel ? ModelLayers.PLAYER_SLIM_INNER_ARMOR : ModelLayers.PLAYER_INNER_ARMOR)), new HumanoidArmorModel(context.bakeLayer(useSlimModel ? ModelLayers.PLAYER_SLIM_OUTER_ARMOR : ModelLayers.PLAYER_OUTER_ARMOR)), context.getModelManager()));
 		this.addLayer(new PlayerItemInHandLayer(this, context.getItemInHandRenderer()));
@@ -72,11 +72,11 @@ public final class PlayerIllusionEntityRenderer extends LivingEntityRenderer<Pla
 		this.addLayer(new CustomHeadLayer(this, context.getModelSet(), context.getItemInHandRenderer()));
 		this.addLayer(new ElytraLayer(this, context.getModelSet()));
 		this.addLayer(new BeeStingerLayer(this));
-		^///?}
+		//?}
 	}
 
 	//? if >=1.21.3 {
-	@Override
+	/*@Override
 	protected void scale(PlayerRenderState renderState, PoseStack poseStack) {
 		float scale = 0.9375F;
 		poseStack.scale(scale, scale, scale);
@@ -163,30 +163,30 @@ public final class PlayerIllusionEntityRenderer extends LivingEntityRenderer<Pla
 			return HumanoidModel.ArmPose.ITEM;
 		}
 	}
-	//?} else {
+	*///?} else {
 	//?}
 
 	@Override
 	//? if >=1.21.3 {
-	protected void renderNameTag(PlayerRenderState renderState, Component displayName, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight)
-	//?} else {
-	/^protected void renderNameTag(PlayerIllusionEntity entity, Component displayName, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, float partialTick)
-	^///?}
+	/*protected void renderNameTag(PlayerRenderState renderState, Component displayName, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight)
+	*///?} else {
+	protected void renderNameTag(PlayerIllusionEntity entity, Component displayName, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, float partialTick)
+	//?}
 	{
 	}
 
 	@Override
 	//? if >=1.21.3 {
-	public Identifier getTextureLocation(PlayerRenderState playerIllusionRenderState)
-	//?} else {
-	/^public Identifier getTextureLocation(PlayerIllusionEntity playerIllusion)
-	^///?}
+	/*public ResourceLocation getTextureLocation(PlayerRenderState playerIllusionRenderState)
+	*///?} else {
+	public ResourceLocation getTextureLocation(PlayerIllusionEntity playerIllusion)
+	//?}
 	{
 		//? if >=1.21.3 {
-		return playerIllusionRenderState.skin.texture();
-		//?} else {
-		/^return PlayerSkinProvider.getSkinTextures(playerIllusion).texture();
-		^///?}
+		/*return playerIllusionRenderState.skin.texture();
+		*///?} else {
+		return PlayerSkinProvider.getSkinTextures(playerIllusion).texture();
+		//?}
 	}
 }
-*///?}
+//?}

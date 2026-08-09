@@ -1,5 +1,5 @@
 //? if >= 26.1 {
-{
+/*{
 	"type": "minecraft:simple_block",
 	"config": {
 		"to_place": {
@@ -15,8 +15,8 @@
 		}
 	}
 }
-//?} else {
-/*{
+*///?} else {
+{
 	"type": "minecraft:flower",
 	"config": {
 		"tries": 64,
@@ -51,4 +51,4 @@
 		}
 	}
 }
-*///?}
+//?}

@@ -67,25 +67,25 @@ import java.util.ArrayList;
 import java.util.function.Predicate;
 
 //? if < 26.2 {
-/*import net.minecraft.world.entity.animal.FlyingAnimal;
-*///?}
+import net.minecraft.world.entity.animal.FlyingAnimal;
+//?}
 
 //? if <= 1.21.11 {
-/*import com.mojang.serialization.Dynamic;
-*///?}
+import com.mojang.serialization.Dynamic;
+//?}
 
 //? if >=1.21.3 {
-import net.minecraft.world.entity.EntitySpawnReason;
-//?} else {
-/*import net.minecraft.world.entity.MobSpawnType;
- *///?}
+/*import net.minecraft.world.entity.EntitySpawnReason;
+*///?} else {
+import net.minecraft.world.entity.MobSpawnType;
+ //?}
 
 @SuppressWarnings({"unchecked"})
 //? if >= 26.2 {
-public final class GlareEntity extends TamableAnimal implements AnimatedEntity
-//?} else {
-/*public final class GlareEntity extends TamableAnimal implements FlyingAnimal, AnimatedEntity
-*///?}
+/*public final class GlareEntity extends TamableAnimal implements AnimatedEntity
+*///?} else {
+public final class GlareEntity extends TamableAnimal implements FlyingAnimal, AnimatedEntity
+//?}
 {
 	public static final float ADULT_SCALE = 0.8F;
 	public static final float BABY_SCALE = 0.4F;
@@ -146,12 +146,12 @@ public final class GlareEntity extends TamableAnimal implements AnimatedEntity
 		this.setTame(false, false);
 		this.moveControl = new GlareMoveControl(this, 24, true);
 		//? if >= 26.1 {
-		this.setPathfindingMalus(PathType.FIRE, -1.0F);
+		/*this.setPathfindingMalus(PathType.FIRE, -1.0F);
 		this.setPathfindingMalus(PathType.FIRE_IN_NEIGHBOR, -1.0F);
-		//?} else {
-		/*this.setPathfindingMalus(PathType.DANGER_FIRE, -1.0F);
+		*///?} else {
+		this.setPathfindingMalus(PathType.DANGER_FIRE, -1.0F);
 		this.setPathfindingMalus(PathType.DAMAGE_FIRE, -1.0F);
-		*///?}
+		//?}
 		this.setPathfindingMalus(PathType.WATER, -1.0F);
 		this.setPathfindingMalus(PathType.LAVA, -1.0F);
 		this.setPathfindingMalus(PathType.WATER_BORDER, 16.0F);
@@ -167,10 +167,10 @@ public final class GlareEntity extends TamableAnimal implements AnimatedEntity
 		ServerLevelAccessor world,
 		DifficultyInstance difficulty,
 		/*? if >=1.21.3 {*/
-		EntitySpawnReason spawnReason,
-		/*?} else {*/
-		/*MobSpawnType spawnReason,
-		*//*?}*/
+		/*EntitySpawnReason spawnReason,
+		*//*?} else {*/
+		MobSpawnType spawnReason,
+		/*?}*/
 		@Nullable SpawnGroupData entityData
 	) {
 		GlareBrain.setDarkSpotLocatingCooldown(this);
@@ -205,10 +205,10 @@ public final class GlareEntity extends TamableAnimal implements AnimatedEntity
 		EntityType<GlareEntity> glareEntityEntityType,
 		ServerLevelAccessor serverWorldAccess,
 		/*? if >=1.21.3 {*/
-		EntitySpawnReason spawnReason,
-		/*?} else {*/
-		/*MobSpawnType spawnReason,
-		 *//*?}*/
+		/*EntitySpawnReason spawnReason,
+		*//*?} else {*/
+		MobSpawnType spawnReason,
+		 /*?}*/
 		BlockPos blockPos,
 		RandomSource random
 	) {
@@ -245,11 +245,11 @@ public final class GlareEntity extends TamableAnimal implements AnimatedEntity
 	}
 
 	@Override
-	protected void customServerAiStep(/*? if >=1.21.3 {*/ServerLevel level/*?}*/)
+	protected void customServerAiStep(/*? if >=1.21.3 {*//*ServerLevel level*//*?}*/)
 	{
 		//? if <1.21.3 {
-		/*var level = (ServerLevel) this.level();
-		*///?}
+		var level = (ServerLevel) this.level();
+		//?}
 
 		var profiler = VersionedProfilerProvider.getProfiler(this);
 		profiler.push("glareBrain");
@@ -264,16 +264,16 @@ public final class GlareEntity extends TamableAnimal implements AnimatedEntity
 		GlareBrain.updateActivities(this);
 		profiler.pop();
 
-		super.customServerAiStep(/*? if >=1.21.3 {*/level/*?}*/);
+		super.customServerAiStep(/*? if >=1.21.3 {*//*level*//*?}*/);
 	}
 
 	@Override
 	public void travel(Vec3 movementInput) {
 		//? if <=1.21.4 {
-		/*if (!this.isControlledByLocalInstance()) {
+		if (!this.isControlledByLocalInstance()) {
 			return;
 		}
-		*///?}
+		//?}
 
 		if (this.isInWater()) {
 			this.moveRelative(0.02F, movementInput);
@@ -296,8 +296,8 @@ public final class GlareEntity extends TamableAnimal implements AnimatedEntity
 	}
 
 	@Override
-	public boolean wantsToPickUp(/*? if >=1.21.3 {*/ServerLevel level, /*?}*/ItemStack itemStack) {
-		return !itemStack.isEmpty() && itemStack.getItem() == Items.GLOW_BERRIES && super.wantsToPickUp(/*? if >=1.21.3 {*/level, /*?}*/itemStack);
+	public boolean wantsToPickUp(/*? if >=1.21.3 {*//*ServerLevel level, *//*?}*/ItemStack itemStack) {
+		return !itemStack.isEmpty() && itemStack.getItem() == Items.GLOW_BERRIES && super.wantsToPickUp(/*? if >=1.21.3 {*//*level, *//*?}*/itemStack);
 	}
 
 	@Override
@@ -310,11 +310,11 @@ public final class GlareEntity extends TamableAnimal implements AnimatedEntity
 	}
 
 	//? if <1.21.3 {
-	/*@Override
+	@Override
 	public boolean canTakeItem(ItemStack stack) {
 		return false;
 	}
-	*///?}
+	//?}
 
 	private boolean isItemPickupCoolingDown() {
 		return this.getBrain().checkMemory(MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS, MemoryStatus.VALUE_PRESENT);
@@ -326,7 +326,7 @@ public final class GlareEntity extends TamableAnimal implements AnimatedEntity
 	}
 
 	@Override
-	protected void pickUpItem(/*? if >=1.21.3 {*/ServerLevel level, /*?}*/ItemEntity item) {
+	protected void pickUpItem(/*? if >=1.21.3 {*//*ServerLevel level, *//*?}*/ItemEntity item) {
 		ItemStack itemStack = item.getItem();
 
 		if (this.canHoldItem(itemStack) && PICKABLE_FOOD_FILTER.test(item)) {
@@ -336,10 +336,10 @@ public final class GlareEntity extends TamableAnimal implements AnimatedEntity
 			}
 
 			//? if >= 26.1 {
-			ItemParticleOption particleEffect = new ItemParticleOption(ParticleTypes.ITEM, itemStack.getItem());
-			//?} else {
-			/*ItemParticleOption particleEffect = new ItemParticleOption(ParticleTypes.ITEM, itemStack);
-			*///?}
+			/*ItemParticleOption particleEffect = new ItemParticleOption(ParticleTypes.ITEM, itemStack.getItem());
+			*///?} else {
+			ItemParticleOption particleEffect = new ItemParticleOption(ParticleTypes.ITEM, itemStack);
+			//?}
 			FoodProperties foodComponent = itemStack.get(DataComponents.FOOD);
 			float foodNutritionMultiplier = foodComponent != null ? (float) foodComponent.nutrition():1.0F;
 			this.heal(2.0F * foodNutritionMultiplier);
@@ -379,8 +379,8 @@ public final class GlareEntity extends TamableAnimal implements AnimatedEntity
 			.add(Attributes.FLYING_SPEED, MOVEMENT_SPEED)
 			.add(Attributes.MOVEMENT_SPEED, MOVEMENT_SPEED)
 			//? if >= 1.21.4 {
-			.add(Attributes.TEMPT_RANGE, 10.0D)
-			//?}
+			/*.add(Attributes.TEMPT_RANGE, 10.0D)
+			*///?}
 			.add(Attributes.FOLLOW_RANGE, 48.0D);
 	}
 
@@ -409,26 +409,26 @@ public final class GlareEntity extends TamableAnimal implements AnimatedEntity
 		flyingPathNavigation.setCanFloat(false);
 
 		//? if <= 1.21.1 {
-		/*flyingPathNavigation.setCanPassDoors(true);
-		*///?}
+		flyingPathNavigation.setCanPassDoors(true);
+		//?}
 
 		//? if >=1.21.3 {
-		flyingPathNavigation.setRequiredPathLength(48.0F);
-		//?}
+		/*flyingPathNavigation.setRequiredPathLength(48.0F);
+		*///?}
 
 		return flyingPathNavigation;
 	}
 
 	@Override
 	//? if >= 26.1 {
-	protected Brain<GlareEntity> makeBrain(final Brain.Packed packedBrain) {
+	/*protected Brain<GlareEntity> makeBrain(final Brain.Packed packedBrain) {
 		return GlareBrain.create(this, packedBrain);
 	}
-	//?} else {
-	/*protected Brain<GlareEntity> makeBrain(Dynamic<?> dynamic) {
+	*///?} else {
+	protected Brain<GlareEntity> makeBrain(Dynamic<?> dynamic) {
 		return GlareBrain.create(dynamic);
 	}
-	*///?}
+	//?}
 
 	@Override
 	@SuppressWarnings("all")
@@ -577,10 +577,10 @@ public final class GlareEntity extends TamableAnimal implements AnimatedEntity
 			itemStack.consume(1, player);
 
 			//? if >= 26.1 {
-			ItemParticleOption particleEffect = new ItemParticleOption(ParticleTypes.ITEM, itemStack.getItem());
-			//?} else {
-			/*ItemParticleOption particleEffect = new ItemParticleOption(ParticleTypes.ITEM, itemStack);
-			*///?}
+			/*ItemParticleOption particleEffect = new ItemParticleOption(ParticleTypes.ITEM, itemStack.getItem());
+			*///?} else {
+			ItemParticleOption particleEffect = new ItemParticleOption(ParticleTypes.ITEM, itemStack);
+			//?}
 			ParticleSpawner.spawnParticles(this, particleEffect, 7, 0.1D);
 		}
 
@@ -639,10 +639,10 @@ public final class GlareEntity extends TamableAnimal implements AnimatedEntity
 	}
 
 	//? if < 26.2 {
-	/*public boolean isFlying() {
+	public boolean isFlying() {
 		return this.onGround() == false;
 	}
-	*///?}
+	//?}
 
 	@Override
 	protected void jumpInLiquid(TagKey<Fluid> tagKey) {
@@ -650,10 +650,10 @@ public final class GlareEntity extends TamableAnimal implements AnimatedEntity
 	}
 
 	//? if <=1.21.4 {
-	/*@Override
+	@Override
 	public boolean causeFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
 		return false;
-	}*///?}
+	}//?}
 
 	@Override
 	protected void checkFallDamage(double heightDifference, boolean onGround, BlockState landedState, BlockPos landedPosition) {
@@ -698,10 +698,10 @@ public final class GlareEntity extends TamableAnimal implements AnimatedEntity
 	public void tame(Player owner) {
 		this.setTame(true, true);
 		//? if >=1.21.5 {
-		this.setOwner(owner);
-		//?} else {
-		/*this.setOwnerUUID(owner.getUUID());
-		*///?}
+		/*this.setOwner(owner);
+		*///?} else {
+		this.setOwnerUUID(owner.getUUID());
+		//?}
 
 		if (owner instanceof ServerPlayer) {
 			FriendsAndFoesCriterias.TAME_GLARE.get().trigger((ServerPlayer) owner, this);
@@ -716,7 +716,7 @@ public final class GlareEntity extends TamableAnimal implements AnimatedEntity
 	@Override
 	@Nullable
 	public AgeableMob getBreedOffspring(ServerLevel serverWorld, AgeableMob entity) {
-		GlareEntity glareEntity = FriendsAndFoesEntityTypes.GLARE.get().create(serverWorld/*? if >=1.21.3 {*/, EntitySpawnReason.BREEDING/*?}*/);
+		GlareEntity glareEntity = FriendsAndFoesEntityTypes.GLARE.get().create(serverWorld/*? if >=1.21.3 {*//*, EntitySpawnReason.BREEDING*//*?}*/);
 
 		GlareBrain.setDarkSpotLocatingCooldown(this);
 		GlareBrain.setLocatingGlowBerriesCooldown(this);
@@ -724,10 +724,10 @@ public final class GlareEntity extends TamableAnimal implements AnimatedEntity
 
 		if (this.isTame()) {
 			//? if >=1.21.5 {
-			glareEntity.setOwner(this.getOwner());
-			 //?} else {
-			/*glareEntity.setOwnerUUID(this.getOwnerUUID());
-			*///?}
+			/*glareEntity.setOwner(this.getOwner());
+			 *///?} else {
+			glareEntity.setOwnerUUID(this.getOwnerUUID());
+			//?}
 
 			glareEntity.setTame(true, true);
 
@@ -759,14 +759,14 @@ public final class GlareEntity extends TamableAnimal implements AnimatedEntity
 
 	@Override
 	/*? if >=1.21.3 {*/
-	public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
-	/*?} else {*/
-	/*public boolean hurt(DamageSource damageSource, float amount)
-	*//*?}*/
+	/*public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
+	*//*?} else {*/
+	public boolean hurt(DamageSource damageSource, float amount)
+	/*?}*/
 	{
 		//? if <1.21.3 {
-		/*var level = this.level();
-		*///?}
+		var level = this.level();
+		//?}
 		if (!level.isClientSide()) {
 			this.setOrderedToSit(false);
 			this.getNavigation().setSpeedModifier(0);
@@ -774,10 +774,10 @@ public final class GlareEntity extends TamableAnimal implements AnimatedEntity
 		}
 
 		/*? if >=1.21.3 {*/
-		return super.hurtServer(level, damageSource, amount);
-		/*?} else {*/
-		/*return super.hurt(damageSource, amount);
-		 *//*?}*/
+		/*return super.hurtServer(level, damageSource, amount);
+		*//*?} else {*/
+		return super.hurt(damageSource, amount);
+		 /*?}*/
 	}
 
 	@Override

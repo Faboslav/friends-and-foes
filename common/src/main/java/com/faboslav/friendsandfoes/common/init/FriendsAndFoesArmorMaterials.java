@@ -1,16 +1,16 @@
 package com.faboslav.friendsandfoes.common.init;
 
 //? if >=1.21.3 {
-import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
-import net.minecraft.util.Util;
+/*import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
+import net.minecraft.Util;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.equipment.ArmorType;
 
 import java.util.EnumMap;
 
-/**
+/^*
  * @see net.minecraft.world.item.equipment.ArmorMaterials
- */
+ ^/
 public interface FriendsAndFoesArmorMaterials {
 	ArmorMaterial WILDFIRE = new ArmorMaterial(37, Util.make(new EnumMap(ArmorType.class), enumMap -> {
 		enumMap.put(ArmorType.BOOTS, 3);
@@ -20,8 +20,8 @@ public interface FriendsAndFoesArmorMaterials {
 		enumMap.put(ArmorType.BODY, 11);
 	}), 9, FriendsAndFoesSoundEvents.ITEM_EQUIP_WILDFIRE_CROWN.holder(), 1.0F, 0.0F, FriendsAndFoesTags.REPAIRS_WILDFIRE_CROWN, FriendsAndFoesEquipmentAssets.WILDFIRE_CROWN);
 }
-//?} else {
-/*import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
+*///?} else {
+import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import net.minecraft.world.item.ArmorMaterial;
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.teamresourceful.resourcefullib.common.registry.HolderRegistryEntry;
@@ -30,7 +30,7 @@ import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistry;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.function.Supplier;
-import net.minecraft.util.Util;
+import net.minecraft.Util;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.ArmorItem;
@@ -79,4 +79,4 @@ public final class FriendsAndFoesArmorMaterials
 	private FriendsAndFoesArmorMaterials() {
 	}
 }
-*///?}
+//?}

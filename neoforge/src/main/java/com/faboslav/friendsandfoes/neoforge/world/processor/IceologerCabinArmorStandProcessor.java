@@ -11,14 +11,14 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import org.jetbrains.annotations.Nullable;
 
 //? if <26.2 {
-/*import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
-*///?}
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
+//?}
 
 //? if >=26.2 {
-public final class IceologerCabinArmorStandProcessor implements StructureProcessor
-//?} else {
-/*public final class IceologerCabinArmorStandProcessor extends StructureProcessor
-*///?}
+/*public final class IceologerCabinArmorStandProcessor implements StructureProcessor
+*///?} else {
+public final class IceologerCabinArmorStandProcessor extends StructureProcessor
+//?}
 {
 	public static final MapCodec<IceologerCabinArmorStandProcessor> CODEC = MapCodec.unit(IceologerCabinArmorStandProcessor::new);
 
@@ -43,7 +43,7 @@ public final class IceologerCabinArmorStandProcessor implements StructureProcess
 	@Nullable
 	@Override
 	//? if >=26.2 {
-	public StructureTemplate.StructureBlockInfo processBlock(
+	/*public StructureTemplate.StructureBlockInfo processBlock(
 		LevelReader world,
 		BlockPos pos,
 		BlockPos pivot,
@@ -51,8 +51,8 @@ public final class IceologerCabinArmorStandProcessor implements StructureProcess
 		StructureTemplate.StructureBlockInfo globalEntityInfo,
 		StructurePlaceSettings data
 	)
-	//?} else {
-	/*public StructureTemplate.StructureBlockInfo processBlock(
+	*///?} else {
+	public StructureTemplate.StructureBlockInfo processBlock(
 		LevelReader world,
 		BlockPos pos,
 		BlockPos pivot,
@@ -60,19 +60,19 @@ public final class IceologerCabinArmorStandProcessor implements StructureProcess
 		StructureTemplate.StructureBlockInfo globalEntityInfo,
 		StructurePlaceSettings data
 	)
-	*///?}
+	//?}
 	{
 		return globalEntityInfo;
 	}
 
 	@Override
 	//? if >=26.2 {
-	public MapCodec<? extends StructureProcessor> codec() {
+	/*public MapCodec<? extends StructureProcessor> codec() {
 		return ProcessorTypes.ICEOLOGER_CABIN_ARMOR_STAND_PROCESSOR.get();
 	}
-	//?} else {
-	/*protected StructureProcessorType<?> getType() {
+	*///?} else {
+	protected StructureProcessorType<?> getType() {
 		return ProcessorTypes.ICEOLOGER_CABIN_ARMOR_STAND_PROCESSOR.get();
 	}
-	*///?}
+	//?}
 }

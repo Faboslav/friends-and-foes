@@ -37,8 +37,8 @@ import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
 import net.minecraft.world.level.levelgen.structure.structures.StrongholdPieces;
 
 //? if >=1.21.3 {
-import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
-//?}
+/*import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
+*///?}
 
 @Mixin(StrongholdPieces.Library.class)
 public abstract class StrongholdGeneratorMixin extends StructurePiece
@@ -76,7 +76,7 @@ public abstract class StrongholdGeneratorMixin extends StructurePiece
 
 		ServerLevel serverWorld = level.getLevel();
 
-		TuffGolemEntity tuffGolem = FriendsAndFoesEntityTypes.TUFF_GOLEM.get().create(serverWorld/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.STRUCTURE/*?}*/);
+		TuffGolemEntity tuffGolem = FriendsAndFoesEntityTypes.TUFF_GOLEM.get().create(serverWorld/*? if >=1.21.3 {*//*, VersionedEntitySpawnReason.STRUCTURE*//*?}*/);
 
 		if (tuffGolem == null) {
 			return;
@@ -151,10 +151,10 @@ public abstract class StrongholdGeneratorMixin extends StructurePiece
 
 		return instances.stream()
 			//? if >= 1.21.5 {
-			.map(EnchantmentInstance::enchantment)
-			//?} else {
-			/*.map(enchantmentInstance -> enchantmentInstance.enchantment)
-			 *///?}
+			/*.map(EnchantmentInstance::enchantment)
+			*///?} else {
+			.map(enchantmentInstance -> enchantmentInstance.enchantment)
+			 //?}
 			.toList();
 	}
 }

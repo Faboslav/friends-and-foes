@@ -3,7 +3,7 @@ package com.faboslav.friendsandfoes.common.mixin;
 import org.spongepowered.asm.mixin.Mixin;
 
 //? if >= 1.21.9 {
-import net.minecraft.world.entity.decoration.Mannequin;
+/*import net.minecraft.world.entity.decoration.Mannequin;
 import org.spongepowered.asm.mixin.Unique;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
@@ -128,12 +128,12 @@ public abstract class MannequinMixin extends MannequinAvatarMixin implements Man
 		return false;
 	}
 }
-//?} else {
-/*import net.minecraft.world.entity.LivingEntity;
+*///?} else {
+import net.minecraft.world.entity.LivingEntity;
 
 @Mixin(LivingEntity.class)
 public abstract class MannequinMixin
 {
 }
-*///?}
+//?}
 

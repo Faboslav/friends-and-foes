@@ -13,8 +13,8 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import org.jetbrains.annotations.Nullable;
 
 //? if <26.2 {
-/*import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
- *///?}
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
+ //?}
 
 public final class IllusionerShackItemFrameProcessor extends StructureEntityProcessor
 {
@@ -41,7 +41,7 @@ public final class IllusionerShackItemFrameProcessor extends StructureEntityProc
 	@Nullable
 	@Override
 	//? if >=26.2 {
-	public StructureTemplate.StructureBlockInfo processBlock(
+	/*public StructureTemplate.StructureBlockInfo processBlock(
 		LevelReader world,
 		BlockPos pos,
 		BlockPos pivot,
@@ -49,8 +49,8 @@ public final class IllusionerShackItemFrameProcessor extends StructureEntityProc
 		StructureTemplate.StructureBlockInfo globalEntityInfo,
 		StructurePlaceSettings data
 	)
-	//?} else {
-	/*public StructureTemplate.StructureBlockInfo processBlock(
+	*///?} else {
+	public StructureTemplate.StructureBlockInfo processBlock(
 		LevelReader world,
 		BlockPos pos,
 		BlockPos pivot,
@@ -58,19 +58,19 @@ public final class IllusionerShackItemFrameProcessor extends StructureEntityProc
 		StructureTemplate.StructureBlockInfo globalEntityInfo,
 		StructurePlaceSettings data
 	)
-	*///?}
+	//?}
 	{
 		return globalEntityInfo;
 	}
 
 	@Override
 	//? if >=26.2 {
-	public MapCodec<? extends net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor> codec() {
+	/*public MapCodec<? extends net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor> codec() {
 		return ProcessorTypes.ILLUSIONER_SHACK_ITEM_FRAME_PROCESSOR.get();
 	}
-	//?} else {
-	/*protected StructureProcessorType<?> getType() {
+	*///?} else {
+	protected StructureProcessorType<?> getType() {
 		return ProcessorTypes.ILLUSIONER_SHACK_ITEM_FRAME_PROCESSOR.get();
 	}
-	*///?}
+	//?}
 }

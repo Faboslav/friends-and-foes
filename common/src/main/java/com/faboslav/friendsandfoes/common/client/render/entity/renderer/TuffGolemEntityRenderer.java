@@ -9,20 +9,20 @@ import com.faboslav.friendsandfoes.common.entity.TuffGolemEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 //? if >=1.21.3 {
-import com.faboslav.friendsandfoes.common.client.render.entity.state.TuffGolemRenderState;
-//?}
+/*import com.faboslav.friendsandfoes.common.client.render.entity.state.TuffGolemRenderState;
+*///?}
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 //? if >=1.21.3 {
-public final class TuffGolemEntityRenderer extends MobRenderer<TuffGolemEntity, TuffGolemRenderState, TuffGolemEntityModel>
-//?} else {
-/*public final class TuffGolemEntityRenderer extends MobRenderer<TuffGolemEntity, TuffGolemEntityModel<TuffGolemEntity>>
-*///?}
+/*public final class TuffGolemEntityRenderer extends MobRenderer<TuffGolemEntity, TuffGolemRenderState, TuffGolemEntityModel>
+*///?} else {
+public final class TuffGolemEntityRenderer extends MobRenderer<TuffGolemEntity, TuffGolemEntityModel<TuffGolemEntity>>
+//?}
 {
-	private static final Identifier TEXTURE = FriendsAndFoes.makeID("textures/entity/tuff_golem/tuff_golem.png");
+	private static final ResourceLocation TEXTURE = FriendsAndFoes.makeID("textures/entity/tuff_golem/tuff_golem.png");
 
 	public TuffGolemEntityRenderer(EntityRendererProvider.Context context) {
 		super(context, new TuffGolemEntityModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.TUFF_GOLEM_LAYER)), 0.3F);
@@ -31,15 +31,15 @@ public final class TuffGolemEntityRenderer extends MobRenderer<TuffGolemEntity, 
 		this.addLayer(new TuffGolemHeldItemFeatureRenderer(
 			this,
 			//? if >=1.21.3 {
-			context.getEntityRenderDispatcher().getItemInHandRenderer()
-			//?} else {
-			/*context.getItemInHandRenderer()
-			*///?}
+			/*context.getEntityRenderDispatcher().getItemInHandRenderer()
+			*///?} else {
+			context.getItemInHandRenderer()
+			//?}
 		));
 	}
 
 	//? if >=1.21.3 {
-	@Override
+	/*@Override
 	public TuffGolemRenderState createRenderState() {
 		return new TuffGolemRenderState();
 	}
@@ -50,14 +50,14 @@ public final class TuffGolemEntityRenderer extends MobRenderer<TuffGolemEntity, 
 		renderState.tuffGolem = tuffGolem;
 		renderState.partialTick = partialTick;
 	}
-	//?}
+	*///?}
 
 	@Override
 	//? if >=1.21.3 {
-	public Identifier getTextureLocation(TuffGolemRenderState renderState)
-	//?} else {
-	/*public Identifier getTextureLocation(TuffGolemEntity tuffGolem)
-	 *///?}
+	/*public ResourceLocation getTextureLocation(TuffGolemRenderState renderState)
+	*///?} else {
+	public ResourceLocation getTextureLocation(TuffGolemEntity tuffGolem)
+	 //?}
 	{
 		return TEXTURE;
 	}

@@ -11,14 +11,14 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import org.jetbrains.annotations.Nullable;
 
 //? if <26.2 {
-/*import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
- *///?}
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
+ //?}
 
 //? if >=26.2 {
-public final class IllusionerShackItemFrameProcessor implements StructureProcessor
-//?} else {
-/*public final class IllusionerShackItemFrameProcessor extends StructureProcessor
-*///?}
+/*public final class IllusionerShackItemFrameProcessor implements StructureProcessor
+*///?} else {
+public final class IllusionerShackItemFrameProcessor extends StructureProcessor
+//?}
 {
 	public static final MapCodec<IllusionerShackItemFrameProcessor> CODEC = MapCodec.unit(IllusionerShackItemFrameProcessor::new);
 
@@ -43,7 +43,7 @@ public final class IllusionerShackItemFrameProcessor implements StructureProcess
 	@Nullable
 	@Override
 	//? if >=26.2 {
-	public StructureTemplate.StructureBlockInfo processBlock(
+	/*public StructureTemplate.StructureBlockInfo processBlock(
 		LevelReader world,
 		BlockPos pos,
 		BlockPos pivot,
@@ -51,8 +51,8 @@ public final class IllusionerShackItemFrameProcessor implements StructureProcess
 		StructureTemplate.StructureBlockInfo globalEntityInfo,
 		StructurePlaceSettings data
 	)
-	//?} else {
-	/*public StructureTemplate.StructureBlockInfo processBlock(
+	*///?} else {
+	public StructureTemplate.StructureBlockInfo processBlock(
 		LevelReader world,
 		BlockPos pos,
 		BlockPos pivot,
@@ -60,19 +60,19 @@ public final class IllusionerShackItemFrameProcessor implements StructureProcess
 		StructureTemplate.StructureBlockInfo globalEntityInfo,
 		StructurePlaceSettings data
 	)
-	*///?}
+	//?}
 	{
 		return globalEntityInfo;
 	}
 
 	@Override
 	//? if >=26.2 {
-	public MapCodec<? extends StructureProcessor> codec() {
+	/*public MapCodec<? extends StructureProcessor> codec() {
 		return ProcessorTypes.ILLUSIONER_SHACK_ITEM_FRAME_PROCESSOR.get();
 	}
-	//?} else {
-	/*protected StructureProcessorType<?> getType() {
+	*///?} else {
+	protected StructureProcessorType<?> getType() {
 		return ProcessorTypes.ILLUSIONER_SHACK_ITEM_FRAME_PROCESSOR.get();
 	}
-	*///?}
+	//?}
 }

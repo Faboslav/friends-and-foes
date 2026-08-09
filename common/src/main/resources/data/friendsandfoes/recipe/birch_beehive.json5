@@ -8,17 +8,17 @@
 	],
 	"key": {
 		//? if >=1.21.4 {
-		"P": "minecraft:birch_planks",
+		/*"P": "minecraft:birch_planks",
 		"H": "minecraft:honeycomb"
-		//?} else {
-		/*"P": {
+		*///?} else {
+		"P": {
 			"item": "minecraft:birch_planks"
 		},
 		"H": {
 			"item": "minecraft:honeycomb"
 		}
 		
-		*///?}
+		//?}
 	},
 	"result": {
 		"count": 1,

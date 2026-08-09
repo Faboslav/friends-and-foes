@@ -11,20 +11,20 @@ import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 //? if <26.2 {
-/*import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
- *///?}
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
+ //?}
 
 public final class FriendsAndFoesStructureProcessorTypes
 {
 	//? if >=26.2 {
-	public static final ResourcefulRegistry<MapCodec<? extends StructureProcessor>> STRUCTURE_PROCESSOR = ResourcefulRegistries.create(BuiltInRegistries.STRUCTURE_PROCESSOR, FriendsAndFoes.MOD_ID);
+	/*public static final ResourcefulRegistry<MapCodec<? extends StructureProcessor>> STRUCTURE_PROCESSOR = ResourcefulRegistries.create(BuiltInRegistries.STRUCTURE_PROCESSOR, FriendsAndFoes.MOD_ID);
 	public static final RegistryEntry<MapCodec<CitadelBottomProcessor>> CITADEL_BOTTOM_PROCESSOR = STRUCTURE_PROCESSOR.register("citadel_bottom_processor", () -> CitadelBottomProcessor.CODEC);
 	public static final RegistryEntry<MapCodec<IllusionerShackBrewingStandProcessor>> ILLUSIONER_SHACK_BREWING_STAND_PROCESSOR = STRUCTURE_PROCESSOR.register("illusioner_shack_brewing_stand_processor", () -> IllusionerShackBrewingStandProcessor.CODEC);
-	//?} else {
-	/*public static final ResourcefulRegistry<StructureProcessorType<?>> STRUCTURE_PROCESSOR = ResourcefulRegistries.create(BuiltInRegistries.STRUCTURE_PROCESSOR, FriendsAndFoes.MOD_ID);
+	*///?} else {
+	public static final ResourcefulRegistry<StructureProcessorType<?>> STRUCTURE_PROCESSOR = ResourcefulRegistries.create(BuiltInRegistries.STRUCTURE_PROCESSOR, FriendsAndFoes.MOD_ID);
 	public static final RegistryEntry<StructureProcessorType<CitadelBottomProcessor>> CITADEL_BOTTOM_PROCESSOR = STRUCTURE_PROCESSOR.register("citadel_bottom_processor", () -> () -> CitadelBottomProcessor.CODEC);
 	public static final RegistryEntry<StructureProcessorType<IllusionerShackBrewingStandProcessor>> ILLUSIONER_SHACK_BREWING_STAND_PROCESSOR = STRUCTURE_PROCESSOR.register("illusioner_shack_brewing_stand_processor", () -> () -> IllusionerShackBrewingStandProcessor.CODEC);
-	*///?}
+	//?}
 
 	private FriendsAndFoesStructureProcessorTypes() {
 	}

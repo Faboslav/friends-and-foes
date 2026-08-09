@@ -13,12 +13,12 @@ public final class MovementUtil
 		entity.setSpeed(0.0F);
 
 		//? if >=1.21.3 {
-		entity.walkAnimation.stop();
-		//?} else {
-		/*entity.walkAnimation.update(0.0F, 0.0F);
+		/*entity.walkAnimation.stop();
+		*///?} else {
+		entity.walkAnimation.update(0.0F, 0.0F);
 		entity.walkDistO = 0.0F;
 		entity.walkDist = 0.0F;
-		*///?}
+		//?}
 
 		entity.getBrain().eraseMemory(MemoryModuleType.PATH);
 		entity.getBrain().eraseMemory(MemoryModuleType.AVOID_TARGET);

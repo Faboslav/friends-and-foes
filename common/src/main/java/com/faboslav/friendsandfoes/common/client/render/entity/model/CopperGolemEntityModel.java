@@ -1,5 +1,5 @@
 //? if <= 1.21.8 {
-/*package com.faboslav.friendsandfoes.common.client.render.entity.model;
+package com.faboslav.friendsandfoes.common.client.render.entity.model;
 
 import com.faboslav.friendsandfoes.common.entity.animation.animator.context.AnimationContextTracker;
 import com.faboslav.friendsandfoes.common.entity.animation.animator.context.KeyframeAnimationContext;
@@ -17,17 +17,17 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 
 //? if >=1.21.3 {
-import net.minecraft.client.model.EntityModel;
+/*import net.minecraft.client.model.EntityModel;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.CopperGolemRenderState;
-//?} else {
-/^import net.minecraft.client.model.HierarchicalModel;
-^///?}
+*///?} else {
+import net.minecraft.client.model.HierarchicalModel;
+//?}
 
 //? if >=1.21.3 {
-public class CopperGolemEntityModel extends EntityModel<CopperGolemRenderState>
-//?} else {
-/^public final class CopperGolemEntityModel<T extends CopperGolemEntity> extends HierarchicalModel<T>
-^///?}
+/*public class CopperGolemEntityModel extends EntityModel<CopperGolemRenderState>
+*///?} else {
+public final class CopperGolemEntityModel<T extends CopperGolemEntity> extends HierarchicalModel<T>
+//?}
 {
 	private static final String MODEL_PART_BODY = "body";
 	private static final String MODEL_PART_LEFT_ARM = "leftArm";
@@ -50,8 +50,8 @@ public class CopperGolemEntityModel extends EntityModel<CopperGolemRenderState>
 
 	public CopperGolemEntityModel(ModelPart root) {
 		//? if >=1.21.3 {
-		super(root);
-		//?}
+		/*super(root);
+		*///?}
 
 		this.root = root;
 		this.body = this.root.getChild(MODEL_PART_BODY);
@@ -88,26 +88,26 @@ public class CopperGolemEntityModel extends EntityModel<CopperGolemRenderState>
 	}
 
 	//? if <1.21.3 {
-	/^@Override
+	@Override
 	public ModelPart root() {
 		return this.root;
 	}
-	^///?}
+	//?}
 
 	@Override
 	//? if >=1.21.3 {
-	public void setupAnim(CopperGolemRenderState renderState)
-	//?} else {
-	/^public void setupAnim(T copperGolem, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
-	^///?}
+	/*public void setupAnim(CopperGolemRenderState renderState)
+	*///?} else {
+	public void setupAnim(T copperGolem, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
+	//?}
 	{
 		//? if >=1.21.3 {
-		var copperGolem = renderState.copperGolem;
+		/*var copperGolem = renderState.copperGolem;
 		var limbAngle = renderState.walkAnimationPos;
 		var limbDistance = renderState.walkAnimationSpeed;
 		var animationProgress = renderState.ageInTicks;
 		var headYaw = renderState.yRot;
-		//?}
+		*///?}
 
 		if (copperGolem.isOxidized()) {
 			animationProgress = copperGolem.tickCount;
@@ -167,4 +167,4 @@ public class CopperGolemEntityModel extends EntityModel<CopperGolemRenderState>
 		KeyframeModelAnimator.updateKeyframeAnimations(this, animationContextTracker, animations, currentTick, animationProgress, animationSpeedModifier);
 	}
 }
-*///?}
+//?}

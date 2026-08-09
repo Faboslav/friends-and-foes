@@ -3,17 +3,17 @@
 	"category": "redstone",
 	"ingredients": [
 		//? if >=1.21.4 {
-		"friendsandfoes:exposed_copper_button",
+		/*"friendsandfoes:exposed_copper_button",
 		"minecraft:honeycomb"
-		//?} else {
-		/*{
+		*///?} else {
+		{
 			"item": "friendsandfoes:exposed_copper_button"
 		},
 		{
 			"item": "minecraft:honeycomb"
 		}
 		
-		*///?}
+		//?}
 	],
 	"result": {
 		"count": 1,

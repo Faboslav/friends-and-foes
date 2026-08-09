@@ -4,7 +4,7 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.mixin.StructurePoolAccessor;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.Registry;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
@@ -16,16 +16,16 @@ public final class StructurePoolHelper
 {
 	public static void addLegacyElementToPool(
 		Registry<StructureTemplatePool> templatePoolRegistry,
-		Identifier poolRL,
+		ResourceLocation poolRL,
 		String name,
 		int weight
 	) {
 		StructureTemplatePool pool;
 		//? if >=1.21.3 {
-		pool = templatePoolRegistry.getValue(poolRL);
-		//?} else {
-		/*pool = templatePoolRegistry.get(poolRL);
-		*///?}
+		/*pool = templatePoolRegistry.getValue(poolRL);
+		*///?} else {
+		pool = templatePoolRegistry.get(poolRL);
+		//?}
 
 		if (pool == null) {
 			return;
@@ -44,16 +44,16 @@ public final class StructurePoolHelper
 
 	public static void addSingleElementToPool(
 		Registry<StructureTemplatePool> templatePoolRegistry,
-		Identifier poolRL,
+		ResourceLocation poolRL,
 		String name,
 		int weight
 	) {
 		StructureTemplatePool pool;
 		//? if >=1.21.3 {
-		pool = templatePoolRegistry.getValue(poolRL);
-		//?} else {
-		/*pool = templatePoolRegistry.get(poolRL);
-		*///?}
+		/*pool = templatePoolRegistry.getValue(poolRL);
+		*///?} else {
+		pool = templatePoolRegistry.get(poolRL);
+		//?}
 
 		if (pool == null) {
 			return;

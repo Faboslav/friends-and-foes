@@ -4,7 +4,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import net.minecraft.world.entity.LivingEntity;
 
 //? if >= 1.21.9 {
-import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+/*import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import org.spongepowered.asm.mixin.Shadow;
 import net.minecraft.server.level.ServerLevel;
@@ -51,9 +51,9 @@ public abstract class MannequinLivingEntityMixin extends MannequinEntityMixin
 		return original.call(serverLevel, damageSource, f);
 	}
 }
-//?} else {
-/*@Mixin(LivingEntity.class)
+*///?} else {
+@Mixin(LivingEntity.class)
 public abstract class MannequinLivingEntityMixin
 {
 }
-*///?}
+//?}

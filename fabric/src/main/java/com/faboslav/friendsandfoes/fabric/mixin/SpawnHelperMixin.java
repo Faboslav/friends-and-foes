@@ -12,10 +12,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 /*? if >=1.21.3 {*/
-import net.minecraft.world.entity.EntitySpawnReason;
-/*?} else {*/
-/*import net.minecraft.world.entity.MobSpawnType;
-*//*?}*/
+/*import net.minecraft.world.entity.EntitySpawnReason;
+*//*?} else {*/
+import net.minecraft.world.entity.MobSpawnType;
+/*?}*/
 
 @Mixin(NaturalSpawner.class)
 public final class SpawnHelperMixin
@@ -45,20 +45,20 @@ public final class SpawnHelperMixin
 		at = @At(
 			value = "INVOKE",
 			/*? if >=1.21.3 {*/
-			target = "Lnet/minecraft/world/entity/Mob;checkSpawnRules(Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/world/entity/EntitySpawnReason;)Z"
-			/*?} else {*/
-			/*target = "Lnet/minecraft/world/entity/Mob;checkSpawnRules(Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/world/entity/MobSpawnType;)Z"
-			*//*?}*/
+			/*target = "Lnet/minecraft/world/entity/Mob;checkSpawnRules(Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/world/entity/EntitySpawnReason;)Z"
+			*//*?} else {*/
+			target = "Lnet/minecraft/world/entity/Mob;checkSpawnRules(Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/world/entity/MobSpawnType;)Z"
+			/*?}*/
 		)
 	)
 	private static boolean friendsandfoes$onCheckEntitySpawn(
 		Mob instance,
 		LevelAccessor worldAccess,
 		/*? if >=1.21.3 {*/
-		EntitySpawnReason spawnReason,
-		/*?} else {*/
-		/*MobSpawnType spawnReason,
-		 *//*?}*/
+		/*EntitySpawnReason spawnReason,
+		*//*?} else {*/
+		MobSpawnType spawnReason,
+		 /*?}*/
 		Operation<Boolean> operation
 	) {
 		if (EntitySpawnEvent.EVENT.invoke(new EntitySpawnEvent(instance, worldAccess, instance.isBaby(), spawnReason))) {

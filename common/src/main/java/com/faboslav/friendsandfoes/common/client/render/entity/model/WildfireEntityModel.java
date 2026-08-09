@@ -14,17 +14,17 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import java.util.List;
 
 //? if >=1.21.3 {
-import net.minecraft.client.model.EntityModel;
+/*import net.minecraft.client.model.EntityModel;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.WildfireRenderState;
-//?} else {
-/*import net.minecraft.client.model.HierarchicalModel;
-*///?}
+*///?} else {
+import net.minecraft.client.model.HierarchicalModel;
+//?}
 
 //? if >=1.21.3 {
-public final class WildfireEntityModel extends EntityModel<WildfireRenderState>
-//?} else {
-/*public final class WildfireEntityModel<T extends WildfireEntity> extends HierarchicalModel<T>
-*///?}
+/*public final class WildfireEntityModel extends EntityModel<WildfireRenderState>
+*///?} else {
+public final class WildfireEntityModel<T extends WildfireEntity> extends HierarchicalModel<T>
+//?}
 {
 	private static final String MODEL_PART_BODY = "body";
 	private static final String MODEL_PART_HEAD = "head";
@@ -49,8 +49,8 @@ public final class WildfireEntityModel extends EntityModel<WildfireRenderState>
 
 	public WildfireEntityModel(ModelPart root) {
 		//? if >=1.21.3 {
-		super(root);
-		//?}
+		/*super(root);
+		*///?}
 
 		this.root = root;
 		this.body = this.root.getChild(MODEL_PART_BODY);
@@ -63,10 +63,10 @@ public final class WildfireEntityModel extends EntityModel<WildfireRenderState>
 		this.leftShield = this.shields.getChild(MODEL_PART_LEFT_SHIELD);
 
 		//? if >=1.21.6 {
-		this.shieldsModelParts = this.shields.getAllParts();
-		//?} else {
-		/*this.shieldsModelParts = this.shields.getAllParts().toList();
-		*///?}
+		/*this.shieldsModelParts = this.shields.getAllParts();
+		*///?} else {
+		this.shieldsModelParts = this.shields.getAllParts().toList();
+		//?}
 	}
 
 	public static LayerDefinition getTexturedModelData() {
@@ -90,27 +90,27 @@ public final class WildfireEntityModel extends EntityModel<WildfireRenderState>
 	}
 
 	//? if <1.21.3 {
-	/*@Override
+	@Override
 	public ModelPart root() {
 		return this.root;
 	}
-	*///?}
+	//?}
 
 	@Override
 	//? if >=1.21.3 {
-	public void setupAnim(WildfireRenderState wildfireRenderState)
-	//?} else {
-	/*public void setupAnim(T wildfire, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
-	*///?}
+	/*public void setupAnim(WildfireRenderState wildfireRenderState)
+	*///?} else {
+	public void setupAnim(T wildfire, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
+	//?}
 	{
 		//? if >=1.21.3 {
-		var wildfire = wildfireRenderState.wildfire;
+		/*var wildfire = wildfireRenderState.wildfire;
 		var limbAngle = wildfireRenderState.walkAnimationPos;
 		var limbDistance = wildfireRenderState.walkAnimationSpeed;
 		var animationProgress = wildfireRenderState.ageInTicks;
 		var headYaw = wildfireRenderState.yRot;
 		var headPitch = wildfireRenderState.xRot;
-		//?}
+		*///?}
 
 		int activeShieldsCount = wildfire.getActiveShieldsCount();
 

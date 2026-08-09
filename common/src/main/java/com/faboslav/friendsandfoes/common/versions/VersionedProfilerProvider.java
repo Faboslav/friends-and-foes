@@ -5,8 +5,8 @@ import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.Nullable;
 
 //? if >=1.21.3 {
-import net.minecraft.util.profiling.Profiler;
-//?}
+/*import net.minecraft.util.profiling.Profiler;
+*///?}
 
 public final class VersionedProfilerProvider
 {
@@ -14,10 +14,10 @@ public final class VersionedProfilerProvider
 		ProfilerFiller profiler;
 
 		//? if >=1.21.3 {
-		profiler = Profiler.get();
-		//?} else {
-		/*profiler = entity.level().getProfiler();
-		*///?}
+		/*profiler = Profiler.get();
+		*///?} else {
+		profiler = entity.level().getProfiler();
+		//?}
 
 		return profiler;
 	}

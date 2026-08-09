@@ -1,7 +1,7 @@
 package com.faboslav.friendsandfoes.neoforge.modcompat.curios;
 
 //? if curios {
-/*import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
@@ -11,24 +11,24 @@ import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.client.ICurioRenderer;
 
 //? >= 1.21.4 {
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
+/*import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
-//?} else {
-/^import net.minecraft.world.entity.LivingEntity;
-^///?}
+*///?} else {
+import net.minecraft.world.entity.LivingEntity;
+//?}
 
 //? < 1.21.8 {
-/^import net.minecraft.client.Minecraft;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-^///?}
+//?}
 
 @SuppressWarnings({"deprecation", "removal"})
 public class CuriosTotemRenderer implements ICurioRenderer
 {
 	@Override
 	//? >= 1.21.4 {
-	public <S extends LivingEntityRenderState, M extends EntityModel<? super S>> void render(
+	/*public <S extends LivingEntityRenderState, M extends EntityModel<? super S>> void render(
 		ItemStack itemStack,
 		SlotContext slotContext,
 		PoseStack poseStack,
@@ -40,8 +40,8 @@ public class CuriosTotemRenderer implements ICurioRenderer
 		float yRotation,
 		float xRotation
 	)
-	//?} else {
-	/^public <T extends LivingEntity, M extends EntityModel<T>> void render(
+	*///?} else {
+	public <T extends LivingEntity, M extends EntityModel<T>> void render(
 		ItemStack itemStack,
 		SlotContext slotContext,
 		PoseStack poseStack,
@@ -55,7 +55,7 @@ public class CuriosTotemRenderer implements ICurioRenderer
 		float headYaw,
 		float headPitch
 	)
-	^///?}
+	//?}
 	{
 		var livingEntity = slotContext.entity();
 
@@ -67,7 +67,7 @@ public class CuriosTotemRenderer implements ICurioRenderer
 		poseStack.mulPose(Direction.DOWN.getRotation());
 
 		//? < 1.21.8 {
-		/^Minecraft.getInstance().getItemRenderer().renderStatic(
+		Minecraft.getInstance().getItemRenderer().renderStatic(
 			itemStack,
 			ItemDisplayContext.FIXED,
 			packedLight,
@@ -77,7 +77,7 @@ public class CuriosTotemRenderer implements ICurioRenderer
 			null,
 			0
 		);
-		^///?}
+		//?}
 	}
 }
-*///?}
+//?}

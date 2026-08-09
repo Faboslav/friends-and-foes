@@ -4,7 +4,7 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.TuffGolemEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
-import net.minecraft.advancements.triggers.CriteriaTriggers;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
@@ -29,16 +29,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.function.Predicate;
 
 //? if <= 1.21.8 {
-/*import com.faboslav.friendsandfoes.common.util.CopperGolemBuildPatternPredicates;
-*///?}
+import com.faboslav.friendsandfoes.common.util.CopperGolemBuildPatternPredicates;
+//?}
 
 @Mixin(CarvedPumpkinBlock.class)
 public abstract class CarvedPumpkinBlockMixin extends HorizontalDirectionalBlock
 {
 	//? if <= 1.21.8 {
-	/*@Nullable
+	@Nullable
 	private BlockPattern friendsandfoes_copperGolemDispenserPattern;
-	*///?}
+	//?}
 
 	@Nullable
 	private BlockPattern friendsandfoes_tuffGolemDispenserPattern;
@@ -70,10 +70,10 @@ public abstract class CarvedPumpkinBlockMixin extends HorizontalDirectionalBlock
 		}
 
 		//? if <= 1.21.8 {
-		/*if (this.getCopperGolemDispenserPattern().find(world, pos) != null) {
+		if (this.getCopperGolemDispenserPattern().find(world, pos) != null) {
 			cir.setReturnValue(true);
 		}
-		*///?}
+		//?}
 	}
 
 	@Inject(
@@ -118,7 +118,7 @@ public abstract class CarvedPumpkinBlockMixin extends HorizontalDirectionalBlock
 		BlockPos cachedBlockPosition = patternSearchResult.getBlock(0, 2, 0).getPos();
 		float tuffGolemYaw = headBlockState.getValue(CarvedPumpkinBlock.FACING).toYRot();
 
-		TuffGolemEntity tuffGolem = FriendsAndFoesEntityTypes.TUFF_GOLEM.get().create(world/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.TRIGGERED/*?}*/);
+		TuffGolemEntity tuffGolem = FriendsAndFoesEntityTypes.TUFF_GOLEM.get().create(world/*? if >=1.21.3 {*//*, VersionedEntitySpawnReason.TRIGGERED*//*?}*/);
 
 		tuffGolem.setPos(
 			(double) cachedBlockPosition.getX() + 0.5D,
@@ -141,7 +141,7 @@ public abstract class CarvedPumpkinBlockMixin extends HorizontalDirectionalBlock
 	}
 
 	//? if <= 1.21.8 {
-	/*private BlockPattern getCopperGolemDispenserPattern() {
+	private BlockPattern getCopperGolemDispenserPattern() {
 		if (this.friendsandfoes_copperGolemDispenserPattern == null) {
 			this.friendsandfoes_copperGolemDispenserPattern = BlockPatternBuilder.start()
 				.aisle("|", " ", "#")
@@ -152,7 +152,7 @@ public abstract class CarvedPumpkinBlockMixin extends HorizontalDirectionalBlock
 
 		return this.friendsandfoes_copperGolemDispenserPattern;
 	}
-	*///?}
+	//?}
 
 	private BlockPattern getTuffGolemDispenserPattern() {
 		if (this.friendsandfoes_tuffGolemDispenserPattern == null) {

@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Arrays;
 import java.util.Objects;
-import net.minecraft.advancements.triggers.CriteriaTriggers;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
@@ -36,8 +36,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 //? if <=1.21.4 {
-/*import org.spongepowered.asm.mixin.Shadow;
-*///?}
+import org.spongepowered.asm.mixin.Shadow;
+//?}
 
 @Mixin(Player.class)
 public abstract class PlayerEntityMixin extends LivingEntity
@@ -47,9 +47,9 @@ public abstract class PlayerEntityMixin extends LivingEntity
 	}
 
 	//? if <=1.21.4 {
-	/*@Shadow
+	@Shadow
 	public abstract ItemStack getItemBySlot(EquipmentSlot slot);
-	*///?}
+	//?}
 
 	@Inject(
 		at = @At("TAIL"),
@@ -70,14 +70,14 @@ public abstract class PlayerEntityMixin extends LivingEntity
 	@Inject(
 		at = @At("HEAD"),
 		//? if >=1.21.3 {
-		method = "hurtServer",
-		//?} else {
-		/*method = "hurt",
-		*///?}
+		/*method = "hurtServer",
+		*///?} else {
+		method = "hurt",
+		//?}
 		cancellable = true
 	)
 	public void friendsandfoes_tryUseTotems(
-		/*? if >=1.21.3 {*/ServerLevel level,/*?}*/
+		/*? if >=1.21.3 {*//*ServerLevel level,*//*?}*/
 		DamageSource damageSource,
 		float amount,
 		CallbackInfoReturnable<Boolean> cir

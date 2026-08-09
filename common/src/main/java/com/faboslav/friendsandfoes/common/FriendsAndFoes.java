@@ -15,13 +15,13 @@ import com.faboslav.friendsandfoes.common.network.packet.EntityAnimationsSyncPac
 import com.faboslav.friendsandfoes.common.network.packet.MoobloomVariantsSyncPacket;
 import com.faboslav.friendsandfoes.common.platform.PlatformHooks;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 //? if <= 1.21.11 {
-/*import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
-*///?}
+import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
+//?}
 
 public final class FriendsAndFoes
 {
@@ -29,8 +29,8 @@ public final class FriendsAndFoes
 	private static final FriendsAndFoesConfig CONFIG = new FriendsAndFoesConfig();
 	public static final String MOD_ID = "friendsandfoes";
 
-	public static Identifier makeID(String path) {
-		return Identifier.fromNamespaceAndPath(
+	public static ResourceLocation makeID(String path) {
+		return ResourceLocation.fromNamespaceAndPath(
 			MOD_ID,
 			path
 		);
@@ -40,8 +40,8 @@ public final class FriendsAndFoes
 		return MOD_ID + ":" + name;
 	}
 
-	public static Identifier makeNamespacedId(String id) {
-		return Identifier.tryParse(
+	public static ResourceLocation makeNamespacedId(String id) {
+		return ResourceLocation.tryParse(
 			id
 		);
 	}
@@ -62,8 +62,8 @@ public final class FriendsAndFoes
 		RegisterReloadListenerEvent.EVENT.addListener(FriendsAndFoes::registerServerDataListeners);
 		SetupEvent.EVENT.addListener(FriendsAndFoes::setup);
 		//? if <= 1.21.11 {
-		/*SetupEvent.EVENT.addListener(FriendsAndFoesItems::registerSpawnEggs);
-		*///?}
+		SetupEvent.EVENT.addListener(FriendsAndFoesItems::registerSpawnEggs);
+		//?}
 		DatapackSyncEvent.EVENT.addListener(MoobloomVariantsSyncPacket::sendToClient);
 		DatapackSyncEvent.EVENT.addListener(EntityAnimationsSyncPacket::sendToClient);
 		RegisterFlammabilityEvent.EVENT.addListener(FriendsAndFoesBlocks::registerFlammablity);
@@ -72,15 +72,15 @@ public final class FriendsAndFoes
 		AddSpawnBiomeModificationsEvent.EVENT.addListener(FriendsAndFoesEntityTypes::addSpawnBiomeModifications);
 		RegisterBrewingRecipesEvent.EVENT.addListener(FriendsAndFoesRecipes::registerBrewingRecipes);
 		//? if <= 1.21.11 {
-		/*RegisterVillagerTradesEvent.EVENT.addListener(FriendsAndFoesVillagerProfessions::registerVillagerTrades);
-		*///?}
+		RegisterVillagerTradesEvent.EVENT.addListener(FriendsAndFoesVillagerProfessions::registerVillagerTrades);
+		//?}
 		AddItemGroupEntriesEvent.EVENT.addListener(FriendsAndFoesItemGroups::addItemGroupEntries);
 		EntitySpawnEvent.EVENT.addListener(IllusionerOnEntitySpawn::handleEntitySpawn);
 
 		FriendsAndFoesActivities.ACTIVITIES.init();
 		//? if <1.21.3 {
-		/*FriendsAndFoesArmorMaterials.ARMOR_MATERIALS.init();
-		*///?}
+		FriendsAndFoesArmorMaterials.ARMOR_MATERIALS.init();
+		//?}
 		FriendsAndFoesBlocks.BLOCKS.init();
 		FriendsAndFoesCriterias.CRITERIAS.init();
 		FriendsAndFoesEntityDataSerializers.init();
@@ -98,8 +98,8 @@ public final class FriendsAndFoes
 		FriendsAndFoesStructureProcessorTypes.init();
 		FriendsAndFoesStructureTypes.STRUCTURE_TYPES.init();
 		//? if >= 26.1 {
-		FriendsAndFoesTradeSets.init();
-		//?}
+		/*FriendsAndFoesTradeSets.init();
+		*///?}
 		FriendsAndFoesVillagerProfessions.VILLAGER_PROFESSIONS.init();
 	}
 

@@ -1,5 +1,5 @@
 //? if <= 1.21.8 {
-/*package com.faboslav.friendsandfoes.common.entity.ai.brain.sensor;
+package com.faboslav.friendsandfoes.common.entity.ai.brain.sensor;
 
 import com.faboslav.friendsandfoes.common.entity.CopperGolemEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
@@ -58,5 +58,5 @@ public class CopperGolemSpecificSensor extends Sensor<CopperGolemEntity>
 		brain.setMemoryWithExpiry(MemoryModuleType.AVOID_TARGET, (LivingEntity) players.get(0), AVOID_MEMORY_DURATION.sample(copperGolem.getRandom()));
 	}
 }
-*///?}
+//?}
 

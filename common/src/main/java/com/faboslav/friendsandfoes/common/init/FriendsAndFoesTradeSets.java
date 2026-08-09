@@ -1,14 +1,14 @@
 //? if >= 26.1 {
-package com.faboslav.friendsandfoes.common.init;
+/*package com.faboslav.friendsandfoes.common.init;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.trading.TradeSet;
 
-/**
+/^*
  * @see net.minecraft.world.item.trading.TradeSets
- */
+ ^/
 public class FriendsAndFoesTradeSets
 {
 	public static final ResourceKey<TradeSet> BEEKEEPER_LEVEL_1 = resourceKey("beekeeper/level_1");
@@ -25,4 +25,4 @@ public class FriendsAndFoesTradeSets
 
 	}
 }
-//?}
+*///?}

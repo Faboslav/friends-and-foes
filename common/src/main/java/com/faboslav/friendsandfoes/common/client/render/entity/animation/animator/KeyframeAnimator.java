@@ -12,19 +12,19 @@ import java.util.Map;
 import java.util.Optional;
 
 //? if >=1.21.3 {
-import net.minecraft.client.model.EntityModel;
-//?} else {
-/*import net.minecraft.client.model.HierarchicalModel;
-*///?}
+/*import net.minecraft.client.model.EntityModel;
+*///?} else {
+import net.minecraft.client.model.HierarchicalModel;
+//?}
 
 public final class KeyframeAnimator
 {
 	public static void animateKeyframe(
 		//? if >=1.21.3 {
-		EntityModel<?> model,
-		//?} else {
-		/*HierarchicalModel<?> model,
-		 *///?}
+		/*EntityModel<?> model,
+		*///?} else {
+		HierarchicalModel<?> model,
+		 //?}
 		AnimationDefinition animationDefinition,
 		long runningTime,
 		float scale,
@@ -35,10 +35,10 @@ public final class KeyframeAnimator
 
 		for (Map.Entry<String, List<AnimationChannel>> entry : animationDefinition.boneAnimations().entrySet()) {
 			//? if >=1.21.6 {
-			Optional<ModelPart> optional = getAnyDescendantWithName(model, entry.getKey());
-			//?} else {
-			/*Optional<ModelPart> optional = model.getAnyDescendantWithName(entry.getKey());
-			*///?}
+			/*Optional<ModelPart> optional = getAnyDescendantWithName(model, entry.getKey());
+			*///?} else {
+			Optional<ModelPart> optional = model.getAnyDescendantWithName(entry.getKey());
+			//?}
 			List<AnimationChannel> channels = entry.getValue();
 
 			optional.ifPresent(modelPart -> {
@@ -75,13 +75,13 @@ public final class KeyframeAnimator
 
 	// TODO rework this whole thing later for baking
 	//? if >=1.21.6 {
-	private static Optional<ModelPart> getAnyDescendantWithName(
+	/*private static Optional<ModelPart> getAnyDescendantWithName(
 		EntityModel<?> model,
 		String name
 	) {
 		return name.equals("root") ? Optional.of(model.root()) : model.root().getAllParts().stream().filter((modelPart) -> modelPart.hasChild(name)).findFirst().map((modelPart) -> modelPart.getChild(name));
 	}
-	//?}
+	*///?}
 
 	private static float getElapsedSeconds(AnimationDefinition animationDefinition, long l, float speedModifier) {
 		float f = (float)l / 1000.0F;

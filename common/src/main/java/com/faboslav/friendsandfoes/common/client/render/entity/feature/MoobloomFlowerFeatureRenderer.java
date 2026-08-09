@@ -2,7 +2,7 @@ package com.faboslav.friendsandfoes.common.client.render.entity.feature;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.animal.cow.CowModel;
+import net.minecraft.client.model.CowModel;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
@@ -11,83 +11,83 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 
 //? if >= 26.1 {
-import net.minecraft.client.renderer.block.BlockModelRenderState;
-//?}
+/*import net.minecraft.client.renderer.block.BlockModelRenderState;
+*///?}
 
 //? if <= 1.21.11 {
-/*import net.minecraft.client.renderer.block.BlockRenderDispatcher;
+import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.texture.TextureAtlas;
-*///?}
+//?}
 
 //? if >= 1.21.11 {
-import net.minecraft.client.renderer.rendertype.RenderTypes;
-//?} else {
-/*import net.minecraft.client.renderer.RenderType;
-*///?}
+/*import net.minecraft.client.renderer.rendertype.RenderTypes;
+*///?} else {
+import net.minecraft.client.renderer.RenderType;
+//?}
 
 //? if >=1.21.9 {
-import net.minecraft.client.renderer.state.level.CameraRenderState;
+/*import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-//?} else {
-/*import net.minecraft.client.renderer.block.ModelBlockRenderer;
+*///?} else {
+import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-*///?}
+//?}
 
 //? if >= 1.21.5 && <= 1.21.11 {
 /*import net.minecraft.client.renderer.block.model.BlockStateModel;
 *///?} else if < 1.21.5 {
-/*import net.minecraft.client.resources.model.BakedModel;
- *///?}
+import net.minecraft.client.resources.model.BakedModel;
+ //?}
 
 //? if >=1.21.3 {
-import com.faboslav.friendsandfoes.common.client.render.entity.state.MoobloomRenderState;
-//?} else {
-/*import com.faboslav.friendsandfoes.common.entity.MoobloomEntity;
- *///?}
+/*import com.faboslav.friendsandfoes.common.client.render.entity.state.MoobloomRenderState;
+*///?} else {
+import com.faboslav.friendsandfoes.common.entity.MoobloomEntity;
+ //?}
 
 //? if >=1.21.3 {
-public final class MoobloomFlowerFeatureRenderer extends RenderLayer<MoobloomRenderState, CowModel>
-//?} else {
-	/*public final class MoobloomFlowerFeatureRenderer<T extends MoobloomEntity> extends RenderLayer<T, CowModel<T>>
-	 *///?}
+/*public final class MoobloomFlowerFeatureRenderer extends RenderLayer<MoobloomRenderState, CowModel>
+*///?} else {
+	public final class MoobloomFlowerFeatureRenderer<T extends MoobloomEntity> extends RenderLayer<T, CowModel<T>>
+	 //?}
 {
 	//? if <= 1.21.11 {
-	/*private final BlockRenderDispatcher blockRenderer;
-	*///?}
+	private final BlockRenderDispatcher blockRenderer;
+	//?}
 
 	//? if >=1.21.3 {
-	public MoobloomFlowerFeatureRenderer(
+	/*public MoobloomFlowerFeatureRenderer(
 		RenderLayerParent<MoobloomRenderState,
 		CowModel> renderer
 		//? if <= 1.21.11 {
-		/*, BlockRenderDispatcher blockRenderer
-		*///?}
+		, BlockRenderDispatcher blockRenderer
+		//?}
 	) {
 		super(renderer);
 		//? if <= 1.21.11 {
-		/*this.blockRenderer = blockRenderer;
-		*///?}
+		this.blockRenderer = blockRenderer;
+		//?}
 	}
-	//?} else {
-	/*public MoobloomFlowerFeatureRenderer(RenderLayerParent<T, CowModel<T>> featureRendererContext) {
+	*///?} else {
+	public MoobloomFlowerFeatureRenderer(RenderLayerParent<T, CowModel<T>> featureRendererContext) {
 		super(featureRendererContext);
 		this.blockRenderer = Minecraft.getInstance().getBlockRenderer();
-	}*///?}
+	}//?}
 
 	//? if >=1.21.9 {
-	public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, MoobloomRenderState moobloomRenderState, float yRot, float xRot)
-	//?} else if >=1.21.3 {
+	/*public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, MoobloomRenderState moobloomRenderState, float yRot, float xRot)
+	*///?} else if >=1.21.3 {
 	/*public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, MoobloomRenderState moobloomRenderState, float yRot, float xRot)
 	 *///?} else {
-	/*public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, T moobloom, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float yRot, float xRot)
-	 *///?}
+	public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, T moobloom, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float yRot, float xRot)
+	 //?}
 	{
 		//? if >=1.21.3 {
-		var moobloom = moobloomRenderState.moobloom;
+		/*var moobloom = moobloomRenderState.moobloom;
 		int overlay = LivingEntityRenderer.getOverlayCoords(moobloomRenderState, 0.0F);
-		//?} else {
-		/*int overlay = LivingEntityRenderer.getOverlayCoords(moobloom, 0.0F);
-		 *///?}
+		*///?} else {
+		int overlay = LivingEntityRenderer.getOverlayCoords(moobloom, 0.0F);
+		 //?}
 
 		if (!moobloom.isBaby() && !moobloom.isInvisible()) {
 			var flower = moobloom.getVariant().getFlower();
@@ -106,8 +106,8 @@ public final class MoobloomFlowerFeatureRenderer extends RenderLayer<MoobloomRen
 			//? if >= 1.21.5 && <= 1.21.11 {
 			/*BlockStateModel model = this.blockRenderer.getBlockModel(blockState);
 			*///?} else if < 1.21.5 {
-			/*BakedModel model = this.blockRenderer.getBlockModel(blockState);
-			 *///?}
+			BakedModel model = this.blockRenderer.getBlockModel(blockState);
+			 //?}
 
 			// Head
 			poseStack.pushPose();
@@ -116,12 +116,12 @@ public final class MoobloomFlowerFeatureRenderer extends RenderLayer<MoobloomRen
 			poseStack.scale(-scaleFactor, -scaleFactor, scaleFactor);
 			poseStack.translate(-0.5D, yOffset, -0.5D);
 			//? if >= 26.1 {
-			this.renderFlower(poseStack, submitNodeCollector, packedLight, renderAsModel, moobloomRenderState.outlineColor, moobloomRenderState.flowerModel, overlay);
-			//?} else if >=1.21.9 {
+			/*this.renderFlower(poseStack, submitNodeCollector, packedLight, renderAsModel, moobloomRenderState.outlineColor, moobloomRenderState.flowerModel, overlay);
+			*///?} else if >=1.21.9 {
 			/*this.renderFlower(poseStack, submitNodeCollector, packedLight, renderAsModel, blockState, overlay, model);
 			 *///?} else {
-			/*this.renderFlower(poseStack, bufferSource, packedLight, renderAsModel, blockState, overlay, model);
-			 *///?}
+			this.renderFlower(poseStack, bufferSource, packedLight, renderAsModel, blockState, overlay, model);
+			 //?}
 			poseStack.popPose();
 
 			// Body 1
@@ -130,12 +130,12 @@ public final class MoobloomFlowerFeatureRenderer extends RenderLayer<MoobloomRen
 			poseStack.scale(-scaleFactor, -scaleFactor, scaleFactor);
 			poseStack.translate(-0.5D, yOffset, -0.5D);
 			//? if >= 26.1 {
-			this.renderFlower(poseStack, submitNodeCollector, packedLight, renderAsModel, moobloomRenderState.outlineColor, moobloomRenderState.flowerModel, overlay);
-			//?} else if >=1.21.9 {
+			/*this.renderFlower(poseStack, submitNodeCollector, packedLight, renderAsModel, moobloomRenderState.outlineColor, moobloomRenderState.flowerModel, overlay);
+			*///?} else if >=1.21.9 {
 			/*this.renderFlower(poseStack, submitNodeCollector, packedLight, renderAsModel, blockState, overlay, model);
 			 *///?} else {
-			/*this.renderFlower(poseStack, bufferSource, packedLight, renderAsModel, blockState, overlay, model);
-			 *///?}
+			this.renderFlower(poseStack, bufferSource, packedLight, renderAsModel, blockState, overlay, model);
+			 //?}
 			poseStack.popPose();
 
 			// Body 2
@@ -144,12 +144,12 @@ public final class MoobloomFlowerFeatureRenderer extends RenderLayer<MoobloomRen
 			poseStack.scale(-scaleFactor, -scaleFactor, scaleFactor);
 			poseStack.translate(-0.5D, yOffset, -0.5D);
 			//? if >= 26.1 {
-			this.renderFlower(poseStack, submitNodeCollector, packedLight, renderAsModel, moobloomRenderState.outlineColor, moobloomRenderState.flowerModel, overlay);
-			//?} else if >=1.21.9 {
+			/*this.renderFlower(poseStack, submitNodeCollector, packedLight, renderAsModel, moobloomRenderState.outlineColor, moobloomRenderState.flowerModel, overlay);
+			*///?} else if >=1.21.9 {
 			/*this.renderFlower(poseStack, submitNodeCollector, packedLight, renderAsModel, blockState, overlay, model);
 			 *///?} else {
-			/*this.renderFlower(poseStack, bufferSource, packedLight, renderAsModel, blockState, overlay, model);
-			 *///?}
+			this.renderFlower(poseStack, bufferSource, packedLight, renderAsModel, blockState, overlay, model);
+			 //?}
 			poseStack.popPose();
 
 			// Body 3
@@ -158,25 +158,25 @@ public final class MoobloomFlowerFeatureRenderer extends RenderLayer<MoobloomRen
 			poseStack.scale(-scaleFactor, -scaleFactor, scaleFactor);
 			poseStack.translate(-0.5D, yOffset, -0.5D);
 			//? if >= 26.1 {
-			this.renderFlower(poseStack, submitNodeCollector, packedLight, renderAsModel, moobloomRenderState.outlineColor, moobloomRenderState.flowerModel, overlay);
-			//?} else if >=1.21.9 {
+			/*this.renderFlower(poseStack, submitNodeCollector, packedLight, renderAsModel, moobloomRenderState.outlineColor, moobloomRenderState.flowerModel, overlay);
+			*///?} else if >=1.21.9 {
 			/*this.renderFlower(poseStack, submitNodeCollector, packedLight, renderAsModel, blockState, overlay, model);
 			*///?} else {
-			/*this.renderFlower(poseStack, bufferSource, packedLight, renderAsModel, blockState, overlay, model);
-			*///?}
+			this.renderFlower(poseStack, bufferSource, packedLight, renderAsModel, blockState, overlay, model);
+			//?}
 			poseStack.popPose();
 		}
 	}
 
 	//? if >= 26.1 {
-	private void renderFlower(final PoseStack poseStack, final SubmitNodeCollector submitNodeCollector, final int light, final boolean renderAsModel, final int outlineColor, final BlockModelRenderState flowerModel, final int overlayCoords) {
+	/*private void renderFlower(final PoseStack poseStack, final SubmitNodeCollector submitNodeCollector, final int light, final boolean renderAsModel, final int outlineColor, final BlockModelRenderState flowerModel, final int overlayCoords) {
 		if (renderAsModel) {
 			flowerModel.submitOnlyOutline(poseStack, submitNodeCollector, light, overlayCoords, outlineColor);
 		} else {
 			flowerModel.submit(poseStack, submitNodeCollector, light, overlayCoords, outlineColor);
 		}
 	}
-	//?} else if >=1.21.11 {
+	*///?} else if >=1.21.11 {
 	/*private void renderFlower(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, boolean renderAsModel, BlockState blockState, int overlay, BlockStateModel model) {
 		if (renderAsModel) submitNodeCollector.submitBlockModel(poseStack, RenderTypes.outline(TextureAtlas.LOCATION_BLOCKS), model, 0.0F, 0.0F, 0.0F, light, overlay, 0); else submitNodeCollector.submitBlock(poseStack, blockState, light, overlay, 0);
 	}
@@ -189,8 +189,8 @@ public final class MoobloomFlowerFeatureRenderer extends RenderLayer<MoobloomRen
 		if (renderAsModel) ModelBlockRenderer.renderModel(poseStack.last(), multiBufferSource.getBuffer(RenderType.outline(TextureAtlas.LOCATION_BLOCKS)), model, 0.0F, 0.0F, 0.0F, light, overlay); else this.blockRenderer.renderSingleBlock(blockState, poseStack, multiBufferSource, light, overlay);
 	}
 	*///?} else if <1.21.5 {
-	/*private void renderFlower(PoseStack poseStack, MultiBufferSource multiBufferSource, int light, boolean renderAsModel, BlockState blockState, int overlay, BakedModel model) {
+	private void renderFlower(PoseStack poseStack, MultiBufferSource multiBufferSource, int light, boolean renderAsModel, BlockState blockState, int overlay, BakedModel model) {
 		if (renderAsModel) this.blockRenderer.getModelRenderer().renderModel(poseStack.last(), multiBufferSource.getBuffer(RenderType.outline(TextureAtlas.LOCATION_BLOCKS)), blockState, model, 0.0F, 0.0F, 0.0F, light, overlay); else this.blockRenderer.renderSingleBlock(blockState, poseStack, multiBufferSource, light, overlay);
 	}
-	*///?}
+	//?}
 }

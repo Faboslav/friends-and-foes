@@ -3,14 +3,14 @@ package com.faboslav.friendsandfoes.common.init;
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.*;
 import com.faboslav.friendsandfoes.common.events.client.RegisterEntityLayersEvent;
-import net.minecraft.client.model.animal.cow.CowModel;
-import net.minecraft.client.model.monster.illager.IllagerModel;
+import net.minecraft.client.model.CowModel;
+import net.minecraft.client.model.IllagerModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelLayers;
 
 //? if >= 26.1 {
-import net.minecraft.client.model.animal.cow.BabyCowModel;
-//?}
+/*import net.minecraft.client.model.animal.cow.BabyCowModel;
+*///?}
 
 /**
  * @see ModelLayers
@@ -18,8 +18,8 @@ import net.minecraft.client.model.animal.cow.BabyCowModel;
 public final class FriendsAndFoesEntityModelLayers
 {
 	//? if <= 1.21.8 {
-	/*public static final ModelLayerLocation COPPER_GOLEM_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("copper_golem"), "main");
-	*///?}
+	public static final ModelLayerLocation COPPER_GOLEM_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("copper_golem"), "main");
+	//?}
 	public static final ModelLayerLocation CRAB_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("crab"), "main");
 	public static final ModelLayerLocation GLARE_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("glare"), "main");
 	public static final ModelLayerLocation ICEOLOGER_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("iceologer"), "main");
@@ -32,21 +32,21 @@ public final class FriendsAndFoesEntityModelLayers
 	public static final ModelLayerLocation WILDFIRE_CROWN_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("wildfire_crown"), "main");
 
 	//? if >=1.21.3 {
-	public static final ModelLayerLocation CRAB_BABY_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("crab_baby"), "main");
+	/*public static final ModelLayerLocation CRAB_BABY_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("crab_baby"), "main");
 	public static final ModelLayerLocation GLARE_BABY_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("glare_baby"), "main");
 	public static final ModelLayerLocation MOOBLOOM_BABY_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("moobloom_baby"), "main");
-	//?}
+	*///?}
 
 	public static void registerEntityLayers(RegisterEntityLayersEvent event) {
 		//? if <= 1.21.8 {
-		/*event.register(COPPER_GOLEM_LAYER, CopperGolemEntityModel::getTexturedModelData);
-		 *///?}
+		event.register(COPPER_GOLEM_LAYER, CopperGolemEntityModel::getTexturedModelData);
+		 //?}
 		event.register(CRAB_LAYER, CrabEntityModel::getTexturedModelData);
 		//? if >=1.21.3 {
-		event.register(GLARE_LAYER, () -> GlareEntityModel.getTexturedModelData().apply(GlareEntityModel.ADULT_TRANSFORMER));
-		//?} else {
-		/*event.register(GLARE_LAYER, GlareEntityModel::getTexturedModelData);
-		 *///?}
+		/*event.register(GLARE_LAYER, () -> GlareEntityModel.getTexturedModelData().apply(GlareEntityModel.ADULT_TRANSFORMER));
+		*///?} else {
+		event.register(GLARE_LAYER, GlareEntityModel::getTexturedModelData);
+		 //?}
 		event.register(ICEOLOGER_LAYER, IllagerModel::createBodyLayer);
 		event.register(ICEOLOGER_ICE_CHUNK_LAYER, IceologerIceChunkModel::getTexturedModelData);
 		event.register(ILLUSIONER_LAYER, IllagerModel::createBodyLayer);
@@ -57,13 +57,13 @@ public final class FriendsAndFoesEntityModelLayers
 		event.register(WILDFIRE_CROWN_LAYER, WildfireEntityModel::getTexturedModelData);
 
 		//? if >=1.21.3 {
-		event.register(CRAB_BABY_LAYER, () -> CrabEntityModel.getTexturedModelData().apply(CrabEntityModel.BABY_TRANSFORMER));
+		/*event.register(CRAB_BABY_LAYER, () -> CrabEntityModel.getTexturedModelData().apply(CrabEntityModel.BABY_TRANSFORMER));
 		event.register(GLARE_BABY_LAYER, () -> GlareEntityModel.getTexturedModelData().apply(GlareEntityModel.BABY_TRANSFORMER));
-		//?}
+		*///?}
 
 		//? if >= 26.1 {
-		event.register(MOOBLOOM_BABY_LAYER, BabyCowModel::createBodyLayer);
-		//?} else if >= 1.21.3 {
+		/*event.register(MOOBLOOM_BABY_LAYER, BabyCowModel::createBodyLayer);
+		*///?} else if >= 1.21.3 {
 		/*event.register(MOOBLOOM_BABY_LAYER, () -> CowModel.createBodyLayer().apply(CowModel.BABY_TRANSFORMER));
 		*///?}
 	}

@@ -11,17 +11,17 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 
 //? if >=1.21.3 {
-import net.minecraft.client.model.EntityModel;
+/*import net.minecraft.client.model.EntityModel;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.RascalRenderState;
-//?} else {
-/*import net.minecraft.client.model.HierarchicalModel;
- *///?}
+*///?} else {
+import net.minecraft.client.model.HierarchicalModel;
+ //?}
 
 //? if >=1.21.3 {
-public final class RascalEntityModel extends EntityModel<RascalRenderState>
-//?} else {
-/*public final class RascalEntityModel<T extends RascalEntity> extends HierarchicalModel<T>
-*///?}
+/*public final class RascalEntityModel extends EntityModel<RascalRenderState>
+*///?} else {
+public final class RascalEntityModel<T extends RascalEntity> extends HierarchicalModel<T>
+//?}
 {
 	private static final String MODEL_PART_HEAD = "head";
 	private static final String MODEL_PART_BODY = "body";
@@ -42,8 +42,8 @@ public final class RascalEntityModel extends EntityModel<RascalRenderState>
 
 	public RascalEntityModel(ModelPart root) {
 		//? if >=1.21.3 {
-		super(root);
-		//?}
+		/*super(root);
+		*///?}
 
 		this.root = root;
 		this.head = this.root.getChild(MODEL_PART_HEAD);
@@ -74,25 +74,25 @@ public final class RascalEntityModel extends EntityModel<RascalRenderState>
 	}
 
 	//? if <1.21.3 {
-	/*@Override
+	@Override
 	public ModelPart root() {
 		return this.root;
 	}
-	*///?}
+	//?}
 
 	@Override
 	//? if >=1.21.3 {
-	public void setupAnim(RascalRenderState renderState)
-	//?} else {
-	/*public void setupAnim(T rascal, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
-	*///?}
+	/*public void setupAnim(RascalRenderState renderState)
+	*///?} else {
+	public void setupAnim(T rascal, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
+	//?}
 	{
 		//? if >=1.21.3 {
-		var rascal = renderState.rascal;
+		/*var rascal = renderState.rascal;
 		var limbAngle = renderState.walkAnimationPos;
 		var limbDistance = renderState.walkAnimationSpeed;
 		var animationProgress = renderState.ageInTicks;
-		//?}
+		*///?}
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		this.updateAnimations(rascal, limbAngle, limbDistance, animationProgress);
 	}

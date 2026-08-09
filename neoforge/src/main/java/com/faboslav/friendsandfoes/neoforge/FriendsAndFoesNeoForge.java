@@ -34,15 +34,15 @@ import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 
 //? if >=1.21.4 {
-import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
-//?} else {
-/*import net.neoforged.neoforge.event.AddReloadListenerEvent;
-*///?}
+/*import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
+*///?} else {
+import net.neoforged.neoforge.event.AddReloadListenerEvent;
+//?}
 
 //? if <= 1.21.11 {
-/*import net.neoforged.neoforge.event.village.VillagerTradesEvent;
+import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
-*///?}
+//?}
 
 @Mod(FriendsAndFoes.MOD_ID)
 public final class FriendsAndFoesNeoForge
@@ -53,15 +53,15 @@ public final class FriendsAndFoesNeoForge
 		FriendsAndFoes.init();
 		FriendsAndFoesBiomeModifiers.BIOME_MODIFIERS.register(modEventBus);
 
-		if (FMLEnvironment./*? if >= 1.21.9 {*/ getDist() /*?} else {*/ /*dist *//*?}*/== Dist.CLIENT) {
+		if (FMLEnvironment./*? if >= 1.21.9 {*/ /*getDist() *//*?} else {*/ dist /*?}*/== Dist.CLIENT) {
 			FriendsAndFoesNeoForgeClient.init(modEventBus, eventBus);
 		}
 
 		eventBus.addListener(FriendsAndFoesNeoForge::initSpawners);
 		eventBus.addListener(FriendsAndFoesNeoForge::onServerAboutToStartEvent);
 		//? if <= 1.21.11 {
-		/*eventBus.addListener(FriendsAndFoesNeoForge::onAddVillagerTrades);
-		*///?}
+		eventBus.addListener(FriendsAndFoesNeoForge::onAddVillagerTrades);
+		//?}
 		eventBus.addListener(FriendsAndFoesNeoForge::onRegisterBrewingRecipes);
 		eventBus.addListener(FriendsAndFoesNeoForge::onAddReloadListeners);
 		eventBus.addListener(FriendsAndFoesNeoForge::onDatapackSync);
@@ -100,16 +100,16 @@ public final class FriendsAndFoesNeoForge
 
 	private static void onAddReloadListeners(
 		//? if >=1.21.4 {
-		AddServerReloadListenersEvent event
-		//?} else {
-		/*AddReloadListenerEvent event
-		 *///?}
+		/*AddServerReloadListenersEvent event
+		*///?} else {
+		AddReloadListenerEvent event
+		 //?}
 	) {
 		//? if >=1.21.4 {
-		RegisterReloadListenerEvent.EVENT.invoke(new RegisterReloadListenerEvent(event::addListener));
-		//?} else {
-		/*RegisterReloadListenerEvent.EVENT.invoke(new RegisterReloadListenerEvent((id, listener) -> event.addListener(listener)));
-		 *///?}
+		/*RegisterReloadListenerEvent.EVENT.invoke(new RegisterReloadListenerEvent(event::addListener));
+		*///?} else {
+		RegisterReloadListenerEvent.EVENT.invoke(new RegisterReloadListenerEvent((id, listener) -> event.addListener(listener)));
+		 //?}
 	}
 
 	private static void onDatapackSync(OnDatapackSyncEvent event) {
@@ -121,10 +121,10 @@ public final class FriendsAndFoesNeoForge
 	}
 
 	//? if <= 1.21.11 {
-	/*private static void onAddVillagerTrades(VillagerTradesEvent event) {
+	private static void onAddVillagerTrades(VillagerTradesEvent event) {
 		RegisterVillagerTradesEvent.EVENT.invoke(new RegisterVillagerTradesEvent(event.getType(), (i, listing) -> event.getTrades().get(i.intValue()).add(listing)));
 	}
-	*///?}
+	//?}
 
 	private static void onRegisterBrewingRecipes(RegisterBrewingRecipesEvent event) {
 		com.faboslav.friendsandfoes.common.events.item.RegisterBrewingRecipesEvent.EVENT.invoke(new com.faboslav.friendsandfoes.common.events.item.RegisterBrewingRecipesEvent(event.getBuilder()::addMix));

@@ -29,18 +29,18 @@ import java.util.List;
 import java.util.Optional;
 
 //? if >= 26.1 {
-import net.minecraft.world.entity.ai.ActivityData;
-//?} else {
-/*import com.mojang.serialization.Dynamic;
- *///?}
+/*import net.minecraft.world.entity.ai.ActivityData;
+*///?} else {
+import com.mojang.serialization.Dynamic;
+ //?}
 
 //? if <=1.21.11 {
-/*import com.google.common.collect.ImmutableSet;
-*///?}
+import com.google.common.collect.ImmutableSet;
+//?}
 
 //? if >=1.21.3 {
-import net.minecraft.server.level.ServerLevel;
-//?}
+/*import net.minecraft.server.level.ServerLevel;
+*///?}
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public final class WildfireBrain
@@ -54,11 +54,11 @@ public final class WildfireBrain
 	private static final UniformInt AVOID_MEMORY_DURATION;
 
 	//? if >= 26.1 {
-	public static Brain<WildfireEntity> create(WildfireEntity wildfire, final Brain.Packed packedBrain) {
+	/*public static Brain<WildfireEntity> create(WildfireEntity wildfire, final Brain.Packed packedBrain) {
 		return BRAIN_PROVIDER.makeBrain(wildfire, packedBrain);
 	}
-	//?} else {
-	/*public static Brain<WildfireEntity> create(Dynamic<?> dynamic) {
+	*///?} else {
+	public static Brain<WildfireEntity> create(Dynamic<?> dynamic) {
 		Brain<WildfireEntity> brain = BRAIN_PROVIDER.makeBrain(dynamic);
 
 		addActivities(brain);
@@ -69,40 +69,40 @@ public final class WildfireBrain
 
 		return brain;
 	}
-	*///?}
+	//?}
 
 	//? if >= 26.1 {
-	private static List<ActivityData<WildfireEntity>> addActivities(WildfireEntity wildfire)
-	//?} else {
-	/*private static void addActivities(Brain<WildfireEntity> brain)
-	*///?}
+	/*private static List<ActivityData<WildfireEntity>> addActivities(WildfireEntity wildfire)
+	*///?} else {
+	private static void addActivities(Brain<WildfireEntity> brain)
+	//?}
 	{
 		//? if >= 26.1 {
-		return List.of(
+		/*return List.of(
 			addCoreActivities(),
 			addIdleActivities(),
 			addFightActivities(),
 			addAvoidActivities()
 		);
-		//?} else {
-		/*addCoreActivities(brain);
+		*///?} else {
+		addCoreActivities(brain);
 		addIdleActivities(brain);
 		addFightActivities(brain);
 		addAvoidActivities(brain);
-		*///?}
+		//?}
 	}
 
 	//? if >= 26.1 {
-	private static ActivityData<WildfireEntity> addCoreActivities()
-	//?} else {
-	/*private static void addCoreActivities(Brain<WildfireEntity> brain)
-	*///?}
+	/*private static ActivityData<WildfireEntity> addCoreActivities()
+	*///?} else {
+	private static void addCoreActivities(Brain<WildfireEntity> brain)
+	//?}
 	{
 		//? if >= 26.1 {
-		return ActivityData.create(
-		//?} else {
-		/*brain.addActivity(
-		*///?}
+		/*return ActivityData.create(
+		*///?} else {
+		brain.addActivity(
+		//?}
 			Activity.CORE,
 			0,
 			ImmutableList.of(
@@ -117,35 +117,35 @@ public final class WildfireBrain
 
 
 	//? if >= 26.1 {
-	private static ActivityData<WildfireEntity> addIdleActivities()
-	//?} else {
-	/*private static void addIdleActivities(Brain<WildfireEntity> brain)
-	*///?}
+	/*private static ActivityData<WildfireEntity> addIdleActivities()
+	*///?} else {
+	private static void addIdleActivities(Brain<WildfireEntity> brain)
+	//?}
 	{
 		//? if >= 26.1 {
-		return ActivityData.create(
-		//?} else {
-		/*brain.addActivity(
-		*///?}
+		/*return ActivityData.create(
+		*///?} else {
+		brain.addActivity(
+		//?}
 			Activity.IDLE,
 			ImmutableList.of(
-				Pair.of(0, StartAttacking.create((/*? if >=1.21.3 {*/serverLevel, /*?}*/wildfire) -> true, WildfireBrain::getTarget)),
+				Pair.of(0, StartAttacking.create((/*? if >=1.21.3 {*//*serverLevel, *//*?}*/wildfire) -> true, WildfireBrain::getTarget)),
 				Pair.of(1, makeRandomWanderTask())
 			)
 		);
 	}
 
 	//? if >= 26.1 {
-	private static ActivityData<WildfireEntity> addFightActivities()
-	//?} else {
-	/*private static void addFightActivities(Brain<WildfireEntity> brain)
-	*///?}
+	/*private static ActivityData<WildfireEntity> addFightActivities()
+	*///?} else {
+	private static void addFightActivities(Brain<WildfireEntity> brain)
+	//?}
 	{
 		//? if >= 26.1 {
-		return ActivityData.create(
-		//?} else {
-		/*brain.addActivityAndRemoveMemoryWhenStopped(
-		*///?}
+		/*return ActivityData.create(
+		*///?} else {
+		brain.addActivityAndRemoveMemoryWhenStopped(
+		//?}
 			Activity.FIGHT,
 			10,
 			ImmutableList.of(
@@ -158,16 +158,16 @@ public final class WildfireBrain
 	}
 
 	//? if >= 26.1 {
-	private static ActivityData<WildfireEntity> addAvoidActivities()
-	//?} else {
-	/*private static void addAvoidActivities(Brain<WildfireEntity> brain)
-	*///?}
+	/*private static ActivityData<WildfireEntity> addAvoidActivities()
+	*///?} else {
+	private static void addAvoidActivities(Brain<WildfireEntity> brain)
+	//?}
 	{
 		//? if >= 26.1 {
-		return ActivityData.create(
-		//?} else {
-		/*brain.addActivityAndRemoveMemoryWhenStopped(
-		*///?}
+		/*return ActivityData.create(
+		*///?} else {
+		brain.addActivityAndRemoveMemoryWhenStopped(
+		//?}
 			Activity.AVOID,
 			10,
 			ImmutableList.of(
@@ -242,7 +242,7 @@ public final class WildfireBrain
 		}
 	}
 
-	private static Optional<? extends LivingEntity> getTarget(/*? if >=1.21.3 {*/ServerLevel level, /*?}*/WildfireEntity wildfire) {
+	private static Optional<? extends LivingEntity> getTarget(/*? if >=1.21.3 {*//*ServerLevel level, *//*?}*/WildfireEntity wildfire) {
 		Player nearestVisibleTargetablePlayer = wildfire.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER).orElse(
 			wildfire.level().getNearestPlayer(wildfire, WildfireEntity.GENERIC_FOLLOW_RANGE)
 		);
@@ -288,8 +288,8 @@ public final class WildfireBrain
 			MEMORY_MODULES,
 			SENSORS
 			//? if >= 26.1 {
-			, WildfireBrain::addActivities
-			//?}
+			/*, WildfireBrain::addActivities
+			*///?}
 		);
 		SUMMON_BLAZE_COOLDOWN_PROVIDER = UniformInt.of(600, 1200);
 		BARRAGE_ATTACK_COOLDOWN_PROVIDER = UniformInt.of(150, 300);

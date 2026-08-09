@@ -6,27 +6,27 @@ import com.faboslav.friendsandfoes.common.entity.RascalEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 //? if >=1.21.3 {
-import com.faboslav.friendsandfoes.common.client.render.entity.state.RascalRenderState;
-//?}
+/*import com.faboslav.friendsandfoes.common.client.render.entity.state.RascalRenderState;
+*///?}
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 //? if >=1.21.3 {
-public class RascalEntityRenderer extends MobRenderer<RascalEntity, RascalRenderState, RascalEntityModel>
-//?} else {
-/*public final class RascalEntityRenderer extends MobRenderer<RascalEntity, RascalEntityModel<RascalEntity>>
-*///?}
+/*public class RascalEntityRenderer extends MobRenderer<RascalEntity, RascalRenderState, RascalEntityModel>
+*///?} else {
+public final class RascalEntityRenderer extends MobRenderer<RascalEntity, RascalEntityModel<RascalEntity>>
+//?}
 {
-	private static final Identifier TEXTURE = FriendsAndFoes.makeID("textures/entity/rascal/rascal.png");
+	private static final ResourceLocation TEXTURE = FriendsAndFoes.makeID("textures/entity/rascal/rascal.png");
 
 	public RascalEntityRenderer(EntityRendererProvider.Context context) {
 		super(context, new RascalEntityModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.RASCAL_LAYER)), 0.5F);
 	}
 
 	//? if >=1.21.3 {
-	@Override
+	/*@Override
 	public RascalRenderState createRenderState() {
 		return new RascalRenderState();
 	}
@@ -36,14 +36,14 @@ public class RascalEntityRenderer extends MobRenderer<RascalEntity, RascalRender
 		super.extractRenderState(rascal, renderState, partialTick);
 		renderState.rascal = rascal;
 	}
-	//?}
+	*///?}
 
 	@Override
 	//? if >=1.21.3 {
-	public Identifier getTextureLocation(RascalRenderState renderState)
-	//?} else {
-	/*public Identifier getTextureLocation(RascalEntity rascal)
-	*///?}
+	/*public ResourceLocation getTextureLocation(RascalRenderState renderState)
+	*///?} else {
+	public ResourceLocation getTextureLocation(RascalEntity rascal)
+	//?}
 	{
 		return TEXTURE;
 	}

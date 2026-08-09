@@ -99,7 +99,7 @@ public final class WildfireShockwaveAttackTask extends Behavior<WildfireEntity>
 				}
 
 				this.spawnShockwaveParticles(wildfire);
-				wildfire.doHurtTarget(/*? if >=1.21.3 {*/serverLevel, /*?}*/closeEntity);
+				wildfire.doHurtTarget(/*? if >=1.21.3 {*//*serverLevel, *//*?}*/closeEntity);
 			}
 		}
 

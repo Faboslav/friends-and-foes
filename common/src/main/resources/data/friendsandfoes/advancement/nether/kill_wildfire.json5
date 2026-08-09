@@ -25,10 +25,10 @@
 						"entity": "this",
 						"predicate": {
 							//? if >=26.2 {
-							"entity_type": "friendsandfoes:wildfire"
-							//?} else {
-							/*"type": "friendsandfoes:wildfire"
-							*///?}
+							/*"entity_type": "friendsandfoes:wildfire"
+							*///?} else {
+							"type": "friendsandfoes:wildfire"
+							//?}
 						}
 					}
 				]

@@ -1,15 +1,15 @@
 package com.faboslav.friendsandfoes.common.versions;
 
 //? if >=1.21.3 {
-import net.minecraft.world.entity.EntitySpawnReason;
- //?} else {
-/*import net.minecraft.world.entity.MobSpawnType;
-*///?}
+/*import net.minecraft.world.entity.EntitySpawnReason;
+ *///?} else {
+import net.minecraft.world.entity.MobSpawnType;
+//?}
 
 public class VersionedEntitySpawnReason
 {
 	//? if >=1.21.3 {
-	public static final EntitySpawnReason NATURAL = EntitySpawnReason.NATURAL;
+	/*public static final EntitySpawnReason NATURAL = EntitySpawnReason.NATURAL;
 	public static final EntitySpawnReason SPAWNER = EntitySpawnReason.SPAWNER;
 	public static final EntitySpawnReason CHUNK_GENERATION = EntitySpawnReason.CHUNK_GENERATION;
 	public static final EntitySpawnReason STRUCTURE = EntitySpawnReason.STRUCTURE;
@@ -20,8 +20,8 @@ public class VersionedEntitySpawnReason
 	public static final EntitySpawnReason EVENT = EntitySpawnReason.EVENT;
 	public static final EntitySpawnReason BREEDING = EntitySpawnReason.BREEDING;
 	public static final EntitySpawnReason CONVERSION = EntitySpawnReason.CONVERSION;
-	//?} else {
-	/*public static final MobSpawnType NATURAL = MobSpawnType.NATURAL;
+	*///?} else {
+	public static final MobSpawnType NATURAL = MobSpawnType.NATURAL;
 	public static final MobSpawnType SPAWNER = MobSpawnType.SPAWNER;
 	public static final MobSpawnType CHUNK_GENERATION = MobSpawnType.CHUNK_GENERATION;
 	public static final MobSpawnType STRUCTURE = MobSpawnType.STRUCTURE;
@@ -32,5 +32,5 @@ public class VersionedEntitySpawnReason
 	public static final MobSpawnType EVENT = MobSpawnType.EVENT;
 	public static final MobSpawnType BREEDING = MobSpawnType.BREEDING;
 	public static final MobSpawnType CONVERSION = MobSpawnType.CONVERSION;
-	*///?}
+	//?}
 }

@@ -11,7 +11,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.projectile.hurtingprojectile.Fireball;
+import net.minecraft.world.entity.projectile.Fireball;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseFireBlock;
@@ -96,10 +96,10 @@ public final class WildfireShieldDebrisEntity extends Fireball
 
 	@Override
 	/*? if >=1.21.3 {*/
-	public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
-	/*?} else {*/
-	/*public boolean hurt(DamageSource damageSource, float amount)
-	*//*?}*/
+	/*public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
+	*//*?} else {*/
+	public boolean hurt(DamageSource damageSource, float amount)
+	/*?}*/
 	{
 		return false;
 	}

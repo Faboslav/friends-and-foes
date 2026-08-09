@@ -2,7 +2,7 @@ package com.faboslav.friendsandfoes.common.util;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import net.minecraft.advancements.AdvancementProgress;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 
@@ -27,7 +27,7 @@ public final class AdvancementHelper
 			return;
 		}
 
-		Identifier advancementId = FriendsAndFoes.makeNamespacedId(stringAdvancementId);
+		ResourceLocation advancementId = FriendsAndFoes.makeNamespacedId(stringAdvancementId);
 
 		//? if >= 1.21.1 {
 		var advancement = server.getAdvancements().get(advancementId);

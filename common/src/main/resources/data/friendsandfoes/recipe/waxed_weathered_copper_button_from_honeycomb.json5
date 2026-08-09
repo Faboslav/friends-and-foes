@@ -3,17 +3,17 @@
 	"category": "redstone",
 	"ingredients": [
 		//? if >=1.21.4 {
-		"friendsandfoes:weathered_copper_button",
+		/*"friendsandfoes:weathered_copper_button",
 		"minecraft:honeycomb"
-		//?} else {
-		/*{
+		*///?} else {
+		{
 			"item": "friendsandfoes:weathered_copper_button"
 		},
 		{
 			"item": "minecraft:honeycomb"
 		}
 		
-		*///?}
+		//?}
 	],
 	"result": {
 		"count": 1,

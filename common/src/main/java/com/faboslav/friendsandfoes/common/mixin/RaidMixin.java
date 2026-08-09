@@ -11,8 +11,8 @@ import net.minecraft.world.entity.raid.Raider;
 import org.spongepowered.asm.mixin.Mixin;
 
 //? if >= 1.21.5 {
-import net.minecraft.server.level.ServerLevel;
-//?}
+/*import net.minecraft.server.level.ServerLevel;
+*///?}
 
 @Mixin(Raid.class)
 public final class RaidMixin
@@ -22,8 +22,8 @@ public final class RaidMixin
 	)
 	public void friendsandfoes_addRaider(
 		//? if >= 1.21.5 {
-		ServerLevel serverLevel,
-		//?}
+		/*ServerLevel serverLevel,
+		*///?}
 		int wave,
 		Raider raider,
 		BlockPos pos,
@@ -50,8 +50,8 @@ public final class RaidMixin
 
 		original.call(
 			//? if >= 1.21.5 {
-			serverLevel,
-			//?}
+			/*serverLevel,
+			*///?}
 			wave,
 			raider,
 			pos,

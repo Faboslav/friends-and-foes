@@ -11,7 +11,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtAccounter;
 import net.minecraft.nbt.NbtIo;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.MultiPackResourceManager;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.util.datafix.DataFixTypes;
@@ -26,11 +26,11 @@ import java.nio.file.Path;
 import java.util.concurrent.CompletableFuture;
 
 //? if >=1.21.4 {
-import net.minecraft.server.packs.resources.ResourceManager;
-//?} else {
-/*import net.neoforged.neoforge.common.data.ExistingFileHelper;
+/*import net.minecraft.server.packs.resources.ResourceManager;
+*///?} else {
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import java.lang.reflect.Field;
-*///?}
+//?}
 
 // Source: https://github.com/BluSunrize/ImmersiveEngineering/blob/1.20.1/src/datagen/java/blusunrize/immersiveengineering/data/StructureUpdater.java
 public class StructureNbtUpdater implements DataProvider
@@ -44,10 +44,10 @@ public class StructureNbtUpdater implements DataProvider
 		String basePath,
 		String modid,
 		//? if >=1.21.4 {
-		ResourceManager resourceManager,
-		//?} else {
-		/*ExistingFileHelper helper,
-		 *///?}
+		/*ResourceManager resourceManager,
+		*///?} else {
+		ExistingFileHelper helper,
+		 //?}
 		PackOutput output
 	) {
 		this.basePath = basePath;
@@ -55,16 +55,16 @@ public class StructureNbtUpdater implements DataProvider
 		this.output = output;
 
 		//? if >=1.21.4 {
-		this.resources = (MultiPackResourceManager) resourceManager;
-		//?} else {
-		/*try {
+		/*this.resources = (MultiPackResourceManager) resourceManager;
+		*///?} else {
+		try {
 			Field serverData = ExistingFileHelper.class.getDeclaredField("serverData");
 			serverData.setAccessible(true);
 			this.resources = (MultiPackResourceManager) serverData.get(helper);
 		} catch (NoSuchFieldException | IllegalAccessException e) {
 			throw new RuntimeException(e);
 		}
-		*///?}
+		//?}
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class StructureNbtUpdater implements DataProvider
 		}
 	}
 
-	private void process(Identifier loc, Resource resource, CachedOutput cache) throws IOException {
+	private void process(ResourceLocation loc, Resource resource, CachedOutput cache) throws IOException {
 		CompoundTag inputNBT = NbtIo.readCompressed(resource.open(), NbtAccounter.unlimitedHeap());
 		CompoundTag converted = updateNBT(inputNBT);
 		if (!converted.equals(inputNBT)) {
@@ -93,7 +93,7 @@ public class StructureNbtUpdater implements DataProvider
 		}
 	}
 
-	private void writeNBTTo(Identifier loc, CompoundTag data, CachedOutput cache) throws IOException {
+	private void writeNBTTo(ResourceLocation loc, CompoundTag data, CachedOutput cache) throws IOException {
 		ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
 		NbtIo.writeCompressed(data, bytearrayoutputstream);
 		byte[] bytes = bytearrayoutputstream.toByteArray();
@@ -107,10 +107,10 @@ public class StructureNbtUpdater implements DataProvider
 		);
 		StructureTemplate template = new StructureTemplate();
 		//? if >=1.21.3 {
-		template.load(BuiltInRegistries.BLOCK, updatedNBT);
-		//?} else {
-		/*template.load(BuiltInRegistries.BLOCK.asLookup(), updatedNBT);
-		 *///?}
+		/*template.load(BuiltInRegistries.BLOCK, updatedNBT);
+		*///?} else {
+		template.load(BuiltInRegistries.BLOCK.asLookup(), updatedNBT);
+		 //?}
 		return template.save(new CompoundTag());
 	}
 

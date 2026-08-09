@@ -17,16 +17,16 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProc
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 
 //? if <26.2 {
-/*import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
-*///?} else {
-import org.jspecify.annotations.Nullable;
-//?}
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
+//?} else {
+/*import org.jspecify.annotations.Nullable;
+*///?}
 
 //? if >=26.2 {
-public final class CitadelBottomProcessor implements StructureProcessor
-//?} else {
-/*public final class CitadelBottomProcessor extends StructureProcessor
-*///?}
+/*public final class CitadelBottomProcessor implements StructureProcessor
+*///?} else {
+public final class CitadelBottomProcessor extends StructureProcessor
+//?}
 {
 	public static final MapCodec<CitadelBottomProcessor> CODEC = RecordCodecBuilder.mapCodec(instance -> instance
 		.group(
@@ -59,10 +59,10 @@ public final class CitadelBottomProcessor implements StructureProcessor
 		BlockPos pos,
 		BlockPos pivot,
 		//? if >=26.2 {
-		BlockPos templateRelativePos,
-		 //?} else {
-		/*StructureTemplate.StructureBlockInfo originalBlockInfo,
-		*///?}
+		/*BlockPos templateRelativePos,
+		 *///?} else {
+		StructureTemplate.StructureBlockInfo originalBlockInfo,
+		//?}
 		StructureTemplate.StructureBlockInfo currentBlockInfo,
 		StructurePlaceSettings structurePlacementData
 	) {
@@ -86,12 +86,12 @@ public final class CitadelBottomProcessor implements StructureProcessor
 			int worldBottomY;
 			int worldTopY;
 			//? if >=1.21.3 {
-			worldBottomY = world.getMinY();
+			/*worldBottomY = world.getMinY();
 			worldTopY = world.getMaxY();
-			//?} else {
-			/*worldBottomY = world.getMinBuildHeight();
+			*///?} else {
+			worldBottomY = world.getMinBuildHeight();
 			worldTopY = world.getMaxBuildHeight();
-			*///?}
+			//?}
 
 			while (
 				mutable.getY() > worldBottomY
@@ -99,10 +99,10 @@ public final class CitadelBottomProcessor implements StructureProcessor
 				&& (currentBlockState.isAir() || !world.getFluidState(mutable).isEmpty())
 			) {
 				//? if >=1.21.5 {
-				world.getChunk(mutable).setBlockState(mutable, targetBlockOutput);
-				//?} else {
-				/*world.getChunk(mutable).setBlockState(mutable, targetBlockOutput, false);
-				 *///?}
+				/*world.getChunk(mutable).setBlockState(mutable, targetBlockOutput);
+				*///?} else {
+				world.getChunk(mutable).setBlockState(mutable, targetBlockOutput, false);
+				 //?}
 				mutable.move(Direction.DOWN);
 				currentBlockState = world.getBlockState(mutable);
 			}
@@ -113,12 +113,12 @@ public final class CitadelBottomProcessor implements StructureProcessor
 
 	@Override
 	//? if >=26.2 {
-	public MapCodec<? extends StructureProcessor> codec() {
+	/*public MapCodec<? extends StructureProcessor> codec() {
 		return FriendsAndFoesStructureProcessorTypes.CITADEL_BOTTOM_PROCESSOR.get();
 	}
-	//?} else {
-	/*protected StructureProcessorType<?> getType() {
+	*///?} else {
+	protected StructureProcessorType<?> getType() {
 		return FriendsAndFoesStructureProcessorTypes.CITADEL_BOTTOM_PROCESSOR.get();
 	}
-	*///?}
+	//?}
 }

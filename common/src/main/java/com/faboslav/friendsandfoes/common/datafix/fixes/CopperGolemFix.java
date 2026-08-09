@@ -1,5 +1,5 @@
 //? if >= 1.21.9 {
-package com.faboslav.friendsandfoes.common.datafix.fixes;
+/*package com.faboslav.friendsandfoes.common.datafix.fixes;
 
 import com.mojang.datafixers.schemas.Schema;
 import com.mojang.datafixers.util.Pair;
@@ -34,4 +34,4 @@ public class CopperGolemFix extends SimpleEntityRenameFix
 		return Pair.of(name, tag);
 	}
 }
-//?}
+*///?}

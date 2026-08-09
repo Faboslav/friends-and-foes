@@ -4,7 +4,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import net.minecraft.world.level.block.LightningRodBlock;
 
 //? if <=1.21.8 {
-/*import com.faboslav.friendsandfoes.common.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.block.OnUseOxidizable;
 import com.faboslav.friendsandfoes.common.entity.CopperGolemEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.CopperGolemBrain;
@@ -13,7 +13,7 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.util.CopperGolemBuildPatternPredicates;
-import net.minecraft.advancements.triggers.CriteriaTriggers;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -119,7 +119,7 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 		BlockPos cachedBlockPosition = patternSearchResult.getBlock(0, 2, 0).getPos();
 		float copperGolemYaw = headBlockState.getValue(CarvedPumpkinBlock.FACING).toYRot();
 
-		CopperGolemEntity copperGolem = FriendsAndFoesEntityTypes.COPPER_GOLEM.get().create(world/^? if >=1.21.3 {^/, VersionedEntitySpawnReason.TRIGGERED/^?}^/);
+		CopperGolemEntity copperGolem = FriendsAndFoesEntityTypes.COPPER_GOLEM.get().create(world/*? if >=1.21.3 {*//*, VersionedEntitySpawnReason.TRIGGERED*//*?}*/);
 
 		copperGolem.setPos(
 			(double) cachedBlockPosition.getX() + 0.5D,
@@ -236,8 +236,8 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 			cir.setReturnValue(actionResult);
 		}
 	}
-}*///?} else {
-@Mixin(value = LightningRodBlock.class, priority = 1001)
+}//?} else {
+/*@Mixin(value = LightningRodBlock.class, priority = 1001)
 public abstract class LightningRodBlockMixin {
 }
-//?}
+*///?}

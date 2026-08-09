@@ -12,17 +12,17 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 
 //? if >=1.21.3 {
-import net.minecraft.client.model.EntityModel;
+/*import net.minecraft.client.model.EntityModel;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.MaulerRenderState;
-//?} else {
-/*import net.minecraft.client.model.HierarchicalModel;
-*///?}
+*///?} else {
+import net.minecraft.client.model.HierarchicalModel;
+//?}
 
 //? if >=1.21.3 {
-public final class MaulerEntityModel extends EntityModel<MaulerRenderState>
-//?} else {
-/*public final class MaulerEntityModel<T extends MaulerEntity> extends HierarchicalModel<T>
-*///?}
+/*public final class MaulerEntityModel extends EntityModel<MaulerRenderState>
+*///?} else {
+public final class MaulerEntityModel<T extends MaulerEntity> extends HierarchicalModel<T>
+//?}
 {
 	private static final String MODEL_PART_HEAD = "head";
 	private static final String MODEL_PART_UPPER_JAW = "upperJaw";
@@ -45,8 +45,8 @@ public final class MaulerEntityModel extends EntityModel<MaulerRenderState>
 
 	public MaulerEntityModel(ModelPart root) {
 		//? if >=1.21.3 {
-		super(root);
-		//?}
+		/*super(root);
+		*///?}
 
 		this.root = root;
 		this.head = this.root.getChild(MODEL_PART_HEAD);
@@ -79,25 +79,25 @@ public final class MaulerEntityModel extends EntityModel<MaulerRenderState>
 	}
 
 	//? if <1.21.3 {
-	/*@Override
+	@Override
 	public ModelPart root() {
 		return this.root;
 	}
-	*///?}
+	//?}
 
 	@Override
 	//? if >=1.21.3 {
-	public void setupAnim(MaulerRenderState renderState)
-	//?} else {
-	/*public void setupAnim(T mauler, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
-	*///?}
+	/*public void setupAnim(MaulerRenderState renderState)
+	*///?} else {
+	public void setupAnim(T mauler, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch)
+	//?}
 	{
 		//? if >=1.21.3 {
-		var mauler = renderState.mauler;
+		/*var mauler = renderState.mauler;
 		var limbAngle = renderState.walkAnimationPos;
 		var limbDistance = renderState.walkAnimationSpeed;
 		var animationProgress = renderState.ageInTicks;
-		//?}
+		*///?}
 
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		this.updateKeyframeAnimations(mauler, limbAngle, limbDistance, animationProgress);

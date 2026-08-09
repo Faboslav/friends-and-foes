@@ -5,10 +5,10 @@ import com.faboslav.friendsandfoes.common.advancements.criterion.CompleteHideAnd
 import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistries;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistry;
-import net.minecraft.advancements.triggers.CriterionTrigger;
-import net.minecraft.advancements.triggers.TameAnimalTrigger;
+import net.minecraft.advancements.CriterionTrigger;
+import net.minecraft.advancements.critereon.TameAnimalTrigger;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.advancements.triggers.LightningStrikeTrigger;
+import net.minecraft.advancements.critereon.LightningStrikeTrigger;
 
 public final class FriendsAndFoesCriterias
 {

@@ -95,7 +95,7 @@ public final class WildfireSummonBlazeTask extends Behavior<WildfireEntity>
 				1,
 				-2 + wildfire.getRandom().nextInt(5)
 			);
-			Blaze blaze = VersionedEntityType.BLAZE.create(serverWorld/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.MOB_SUMMONED/*?}*/);
+			Blaze blaze = VersionedEntityType.BLAZE.create(serverWorld/*? if >=1.21.3 {*//*, VersionedEntitySpawnReason.MOB_SUMMONED*//*?}*/);
 			VersionedEntity.moveTo(blaze, blockPos, 0.0F, 0.0F);
 			blaze.setTarget(this.attackTarget);
 			((BlazeEntityAccess) blaze).friendsandfoes_setWildfire(wildfire);

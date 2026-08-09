@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.RandomSource;
@@ -19,17 +19,17 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ServerLevelAccessor;
 
 //? if >=1.21.3 {
-import net.minecraft.resources.FileToIdConverter;
-//?} else {
-/*import com.mojang.serialization.JsonOps;
+/*import net.minecraft.resources.FileToIdConverter;
+*///?} else {
+import com.mojang.serialization.JsonOps;
 import com.google.gson.JsonElement;
-*///?}
+//?}
 
 //? if >=1.21.3 {
-public final class MoobloomVariantManager extends SimpleJsonResourceReloadListener<MoobloomVariant>
-//?} else {
-/*public final class MoobloomVariantManager extends SimpleJsonResourceReloadListener
-*///?}
+/*public final class MoobloomVariantManager extends SimpleJsonResourceReloadListener<MoobloomVariant>
+*///?} else {
+public final class MoobloomVariantManager extends SimpleJsonResourceReloadListener
+//?}
 {
 	private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().setLenient().disableHtmlEscaping().excludeFieldsWithoutExposeAnnotation().create();
 	private static final MoobloomVariant DEFAULT_MOOBLOOM_VARIANT = new MoobloomVariant("buttercup", FriendsAndFoesBlocks.BUTTERCUP.get(), FriendsAndFoesTags.HAS_MOOBLOOMS);
@@ -44,36 +44,36 @@ public final class MoobloomVariantManager extends SimpleJsonResourceReloadListen
 
 	private MoobloomVariantManager() {
 		//? if >=1.21.4 {
-		super(MoobloomVariant.CODEC, FileToIdConverter.json("moobloom_variants"));
-		//?} else {
-		/*super(GSON, "moobloom_variants");
-		*///?}
+		/*super(MoobloomVariant.CODEC, FileToIdConverter.json("moobloom_variants"));
+		*///?} else {
+		super(GSON, "moobloom_variants");
+		//?}
 	}
 
 	@Override
 	//? if >=1.21.3 {
-	protected void apply(Map<Identifier, MoobloomVariant> moobloomVariants, ResourceManager resourceManager, ProfilerFiller profiler)
-	//?} else {
-	/*protected void apply(Map<Identifier, JsonElement> moobloomVariantsJson, ResourceManager resourceManager, ProfilerFiller profiler)
-	*///?}
+	/*protected void apply(Map<ResourceLocation, MoobloomVariant> moobloomVariants, ResourceManager resourceManager, ProfilerFiller profiler)
+	*///?} else {
+	protected void apply(Map<ResourceLocation, JsonElement> moobloomVariantsJson, ResourceManager resourceManager, ProfilerFiller profiler)
+	//?}
 	{
 		//? if <1.21.3 {
-		/*Map<Identifier, MoobloomVariant> moobloomVariants = new HashMap<>();
+		Map<ResourceLocation, MoobloomVariant> moobloomVariants = new HashMap<>();
 
-		for (Map.Entry<Identifier, JsonElement> entry : moobloomVariantsJson.entrySet()) {
-			Identifier resourceLocation = entry.getKey();
+		for (Map.Entry<ResourceLocation, JsonElement> entry : moobloomVariantsJson.entrySet()) {
+			ResourceLocation resourceLocation = entry.getKey();
 			JsonElement moobloomVariantJson = entry.getValue();
 
 			MoobloomVariant moobloomVariant = MoobloomVariant.CODEC.parse(JsonOps.INSTANCE, moobloomVariantJson).getOrThrow();
 
 			moobloomVariants.put(resourceLocation, moobloomVariant);
 		}
-		*///?}
+		//?}
 
 		apply(moobloomVariants);
 	}
 
-	public void apply(Map<Identifier, MoobloomVariant> moobloomVariants) {
+	public void apply(Map<ResourceLocation, MoobloomVariant> moobloomVariants) {
 		this.moobloomVariants.clear();
 		this.moobloomVariants.add(DEFAULT_MOOBLOOM_VARIANT);
 

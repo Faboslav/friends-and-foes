@@ -52,11 +52,7 @@ public final class BarnacleKelpFeatureRenderer extends RenderLayer<BarnacleRende
 			return;
 		}
 
-		//? if >= 1.21.9 {
-		coloredCutoutModelCopyLayerRender(
-		//?} else {
-		/*renderColoredCutoutModel(
-		*///?}
+		renderColoredCutoutModel(
 			this.getParentModel(),
 			KELP_TEXTURE,
 			poseStack,

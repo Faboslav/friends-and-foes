@@ -110,6 +110,7 @@ public final class BarnacleEntityModel extends EntityModel<BarnacleRenderState>
 	*///?}
 	{
 		//? >=1.21.3 {
+		super.setupAnim(renderState);
 		var barnacle = renderState.barnacle;
 		var limbSwing = renderState.walkAnimationPos;
 		var limbSwingAmount = renderState.walkAnimationSpeed;

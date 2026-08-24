@@ -50,15 +50,10 @@ public final class BarnacleKelpHeadFeatureRenderer extends RenderLayer<BarnacleR
 			return;
 		}
 
-		//int textureFrame = barnacle.tickCount % 10;
-		int textureFrame = 1;
+		int textureFrame = barnacle.isUnderWater() ? barnacle.tickCount % 20 + 1 : 1;
 		Identifier kelpTexture = FriendsAndFoes.makeID("textures/entity/barnacle/barnacle_kelp_head_" + textureFrame + ".png");
 
-		//? if >= 1.21.9 {
-		coloredCutoutModelCopyLayerRender(
-		//?} else {
-		/*renderColoredCutoutModel(
-		*///?}
+		renderColoredCutoutModel(
 			this.getParentModel(),
 			kelpTexture,
 			poseStack,

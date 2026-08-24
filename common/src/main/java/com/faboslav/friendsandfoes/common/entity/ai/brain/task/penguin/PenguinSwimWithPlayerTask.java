@@ -40,9 +40,9 @@ public class PenguinSwimWithPlayerTask extends Behavior<PenguinEntity>
 			|| !player.isAlive()
 			|| !player.isPassenger()
 			//? if >= 1.21.10 {
-			|| !(this.player.getVehicle() instanceof AbstractBoat)
+			|| !(player.getVehicle() instanceof AbstractBoat)
 			//?} else {
-			/*|| !(this.player.getVehicle() instanceof Boat)
+			/*|| !(player.getVehicle() instanceof Boat)
 			*///?}
 		) {
 			return false;

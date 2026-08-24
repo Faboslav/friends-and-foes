@@ -57,7 +57,7 @@ public class PenguinSwimWithPlayerTask extends Behavior<PenguinEntity>
 	protected void start(ServerLevel world, PenguinEntity penguin, long time) {
 		BehaviorUtils.lookAtEntity(penguin, this.player);
 		penguin.getLookControl().setLookAt(this.player);
-		this.player.addEffect(new MobEffectInstance(FriendsAndFoesStatusEffects.BOAT_SPEED.holder(), 100), penguin);
+		this.player.addEffect(new MobEffectInstance(FriendsAndFoesStatusEffects.PENGUINS_GLIDE.holder(), 100), penguin);
 	}
 
 	@Override
@@ -97,7 +97,7 @@ public class PenguinSwimWithPlayerTask extends Behavior<PenguinEntity>
 			*///?}
 			&& this.player.level().getRandom().nextInt(6) == 0
 		) {
-			this.player.addEffect(new MobEffectInstance(FriendsAndFoesStatusEffects.BOAT_SPEED.holder(), 100), penguin);
+			this.player.addEffect(new MobEffectInstance(FriendsAndFoesStatusEffects.PENGUINS_GLIDE.holder(), 100), penguin);
 		}
 
 	}

@@ -42,8 +42,8 @@ public abstract class AbstractBoatMixin
 		/*LivingEntity controllingPassenger = ((Boat) (Object) this).getControllingPassenger();
 		*///?}
 
-		if (controllingPassenger != null && controllingPassenger.hasEffect(FriendsAndFoesStatusEffects.BOAT_SPEED.holder())) {
-			MobEffectInstance effectInstance = controllingPassenger.getEffect(FriendsAndFoesStatusEffects.BOAT_SPEED.holder());
+		if (controllingPassenger != null && controllingPassenger.hasEffect(FriendsAndFoesStatusEffects.PENGUINS_GLIDE.holder())) {
+			MobEffectInstance effectInstance = controllingPassenger.getEffect(FriendsAndFoesStatusEffects.PENGUINS_GLIDE.holder());
 			int amplifier = effectInstance == null ? 0 : effectInstance.getAmplifier();
 			double bonusPerLevel = FriendsAndFoes.getConfig().penguinBoatSpeedStatusEffectModifier;
 			multiplier += bonusPerLevel * (amplifier + 1);

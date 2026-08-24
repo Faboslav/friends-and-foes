@@ -22,6 +22,7 @@ import net.minecraft.client.model.EntityModel;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.MaulerRenderState;
 //?} else {
 /*import net.minecraft.client.model.HierarchicalModel;
+import com.faboslav.friendsandfoes.common.entity.MaulerEntity;
 *///?}
 
 //? if >=1.21.3 {
@@ -129,7 +130,7 @@ public final class MaulerEntityModel extends EntityModel<MaulerRenderState>
 	//? if >=1.21.3 {
 	public void setupAnim(MaulerRenderState renderState)
 	//?} else {
-	/*public void setupAnim(T mauler, float limbSwing, float limbSwingAmount, float animationProgress, float headYaw, float headPitch)
+	/*public void setupAnim(T mauler, float limbSwing, float limbSwingAmount, float ageInTicks, float headYaw, float headPitch)
 	*///?}
 	{
 		//? if >=1.21.3 {

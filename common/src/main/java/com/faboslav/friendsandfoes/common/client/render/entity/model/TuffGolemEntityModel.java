@@ -12,7 +12,7 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 
 //? if >= 1.21.6 {
 import net.minecraft.client.animation.KeyframeAnimation;
- //?} else {
+//?} else {
 /*import net.minecraft.client.animation.AnimationDefinition;
 *///?}
 

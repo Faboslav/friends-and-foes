@@ -20,6 +20,6 @@ public final class FriendsAndFoesPotions
 	public static final HolderRegistryEntry<Potion> STRONG_REACHING = POTIONS.registerHolder("strong_reaching", () -> new Potion("reaching", new MobEffectInstance(FriendsAndFoesStatusEffects.REACH.holder(), (FriendsAndFoes.getConfig().crabPotionOfReachingDuration / 2) * 20, 1)));
 
 	public static final HolderRegistryEntry<Potion> GLIDING = POTIONS.registerHolder("gliding", () -> new Potion("gliding", new MobEffectInstance(FriendsAndFoesStatusEffects.GLIDE.holder(), FriendsAndFoes.getConfig().penguinPotionOfGlidingDuration * 20)));
-	public static final HolderRegistryEntry<Potion> LONG_GLIDING = POTIONS.registerHolder("long_gliding", () -> new Potion("gliding", new MobEffectInstance(FriendsAndFoesStatusEffects.GLIDE.holder(), (FriendsAndFoes.getConfig().penguinPotionOfGlidingDuration * 2) * 20)));
+	public static final HolderRegistryEntry<Potion> LONG_GLIDING = POTIONS.registerHolder("long_gliding", () -> new Potion("gliding", new MobEffectInstance(FriendsAndFoesStatusEffects.GLIDE.holder(), ((int)(FriendsAndFoes.getConfig().penguinPotionOfGlidingDuration * 2.66666666667) * 20))));
 	public static final HolderRegistryEntry<Potion> STRONG_GLIDING = POTIONS.registerHolder("strong_gliding", () -> new Potion("gliding", new MobEffectInstance(FriendsAndFoesStatusEffects.GLIDE.holder(), (FriendsAndFoes.getConfig().penguinPotionOfGlidingDuration / 2) * 20, 1)));
 }

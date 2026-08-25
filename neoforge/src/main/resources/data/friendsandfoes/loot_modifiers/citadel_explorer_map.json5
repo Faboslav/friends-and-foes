@@ -1,0 +1,13 @@
+{
+	"type": "neoforge:add_table",
+	"conditions": [
+		{
+			"condition": "neoforge:loot_table_id",
+			"loot_table_id": "minecraft:chests/nether_bridge"
+		}
+	],
+	//? if >= 26.2 {
+	"priority": 1000,
+	//?}
+	"table": "friendsandfoes:chests/citadel_explorer_map"
+}

@@ -24,19 +24,24 @@ import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.tags.BiomeTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.ai.village.poi.PoiTypes;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.LightningRodBlock;
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.ExplorationMapFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.functions.SetNameFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
@@ -125,6 +130,25 @@ public final class FriendsAndFoesFabric implements ModInitializer
 					/*.conditionally(LootItemRandomChanceCondition.randomChance(0.095F).build())
 					*///?}
 					.apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 1)))
+				);
+			}
+
+			if (lootTableSource.isBuiltin() && (lootTableResourceKey.equals(ResourceKey.create(Registries.LOOT_TABLE, FriendsAndFoes.makeNamespacedId("chests/nether_bridge"))))) {
+				lootBuilder.withPool(LootPool.lootPool()
+					.setRolls(ConstantValue.exactly(1))
+					.add(LootItem.lootTableItem(Items.MAP)
+						.apply(ExplorationMapFunction.makeExplorationMap()
+							.setDestination(TagKey.create(Registries.STRUCTURE, FriendsAndFoes.makeID("on_citadel_maps")))
+							.setMapDecoration(FriendsAndFoesMapDecorationTypes.CITADEL.holder())
+							.setSkipKnownStructures(false)
+						)
+						.apply(SetNameFunction.setName(Component.translatable("filled_map.friendsandfoes.citadel"), SetNameFunction.Target.ITEM_NAME))
+						//? if >= 26.1 {
+						.when(LootItemRandomChanceCondition.randomChance(0.1666F))
+						//?} else {
+						/*.conditionally(LootItemRandomChanceCondition.randomChance(0.1666F))
+						 *///?}
+					)
 				);
 			}
 		});

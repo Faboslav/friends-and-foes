@@ -1,6 +1,7 @@
 {
 	"replace": false,
 	"entries": [
-		"friendsandfoes:inject_music_disc_to_abandoned_mineshafts"
+		"friendsandfoes:inject_music_disc_to_abandoned_mineshafts",
+		"friendsandfoes:citadel_explorer_map"
 	]
 }

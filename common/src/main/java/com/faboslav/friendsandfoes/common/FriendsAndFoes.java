@@ -84,6 +84,7 @@ public final class FriendsAndFoes
 		FriendsAndFoesEntityTypes.ENTITY_TYPES.init();
 		FriendsAndFoesItems.ITEMS.init();
 		FriendsAndFoesItemGroups.ITEM_GROUPS.init();
+		FriendsAndFoesMapDecorationTypes.MAP_DECORATION_TYPES.init();
 		FriendsAndFoesMemoryModuleTypes.MEMORY_MODULE_TYPES.init();
 		FriendsAndFoesParticleTypes.PARTICLE_TYPES.init();
 		FriendsAndFoesPointOfInterestTypes.POINT_OF_INTEREST_TYPES.init();

@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.entity.state.EntityRenderState;
 public final class IceologerIceChunkRenderState extends EntityRenderState
 {
 	public IceologerIceChunkEntity iceologerIceChunk;
+	public float partialTick;
 
 	public IceologerIceChunkRenderState() {
 	}

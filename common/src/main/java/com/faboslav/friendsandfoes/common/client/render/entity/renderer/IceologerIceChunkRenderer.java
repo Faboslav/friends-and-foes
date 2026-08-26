@@ -55,9 +55,9 @@ public class IceologerIceChunkRenderer extends EntityRenderer<IceologerIceChunkE
 	{
 		//? if >= 1.21.3 {
 		var iceChunk = renderState.iceologerIceChunk;
-		var ageInTicks = renderState.ageInTicks;
+		var partialTick = renderState.partialTick;
 		//?} else {
-		/*var ageInTicks = Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(true);
+		/*var partialTick = Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(true);
 		*///?}
 		float animationProgress = iceChunk.getSummonAnimationProgress();
 
@@ -66,7 +66,7 @@ public class IceologerIceChunkRenderer extends EntityRenderer<IceologerIceChunkE
 		}
 
 		var summonAnimationProgress = Mth.lerp(
-			ageInTicks,
+			partialTick,
 			iceChunk.getLastSummonAnimationProgress(),
 			iceChunk.getSummonAnimationProgress()
 		);
@@ -113,6 +113,7 @@ public class IceologerIceChunkRenderer extends EntityRenderer<IceologerIceChunkE
 	public void extractRenderState(IceologerIceChunkEntity iceologerIceChunk, IceologerIceChunkRenderState renderState, float partialTick) {
 		super.extractRenderState(iceologerIceChunk, renderState, partialTick);
 		renderState.iceologerIceChunk = iceologerIceChunk;
+		renderState.partialTick = partialTick;
 	}
 	//?} else {
 	/*@Override

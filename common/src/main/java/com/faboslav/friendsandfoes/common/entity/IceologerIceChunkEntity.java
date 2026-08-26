@@ -63,6 +63,17 @@ public final class IceologerIceChunkEntity extends Entity
 	private UUID targetUUID;
 	*///?}
 
+	//? if >=1.21.5 {
+	private final InterpolationHandler interpolation = new InterpolationHandler(this);
+	//?} else {
+	/*private int lerpSteps;
+	private double lerpX;
+	private double lerpY;
+	private double lerpZ;
+	private double lerpYRot;
+	private double lerpXRot;
+	*///?}
+
 	private int lifetimeTicks;
 	private float summonAnimationProgress;
 	private float lastSummonAnimationProgress;
@@ -209,9 +220,38 @@ public final class IceologerIceChunkEntity extends Entity
 	}
 	*///?}
 
+	//? if >=1.21.5 {
+	@Override
+	@Nullable
+	public InterpolationHandler getInterpolation() {
+		return this.interpolation;
+	}
+	//?} else {
+	/*@Override
+	public void lerpTo(double x, double y, double z, float yRot, float xRot, int steps) {
+		this.lerpX = x;
+		this.lerpY = y;
+		this.lerpZ = z;
+		this.lerpYRot = yRot;
+		this.lerpXRot = xRot;
+		this.lerpSteps = steps;
+	}
+	*///?}
+
 	@Override
 	public void tick() {
 		super.tick();
+
+		//? if >=1.21.5 {
+		if (this.isInterpolating()) {
+			this.getInterpolation().interpolate();
+		}
+		//?} else {
+		/*if (this.lerpSteps > 0) {
+			this.lerpPositionAndRotationStep(this.lerpSteps, this.lerpX, this.lerpY, this.lerpZ, this.lerpYRot, this.lerpXRot);
+			this.lerpSteps--;
+		}
+		*///?}
 
 		if (lifetimeTicks == 10) {
 			this.playSummonSound();

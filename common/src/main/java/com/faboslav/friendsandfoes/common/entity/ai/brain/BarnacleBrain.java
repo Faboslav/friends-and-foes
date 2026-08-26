@@ -1,15 +1,19 @@
 package com.faboslav.friendsandfoes.common.entity.ai.brain;
 
 import com.faboslav.friendsandfoes.common.entity.BarnacleEntity;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSensorTypes;
+import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.behavior.*;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.NearestVisibleLivingEntities;
 import net.minecraft.world.entity.ai.sensing.Sensor;
 import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraft.world.entity.player.Player;
@@ -30,6 +34,8 @@ public final class BarnacleBrain
 	public static final List<SensorType<? extends Sensor<? super BarnacleEntity>>> SENSORS;
 	public static final Brain.Provider<BarnacleEntity> BRAIN_PROVIDER;
 	private static final UniformInt AVOID_MEMORY_DURATION;
+	private static final UniformInt TIME_BETWEEN_NON_PLAYER_ATTACKS;
+	private static final long ANGER_DURATION = 400L;
 
 	public BarnacleBrain() {
 	}
@@ -56,9 +62,9 @@ public final class BarnacleBrain
 	*///?}
 
 	//? if >= 26.1 {
-	protected static List<ActivityData<BarnacleEntity>> addActivities(BarnacleEntity barnacle)
+	private static List<ActivityData<BarnacleEntity>> addActivities(BarnacleEntity barnacle)
 	//?} else {
-	/*protected static void addActivities(Brain<BarnacleEntity> brain)
+	/*private static void addActivities(Brain<BarnacleEntity> brain)
 	 *///?}
 	{
 		//? if >= 26.1 {
@@ -93,6 +99,9 @@ public final class BarnacleBrain
 			ImmutableList.of(
 				new LookAtTargetSink(45, 90),
 				new MoveToTargetSink()
+				//? if >= 1.21.11 {
+				, new CountDownCooldownTicks(MemoryModuleType.ATTACK_TARGET_COOLDOWN)
+				//?}
 			)
 		);
 	}
@@ -110,7 +119,7 @@ public final class BarnacleBrain
 			*///?}
 			Activity.IDLE,
 			ImmutableList.of(
-				Pair.of(0, StartAttacking.create((/*? >=1.21.3 {*/serverLevel, /*?}*/barnacle) -> true, BarnacleBrain::getTarget)),
+				Pair.of(0, StartAttacking.create(BarnacleBrain::findNearestValidAttackTarget)),
 				Pair.of(1, makeRandomWanderTask())
 			)
 		);
@@ -131,7 +140,8 @@ public final class BarnacleBrain
 			10,
 			ImmutableList.of(
 				SetWalkTargetFromAttackTargetIfTargetOutOfReach.create(0.6F),
-				MeleeAttack.create(20)
+				MeleeAttack.create(20),
+				StopAttackingIfTargetInvalid.create()
 			),
 			MemoryModuleType.ATTACK_TARGET
 		);
@@ -172,48 +182,56 @@ public final class BarnacleBrain
 	private static RunOne<BarnacleEntity> makeRandomWanderTask() {
 		return new RunOne(
 			ImmutableList.of(
-				Pair.of(RandomStroll.stroll(0.6F), 2),
+				Pair.of(RandomStroll.swim(0.6F), 2),
 				Pair.of(SetWalkTargetFromLookTarget.create(1.0F, 3), 2),
 				Pair.of(new DoNothing(30, 60), 1)
 			)
 		);
 	}
 
-	private static Optional<? extends LivingEntity> getTarget(/*? >=1.21.3 {*/
-		ServerLevel level, /*?}*/
-		BarnacleEntity barnacle) {
-		Player nearestVisibleTargetablePlayer = barnacle.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER).orElse(
-			barnacle.level().getNearestPlayer(barnacle, BarnacleEntity.GENERIC_FOLLOW_RANGE)
-		);
+	private static Optional<? extends LivingEntity> findNearestValidAttackTarget(ServerLevel level, BarnacleEntity barnacle) {
+		Optional<LivingEntity> angryAt = BehaviorUtils.getLivingEntityFromUUIDMemory(barnacle, MemoryModuleType.ANGRY_AT)
+			.filter(entity -> Sensor.isEntityAttackableIgnoringLineOfSight(level, barnacle, entity));
 
-		if (nearestVisibleTargetablePlayer == null) {
+		if (angryAt.isPresent()) {
+			return angryAt;
+		}
+
+		Optional<Player> nearestVisibleAttackablePlayer = barnacle.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER);
+
+		if (nearestVisibleAttackablePlayer.isPresent()) {
+			return nearestVisibleAttackablePlayer;
+		}
+
+		//? if >= 1.21.11 {
+		if (barnacle.getBrain().hasMemoryValue(MemoryModuleType.ATTACK_TARGET_COOLDOWN)) {
 			return Optional.empty();
 		}
 
-		return Optional.of(nearestVisibleTargetablePlayer);
+		RandomSource random = level.getRandom();
+		barnacle.getBrain().setMemory(MemoryModuleType.ATTACK_TARGET_COOLDOWN, TIME_BETWEEN_NON_PLAYER_ATTACKS.sample(random));
+
+		return barnacle.getBrain()
+			.getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES)
+			.orElse(NearestVisibleLivingEntities.empty())
+			.findClosest(BarnacleBrain::isHostileTarget);
+		//?} else {
+		/*return Optional.empty();
+		*///?}
 	}
 
-	public static boolean shouldRunAway(BarnacleEntity barnacle) {
-		return false;
+	private static boolean isHostileTarget(LivingEntity livingEntity) {
+		//? if >= 26.1 {
+		return livingEntity.is(FriendsAndFoesTags.BARNACLE_HOSTILES);
+		//?} else {
+		/*return livingEntity.getType().is(FriendsAndFoesTags.BARNACLE_HOSTILES);
+		*///?}
 	}
 
-	public static void setAttackTarget(BarnacleEntity barnacle, LivingEntity target) {
-		barnacle.getBrain().eraseMemory(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE);
-		barnacle.getBrain().setMemoryWithExpiry(MemoryModuleType.ATTACK_TARGET, target, 200L);
-		barnacle.setLeashedTo(target, true);
-	}
-
-	private static void runAwayFrom(BarnacleEntity barnacle, LivingEntity target) {
-		barnacle.getBrain().eraseMemory(MemoryModuleType.ATTACK_TARGET);
-		barnacle.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);
-		barnacle.getBrain().setMemoryWithExpiry(MemoryModuleType.AVOID_TARGET, target, AVOID_MEMORY_DURATION.sample(barnacle.level().getRandom()));
-	}
-
-	public static void onAttacked(BarnacleEntity barnacle, LivingEntity attacker) {
-		setAttackTarget(barnacle, attacker);
-
-		if (shouldRunAway(barnacle)) {
-			runAwayFrom(barnacle, attacker);
+	public static void setAngerTarget(ServerLevel level, BarnacleEntity barnacle, LivingEntity target) {
+		if (Sensor.isEntityAttackableIgnoringLineOfSight(level, barnacle, target)) {
+			barnacle.getBrain().eraseMemory(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE);
+			barnacle.getBrain().setMemoryWithExpiry(MemoryModuleType.ANGRY_AT, target.getUUID(), ANGER_DURATION);
 		}
 	}
 
@@ -221,15 +239,21 @@ public final class BarnacleBrain
 		SENSORS = List.of(
 			SensorType.NEAREST_LIVING_ENTITIES,
 			SensorType.NEAREST_PLAYERS,
-			SensorType.HURT_BY
+			SensorType.HURT_BY,
+			FriendsAndFoesSensorTypes.BARNACLE_SPECIFIC_SENSOR.get()
 		);
 		MEMORY_MODULES = List.of(
 			MemoryModuleType.NEAREST_LIVING_ENTITIES,
+			MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES,
 			MemoryModuleType.PATH,
 			MemoryModuleType.LOOK_TARGET,
 			MemoryModuleType.WALK_TARGET,
 			MemoryModuleType.AVOID_TARGET,
 			MemoryModuleType.ATTACK_TARGET,
+			//? if >= 1.21.11 {
+			MemoryModuleType.ATTACK_TARGET_COOLDOWN,
+			//?}
+			MemoryModuleType.ANGRY_AT,
 			MemoryModuleType.INTERACTION_TARGET,
 			MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER,
 			MemoryModuleType.NEAREST_ATTACKABLE,
@@ -246,5 +270,6 @@ public final class BarnacleBrain
 			//?}
 		);
 		AVOID_MEMORY_DURATION = TimeUtil.rangeOfSeconds(5, 20);
+		TIME_BETWEEN_NON_PLAYER_ATTACKS = TimeUtil.rangeOfSeconds(120, 180);
 	}
 }

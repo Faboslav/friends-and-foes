@@ -90,7 +90,6 @@ public final class IceologerIceChunkEntity extends Entity
 		this.lifetimeTicks = 0;
 		this.summonAnimationProgress = 0;
 		this.lastSummonAnimationProgress = 0;
-		this.playSummonSound();
 	}
 
 

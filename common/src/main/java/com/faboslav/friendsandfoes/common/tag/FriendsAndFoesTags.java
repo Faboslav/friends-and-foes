@@ -21,6 +21,7 @@ import net.minecraft.world.item.trading.VillagerTrade;
 public final class FriendsAndFoesTags
 {
 	public static final TagKey<PoiType> BEEKEEPER_ACQUIRABLE_JOB_SITE = pointOfInterestTypeTag("beekeeper_acquirable_job_site");
+	public static final TagKey<EntityType<?>> BARNACLE_HOSTILES = entityTypeTag("barnacle_hostiles");
 	public static final TagKey<Block> COPPER_BUTTONS = blockTag("copper_buttons");
 	public static final TagKey<Item> CRAB_TEMPT_ITEMS = itemTag("crab_tempt_items");
 	public static final TagKey<Block> CRABS_SPAWNABLE_ON = blockTag("crabs_spawnable_on");

@@ -152,7 +152,7 @@ public final class BarnacleEntity extends Monster {
 	*//*?}*/
 	{
 		//? <1.21.3 {
-		/*var level = this.level();
+		/*var level = (ServerLevel) this.level();
 		 *///?}
 		/*? >=1.21.3 {*/
 		boolean damageResult = super.hurtServer(level, damageSource, amount);
@@ -163,7 +163,7 @@ public final class BarnacleEntity extends Monster {
 		Entity attacker = damageSource.getEntity();
 
 		if (damageResult && attacker instanceof LivingEntity) {
-			BarnacleBrain.onAttacked(this, (LivingEntity) attacker);
+			BarnacleBrain.setAngerTarget(level, this, (LivingEntity) attacker);
 		}
 
 		return damageResult;

@@ -46,7 +46,7 @@ public final class PenguinWingFlapTask extends Behavior<PenguinEntity>
 
 	@Override
 	protected boolean checkExtraStartConditions(ServerLevel world, PenguinEntity penguin) {
-		if (penguin.getNavigation().isInProgress() && penguin.isUnderWater()) {
+		if ((penguin.getNavigation().isInProgress() && penguin.isUnderWater()) || penguin.isBaby()) {
 			return false;
 		}
 

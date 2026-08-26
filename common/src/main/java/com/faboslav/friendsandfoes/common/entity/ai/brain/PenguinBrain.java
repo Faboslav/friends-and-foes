@@ -1,8 +1,14 @@
 package com.faboslav.friendsandfoes.common.entity.ai.brain;
 
 import com.faboslav.friendsandfoes.common.entity.PenguinEntity;
+import com.faboslav.friendsandfoes.common.entity.ai.brain.task.penguin.PenguinBreedTask;
+import com.faboslav.friendsandfoes.common.entity.ai.brain.task.penguin.PenguinLayEggTask;
+import com.faboslav.friendsandfoes.common.entity.ai.brain.task.penguin.PenguinLocateEggSpotTask;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.task.penguin.PenguinSwimWithPlayerTask;
+import com.faboslav.friendsandfoes.common.entity.ai.brain.task.penguin.PenguinTravelToEggSpotTask;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.task.penguin.PenguinWingFlapTask;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesActivities;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSensorTypes;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
@@ -65,12 +71,14 @@ public final class PenguinBrain
 		return List.of(
 			addCoreActivities(),
 			addIdleActivities(),
+			addLayEggActivities(),
 			addAvoidActivities()
 
 		);
 		//?} else {
 		/*addCoreActivities(brain);
 		addIdleActivities(brain);
+		addLayEggActivities(brain);
 		addAvoidActivities(brain);
 		*///?}
 	}
@@ -89,6 +97,7 @@ public final class PenguinBrain
 			Activity.CORE,
 			0,
 			ImmutableList.of(
+				new AnimalPanic<PenguinEntity>(1.4F),
 				new LookAtTargetSink(45, 90),
 				new MoveToTargetSink(),
 				new CountDownCooldownTicks(MemoryModuleType.TEMPTATION_COOLDOWN_TICKS),
@@ -117,12 +126,25 @@ public final class PenguinBrain
 		);
 	}
 
-	private static RunOne<PenguinEntity> makeRandomWanderTask() {
-		return new RunOne(
+	//? if >= 26.1 {
+	private static ActivityData<PenguinEntity> addLayEggActivities()
+	//?} else {
+	/*private static void addLayEggActivities(Brain<PenguinEntity> brain)
+	 *///?}
+	{
+		//? if >= 26.1 {
+		return ActivityData.create(
+			//?} else {
+			/*brain.addActivityWithConditions(
+			*///?}
+			FriendsAndFoesActivities.PENGUIN_LAY_EGG.get(),
 			ImmutableList.of(
-				Pair.of(RandomStroll.stroll(1.0f), 2),
-				Pair.of(SetWalkTargetFromLookTarget.create(1.0f, 3), 2),
-				Pair.of(new DoNothing(30, 60), 1)
+				Pair.of(0, new PenguinLocateEggSpotTask()),
+				Pair.of(1, new PenguinTravelToEggSpotTask()),
+				Pair.of(2, new PenguinLayEggTask())
+			),
+			ImmutableSet.of(
+				Pair.of(FriendsAndFoesMemoryModuleTypes.PENGUIN_HAS_EGG.get(), MemoryStatus.VALUE_PRESENT)
 			)
 		);
 	}
@@ -141,17 +163,18 @@ public final class PenguinBrain
 			Activity.IDLE,
 			ImmutableList.of(
 				Pair.of(0, SetEntityLookTargetSometimes.create(VersionedEntityType.PLAYER, 6.0F, UniformInt.of(30, 60))),
-				Pair.of(0, new FollowTemptation(penguin -> 1.25f)),
-				//Pair.of(1, new CrabBreedTask(FriendsAndFoesEntityTypes.PENGUIN.get())),
-				Pair.of(2, BabyFollowAdult.create(UniformInt.of(5, 16), 1.25f)),
-				Pair.of(2, new PenguinWingFlapTask()),
-				Pair.of(3, new PenguinSwimWithPlayerTask()),
-				Pair.of(4, new RunOne(
+				Pair.of(1, new FollowTemptation(penguin -> 1.25f)),
+				Pair.of(2, new PenguinBreedTask(FriendsAndFoesEntityTypes.PENGUIN.get())),
+				Pair.of(3, BabyFollowAdult.create(UniformInt.of(5, 16), 1.25f)),
+				Pair.of(4, new RunOne<>(
 					ImmutableList.of(
-						Pair.of(RandomStroll.stroll(1.0f), 2),
-						Pair.of(SetWalkTargetFromLookTarget.create(1.0f, 3), 2),
-						Pair.of(new DoNothing(30, 60), 1)))
-				)
+						Pair.of(new PenguinWingFlapTask(), 3),
+						Pair.of(new PenguinSwimWithPlayerTask(), 5),
+						Pair.of(RandomStroll.stroll(1.0f), 1),
+						Pair.of(SetWalkTargetFromLookTarget.create(1.0f, 3), 1),
+						Pair.of(new DoNothing(30, 60), 1)
+					)
+				))
 			),
 			ImmutableSet.of(
 				Pair.of(FriendsAndFoesMemoryModuleTypes.PENGUIN_HAS_EGG.get(), MemoryStatus.VALUE_ABSENT),
@@ -164,6 +187,7 @@ public final class PenguinBrain
 			ImmutableList.of(
 				Activity.AVOID,
 				Activity.FIGHT,
+				FriendsAndFoesActivities.PENGUIN_LAY_EGG.get(),
 				Activity.IDLE
 			)
 		);

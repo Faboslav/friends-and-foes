@@ -21,6 +21,7 @@ public final class FriendsAndFoesActivities
 	public final static RegistryEntry<Activity> CRAB_DANCE = ACTIVITIES.register("crab_dance", () -> new Activity("crab_dance"));
 	public final static RegistryEntry<Activity> CRAB_WAVE = ACTIVITIES.register("crab_wave", () -> new Activity("crab_wave"));
 	public final static RegistryEntry<Activity> CRAB_LAY_EGG = ACTIVITIES.register("crab_lay_egg", () -> new Activity("crab_lay_egg"));
+	public final static RegistryEntry<Activity> PENGUIN_LAY_EGG = ACTIVITIES.register("penguin_lay_egg", () -> new Activity("penguin_lay_egg"));
 	public final static RegistryEntry<Activity> GLARE_EAT_GLOW_BERRIES = ACTIVITIES.register("glare_eat_glow_berries", () -> new Activity("glare_eat_glow_berries"));
 	public final static RegistryEntry<Activity> GLARE_SHOW_DARK_SPOT = ACTIVITIES.register("glare_show_dark_spot", () -> new Activity("glare_dark_spot"));
 	public final static RegistryEntry<Activity> TUFF_GOLEM_HOME = ACTIVITIES.register("tuff_golem_home", () -> new Activity("tuff_golem_home"));

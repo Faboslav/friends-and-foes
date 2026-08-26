@@ -36,6 +36,7 @@ public class PenguinSwimWithPlayerTask extends Behavior<PenguinEntity>
 
 		if (
 			!penguin.isInWater()
+			|| penguin.isBaby()
 			|| player == null
 			|| !player.isAlive()
 			|| !player.isPassenger()

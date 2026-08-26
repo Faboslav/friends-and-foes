@@ -23,7 +23,7 @@ public final class BeaconBlockEntityMixin
 	@Shadow
 	@Final
 	@Mutable
-	private static List<List<Holder<MobEffect>>> BEACON_EFFECTS;
+	public static List<List<Holder<MobEffect>>> BEACON_EFFECTS;
 
 	@Shadow
 	@Final
@@ -36,7 +36,7 @@ public final class BeaconBlockEntityMixin
 			value = "TAIL"
 		)
 	)
-	private static void friendsandfoes_addReachToBeaconEffects(CallbackInfo ci) {
+	private static void friendsandfoes$addReachToBeaconEffects(CallbackInfo ci) {
 		var effects = new ArrayList<>(BEACON_EFFECTS);
 		var primary = new ArrayList<>(effects.get(0));
 		var reach = FriendsAndFoesStatusEffects.REACH.holder();

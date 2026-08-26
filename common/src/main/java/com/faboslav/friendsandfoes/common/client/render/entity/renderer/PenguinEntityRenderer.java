@@ -12,17 +12,27 @@ import net.minecraft.resources.Identifier;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.PenguinRenderState;
 //?}
 
+//? if >= 26.2 {
+import net.minecraft.client.renderer.entity.AgeableMobRenderer;
+//?}
+
 @SuppressWarnings({"rawtypes", "unchecked"})
-//? >=1.21.3 {
-public class PenguinEntityRenderer extends MobRenderer<PenguinEntity, PenguinRenderState, PenguinEntityModel>
-//?} else {
+//? if >= 26.2 {
+public class PenguinEntityRenderer extends AgeableMobRenderer<PenguinEntity, PenguinRenderState, PenguinEntityModel>
+//?} else if >=1.21.3 {
+/*public class PenguinEntityRenderer extends MobRenderer<PenguinEntity, PenguinRenderState, PenguinEntityModel>
+*///?} else {
 /*public final class PenguinEntityRenderer extends MobRenderer<PenguinEntity, PenguinEntityModel<PenguinEntity>>
 *///?}
 {
 	private static final Identifier PENGUIN_TEXTURE = FriendsAndFoes.makeID("textures/entity/penguin/penguin.png");
 
 	public PenguinEntityRenderer(EntityRendererProvider.Context context) {
-		super(context, new PenguinEntityModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.PENGUIN_LAYER)), 0.5F);
+		//? if >= 26.2 {
+		super(context, new PenguinEntityModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.PENGUIN_LAYER)), new PenguinEntityModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.PENGUIN_BABY_LAYER)), 0.5F);
+		//?} else {
+		/*super(context, new PenguinEntityModel(context.bakeLayer(FriendsAndFoesEntityModelLayers.PENGUIN_LAYER)), 0.5F);
+		*///?}
 	}
 
 	//? >=1.21.3 {

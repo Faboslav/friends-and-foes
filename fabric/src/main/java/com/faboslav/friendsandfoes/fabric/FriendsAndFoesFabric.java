@@ -143,12 +143,12 @@ public final class FriendsAndFoesFabric implements ModInitializer
 							.setSkipKnownStructures(false)
 						)
 						.apply(SetNameFunction.setName(Component.translatable("filled_map.friendsandfoes.citadel"), SetNameFunction.Target.ITEM_NAME))
-						//? if >= 26.1 {
-						.when(LootItemRandomChanceCondition.randomChance(0.1666F))
-						//?} else {
-						/*.conditionally(LootItemRandomChanceCondition.randomChance(0.1666F))
-						 *///?}
 					)
+					//? if >= 26.1 {
+					.when(LootItemRandomChanceCondition.randomChance(0.1666F).build())
+					//?} else {
+					/*.conditionally(LootItemRandomChanceCondition.randomChance(0.1666F).build())
+					 *///?}
 				);
 			}
 		});

@@ -22,12 +22,20 @@ import net.minecraft.client.model.EntityModel;
 /*import net.minecraft.client.model.HierarchicalModel;
 *///?}
 
+//? if >= 26.2 {
+import net.minecraft.client.model.geom.builders.MeshTransformer;
+//?}
+
 //? >=1.21.3 {
 public final class PenguinEntityModel extends EntityModel<PenguinRenderState>
 //?} else {
 /*public final class PenguinEntityModel<T extends PenguinEntity> extends HierarchicalModel<T>
 *///?}
 {
+	//? if >= 26.2 {
+	public static final MeshTransformer BABY_TRANSFORMER = MeshTransformer.scaling(PenguinEntity.BABY_SCALE);
+	//?}
+
 	private static final String MAIN = "main";
 	private static final String BODY = "body";
 	private static final String HEAD = "head";

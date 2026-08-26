@@ -5,13 +5,17 @@ import com.faboslav.friendsandfoes.common.entity.ai.brain.PenguinBrain;
 import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityDataSerializers;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
 import com.faboslav.friendsandfoes.common.versions.VersionedGameRulesProvider;
+import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
 import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
 import net.minecraft.advancements.triggers.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -42,8 +46,19 @@ import org.jetbrains.annotations.Nullable;
 /*import com.mojang.serialization.Dynamic;
 *///?}
 
+//? if >=1.21.6 {
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+//?} else {
+/*import net.minecraft.nbt.CompoundTag;
+*///?}
+
 public final class PenguinEntity extends Animal {
+	public static final float BABY_SCALE = 0.4F;
+
+	private static final String HAS_EGG_NBT_NAME = "HasEgg";
 	private static final EntityDataAccessor<FriendsAndFoesEntityPose> ENTITY_POSE = SynchedEntityData.defineId(PenguinEntity.class, FriendsAndFoesEntityDataSerializers.ENTITY_POSE);
+	private static final EntityDataAccessor<Boolean> HAS_EGG = SynchedEntityData.defineId(PenguinEntity.class, EntityDataSerializers.BOOLEAN);
 
 	private static final float MOVEMENT_SPEED = 0.2F;
 
@@ -96,11 +111,43 @@ public final class PenguinEntity extends Animal {
 	}
 	*///?}
 
+	//? if >= 26.2 {
+	@Override
+	public float getAgeScale() {
+		return this.isBaby() ? BABY_SCALE : 1.0F;
+	}
+	//?}
+
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder builder) {
 		super.defineSynchedData(builder);
 
 		builder.define(ENTITY_POSE, FriendsAndFoesEntityPose.IDLE);
+		builder.define(HAS_EGG, false);
+	}
+
+	@Override
+	//? if >= 1.21.6 {
+	public void addAdditionalSaveData(ValueOutput nbt)
+	//?} else {
+	/*public void addAdditionalSaveData(CompoundTag nbt)
+	*///?}
+	{
+		super.addAdditionalSaveData(nbt);
+
+		nbt.putBoolean(HAS_EGG_NBT_NAME, this.hasEgg());
+	}
+
+	@Override
+	//? if >= 1.21.6 {
+	public void readAdditionalSaveData(ValueInput saveData)
+	//?} else {
+	/*public void readAdditionalSaveData(CompoundTag saveData)
+	*///?}
+	{
+		super.readAdditionalSaveData(saveData);
+
+		this.setHasEgg(VersionedNbt.getBoolean(saveData, HAS_EGG_NBT_NAME, false));
 	}
 
 	@Override
@@ -220,11 +267,17 @@ public final class PenguinEntity extends Animal {
 
 	@Override
 	public float getSpeed() {
+		var movementSpeed = MOVEMENT_SPEED;
+
 		if (this.isUnderWater()) {
-			return MOVEMENT_SPEED * 1.25F;
+			movementSpeed = movementSpeed * 1.25F;
 		}
 
-		return MOVEMENT_SPEED;
+		if (this.isBaby()) {
+			movementSpeed = movementSpeed / 2.0F;
+		}
+
+		return movementSpeed;
 	}
 
 	@Override
@@ -255,7 +308,7 @@ public final class PenguinEntity extends Animal {
 			CriteriaTriggers.BRED_ANIMALS.trigger(serverPlayerEntity, this, mate, null);
 		}
 
-		//this.setHasEgg(true);
+		this.setHasEgg(true);
 		this.resetLove();
 		mate.resetLove();
 		RandomSource random = this.getRandom();
@@ -323,7 +376,24 @@ public final class PenguinEntity extends Animal {
 	}
 
 	public boolean hasEgg() {
-		return false;
+		return this.entityData.get(HAS_EGG);
+	}
+
+	public void setHasEgg(boolean hasEgg) {
+		this.entityData.set(HAS_EGG, hasEgg);
+	}
+
+	@Nullable
+	public GlobalPos getEggSpotPos() {
+		return this.getBrain().getMemoryInternal(FriendsAndFoesMemoryModuleTypes.PENGUIN_EGG_POS.get()).orElse(null);
+	}
+
+	public boolean isEggSpotAccessible(BlockPos pos) {
+		var world = this.level();
+		boolean isBlockSolid = world.getBlockState(pos.below()).entityCanStandOn(world, pos, this);
+		boolean isBlockAccessible = world.isEmptyBlock(pos) && world.isEmptyBlock(pos.above());
+
+		return isBlockSolid && isBlockAccessible;
 	}
 
 	public void travel(Vec3 travelVector) {

@@ -400,6 +400,29 @@
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.penguin.wing_flap"
 	},
+	"entity.penguin.lay_egg": {
+		"sounds": [
+			"friendsandfoes:entity/penguin/lay_egg1",
+			"friendsandfoes:entity/penguin/lay_egg2"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.penguin.lay_egg"
+	},
+	"entity.penguin.egg_crack": {
+		"sounds": [
+			"friendsandfoes:entity/penguin/egg_crack1",
+			"friendsandfoes:entity/penguin/egg_crack2",
+			"friendsandfoes:entity/penguin/egg_crack3",
+			"friendsandfoes:entity/penguin/egg_crack4",
+			"friendsandfoes:entity/penguin/egg_crack5"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.penguin.egg_crack"
+	},
+	"entity.penguin.egg_hatch": {
+		"sounds": [
+			"friendsandfoes:entity/penguin/egg_hatch1"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.penguin.egg_hatch"
+	},
 	"entity.player.mirror_move": {
 		"sounds": [
 			"friendsandfoes:entity/player/mirror_move1",

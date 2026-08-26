@@ -121,25 +121,30 @@ public class FriendsAndFoesItemGroups
 				.map(Item::getDefaultInstance)
 				.forEach(event::add);
 		} else if (event.type() == AddItemGroupEntriesEvent.Type.REDSTONE) {
-			Stream.of(
-				FriendsAndFoesItems.COPPER_BUTTON,
-				FriendsAndFoesItems.EXPOSED_COPPER_BUTTON,
-				FriendsAndFoesItems.WEATHERED_COPPER_BUTTON,
-				FriendsAndFoesItems.OXIDIZED_COPPER_BUTTON,
-				FriendsAndFoesItems.WAXED_COPPER_BUTTON,
-				FriendsAndFoesItems.WAXED_EXPOSED_COPPER_BUTTON,
-				FriendsAndFoesItems.WAXED_WEATHERED_COPPER_BUTTON,
-				FriendsAndFoesItems.WAXED_OXIDIZED_COPPER_BUTTON
-				//? if <=1.21.8 {
-				/*,FriendsAndFoesItems.EXPOSED_LIGHTNING_ROD,
+			if(config.enableCopperButtons) {
+				Stream.of(
+					FriendsAndFoesItems.COPPER_BUTTON,
+					FriendsAndFoesItems.EXPOSED_COPPER_BUTTON,
+					FriendsAndFoesItems.WEATHERED_COPPER_BUTTON,
+					FriendsAndFoesItems.OXIDIZED_COPPER_BUTTON,
+					FriendsAndFoesItems.WAXED_COPPER_BUTTON,
+					FriendsAndFoesItems.WAXED_EXPOSED_COPPER_BUTTON,
+					FriendsAndFoesItems.WAXED_WEATHERED_COPPER_BUTTON,
+					FriendsAndFoesItems.WAXED_OXIDIZED_COPPER_BUTTON
+				).map(item -> item.get().getDefaultInstance()).forEach(event::add);
+			}
+
+			//? if <=1.21.8 {
+			/*Stream.of(
+				FriendsAndFoesItems.EXPOSED_LIGHTNING_ROD,
 				FriendsAndFoesItems.WEATHERED_LIGHTNING_ROD,
 				FriendsAndFoesItems.OXIDIZED_LIGHTNING_ROD,
 				FriendsAndFoesItems.WAXED_LIGHTNING_ROD,
 				FriendsAndFoesItems.WAXED_EXPOSED_LIGHTNING_ROD,
 				FriendsAndFoesItems.WAXED_WEATHERED_LIGHTNING_ROD,
 				FriendsAndFoesItems.WAXED_OXIDIZED_LIGHTNING_ROD
-				*///?}
 			).map(item -> item.get().getDefaultInstance()).forEach(event::add);
+			*///?}
 		} else if (event.type() == AddItemGroupEntriesEvent.Type.INGREDIENTS) {
 			Stream.of(
 				FriendsAndFoesItems.WILDFIRE_CROWN_FRAGMENT,

@@ -108,6 +108,7 @@ public final class FriendsAndFoesConfig
 	public static final boolean ENABLE_SPRUCE_BEEHIVE_DEFAULT_VALUE = true;
 	public static final boolean ENABLE_PALE_OAK_BEEHIVE_DEFAULT_VALUE = true;
 	public static final boolean ENABLE_WARPED_BEEHIVE_DEFAULT_VALUE = true;
+	public static final boolean ENABLE_COPPER_BUTTONS = true;
 
 
 	public boolean enableBeekeeperVillagerProfession = ENABLE_BEEKEEPER_VILLAGER_PROFESSION_DEFAULT_VALUE;
@@ -216,6 +217,7 @@ public final class FriendsAndFoesConfig
 	public boolean enableSpruceBeehive = ENABLE_SPRUCE_BEEHIVE_DEFAULT_VALUE;
 	public boolean enablePaleOakBeehive = ENABLE_PALE_OAK_BEEHIVE_DEFAULT_VALUE;
 	public boolean enableWarpedBeehive = ENABLE_WARPED_BEEHIVE_DEFAULT_VALUE;
+	public boolean enableCopperButtons = ENABLE_COPPER_BUTTONS;
 
 	public static void load() {
 		FriendsAndFoesConfigSerializer.load();

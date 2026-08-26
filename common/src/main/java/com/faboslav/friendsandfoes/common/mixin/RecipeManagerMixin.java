@@ -100,6 +100,17 @@ public final class RecipeManagerMixin
 		if (!config.enableWarpedBeehive) {
 			removeRecipe(FriendsAndFoesItems.WARPED_BEEHIVE.getId());
 		}
+
+		if(!config.enableCopperButtons) {
+			removeRecipe(FriendsAndFoesItems.COPPER_BUTTON.getId());
+			removeRecipe(FriendsAndFoesItems.EXPOSED_COPPER_BUTTON.getId());
+			removeRecipe(FriendsAndFoesItems.WEATHERED_COPPER_BUTTON.getId());
+			removeRecipe(FriendsAndFoesItems.OXIDIZED_COPPER_BUTTON.getId());
+			removeRecipe(FriendsAndFoesItems.WAXED_COPPER_BUTTON.getId());
+			removeRecipe(FriendsAndFoesItems.WAXED_EXPOSED_COPPER_BUTTON.getId());
+			removeRecipe(FriendsAndFoesItems.WAXED_WEATHERED_COPPER_BUTTON.getId());
+			removeRecipe(FriendsAndFoesItems.WAXED_OXIDIZED_COPPER_BUTTON.getId());
+		}
 	}
 
 	private void removeRecipe(Identifier id) {

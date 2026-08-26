@@ -181,17 +181,19 @@ public final class GlareEntity extends TamableAnimal
 		BlockPos blockPos,
 		RandomSource random
 	) {
-		BlockState blockState = serverWorldAccess.getBlockState(blockPos.below());
+		if (blockPos.getY() >= 63) {
+			return false;
+		}
 
-		boolean isBelowSurfaceLevel = blockPos.getY() < 63;
-		boolean isSkyHidden = serverWorldAccess.canSeeSky(blockPos) == false;
-		boolean isBlockPosLightEnough = serverWorldAccess.getMaxLocalRawBrightness(blockPos, 0) > LIGHT_THRESHOLD;
-		boolean isRelatedBlock = blockState.is(FriendsAndFoesTags.GLARES_SPAWNABLE_ON);
+		if (!serverWorldAccess.getBlockState(blockPos.below()).is(FriendsAndFoesTags.GLARES_SPAWNABLE_ON)) {
+			return false;
+		}
 
-		return isBelowSurfaceLevel
-			   && isRelatedBlock
-			   && isSkyHidden
-			   && isBlockPosLightEnough;
+		if (serverWorldAccess.canSeeSky(blockPos)) {
+			return false;
+		}
+
+		return serverWorldAccess.getMaxLocalRawBrightness(blockPos, 0) > LIGHT_THRESHOLD;
 	}
 
 	@Override

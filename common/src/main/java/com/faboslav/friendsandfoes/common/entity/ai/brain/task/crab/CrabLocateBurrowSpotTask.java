@@ -47,31 +47,31 @@ public final class CrabLocateBurrowSpotTask extends Behavior<CrabEntity>
 
 	private ArrayList<BlockPos> findBurrowSpots(CrabEntity crab) {
 		BlockPos blockPos = crab.blockPosition();
-		ArrayList<BlockPos> darkSpots = new ArrayList<>();
+		ArrayList<BlockPos> burrowSpots = new ArrayList<>();
 		int searchDistance = 16;
 
-		for (int i = 0; (double) i <= searchDistance; i = i > 0 ? -i:1 - i) {
-			for (int j = 0; (double) j < searchDistance; ++j) {
-				for (int k = 0; k <= j; k = k > 0 ? -k:1 - k) {
-					for (int l = k < j && k > -j ? j:0; l <= j; l = l > 0 ? -l:1 - l) {
+		for (int y = 0; y <= searchDistance; y = y > 0 ? -y:1 - y) {
+			for (int radius = 0; radius < searchDistance; ++radius) {
+				for (int x = 0; x <= radius; x = x > 0 ? -x:1 - x) {
+					for (int z = x < radius && x > -radius ? radius:0; z <= radius; z = z > 0 ? -z:1 - z) {
 						BlockPos.MutableBlockPos possibleBurrowSpotBlockPos = new BlockPos.MutableBlockPos();
-						possibleBurrowSpotBlockPos.setWithOffset(blockPos, k, i - 1, l);
+						possibleBurrowSpotBlockPos.setWithOffset(blockPos, x, y - 1, z);
 
-						boolean isBlockWithinDistance = blockPos.closerThan(
-							possibleBurrowSpotBlockPos,
-							searchDistance
-						);
-
-
-						if (isBlockWithinDistance && crab.isBurrowSpotAccessible(possibleBurrowSpotBlockPos)) {
-							darkSpots.add(possibleBurrowSpotBlockPos);
+						if (!blockPos.closerThan(possibleBurrowSpotBlockPos, searchDistance)) {
+							continue;
 						}
+
+						if (!crab.isBurrowSpotAccessible(possibleBurrowSpotBlockPos)) {
+							continue;
+						}
+
+						burrowSpots.add(possibleBurrowSpotBlockPos);
 					}
 				}
 			}
 		}
 
-		return darkSpots;
+		return burrowSpots;
 	}
 
 	@Nullable

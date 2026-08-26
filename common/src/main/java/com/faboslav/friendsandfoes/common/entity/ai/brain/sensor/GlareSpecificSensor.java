@@ -24,11 +24,15 @@ public class GlareSpecificSensor extends Sensor<GlareEntity>
 
 	@Override
 	protected void doTick(ServerLevel world, GlareEntity glare) {
+		if (glare.isTame()) {
+			return;
+		}
+
 		Brain<?> brain = glare.getBrain();
 		NearestVisibleLivingEntities livingTargetCache = brain.getMemoryInternal(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).orElse(NearestVisibleLivingEntities.empty());
 		LivingEntity firstHostileEntity = livingTargetCache.findClosest(livingEntity -> livingEntity instanceof Monster).orElse(null);
 
-		if (firstHostileEntity == null || glare.isTame()) {
+		if (firstHostileEntity == null) {
 			return;
 		}
 

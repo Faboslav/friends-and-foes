@@ -39,8 +39,8 @@ public final class GlareShakeGlowBerriesTask extends Behavior<GlareEntity>
 			   && !glare.isOrderedToSit()
 			   && glare.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty() != false
 			   && glowBerriesPos != null
-			   && glare.canEatGlowBerriesAt(glowBerriesPos.pos()) != false
-			   && glowBerriesPos.pos().closerToCenterThan(glare.position(), WITHING_DISTANCE) != false;
+			   && glowBerriesPos.pos().closerToCenterThan(glare.position(), WITHING_DISTANCE) != false
+			   && glare.canEatGlowBerriesAt(glowBerriesPos.pos()) != false;
 	}
 
 	@Override
@@ -58,8 +58,8 @@ public final class GlareShakeGlowBerriesTask extends Behavior<GlareEntity>
 			   && !glare.isOrderedToSit()
 			   && glare.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty() != false
 			   && glowBerriesPos != null
-			   && glare.canEatGlowBerriesAt(glowBerriesPos.pos()) != false
-			   && glowBerriesPos.pos().closerToCenterThan(glare.position(), WITHING_DISTANCE) != false;
+			   && glowBerriesPos.pos().closerToCenterThan(glare.position(), WITHING_DISTANCE) != false
+			   && glare.canEatGlowBerriesAt(glowBerriesPos.pos()) != false;
 	}
 
 	protected void tick(ServerLevel world, GlareEntity glare, long time) {

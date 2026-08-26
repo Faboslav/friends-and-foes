@@ -34,9 +34,9 @@ public final class GlareTravelToGlowBerriesTask extends Behavior<GlareEntity>
 			   && !glare.isLeashed()
 			   && !glare.isOrderedToSit()
 			   && glare.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty() != false
-			   && glare.canEatGlowBerriesAt(glowBerriesPos.pos()) != false
 			   && glowBerriesPos != null
-			   && !glowBerriesPos.pos().closerToCenterThan(glare.position(), WITHING_DISTANCE);
+			   && !glowBerriesPos.pos().closerToCenterThan(glare.position(), WITHING_DISTANCE)
+			   && glare.canEatGlowBerriesAt(glowBerriesPos.pos()) != false;
 	}
 
 	@Override
@@ -50,15 +50,15 @@ public final class GlareTravelToGlowBerriesTask extends Behavior<GlareEntity>
 
 		if (
 			glowBerriesPos == null
-			|| glare.canEatGlowBerriesAt(glowBerriesPos.pos()) == false
-			|| (
-				glowBerriesPos.pos().closerToCenterThan(glare.position(), WITHING_DISTANCE)
-				&& glare.getNavigation().isInProgress() == false
-			)
 			|| FriendsAndFoes.getConfig().enableGlareGriefing == false
 			|| glare.isLeashed() == true
 			|| glare.isOrderedToSit() == true
 			|| glare.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty() == false
+			|| (
+				glowBerriesPos.pos().closerToCenterThan(glare.position(), WITHING_DISTANCE)
+				&& glare.getNavigation().isInProgress() == false
+			)
+			|| glare.canEatGlowBerriesAt(glowBerriesPos.pos()) == false
 		) {
 			return false;
 		}

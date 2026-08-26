@@ -80,7 +80,6 @@ public final class WildfireBarrageAttackTask extends Behavior<WildfireEntity>
 		if (
 			attackTarget == null
 			|| !attackTarget.isAlive()
-			|| !attackTarget.isAlive()
 			|| (
 				attackTarget instanceof Player
 				&& (

@@ -50,32 +50,30 @@ public final class GlareLocateDarkSpotTask extends Behavior<GlareEntity>
 		ArrayList<BlockPos> darkSpots = new ArrayList<>();
 		int searchDistance = 16;
 
-		for (int i = 0; (double) i <= searchDistance; i = i > 0 ? -i:1 - i) {
-			for (int j = 0; (double) j < searchDistance; ++j) {
-				for (int k = 0; k <= j; k = k > 0 ? -k:1 - k) {
-					for (int l = k < j && k > -j ? j:0; l <= j; l = l > 0 ? -l:1 - l) {
+		for (int y = 0; y <= searchDistance; y = y > 0 ? -y:1 - y) {
+			for (int radius = 0; radius < searchDistance; ++radius) {
+				for (int x = 0; x <= radius; x = x > 0 ? -x:1 - x) {
+					for (int z = x < radius && x > -radius ? radius:0; z <= radius; z = z > 0 ? -z:1 - z) {
 						BlockPos.MutableBlockPos possibleDarkSpotBlockPos = new BlockPos.MutableBlockPos();
-						possibleDarkSpotBlockPos.setWithOffset(blockPos, k, i - 1, l);
+						possibleDarkSpotBlockPos.setWithOffset(blockPos, x, y - 1, z);
 
-						boolean isBlockWithinDistance = blockPos.closerThan(
-							possibleDarkSpotBlockPos,
-							searchDistance
-						);
-						boolean isSpotDarkEnough = glare.level().getBrightness(LightLayer.BLOCK, possibleDarkSpotBlockPos) == 0;
-						boolean isBlockSolidSurface = serverWorld.getBlockState(possibleDarkSpotBlockPos.below()).entityCanStandOn(serverWorld,
-							possibleDarkSpotBlockPos,
-							glare
-						);
-						boolean isBlockAccessible = serverWorld.isEmptyBlock(possibleDarkSpotBlockPos) && serverWorld.isEmptyBlock(possibleDarkSpotBlockPos.above());
-
-						if (
-							isBlockWithinDistance
-							&& isBlockSolidSurface
-							&& isBlockAccessible
-							&& isSpotDarkEnough
-						) {
-							darkSpots.add(possibleDarkSpotBlockPos);
+						if (!blockPos.closerThan(possibleDarkSpotBlockPos, searchDistance)) {
+							continue;
 						}
+
+						if (!serverWorld.isEmptyBlock(possibleDarkSpotBlockPos) || !serverWorld.isEmptyBlock(possibleDarkSpotBlockPos.above())) {
+							continue;
+						}
+
+						if (serverWorld.getBrightness(LightLayer.BLOCK, possibleDarkSpotBlockPos) != 0) {
+							continue;
+						}
+
+						if (!serverWorld.getBlockState(possibleDarkSpotBlockPos.below()).entityCanStandOn(serverWorld, possibleDarkSpotBlockPos, glare)) {
+							continue;
+						}
+
+						darkSpots.add(possibleDarkSpotBlockPos);
 					}
 				}
 			}
@@ -96,25 +94,23 @@ public final class GlareLocateDarkSpotTask extends Behavior<GlareEntity>
 	}
 
 	public static boolean canLocateDarkSpot(GlareEntity glare) {
+		if (
+			glare.isLeashed()
+			|| glare.isOrderedToSit()
+			|| glare.isPassenger()
+			|| glare.isBaby()
+			|| !glare.isTame()
+		) {
+			return false;
+		}
+
 		var level = glare.level();
 		//? if >=1.21.5 {
 		var isDay = level.isBrightOutside();
 		//?} else {
 		/*var isDay = level.isDay();
 		*///?}
-		var canSeeSky = level.canSeeSky(glare.blockPosition());
 
-		if(
-			glare.isLeashed()
-			|| glare.isOrderedToSit()
-			|| glare.isPassenger()
-			|| glare.isBaby()
-			|| !glare.isTame()
-			|| (isDay && canSeeSky)
-		) {
-			return false;
-		}
-
-		return true;
+		return !isDay || !level.canSeeSky(glare.blockPosition());
 	}
 }

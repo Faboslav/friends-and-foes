@@ -43,21 +43,22 @@ public final class PenguinLocateEggSpotTask extends Behavior<PenguinEntity>
 		BlockPos blockPos = penguin.blockPosition();
 		ArrayList<BlockPos> eggSpots = new ArrayList<>();
 
-		for (int i = 0; (double) i <= SEARCH_DISTANCE; i = i > 0 ? -i:1 - i) {
-			for (int j = 0; (double) j < SEARCH_DISTANCE; ++j) {
-				for (int k = 0; k <= j; k = k > 0 ? -k:1 - k) {
-					for (int l = k < j && k > -j ? j:0; l <= j; l = l > 0 ? -l:1 - l) {
+		for (int y = 0; y <= SEARCH_DISTANCE; y = y > 0 ? -y:1 - y) {
+			for (int radius = 0; radius < SEARCH_DISTANCE; ++radius) {
+				for (int x = 0; x <= radius; x = x > 0 ? -x:1 - x) {
+					for (int z = x < radius && x > -radius ? radius:0; z <= radius; z = z > 0 ? -z:1 - z) {
 						BlockPos.MutableBlockPos possibleEggSpotBlockPos = new BlockPos.MutableBlockPos();
-						possibleEggSpotBlockPos.setWithOffset(blockPos, k, i - 1, l);
+						possibleEggSpotBlockPos.setWithOffset(blockPos, x, y - 1, z);
 
-						boolean isBlockWithinDistance = blockPos.closerThan(
-							possibleEggSpotBlockPos,
-							SEARCH_DISTANCE
-						);
-
-						if (isBlockWithinDistance && penguin.isEggSpotAccessible(possibleEggSpotBlockPos)) {
-							eggSpots.add(possibleEggSpotBlockPos);
+						if (!blockPos.closerThan(possibleEggSpotBlockPos, SEARCH_DISTANCE)) {
+							continue;
 						}
+
+						if (!penguin.isEggSpotAccessible(possibleEggSpotBlockPos)) {
+							continue;
+						}
+
+						eggSpots.add(possibleEggSpotBlockPos);
 					}
 				}
 			}

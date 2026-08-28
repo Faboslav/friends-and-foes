@@ -1,0 +1,59 @@
+modLoader = "javafml"
+loaderVersion = "*"
+license = "${modLicense}"
+issueTrackerURL = "${modGitHub}/issues"
+
+[[mods]]
+modId = "${modId}"
+version = "${modVersion}"
+displayName = "${modName}"
+authors = "${modAuthor}"
+description = "${modDescription}"
+logoFile = "icon.png"
+logoBlur = false
+displayURL = "${modGitHub}"
+
+[[mixins]]
+config = "${modId}-forge.mixins.json"
+
+[[mixins]]
+config = "${modId}-common.mixins.json"
+
+[[dependencies.${ modId }]]
+modId = "forge"
+mandatory = true
+versionRange = "*"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${ modId }]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[${minMinecraftVersion},)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${ modId }]]
+modId = "yet_another_config_lib_v3"
+mandatory = false
+versionRange = "[${yaclVersion},)"
+ordering = "NONE"
+side = "CLIENT"
+[dependencies.${ modId }.mc-publish]
+ignore = false
+modrinth = "yacl"
+curseforge = "yacl"
+
+[[dependencies.${ modId }]]
+modId = "resourcefullib"
+mandatory = true
+versionRange = "[${resourcefulLibLibVersion},)"
+ordering = "NONE"
+side = "BOTH"
+[dependencies.${ modId }.mc-publish]
+ignore = false
+modrinth = "resourceful-lib"
+curseforge = "resourceful-lib"
+
+[modproperties.${ modId }]
+catalogueImageIcon = "icon.png"

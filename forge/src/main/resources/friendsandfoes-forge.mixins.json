@@ -1,0 +1,12 @@
+{
+	"required": true,
+	"package": "com.faboslav.friendsandfoes.forge.mixin",
+	"refmap": "${modId}.refmap.json",
+	"compatibilityLevel": "JAVA_${javaVersion}",
+	"minVersion": "0.8",
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"mixins": [
+	]
+}

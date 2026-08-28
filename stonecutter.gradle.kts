@@ -80,8 +80,16 @@ stonecutter {
 			replace("net.minecraft.advancements.criterion.LightningStrikeTrigger", "net.minecraft.advancements.critereon.LightningStrikeTrigger")
 			replace("net.minecraft.advancements.criterion.CriterionValidator", "net.minecraft.advancements.critereon.CriterionValidator")
 		}
+
+		replacements.string(current.parsed >= "1.21.9") {
+			replace(".noCollission()", ".noCollision()")
+		}
+
+		replacements.string(current.parsed >= "1.21.1") {
+			replace("BlockBehaviour.Properties.copy", "BlockBehaviour.Properties.ofFullCopy")
+		}
 	}
 }
 
 if (IS_CI) stonecutter active null
-else stonecutter active "26.2" /* [SC] DO NOT EDIT */
+else stonecutter active "1.20.1" /* [SC] DO NOT EDIT */

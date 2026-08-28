@@ -74,10 +74,7 @@ public class FriendsAndFoesItemGroups
 		} else if (event.type() == AddItemGroupEntriesEvent.Type.FUNCTIONAL) {
 			Set<Supplier<Item>> beehives = new LinkedHashSet<>();
 
-			FriendsAndFoes.getLogger().info("ITEM GROUPS");
-
 			if (config.enableAcaciaBeehive) {
-				FriendsAndFoes.getLogger().info("ACACIA");
 				beehives.add(FriendsAndFoesItems.ACACIA_BEEHIVE);
 			}
 

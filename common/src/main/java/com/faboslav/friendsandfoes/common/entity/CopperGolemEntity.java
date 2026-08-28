@@ -306,9 +306,6 @@ public final class CopperGolemEntity extends AbstractGolem
 	}
 
 	private EntitySnapshot takeEntitySnapshot() {
-		FriendsAndFoes.getLogger().info("prevSpeed: " + ((LimbAnimatorAccessor) this.walkAnimation).getPrevSpeed());
-		FriendsAndFoes.getLogger().info("speed: " + this.walkAnimation.speed());
-		FriendsAndFoes.getLogger().info("position: " + this.walkAnimation.position());
 		return new EntitySnapshot(
 			this.yRotO,
 			this.xRotO,

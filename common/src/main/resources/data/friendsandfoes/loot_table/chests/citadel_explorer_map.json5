@@ -14,6 +14,7 @@
 						}
 					],
 					"functions": [
+						//? if >=1.21.1 {
 						{
 							"function": "minecraft:exploration_map",
 							"destination": "friendsandfoes:on_citadel_maps",
@@ -27,6 +28,19 @@
 							},
 							"target": "item_name"
 						}
+						//?} else {
+						/*{
+							"function": "minecraft:exploration_map",
+							"destination": "friendsandfoes:on_citadel_maps",
+							"skip_existing_chunks": false
+						},
+						{
+							"function": "minecraft:set_name",
+							"name": {
+								"translate": "filled_map.friendsandfoes.citadel"
+							}
+						}
+						*///?}
 					]
 				}
 			]

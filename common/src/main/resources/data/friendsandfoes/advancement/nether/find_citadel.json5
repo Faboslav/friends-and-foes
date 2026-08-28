@@ -2,7 +2,11 @@
 	"parent": "minecraft:nether/root",
 	"display": {
 		"icon": {
+			//? if >=1.21.1 {
 			"id": "minecraft:red_nether_bricks"
+		//?} else {
+			/*"item": "minecraft:red_nether_bricks"
+		*///?}
 		},
 		"title": {
 			"translate": "advancements.friendsandfoes.nether.find_citadel.title"
@@ -23,7 +27,11 @@
 						"entity": "this",
 						"predicate": {
 							"location": {
+								//? if >=1.21.1 {
 								"structures": "friendsandfoes:citadel"
+								//?} else {
+								/*"structure": "friendsandfoes:citadel"
+								*///?}
 							}
 						}
 					}

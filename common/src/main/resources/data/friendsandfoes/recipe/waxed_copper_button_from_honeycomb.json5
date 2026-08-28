@@ -17,6 +17,10 @@
 	],
 	"result": {
 		"count": 1,
+		//? if >=1.21.1 {
 		"id": "friendsandfoes:waxed_copper_button"
+	//?} else {
+		/*"item": "friendsandfoes:waxed_copper_button"
+	*///?}
 	}
 }

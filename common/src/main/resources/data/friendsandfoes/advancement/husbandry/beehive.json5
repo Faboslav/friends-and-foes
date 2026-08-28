@@ -8,7 +8,11 @@
 			"translate": "advancements.friendsandfoes.husbandry.beehive.description"
 		},
 		"icon": {
+			//? if >=1.21.1 {
 			"id": "minecraft:beehive"
+		//?} else {
+			/*"item": "minecraft:beehive"
+		*///?}
 		},
 		"frame": "task",
 		"show_toast": true,

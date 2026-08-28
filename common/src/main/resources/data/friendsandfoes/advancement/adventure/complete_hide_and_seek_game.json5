@@ -2,7 +2,11 @@
 	"parent": "minecraft:adventure/root",
 	"display": {
 		"icon": {
+			//? if >=1.21.1 {
 			"id": "minecraft:bundle"
+		//?} else {
+			/*"item": "minecraft:bundle"
+		*///?}
 		},
 		"title": {
 			"translate": "advancements.friendsandfoes.adventure.complete_hide_and_seek_game.title"

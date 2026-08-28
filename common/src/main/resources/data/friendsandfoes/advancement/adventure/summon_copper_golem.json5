@@ -2,7 +2,11 @@
 	"parent": "minecraft:adventure/root",
 	"display": {
 		"icon": {
+			//? if >=1.21.1 {
 			"id": "minecraft:copper_block"
+		//?} else {
+			/*"item": "minecraft:copper_block"
+		*///?}
 		},
 		"title": {
 			"translate": "advancements.friendsandfoes.adventure.summon_copper_golem.title"

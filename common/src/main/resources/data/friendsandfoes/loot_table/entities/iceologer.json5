@@ -2,7 +2,22 @@
 	"type": "minecraft:entity",
 	"pools": [
 		{
+			"rolls": 1,
 			"bonus_rolls": 0.0,
+			"entries": [
+				{
+					"type": "minecraft:item",
+					"name": "friendsandfoes:totem_of_freezing"
+				}
+			]
+		},
+		{
+			"bonus_rolls": 0.0,
+			"conditions": [
+				{
+					"condition": "minecraft:killed_by_player"
+				}
+			],
 			"entries": [
 				{
 					"type": "minecraft:item",
@@ -11,11 +26,12 @@
 							"add": false,
 							"count": {
 								"type": "minecraft:uniform",
-								"max": 2.0,
+								"max": 1.0,
 								"min": 0.0
 							},
 							"function": "minecraft:set_count"
 						},
+						//? if >=1.21.1 {
 						{
 							"count": {
 								"type": "minecraft:uniform",
@@ -25,8 +41,18 @@
 							"enchantment": "minecraft:looting",
 							"function": "minecraft:enchanted_count_increase"
 						}
+						//?} else {
+						/*{
+							"count": {
+								"type": "minecraft:uniform",
+								"max": 1.0,
+								"min": 0.0
+							},
+							"function": "minecraft:looting_enchant"
+						}
+						*///?}
 					],
-					"name": "minecraft:leather"
+					"name": "minecraft:emerald"
 				}
 			],
 			"rolls": 1.0
@@ -41,47 +67,12 @@
 							"add": false,
 							"count": {
 								"type": "minecraft:uniform",
-								"max": 3.0,
-								"min": 1.0
+								"max": 2.0,
+								"min": 0.0
 							},
 							"function": "minecraft:set_count"
 						},
-						{
-							"conditions": [
-								{
-									"condition": "minecraft:any_of",
-									"terms": [
-										{
-											"condition": "minecraft:entity_properties",
-											"entity": "this",
-											"predicate": {
-												"flags": {
-													"is_on_fire": true
-												}
-											}
-										},
-										{
-											"condition": "minecraft:entity_properties",
-											"entity": "direct_attacker",
-											"predicate": {
-												"equipment": {
-													"mainhand": {
-														"predicates": {
-															"minecraft:enchantments": [
-																{
-																	"enchantments": "#minecraft:smelts_loot"
-																}
-															]
-														}
-													}
-												}
-											}
-										}
-									]
-								}
-							],
-							"function": "minecraft:furnace_smelt"
-						},
+						//? if >=1.21.1 {
 						{
 							"count": {
 								"type": "minecraft:uniform",
@@ -91,12 +82,21 @@
 							"enchantment": "minecraft:looting",
 							"function": "minecraft:enchanted_count_increase"
 						}
+						//?} else {
+						/*{
+							"count": {
+								"type": "minecraft:uniform",
+								"max": 1.0,
+								"min": 0.0
+							},
+							"function": "minecraft:looting_enchant"
+						}
+						*///?}
 					],
-					"name": "minecraft:beef"
+					"name": "minecraft:blue_ice"
 				}
 			],
 			"rolls": 1.0
 		}
-	],
-	"random_sequence": "minecraft:entities/moobloom"
+	]
 }

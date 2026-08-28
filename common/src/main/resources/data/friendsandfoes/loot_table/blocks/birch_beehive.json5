@@ -13,6 +13,7 @@
 								{
 									"condition": "minecraft:match_tool",
 									"predicate": {
+										//? if >=1.21.1 {
 										"predicates": {
 											"minecraft:enchantments": [
 												{
@@ -23,10 +24,21 @@
 												}
 											]
 										}
+										//?} else {
+										/*"enchantments": [
+											{
+												"enchantment": "minecraft:silk_touch",
+												"levels": {
+													"min": 1
+												}
+											}
+										]
+										*///?}
 									}
 								}
 							],
 							"functions": [
+								//? if >=1.21.1 {
 								{
 									"function": "minecraft:copy_components",
 									"include": [
@@ -34,19 +46,32 @@
 									],
 									"source": "block_entity"
 								},
+								//?} else {
+								/*{
+									"function": "minecraft:copy_nbt",
+									"ops": [
+										{
+											"op": "replace",
+											"source": "Bees",
+											"target": "BlockEntityTag.Bees"
+										}
+									],
+									"source": "block_entity"
+								},
+								*///?}
 								{
-									"block": "friendsandfoes:warped_beehive",
+									"block": "friendsandfoes:birch_beehive",
 									"function": "minecraft:copy_state",
 									"properties": [
 										"honey_level"
 									]
 								}
 							],
-							"name": "friendsandfoes:warped_beehive"
+							"name": "friendsandfoes:birch_beehive"
 						},
 						{
 							"type": "minecraft:item",
-							"name": "friendsandfoes:warped_beehive"
+							"name": "friendsandfoes:birch_beehive"
 						}
 					]
 				}

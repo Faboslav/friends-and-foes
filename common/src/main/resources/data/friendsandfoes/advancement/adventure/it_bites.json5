@@ -2,7 +2,11 @@
 	"parent": "minecraft:adventure/kill_a_mob",
 	"display": {
 		"icon": {
+			//? if >=1.21.1 {
 			"id": "minecraft:stone_sword"
+		//?} else {
+			/*"item": "minecraft:stone_sword"
+		*///?}
 		},
 		"title": {
 			"translate": "advancements.friendsandfoes.adventure.it_bites.title"

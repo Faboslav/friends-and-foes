@@ -12,6 +12,10 @@
 	},
 	"result": {
 		"count": 1,
+		//? if >=1.21.1 {
 		"id": "friendsandfoes:pale_oak_beehive"
+	//?} else {
+		/*"item": "friendsandfoes:pale_oak_beehive"
+	*///?}
 	}
 }

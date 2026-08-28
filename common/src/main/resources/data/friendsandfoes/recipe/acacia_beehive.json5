@@ -22,6 +22,10 @@
 	},
 	"result": {
 		"count": 1,
+		//? if >=1.21.1 {
 		"id": "friendsandfoes:acacia_beehive"
+	//?} else {
+		/*"item": "friendsandfoes:acacia_beehive"
+	*///?}
 	}
 }

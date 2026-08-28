@@ -7,7 +7,7 @@
 			"entries": [
 				{
 					"type": "minecraft:item",
-					"name": "friendsandfoes:totem_of_freezing"
+					"name": "friendsandfoes:totem_of_illusion"
 				}
 			]
 		},
@@ -31,6 +31,7 @@
 							},
 							"function": "minecraft:set_count"
 						},
+						//? if >=1.21.1 {
 						{
 							"count": {
 								"type": "minecraft:uniform",
@@ -40,6 +41,16 @@
 							"enchantment": "minecraft:looting",
 							"function": "minecraft:enchanted_count_increase"
 						}
+						//?} else {
+						/*{
+							"count": {
+								"type": "minecraft:uniform",
+								"max": 1.0,
+								"min": 0.0
+							},
+							"function": "minecraft:looting_enchant"
+						}
+						*///?}
 					],
 					"name": "minecraft:emerald"
 				}
@@ -61,6 +72,7 @@
 							},
 							"function": "minecraft:set_count"
 						},
+						//? if >=1.21.1 {
 						{
 							"count": {
 								"type": "minecraft:uniform",
@@ -70,8 +82,18 @@
 							"enchantment": "minecraft:looting",
 							"function": "minecraft:enchanted_count_increase"
 						}
+						//?} else {
+						/*{
+							"count": {
+								"type": "minecraft:uniform",
+								"max": 1.0,
+								"min": 0.0
+							},
+							"function": "minecraft:looting_enchant"
+						}
+						*///?}
 					],
-					"name": "minecraft:blue_ice"
+					"name": "minecraft:arrow"
 				}
 			],
 			"rolls": 1.0

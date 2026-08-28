@@ -4,7 +4,11 @@
 		"minecraft:moss_carpet",
 		"minecraft:azalea",
 		"minecraft:flowering_azalea",
+		//? if >=1.21.1 {
 		"minecraft:short_grass",
+		//?} else {
+		/*"minecraft:grass",
+		*///?}
 		"minecraft:tall_grass",
 		"minecraft:small_dripleaf",
 		"minecraft:big_dripleaf",

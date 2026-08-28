@@ -2,7 +2,11 @@
 	"parent": "minecraft:husbandry/root",
 	"display": {
 		"icon": {
+			//? if >=1.21.1 {
 			"id": "minecraft:glow_berries"
+		//?} else {
+			/*"item": "minecraft:glow_berries"
+		*///?}
 		},
 		"title": {
 			"translate": "advancements.friendsandfoes.husbandry.tame_a_glare.title"

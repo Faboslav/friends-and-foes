@@ -16,6 +16,7 @@
 							},
 							"function": "minecraft:set_count"
 						},
+						//? if >=1.21.1 {
 						{
 							"count": {
 								"type": "minecraft:uniform",
@@ -25,6 +26,16 @@
 							"enchantment": "minecraft:looting",
 							"function": "minecraft:enchanted_count_increase"
 						}
+						//?} else {
+						/*{
+							"count": {
+								"type": "minecraft:uniform",
+								"max": 1.0,
+								"min": 0.0
+							},
+							"function": "minecraft:looting_enchant"
+						}
+						*///?}
 					],
 					"name": "minecraft:glow_berries"
 				}

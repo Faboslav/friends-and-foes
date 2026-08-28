@@ -18,6 +18,10 @@
 	],
 	"result": {
 		"count": 1,
+		//? if >=1.21.1 {
 		"id": "friendsandfoes:wildfire_crown"
+	//?} else {
+		/*"item": "friendsandfoes:wildfire_crown"
+	*///?}
 	}
 }

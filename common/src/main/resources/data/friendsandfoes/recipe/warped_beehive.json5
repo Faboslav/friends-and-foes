@@ -22,6 +22,10 @@
 	},
 	"result": {
 		"count": 1,
+		//? if >=1.21.1 {
 		"id": "friendsandfoes:warped_beehive"
+	//?} else {
+		/*"item": "friendsandfoes:warped_beehive"
+	*///?}
 	}
 }

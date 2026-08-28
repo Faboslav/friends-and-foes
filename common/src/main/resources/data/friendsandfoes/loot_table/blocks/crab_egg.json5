@@ -7,7 +7,19 @@
 				{
 					"condition": "minecraft:match_tool",
 					"predicate": {
-						"enchantments": [
+						//? if >=1.21.1 {
+						"predicates": {
+							"minecraft:enchantments": [
+								{
+									"enchantment": "minecraft:silk_touch",
+									"levels": {
+										"min": 1
+									}
+								}
+							]
+						}
+						//?} else {
+						/*"enchantments": [
 							{
 								"enchantment": "minecraft:silk_touch",
 								"levels": {
@@ -15,6 +27,7 @@
 								}
 							}
 						]
+						*///?}
 					}
 				}
 			],

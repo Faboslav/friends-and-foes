@@ -22,6 +22,10 @@
 	},
 	"result": {
 		"count": 1,
+		//? if >=1.21.1 {
 		"id": "friendsandfoes:crimson_beehive"
+	//?} else {
+		/*"item": "friendsandfoes:crimson_beehive"
+	*///?}
 	}
 }

@@ -22,6 +22,10 @@
 	},
 	"result": {
 		"count": 1,
+		//? if >=1.21.1 {
 		"id": "friendsandfoes:bamboo_beehive"
+	//?} else {
+		/*"item": "friendsandfoes:bamboo_beehive"
+	*///?}
 	}
 }

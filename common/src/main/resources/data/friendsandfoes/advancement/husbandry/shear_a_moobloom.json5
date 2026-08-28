@@ -2,7 +2,11 @@
 	"parent": "minecraft:husbandry/root",
 	"display": {
 		"icon": {
+			//? if >=1.21.1 {
 			"id": "minecraft:shears"
+		//?} else {
+			/*"item": "minecraft:shears"
+		*///?}
 		},
 		"title": {
 			"translate": "advancements.friendsandfoes.husbandry.shear_a_moobloom.title"

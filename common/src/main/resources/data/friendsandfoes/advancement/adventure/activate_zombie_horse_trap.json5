@@ -2,7 +2,11 @@
 	"parent": "minecraft:adventure/root",
 	"display": {
 		"icon": {
+			//? if >=1.21.1 {
 			"id": "minecraft:chainmail_helmet"
+		//?} else {
+			/*"item": "minecraft:chainmail_helmet"
+		*///?}
 		},
 		"title": {
 			"translate": "advancements.friendsandfoes.survival.activate_zombie_horse_trap.title"

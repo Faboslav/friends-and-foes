@@ -17,6 +17,10 @@
 	},
 	"result": {
 		"count": 2,
+		//? if >=1.21.1 {
 		"id": "friendsandfoes:copper_button"
+	//?} else {
+		/*"item": "friendsandfoes:copper_button"
+	*///?}
 	}
 }

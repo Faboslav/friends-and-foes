@@ -22,6 +22,10 @@
 	},
 	"result": {
 		"count": 1,
+		//? if >=1.21.1 {
 		"id": "friendsandfoes:mangrove_beehive"
+	//?} else {
+		/*"item": "friendsandfoes:mangrove_beehive"
+	*///?}
 	}
 }

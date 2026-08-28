@@ -27,7 +27,11 @@ import java.util.function.Predicate;
 import net.minecraft.world.entity.ai.ActivityData;
 //?} else {
 /*import com.mojang.serialization.Dynamic;
- *///?}
+*///?}
+
+//? if <1.21.1 {
+/*import net.minecraft.world.item.crafting.Ingredient;
+*///?}
 
 public final class CrabBrain
 {
@@ -57,7 +61,7 @@ public final class CrabBrain
 	//? if >= 26.1 {
 	protected static List<ActivityData<CrabEntity>> addActivities(CrabEntity crab)
 	//?} else {
-	/*protected static void addActivities(Brain<CrabEntity> brain)
+	/*private static void addActivities(Brain<CrabEntity> brain)
 	 *///?}
 	{
 		//? if >= 26.1 {
@@ -91,7 +95,7 @@ public final class CrabBrain
 			Activity.CORE,
 			0,
 			ImmutableList.of(
-				new AnimalPanic<>(2.0f),
+				new AnimalPanic/*? if >= 1.21.1 {*/<>/*?}*/(2.0f),
 				new LookAtTargetSink(45, 90),
 				new MoveToTargetSink(),
 				new CountDownCooldownTicks(MemoryModuleType.TEMPTATION_COOLDOWN_TICKS),
@@ -236,9 +240,15 @@ public final class CrabBrain
 		crab.getBrain().setMemory(FriendsAndFoesMemoryModuleTypes.CRAB_WAVE_COOLDOWN.get(), WAVE_COOLDOWN_PROVIDER.sample(crab.getRandom()));
 	}
 
+	//? if >= 1.21.1 {
 	public static Predicate<ItemStack> getTemptations() {
 		return itemStack -> itemStack.is(FriendsAndFoesTags.CRAB_TEMPT_ITEMS);
 	}
+	//?} else {
+	/*public static Ingredient getTemptations() {
+		return Ingredient.of(FriendsAndFoesTags.CRAB_TEMPT_ITEMS);
+	}
+	*///?}
 
 	static {
 		SENSORS = List.of(

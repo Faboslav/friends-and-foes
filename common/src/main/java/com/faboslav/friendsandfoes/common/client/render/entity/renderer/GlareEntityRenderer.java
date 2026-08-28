@@ -50,7 +50,11 @@ public class GlareEntityRenderer extends AgeableMobRenderer<GlareEntity, GlareRe
 	//? if <1.21.3 {
 	/*@Override
 	protected void scale(GlareEntity glare, PoseStack poseStack, float partialTickTime) {
+		//? if >= 1.21.1 {
 		float scale = glare.getAgeScale();
+		//?} else {
+		/^float scale = glare.getScale();
+		^///?}
 		poseStack.scale(scale, scale, scale);
 	}
 	*///?}

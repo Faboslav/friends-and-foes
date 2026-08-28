@@ -1,13 +1,16 @@
 package com.faboslav.friendsandfoes.common.init;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-import com.teamresourceful.resourcefullib.common.registry.HolderRegistryEntry;
 import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistries;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+
+//? if >= 1.21.1 {
+import com.teamresourceful.resourcefullib.common.registry.HolderRegistryEntry;
+//?}
 
 /**
  * @see SoundEvents
@@ -99,16 +102,24 @@ public final class FriendsAndFoesSoundEvents
 	public static final RegistryEntry<SoundEvent> ENTITY_WILDFIRE_SHOOT = registerSoundEvent("entity.wildfire.shoot");
 	public static final RegistryEntry<SoundEvent> ENTITY_WILDFIRE_STEP = registerSoundEvent("entity.wildfire.step");
 	public static final RegistryEntry<SoundEvent> ENTITY_WILDFIRE_SUMMON_BLAZE = registerSoundEvent("entity.wildfire.summon_blaze");
+
+	//? if >= 1.21.1 {
 	public static final HolderRegistryEntry<SoundEvent> ITEM_EQUIP_WILDFIRE_CROWN = registerHolderSoundEvent("item.armor.equip_wildfire_crown");
 	public static final HolderRegistryEntry<SoundEvent> MUSIC_DISC_AROUND_THE_CORNER = registerHolderSoundEvent("music_disc.around_the_corner");
+	//?} else {
+	/*public static final RegistryEntry<SoundEvent> ITEM_EQUIP_WILDFIRE_CROWN = registerSoundEvent("item.armor.equip_wildfire_crown");
+	public static final RegistryEntry<SoundEvent> MUSIC_DISC_AROUND_THE_CORNER = registerSoundEvent("music_disc.around_the_corner");
+	*///?}
 
 	private static RegistryEntry<SoundEvent> registerSoundEvent(String path) {
 		return SOUND_EVENTS.register(path, () -> SoundEvent.createVariableRangeEvent(FriendsAndFoes.makeID(path)));
 	}
 
+	//? if >= 1.21.1 {
 	private static HolderRegistryEntry<SoundEvent> registerHolderSoundEvent(String path) {
 		return SOUND_EVENTS.registerHolder(path, () -> SoundEvent.createVariableRangeEvent(FriendsAndFoes.makeID(path)));
 	}
+	//?}
 
 	private FriendsAndFoesSoundEvents() {
 	}

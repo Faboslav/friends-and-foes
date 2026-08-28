@@ -67,10 +67,13 @@ public final class TuffGolemClosedEyesRenderer extends RenderLayer<TuffGolemRend
 			//?} else {
 			/*tuffGolem,
 			 *///?}
-			-1
 			//? if >=1.21.9 {
-			, 0
-			//?}
+			-1, 0
+			//?} else if >= 1.21.1 {
+			/*-1
+			*///?} else {
+			/*1.0F, 1.0F, 1.0F
+			*///?}
 		);
 	}
 }

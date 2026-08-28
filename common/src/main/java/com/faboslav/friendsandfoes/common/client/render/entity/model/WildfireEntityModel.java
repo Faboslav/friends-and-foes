@@ -17,7 +17,7 @@ import java.util.List;
 import net.minecraft.client.animation.KeyframeAnimation;
 //?} else {
 /*import net.minecraft.client.animation.AnimationDefinition;
- *///?}
+*///?}
 
 //? if >=1.21.3 {
 import net.minecraft.client.model.EntityModel;
@@ -145,10 +145,10 @@ public final class WildfireEntityModel extends EntityModel<WildfireRenderState>
 		/*this.root().getAllParts().forEach(ModelPart::resetPose);
 		*///?}
 
-		VersionedEntityModel.Animate(this, this.idleAnimation, wildfire.idleAnimationState, ageInTicks);
-		VersionedEntityModel.Animate(this, this.shieldRotationAnimation, wildfire.shieldRotationAnimationState, ageInTicks);
-		VersionedEntityModel.Animate(this, this.shockwaveAnimation, wildfire.shockwaveAnimationState, ageInTicks);
-		VersionedEntityModel.AnimateWalk(this, this.walkAnimation, limbSwing, limbSwingAmount, 1.0F, 1.0F);
+		VersionedEntityModel.animate(this, this.idleAnimation, wildfire.idleAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.shieldRotationAnimation, wildfire.shieldRotationAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.shockwaveAnimation, wildfire.shockwaveAnimationState, ageInTicks);
+		VersionedEntityModel.animateWalk(this, this.walkAnimation, limbSwing, limbSwingAmount, 1.0F, 1.0F);
 
 		int activeShieldsCount = wildfire.getActiveShieldsCount();
 

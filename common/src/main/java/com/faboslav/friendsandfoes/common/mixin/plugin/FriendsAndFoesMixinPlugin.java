@@ -24,6 +24,13 @@ public class FriendsAndFoesMixinPlugin implements IMixinConfigPlugin
 			return this.isClassAvailable("me.earth.mc_runtime_test.McRuntimeTest");
 		}
 
+		if (
+			mixinClassName.equals("com.faboslav.friendsandfoes.common.mixin.AddCustomSpawnGroupMixin")
+			|| mixinClassName.equals("com.faboslav.friendsandfoes.common.mixin.AddCustomRaidMemberMixin")
+		) {
+			return !this.isClassAvailable("net.minecraftforge.fml.common.asm.RuntimeEnumExtender");
+		}
+
 		return true;
 	}
 

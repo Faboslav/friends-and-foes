@@ -16,7 +16,7 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.animation.KeyframeAnimation;
 //?} else {
 /^import net.minecraft.client.animation.AnimationDefinition;
- ^///?}
+^///?}
 
 
 //? if >=1.21.3 {
@@ -147,13 +147,11 @@ public class CopperGolemEntityModel extends EntityModel<CopperGolemRenderState>
 		}
 
 		this.setHeadAngle(headYaw);
-		//FriendsAndFoes.getLogger().info(String.valueOf(limbSwing));
-		//FriendsAndFoes.getLogger().info(String.valueOf(limbSwingAmount));
 
-		VersionedEntityModel.AnimateWalk(this, this.walkAnimation, limbSwing, limbSwingAmount, 2.5F * copperGolem.getMovementSpeedModifier(), 3.5F * copperGolem.getMovementSpeedModifier());
-		VersionedEntityModel.Animate(this, this.spinHeadAnimation, copperGolem.spinHeadAnimationState, ageInTicks, animationSpeedModifier);
-		VersionedEntityModel.Animate(this, this.pressButtonUp, copperGolem.pressButtonUpAnimationState, ageInTicks, animationSpeedModifier);
-		VersionedEntityModel.Animate(this, this.pressButtonDown, copperGolem.pressButtonDownAnimationState, ageInTicks, animationSpeedModifier);
+		VersionedEntityModel.animateWalk(this, this.walkAnimation, limbSwing, limbSwingAmount, 2.5F * copperGolem.getMovementSpeedModifier(), 3.5F * copperGolem.getMovementSpeedModifier());
+		VersionedEntityModel.animate(this, this.spinHeadAnimation, copperGolem.spinHeadAnimationState, ageInTicks, animationSpeedModifier);
+		VersionedEntityModel.animate(this, this.pressButtonUp, copperGolem.pressButtonUpAnimationState, ageInTicks, animationSpeedModifier);
+		VersionedEntityModel.animate(this, this.pressButtonDown, copperGolem.pressButtonDownAnimationState, ageInTicks, animationSpeedModifier);
 	}
 
 	private void setHeadAngle(float yaw) {

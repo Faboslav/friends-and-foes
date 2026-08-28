@@ -16,6 +16,10 @@ import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
+//? if < 1.21.1 {
+import net.minecraft.world.InteractionHand;
+//?}
+
 public final class OxidizableLightningRodBlock extends LightningRodBlock implements WeatheringCopper
 {
 	private final WeatherState oxidationLevel;
@@ -36,7 +40,11 @@ public final class OxidizableLightningRodBlock extends LightningRodBlock impleme
 		RandomSource random
 	) {
 		if(FriendsAndFoes.getConfig().enableLightningRodOxidation) {
+			//? if >= 1.21.1 {
 			this.changeOverTime(state, world, pos, random);
+			//?} else {
+			/^this.applyChangeOverTime(state, world, pos, random);
+			^///?}
 		}
 	}
 
@@ -55,11 +63,18 @@ public final class OxidizableLightningRodBlock extends LightningRodBlock impleme
 	}
 
 	@Override
+	//? if >= 1.21.1 {
 	public InteractionResult useWithoutItem(
+	//?} else {
+	/^public InteractionResult use(
+	^///?}
 		BlockState state,
 		Level world,
 		BlockPos pos,
 		Player player,
+		//? if < 1.21.1 {
+		/^InteractionHand hand,
+		^///?}
 		BlockHitResult hit
 	) {
 		var actionResult = OnUseOxidizable.onOxidizableUse(state, world, pos, player, hit);
@@ -68,7 +83,11 @@ public final class OxidizableLightningRodBlock extends LightningRodBlock impleme
 			return actionResult;
 		}
 
+		//? if >= 1.21.1 {
 		return super.useWithoutItem(state, world, pos, player, hit);
+		//?} else {
+		/^return super.use(state, world, pos, player, hand, hit);
+		^///?}
 	}
 }
 *///?}

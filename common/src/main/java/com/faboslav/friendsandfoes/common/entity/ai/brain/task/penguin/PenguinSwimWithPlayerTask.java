@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.common.entity.ai.brain.task.penguin;
 
 import com.faboslav.friendsandfoes.common.entity.PenguinEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStatusEffects;
+import com.faboslav.friendsandfoes.common.versions.VersionedRegistryHolder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -58,7 +59,7 @@ public class PenguinSwimWithPlayerTask extends Behavior<PenguinEntity>
 	protected void start(ServerLevel world, PenguinEntity penguin, long time) {
 		BehaviorUtils.lookAtEntity(penguin, this.player);
 		penguin.getLookControl().setLookAt(this.player);
-		this.player.addEffect(new MobEffectInstance(FriendsAndFoesStatusEffects.PENGUINS_GLIDE.holder(), 100), penguin);
+		this.player.addEffect(new MobEffectInstance(VersionedRegistryHolder.get(FriendsAndFoesStatusEffects.PENGUINS_GLIDE), 100), penguin);
 	}
 
 	@Override
@@ -98,7 +99,7 @@ public class PenguinSwimWithPlayerTask extends Behavior<PenguinEntity>
 			*///?}
 			&& this.player.level().getRandom().nextInt(6) == 0
 		) {
-			this.player.addEffect(new MobEffectInstance(FriendsAndFoesStatusEffects.PENGUINS_GLIDE.holder(), 100), penguin);
+			this.player.addEffect(new MobEffectInstance(VersionedRegistryHolder.get(FriendsAndFoesStatusEffects.PENGUINS_GLIDE), 100), penguin);
 		}
 
 	}

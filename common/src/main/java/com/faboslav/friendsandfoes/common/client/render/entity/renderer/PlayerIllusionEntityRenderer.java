@@ -19,7 +19,6 @@ import net.minecraft.client.renderer.entity.layers.*;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.numbers.StyledFormat;
 import net.minecraft.resources.Identifier;
 
 import java.util.UUID;
@@ -169,8 +168,10 @@ public final class PlayerIllusionEntityRenderer extends LivingEntityRenderer<Pla
 	@Override
 	//? if >=1.21.3 {
 	protected void renderNameTag(PlayerRenderState renderState, Component displayName, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight)
-	//?} else {
+	//?} else if >= 1.21.1 {
 	/^protected void renderNameTag(PlayerIllusionEntity entity, Component displayName, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, float partialTick)
+	^///?} else {
+	/^protected void renderNameTag(PlayerIllusionEntity entity, Component displayName, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight)
 	^///?}
 	{
 	}

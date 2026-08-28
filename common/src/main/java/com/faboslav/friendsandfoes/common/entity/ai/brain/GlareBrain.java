@@ -43,7 +43,11 @@ import java.util.function.Predicate;
 import net.minecraft.world.entity.ai.ActivityData;
 //?} else {
 /*import com.mojang.serialization.Dynamic;
- *///?}
+*///?}
+
+//? if <1.21.1 {
+/*import net.minecraft.world.item.crafting.Ingredient;
+*///?}
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public final class GlareBrain
@@ -78,7 +82,7 @@ public final class GlareBrain
 	//? if >= 26.1 {
 	protected static List<ActivityData<GlareEntity>> addActivities(GlareEntity glare)
 	//?} else {
-	/*protected static void addActivities(Brain<GlareEntity> brain)
+	/*private static void addActivities(Brain<GlareEntity> brain)
 	 *///?}
 	{
 		//? if >= 26.1 {
@@ -216,7 +220,7 @@ public final class GlareBrain
 			Activity.IDLE,
 			ImmutableList.of(
 				Pair.of(0, new FollowTemptation(glare -> 1.25f)),
-				Pair.of(1, new AnimalMakeLove(FriendsAndFoesEntityTypes.GLARE.get())),
+				Pair.of(1, new AnimalMakeLove(FriendsAndFoesEntityTypes.GLARE.get()/*? if < 1.21.1 {*//*, 1.0F*//*?}*/)),
 				Pair.of(2, BabyFollowAdult.create(UniformInt.of(5, 16), 1.25f)),
 				Pair.of(3, new GlareTeleportToOwnerTask()),
 				Pair.of(4, StayCloseToTarget.create(glare -> getOwner((GlareEntity) glare), (glare) -> true, 3, 8, 2.0f)),
@@ -308,9 +312,15 @@ public final class GlareBrain
 		glare.getBrain().setMemory(MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS, TimeUtil.rangeOfSeconds(1, 10).sample(glare.getRandom()));
 	}
 
+	//? if >= 1.21.1 {
 	public static Predicate<ItemStack> getTemptations() {
 		return itemStack -> itemStack.is(FriendsAndFoesTags.GLARE_TEMPT_ITEMS);
 	}
+	//?} else {
+	/*public static Ingredient getTemptations() {
+		return Ingredient.of(FriendsAndFoesTags.GLARE_TEMPT_ITEMS);
+	}
+	*///?}
 
 	static {
 		SENSORS = List.of(

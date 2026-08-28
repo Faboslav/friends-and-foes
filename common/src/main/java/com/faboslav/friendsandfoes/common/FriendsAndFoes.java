@@ -28,20 +28,33 @@ public final class FriendsAndFoes
 	public static final String MOD_ID = "friendsandfoes";
 
 	public static Identifier makeID(String path) {
-		return Identifier.fromNamespaceAndPath(
+		//? if >=1.21 {
+		return Identifier.tryBuild(
 			MOD_ID,
 			path
 		);
+		//?} else {
+		/*return new Identifier(
+			MOD_ID,
+			path
+		);
+		*///?}
+	}
+
+	public static Identifier makeNamespacedId(String id) {
+		//? if >=1.21 {
+		return Identifier.parse(
+			id
+		);
+		//?} else {
+		/*return new Identifier(
+			id
+		);
+		*///?}
 	}
 
 	public static String makeStringID(String name) {
 		return MOD_ID + ":" + name;
-	}
-
-	public static Identifier makeNamespacedId(String id) {
-		return Identifier.tryParse(
-			id
-		);
 	}
 
 	public static FriendsAndFoesConfig getConfig() {
@@ -63,7 +76,10 @@ public final class FriendsAndFoes
 		/*SetupEvent.EVENT.addListener(FriendsAndFoesItems::registerSpawnEggs);
 		*///?}
 		DatapackSyncEvent.EVENT.addListener(MoobloomVariantsSyncPacket::sendToClient);
-		RegisterFlammabilityEvent.EVENT.addListener(FriendsAndFoesBlocks::registerFlammablity);
+		//? if <1.21.1 {
+		/*RegisterBlockSetTypeEvent.EVENT.addListener(FriendsAndFoesBlockSetTypes::registerBlockSetTypes);
+		*///?}
+		RegisterFlammabilityEvent.EVENT.addListener(FriendsAndFoesBlocks::registerFlammability);
 		RegisterEntityAttributesEvent.EVENT.addListener(FriendsAndFoesEntityTypes::registerEntityAttributes);
 		RegisterEntitySpawnRestrictionsEvent.EVENT.addListener(FriendsAndFoesEntityTypes::registerEntitySpawnRestrictions);
 		AddSpawnBiomeModificationsEvent.EVENT.addListener(FriendsAndFoesEntityTypes::addSpawnBiomeModifications);
@@ -75,16 +91,20 @@ public final class FriendsAndFoes
 		EntitySpawnEvent.EVENT.addListener(IllusionerOnEntitySpawn::handleEntitySpawn);
 
 		FriendsAndFoesActivities.ACTIVITIES.init();
-		//? if <1.21.3 {
+		//? if >=1.21.1 && <1.21.3 {
 		/*FriendsAndFoesArmorMaterials.ARMOR_MATERIALS.init();
 		*///?}
 		FriendsAndFoesBlocks.BLOCKS.init();
+		//? if >= 1.21.1 {
 		FriendsAndFoesCriterias.CRITERIAS.init();
+		//?}
 		FriendsAndFoesEntityDataSerializers.init();
 		FriendsAndFoesEntityTypes.ENTITY_TYPES.init();
 		FriendsAndFoesItems.ITEMS.init();
 		FriendsAndFoesItemGroups.ITEM_GROUPS.init();
+		//? if >=1.21.1 {
 		FriendsAndFoesMapDecorationTypes.MAP_DECORATION_TYPES.init();
+		//?}
 		FriendsAndFoesMemoryModuleTypes.MEMORY_MODULE_TYPES.init();
 		FriendsAndFoesParticleTypes.PARTICLE_TYPES.init();
 		FriendsAndFoesPointOfInterestTypes.POINT_OF_INTEREST_TYPES.init();

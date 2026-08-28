@@ -37,6 +37,7 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
@@ -82,16 +83,23 @@ public final class PenguinEntity extends Animal {
 
 	@Override
 	public SpawnGroupData finalizeSpawn(
-		net.minecraft.world.level.ServerLevelAccessor world,
+		ServerLevelAccessor world,
 		DifficultyInstance difficulty,
-		/*? >=1.21.3 {*/
+		/*? if >=1.21.3 {*/
 		EntitySpawnReason spawnReason,
 		/*?} else {*/
 		/*MobSpawnType spawnReason,
-		 *//*?}*/
+		*//*?}*/
 		@Nullable SpawnGroupData entityData
+		//? if <1.21.1 {
+		/*, CompoundTag dataTag
+		*///?}
 	) {
-		SpawnGroupData superEntityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData);
+		SpawnGroupData superEntityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData
+			//? if <1.21.1 {
+			/*, dataTag
+			*///?}
+		);
 
 		this.setEntityPose(FriendsAndFoesEntityPose.IDLE);
 		PenguinBrain.setWingFlapCooldown(this);
@@ -119,8 +127,21 @@ public final class PenguinEntity extends Animal {
 	//?}
 
 	@Override
-	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+	//? if >= 1.20.5 {
+	protected void defineSynchedData(SynchedEntityData.Builder builder)
+	//?} else {
+	/*protected void defineSynchedData()
+	*///?}
+	{
+		//? if >= 1.20.5 {
 		super.defineSynchedData(builder);
+		//?} else {
+		/*super.defineSynchedData();
+		*///?}
+
+		//? if < 1.20.5 {
+		/*var builder = this.getEntityData();
+		*///?}
 
 		builder.define(ENTITY_POSE, FriendsAndFoesEntityPose.IDLE);
 		builder.define(HAS_EGG, false);
@@ -168,9 +189,9 @@ public final class PenguinEntity extends Animal {
 	}
 
 	@Override
-	protected void customServerAiStep(/*? >=1.21.3 {*/ServerLevel level/*?}*/)
+	protected void customServerAiStep(/*? if >=1.21.3 {*/ServerLevel level/*?}*/)
 	{
-		//? <1.21.3 {
+		//? if <1.21.3 {
 		/*var level = (ServerLevel) this.level();
 		 *///?}
 
@@ -187,19 +208,24 @@ public final class PenguinEntity extends Animal {
 		PenguinBrain.updateActivities(this);
 		profiler.pop();
 
-		super.customServerAiStep(/*? >=1.21.3 {*/level/*?}*/);
+		super.customServerAiStep(/*? if >=1.21.3 {*/level/*?}*/);
 	}
 
 	public static AttributeSupplier.Builder createPenguinAttributes() {
-		//? >= 1.21.4 {
+		//? if >= 1.21.4 {
 		var attributes = Animal.createAnimalAttributes();
 		//?} else {
 		/*var attributes = Mob.createMobAttributes();
 		 *///?}
-		return attributes
+		var builder = attributes
 			.add(Attributes.MAX_HEALTH, 12.0D)
-			.add(Attributes.MOVEMENT_SPEED, MOVEMENT_SPEED)
-			.add(Attributes.STEP_HEIGHT, 1.0D);
+			.add(Attributes.MOVEMENT_SPEED, MOVEMENT_SPEED);
+
+		//? if >= 1.21.1 {
+		builder.add(Attributes.STEP_HEIGHT, 1.0D);
+		//?}
+
+		return builder;
 	}
 
 	@Override
@@ -249,7 +275,7 @@ public final class PenguinEntity extends Animal {
 	public static boolean canSpawn(
 		EntityType<? extends Animal> type,
 		LevelAccessor world,
-		/*? >=1.21.3 {*/
+		/*? if >=1.21.3 {*/
 		EntitySpawnReason spawnReason,
 		/*?} else {*/
 		/*MobSpawnType spawnReason,
@@ -288,7 +314,7 @@ public final class PenguinEntity extends Animal {
 	@Override
 	@Nullable
 	public AgeableMob getBreedOffspring(ServerLevel serverWorld, AgeableMob entity) {
-		PenguinEntity penguin = FriendsAndFoesEntityTypes.PENGUIN.get().create(serverWorld/*? >=1.21.3 {*/, EntitySpawnReason.BREEDING/*?}*/);
+		PenguinEntity penguin = FriendsAndFoesEntityTypes.PENGUIN.get().create(serverWorld/*? if >=1.21.3 {*/, EntitySpawnReason.BREEDING/*?}*/);
 
 		PenguinBrain.setWingFlapCooldown(penguin);
 
@@ -414,7 +440,9 @@ public final class PenguinEntity extends Animal {
 			return;
 		}
 
+		//? if >= 1.21.1 {
 		this.gameEvent(GameEvent.ENTITY_ACTION);
+		//?}
 		this.playWingFlapSound();
 		this.setEntityPose(FriendsAndFoesEntityPose.WING_FLAP);
 	}

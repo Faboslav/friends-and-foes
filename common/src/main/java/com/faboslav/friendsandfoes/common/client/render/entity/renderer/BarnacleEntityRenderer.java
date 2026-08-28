@@ -11,12 +11,12 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.Identifier;
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 import com.faboslav.friendsandfoes.common.client.render.entity.state.BarnacleRenderState;
 //?}
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-//? >=1.21.3 {
+//? if >=1.21.3 {
 public class BarnacleEntityRenderer extends MobRenderer<BarnacleEntity, BarnacleRenderState, BarnacleEntityModel>
 //?} else {
 /*public final class BarnacleEntityRenderer extends MobRenderer<BarnacleEntity, BarnacleEntityModel<BarnacleEntity>>
@@ -35,20 +35,20 @@ public class BarnacleEntityRenderer extends MobRenderer<BarnacleEntity, Barnacle
 
 	@Override
 	protected void scale(
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		BarnacleRenderState barnacleRenderState,
 		//?} else {
 		/*BarnacleEntity barnacle,
 		*///?}
 		PoseStack poseStack
-		//? <1.21.3 {
+		//? if <1.21.3 {
 		/*,float partialTickTime
 		*///?}
 	) {
 		poseStack.scale(SCALE, SCALE, SCALE);
 	}
 
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	@Override
 	public BarnacleRenderState createRenderState() {
 		return new BarnacleRenderState();
@@ -62,7 +62,7 @@ public class BarnacleEntityRenderer extends MobRenderer<BarnacleEntity, Barnacle
 	//?}
 
 	@Override
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	public Identifier getTextureLocation(BarnacleRenderState barnacleRenderState)
 	//?} else {
 	/*public Identifier getTextureLocation(BarnacleEntity barnacle)

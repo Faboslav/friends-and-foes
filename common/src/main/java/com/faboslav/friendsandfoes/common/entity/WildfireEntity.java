@@ -6,6 +6,7 @@ import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityDataSerializers;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
+import com.faboslav.friendsandfoes.common.versions.VersionedBlockPathType;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
 import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
 import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
@@ -31,7 +32,6 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
@@ -40,6 +40,10 @@ import java.util.ArrayList;
 //? if <= 1.21.11 {
 /*import com.mojang.serialization.Dynamic;
 *///?}
+
+//? if >= 26.1 {
+import net.minecraft.world.level.pathfinder.PathType;
+//?}
 
 //? if >=1.21.6 {
 import net.minecraft.world.level.storage.ValueInput;
@@ -52,7 +56,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.entity.EntitySpawnReason;
 //?} else {
 /*import net.minecraft.world.entity.MobSpawnType;
- *///?}
+*///?}
 
 public final class WildfireEntity extends Monster
 {
@@ -82,15 +86,15 @@ public final class WildfireEntity extends Monster
 
 	public WildfireEntity(EntityType<? extends WildfireEntity> entityType, Level world) {
 		super(entityType, world);
-		this.setPathfindingMalus(PathType.WATER, -1.0F);
-		this.setPathfindingMalus(PathType.LAVA, 8.0F);
+		this.setPathfindingMalus(VersionedBlockPathType.WATER, -1.0F);
+		this.setPathfindingMalus(VersionedBlockPathType.LAVA, 8.0F);
 		//? if >= 26.1 {
 		this.setPathfindingMalus(PathType.FIRE, 0.0F);
 		this.setPathfindingMalus(PathType.FIRE_IN_NEIGHBOR, 0.0F);
-		this.setPathfindingMalus(PathType.WATER_BORDER, -1.0F);
+		this.setPathfindingMalus(VersionedBlockPathType.WATER_BORDER, -1.0F);
 		//?} else {
-		/*this.setPathfindingMalus(PathType.DANGER_FIRE, 0.0F);
-		this.setPathfindingMalus(PathType.DAMAGE_FIRE, 0.0F);
+		/*this.setPathfindingMalus(VersionedBlockPathType.DANGER_FIRE, 0.0F);
+		this.setPathfindingMalus(VersionedBlockPathType.DAMAGE_FIRE, 0.0F);
 		*///?}
 		this.xpReward = 10;
 	}
@@ -105,11 +109,18 @@ public final class WildfireEntity extends Monster
 		/*MobSpawnType spawnReason,
 		*//*?}*/
 		@Nullable SpawnGroupData entityData
+		//? if <1.21.1 {
+		/*, CompoundTag dataTag
+		*///?}
 	) {
 		this.setEntityPose(FriendsAndFoesEntityPose.IDLE);
 		this.setActiveShieldsCount(DEFAULT_ACTIVE_SHIELDS_COUNT);
 		this.setSummonedBlazesCount(DEFAULT_SUMMONED_BLAZES_COUNT);
-		return super.finalizeSpawn(world, difficulty, spawnReason, entityData);
+		return super.finalizeSpawn(world, difficulty, spawnReason, entityData
+			//? if <1.21.1 {
+			/*, dataTag
+			*///?}
+		);
 	}
 
 	@Override
@@ -159,8 +170,21 @@ public final class WildfireEntity extends Monster
 	}
 
 	@Override
-	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+	//? if >= 1.20.5 {
+	protected void defineSynchedData(SynchedEntityData.Builder builder)
+	//?} else {
+	/*protected void defineSynchedData()
+	*///?}
+	{
+		//? if >= 1.20.5 {
 		super.defineSynchedData(builder);
+		//?} else {
+		/*super.defineSynchedData();
+		*///?}
+
+		//? if < 1.20.5 {
+		/*var builder = this.getEntityData();
+		*///?}
 
 		builder.define(ACTIVE_SHIELDS_COUNT, DEFAULT_ACTIVE_SHIELDS_COUNT);
 		builder.define(TICKS_UNTIL_SHIELD_REGENERATION, DEFAULT_TICKS_UNTIL_SHIELD_REGENERATION);
@@ -356,7 +380,9 @@ public final class WildfireEntity extends Monster
 			return;
 		}
 
+		//? if >= 1.21.1 {
 		this.gameEvent(GameEvent.ENTITY_ACTION);
+		//?}
 		this.playShockwaveSound();
 		this.setEntityPose(FriendsAndFoesEntityPose.SHOCKWAVE);
 	}
@@ -400,7 +426,11 @@ public final class WildfireEntity extends Monster
 		if (!this.isPassenger()) {
 			Vec3 vec3 = this.getBoundingBox().getCenter();
 			Vec3 vec32 = new Vec3(vec3.x, this.position().y, vec3.z);
+			//? if >= 1.21.1 {
 			BlockState blockState = !this.getInBlockState().isAir() ? this.getInBlockState() : this.getBlockStateOn();
+			//?} else {
+			/*BlockState blockState = !this.getFeetBlockState().isAir() ? this.getFeetBlockState() : this.getBlockStateOn();
+			*///?}
 
 			if (blockState.getRenderShape() != RenderShape.INVISIBLE) {
 				for(int j = 0; j < i; ++j) {
@@ -413,7 +443,14 @@ public final class WildfireEntity extends Monster
 	@Override
 	//? if >= 1.21.4 {
 	protected boolean considersEntityAsAlly(final Entity entity) {
+	//?} else {
+	/*public boolean isAlliedTo(Entity entity) {
+	*///?}
+		//? if >= 1.21.4 {
 		if (super.considersEntityAsAlly(entity)) {
+		//?} else {
+		/*if (super.isAlliedTo(entity)) {
+		*///?}
 			return true;
 		} else if (!VersionedEntity.isEntityType(entity, FriendsAndFoesTags.WILDFIRE_ALLIES)) {
 			return false;
@@ -421,17 +458,6 @@ public final class WildfireEntity extends Monster
 			return this.getTeam() == null && entity.getTeam() == null;
 		}
 	}
-	//?} else {
-	/*public boolean isAlliedTo(Entity entity) {
-		if (super.isAlliedTo(entity)) {
-			return true;
-		} else if (!entity.getType().is(FriendsAndFoesTags.WILDFIRE_ALLIES)) {
-			return false;
-		} else {
-			return this.getTeam() == null && entity.getTeam() == null;
-		}
-	}
-	*///?}
 
 	@Override
 	/*? if >=1.21.3 {*/

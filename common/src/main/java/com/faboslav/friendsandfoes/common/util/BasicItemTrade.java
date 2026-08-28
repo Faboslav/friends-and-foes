@@ -5,9 +5,12 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.VillagerTrade;
+
+//? if >= 1.21.1 {
+import net.minecraft.world.item.trading.ItemCost;
+//?}
 
 //? if >= 1.21.11 {
 import net.minecraft.server.level.ServerLevel;
@@ -44,8 +47,12 @@ public class BasicItemTrade implements VillagerTrades.ItemListing {
 		Entity entity,
 		RandomSource random
 	) {
-		ItemCost in = new ItemCost(this.itemToTrade, this.amountToGive);
 		ItemStack out = new ItemStack(this.itemToReceive, this.amountToReceive);
+		//? if >= 1.21.1 {
+		ItemCost in = new ItemCost(this.itemToTrade, this.amountToGive);
+		//?} else {
+		/^ItemStack in = new ItemStack(this.itemToTrade, this.amountToGive);
+		^///?}
 		return new MerchantOffer(in, out, this.maxUses, this.experience, this.multiplier);
 	}
 }

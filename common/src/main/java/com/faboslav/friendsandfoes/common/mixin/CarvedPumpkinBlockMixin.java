@@ -32,6 +32,10 @@ import java.util.function.Predicate;
 /*import com.faboslav.friendsandfoes.common.util.CopperGolemBuildPatternPredicates;
 *///?}
 
+//? if <1.21.1 {
+/*import net.minecraft.nbt.CompoundTag;
+*///?}
+
 @Mixin(CarvedPumpkinBlock.class)
 public abstract class CarvedPumpkinBlockMixin extends HorizontalDirectionalBlock
 {
@@ -127,7 +131,11 @@ public abstract class CarvedPumpkinBlockMixin extends HorizontalDirectionalBlock
 		);
 		tuffGolem.setSpawnYaw(tuffGolemYaw);
 		tuffGolem.setColor(TuffGolemEntity.Color.fromWool(woolBlockState.getBlock()));
+		//? if >= 1.21.1 {
 		tuffGolem.finalizeSpawn((ServerLevelAccessor) world, ((ServerLevelAccessor) world).getCurrentDifficultyAt(cachedBlockPosition), VersionedEntitySpawnReason.TRIGGERED, null);
+		//?} else {
+		/*tuffGolem.finalizeSpawn((ServerLevelAccessor) world, ((ServerLevelAccessor) world).getCurrentDifficultyAt(cachedBlockPosition), VersionedEntitySpawnReason.TRIGGERED, null, new CompoundTag());
+		*///?}
 		world.addFreshEntity(tuffGolem);
 
 		for (ServerPlayer serverPlayerEntity : world.getEntitiesOfClass(

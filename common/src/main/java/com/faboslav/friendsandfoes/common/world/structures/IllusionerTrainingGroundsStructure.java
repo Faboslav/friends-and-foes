@@ -16,19 +16,25 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+//? if >= 1.21.1 {
 import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasLookup;
+//?}
 import net.minecraft.world.level.levelgen.structure.structures.JigsawStructure;
 
 public final class IllusionerTrainingGroundsStructure extends Structure
 {
+	//? if >= 1.21.1 {
 	public static final MapCodec<IllusionerTrainingGroundsStructure> CODEC = RecordCodecBuilder.<IllusionerTrainingGroundsStructure>mapCodec(instance ->
+	//?} else {
+	/*public static final Codec<IllusionerTrainingGroundsStructure> CODEC = RecordCodecBuilder.<IllusionerTrainingGroundsStructure>create(instance ->
+	*///?}
 		instance.group(IllusionerTrainingGroundsStructure.settingsCodec(instance),
 			StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(structure -> structure.startPool),
 			Identifier.CODEC.optionalFieldOf("start_jigsaw_name").forGetter(structure -> structure.startJigsawName),
 			Codec.intRange(0, 30).fieldOf("size").forGetter(structure -> structure.size),
 			HeightProvider.CODEC.fieldOf("start_height").forGetter(structure -> structure.startHeight),
 			Heightmap.Types.CODEC.optionalFieldOf("project_start_to_heightmap").forGetter(structure -> structure.projectStartToHeightmap),
-			//? >= 1.21.10 {
+			//? if >= 1.21.10 {
 			JigsawStructure.MaxDistance.CODEC.fieldOf("max_distance_from_center").forGetter((structure) -> structure.maxDistanceFromCenter)
 			//?} else {
 			/*Codec.intRange(1, 128).fieldOf("max_distance_from_center").forGetter(structure -> structure.maxDistanceFromCenter)
@@ -40,7 +46,7 @@ public final class IllusionerTrainingGroundsStructure extends Structure
 	private final int size;
 	private final HeightProvider startHeight;
 	private final Optional<Heightmap.Types> projectStartToHeightmap;
-	//? >= 1.21.10 {
+	//? if >= 1.21.10 {
 	private final JigsawStructure.MaxDistance maxDistanceFromCenter;
 	//?} else {
 	/*private final int maxDistanceFromCenter;
@@ -53,7 +59,7 @@ public final class IllusionerTrainingGroundsStructure extends Structure
 		int size,
 		HeightProvider startHeight,
 		Optional<Heightmap.Types> projectStartToHeightmap,
-		//? >= 1.21.10 {
+		//? if >= 1.21.10 {
 		JigsawStructure.MaxDistance maxDistanceFromCenter
 		//?} else {
 		/*int maxDistanceFromCenter
@@ -85,10 +91,12 @@ public final class IllusionerTrainingGroundsStructure extends Structure
 			blockPos,
 			false,
 			this.projectStartToHeightmap,
-			this.maxDistanceFromCenter,
-			PoolAliasLookup.EMPTY,
+			this.maxDistanceFromCenter
+			//? if >= 1.21.1 {
+			, PoolAliasLookup.EMPTY,
 			JigsawStructure.DEFAULT_DIMENSION_PADDING,
 			JigsawStructure.DEFAULT_LIQUID_SETTINGS
+			//?}
 		);
 	}
 

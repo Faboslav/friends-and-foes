@@ -10,16 +10,16 @@ import com.teamresourceful.resourcefullib.common.network.base.ServerboundPacketT
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
-
-//? if >= 1.21.1 {
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.UUID;
 import java.util.function.Consumer;
+
+//? if >= 1.21.1 {
+import net.minecraft.network.RegistryFriendlyByteBuf;
 //?} else {
 /^import net.minecraft.network.FriendlyByteBuf;
- ^///?}
+^///?}
 
 public record SyncCopperGolemWalkAnimationPacket(UUID copperGolemUuid, float walkAnimationPos, float walkAnimationSpeed) implements Packet<SyncCopperGolemWalkAnimationPacket>
 {
@@ -74,8 +74,8 @@ public record SyncCopperGolemWalkAnimationPacket(UUID copperGolemUuid, float wal
 
 		//? if < 1.21.1 {
 		/^@Override
-		public Class<SyncCopperGolemFrozenWalkAnimationPacket> type() {
-			return SyncCopperGolemFrozenWalkAnimationPacket.class;
+		public Class<SyncCopperGolemWalkAnimationPacket> type() {
+			return SyncCopperGolemWalkAnimationPacket.class;
 		}
 		^///?}
 

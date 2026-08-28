@@ -56,6 +56,10 @@ import java.util.stream.Collectors;
 import net.minecraft.world.item.trading.VillagerTrade;
 *///?}
 
+//? if <1.21.1 {
+/*import net.minecraft.world.level.block.state.properties.BlockSetType;
+*///?}
+
 public final class FriendsAndFoesFabric implements ModInitializer
 {
 	@Override
@@ -98,6 +102,10 @@ public final class FriendsAndFoesFabric implements ModInitializer
 
 		RegisterBrewingRecipesEvent.EVENT.invoke(new RegisterBrewingRecipesEvent((input, item, output) ->
 			FabricPotionBrewingBuilder.BUILD.register(builder -> builder.addMix(input, item, output))));
+
+		//? if <1.21.1 {
+		/*RegisterBlockSetTypeEvent.EVENT.invoke(new RegisterBlockSetTypeEvent(BlockSetType::register));
+		*///?}
 
 		RegisterFlammabilityEvent.EVENT.invoke(new RegisterFlammabilityEvent(FlammableBlockRegistry.getDefaultInstance()::add));
 		RegisterEntityAttributesEvent.EVENT.invoke(new RegisterEntityAttributesEvent(FabricDefaultAttributeRegistry::register));

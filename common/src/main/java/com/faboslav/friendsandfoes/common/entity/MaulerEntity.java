@@ -10,9 +10,7 @@ import com.faboslav.friendsandfoes.common.util.RandomGenerator;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
 import com.faboslav.friendsandfoes.common.versions.VersionedInteractionResult;
 import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -22,7 +20,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
@@ -43,7 +40,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.ItemEnchantments;
+
+//? if >= 1.20.5 {
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import net.minecraft.core.Holder;
+import net.minecraft.tags.EnchantmentTags;
+
+import java.util.Iterator;
+//?}
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
@@ -53,8 +57,6 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.UUID;
 
 //? if >=1.21.6 {
@@ -68,7 +70,12 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.entity.EntitySpawnReason;
 //?} else {
 /*import net.minecraft.world.entity.MobSpawnType;
- *///?}
+*///?}
+
+//? if >= 1.20.5 {
+import net.minecraft.tags.EnchantmentTags;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
+//?}
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public final class MaulerEntity extends Animal implements NeutralMob
@@ -120,8 +127,21 @@ public final class MaulerEntity extends Animal implements NeutralMob
 	}
 
 	@Override
-	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+	//? if >= 1.20.5 {
+	protected void defineSynchedData(SynchedEntityData.Builder builder)
+	//?} else {
+	/*protected void defineSynchedData()
+	*///?}
+	{
+		//? if >= 1.20.5 {
 		super.defineSynchedData(builder);
+		//?} else {
+		/*super.defineSynchedData();
+		*///?}
+
+		//? if < 1.20.5 {
+		/*var builder = this.getEntityData();
+		*///?}
 
 		builder.define(TYPE, DEFAULT_TYPE.name());
 		builder.define(ANGER_TIME, 0);
@@ -175,7 +195,7 @@ public final class MaulerEntity extends Animal implements NeutralMob
 
 			if(burrowedDownTicks != 0) {
 				this.burrowDownGoal.setBurrowedDownTicks(burrowedDownTicks);
-				//this.setInvulnerable(true);
+				this.setInvulnerable(true);
 			}
 		}
 	}
@@ -184,12 +204,15 @@ public final class MaulerEntity extends Animal implements NeutralMob
 	public SpawnGroupData finalizeSpawn(
 		ServerLevelAccessor world,
 		DifficultyInstance difficulty,
-		//? if >=1.21.3 {
+		/*? if >=1.21.3 {*/
 		EntitySpawnReason spawnReason,
-		//?} else {
+		/*?} else {*/
 		/*MobSpawnType spawnReason,
-		*///?}
+		*//*?}*/
 		@Nullable SpawnGroupData entityData
+		//? if <1.21.1 {
+		/*, CompoundTag dataTag
+		*///?}
 	) {
 		ResourceKey<Biome> biomeKey = world.getBiome(this.blockPosition()).unwrapKey().orElse(Biomes.SAVANNA);
 		Type type = Type.getTypeByBiome(biomeKey);
@@ -198,7 +221,11 @@ public final class MaulerEntity extends Animal implements NeutralMob
 		this.setType(type);
 		this.setSize();
 
-		return super.finalizeSpawn(world, difficulty, spawnReason, entityData);
+		return super.finalizeSpawn(world, difficulty, spawnReason, entityData
+			//? if <1.21.1 {
+			/*, dataTag
+			*///?}
+		);
 	}
 
 	@Override
@@ -229,12 +256,12 @@ public final class MaulerEntity extends Animal implements NeutralMob
 	protected void registerGoals() {
 		this.goalSelector.addGoal(1, new FloatGoal(this));
 		this.goalSelector.addGoal(2, new LeapAtTargetGoal(this, 0.4F));
-			this.goalSelector.addGoal(3, new MeleeAttackGoal(this, ANGERED_MOVEMENT_SPEED, true));
-		this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 0.6D));
-		this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 10.0F));
-		this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
+		this.goalSelector.addGoal(3, new MaulerMeleeAttackGoal(this, ANGERED_MOVEMENT_SPEED, true));
+		this.goalSelector.addGoal(4, new MaulerWanderAroundFarGoal(this, 0.6D));
+		this.goalSelector.addGoal(5, new MaulerLookAtEntityGoal(this, Player.class, 10.0F));
+		this.goalSelector.addGoal(6, new MaulerLookAroundGoal(this));
 		this.burrowDownGoal = new MaulerBurrowDownGoal(this);
-		//this.goalSelector.addGoal(7, this.burrowDownGoal);
+		this.goalSelector.addGoal(7, this.burrowDownGoal);
 		this.targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setAlertOthers());
 		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, PathfinderMob.class, 10, true, true, (livingEntity/*? if >=1.21.3 {*/, serverLevel/*?}*/) -> {
 			if (
@@ -308,7 +335,7 @@ public final class MaulerEntity extends Animal implements NeutralMob
 	*//*?}*/
 	{
 		if (!this.level().isClientSide() && this.burrowDownGoal.isRunning()) {
-			//this.burrowDownGoal.stop();
+			this.burrowDownGoal.stop();
 		}
 
 		/*? if >=1.21.3 {*/
@@ -432,11 +459,16 @@ public final class MaulerEntity extends Animal implements NeutralMob
 	}
 
 	public static Builder createMaulerAttributes() {
-		return Mob.createMobAttributes()
-			.add(Attributes.SCALE, 1.0F)
+		var builder = Mob.createMobAttributes()
 			.add(Attributes.MAX_HEALTH, HEALTH)
 			.add(Attributes.MOVEMENT_SPEED, MOVEMENT_SPEED)
 			.add(Attributes.ATTACK_DAMAGE, ATTACK_DAMAGE);
+
+		//? if >= 1.21.1 {
+		builder.add(Attributes.SCALE, 1.0F);
+		//?}
+
+		return builder;
 	}
 
 	@Override
@@ -584,7 +616,9 @@ public final class MaulerEntity extends Animal implements NeutralMob
 	public void setSize() {
 		float size = this.getSize();
 
+		//? if >= 1.21.1 {
 		this.getAttribute(Attributes.SCALE).setBaseValue(this.getSize());
+		//?}
 		this.getAttribute(Attributes.MAX_HEALTH).setBaseValue((int) (HEALTH * size));
 		this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(ATTACK_DAMAGE * (size / 2.0F));
 		this.refreshDimensions();
@@ -596,7 +630,12 @@ public final class MaulerEntity extends Animal implements NeutralMob
 	}
 
 	@Override
-	public float getAgeScale() {
+	//? if >= 1.21.1 {
+	public float getAgeScale()
+	//?} else {
+	/*public float getScale()
+	*///?}
+	{
 		return this.getSize();
 	}
 
@@ -609,8 +648,7 @@ public final class MaulerEntity extends Animal implements NeutralMob
 	}
 
 	public boolean isBurrowedDown() {
-		return false;
-		//return this.entityData.get(IS_BURROWED_DOWN);
+		return this.entityData.get(IS_BURROWED_DOWN);
 	}
 
 	public void setBurrowedDown(boolean isBurrowedDown) {
@@ -634,6 +672,7 @@ public final class MaulerEntity extends Animal implements NeutralMob
 	 */
 	private int getExperiencePoints(ItemStack stack) {
 		int i = 0;
+		//? if >= 1.20.5 {
 		ItemEnchantments itemEnchantmentsComponent = EnchantmentHelper.getEnchantmentsForCrafting(stack);
 		Iterator var4 = itemEnchantmentsComponent.entrySet().iterator();
 
@@ -645,6 +684,15 @@ public final class MaulerEntity extends Animal implements NeutralMob
 				i += registryEntry.value().getMinCost(j);
 			}
 		}
+		//?} else {
+		/*for (java.util.Map.Entry<Enchantment, Integer> entry : EnchantmentHelper.getEnchantments(stack).entrySet()) {
+			Enchantment enchantment = entry.getKey();
+			int j = entry.getValue();
+			if (!enchantment.isCurse()) {
+				i += enchantment.getMinCost(j);
+			}
+		}
+		*///?}
 
 		return i;
 	}

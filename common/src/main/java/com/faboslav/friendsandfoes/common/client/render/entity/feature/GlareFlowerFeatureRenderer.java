@@ -8,10 +8,6 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.Identifier;
 
-//? if <= 1.21.8 {
-/*import net.minecraft.client.renderer.MultiBufferSource;
-*///?}
-
 //? if >=1.21.9 {
 import net.minecraft.client.renderer.SubmitNodeCollector;
 //?} else {
@@ -78,10 +74,13 @@ public final class GlareFlowerFeatureRenderer extends RenderLayer<GlareRenderSta
 				//?} else {
 				/*glare,
 				*///?}
-				-1
 				//? if >=1.21.9 {
-				, 0
-				//?}
+				-1, 0
+				//?} else if >= 1.21.1 {
+				/*-1
+				*///?} else {
+				/*1.0F, 1.0F, 1.0F
+				*///?}
 			);
 		}
 	}

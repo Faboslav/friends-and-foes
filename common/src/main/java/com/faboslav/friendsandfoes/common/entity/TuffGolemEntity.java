@@ -121,8 +121,15 @@ public final class TuffGolemEntity extends AbstractGolem
 		/*MobSpawnType spawnReason,
 		*//*?}*/
 		@Nullable SpawnGroupData entityData
+		//? if <1.21.1 {
+		/*, CompoundTag dataTag
+		*///?}
 	) {
-		SpawnGroupData superEntityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData);
+		SpawnGroupData superEntityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData
+			//? if <1.21.1 {
+			/*, dataTag
+			*///?}
+		);
 
 		if (spawnReason == VersionedEntitySpawnReason.MOB_SUMMONED || spawnReason == VersionedEntitySpawnReason.COMMAND) {
 			float randomSpawnYaw = 90.0F * (float) this.getRandom().nextIntBetweenInclusive(0, 3);
@@ -182,8 +189,21 @@ public final class TuffGolemEntity extends AbstractGolem
 	}
 
 	@Override
-	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+	//? if >= 1.20.5 {
+	protected void defineSynchedData(SynchedEntityData.Builder builder)
+	//?} else {
+	/*protected void defineSynchedData()
+	*///?}
+	{
+		//? if >= 1.20.5 {
 		super.defineSynchedData(builder);
+		//?} else {
+		/*super.defineSynchedData();
+		*///?}
+
+		//? if < 1.20.5 {
+		/*var builder = this.getEntityData();
+		*///?}
 
 		builder.define(COLOR, Color.RED.getName());
 		builder.define(PREV_ENTITY_POSE, FriendsAndFoesEntityPose.STANDING);
@@ -485,7 +505,12 @@ public final class TuffGolemEntity extends AbstractGolem
 			ParticleSpawner.spawnParticles(this, ParticleTypes.WAX_OFF, 7, 1.0F);
 
 			if (player.getAbilities().instabuild) {
+				//? if >= 1.21.1 {
 				itemStack.hurtAndBreak(1, player, VersionedEntity.getEquipmentSlotForItem(hand));
+				//?} else {
+				/*var brokenItemSlot = VersionedEntity.getEquipmentSlotForItem(hand);
+				itemStack.hurtAndBreak(1, player, item -> player.broadcastBreakEvent(brokenItemSlot));
+				*///?}
 			}
 		}
 
@@ -895,8 +920,17 @@ public final class TuffGolemEntity extends AbstractGolem
 	}
 
 	@Override
-	public boolean canBeLeashed() {
+	//? if >= 1.21.1 {
+	public boolean canBeLeashed()
+	//?} else {
+	/*public boolean canBeLeashed(Player player)
+	*///?}
+	{
+		//? if >= 1.21.1 {
 		return super.canBeLeashed() && this.isInSleepingPose() == false;
+		//?} else {
+		/*return super.canBeLeashed(player) && this.isInSleepingPose() == false;
+		*///?}
 	}
 
 	@Override
@@ -910,8 +944,17 @@ public final class TuffGolemEntity extends AbstractGolem
 	}
 
 	@Override
-	protected void dropCustomDeathLoot(ServerLevel level, DamageSource damageSource, boolean recentlyHit) {
+	//? if >= 1.21.1 {
+	protected void dropCustomDeathLoot(ServerLevel level, DamageSource damageSource, boolean recentlyHit)
+	//?} else {
+	/*protected void dropCustomDeathLoot(DamageSource damageSource, int lootingMultiplier, boolean recentlyHit)
+	*///?}
+	{
+		//? if >= 1.21.1 {
 		super.dropCustomDeathLoot(level, damageSource, recentlyHit);
+		//?} else {
+		/*super.dropCustomDeathLoot(damageSource, lootingMultiplier, recentlyHit);
+		*///?}
 
 		if (this.isHoldingItem()) {
 			VersionedEntity.spawnAtLocation(this, this.getItemBySlot(EquipmentSlot.MAINHAND));

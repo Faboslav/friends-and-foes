@@ -21,14 +21,14 @@ public final class FriendsAndFoesStructurePoolElements
 		/*templatePoolRegistry = server.registryAccess().registryOrThrow(Registries.TEMPLATE_POOL);
 		*///?}
 
-		Identifier plainsPoolLocation = Identifier.parse("minecraft:village/plains/houses");
-		Identifier savannaPoolLocation = Identifier.parse("minecraft:village/savanna/houses");
-		Identifier taigaPoolLocation = Identifier.parse("minecraft:village/taiga/houses");
+		Identifier plainsPoolLocation = FriendsAndFoes.makeNamespacedId("minecraft:village/plains/houses");
+		Identifier savannaPoolLocation = FriendsAndFoes.makeNamespacedId("minecraft:village/savanna/houses");
+		Identifier taigaPoolLocation = FriendsAndFoes.makeNamespacedId("minecraft:village/taiga/houses");
 
 		//? if <= 1.21.8 {
-		/*Identifier desertPoolLocation = Identifier.parse("minecraft:village/desert/houses");
-		Identifier ancientCityCenterPoolLocation = Identifier.parse("minecraft:ancient_city/city_center");
-		Identifier trialChambersCorridorPoolLocation = Identifier.parse("minecraft:trial_chambers/corridor");
+		/*Identifier desertPoolLocation = FriendsAndFoes.makeNamespacedId("minecraft:village/desert/houses");
+		Identifier ancientCityCenterPoolLocation = FriendsAndFoes.makeNamespacedId("minecraft:ancient_city/city_center");
+		Identifier trialChambersCorridorPoolLocation =FriendsAndFoes.makeNamespacedId("minecraft:trial_chambers/corridor");
 		*///?}
 
 		if (FriendsAndFoes.getConfig().generateBeekeeperAreaStructureInVillages) {

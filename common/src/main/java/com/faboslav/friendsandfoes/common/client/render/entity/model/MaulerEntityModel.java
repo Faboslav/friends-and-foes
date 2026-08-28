@@ -15,7 +15,7 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.animation.KeyframeAnimation;
 //?} else {
 /*import net.minecraft.client.animation.AnimationDefinition;
- *///?}
+*///?}
 
 //? if >=1.21.3 {
 import net.minecraft.client.model.EntityModel;
@@ -143,11 +143,11 @@ public final class MaulerEntityModel extends EntityModel<MaulerRenderState>
 		/*this.root().getAllParts().forEach(ModelPart::resetPose);
 		*///?}
 
-		VersionedEntityModel.Animate(this, this.idleAnimation, mauler.idleAnimationState, ageInTicks);
-		VersionedEntityModel.Animate(this, this.snapAnimation, mauler.snapAnimationState, ageInTicks);
-		VersionedEntityModel.Animate(this, this.burrowDownAnimation, mauler.burrowDownAnimationState, ageInTicks);
-		VersionedEntityModel.Animate(this, this.burrowUpAnimation, mauler.burrowUpAnimationState, ageInTicks);
-		VersionedEntityModel.AnimateWalk(this, this.runAnimation, limbSwing, limbSwingAmount, 2.5F, 3.5F);
+		VersionedEntityModel.animate(this, this.idleAnimation, mauler.idleAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.snapAnimation, mauler.snapAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.burrowDownAnimation, mauler.burrowDownAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.burrowUpAnimation, mauler.burrowUpAnimationState, ageInTicks);
+		VersionedEntityModel.animateWalk(this, this.runAnimation, limbSwing, limbSwingAmount, 2.5F, 3.5F);
 
 	}
 }

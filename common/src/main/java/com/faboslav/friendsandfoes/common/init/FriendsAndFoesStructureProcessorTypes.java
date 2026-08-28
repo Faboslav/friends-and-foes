@@ -12,7 +12,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 //? if <26.2 {
 /*import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
- *///?}
+*///?}
 
 public final class FriendsAndFoesStructureProcessorTypes
 {

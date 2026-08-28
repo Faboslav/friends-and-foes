@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.common.mixin;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStatusEffects;
+import com.faboslav.friendsandfoes.common.versions.VersionedRegistryHolder;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -42,8 +43,8 @@ public abstract class AbstractBoatMixin
 		/*LivingEntity controllingPassenger = ((Boat) (Object) this).getControllingPassenger();
 		*///?}
 
-		if (controllingPassenger != null && controllingPassenger.hasEffect(FriendsAndFoesStatusEffects.PENGUINS_GLIDE.holder())) {
-			MobEffectInstance effectInstance = controllingPassenger.getEffect(FriendsAndFoesStatusEffects.PENGUINS_GLIDE.holder());
+		if (controllingPassenger != null && controllingPassenger.hasEffect(VersionedRegistryHolder.get(FriendsAndFoesStatusEffects.PENGUINS_GLIDE))) {
+			MobEffectInstance effectInstance = controllingPassenger.getEffect(VersionedRegistryHolder.get(FriendsAndFoesStatusEffects.PENGUINS_GLIDE));
 			int amplifier = effectInstance == null ? 0 : effectInstance.getAmplifier();
 			double bonusPerLevel = FriendsAndFoes.getConfig().penguinsGlideStatusEffectModifier;
 			multiplier += bonusPerLevel * (amplifier + 1);

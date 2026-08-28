@@ -37,7 +37,7 @@ import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.levelgen.structure.Structure;
-import net.minecraft.world.level.pathfinder.PathType;
+import com.faboslav.friendsandfoes.common.versions.VersionedBlockPathType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -50,7 +50,11 @@ import java.util.ArrayList;
 import net.minecraft.world.entity.EntitySpawnReason;
 //?} else {
 /*import net.minecraft.world.entity.MobSpawnType;
- *///?}
+*///?}
+
+//? if <1.21.1 {
+/*import net.minecraft.nbt.CompoundTag;
+*///?}
 
 public final class RascalEntity extends AgeableMob
 {
@@ -67,10 +71,10 @@ public final class RascalEntity extends AgeableMob
 		super(entityType, world);
 		this.setEntityPose(FriendsAndFoesEntityPose.IDLE);
 		this.enableAmbientSounds();
-		this.setPathfindingMalus(PathType.RAIL, 0.0F);
-		this.setPathfindingMalus(PathType.UNPASSABLE_RAIL, 0.0F);
-		this.setPathfindingMalus(PathType.WATER, 0.0F);
-		this.setPathfindingMalus(PathType.WATER_BORDER, 0.0F);
+		this.setPathfindingMalus(VersionedBlockPathType.RAIL, 0.0F);
+		this.setPathfindingMalus(VersionedBlockPathType.UNPASSABLE_RAIL, 0.0F);
+		this.setPathfindingMalus(VersionedBlockPathType.WATER, 0.0F);
+		this.setPathfindingMalus(VersionedBlockPathType.WATER_BORDER, 0.0F);
 	}
 
 	@Override
@@ -81,10 +85,17 @@ public final class RascalEntity extends AgeableMob
 		EntitySpawnReason spawnReason,
 		/*?} else {*/
 		/*MobSpawnType spawnReason,
-		 *//*?}*/
+		*//*?}*/
 		@Nullable SpawnGroupData entityData
+		//? if <1.21.1 {
+		/*, CompoundTag dataTag
+		*///?}
 	) {
-		SpawnGroupData superEntityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData);
+		SpawnGroupData superEntityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData
+			//? if <1.21.1 {
+			/*, dataTag
+			*///?}
+		);
 
 		this.setEntityPose(FriendsAndFoesEntityPose.IDLE);
 		RascalBrain.setNodCooldown(this);
@@ -138,8 +149,21 @@ public final class RascalEntity extends AgeableMob
 
 
 	@Override
-	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+	//? if >= 1.20.5 {
+	protected void defineSynchedData(SynchedEntityData.Builder builder)
+	//?} else {
+	/*protected void defineSynchedData()
+	*///?}
+	{
+		//? if >= 1.20.5 {
 		super.defineSynchedData(builder);
+		//?} else {
+		/*super.defineSynchedData();
+		*///?}
+
+		//? if < 1.20.5 {
+		/*var builder = this.getEntityData();
+		*///?}
 
 		builder.define(ENTITY_POSE, FriendsAndFoesEntityPose.IDLE);
 		builder.define(CAUGHT_COUNT, 0);
@@ -255,7 +279,9 @@ public final class RascalEntity extends AgeableMob
 		}
 
 		this.playNodSound();
+		//? if >= 1.21.1 {
 		this.gameEvent(GameEvent.ENTITY_ACTION);
+		//?}
 		this.setEntityPose(FriendsAndFoesEntityPose.NOD);
 	}
 
@@ -265,7 +291,9 @@ public final class RascalEntity extends AgeableMob
 		}
 
 		this.playRewardSound();
+		//? if >= 1.21.1 {
 		this.gameEvent(GameEvent.ENTITY_ACTION);
+		//?}
 		this.setEntityPose(FriendsAndFoesEntityPose.GIVE_REWARD);
 	}
 

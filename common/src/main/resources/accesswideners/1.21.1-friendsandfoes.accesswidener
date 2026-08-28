@@ -46,3 +46,4 @@ accessible field net/minecraft/client/gui/components/AbstractWidget height I
 accessible method net/minecraft/client/model/HierarchicalModel animate (Lnet/minecraft/world/entity/AnimationState;Lnet/minecraft/client/animation/AnimationDefinition;F)V
 accessible method net/minecraft/client/model/HierarchicalModel animate (Lnet/minecraft/world/entity/AnimationState;Lnet/minecraft/client/animation/AnimationDefinition;FF)V
 accessible method net/minecraft/client/model/HierarchicalModel animateWalk (Lnet/minecraft/client/animation/AnimationDefinition;FFFF)V
+accessible field net/minecraft/world/entity/AnimationState lastTime J

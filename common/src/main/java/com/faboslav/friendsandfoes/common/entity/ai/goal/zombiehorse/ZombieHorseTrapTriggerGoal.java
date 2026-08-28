@@ -7,7 +7,6 @@ import java.util.List;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntityType;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.DifficultyInstance;
@@ -23,8 +22,16 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+
+//? if >= 1.20.5 {
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.item.enchantment.providers.VanillaEnchantmentProviders;
+//?}
+
+//? if <1.21.1 {
+/*import net.minecraft.nbt.CompoundTag;
+*///?}
 
 public final class ZombieHorseTrapTriggerGoal extends Goal
 {
@@ -77,14 +84,22 @@ public final class ZombieHorseTrapTriggerGoal extends Goal
 			serverWorld.addFreshEntityWithPassengers(zombieHorse);
 		}
 
+		//? if >= 1.21.1 {
 		FriendsAndFoesCriterias.ACTIVATE_ZOMBIE_HORSE_TRAP.get().trigger((ServerPlayer) closestPlayer, lightningEntity, List.of());
+		//?} else {
+		/*FriendsAndFoesCriterias.ACTIVATE_ZOMBIE_HORSE_TRAP.trigger((ServerPlayer) closestPlayer, lightningEntity, List.of());
+		*///?}
 	}
 
 	private ZombieHorse getHorse(DifficultyInstance localDifficulty) {
 		ZombieHorse zombieHorse = VersionedEntityType.ZOMBIE_HORSE.create(this.zombieHorse.level()/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.TRIGGERED/*?}*/);
 
 		if(zombieHorse != null) {
+			//? if >= 1.21.1 {
 			zombieHorse.finalizeSpawn((ServerLevel) this.zombieHorse.level(), localDifficulty, VersionedEntitySpawnReason.TRIGGERED, null);
+			//?} else {
+			/*zombieHorse.finalizeSpawn((ServerLevel) this.zombieHorse.level(), localDifficulty, VersionedEntitySpawnReason.TRIGGERED, null, new CompoundTag());
+			*///?}
 			zombieHorse.setPos(this.zombieHorse.getX(), this.zombieHorse.getY(), this.zombieHorse.getZ());
 			zombieHorse.invulnerableTime = 60;
 			zombieHorse.setPersistenceRequired();
@@ -99,7 +114,11 @@ public final class ZombieHorseTrapTriggerGoal extends Goal
 		Zombie zombie = VersionedEntityType.ZOMBIE.create(vehicle.level()/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.TRIGGERED/*?}*/);
 
 		if(zombie != null) {
+			//? if >= 1.21.1 {
 			zombie.finalizeSpawn((ServerLevel) vehicle.level(), localDifficulty, VersionedEntitySpawnReason.TRIGGERED, null);
+			//?} else {
+			/*zombie.finalizeSpawn((ServerLevel) vehicle.level(), localDifficulty, VersionedEntitySpawnReason.TRIGGERED, null, new CompoundTag());
+			*///?}
 			zombie.setBaby(false);
 			zombie.setPos(vehicle.getX(), vehicle.getY(), vehicle.getZ());
 			zombie.invulnerableTime = 60;
@@ -122,8 +141,13 @@ public final class ZombieHorseTrapTriggerGoal extends Goal
 
 	private void enchantEquipment(Zombie rider, EquipmentSlot slot, DifficultyInstance localDifficulty) {
 		ItemStack itemStack = rider.getItemBySlot(slot);
+		//? if >= 1.20.5 {
 		itemStack.set(DataComponents.ENCHANTMENTS, ItemEnchantments.EMPTY);
 		EnchantmentHelper.enchantItemFromProvider(itemStack, rider.level().registryAccess(), VanillaEnchantmentProviders.MOB_SPAWN_EQUIPMENT, localDifficulty, rider.getRandom());
+		//?} else {
+		/*int enchantLevel = 5 + rider.getRandom().nextInt(15);
+		EnchantmentHelper.enchantItem(rider.getRandom(), itemStack, enchantLevel, false);
+		*///?}
 		rider.setItemSlot(slot, itemStack);
 	}
 }

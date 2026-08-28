@@ -11,7 +11,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 //?} else {
 /*import net.minecraft.client.renderer.MultiBufferSource;
- *///?}
+*///?}
 
 //? if >=1.21.3 {
 import com.faboslav.friendsandfoes.common.client.render.entity.state.BarnacleRenderState;
@@ -27,7 +27,7 @@ public final class BarnacleKelpFeatureRenderer extends RenderLayer<BarnacleRende
 {
 	private static final Identifier KELP_TEXTURE = FriendsAndFoes.makeID("textures/entity/barnacle/barnacle_kelp.png");
 
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	public BarnacleKelpFeatureRenderer(RenderLayerParent<BarnacleRenderState, BarnacleEntityModel> renderLayerParent) {
 		super(renderLayerParent);
 	}
@@ -44,7 +44,7 @@ public final class BarnacleKelpFeatureRenderer extends RenderLayer<BarnacleRende
 	/*public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, BarnacleEntity barnacle, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float yRot, float xRot)
 	 *///?}
 	{
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		var barnacle = renderState.barnacle;
 		//?}
 
@@ -67,10 +67,13 @@ public final class BarnacleKelpFeatureRenderer extends RenderLayer<BarnacleRende
 			//?} else {
 			/*barnacle,
 			 *///?}
-			-1
 			//? if >=1.21.9 {
-			, 0
-			//?}
+			-1, 0
+			//?} else if >= 1.21.1 {
+			/*-1
+			*///?} else {
+			/*1.0F, 1.0F, 1.0F
+			*///?}
 		);
 	}
 }

@@ -66,7 +66,12 @@ public final class IceologerEntity extends SpellcasterIllager
 		return FriendsAndFoesSoundEvents.ENTITY_ICEOLOGER_AMBIENT.get();
 	}
 
-	public void applyRaidBuffs(ServerLevel world, int wave, boolean unused) {
+	//? if >= 1.21.1 {
+	public void applyRaidBuffs(ServerLevel world, int wave, boolean unused)
+	//?} else {
+	/*public void applyRaidBuffs(int wave, boolean unused)
+	*///?}
+	{
 	}
 
 	@Override

@@ -36,6 +36,10 @@ import net.minecraft.world.entity.ai.ActivityData;
 /*import com.mojang.serialization.Dynamic;
 *///?}
 
+//? if <1.21.1 {
+/*import net.minecraft.world.item.crafting.Ingredient;
+*///?}
+
 public final class PenguinBrain
 {
 	public static final List<MemoryModuleType<?>> MEMORY_MODULES;
@@ -62,9 +66,9 @@ public final class PenguinBrain
 	*///?}
 
 	//? if >= 26.1 {
-	protected static List<ActivityData<PenguinEntity>> addActivities(PenguinEntity penguin)
+	private static List<ActivityData<PenguinEntity>> addActivities(PenguinEntity penguin)
 	//?} else {
-	/*protected static void addActivities(Brain<PenguinEntity> brain)
+	/*private static void addActivities(Brain<PenguinEntity> brain)
 	 *///?}
 	{
 		//? if >= 26.1 {
@@ -97,7 +101,7 @@ public final class PenguinBrain
 			Activity.CORE,
 			0,
 			ImmutableList.of(
-				new AnimalPanic<PenguinEntity>(1.4F),
+				new AnimalPanic/*? if >= 1.21.1 {*/<PenguinEntity>/*?}*/(1.4F),
 				new LookAtTargetSink(45, 90),
 				new MoveToTargetSink(),
 				new CountDownCooldownTicks(MemoryModuleType.TEMPTATION_COOLDOWN_TICKS),
@@ -205,9 +209,15 @@ public final class PenguinBrain
 		penguin.getBrain().setMemory(FriendsAndFoesMemoryModuleTypes.PENGUIN_WING_FLAP_COOLDOWN.get(), WING_FLAP_COOLDOWN.sample(penguin.getRandom()));
 	}
 
+	//? if >= 1.21.1 {
 	public static Predicate<ItemStack> getTemptations() {
 		return itemStack -> itemStack.is(FriendsAndFoesTags.PENGUIN_TEMPT_ITEMS);
 	}
+	//?} else {
+	/*public static Ingredient getTemptations() {
+		return Ingredient.of(FriendsAndFoesTags.PENGUIN_TEMPT_ITEMS);
+	}
+	*///?}
 
 	static {
 		SENSORS = List.of(

@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.common.init;
 
+//? if >= 1.21.1 {
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -16,3 +17,10 @@ public class FriendsAndFoesJukeboxSongs
         return ResourceKey.create(Registries.JUKEBOX_SONG, FriendsAndFoes.makeID(id));
     }
 }
+//?} else {
+/*public final class FriendsAndFoesJukeboxSongs
+{
+	private FriendsAndFoesJukeboxSongs() {
+	}
+}
+*///?}

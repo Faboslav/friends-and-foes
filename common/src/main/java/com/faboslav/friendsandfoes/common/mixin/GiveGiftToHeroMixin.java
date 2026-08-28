@@ -16,6 +16,10 @@ import java.util.Map;
 import com.google.common.collect.ImmutableMap;
 //?}
 
+//? if <1.21.1 {
+/*import net.minecraft.resources.Identifier;
+*///?}
+
 @Mixin(GiveGiftToHero.class)
 public abstract class GiveGiftToHeroMixin
 {
@@ -44,7 +48,11 @@ public abstract class GiveGiftToHeroMixin
 		)
 	)
 	private static Object friendsandfoes$addBeekeeperGift(Object original) {
-		Map<VillagerProfession, ResourceKey<LootTable>> map = new HashMap<>((Map<VillagerProfession, ResourceKey<LootTable>>) original);
+		//? if >=1.21.1 {
+		/^Map<VillagerProfession, ResourceKey<LootTable>> map = new HashMap<>((Map<VillagerProfession, ResourceKey<LootTable>>) original);
+		^///?} else {
+		Map<VillagerProfession, Identifier> map = new HashMap<>((Map<VillagerProfession, Identifier>) original);
+		//?}
 		map.put(FriendsAndFoesVillagerProfessions.BEEKEEPER.get(), FriendsAndFoesLootTables.BEEKEEPER_GIFT);
 		return map;
 	}

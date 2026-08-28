@@ -13,7 +13,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.client.animation.KeyframeAnimation;
 //?} else {
 /*import net.minecraft.client.animation.AnimationDefinition;
- *///?}
+*///?}
 
 //? if >=1.21.3 {
 import net.minecraft.client.model.EntityModel;
@@ -188,10 +188,10 @@ public class CrabEntityModel extends EntityModel<CrabRenderState>
 		float limbSwingAmount,
 		float ageInTicks
 	) {
-		VersionedEntityModel.Animate(this, this.idleAnimation, crab.idleAnimationState, ageInTicks);
-		VersionedEntityModel.Animate(this, this.waveAnimation, crab.waveAnimationState, ageInTicks);
-		VersionedEntityModel.Animate(this, this.danceAnimation, crab.danceAnimationState, ageInTicks);
-		VersionedEntityModel.AnimateWalk(this, this.walkAnimation, limbSwing, limbSwingAmount, 2.5F, 4.5F);
+		VersionedEntityModel.animate(this, this.idleAnimation, crab.idleAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.waveAnimation, crab.waveAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.danceAnimation, crab.danceAnimationState, ageInTicks);
+		VersionedEntityModel.animateWalk(this, this.walkAnimation, limbSwing, limbSwingAmount, 2.5F, 4.5F);
 	}
 
 	public void animateClimbing(

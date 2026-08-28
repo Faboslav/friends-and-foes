@@ -17,7 +17,6 @@ import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.Vec3i;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -57,7 +56,7 @@ import net.minecraft.world.level.block.CaveVines;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.pathfinder.PathType;
+import com.faboslav.friendsandfoes.common.versions.VersionedBlockPathType;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -73,11 +72,23 @@ import java.util.function.Predicate;
 /*import com.mojang.serialization.Dynamic;
 *///?}
 
+//? if >= 26.1 {
+import net.minecraft.world.level.pathfinder.PathType;
+//?}
+
+//? if >= 1.20.5 {
+import net.minecraft.core.component.DataComponents;
+//?}
+
 //? if >=1.21.3 {
 import net.minecraft.world.entity.EntitySpawnReason;
 //?} else {
 /*import net.minecraft.world.entity.MobSpawnType;
- *///?}
+*///?}
+
+//? if <1.21.1 {
+/*import net.minecraft.nbt.CompoundTag;
+*///?}
 
 @SuppressWarnings({"unchecked"})
 //? if >= 26.2 {
@@ -111,20 +122,24 @@ public final class GlareEntity extends TamableAnimal
 	public GlareEntity(EntityType<? extends GlareEntity> entityType, Level world) {
 		super(entityType, world);
 
+		//? if >= 1.21.1 {
 		this.setTame(false, false);
+		//?} else {
+		/*this.setTame(false);
+		*///?}
 		this.moveControl = new GlareMoveControl(this, 24, true);
 		//? if >= 26.1 {
 		this.setPathfindingMalus(PathType.FIRE, -1.0F);
 		this.setPathfindingMalus(PathType.FIRE_IN_NEIGHBOR, -1.0F);
 		//?} else {
-		/*this.setPathfindingMalus(PathType.DANGER_FIRE, -1.0F);
-		this.setPathfindingMalus(PathType.DAMAGE_FIRE, -1.0F);
+		/*this.setPathfindingMalus(VersionedBlockPathType.DANGER_FIRE, -1.0F);
+		this.setPathfindingMalus(VersionedBlockPathType.DAMAGE_FIRE, -1.0F);
 		*///?}
-		this.setPathfindingMalus(PathType.WATER, -1.0F);
-		this.setPathfindingMalus(PathType.LAVA, -1.0F);
-		this.setPathfindingMalus(PathType.WATER_BORDER, 16.0F);
-		this.setPathfindingMalus(PathType.COCOA, -1.0F);
-		this.setPathfindingMalus(PathType.FENCE, -1.0F);
+		this.setPathfindingMalus(VersionedBlockPathType.WATER, -1.0F);
+		this.setPathfindingMalus(VersionedBlockPathType.LAVA, -1.0F);
+		this.setPathfindingMalus(VersionedBlockPathType.WATER_BORDER, 16.0F);
+		this.setPathfindingMalus(VersionedBlockPathType.COCOA, -1.0F);
+		this.setPathfindingMalus(VersionedBlockPathType.FENCE, -1.0F);
 		this.setCanPickUpLoot(true);
 
 		this.currentEyesPositionOffset = Vec2.ZERO;
@@ -141,17 +156,37 @@ public final class GlareEntity extends TamableAnimal
 		/*MobSpawnType spawnReason,
 		*//*?}*/
 		@Nullable SpawnGroupData entityData
+		//? if <1.21.1 {
+		/*, CompoundTag dataTag
+		*///?}
 	) {
 		GlareBrain.setDarkSpotLocatingCooldown(this);
 		GlareBrain.setLocatingGlowBerriesCooldown(this);
 		GlareBrain.setItemPickupCooldown(this);
 
-		return super.finalizeSpawn(world, difficulty, spawnReason, entityData);
+		return super.finalizeSpawn(world, difficulty, spawnReason, entityData
+			//? if <1.21.1 {
+			/*, dataTag
+			*///?}
+		);
 	}
 
 	@Override
-	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+	//? if >= 1.20.5 {
+	protected void defineSynchedData(SynchedEntityData.Builder builder)
+	//? } else {
+	/*protected void defineSynchedData()
+	*///?}
+	{
+		//? if >= 1.20.5 {
 		super.defineSynchedData(builder);
+		 //?} else {
+		/*super.defineSynchedData();
+		*///?}
+
+		//? if < 1.20.5 {
+		/*var builder = this.getEntityData();
+		*///?}
 
 		builder.define(GLARE_FLAGS, (byte) 0);
 	}
@@ -326,8 +361,13 @@ public final class GlareEntity extends TamableAnimal
 			//?} else {
 			/*ItemParticleOption particleEffect = new ItemParticleOption(ParticleTypes.ITEM, itemStack);
 			*///?}
+			//? if >= 1.20.5 {
 			FoodProperties foodComponent = itemStack.get(DataComponents.FOOD);
-			float foodNutritionMultiplier = foodComponent != null ? (float) foodComponent.nutrition():1.0F;
+			float foodNutritionMultiplier = foodComponent != null ? (float) foodComponent.nutrition() : 1.0F;
+			//?} else {
+			/*FoodProperties foodComponent = itemStack.getItem().getFoodProperties();
+			float foodNutritionMultiplier = foodComponent != null ? (float) foodComponent.getNutrition() : 1.0F;
+			*///?}
 			this.heal(2.0F * foodNutritionMultiplier);
 			this.playEatSound(itemStack);
 			ParticleSpawner.spawnParticles(this, particleEffect, 7, 0.1D);
@@ -568,14 +608,28 @@ public final class GlareEntity extends TamableAnimal
 		}
 
 		if (this.level() instanceof ServerLevel serverLevel) {
+			//? if >= 1.20.5 {
 			FoodProperties foodComponent = itemStack.get(DataComponents.FOOD);
+			//?} else {
+			/*FoodProperties foodComponent = itemStack.getItem().getFoodProperties();
+			*///?}
 			if (foodComponent == null) {
 				return false;
 			}
 
+			//? if >= 1.20.5 {
 			this.heal(2.0F * foodComponent.nutrition());
+			//?} else {
+			/*this.heal(2.0F * foodComponent.getNutrition());
+			*///?}
 			this.playEatSound(itemStack);
+			//? if >= 1.20.5 {
 			itemStack.consume(1, player);
+			//?} else {
+			/*if (!player.isCreative()) {
+				itemStack.shrink(1);
+			}
+			*///?}
 
 			//? if >= 26.1 {
 			ItemParticleOption particleEffect = new ItemParticleOption(ParticleTypes.ITEM, itemStack.getItem());
@@ -661,7 +715,12 @@ public final class GlareEntity extends TamableAnimal
 	}
 
 	@Override
-	public float getAgeScale() {
+	//? if >= 1.21.1 {
+	public float getAgeScale()
+	//?} else {
+	/*public float getScale()
+	*///?}
+	{
 		return this.isBaby() ? BABY_SCALE : ADULT_SCALE;
 	}
 
@@ -686,7 +745,9 @@ public final class GlareEntity extends TamableAnimal
 		}
 	}
 
+	//? if >= 1.21.1 {
 	@Override
+	//?}
 	protected void applyTamingSideEffects() {
 		if (this.isTame()) {
 			this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(30.0D);
@@ -697,7 +758,12 @@ public final class GlareEntity extends TamableAnimal
 	}
 
 	public void tame(Player owner) {
+		//? if >= 1.21.1 {
 		this.setTame(true, true);
+		//?} else {
+		/*this.setTame(true);
+		this.applyTamingSideEffects();
+		*///?}
 		//? if >=1.21.5 {
 		this.setOwner(owner);
 		//?} else {
@@ -705,7 +771,11 @@ public final class GlareEntity extends TamableAnimal
 		*///?}
 
 		if (owner instanceof ServerPlayer) {
+			//? if >= 1.21.1 {
 			FriendsAndFoesCriterias.TAME_GLARE.get().trigger((ServerPlayer) owner, this);
+			//?} else {
+			/*FriendsAndFoesCriterias.TAME_GLARE.trigger((ServerPlayer) owner, this);
+			*///?}
 		}
 	}
 
@@ -730,7 +800,12 @@ public final class GlareEntity extends TamableAnimal
 			/*glareEntity.setOwnerUUID(this.getOwnerUUID());
 			*///?}
 
+			//? if >= 1.21.1 {
 			glareEntity.setTame(true, true);
+			//?} else {
+			/*glareEntity.setTame(true);
+			glareEntity.applyTamingSideEffects();
+			*///?}
 
 		}
 

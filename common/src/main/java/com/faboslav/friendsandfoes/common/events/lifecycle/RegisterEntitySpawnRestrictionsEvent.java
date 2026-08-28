@@ -3,9 +3,12 @@ package com.faboslav.friendsandfoes.common.events.lifecycle;
 import com.faboslav.friendsandfoes.common.events.base.EventHandler;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.SpawnPlacementType;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.level.levelgen.Heightmap;
+
+//? if >= 1.21 {
+import net.minecraft.world.entity.SpawnPlacementType;
+//?}
 
 /**
  * Event related is code based on The Bumblezone/Resourceful Lib mods with permissions from the authors
@@ -21,7 +24,11 @@ public record RegisterEntitySpawnRestrictionsEvent(Registrar registrar)
 
 	public <T extends Mob> void register(
 		EntityType<T> entityType,
+		//? if >= 1.21 {
 		SpawnPlacementType location,
+		//?} else {
+		/*SpawnPlacements.Type location,
+		*///?}
 		Heightmap.Types heightmap,
 		SpawnPlacements.SpawnPredicate<T> predicate
 	) {
@@ -30,7 +37,11 @@ public record RegisterEntitySpawnRestrictionsEvent(Registrar registrar)
 
 	public record Placement<T extends Mob>(
 		SpawnPlacements.SpawnPredicate<T> predicate,
+		//? if >= 1.21 {
 		SpawnPlacementType location,
+		//?} else {
+		/*SpawnPlacements.Type location,
+		*///?}
 		Heightmap.Types heightmap
 	)
 	{

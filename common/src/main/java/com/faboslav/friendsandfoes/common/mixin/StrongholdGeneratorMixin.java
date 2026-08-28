@@ -6,13 +6,20 @@ import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.world.item.enchantment.EnchantmentInstance;
+
+//? if >= 1.21.1 {
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentInstance;
+//?} else {
+/*import net.minecraft.world.item.enchantment.Enchantment;
+import java.util.HashMap;
+import java.util.Map;
+*///?}
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
@@ -112,7 +119,17 @@ public abstract class StrongholdGeneratorMixin extends StructurePiece
 		var enchantmentList = this.friendsAndFoes$getEnchantmentList(random, serverWorld.registryAccess(), enchantedBook, enchantmentLevel);
 
 		if (!enchantmentList.isEmpty()) {
+			//? if >= 1.21.1 {
 			enchantedBook = EnchantmentHelper.enchantItem(random, enchantedBook, enchantmentLevel, enchantmentList.stream());
+			//?} else {
+			/*Map<Enchantment, Integer> enchantments = new HashMap<>();
+
+			for (EnchantmentInstance instance : enchantmentList) {
+				enchantments.put(instance.enchantment, instance.level);
+			}
+
+			EnchantmentHelper.setEnchantments(enchantments, enchantedBook);
+			*///?}
 		}
 
 		tuffGolem.setItemSlot(EquipmentSlot.MAINHAND, enchantedBook);
@@ -128,6 +145,7 @@ public abstract class StrongholdGeneratorMixin extends StructurePiece
 		}
 	}
 
+	//? if >= 1.21.1 {
 	@Unique
 	private List<Holder<Enchantment>> friendsAndFoes$getEnchantmentList(RandomSource random, RegistryAccess registryAccess, ItemStack itemStack, int cost) {
 		Optional<HolderSet.Named<Enchantment>> optional = registryAccess
@@ -150,11 +168,23 @@ public abstract class StrongholdGeneratorMixin extends StructurePiece
 		}
 
 		return instances.stream()
-			//? if >= 1.21.5 {
+			/*? if >= 1.21.5 {*/
 			.map(EnchantmentInstance::enchantment)
-			//?} else {
+			/*?} else {*/
 			/*.map(enchantmentInstance -> enchantmentInstance.enchantment)
-			 *///?}
+			 *//*?}*/
 			.toList();
 	}
+	//?} else {
+	/*@Unique
+	private List<EnchantmentInstance> friendsAndFoes$getEnchantmentList(RandomSource random, RegistryAccess registryAccess, ItemStack itemStack, int cost) {
+		List<EnchantmentInstance> instances = EnchantmentHelper.selectEnchantment(random, itemStack, cost, false);
+
+		if (itemStack.is(Items.ENCHANTED_BOOK) && instances.size() > 1) {
+			instances.remove(random.nextInt(instances.size()));
+		}
+
+		return instances;
+	}
+	*///?}
 }

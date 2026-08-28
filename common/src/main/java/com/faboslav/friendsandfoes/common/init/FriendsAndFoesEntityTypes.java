@@ -13,11 +13,11 @@ import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistry;
 import com.faboslav.friendsandfoes.common.platform.CustomSpawnGroup;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntityTypeResourceId;
+import com.faboslav.friendsandfoes.common.versions.VersionedSpawnPlacementType;
 import net.minecraft.SharedConstants;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.level.levelgen.Heightmap;
 
 /**
@@ -49,20 +49,20 @@ public final class FriendsAndFoesEntityTypes
 
 	static {
 		SharedConstants.CHECK_DATA_FIXER_SCHEMA = false;
-		BARNACLE = ENTITY_TYPES.register("barnacle", () -> EntityType.Builder.of(BarnacleEntity::new, MobCategory.MONSTER).sized(1.69125F * BarnacleEntityRenderer.SCALE, 0.75F * BarnacleEntityRenderer.SCALE).eyeHeight(0.75F).clientTrackingRange(10).build(VersionedEntityTypeResourceId.create("barnacle")));
+		BARNACLE = ENTITY_TYPES.register("barnacle", () -> EntityType.Builder.of(BarnacleEntity::new, MobCategory.MONSTER).sized(1.69125F * BarnacleEntityRenderer.SCALE, 0.75F * BarnacleEntityRenderer.SCALE)/*? if >=1.21.1 {*/.eyeHeight(0.75F)/*?}*/.clientTrackingRange(10).build(VersionedEntityTypeResourceId.create("barnacle")));
 		//? if <= 1.21.8 {
-		/*COPPER_GOLEM = ENTITY_TYPES.register("copper_golem", () -> EntityType.Builder.of(CopperGolemEntity::new, MobCategory.MISC).sized(0.75F, 1.375F).eyeHeight(0.75F).clientTrackingRange(10).build(VersionedEntityTypeResourceId.create("copper_golem")));
+		/*COPPER_GOLEM = ENTITY_TYPES.register("copper_golem", () -> EntityType.Builder.of(CopperGolemEntity::new, MobCategory.MISC).sized(0.75F, 1.375F)/^? if >=1.21.1 {^/.eyeHeight(0.75F)/^?}^/.clientTrackingRange(10).build(VersionedEntityTypeResourceId.create("copper_golem")));
 		*///?}
 		CRAB = ENTITY_TYPES.register("crab", () -> EntityType.Builder.of(CrabEntity::new, MobCategory.CREATURE).sized(0.875F, 0.5625F).clientTrackingRange(10).build(VersionedEntityTypeResourceId.create("crab")));
 		GLARE = ENTITY_TYPES.register("glare", () -> EntityType.Builder.of(GlareEntity::new, CustomSpawnGroup.getGlaresCategory()).sized(0.875F, 1.1875F).clientTrackingRange(8).updateInterval(2).build(VersionedEntityTypeResourceId.create("glare")));
 		ICEOLOGER = ENTITY_TYPES.register("iceologer", () -> EntityType.Builder.of(IceologerEntity::new, MobCategory.MONSTER).sized(0.6F, 1.95F).clientTrackingRange(10).build(VersionedEntityTypeResourceId.create("iceologer")));
-		ILLUSIONER = ENTITY_TYPES.register("illusioner", () -> EntityType.Builder.of(IllusionerEntity::new, MobCategory.MONSTER).sized(0.6F, 1.95F).passengerAttachments(2.0F).ridingOffset(-0.6F).clientTrackingRange(8).build(VersionedEntityTypeResourceId.create("illusioner")));
+		ILLUSIONER = ENTITY_TYPES.register("illusioner", () -> EntityType.Builder.of(IllusionerEntity::new, MobCategory.MONSTER).sized(0.6F, 1.95F)/*? if >=1.21.1 {*/.passengerAttachments(2.0F).ridingOffset(-0.6F)/*?}*/.clientTrackingRange(8).build(VersionedEntityTypeResourceId.create("illusioner")));
 		ICE_CHUNK = ENTITY_TYPES.register("ice_chunk", () -> EntityType.Builder.of(IceologerIceChunkEntity::new, MobCategory.MISC).fireImmune().sized(2.5F, 1.0F).clientTrackingRange(6).build(VersionedEntityTypeResourceId.create("ice_chunk")));
 		MAULER = ENTITY_TYPES.register("mauler", () -> EntityType.Builder.of(MaulerEntity::new, MobCategory.CREATURE).sized(0.5625F, 0.5625F).clientTrackingRange(10).build(VersionedEntityTypeResourceId.create("mauler")));
 		MOOBLOOM = ENTITY_TYPES.register("moobloom", () -> EntityType.Builder.of(MoobloomEntity::new, MobCategory.CREATURE).sized(0.9F, 1.4F).clientTrackingRange(10).build(VersionedEntityTypeResourceId.create("moobloom")));
 		PENGUIN = ENTITY_TYPES.register("penguin", () -> EntityType.Builder.of(PenguinEntity::new, MobCategory.CREATURE).sized(0.875F, 1.1875F).clientTrackingRange(10).build(VersionedEntityTypeResourceId.create("penguin")));
 		RASCAL = ENTITY_TYPES.register("rascal", () -> EntityType.Builder.of(RascalEntity::new, CustomSpawnGroup.getRascalsCategory()).sized(0.9F, 1.25F).clientTrackingRange(10).canSpawnFarFromPlayer().build(VersionedEntityTypeResourceId.create("rascal")));
-		TUFF_GOLEM = ENTITY_TYPES.register("tuff_golem", () -> EntityType.Builder.of(TuffGolemEntity::new, MobCategory.MISC).sized(0.75F, 1.0625F).eyeHeight(0.8F).clientTrackingRange(10).build(VersionedEntityTypeResourceId.create("tuff_golem")));
+		TUFF_GOLEM = ENTITY_TYPES.register("tuff_golem", () -> EntityType.Builder.of(TuffGolemEntity::new, MobCategory.MISC).sized(0.75F, 1.0625F)/*? if >=1.21.1 {*/.eyeHeight(0.8F)/*?}*/.clientTrackingRange(10).build(VersionedEntityTypeResourceId.create("tuff_golem")));
 		WILDFIRE = ENTITY_TYPES.register("wildfire", () -> EntityType.Builder.of(WildfireEntity::new, MobCategory.MONSTER).sized(0.7F * WildfireEntityRenderer.SCALE, 1.875F * WildfireEntityRenderer.SCALE).clientTrackingRange(10).fireImmune().build(VersionedEntityTypeResourceId.create("wildfire")));
 		//? if <= 1.21.8 {
 		/*PLAYER_ILLUSION = ENTITY_TYPES.register("player_illusion", () -> EntityType.Builder.of(PlayerIllusionEntity::new, MobCategory.MISC).sized(0.7F, 1.875F).clientTrackingRange(10).fireImmune().build(VersionedEntityTypeResourceId.create("player_illusion")));
@@ -91,15 +91,15 @@ public final class FriendsAndFoesEntityTypes
 	}
 
 	public static void registerEntitySpawnRestrictions(RegisterEntitySpawnRestrictionsEvent event) {
-		event.register(BARNACLE.get(), SpawnPlacementTypes.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BarnacleEntity::canSpawn);
-		event.register(CRAB.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, CrabEntity::canSpawn);
-		event.register(GLARE.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GlareEntity::canSpawn);
-		event.register(ICEOLOGER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, IceologerEntity::checkPatrollingMonsterSpawnRules);
-		event.register(ILLUSIONER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, IllusionerEntity::checkPatrollingMonsterSpawnRules);
-		event.register(MAULER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, MaulerEntity::canSpawn);
-		event.register(MOOBLOOM.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, MoobloomEntity::canSpawn);
-		event.register(PENGUIN.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, PenguinEntity::canSpawn);
-		event.register(RASCAL.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, RascalEntity::canSpawn);
+		event.register(BARNACLE.get(), VersionedSpawnPlacementType.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BarnacleEntity::canSpawn);
+		event.register(CRAB.get(), VersionedSpawnPlacementType.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, CrabEntity::canSpawn);
+		event.register(GLARE.get(), VersionedSpawnPlacementType.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GlareEntity::canSpawn);
+		event.register(ICEOLOGER.get(), VersionedSpawnPlacementType.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, IceologerEntity::checkPatrollingMonsterSpawnRules);
+		event.register(ILLUSIONER.get(), VersionedSpawnPlacementType.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, IllusionerEntity::checkPatrollingMonsterSpawnRules);
+		event.register(MAULER.get(), VersionedSpawnPlacementType.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, MaulerEntity::canSpawn);
+		event.register(MOOBLOOM.get(), VersionedSpawnPlacementType.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, MoobloomEntity::canSpawn);
+		event.register(PENGUIN.get(), VersionedSpawnPlacementType.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, PenguinEntity::canSpawn);
+		event.register(RASCAL.get(), VersionedSpawnPlacementType.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, RascalEntity::canSpawn);
 	}
 
 	public static void addSpawnBiomeModifications(AddSpawnBiomeModificationsEvent event) {

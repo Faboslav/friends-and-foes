@@ -10,7 +10,12 @@ public class PenguinsGlideStatusEffect extends MobEffect
 	}
 
 	@Override
-	public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
+	//? if >= 1.21.1 {
+	public boolean shouldApplyEffectTickThisTick(int duration, int amplifier)
+	//?} else {
+	/*public boolean isDurationEffectTick(int duration, int amplifier)
+	*///?}
+	{
 		return false;
 	}
 }

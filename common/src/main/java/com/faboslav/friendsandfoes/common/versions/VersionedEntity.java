@@ -13,7 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import org.jetbrains.annotations.Nullable;
 
-//? if <= 1.21.8 {
+//? if >= 1.21.1 && <= 1.21.8 {
 /*import net.minecraft.world.entity.LivingEntity;
 *///?}
 
@@ -27,8 +27,10 @@ public final class VersionedEntity
 		EquipmentSlot equipmentSlot;
 		//? if >= 1.21.9 {
 		equipmentSlot = hand.asEquipmentSlot();
-		//?} else {
+		//?} else if >= 1.21.1 {
 		/*equipmentSlot = LivingEntity.getSlotForHand(hand);
+		*///?} else {
+		/*equipmentSlot = hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
 		*///?}
 
 		return equipmentSlot;

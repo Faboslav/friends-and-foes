@@ -22,7 +22,7 @@ import com.faboslav.friendsandfoes.common.client.render.entity.state.RascalRende
 //?} else {
 /*import net.minecraft.client.model.HierarchicalModel;
 import com.faboslav.friendsandfoes.common.entity.RascalEntity;
- *///?}
+*///?}
 
 //? if >=1.21.3 {
 public final class RascalEntityModel extends EntityModel<RascalRenderState>
@@ -128,9 +128,9 @@ public final class RascalEntityModel extends EntityModel<RascalRenderState>
 		/*this.root().getAllParts().forEach(ModelPart::resetPose);
 		*///?}
 
-		VersionedEntityModel.Animate(this, this.idleAnimation, rascal.idleAnimationState, ageInTicks);
-		VersionedEntityModel.Animate(this, this.nodAnimation, rascal.nodAnimationState, ageInTicks);
-		VersionedEntityModel.Animate(this, this.giveRewardAnimation, rascal.giveRewardAnimationState, ageInTicks);
-		VersionedEntityModel.AnimateWalk(this, this.walkAnimation, limbSwing, limbSwingAmount, 1.5F, 2.5F);
+		VersionedEntityModel.animate(this, this.idleAnimation, rascal.idleAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.nodAnimation, rascal.nodAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.giveRewardAnimation, rascal.giveRewardAnimationState, ageInTicks);
+		VersionedEntityModel.animateWalk(this, this.walkAnimation, limbSwing, limbSwingAmount, 1.5F, 2.5F);
 	}
 }

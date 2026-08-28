@@ -57,7 +57,7 @@ public class IceologerIceChunkRenderer extends EntityRenderer<IceologerIceChunkE
 		var iceChunk = renderState.iceologerIceChunk;
 		var partialTick = renderState.partialTick;
 		//?} else {
-		/*var partialTick = Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(true);
+		/*var partialTick = tickDelta;
 		*///?}
 		float animationProgress = iceChunk.getSummonAnimationProgress();
 
@@ -87,9 +87,12 @@ public class IceologerIceChunkRenderer extends EntityRenderer<IceologerIceChunkE
 		this.model.renderToBuffer(poseStack, vertexConsumer, i, OverlayTexture.NO_OVERLAY, -1);
 		*///?} else {
 		/*VertexConsumer vertexConsumer = multiBufferSource.getBuffer(this.model.renderType(TEXTURE));
-		this.model.setupAnim(iceChunk, 0.0F, 0.0F, 0.0F, iceChunk.getYRot(), iceChunk.getXRot());
 		this.model.prepareMobModel(iceChunk, 0.0F, 0.0F, tickDelta);
+		//? if >= 1.21.1 {
 		this.model.renderToBuffer(poseStack, vertexConsumer, i, OverlayTexture.NO_OVERLAY, -1);
+		//?} else {
+		/^this.model.renderToBuffer(poseStack, vertexConsumer, i, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+		^///?}
 		*///?}
 		poseStack.popPose();
 

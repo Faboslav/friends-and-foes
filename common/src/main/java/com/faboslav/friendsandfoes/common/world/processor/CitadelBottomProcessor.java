@@ -28,7 +28,11 @@ public final class CitadelBottomProcessor implements StructureProcessor
 /*public final class CitadelBottomProcessor extends StructureProcessor
 *///?}
 {
+	//? if >= 1.21.1 {
 	public static final MapCodec<CitadelBottomProcessor> CODEC = RecordCodecBuilder.mapCodec(instance -> instance
+	//?} else {
+	/*public static final Codec<CitadelBottomProcessor> CODEC = RecordCodecBuilder.create(instance -> instance
+	*///?}
 		.group(
 			BlockState.CODEC.fieldOf("target_block").forGetter(config -> config.targetBlock),
 			BlockState.CODEC.fieldOf("target_block_output").forGetter(config -> config.targetBlockOutput),

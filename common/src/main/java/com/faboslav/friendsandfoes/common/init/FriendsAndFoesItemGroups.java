@@ -9,14 +9,17 @@ import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistry;
 import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+
+//? if >= 1.21.1 {
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.component.CustomData;
+//?}
 
 /**
  * @see net.minecraft.world.item.CreativeModeTabs
@@ -32,7 +35,11 @@ public class FriendsAndFoesItemGroups
 				ItemStack iconStack = FriendsAndFoesItems.WILDFIRE_CROWN.get().getDefaultInstance();
 				CompoundTag nbtCompound = new CompoundTag();
 				nbtCompound.putBoolean("isCreativeTabIcon", true);
+				//? if >= 1.21.1 {
 				iconStack.set(DataComponents.CUSTOM_DATA, CustomData.of(nbtCompound));
+				//?} else {
+				/*iconStack.setTag(nbtCompound);
+				*///?}
 				return iconStack;
 			})
 			.displayItems((itemDisplayParameters, entries) -> {

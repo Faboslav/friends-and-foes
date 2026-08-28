@@ -51,7 +51,7 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 //?} else {
 /*import net.minecraft.nbt.CompoundTag;
- *///?}
+*///?}
 
 //? if >=1.21.4 {
 import net.minecraft.world.entity.monster.creaking.Creaking;
@@ -89,6 +89,7 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 		super.registerGoals();
 		this.goalSelector.addGoal(0, new FloatGoal(this));
 		this.goalSelector.addGoal(1, new SpellcasterIllager.SpellcasterCastingSpellGoal());
+		this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, IronGolem.class, 8.0F, 0.6, 1.0));
 		//? if >=1.21.4 {
 		this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, Creaking.class, 8.0F, 1.0F, 1.2));
 		//?}
@@ -141,6 +142,7 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 	}
 
 	@Override
+	//? if >= 1.21.1 {
 	public SpawnGroupData finalizeSpawn(
 		ServerLevelAccessor level,
 		DifficultyInstance difficulty,
@@ -151,8 +153,21 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 		 *//*?}*/
 		@Nullable SpawnGroupData entityData
 	) {
+	//?} else {
+	/*public SpawnGroupData finalizeSpawn(
+		ServerLevelAccessor level,
+		DifficultyInstance difficulty,
+		MobSpawnType spawnReason,
+		@Nullable SpawnGroupData entityData,
+		CompoundTag dataTag
+	) {
+	*///?}
 		this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
+		//? if >= 1.21.1 {
 		return super.finalizeSpawn(level, difficulty, spawnReason, entityData);
+		//?} else {
+		/*return super.finalizeSpawn(level, difficulty, spawnReason, entityData, dataTag);
+		*///?}
 	}
 
 	@Override
@@ -227,7 +242,7 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 		if (
 			(
 				(
-					VersionedEntity.isEntityType(attacker, EntityTypeTags.ILLAGER_FRIENDS)
+					this.isIllagerFriend(attacker)
 					|| VersionedEntity.isEntityType(attacker, EntityTypeTags.RAIDERS)
 				)
 			)
@@ -242,7 +257,7 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 		if (!this.level().isClientSide()) {
 			if (
 				attackerType != null
-				&& !VersionedEntity.isEntityType(attacker, EntityTypeTags.ILLAGER_FRIENDS)
+				&& !this.isIllagerFriend(attacker)
 				&& !VersionedEntity.isEntityType(attacker, EntityTypeTags.RAIDERS)
 			) {
 				if (this.isIllusion()) {
@@ -253,7 +268,7 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 				if (
 					this.getTicksUntilCanCreateIllusions() == 0
 					&& (
-						!VersionedEntity.isEntityType(attacker, EntityTypeTags.ILLAGER_FRIENDS)
+						!this.isIllagerFriend(attacker)
 						&& !VersionedEntity.isEntityType(attacker, EntityTypeTags.RAIDERS)
 						&& !(damageSource.getEntity() instanceof Player player && player.getAbilities().instabuild)
 					)
@@ -295,14 +310,31 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 		return SoundEvents.ILLUSIONER_CAST_SPELL;
 	}
 
-	public void applyRaidBuffs(ServerLevel level, int wave, boolean unused) {
+	//? if >= 1.21.1 {
+	public void applyRaidBuffs(ServerLevel level, int wave, boolean unused)
+	//?} else {
+	/*public void applyRaidBuffs(int wave, boolean unused)
+	*///?}
+	{
+	}
+
+	private boolean isIllagerFriend(@Nullable Entity attacker) {
+		//? if >= 1.21.1 {
+		return VersionedEntity.isEntityType(attacker, EntityTypeTags.ILLAGER_FRIENDS);
+		//?} else {
+		/*return attacker instanceof AbstractIllager;
+		*///?}
 	}
 
 	@Override
 	public void performRangedAttack(LivingEntity target, float velocity) {
 		ItemStack itemStack = this.getItemInHand(ProjectileUtil.getWeaponHoldingHand(this, Items.BOW));
 		ItemStack itemStack2 = this.getProjectile(itemStack);
+		//? if >= 1.21.1 {
 		AbstractArrow abstractArrow = ProjectileUtil.getMobArrow(this, itemStack2, velocity, itemStack);
+		//?} else {
+		/*AbstractArrow abstractArrow = ProjectileUtil.getMobArrow(this, itemStack2, velocity);
+		*///?}
 		double d = target.getX() - this.getX();
 		double e = target.getY(0.3333333333333333) - abstractArrow.getY();
 		double f = target.getZ() - this.getZ();

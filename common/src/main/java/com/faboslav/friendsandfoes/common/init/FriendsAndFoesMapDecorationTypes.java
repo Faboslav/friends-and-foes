@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.common.init;
 
+//? if >=1.21.1 {
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.teamresourceful.resourcefullib.common.registry.HolderRegistryEntry;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistries;
@@ -22,3 +23,4 @@ public final class FriendsAndFoesMapDecorationTypes
 		false
 	));
 }
+//?}

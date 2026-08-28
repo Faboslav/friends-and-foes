@@ -99,9 +99,15 @@ public final class MaulerBurrowDownGoal extends Goal
 
 	@Override
 	public void tick() {
+		//? if >=1.21.4 {
 		float burrowingAnimationProgress = this.mauler.isBurrowedDown()
 			? (float) this.mauler.burrowDownAnimationState.getTimeInMillis(this.mauler.getAge()) / BURROW_DOWN_DURATION
 			: (float) this.mauler.burrowUpAnimationState.getTimeInMillis(this.mauler.getAge()) / BURROW_UP_DURATION;
+		//?} else {
+		/*float burrowingAnimationProgress = this.mauler.isBurrowedDown()
+			? (float) (((long) this.mauler.getAge() * 50L) - this.mauler.burrowDownAnimationState.lastTime) / BURROW_DOWN_DURATION
+			: (float) (((long) this.mauler.getAge() * 50L) - this.mauler.burrowUpAnimationState.lastTime) / BURROW_UP_DURATION;
+		*///?}
 
 		if (burrowingAnimationProgress > 0.0F && burrowingAnimationProgress < 1.0F) {
 			BlockPos blockPos = this.mauler.blockPosition();

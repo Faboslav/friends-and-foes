@@ -23,7 +23,7 @@ import com.faboslav.friendsandfoes.common.client.render.entity.state.TuffGolemRe
 public final class TuffGolemClothFeatureRenderer extends RenderLayer<TuffGolemRenderState, TuffGolemEntityModel>
 //?} else {
 /*public final class TuffGolemClothFeatureRenderer extends RenderLayer<TuffGolemEntity, TuffGolemEntityModel<TuffGolemEntity>>
- *///?}
+*///?}
 {
 	//? if >=1.21.3 {
 	public TuffGolemClothFeatureRenderer(RenderLayerParent<TuffGolemRenderState, TuffGolemEntityModel> renderLayerParent) {
@@ -66,10 +66,13 @@ public final class TuffGolemClothFeatureRenderer extends RenderLayer<TuffGolemRe
 			//?} else {
 			/*tuffGolem,
 			 *///?}
-			-1
 			//? if >=1.21.9 {
-			, 0
-			//?}
+			-1, 0
+			//?} else if >= 1.21.1 {
+			/*-1
+			*///?} else {
+			/*1.0F, 1.0F, 1.0F
+			*///?}
 		);
 	}
 }

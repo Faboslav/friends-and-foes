@@ -14,6 +14,10 @@ import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 
+//? if <1.21.1 {
+/*import net.minecraft.nbt.CompoundTag;
+*///?}
+
 public final class IceologerSpawner implements CustomSpawner
 {
 	private int cooldown;
@@ -113,7 +117,11 @@ public final class IceologerSpawner implements CustomSpawner
 		iceologer.setPatrolLeader(false);
 		iceologer.findPatrolTarget();
 		iceologer.setPos(mutable.getX(), mutable.getY(), mutable.getZ());
+		//? if >= 1.21.1 {
 		iceologer.finalizeSpawn(world, world.getCurrentDifficultyAt(mutable), VersionedEntitySpawnReason.PATROL, null);
+		//?} else {
+		/*iceologer.finalizeSpawn(world, world.getCurrentDifficultyAt(mutable), VersionedEntitySpawnReason.PATROL, null, new CompoundTag());
+		*///?}
 		world.addFreshEntityWithPassengers(iceologer);
 		return /*? if <1.21.5 {*//*1*//*?}*/;
 	}

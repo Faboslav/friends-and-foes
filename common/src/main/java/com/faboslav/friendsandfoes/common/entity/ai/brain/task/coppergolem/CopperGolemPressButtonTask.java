@@ -143,8 +143,8 @@ public final class CopperGolemPressButtonTask extends Behavior<CopperGolemEntity
 		buttonBlock.press(
 			buttonBlockState,
 			copperGolem.level(),
-			buttonPos,
-			null
+			buttonPos
+			/^? if >= 1.21.1 {^/, null/^?}^/
 		);
 		copperGolem.level().playSound(null,
 			buttonPos,

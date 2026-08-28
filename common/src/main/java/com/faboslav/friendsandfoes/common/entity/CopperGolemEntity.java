@@ -68,7 +68,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.entity.EntitySpawnReason;
 //?} else {
 /^import net.minecraft.world.entity.MobSpawnType;
- ^///?}
+^///?}
 
 public final class CopperGolemEntity extends AbstractGolem
 {
@@ -129,10 +129,17 @@ public final class CopperGolemEntity extends AbstractGolem
 		EntitySpawnReason spawnReason,
 		/^?} else {^/
 		/^MobSpawnType spawnReason,
-		 ^//^?}^/
+		^//^?}^/
 		@Nullable SpawnGroupData entityData
+		//? if <1.21.1 {
+		/^, CompoundTag dataTag
+		^///?}
 	) {
-		SpawnGroupData superEntityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData);
+		SpawnGroupData superEntityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData
+			//? if <1.21.1 {
+			/^, dataTag
+			^///?}
+		);
 
 		if (spawnReason == VersionedEntitySpawnReason.STRUCTURE) {
 			return superEntityData;
@@ -146,8 +153,21 @@ public final class CopperGolemEntity extends AbstractGolem
 	}
 
 	@Override
-	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+	//? if >= 1.20.5 {
+	protected void defineSynchedData(SynchedEntityData.Builder builder)
+	//?} else {
+	/^protected void defineSynchedData()
+	^///?}
+	{
+		//? if >= 1.20.5 {
 		super.defineSynchedData(builder);
+		//?} else {
+		/^super.defineSynchedData();
+		^///?}
+
+		//? if < 1.20.5 {
+		/^var builder = this.getEntityData();
+		^///?}
 
 		builder.define(POSE_TICKS, 0);
 		builder.define(WALK_ANIMATION_POS, 0.0F);
@@ -259,7 +279,11 @@ public final class CopperGolemEntity extends AbstractGolem
 			this.setYRot(this.yRotO);
 			this.yBodyRotO = entitySnapshot.prevBodyYaw;
 			this.yBodyRot = this.yBodyRotO;
+			//? if >= 1.21.1 {
 			this.lerpYHeadRot = entitySnapshot.serverHeadYaw;
+			//?} else {
+			/^this.lyHeadRot = entitySnapshot.serverHeadYaw;
+			^///?}
 			this.yHeadRotO = entitySnapshot.prevHeadYaw;
 			this.yHeadRot = this.yHeadRotO;
 			//this.animStepO = VersionedNbt.getFloat(entitySnapshot, "prevLookDirection", 0.0F);
@@ -289,7 +313,11 @@ public final class CopperGolemEntity extends AbstractGolem
 			this.yRotO,
 			this.xRotO,
 			this.yBodyRotO,
+			//? if >= 1.21.1 {
 			this.lerpYHeadRot,
+			//?} else {
+			/^this.lyHeadRot,
+			^///?}
 			this.yHeadRotO,
 			this.oAttackAnim,
 			((LimbAnimatorAccessor) this.walkAnimation).getPrevSpeed(),
@@ -443,7 +471,13 @@ public final class CopperGolemEntity extends AbstractGolem
 
 		if (this.level() instanceof ServerLevel serverLevel) {
 			this.heal(COPPER_INGOT_HEAL_AMOUNT);
+			//? if >= 1.21.1 {
 			itemStack.consume(1, player);
+			//?} else {
+			/^if (!player.isCreative()) {
+				itemStack.shrink(1);
+			}
+			^///?}
 			this.playSound(FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_REPAIR.get(), 1.0F, this.getVoicePitch() - 1.0F);
 		}
 
@@ -497,7 +531,12 @@ public final class CopperGolemEntity extends AbstractGolem
 			}
 
 			if (!player.getAbilities().instabuild) {
+				//? if >= 1.21.1 {
 				itemStack.hurtAndBreak(1, player, VersionedEntity.getEquipmentSlotForItem(hand));
+				//?} else {
+				/^var brokenItemSlot = VersionedEntity.getEquipmentSlotForItem(hand);
+				itemStack.hurtAndBreak(1, player, item -> player.broadcastBreakEvent(brokenItemSlot));
+				^///?}
 			}
 
 			FriendsAndFoes.getLogger().info("go");
@@ -699,7 +738,11 @@ public final class CopperGolemEntity extends AbstractGolem
 			return 0;
 		}
 
+		//? if >=1.21.4 {
 		return (int) (animationState.getTimeInMillis(this.tickCount) / 50L);
+		//?} else {
+		/^return (int) (((this.tickCount * 50L) - animationState.lastTime) / 50L);
+		^///?}
 	}
 
 	@Override
@@ -766,7 +809,9 @@ public final class CopperGolemEntity extends AbstractGolem
 		}
 
 		this.playSound(spinHeadSound, this.getSoundVolume(), this.getVoicePitch());
+		//? if >= 1.21.1 {
 		this.gameEvent(GameEvent.ENTITY_ACTION);
+		//?}
 		this.setEntityPose(FriendsAndFoesEntityPose.SPIN_HEAD);
 	}
 
@@ -775,7 +820,9 @@ public final class CopperGolemEntity extends AbstractGolem
 			return;
 		}
 
+		//? if >= 1.21.1 {
 		this.gameEvent(GameEvent.ENTITY_ACTION);
+		//?}
 		this.setEntityPose(FriendsAndFoesEntityPose.PRESS_BUTTON_UP);
 	}
 
@@ -784,7 +831,9 @@ public final class CopperGolemEntity extends AbstractGolem
 			return;
 		}
 
+		//? if >= 1.21.1 {
 		this.gameEvent(GameEvent.ENTITY_ACTION);
+		//?}
 		this.setEntityPose(FriendsAndFoesEntityPose.PRESS_BUTTON_DOWN);
 	}
 
@@ -896,7 +945,11 @@ public final class CopperGolemEntity extends AbstractGolem
 		this.setYRot(yaw);
 		this.yBodyRotO = yaw;
 		this.yBodyRot = yaw;
+		//? if >= 1.21.1 {
 		this.lerpYHeadRot = yaw;
+		//?} else {
+		/^this.lyHeadRot = yaw;
+		^///?}
 		this.yHeadRotO = yaw;
 		this.yHeadRot = yaw;
 	}

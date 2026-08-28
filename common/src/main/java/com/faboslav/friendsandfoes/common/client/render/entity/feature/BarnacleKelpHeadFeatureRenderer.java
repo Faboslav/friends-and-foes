@@ -11,21 +11,21 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 //?} else {
 /*import net.minecraft.client.renderer.MultiBufferSource;
- *///?}
+*///?}
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 import com.faboslav.friendsandfoes.common.client.render.entity.state.BarnacleRenderState;
 //?} else {
 /*import com.faboslav.friendsandfoes.common.entity.BarnacleEntity;
- *///?}
+*///?}
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 public final class BarnacleKelpHeadFeatureRenderer extends RenderLayer<BarnacleRenderState, BarnacleEntityModel>
 //?} else {
 /*public final class BarnacleKelpHeadFeatureRenderer extends RenderLayer<BarnacleEntity, BarnacleEntityModel<BarnacleEntity>>
 *///?}
 {
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	public BarnacleKelpHeadFeatureRenderer(RenderLayerParent<BarnacleRenderState, BarnacleEntityModel> renderLayerParent) {
 		super(renderLayerParent);
 	}
@@ -42,7 +42,7 @@ public final class BarnacleKelpHeadFeatureRenderer extends RenderLayer<BarnacleR
 	/*public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, BarnacleEntity barnacle, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float yRot, float xRot)
 	 *///?}
 	{
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		var barnacle = renderState.barnacle;
 		//?}
 
@@ -68,10 +68,13 @@ public final class BarnacleKelpHeadFeatureRenderer extends RenderLayer<BarnacleR
 			//?} else {
 			/*barnacle,
 			 *///?}
-			-1
 			//? if >=1.21.9 {
-			, 0
-			//?}
+			-1, 0
+			//?} else if >= 1.21.1 {
+			/*-1
+			*///?} else {
+			/*1.0F, 1.0F, 1.0F
+			*///?}
 		);
 	}
 }

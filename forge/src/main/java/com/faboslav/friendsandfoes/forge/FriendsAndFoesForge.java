@@ -6,6 +6,7 @@ import com.faboslav.friendsandfoes.common.events.entity.EntitySpawnEvent;
 import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
 import com.faboslav.friendsandfoes.common.events.item.RegisterBrewingRecipesEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.DatapackSyncEvent;
+import com.faboslav.friendsandfoes.common.events.lifecycle.RegisterBlockSetTypeEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.RegisterEntityAttributesEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.RegisterEntitySpawnRestrictionsEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.RegisterReloadListenerEvent;
@@ -25,6 +26,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.raid.Raid;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -88,6 +90,10 @@ public final class FriendsAndFoesForge
 			if (FriendsAndFoes.getConfig().enableIllusionerInRaids) {
 				CustomRaidMember.ILLUSIONER = Raid.RaiderType.create(CustomRaidMember.ILLUSIONER_INTERNAL_NAME, FriendsAndFoesEntityTypes.ILLUSIONER.get(), CustomRaidMember.ILLUSIONER_COUNT_IN_WAVE);
 			}
+
+			//? if < 1.21.1 {
+			RegisterBlockSetTypeEvent.EVENT.invoke(new RegisterBlockSetTypeEvent(BlockSetType::register));
+			//?}
 
 			RegisterBrewingRecipesEvent.EVENT.invoke(
 				new RegisterBrewingRecipesEvent(

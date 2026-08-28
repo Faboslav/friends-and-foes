@@ -10,11 +10,16 @@ import com.teamresourceful.resourcefullib.common.network.base.PacketType;
 import com.faboslav.friendsandfoes.common.util.TotemUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+
+//? if >= 1.21.1 {
+import net.minecraft.network.RegistryFriendlyByteBuf;
+//?} else {
+/*import net.minecraft.network.FriendlyByteBuf;
+*///?}
 
 public record TotemEffectPacket(Item item, int entityId) implements Packet<TotemEffectPacket>
 {
@@ -56,18 +61,40 @@ public record TotemEffectPacket(Item item, int entityId) implements Packet<Totem
 			};
 		}
 
-		public TotemEffectPacket decode(final RegistryFriendlyByteBuf buf) {
+		public TotemEffectPacket decode(
+			//? if >= 1.21.1 {
+			final RegistryFriendlyByteBuf buf
+			//?} else {
+			/*final FriendlyByteBuf buf
+			*///?}
+		) {
 			//? if >=1.21.3 {
 			return new TotemEffectPacket(BuiltInRegistries.ITEM.getValue(buf.readIdentifier()), buf.readInt());
-			//?} else {
+			//?} else if >= 1.21.1 {
 			/*return new TotemEffectPacket(BuiltInRegistries.ITEM.getHolder(buf.readIdentifier()).get().value(), buf.readInt());
+			*///?} else {
+			/*return new TotemEffectPacket(BuiltInRegistries.ITEM.get(buf.readIdentifier()), buf.readInt());
 			*///?}
 		}
 
-		public void encode(final TotemEffectPacket packet, final RegistryFriendlyByteBuf buf) {
+		public void encode(
+			final TotemEffectPacket packet,
+			//? if >= 1.21.1 {
+			final RegistryFriendlyByteBuf buf
+			//?} else {
+			/*final FriendlyByteBuf buf
+			*///?}
+		) {
 			buf.writeIdentifier(BuiltInRegistries.ITEM.getKey(packet.item));
 			buf.writeInt(packet.entityId);
 		}
+
+		//? if < 1.21.1 {
+		/*@Override
+		public Class<TotemEffectPacket> type() {
+			return TotemEffectPacket.class;
+		}
+		*///?}
 	}
 }
 

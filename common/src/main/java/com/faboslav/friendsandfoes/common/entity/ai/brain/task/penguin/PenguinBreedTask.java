@@ -10,7 +10,11 @@ import net.minecraft.world.entity.animal.Animal;
 public class PenguinBreedTask extends AnimalMakeLove
 {
 	public PenguinBreedTask(EntityType<? extends Animal> targetType) {
+		//? if >= 1.21.1 {
 		super(targetType);
+		//?} else {
+		/*super(targetType, 1.0F);
+		*///?}
 	}
 
 	@Override

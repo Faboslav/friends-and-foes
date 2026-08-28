@@ -14,6 +14,11 @@ import java.util.Map;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.MaulerRenderState;
 //?}
 
+//? if <1.21.1 {
+/*import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.renderer.MultiBufferSource;
+*///?}
+
 @SuppressWarnings({"rawtypes", "unchecked"})
 //? if >=1.21.3 {
 public class MaulerEntityRenderer extends MobRenderer<MaulerEntity, MaulerRenderState, MaulerEntityModel>
@@ -46,19 +51,28 @@ public class MaulerEntityRenderer extends MobRenderer<MaulerEntity, MaulerRender
 	}
 	//?}
 
+	//? if >= 1.21.1 {
 	@Override
-	//? if >=1.21.3 {
-	protected float getShadowRadius(MaulerRenderState renderState)
-	//?} else {
-	/*protected float getShadowRadius(MaulerEntity mauler)
-	*///?}
-	{
+	protected float getShadowRadius(
+		//? if >=1.21.3 {
+		MaulerRenderState renderState
+		//?} else {
+		/*MaulerEntity mauler
+		*///?}
+	) {
 		//? if >=1.21.3 {
 		var mauler = renderState.mauler;
-		 //?}
+		//?}
 
 		return mauler.isBurrowedDown() ? 0.0F : SHADOW_RADIUS;
 	}
+	//?} else {
+	/*@Override
+	public void render(MaulerEntity mauler, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+		this.shadowRadius = mauler.isBurrowedDown() ? 0.0F : SHADOW_RADIUS;
+		super.render(mauler, entityYaw, partialTicks, poseStack, bufferSource, packedLight);
+	}
+	*///?}
 
 	@Override
 	//? if >=1.21.3 {

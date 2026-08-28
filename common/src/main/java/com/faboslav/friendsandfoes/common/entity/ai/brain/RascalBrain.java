@@ -63,7 +63,7 @@ public final class RascalBrain
 	//? if >= 26.1 {
 	private static List<ActivityData<RascalEntity>> addActivities(RascalEntity rascal)
 	//?} else {
-	/*protected static void addActivities(Brain<RascalEntity> brain)
+	/*private static void addActivities(Brain<RascalEntity> brain)
 	 *///?}
 	{
 		//? if >= 26.1 {

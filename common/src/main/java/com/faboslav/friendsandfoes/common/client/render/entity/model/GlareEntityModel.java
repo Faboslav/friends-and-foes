@@ -15,7 +15,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.client.animation.KeyframeAnimation;
 //?} else {
 /*import net.minecraft.client.animation.AnimationDefinition;
- *///?}
+*///?}
 
 //? if >=1.21.3 {
 import net.minecraft.client.model.EntityModel;
@@ -23,7 +23,7 @@ import com.faboslav.friendsandfoes.common.client.render.entity.state.GlareRender
 import net.minecraft.client.model.geom.builders.MeshTransformer;
 //?} else {
 /*import net.minecraft.client.model.HierarchicalModel;
- *///?}
+*///?}
 
 //? if >=1.21.3 {
 public class GlareEntityModel extends EntityModel<GlareRenderState>
@@ -145,8 +145,8 @@ public class GlareEntityModel extends EntityModel<GlareRenderState>
 		/*this.root().getAllParts().forEach(ModelPart::resetPose);
 		*///?}
 
-		VersionedEntityModel.Animate(this, this.sitAnimation, glare.sitAnimationState, ageInTicks);
-		VersionedEntityModel.Animate(this, this.flyAnimation, glare.flyAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.sitAnimation, glare.sitAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.flyAnimation, glare.flyAnimationState, ageInTicks);
 
 		this.animateEyes(glare);
 		this.animateFloating(glare, ageInTicks);

@@ -11,16 +11,16 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.animation.KeyframeAnimation;
 //?} else {
 /*import net.minecraft.client.animation.AnimationDefinition;
- *///?}
+*///?}
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 import net.minecraft.client.model.EntityModel;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.BarnacleRenderState;
 //?} else {
 /*import net.minecraft.client.model.HierarchicalModel;
 *///?}
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 public final class BarnacleEntityModel extends EntityModel<BarnacleRenderState>
 //?} else {
 /*public final class BarnacleEntityModel<T extends BarnacleEntity> extends HierarchicalModel<T>
@@ -54,7 +54,7 @@ public final class BarnacleEntityModel extends EntityModel<BarnacleRenderState>
 	*///?}
 
 	public BarnacleEntityModel(ModelPart root) {
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		super(root);
 		//?}
 
@@ -95,7 +95,7 @@ public final class BarnacleEntityModel extends EntityModel<BarnacleRenderState>
 		return LayerDefinition.create(modelData, 64, 64);
 	}
 
-	//? <1.21.3 {
+	//? if <1.21.3 {
 	/*@Override
 	public ModelPart root() {
 		return this.root;
@@ -103,13 +103,13 @@ public final class BarnacleEntityModel extends EntityModel<BarnacleRenderState>
 	*///?}
 
 	@Override
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	public void setupAnim(BarnacleRenderState renderState)
 	//?} else {
 	/*public void setupAnim(T barnacle, float limbSwing, float limbSwingAmount, float ageInTicks, float headYaw, float headPitch)
 	*///?}
 	{
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		super.setupAnim(renderState);
 		var barnacle = renderState.barnacle;
 		var limbSwing = renderState.walkAnimationPos;
@@ -128,7 +128,7 @@ public final class BarnacleEntityModel extends EntityModel<BarnacleRenderState>
 		float limbSwingAmount,
 		float ageInTicks
 	) {
-		VersionedEntityModel.Animate(this, this.idleAnimation, barnacle.idleAnimationState, ageInTicks);
-		VersionedEntityModel.AnimateWalk(this, this.swimAnimation, limbSwing, limbSwingAmount, 2.5F, 4.0F);
+		VersionedEntityModel.animate(this, this.idleAnimation, barnacle.idleAnimationState, ageInTicks);
+		VersionedEntityModel.animateWalk(this, this.swimAnimation, limbSwing, limbSwingAmount, 2.5F, 4.0F);
 	}
 }

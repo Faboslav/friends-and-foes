@@ -2,7 +2,11 @@ package com.faboslav.friendsandfoes.common.world.processor;
 
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStructureProcessorTypes;
 import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
+//? if >= 1.21.1 {
 import com.mojang.serialization.MapCodec;
+//?} else {
+/*import com.mojang.serialization.Codec;
+*///?}
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -16,15 +20,19 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 
 //? if <26.2 {
 /*import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
- *///?}
+*///?}
 
 //? if >=26.2 {
 public final class IllusionerShackBrewingStandProcessor implements StructureProcessor
 //?} else {
 /*public final class IllusionerShackBrewingStandProcessor extends StructureProcessor
- *///?}
+*///?}
 {
+	//? if >= 1.21.1 {
 	public static final MapCodec<IllusionerShackBrewingStandProcessor> CODEC = MapCodec.unit(IllusionerShackBrewingStandProcessor::new);
+	//?} else {
+	/*public static final Codec<IllusionerShackBrewingStandProcessor> CODEC = Codec.unit(IllusionerShackBrewingStandProcessor::new);
+	*///?}
 
 	private IllusionerShackBrewingStandProcessor() {
 	}

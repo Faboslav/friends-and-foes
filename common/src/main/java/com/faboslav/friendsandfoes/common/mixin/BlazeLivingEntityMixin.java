@@ -15,7 +15,7 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 //?} else {
 /*import net.minecraft.nbt.CompoundTag;
- *///?}
+*///?}
 
 @Mixin(LivingEntity.class)
 public abstract class BlazeLivingEntityMixin extends Entity

@@ -20,8 +20,13 @@ import java.util.UUID;
 
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.world.entity.Entity;
+
+//? if >= 1.21.1 {
+import net.minecraft.client.resources.PlayerSkin;
+//?} else {
+/^import com.faboslav.friendsandfoes.common.util.PlayerIllusionSkinModel;
+^///?}
 
 //? if >= 1.21.5 {
 import com.faboslav.friendsandfoes.common.client.render.entity.state.PlayerIllusionRenderState;
@@ -33,7 +38,11 @@ import net.minecraft.client.renderer.entity.state.EntityRenderState;
 public abstract class EntityRenderDispatcherMixin
 {
 	@Unique
+	//? if >= 1.21.1 {
 	private Map<PlayerSkin.Model, EntityRenderer<? extends PlayerIllusionEntity/^? if >=1.21.3 {^/, ?/^?}^/>> friendsandfoes$illusionModelRenderers = ImmutableMap.of();
+	//?} else {
+	/^private Map<PlayerIllusionSkinModel, EntityRenderer<? extends PlayerIllusionEntity>> friendsandfoes$illusionModelRenderers = ImmutableMap.of();
+	^///?}
 
 	@Inject(
 		method = "getRenderer(Lnet/minecraft/world/entity/Entity;)Lnet/minecraft/client/renderer/entity/EntityRenderer;",
@@ -46,9 +55,17 @@ public abstract class EntityRenderDispatcherMixin
 	) {
 		if (entity instanceof PlayerIllusionEntity) {
 			PlayerIllusionEntity playerIllusion = (PlayerIllusionEntity) entity;
+			//? if >= 1.21.1 {
 			PlayerSkin.Model model = PlayerSkinProvider.getSkinTextures(playerIllusion).model();
+			//?} else {
+			/^PlayerIllusionSkinModel model = PlayerSkinProvider.getSkinTextures(playerIllusion).model();
+			^///?}
 			EntityRenderer<? extends PlayerIllusionEntity/^? if >=1.21.3 {^/, ?/^?}^/> entityRenderer = this.friendsandfoes$illusionModelRenderers.get(model);
+			//? if >= 1.21.1 {
 			entityRenderer = entityRenderer != null ? entityRenderer : this.friendsandfoes$illusionModelRenderers.get(PlayerSkin.Model.WIDE);
+			//?} else {
+			/^entityRenderer = entityRenderer != null ? entityRenderer : this.friendsandfoes$illusionModelRenderers.get(PlayerIllusionSkinModel.WIDE);
+			^///?}
 			cir.setReturnValue((EntityRenderer<? super T/^? if >=1.21.3 {^/, ?/^?}^/>) entityRenderer);
 		}
 	}

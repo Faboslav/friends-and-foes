@@ -2,6 +2,7 @@ package com.faboslav.friendsandfoes.common.init;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.item.TotemItem;
+import com.faboslav.friendsandfoes.common.platform.PlatformHooks;
 import com.mojang.datafixers.util.Pair;
 import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
 import net.minecraft.resources.Identifier;
@@ -44,6 +45,11 @@ import net.minecraft.resources.ResourceKey;
 //?} else {
 /*import com.teamresourceful.resourcefullib.common.registry.ItemLikeResourcefulRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
+*///?}
+
+//? if <1.21.1 {
+/*import com.faboslav.friendsandfoes.common.versions.VersionedRegistryHolder;
+import net.minecraft.sounds.SoundEvent;
 *///?}
 
 /**
@@ -116,13 +122,26 @@ public final class FriendsAndFoesItems
 	public final static RegistryEntry<Item> WILDFIRE_CROWN = registerItem("wildfire_crown", Item::new, () -> new Item.Properties().humanoidArmor(FriendsAndFoesArmorMaterials.WILDFIRE, ArmorType.HELMET).fireResistant());
 	//?} else if >=1.21.3 {
 	/*public final static RegistryEntry<Item> WILDFIRE_CROWN = registerItem("wildfire_crown", (properties) -> new ArmorItem(FriendsAndFoesArmorMaterials.WILDFIRE, ArmorType.HELMET, properties), () -> new Item.Properties().stacksTo(1).fireResistant().durability(ArmorType.HELMET.getDurability(37)));
-	*///?} else {
+	*///?} else if >=1.21.1 {
 	/*public final static RegistryEntry<Item> WILDFIRE_CROWN = registerItem("wildfire_crown", (properties) -> new ArmorItem(FriendsAndFoesArmorMaterials.WILDFIRE.holder(), ArmorItem.Type.HELMET, properties), () -> new Item.Properties().stacksTo(1).fireResistant().durability(ArmorItem.Type.HELMET.getDurability(37)));
+	*///?} else {
+	/*public final static RegistryEntry<Item> WILDFIRE_CROWN = registerItem("wildfire_crown", (properties) -> new ArmorItem(FriendsAndFoesArmorMaterials.WILDFIRE, ArmorItem.Type.HELMET, properties), () -> new Item.Properties().stacksTo(1).fireResistant());
 	*///?}
 	public final static RegistryEntry<Item> WILDFIRE_CROWN_FRAGMENT = registerItem("wildfire_crown_fragment", Item::new, () -> new Item.Properties().fireResistant());
 	public final static RegistryEntry<Item> TOTEM_OF_FREEZING = registerItem("totem_of_freezing", TotemItem::new, () -> new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
 	public final static RegistryEntry<Item> TOTEM_OF_ILLUSION = registerItem("totem_of_illusion", TotemItem::new, () -> new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
+	//? if >= 1.21.1 {
 	public static final RegistryEntry<Item> MUSIC_DISC_AROUND_THE_CORNER = registerItem("music_disc_around_the_corner", Item::new, () -> new Item.Properties().stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(FriendsAndFoesJukeboxSongs.AROUND_THE_CORNER));
+	//?} else {
+	/*public static final RegistryEntry<Item> MUSIC_DISC_AROUND_THE_CORNER = registerItem("music_disc_around_the_corner", (properties) -> new VersionedRecordItem(13, VersionedRegistryHolder.get(FriendsAndFoesSoundEvents.MUSIC_DISC_AROUND_THE_CORNER), properties, 132 * 20), () -> new Item.Properties().stacksTo(1).rarity(Rarity.RARE));
+
+	private static final class VersionedRecordItem extends RecordItem
+	{
+		VersionedRecordItem(int analogOutput, SoundEvent sound, Item.Properties properties, int lengthInTicks) {
+			super(analogOutput, sound, properties, lengthInTicks);
+		}
+	}
+	*///?}
 
 	private FriendsAndFoesItems() {
 	}
@@ -163,10 +182,10 @@ public final class FriendsAndFoesItems
 			var spawnEgg = new SpawnEggItem(new Item.Properties().spawnEgg(typeIn.get()).stacksTo(64).setId(ResourceKey.create(Registries.ITEM, FriendsAndFoes.makeID(id))));
 			 //?} else if >=1.21.4 {
 			/*var spawnEgg = new SpawnEggItem(typeIn.get(), new Item.Properties().stacksTo(64).setId(ResourceKey.create(Registries.ITEM, FriendsAndFoes.makeID(id))));
-			 *///?} else =1.21.3 {
+			 *///?} else if =1.21.3 {
 			/*var spawnEgg = new SpawnEggItem(typeIn.get(), primaryColorIn, secondaryColorIn, new Item.Properties().stacksTo(64).setId(ResourceKey.create(Registries.ITEM, FriendsAndFoes.makeID(id))));
 			/*///?} else {
-			/*var spawnEgg = new SpawnEggItem(typeIn.get(), primaryColorIn, secondaryColorIn, new Item.Properties().stacksTo(64));
+			/*var spawnEgg = PlatformHooks.PLATFORM_HELPER.createSpawnEggItem(typeIn, primaryColorIn, secondaryColorIn, new Item.Properties().stacksTo(64));
 			 *///?}
 
 			SPAWN_EGGS.add(new Pair<>(typeIn, spawnEgg));

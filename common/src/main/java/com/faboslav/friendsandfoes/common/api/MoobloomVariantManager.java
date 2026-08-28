@@ -64,7 +64,11 @@ public final class MoobloomVariantManager extends SimpleJsonResourceReloadListen
 			Identifier resourceLocation = entry.getKey();
 			JsonElement moobloomVariantJson = entry.getValue();
 
+			//? if >= 1.21.1 {
 			MoobloomVariant moobloomVariant = MoobloomVariant.CODEC.parse(JsonOps.INSTANCE, moobloomVariantJson).getOrThrow();
+			//?} else {
+			/^MoobloomVariant moobloomVariant = MoobloomVariant.CODEC.parse(JsonOps.INSTANCE, moobloomVariantJson).getOrThrow(false, FriendsAndFoes.getLogger()::error);
+			^///?}
 
 			moobloomVariants.put(resourceLocation, moobloomVariant);
 		}

@@ -27,7 +27,11 @@ public final class WildfireShieldDebrisEntity extends Fireball
 		LivingEntity owner,
 		Vec3 velocity
 	) {
+		//? if >= 1.21.1 {
 		super(VersionedEntityType.SMALL_FIREBALL, owner, velocity, world);
+		//?} else {
+		/*super(VersionedEntityType.SMALL_FIREBALL, owner, velocity.x, velocity.y, velocity.z, world);
+		*///?}
 	}
 
 	protected void onHitEntity(EntityHitResult entityHitResult) {
@@ -46,7 +50,11 @@ public final class WildfireShieldDebrisEntity extends Fireball
 		Entity wildfire = this.getOwner();
 
 		int i = target.getRemainingFireTicks();
+		//? if >= 1.21.1 {
 		target.igniteForSeconds(5.0F);
+		//?} else {
+		/*target.setSecondsOnFire(5);
+		*///?}
 
 		DamageSource damageSource = this.damageSources().fireball(this, wildfire);
 		boolean hurtResult = VersionedEntity.hurt(target, damageSource, 5.0F);
@@ -54,7 +62,13 @@ public final class WildfireShieldDebrisEntity extends Fireball
 		if (!hurtResult) {
 			target.setRemainingFireTicks(i);
 		} else {
+			//? if >= 1.21.1 {
 			EnchantmentHelper.doPostAttackEffects(serverLevel, target, damageSource);
+			//?} else {
+			/*if (wildfire instanceof LivingEntity livingWildfire) {
+				EnchantmentHelper.doPostDamageEffects(livingWildfire, target);
+			}
+			*///?}
 		}
 	}
 

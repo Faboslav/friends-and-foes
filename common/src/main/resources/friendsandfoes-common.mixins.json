@@ -23,6 +23,7 @@
     "BeeHiveGoalMixin",
     "BlazeEntityMixin",
     "BlazeLivingEntityMixin",
+    "BundleItemAccessor",
     "CarvedPumpkinBlockMixin",
     "ChickenEntityMixin",
     "GiveGiftToHeroMixin",

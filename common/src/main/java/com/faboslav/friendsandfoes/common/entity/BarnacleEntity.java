@@ -27,6 +27,7 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -34,7 +35,11 @@ import java.util.ArrayList;
 
 //? if <= 1.21.11 {
 /*import com.mojang.serialization.Dynamic;
- *///?}
+*///?}
+
+//? if <1.21.1 {
+/*import net.minecraft.nbt.CompoundTag;
+*///?}
 
 public final class BarnacleEntity extends Monster {
 	private static final EntityDataAccessor<FriendsAndFoesEntityPose> ENTITY_POSE = SynchedEntityData.defineId(BarnacleEntity.class, FriendsAndFoesEntityDataSerializers.ENTITY_POSE);
@@ -55,24 +60,44 @@ public final class BarnacleEntity extends Monster {
 
 	@Override
 	public SpawnGroupData finalizeSpawn(
-		net.minecraft.world.level.ServerLevelAccessor world,
+		ServerLevelAccessor world,
 		DifficultyInstance difficulty,
-		/*? >=1.21.3 {*/
+		/*? if >=1.21.3 {*/
 		EntitySpawnReason spawnReason,
 		/*?} else {*/
 		/*MobSpawnType spawnReason,
-		 *//*?}*/
+		*//*?}*/
 		@Nullable SpawnGroupData entityData
+		//? if <1.21.1 {
+		/*, CompoundTag dataTag
+		*///?}
 	) {
-		SpawnGroupData superEntityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData);
+		SpawnGroupData superEntityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData
+			//? if <1.21.1 {
+			/*, dataTag
+			*///?}
+		);
 
 		this.setEntityPose(FriendsAndFoesEntityPose.IDLE);
 		return superEntityData;
 	}
 
 	@Override
-	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+	//? if >= 1.20.5 {
+	protected void defineSynchedData(SynchedEntityData.Builder builder)
+	//?} else {
+	/*protected void defineSynchedData()
+	*///?}
+	{
+		//? if >= 1.20.5 {
 		super.defineSynchedData(builder);
+		//?} else {
+		/*super.defineSynchedData();
+		*///?}
+
+		//? if < 1.20.5 {
+		/*var builder = this.getEntityData();
+		*///?}
 
 		builder.define(ENTITY_POSE, FriendsAndFoesEntityPose.IDLE);
 	}
@@ -95,9 +120,9 @@ public final class BarnacleEntity extends Monster {
 	}
 
 	@Override
-	protected void customServerAiStep(/*? >=1.21.3 {*/ServerLevel level/*?}*/)
+	protected void customServerAiStep(/*? if >=1.21.3 {*/ServerLevel level/*?}*/)
 	{
-		//? <1.21.3 {
+		//? if <1.21.3 {
 		/*var level = (ServerLevel) this.level();
 		 *///?}
 
@@ -114,21 +139,26 @@ public final class BarnacleEntity extends Monster {
 		BarnacleBrain.updateActivities(this);
 		profiler.pop();
 
-		super.customServerAiStep(/*? >=1.21.3 {*/level/*?}*/);
+		super.customServerAiStep(/*? if >=1.21.3 {*/level/*?}*/);
 	}
 
 	public static AttributeSupplier.Builder createBarnacleAttributes() {
-		//? >= 1.21.4 {
+		//? if >= 1.21.4 {
 		var attributes = Animal.createAnimalAttributes();
 		//?} else {
 		/*var attributes = Mob.createMobAttributes();
 		 *///?}
-		return attributes
+		var builder = attributes
 			.add(Attributes.MAX_HEALTH, 40.0D)
 			.add(Attributes.MOVEMENT_SPEED, 0.55D)
 			.add(Attributes.ATTACK_DAMAGE, GENERIC_ATTACK_DAMAGE)
-			.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
-			.add(Attributes.SCALE);
+			.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D);
+
+		//? if >= 1.21.1 {
+		builder.add(Attributes.SCALE);
+		//?}
+
+		return builder;
 	}
 
 	@Override
@@ -145,16 +175,16 @@ public final class BarnacleEntity extends Monster {
 	}
 
 	@Override
-	/*? >=1.21.3 {*/
+	/*? if >=1.21.3 {*/
 	public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
 	/*?} else {*/
 	/*public boolean hurt(DamageSource damageSource, float amount)
 	*//*?}*/
 	{
-		//? <1.21.3 {
+		//? if <1.21.3 {
 		/*var level = (ServerLevel) this.level();
 		 *///?}
-		/*? >=1.21.3 {*/
+		/*? if >=1.21.3 {*/
 		boolean damageResult = super.hurtServer(level, damageSource, amount);
 		/*?} else {*/
 		/*boolean damageResult = super.hurt(damageSource, amount);
@@ -181,7 +211,7 @@ public final class BarnacleEntity extends Monster {
 	public static boolean canSpawn(
 		EntityType<? extends Monster> type,
 		LevelAccessor world,
-		/*? >=1.21.3 {*/
+		/*? if >=1.21.3 {*/
 		EntitySpawnReason spawnReason,
 		/*?} else {*/
 		/*MobSpawnType spawnReason,

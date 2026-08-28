@@ -10,6 +10,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 
+//? if <1.21.1 {
+/*import net.minecraft.nbt.CompoundTag;
+*///?}
+
 public final class OnEntitySpawn
 {
 	public static boolean handleOnEntitySpawn(
@@ -89,12 +93,22 @@ public final class OnEntitySpawn
 				}
 			}
 
+			//? if >= 1.21.1 {
 			entityToSpawn.finalizeSpawn(
 				(ServerLevelAccessor) world,
 				((ServerLevelAccessor) world).getCurrentDifficultyAt(entity.blockPosition()),
 				event.spawnReason(),
 				null
 			);
+			//?} else {
+			/*entityToSpawn.finalizeSpawn(
+				(ServerLevelAccessor) world,
+				((ServerLevelAccessor) world).getCurrentDifficultyAt(entity.blockPosition()),
+				event.spawnReason(),
+				null,
+				new CompoundTag()
+			);
+			*///?}
 
 			boolean spawnResult = world.addFreshEntity(entityToSpawn);
 

@@ -8,7 +8,6 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.versions.*;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -26,18 +25,22 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.component.SuspiciousStewEffects;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoublePlantBlock;
-import net.minecraft.world.level.block.SuspiciousEffectHolder;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.Nullable;
+
+//? if >= 1.20.5 {
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.component.SuspiciousStewEffects;
+import net.minecraft.world.level.block.SuspiciousEffectHolder;
+//?}
 import net.minecraft.world.entity.animal.cow.Cow;
 import java.util.Optional;
 
@@ -91,6 +94,7 @@ public final class MoobloomEntity extends AbstractCow implements Shearable
 	}
 
 	@Override
+	//? if >= 1.21.1 {
 	public SpawnGroupData finalizeSpawn(
 		ServerLevelAccessor serverWorldAccess,
 		DifficultyInstance difficulty,
@@ -101,6 +105,15 @@ public final class MoobloomEntity extends AbstractCow implements Shearable
 		*//*?}*/
 		@Nullable SpawnGroupData entityData
 	) {
+	//?} else {
+	/*public SpawnGroupData finalizeSpawn(
+		ServerLevelAccessor serverWorldAccess,
+		DifficultyInstance difficulty,
+		MobSpawnType spawnReason,
+		@Nullable SpawnGroupData entityData,
+		CompoundTag dataTag
+	) {
+	*///?}
 		MoobloomVariant possibleMoobloomVariant = MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.getRandomBiomeSpecificMoobloomVariant(serverWorldAccess, this.blockPosition());
 
 		if (possibleMoobloomVariant != null) {
@@ -109,7 +122,11 @@ public final class MoobloomEntity extends AbstractCow implements Shearable
 			this.setVariant(MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.getRandomMoobloomVariant(serverWorldAccess.getRandom()));
 		}
 
+		//? if >= 1.21.1 {
 		return super.finalizeSpawn(serverWorldAccess, difficulty, spawnReason, entityData);
+		//?} else {
+		/*return super.finalizeSpawn(serverWorldAccess, difficulty, spawnReason, entityData, dataTag);
+		*///?}
 	}
 
 	public boolean readyForShearing() {
@@ -117,8 +134,21 @@ public final class MoobloomEntity extends AbstractCow implements Shearable
 	}
 
 	@Override
-	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+	//? if >= 1.20.5 {
+	protected void defineSynchedData(SynchedEntityData.Builder builder)
+	//?} else {
+	/*protected void defineSynchedData()
+	*///?}
+	{
+		//? if >= 1.20.5 {
 		super.defineSynchedData(builder);
+		//?} else {
+		/*super.defineSynchedData();
+		*///?}
+
+		//? if < 1.20.5 {
+		/*var builder = this.getEntityData();
+		*///?}
 
 		builder.define(VARIANT, MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.getDefaultMoobloomVariant().getName());
 	}
@@ -168,7 +198,13 @@ public final class MoobloomEntity extends AbstractCow implements Shearable
 			this.playSound(FriendsAndFoesSoundEvents.ENTITY_MOOBLOOM_CONVERT.get(), 2.0F, 1.0F);
 
 			if (!this.level().isClientSide()) {
+				//? if >= 1.21.1 {
 				itemStack.consume(1, player);
+				//?} else {
+				/*if (!player.isCreative()) {
+					itemStack.shrink(1);
+				}
+				*///?}
 			}
 
 			return VersionedInteractionResult.success(this);
@@ -178,6 +214,8 @@ public final class MoobloomEntity extends AbstractCow implements Shearable
 			if (!this.level().isClientSide()) {
 				ItemStack suspiciousStew;
 				SoundEvent soundEvent;
+
+				//? if >= 1.20.5 {
 				var stewEffect = this.getEffectsFromItemStack(this.getVariant().getFlowerAsItem().getDefaultInstance());
 
 				if (stewEffect.isPresent()) {
@@ -189,6 +227,10 @@ public final class MoobloomEntity extends AbstractCow implements Shearable
 					suspiciousStew.set(DataComponents.SUSPICIOUS_STEW_EFFECTS, SuspiciousStewEffects.EMPTY);
 					soundEvent = SoundEvents.MOOSHROOM_MILK;
 				}
+				//?} else {
+				/*suspiciousStew = new ItemStack(Items.SUSPICIOUS_STEW);
+				soundEvent = SoundEvents.MOOSHROOM_MILK;
+				*///?}
 
 				ItemStack itemStack3 = ItemUtils.createFilledResult(itemStack, player, suspiciousStew, false);
 				player.setItemInHand(hand, itemStack3);
@@ -202,7 +244,12 @@ public final class MoobloomEntity extends AbstractCow implements Shearable
 			if(this.level() instanceof ServerLevel serverLevel) {
 				this.shear(/*? if >=1.21.3 {*/serverLevel, /*?}*/SoundSource.PLAYERS/*? if >=1.21.3 {*/, itemStack /*?}*/);
 				this.gameEvent(GameEvent.SHEAR, player);
+				//? if >= 1.21.1 {
 				itemStack.hurtAndBreak(1, player, VersionedEntity.getEquipmentSlotForItem(hand));
+				//?} else {
+				/*var brokenItemSlot = VersionedEntity.getEquipmentSlotForItem(hand);
+				itemStack.hurtAndBreak(1, player, item -> player.broadcastBreakEvent(brokenItemSlot));
+				*///?}
 			}
 
 			return VersionedInteractionResult.success(this);
@@ -269,10 +316,12 @@ public final class MoobloomEntity extends AbstractCow implements Shearable
 		}
 	}
 
+	//? if >= 1.20.5 {
 	private Optional<SuspiciousStewEffects> getEffectsFromItemStack(ItemStack stack) {
 		SuspiciousEffectHolder suspiciousEffectHolder = SuspiciousEffectHolder.tryGet(stack.getItem());
 		return suspiciousEffectHolder != null ? Optional.of(suspiciousEffectHolder.getSuspiciousEffects()) : Optional.empty();
 	}
+	//?}
 
 	@Override
 	public MoobloomEntity getBreedOffspring(

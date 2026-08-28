@@ -42,7 +42,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.pathfinder.PathType;
+import com.faboslav.friendsandfoes.common.versions.VersionedBlockPathType;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
@@ -66,7 +66,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.entity.EntitySpawnReason;
 //?} else {
 /*import net.minecraft.world.entity.MobSpawnType;
- *///?}
+*///?}
 
 //? if >= 26.2 {
 public class CrabEntity extends Animal
@@ -104,12 +104,16 @@ public class CrabEntity extends Animal
 		super(entityType, world);
 
 		this.setEntityPose(FriendsAndFoesEntityPose.IDLE);
-		this.setPathfindingMalus(PathType.WATER, 0.0F);
-		this.setPathfindingMalus(PathType.DOOR_IRON_CLOSED, -1.0F);
-		this.setPathfindingMalus(PathType.DOOR_WOOD_CLOSED, -1.0F);
-		this.setPathfindingMalus(PathType.DOOR_OPEN, -1.0F);
+		this.setPathfindingMalus(VersionedBlockPathType.WATER, 0.0F);
+		this.setPathfindingMalus(VersionedBlockPathType.DOOR_IRON_CLOSED, -1.0F);
+		this.setPathfindingMalus(VersionedBlockPathType.DOOR_WOOD_CLOSED, -1.0F);
+		this.setPathfindingMalus(VersionedBlockPathType.DOOR_OPEN, -1.0F);
 		this.lookControl = new CrabLookControl(this, 10);
 		this.navigation = new CrabWallClimbNavigation(this, world);
+
+		//? if < 1.21.1 {
+		/*this.setMaxUpStep(0.0F);
+		*///?}
 	}
 
 	@Override
@@ -122,8 +126,15 @@ public class CrabEntity extends Animal
 		/*MobSpawnType spawnReason,
 		*//*?}*/
 		@Nullable SpawnGroupData entityData
+		//? if <1.21.1 {
+		/*, CompoundTag dataTag
+		*///?}
 	) {
-		SpawnGroupData superEntityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData);
+		SpawnGroupData superEntityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData
+			//? if <1.21.1 {
+			/*, dataTag
+			*///?}
+		);
 
 		this.setHome(this.getNewHome());
 		this.setSize(CrabSize.getRandomCrabSize(world.getRandom()));
@@ -163,8 +174,21 @@ public class CrabEntity extends Animal
 	}
 
 	@Override
-	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+	//? if >= 1.20.5 {
+	protected void defineSynchedData(SynchedEntityData.Builder builder)
+	//?} else {
+	/*protected void defineSynchedData()
+	*///?}
+	{
+		//? if >= 1.20.5 {
 		super.defineSynchedData(builder);
+		//?} else {
+		/*super.defineSynchedData();
+		*///?}
+
+		//? if < 1.20.5 {
+		/*var builder = this.getEntityData();
+		*///?}
 
 		builder.define(ENTITY_POSE, FriendsAndFoesEntityPose.IDLE);
 		builder.define(IS_CLIMBING_WALL, false);
@@ -233,12 +257,16 @@ public class CrabEntity extends Animal
 		//?} else {
 		/*var attributes = Mob.createMobAttributes();
 		*///?}
-		return attributes
+		var builder = attributes
 			.add(Attributes.MAX_HEALTH, 12.0)
 			.add(Attributes.MOVEMENT_SPEED, MOVEMENT_SPEED)
-			.add(Attributes.ATTACK_DAMAGE, 2.0)
-			.add(Attributes.STEP_HEIGHT, 0.0F)
-			.add(Attributes.SCALE);
+			.add(Attributes.ATTACK_DAMAGE, 2.0);
+
+		//? if >= 1.21.1 {
+		builder.add(Attributes.STEP_HEIGHT, 0.0F).add(Attributes.SCALE);
+		//?}
+
+		return builder;
 	}
 
 	@Override
@@ -311,7 +339,11 @@ public class CrabEntity extends Animal
 		if (this.isClimbingWall()) {
 			this.climbingTicks++;
 
+			//? if >= 1.21.1 {
 			var blockStateAtPos = this.getInBlockState();
+			//?} else {
+			/*var blockStateAtPos = this.getFeetBlockState();
+			*///?}
 			if (this.isMoving() && !blockStateAtPos.liquid() && this.climbingTicks % 6 == 0) {
 				this.playStepSound(this.blockPosition(), blockStateAtPos);
 			}
@@ -350,7 +382,11 @@ public class CrabEntity extends Animal
 					continue;
 				}
 
+				//? if >= 1.21.1 {
 				if (((JukeboxBlockEntity) possibleJukeboxBlockEntity).getSongPlayer().isPlaying()) {
+				//?} else {
+				/*if (((JukeboxBlockEntity) possibleJukeboxBlockEntity).isRecordPlaying()) {
+				*///?}
 					isDancing = true;
 					break;
 				}
@@ -577,7 +613,12 @@ public class CrabEntity extends Animal
 	}
 
 	@Override
-	public float getAgeScale() {
+	//? if >= 1.21.1 {
+	public float getAgeScale()
+	//?} else {
+	/*public float getScale()
+	*///?}
+	{
 		CrabEntity.CrabSize size = this.getSize();
 		float scaleModifier = size.getScaleModifier();
 

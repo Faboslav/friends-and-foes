@@ -10,9 +10,6 @@ import com.faboslav.friendsandfoes.common.util.MovementUtil;
 import com.google.common.collect.ImmutableMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.StructureTags;
@@ -27,13 +24,21 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.component.BundleContents;
 import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
+
+//? if >= 1.20.5 {
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.component.BundleContents;
+//?} else {
+/*import com.faboslav.friendsandfoes.common.mixin.BundleItemAccessor;
+*///?}
 
 public final class RascalWaitForPlayerTask extends Behavior<RascalEntity>
 {
@@ -114,7 +119,11 @@ public final class RascalWaitForPlayerTask extends Behavior<RascalEntity>
 
 		if (nodTicks == 62 && rascal.shouldGiveReward()) {
 			Vec3 targetPos = nearestTarget.position().add(0.0, 1.0, 0.0);
+			//? if >= 1.20.5 {
 			LootTable rascalGoodItemsLootTable = world.getServer().reloadableRegistries().getLootTable(ResourceKey.create(Registries.LOOT_TABLE, FriendsAndFoes.makeID("rewards/rascal_good_reward")));
+			//?} else {
+			/*LootTable rascalGoodItemsLootTable = world.getServer().getLootData().getLootTable(FriendsAndFoes.makeID("rewards/rascal_good_reward"));
+			*///?}
 			LootParams lootContextParameterSet = new LootParams.Builder(world)
 				.withParameter(LootContextParams.ORIGIN, targetPos)
 				.withParameter(LootContextParams.THIS_ENTITY, this.nearestTarget)
@@ -124,6 +133,7 @@ public final class RascalWaitForPlayerTask extends Behavior<RascalEntity>
 			for (ItemStack rascalReward : rascalGoodRewards) {
 				ItemStack thrownStack;
 
+				//? if >= 1.20.5 {
 				if (FriendsAndFoes.getConfig().rascalGiveRewardInBundle) {
 					ItemStack bundleItemStack = Items.BUNDLE.getDefaultInstance();
 					BundleContents bundleContentsComponent = bundleItemStack.get(DataComponents.BUNDLE_CONTENTS);
@@ -139,9 +149,22 @@ public final class RascalWaitForPlayerTask extends Behavior<RascalEntity>
 				} else {
 					thrownStack = rascalReward;
 				}
+				//?} else {
+				/*if (FriendsAndFoes.getConfig().rascalGiveRewardInBundle) {
+					ItemStack bundleItemStack = Items.BUNDLE.getDefaultInstance();
+					BundleItemAccessor.friendsandfoes$addToBundle(bundleItemStack, rascalReward);
+					thrownStack = bundleItemStack;
+				} else {
+					thrownStack = rascalReward;
+				}
+				*///?}
 
 				BehaviorUtils.throwItem(rascal, thrownStack, nearestTarget.position().add(0.0, 1.0, 0.0));
+				//? if >= 1.21.1 {
 				FriendsAndFoesCriterias.COMPLETE_HIDE_AND_SEEK_GAME.get().trigger((ServerPlayer) this.nearestTarget, rascal, thrownStack);
+				//?} else {
+				/*FriendsAndFoesCriterias.COMPLETE_HIDE_AND_SEEK_GAME.trigger((ServerPlayer) this.nearestTarget, rascal, thrownStack);
+				*///?}
 			}
 		}
 

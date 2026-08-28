@@ -19,6 +19,10 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.monster.Blaze;
 import net.minecraft.world.entity.player.Player;
 
+//? if <1.21.1 {
+/*import net.minecraft.nbt.CompoundTag;
+*///?}
+
 public final class WildfireSummonBlazeTask extends Behavior<WildfireEntity>
 {
 	private LivingEntity attackTarget;
@@ -99,7 +103,11 @@ public final class WildfireSummonBlazeTask extends Behavior<WildfireEntity>
 			VersionedEntity.moveTo(blaze, blockPos, 0.0F, 0.0F);
 			blaze.setTarget(this.attackTarget);
 			((BlazeEntityAccess) blaze).friendsandfoes_setWildfire(wildfire);
+			//? if >= 1.21.1 {
 			blaze.finalizeSpawn(serverWorld, serverWorld.getCurrentDifficultyAt(blockPos), VersionedEntitySpawnReason.MOB_SUMMONED, null);
+			//?} else {
+			/*blaze.finalizeSpawn(serverWorld, serverWorld.getCurrentDifficultyAt(blockPos), VersionedEntitySpawnReason.MOB_SUMMONED, null, new CompoundTag());
+			*///?}
 			serverWorld.addFreshEntityWithPassengers(blaze);
 
 			this.summonedBlazesCount++;

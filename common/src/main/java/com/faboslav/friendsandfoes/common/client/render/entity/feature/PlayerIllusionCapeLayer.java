@@ -88,7 +88,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.PlayerModelPart;
@@ -96,6 +95,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 import java.util.UUID;
+
+//? if >= 1.21.1 {
+import net.minecraft.client.resources.PlayerSkin;
+//?} else {
+/^¹import com.faboslav.friendsandfoes.common.util.PlayerSkinInfo;
+¹^///?}
 
 public class PlayerIllusionCapeLayer extends RenderLayer<PlayerIllusionEntity, PlayerIllusionEntityModel<PlayerIllusionEntity>>
 {
@@ -116,7 +121,11 @@ public class PlayerIllusionCapeLayer extends RenderLayer<PlayerIllusionEntity, P
 		float headPitch
 	) {
 		if (!playerIllusion.isInvisible() && playerIllusion.isPartVisible(PlayerModelPart.CAPE)) {
+			//? if >= 1.21.1 {
 			PlayerSkin playerSkin = PlayerSkinProvider.getSkinTextures(playerIllusion);
+			//?} else {
+			/^¹PlayerSkinInfo playerSkin = PlayerSkinProvider.getSkinTextures(playerIllusion);
+			¹^///?}
 			if (playerSkin.capeTexture() != null) {
 				ItemStack itemStack = playerIllusion.getItemBySlot(EquipmentSlot.CHEST);
 				if (!itemStack.is(Items.ELYTRA)) {

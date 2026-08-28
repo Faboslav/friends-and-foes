@@ -15,6 +15,10 @@ import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 
+//? if <1.21.1 {
+/*import net.minecraft.nbt.CompoundTag;
+*///?}
+
 public final class IllusionerSpawner implements CustomSpawner
 {
 	private int cooldown;
@@ -114,7 +118,11 @@ public final class IllusionerSpawner implements CustomSpawner
 		illusioner.setPatrolLeader(false);
 		illusioner.findPatrolTarget();
 		illusioner.setPos(mutable.getX(), mutable.getY(), mutable.getZ());
+		//? if >= 1.21.1 {
 		illusioner.finalizeSpawn(world, world.getCurrentDifficultyAt(mutable), VersionedEntitySpawnReason.PATROL, null);
+		//?} else {
+		/*illusioner.finalizeSpawn(world, world.getCurrentDifficultyAt(mutable), VersionedEntitySpawnReason.PATROL, null, new CompoundTag());
+		*///?}
 		world.addFreshEntityWithPassengers(illusioner);
 		return /*? if <1.21.5 {*//*1*//*?}*/;
 	}

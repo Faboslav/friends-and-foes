@@ -13,10 +13,15 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.Identifier;
 import java.util.ArrayList;
 import java.util.List;
+
+//? if >= 1.21.1 {
+import net.minecraft.network.RegistryFriendlyByteBuf;
+//?} else {
+/*import net.minecraft.network.FriendlyByteBuf;
+*///?}
 
 public record MoobloomVariantsSyncPacket(
 	List<MoobloomVariant> moobloomVariants) implements Packet<MoobloomVariantsSyncPacket>
@@ -45,7 +50,13 @@ public record MoobloomVariantsSyncPacket(
 			return () -> MoobloomVariantManager.MOOBLOOM_VARIANT_MANAGER.setMoobloomVariants(packet.moobloomVariants());
 		}
 
-		public MoobloomVariantsSyncPacket decode(final RegistryFriendlyByteBuf buf) {
+		public MoobloomVariantsSyncPacket decode(
+			//? if >= 1.21.1 {
+			final RegistryFriendlyByteBuf buf
+			//?} else {
+			/*final FriendlyByteBuf buf
+			*///?}
+		) {
 			List<MoobloomVariant> parsedMoobloomVariants = new ArrayList<>();
 
 			CompoundTag data = buf.readNbt();
@@ -70,7 +81,14 @@ public record MoobloomVariantsSyncPacket(
 			return new MoobloomVariantsSyncPacket(parsedMoobloomVariants);
 		}
 
-		public void encode(final MoobloomVariantsSyncPacket packet, final RegistryFriendlyByteBuf buf) {
+		public void encode(
+			final MoobloomVariantsSyncPacket packet,
+			//? if >= 1.21.1 {
+			final RegistryFriendlyByteBuf buf
+			//?} else {
+			/*final FriendlyByteBuf buf
+			*///?}
+		) {
 			CompoundTag data = new CompoundTag();
 			ListTag parsedMoobloomVariants = new ListTag();
 
@@ -83,5 +101,12 @@ public record MoobloomVariantsSyncPacket(
 			data.put("moobloom_variants", parsedMoobloomVariants);
 			buf.writeNbt(data);
 		}
+
+		//? if < 1.21.1 {
+		/*@Override
+		public Class<MoobloomVariantsSyncPacket> type() {
+			return MoobloomVariantsSyncPacket.class;
+		}
+		*///?}
 	}
 }

@@ -106,7 +106,12 @@ public final class OnUseOxidizable
 				world.gameEvent(GameEvent.BLOCK_CHANGE, blockPos, GameEvent.Context.of(player, possibleState.get()));
 
 				if (player != null) {
-					itemStack.hurtAndBreak(1, player, VersionedEntity.getEquipmentSlotForItem(hand));
+					var brokenItemSlot = VersionedEntity.getEquipmentSlotForItem(hand);
+					//? if >= 1.21.1 {
+					itemStack.hurtAndBreak(1, player, brokenItemSlot);
+					//?} else {
+					/*itemStack.hurtAndBreak(1, player, item -> player.broadcastBreakEvent(brokenItemSlot));
+					*///?}
 				}
 
 				return VersionedInteractionResult.success(player);

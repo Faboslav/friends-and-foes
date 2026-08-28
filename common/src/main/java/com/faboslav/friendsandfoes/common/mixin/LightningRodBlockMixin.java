@@ -41,6 +41,10 @@ import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 
 import java.util.ArrayList;
 
+//? if <1.21.1 {
+/^import net.minecraft.world.InteractionHand;
+^///?}
+
 @Mixin(value = LightningRodBlock.class, priority = 1001)
 public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 {
@@ -195,6 +199,7 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 			   || blockState.is(FriendsAndFoesBlocks.WAXED_OXIDIZED_LIGHTNING_ROD.get());
 	}
 
+	//? if >= 1.21.1 {
 	@Override
 	public void friendsandfoes_hasRandomTicks(
 		BlockState state, CallbackInfoReturnable<Boolean> cir
@@ -205,6 +210,7 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 			cir.setReturnValue(true);
 		}
 	}
+	//?}
 
 	@Override
 	public void friendsandfoes_randomTick(
@@ -215,7 +221,11 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 		CallbackInfo ci
 	) {
 		if(FriendsAndFoes.getConfig().enableLightningRodOxidation) {
+			//? if >= 1.21.1 {
 			((ChangeOverTimeBlock) this).changeOverTime(state, world, pos, random);
+			//?} else {
+			/^((ChangeOverTimeBlock) this).applyChangeOverTime(state, world, pos, random);
+			^///?}
 		}
 
 		ci.cancel();
@@ -227,9 +237,13 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 		Level world,
 		BlockPos pos,
 		Player player,
+		//? if <1.21.1 {
+		/^InteractionHand hand,
+		^///?}
 		BlockHitResult hit,
 		CallbackInfoReturnable<InteractionResult> cir
-	) {
+	)
+	{
 		var actionResult = OnUseOxidizable.onOxidizableUse(state, world, pos, player, hit);
 
 		if (actionResult.consumesAction()) {

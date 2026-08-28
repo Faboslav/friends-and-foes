@@ -36,9 +36,9 @@ public final class AddCustomSpawnGroupMixin
 	}
 
 	@Shadow
-	private static @Final
+	@Final
 	@Mutable
-	MobCategory[] $VALUES;
+	private static MobCategory[] $VALUES;
 
 	@Inject(
 		method = "<clinit>",

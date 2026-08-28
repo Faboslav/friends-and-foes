@@ -8,8 +8,6 @@ import com.faboslav.friendsandfoes.common.block.PenguinEggBlock;
 import com.faboslav.friendsandfoes.common.events.lifecycle.RegisterFlammabilityEvent;
 import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistries;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.Block;
@@ -43,6 +41,8 @@ import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 
 //? if >=1.21.4 {
 import com.teamresourceful.resourcefullib.common.registry.builtin.ResourcefulBlockRegistry;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 //?} else {
 /*import net.minecraft.core.registries.BuiltInRegistries;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistry;
@@ -59,7 +59,7 @@ public final class FriendsAndFoesBlocks
 	/*public static final ResourcefulRegistry<Block> BLOCKS = ResourcefulRegistries.create(BuiltInRegistries.BLOCK, FriendsAndFoes.MOD_ID);
 	*///?}
 	
-	public static final RegistryEntry<Block> BUTTERCUP = registerBlock("buttercup", (properties) -> new FlowerBlock(MobEffects.SATURATION, 6, properties), () ->  BlockBehaviour.Properties.of().mapColor(MapColor.PLANT)/*? if >=1.21.9 {*/.noCollision()/*?} else {*//*.noCollission()*//*?}*/.instabreak().sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY));
+	public static final RegistryEntry<Block> BUTTERCUP = registerBlock("buttercup", (properties) -> new FlowerBlock(MobEffects.SATURATION, 6, properties), () ->  BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollision().instabreak().sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY));
 	public static final RegistryEntry<Block> POTTED_BUTTERCUP = registerBlock("potted_buttercup", (properties) -> new FlowerPotBlock(BUTTERCUP.get(), properties), () -> BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY));
 	public static final RegistryEntry<Block> CRAB_EGG = registerBlock("crab_egg", CrabEggBlock::new, () -> BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).forceSolidOn().strength(0.5F).sound(SoundType.METAL).randomTicks().noOcclusion().pushReaction(PushReaction.DESTROY));
 	public static final RegistryEntry<Block> PENGUIN_EGG = registerBlock("penguin_egg", PenguinEggBlock::new, () -> BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_YELLOW).forceSolidOn().strength(0.5F).sound(SoundType.METAL).noOcclusion().pushReaction(PushReaction.DESTROY));
@@ -76,7 +76,7 @@ public final class FriendsAndFoesBlocks
 	//?}
 	public static final RegistryEntry<Block> SPRUCE_BEEHIVE = registerBlock("spruce_beehive", BeehiveBlock::new, () -> BlockBehaviour.Properties.of().mapColor(MapColor.PODZOL).strength(0.6F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava());
 	public static final RegistryEntry<Block> WARPED_BEEHIVE = registerBlock("warped_beehive", BeehiveBlock::new, () -> BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_STEM).strength(0.6F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS));
-	public static final RegistryEntry<Block> COPPER_BUTTON = registerBlock("copper_button", (properties) -> new OxidizableButtonBlock(WeatheringCopper.WeatherState.UNAFFECTED, 10, properties), () -> BlockBehaviour.Properties.of()/*? if >=1.21.9 {*/.noCollision()/*?} else {*//*.noCollission()*//*?}*/.strength(0.5F).pushReaction(PushReaction.DESTROY).sound(SoundType.COPPER));
+	public static final RegistryEntry<Block> COPPER_BUTTON = registerBlock("copper_button", (properties) -> new OxidizableButtonBlock(WeatheringCopper.WeatherState.UNAFFECTED, 10, properties), () -> BlockBehaviour.Properties.of().noCollision().strength(0.5F).pushReaction(PushReaction.DESTROY).sound(SoundType.COPPER));
 	public static final RegistryEntry<Block> EXPOSED_COPPER_BUTTON = registerBlock("exposed_copper_button", (properties) -> new OxidizableButtonBlock(WeatheringCopper.WeatherState.EXPOSED, 7, properties), () -> BlockBehaviour.Properties.ofFullCopy(COPPER_BUTTON.get()));
 	public static final RegistryEntry<Block> WEATHERED_COPPER_BUTTON = registerBlock("weathered_copper_button", (properties) -> new OxidizableButtonBlock(WeatheringCopper.WeatherState.WEATHERED, 4, properties), () ->BlockBehaviour.Properties.ofFullCopy(COPPER_BUTTON.get()));
 	public static final RegistryEntry<Block> OXIDIZED_COPPER_BUTTON = registerBlock("oxidized_copper_button", (properties) -> new OxidizableButtonBlock(WeatheringCopper.WeatherState.OXIDIZED, 1, properties), () -> BlockBehaviour.Properties.ofFullCopy(COPPER_BUTTON.get()));
@@ -114,7 +114,7 @@ public final class FriendsAndFoesBlocks
 	}
 	*///?}
 
-	public static void registerFlammablity(RegisterFlammabilityEvent event) {
+	public static void registerFlammability(RegisterFlammabilityEvent event) {
 		FriendsAndFoesBlocks.BLOCKS.stream()
 			.map(RegistryEntry::get)
 			.filter(block -> block instanceof BeehiveBlock && (block != WARPED_BEEHIVE && block != CRIMSON_BEEHIVE))

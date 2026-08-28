@@ -31,6 +31,10 @@ import net.minecraft.world.level.storage.ValueOutput;
 import java.util.UUID;
 *///?}
 
+//? if <1.21.1 {
+/*import net.minecraft.util.Mth;
+*///?}
+
 public final class IceologerIceChunkEntity extends Entity
 {
 	private static final String OWNER_UUID_NBT_NAME = "OwnerUuid";
@@ -93,7 +97,16 @@ public final class IceologerIceChunkEntity extends Entity
 	}
 
 
-	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+	//? if >= 1.20.5 {
+	protected void defineSynchedData(SynchedEntityData.Builder builder)
+	//?} else {
+	/*protected void defineSynchedData()
+	*///?}
+	{
+		//? if < 1.20.5 {
+		/*var builder = this.getEntityData();
+		*///?}
+
 		builder.define(TICKS_UNTIL_FALL, RandomGenerator.generateInt(MIN_FLYING_TICKS, MAX_FLYING_TICKS));
 		builder.define(IDLE_TICKS, RandomGenerator.generateInt(MIN_IDLE_TICKS, MAX_IDLE_TICKS));
 	}
@@ -225,9 +238,19 @@ public final class IceologerIceChunkEntity extends Entity
 	public InterpolationHandler getInterpolation() {
 		return this.interpolation;
 	}
-	//?} else {
+	//?} else if >= 1.21.1 {
 	/*@Override
 	public void lerpTo(double x, double y, double z, float yRot, float xRot, int steps) {
+		this.lerpX = x;
+		this.lerpY = y;
+		this.lerpZ = z;
+		this.lerpYRot = yRot;
+		this.lerpXRot = xRot;
+		this.lerpSteps = steps;
+	}
+	*///?} else {
+	/*@Override
+	public void lerpTo(double x, double y, double z, float yRot, float xRot, int steps, boolean teleport) {
 		this.lerpX = x;
 		this.lerpY = y;
 		this.lerpZ = z;
@@ -246,10 +269,23 @@ public final class IceologerIceChunkEntity extends Entity
 			this.getInterpolation().interpolate();
 		}
 		//?} else {
-		/*if (this.lerpSteps > 0) {
+		/*//? if >= 1.21.1 {
+		if (this.lerpSteps > 0) {
 			this.lerpPositionAndRotationStep(this.lerpSteps, this.lerpX, this.lerpY, this.lerpZ, this.lerpYRot, this.lerpXRot);
 			this.lerpSteps--;
 		}
+		//?} else {
+		/^if (this.lerpSteps > 0) {
+			double x = this.getX() + (this.lerpX - this.getX()) / this.lerpSteps;
+			double y = this.getY() + (this.lerpY - this.getY()) / this.lerpSteps;
+			double z = this.getZ() + (this.lerpZ - this.getZ()) / this.lerpSteps;
+			double yRotDelta = Mth.wrapDegrees(this.lerpYRot - this.getYRot());
+			this.setYRot(this.getYRot() + (float) yRotDelta / this.lerpSteps);
+			this.setXRot(this.getXRot() + (float) (this.lerpXRot - this.getXRot()) / this.lerpSteps);
+			this.lerpSteps--;
+			this.setPos(x, y, z);
+		}
+		^///?}
 		*///?}
 
 		if (lifetimeTicks == 10) {
@@ -262,9 +298,7 @@ public final class IceologerIceChunkEntity extends Entity
 		this.setSummonAnimationProgress();
 
 		if (this.getTarget() != null && !this.level().isClientSide()) {
-			if (this.getTarget().isAlwaysTicking()) {
-				var playerTarget = (Player) this.getTarget();
-
+			if (this.getTarget() instanceof Player playerTarget) {
 				if (playerTarget.isSpectator() || playerTarget.isCreative()) {
 					this.customDiscard();
 					return;

@@ -1,9 +1,12 @@
 package com.faboslav.friendsandfoes.common.entity.pose;
 
+import net.minecraft.util.ByIdMap;
+
+//? if >= 1.21.1 {
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.util.ByIdMap;
+//?}
 
 import java.util.function.IntFunction;
 
@@ -25,7 +28,9 @@ public enum FriendsAndFoesEntityPose
 	WING_FLAP(13);
 
 	public static final IntFunction<FriendsAndFoesEntityPose> BY_ID = ByIdMap.continuous(FriendsAndFoesEntityPose::id, values(), ByIdMap.OutOfBoundsStrategy.ZERO);
+	//? if >= 1.21.1 {
 	public static final StreamCodec<ByteBuf, FriendsAndFoesEntityPose> STREAM_CODEC = ByteBufCodecs.idMapper(BY_ID, FriendsAndFoesEntityPose::id);
+	//?}
 
 	private final int id;
 

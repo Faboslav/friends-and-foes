@@ -119,7 +119,11 @@ public final class BarnacleBrain
 			*///?}
 			Activity.IDLE,
 			ImmutableList.of(
+				//? if >= 1.21.4 {
 				Pair.of(0, StartAttacking.create(BarnacleBrain::findNearestValidAttackTarget)),
+				//?} else {
+				/*Pair.of(0, StartAttacking.create(barnacle -> findNearestValidAttackTarget((ServerLevel) barnacle.level(), barnacle))),
+				*///?}
 				Pair.of(1, makeRandomWanderTask())
 			)
 		);
@@ -191,7 +195,11 @@ public final class BarnacleBrain
 
 	private static Optional<? extends LivingEntity> findNearestValidAttackTarget(ServerLevel level, BarnacleEntity barnacle) {
 		Optional<LivingEntity> angryAt = BehaviorUtils.getLivingEntityFromUUIDMemory(barnacle, MemoryModuleType.ANGRY_AT)
+			//? if >= 1.21.4 {
 			.filter(entity -> Sensor.isEntityAttackableIgnoringLineOfSight(level, barnacle, entity));
+			//?} else {
+			/*.filter(entity -> Sensor.isEntityAttackableIgnoringLineOfSight(barnacle, entity));
+			*///?}
 
 		if (angryAt.isPresent()) {
 			return angryAt;
@@ -229,7 +237,11 @@ public final class BarnacleBrain
 	}
 
 	public static void setAngerTarget(ServerLevel level, BarnacleEntity barnacle, LivingEntity target) {
+		//? if >= 1.21.4 {
 		if (Sensor.isEntityAttackableIgnoringLineOfSight(level, barnacle, target)) {
+		//?} else {
+		/*if (Sensor.isEntityAttackableIgnoringLineOfSight(barnacle, target)) {
+		*///?}
 			barnacle.getBrain().eraseMemory(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE);
 			barnacle.getBrain().setMemoryWithExpiry(MemoryModuleType.ANGRY_AT, target.getUUID(), ANGER_DURATION);
 		}

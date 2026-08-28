@@ -15,7 +15,7 @@ import net.minecraft.client.animation.KeyframeAnimation;
 /*import net.minecraft.client.animation.AnimationDefinition;
 *///?}
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 import com.faboslav.friendsandfoes.common.client.render.entity.state.PenguinRenderState;
 import net.minecraft.client.model.EntityModel;
 //?} else {
@@ -26,7 +26,7 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.builders.MeshTransformer;
 //?}
 
-//? >=1.21.3 {
+//? if >=1.21.3 {
 public final class PenguinEntityModel extends EntityModel<PenguinRenderState>
 //?} else {
 /*public final class PenguinEntityModel<T extends PenguinEntity> extends HierarchicalModel<T>
@@ -72,7 +72,7 @@ public final class PenguinEntityModel extends EntityModel<PenguinRenderState>
 	*///?}
 
 	public PenguinEntityModel(ModelPart root) {
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		super(root);
 		//?}
 
@@ -125,7 +125,7 @@ public final class PenguinEntityModel extends EntityModel<PenguinRenderState>
 		return LayerDefinition.create(modelData, 64, 64);
 	}
 
-	//? <1.21.3 {
+	//? if <1.21.3 {
 	/*@Override
 	public ModelPart root() {
 		return this.root;
@@ -133,13 +133,13 @@ public final class PenguinEntityModel extends EntityModel<PenguinRenderState>
 	*///?}
 
 	@Override
-	//? >=1.21.3 {
+	//? if >=1.21.3 {
 	public void setupAnim(PenguinRenderState renderState)
 	//?} else {
 	/*public void setupAnim(T penguin, float limbSwing, float limbSwingAmount, float ageInTicks, float headYaw, float headPitch)
 	*///?}
 	{
-		//? >=1.21.3 {
+		//? if >=1.21.3 {
 		super.setupAnim(renderState);
 		var penguin = renderState.penguin;
 		var limbSwing = renderState.walkAnimationPos;
@@ -152,14 +152,14 @@ public final class PenguinEntityModel extends EntityModel<PenguinRenderState>
 		var timeMultiplier = penguin.isUnderWater() ? 1.5F : 5.5F;
 		var speedMultiplier = penguin.isUnderWater() ? 4.0F : 4.5F;
 
-		VersionedEntityModel.Animate(this, this.wingFlapAnimation, penguin.wingFlapAnimationState, ageInTicks);
-		VersionedEntityModel.Animate(this, this.idleAnimation, penguin.idleAnimationState, ageInTicks);
-		VersionedEntityModel.Animate(this, this.idleWaterAnimation, penguin.idleWaterAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.wingFlapAnimation, penguin.wingFlapAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.idleAnimation, penguin.idleAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.idleWaterAnimation, penguin.idleWaterAnimationState, ageInTicks);
 
 		if (penguin.isSwimming()) {
-			VersionedEntityModel.AnimateWalk(this, this.swimAnimation, limbSwing, limbSwingAmount, timeMultiplier, speedMultiplier);
+			VersionedEntityModel.animateWalk(this, this.swimAnimation, limbSwing, limbSwingAmount, timeMultiplier, speedMultiplier);
 		} else {
-			VersionedEntityModel.AnimateWalk(this, this.walkAnimation, limbSwing, limbSwingAmount, timeMultiplier, speedMultiplier);
+			VersionedEntityModel.animateWalk(this, this.walkAnimation, limbSwing, limbSwingAmount, timeMultiplier, speedMultiplier);
 		}
 
 		animateSwimming(penguin, ageInTicks);

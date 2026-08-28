@@ -65,6 +65,7 @@ public final class PlayerIllusionEntity extends Mob
 	}
 
 	@Nullable
+	//? if >= 1.21.1 {
 	public SpawnGroupData finalizeSpawn(
 		ServerLevelAccessor world,
 		DifficultyInstance difficulty,
@@ -75,6 +76,15 @@ public final class PlayerIllusionEntity extends Mob
 		^//^?}^/
 		@Nullable SpawnGroupData entityData
 	) {
+	//?} else {
+	/^public SpawnGroupData finalizeSpawn(
+		ServerLevelAccessor world,
+		DifficultyInstance difficulty,
+		MobSpawnType spawnReason,
+		@Nullable SpawnGroupData entityData,
+		CompoundTag dataTag
+	) {
+	^///?}
 		if(spawnReason == VersionedEntitySpawnReason.COMMAND) {
 			this.setTicksUntilDespawn(-1);
 
@@ -94,7 +104,11 @@ public final class PlayerIllusionEntity extends Mob
 			}
 		}
 
+		//? if >= 1.21.1 {
 		return super.finalizeSpawn(world, difficulty, spawnReason, entityData);
+		//?} else {
+		/^return super.finalizeSpawn(world, difficulty, spawnReason, entityData, dataTag);
+		^///?}
 	}
 
 	public static Builder createPlayerIllusionAttributes() {
@@ -106,8 +120,21 @@ public final class PlayerIllusionEntity extends Mob
 	}
 
 	@Override
-	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+	//? if >= 1.20.5 {
+	protected void defineSynchedData(SynchedEntityData.Builder builder)
+	//?} else {
+	/^protected void defineSynchedData()
+	^///?}
+	{
+		//? if >= 1.20.5 {
 		super.defineSynchedData(builder);
+		//?} else {
+		/^super.defineSynchedData();
+		^///?}
+
+		//? if < 1.20.5 {
+		/^var builder = this.getEntityData();
+		^///?}
 
 		builder.define(PLAYER_MODEL_PARTS, (byte) 0);
 		builder.define(TICKS_UNTIL_DESPAWN, 0);

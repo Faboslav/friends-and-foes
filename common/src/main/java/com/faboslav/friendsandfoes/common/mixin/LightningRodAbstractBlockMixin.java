@@ -17,9 +17,14 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+//? if <1.21.1 {
+/^import net.minecraft.world.InteractionHand;
+^///?}
+
 @Mixin(value = BlockBehaviour.class, priority = 1001)
 public abstract class LightningRodAbstractBlockMixin
 {
+	//? if >= 1.21.1 {
 	@Inject(
 		method = "isRandomlyTicking",
 		at = @At("HEAD"),
@@ -29,6 +34,7 @@ public abstract class LightningRodAbstractBlockMixin
 		BlockState state, CallbackInfoReturnable<Boolean> cir
 	) {
 	}
+	//?}
 
 	@Inject(
 		method = "randomTick",
@@ -45,7 +51,11 @@ public abstract class LightningRodAbstractBlockMixin
 	}
 
 	@Inject(
+		//? if >= 1.21.1 {
 		method = "useWithoutItem",
+		//?} else {
+		/^method = "use",
+		^///?}
 		at = @At("HEAD"),
 		cancellable = true
 	)
@@ -54,9 +64,13 @@ public abstract class LightningRodAbstractBlockMixin
 		Level world,
 		BlockPos pos,
 		Player player,
+		//? if <1.21.1 {
+		/^InteractionHand hand,
+		^///?}
 		BlockHitResult hit,
 		CallbackInfoReturnable<InteractionResult> cir
-	) {
+	)
+	{
 	}
 }
 *///?} else {

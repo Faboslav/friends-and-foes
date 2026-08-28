@@ -4,9 +4,9 @@ import com.faboslav.friendsandfoes.common.entity.MaulerEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 
-public final class MaulerMeeleAttackGoal extends MeleeAttackGoal
+public final class MaulerMeleeAttackGoal extends MeleeAttackGoal
 {
-	public MaulerMeeleAttackGoal(PathfinderMob mob, double speed, boolean pauseWhenMobIdle) {
+	public MaulerMeleeAttackGoal(PathfinderMob mob, double speed, boolean pauseWhenMobIdle) {
 		super(mob, speed, pauseWhenMobIdle);
 	}
 
@@ -14,10 +14,9 @@ public final class MaulerMeeleAttackGoal extends MeleeAttackGoal
 	public void start() {
 		MaulerEntity mauler = ((MaulerEntity) this.mob);
 
-		/*
 		if (mauler.isBurrowedDown()) {
 			mauler.burrowDownGoal.stop();
-		}*/
+		}
 
 		super.start();
 	}
@@ -26,10 +25,9 @@ public final class MaulerMeeleAttackGoal extends MeleeAttackGoal
 	public void tick() {
 		MaulerEntity mauler = ((MaulerEntity) this.mob);
 
-		/*
 		if (mauler.isBurrowedDown()) {
 			return;
-		}*/
+		}
 
 		super.tick();
 	}

@@ -7,10 +7,14 @@ import net.minecraft.client.renderer.entity.EntityRenderers;
 //? if <= 1.21.8 {
 /*import com.faboslav.friendsandfoes.common.entity.PlayerIllusionEntity;
 import com.google.common.collect.ImmutableMap;
+import com.faboslav.friendsandfoes.common.util.PlayerIllusionSkinModel;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.resources.PlayerSkin;
 import java.util.Map;
+*///?}
+
+//? if >= 1.21.1 && <= 1.21.8 {
+/*import net.minecraft.client.resources.PlayerSkin;
 *///?}
 
 /**
@@ -19,11 +23,18 @@ import java.util.Map;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public final class FriendsAndFoesEntityRenderers
 {
-	//? if <= 1.21.8 {
+	//? if >= 1.21.1 && <= 1.21.8 {
 	/*private static final Map<PlayerSkin.Model, EntityRendererProvider<PlayerIllusionEntity>> PLAYER_ILLUSION_RENDERER_FACTORIES = Map.of(
 		PlayerSkin.Model.WIDE,
 		(EntityRendererProvider)context -> new PlayerIllusionEntityRenderer(context, false),
 		PlayerSkin.Model.SLIM,
+		(EntityRendererProvider)context -> new PlayerIllusionEntityRenderer(context, true)
+	);
+	*///?} else if < 1.21.1 {
+	/*private static final Map<PlayerIllusionSkinModel, EntityRendererProvider<PlayerIllusionEntity>> PLAYER_ILLUSION_RENDERER_FACTORIES = Map.of(
+		PlayerIllusionSkinModel.WIDE,
+		(EntityRendererProvider)context -> new PlayerIllusionEntityRenderer(context, false),
+		PlayerIllusionSkinModel.SLIM,
 		(EntityRendererProvider)context -> new PlayerIllusionEntityRenderer(context, true)
 	);
 	*///?}
@@ -47,10 +58,12 @@ public final class FriendsAndFoesEntityRenderers
 	}
 
 	//? if <= 1.21.8 {
-	/*//? if >=1.21.3 {
-	public static Map<PlayerSkin.Model, EntityRenderer<? extends PlayerIllusionEntity, ?>> reloadPlayerIllusionRenderers(EntityRendererProvider.Context ctx)
-	//?} else {
+	/*//? if >=1.21.3 && <=1.21.8 {
+	/^public static Map<PlayerSkin.Model, EntityRenderer<? extends PlayerIllusionEntity, ?>> reloadPlayerIllusionRenderers(EntityRendererProvider.Context ctx)
+	^///?} else if >= 1.21.1 && <1.21.3 {
 	/^public static Map<PlayerSkin.Model, EntityRenderer<? extends PlayerIllusionEntity>> reloadPlayerIllusionRenderers(EntityRendererProvider.Context ctx)
+	^///?} else if <1.21.1 {
+	/^public static Map<PlayerIllusionSkinModel, EntityRenderer<? extends PlayerIllusionEntity>> reloadPlayerIllusionRenderers(EntityRendererProvider.Context ctx)
 	^///?}
 	{
 		ImmutableMap.Builder builder = ImmutableMap.builder();

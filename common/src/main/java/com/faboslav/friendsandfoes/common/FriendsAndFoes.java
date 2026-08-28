@@ -97,7 +97,9 @@ public final class FriendsAndFoes
 		FriendsAndFoesBlocks.BLOCKS.init();
 		//? if >= 1.21.1 {
 		FriendsAndFoesCriterias.CRITERIAS.init();
-		//?}
+		//?} else {
+		/*FriendsAndFoesCriterias.init();
+		*///?}
 		FriendsAndFoesEntityDataSerializers.init();
 		FriendsAndFoesEntityTypes.ENTITY_TYPES.init();
 		FriendsAndFoesItems.ITEMS.init();

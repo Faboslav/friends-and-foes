@@ -17,9 +17,7 @@ import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLevelEvents;
-import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
-import net.fabricmc.fabric.api.registry.FabricPotionBrewingBuilder;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -58,7 +56,13 @@ import net.minecraft.world.item.trading.VillagerTrade;
 
 //? if <1.21.1 {
 /*import net.minecraft.world.level.block.state.properties.BlockSetType;
-*///?}
+import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
+import net.fabricmc.fabric.api.registry.FabricBrewingRecipeRegistry;
+import net.minecraft.world.item.crafting.Ingredient;
+*///?} else {
+import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
+import net.fabricmc.fabric.api.registry.FabricPotionBrewingBuilder;
+//?}
 
 public final class FriendsAndFoesFabric implements ModInitializer
 {
@@ -101,7 +105,12 @@ public final class FriendsAndFoesFabric implements ModInitializer
 		}));
 
 		RegisterBrewingRecipesEvent.EVENT.invoke(new RegisterBrewingRecipesEvent((input, item, output) ->
-			FabricPotionBrewingBuilder.BUILD.register(builder -> builder.addMix(input, item, output))));
+			//? if >= 1.21.1 {
+			FabricPotionBrewingBuilder.BUILD.register(builder -> builder.addMix(input, item, output))
+			//?} else {
+			/*FabricBrewingRecipeRegistry.registerPotionRecipe(input, Ingredient.of(item), output)
+			*///?}
+		));
 
 		//? if <1.21.1 {
 		/*RegisterBlockSetTypeEvent.EVENT.invoke(new RegisterBlockSetTypeEvent(BlockSetType::register));
@@ -127,8 +136,20 @@ public final class FriendsAndFoesFabric implements ModInitializer
 			)
 		);
 
-		LootTableEvents.MODIFY.register((lootTableResourceKey, lootBuilder, lootTableSource, registries) -> {
-			if (lootTableSource.isBuiltin() && (lootTableResourceKey.equals(ResourceKey.create(Registries.LOOT_TABLE, FriendsAndFoes.makeNamespacedId("chests/abandoned_mineshaft"))))) {
+		LootTableEvents.MODIFY.register((
+			//? if >= 1.21.1 {
+			lootTableResourceKey, lootBuilder, lootTableSource, registries
+			//?} else {
+			/*resourceManager, lootDataManager, lootTableResourceKey, lootBuilder, lootTableSource
+			*///?}
+		) -> {
+			if (lootTableSource.isBuiltin() && (lootTableResourceKey.equals(
+				//? if >= 1.21.1 {
+				ResourceKey.create(Registries.LOOT_TABLE, FriendsAndFoes.makeNamespacedId("chests/abandoned_mineshaft"))
+				//?} else {
+				/*FriendsAndFoes.makeNamespacedId("chests/abandoned_mineshaft")
+				*///?}
+			))) {
 				lootBuilder.withPool(LootPool.lootPool()
 					.setRolls(ConstantValue.exactly(1))
 					.add(LootItem.lootTableItem(FriendsAndFoesItems.MUSIC_DISC_AROUND_THE_CORNER.get()))
@@ -141,16 +162,30 @@ public final class FriendsAndFoesFabric implements ModInitializer
 				);
 			}
 
-			if (lootTableSource.isBuiltin() && (lootTableResourceKey.equals(ResourceKey.create(Registries.LOOT_TABLE, FriendsAndFoes.makeNamespacedId("chests/nether_bridge"))))) {
+			if (lootTableSource.isBuiltin() && (lootTableResourceKey.equals(
+				//? if >= 1.21.1 {
+				ResourceKey.create(Registries.LOOT_TABLE, FriendsAndFoes.makeNamespacedId("chests/nether_bridge"))
+				//?} else {
+				/*FriendsAndFoes.makeNamespacedId("chests/nether_bridge")
+				*///?}
+			))) {
 				lootBuilder.withPool(LootPool.lootPool()
 					.setRolls(ConstantValue.exactly(1))
 					.add(LootItem.lootTableItem(Items.MAP)
 						.apply(ExplorationMapFunction.makeExplorationMap()
 							.setDestination(TagKey.create(Registries.STRUCTURE, FriendsAndFoes.makeID("on_citadel_maps")))
+							//? if >= 1.21.1 {
 							.setMapDecoration(FriendsAndFoesMapDecorationTypes.CITADEL.holder())
+							//?}
 							.setSkipKnownStructures(false)
 						)
-						.apply(SetNameFunction.setName(Component.translatable("filled_map.friendsandfoes.citadel"), SetNameFunction.Target.ITEM_NAME))
+						.apply(
+							//? if >= 1.21.1 {
+							SetNameFunction.setName(Component.translatable("filled_map.friendsandfoes.citadel"), SetNameFunction.Target.ITEM_NAME)
+							//?} else {
+							/*SetNameFunction.setName(Component.translatable("filled_map.friendsandfoes.citadel"))
+							*///?}
+						)
 					)
 					//? if >= 26.1 {
 					.when(LootItemRandomChanceCondition.randomChance(0.1666F).build())
@@ -203,8 +238,10 @@ public final class FriendsAndFoesFabric implements ModInitializer
 			if(block.get() instanceof BeehiveBlock || block.get() instanceof LightningRodBlock) {
 				//? if >=1.21.3 {
 				var poiHolder = BuiltInRegistries.POINT_OF_INTEREST_TYPE.get(block.getId());
-				//?} else {
+				//?} else if >=1.21.1 {
 				/*var poiHolder = BuiltInRegistries.POINT_OF_INTEREST_TYPE.getHolder(block.getId());
+				*///?} else {
+				/*var poiHolder = BuiltInRegistries.POINT_OF_INTEREST_TYPE.getHolder(ResourceKey.create(Registries.POINT_OF_INTEREST_TYPE, block.getId()));
 				*///?}
 
 				poiHolder.ifPresent(poiTypeReference -> PointOfInterestTypesAccessor.callRegisterStates(

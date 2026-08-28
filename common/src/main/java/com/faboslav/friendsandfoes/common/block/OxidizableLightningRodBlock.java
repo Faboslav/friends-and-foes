@@ -17,8 +17,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
 //? if < 1.21.1 {
-import net.minecraft.world.InteractionHand;
-//?}
+/^import net.minecraft.world.InteractionHand;
+^///?}
 
 public final class OxidizableLightningRodBlock extends LightningRodBlock implements WeatheringCopper
 {

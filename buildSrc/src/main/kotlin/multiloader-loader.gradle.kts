@@ -75,6 +75,31 @@ tasks {
 			}
 		}
 
+		if (project.stonecutterBuild.eval(commonMod.mc, "<1.21.1")) {
+			val namespaces = listOf("friendsandfoes", "minecraft", "c")
+			val renamedFolders = mapOf(
+				"structure" to "structures",
+				"loot_table" to "loot_tables",
+				"recipe" to "recipes",
+				"advancement" to "advancements",
+				"tags/item" to "tags/items",
+				"tags/block" to "tags/blocks",
+				"tags/entity_type" to "tags/entity_types",
+			)
+
+			eachFile eachFile@{
+				for (namespace in namespaces) {
+					for ((singular, plural) in renamedFolders) {
+						val prefix = "data/$namespace/$singular/"
+						if (path.startsWith(prefix)) {
+							path = path.replaceFirst(prefix, "data/$namespace/$plural/")
+							return@eachFile
+						}
+					}
+				}
+			}
+		}
+
 		// Moobloom textures
 		if (project.stonecutterBuild.eval(commonMod.mc, ">=26.1")) {
 			eachFile {

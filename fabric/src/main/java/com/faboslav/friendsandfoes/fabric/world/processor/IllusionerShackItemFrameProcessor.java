@@ -4,6 +4,11 @@ import com.faboslav.friendsandfoes.common.util.world.processor.IllusionerShackIt
 import com.faboslav.friendsandfoes.common.world.processor.StructureEntityProcessor;
 import com.faboslav.friendsandfoes.fabric.platform.ProcessorTypes;
 import com.mojang.serialization.MapCodec;
+
+//? if <1.21.1 {
+/*import com.mojang.serialization.Codec;
+*///?}
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -18,7 +23,11 @@ import org.jetbrains.annotations.Nullable;
 
 public final class IllusionerShackItemFrameProcessor extends StructureEntityProcessor
 {
+	//? if >=1.21.1 {
 	public static final MapCodec<IllusionerShackItemFrameProcessor> CODEC = MapCodec.unit(IllusionerShackItemFrameProcessor::new);
+	//?} else {
+	/*public static final Codec<IllusionerShackItemFrameProcessor> CODEC = Codec.unit(IllusionerShackItemFrameProcessor::new);
+	*///?}
 
 	private IllusionerShackItemFrameProcessor() {
 	}

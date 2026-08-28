@@ -21,6 +21,10 @@ import net.minecraft.world.entity.EntitySpawnReason;
 /*import net.minecraft.world.entity.MobSpawnType;
 *///?}
 
+//? if <1.21.1 {
+/*import net.minecraft.nbt.CompoundTag;
+*///?}
+
 @Mixin(StructureTemplate.class)
 public class StructureTemplateEntitySpawnMixin
 {
@@ -34,8 +38,10 @@ public class StructureTemplateEntitySpawnMixin
 			value = "INVOKE",
 			/*? if >=1.21.3 {*/
 			target = "Lnet/minecraft/world/entity/Mob;finalizeSpawn(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/world/DifficultyInstance;Lnet/minecraft/world/entity/EntitySpawnReason;Lnet/minecraft/world/entity/SpawnGroupData;)Lnet/minecraft/world/entity/SpawnGroupData;"
-			/*?} else {*/
+			/*?} else if >=1.21.1 {*/
 			/*target = "Lnet/minecraft/world/entity/Mob;finalizeSpawn(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/world/DifficultyInstance;Lnet/minecraft/world/entity/MobSpawnType;Lnet/minecraft/world/entity/SpawnGroupData;)Lnet/minecraft/world/entity/SpawnGroupData;"
+			*//*?} else {*/
+			/*target = "Lnet/minecraft/world/entity/Mob;finalizeSpawn(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/world/DifficultyInstance;Lnet/minecraft/world/entity/MobSpawnType;Lnet/minecraft/world/entity/SpawnGroupData;Lnet/minecraft/nbt/CompoundTag;)Lnet/minecraft/world/entity/SpawnGroupData;"
 			*//*?}*/
 		)
 	)
@@ -49,11 +55,17 @@ public class StructureTemplateEntitySpawnMixin
 		/*MobSpawnType spawnReason,
 		 *//*?}*/
 		SpawnGroupData spawnGroupData,
+		//? if <1.21.1 {
+		/*CompoundTag dataTag,
+		*///?}
 		Operation<SpawnGroupData> original, Rotation rotation,
 		Mirror mirror,
 		Vec3 pos,
 		boolean finalizeEntities,
 		ServerLevelAccessor capturedLevel,
+		//? if <1.21.1 {
+		/*CompoundTag capturedDataTag,
+		*///?}
 		Entity entity
 	) {
 		if (!EntitySpawnEvent.EVENT.invoke(
@@ -68,7 +80,11 @@ public class StructureTemplateEntitySpawnMixin
 				 *//*?}*/
 			)
 		)) {
-			return original.call(mob, level, difficulty, spawnReason, spawnGroupData);
+			return original.call(mob, level, difficulty, spawnReason, spawnGroupData
+				//? if <1.21.1 {
+				/*, dataTag
+				*///?}
+			);
 		} else {
 			return null;
 		}

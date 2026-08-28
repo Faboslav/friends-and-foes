@@ -133,12 +133,12 @@ public final class FriendsAndFoesItems
 	//? if >= 1.21.1 {
 	public static final RegistryEntry<Item> MUSIC_DISC_AROUND_THE_CORNER = registerItem("music_disc_around_the_corner", Item::new, () -> new Item.Properties().stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(FriendsAndFoesJukeboxSongs.AROUND_THE_CORNER));
 	//?} else {
-	/*public static final RegistryEntry<Item> MUSIC_DISC_AROUND_THE_CORNER = registerItem("music_disc_around_the_corner", (properties) -> new VersionedRecordItem(13, VersionedRegistryHolder.get(FriendsAndFoesSoundEvents.MUSIC_DISC_AROUND_THE_CORNER), properties, 132 * 20), () -> new Item.Properties().stacksTo(1).rarity(Rarity.RARE));
+	/*public static final RegistryEntry<Item> MUSIC_DISC_AROUND_THE_CORNER = registerItem("music_disc_around_the_corner", (properties) -> new VersionedRecordItem(13, VersionedRegistryHolder.get(FriendsAndFoesSoundEvents.MUSIC_DISC_AROUND_THE_CORNER), properties, 132), () -> new Item.Properties().stacksTo(1).rarity(Rarity.RARE));
 
 	private static final class VersionedRecordItem extends RecordItem
 	{
-		VersionedRecordItem(int analogOutput, SoundEvent sound, Item.Properties properties, int lengthInTicks) {
-			super(analogOutput, sound, properties, lengthInTicks);
+		VersionedRecordItem(int analogOutput, SoundEvent sound, Item.Properties properties, int lengthInSeconds) {
+			super(analogOutput, sound, properties, lengthInSeconds);
 		}
 	}
 	*///?}

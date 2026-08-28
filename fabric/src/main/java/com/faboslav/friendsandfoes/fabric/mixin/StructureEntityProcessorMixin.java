@@ -149,6 +149,9 @@ public final class StructureEntityProcessorMixin
 							serverWorldAccess.getCurrentDifficultyAt(BlockPos.containing(entityPos)),
 							VersionedEntitySpawnReason.STRUCTURE,
 							null
+							//? if <1.21.1 {
+							/*, new CompoundTag()
+							*///?}
 						);
 					}
 

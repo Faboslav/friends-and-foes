@@ -111,7 +111,7 @@ jobs:
                     wget -P run/mods "$MOD_URL"
 
             -   name: Run ${{ matrix.version }} ${{ matrix.mod_loader }} client
-                uses: 3arthqu4ke/mc-runtime-test@9d9ea4af8ef6d82648051f750c49905f75d0c3bb # v4.4.0
+                uses: headlesshq/mc-runtime-test@fbafe02f89f4f13682e7b16dbcee6b6a43f4faca # v4.5.1
                 with:
                     mc: ${{ matrix.version }}
                     modloader: ${{ matrix.mod_loader }}

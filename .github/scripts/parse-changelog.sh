@@ -1,12 +1,20 @@
 #!/bin/bash
 
-tag=$1
-changelog=$(cat CHANGELOG.md)
+tag="$1"
 
-# Extract the changelog section for the specified tag
-list=$(echo "$changelog" | sed -n "/^## $tag/,/^## [0-9]/p" | sed -e '1d;$d')
+awk -v tag="$tag" '
 
-# Remove the first blank line if it exists
-list=$(echo "$list" | sed -e '1{/^$/d;}')
+	$0 == "## " tag {
+		found = 1
+		next
+	}
+	found && /^## / {
+		exit
+	}
+	found {
+		print
+	}
 
-echo "$list" > RELEASE_CHANGELOG.md
+' CHANGELOG.md | sed -e '1{/^$/d;}' > RELEASE_CHANGELOG.md
+
+cat .github/assets/socials.md >> RELEASE_CHANGELOG.md

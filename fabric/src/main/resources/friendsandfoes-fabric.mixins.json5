@@ -1,7 +1,9 @@
 {
 	"required": true,
 	"package": "com.faboslav.friendsandfoes.fabric.mixin",
-	"refmap": "${modId}.refmap.json",
+	//? if <= 1.21.11 {
+	/*"refmap": "${modId}.refmap.json",
+	*///?}
 	"compatibilityLevel": "JAVA_${javaVersion}",
 	"minVersion": "0.8",
 	"injectors": {

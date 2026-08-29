@@ -535,8 +535,6 @@ public final class CopperGolemEntity extends AbstractGolem
 				itemStack.hurtAndBreak(1, player, item -> player.broadcastBreakEvent(brokenItemSlot));
 				^///?}
 			}
-
-			FriendsAndFoes.getLogger().info("go");
 		}
 
 		return true;

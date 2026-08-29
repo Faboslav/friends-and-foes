@@ -60,10 +60,27 @@ public class LivingEntityMixin
 		*//*?}*/
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/world/level/block/state/BlockState;getFriction(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;)F"
-		)
+			target = "Lnet/minecraft/world/level/block/Block;getFriction()F"
+		),
+		require = 0
 	)
-	private float friendsandfoes$applyGlideFriction(float blockFriction) {
+	private float friendsandfoes$applyGlideFrictionVanilla(float blockFriction) {
+		return friendsandfoes$computeGlideFriction(blockFriction);
+	}
+
+	@ModifyExpressionValue(
+		/*? if >= 1.21.4 {*/
+		method = "travelInAir",
+		/*?} else {*/
+		/*method = "travel",
+		*//*?}*/
+		at = @At(
+			value = "INVOKE",
+			target = "Lnet/minecraft/world/level/block/state/BlockState;getFriction(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;)F"
+		),
+		require = 0
+	)
+	private float friendsandfoes$applyGlideFrictionForgePatched(float blockFriction) {
 		return friendsandfoes$computeGlideFriction(blockFriction);
 	}
 	//?} else {

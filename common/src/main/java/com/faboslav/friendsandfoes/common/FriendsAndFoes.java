@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 /*import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
 *///?}
 
+@SuppressWarnings({"deprecation", "removal"})
 public final class FriendsAndFoes
 {
 	private static final Logger LOGGER = LoggerFactory.getLogger(FriendsAndFoes.MOD_ID);

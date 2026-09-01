@@ -11,6 +11,7 @@ import net.minecraft.world.item.SpawnEggItem;
 import java.util.function.Supplier;
 *///?}
 
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class PlatformHelper implements com.faboslav.friendsandfoes.common.platform.PlatformHelper
 {
 	@Override

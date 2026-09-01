@@ -49,7 +49,7 @@ import net.minecraft.world.entity.ai.ActivityData;
 /*import net.minecraft.world.item.crafting.Ingredient;
 *///?}
 
-@SuppressWarnings({"rawtypes", "unchecked"})
+@SuppressWarnings({"rawtypes", "unchecked", "deprecation"})
 public final class GlareBrain
 {
 	public static final List<MemoryModuleType<?>> MEMORY_MODULES;

@@ -17,6 +17,7 @@ import com.teamresourceful.resourcefullib.common.registry.HolderRegistryEntry;
 /**
  * @see net.minecraft.world.effect.MobEffects
  */
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class FriendsAndFoesStatusEffects
 {
 	public static final ResourcefulRegistry<MobEffect> STATUS_EFFECTS = ResourcefulRegistries.create(BuiltInRegistries.MOB_EFFECT, FriendsAndFoes.MOD_ID);

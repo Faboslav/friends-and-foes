@@ -11,6 +11,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProc
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import org.jetbrains.annotations.Nullable;
 
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class IllusionerShackItemFrameProcessor extends StructureProcessor
 {
 	public static final Codec<IllusionerShackItemFrameProcessor> CODEC = Codec.unit(IllusionerShackItemFrameProcessor::new);

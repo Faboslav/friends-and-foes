@@ -28,6 +28,7 @@ import net.minecraft.world.entity.ai.ActivityData;
 import com.google.common.collect.ImmutableSet;
 *///?}
 
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class BarnacleBrain
 {
 	public static final List<MemoryModuleType<?>> MEMORY_MODULES;

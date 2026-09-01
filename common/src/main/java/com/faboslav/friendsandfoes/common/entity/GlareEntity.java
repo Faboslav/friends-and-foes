@@ -3,7 +3,6 @@ package com.faboslav.friendsandfoes.common.entity;
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.GlareBrain;
 import com.faboslav.friendsandfoes.common.entity.ai.pathing.CachedPathHolder;
-import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesCriterias;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
@@ -61,7 +60,6 @@ import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.function.Predicate;
 
 //? if < 26.2 {
@@ -90,7 +88,7 @@ import net.minecraft.world.entity.EntitySpawnReason;
 /*import net.minecraft.nbt.CompoundTag;
 *///?}
 
-@SuppressWarnings({"unchecked"})
+@SuppressWarnings({"unchecked", "deprecation"})
 //? if >= 26.2 {
 public final class GlareEntity extends TamableAnimal
 //?} else {

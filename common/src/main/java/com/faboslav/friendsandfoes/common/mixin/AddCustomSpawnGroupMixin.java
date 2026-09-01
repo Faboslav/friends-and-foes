@@ -35,7 +35,7 @@ public final class AddCustomSpawnGroupMixin
 		throw new AssertionError();
 	}
 
-	@Shadow
+	@Shadow(remap = false)
 	@Final
 	@Mutable
 	private static MobCategory[] $VALUES;

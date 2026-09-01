@@ -71,6 +71,7 @@ import net.minecraft.world.entity.EntitySpawnReason;
 /*import net.minecraft.world.entity.MobSpawnType;
 *///?}
 
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class TuffGolemEntity extends AbstractGolem
 {
 	private static final float MOVEMENT_SPEED = 0.225F;

@@ -36,7 +36,7 @@ import net.minecraft.world.entity.ai.ActivityData;
 /*import com.mojang.serialization.Dynamic;
 *///?}
 
-@SuppressWarnings({"rawtypes", "unchecked"})
+@SuppressWarnings({"rawtypes", "unchecked", "deprecation"})
 public final class TuffGolemBrain
 {
 	public static final List<MemoryModuleType<?>> MEMORY_MODULES;

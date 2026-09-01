@@ -16,7 +16,7 @@ import com.faboslav.friendsandfoes.common.client.render.entity.state.GlareRender
 import com.mojang.blaze3d.vertex.PoseStack;
 *///?}
 
-@SuppressWarnings({"all"})
+@SuppressWarnings({"all", "deprecation", "unchecked"})
 //? if >=1.21.3 {
 public class GlareEntityRenderer extends AgeableMobRenderer<GlareEntity, GlareRenderState, GlareEntityModel>
 //?} else {

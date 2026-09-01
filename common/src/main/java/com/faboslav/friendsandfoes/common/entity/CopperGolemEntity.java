@@ -70,6 +70,7 @@ import net.minecraft.world.entity.EntitySpawnReason;
 /^import net.minecraft.world.entity.MobSpawnType;
 ^///?}
 
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class CopperGolemEntity extends AbstractGolem
 {
 	private static final String POSE_NBT_NAME = "Pose";

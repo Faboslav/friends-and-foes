@@ -23,6 +23,7 @@ import com.faboslav.friendsandfoes.common.util.BasicItemTrade;
 /**
  * @see VillagerProfession
  */
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class FriendsAndFoesVillagerProfessions
 {
 	public static final ResourcefulRegistry<VillagerProfession> VILLAGER_PROFESSIONS = ResourcefulRegistries.create(BuiltInRegistries.VILLAGER_PROFESSION, FriendsAndFoes.MOD_ID);

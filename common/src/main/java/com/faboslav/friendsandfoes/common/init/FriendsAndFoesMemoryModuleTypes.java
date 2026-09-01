@@ -13,6 +13,7 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 /**
  * @see MemoryModuleType
  */
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class FriendsAndFoesMemoryModuleTypes
 {
 	public static final ResourcefulRegistry<MemoryModuleType<?>> MEMORY_MODULE_TYPES = ResourcefulRegistries.create(BuiltInRegistries.MEMORY_MODULE_TYPE, FriendsAndFoes.MOD_ID);

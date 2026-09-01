@@ -36,6 +36,7 @@ import net.minecraft.server.level.ServerLevel;
 /^import net.minecraft.world.entity.MobSpawnType;
 ^///?}
 
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class PlayerIllusionEntity extends Mob
 {
 	private static final String TICKS_UNTIL_DESPAWN_NBT_NAME = "TicksUntilDespawn";

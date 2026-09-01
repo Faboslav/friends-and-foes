@@ -35,6 +35,7 @@ import java.util.UUID;
 /*import net.minecraft.util.Mth;
 *///?}
 
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class IceologerIceChunkEntity extends Entity
 {
 	private static final String OWNER_UUID_NBT_NAME = "OwnerUuid";

@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.Block;
 /**
  * @see PoiTypes
  */
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class FriendsAndFoesPointOfInterestTypes
 {
 	public static final ResourcefulRegistry<PoiType> POINT_OF_INTEREST_TYPES = ResourcefulRegistries.create(BuiltInRegistries.POINT_OF_INTEREST_TYPE, FriendsAndFoes.MOD_ID);

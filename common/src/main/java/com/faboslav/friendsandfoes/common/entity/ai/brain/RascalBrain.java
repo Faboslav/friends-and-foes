@@ -32,7 +32,7 @@ import net.minecraft.world.entity.ai.ActivityData;
 import com.google.common.collect.ImmutableSet;
 *///?}
 
-@SuppressWarnings({"rawtypes", "unchecked"})
+@SuppressWarnings({"rawtypes", "unchecked", "deprecation"})
 public final class RascalBrain
 {
 	public static final List<MemoryModuleType<?>> MEMORY_MODULES;

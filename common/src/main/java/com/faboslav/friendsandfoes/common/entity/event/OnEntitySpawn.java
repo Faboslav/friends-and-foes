@@ -14,6 +14,7 @@ import net.minecraft.world.level.ServerLevelAccessor;
 /*import net.minecraft.nbt.CompoundTag;
 *///?}
 
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class OnEntitySpawn
 {
 	public static boolean handleOnEntitySpawn(

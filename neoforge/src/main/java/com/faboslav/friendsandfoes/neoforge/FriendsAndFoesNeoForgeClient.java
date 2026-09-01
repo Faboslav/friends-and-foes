@@ -24,6 +24,7 @@ import net.minecraft.client.renderer.ItemBlockRenderTypes;
 
 import java.util.function.Function;
 
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class FriendsAndFoesNeoForgeClient
 {
 	public static void init(IEventBus modEventBus, IEventBus eventBus) {

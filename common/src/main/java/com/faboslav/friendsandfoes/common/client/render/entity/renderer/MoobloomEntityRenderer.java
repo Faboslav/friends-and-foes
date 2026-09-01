@@ -21,7 +21,7 @@ import com.faboslav.friendsandfoes.common.client.render.entity.state.MoobloomRen
 /*import net.minecraft.client.renderer.entity.MobRenderer;
 *///?}
 
-@SuppressWarnings({"rawtypes", "unchecked"})
+@SuppressWarnings({"rawtypes", "unchecked", "deprecation"})
 //? if >=1.21.3 {
 public final class MoobloomEntityRenderer extends AgeableMobRenderer<MoobloomEntity, MoobloomRenderState, CowModel>
 //?} else {

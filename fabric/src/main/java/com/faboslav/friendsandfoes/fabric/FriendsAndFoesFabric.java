@@ -64,6 +64,7 @@ import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.fabric.api.registry.FabricPotionBrewingBuilder;
 //?}
 
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class FriendsAndFoesFabric implements ModInitializer
 {
 	@Override

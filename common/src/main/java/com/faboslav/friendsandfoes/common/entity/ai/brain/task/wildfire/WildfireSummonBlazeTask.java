@@ -23,6 +23,7 @@ import net.minecraft.world.entity.player.Player;
 /*import net.minecraft.nbt.CompoundTag;
 *///?}
 
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class WildfireSummonBlazeTask extends Behavior<WildfireEntity>
 {
 	private LivingEntity attackTarget;

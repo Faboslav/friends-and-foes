@@ -57,6 +57,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.entity.monster.creaking.Creaking;
 //?}
 
+@SuppressWarnings({"deprecation", "unchecked"})
 public class IllusionerEntity extends SpellcasterIllager implements RangedAttackMob
 {
 	private static final int MAX_ILLUSIONS_COUNT = FriendsAndFoes.getConfig().illusionerMaxIllusionsCount;

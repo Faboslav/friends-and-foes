@@ -61,6 +61,7 @@ import net.minecraft.world.entity.EntitySpawnReason;
 /*import net.minecraft.world.entity.MobSpawnType;
 *///?}
 
+@SuppressWarnings({"deprecation", "unchecked"})
 //? if >=1.21.5 {
 public final class MoobloomEntity extends AbstractCow implements Shearable
 //?} else {

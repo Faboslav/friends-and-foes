@@ -33,7 +33,7 @@ public final class AddCustomRaidMemberMixin
 		throw new AssertionError();
 	}
 
-	@Shadow
+	@Shadow(remap = false)
 	private static @Final
 	@Mutable
 	Raid.RaiderType[] $VALUES;

@@ -40,6 +40,7 @@ import net.minecraft.world.level.Level;
 *///?}
 
 @Mixin(Player.class)
+@SuppressWarnings({"deprecation", "unchecked"})
 public abstract class PlayerEntityMixin extends LivingEntity
 {
 	protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, Level world) {

@@ -25,6 +25,7 @@ import net.minecraft.resources.FileToIdConverter;
 import com.google.gson.JsonElement;
 *///?}
 
+@SuppressWarnings({"deprecation", "unchecked"})
 //? if >=1.21.3 {
 public final class MoobloomVariantManager extends SimpleJsonResourceReloadListener<MoobloomVariant>
 //?} else {

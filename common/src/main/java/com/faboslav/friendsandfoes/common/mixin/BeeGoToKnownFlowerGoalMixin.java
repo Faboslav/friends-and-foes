@@ -16,7 +16,7 @@ public class BeeGoToKnownFlowerGoalMixin
 {
 	//? if <= 1.21.6 {
 	/*@Final
-	@Shadow(aliases = {"field_226508_a_", "field_20372", "f_28009_"})
+	@Shadow(aliases = {"field_226508_a_", "field_20372", "f_28009_"}, remap = false)
 	private Bee this$0;
 
 	/^*

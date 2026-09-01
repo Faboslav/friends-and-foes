@@ -38,6 +38,7 @@ import org.jetbrains.annotations.Nullable;
 import net.minecraft.world.attribute.EnvironmentAttributes;
 //?}
 
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class CrabEggBlock extends Block
 {
 	private static final VoxelShape SMALL_SHAPE = Block.box(3.0, 0.0, 3.0, 12.0, 7.0, 12.0);

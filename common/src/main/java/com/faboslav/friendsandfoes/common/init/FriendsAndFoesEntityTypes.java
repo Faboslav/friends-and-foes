@@ -23,6 +23,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 /**
  * @see EntityType
  */
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class FriendsAndFoesEntityTypes
 {
 	public static final ResourcefulRegistry<EntityType<?>> ENTITY_TYPES = ResourcefulRegistries.create(BuiltInRegistries.ENTITY_TYPE, FriendsAndFoes.MOD_ID);

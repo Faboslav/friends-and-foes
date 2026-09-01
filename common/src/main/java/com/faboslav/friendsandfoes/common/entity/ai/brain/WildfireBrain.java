@@ -42,7 +42,7 @@ import net.minecraft.world.entity.ai.ActivityData;
 import net.minecraft.server.level.ServerLevel;
 //?}
 
-@SuppressWarnings({"rawtypes", "unchecked"})
+@SuppressWarnings({"rawtypes", "unchecked", "deprecation"})
 public final class WildfireBrain
 {
 	public static final List<MemoryModuleType<?>> MEMORY_MODULES;

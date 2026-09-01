@@ -58,6 +58,7 @@ import net.minecraft.world.entity.EntitySpawnReason;
 /*import net.minecraft.world.entity.MobSpawnType;
 *///?}
 
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class WildfireEntity extends Monster
 {
 	private float damageAmountCounter = 0.0F;

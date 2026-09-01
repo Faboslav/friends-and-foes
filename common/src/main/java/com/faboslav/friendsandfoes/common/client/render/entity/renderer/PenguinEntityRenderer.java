@@ -16,7 +16,7 @@ import com.faboslav.friendsandfoes.common.client.render.entity.state.PenguinRend
 import net.minecraft.client.renderer.entity.AgeableMobRenderer;
 //?}
 
-@SuppressWarnings({"rawtypes", "unchecked"})
+@SuppressWarnings({"rawtypes", "unchecked", "deprecation"})
 //? if >= 26.2 {
 public class PenguinEntityRenderer extends AgeableMobRenderer<PenguinEntity, PenguinRenderState, PenguinEntityModel>
 //?} else if >=1.21.3 {

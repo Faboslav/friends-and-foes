@@ -16,6 +16,7 @@ import java.util.function.Consumer;
 
 import java.util.List;
 
+@SuppressWarnings({"deprecation", "unchecked"})
 public class TotemItem extends Item
 {
 	public TotemItem(Properties properties) {

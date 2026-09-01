@@ -41,6 +41,7 @@ import java.util.ArrayList;
 /*import net.minecraft.nbt.CompoundTag;
 *///?}
 
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class BarnacleEntity extends Monster {
 	private static final EntityDataAccessor<FriendsAndFoesEntityPose> ENTITY_POSE = SynchedEntityData.defineId(BarnacleEntity.class, FriendsAndFoesEntityDataSerializers.ENTITY_POSE);
 

@@ -15,6 +15,7 @@ import com.teamresourceful.resourcefullib.common.registry.HolderRegistryEntry;
 /**
  * @see SoundEvents
  */
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class FriendsAndFoesSoundEvents
 {
 	public static final ResourcefulRegistry<SoundEvent> SOUND_EVENTS = ResourcefulRegistries.create(BuiltInRegistries.SOUND_EVENT, FriendsAndFoes.MOD_ID);

@@ -51,6 +51,7 @@ import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistry;
 /**
  * @see Blocks
  */
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class FriendsAndFoesBlocks
 {
 	//? if >=1.21.4 {

@@ -55,6 +55,7 @@ import net.minecraft.sounds.SoundEvent;
 /**
  * @see Items
  */
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class FriendsAndFoesItems
 {
 	//? if >=1.21.4 {

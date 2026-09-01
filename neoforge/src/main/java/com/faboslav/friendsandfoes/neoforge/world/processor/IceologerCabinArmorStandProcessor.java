@@ -14,6 +14,7 @@ import org.jetbrains.annotations.Nullable;
 /*import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 *///?}
 
+@SuppressWarnings({"deprecation", "unchecked"})
 //? if >=26.2 {
 public final class IceologerCabinArmorStandProcessor implements StructureProcessor
 //?} else {

@@ -22,6 +22,7 @@ import com.faboslav.friendsandfoes.common.entity.ai.brain.sensor.CopperGolemSpec
 /**
  * @see net.minecraft.world.entity.ai.sensing.SensorType
  */
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class FriendsAndFoesSensorTypes
 {
 	public static final ResourcefulRegistry<SensorType<?>> SENSOR_TYPES = ResourcefulRegistries.create(BuiltInRegistries.SENSOR_TYPE, FriendsAndFoes.MOD_ID);

@@ -33,6 +33,7 @@ import java.lang.reflect.Field;
 *///?}
 
 // Source: https://github.com/BluSunrize/ImmersiveEngineering/blob/1.20.1/src/datagen/java/blusunrize/immersiveengineering/data/StructureUpdater.java
+@SuppressWarnings({"deprecation", "unchecked"})
 public class StructureNbtUpdater implements DataProvider
 {
 	private final String basePath;

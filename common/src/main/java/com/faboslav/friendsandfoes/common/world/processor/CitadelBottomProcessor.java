@@ -22,6 +22,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import org.jspecify.annotations.Nullable;
 //?}
 
+@SuppressWarnings({"deprecation", "unchecked"})
 //? if >=26.2 {
 public final class CitadelBottomProcessor implements StructureProcessor
 //?} else {

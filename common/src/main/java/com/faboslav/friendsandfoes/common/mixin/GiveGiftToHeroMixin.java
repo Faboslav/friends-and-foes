@@ -28,7 +28,8 @@ public abstract class GiveGiftToHeroMixin
 		method = "<clinit>",
 		at = @At(
 			value = "INVOKE",
-			target = "Lcom/google/common/collect/ImmutableMap$Builder;build()Lcom/google/common/collect/ImmutableMap;"
+			target = "Lcom/google/common/collect/ImmutableMap$Builder;build()Lcom/google/common/collect/ImmutableMap;",
+			remap = false
 		)
 	)
 	private static ImmutableMap<ResourceKey<VillagerProfession>, ResourceKey<LootTable>> friendsandfoes$addBeekeeperGift(ImmutableMap<ResourceKey<VillagerProfession>, ResourceKey<LootTable>> original)

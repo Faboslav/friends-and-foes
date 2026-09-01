@@ -24,6 +24,7 @@ import net.minecraft.world.item.component.CustomData;
 /**
  * @see net.minecraft.world.item.CreativeModeTabs
  */
+@SuppressWarnings({"deprecation", "unchecked"})
 public class FriendsAndFoesItemGroups
 {
 	public static final ResourcefulRegistry<CreativeModeTab> ITEM_GROUPS = ResourcefulRegistries.create(BuiltInRegistries.CREATIVE_MODE_TAB, FriendsAndFoes.MOD_ID);

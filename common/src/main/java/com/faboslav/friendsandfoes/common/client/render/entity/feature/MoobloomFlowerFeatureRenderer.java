@@ -45,6 +45,7 @@ import com.faboslav.friendsandfoes.common.client.render.entity.state.MoobloomRen
 /*import com.faboslav.friendsandfoes.common.entity.MoobloomEntity;
 *///?}
 
+@SuppressWarnings({"deprecation", "unchecked"})
 //? if >=1.21.3 {
 public final class MoobloomFlowerFeatureRenderer extends RenderLayer<MoobloomRenderState, CowModel>
 //?} else {

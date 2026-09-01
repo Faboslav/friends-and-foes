@@ -31,7 +31,7 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 public final class CompleteHideAndSeekGameCriterion extends SimpleCriterionTrigger<CompleteHideAndSeekGameCriterion.Conditions>
 {
 	//? if < 1.21.1 {
-	/*static final Identifier ID = new Identifier(FriendsAndFoes.MOD_ID, "complete_hide_and_seek_game");
+	/*static final Identifier ID = FriendsAndFoes.makeID("complete_hide_and_seek_game");
 	*///?}
 
 	public CompleteHideAndSeekGameCriterion() {

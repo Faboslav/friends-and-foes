@@ -56,6 +56,7 @@ import net.minecraft.world.entity.EntitySpawnReason;
 /*import net.minecraft.nbt.CompoundTag;
 *///?}
 
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class RascalEntity extends AgeableMob
 {
 	private static final EntityDataAccessor<FriendsAndFoesEntityPose> ENTITY_POSE = SynchedEntityData.defineId(RascalEntity.class, FriendsAndFoesEntityDataSerializers.ENTITY_POSE);

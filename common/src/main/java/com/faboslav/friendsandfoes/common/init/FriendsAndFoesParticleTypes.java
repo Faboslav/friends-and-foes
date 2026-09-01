@@ -15,6 +15,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 /**
  * @see ParticleTypes
  */
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class FriendsAndFoesParticleTypes
 {
 	public static final ResourcefulRegistry<ParticleType<?>> PARTICLE_TYPES = ResourcefulRegistries.create(BuiltInRegistries.PARTICLE_TYPE, FriendsAndFoes.MOD_ID);

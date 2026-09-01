@@ -19,7 +19,7 @@ java {
 }
 
 tasks.withType<JavaCompile> {
-	options.compilerArgs.addAll(listOf("-Xmaxerrs", "10000"))
+	options.compilerArgs.addAll(listOf("-Xmaxerrs", "10000", "-Xlint:deprecation", "-Xlint:unchecked"))
 }
 
 repositories {

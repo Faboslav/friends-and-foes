@@ -18,6 +18,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 /*import net.minecraft.nbt.CompoundTag;
 *///?}
 
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class IceologerSpawner implements CustomSpawner
 {
 	private int cooldown;

@@ -40,6 +40,7 @@ import net.minecraft.world.entity.ai.ActivityData;
 /*import net.minecraft.world.item.crafting.Ingredient;
 *///?}
 
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class PenguinBrain
 {
 	public static final List<MemoryModuleType<?>> MEMORY_MODULES;

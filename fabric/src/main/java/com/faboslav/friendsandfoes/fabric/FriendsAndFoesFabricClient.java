@@ -19,6 +19,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 ^///?}
 *///?}
 
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class FriendsAndFoesFabricClient implements ClientModInitializer
 {
 	@Override

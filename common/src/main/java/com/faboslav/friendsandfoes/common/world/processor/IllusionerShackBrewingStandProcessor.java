@@ -22,6 +22,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 /*import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 *///?}
 
+@SuppressWarnings({"deprecation", "unchecked"})
 //? if >=26.2 {
 public final class IllusionerShackBrewingStandProcessor implements StructureProcessor
 //?} else {

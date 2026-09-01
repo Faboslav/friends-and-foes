@@ -13,6 +13,7 @@ import java.util.concurrent.Executor;
 /*import net.minecraft.util.profiling.ProfilerFiller;
  *///?}
 
+@SuppressWarnings({"deprecation", "unchecked"})
 public class FabricReloadListener implements IdentifiableResourceReloadListener
 {
 

@@ -21,6 +21,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 /*import net.minecraft.network.FriendlyByteBuf;
 *///?}
 
+@SuppressWarnings({"deprecation", "unchecked"})
 public record TotemEffectPacket(Item item, int entityId) implements Packet<TotemEffectPacket>
 {
 	public static final Identifier ID = FriendsAndFoes.makeID("totem_effect_packet");

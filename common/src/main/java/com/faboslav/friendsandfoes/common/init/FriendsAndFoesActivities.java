@@ -10,6 +10,7 @@ import net.minecraft.world.entity.schedule.Activity;
 /**
  * @see Activity
  */
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class FriendsAndFoesActivities
 {
 	public static final ResourcefulRegistry<Activity> ACTIVITIES = ResourcefulRegistries.create(BuiltInRegistries.ACTIVITY, FriendsAndFoes.MOD_ID);

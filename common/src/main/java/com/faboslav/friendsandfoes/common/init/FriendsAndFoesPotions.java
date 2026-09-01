@@ -16,6 +16,7 @@ import com.teamresourceful.resourcefullib.common.registry.HolderRegistryEntry;
 /**
  * @see net.minecraft.world.item.alchemy.Potions
  */
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class FriendsAndFoesPotions
 {
 	public static final ResourcefulRegistry<Potion> POTIONS = ResourcefulRegistries.create(BuiltInRegistries.POTION, FriendsAndFoes.MOD_ID);

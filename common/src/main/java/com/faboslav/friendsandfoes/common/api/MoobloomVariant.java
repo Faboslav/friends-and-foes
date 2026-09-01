@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.VegetationBlock;
 /*import net.minecraft.world.level.block.BushBlock;
 *///?}
 
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class MoobloomVariant
 {
 	public static final Codec<MoobloomVariant> CODEC = RecordCodecBuilder.create((instance) -> instance.group(

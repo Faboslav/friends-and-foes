@@ -54,6 +54,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 /*import net.minecraft.nbt.CompoundTag;
 *///?}
 
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class PenguinEntity extends Animal {
 	public static final float BABY_SCALE = 0.4F;
 

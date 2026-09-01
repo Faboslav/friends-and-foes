@@ -68,6 +68,7 @@ import net.minecraft.world.entity.EntitySpawnReason;
 /*import net.minecraft.world.entity.MobSpawnType;
 *///?}
 
+@SuppressWarnings({"deprecation", "unchecked"})
 //? if >= 26.2 {
 public class CrabEntity extends Animal
 //?} else {

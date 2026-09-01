@@ -20,6 +20,7 @@ import net.minecraft.world.phys.BlockHitResult;
 /^import net.minecraft.world.InteractionHand;
 ^///?}
 
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class OxidizableLightningRodBlock extends LightningRodBlock implements WeatheringCopper
 {
 	private final WeatherState oxidationLevel;

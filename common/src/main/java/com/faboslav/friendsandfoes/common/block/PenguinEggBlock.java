@@ -22,6 +22,7 @@ import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+@SuppressWarnings({"deprecation", "unchecked"})
 public final class PenguinEggBlock extends Block
 {
 	private static final VoxelShape SHAPE = Block.box(5.5, 0.0, 5.5, 10.5, 7.0, 10.5);

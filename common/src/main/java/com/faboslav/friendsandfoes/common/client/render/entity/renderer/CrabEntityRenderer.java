@@ -16,7 +16,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 *///?}
 
-@SuppressWarnings({"all"})
+@SuppressWarnings({"all", "deprecation", "unchecked"})
 //? if >=1.21.3 {
 public class CrabEntityRenderer extends AgeableMobRenderer<CrabEntity, CrabRenderState, CrabEntityModel>
 //?} else {

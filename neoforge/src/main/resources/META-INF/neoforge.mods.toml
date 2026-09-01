@@ -12,6 +12,7 @@ description = "${modDescription}"
 logoFile = "icon.png"
 logoBlur = false
 displayURL = "${modGitHub}"
+enumExtensions = "friendsandfoes.enumextensions.json"
 
 [[mixins]]
 config = "friendsandfoes-neoforge.mixins.json"

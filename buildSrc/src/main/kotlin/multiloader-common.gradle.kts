@@ -153,7 +153,7 @@ tasks {
 				expand(expandProps)
 			}
 
-		filesMatching(listOf("pack.mcmeta", "fabric.mod.json", "*.mixins.json", "*.mixins.json5")) {
+		filesMatching(listOf("pack.mcmeta", "fabric.mod.json", "fabric.mod.json5", "*.mixins.json", "*.mixins.json5")) {
 			expand(jsonExpandProps)
 		}
 

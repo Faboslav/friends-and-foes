@@ -14,7 +14,9 @@
 		"PointOfInterestTypesAccessor",
 		"SpawnHelperMixin",
 		"StructureEntityProcessorMixin",
-		"StructureTemplateEntitySpawnMixin"
+		"StructureTemplateEntitySpawnMixin",
+		"AddCustomRaidMemberMixin",
+		"AddCustomSpawnGroupMixin"
 	],
 	"client": [
 		"ParticleResourcesMixin"

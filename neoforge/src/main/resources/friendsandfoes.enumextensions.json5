@@ -1,0 +1,48 @@
+{
+	"entries": [
+		{
+			"enum": "net/minecraft/world/entity/MobCategory",
+			"name": "FRIENDSANDFOES_GLARES",
+			//? if >=26.2 {
+			"constructor": "(Ljava/lang/String;Ljava/lang/String;IZZI)V",
+			//?} else {
+			/*"constructor": "(Ljava/lang/String;IZZI)V",
+			*///?}
+			"parameters": {
+				"class": "com/faboslav/friendsandfoes/neoforge/platform/NeoForgeEnumExtensions",
+				"field": "FRIENDSANDFOES_GLARES"
+			}
+		},
+		{
+			"enum": "net/minecraft/world/entity/MobCategory",
+			"name": "FRIENDSANDFOES_RASCALS",
+			//? if >=26.2 {
+			"constructor": "(Ljava/lang/String;Ljava/lang/String;IZZI)V",
+			//?} else {
+			/*"constructor": "(Ljava/lang/String;IZZI)V",
+			*///?}
+			"parameters": {
+				"class": "com/faboslav/friendsandfoes/neoforge/platform/NeoForgeEnumExtensions",
+				"field": "FRIENDSANDFOES_RASCALS"
+			}
+		},
+		{
+			"enum": "net/minecraft/world/entity/raid/Raid$RaiderType",
+			"name": "FRIENDSANDFOES_ICEOLOGER",
+			"constructor": "(Ljava/util/function/Supplier;[I)V",
+			"parameters": {
+				"class": "com/faboslav/friendsandfoes/neoforge/platform/NeoForgeEnumExtensions",
+				"field": "FRIENDSANDFOES_ICEOLOGER"
+			}
+		},
+		{
+			"enum": "net/minecraft/world/entity/raid/Raid$RaiderType",
+			"name": "FRIENDSANDFOES_ILLUSIONER",
+			"constructor": "(Ljava/util/function/Supplier;[I)V",
+			"parameters": {
+				"class": "com/faboslav/friendsandfoes/neoforge/platform/NeoForgeEnumExtensions",
+				"field": "FRIENDSANDFOES_ILLUSIONER"
+			}
+		}
+	]
+}

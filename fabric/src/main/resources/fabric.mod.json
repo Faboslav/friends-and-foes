@@ -29,6 +29,40 @@
 		],
 		"modmenu": [
 			"com.faboslav.friendsandfoes.fabric.modcompat.ModMenuCompat"
+		],
+		"fabric-gametest": [
+			"com.faboslav.friendsandfoes.fabric.tests.block.HatchCrabEggTest",
+			"com.faboslav.friendsandfoes.fabric.tests.block.HatchPenguinEggTest",
+			"com.faboslav.friendsandfoes.fabric.tests.block.OxidizeCopperButtonTest",
+			"com.faboslav.friendsandfoes.fabric.tests.block.OxidizeLightningRodTest",
+			"com.faboslav.friendsandfoes.fabric.tests.block.PlaceAcaciaBeehiveTest",
+			"com.faboslav.friendsandfoes.fabric.tests.block.PlaceBambooBeehiveTest",
+			"com.faboslav.friendsandfoes.fabric.tests.block.PlaceBirchBeehiveTest",
+			"com.faboslav.friendsandfoes.fabric.tests.block.PlaceButtercupTest",
+			"com.faboslav.friendsandfoes.fabric.tests.block.PlaceCherryBeehiveTest",
+			"com.faboslav.friendsandfoes.fabric.tests.block.PlaceCrimsonBeehiveTest",
+			"com.faboslav.friendsandfoes.fabric.tests.block.PlaceDarkOakBeehiveTest",
+			"com.faboslav.friendsandfoes.fabric.tests.block.PlaceJungleBeehiveTest",
+			"com.faboslav.friendsandfoes.fabric.tests.block.PlaceMangroveBeehiveTest",
+			"com.faboslav.friendsandfoes.fabric.tests.block.PlacePaleOakBeehiveTest",
+			"com.faboslav.friendsandfoes.fabric.tests.block.PlacePottedButtercupTest",
+			"com.faboslav.friendsandfoes.fabric.tests.block.PlaceSpruceBeehiveTest",
+			"com.faboslav.friendsandfoes.fabric.tests.block.PlaceWarpedBeehiveTest",
+			"com.faboslav.friendsandfoes.fabric.tests.block.ScrapeCopperButtonTest",
+			"com.faboslav.friendsandfoes.fabric.tests.block.ScrapeLightningRodTest",
+			"com.faboslav.friendsandfoes.fabric.tests.mob.SpawnBarnacleTest",
+			"com.faboslav.friendsandfoes.fabric.tests.mob.SpawnCopperGolemTest",
+			"com.faboslav.friendsandfoes.fabric.tests.mob.SpawnCrabTest",
+			"com.faboslav.friendsandfoes.fabric.tests.mob.SpawnGlareTest",
+			"com.faboslav.friendsandfoes.fabric.tests.mob.SpawnIceologerTest",
+			"com.faboslav.friendsandfoes.fabric.tests.mob.SpawnIllusionerTest",
+			"com.faboslav.friendsandfoes.fabric.tests.mob.SpawnMaulerTest",
+			"com.faboslav.friendsandfoes.fabric.tests.mob.SpawnMoobloomTest",
+			"com.faboslav.friendsandfoes.fabric.tests.mob.SpawnPenguinTest",
+			"com.faboslav.friendsandfoes.fabric.tests.mob.SpawnPlayerIllusionTest",
+			"com.faboslav.friendsandfoes.fabric.tests.mob.SpawnRascalTest",
+			"com.faboslav.friendsandfoes.fabric.tests.mob.SpawnTuffGolemTest",
+			"com.faboslav.friendsandfoes.fabric.tests.mob.SpawnWildfireTest"
 		]
 	},
 	"mixins": [
@@ -38,7 +72,7 @@
 	"accessWidener": "${modId}.accesswidener",
 	"depends": {
 		"minecraft": ">=${minMinecraftVersion}",
-		"fabricloader": "*",
+		"fabricloader": ">=0.19.0",
 		"fabric-api": "*",
 		"resourcefullib": ">=${resourcefulLibLibVersion}"
 	},

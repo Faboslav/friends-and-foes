@@ -108,24 +108,15 @@ public final class PenguinEntity extends Animal {
 		return superEntityData;
 	}
 
-	// TODO chedk
-	//? if < 26.2 {
-	/*@Override
-	public boolean isBaby() {
-		return false;
-	}
-
 	@Override
-	public void setBaby(boolean baby) {
-	}
+	//? if >= 1.21.1 {
+	public float getAgeScale()
+	//?} else {
+	/*public float getScale()
 	*///?}
-
-	//? if >= 26.2 {
-	@Override
-	public float getAgeScale() {
+	{
 		return this.isBaby() ? BABY_SCALE : 1.0F;
 	}
-	//?}
 
 	@Override
 	//? if >= 1.20.5 {

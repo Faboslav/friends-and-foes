@@ -15,8 +15,6 @@
   },
   "mixins": [
     "AbstractBoatMixin",
-    "AddCustomRaidMemberMixin",
-    "AddCustomSpawnGroupMixin",
     "AnimalMakeLoveAccessor",
     "BeaconBlockEntityMixin",
     "BeeEntityAccessor",

@@ -5,12 +5,15 @@ import com.faboslav.friendsandfoes.common.events.AddItemGroupEntriesEvent;
 import com.faboslav.friendsandfoes.common.events.entity.EntitySpawnEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.*;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStructurePoolElements;
+import com.faboslav.friendsandfoes.common.platform.CustomSpawnGroup;
+import com.faboslav.friendsandfoes.common.util.CustomRaidMember;
 import com.faboslav.friendsandfoes.common.util.ServerWorldSpawnersUtil;
 import com.faboslav.friendsandfoes.common.world.spawner.IceologerSpawner;
 import com.faboslav.friendsandfoes.common.world.spawner.IllusionerSpawner;
 import com.faboslav.friendsandfoes.neoforge.init.FriendsAndFoesBiomeModifiers;
 import com.faboslav.friendsandfoes.neoforge.mixin.FireBlockAccessor;
 import com.faboslav.friendsandfoes.neoforge.platform.EntitySerializers;
+import com.faboslav.friendsandfoes.neoforge.platform.NeoForgeEnumExtensions;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
@@ -49,6 +52,16 @@ public final class FriendsAndFoesNeoForge
 {
 	public FriendsAndFoesNeoForge(ModContainer modContainer, IEventBus modEventBus) {
 		IEventBus eventBus = NeoForge.EVENT_BUS;
+
+		CustomSpawnGroup.GLARES = NeoForgeEnumExtensions.FRIENDSANDFOES_GLARES.getValue();
+		CustomSpawnGroup.RASCALS = NeoForgeEnumExtensions.FRIENDSANDFOES_RASCALS.getValue();
+
+		if (FriendsAndFoes.getConfig().enableIceologerInRaids) {
+			CustomRaidMember.ICEOLOGER = NeoForgeEnumExtensions.FRIENDSANDFOES_ICEOLOGER.getValue();
+		}
+		if (FriendsAndFoes.getConfig().enableIllusionerInRaids) {
+			CustomRaidMember.ILLUSIONER = NeoForgeEnumExtensions.FRIENDSANDFOES_ILLUSIONER.getValue();
+		}
 
 		FriendsAndFoes.init();
 		FriendsAndFoesBiomeModifiers.BIOME_MODIFIERS.register(modEventBus);

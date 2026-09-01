@@ -5,13 +5,13 @@ import com.faboslav.friendsandfoes.common.events.AddItemGroupEntriesEvent;
 import com.faboslav.friendsandfoes.common.events.item.RegisterBrewingRecipesEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.*;
 import com.faboslav.friendsandfoes.common.init.*;
+import com.faboslav.friendsandfoes.common.platform.CustomSpawnGroup;
+import com.faboslav.friendsandfoes.common.util.CustomRaidMember;
 import com.faboslav.friendsandfoes.common.util.ServerWorldSpawnersUtil;
 import com.faboslav.friendsandfoes.common.world.spawner.IceologerSpawner;
 import com.faboslav.friendsandfoes.common.world.spawner.IllusionerSpawner;
 import com.faboslav.friendsandfoes.fabric.events.FabricReloadListener;
 import com.faboslav.friendsandfoes.fabric.mixin.PointOfInterestTypesAccessor;
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
@@ -29,8 +29,10 @@ import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.ai.village.poi.PoiTypes;
+import net.minecraft.world.entity.raid.Raid;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.LightningRodBlock;
@@ -44,14 +46,15 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCon
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
+//? if <= 1.21.11 {
+/*import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
+import net.minecraft.world.item.trading.VillagerTrade;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
-//? if <= 1.21.11 {
-/*import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
-import net.minecraft.world.item.trading.VillagerTrade;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 *///?}
 
 //? if <1.21.1 {
@@ -69,6 +72,16 @@ public final class FriendsAndFoesFabric implements ModInitializer
 {
 	@Override
 	public void onInitialize() {
+		CustomSpawnGroup.GLARES = MobCategory.valueOf(CustomSpawnGroup.GLARES_INTERNAL_NAME);
+		CustomSpawnGroup.RASCALS = MobCategory.valueOf(CustomSpawnGroup.RASCALS_INTERNAL_NAME);
+
+		if (FriendsAndFoes.getConfig().enableIceologerInRaids) {
+			CustomRaidMember.ICEOLOGER = Raid.RaiderType.valueOf(CustomRaidMember.ICEOLOGER_INTERNAL_NAME);
+		}
+		if (FriendsAndFoes.getConfig().enableIllusionerInRaids) {
+			CustomRaidMember.ILLUSIONER = Raid.RaiderType.valueOf(CustomRaidMember.ILLUSIONER_INTERNAL_NAME);
+		}
+
 		FriendsAndFoes.init();
 		addCustomStructurePoolElements();
 		initEvents();

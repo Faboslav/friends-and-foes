@@ -94,7 +94,7 @@ public final class TuffGolemEntity extends AbstractGolem
 	private static final EntityDataAccessor<Boolean> IS_GLUED = SynchedEntityData.defineId(TuffGolemEntity.class, EntityDataSerializers.BOOLEAN);
 
 	private int inactiveTicksAfterSpawn = 0;
-	private Home home;
+	private Home home = new Home(0, 0, 0, 0.0F);
 
 	public final AnimationState showItemAnimationState = new AnimationState();
 	public final AnimationState hideItemAnimationState = new AnimationState();

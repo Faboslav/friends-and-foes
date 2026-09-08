@@ -425,24 +425,7 @@ public final class GlareEntity extends TamableAnimal
 
 	@Override
 	protected PathNavigation createNavigation(Level world) {
-		FlyingPathNavigation flyingPathNavigation = new FlyingPathNavigation(this, world)
-		{
-			public boolean isStableDestination(BlockPos pos) {
-				return !this.level.getBlockState(pos.below()).isAir() && !this.level.getBlockState(pos.below()).liquid();
-			}
-
-			@Override
-			public void tick() {
-				if (
-					GlareEntity.this.isOrderedToSit()
-					|| GlareEntity.this.isGrumpy()
-				) {
-					return;
-				}
-
-				super.tick();
-			}
-		};
+		FlyingPathNavigation flyingPathNavigation = new GlareFlyingPathNavigation(this, world);
 
 		flyingPathNavigation.setCanOpenDoors(false);
 		flyingPathNavigation.setCanFloat(false);
@@ -880,6 +863,30 @@ public final class GlareEntity extends TamableAnimal
 		@Override
 		public void tick() {
 			if (GlareEntity.this.isOrderedToSit()) {
+				return;
+			}
+
+			super.tick();
+		}
+	}
+
+	final class GlareFlyingPathNavigation extends FlyingPathNavigation
+	{
+		public GlareFlyingPathNavigation(GlareEntity glare, Level level) {
+			super(glare, level);
+		}
+
+		@Override
+		public boolean isStableDestination(BlockPos pos) {
+			return !this.level.getBlockState(pos.below()).isAir() && !this.level.getBlockState(pos.below()).liquid();
+		}
+
+		@Override
+		public void tick() {
+			if (
+				GlareEntity.this.isOrderedToSit()
+				|| GlareEntity.this.isGrumpy()
+			) {
 				return;
 			}
 

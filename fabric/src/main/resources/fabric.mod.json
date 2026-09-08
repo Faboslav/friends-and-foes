@@ -31,6 +31,8 @@
 			"com.faboslav.friendsandfoes.fabric.modcompat.ModMenuCompat"
 		],
 		"fabric-gametest": [
+			"com.faboslav.friendsandfoes.fabric.tests.block.BuildCopperGolemTest",
+			"com.faboslav.friendsandfoes.fabric.tests.block.BuildTuffGolemTest",
 			"com.faboslav.friendsandfoes.fabric.tests.block.HatchCrabEggTest",
 			"com.faboslav.friendsandfoes.fabric.tests.block.HatchPenguinEggTest",
 			"com.faboslav.friendsandfoes.fabric.tests.block.OxidizeCopperButtonTest",
@@ -50,6 +52,8 @@
 			"com.faboslav.friendsandfoes.fabric.tests.block.PlaceWarpedBeehiveTest",
 			"com.faboslav.friendsandfoes.fabric.tests.block.ScrapeCopperButtonTest",
 			"com.faboslav.friendsandfoes.fabric.tests.block.ScrapeLightningRodTest",
+			"com.faboslav.friendsandfoes.fabric.tests.block.WaxCopperButtonTest",
+			"com.faboslav.friendsandfoes.fabric.tests.block.WaxLightningRodTest",
 			"com.faboslav.friendsandfoes.fabric.tests.mob.SpawnBarnacleTest",
 			"com.faboslav.friendsandfoes.fabric.tests.mob.SpawnCopperGolemTest",
 			"com.faboslav.friendsandfoes.fabric.tests.mob.SpawnCrabTest",

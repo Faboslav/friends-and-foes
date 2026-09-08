@@ -1,3 +1,5 @@
+val IS_CI = System.getenv("CI") == "true"
+
 plugins {
 	id("multiloader-common")
 	id("fabric-loom-compat")
@@ -30,8 +32,11 @@ dependencies {
 	if (stonecutter.eval(commonMod.mc, "<=1.21.11")) {
 		mappings(loom.layered {
 			officialMojangMappings()
-			commonMod.depOrNull("parchment")?.let { parchmentVersion ->
-				parchment("org.parchmentmc.data:parchment-${commonMod.mc}:$parchmentVersion@zip")
+
+			if(!IS_CI) {
+				commonMod.depOrNull("parchment")?.let { parchmentVersion ->
+					parchment("org.parchmentmc.data:parchment-${commonMod.mc}:$parchmentVersion@zip")
+				}
 			}
 		})
 	}

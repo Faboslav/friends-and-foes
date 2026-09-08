@@ -1,3 +1,5 @@
+val IS_CI = System.getenv("CI") == "true"
+
 plugins {
 	`multiloader-loader`
 	id("net.neoforged.moddev.legacyforge")
@@ -74,10 +76,12 @@ legacyForge {
 		}
 	}
 
-	parchment {
-		commonMod.depOrNull("parchment")?.let {
-			mappingsVersion = it
-			minecraftVersion = commonMod.mc
+	if(!IS_CI) {
+		parchment {
+			commonMod.depOrNull("parchment")?.let {
+				mappingsVersion = it
+				minecraftVersion = commonMod.mc
+			}
 		}
 	}
 

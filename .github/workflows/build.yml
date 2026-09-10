@@ -121,7 +121,7 @@ jobs:
                     fabric-api: ${{ steps.gradle-properties.outputs.DEPS_FABRIC_API }}
                     fabric-gametest-api: ${{ matrix.mod_loader == 'fabric' && steps.gradle-properties.outputs.DEPS_FABRIC_GAMETEST_API || 'none' }}
                     xvfb: false
-                    headlessmc-command: -lwjgl --retries 3 --jvm -Djava.awt.headless=true -DMcRuntimeGameTestMinExpectedGameTests=1"
+                    headlessmc-command: -lwjgl --retries 3 --jvm -Djava.awt.headless=true -DMcRuntimeGameTestMinExpectedGameTests=1
                     cache-mc: true
 
     run-server:

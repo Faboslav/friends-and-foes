@@ -119,8 +119,9 @@ jobs:
                     mc-runtime-test: ${{ matrix.mod_loader_alias }}
                     java: ${{ steps.gradle-properties.outputs.JAVA_VERSION }}
                     fabric-api: ${{ steps.gradle-properties.outputs.DEPS_FABRIC_API }}
+                    fabric-gametest-api: ${{ matrix.mod_loader == 'fabric' && steps.gradle-properties.outputs.DEPS_FABRIC_GAMETEST_API || 'none' }}
                     xvfb: false
-                    headlessmc-command: -lwjgl --retries 3 --jvm -Djava.awt.headless=true
+                    headlessmc-command: -lwjgl --retries 3 --jvm -Djava.awt.headless=true -DMcRuntimeGameTestMinExpectedGameTests=1"
                     cache-mc: true
 
     run-server:
@@ -171,5 +172,6 @@ jobs:
                     modloader: ${{ matrix.mod_loader }}
                     java: ${{ steps.gradle-properties.outputs.JAVA_VERSION }}
                     fabric-api: ${{ steps.gradle-properties.outputs.DEPS_FABRIC_API }}
+                    fabric-gametest-api: ${{ matrix.mod_loader == 'fabric' && steps.gradle-properties.outputs.DEPS_FABRIC_GAMETEST_API || 'none' }}
                     headlessmc-command: -lwjgl --retries 3 --jvm -Djava.awt.headless=true
                     cache-mc: true

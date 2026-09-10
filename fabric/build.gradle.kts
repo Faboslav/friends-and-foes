@@ -56,8 +56,9 @@ dependencies {
 		} else if (stonecutter.eval(commonMod.mc, ">1.21.1")) {
 			modImplementation(fletchingTable.modrinth("trinkets-canary", commonMod.mc, "fabric"))
 
-			modImplementation("org.ladysnake.cardinal-components-api:cardinal-components-base:7.3.0")
-			modImplementation("org.ladysnake.cardinal-components-api:cardinal-components-entity:7.3.0")
+			val cardinalComponentsVersion = commonMod.dep("cardinal_components")
+			modImplementation("org.ladysnake.cardinal-components-api:cardinal-components-base:${cardinalComponentsVersion}")
+			modImplementation("org.ladysnake.cardinal-components-api:cardinal-components-entity:${cardinalComponentsVersion}")
 		} else {
 			modImplementation("dev.emi:trinkets:${trinketsVersion}")
 		}

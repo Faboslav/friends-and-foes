@@ -11,13 +11,13 @@ import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-//? if >= 1.21.8 {
+//? if >= 1.21.4 {
 import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 //?} else {
 /*import net.minecraft.world.entity.vehicle.Boat;
 *///?}
 
-//? if >= 1.21.8 {
+//? if >= 1.21.4 {
 @Mixin(AbstractBoat.class)
 //?} else {
 /*@Mixin(Boat.class)
@@ -37,7 +37,7 @@ public abstract class AbstractBoatMixin
 	) {
 		double multiplier = 1.0D;
 
-		//? if >= 1.21.8 {
+		//? if >= 1.21.4 {
 		LivingEntity controllingPassenger = ((AbstractBoat) (Object) this).getControllingPassenger();
 		//?} else {
 		/*LivingEntity controllingPassenger = ((Boat) (Object) this).getControllingPassenger();

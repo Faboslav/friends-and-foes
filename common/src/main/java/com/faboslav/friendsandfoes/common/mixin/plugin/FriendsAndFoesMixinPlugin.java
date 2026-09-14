@@ -48,7 +48,7 @@ public class FriendsAndFoesMixinPlugin implements IMixinConfigPlugin
 		List<String> mixins = new ArrayList<>();
 
 		if (this.mixinPackage.equals("com.faboslav.friendsandfoes.common.mixin")) {
-			if (this.isClassAvailable("me.earth.mc_runtime_test.McRuntimeTest")) {
+			if (this.isClassAvailable("me.earth.mc_runtime_test.McRuntimeTest") && this.isClassAvailable("com.faboslav.friendsandfoes.common.mixin.GameTestRegistryMixin")) {
 				mixins.add("GameTestRegistryMixin");
 			}
 		}

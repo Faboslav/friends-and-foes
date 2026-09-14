@@ -13,7 +13,11 @@ public class GameTestRegistryMixin
 		method = "turnMethodIntoTestFunction",
 		at = @At(
 			value = "INVOKE",
+			//? if >= 1.21.1 {
 			target = "Lnet/minecraft/gametest/framework/TestFunction;<init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lnet/minecraft/world/level/block/Rotation;IJZZIIZLjava/util/function/Consumer;)V"),
+			//?} else {
+			/^target = "Lnet/minecraft/gametest/framework/TestFunction;<init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lnet/minecraft/world/level/block/Rotation;IJZIILjava/util/function/Consumer;)V"),
+			^///?}
 		index = 2
 	)
 	private static String turnMethodIntoTestFunctionHook(String string) {

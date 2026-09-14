@@ -51,6 +51,10 @@ public class FriendsAndFoesMixinPlugin implements IMixinConfigPlugin
 			if (this.isClassAvailable("me.earth.mc_runtime_test.McRuntimeTest") && this.isClassAvailable("com.faboslav.friendsandfoes.common.mixin.GameTestRegistryMixin")) {
 				mixins.add("GameTestRegistryMixin");
 			}
+
+			if (this.isClassAvailable("me.earth.mc_runtime_test.McRuntimeTest") && this.isClassAvailable("com.faboslav.friendsandfoes.common.mixin.CommandsMixin")) {
+				mixins.add("CommandsMixin");
+			}
 		}
 
 		return mixins;

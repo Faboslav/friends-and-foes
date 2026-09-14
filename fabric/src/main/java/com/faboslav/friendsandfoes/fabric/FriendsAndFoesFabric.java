@@ -72,8 +72,8 @@ public final class FriendsAndFoesFabric implements ModInitializer
 {
 	@Override
 	public void onInitialize() {
-		CustomSpawnGroup.GLARES = MobCategory.valueOf(CustomSpawnGroup.GLARES_INTERNAL_NAME);
-		CustomSpawnGroup.RASCALS = MobCategory.valueOf(CustomSpawnGroup.RASCALS_INTERNAL_NAME);
+		CustomSpawnGroup.GLARES = MobCategory.valueOf(CustomSpawnGroup.GLARES_NAME);
+		CustomSpawnGroup.RASCALS = MobCategory.valueOf(CustomSpawnGroup.RASCALS_NAME);
 
 		if (FriendsAndFoes.getConfig().enableIceologerInRaids) {
 			CustomRaidMember.ICEOLOGER = Raid.RaiderType.valueOf(CustomRaidMember.ICEOLOGER_INTERNAL_NAME);

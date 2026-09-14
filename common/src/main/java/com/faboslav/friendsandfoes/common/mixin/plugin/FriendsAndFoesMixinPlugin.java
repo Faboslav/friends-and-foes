@@ -4,13 +4,17 @@ import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 public class FriendsAndFoesMixinPlugin implements IMixinConfigPlugin
 {
+	private String mixinPackage;
+
 	@Override
 	public void onLoad(String mixinPackage) {
+		this.mixinPackage = mixinPackage;
 	}
 
 	@Override
@@ -24,12 +28,13 @@ public class FriendsAndFoesMixinPlugin implements IMixinConfigPlugin
 			return this.isClassAvailable("me.earth.mc_runtime_test.McRuntimeTest");
 		}
 
+		/*
 		if (
 			mixinClassName.equals("com.faboslav.friendsandfoes.common.mixin.AddCustomSpawnGroupMixin")
 			|| mixinClassName.equals("com.faboslav.friendsandfoes.common.mixin.AddCustomRaidMemberMixin")
 		) {
 			return !this.isClassAvailable("net.minecraftforge.fml.common.asm.RuntimeEnumExtender");
-		}
+		}*/
 
 		return true;
 	}
@@ -40,9 +45,17 @@ public class FriendsAndFoesMixinPlugin implements IMixinConfigPlugin
 
 	@Override
 	public List<String> getMixins() {
-		return null;
-	}
+		List<String> mixins = new ArrayList<>();
 
+		if (this.mixinPackage.equals("com.faboslav.friendsandfoes.common.mixin")) {
+			// TerraBlender
+			if (this.isClassAvailable("me.earth.mc_runtime_test.McRuntimeTest")) {
+				mixins.add("com.faboslav.friendsandfoes.common.mixin.GameTestRegistryMixin");
+			}
+		}
+
+		return mixins;
+	}
 	@Override
 	public void preApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
 	}

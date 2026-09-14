@@ -93,8 +93,7 @@ public final class CopperGolemEntity extends AbstractGolem
 	private static final float MOVEMENT_SPEED = 0.2F;
 	private static final int COPPER_INGOT_HEAL_AMOUNT = 5;
 	private static final float SPARK_CHANCE = 0.025F;
-	private static final float OXIDATION_CHANCE = 0.05F;
-	//private static final float OXIDATION_CHANCE = 0.00002F;
+	private static final float OXIDATION_CHANCE = 0.00002F;
 	public static final int MIN_STRUCT_BY_LIGHTNING_TICKS = 1200;
 	public static final int MAX_STRUCT_BY_LIGHTNING_TICKS = 2400;
 

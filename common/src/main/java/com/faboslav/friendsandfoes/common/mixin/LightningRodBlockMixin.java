@@ -144,19 +144,9 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 			FriendsAndFoesEntityPose randomPose = possiblePoses.get(randomPoseIndex);
 			copperGolem.setEntityPose(randomPose);
 
-			//? if >= 1.21.1 {
-			var animation = copperGolem.getAnimationByPose();
-
-			if (animation != null) {
-				int keyFrameAnimationLengthInTicks = AnimationMath.toLengthInTicks(animation.lengthInSeconds());
-				int randomKeyframeAnimationTick = copperGolem.getRandom().nextIntBetweenInclusive(keyFrameAnimationLengthInTicks / 6, keyFrameAnimationLengthInTicks - (keyFrameAnimationLengthInTicks / 6));
-				copperGolem.setCurrentAnimationTick(randomKeyframeAnimationTick);
-			}
-			//?} else {
-			/^int keyFrameAnimationLengthInTicks = AnimationMath.toLengthInTicks(friendsandfoes_getAnimationLengthInSecondsByPose(randomPose));
+			int keyFrameAnimationLengthInTicks = AnimationMath.toLengthInTicks(CopperGolemEntity.getAnimationLengthInSecondsByPose(randomPose));
 			int randomKeyframeAnimationTick = copperGolem.getRandom().nextIntBetweenInclusive(keyFrameAnimationLengthInTicks / 6, keyFrameAnimationLengthInTicks - (keyFrameAnimationLengthInTicks / 6));
 			copperGolem.setCurrentAnimationTick(randomKeyframeAnimationTick);
-			^///?}
 		} else {
 			boolean isHeadBlockWaxed = this.friendsandfoes_isCopperBlockWaxed(headBlockState);
 			boolean isBodyBlockWaxed = this.friendsandfoes_isCopperBlockWaxed(bodyBlockState);
@@ -192,18 +182,6 @@ public abstract class LightningRodBlockMixin extends LightningRodBlockBlockMixin
 
 		return this.friendsandfoes_copperGolemPattern;
 	}
-
-	//? if <1.21.1 {
-	/^private static float friendsandfoes_getAnimationLengthInSecondsByPose(FriendsAndFoesEntityPose pose) {
-		if (pose == FriendsAndFoesEntityPose.SPIN_HEAD) {
-			return 0.75F;
-		} else if (pose == FriendsAndFoesEntityPose.PRESS_BUTTON_UP || pose == FriendsAndFoesEntityPose.PRESS_BUTTON_DOWN) {
-			return 1.5417F;
-		}
-
-		return 0.0F;
-	}
-	^///?}
 
 	private boolean friendsandfoes_isCopperBlockWaxed(
 		BlockState blockState

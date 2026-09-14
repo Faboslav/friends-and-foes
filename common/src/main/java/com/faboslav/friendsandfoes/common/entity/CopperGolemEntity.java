@@ -2,7 +2,6 @@
 /*package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-import com.faboslav.friendsandfoes.common.entity.animation.CopperGolemAnimations;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.CopperGolemBrain;
 import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityDataSerializers;
@@ -12,12 +11,12 @@ import com.faboslav.friendsandfoes.common.mixin.LimbAnimatorAccessor;
 import com.faboslav.friendsandfoes.common.network.packet.SyncCopperGolemWalkAnimationPacket;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.util.MovementUtil;
+import com.faboslav.friendsandfoes.common.util.animation.AnimationMath;
 import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
 import com.faboslav.friendsandfoes.common.versions.*;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.Dynamic;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -546,26 +545,17 @@ public final class CopperGolemEntity extends AbstractGolem
 		}
 
 		if (this.level() instanceof ServerLevel) {
-			ArrayList<AnimationDefinition> possibleAnimations = new ArrayList<>()
+			ArrayList<FriendsAndFoesEntityPose> possiblePoses = new ArrayList<>()
 			{{
-				add(CopperGolemAnimations.SPIN_HEAD);
-				add(CopperGolemAnimations.PRESS_BUTTON_UP);
-				add(CopperGolemAnimations.PRESS_BUTTON_DOWN);
+				add(FriendsAndFoesEntityPose.SPIN_HEAD);
+				add(FriendsAndFoesEntityPose.PRESS_BUTTON_UP);
+				add(FriendsAndFoesEntityPose.PRESS_BUTTON_DOWN);
 			}};
-			int randomPoseIndex = this.getRandom().nextInt(possibleAnimations.size());
-			AnimationDefinition randomAnimation = possibleAnimations.get(randomPoseIndex);
-			var copperGolemEntityPose = FriendsAndFoesEntityPose.IDLE;
-
-			if(randomAnimation == CopperGolemAnimations.SPIN_HEAD) {
-				copperGolemEntityPose = FriendsAndFoesEntityPose.SPIN_HEAD;
-			} else if(randomAnimation == CopperGolemAnimations.PRESS_BUTTON_UP) {
-				copperGolemEntityPose = FriendsAndFoesEntityPose.PRESS_BUTTON_UP;
-			} else if(randomAnimation == CopperGolemAnimations.PRESS_BUTTON_DOWN) {
-				copperGolemEntityPose = FriendsAndFoesEntityPose.PRESS_BUTTON_DOWN;
-			}
+			int randomPoseIndex = this.getRandom().nextInt(possiblePoses.size());
+			FriendsAndFoesEntityPose copperGolemEntityPose = possiblePoses.get(randomPoseIndex);
 
 			this.setEntityPose(copperGolemEntityPose);
-			int keyFrameAnimationLengthInTicks = (int) Math.ceil(randomAnimation.lengthInSeconds() * 20) + 1;
+			int keyFrameAnimationLengthInTicks = AnimationMath.toLengthInTicks(getAnimationLengthInSecondsByPose(copperGolemEntityPose));
 			int randomKeyframeAnimationTick = this.getRandom().nextIntBetweenInclusive(0, keyFrameAnimationLengthInTicks);
 			this.setCurrentAnimationTick(randomKeyframeAnimationTick);
 			this.playSound(FriendsAndFoesSoundEvents.ENTITY_COPPER_GOLEM_OXIDATION.get(), this.getSoundVolume(), this.getVoicePitch());
@@ -704,18 +694,14 @@ public final class CopperGolemEntity extends AbstractGolem
 		super.onSyncedDataUpdated(dataAccessor);
 	}
 
-	public AnimationDefinition getAnimationByPose() {
-		AnimationDefinition animation = null;
-
-		if (this.isInEntityPose(FriendsAndFoesEntityPose.SPIN_HEAD)) {
-			animation = CopperGolemAnimations.SPIN_HEAD;
-		} else if (this.isInEntityPose(FriendsAndFoesEntityPose.PRESS_BUTTON_UP)) {
-			animation = CopperGolemAnimations.PRESS_BUTTON_UP;
-		} else if (this.isInEntityPose(FriendsAndFoesEntityPose.PRESS_BUTTON_DOWN)) {
-			animation = CopperGolemAnimations.PRESS_BUTTON_DOWN;
+	public static float getAnimationLengthInSecondsByPose(FriendsAndFoesEntityPose pose) {
+		if (pose == FriendsAndFoesEntityPose.SPIN_HEAD) {
+			return 0.75F;
+		} else if (pose == FriendsAndFoesEntityPose.PRESS_BUTTON_UP || pose == FriendsAndFoesEntityPose.PRESS_BUTTON_DOWN) {
+			return 1.5417F;
 		}
 
-		return animation;
+		return 0.0F;
 	}
 
 	private int getCurrentPoseAnimationTick() {

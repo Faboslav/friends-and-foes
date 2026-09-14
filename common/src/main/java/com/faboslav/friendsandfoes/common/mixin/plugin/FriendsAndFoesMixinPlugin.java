@@ -48,9 +48,8 @@ public class FriendsAndFoesMixinPlugin implements IMixinConfigPlugin
 		List<String> mixins = new ArrayList<>();
 
 		if (this.mixinPackage.equals("com.faboslav.friendsandfoes.common.mixin")) {
-			// TerraBlender
 			if (this.isClassAvailable("me.earth.mc_runtime_test.McRuntimeTest")) {
-				mixins.add("com.faboslav.friendsandfoes.common.mixin.GameTestRegistryMixin");
+				mixins.add("GameTestRegistryMixin");
 			}
 		}
 

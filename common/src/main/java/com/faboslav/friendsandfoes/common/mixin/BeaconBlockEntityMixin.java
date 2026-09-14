@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -73,7 +74,7 @@ public final class BeaconBlockEntityMixin
 
 			var validEffects = new HashSet<>(VALID_EFFECTS);
 			validEffects.add(reach);
-			VALID_EFFECTS = Set.copyOf(validEffects);
+			VALID_EFFECTS = Collections.unmodifiableSet(validEffects);
 		}
 	}
 }

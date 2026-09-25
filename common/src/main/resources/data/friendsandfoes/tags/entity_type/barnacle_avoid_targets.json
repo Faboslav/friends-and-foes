@@ -1,0 +1,10 @@
+{
+	"values": [
+		"minecraft:axolotl",
+		"minecraft:pufferfish",
+		{
+			"id": "minecraft:nautilus",
+			"required": false
+		}
+	]
+}

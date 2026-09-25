@@ -81,11 +81,7 @@ public final class WildfireEntityModel extends EntityModel<WildfireRenderState>
 		this.backShield = this.shields.getChild(MODEL_PART_BACK_SHIELD);
 		this.leftShield = this.shields.getChild(MODEL_PART_LEFT_SHIELD);
 
-		//? if >=1.21.6 {
-		this.shieldsModelParts = this.shields.getAllParts();
-		//?} else {
-		/*this.shieldsModelParts = this.shields.getAllParts().toList();
-		*///?}
+		this.shieldsModelParts = List.of(this.frontShield, this.rightShield, this.backShield, this.leftShield);
 
 		//? if >= 1.21.6 {
 		this.idleAnimation = WildfireAnimations.IDLE.bake(root);
@@ -154,7 +150,7 @@ public final class WildfireEntityModel extends EntityModel<WildfireRenderState>
 		*///?}
 
 		for (int i = 0; i < WildfireEntity.DEFAULT_ACTIVE_SHIELDS_COUNT; ++i) {
-			this.shieldsModelParts.get(i).skipDraw = i > activeShieldsCount;
+			this.shieldsModelParts.get(i).skipDraw = i >= activeShieldsCount;
 		}
 
 		this.head.yRot = headYaw * 0.017453292F;

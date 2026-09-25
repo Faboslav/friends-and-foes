@@ -68,9 +68,9 @@ public final class IceologerIceChunkEntity extends Entity
 	private UUID targetUUID;
 	*///?}
 
-	//? if >=1.21.5 {
-	private final InterpolationHandler interpolation = new InterpolationHandler(this);
-	//?} else {
+	//? if >=1.21.5 && <26.3 {
+	/*private final InterpolationHandler interpolation = new InterpolationHandler(this);
+	*///?} else if <1.21.5 {
 	/*private int lerpSteps;
 	private double lerpX;
 	private double lerpY;
@@ -89,7 +89,7 @@ public final class IceologerIceChunkEntity extends Entity
 	) {
 		super(entityType, world);
 
-		this.setInvulnerable(true);
+		this.setPermanentlyInvulnerable(true);
 		this.setNoGravity(true);
 
 		this.lifetimeTicks = 0;
@@ -233,13 +233,18 @@ public final class IceologerIceChunkEntity extends Entity
 	}
 	*///?}
 
-	//? if >=1.21.5 {
+	//? if >=26.3 {
 	@Override
+	protected InterpolationHandler createInterpolationHandler() {
+		return LinearInterpolationHandler.create(this);
+	}
+	//?} else if >=1.21.5 {
+	/*@Override
 	@Nullable
 	public InterpolationHandler getInterpolation() {
 		return this.interpolation;
 	}
-	//?} else if >= 1.21.1 {
+	*///?} else if >= 1.21.1 {
 	/*@Override
 	public void lerpTo(double x, double y, double z, float yRot, float xRot, int steps) {
 		this.lerpX = x;
@@ -265,11 +270,11 @@ public final class IceologerIceChunkEntity extends Entity
 	public void tick() {
 		super.tick();
 
-		//? if >=1.21.5 {
-		if (this.isInterpolating()) {
+		//? if >=1.21.5 && <26.3 {
+		/*if (this.isInterpolating()) {
 			this.getInterpolation().interpolate();
 		}
-		//?} else {
+		*///?} else if <1.21.5 {
 		/*//? if >= 1.21.1 {
 		if (this.lerpSteps > 0) {
 			this.lerpPositionAndRotationStep(this.lerpSteps, this.lerpX, this.lerpY, this.lerpZ, this.lerpYRot, this.lerpXRot);
@@ -368,7 +373,7 @@ public final class IceologerIceChunkEntity extends Entity
 
 		if (
 			!hitEntity.isAlive()
-			|| hitEntity.isInvulnerable()
+			|| hitEntity.isPermanentlyInvulnerable()
 			|| hitEntity == livingEntity
 			|| (
 				livingEntity != null

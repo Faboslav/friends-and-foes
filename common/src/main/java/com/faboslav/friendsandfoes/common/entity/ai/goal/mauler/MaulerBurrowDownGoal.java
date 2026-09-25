@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes.common.entity.ai.goal.mauler;
 import com.faboslav.friendsandfoes.common.entity.MaulerEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.MaulerAnimations;
 import com.faboslav.friendsandfoes.common.util.animation.AnimationMath;
+import com.faboslav.friendsandfoes.common.versions.VersionedLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -35,11 +36,7 @@ public final class MaulerBurrowDownGoal extends Goal
 	public boolean canUse() {
 		if (
 			this.mauler.isAngry()
-			//? if >=1.21.5 {
-			|| this.mauler.level().isDarkOutside()
-			//?} else {
-			/*|| this.mauler.level().isNight()
-			*///?}
+			|| VersionedLevel.isNight(this.mauler.level())
 			|| this.mauler.getNavigation().isInProgress()
 			|| this.mauler.getRandom().nextFloat() < 0.999F
 			|| this.mauler.getTicksUntilNextBurrowingDown() > 0
@@ -75,7 +72,7 @@ public final class MaulerBurrowDownGoal extends Goal
 		}
 
 		this.mauler.setBurrowedDown(true);
-		this.mauler.setInvulnerable(true);
+		this.mauler.setPermanentlyInvulnerable(true);
 
 		if (this.blockUnderMauler == Blocks.SAND || this.blockUnderMauler == Blocks.RED_SAND) {
 			this.soundForBlockUnderMauler = SoundEvents.SAND_BREAK;
@@ -87,7 +84,7 @@ public final class MaulerBurrowDownGoal extends Goal
 	@Override
 	public void stop() {
 		this.isRunning = false;
-		this.mauler.setInvulnerable(false);
+		this.mauler.setPermanentlyInvulnerable(false);
 		this.mauler.setBurrowedDown(false);
 		this.mauler.setTicksUntilNextBurrowingDown(
 			this.mauler.getRandom().nextIntBetweenInclusive(

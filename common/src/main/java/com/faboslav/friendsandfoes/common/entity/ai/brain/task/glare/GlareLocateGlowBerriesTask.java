@@ -75,7 +75,7 @@ public final class GlareLocateGlowBerriesTask extends Behavior<GlareEntity>
 	) {
 		List<BlockPos> buttons = new ArrayList<>();
 
-		for (BlockPos blockPos : BlockPos.withinManhattan(glarePos, horizontalRange, verticalRange, horizontalRange)) {
+		for (BlockPos blockPos : BlockPos.withinBoxByManhattanDistance(glarePos, horizontalRange, verticalRange, horizontalRange)) {
 			BlockPos possibleGlowBerriesBlockPos = blockPos.mutable();
 
 			if (!condition.test(possibleGlowBerriesBlockPos)) {

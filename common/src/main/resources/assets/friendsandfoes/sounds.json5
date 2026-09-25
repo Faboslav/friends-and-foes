@@ -1,12 +1,29 @@
 {
 	"entity.barnacle.ambient": {
 		"sounds": [
-			"friendsandfoes:entity/barnacle/ambient1",
-			"friendsandfoes:entity/barnacle/ambient2",
-			"friendsandfoes:entity/barnacle/ambient3",
-			"friendsandfoes:entity/barnacle/ambient4"
+			{"name": "friendsandfoes:entity/barnacle/ambient1", "attenuation_distance": 32},
+			{"name": "friendsandfoes:entity/barnacle/ambient2", "attenuation_distance": 32},
+			{"name": "friendsandfoes:entity/barnacle/ambient3", "attenuation_distance": 32},
+			{"name": "friendsandfoes:entity/barnacle/ambient4", "attenuation_distance": 32}
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.barnacle.ambient"
+	},
+	"entity.barnacle.attack": {
+		"sounds": [
+			"friendsandfoes:entity/barnacle/attack1",
+			"friendsandfoes:entity/barnacle/attack2",
+			"friendsandfoes:entity/barnacle/attack3"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.barnacle.attack"
+	},
+	"entity.barnacle.death": {
+		"sounds": [
+			"friendsandfoes:entity/barnacle/hurt1",
+			"friendsandfoes:entity/barnacle/hurt2",
+			"friendsandfoes:entity/barnacle/hurt3",
+			"friendsandfoes:entity/barnacle/hurt4"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.barnacle.death"
 	},
 	"entity.barnacle.hurt": {
 		"sounds": [

@@ -30,7 +30,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.animal.golem.AbstractGolem;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.HoneycombItem;
@@ -51,6 +50,12 @@ import java.util.ArrayList;
 //? if >= 26.2 {
 import java.util.concurrent.atomic.AtomicReference;
 //?}
+
+//? if >=26.3 {
+import net.minecraft.tags.ItemTags;
+//?} else {
+/*import net.minecraft.world.item.AxeItem;
+*///?}
 
 //? if >= 26.1 {
 import net.minecraft.core.component.DataComponents;
@@ -398,7 +403,11 @@ public final class TuffGolemEntity extends AbstractGolem
 			interactionResult = this.tryToInteractMobWithDye(player, itemStack);
 		} else if (itemInHand instanceof HoneycombItem) {
 			interactionResult = this.tryToInteractMobWithHoneycomb(player, itemStack);
-		} else if (itemInHand instanceof AxeItem) {
+		//? if >=26.3 {
+		} else if (itemStack.is(ItemTags.AXES)) {
+		//?} else {
+		/*} else if (itemInHand instanceof AxeItem) {
+		*///?}
 			interactionResult = this.tryToInteractMobWithAxe(player, hand, itemStack);
 		}
 

@@ -14,6 +14,7 @@ import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
 import net.minecraft.advancements.triggers.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -103,6 +104,7 @@ public final class PenguinEntity extends Animal {
 		);
 
 		this.setEntityPose(FriendsAndFoesEntityPose.IDLE);
+		this.setAirSupply(this.getMaxAirSupply());
 		PenguinBrain.setWingFlapCooldown(this);
 
 		return superEntityData;
@@ -240,9 +242,36 @@ public final class PenguinEntity extends Animal {
 			} else {
 				this.swimProgress = Math.max(0.0F, this.swimProgress - swimProgressSpeed);
 			}
+
+			if (this.isInWater()) {
+				this.spawnBubbles();
+			}
 		}
 
 		super.tick();
+	}
+
+	private void spawnBubbles() {
+		double speed = this.getDeltaMovement().length();
+		double probability = Mth.clamp(speed * 2.0, 0.15, 1.0) * 0.5;
+
+		if (this.random.nextDouble() >= probability) {
+			return;
+		}
+
+		float yRot = this.getYRot();
+		float xRot = Mth.clamp(this.getXRot(), -10.0F, 10.0F);
+		Vec3 direction = this.calculateViewVector(xRot, yRot);
+
+		double spread = this.random.nextDouble() * 0.8 * (1.0 + speed);
+
+		double dx = (this.random.nextDouble() - 0.5) * spread;
+		double dy = (this.random.nextDouble() - 0.5) * spread;
+		double dz = (this.random.nextDouble() - 0.5) * spread;
+
+		double mouthDistance = 1.1;
+
+		this.level().addParticle(ParticleTypes.BUBBLE, this.getX() + direction.x * mouthDistance, this.getY() + 0.25 + direction.y * mouthDistance, this.getZ() + direction.z * mouthDistance, dx, dy, dz);
 	}
 
 	@Override
@@ -339,6 +368,11 @@ public final class PenguinEntity extends Animal {
 	@Override
 	public int getMaxAirSupply() {
 		return 720;
+	}
+
+	@Override
+	protected int increaseAirSupply(int air) {
+		return this.getMaxAirSupply();
 	}
 
 	@Override

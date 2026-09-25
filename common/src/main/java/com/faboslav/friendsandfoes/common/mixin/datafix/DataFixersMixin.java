@@ -12,7 +12,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.datafixers.DataFixerBuilder;
 import com.mojang.datafixers.schemas.Schema;
-import net.minecraft.util.datafix.fixes.BlockRenameFix;
 import net.minecraft.util.datafix.fixes.ItemRenameFix;
 import net.minecraft.util.datafix.schemas.NamespacedSchema;
 import org.spongepowered.asm.mixin.Unique;
@@ -22,6 +21,12 @@ import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.UnaryOperator;
 //?}
+
+//? if >=26.3 {
+import net.minecraft.util.datafix.fixes.LegacyBlockRenameFix;
+//?} else {
+/*import net.minecraft.util.datafix.fixes.BlockRenameFix;
+*///?}
 
 @Mixin(DataFixers.class)
 public abstract class DataFixersMixin
@@ -51,7 +56,11 @@ public abstract class DataFixersMixin
 			"friendsandfoes:waxed_oxidized_lightning_rod", "minecraft:waxed_oxidized_lightning_rod"
 		);
 
-		builder.addFixer(BlockRenameFix.create(schema, "Rename friends&foes lightning rod blocks to vanilla", createRenamer(copperAgeRenames)));
+		//? if >=26.3 {
+		builder.addFixer(LegacyBlockRenameFix.create(schema, "Rename friends&foes lightning rod blocks to vanilla", createRenamer(copperAgeRenames)));
+		//?} else {
+		/*builder.addFixer(BlockRenameFix.create(schema, "Rename friends&foes lightning rod blocks to vanilla", createRenamer(copperAgeRenames)));
+		*///?}
 		builder.addFixer(ItemRenameFix.create(schema, "Rename friends&foes lightning rods items to vanilla", createRenamer(copperAgeRenames)));
 		return schema;
 	}

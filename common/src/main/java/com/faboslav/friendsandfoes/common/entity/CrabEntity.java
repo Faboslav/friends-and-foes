@@ -246,6 +246,7 @@ public class CrabEntity extends Animal
 		return CrabBrain.create(dynamic);
 	}
 	*///?}
+
 	@Override
 	@SuppressWarnings("all")
 	public Brain<CrabEntity> getBrain() {
@@ -367,7 +368,7 @@ public class CrabEntity extends Animal
 		if (this.tickCount % 5 == 0) {
 			boolean isDancing = false;
 
-			for (BlockPos blockPos : BlockPos.withinManhattan(this.blockPosition(), 7, 7, 7)) {
+			for (BlockPos blockPos : BlockPos.withinBoxByManhattanDistance(this.blockPosition(), 7, 7, 7)) {
 				BlockPos possibleJukeboxBlockPos = blockPos.mutable();
 				BlockState possibleJukeboxBlockState = this.level().getBlockState(possibleJukeboxBlockPos);
 

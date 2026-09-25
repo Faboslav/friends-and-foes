@@ -137,7 +137,11 @@ public final class RascalEntity extends AgeableMob
 			}
 
 			for (Holder<Structure> structure : structureRegistry.getOrThrow(StructureTags.MINESHAFT)) {
-				if (structureAccessor.getStructureWithPieceAt(blockPos, structure.value()).isValid()) {
+				//? if >=26.3 {
+				if (structureAccessor.getStructureWithPieceAt(blockPos.getX(), blockPos.getY(), blockPos.getZ(), structure.value()).isValid()) {
+				//?} else {
+				/*if (structureAccessor.getStructureWithPieceAt(blockPos, structure.value()).isValid()) {
+				*///?}
 					return true;
 				}
 			}

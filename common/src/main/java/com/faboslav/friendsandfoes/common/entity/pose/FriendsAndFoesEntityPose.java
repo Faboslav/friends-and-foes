@@ -25,7 +25,9 @@ public enum FriendsAndFoesEntityPose
 	SLEEPING(10),
 	SLEEPING_WITH_ITEM(11),
 	SHOCKWAVE(12),
-	WING_FLAP(13);
+	WING_FLAP(13),
+	TENTACLE_ATTACK(14),
+	ATTACK(15);
 
 	public static final IntFunction<FriendsAndFoesEntityPose> BY_ID = ByIdMap.continuous(FriendsAndFoesEntityPose::id, values(), ByIdMap.OutOfBoundsStrategy.ZERO);
 	//? if >= 1.21.1 {

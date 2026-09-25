@@ -13,6 +13,9 @@
 		//? if >=1.21.5 {
 		"friendsandfoes:pale_oak_beehive",
 		//?}
+		//? if >=26.3 {
+		"friendsandfoes:poplar_beehive",
+		//?}
 		"friendsandfoes:spruce_beehive",
 		"friendsandfoes:warped_beehive"
 	]

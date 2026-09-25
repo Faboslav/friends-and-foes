@@ -1,3 +1,7 @@
+## 5.0.0
+
+- Added Barnacle
+
 ## 4.0.26
 
 - Fixed trinket compatibility and missing texture

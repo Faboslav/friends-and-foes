@@ -5,7 +5,9 @@ import com.faboslav.friendsandfoes.common.config.FriendsAndFoesConfig;
 import com.faboslav.friendsandfoes.common.entity.event.IllusionerOnEntitySpawn;
 import com.faboslav.friendsandfoes.common.events.AddItemGroupEntriesEvent;
 import com.faboslav.friendsandfoes.common.events.entity.EntitySpawnEvent;
-import com.faboslav.friendsandfoes.common.events.item.RegisterBrewingRecipesEvent;
+//? if <26.3 {
+/*import com.faboslav.friendsandfoes.common.events.item.RegisterBrewingRecipesEvent;
+*///?}
 import com.faboslav.friendsandfoes.common.events.lifecycle.*;
 import com.faboslav.friendsandfoes.common.init.*;
 import com.faboslav.friendsandfoes.common.modcompat.ModChecker;
@@ -84,7 +86,9 @@ public final class FriendsAndFoes
 		RegisterEntityAttributesEvent.EVENT.addListener(FriendsAndFoesEntityTypes::registerEntityAttributes);
 		RegisterEntitySpawnRestrictionsEvent.EVENT.addListener(FriendsAndFoesEntityTypes::registerEntitySpawnRestrictions);
 		AddSpawnBiomeModificationsEvent.EVENT.addListener(FriendsAndFoesEntityTypes::addSpawnBiomeModifications);
-		RegisterBrewingRecipesEvent.EVENT.addListener(FriendsAndFoesRecipes::registerBrewingRecipes);
+		//? if <26.3 {
+		/*RegisterBrewingRecipesEvent.EVENT.addListener(FriendsAndFoesRecipes::registerBrewingRecipes);
+		*///?}
 		//? if <= 1.21.11 {
 		/*RegisterVillagerTradesEvent.EVENT.addListener(FriendsAndFoesVillagerProfessions::registerVillagerTrades);
 		*///?}
@@ -126,7 +130,9 @@ public final class FriendsAndFoes
 
 	public static void lateInit() {
 		FriendsAndFoesBlockEntityTypes.lateInit();
-		FriendsAndFoesItems.registerCompostableItems();
+		//? if <26.3 {
+		/*FriendsAndFoesItems.registerCompostableItems();
+		*///?}
 		PlatformHooks.BIOME_MODIFICATIONS.addButtercupFeature();
 	}
 

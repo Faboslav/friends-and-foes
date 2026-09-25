@@ -21,7 +21,18 @@
 	"criteria": {
 		"citadel": {
 			"conditions": {
-				"player": [
+				//? if >=26.3 {
+				"player": {
+					"type": "minecraft:entity_properties",
+					"entity": "this",
+					"predicate": {
+						"minecraft:location": {
+							"structures": "friendsandfoes:citadel"
+						}
+					}
+				}
+				//?} else {
+				/*"player": [
 					{
 						"condition": "minecraft:entity_properties",
 						"entity": "this",
@@ -30,12 +41,13 @@
 								//? if >=1.21.1 {
 								"structures": "friendsandfoes:citadel"
 								//?} else {
-								/*"structure": "friendsandfoes:citadel"
-								*///?}
+								/^"structure": "friendsandfoes:citadel"
+								^///?}
 							}
 						}
 					}
 				]
+				*///?}
 			},
 			"trigger": "minecraft:location"
 		}

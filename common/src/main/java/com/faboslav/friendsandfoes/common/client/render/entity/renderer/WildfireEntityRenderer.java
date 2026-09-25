@@ -51,15 +51,19 @@ public class WildfireEntityRenderer extends MobRenderer<WildfireEntity, Wildfire
 
 	//? if >=1.21.3 {
 	@Override
+	public void extractRenderState(WildfireEntity wildfire, WildfireRenderState wildfireRenderState, float partialTick) {
+		super.extractRenderState(wildfire, wildfireRenderState, partialTick);
+		wildfireRenderState.idleAnimationState.copyFrom(wildfire.idleAnimationState);
+		wildfireRenderState.shieldRotationAnimationState.copyFrom(wildfire.shieldRotationAnimationState);
+		wildfireRenderState.shockwaveAnimationState.copyFrom(wildfire.shockwaveAnimationState);
+		wildfireRenderState.activeShieldsCount = wildfire.getActiveShieldsCount();
+	}
+
+	@Override
 	public WildfireRenderState createRenderState() {
 		return new WildfireRenderState();
 	}
 
-	@Override
-	public void extractRenderState(WildfireEntity wildfire, WildfireRenderState wildfireRenderState, float partialTick) {
-		super.extractRenderState(wildfire, wildfireRenderState, partialTick);
-		wildfireRenderState.wildfire = wildfire;
-	}
 	//?}
 
 	@Override

@@ -9,6 +9,7 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.world.entity.AnimationState;
 
 
 //? if >= 1.21.6 {
@@ -135,19 +136,28 @@ public final class MaulerEntityModel extends EntityModel<MaulerRenderState>
 	{
 		//? if >=1.21.3 {
 		super.setupAnim(renderState);
-		var mauler = renderState.mauler;
-		var limbSwing = renderState.walkAnimationPos;
-		var limbSwingAmount = renderState.walkAnimationSpeed;
-		var ageInTicks = renderState.ageInTicks;
+
+		this.updateKeyframeAnimations(renderState.idleAnimationState, renderState.snapAnimationState, renderState.burrowDownAnimationState, renderState.burrowUpAnimationState, renderState.walkAnimationPos, renderState.walkAnimationSpeed, renderState.ageInTicks);
 		//?} else {
 		/*this.root().getAllParts().forEach(ModelPart::resetPose);
+
+		this.updateKeyframeAnimations(mauler.idleAnimationState, mauler.snapAnimationState, mauler.burrowDownAnimationState, mauler.burrowUpAnimationState, limbSwing, limbSwingAmount, ageInTicks);
 		*///?}
+	}
 
-		VersionedEntityModel.animate(this, this.idleAnimation, mauler.idleAnimationState, ageInTicks);
-		VersionedEntityModel.animate(this, this.snapAnimation, mauler.snapAnimationState, ageInTicks);
-		VersionedEntityModel.animate(this, this.burrowDownAnimation, mauler.burrowDownAnimationState, ageInTicks);
-		VersionedEntityModel.animate(this, this.burrowUpAnimation, mauler.burrowUpAnimationState, ageInTicks);
+	private void updateKeyframeAnimations(
+		AnimationState idleAnimationState,
+		AnimationState snapAnimationState,
+		AnimationState burrowDownAnimationState,
+		AnimationState burrowUpAnimationState,
+		float limbSwing,
+		float limbSwingAmount,
+		float ageInTicks
+	) {
+		VersionedEntityModel.animate(this, this.idleAnimation, idleAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.snapAnimation, snapAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.burrowDownAnimation, burrowDownAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.burrowUpAnimation, burrowUpAnimationState, ageInTicks);
 		VersionedEntityModel.animateWalk(this, this.runAnimation, limbSwing, limbSwingAmount, 2.5F, 3.5F);
-
 	}
 }

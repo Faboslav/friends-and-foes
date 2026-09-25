@@ -44,7 +44,12 @@ public class PenguinEntityRenderer extends AgeableMobRenderer<PenguinEntity, Pen
 	@Override
 	public void extractRenderState(PenguinEntity penguin, PenguinRenderState penguinRenderState, float partialTick) {
 		super.extractRenderState(penguin, penguinRenderState, partialTick);
-		penguinRenderState.penguin = penguin;
+		penguinRenderState.idleAnimationState.copyFrom(penguin.idleAnimationState);
+		penguinRenderState.idleWaterAnimationState.copyFrom(penguin.idleWaterAnimationState);
+		penguinRenderState.wingFlapAnimationState.copyFrom(penguin.wingFlapAnimationState);
+		penguinRenderState.swimProgress = penguin.getSwimProgress(partialTick);
+		penguinRenderState.isSwimming = penguin.isSwimming();
+		penguinRenderState.isUnderWater = penguin.isUnderWater();
 	}
 	//?}
 

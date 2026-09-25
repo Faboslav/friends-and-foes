@@ -142,7 +142,11 @@ public final class RascalWaitForPlayerTask extends Behavior<RascalEntity>
 						break;
 					}
 
-					BundleContents.Mutable builder = new BundleContents.Mutable(bundleContentsComponent);
+					//? if >=26.3 {
+					BundleContents.Mutable builder = bundleContentsComponent.asMutable();
+					//?} else {
+					/*BundleContents.Mutable builder = new BundleContents.Mutable(bundleContentsComponent);
+					*///?}
 					builder.tryInsert(rascalReward);
 					bundleItemStack.set(DataComponents.BUNDLE_CONTENTS, builder.toImmutable());
 					thrownStack = bundleItemStack;
@@ -216,7 +220,7 @@ public final class RascalWaitForPlayerTask extends Behavior<RascalEntity>
 				rascal.stopRiding();
 			}
 
-			boolean teleportResult = rascal.randomTeleport(x, y, z, false);
+			boolean teleportResult = rascal.randomTeleport(x, y, z, false/*? if >=26.3 {*/, blockState -> false/*?}*/);
 
 			if (teleportResult && rascal.distanceTo(this.nearestTarget) > 10.0) {
 				return;

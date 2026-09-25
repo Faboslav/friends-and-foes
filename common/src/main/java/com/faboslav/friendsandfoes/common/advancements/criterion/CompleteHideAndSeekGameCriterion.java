@@ -2,7 +2,12 @@ package com.faboslav.friendsandfoes.common.advancements.criterion;
 
 import com.faboslav.friendsandfoes.common.entity.RascalEntity;
 import java.util.Optional;
-import net.minecraft.advancements.predicates.ContextAwarePredicate;
+//? if >=26.3 {
+import net.minecraft.core.Holder;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+//?} else {
+/*import net.minecraft.advancements.predicates.ContextAwarePredicate;
+*///?}
 import net.minecraft.advancements.predicates.entity.EntityPredicate;
 import net.minecraft.advancements.predicates.ItemPredicate;
 import net.minecraft.advancements.triggers.SimpleCriterionTrigger;
@@ -60,10 +65,11 @@ public final class CompleteHideAndSeekGameCriterion extends SimpleCriterionTrigg
 		});
 	}
 
-	//? if >= 1.21.1 {
-	public record Conditions(Optional<ContextAwarePredicate> player, Optional<ContextAwarePredicate> rascal,
-							 Optional<ItemPredicate> item) implements SimpleCriterionTrigger.SimpleInstance
-	//?} else {
+	//? if >=26.3 {
+	public record Conditions(Optional<Holder<LootItemCondition>> player, Optional<Holder<LootItemCondition>> rascal, Optional<ItemPredicate> item) implements SimpleCriterionTrigger.SimpleInstance
+	//?} else if >= 1.21.1 {
+	/*public record Conditions(Optional<ContextAwarePredicate> player, Optional<ContextAwarePredicate> rascal, Optional<ItemPredicate> item) implements SimpleCriterionTrigger.SimpleInstance
+	*///?} else {
 	/*public static class Conditions extends AbstractCriterionTriggerInstance
 	*///?}
 	{
@@ -79,9 +85,15 @@ public final class CompleteHideAndSeekGameCriterion extends SimpleCriterionTrigg
 		*///?}
 
 		//? if >= 1.21.1 {
+		//? if >=26.3 {
 		public static final Codec<CompleteHideAndSeekGameCriterion.Conditions> CODEC = RecordCodecBuilder.create((instance) -> {
+			return instance.group(LootItemCondition.CODEC.optionalFieldOf("player").forGetter(CompleteHideAndSeekGameCriterion.Conditions::player), LootItemCondition.CODEC.optionalFieldOf("rascal").forGetter(CompleteHideAndSeekGameCriterion.Conditions::rascal), ItemPredicate.CODEC.optionalFieldOf("item").forGetter(CompleteHideAndSeekGameCriterion.Conditions::item)).apply(instance, CompleteHideAndSeekGameCriterion.Conditions::new);
+		});
+		//?} else {
+		/*public static final Codec<CompleteHideAndSeekGameCriterion.Conditions> CODEC = RecordCodecBuilder.create((instance) -> {
 			return instance.group(EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(CompleteHideAndSeekGameCriterion.Conditions::player), EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("rascal").forGetter(CompleteHideAndSeekGameCriterion.Conditions::rascal), ItemPredicate.CODEC.optionalFieldOf("item").forGetter(CompleteHideAndSeekGameCriterion.Conditions::item)).apply(instance, CompleteHideAndSeekGameCriterion.Conditions::new);
 		});
+		*///?}
 
 		public static Criterion<Conditions> any() {
 			return FriendsAndFoesCriterias.COMPLETE_HIDE_AND_SEEK_GAME.get().createCriterion(new CompleteHideAndSeekGameCriterion.Conditions(Optional.empty(), Optional.empty(), Optional.empty()));
@@ -101,7 +113,11 @@ public final class CompleteHideAndSeekGameCriterion extends SimpleCriterionTrigg
 		*///?}
 
 		public boolean matches(LootContext rascal, ItemStack stack) {
-			if (this.rascal.isPresent() && !this.rascal.get().matches(rascal)) {
+			//? if >=26.3 {
+			if (this.rascal.isPresent() && !this.rascal.get().value().test(rascal)) {
+			//?} else {
+			/*if (this.rascal.isPresent() && !this.rascal.get().matches(rascal)) {
+			*///?}
 				return false;
 			} else {
 				//? if >= 1.21.1 {
@@ -128,7 +144,11 @@ public final class CompleteHideAndSeekGameCriterion extends SimpleCriterionTrigg
 		}
 		*///?}
 
-		public Optional<ContextAwarePredicate> player() {
+		//? if >=26.3 {
+		public Optional<Holder<LootItemCondition>> player() {
+		//?} else {
+		/*public Optional<ContextAwarePredicate> player() {
+		*///?}
 			//? if >= 1.21.1 {
 			return this.player;
 			//?} else {
@@ -136,7 +156,11 @@ public final class CompleteHideAndSeekGameCriterion extends SimpleCriterionTrigg
 			*///?}
 		}
 
-		public Optional<ContextAwarePredicate> rascal() {
+		//? if >=26.3 {
+		public Optional<Holder<LootItemCondition>> rascal() {
+		//?} else {
+		/*public Optional<ContextAwarePredicate> rascal() {
+		*///?}
 			return this.rascal;
 		}
 

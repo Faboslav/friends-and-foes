@@ -43,9 +43,6 @@ public class CrabEntityRenderer extends AgeableMobRenderer<CrabEntity, CrabRende
 		/*CrabEntity crab
 		*///?}
 	) {
-		//? if >=1.21.3 {
-		var crab = renderState.crab;
-		//?}
 		var shadowRadius = super.getShadowRadius(
 			//? if >=1.21.3 {
 			renderState
@@ -54,9 +51,15 @@ public class CrabEntityRenderer extends AgeableMobRenderer<CrabEntity, CrabRende
 			*///?}
 		);
 
-		var isBaby = crab.isBaby();
+		//? if >=1.21.3 {
+		var isBaby = renderState.isBaby;
+
+		shadowRadius = shadowRadius * renderState.size.getScaleModifier();
+		//?} else {
+		/*var isBaby = crab.isBaby();
 
 		shadowRadius = shadowRadius * crab.getSize().getScaleModifier();
+		*///?}
 
 		if(isBaby) {
 			shadowRadius = shadowRadius * 0.5F;
@@ -87,7 +90,11 @@ public class CrabEntityRenderer extends AgeableMobRenderer<CrabEntity, CrabRende
 	@Override
 	public void extractRenderState(CrabEntity crab, CrabRenderState renderState, float partialTick) {
 		super.extractRenderState(crab, renderState, partialTick);
-		renderState.crab = crab;
+		renderState.idleAnimationState.copyFrom(crab.idleAnimationState);
+		renderState.waveAnimationState.copyFrom(crab.waveAnimationState);
+		renderState.danceAnimationState.copyFrom(crab.danceAnimationState);
+		renderState.size = crab.getSize();
+		renderState.climbProgress = crab.getClimbProgress(partialTick);
 	}
 	//?}
 

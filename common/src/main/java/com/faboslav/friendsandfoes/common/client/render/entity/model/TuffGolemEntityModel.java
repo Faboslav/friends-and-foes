@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes.common.client.render.entity.model;
 import com.faboslav.friendsandfoes.common.entity.animation.TuffGolemAnimations;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntityModel;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.world.entity.AnimationState;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -152,29 +153,45 @@ public final class TuffGolemEntityModel extends EntityModel<TuffGolemRenderState
 	{
 		//? if >=1.21.3 {
 		super.setupAnim(renderState);
-		var tuffGolem = renderState.tuffGolem;
-		var limbSwing = renderState.walkAnimationPos;
-		var limbSwingAmount = renderState.walkAnimationSpeed;
-		var ageInTicks = renderState.ageInTicks;
+
+		this.updateKeyframeAnimations(renderState.showItemAnimationState, renderState.hideItemAnimationState, renderState.sleepAnimationState, renderState.sleepWithItemAnimationState, renderState.wakeAnimationState, renderState.wakeWithItemAnimationState, renderState.wakeAndShowItemAnimationState, renderState.wakeAndHideItemAnimationState, renderState.walkAnimationPos, renderState.walkAnimationSpeed, renderState.ageInTicks, renderState.movementSpeedModifier, renderState.isHoldingItem);
 		//?} else {
 		/*this.root().getAllParts().forEach(ModelPart::resetPose);
+
+		this.updateKeyframeAnimations(tuffGolem.showItemAnimationState, tuffGolem.hideItemAnimationState, tuffGolem.sleepAnimationState, tuffGolem.sleepWithItemAnimationState, tuffGolem.wakeAnimationState, tuffGolem.wakeWithItemAnimationState, tuffGolem.wakeAndShowItemAnimationState, tuffGolem.wakeAndHideItemAnimationState, limbSwing, limbSwingAmount, ageInTicks, tuffGolem.getMovementSpeedModifier(), tuffGolem.isHoldingItem());
 		*///?}
+	}
 
-		var walkMultiplier = 4.0F * tuffGolem.getMovementSpeedModifier();
+	private void updateKeyframeAnimations(
+		AnimationState showItemAnimationState,
+		AnimationState hideItemAnimationState,
+		AnimationState sleepAnimationState,
+		AnimationState sleepWithItemAnimationState,
+		AnimationState wakeAnimationState,
+		AnimationState wakeWithItemAnimationState,
+		AnimationState wakeAndShowItemAnimationState,
+		AnimationState wakeAndHideItemAnimationState,
+		float limbSwing,
+		float limbSwingAmount,
+		float ageInTicks,
+		float movementSpeedModifier,
+		boolean isHoldingItem
+	) {
+		var walkMultiplier = 4.0F * movementSpeedModifier;
 
-		if(tuffGolem.isHoldingItem()) {
+		if(isHoldingItem) {
 			VersionedEntityModel.animateWalk(this, this.walkWithItemAnimation, limbSwing, limbSwingAmount, walkMultiplier, walkMultiplier);
 		} else {
 			VersionedEntityModel.animateWalk(this, this.walkAnimation, limbSwing, limbSwingAmount, walkMultiplier, walkMultiplier);
 		}
 
-		VersionedEntityModel.animate(this, this.showItemAnimation, tuffGolem.showItemAnimationState, ageInTicks);
-		VersionedEntityModel.animate(this, this.hideItemAnimation, tuffGolem.hideItemAnimationState, ageInTicks);
-		VersionedEntityModel.animate(this, this.sleepAnimation, tuffGolem.sleepAnimationState, ageInTicks);
-		VersionedEntityModel.animate(this, this.sleepWithItemAnimation, tuffGolem.sleepWithItemAnimationState, ageInTicks);
-		VersionedEntityModel.animate(this, this.wakeAnimation, tuffGolem.wakeAnimationState, ageInTicks);
-		VersionedEntityModel.animate(this, this.wakeWithItemAnimation, tuffGolem.wakeWithItemAnimationState, ageInTicks);
-		VersionedEntityModel.animate(this, this.wakeAndShowItemAnimation, tuffGolem.wakeAndShowItemAnimationState, ageInTicks);
-		VersionedEntityModel.animate(this, this.wakeAndHideItemAnimation, tuffGolem.wakeAndHideItemAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.showItemAnimation, showItemAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.hideItemAnimation, hideItemAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.sleepAnimation, sleepAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.sleepWithItemAnimation, sleepWithItemAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.wakeAnimation, wakeAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.wakeWithItemAnimation, wakeWithItemAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.wakeAndShowItemAnimation, wakeAndShowItemAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.wakeAndHideItemAnimation, wakeAndHideItemAnimationState, ageInTicks);
 	}
 }

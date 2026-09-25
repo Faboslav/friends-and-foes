@@ -28,13 +28,23 @@
 						"minecraft:shears"
 					]
 				},
+				//? if >=26.3 {
 				"entity": {
+					"type": "minecraft:entity_properties",
+					"entity": "this",
+					"predicate": {
+						"minecraft:entity_type": "friendsandfoes:moobloom"
+					}
+				}
+				//?} else {
+				/*"entity": {
 					//? if >=26.2 {
 					"entity_type": "friendsandfoes:moobloom"
 					//?} else {
-					/*"type": "friendsandfoes:moobloom"
-					*///?}
+					/^"type": "friendsandfoes:moobloom"
+					^///?}
 				}
+				*///?}
 			}
 		}
 	},

@@ -6,7 +6,6 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
 import net.minecraft.client.model.monster.illager.IllagerModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.client.renderer.entity.IllagerRenderer;
-import net.minecraft.client.renderer.entity.IllusionerRenderer;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.monster.illager.SpellcasterIllager;
 
@@ -22,6 +21,7 @@ public class IllusionerEntityRenderer<T extends SpellcasterIllager> extends Illa
 *///?}
 {
 	private static final Identifier TEXTURE = FriendsAndFoes.makeID("textures/entity/illusioner/illusioner.png");
+	private static final Identifier ORIGINAL_TEXTURE = FriendsAndFoes.makeNamespacedId("minecraft:textures/entity/illager/illusioner.png");
 
 	public IllusionerEntityRenderer(Context context) {
 		super(context, new IllagerModel<>(context.bakeLayer(FriendsAndFoesEntityModelLayers.ILLUSIONER_LAYER)), 0.5F);
@@ -55,6 +55,10 @@ public class IllusionerEntityRenderer<T extends SpellcasterIllager> extends Illa
 	/*public Identifier getTextureLocation(T illusioner)
 	*///?}
 	{
+		if(FriendsAndFoes.getConfig().useVanillaIllusionerTexture) {
+			return ORIGINAL_TEXTURE;
+		}
+
 		return TEXTURE;
 	}
 }

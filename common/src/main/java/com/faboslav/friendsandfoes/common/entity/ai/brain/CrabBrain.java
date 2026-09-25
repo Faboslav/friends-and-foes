@@ -261,7 +261,9 @@ public final class CrabBrain
 		MEMORY_MODULES = List.of(
 			MemoryModuleType.TEMPTING_PLAYER,
 			MemoryModuleType.TEMPTATION_COOLDOWN_TICKS,
-			MemoryModuleType.IS_TEMPTED,
+			//? if <26.3 {
+			/*MemoryModuleType.IS_TEMPTED,
+			*///?}
 			MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES,
 			MemoryModuleType.PATH,
 			MemoryModuleType.LOOK_TARGET,

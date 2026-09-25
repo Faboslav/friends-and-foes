@@ -5,6 +5,7 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.animation.CopperGolemAnimations;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntityModel;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.world.entity.AnimationState;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -131,27 +132,31 @@ public class CopperGolemEntityModel extends EntityModel<CopperGolemRenderState>
 	{
 		//? if >=1.21.3 {
 		super.setupAnim(renderState);
-		var copperGolem = renderState.copperGolem;
-		var limbSwing = renderState.walkAnimationPos;
-		var limbSwingAmount = renderState.walkAnimationSpeed;
-		var ageInTicks = renderState.ageInTicks;
-		var headYaw = renderState.yRot;
+
+		this.setHeadAngle(renderState.yRot);
+		this.updateKeyframeAnimations(renderState.spinHeadAnimationState, renderState.pressButtonUpAnimationState, renderState.pressButtonDownAnimationState, renderState.walkAnimationPos, renderState.walkAnimationSpeed, renderState.isOxidized ? renderState.currentAnimationTick : renderState.ageInTicks, renderState.animationSpeedModifier, renderState.movementSpeedModifier);
 		//?} else {
 		/^this.root().getAllParts().forEach(ModelPart::resetPose);
-		^///?}
-
-		var animationSpeedModifier = copperGolem.getAnimationSpeedModifier();
-
-		if (copperGolem.isOxidized()) {
-			ageInTicks = copperGolem.getCurrentAnimationTick();
-		}
 
 		this.setHeadAngle(headYaw);
+		this.updateKeyframeAnimations(copperGolem.spinHeadAnimationState, copperGolem.pressButtonUpAnimationState, copperGolem.pressButtonDownAnimationState, limbSwing, limbSwingAmount, copperGolem.isOxidized() ? copperGolem.getCurrentAnimationTick() : ageInTicks, copperGolem.getAnimationSpeedModifier(), copperGolem.getMovementSpeedModifier());
+		^///?}
+	}
 
-		VersionedEntityModel.animateWalk(this, this.walkAnimation, limbSwing, limbSwingAmount, 2.5F * copperGolem.getMovementSpeedModifier(), 3.5F * copperGolem.getMovementSpeedModifier());
-		VersionedEntityModel.animate(this, this.spinHeadAnimation, copperGolem.spinHeadAnimationState, ageInTicks, animationSpeedModifier);
-		VersionedEntityModel.animate(this, this.pressButtonUp, copperGolem.pressButtonUpAnimationState, ageInTicks, animationSpeedModifier);
-		VersionedEntityModel.animate(this, this.pressButtonDown, copperGolem.pressButtonDownAnimationState, ageInTicks, animationSpeedModifier);
+	private void updateKeyframeAnimations(
+		AnimationState spinHeadAnimationState,
+		AnimationState pressButtonUpAnimationState,
+		AnimationState pressButtonDownAnimationState,
+		float limbSwing,
+		float limbSwingAmount,
+		float ageInTicks,
+		float animationSpeedModifier,
+		float movementSpeedModifier
+	) {
+		VersionedEntityModel.animateWalk(this, this.walkAnimation, limbSwing, limbSwingAmount, 2.5F * movementSpeedModifier, 3.5F * movementSpeedModifier);
+		VersionedEntityModel.animate(this, this.spinHeadAnimation, spinHeadAnimationState, ageInTicks, animationSpeedModifier);
+		VersionedEntityModel.animate(this, this.pressButtonUp, pressButtonUpAnimationState, ageInTicks, animationSpeedModifier);
+		VersionedEntityModel.animate(this, this.pressButtonDown, pressButtonDownAnimationState, ageInTicks, animationSpeedModifier);
 	}
 
 	private void setHeadAngle(float yaw) {

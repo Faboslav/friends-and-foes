@@ -63,7 +63,7 @@ public final class CopperGolemLocateButtonTask extends Behavior<CopperGolemEntit
 		Predicate<BlockPos> condition
 	) {
 		List<BlockPos> buttons = new ArrayList<>();
-		for (BlockPos blockPos : BlockPos.withinManhattan(copperGolemPos, horizontalRange, verticalRange, horizontalRange)) {
+		for (BlockPos blockPos : BlockPos.withinBoxByManhattanDistance(copperGolemPos, horizontalRange, verticalRange, horizontalRange)) {
 			BlockPos possibleButtonBlockPos = blockPos.mutable();
 
 			if (!condition.test(possibleButtonBlockPos)) {

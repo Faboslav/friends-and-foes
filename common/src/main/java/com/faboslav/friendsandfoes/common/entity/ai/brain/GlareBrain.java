@@ -337,7 +337,9 @@ public final class GlareBrain
 			MemoryModuleType.TEMPTATION_COOLDOWN_TICKS,
 			MemoryModuleType.ITEM_PICKUP_COOLDOWN_TICKS,
 			MemoryModuleType.IS_PANICKING,
-			MemoryModuleType.IS_TEMPTED,
+			//? if <26.3 {
+			/*MemoryModuleType.IS_TEMPTED,
+			*///?}
 			MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES,
 			MemoryModuleType.PATH,
 			MemoryModuleType.LOOK_TARGET,

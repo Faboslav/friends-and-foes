@@ -75,6 +75,13 @@ tasks {
 			}
 		}
 
+		if (project.stonecutterBuild.eval(commonMod.mc, "<26.3")) {
+			// Poplar resources
+			filesMatching("**/*poplar*") {
+				exclude()
+			}
+		}
+
 		if (project.stonecutterBuild.eval(commonMod.mc, "<1.21.1")) {
 			val namespaces = listOf("friendsandfoes", "minecraft", "c")
 			val renamedFolders = mapOf(

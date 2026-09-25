@@ -15,6 +15,11 @@ import net.minecraft.resources.Identifier;
 import com.faboslav.friendsandfoes.common.client.render.entity.state.TuffGolemRenderState;
 //?}
 
+//? if >=26.3 {
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemDisplayContext;
+//?}
+
 @SuppressWarnings({"rawtypes", "unchecked"})
 //? if >=1.21.3 {
 public final class TuffGolemEntityRenderer extends MobRenderer<TuffGolemEntity, TuffGolemRenderState, TuffGolemEntityModel>
@@ -29,11 +34,11 @@ public final class TuffGolemEntityRenderer extends MobRenderer<TuffGolemEntity, 
 		this.addLayer(new TuffGolemClosedEyesRenderer(this));
 		this.addLayer(new TuffGolemClothFeatureRenderer(this));
 		this.addLayer(new TuffGolemHeldItemFeatureRenderer(
-			this,
-			//? if >=1.21.3 {
-			context.getEntityRenderDispatcher().getItemInHandRenderer()
-			//?} else {
-			/*context.getItemInHandRenderer()
+			this
+			//? if >=1.21.3 && <26.3 {
+			/*, context.getEntityRenderDispatcher().getItemInHandRenderer()
+			*///?} else if <1.21.3 {
+			/*, context.getItemInHandRenderer()
 			*///?}
 		));
 	}
@@ -47,8 +52,26 @@ public final class TuffGolemEntityRenderer extends MobRenderer<TuffGolemEntity, 
 	@Override
 	public void extractRenderState(TuffGolemEntity tuffGolem, TuffGolemRenderState renderState, float partialTick) {
 		super.extractRenderState(tuffGolem, renderState, partialTick);
-		renderState.tuffGolem = tuffGolem;
+		//? if <26.3 {
+		/*renderState.tuffGolem = tuffGolem;
+		*///?}
+		renderState.showItemAnimationState.copyFrom(tuffGolem.showItemAnimationState);
+		renderState.hideItemAnimationState.copyFrom(tuffGolem.hideItemAnimationState);
+		renderState.sleepAnimationState.copyFrom(tuffGolem.sleepAnimationState);
+		renderState.sleepWithItemAnimationState.copyFrom(tuffGolem.sleepWithItemAnimationState);
+		renderState.wakeAnimationState.copyFrom(tuffGolem.wakeAnimationState);
+		renderState.wakeWithItemAnimationState.copyFrom(tuffGolem.wakeWithItemAnimationState);
+		renderState.wakeAndShowItemAnimationState.copyFrom(tuffGolem.wakeAndShowItemAnimationState);
+		renderState.wakeAndHideItemAnimationState.copyFrom(tuffGolem.wakeAndHideItemAnimationState);
+		renderState.color = tuffGolem.getColor();
+		renderState.movementSpeedModifier = tuffGolem.getMovementSpeedModifier();
+		renderState.isHoldingItem = tuffGolem.isHoldingItem();
+		renderState.isInSleepingPose = tuffGolem.isInSleepingPose();
+		renderState.isDeadOrDying = tuffGolem.isDeadOrDying();
 		renderState.partialTick = partialTick;
+		//? if >=26.3 {
+		this.itemModelResolver.updateForLiving(renderState.heldItem, tuffGolem.getItemBySlot(EquipmentSlot.MAINHAND), ItemDisplayContext.GROUND, tuffGolem);
+		//?}
 	}
 	//?}
 

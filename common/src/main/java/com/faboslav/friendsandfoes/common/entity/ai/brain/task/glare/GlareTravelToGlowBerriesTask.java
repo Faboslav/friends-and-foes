@@ -5,7 +5,6 @@ import com.faboslav.friendsandfoes.common.entity.GlareEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.GlareBrain;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import java.util.Map;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.TimeUtil;
@@ -100,7 +99,7 @@ public final class GlareTravelToGlowBerriesTask extends Behavior<GlareEntity>
 
 		BehaviorUtils.setWalkAndLookTargetMemories(
 			glare,
-			new BlockPos(glowBerriesPos.pos()),
+			glowBerriesPos.pos().immutable(),
 			1.0F,
 			0
 		);

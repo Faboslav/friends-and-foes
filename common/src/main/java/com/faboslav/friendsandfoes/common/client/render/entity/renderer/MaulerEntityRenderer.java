@@ -47,7 +47,12 @@ public class MaulerEntityRenderer extends MobRenderer<MaulerEntity, MaulerRender
 	@Override
 	public void extractRenderState(MaulerEntity mauler, MaulerRenderState renderState, float partialTick) {
 		super.extractRenderState(mauler, renderState, partialTick);
-		renderState.mauler = mauler;
+		renderState.idleAnimationState.copyFrom(mauler.idleAnimationState);
+		renderState.snapAnimationState.copyFrom(mauler.snapAnimationState);
+		renderState.burrowDownAnimationState.copyFrom(mauler.burrowDownAnimationState);
+		renderState.burrowUpAnimationState.copyFrom(mauler.burrowUpAnimationState);
+		renderState.type = mauler.getMaulerType();
+		renderState.isBurrowedDown = mauler.isBurrowedDown();
 	}
 	//?}
 
@@ -61,10 +66,10 @@ public class MaulerEntityRenderer extends MobRenderer<MaulerEntity, MaulerRender
 		*///?}
 	) {
 		//? if >=1.21.3 {
-		var mauler = renderState.mauler;
-		//?}
-
-		return mauler.isBurrowedDown() ? 0.0F : SHADOW_RADIUS;
+		return renderState.isBurrowedDown ? 0.0F : SHADOW_RADIUS;
+		//?} else {
+		/*return mauler.isBurrowedDown() ? 0.0F : SHADOW_RADIUS;
+		*///?}
 	}
 	//?} else {
 	/*@Override
@@ -82,9 +87,9 @@ public class MaulerEntityRenderer extends MobRenderer<MaulerEntity, MaulerRender
 	*///?}
 	{
 		//? if >=1.21.3 {
-		var mauler = renderState.mauler;
-		//?}
-
-		return VARIANT_TEXTURE_MAP.get(mauler.getMaulerType());
+		return VARIANT_TEXTURE_MAP.get(renderState.type);
+		//?} else {
+		/*return VARIANT_TEXTURE_MAP.get(mauler.getMaulerType());
+		*///?}
 	}
 }

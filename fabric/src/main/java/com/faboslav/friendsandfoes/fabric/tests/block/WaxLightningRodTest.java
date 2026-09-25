@@ -1,24 +1,26 @@
-//? if <= 1.21.8 {
-/*package com.faboslav.friendsandfoes.fabric.tests.block;
+package com.faboslav.friendsandfoes.fabric.tests.block;
 
-import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
-import com.faboslav.friendsandfoes.fabric.tests.GameTestUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
+
+//? if <= 1.21.8 {
+/*import com.faboslav.friendsandfoes.common.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.init.FriendsAndFoesBlocks;
+import com.faboslav.friendsandfoes.fabric.tests.GameTestUtil;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
+*///?}
 
 //? if >= 1.21.5 {
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 //?} else {
-/^import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
+/*import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
 import net.minecraft.gametest.framework.GameTest;
-^///?}
+*///?}
 
 //? if >= 1.21.1 {
 import net.minecraft.world.level.GameType;
@@ -32,10 +34,11 @@ public final class WaxLightningRodTest
 	//? if >= 1.21.5 {
 	@GameTest
 	//?} else {
-	/^@GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
-	^///?}
+	/*@GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+	*///?}
 	public void waxLightningRod(GameTestHelper helper) {
-		ServerLevel level = helper.getLevel();
+		//? if <= 1.21.8 {
+		/*ServerLevel level = helper.getLevel();
 		BlockPos pos = helper.absolutePos(BLOCK_POS);
 
 		FriendsAndFoes.getConfig().enableLightningRodOxidation = true;
@@ -66,8 +69,8 @@ public final class WaxLightningRodTest
 			GameTestUtil.fail(helper, "Waxed lightning rod changed state after random ticks, waxing did not freeze oxidation");
 			return;
 		}
+		*///?}
 
 		helper.succeed();
 	}
 }
-*///?}

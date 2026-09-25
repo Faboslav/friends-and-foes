@@ -10,7 +10,12 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.ComposterBlock;
+
+//? if >=26.3 {
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
+//?} else {
+/*import net.minecraft.world.level.block.ComposterBlock;
+*///?}
 
 //? if <= 1.21.11 {
 /*import com.faboslav.friendsandfoes.common.events.lifecycle.SetupEvent;
@@ -82,7 +87,8 @@ public final class FriendsAndFoesItems
 	public final static RegistryEntry<Item> TUFF_GOLEM_SPAWN_EGG = registerSpawnEgg("tuff_golem_spawn_egg", FriendsAndFoesEntityTypes.TUFF_GOLEM, 0xFFA0A297, 0xFF5D5D52);
 	public final static RegistryEntry<Item> WILDFIRE_SPAWN_EGG = registerSpawnEgg("wildfire_spawn_egg", FriendsAndFoesEntityTypes.WILDFIRE, 0xFF6C3100, 0xFFFFD528);
 
-	public final static RegistryEntry<Item> BUTTERCUP = registerItem("buttercup", (properties) -> new BlockItem(FriendsAndFoesBlocks.BUTTERCUP.get(), properties), () -> new Item.Properties().stacksTo(64));
+	public final static RegistryEntry<Item> BARNACLE_TOOTH = registerItem("barnacle_tooth", Item::new, Item.Properties::new);
+	public final static RegistryEntry<Item> BUTTERCUP = registerItem("buttercup", (properties) -> new BlockItem(FriendsAndFoesBlocks.BUTTERCUP.get(), properties), () -> new Item.Properties().stacksTo(64)/*? if >=26.3 {*/.compostable(ContextIntProviders.COMPOSTABLE_MEDIUM)/*?}*/);
 	public final static RegistryEntry<Item> CRAB_CLAW = registerItem("crab_claw", Item::new, Item.Properties::new);
 	public final static RegistryEntry<Item> CRAB_EGG = registerItem("crab_egg", (properties) -> new BlockItem(FriendsAndFoesBlocks.CRAB_EGG.get(), properties), () -> new Item.Properties().stacksTo(64));
 	public final static RegistryEntry<Item> PENGUIN_EGG = registerItem("penguin_egg", (properties) -> new BlockItem(FriendsAndFoesBlocks.PENGUIN_EGG.get(), properties), () -> new Item.Properties().stacksTo(64));
@@ -99,6 +105,9 @@ public final class FriendsAndFoesItems
 	//? if >= 1.21.4 {
 	public final static RegistryEntry<Item> PALE_OAK_BEEHIVE = registerBeehive("pale_oak_beehive", () -> FriendsAndFoes.getConfig().enablePaleOakBeehive, FriendsAndFoesBlocks.PALE_OAK_BEEHIVE);
 	//?}
+	//? if >=26.3 {
+	public final static RegistryEntry<Item> POPLAR_BEEHIVE = registerBeehive("poplar_beehive", () -> FriendsAndFoes.getConfig().enablePoplarBeehive, FriendsAndFoesBlocks.POPLAR_BEEHIVE);
+	//?}
 	public final static RegistryEntry<Item> WARPED_BEEHIVE = registerBeehive("warped_beehive", () -> FriendsAndFoes.getConfig().enableWarpedBeehive, FriendsAndFoesBlocks.WARPED_BEEHIVE);
 	public final static RegistryEntry<Item> COPPER_BUTTON = registerItem("copper_button", () -> FriendsAndFoes.getConfig().enableCopperButtons, (properties) -> new BlockItem(FriendsAndFoesBlocks.COPPER_BUTTON.get(), properties), () -> new Item.Properties().stacksTo(64));
 	public final static RegistryEntry<Item> EXPOSED_COPPER_BUTTON = registerItem("exposed_copper_button", () -> FriendsAndFoes.getConfig().enableCopperButtons, (properties) -> new BlockItem(FriendsAndFoesBlocks.EXPOSED_COPPER_BUTTON.get(), properties), () -> new Item.Properties().stacksTo(64));
@@ -107,7 +116,7 @@ public final class FriendsAndFoesItems
 	public final static RegistryEntry<Item> WAXED_COPPER_BUTTON = registerItem("waxed_copper_button", () -> FriendsAndFoes.getConfig().enableCopperButtons, (properties) -> new BlockItem(FriendsAndFoesBlocks.WAXED_COPPER_BUTTON.get(), properties), () -> new Item.Properties().stacksTo(64));
 	public final static RegistryEntry<Item> WAXED_EXPOSED_COPPER_BUTTON = registerItem("waxed_exposed_copper_button", () -> FriendsAndFoes.getConfig().enableCopperButtons, (properties) -> new BlockItem(FriendsAndFoesBlocks.WAXED_EXPOSED_COPPER_BUTTON.get(), properties), () -> new Item.Properties().stacksTo(64));
 	public final static RegistryEntry<Item> WAXED_WEATHERED_COPPER_BUTTON = registerItem("waxed_weathered_copper_button", () -> FriendsAndFoes.getConfig().enableCopperButtons, (properties) -> new BlockItem(FriendsAndFoesBlocks.WAXED_WEATHERED_COPPER_BUTTON.get(), properties), () -> new Item.Properties().stacksTo(64));
-	public final static RegistryEntry<Item> WAXED_OXIDIZED_COPPER_BUTTON = registerItem("waxed_oxidized_copper_button", (properties) -> new BlockItem(FriendsAndFoesBlocks.WAXED_OXIDIZED_COPPER_BUTTON.get(), properties),() -> new Item.Properties().stacksTo(64));
+	public final static RegistryEntry<Item> WAXED_OXIDIZED_COPPER_BUTTON = registerItem("waxed_oxidized_copper_button", () -> FriendsAndFoes.getConfig().enableCopperButtons, (properties) -> new BlockItem(FriendsAndFoesBlocks.WAXED_OXIDIZED_COPPER_BUTTON.get(), properties), () -> new Item.Properties().stacksTo(64));
 
 	//? if <=1.21.8 {
 	/*public final static RegistryEntry<Item> EXPOSED_LIGHTNING_ROD = registerItem("exposed_lightning_rod", (properties) -> new BlockItem(FriendsAndFoesBlocks.EXPOSED_LIGHTNING_ROD.get(), properties), () -> new Item.Properties().stacksTo(64));
@@ -205,7 +214,9 @@ public final class FriendsAndFoesItems
 	}
 	*///?}
 
-	public static void registerCompostableItems() {
+	//? if <26.3 {
+	/*public static void registerCompostableItems() {
 		ComposterBlock.add(0.65F, FriendsAndFoesItems.BUTTERCUP.get());
 	}
+	*///?}
 }

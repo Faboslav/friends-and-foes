@@ -39,7 +39,6 @@ public final class BuildTuffGolemTest
 		/*helper.setBlock(WOOL_POS, Blocks.WHITE_WOOL.defaultBlockState());
 		*///?}
 
-		// Placing the carved pumpkin last is what triggers the pattern search.
 		helper.setBlock(HEAD_POS, Blocks.CARVED_PUMPKIN.defaultBlockState());
 
 		BlockPos tuffPos = helper.absolutePos(TUFF_POS);

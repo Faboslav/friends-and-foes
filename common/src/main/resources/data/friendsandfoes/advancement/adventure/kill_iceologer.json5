@@ -23,7 +23,16 @@
 		"killed_iceologer": {
 			"trigger": "minecraft:player_killed_entity",
 			"conditions": {
-				"entity": [
+				//? if >=26.3 {
+				"entity": {
+					"type": "minecraft:entity_properties",
+					"entity": "this",
+					"predicate": {
+						"minecraft:entity_type": "friendsandfoes:iceologer"
+					}
+				}
+				//?} else {
+				/*"entity": [
 					{
 						"condition": "minecraft:entity_properties",
 						"entity": "this",
@@ -31,11 +40,12 @@
 							//? if >=26.2 {
 							"entity_type": "friendsandfoes:iceologer"
 							//?} else {
-							/*"type": "friendsandfoes:iceologer"
-							*///?}
+							/^"type": "friendsandfoes:iceologer"
+							^///?}
 						}
 					}
 				]
+				*///?}
 			}
 		}
 	},

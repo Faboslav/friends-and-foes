@@ -84,14 +84,27 @@ public final class MoobloomFlowerFeatureRenderer extends RenderLayer<MoobloomRen
 	 *///?}
 	{
 		//? if >=1.21.3 {
-		var moobloom = moobloomRenderState.moobloom;
 		int overlay = LivingEntityRenderer.getOverlayCoords(moobloomRenderState, 0.0F);
+		boolean isBaby = moobloomRenderState.isBaby;
+		boolean isInvisible = moobloomRenderState.isInvisible;
+		var variant = moobloomRenderState.variant;
 		//?} else {
 		/*int overlay = LivingEntityRenderer.getOverlayCoords(moobloom, 0.0F);
+		boolean isBaby = moobloom.isBaby();
+		boolean isInvisible = moobloom.isInvisible();
+		var variant = moobloom.getVariant();
 		 *///?}
 
-		if (!moobloom.isBaby() && !moobloom.isInvisible()) {
-			var flower = moobloom.getVariant().getFlower();
+		//? if >=1.21.9 {
+		boolean appearsGlowing = moobloomRenderState.appearsGlowing();
+		//?} else if >=1.21.3 {
+		/*boolean appearsGlowing = moobloomRenderState.appearsGlowing;
+		*///?} else {
+		/*boolean appearsGlowing = Minecraft.getInstance().shouldEntityAppearGlowing(moobloom);
+		*///?}
+
+		if (!isBaby && !isInvisible) {
+			var flower = variant.getFlower();
 			BlockState blockState = flower.defaultBlockState();
 
 			if (flower instanceof DoublePlantBlock) {
@@ -101,8 +114,7 @@ public final class MoobloomFlowerFeatureRenderer extends RenderLayer<MoobloomRen
 			float scaleFactor = (flower instanceof DoublePlantBlock) ? 0.6F : 0.8F;
 			float yOffset = (flower instanceof DoublePlantBlock) ? -0.666F : -0.5F;
 
-			Minecraft minecraft = Minecraft.getInstance();
-			boolean renderAsModel = minecraft.shouldEntityAppearGlowing(moobloom) && moobloom.isInvisible();
+			boolean renderAsModel = appearsGlowing && isInvisible;
 
 			//? if >= 1.21.5 && <= 1.21.11 {
 			/*BlockStateModel model = this.blockRenderer.getBlockModel(blockState);

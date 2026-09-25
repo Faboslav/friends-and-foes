@@ -4,6 +4,7 @@ import com.faboslav.friendsandfoes.common.entity.PenguinEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.PenguinAnimations;
 import com.faboslav.friendsandfoes.common.util.animation.AnimationMath;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntityModel;
+import net.minecraft.world.entity.AnimationState;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
@@ -141,36 +142,42 @@ public final class PenguinEntityModel extends EntityModel<PenguinRenderState>
 	{
 		//? if >=1.21.3 {
 		super.setupAnim(renderState);
-		var penguin = renderState.penguin;
-		var limbSwing = renderState.walkAnimationPos;
-		var limbSwingAmount = renderState.walkAnimationSpeed;
-		var ageInTicks = renderState.ageInTicks;
+
+		this.updateKeyframeAnimations(renderState.wingFlapAnimationState, renderState.idleAnimationState, renderState.idleWaterAnimationState, renderState.walkAnimationPos, renderState.walkAnimationSpeed, renderState.ageInTicks, renderState.isUnderWater, renderState.isSwimming);
+		this.animateSwimming(renderState.swimProgress);
 		//?} else {
 		/*this.root().getAllParts().forEach(ModelPart::resetPose);
+
+		this.updateKeyframeAnimations(penguin.wingFlapAnimationState, penguin.idleAnimationState, penguin.idleWaterAnimationState, limbSwing, limbSwingAmount, ageInTicks, penguin.isUnderWater(), penguin.isSwimming());
+		this.animateSwimming(penguin.getSwimProgress(ageInTicks - penguin.tickCount));
 		*///?}
+	}
 
-		var timeMultiplier = penguin.isUnderWater() ? 1.5F : 5.5F;
-		var speedMultiplier = penguin.isUnderWater() ? 4.0F : 4.5F;
+	private void updateKeyframeAnimations(
+		AnimationState wingFlapAnimationState,
+		AnimationState idleAnimationState,
+		AnimationState idleWaterAnimationState,
+		float limbSwing,
+		float limbSwingAmount,
+		float ageInTicks,
+		boolean isUnderWater,
+		boolean isSwimming
+	) {
+		var timeMultiplier = isUnderWater ? 1.5F : 5.5F;
+		var speedMultiplier = isUnderWater ? 4.0F : 4.5F;
 
-		VersionedEntityModel.animate(this, this.wingFlapAnimation, penguin.wingFlapAnimationState, ageInTicks);
-		VersionedEntityModel.animate(this, this.idleAnimation, penguin.idleAnimationState, ageInTicks);
-		VersionedEntityModel.animate(this, this.idleWaterAnimation, penguin.idleWaterAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.wingFlapAnimation, wingFlapAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.idleAnimation, idleAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.idleWaterAnimation, idleWaterAnimationState, ageInTicks);
 
-		if (penguin.isSwimming()) {
+		if (isSwimming) {
 			VersionedEntityModel.animateWalk(this, this.swimAnimation, limbSwing, limbSwingAmount, timeMultiplier, speedMultiplier);
 		} else {
 			VersionedEntityModel.animateWalk(this, this.walkAnimation, limbSwing, limbSwingAmount, timeMultiplier, speedMultiplier);
 		}
-
-		animateSwimming(penguin, ageInTicks);
 	}
 
-	public void animateSwimming(
-		final PenguinEntity penguin,
-		final float ageInTicks
-	) {
-		float swimProgress = penguin.getSwimProgress(ageInTicks - penguin.tickCount);
-
+	private void animateSwimming(final float swimProgress) {
 		this.main.xRot = Mth.lerp(swimProgress, 0.0F, AnimationMath.toRadians(90.0F));
 		this.main.y = Mth.lerp(swimProgress, 11.0F, 21.0F);
 		this.main.z = Mth.lerp(swimProgress, 0.0F, -5.0F);

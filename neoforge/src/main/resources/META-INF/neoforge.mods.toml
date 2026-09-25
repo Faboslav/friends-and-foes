@@ -9,7 +9,12 @@ version = "${modVersion}"
 displayName = "${modName}"
 authors = "${modAuthor}"
 description = "${modDescription}"
-logoFile = "icon.png"
+#? if >= 26.3 {
+iconFile = "icon.png"
+bannerFile = "icon.png"
+#?} else {
+#logoFile = "icon.png"
+#?}
 logoBlur = false
 displayURL = "${modGitHub}"
 enumExtensions = "friendsandfoes.enumextensions.json"
@@ -40,7 +45,7 @@ side = "BOTH"
 [[dependencies.${ modId }]]
 modId = "yet_another_config_lib_v3"
 type = "optional"
-versionRange = "[${yaclVersion},)"
+versionRange = "*"
 ordering = "NONE"
 side = "CLIENT"
 [dependencies.${ modId }.mc-publish]

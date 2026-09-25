@@ -43,13 +43,18 @@ public final class TuffGolemClothFeatureRenderer extends RenderLayer<TuffGolemRe
 	 *///?}
 	{
 		//? if >=1.21.3 {
-		var tuffGolem = renderState.tuffGolem;
-		//?}
-		if (tuffGolem.isInvisible()) {
+		if (renderState.isInvisible) {
+			return;
+		}
+
+		Identifier clothTexture = FriendsAndFoes.makeID("textures/entity/tuff_golem/" + renderState.color.getName() + ".png");
+		//?} else {
+		/*if (tuffGolem.isInvisible()) {
 			return;
 		}
 
 		Identifier clothTexture = FriendsAndFoes.makeID("textures/entity/tuff_golem/" + tuffGolem.getColor().getName() + ".png");
+		*///?}
 
 		renderColoredCutoutModel(
 			this.getParentModel(),
@@ -67,7 +72,7 @@ public final class TuffGolemClothFeatureRenderer extends RenderLayer<TuffGolemRe
 			/*tuffGolem,
 			 *///?}
 			//? if >=1.21.9 {
-			-1, 0
+			-1, 1
 			//?} else if >= 1.21.1 {
 			/*-1
 			*///?} else {

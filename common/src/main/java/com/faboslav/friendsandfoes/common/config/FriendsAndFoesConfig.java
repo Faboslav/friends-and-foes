@@ -48,6 +48,7 @@ public final class FriendsAndFoesConfig
 	public static final boolean ENABLE_ILLUSIONER_SPAWN_DEFAULT_VALUE = true;
 	public static final boolean ENABLE_ILLUSIONER_IN_RAIDS_DEFAULT_VALUE = true;
 	public static final boolean REPLACE_VANILLA_ILLUSIONER_DEFAULT_VALUE = true;
+	public static final boolean USE_VANILLA_ILLUSIONER_TEXTURE_DEFAULT_VALUE = false;
 	public static final boolean GENERATE_ILLUSIONER_SHACK_STRUCTURE_DEFAULT_VALUE = true;
 	public static final boolean GENERATE_ILLUSIONER_TRAINING_GROUNDS_STRUCTURE_DEFAULT_VALUE = true;
 	public static final int ILLUSIONER_MAX_ILLUSIONS_COUNT_DEFAULT_VALUE = 9;
@@ -107,9 +108,9 @@ public final class FriendsAndFoesConfig
 	public static final boolean ENABLE_MANGROVE_BEEHIVE_DEFAULT_VALUE = true;
 	public static final boolean ENABLE_SPRUCE_BEEHIVE_DEFAULT_VALUE = true;
 	public static final boolean ENABLE_PALE_OAK_BEEHIVE_DEFAULT_VALUE = true;
+	public static final boolean ENABLE_POPLAR_BEEHIVE_DEFAULT_VALUE = true;
 	public static final boolean ENABLE_WARPED_BEEHIVE_DEFAULT_VALUE = true;
 	public static final boolean ENABLE_COPPER_BUTTONS = true;
-
 
 	public boolean enableBeekeeperVillagerProfession = ENABLE_BEEKEEPER_VILLAGER_PROFESSION_DEFAULT_VALUE;
 	public boolean generateBeekeeperAreaStructureInVillages = GENERATE_BEEKEEPER_AREA_STRUCTURE_IN_VILLAGES_DEFAULT_VALUE;
@@ -157,6 +158,7 @@ public final class FriendsAndFoesConfig
 	public boolean enableIllusionerSpawn = ENABLE_ILLUSIONER_SPAWN_DEFAULT_VALUE;
 	public boolean enableIllusionerInRaids = ENABLE_ILLUSIONER_IN_RAIDS_DEFAULT_VALUE;
 	public boolean replaceVanillaIllusioner = REPLACE_VANILLA_ILLUSIONER_DEFAULT_VALUE;
+	public boolean useVanillaIllusionerTexture = USE_VANILLA_ILLUSIONER_TEXTURE_DEFAULT_VALUE;
 	public boolean generateIllusionerShackStructure = GENERATE_ILLUSIONER_SHACK_STRUCTURE_DEFAULT_VALUE;
 	public boolean generateIllusionerTrainingGroundsStructure = GENERATE_ILLUSIONER_TRAINING_GROUNDS_STRUCTURE_DEFAULT_VALUE;
 	public int illusionerMaxIllusionsCount = ILLUSIONER_MAX_ILLUSIONS_COUNT_DEFAULT_VALUE;
@@ -216,6 +218,7 @@ public final class FriendsAndFoesConfig
 	public boolean enableMangroveBeehive = ENABLE_MANGROVE_BEEHIVE_DEFAULT_VALUE;
 	public boolean enableSpruceBeehive = ENABLE_SPRUCE_BEEHIVE_DEFAULT_VALUE;
 	public boolean enablePaleOakBeehive = ENABLE_PALE_OAK_BEEHIVE_DEFAULT_VALUE;
+	public boolean enablePoplarBeehive = ENABLE_POPLAR_BEEHIVE_DEFAULT_VALUE;
 	public boolean enableWarpedBeehive = ENABLE_WARPED_BEEHIVE_DEFAULT_VALUE;
 	public boolean enableCopperButtons = ENABLE_COPPER_BUTTONS;
 

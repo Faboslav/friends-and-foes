@@ -3,7 +3,6 @@ package com.faboslav.friendsandfoes.common.entity.ai.brain.task.crab;
 import com.faboslav.friendsandfoes.common.entity.CrabEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import java.util.Map;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ai.behavior.Behavior;
@@ -85,7 +84,7 @@ public final class CrabTravelToBurrowSpotTask extends Behavior<CrabEntity>
 
 		BehaviorUtils.setWalkAndLookTargetMemories(
 			crab,
-			new BlockPos(burrowSpotPos.pos()),
+			burrowSpotPos.pos().immutable(),
 			0.6F,
 			0
 		);

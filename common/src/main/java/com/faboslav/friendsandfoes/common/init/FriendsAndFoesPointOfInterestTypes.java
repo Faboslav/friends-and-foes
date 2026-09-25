@@ -30,6 +30,9 @@ public final class FriendsAndFoesPointOfInterestTypes
 	//? if >=1.21.4 {
 	public static final Supplier<PoiType> PALE_OAK_BEEHIVE =  registerPoi("pale_oak_beehive", FriendsAndFoesBlocks.PALE_OAK_BEEHIVE, 1, 1);
 	//?}
+	//? if >=26.3 {
+	public static final Supplier<PoiType> POPLAR_BEEHIVE = registerPoi("poplar_beehive", FriendsAndFoesBlocks.POPLAR_BEEHIVE, 1, 1);
+	//?}
 	public final static Supplier<PoiType> SPRUCE_BEEHIVE = registerPoi("spruce_beehive", FriendsAndFoesBlocks.SPRUCE_BEEHIVE, 1, 1);
 	public final static Supplier<PoiType> WARPED_BEEHIVE = registerPoi("warped_beehive", FriendsAndFoesBlocks.WARPED_BEEHIVE, 1, 1);
 	//? if <=1.21.8 {

@@ -195,7 +195,7 @@ public final class MaulerEntity extends Animal implements NeutralMob
 
 			if(burrowedDownTicks != 0) {
 				this.burrowDownGoal.setBurrowedDownTicks(burrowedDownTicks);
-				this.setInvulnerable(true);
+				this.setPermanentlyInvulnerable(true);
 			}
 		}
 	}

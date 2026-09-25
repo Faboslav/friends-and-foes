@@ -1,7 +1,5 @@
 package com.faboslav.friendsandfoes.common.config.client.gui;
 
-import com.faboslav.friendsandfoes.common.FriendsAndFoes;
-import dev.isxander.yacl3.api.controller.FloatSliderControllerBuilder;
 import net.minecraft.client.gui.screens.Screen;
 
 //? if yacl {
@@ -16,6 +14,8 @@ import dev.isxander.yacl3.api.controller.IntegerSliderControllerBuilder;
 import net.minecraft.network.chat.Component;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
+import dev.isxander.yacl3.api.controller.FloatSliderControllerBuilder;
 //?}
 
 public final class FriendsAndFoesConfigScreen
@@ -81,6 +81,7 @@ public final class FriendsAndFoesConfigScreen
 					.option(bool("enableIllusionerSpawn", FriendsAndFoesConfig.ENABLE_ILLUSIONER_SPAWN_DEFAULT_VALUE, () -> config.enableIllusionerSpawn, value -> config.enableIllusionerSpawn = value))
 					.option(bool("enableIllusionerInRaids", FriendsAndFoesConfig.ENABLE_ILLUSIONER_IN_RAIDS_DEFAULT_VALUE, () -> config.enableIllusionerInRaids, value -> config.enableIllusionerInRaids = value))
 					.option(bool("replaceVanillaIllusioner", FriendsAndFoesConfig.REPLACE_VANILLA_ILLUSIONER_DEFAULT_VALUE, () -> config.replaceVanillaIllusioner, value -> config.replaceVanillaIllusioner = value))
+					.option(bool("useVanillaIllusionerTexture", FriendsAndFoesConfig.USE_VANILLA_ILLUSIONER_TEXTURE_DEFAULT_VALUE, () -> config.useVanillaIllusionerTexture, value -> config.useVanillaIllusionerTexture = value))
 					.option(bool("generateIllusionerShackStructure", FriendsAndFoesConfig.GENERATE_ILLUSIONER_SHACK_STRUCTURE_DEFAULT_VALUE, () -> config.generateIllusionerShackStructure, value -> config.generateIllusionerShackStructure = value))
 					.option(bool("generateIllusionerTrainingGroundsStructure", FriendsAndFoesConfig.GENERATE_ILLUSIONER_TRAINING_GROUNDS_STRUCTURE_DEFAULT_VALUE, () -> config.generateIllusionerTrainingGroundsStructure, value -> config.generateIllusionerTrainingGroundsStructure = value))
 					.option(slider("illusionerMaxIllusionsCount", FriendsAndFoesConfig.ILLUSIONER_MAX_ILLUSIONS_COUNT_DEFAULT_VALUE, () -> config.illusionerMaxIllusionsCount, value -> config.illusionerMaxIllusionsCount = value, 0, 100))
@@ -137,6 +138,30 @@ public final class FriendsAndFoesConfigScreen
 					.build())
 				.group(group("mobs", "zombie_horse")
 					.option(bool("enableZombieHorseTrap", FriendsAndFoesConfig.ENABLE_ZOMBIE_HORSE_TRAP_DEFAULT_VALUE, () -> config.enableZombieHorseTrap, value -> config.enableZombieHorseTrap = value))
+					.build())
+				.build())
+			.category(ConfigCategory.createBuilder()
+				.name(Component.translatable("yacl3.config.friendsandfoes:friendsandfoes.category.blocks"))
+				.group(group("blocks", "beehives")
+					.option(bool("enableAcaciaBeehive", FriendsAndFoesConfig.ENABLE_ACACIA_BEEHIVE_DEFAULT_VALUE, () -> config.enableAcaciaBeehive, value -> config.enableAcaciaBeehive = value))
+					.option(bool("enableBambooBeehive", FriendsAndFoesConfig.ENABLE_BAMBOO_BEEHIVE_DEFAULT_VALUE, () -> config.enableBambooBeehive, value -> config.enableBambooBeehive = value))
+					.option(bool("enableBirchBeehive", FriendsAndFoesConfig.ENABLE_BIRCH_BEEHIVE_DEFAULT_VALUE, () -> config.enableBirchBeehive, value -> config.enableBirchBeehive = value))
+					.option(bool("enableCherryBeehive", FriendsAndFoesConfig.ENABLE_CHERRY_BEEHIVE_DEFAULT_VALUE, () -> config.enableCherryBeehive, value -> config.enableCherryBeehive = value))
+					.option(bool("enableCrimsonBeehive", FriendsAndFoesConfig.ENABLE_CRIMSON_BEEHIVE_DEFAULT_VALUE, () -> config.enableCrimsonBeehive, value -> config.enableCrimsonBeehive = value))
+					.option(bool("enableDarkOakBeehive", FriendsAndFoesConfig.ENABLE_DARK_OAK_BEEHIVE_DEFAULT_VALUE, () -> config.enableDarkOakBeehive, value -> config.enableDarkOakBeehive = value))
+					.option(bool("enableJungleBeehive", FriendsAndFoesConfig.ENABLE_JUNGLE_BEEHIVE_DEFAULT_VALUE, () -> config.enableJungleBeehive, value -> config.enableJungleBeehive = value))
+					.option(bool("enableMangroveBeehive", FriendsAndFoesConfig.ENABLE_MANGROVE_BEEHIVE_DEFAULT_VALUE, () -> config.enableMangroveBeehive, value -> config.enableMangroveBeehive = value))
+					.option(bool("enableSpruceBeehive", FriendsAndFoesConfig.ENABLE_SPRUCE_BEEHIVE_DEFAULT_VALUE, () -> config.enableSpruceBeehive, value -> config.enableSpruceBeehive = value))
+					//? if >=1.21.4 {
+					.option(bool("enablePaleOakBeehive", FriendsAndFoesConfig.ENABLE_PALE_OAK_BEEHIVE_DEFAULT_VALUE, () -> config.enablePaleOakBeehive, value -> config.enablePaleOakBeehive = value))
+					//?}
+					//? if >=26.3 {
+					.option(bool("enablePoplarBeehive", FriendsAndFoesConfig.ENABLE_POPLAR_BEEHIVE_DEFAULT_VALUE, () -> config.enablePoplarBeehive, value -> config.enablePoplarBeehive = value))
+					//?}
+					.option(bool("enableWarpedBeehive", FriendsAndFoesConfig.ENABLE_WARPED_BEEHIVE_DEFAULT_VALUE, () -> config.enableWarpedBeehive, value -> config.enableWarpedBeehive = value))
+					.build())
+				.group(group("blocks", "copper_buttons")
+					.option(bool("enableCopperButtons", FriendsAndFoesConfig.ENABLE_COPPER_BUTTONS, () -> config.enableCopperButtons, value -> config.enableCopperButtons = value))
 					.build())
 				.build())
 			.save(FriendsAndFoesConfig::save)

@@ -4,6 +4,7 @@ import com.faboslav.friendsandfoes.common.entity.CrabEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.CrabAnimations;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntityModel;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.world.entity.AnimationState;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
@@ -170,38 +171,35 @@ public class CrabEntityModel extends EntityModel<CrabRenderState>
 	{
 		//? if >=1.21.3 {
 		super.setupAnim(renderState);
-		var crab = renderState.crab;
-		var limbSwing = renderState.walkAnimationPos;
-		var limbSwingAmount = renderState.walkAnimationSpeed;
-		var ageInTicks = renderState.ageInTicks;
+
+		this.updateKeyframeAnimations(renderState.idleAnimationState, renderState.waveAnimationState, renderState.danceAnimationState, renderState.walkAnimationPos, renderState.walkAnimationSpeed, renderState.ageInTicks);
+		this.animateClimbing(renderState.size.getScaleModifier(), renderState.climbProgress);
 		//?} else {
 		/*this.root().getAllParts().forEach(ModelPart::resetPose);
-		*///?}
 
-		this.updateKeyframeAnimations(crab, limbSwing, limbSwingAmount, ageInTicks);
-		this.animateClimbing(crab, ageInTicks);
+		this.updateKeyframeAnimations(crab.idleAnimationState, crab.waveAnimationState, crab.danceAnimationState, limbSwing, limbSwingAmount, ageInTicks);
+		this.animateClimbing(crab.getSize().getScaleModifier(), crab.getClimbProgress(ageInTicks - crab.tickCount));
+		*///?}
 	}
 
-	public void updateKeyframeAnimations(
-		CrabEntity crab,
+	private void updateKeyframeAnimations(
+		AnimationState idleAnimationState,
+		AnimationState waveAnimationState,
+		AnimationState danceAnimationState,
 		float limbSwing,
 		float limbSwingAmount,
 		float ageInTicks
 	) {
-		VersionedEntityModel.animate(this, this.idleAnimation, crab.idleAnimationState, ageInTicks);
-		VersionedEntityModel.animate(this, this.waveAnimation, crab.waveAnimationState, ageInTicks);
-		VersionedEntityModel.animate(this, this.danceAnimation, crab.danceAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.idleAnimation, idleAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.waveAnimation, waveAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.danceAnimation, danceAnimationState, ageInTicks);
 		VersionedEntityModel.animateWalk(this, this.walkAnimation, limbSwing, limbSwingAmount, 2.5F, 4.5F);
 	}
 
-	public void animateClimbing(
-		final CrabEntity crab,
-		final float ageInTicks
-
+	private void animateClimbing(
+		final float scaleModifier,
+		final float climbProgress
 	) {
-		float scaleModifier = crab.getSize().getScaleModifier();
-		float climbProgress = crab.getClimbProgress(ageInTicks - crab.tickCount);
-
 		this.main.y = Mth.lerp(climbProgress, 24.0F, 17.0F * scaleModifier);
 		this.main.z = Mth.lerp(climbProgress, 0.0F, -9.0F * scaleModifier);
 		this.main.yRot = Mth.lerp(climbProgress, -1.5708F, 0.0F);

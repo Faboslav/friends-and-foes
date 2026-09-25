@@ -50,7 +50,7 @@ public final class FriendsAndFoesEntityTypes
 
 	static {
 		SharedConstants.CHECK_DATA_FIXER_SCHEMA = false;
-		BARNACLE = ENTITY_TYPES.register("barnacle", () -> EntityType.Builder.of(BarnacleEntity::new, MobCategory.MONSTER).sized(1.69125F * BarnacleEntityRenderer.SCALE, 0.75F * BarnacleEntityRenderer.SCALE)/*? if >=1.21.1 {*/.eyeHeight(0.75F)/*?}*/.clientTrackingRange(10).build(VersionedEntityTypeResourceId.create("barnacle")));
+		BARNACLE = ENTITY_TYPES.register("barnacle", () -> EntityType.Builder.of(BarnacleEntity::new, MobCategory.MONSTER).sized(1.353F * BarnacleEntityRenderer.SCALE, 0.6F * BarnacleEntityRenderer.SCALE)/*? if >=1.21.1 {*/.eyeHeight(0.75F)/*?}*/.clientTrackingRange(10).build(VersionedEntityTypeResourceId.create("barnacle")));
 		//? if <= 1.21.8 {
 		/*COPPER_GOLEM = ENTITY_TYPES.register("copper_golem", () -> EntityType.Builder.of(CopperGolemEntity::new, MobCategory.MISC).sized(0.75F, 1.375F)/^? if >=1.21.1 {^/.eyeHeight(0.75F)/^?}^/.clientTrackingRange(10).build(VersionedEntityTypeResourceId.create("copper_golem")));
 		*///?}

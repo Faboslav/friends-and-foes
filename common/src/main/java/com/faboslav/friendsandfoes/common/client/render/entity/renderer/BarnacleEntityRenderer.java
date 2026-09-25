@@ -7,9 +7,12 @@ import com.faboslav.friendsandfoes.common.client.render.entity.model.BarnacleEnt
 import com.faboslav.friendsandfoes.common.entity.BarnacleEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.AABB;
 
 //? if >=1.21.3 {
 import com.faboslav.friendsandfoes.common.client.render.entity.state.BarnacleRenderState;
@@ -48,6 +51,22 @@ public class BarnacleEntityRenderer extends MobRenderer<BarnacleEntity, Barnacle
 		poseStack.scale(SCALE, SCALE, SCALE);
 	}
 
+	@Override
+	//? if >=26.3 {
+	public boolean shouldRender(BarnacleEntity barnacle, Frustum frustum, double cameraX, double cameraY, double cameraZ, float partialTick)
+	//?} else {
+	/*public boolean shouldRender(BarnacleEntity barnacle, Frustum frustum, double cameraX, double cameraY, double cameraZ)
+	*///?}
+	{
+		if (super.shouldRender(barnacle, frustum, cameraX, cameraY, cameraZ/*? if >=26.3 {*/, partialTick/*?}*/)) {
+			return true;
+		}
+
+		Entity tentacleTarget = barnacle.getTentacleTarget();
+
+		return tentacleTarget != null && frustum.isVisible(new AABB(barnacle.position(), tentacleTarget.position()).inflate(1.0D));
+	}
+
 	//? if >=1.21.3 {
 	@Override
 	public BarnacleRenderState createRenderState() {
@@ -57,7 +76,20 @@ public class BarnacleEntityRenderer extends MobRenderer<BarnacleEntity, Barnacle
 	@Override
 	public void extractRenderState(BarnacleEntity barnacle, BarnacleRenderState barnacleRenderState, float partialTick) {
 		super.extractRenderState(barnacle, barnacleRenderState, partialTick);
-		barnacleRenderState.barnacle = barnacle;
+		barnacleRenderState.idleAnimationState.copyFrom(barnacle.idleAnimationState);
+		barnacleRenderState.tentacleAttackAnimationState.copyFrom(barnacle.tentacleAttackAnimationState);
+		barnacleRenderState.attackAnimationState.copyFrom(barnacle.attackAnimationState);
+		barnacleRenderState.isUnderWater = barnacle.isUnderWater();
+
+		Entity tentacleTarget = barnacle.getTentacleTarget();
+
+		if (tentacleTarget != null) {
+			barnacleRenderState.tentacleTargetPosition = BarnacleEntity.getTentacleAttachPosition(tentacleTarget, partialTick);
+			barnacleRenderState.tentacleExtension = barnacle.getTentacleExtension(partialTick);
+		} else {
+			barnacleRenderState.tentacleTargetPosition = null;
+			barnacleRenderState.tentacleExtension = 0.0F;
+		}
 	}
 	//?}
 

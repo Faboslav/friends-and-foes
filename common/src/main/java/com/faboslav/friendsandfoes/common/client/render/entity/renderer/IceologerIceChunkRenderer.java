@@ -54,25 +54,25 @@ public class IceologerIceChunkRenderer extends EntityRenderer<IceologerIceChunkE
 	*///?}
 	{
 		//? if >= 1.21.3 {
-		var iceChunk = renderState.iceologerIceChunk;
 		var partialTick = renderState.partialTick;
+		float animationProgress = renderState.summonAnimationProgress;
+		float lastAnimationProgress = renderState.lastSummonAnimationProgress;
+		float yRot = renderState.yRot;
 		//?} else {
 		/*var partialTick = tickDelta;
-		*///?}
 		float animationProgress = iceChunk.getSummonAnimationProgress();
+		float lastAnimationProgress = iceChunk.getLastSummonAnimationProgress();
+		float yRot = iceChunk.getYRot();
+		*///?}
 
 		if(animationProgress == 0.0F) {
 			return;
 		}
 
-		var summonAnimationProgress = Mth.lerp(
-			partialTick,
-			iceChunk.getLastSummonAnimationProgress(),
-			iceChunk.getSummonAnimationProgress()
-		);
+		var summonAnimationProgress = Mth.lerp(partialTick, lastAnimationProgress, animationProgress);
 
 		poseStack.pushPose();
-		poseStack.mulPose(Axis.YP.rotationDegrees(90.0F - 180.0F - iceChunk.getYRot()));
+		poseStack.rotate(Axis.YP.rotationDegrees(90.0F - 180.0F - yRot));
 		//? if >= 1.21.3 {
 		this.model.setupAnim(renderState);
 		//?} else {
@@ -81,7 +81,7 @@ public class IceologerIceChunkRenderer extends EntityRenderer<IceologerIceChunkE
 		poseStack.scale(summonAnimationProgress, summonAnimationProgress, summonAnimationProgress);
 
 		//? if >= 1.21.9 {
-		submitNodeCollector.submitModel(this.model, renderState, poseStack, this.model.renderType(TEXTURE), renderState.lightCoords, OverlayTexture.NO_OVERLAY, renderState.outlineColor, null);
+		submitNodeCollector.submitModel(this.model, renderState, poseStack, this.model.renderType(TEXTURE), renderState.lightCoords, OverlayTexture.NO_OVERLAY, renderState.outlineColor/*? if <26.3 {*//*, null*//*?}*/);
 		//?} else if >= 1.21.3 {
 		/*VertexConsumer vertexConsumer = multiBufferSource.getBuffer(this.model.renderType(TEXTURE));
 		this.model.renderToBuffer(poseStack, vertexConsumer, i, OverlayTexture.NO_OVERLAY, -1);
@@ -115,7 +115,10 @@ public class IceologerIceChunkRenderer extends EntityRenderer<IceologerIceChunkE
 	@Override
 	public void extractRenderState(IceologerIceChunkEntity iceologerIceChunk, IceologerIceChunkRenderState renderState, float partialTick) {
 		super.extractRenderState(iceologerIceChunk, renderState, partialTick);
-		renderState.iceologerIceChunk = iceologerIceChunk;
+		renderState.summonAnimationProgress = iceologerIceChunk.getSummonAnimationProgress();
+		renderState.lastSummonAnimationProgress = iceologerIceChunk.getLastSummonAnimationProgress();
+		renderState.xRot = iceologerIceChunk.getXRot();
+		renderState.yRot = iceologerIceChunk.getYRot();
 		renderState.partialTick = partialTick;
 	}
 	//?} else {

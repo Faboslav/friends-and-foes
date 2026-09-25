@@ -117,6 +117,12 @@ public class FriendsAndFoesItemGroups
 			}
 			//?}
 
+			//? if >=26.3 {
+			if (config.enablePoplarBeehive) {
+				beehives.add(FriendsAndFoesItems.POPLAR_BEEHIVE);
+			}
+			//?}
+
 			if (config.enableWarpedBeehive) {
 				beehives.add(FriendsAndFoesItems.WARPED_BEEHIVE);
 			}
@@ -154,7 +160,8 @@ public class FriendsAndFoesItemGroups
 			Stream.of(
 				FriendsAndFoesItems.WILDFIRE_CROWN_FRAGMENT,
 				FriendsAndFoesItems.CRAB_CLAW,
-				FriendsAndFoesItems.PENGUIN_FEATHER
+				FriendsAndFoesItems.PENGUIN_FEATHER,
+				FriendsAndFoesItems.BARNACLE_TOOTH
 			).map(item -> item.get().getDefaultInstance()).forEach(event::add);
 		} else if (event.type() == AddItemGroupEntriesEvent.Type.COMBAT) {
 			Stream.of(

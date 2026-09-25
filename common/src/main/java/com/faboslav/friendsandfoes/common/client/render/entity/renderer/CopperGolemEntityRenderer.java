@@ -47,7 +47,14 @@ public class CopperGolemEntityRenderer extends MobRenderer<CopperGolemEntity, Co
 	@Override
 	public void extractRenderState(CopperGolemEntity copperGolem, CopperGolemRenderState renderState, float partialTick) {
 		super.extractRenderState(copperGolem, renderState, partialTick);
-		renderState.copperGolem = copperGolem;
+		renderState.spinHeadAnimationState.copyFrom(copperGolem.spinHeadAnimationState);
+		renderState.pressButtonUpAnimationState.copyFrom(copperGolem.pressButtonUpAnimationState);
+		renderState.pressButtonDownAnimationState.copyFrom(copperGolem.pressButtonDownAnimationState);
+		renderState.oxidationLevel = copperGolem.getOxidationLevel();
+		renderState.animationSpeedModifier = copperGolem.getAnimationSpeedModifier();
+		renderState.movementSpeedModifier = copperGolem.getMovementSpeedModifier();
+		renderState.currentAnimationTick = copperGolem.getCurrentAnimationTick();
+		renderState.isOxidized = copperGolem.isOxidized();
 	}
 	//?}
 
@@ -59,10 +66,10 @@ public class CopperGolemEntityRenderer extends MobRenderer<CopperGolemEntity, Co
 	^///?}
 	{
 		//? if >=1.21.3 {
-		var copperGolem = renderState.copperGolem;
-		//?}
-
-		return OXIDATION_TO_TEXTURE_MAP.get(copperGolem.getOxidationLevel());
+		return OXIDATION_TO_TEXTURE_MAP.get(renderState.oxidationLevel);
+		//?} else {
+		/^return OXIDATION_TO_TEXTURE_MAP.get(copperGolem.getOxidationLevel());
+		^///?}
 	}
 }
 *///?}

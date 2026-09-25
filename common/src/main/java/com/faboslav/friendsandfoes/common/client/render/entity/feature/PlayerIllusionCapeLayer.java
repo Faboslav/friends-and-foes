@@ -153,9 +153,9 @@ public class PlayerIllusionCapeLayer extends RenderLayer<PlayerIllusionEntity, P
 						j += 25.0F;
 					}
 
-					poseStack.mulPose(Axis.XP.rotationDegrees(6.0F + k / 2.0F + j));
-					poseStack.mulPose(Axis.ZP.rotationDegrees(l / 2.0F));
-					poseStack.mulPose(Axis.YP.rotationDegrees(180.0F - l / 2.0F));
+					poseStack.rotate(Axis.XP.rotationDegrees(6.0F + k / 2.0F + j));
+					poseStack.rotate(Axis.ZP.rotationDegrees(l / 2.0F));
+					poseStack.rotate(Axis.YP.rotationDegrees(180.0F - l / 2.0F));
 					VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entitySolid(playerSkin.capeTexture()));
 					this.getParentModel().renderCloak(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
 					poseStack.popPose();

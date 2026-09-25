@@ -299,7 +299,7 @@ public final class MoobloomEntity extends AbstractCow implements Shearable
 			cowEntity.setPersistenceRequired();
 		}
 
-		cowEntity.setInvulnerable(this.isInvulnerable());
+		cowEntity.setPermanentlyInvulnerable(this.isPermanentlyInvulnerable());
 		level.addFreshEntity(cowEntity);
 	}
 

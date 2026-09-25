@@ -34,7 +34,9 @@ public class RascalEntityRenderer extends MobRenderer<RascalEntity, RascalRender
 	@Override
 	public void extractRenderState(RascalEntity rascal, RascalRenderState renderState, float partialTick) {
 		super.extractRenderState(rascal, renderState, partialTick);
-		renderState.rascal = rascal;
+		renderState.idleAnimationState.copyFrom(rascal.idleAnimationState);
+		renderState.nodAnimationState.copyFrom(rascal.nodAnimationState);
+		renderState.giveRewardAnimationState.copyFrom(rascal.giveRewardAnimationState);
 	}
 	//?}
 

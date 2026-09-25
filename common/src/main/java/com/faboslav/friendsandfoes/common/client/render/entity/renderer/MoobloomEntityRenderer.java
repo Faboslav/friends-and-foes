@@ -67,7 +67,7 @@ public final class MoobloomEntityRenderer extends AgeableMobRenderer<MoobloomEnt
 	@Override
 	public void extractRenderState(MoobloomEntity moobloom, MoobloomRenderState moobloomRenderState, float partialTick) {
 		super.extractRenderState(moobloom, moobloomRenderState, partialTick);
-		moobloomRenderState.moobloom = moobloom;
+		moobloomRenderState.variant = moobloom.getVariant();
 		//? if >= 26.1 {
 		this.blockModelResolver.update(moobloomRenderState.flowerModel, moobloom.getVariant().getFlower().defaultBlockState(), BLOCK_DISPLAY_CONTEXT);
 		//?}
@@ -82,10 +82,10 @@ public final class MoobloomEntityRenderer extends AgeableMobRenderer<MoobloomEnt
 	*///?}
 	{
 		//? if >=1.21.3 {
-		var moobloom = moobloomRenderState.moobloom;
-		//?}
-
-		var textureId = "textures/entity/moobloom/moobloom_" + moobloom.getVariant().getName();
+		var textureId = "textures/entity/moobloom/moobloom_" + moobloomRenderState.variant.getName();
+		//?} else {
+		/*var textureId = "textures/entity/moobloom/moobloom_" + moobloom.getVariant().getName();
+		*///?}
 
 		//? if >= 26.1 {
 		if(moobloomRenderState.isBaby) {

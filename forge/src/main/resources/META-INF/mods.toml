@@ -36,7 +36,7 @@ side = "BOTH"
 [[dependencies.${ modId }]]
 modId = "yet_another_config_lib_v3"
 mandatory = false
-versionRange = "[${yaclVersion},)"
+versionRange = "*"
 ordering = "NONE"
 side = "CLIENT"
 [dependencies.${ modId }.mc-publish]

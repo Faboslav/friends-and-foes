@@ -9,6 +9,10 @@ import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.common.world.ModifiableBiomeInfo;
 
+//? if >=26.3 {
+import net.minecraft.util.valueproviders.UniformInt;
+//?}
+
 public class MobSpawnsBiomeModifier implements BiomeModifier
 {
 	public static final MapCodec<MobSpawnsBiomeModifier> CODEC = MapCodec.unit(MobSpawnsBiomeModifier::new);
@@ -20,8 +24,15 @@ public class MobSpawnsBiomeModifier implements BiomeModifier
 		if (phase == Phase.ADD) {
 			AddSpawnBiomeModificationsEvent.EVENT.invoke(new AddSpawnBiomeModificationsEvent((tag, spawnGroup, entityType, spawnWeight, minGroupSize, maxGroupSize) -> {
 				if (biome.is(tag)) {
-					//? if >=1.21.5 {
+					//? if >=26.3 {
 					builder.getMobSpawnSettings().addSpawn(
+						entityType,
+						spawnGroup,
+						spawnWeight,
+						UniformInt.of(minGroupSize, maxGroupSize)
+					);
+					//?} else if >=1.21.5 {
+					/*builder.getMobSpawnSettings().addSpawn(
 						spawnGroup,
 						spawnWeight,
 						new MobSpawnSettings.SpawnerData(
@@ -30,7 +41,7 @@ public class MobSpawnsBiomeModifier implements BiomeModifier
 							maxGroupSize
 						)
 					);
-					//?} else {
+					*///?} else {
 					/*builder.getMobSpawnSettings().getSpawner(spawnGroup).add(
 						new MobSpawnSettings.SpawnerData(
 							entityType,

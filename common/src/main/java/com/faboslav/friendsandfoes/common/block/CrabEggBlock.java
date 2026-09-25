@@ -38,6 +38,10 @@ import org.jetbrains.annotations.Nullable;
 import net.minecraft.world.attribute.EnvironmentAttributes;
 //?}
 
+//? if >=26.3 {
+import net.minecraft.server.level.ServerPlayer;
+//?}
+
 @SuppressWarnings({"deprecation", "unchecked"})
 public final class CrabEggBlock extends Block
 {
@@ -131,8 +135,13 @@ public final class CrabEggBlock extends Block
 	}
 
 	public void playerDestroy(
-		Level world,
+		//? if >=26.3 {
+		ServerLevel world,
+		ServerPlayer player,
+		//?} else {
+		/*Level world,
 		Player player,
+		*///?}
 		BlockPos pos,
 		BlockState state,
 		@Nullable BlockEntity blockEntity,

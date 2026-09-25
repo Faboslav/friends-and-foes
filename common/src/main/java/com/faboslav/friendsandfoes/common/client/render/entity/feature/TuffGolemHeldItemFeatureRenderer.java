@@ -2,13 +2,18 @@ package com.faboslav.friendsandfoes.common.client.render.entity.feature;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.util.Mth;
+
+//? if >=26.3 {
+import net.minecraft.client.renderer.texture.OverlayTexture;
+//?} else {
+/*import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+*///?}
 
 //? if >=1.21.9 {
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -30,15 +35,21 @@ public final class TuffGolemHeldItemFeatureRenderer extends RenderLayer<TuffGole
 /*public final class TuffGolemHeldItemFeatureRenderer<T extends TuffGolemEntity, M extends EntityModel<T>> extends RenderLayer<T, M>
 *///?}
 {
-	private final ItemInHandRenderer heldItemRenderer;
+	//? if <26.3 {
+	/*private final ItemInHandRenderer heldItemRenderer;
+	*///?}
 
-	//? if >=1.21.3 {
-	public TuffGolemHeldItemFeatureRenderer(RenderLayerParent<TuffGolemRenderState, TuffGolemEntityModel> renderer, ItemInHandRenderer heldItemRenderer) {
+	//? if >=26.3 {
+	public TuffGolemHeldItemFeatureRenderer(RenderLayerParent<TuffGolemRenderState, TuffGolemEntityModel> renderer) {
+		super(renderer);
+	}
+	//?} else if >=1.21.3 {
+	/*public TuffGolemHeldItemFeatureRenderer(RenderLayerParent<TuffGolemRenderState, TuffGolemEntityModel> renderer, ItemInHandRenderer heldItemRenderer) {
 		super(renderer);
 		this.heldItemRenderer = heldItemRenderer;
 	}
 
-	//?} else {
+	*///?} else {
 	
 	/*public TuffGolemHeldItemFeatureRenderer(
 		RenderLayerParent<T, M> context,
@@ -57,44 +68,57 @@ public final class TuffGolemHeldItemFeatureRenderer extends RenderLayer<TuffGole
 	/*public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, TuffGolemEntity tuffGolem, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch)
 	 *///?}
 	{
-		//? if >=1.21.3 {
-		var tuffGolem = renderState.tuffGolem;
-		var tickDelta = renderState.partialTick;
+		//? if >=26.3 {
 		var animationProgress = renderState.ageInTicks;
-		//?}
 
-		if (
-			tuffGolem.isDeadOrDying()
-			|| !tuffGolem.isHoldingItem()
-		) {
+		if (renderState.isDeadOrDying || !renderState.isHoldingItem) {
 			return;
 		}
+		//?} else if >=1.21.3 {
+		/*var tuffGolem = renderState.tuffGolem;
+		var animationProgress = renderState.ageInTicks;
+
+		if (renderState.isDeadOrDying || !renderState.isHoldingItem) {
+			return;
+		}
+
 		ItemStack itemStack = tuffGolem.getItemBySlot(EquipmentSlot.MAINHAND);
+		*///?} else {
+		/*if (tuffGolem.isDeadOrDying() || !tuffGolem.isHoldingItem()) {
+			return;
+		}
+
+		ItemStack itemStack = tuffGolem.getItemBySlot(EquipmentSlot.MAINHAND);
+		*///?}
 
 		float yItemOffset = 0.4F;
-		float levitationOffset = Mth.sin(((float) tuffGolem.tickCount + tickDelta) / 10.0F + 3.1415927F) * 0.05F + 0.05F;
+		float levitationOffset = Mth.sin(animationProgress / 10.0F + 3.1415927F) * 0.05F + 0.05F;
 		float yOffset = levitationOffset + (1.0F - yItemOffset * 0.7F);
 		float rotationAngle = (float) Math.toDegrees((animationProgress * 0.05F) % (2.0F * (float) Math.PI));
 		poseStack.pushPose();
 		poseStack.translate(0.0, yOffset, -0.575);
-		poseStack.mulPose(Axis.XP.rotationDegrees(180.0F));
-		poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle));
+		poseStack.rotate(Axis.XP.rotationDegrees(180.0F));
+		poseStack.rotate(Axis.YP.rotationDegrees(rotationAngle));
 
-		this.heldItemRenderer.renderItem(
+		//? if >=26.3 {
+		renderState.heldItem.submit(poseStack, submitNodeCollector, packedLight, OverlayTexture.NO_OVERLAY, renderState.outlineColor);
+		//?} else {
+		/*this.heldItemRenderer.renderItem(
 			tuffGolem,
 			itemStack,
 			ItemDisplayContext.GROUND,
 			//? if <=1.21.4 {
-			/*false,
-			*///?}
+			/^false,
+			^///?}
 			poseStack,
 			//? if >=1.21.9 {
 			submitNodeCollector,
 			//?} else {
-			/*bufferSource,
-			 *///?}
+			/^bufferSource,
+			 ^///?}
 			packedLight
 		);
+		*///?}
 		poseStack.popPose();
 	}
 }

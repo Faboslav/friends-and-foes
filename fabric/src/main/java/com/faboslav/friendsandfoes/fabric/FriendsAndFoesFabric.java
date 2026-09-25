@@ -2,7 +2,6 @@ package com.faboslav.friendsandfoes.fabric;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.events.AddItemGroupEntriesEvent;
-import com.faboslav.friendsandfoes.common.events.item.RegisterBrewingRecipesEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.*;
 import com.faboslav.friendsandfoes.common.init.*;
 import com.faboslav.friendsandfoes.common.platform.CustomSpawnGroup;
@@ -43,8 +42,14 @@ import net.minecraft.world.level.storage.loot.functions.ExplorationMapFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.functions.SetNameFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
+
+//? if >=26.3 {
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
+//?} else {
+/*import com.faboslav.friendsandfoes.common.events.item.RegisterBrewingRecipesEvent;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+*///?}
 
 //? if <= 1.21.11 {
 /*import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
@@ -64,8 +69,11 @@ import net.fabricmc.fabric.api.registry.FabricBrewingRecipeRegistry;
 import net.minecraft.world.item.crafting.Ingredient;
 *///?} else {
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
-import net.fabricmc.fabric.api.registry.FabricPotionBrewingBuilder;
 //?}
+
+//? if >=1.21.1 && <26.3 {
+/*import net.fabricmc.fabric.api.registry.FabricPotionBrewingBuilder;
+*///?}
 
 @SuppressWarnings({"deprecation", "unchecked"})
 public final class FriendsAndFoesFabric implements ModInitializer
@@ -118,13 +126,15 @@ public final class FriendsAndFoesFabric implements ModInitializer
 			ServerWorldSpawnersUtil.register(world, new IllusionerSpawner());
 		}));
 
-		RegisterBrewingRecipesEvent.EVENT.invoke(new RegisterBrewingRecipesEvent((input, item, output) ->
+		//? if <26.3 {
+		/*RegisterBrewingRecipesEvent.EVENT.invoke(new RegisterBrewingRecipesEvent((input, item, output) ->
 			//? if >= 1.21.1 {
 			FabricPotionBrewingBuilder.BUILD.register(builder -> builder.addMix(input, item, output))
 			//?} else {
-			/*FabricBrewingRecipeRegistry.registerPotionRecipe(input, Ingredient.of(item), output)
-			*///?}
+			/^FabricBrewingRecipeRegistry.registerPotionRecipe(input, Ingredient.of(item), output)
+			^///?}
 		));
+		*///?}
 
 		//? if <1.21.1 {
 		/*RegisterBlockSetTypeEvent.EVENT.invoke(new RegisterBlockSetTypeEvent(BlockSetType::register));
@@ -165,14 +175,22 @@ public final class FriendsAndFoesFabric implements ModInitializer
 				*///?}
 			))) {
 				lootBuilder.withPool(LootPool.lootPool()
-					.setRolls(ConstantValue.exactly(1))
+					//? if >=26.3 {
+					.setRolls(ContextIntProviders.exactly(1))
+					//?} else {
+					/*.setRolls(ConstantValue.exactly(1))
+					*///?}
 					.add(LootItem.lootTableItem(FriendsAndFoesItems.MUSIC_DISC_AROUND_THE_CORNER.get()))
 					//? if >= 26.1 {
 					.when(LootItemRandomChanceCondition.randomChance(0.095F).build())
 					//?} else {
 					/*.conditionally(LootItemRandomChanceCondition.randomChance(0.095F).build())
 					*///?}
-					.apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 1)))
+					//? if >=26.3 {
+					.apply(SetItemCountFunction.setCount(ContextIntProviders.between(1, 1)))
+					//?} else {
+					/*.apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 1)))
+					*///?}
 				);
 			}
 
@@ -184,10 +202,18 @@ public final class FriendsAndFoesFabric implements ModInitializer
 				*///?}
 			))) {
 				lootBuilder.withPool(LootPool.lootPool()
-					.setRolls(ConstantValue.exactly(1))
+					//? if >=26.3 {
+					.setRolls(ContextIntProviders.exactly(1))
+					//?} else {
+					/*.setRolls(ConstantValue.exactly(1))
+					*///?}
 					.add(LootItem.lootTableItem(Items.MAP)
-						.apply(ExplorationMapFunction.makeExplorationMap()
+						//? if >=26.3 {
+						.apply(ExplorationMapFunction.makeExplorationMap(registries.lookupOrThrow(Registries.STRUCTURE).getOrThrow(TagKey.create(Registries.STRUCTURE, FriendsAndFoes.makeID("on_citadel_maps"))))
+						//?} else {
+						/*.apply(ExplorationMapFunction.makeExplorationMap()
 							.setDestination(TagKey.create(Registries.STRUCTURE, FriendsAndFoes.makeID("on_citadel_maps")))
+						*///?}
 							//? if >= 1.21.1 {
 							.setMapDecoration(FriendsAndFoesMapDecorationTypes.CITADEL.holder())
 							//?}

@@ -19,7 +19,7 @@ public final class PlayerIllusionUtil
 
 		for (int i = 0; i < 16; ++i) {
 			y = (int) Mth.clamp(y + 1, bottomY, topY);
-			boolean teleportResult = livingEntity.randomTeleport(x, y, z, false);
+			boolean teleportResult = livingEntity.randomTeleport(x, y, z, false/*? if >=26.3 {*/, blockState -> false/*?}*/);
 
 			if (teleportResult) {
 				return true;

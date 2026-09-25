@@ -4,6 +4,7 @@ import com.faboslav.friendsandfoes.common.entity.PenguinEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.task.penguin.PenguinBreedTask;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.task.penguin.PenguinLayEggTask;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.task.penguin.PenguinLocateEggSpotTask;
+import com.faboslav.friendsandfoes.common.entity.ai.brain.task.penguin.PenguinSwimToAirTask;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.task.penguin.PenguinSwimWithPlayerTask;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.task.penguin.PenguinTravelToEggSpotTask;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.task.penguin.PenguinWingFlapTask;
@@ -105,6 +106,7 @@ public final class PenguinBrain
 				new AnimalPanic/*? if >= 1.21.1 {*/<PenguinEntity>/*?}*/(1.4F),
 				new LookAtTargetSink(45, 90),
 				new MoveToTargetSink(),
+				new PenguinSwimToAirTask(),
 				new CountDownCooldownTicks(MemoryModuleType.TEMPTATION_COOLDOWN_TICKS),
 				new CountDownCooldownTicks(FriendsAndFoesMemoryModuleTypes.PENGUIN_WING_FLAP_COOLDOWN.get())
 			)
@@ -231,7 +233,9 @@ public final class PenguinBrain
 		MEMORY_MODULES = List.of(
 			MemoryModuleType.TEMPTING_PLAYER,
 			MemoryModuleType.TEMPTATION_COOLDOWN_TICKS,
-			MemoryModuleType.IS_TEMPTED,
+			//? if <26.3 {
+			/*MemoryModuleType.IS_TEMPTED,
+			*///?}
 			MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES,
 			MemoryModuleType.PATH,
 			MemoryModuleType.LOOK_TARGET,

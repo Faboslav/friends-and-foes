@@ -5,6 +5,7 @@ import com.faboslav.friendsandfoes.common.entity.GlareEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.GlareAnimations;
 import com.faboslav.friendsandfoes.common.util.animation.AnimationMath;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntityModel;
+import net.minecraft.world.phys.Vec2;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
@@ -137,19 +138,24 @@ public class GlareEntityModel extends EntityModel<GlareRenderState>
 	{
 		//? if >=1.21.3 {
 		super.setupAnim(renderState);
-		var glare = renderState.glare;
 		var limbAngle = renderState.walkAnimationPos;
 		var limbDistance = renderState.walkAnimationSpeed;
 		var ageInTicks = renderState.ageInTicks;
+
+		VersionedEntityModel.animate(this, this.sitAnimation, renderState.sitAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.flyAnimation, renderState.flyAnimationState, ageInTicks);
+
+		this.animateEyes(renderState.eyesPositionOffset);
+		this.animateFloating(renderState.isGrumpy, renderState.isOrderedToSit, ageInTicks);
 		//?} else {
 		/*this.root().getAllParts().forEach(ModelPart::resetPose);
-		*///?}
 
 		VersionedEntityModel.animate(this, this.sitAnimation, glare.sitAnimationState, ageInTicks);
 		VersionedEntityModel.animate(this, this.flyAnimation, glare.flyAnimationState, ageInTicks);
 
-		this.animateEyes(glare);
-		this.animateFloating(glare, ageInTicks);
+		this.animateEyes(glare.getCurrentEyesPositionOffset());
+		this.animateFloating(glare.isGrumpy(), glare.isOrderedToSit(), ageInTicks);
+		*///?}
 
 		float movementForce = Mth.sin(limbAngle * 0.1F) * limbDistance * 0.75F;
 		float absMovementForce = Math.abs(movementForce);
@@ -174,16 +180,17 @@ public class GlareEntityModel extends EntityModel<GlareRenderState>
 	}
 
 	private void animateFloating(
-		GlareEntity glare,
+		boolean isGrumpy,
+		boolean isOrderedToSit,
 		float animationProgress
 	) {
-		float verticalFloatingSpeed = glare.isGrumpy() ? 0.3F:0.1F;
-		float horizontalFloatingSpeed = glare.isGrumpy() ? 0.15F:0.05F;
+		float verticalFloatingSpeed = isGrumpy ? 0.3F:0.1F;
+		float horizontalFloatingSpeed = isGrumpy ? 0.15F:0.05F;
 
 		float verticalFloatingOffset;
 		float horizontalFloatingOffset;
 
-		if (glare.isOrderedToSit()) {
+		if (isOrderedToSit) {
 			verticalFloatingOffset = 0.5F;
 			horizontalFloatingOffset = 0.5F;
 		} else {
@@ -191,7 +198,7 @@ public class GlareEntityModel extends EntityModel<GlareRenderState>
 			horizontalFloatingOffset = 1.0F;
 		}
 
-		if (glare.isGrumpy()) {
+		if (isGrumpy) {
 			ModelPartAnimator.setXPosition(this.root, AnimationMath.sin(animationProgress, 0.5F));
 			ModelPartAnimator.setYPosition(this.root, AnimationMath.absSin(animationProgress, 0.1F));
 			ModelPartAnimator.setYRotation(this.root, AnimationMath.sin(animationProgress, 0.05F));
@@ -204,9 +211,7 @@ public class GlareEntityModel extends EntityModel<GlareRenderState>
 		this.head.x = horizontalFloatingProgress;
 	}
 
-	private void animateEyes(GlareEntity glare) {
-		var eyesPositionOffset = glare.getCurrentEyesPositionOffset();
-
+	private void animateEyes(Vec2 eyesPositionOffset) {
 		this.eyes.x += eyesPositionOffset.x;
 		this.eyes.y += eyesPositionOffset.y;
 	}

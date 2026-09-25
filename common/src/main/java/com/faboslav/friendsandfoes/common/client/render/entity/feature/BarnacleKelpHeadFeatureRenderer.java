@@ -6,6 +6,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.Identifier;
+import java.util.List;
+import java.util.stream.IntStream;
 
 //? if >=1.21.9 {
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -25,6 +27,11 @@ public final class BarnacleKelpHeadFeatureRenderer extends RenderLayer<BarnacleR
 /*public final class BarnacleKelpHeadFeatureRenderer extends RenderLayer<BarnacleEntity, BarnacleEntityModel<BarnacleEntity>>
 *///?}
 {
+	private static final int KELP_HEAD_TEXTURE_FRAMES = 20;
+	private static final List<Identifier> KELP_HEAD_TEXTURE_MAP = IntStream.rangeClosed(1, KELP_HEAD_TEXTURE_FRAMES)
+		.mapToObj(frame -> FriendsAndFoes.makeID("textures/entity/barnacle/barnacle_kelp_head_" + frame + ".png"))
+		.toList();
+
 	//? if >=1.21.3 {
 	public BarnacleKelpHeadFeatureRenderer(RenderLayerParent<BarnacleRenderState, BarnacleEntityModel> renderLayerParent) {
 		super(renderLayerParent);
@@ -43,15 +50,19 @@ public final class BarnacleKelpHeadFeatureRenderer extends RenderLayer<BarnacleR
 	 *///?}
 	{
 		//? if >=1.21.3 {
-		var barnacle = renderState.barnacle;
-		//?}
-
-		if (barnacle.isInvisible()) {
+		if (renderState.isInvisible) {
 			return;
 		}
 
-		int textureFrame = barnacle.isUnderWater() ? barnacle.tickCount % 20 + 1 : 1;
-		Identifier kelpTexture = FriendsAndFoes.makeID("textures/entity/barnacle/barnacle_kelp_head_" + textureFrame + ".png");
+		int textureFrame = renderState.isUnderWater ? (int) renderState.ageInTicks % KELP_HEAD_TEXTURE_FRAMES : 0;
+		//?} else {
+		/*if (barnacle.isInvisible()) {
+			return;
+		}
+
+		int textureFrame = barnacle.isUnderWater() ? barnacle.tickCount % KELP_HEAD_TEXTURE_FRAMES : 0;
+		*///?}
+		Identifier kelpTexture = KELP_HEAD_TEXTURE_MAP.get(textureFrame);
 
 		renderColoredCutoutModel(
 			this.getParentModel(),
@@ -69,7 +80,7 @@ public final class BarnacleKelpHeadFeatureRenderer extends RenderLayer<BarnacleR
 			/*barnacle,
 			 *///?}
 			//? if >=1.21.9 {
-			-1, 0
+			-1, 1
 			//?} else if >= 1.21.1 {
 			/*-1
 			*///?} else {

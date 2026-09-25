@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesStatusEffects;
 import com.faboslav.friendsandfoes.common.modcompat.ModChecker;
 import com.faboslav.friendsandfoes.common.modcompat.ModCompat;
@@ -51,13 +52,24 @@ public class LivingEntityMixin
 		return itemStackInHand;
 	}
 
-	//? if >= 1.21.1 {
+	//? if >= 26.2 {
 	@ModifyExpressionValue(
-		/*? if >= 1.21.4 {*/
 		method = "travelInAir",
-		/*?} else {*/
-		/*method = "travel",
-		*//*?}*/
+		at = @At(
+			value = "INVOKE",
+			target = "Lnet/minecraft/world/entity/LivingEntity;computeModifiedFriction(FF)F",
+			ordinal = 0
+		),
+		require = 0
+	)
+	private float friendsandfoes$applyGlideFriction(float blockFriction) {
+		return friendsandfoes$computeGlideFriction(blockFriction);
+	}
+	//?}
+
+	//? if >= 1.21.4 && < 26.2 {
+	/*@ModifyExpressionValue(
+		method = "travelInAir",
 		at = @At(
 			value = "INVOKE",
 			target = "Lnet/minecraft/world/level/block/Block;getFriction()F"
@@ -69,11 +81,7 @@ public class LivingEntityMixin
 	}
 
 	@ModifyExpressionValue(
-		/*? if >= 1.21.4 {*/
 		method = "travelInAir",
-		/*?} else {*/
-		/*method = "travel",
-		*//*?}*/
 		at = @At(
 			value = "INVOKE",
 			target = "Lnet/minecraft/world/level/block/state/BlockState;getFriction(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;)F"
@@ -83,7 +91,9 @@ public class LivingEntityMixin
 	private float friendsandfoes$applyGlideFrictionForgePatched(float blockFriction) {
 		return friendsandfoes$computeGlideFriction(blockFriction);
 	}
-	//?} else {
+	*///?}
+
+	//? if < 1.21.4 {
 	/*@ModifyExpressionValue(
 		method = "travel",
 		at = @At(

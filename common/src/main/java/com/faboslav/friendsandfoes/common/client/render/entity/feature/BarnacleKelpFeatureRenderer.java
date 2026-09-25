@@ -45,12 +45,14 @@ public final class BarnacleKelpFeatureRenderer extends RenderLayer<BarnacleRende
 	 *///?}
 	{
 		//? if >=1.21.3 {
-		var barnacle = renderState.barnacle;
-		//?}
-
-		if (barnacle.isInvisible()) {
+		if (renderState.isInvisible) {
 			return;
 		}
+		//?} else {
+		/*if (barnacle.isInvisible()) {
+			return;
+		}
+		*///?}
 
 		renderColoredCutoutModel(
 			this.getParentModel(),
@@ -68,7 +70,7 @@ public final class BarnacleKelpFeatureRenderer extends RenderLayer<BarnacleRende
 			/*barnacle,
 			 *///?}
 			//? if >=1.21.9 {
-			-1, 0
+			-1, 1
 			//?} else if >= 1.21.1 {
 			/*-1
 			*///?} else {

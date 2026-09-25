@@ -23,6 +23,10 @@ import net.minecraft.world.item.crafting.RecipeMap;
 import java.util.Map;
 *///?}
 
+//? if >=26.3 {
+import net.minecraft.core.HolderLookup;
+//?}
+
 @Mixin(RecipeManager.class)
 public final class RecipeManagerMixin
 {
@@ -38,7 +42,20 @@ public final class RecipeManagerMixin
 	@Unique
 	private static final Identifier ACACIA_BEEHIVE_ID = FriendsAndFoes.makeID("acacia_beehive");
 
+	//? if >=26.3 {
+	@Unique
+	private HolderLookup.RegistryLookup<Recipe<?>> friendsandfoes$recipeLookup;
+
 	@Inject(
+		method = "<init>",
+		at = @At("TAIL")
+	)
+	private void friendsandfoes$applyDynamicRecipes(
+		HolderLookup.Provider registries,
+		CallbackInfo ci
+	)
+	//?} else {
+	/*@Inject(
 		method = "apply*",
 		at = @At("TAIL")
 	)
@@ -46,12 +63,17 @@ public final class RecipeManagerMixin
 		//? if >=1.21.3 {
 		RecipeMap recipeMap,
 		//?} else {
-		/*Map<Identifier, ?> jsons,
-		*///?}
+		/^Map<Identifier, ?> jsons,
+		^///?}
 		ResourceManager resourceManager,
 		ProfilerFiller profiler,
 		CallbackInfo ci
-	) {
+	)
+	*///?}
+	{
+		//? if >=26.3 {
+		this.friendsandfoes$recipeLookup = registries.lookupOrThrow(Registries.RECIPE);
+		//?}
 
 		var config = FriendsAndFoes.getConfig();
 
@@ -97,6 +119,12 @@ public final class RecipeManagerMixin
 		}
 		//?}
 
+		//? if >=26.3 {
+		if (!config.enablePoplarBeehive) {
+			removeRecipe(FriendsAndFoesItems.POPLAR_BEEHIVE.getId());
+		}
+		//?}
+
 		if (!config.enableWarpedBeehive) {
 			removeRecipe(FriendsAndFoesItems.WARPED_BEEHIVE.getId());
 		}
@@ -114,8 +142,14 @@ public final class RecipeManagerMixin
 	}
 
 	private void removeRecipe(Identifier id) {
-		//? if >=1.21.3 {
-		RecipeMap recipeMap = this.recipes;
+		//? if >=26.3 {
+		ResourceKey<Recipe<?>> key = ResourceKey.create(Registries.RECIPE, id);
+		this.friendsandfoes$recipeLookup.get(key).ifPresent(recipe -> {
+			this.friendsandfoes$recipeLookup = this.friendsandfoes$recipeLookup.filterElements(element -> element != recipe.value());
+			this.recipes = RecipeMap.create(this.friendsandfoes$recipeLookup);
+		});
+		//?} else if >=1.21.3 {
+		/*RecipeMap recipeMap = this.recipes;
 		var byKey = new HashMap<ResourceKey<Recipe<?>>, RecipeHolder<?>>();
 		for (var holder : recipeMap.values()) {
 			byKey.put(holder.id(), holder);
@@ -123,7 +157,7 @@ public final class RecipeManagerMixin
 		ResourceKey<Recipe<?>> key = ResourceKey.create(Registries.RECIPE, id);
 		byKey.remove(key);
 		this.recipes = RecipeMap.create(byKey.values());
-		//?} else {
+		*///?} else {
 		/*var map = this.recipes.get(RecipeType.CRAFTING);
 		if (map != null) {
 			map.remove(id);

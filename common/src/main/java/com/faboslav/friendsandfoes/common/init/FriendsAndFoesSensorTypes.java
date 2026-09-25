@@ -4,6 +4,7 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.CrabBrain;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.GlareBrain;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.PenguinBrain;
+import com.faboslav.friendsandfoes.common.entity.ai.brain.sensor.BarnacleAttackablesSensor;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.sensor.BarnacleSpecificSensor;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.sensor.GlareSpecificSensor;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.sensor.PenguinSpecificSensor;
@@ -35,6 +36,9 @@ public final class FriendsAndFoesSensorTypes
 		return new CopperGolemSpecificSensor();
 	}));
 	*///?}
+	public static final RegistryEntry<SensorType<BarnacleAttackablesSensor>> BARNACLE_ATTACKABLES_SENSOR = SENSOR_TYPES.register("barnacle_attackables_sensor", () -> new SensorType<>(() -> {
+		return new BarnacleAttackablesSensor();
+	}));
 	public static final RegistryEntry<SensorType<BarnacleSpecificSensor>> BARNACLE_SPECIFIC_SENSOR = SENSOR_TYPES.register("barnacle_specific_sensor", () -> new SensorType<>(() -> {
 		return new BarnacleSpecificSensor();
 	}));

@@ -66,7 +66,7 @@ public final class OnEntitySpawn
 			entityToSpawn.yHeadRot = entity.yHeadRot;
 			entityToSpawn.setBaby(entity.isBaby());
 			entityToSpawn.setNoAi(entity.isNoAi());
-			entityToSpawn.setInvulnerable(entity.isInvulnerable());
+			entityToSpawn.setPermanentlyInvulnerable(entity.isPermanentlyInvulnerable());
 
 			if(entity.hasCustomName()) {
 				entityToSpawn.setCustomName(entity.getCustomName());

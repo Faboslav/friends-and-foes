@@ -18,8 +18,10 @@ public final class FriendsAndFoesMapDecorationTypes
 	public static final HolderRegistryEntry<MapDecorationType> CITADEL = MAP_DECORATION_TYPES.registerHolder("citadel", () -> new MapDecorationType(
 		FriendsAndFoes.makeID("citadel"),
 		true,
-		MapDecorationType.NO_MAP_COLOR,
+		//? if <26.3 {
+		/*MapDecorationType.NO_MAP_COLOR,
 		true,
+		*///?}
 		false
 	));
 }

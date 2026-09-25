@@ -4,6 +4,7 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
+import com.faboslav.friendsandfoes.common.versions.VersionedLevel;
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -58,11 +59,7 @@ public final class IceologerSpawner implements CustomSpawner
 
 		if (
 			l < 5L
-			//? if >=1.21.5 {
-			|| world.isDarkOutside()
-			//?} else {
-			/*|| world.isNight()
-			*///?}
+			|| VersionedLevel.isNight(world)
 			|| random.nextIntBetweenInclusive(0, 1) != 0
 		) {
 			return /*? if <1.21.5 {*//*0*//*?}*/;

@@ -46,19 +46,20 @@ public final class GlareFlowerFeatureRenderer extends RenderLayer<GlareRenderSta
 	*///?}
 	{
 		//? if >=1.21.3 {
-		var glare = renderState.glare;
-		//?}
-
-		if (glare.isInvisible()) {
+		if (renderState.isInvisible) {
 			return;
 		}
 
-		String string = ChatFormatting.stripFormatting(glare.getName().getString());
+		boolean hasFlower = renderState.hasFlower;
+		//?} else {
+		/*if (glare.isInvisible()) {
+			return;
+		}
 
-		if (
-			"Anna".equals(string)
-			|| glare.isTame()
-		) {
+		boolean hasFlower = glare.isTame() || "Anna".equals(ChatFormatting.stripFormatting(glare.getName().getString()));
+		*///?}
+
+		if (hasFlower) {
 			renderColoredCutoutModel(
 				this.getParentModel(),
 				FLOWERING_TEXTURE,
@@ -75,7 +76,7 @@ public final class GlareFlowerFeatureRenderer extends RenderLayer<GlareRenderSta
 				/*glare,
 				*///?}
 				//? if >=1.21.9 {
-				-1, 0
+				-1, 1
 				//?} else if >= 1.21.1 {
 				/*-1
 				*///?} else {

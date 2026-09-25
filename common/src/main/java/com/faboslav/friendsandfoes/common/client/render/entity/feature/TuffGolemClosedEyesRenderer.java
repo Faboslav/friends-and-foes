@@ -45,12 +45,14 @@ public final class TuffGolemClosedEyesRenderer extends RenderLayer<TuffGolemRend
 	 *///?}
 	{
 		//? if >=1.21.3 {
-		var tuffGolem = renderState.tuffGolem;
-		//?}
-
-		if (tuffGolem.isInvisible() || !tuffGolem.isInSleepingPose()) {
+		if (renderState.isInvisible || !renderState.isInSleepingPose) {
 			return;
 		}
+		//?} else {
+		/*if (tuffGolem.isInvisible() || !tuffGolem.isInSleepingPose()) {
+			return;
+		}
+		*///?}
 
 		renderColoredCutoutModel(
 			this.getParentModel(),
@@ -68,7 +70,7 @@ public final class TuffGolemClosedEyesRenderer extends RenderLayer<TuffGolemRend
 			/*tuffGolem,
 			 *///?}
 			//? if >=1.21.9 {
-			-1, 0
+			-1, 1
 			//?} else if >= 1.21.1 {
 			/*-1
 			*///?} else {

@@ -9,6 +9,7 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.world.entity.AnimationState;
 
 //? if >= 1.21.6 {
 import net.minecraft.client.animation.KeyframeAnimation;
@@ -120,17 +121,26 @@ public final class RascalEntityModel extends EntityModel<RascalRenderState>
 	{
 		//? if >=1.21.3 {
 		super.setupAnim(renderState);
-		var rascal = renderState.rascal;
-		var limbSwing = renderState.walkAnimationPos;
-		var limbSwingAmount = renderState.walkAnimationSpeed;
-		var ageInTicks = renderState.ageInTicks;
+
+		this.updateKeyframeAnimations(renderState.idleAnimationState, renderState.nodAnimationState, renderState.giveRewardAnimationState, renderState.walkAnimationPos, renderState.walkAnimationSpeed, renderState.ageInTicks);
 		//?} else {
 		/*this.root().getAllParts().forEach(ModelPart::resetPose);
-		*///?}
 
-		VersionedEntityModel.animate(this, this.idleAnimation, rascal.idleAnimationState, ageInTicks);
-		VersionedEntityModel.animate(this, this.nodAnimation, rascal.nodAnimationState, ageInTicks);
-		VersionedEntityModel.animate(this, this.giveRewardAnimation, rascal.giveRewardAnimationState, ageInTicks);
+		this.updateKeyframeAnimations(rascal.idleAnimationState, rascal.nodAnimationState, rascal.giveRewardAnimationState, limbSwing, limbSwingAmount, ageInTicks);
+		*///?}
+	}
+
+	private void updateKeyframeAnimations(
+		AnimationState idleAnimationState,
+		AnimationState nodAnimationState,
+		AnimationState giveRewardAnimationState,
+		float limbSwing,
+		float limbSwingAmount,
+		float ageInTicks
+	) {
+		VersionedEntityModel.animate(this, this.idleAnimation, idleAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.nodAnimation, nodAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.giveRewardAnimation, giveRewardAnimationState, ageInTicks);
 		VersionedEntityModel.animateWalk(this, this.walkAnimation, limbSwing, limbSwingAmount, 1.5F, 2.5F);
 	}
 }

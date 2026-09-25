@@ -24,6 +24,9 @@ public final class FriendsAndFoesMemoryModuleTypes
 	public static final RegistryEntry<MemoryModuleType<Integer>> COPPER_GOLEM_SPIN_HEAD_COOLDOWN = MEMORY_MODULE_TYPES.register("copper_golem_spin_head_cooldown", () -> new MemoryModuleType<>(Optional.of(Codec.INT)));
 	public static final RegistryEntry<MemoryModuleType<Integer>> COPPER_GOLEM_PRESS_BUTTON_COOLDOWN = MEMORY_MODULE_TYPES.register("copper_golem_press_button_cooldown", () -> new MemoryModuleType<>(Optional.of(Codec.INT)));
 	*///?}
+	public static final RegistryEntry<MemoryModuleType<Integer>> BARNACLE_TENTACLE_ATTACK_COOLDOWN = MEMORY_MODULE_TYPES.register("barnacle_tentacle_attack_cooldown", () -> new MemoryModuleType<>(Optional.of(Codec.INT)));
+	public static final RegistryEntry<MemoryModuleType<GlobalPos>> BARNACLE_HIDING_SPOT_POS = MEMORY_MODULE_TYPES.register("barnacle_hiding_spot_pos", () -> new MemoryModuleType<>(Optional.of(GlobalPos.CODEC)));
+	public static final RegistryEntry<MemoryModuleType<Integer>> BARNACLE_HIDING_SPOT_LOCATING_COOLDOWN = MEMORY_MODULE_TYPES.register("barnacle_hiding_spot_locating_cooldown", () -> new MemoryModuleType<>(Optional.of(Codec.INT)));
 	public static final RegistryEntry<MemoryModuleType<Boolean>> CRAB_HAS_EGG = MEMORY_MODULE_TYPES.register("crab_has_egg", () -> new MemoryModuleType<>(Optional.of(Codec.BOOL)));
 	public static final RegistryEntry<MemoryModuleType<Boolean>> CRAB_IS_DANCING = MEMORY_MODULE_TYPES.register("crab_is_dancing", () -> new MemoryModuleType<>(Optional.of(Codec.BOOL)));
 	public static final RegistryEntry<MemoryModuleType<GlobalPos>> CRAB_BURROW_POS = MEMORY_MODULE_TYPES.register("crab_burrow_pos", () -> new MemoryModuleType<>(Optional.of(GlobalPos.CODEC)));

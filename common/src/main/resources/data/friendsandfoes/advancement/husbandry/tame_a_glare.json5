@@ -28,13 +28,23 @@
 						"minecraft:glow_berries"
 					]
 				},
+				//? if >=26.3 {
 				"entity": {
+					"type": "minecraft:entity_properties",
+					"entity": "this",
+					"predicate": {
+						"minecraft:entity_type": "friendsandfoes:glare"
+					}
+				}
+				//?} else {
+				/*"entity": {
 					//? if >=26.2 {
 					"entity_type": "friendsandfoes:glare"
 					//?} else {
-					/*"type": "friendsandfoes:glare"
-					*///?}
+					/^"type": "friendsandfoes:glare"
+					^///?}
 				}
+				*///?}
 			}
 		}
 	},

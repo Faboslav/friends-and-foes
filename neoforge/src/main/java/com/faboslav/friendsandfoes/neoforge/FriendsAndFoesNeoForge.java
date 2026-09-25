@@ -29,7 +29,6 @@ import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
-import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.neoforged.neoforge.event.entity.living.FinalizeSpawnEvent;
@@ -45,6 +44,10 @@ import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
 //? if <= 1.21.11 {
 /*import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
+*///?}
+
+//? if <26.3 {
+/*import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
 *///?}
 
 @Mod(FriendsAndFoes.MOD_ID)
@@ -75,7 +78,9 @@ public final class FriendsAndFoesNeoForge
 		//? if <= 1.21.11 {
 		/*eventBus.addListener(FriendsAndFoesNeoForge::onAddVillagerTrades);
 		*///?}
-		eventBus.addListener(FriendsAndFoesNeoForge::onRegisterBrewingRecipes);
+		//? if <26.3 {
+		/*eventBus.addListener(FriendsAndFoesNeoForge::onRegisterBrewingRecipes);
+		*///?}
 		eventBus.addListener(FriendsAndFoesNeoForge::onAddReloadListeners);
 		eventBus.addListener(FriendsAndFoesNeoForge::onDatapackSync);
 		eventBus.addListener(FriendsAndFoesNeoForge::onEntitySpawn);
@@ -139,9 +144,11 @@ public final class FriendsAndFoesNeoForge
 	}
 	*///?}
 
-	private static void onRegisterBrewingRecipes(RegisterBrewingRecipesEvent event) {
+	//? if <26.3 {
+	/*private static void onRegisterBrewingRecipes(RegisterBrewingRecipesEvent event) {
 		com.faboslav.friendsandfoes.common.events.item.RegisterBrewingRecipesEvent.EVENT.invoke(new com.faboslav.friendsandfoes.common.events.item.RegisterBrewingRecipesEvent(event.getBuilder()::addMix));
 	}
+	*///?}
 
 	private static void onAddItemGroupEntries(BuildCreativeModeTabContentsEvent event) {
 		AddItemGroupEntriesEvent.EVENT.invoke(

@@ -3,7 +3,6 @@ package com.faboslav.friendsandfoes.common.entity.ai.brain.task.penguin;
 import com.faboslav.friendsandfoes.common.entity.PenguinEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import java.util.Map;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ai.behavior.Behavior;
@@ -79,7 +78,7 @@ public final class PenguinTravelToEggSpotTask extends Behavior<PenguinEntity>
 
 		BehaviorUtils.setWalkAndLookTargetMemories(
 			penguin,
-			new BlockPos(eggSpotPos.pos()),
+			eggSpotPos.pos().immutable(),
 			0.6F,
 			0
 		);

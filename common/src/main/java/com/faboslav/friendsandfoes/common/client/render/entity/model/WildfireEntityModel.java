@@ -4,6 +4,7 @@ import com.faboslav.friendsandfoes.common.entity.WildfireEntity;
 import com.faboslav.friendsandfoes.common.entity.animation.WildfireAnimations;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntityModel;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.world.entity.AnimationState;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -135,7 +136,6 @@ public final class WildfireEntityModel extends EntityModel<WildfireRenderState>
 	{
 		//? if >=1.21.3 {
 		super.setupAnim(wildfireRenderState);
-		var wildfire = wildfireRenderState.wildfire;
 		var limbSwing = wildfireRenderState.walkAnimationPos;
 		var limbSwingAmount = wildfireRenderState.walkAnimationSpeed;
 		var ageInTicks = wildfireRenderState.ageInTicks;
@@ -145,12 +145,13 @@ public final class WildfireEntityModel extends EntityModel<WildfireRenderState>
 		/*this.root().getAllParts().forEach(ModelPart::resetPose);
 		*///?}
 
-		VersionedEntityModel.animate(this, this.idleAnimation, wildfire.idleAnimationState, ageInTicks);
-		VersionedEntityModel.animate(this, this.shieldRotationAnimation, wildfire.shieldRotationAnimationState, ageInTicks);
-		VersionedEntityModel.animate(this, this.shockwaveAnimation, wildfire.shockwaveAnimationState, ageInTicks);
-		VersionedEntityModel.animateWalk(this, this.walkAnimation, limbSwing, limbSwingAmount, 1.0F, 1.0F);
-
+		//? if >=1.21.3 {
+		this.updateKeyframeAnimations(wildfireRenderState.idleAnimationState, wildfireRenderState.shieldRotationAnimationState, wildfireRenderState.shockwaveAnimationState, limbSwing, limbSwingAmount, ageInTicks);
+		int activeShieldsCount = wildfireRenderState.activeShieldsCount;
+		//?} else {
+		/*this.updateKeyframeAnimations(wildfire.idleAnimationState, wildfire.shieldRotationAnimationState, wildfire.shockwaveAnimationState, limbSwing, limbSwingAmount, ageInTicks);
 		int activeShieldsCount = wildfire.getActiveShieldsCount();
+		*///?}
 
 		for (int i = 0; i < WildfireEntity.DEFAULT_ACTIVE_SHIELDS_COUNT; ++i) {
 			this.shieldsModelParts.get(i).skipDraw = i > activeShieldsCount;
@@ -158,5 +159,19 @@ public final class WildfireEntityModel extends EntityModel<WildfireRenderState>
 
 		this.head.yRot = headYaw * 0.017453292F;
 		this.head.xRot = headPitch * 0.017453292F;
+	}
+
+	private void updateKeyframeAnimations(
+		AnimationState idleAnimationState,
+		AnimationState shieldRotationAnimationState,
+		AnimationState shockwaveAnimationState,
+		float limbSwing,
+		float limbSwingAmount,
+		float ageInTicks
+	) {
+		VersionedEntityModel.animate(this, this.idleAnimation, idleAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.shieldRotationAnimation, shieldRotationAnimationState, ageInTicks);
+		VersionedEntityModel.animate(this, this.shockwaveAnimation, shockwaveAnimationState, ageInTicks);
+		VersionedEntityModel.animateWalk(this, this.walkAnimation, limbSwing, limbSwingAmount, 1.0F, 1.0F);
 	}
 }

@@ -5,6 +5,7 @@ import com.faboslav.friendsandfoes.common.client.render.entity.feature.GlareFlow
 import com.faboslav.friendsandfoes.common.client.render.entity.model.GlareEntityModel;
 import com.faboslav.friendsandfoes.common.entity.GlareEntity;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityModelLayers;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.Identifier;
 
@@ -43,7 +44,12 @@ public class GlareEntityRenderer extends AgeableMobRenderer<GlareEntity, GlareRe
 	@Override
 	public void extractRenderState(GlareEntity glare, GlareRenderState renderState, float partialTick) {
 		super.extractRenderState(glare, renderState, partialTick);
-		renderState.glare = glare;
+		renderState.sitAnimationState.copyFrom(glare.sitAnimationState);
+		renderState.flyAnimationState.copyFrom(glare.flyAnimationState);
+		renderState.eyesPositionOffset = glare.getCurrentEyesPositionOffset();
+		renderState.isGrumpy = glare.isGrumpy();
+		renderState.isOrderedToSit = glare.isOrderedToSit();
+		renderState.hasFlower = glare.isTame() || "Anna".equals(ChatFormatting.stripFormatting(glare.getName().getString()));
 	}
 	//?}
 

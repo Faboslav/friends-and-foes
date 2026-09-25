@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.common.init;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.entity.BarnacleEntity;
 import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistries;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistry;
@@ -20,7 +21,9 @@ public final class FriendsAndFoesSoundEvents
 {
 	public static final ResourcefulRegistry<SoundEvent> SOUND_EVENTS = ResourcefulRegistries.create(BuiltInRegistries.SOUND_EVENT, FriendsAndFoes.MOD_ID);
 
-	public static final RegistryEntry<SoundEvent> ENTITY_BARNACLE_AMBIENT = registerSoundEvent("entity.barnacle.ambient");
+	public static final RegistryEntry<SoundEvent> ENTITY_BARNACLE_AMBIENT = registerSoundEvent("entity.barnacle.ambient", BarnacleEntity.AMBIENT_SOUND_RANGE);
+	public static final RegistryEntry<SoundEvent> ENTITY_BARNACLE_ATTACK = registerSoundEvent("entity.barnacle.attack");
+	public static final RegistryEntry<SoundEvent> ENTITY_BARNACLE_DEATH = registerSoundEvent("entity.barnacle.death");
 	public static final RegistryEntry<SoundEvent> ENTITY_BARNACLE_HURT = registerSoundEvent("entity.barnacle.hurt");
 	//? if <= 1.21.8 {
 	/*public static final RegistryEntry<SoundEvent> ENTITY_COPPER_GOLEM_OXIDATION = registerSoundEvent("entity.copper_golem.oxidation");
@@ -114,6 +117,10 @@ public final class FriendsAndFoesSoundEvents
 
 	private static RegistryEntry<SoundEvent> registerSoundEvent(String path) {
 		return SOUND_EVENTS.register(path, () -> SoundEvent.createVariableRangeEvent(FriendsAndFoes.makeID(path)));
+	}
+
+	private static RegistryEntry<SoundEvent> registerSoundEvent(String path, float range) {
+		return SOUND_EVENTS.register(path, () -> SoundEvent.createFixedRangeEvent(FriendsAndFoes.makeID(path), range));
 	}
 
 	//? if >= 1.21.1 {

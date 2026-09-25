@@ -47,6 +47,7 @@
 			"com.faboslav.friendsandfoes.fabric.tests.block.PlaceJungleBeehiveTest",
 			"com.faboslav.friendsandfoes.fabric.tests.block.PlaceMangroveBeehiveTest",
 			"com.faboslav.friendsandfoes.fabric.tests.block.PlacePaleOakBeehiveTest",
+			"com.faboslav.friendsandfoes.fabric.tests.block.PlacePoplarBeehiveTest",
 			"com.faboslav.friendsandfoes.fabric.tests.block.PlacePottedButtercupTest",
 			"com.faboslav.friendsandfoes.fabric.tests.block.PlaceSpruceBeehiveTest",
 			"com.faboslav.friendsandfoes.fabric.tests.block.PlaceWarpedBeehiveTest",

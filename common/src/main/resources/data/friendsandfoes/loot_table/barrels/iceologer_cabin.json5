@@ -10,7 +10,17 @@
 			"entries": [
 				{
 					"type": "minecraft:item",
-					"functions": [
+					//? if >=26.3 {
+					"modifier": {
+						"type": "minecraft:set_count",
+						"count": {
+							"type": "minecraft:uniform",
+							"min": 1,
+							"max": 1
+						}
+					},
+					//?} else {
+					/*"functions": [
 						{
 							"function": "minecraft:set_count",
 							"count": {
@@ -20,11 +30,22 @@
 							}
 						}
 					],
+					*///?}
 					"name": "minecraft:emerald"
 				},
 				{
 					"type": "minecraft:item",
-					"functions": [
+					//? if >=26.3 {
+					"modifier": {
+						"type": "minecraft:set_count",
+						"count": {
+							"type": "minecraft:uniform",
+							"min": 2,
+							"max": 4
+						}
+					},
+					//?} else {
+					/*"functions": [
 						{
 							"function": "minecraft:set_count",
 							"count": {
@@ -34,12 +55,23 @@
 							}
 						}
 					],
+					*///?}
 					"name": "minecraft:cobweb"
 				},
 				{
 					"type": "minecraft:item",
 					"weight": 1,
-					"functions": [
+					//? if >=26.3 {
+					"modifier": {
+						"type": "minecraft:set_count",
+						"count": {
+							"type": "minecraft:uniform",
+							"min": 1,
+							"max": 3
+						}
+					},
+					//?} else {
+					/*"functions": [
 						{
 							"function": "minecraft:set_count",
 							"count": {
@@ -49,6 +81,7 @@
 							}
 						}
 					],
+					*///?}
 					"name": "minecraft:string"
 				}
 			]
@@ -63,7 +96,17 @@
 				{
 					"type": "minecraft:item",
 					"weight": 1,
-					"functions": [
+					//? if >=26.3 {
+					"modifier": {
+						"type": "minecraft:set_count",
+						"count": {
+							"type": "minecraft:uniform",
+							"min": 1,
+							"max": 1
+						}
+					},
+					//?} else {
+					/*"functions": [
 						{
 							"function": "minecraft:set_count",
 							"count": {
@@ -73,12 +116,23 @@
 							}
 						}
 					],
+					*///?}
 					"name": "minecraft:flower_pot"
 				},
 				{
 					"type": "minecraft:item",
 					"weight": 4,
-					"functions": [
+					//? if >=26.3 {
+					"modifier": {
+						"type": "minecraft:set_count",
+						"count": {
+							"type": "minecraft:uniform",
+							"min": 1,
+							"max": 2
+						}
+					},
+					//?} else {
+					/*"functions": [
 						{
 							"function": "minecraft:set_count",
 							"count": {
@@ -88,6 +142,7 @@
 							}
 						}
 					],
+					*///?}
 					"name": "minecraft:charcoal"
 				}
 			]

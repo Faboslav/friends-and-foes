@@ -10,11 +10,17 @@
 					"name": "friendsandfoes:buttercup"
 				}
 			],
-			"conditions": [
+			//? if >=26.3 {
+			"condition": {
+				"type": "minecraft:survives_explosion"
+			}
+			//?} else {
+			/*"conditions": [
 				{
 					"condition": "minecraft:survives_explosion"
 				}
 			]
+			*///?}
 		}
 	]
 }

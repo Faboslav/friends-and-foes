@@ -7,7 +7,27 @@
 				{
 					"type": "minecraft:item",
 					"weight": 1,
-					"functions": [
+					//? if >=26.3 {
+					"modifier": [
+						{
+							"type": "minecraft:set_damage",
+							"damage": {
+								"type": "minecraft:uniform",
+								"min": 0.1,
+								"max": 0.4
+							}
+						},
+						{
+							"type": "minecraft:enchant_with_levels",
+							"levels": {
+								"type": "minecraft:uniform",
+								"min": 10,
+								"max": 19
+							}
+						}
+					],
+					//?} else {
+					/*"functions": [
 						{
 							"function": "minecraft:set_damage",
 							"damage": {
@@ -26,12 +46,33 @@
 							"treasure": true
 						}
 					],
+					*///?}
 					"name": "minecraft:bow"
 				},
 				{
 					"type": "minecraft:item",
 					"weight": 1,
-					"functions": [
+					//? if >=26.3 {
+					"modifier": [
+						{
+							"type": "minecraft:set_damage",
+							"damage": {
+								"type": "minecraft:uniform",
+								"min": 0.4,
+								"max": 0.7
+							}
+						},
+						{
+							"type": "minecraft:enchant_with_levels",
+							"levels": {
+								"type": "minecraft:uniform",
+								"min": 20,
+								"max": 29
+							}
+						}
+					],
+					//?} else {
+					/*"functions": [
 						{
 							"function": "minecraft:set_damage",
 							"damage": {
@@ -50,12 +91,33 @@
 							"treasure": true
 						}
 					],
+					*///?}
 					"name": "minecraft:bow"
 				},
 				{
 					"type": "minecraft:item",
 					"weight": 1,
-					"functions": [
+					//? if >=26.3 {
+					"modifier": [
+						{
+							"type": "minecraft:set_damage",
+							"damage": {
+								"type": "minecraft:uniform",
+								"min": 0.7,
+								"max": 1.0
+							}
+						},
+						{
+							"type": "minecraft:enchant_with_levels",
+							"levels": {
+								"type": "minecraft:uniform",
+								"min": 1,
+								"max": 9
+							}
+						}
+					],
+					//?} else {
+					/*"functions": [
 						{
 							"function": "minecraft:set_damage",
 							"damage": {
@@ -74,6 +136,7 @@
 							"treasure": true
 						}
 					],
+					*///?}
 					"name": "minecraft:bow"
 				}
 			]
@@ -97,7 +160,17 @@
 				{
 					"type": "minecraft:item",
 					"weight": 1,
-					"functions": [
+					//? if >=26.3 {
+					"modifier": {
+						"type": "minecraft:set_count",
+						"count": {
+							"type": "minecraft:uniform",
+							"min": 2,
+							"max": 6
+						}
+					},
+					//?} else {
+					/*"functions": [
 						{
 							"function": "minecraft:set_count",
 							"count": {
@@ -107,6 +180,7 @@
 							}
 						}
 					],
+					*///?}
 					"name": "minecraft:arrow"
 				}
 			]
@@ -122,34 +196,55 @@
 					"type": "minecraft:item",
 					"name": "minecraft:potion",
 					"weight": 1,
-					"functions": [
+					//? if >=26.3 {
+					"modifier": {
+						"type": "minecraft:set_potion",
+						"id": "minecraft:water"
+					}
+					//?} else {
+					/*"functions": [
 						{
 							"function": "minecraft:set_potion",
 							"id": "minecraft:water"
 						}
 					]
+					*///?}
 				},
 				{
 					"type": "minecraft:item",
 					"name": "minecraft:potion",
 					"weight": 1,
-					"functions": [
+					//? if >=26.3 {
+					"modifier": {
+						"type": "minecraft:set_potion",
+						"id": "minecraft:night_vision"
+					}
+					//?} else {
+					/*"functions": [
 						{
 							"function": "minecraft:set_potion",
 							"id": "minecraft:night_vision"
 						}
 					]
+					*///?}
 				},
 				{
 					"type": "minecraft:item",
 					"name": "minecraft:potion",
 					"weight": 1,
-					"functions": [
+					//? if >=26.3 {
+					"modifier": {
+						"type": "minecraft:set_potion",
+						"id": "minecraft:invisibility"
+					}
+					//?} else {
+					/*"functions": [
 						{
 							"function": "minecraft:set_potion",
 							"id": "minecraft:invisibility"
 						}
 					]
+					*///?}
 				}
 			]
 		},
@@ -162,7 +257,17 @@
 			"entries": [
 				{
 					"type": "minecraft:item",
-					"functions": [
+					//? if >=26.3 {
+					"modifier": {
+						"type": "minecraft:set_count",
+						"count": {
+							"type": "minecraft:uniform",
+							"min": 1,
+							"max": 3
+						}
+					},
+					//?} else {
+					/*"functions": [
 						{
 							"function": "minecraft:set_count",
 							"count": {
@@ -172,11 +277,22 @@
 							}
 						}
 					],
+					*///?}
 					"name": "minecraft:sweet_berries"
 				},
 				{
 					"type": "minecraft:item",
-					"functions": [
+					//? if >=26.3 {
+					"modifier": {
+						"type": "minecraft:set_count",
+						"count": {
+							"type": "minecraft:uniform",
+							"min": 2,
+							"max": 3
+						}
+					},
+					//?} else {
+					/*"functions": [
 						{
 							"function": "minecraft:set_count",
 							"count": {
@@ -186,6 +302,7 @@
 							}
 						}
 					],
+					*///?}
 					"name": "minecraft:bread"
 				}
 			]

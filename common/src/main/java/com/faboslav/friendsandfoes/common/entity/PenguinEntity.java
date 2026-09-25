@@ -391,18 +391,6 @@ public final class PenguinEntity extends Animal {
 		this.playSound(soundEvent, this.getSoundVolume() * 0.5F, this.getVoicePitch());
 	}
 
-	/*
-	@Override
-	protected SoundEvent getHurtSound(DamageSource source) {
-		return FriendsAndFoesSoundEvents.ENTITY_BARNACLE_HURT.get();
-	}
-
-	@Override
-	protected void playHurtSound(DamageSource source) {
-		this.ambientSoundTime = -this.getAmbientSoundInterval();
-		this.playSound(this.getHurtSound(source), 0.5F, RandomGenerator.generateFloat(1.25F, 1.45F));
-	}*/
-
 	@Override
 	protected void playStepSound(
 		BlockPos pos,

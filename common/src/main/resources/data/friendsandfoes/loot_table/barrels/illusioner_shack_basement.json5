@@ -16,7 +16,17 @@
 				{
 					"type": "minecraft:item",
 					"weight": 2,
-					"functions": [
+					//? if >=26.3 {
+					"modifier": {
+						"type": "minecraft:set_count",
+						"count": {
+							"type": "minecraft:uniform",
+							"min": 2,
+							"max": 4
+						}
+					},
+					//?} else {
+					/*"functions": [
 						{
 							"function": "minecraft:set_count",
 							"count": {
@@ -26,12 +36,23 @@
 							}
 						}
 					],
+					*///?}
 					"name": "minecraft:bone"
 				},
 				{
 					"type": "minecraft:item",
 					"weight": 4,
-					"functions": [
+					//? if >=26.3 {
+					"modifier": {
+						"type": "minecraft:set_count",
+						"count": {
+							"type": "minecraft:uniform",
+							"min": 2,
+							"max": 4
+						}
+					},
+					//?} else {
+					/*"functions": [
 						{
 							"function": "minecraft:set_count",
 							"count": {
@@ -41,12 +62,23 @@
 							}
 						}
 					],
+					*///?}
 					"name": "minecraft:cobweb"
 				},
 				{
 					"type": "minecraft:item",
 					"weight": 2,
-					"functions": [
+					//? if >=26.3 {
+					"modifier": {
+						"type": "minecraft:set_count",
+						"count": {
+							"type": "minecraft:uniform",
+							"min": 2,
+							"max": 4
+						}
+					},
+					//?} else {
+					/*"functions": [
 						{
 							"function": "minecraft:set_count",
 							"count": {
@@ -56,12 +88,23 @@
 							}
 						}
 					],
+					*///?}
 					"name": "minecraft:string"
 				},
 				{
 					"type": "minecraft:item",
 					"weight": 3,
-					"functions": [
+					//? if >=26.3 {
+					"modifier": {
+						"type": "minecraft:set_count",
+						"count": {
+							"type": "minecraft:uniform",
+							"min": 4,
+							"max": 8
+						}
+					},
+					//?} else {
+					/*"functions": [
 						{
 							"function": "minecraft:set_count",
 							"count": {
@@ -71,6 +114,7 @@
 							}
 						}
 					],
+					*///?}
 					"name": "minecraft:iron_nugget"
 				}
 			]

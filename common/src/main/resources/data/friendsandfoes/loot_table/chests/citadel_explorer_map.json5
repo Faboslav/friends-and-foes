@@ -6,14 +6,42 @@
 			"entries": [
 				{
 					"type": "minecraft:item",
-					"name": "minecraft:map",
-					"conditions": [
+					//? if >=26.3 {
+					"name": "minecraft:filled_map",
+					//?} else {
+					/*"name": "minecraft:map",
+					*///?}
+					//? if >=26.3 {
+					"condition": {
+						"type": "minecraft:random_chance",
+						"chance": 0.1666
+					},
+					//?} else {
+					/*"conditions": [
 						{
 							"condition": "minecraft:random_chance",
 							"chance": 0.1666
 						}
 					],
-					"functions": [
+					*///?}
+					//? if >=26.3 {
+					"modifier": [
+						{
+							"type": "minecraft:exploration_map",
+							"destination": "#friendsandfoes:on_citadel_maps",
+							"decoration": "friendsandfoes:citadel",
+							"skip_existing_chunks": false
+						},
+						{
+							"type": "minecraft:set_name",
+							"name": {
+								"translate": "filled_map.friendsandfoes.citadel"
+							},
+							"target": "item_name"
+						}
+					]
+					//?} else {
+					/*"functions": [
 						//? if >=1.21.1 {
 						{
 							"function": "minecraft:exploration_map",
@@ -29,7 +57,7 @@
 							"target": "item_name"
 						}
 						//?} else {
-						/*{
+						/^{
 							"function": "minecraft:exploration_map",
 							"destination": "friendsandfoes:on_citadel_maps",
 							"skip_existing_chunks": false
@@ -40,8 +68,9 @@
 								"translate": "filled_map.friendsandfoes.citadel"
 							}
 						}
-						*///?}
+						^///?}
 					]
+					*///?}
 				}
 			]
 		}

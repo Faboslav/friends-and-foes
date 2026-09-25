@@ -8,7 +8,17 @@
 					"weight": 4,
 					"type": "minecraft:item",
 					"name": "minecraft:iron_pickaxe",
-					"functions": [
+					//? if >=26.3 {
+					"modifier": {
+						"type": "minecraft:enchant_with_levels",
+						"levels": {
+							"type": "minecraft:uniform",
+							"min": 5,
+							"max": 20
+						}
+					}
+					//?} else {
+					/*"functions": [
 						{
 							"function": "minecraft:enchant_with_levels",
 							"levels": {
@@ -18,12 +28,23 @@
 							}
 						}
 					]
+					*///?}
 				},
 				{
 					"weight": 2,
 					"type": "minecraft:item",
 					"name": "minecraft:iron_ore",
-					"functions": [
+					//? if >=26.3 {
+					"modifier": {
+						"type": "minecraft:set_count",
+						"count": {
+							"type": "minecraft:uniform",
+							"min": 8,
+							"max": 16
+						}
+					}
+					//?} else {
+					/*"functions": [
 						{
 							"function": "minecraft:set_count",
 							"count": {
@@ -33,12 +54,23 @@
 							}
 						}
 					]
+					*///?}
 				},
 				{
 					"weight": 1,
 					"type": "minecraft:item",
 					"name": "minecraft:gold_ore",
-					"functions": [
+					//? if >=26.3 {
+					"modifier": {
+						"type": "minecraft:set_count",
+						"count": {
+							"type": "minecraft:uniform",
+							"min": 5,
+							"max": 10
+						}
+					}
+					//?} else {
+					/*"functions": [
 						{
 							"function": "minecraft:set_count",
 							"count": {
@@ -48,6 +80,7 @@
 							}
 						}
 					]
+					*///?}
 				}
 			]
 		}

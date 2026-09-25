@@ -207,7 +207,11 @@ public final class FriendsAndFoesFabric implements ModInitializer
 					//?} else {
 					/*.setRolls(ConstantValue.exactly(1))
 					*///?}
-					.add(LootItem.lootTableItem(Items.MAP)
+					//? if >=26.3 {
+					.add(LootItem.lootTableItem(Items.FILLED_MAP)
+					//?} else {
+					/*.add(LootItem.lootTableItem(Items.MAP)
+					*///?}
 						//? if >=26.3 {
 						.apply(ExplorationMapFunction.makeExplorationMap(registries.lookupOrThrow(Registries.STRUCTURE).getOrThrow(TagKey.create(Registries.STRUCTURE, FriendsAndFoes.makeID("on_citadel_maps"))))
 						//?} else {

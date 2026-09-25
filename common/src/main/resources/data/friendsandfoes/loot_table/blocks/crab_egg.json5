@@ -3,7 +3,24 @@
 	"pools": [
 		{
 			"bonus_rolls": 0.0,
-			"conditions": [
+			//? if >=26.3 {
+			"condition": {
+				"type": "minecraft:match_tool",
+				"predicate": {
+					"predicates": {
+						"minecraft:enchantments": [
+							{
+								"enchantment": "minecraft:silk_touch",
+								"levels": {
+									"min": 1
+								}
+							}
+						]
+					}
+				}
+			},
+			//?} else {
+			/*"conditions": [
 				{
 					"condition": "minecraft:match_tool",
 					"predicate": {
@@ -19,7 +36,7 @@
 							]
 						}
 						//?} else {
-						/*"enchantments": [
+						/^"enchantments": [
 							{
 								"enchantment": "minecraft:silk_touch",
 								"levels": {
@@ -27,10 +44,11 @@
 								}
 							}
 						]
-						*///?}
+						^///?}
 					}
 				}
 			],
+			*///?}
 			"entries": [
 				{
 					"type": "minecraft:item",

@@ -9,11 +9,17 @@
 					"name": "friendsandfoes:exposed_copper_button"
 				}
 			],
-			"conditions": [
+			//? if >=26.3 {
+			"condition": {
+				"type": "minecraft:survives_explosion"
+			}
+			//?} else {
+			/*"conditions": [
 				{
 					"condition": "minecraft:survives_explosion"
 				}
 			]
+			*///?}
 		}
 	]
 }

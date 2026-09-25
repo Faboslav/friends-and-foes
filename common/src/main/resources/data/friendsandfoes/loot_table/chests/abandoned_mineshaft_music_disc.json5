@@ -7,12 +7,19 @@
 				{
 					"type": "minecraft:item",
 					"name": "friendsandfoes:music_disc_around_the_corner",
-					"conditions": [
+					//? if >=26.3 {
+					"condition": {
+						"type": "minecraft:random_chance",
+						"chance": 0.095
+					}
+					//?} else {
+					/*"conditions": [
 						{
 							"condition": "minecraft:random_chance",
 							"chance": 0.095
 						}
 					]
+					*///?}
 				}
 			]
 		}

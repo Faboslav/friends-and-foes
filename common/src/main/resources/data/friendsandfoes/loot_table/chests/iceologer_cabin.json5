@@ -20,7 +20,17 @@
 				{
 					"type": "minecraft:item",
 					"weight": 1,
-					"functions": [
+					//? if >=26.3 {
+					"modifier": {
+						"type": "minecraft:set_count",
+						"count": {
+							"type": "minecraft:uniform",
+							"min": 1,
+							"max": 3
+						}
+					},
+					//?} else {
+					/*"functions": [
 						{
 							"function": "minecraft:set_count",
 							"count": {
@@ -30,12 +40,23 @@
 							}
 						}
 					],
+					*///?}
 					"name": "minecraft:blue_ice"
 				},
 				{
 					"type": "minecraft:item",
 					"weight": 1,
-					"functions": [
+					//? if >=26.3 {
+					"modifier": {
+						"type": "minecraft:set_count",
+						"count": {
+							"type": "minecraft:uniform",
+							"min": 2,
+							"max": 4
+						}
+					},
+					//?} else {
+					/*"functions": [
 						{
 							"function": "minecraft:set_count",
 							"count": {
@@ -45,12 +66,23 @@
 							}
 						}
 					],
+					*///?}
 					"name": "minecraft:spruce_log"
 				},
 				{
 					"type": "minecraft:item",
 					"weight": 2,
-					"functions": [
+					//? if >=26.3 {
+					"modifier": {
+						"type": "minecraft:set_count",
+						"count": {
+							"type": "minecraft:uniform",
+							"min": 1,
+							"max": 3
+						}
+					},
+					//?} else {
+					/*"functions": [
 						{
 							"function": "minecraft:set_count",
 							"count": {
@@ -60,12 +92,23 @@
 							}
 						}
 					],
+					*///?}
 					"name": "minecraft:bread"
 				},
 				{
 					"type": "minecraft:item",
 					"weight": 2,
-					"functions": [
+					//? if >=26.3 {
+					"modifier": {
+						"type": "minecraft:set_count",
+						"count": {
+							"type": "minecraft:uniform",
+							"min": 1,
+							"max": 3
+						}
+					},
+					//?} else {
+					/*"functions": [
 						{
 							"function": "minecraft:set_count",
 							"count": {
@@ -75,6 +118,7 @@
 							}
 						}
 					],
+					*///?}
 					"name": "minecraft:wheat"
 				}
 			]

@@ -9,7 +9,24 @@
 					"children": [
 						{
 							"type": "minecraft:item",
-							"conditions": [
+							//? if >=26.3 {
+							"condition": {
+								"type": "minecraft:match_tool",
+								"predicate": {
+									"predicates": {
+										"minecraft:enchantments": [
+											{
+												"enchantment": "minecraft:silk_touch",
+												"levels": {
+													"min": 1
+												}
+											}
+										]
+									}
+								}
+							},
+							//?} else {
+							/*"conditions": [
 								{
 									"condition": "minecraft:match_tool",
 									"predicate": {
@@ -25,7 +42,7 @@
 											]
 										}
 										//?} else {
-										/*"enchantments": [
+										/^"enchantments": [
 											{
 												"enchantment": "minecraft:silk_touch",
 												"levels": {
@@ -33,11 +50,30 @@
 												}
 											}
 										]
-										*///?}
+										^///?}
 									}
 								}
 							],
-							"functions": [
+							*///?}
+							//? if >=26.3 {
+							"modifier": [
+								{
+									"type": "minecraft:copy_components",
+									"include": [
+										"minecraft:bees"
+									],
+									"source": "block_entity"
+								},
+								{
+									"type": "minecraft:copy_state",
+									"block": "friendsandfoes:jungle_beehive",
+									"properties": [
+										"honey_level"
+									]
+								}
+							],
+							//?} else {
+							/*"functions": [
 								//? if >=1.21.1 {
 								{
 									"function": "minecraft:copy_components",
@@ -47,7 +83,7 @@
 									"source": "block_entity"
 								},
 								//?} else {
-								/*{
+								/^{
 									"function": "minecraft:copy_nbt",
 									"ops": [
 										{
@@ -58,7 +94,7 @@
 									],
 									"source": "block_entity"
 								},
-								*///?}
+								^///?}
 								{
 									"block": "friendsandfoes:jungle_beehive",
 									"function": "minecraft:copy_state",
@@ -67,6 +103,7 @@
 									]
 								}
 							],
+							*///?}
 							"name": "friendsandfoes:jungle_beehive"
 						},
 						{

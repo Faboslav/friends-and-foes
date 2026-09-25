@@ -83,7 +83,7 @@ tasks {
 		}
 
 		if (project.stonecutterBuild.eval(commonMod.mc, "<1.21.1")) {
-			val namespaces = listOf("friendsandfoes", "minecraft", "c")
+			val namespaces = listOf("friendsandfoes", "minecraft", "c", "trinkets")
 			val renamedFolders = mapOf(
 				"structure" to "structures",
 				"loot_table" to "loot_tables",

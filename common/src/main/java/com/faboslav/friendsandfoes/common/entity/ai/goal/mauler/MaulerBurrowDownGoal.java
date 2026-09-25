@@ -1,7 +1,6 @@
 package com.faboslav.friendsandfoes.common.entity.ai.goal.mauler;
 
 import com.faboslav.friendsandfoes.common.entity.MaulerEntity;
-import com.faboslav.friendsandfoes.common.entity.animation.MaulerAnimations;
 import com.faboslav.friendsandfoes.common.util.animation.AnimationMath;
 import com.faboslav.friendsandfoes.common.versions.VersionedLevel;
 import net.minecraft.core.BlockPos;
@@ -19,8 +18,8 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public final class MaulerBurrowDownGoal extends Goal
 {
-	private final static int BURROW_DOWN_DURATION = AnimationMath.toLengthInTicks(MaulerAnimations.BURROW_DOWN.lengthInSeconds()) * 60;
-	private final static int BURROW_UP_DURATION = AnimationMath.toLengthInTicks(MaulerAnimations.BURROW_UP.lengthInSeconds()) * 60;
+	private final static int BURROW_DOWN_DURATION = AnimationMath.toLengthInTicks(2.0F) * 60;
+	private final static int BURROW_UP_DURATION = AnimationMath.toLengthInTicks(2.0F) * 60;
 
 	private final MaulerEntity mauler;
 	private int burrowedDownTicks;

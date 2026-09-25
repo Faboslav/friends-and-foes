@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.common.entity.ai.brain.task.wildfire;
 
-import com.faboslav.friendsandfoes.common.entity.animation.WildfireAnimations;
 import com.faboslav.friendsandfoes.common.entity.WildfireEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.WildfireBrain;
 import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
@@ -24,7 +23,7 @@ import net.minecraft.world.phys.Vec3;
 
 public final class WildfireShockwaveAttackTask extends Behavior<WildfireEntity>
 {
-	private final static int SHOCKWAVE_DURATION = AnimationMath.toLengthInTicks(WildfireAnimations.SHOCKWAVE.lengthInSeconds());
+	private final static int SHOCKWAVE_DURATION = AnimationMath.toLengthInTicks(1.2F);
 	public final static float SHOCKWAVE_ATTACK_RANGE = 6.0F;
 
 	private int shockwaveTicks;

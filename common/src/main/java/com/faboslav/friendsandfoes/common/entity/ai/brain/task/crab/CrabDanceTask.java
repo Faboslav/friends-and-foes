@@ -1,6 +1,5 @@
 package com.faboslav.friendsandfoes.common.entity.ai.brain.task.crab;
 
-import com.faboslav.friendsandfoes.common.entity.animation.CrabAnimations;
 import com.faboslav.friendsandfoes.common.entity.CrabEntity;
 import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
@@ -15,7 +14,7 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 
 public final class CrabDanceTask extends Behavior<CrabEntity>
 {
-	private final static int DANCE_DURATION = AnimationMath.toLengthInTicks(CrabAnimations.DANCE.lengthInSeconds()) * 60;
+	private final static int DANCE_DURATION = AnimationMath.toLengthInTicks(1.0F) * 60;
 
 	public CrabDanceTask() {
 		super(

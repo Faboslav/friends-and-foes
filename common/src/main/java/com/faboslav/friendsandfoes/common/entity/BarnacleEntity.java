@@ -2,7 +2,6 @@ package com.faboslav.friendsandfoes.common.entity;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.BarnacleBrain;
-import com.faboslav.friendsandfoes.common.entity.animation.BarnacleAnimations;
 import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityDataSerializers;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
@@ -76,7 +75,7 @@ public final class BarnacleEntity extends Monster
 	public static final int TENTACLE_GRAB_DURATION = 14;
 	public static final float AMBIENT_SOUND_RANGE = 32.0F;
 	private static final int TENTACLE_RETRACT_SPEED = 3;
-	private static final int ATTACK_ANIMATION_DURATION = AnimationMath.toLengthInTicks(BarnacleAnimations.ATTACK.lengthInSeconds());
+	private static final int ATTACK_ANIMATION_DURATION = AnimationMath.toLengthInTicks(0.3333F);
 
 	public final AnimationState idleAnimationState = new AnimationState();
 	public final AnimationState tentacleAttackAnimationState = new AnimationState();

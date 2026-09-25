@@ -834,51 +834,6 @@ public final class TuffGolemEntity extends AbstractGolem
 		return !this.isSleeping();
 	}
 
-	/*
-	@Nullable
-	public AnimationHolder getAnimationByPose() {
-		var prevPose = this.getPrevEntityPose();
-		var pose = this.getEntityPose();
-
-		if (pose == prevPose) {
-			return null;
-		}
-
-		AnimationHolder animationHolder = null;
-
-		if (this.wasInEntityPose(FriendsAndFoesEntityPose.STANDING)) {
-			if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING_WITH_ITEM)) {
-				animationHolder = TuffGolemAnimations.SHOW_ITEM;
-			} else if (this.isInEntityPose(FriendsAndFoesEntityPose.SLEEPING)) {
-				animationHolder = TuffGolemAnimations.SLEEP;
-			}
-		} else if (this.wasInEntityPose(FriendsAndFoesEntityPose.STANDING_WITH_ITEM)) {
-			if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING)) {
-				animationHolder = TuffGolemAnimations.HIDE_ITEM;
-			} else if (this.isInEntityPose(FriendsAndFoesEntityPose.SLEEPING_WITH_ITEM)) {
-				animationHolder = TuffGolemAnimations.SLEEP_WITH_ITEM;
-			}
-		} else if (this.wasInEntityPose(FriendsAndFoesEntityPose.SLEEPING)) {
-			if (this.isInEntityPose(FriendsAndFoesEntityPose.SLEEPING_WITH_ITEM)) {
-				animationHolder = TuffGolemAnimations.SHOW_ITEM;
-			} else if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING_WITH_ITEM)) {
-				animationHolder = TuffGolemAnimations.WAKE_AND_SHOW_ITEM;
-			} else if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING)) {
-				animationHolder = TuffGolemAnimations.WAKE;
-			}
-		} else if (this.wasInEntityPose(FriendsAndFoesEntityPose.SLEEPING_WITH_ITEM)) {
-			if (this.isInEntityPose(FriendsAndFoesEntityPose.SLEEPING)) {
-				animationHolder = TuffGolemAnimations.HIDE_ITEM;
-			} else if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING)) {
-				animationHolder = TuffGolemAnimations.WAKE_AND_HIDE_ITEM;
-			} else if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING_WITH_ITEM)) {
-				animationHolder = TuffGolemAnimations.WAKE_WITH_ITEM;
-			}
-		}
-
-		return animationHolder;
-	}*/
-
 	@Override
 	/*? if >=1.21.3 {*/
 	public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)

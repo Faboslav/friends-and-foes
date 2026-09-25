@@ -2,7 +2,6 @@ package com.faboslav.friendsandfoes.common.entity.ai.brain.task.penguin;
 
 import com.faboslav.friendsandfoes.common.entity.PenguinEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.PenguinBrain;
-import com.faboslav.friendsandfoes.common.entity.animation.PenguinAnimations;
 import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesItems;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
@@ -22,7 +21,7 @@ import java.util.Map;
 public final class PenguinWingFlapTask extends Behavior<PenguinEntity>
 {
 	private final static int WAIT_TICKS = 5;
-	private final static int WING_FLAP_DURATION = (int) Math.ceil(PenguinAnimations.WING_FLAP.lengthInSeconds() * 20) + 1;
+	private final static int WING_FLAP_DURATION = (int) Math.ceil(1.25F * 20) + 1;
 	private final static int WING_FLAP_TASK_DURATION = WING_FLAP_DURATION + (2 * WAIT_TICKS);
 
 	@Nullable

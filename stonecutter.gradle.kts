@@ -11,6 +11,8 @@ stonecutter {
 	parameters {
 		constants["trinkets"] = false
 		constants["curios"] = false
+		constants["modMenu"] = false
+		constants["yacl"] = false
 
 		filters.exclude("**/*.accesswidener")
 

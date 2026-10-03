@@ -13,6 +13,7 @@ import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -35,6 +36,7 @@ import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.entity.raid.Raider;
+import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -329,7 +331,7 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 
 	@Override
 	public void performRangedAttack(LivingEntity target, float velocity) {
-		ItemStack itemStack = this.getItemInHand(ProjectileUtil.getWeaponHoldingHand(this, Items.BOW));
+		ItemStack itemStack = this.getItemInHand(this.getMainHandItem().getItem() instanceof BowItem ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND);
 		ItemStack itemStack2 = this.getProjectile(itemStack);
 		//? if >= 1.21.1 {
 		AbstractArrow abstractArrow = ProjectileUtil.getMobArrow(this, itemStack2, velocity, itemStack);

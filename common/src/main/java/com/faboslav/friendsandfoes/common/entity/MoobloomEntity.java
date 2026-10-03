@@ -8,6 +8,7 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.versions.*;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -276,6 +277,7 @@ public final class MoobloomEntity extends AbstractCow implements Shearable
 	}
 
 	private void transformToCow(ServerLevel level) {
+		level.sendParticles(ParticleTypes.EXPLOSION, this.getX(), this.getY(0.5D), this.getZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
 		this.discard();
 		Cow cowEntity = VersionedEntityType.COW.create(level/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.CONVERSION/*?}*/);
 

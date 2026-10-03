@@ -88,7 +88,7 @@ public final class MaulerEntity extends Animal implements NeutralMob
 	public static final int MIN_TICKS_UNTIL_NEXT_BURROWING = 3000;
 	public static final int MAX_TICKS_UNTIL_NEXT_BURROWING = 6000;
 
-	private static final Type DEFAULT_TYPE = Type.DESERT;
+	private static final Type DEFAULT_TYPE = Type.SAVANNA;
 
 	private static final String TYPE_NBT_NAME = "Type";
 	private static final String STORED_EXPERIENCE_POINTS_NBT_NAME = "StoredExperiencePoints";
@@ -143,7 +143,7 @@ public final class MaulerEntity extends Animal implements NeutralMob
 		/*var builder = this.getEntityData();
 		*///?}
 
-		builder.define(TYPE, DEFAULT_TYPE.name());
+		builder.define(TYPE, DEFAULT_TYPE.getName());
 		builder.define(ANGER_TIME, 0);
 		builder.define(STORED_EXPERIENCE_POINTS, 0);
 		builder.define(IS_MOVING, false);

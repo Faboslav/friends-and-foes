@@ -13,6 +13,7 @@ import net.neoforged.neoforge.common.world.ModifiableBiomeInfo;
 import net.minecraft.util.valueproviders.UniformInt;
 //?}
 
+@SuppressWarnings({"deprecation", "unchecked"})
 public class MobSpawnsBiomeModifier implements BiomeModifier
 {
 	public static final MapCodec<MobSpawnsBiomeModifier> CODEC = MapCodec.unit(MobSpawnsBiomeModifier::new);

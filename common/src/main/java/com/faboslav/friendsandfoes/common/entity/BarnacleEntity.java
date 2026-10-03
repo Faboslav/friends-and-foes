@@ -326,7 +326,7 @@ public final class BarnacleEntity extends Monster
 					   world.getFluidState(pos).is(FluidTags.WATER)
 					   && VersionedLevel.isNight(world.getLevel())
 					   && isValidSpawnDepth(world, pos)
-					   && (random.nextInt(20) == 0 || !world.canSeeSkyFromBelowWater(pos))
+					   && (random.nextInt(16) == 0 || !world.canSeeSkyFromBelowWater(pos))
 				   )
 			   );
 	}

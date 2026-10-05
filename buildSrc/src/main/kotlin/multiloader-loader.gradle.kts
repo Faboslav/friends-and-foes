@@ -30,6 +30,7 @@ tasks {
     processResources {
         dependsOn(commonResources)
         from(commonResources)
+        includeEmptyDirs = false
 
 		if (project.stonecutterBuild.eval(commonMod.mc, ">=26.2")) {
 			// Beekeeper trades
@@ -61,6 +62,8 @@ tasks {
 			filesMatching("**/*copper_golem*") {
 				exclude()
 			}
+
+			exclude("**/ancient_city/**")
 
 			// Lightning Rod resources
 			filesMatching("**/*lightning_rod*") {

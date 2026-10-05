@@ -198,8 +198,8 @@
 	},
 	"entity.crab.lay_egg": {
 		"sounds": [
-			"friendsandfoes:entity/crab/lay_egg1",
-			"friendsandfoes:entity/crab/lay_egg2"
+			"minecraft:mob/turtle/egg/drop_egg1",
+			"minecraft:mob/turtle/egg/drop_egg2"
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.crab.lay_egg"
 	},
@@ -215,24 +215,24 @@
 	},
 	"entity.crab.egg_break": {
 		"sounds": [
-			"friendsandfoes:entity/crab/egg_break1",
-			"friendsandfoes:entity/crab/egg_break2"
+			"minecraft:mob/turtle/egg/egg_break1",
+			"minecraft:mob/turtle/egg/egg_break2"
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.crab.egg_break"
 	},
 	"entity.crab.egg_crack": {
 		"sounds": [
-			"friendsandfoes:entity/crab/egg_crack1",
-			"friendsandfoes:entity/crab/egg_crack2",
-			"friendsandfoes:entity/crab/egg_crack3",
-			"friendsandfoes:entity/crab/egg_crack4",
-			"friendsandfoes:entity/crab/egg_crack5"
+			"minecraft:mob/turtle/egg/egg_crack1",
+			"minecraft:mob/turtle/egg/egg_crack2",
+			"minecraft:mob/turtle/egg/egg_crack3",
+			"minecraft:mob/turtle/egg/egg_crack4",
+			"minecraft:mob/turtle/egg/egg_crack5"
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.crab.egg_crack"
 	},
 	"entity.crab.egg_hatch": {
 		"sounds": [
-			"friendsandfoes:entity/crab/egg_hatch1"
+			"minecraft:mob/turtle/egg/jump_egg4"
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.crab.egg_hatch"
 	},
@@ -431,24 +431,24 @@
 	},
 	"entity.penguin.lay_egg": {
 		"sounds": [
-			"friendsandfoes:entity/penguin/lay_egg1",
-			"friendsandfoes:entity/penguin/lay_egg2"
+			"minecraft:mob/turtle/egg/drop_egg1",
+			"minecraft:mob/turtle/egg/drop_egg2"
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.penguin.lay_egg"
 	},
 	"entity.penguin.egg_crack": {
 		"sounds": [
-			"friendsandfoes:entity/penguin/egg_crack1",
-			"friendsandfoes:entity/penguin/egg_crack2",
-			"friendsandfoes:entity/penguin/egg_crack3",
-			"friendsandfoes:entity/penguin/egg_crack4",
-			"friendsandfoes:entity/penguin/egg_crack5"
+			"minecraft:mob/turtle/egg/egg_crack1",
+			"minecraft:mob/turtle/egg/egg_crack2",
+			"minecraft:mob/turtle/egg/egg_crack3",
+			"minecraft:mob/turtle/egg/egg_crack4",
+			"minecraft:mob/turtle/egg/egg_crack5"
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.penguin.egg_crack"
 	},
 	"entity.penguin.egg_hatch": {
 		"sounds": [
-			"friendsandfoes:entity/penguin/egg_hatch1"
+			"minecraft:mob/turtle/egg/jump_egg4"
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.penguin.egg_hatch"
 	},

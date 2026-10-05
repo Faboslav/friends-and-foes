@@ -10,6 +10,7 @@ import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
 import com.faboslav.friendsandfoes.common.util.animation.AnimationMath;
 import com.faboslav.friendsandfoes.common.versions.VersionedBlockPathType;
+import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
 import com.faboslav.friendsandfoes.common.versions.VersionedLevel;
 import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
 import net.minecraft.core.BlockPos;
@@ -187,6 +188,30 @@ public final class BarnacleEntity extends Monster
 			.add(Attributes.ATTACK_DAMAGE, GENERIC_ATTACK_DAMAGE)
 			.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
 			.add(Attributes.FOLLOW_RANGE, GENERIC_FOLLOW_RANGE);
+	}
+
+	@Override
+	public void baseTick() {
+		int airSupply = this.getAirSupply();
+		super.baseTick();
+
+		if (
+			this.isAlive()
+			//? if >=1.21.5 {
+			&& !this.isInWater()
+			//?} else {
+			/*&& !this.isInWaterOrBubble()
+			 *///?}
+		) {
+			this.setAirSupply(airSupply - 1);
+
+			if (this.getAirSupply() == -20) {
+				this.setAirSupply(0);
+				VersionedEntity.hurt(this, this.damageSources().drown(), 2.0F);
+			}
+		} else {
+			this.setAirSupply(300);
+		}
 	}
 
 	@Override

@@ -30,6 +30,7 @@ public final class FriendsAndFoesTags
 	public static final TagKey<Block> CRAB_BURROW_SPOT_BLOCKS = blockTag("crab_burrow_spot_blocks");
 	public static final TagKey<Block> GLARES_SPAWNABLE_ON = blockTag("glares_spawnable_on");
 	public static final TagKey<Block> MAULERS_SPAWNABLE_ON = blockTag("maulers_spawnable_on");
+	public static final TagKey<Block> PENGUINS_SPAWNABLE_ON = blockTag("penguins_spawnable_on");
 	public static final TagKey<Item> GLARE_FOOD_ITEMS = itemTag("glare_food_items");
 	public static final TagKey<Item> GLARE_TEMPT_ITEMS = itemTag("glare_tempt_items");
 	public static final TagKey<Item> PENGUIN_TEMPT_ITEMS = itemTag("penguin_tempt_items");

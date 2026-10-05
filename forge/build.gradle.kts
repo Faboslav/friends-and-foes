@@ -57,8 +57,8 @@ dependencies {
 	// Compat dependencies
 	// Curios (https://www.curseforge.com/minecraft/mc-mods/curios)
 	commonMod.depOrNull("curios")?.let { curiosVersion ->
-		compileOnly("top.theillusivec4.curios:curios-forge:${curiosVersion}:api")
-		runtimeOnly("top.theillusivec4.curios:curios-forge:${curiosVersion}")
+		modCompileOnly("top.theillusivec4.curios:curios-forge:${curiosVersion}:api")
+		modRuntimeOnly("top.theillusivec4.curios:curios-forge:${curiosVersion}")
 	}
 }
 

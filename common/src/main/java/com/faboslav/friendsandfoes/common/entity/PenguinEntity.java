@@ -7,6 +7,7 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityDataSerialize
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesMemoryModuleTypes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
+import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
 import com.faboslav.friendsandfoes.common.versions.VersionedGameRulesProvider;
 import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
@@ -305,7 +306,7 @@ public final class PenguinEntity extends Animal {
 		BlockPos pos,
 		RandomSource random
 	) {
-		return true;
+		return world.getBlockState(pos.below()).is(FriendsAndFoesTags.PENGUINS_SPAWNABLE_ON) && isBrightEnoughToSpawn(world, pos);
 	}
 
 	@Override

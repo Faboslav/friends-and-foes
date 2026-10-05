@@ -6,6 +6,7 @@
 - Fixed missing particles when shearing the moobloom
 - Fixed illusioner crash when holding a modded bow
 - Fixed iceologer sitting in the boat
+- Fixed typo in wildfire shield break subtitle
 - Updated es_ar translations (Thanks to Texaliuz)
 
 ## 4.0.26

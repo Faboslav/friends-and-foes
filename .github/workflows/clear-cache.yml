@@ -9,7 +9,7 @@ jobs:
         name: "Clear cache"
         timeout-minutes: 60
         steps:
-            -   uses: MyAlbum/purge-cache@v2
+            -   uses: MyAlbum/purge-cache@951302f4141da79834cd338a6349034a6edebcc2 # v3
                 with:
                     accessed: true
                     created: true

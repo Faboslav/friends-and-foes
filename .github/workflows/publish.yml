@@ -22,7 +22,7 @@ jobs:
             matrix: ${{ steps.set-matrix.outputs.matrix }}
         steps:
             -   name: "Checkout repository"
-                uses: actions/checkout@v6
+                uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
                 with:
                     fetch-depth: 1
 
@@ -35,7 +35,7 @@ jobs:
         name: Create github release
         steps:
             -   name: "Checkout repository"
-                uses: actions/checkout@v6
+                uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
                 with:
                     fetch-depth: 1
 
@@ -48,7 +48,7 @@ jobs:
 
             -   name: "Create github release"
                 continue-on-error: true
-                uses: ncipollo/release-action@v1
+                uses: ncipollo/release-action@339a81892b84b4eeb0f6e744e4574d79d0d9b8dd # v1.21.0
                 with:
                     skipIfReleaseExists: true
                     allowUpdates: true
@@ -72,18 +72,18 @@ jobs:
 
         steps:
         -   name: "Checkout repository"
-            uses: actions/checkout@v6
+            uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
             with:
                 fetch-depth: 1
 
         -   name: "Set up JDK"
-            uses: actions/setup-java@v4
+            uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
             with:
                 java-version: 21
                 distribution: temurin
 
         -   name: "Setup Gradle"
-            uses: gradle/actions/setup-gradle@v4
+            uses: gradle/actions/setup-gradle@3f5f9adaf7d9fecd50b5935e54106014257a94e6 # v6.4.0
             with:
                 cache-read-only: true
                 gradle-version: wrapper
@@ -100,7 +100,7 @@ jobs:
             run: ./.github/scripts/parse-changelog.sh ${{ steps.gradle-properties.outputs.MOD_VERSION }}
 
         -   name: Publish ${{ matrix.mod_loader }}
-            uses: Kir-Antipov/mc-publish@v3.3.1
+            uses: Kira-NT/mc-publish@52307b03863581dec6b652b83e597aec02ebb075 # v3.3.1
             with:
                 github-token: ${{ secrets.GITHUB_TOKEN }}
                 github-tag: ${{ steps.gradle-properties.outputs.MOD_VERSION }}

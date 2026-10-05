@@ -23,7 +23,7 @@ import net.minecraft.client.model.EntityModel;
 /*import net.minecraft.client.model.HierarchicalModel;
 *///?}
 
-//? if >= 26.2 {
+//? if >=1.21.3 {
 import net.minecraft.client.model.geom.builders.MeshTransformer;
 //?}
 
@@ -33,7 +33,7 @@ public final class PenguinEntityModel extends EntityModel<PenguinRenderState>
 /*public final class PenguinEntityModel<T extends PenguinEntity> extends HierarchicalModel<T>
 *///?}
 {
-	//? if >= 26.2 {
+	//? if >=1.21.3 {
 	public static final MeshTransformer BABY_TRANSFORMER = MeshTransformer.scaling(PenguinEntity.BABY_SCALE);
 	//?}
 

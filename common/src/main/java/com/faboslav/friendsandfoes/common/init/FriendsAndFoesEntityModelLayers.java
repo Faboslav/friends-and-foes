@@ -2,7 +2,6 @@ package com.faboslav.friendsandfoes.common.init;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.client.render.entity.model.*;
-import com.faboslav.friendsandfoes.common.client.render.entity.renderer.BarnacleEntityRenderer;
 import com.faboslav.friendsandfoes.common.events.client.RegisterEntityLayersEvent;
 import net.minecraft.client.model.animal.cow.CowModel;
 import net.minecraft.client.model.monster.illager.IllagerModel;
@@ -39,9 +38,6 @@ public final class FriendsAndFoesEntityModelLayers
 	public static final ModelLayerLocation CRAB_BABY_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("crab_baby"), "main");
 	public static final ModelLayerLocation GLARE_BABY_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("glare_baby"), "main");
 	public static final ModelLayerLocation MOOBLOOM_BABY_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("moobloom_baby"), "main");
-	//?}
-
-	//? if >= 26.2 {
 	public static final ModelLayerLocation PENGUIN_BABY_LAYER = new ModelLayerLocation(FriendsAndFoes.makeID("penguin_baby"), "main");
 	//?}
 
@@ -69,9 +65,6 @@ public final class FriendsAndFoesEntityModelLayers
 		//? if >=1.21.3 {
 		event.register(CRAB_BABY_LAYER, () -> CrabEntityModel.getTexturedModelData().apply(CrabEntityModel.BABY_TRANSFORMER));
 		event.register(GLARE_BABY_LAYER, () -> GlareEntityModel.getTexturedModelData().apply(GlareEntityModel.BABY_TRANSFORMER));
-		//?}
-
-		//? if >= 26.2 {
 		event.register(PENGUIN_BABY_LAYER, () -> PenguinEntityModel.getTexturedModelData().apply(PenguinEntityModel.BABY_TRANSFORMER));
 		//?}
 

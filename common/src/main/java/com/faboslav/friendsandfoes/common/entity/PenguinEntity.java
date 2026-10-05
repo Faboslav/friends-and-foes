@@ -25,6 +25,7 @@ import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -387,8 +388,17 @@ public final class PenguinEntity extends Animal {
 		}
 
 		SoundEvent soundEvent = this.getAmbientSound();
-		super.playAmbientSound();
 		this.playSound(soundEvent, this.getSoundVolume() * 0.5F, this.getVoicePitch());
+	}
+
+	@Override
+	protected SoundEvent getHurtSound(DamageSource source) {
+		return FriendsAndFoesSoundEvents.ENTITY_PENGUIN_HURT.get();
+	}
+
+	@Override
+	protected SoundEvent getDeathSound() {
+		return FriendsAndFoesSoundEvents.ENTITY_PENGUIN_DEATH.get();
 	}
 
 	@Override

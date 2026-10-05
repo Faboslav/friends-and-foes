@@ -398,6 +398,18 @@
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.penguin.ambient"
 	},
+	"entity.penguin.death": {
+		"sounds": [
+			"friendsandfoes:entity/penguin/hurt1"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.penguin.death"
+	},
+	"entity.penguin.hurt": {
+		"sounds": [
+			"friendsandfoes:entity/penguin/hurt1"
+		],
+		"subtitle": "subtitle.entity.friendsandfoes.penguin.hurt"
+	},
 	"entity.penguin.step": {
 		"sounds": [
 			"friendsandfoes:entity/penguin/step1",
@@ -629,7 +641,7 @@
 			"friendsandfoes:entity/wildfire/shockwave2",
 			"friendsandfoes:entity/wildfire/shockwave3"
 		],
-		"subtitle": "subtitle.entity.friendsandfoes.wildfire.shoot"
+		"subtitle": "subtitle.entity.friendsandfoes.wildfire.shockwave"
 	},
 	"entity.wildfire.shoot": {
 		"sounds": [

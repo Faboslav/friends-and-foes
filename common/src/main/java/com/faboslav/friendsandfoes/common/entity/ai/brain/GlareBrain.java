@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.common.entity.ai.brain;
 
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.GlareEntity;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.task.glare.*;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesActivities;
@@ -273,6 +274,13 @@ public final class GlareBrain
 			&& glare.getBrain().checkMemory(FriendsAndFoesMemoryModuleTypes.GLARE_DARK_SPOT_LOCATING_COOLDOWN.get(), MemoryStatus.VALUE_ABSENT)
 		) {
 			GlareBrain.setDarkSpotLocatingCooldown(glare);
+		}
+
+		if (
+			!FriendsAndFoes.getConfig().enableGlareGriefing
+			&& glare.getBrain().checkMemory(FriendsAndFoesMemoryModuleTypes.GLARE_LOCATING_GLOW_BERRIES_COOLDOWN.get(), MemoryStatus.VALUE_ABSENT)
+		) {
+			GlareBrain.setLocatingGlowBerriesCooldown(glare);
 		}
 
 		if (

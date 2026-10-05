@@ -77,6 +77,12 @@ public class MaulerEntityRenderer extends MobRenderer<MaulerEntity, MaulerRender
 		this.shadowRadius = mauler.isBurrowedDown() ? 0.0F : SHADOW_RADIUS;
 		super.render(mauler, entityYaw, partialTicks, poseStack, bufferSource, packedLight);
 	}
+
+	@Override
+	protected void scale(MaulerEntity mauler, PoseStack poseStack, float partialTickTime) {
+		float size = mauler.getSize();
+		poseStack.scale(size, size, size);
+	}
 	*///?}
 
 	@Override

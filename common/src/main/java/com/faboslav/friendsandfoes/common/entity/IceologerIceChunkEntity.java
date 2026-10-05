@@ -43,6 +43,7 @@ public final class IceologerIceChunkEntity extends Entity
 	private static final String TICKS_UNTIL_FALL_NBT_NAME = "TicksUntilFall";
 	private static final String IDLE_TICKS_NBT_NAME = "IdleTicks";
 
+	private static final int MAX_LIFETIME_TICKS = 600;
 	private static final int MIN_FLYING_TICKS = 60;
 	private static final int MAX_FLYING_TICKS = 100;
 	private static final int MIN_IDLE_TICKS = 10;
@@ -326,6 +327,8 @@ public final class IceologerIceChunkEntity extends Entity
 
 		if (this.verticalCollision) {
 			this.damageHitEntities();
+			this.customDiscard();
+		} else if (this.lifetimeTicks > MAX_LIFETIME_TICKS) {
 			this.customDiscard();
 		}
 	}

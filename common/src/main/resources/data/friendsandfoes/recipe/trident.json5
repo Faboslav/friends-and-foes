@@ -2,8 +2,17 @@
 	"type": "minecraft:crafting_shaped",
 	"category": "equipment",
 	"key": {
+		//? if >=1.21.4 {
 		"#": "minecraft:stick",
 		"X": "friendsandfoes:barnacle_tooth"
+		//?} else {
+		/*"#": {
+			"item": "minecraft:stick"
+		},
+		"X": {
+			"item": "friendsandfoes:barnacle_tooth"
+		}
+		*///?}
 	},
 	"pattern": [
 		" XX",
@@ -11,6 +20,10 @@
 		"#  "
 	],
 	"result": {
+		//? if >=1.21.1 {
 		"id": "minecraft:trident"
+	//?} else {
+		/*"item": "minecraft:trident"
+	*///?}
 	}
 }

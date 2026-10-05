@@ -1,0 +1,69 @@
+{
+	"type": "minecraft:entity",
+	"pools": [
+		{
+			"bonus_rolls": 0.0,
+			"entries": [
+				{
+					"type": "minecraft:item",
+					//? if >=26.3 {
+					"modifier": [
+						{
+							"type": "minecraft:set_count",
+							"add": false,
+							"count": {
+								"type": "minecraft:uniform",
+								"max": 2,
+								"min": 0
+							}
+						},
+						{
+							"type": "minecraft:enchanted_count_increase",
+							"count": {
+								"type": "minecraft:uniform",
+								"max": 1.0,
+								"min": 0.0
+							},
+							"enchantment": "minecraft:looting"
+						}
+					],
+					//?} else {
+					/*"functions": [
+						{
+							"add": false,
+							"count": {
+								"type": "minecraft:uniform",
+								"max": 2.0,
+								"min": 0.0
+							},
+							"function": "minecraft:set_count"
+						},
+						//? if >=1.21.1 {
+						{
+							"count": {
+								"type": "minecraft:uniform",
+								"max": 1.0,
+								"min": 0.0
+							},
+							"enchantment": "minecraft:looting",
+							"function": "minecraft:enchanted_count_increase"
+						}
+						//?} else {
+						/^{
+							"count": {
+								"type": "minecraft:uniform",
+								"max": 1.0,
+								"min": 0.0
+							},
+							"function": "minecraft:looting_enchant"
+						}
+						^///?}
+					],
+					*///?}
+					"name": "friendsandfoes:penguin_feather"
+				}
+			],
+			"rolls": 1.0
+		}
+	]
+}

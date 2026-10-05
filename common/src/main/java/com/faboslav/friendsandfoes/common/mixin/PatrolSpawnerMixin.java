@@ -1,5 +1,6 @@
 package com.faboslav.friendsandfoes.common.mixin;
 
+import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityTypes;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import net.minecraft.core.BlockPos;
@@ -11,6 +12,7 @@ import net.minecraft.world.entity.monster.PatrollingMonster;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.PatrolSpawner;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
@@ -31,13 +33,14 @@ import com.faboslav.friendsandfoes.common.versions.VersionedEntitySpawnReason;
 @Mixin(PatrolSpawner.class)
 public final class PatrolSpawnerMixin
 {
-	boolean friendsandfoes$isBiomeSpecificIllagerSpawned = false;
+	@Unique
+	private boolean friendsandfoes$isBiomeSpecificIllagerSpawned = false;
 
 	@ModifyVariable(
 		method = "spawnPatrolMember",
 		ordinal = 0,
 		at = @At(
-			value = "LOAD"
+			value = "STORE"
 		)
 	)
 	private PatrollingMonster friendsandfoes$modifyPatrolEntity(
@@ -50,10 +53,20 @@ public final class PatrolSpawnerMixin
 		Holder<Biome> biomeEntry = world.getBiome(pos);
 
 		if (!this.friendsandfoes$isBiomeSpecificIllagerSpawned) {
-			if (biomeEntry.is(FriendsAndFoesTags.HAS_ILLUSIONER)) {
+			if (
+				biomeEntry.is(FriendsAndFoesTags.HAS_ILLUSIONER)
+				&& FriendsAndFoes.getConfig().enableIllusioner
+				&& FriendsAndFoes.getConfig().enableIllusionerSpawn
+			) {
 				patrolEntity = FriendsAndFoesEntityTypes.ILLUSIONER.get().create(world/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.PATROL/*?}*/);
-			} else if (biomeEntry.is(FriendsAndFoesTags.HAS_ICEOLOGER)) {
+				this.friendsandfoes$isBiomeSpecificIllagerSpawned = true;
+			} else if (
+				biomeEntry.is(FriendsAndFoesTags.HAS_ICEOLOGER)
+				&& FriendsAndFoes.getConfig().enableIceologer
+				&& FriendsAndFoes.getConfig().enableIceologerSpawn
+			) {
 				patrolEntity = FriendsAndFoesEntityTypes.ICEOLOGER.get().create(world/*? if >=1.21.3 {*/, VersionedEntitySpawnReason.PATROL/*?}*/);
+				this.friendsandfoes$isBiomeSpecificIllagerSpawned = true;
 			}
 		}
 

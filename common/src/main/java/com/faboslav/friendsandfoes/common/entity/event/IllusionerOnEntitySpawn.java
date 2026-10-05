@@ -13,7 +13,8 @@ public final class IllusionerOnEntitySpawn
 			event,
 			VersionedEntityType.ILLUSIONER,
 			FriendsAndFoesEntityTypes.ILLUSIONER.get(),
-			FriendsAndFoes.getConfig().replaceVanillaIllusioner
+			FriendsAndFoes.getConfig().enableIllusioner
+			&& FriendsAndFoes.getConfig().replaceVanillaIllusioner
 		);
 	}
 }

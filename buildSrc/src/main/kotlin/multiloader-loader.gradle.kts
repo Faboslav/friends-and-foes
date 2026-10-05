@@ -105,6 +105,12 @@ tasks {
 					}
 				}
 			}
+
+			eachFile {
+				if (path.startsWith("assets/friendsandfoes/textures/models/armor/")) {
+					path = path.replaceFirst("assets/friendsandfoes/textures/models/armor/", "assets/minecraft/textures/models/armor/")
+				}
+			}
 		}
 
 		// Moobloom textures

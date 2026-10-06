@@ -110,6 +110,14 @@ jobs:
                     MOD_URL=$(./.github/scripts/get-modrinth-dependency-url.sh "yacl" "${{ steps.gradle-properties.outputs.DEPS_YACL }}-${{ matrix.mod_loader }}" "${{ matrix.mod_loader }}")
                     wget -P run/mods "$MOD_URL"
 
+            -   name: "Start virtual display"
+                if: ${{ matrix.version == '26.3' }}
+                run: |
+                    sudo apt-get update
+                    sudo apt-get install -y xvfb libgl1-mesa-dri libglx-mesa0
+                    Xvfb :99 -screen 0 1920x1080x24 &
+                    echo "DISPLAY=:99" >> "$GITHUB_ENV"
+
             -   name: Run ${{ matrix.version }} ${{ matrix.mod_loader }} client
                 uses: headlesshq/mc-runtime-test@645691de43520240e1d1e45b4b9a4d9cd9c294a4 # v4.5.2
                 with:
@@ -120,7 +128,7 @@ jobs:
                     java: ${{ steps.gradle-properties.outputs.JAVA_VERSION }}
                     fabric-api: ${{ steps.gradle-properties.outputs.DEPS_FABRIC_API }}
                     fabric-gametest-api: none
-                    xvfb: ${{ matrix.version == '26.3' }}
+                    xvfb: false
                     headlessmc-command: ${{ matrix.version == '26.3' && '--retries 3 --jvm -Djava.awt.headless=true -DMcRuntimeGameTest=false' || '-lwjgl --retries 3 --jvm -Djava.awt.headless=true -DMcRuntimeGameTest=false' }}
                     cache-mc: true
 

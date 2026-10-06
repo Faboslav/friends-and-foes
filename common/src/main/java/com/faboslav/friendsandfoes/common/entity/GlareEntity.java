@@ -233,7 +233,7 @@ public final class GlareEntity extends TamableAnimal
 	public void aiStep() {
 		super.aiStep();
 
-		if (this.level().isClientSide() == false && this.isAlive() && this.tickCount % 10 == 0) {
+		if (this.level().isClientSide() == false && this.isAlive() && this.tickCount % 10 == 0 && this.isInWall() == false) {
 			this.heal(1.0F);
 		}
 	}

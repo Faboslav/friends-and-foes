@@ -13,7 +13,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.TimeUtil;
 import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.level.Level;
@@ -33,7 +32,7 @@ public final class CopperGolemLocateButtonTask extends Behavior<CopperGolemEntit
 		BlockPos buttonBlockPos = this.findNearestRandomButton(copperGolem);
 
 		if (buttonBlockPos == null) {
-			CopperGolemBrain.setPressButtonCooldown(copperGolem, TimeUtil.rangeOfSeconds(10, 10));
+			CopperGolemBrain.setPressButtonCooldown(copperGolem);
 			return;
 		}
 
@@ -64,13 +63,11 @@ public final class CopperGolemLocateButtonTask extends Behavior<CopperGolemEntit
 	) {
 		List<BlockPos> buttons = new ArrayList<>();
 		for (BlockPos blockPos : BlockPos.withinBoxByManhattanDistance(copperGolemPos, horizontalRange, verticalRange, horizontalRange)) {
-			BlockPos possibleButtonBlockPos = blockPos.mutable();
-
-			if (!condition.test(possibleButtonBlockPos)) {
+			if (!condition.test(blockPos)) {
 				continue;
 			}
 
-			buttons.add(possibleButtonBlockPos);
+			buttons.add(blockPos.immutable());
 		}
 
 		return buttons;

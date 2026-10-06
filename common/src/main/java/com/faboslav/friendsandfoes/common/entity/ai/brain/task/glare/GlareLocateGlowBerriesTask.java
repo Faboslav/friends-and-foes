@@ -12,7 +12,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.TimeUtil;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
@@ -43,7 +42,7 @@ public final class GlareLocateGlowBerriesTask extends Behavior<GlareEntity>
 		BlockPos glowBerriesPos = this.findNearestGlowBerries(glare);
 
 		if (glowBerriesPos == null) {
-			GlareBrain.setLocatingGlowBerriesCooldown(glare, TimeUtil.rangeOfSeconds(10, 10));
+			GlareBrain.setLocatingGlowBerriesCooldown(glare);
 			return;
 		}
 
@@ -73,18 +72,16 @@ public final class GlareLocateGlowBerriesTask extends Behavior<GlareEntity>
 		int verticalRange,
 		Predicate<BlockPos> condition
 	) {
-		List<BlockPos> buttons = new ArrayList<>();
+		List<BlockPos> glowBerries = new ArrayList<>();
 
 		for (BlockPos blockPos : BlockPos.withinBoxByManhattanDistance(glarePos, horizontalRange, verticalRange, horizontalRange)) {
-			BlockPos possibleGlowBerriesBlockPos = blockPos.mutable();
-
-			if (!condition.test(possibleGlowBerriesBlockPos)) {
+			if (!condition.test(blockPos)) {
 				continue;
 			}
 
-			buttons.add(possibleGlowBerriesBlockPos);
+			glowBerries.add(blockPos.immutable());
 		}
 
-		return buttons;
+		return glowBerries;
 	}
 }

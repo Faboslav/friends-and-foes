@@ -79,6 +79,10 @@ public class GlareStrollTask extends Behavior<GlareEntity>
 				}
 			}
 
+			if (!world.getBlockState(mutable).isAir()) {
+				return;
+			}
+
 			Path newPath = glare.getNavigation().createPath(mutable, 1);
 			glare.getNavigation().moveTo(newPath, 1);
 

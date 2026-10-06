@@ -39,15 +39,19 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.DynamicGameEventListener;
+import net.minecraft.world.level.gameevent.EntityPositionSource;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.gameevent.GameEventListener;
+import net.minecraft.world.level.gameevent.PositionSource;
 import com.faboslav.friendsandfoes.common.versions.VersionedBlockPathType;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.function.BiConsumer;
 
 //? if < 26.2 {
 /*import net.minecraft.world.entity.animal.FlyingAnimal;
@@ -67,6 +71,10 @@ import net.minecraft.world.entity.EntitySpawnReason;
 //?} else {
 /*import net.minecraft.world.entity.MobSpawnType;
 *///?}
+
+//? if >= 1.21.1 {
+import net.minecraft.core.Holder;
+//?}
 
 @SuppressWarnings({"deprecation", "unchecked"})
 //? if >= 26.2 {
@@ -93,6 +101,9 @@ public class CrabEntity extends Animal
 
 	private int climbingTicks = 0;
 	private Home home = new Home(0, 0, 0);
+	private final DynamicGameEventListener<CrabEntity.JukeboxListener> dynamicJukeboxListener;
+	@Nullable
+	private BlockPos jukeboxPos;
 
 	public final AnimationState idleAnimationState = new AnimationState();
 	public final AnimationState waveAnimationState = new AnimationState();
@@ -111,6 +122,12 @@ public class CrabEntity extends Animal
 		this.setPathfindingMalus(VersionedBlockPathType.DOOR_OPEN, -1.0F);
 		this.lookControl = new CrabLookControl(this, 10);
 		this.navigation = new CrabWallClimbNavigation(this, world);
+
+		//? if >= 1.21.1 {
+		this.dynamicJukeboxListener = new DynamicGameEventListener<>(new CrabEntity.JukeboxListener(new EntityPositionSource(this, this.getEyeHeight()), GameEvent.JUKEBOX_PLAY.value().notificationRadius()));
+		//?} else {
+		/*this.dynamicJukeboxListener = new DynamicGameEventListener<>(new CrabEntity.JukeboxListener(new EntityPositionSource(this, this.getEyeHeight()), GameEvent.JUKEBOX_PLAY.getNotificationRadius()));
+		*///?}
 
 		//? if < 1.21.1 {
 		/*this.setMaxUpStep(0.0F);
@@ -365,36 +382,9 @@ public class CrabEntity extends Animal
 	public void aiStep() {
 		super.aiStep();
 
-		if (this.tickCount % 5 == 0) {
-			boolean isDancing = false;
-
-			for (BlockPos blockPos : BlockPos.withinBoxByManhattanDistance(this.blockPosition(), 7, 7, 7)) {
-				BlockPos possibleJukeboxBlockPos = blockPos.mutable();
-				BlockState possibleJukeboxBlockState = this.level().getBlockState(possibleJukeboxBlockPos);
-
-				if (
-					!possibleJukeboxBlockState.is(Blocks.JUKEBOX)
-					|| !possibleJukeboxBlockState.hasBlockEntity()
-				) {
-					continue;
-				}
-
-				BlockEntity possibleJukeboxBlockEntity = this.level().getBlockEntity(possibleJukeboxBlockPos);
-				if (!(possibleJukeboxBlockEntity instanceof JukeboxBlockEntity)) {
-					continue;
-				}
-
-				//? if >= 1.21.1 {
-				if (((JukeboxBlockEntity) possibleJukeboxBlockEntity).getSongPlayer().isPlaying()) {
-				//?} else {
-				/*if (((JukeboxBlockEntity) possibleJukeboxBlockEntity).isRecordPlaying()) {
-				*///?}
-					isDancing = true;
-					break;
-				}
-			}
-
-			this.setIsDancing(isDancing);
+		if (!this.level().isClientSide() && this.isDancing() && this.shouldStopDancing() && this.tickCount % 20 == 0) {
+			this.setIsDancing(false);
+			this.jukeboxPos = null;
 		}
 	}
 
@@ -600,6 +590,31 @@ public class CrabEntity extends Animal
 		this.entityData.set(IS_DANCING, isDancing);
 	}
 
+	public void setJukeboxPlaying(BlockPos jukebox, boolean isPlaying) {
+		if (isPlaying) {
+			if (!this.isDancing()) {
+				this.jukeboxPos = jukebox;
+				this.setIsDancing(true);
+			}
+		} else if (jukebox.equals(this.jukeboxPos) || this.jukeboxPos == null) {
+			this.jukeboxPos = null;
+			this.setIsDancing(false);
+		}
+	}
+
+	private boolean shouldStopDancing() {
+		return this.jukeboxPos == null
+			   || !this.jukeboxPos.closerToCenterThan(this.position(), this.dynamicJukeboxListener.getListener().getListenerRadius())
+			   || !this.level().getBlockState(this.jukeboxPos).is(Blocks.JUKEBOX);
+	}
+
+	@Override
+	public void updateDynamicGameEventListener(BiConsumer<DynamicGameEventListener<?>, ServerLevel> action) {
+		if (this.level() instanceof ServerLevel serverLevel) {
+			action.accept(this.dynamicJukeboxListener, serverLevel);
+		}
+	}
+
 	private void setSize(CrabSize size) {
 		this.entityData.set(SIZE, size.getName());
 		this.calculateSize();
@@ -700,6 +715,54 @@ public class CrabEntity extends Animal
 				super.tick();
 			}
 		}
+	}
+
+	class JukeboxListener implements GameEventListener
+	{
+		private final PositionSource listenerSource;
+		private final int listenerRadius;
+
+		public JukeboxListener(PositionSource listenerSource, int listenerRadius) {
+			this.listenerSource = listenerSource;
+			this.listenerRadius = listenerRadius;
+		}
+
+		@Override
+		public PositionSource getListenerSource() {
+			return this.listenerSource;
+		}
+
+		@Override
+		public int getListenerRadius() {
+			return this.listenerRadius;
+		}
+
+		@Override
+		//? if >= 1.21.1 {
+		public boolean handleGameEvent(ServerLevel level, Holder<GameEvent> gameEvent, GameEvent.Context context, Vec3 sourcePosition) {
+			if (gameEvent.is(GameEvent.JUKEBOX_PLAY)) {
+				CrabEntity.this.setJukeboxPlaying(BlockPos.containing(sourcePosition), true);
+				return true;
+			} else if (gameEvent.is(GameEvent.JUKEBOX_STOP_PLAY)) {
+				CrabEntity.this.setJukeboxPlaying(BlockPos.containing(sourcePosition), false);
+				return true;
+			} else {
+				return false;
+			}
+		}
+		//?} else {
+		/*public boolean handleGameEvent(ServerLevel level, GameEvent gameEvent, GameEvent.Context context, Vec3 sourcePosition) {
+			if (gameEvent == GameEvent.JUKEBOX_PLAY) {
+				CrabEntity.this.setJukeboxPlaying(BlockPos.containing(sourcePosition), true);
+				return true;
+			} else if (gameEvent == GameEvent.JUKEBOX_STOP_PLAY) {
+				CrabEntity.this.setJukeboxPlaying(BlockPos.containing(sourcePosition), false);
+				return true;
+			} else {
+				return false;
+			}
+		}
+		*///?}
 	}
 
 	public record Home(

@@ -120,8 +120,8 @@ jobs:
                     java: ${{ steps.gradle-properties.outputs.JAVA_VERSION }}
                     fabric-api: ${{ steps.gradle-properties.outputs.DEPS_FABRIC_API }}
                     fabric-gametest-api: none
-                    xvfb: false
-                    headlessmc-command: -lwjgl --retries 3 --jvm -Djava.awt.headless=true -DMcRuntimeGameTest=false
+                    xvfb: ${{ matrix.version == '26.3' }}
+                    headlessmc-command: ${{ matrix.version == '26.3' && '--retries 3 --jvm -Djava.awt.headless=true -DMcRuntimeGameTest=false' || '-lwjgl --retries 3 --jvm -Djava.awt.headless=true -DMcRuntimeGameTest=false' }}
                     cache-mc: true
 
     run-server:

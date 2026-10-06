@@ -116,10 +116,7 @@ public final class FriendsAndFoesForge
 	}
 
 	private static void initSpawners(final LevelEvent.Load event) {
-		if (
-			event.getLevel().isClientSide()
-			|| ((ServerLevel) event.getLevel()).dimensionTypeRegistration() != BuiltinDimensionTypes.OVERWORLD
-		) {
+		if (event.getLevel().isClientSide() || !((ServerLevel) event.getLevel()).dimensionTypeRegistration().is(BuiltinDimensionTypes.OVERWORLD)) {
 			return;
 		}
 

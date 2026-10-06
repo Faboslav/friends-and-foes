@@ -187,7 +187,12 @@ public final class FriendsAndFoesNeoForge
 	private static void initSpawners(final LevelEvent.Load event) {
 		if (
 			event.getLevel().isClientSide()
-			|| ((ServerLevel) event.getLevel()).dimensionTypeRegistration() != BuiltinDimensionTypes.OVERWORLD) {
+			//? if >= 26.2 {
+			|| !((ServerLevel) event.getLevel()).dimensionTypeRegistration().is(BuiltinDimensionTypes.OVERWORLD)
+			//?} else {
+			/*|| ((ServerLevel) event.getLevel()).dimensionTypeRegistration() != BuiltinDimensionTypes.OVERWORLD
+			*///?}
+		) {
 			return;
 		}
 

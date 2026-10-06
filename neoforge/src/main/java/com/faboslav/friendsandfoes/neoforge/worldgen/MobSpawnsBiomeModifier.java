@@ -10,6 +10,7 @@ import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.common.world.ModifiableBiomeInfo;
 
 //? if >=26.3 {
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.util.valueproviders.UniformInt;
 //?}
 
@@ -21,7 +22,12 @@ public class MobSpawnsBiomeModifier implements BiomeModifier
 	public MobSpawnsBiomeModifier() {
 	}
 
-	public void modify(Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
+	//? if >= 26.3 {
+	public void modify(RegistryAccess registries, Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder)
+	//?} else {
+	/*public void modify(Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder)
+	*///?}
+	{
 		if (phase == Phase.ADD) {
 			AddSpawnBiomeModificationsEvent.EVENT.invoke(new AddSpawnBiomeModificationsEvent((tag, spawnGroup, entityType, spawnWeight, minGroupSize, maxGroupSize) -> {
 				if (biome.is(tag)) {

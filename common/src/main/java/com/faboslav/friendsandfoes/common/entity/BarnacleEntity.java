@@ -197,7 +197,7 @@ public final class BarnacleEntity extends Monster
 
 		if (
 			this.isAlive()
-			//? if >=1.21.5 {
+			//? if >= 1.21.5 {
 			&& !this.isInWater()
 			//?} else {
 			/*&& !this.isInWaterOrBubble()

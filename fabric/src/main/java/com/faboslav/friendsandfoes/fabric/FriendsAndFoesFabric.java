@@ -4,8 +4,6 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.events.AddItemGroupEntriesEvent;
 import com.faboslav.friendsandfoes.common.events.lifecycle.*;
 import com.faboslav.friendsandfoes.common.init.*;
-import com.faboslav.friendsandfoes.common.platform.CustomSpawnGroup;
-import com.faboslav.friendsandfoes.common.util.CustomRaidMember;
 import com.faboslav.friendsandfoes.common.util.ServerWorldSpawnersUtil;
 import com.faboslav.friendsandfoes.common.world.spawner.IceologerSpawner;
 import com.faboslav.friendsandfoes.common.world.spawner.IllusionerSpawner;
@@ -28,10 +26,8 @@ import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.ai.village.poi.PoiTypes;
-import net.minecraft.world.entity.raid.Raid;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.LightningRodBlock;
@@ -80,16 +76,6 @@ public final class FriendsAndFoesFabric implements ModInitializer
 {
 	@Override
 	public void onInitialize() {
-		CustomSpawnGroup.GLARES = MobCategory.valueOf(CustomSpawnGroup.GLARES_NAME);
-		CustomSpawnGroup.RASCALS = MobCategory.valueOf(CustomSpawnGroup.RASCALS_NAME);
-
-		if (FriendsAndFoes.getConfig().enableIceologerInRaids) {
-			CustomRaidMember.ICEOLOGER = Raid.RaiderType.valueOf(CustomRaidMember.ICEOLOGER_INTERNAL_NAME);
-		}
-		if (FriendsAndFoes.getConfig().enableIllusionerInRaids) {
-			CustomRaidMember.ILLUSIONER = Raid.RaiderType.valueOf(CustomRaidMember.ILLUSIONER_INTERNAL_NAME);
-		}
-
 		FriendsAndFoes.init();
 		addCustomStructurePoolElements();
 		initEvents();

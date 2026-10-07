@@ -4,9 +4,6 @@ import net.minecraft.world.entity.MobCategory;
 
 public final class CustomSpawnGroup
 {
-	public static MobCategory GLARES;
-	public static MobCategory RASCALS;
-
 	public static final String GLARES_INTERNAL_NAME = "friendsandfoes:glares";
 	public static final String GLARES_NAME = "FRIENDSANDFOES_GLARES";
 	public static final int GLARES_SPAWN_CAP = 15;
@@ -22,10 +19,10 @@ public final class CustomSpawnGroup
 	public static final int RASCALS_IMMEDIATE_DESPAWN_RANGE = 128;
 
 	public static MobCategory getGlaresCategory() {
-		return GLARES;
+		return MobCategory.valueOf(GLARES_NAME);
 	}
 
 	public static MobCategory getRascalsCategory() {
-		return RASCALS;
+		return MobCategory.valueOf(RASCALS_NAME);
 	}
 }

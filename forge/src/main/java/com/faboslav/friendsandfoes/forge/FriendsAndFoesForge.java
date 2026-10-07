@@ -54,6 +54,9 @@ public final class FriendsAndFoesForge
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 		IEventBus eventBus = MinecraftForge.EVENT_BUS;
 
+		MobCategory.create(CustomSpawnGroup.GLARES_NAME, CustomSpawnGroup.GLARES_INTERNAL_NAME, CustomSpawnGroup.GLARES_SPAWN_CAP, CustomSpawnGroup.GLARES_PEACEFUL, CustomSpawnGroup.GLARES_RARE, CustomSpawnGroup.GLARES_IMMEDIATE_DESPAWN_RANGE);
+		MobCategory.create(CustomSpawnGroup.RASCALS_NAME, CustomSpawnGroup.RASCALS_INTERNAL_NAME, CustomSpawnGroup.RASCALS_SPAWN_CAP, CustomSpawnGroup.RASCALS_PEACEFUL, CustomSpawnGroup.RASCALS_RARE, CustomSpawnGroup.RASCALS_IMMEDIATE_DESPAWN_RANGE);
+
 		FriendsAndFoes.init();
 		FriendsAndFoesBiomeModifiers.BIOME_MODIFIER_SERIALIZERS.register(modEventBus);
 
@@ -80,15 +83,12 @@ public final class FriendsAndFoesForge
 		event.enqueueWork(() -> {
 			FriendsAndFoes.lateInit();
 
-			CustomSpawnGroup.GLARES = MobCategory.create(CustomSpawnGroup.GLARES_INTERNAL_NAME, CustomSpawnGroup.GLARES_NAME, CustomSpawnGroup.GLARES_SPAWN_CAP, CustomSpawnGroup.GLARES_PEACEFUL, CustomSpawnGroup.GLARES_RARE, CustomSpawnGroup.GLARES_IMMEDIATE_DESPAWN_RANGE);
-			CustomSpawnGroup.RASCALS = MobCategory.create(CustomSpawnGroup.RASCALS_INTERNAL_NAME, CustomSpawnGroup.RASCALS_NAME, CustomSpawnGroup.RASCALS_SPAWN_CAP, CustomSpawnGroup.RASCALS_PEACEFUL, CustomSpawnGroup.RASCALS_RARE, CustomSpawnGroup.RASCALS_IMMEDIATE_DESPAWN_RANGE);
-
 			if (FriendsAndFoes.getConfig().enableIceologerInRaids) {
-				CustomRaidMember.ICEOLOGER = Raid.RaiderType.create(CustomRaidMember.ICEOLOGER_INTERNAL_NAME, FriendsAndFoesEntityTypes.ICEOLOGER.get(), CustomRaidMember.ICEOLOGER_COUNT_IN_WAVE);
+				Raid.RaiderType.create(CustomRaidMember.ICEOLOGER_INTERNAL_NAME, FriendsAndFoesEntityTypes.ICEOLOGER.get(), CustomRaidMember.ICEOLOGER_COUNT_IN_WAVE);
 			}
 
 			if (FriendsAndFoes.getConfig().enableIllusionerInRaids) {
-				CustomRaidMember.ILLUSIONER = Raid.RaiderType.create(CustomRaidMember.ILLUSIONER_INTERNAL_NAME, FriendsAndFoesEntityTypes.ILLUSIONER.get(), CustomRaidMember.ILLUSIONER_COUNT_IN_WAVE);
+				Raid.RaiderType.create(CustomRaidMember.ILLUSIONER_INTERNAL_NAME, FriendsAndFoesEntityTypes.ILLUSIONER.get(), CustomRaidMember.ILLUSIONER_COUNT_IN_WAVE);
 			}
 
 			//? if < 1.21.1 {

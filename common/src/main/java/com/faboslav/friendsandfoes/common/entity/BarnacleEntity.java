@@ -439,7 +439,7 @@ public final class BarnacleEntity extends Monster
 	@Override
 	//?}
 	protected void playAttackSound() {
-		this.playSound(FriendsAndFoesSoundEvents.ENTITY_BARNACLE_ATTACK.get(), 0.5F, RandomGenerator.generateFloat(1.25F, 1.45F));
+		this.playSound(FriendsAndFoesSoundEvents.ENTITY_BARNACLE_ATTACK.get(), 0.5F, RandomGenerator.generateFloat(1.45F, 1.55F));
 	}
 
 	public void startTentacleAttackAnimation() {

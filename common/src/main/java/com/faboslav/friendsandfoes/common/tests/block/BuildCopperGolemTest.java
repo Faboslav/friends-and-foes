@@ -1,0 +1,48 @@
+package com.faboslav.friendsandfoes.common.tests.block;
+
+import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.core.BlockPos;
+
+//? if <= 1.21.8 {
+/*import com.faboslav.friendsandfoes.common.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.entity.CopperGolemEntity;
+import com.faboslav.friendsandfoes.common.tests.GameTestUtil;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LightningRodBlock;
+import net.minecraft.world.phys.AABB;
+*///?}
+
+public final class BuildCopperGolemTest
+{
+	private static final BlockPos BODY_POS = new BlockPos(1, 1, 1);
+	private static final BlockPos HEAD_POS = new BlockPos(1, 2, 1);
+	private static final BlockPos LIGHTNING_ROD_POS = new BlockPos(1, 3, 1);
+
+	public static void buildCopperGolem(GameTestHelper helper) {
+		//? if <= 1.21.8 {
+		/*ServerLevel level = helper.getLevel();
+
+		FriendsAndFoes.getConfig().enableCopperGolem = true;
+
+		helper.setBlock(BODY_POS, Blocks.COPPER_BLOCK.defaultBlockState());
+		helper.setBlock(HEAD_POS, Blocks.CARVED_PUMPKIN.defaultBlockState());
+
+		helper.setBlock(
+			LIGHTNING_ROD_POS,
+			Blocks.LIGHTNING_ROD.defaultBlockState().setValue(LightningRodBlock.FACING, Direction.UP)
+		);
+
+		BlockPos bodyPos = helper.absolutePos(BODY_POS);
+		var nearbyCopperGolems = level.getEntitiesOfClass(CopperGolemEntity.class, new AABB(bodyPos).inflate(3.0D));
+
+		if (nearbyCopperGolems.isEmpty()) {
+			GameTestUtil.fail(helper, "Copper golem build pattern did not spawn a copper golem");
+			return;
+		}
+		*///?}
+
+		helper.succeed();
+	}
+}

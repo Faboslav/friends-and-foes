@@ -32,7 +32,7 @@ tasks {
         from(commonResources)
         includeEmptyDirs = false
 
-		if (project.stonecutterBuild.eval(commonMod.mc, ">=26.2")) {
+		if (project.stonecutterBuild.eval(commonMod.mc, ">=26.1")) {
 			// Beekeeper trades
 			eachFile {
 				if (relativePath.pathString.contains("global_loot_modifiers")) {
@@ -48,6 +48,10 @@ tasks {
 					exclude()
 				}
 			}
+		}
+
+		if (project.stonecutterBuild.eval(commonMod.mc, "<1.21.5")) {
+			exclude("**/test_instance/**")
 		}
 
 		if (project.stonecutterBuild.eval(commonMod.mc, ">=1.21.9")) {
@@ -67,6 +71,10 @@ tasks {
 
 			// Lightning Rod resources
 			filesMatching("**/*lightning_rod*") {
+				exclude()
+			}
+
+			filesMatching("**/*player_illusion*") {
 				exclude()
 			}
 		}
@@ -149,6 +157,9 @@ tasks {
 
 	jar {
 		exclude("accesswideners/**")
+		exclude("com/faboslav/friendsandfoes/**/tests/**")
+		exclude("data/friendsandfoes/test_instance/**")
+		exclude("data/friendsandfoes/structure*/gametest/**")
 	}
 }
 

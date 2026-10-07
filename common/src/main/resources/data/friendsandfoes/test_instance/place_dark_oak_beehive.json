@@ -1,0 +1,7 @@
+{
+	"type": "minecraft:function",
+	"environment": "minecraft:default",
+	"function": "friendsandfoes:place_dark_oak_beehive",
+	"max_ticks": 20,
+	"structure": "friendsandfoes:gametest/empty"
+}

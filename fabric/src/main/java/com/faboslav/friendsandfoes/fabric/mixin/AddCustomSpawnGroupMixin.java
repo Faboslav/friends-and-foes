@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.Shadow;
 public enum AddCustomSpawnGroupMixin
 {
 	FRIENDSANDFOES_GLARES(
-		CustomSpawnGroup.GLARES_NAME,
+		CustomSpawnGroup.GLARES_INTERNAL_NAME,
 		//? if >=26.2 {
 		"GL",
 		//?}
@@ -20,7 +20,7 @@ public enum AddCustomSpawnGroupMixin
 	),
 
 	FRIENDSANDFOES_RASCALS(
-		CustomSpawnGroup.RASCALS_NAME,
+		CustomSpawnGroup.RASCALS_INTERNAL_NAME,
 		//? if >=26.2 {
 		"RA",
 		//?}

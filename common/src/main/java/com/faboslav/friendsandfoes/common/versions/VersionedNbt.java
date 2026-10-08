@@ -16,9 +16,12 @@ public final class VersionedNbt
 {
 	//? if >=1.21.6 {
 	public static String getString(ValueInput nbt, String key, String defaultValue)
-	//?} else {
-	/*public static String getString(CompoundTag nbt, String key, String defaultValue)
-	*///?}
+	{
+		return nbt.getStringOr(key, defaultValue);
+	}
+	//?}
+
+	public static String getString(CompoundTag nbt, String key, String defaultValue)
 	{
 		//? if >= 1.21.5 {
 		return nbt.getStringOr(key, defaultValue);

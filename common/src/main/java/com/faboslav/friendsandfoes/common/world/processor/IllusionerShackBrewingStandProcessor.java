@@ -105,16 +105,29 @@ public final class IllusionerShackBrewingStandProcessor implements StructureProc
 	private void putInputItem(CompoundTag itemTag, String itemId, byte count) {
 		itemTag.putByte("Slot", (byte) 3);
 		itemTag.putString("id", itemId);
-		itemTag.putByte("Count", count);
+		//? if >= 1.20.5 {
+		itemTag.putInt("count", count);
+		//?} else {
+		/*itemTag.putByte("Count", count);
+		*///?}
 	}
 
 	private void putPotionInSlot(CompoundTag itemTag, byte slot, String potionId) {
 		itemTag.putByte("Slot", slot);
 		itemTag.putString("id", "minecraft:potion");
-		itemTag.putByte("Count", (byte) 1);
+		//? if >= 1.20.5 {
+		itemTag.putInt("count", 1);
+		itemTag.put("components", Util.make(new CompoundTag(), componentsTag -> {
+			componentsTag.put("minecraft:potion_contents", Util.make(new CompoundTag(), potionContentsTag -> {
+				potionContentsTag.putString("potion", potionId);
+			}));
+		}));
+		//?} else {
+		/*itemTag.putByte("Count", (byte) 1);
 		itemTag.put("tag", Util.make(new CompoundTag(), potionTag -> {
 			potionTag.putString("Potion", potionId);
 		}));
+		*///?}
 	}
 
 	@Override

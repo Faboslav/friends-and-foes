@@ -19,7 +19,7 @@ public final class IllusionerShackItemFrameProcessorHelper
 		StructureEntityInfo globalEntityInfo,
 		StructurePlaceSettings structurePlacementData
 	) {
-		if (!globalEntityInfo.nbt.getString("id").equals("minecraft:item_frame")) {
+		if (!VersionedNbt.getString(globalEntityInfo.nbt, "id", "").equals("minecraft:item_frame")) {
 			return globalEntityInfo;
 		}
 
@@ -28,9 +28,17 @@ public final class IllusionerShackItemFrameProcessorHelper
 		CompoundTag newNbt = globalEntityInfo.nbt.copy();
 		var itemNbt = VersionedNbt.getCompound(newNbt, "Item");
 		itemNbt.putString("id", "minecraft:potion");
-		itemNbt.put("tag", Util.make(new CompoundTag(), potionTag -> {
+		//? if >= 1.20.5 {
+		itemNbt.put("components", Util.make(new CompoundTag(), componentsTag -> {
+			componentsTag.put("minecraft:potion_contents", Util.make(new CompoundTag(), potionContentsTag -> {
+				potionContentsTag.putString("potion", "minecraft:water");
+			}));
+		}));
+		//?} else {
+		/*itemNbt.put("tag", Util.make(new CompoundTag(), potionTag -> {
 			potionTag.putString("Potion", "minecraft:water");
 		}));
+		*///?}
 
 		int randomRotation = random.nextInt(8);
 		newNbt.putByte("ItemRotation", (byte) randomRotation);

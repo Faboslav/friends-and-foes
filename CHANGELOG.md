@@ -1,6 +1,7 @@
 ## 5.0.1
 
 - Fixed curios related barnacle crash
+- Fixed uncraftable potions in the illusioner shack structure
 
 ## 5.0.0
 

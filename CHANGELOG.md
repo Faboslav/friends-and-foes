@@ -1,3 +1,7 @@
+## 5.0.1
+
+- Fixed curios related barnacle crash
+
 ## 5.0.0
 
 - Added Barnacle

@@ -2,6 +2,7 @@
 
 - Fixed curios related barnacle crash
 - Fixed illusioner shack and iceologer cabin item frames and brewing stands
+- Fixed iceologers and illusioners spawning too often around their structures
 
 ## 5.0.0
 

@@ -95,8 +95,8 @@ public final class FriendsAndFoesEntityTypes
 		event.register(BARNACLE.get(), VersionedSpawnPlacementType.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BarnacleEntity::canSpawn);
 		event.register(CRAB.get(), VersionedSpawnPlacementType.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, CrabEntity::canSpawn);
 		event.register(GLARE.get(), VersionedSpawnPlacementType.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GlareEntity::canSpawn);
-		event.register(ICEOLOGER.get(), VersionedSpawnPlacementType.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, IceologerEntity::checkPatrollingMonsterSpawnRules);
-		event.register(ILLUSIONER.get(), VersionedSpawnPlacementType.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, IllusionerEntity::checkPatrollingMonsterSpawnRules);
+		event.register(ICEOLOGER.get(), VersionedSpawnPlacementType.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, IceologerEntity::checkMonsterSpawnRules);
+		event.register(ILLUSIONER.get(), VersionedSpawnPlacementType.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, IllusionerEntity::checkMonsterSpawnRules);
 		event.register(MAULER.get(), VersionedSpawnPlacementType.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, MaulerEntity::canSpawn);
 		event.register(MOOBLOOM.get(), VersionedSpawnPlacementType.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, MoobloomEntity::canSpawn);
 		event.register(PENGUIN.get(), VersionedSpawnPlacementType.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, PenguinEntity::canSpawn);

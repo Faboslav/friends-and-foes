@@ -93,13 +93,19 @@ public final class IllusionerShackBrewingStandProcessor implements StructureProc
 
 		itemsListTag.add(Util.make(new CompoundTag(), itemTag -> {
 			putPotionInSlot(itemTag, (byte) 1, outputPotionId);
-			if (randomSource.nextFloat() < .5f) {
-				putPotionInSlot(itemTag, (byte) 0, outputPotionId);
-			}
-			if (randomSource.nextFloat() < .5f) {
-				putPotionInSlot(itemTag, (byte) 2, outputPotionId);
-			}
 		}));
+
+		if (randomSource.nextFloat() < .5f) {
+			itemsListTag.add(Util.make(new CompoundTag(), itemTag -> {
+				putPotionInSlot(itemTag, (byte) 0, outputPotionId);
+			}));
+		}
+
+		if (randomSource.nextFloat() < .5f) {
+			itemsListTag.add(Util.make(new CompoundTag(), itemTag -> {
+				putPotionInSlot(itemTag, (byte) 2, outputPotionId);
+			}));
+		}
 	}
 
 	private void putInputItem(CompoundTag itemTag, String itemId, byte count) {

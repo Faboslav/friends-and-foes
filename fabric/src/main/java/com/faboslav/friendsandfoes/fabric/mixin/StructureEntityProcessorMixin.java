@@ -30,6 +30,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+//? if >= 1.21.6 {
+import net.minecraft.util.ProblemReporter;
+import net.minecraft.world.level.storage.TagValueInput;
+//?}
+
+//? if >= 26.2 {
+import net.minecraft.world.entity.EntitySpawnRequest;
+//?}
+
 /**
  * Allows for processing entities in Jigsaw structures.
  * Originally from YUNG's API by.
@@ -209,9 +218,11 @@ public final class StructureEntityProcessorMixin
 		CompoundTag compoundTag
 	) {
 		try {
-			//? if >=1.21.6 {
-			return Optional.empty();
-			//?} else if >=1.21.3 {
+			//? if >= 26.2 {
+			return EntityType.create(TagValueInput.create(ProblemReporter.DISCARDING, serverLevelAccessor.registryAccess(), compoundTag), serverLevelAccessor.getLevel(), new EntitySpawnRequest(VersionedEntitySpawnReason.STRUCTURE, false));
+			//?} else if >=1.21.6 {
+			/*return EntityType.create(TagValueInput.create(ProblemReporter.DISCARDING, serverLevelAccessor.registryAccess(), compoundTag), serverLevelAccessor.getLevel(), VersionedEntitySpawnReason.STRUCTURE);
+			*///?} else if >=1.21.3 {
 			/*return EntityType.create(compoundTag, serverLevelAccessor.getLevel(), VersionedEntitySpawnReason.STRUCTURE);
 			*///?} else {
 			/*return EntityType.create(compoundTag, serverLevelAccessor.getLevel());

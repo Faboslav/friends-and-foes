@@ -3,6 +3,7 @@
 - Fixed blue skies related startup crash
 - Fixed illusioner illusions not teleporting properly
 - Fixed totem of illusion using freezing particles
+- Updated ko_kr translations (Thanks to ONGSONGI)
 
 ## 5.0.1
 

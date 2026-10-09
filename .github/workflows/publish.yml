@@ -3,6 +3,11 @@ name: "Publish"
 on:
     workflow_dispatch:
         inputs:
+            platforms:
+                description: 'List of platforms to be published to'
+                required: true
+                default: "['github', 'curseforge', 'modrinth']"
+                type: string
             mod_loaders:
                 description: 'List of mod loaders to be published'
                 required: true
@@ -33,6 +38,7 @@ jobs:
     create-github-release:
         runs-on: ubuntu-latest
         name: Create github release
+        if: ${{ contains(fromJson(inputs.platforms), 'github') }}
         steps:
             -   name: "Checkout repository"
                 uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -63,6 +69,7 @@ jobs:
     publish-to-platforms:
         runs-on: ubuntu-latest
         needs: [generate-publish-matrix, create-github-release]
+        if: ${{ !cancelled() && !failure() }}
         name: Publish ${{ matrix.mod_loader }} ${{ matrix.version }}
         timeout-minutes: 60
         strategy:
@@ -102,15 +109,15 @@ jobs:
         -   name: Publish ${{ matrix.mod_loader }}
             uses: Kira-NT/mc-publish@52307b03863581dec6b652b83e597aec02ebb075 # v3.3.1
             with:
-                github-token: ${{ secrets.GITHUB_TOKEN }}
-                github-tag: ${{ steps.gradle-properties.outputs.MOD_VERSION }}
+                github-token: ${{ contains(fromJson(inputs.platforms), 'github') && secrets.GITHUB_TOKEN || '${undefined}' }}
+                github-tag: ${{ contains(fromJson(inputs.platforms), 'github') && steps.gradle-properties.outputs.MOD_VERSION || '${undefined}' }}
 
-                curseforge-id: ${{ matrix.curseforge_project_id }}
-                curseforge-token: ${{ secrets.CURSEFORGE_RELEASE_TOKEN }}
+                curseforge-id: ${{ contains(fromJson(inputs.platforms), 'curseforge') && matrix.curseforge_project_id || '${undefined}' }}
+                curseforge-token: ${{ contains(fromJson(inputs.platforms), 'curseforge') && secrets.CURSEFORGE_RELEASE_TOKEN || '${undefined}' }}
 
-                modrinth-featured: true
-                modrinth-id: ${{ matrix.modrinth_project_id }}
-                modrinth-token: ${{ secrets.MODRINTH_RELEASE_TOKEN }}
+                modrinth-featured: ${{ contains(fromJson(inputs.platforms), 'modrinth') && true || '${undefined}' }}
+                modrinth-id: ${{ contains(fromJson(inputs.platforms), 'modrinth') && matrix.modrinth_project_id || '${undefined}' }}
+                modrinth-token: ${{ contains(fromJson(inputs.platforms), 'modrinth') && secrets.MODRINTH_RELEASE_TOKEN || '${undefined}' }}
 
                 name: ${{ steps.gradle-properties.outputs.MOD_NAME }} ${{ steps.gradle-properties.outputs.MOD_VERSION }}
                 version: ${{ matrix.mod_loader }}-${{ steps.gradle-properties.outputs.MOD_VERSION }}+mc${{ steps.gradle-properties.outputs.MINECRAFT_VERSION }}

@@ -1,6 +1,7 @@
 package com.faboslav.friendsandfoes.common.init;
 
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.mixin.GiveGiftToHeroAccessor;
 import com.teamresourceful.resourcefullib.common.registry.RegistryEntry;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistries;
 import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistry;
@@ -14,6 +15,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.npc.villager.VillagerProfession;
 import net.minecraft.world.item.Items;
+import java.util.HashMap;
 
 //? if <= 1.21.11 {
 /*import com.faboslav.friendsandfoes.common.events.entity.RegisterVillagerTradesEvent;
@@ -86,6 +88,16 @@ public final class FriendsAndFoesVillagerProfessions
 		}
 	}
 	*///?}
+
+	public static void registerGifts() {
+		var gifts = new HashMap<>(GiveGiftToHeroAccessor.friendsandfoes$getGifts());
+		//? if >= 1.21.5 {
+		gifts.put(BEEKEEPER_KEY, FriendsAndFoesLootTables.BEEKEEPER_GIFT);
+		//?} else {
+		/*gifts.put(BEEKEEPER.get(), FriendsAndFoesLootTables.BEEKEEPER_GIFT);
+		*///?}
+		GiveGiftToHeroAccessor.friendsandfoes$setGifts(gifts);
+	}
 
 	private FriendsAndFoesVillagerProfessions() {
 	}

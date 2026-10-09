@@ -1,3 +1,9 @@
+## 5.0.2
+
+- Fixed blue skies related startup crash
+- Fixed illusioner illusions not teleporting properly
+- Fixed totem of illusion using freezing particles
+
 ## 5.0.1
 
 - Fixed curios related barnacle crash

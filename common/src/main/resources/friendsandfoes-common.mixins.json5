@@ -16,7 +16,7 @@
   "mixins": [
     "AbstractBoatMixin",
     "AnimalMakeLoveAccessor",
-    "BeaconBlockEntityMixin",
+    "BeaconBlockEntityAccessor",
     "BeeEntityAccessor",
     "BeeEntityMixin",
     "BeeGoToKnownFlowerGoalMixin",
@@ -26,7 +26,7 @@
     "BundleItemAccessor",
     "CarvedPumpkinBlockMixin",
     "ChickenEntityMixin",
-    "GiveGiftToHeroMixin",
+    "GiveGiftToHeroAccessor",
     "LightningEntityMixin",
     "LightningRodAbstractBlockMixin",
     "LightningRodBlockBlockMixin",

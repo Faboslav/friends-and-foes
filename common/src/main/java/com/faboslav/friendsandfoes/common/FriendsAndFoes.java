@@ -133,6 +133,8 @@ public final class FriendsAndFoes
 		//? if <26.3 {
 		/*FriendsAndFoesItems.registerCompostableItems();
 		*///?}
+		FriendsAndFoesStatusEffects.registerBeaconEffects();
+		FriendsAndFoesVillagerProfessions.registerGifts();
 		PlatformHooks.BIOME_MODIFICATIONS.addButtercupFeature();
 	}
 

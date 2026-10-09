@@ -160,6 +160,9 @@ tasks {
 		exclude("com/faboslav/friendsandfoes/**/tests/**")
 		exclude("data/friendsandfoes/test_instance/**")
 		exclude("data/friendsandfoes/structure*/gametest/**")
+		filesMatching("fabric.mod.json") {
+			filter { line -> line.takeUnless { it.contains("com.faboslav.friendsandfoes.fabric.tests.") } }
+		}
 	}
 }
 

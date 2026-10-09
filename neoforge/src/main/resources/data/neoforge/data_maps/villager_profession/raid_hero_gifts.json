@@ -1,0 +1,7 @@
+{
+	"values": {
+		"friendsandfoes:beekeeper": {
+			"loot_table": "friendsandfoes:gameplay/hero_of_the_village/beekeeper_gift"
+		}
+	}
+}

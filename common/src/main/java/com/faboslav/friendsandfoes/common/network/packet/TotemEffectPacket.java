@@ -56,7 +56,7 @@ public record TotemEffectPacket(Item item, int entityId) implements Packet<Totem
 					if (item == FriendsAndFoesItems.TOTEM_OF_FREEZING.get()) {
 						TotemUtil.playActivateAnimation(itemStack, entity, FriendsAndFoesParticleTypes.TOTEM_OF_FREEZING.get());
 					} else if (item == FriendsAndFoesItems.TOTEM_OF_ILLUSION.get()) {
-						TotemUtil.playActivateAnimation(itemStack, entity, FriendsAndFoesParticleTypes.TOTEM_OF_FREEZING.get());
+						TotemUtil.playActivateAnimation(itemStack, entity, FriendsAndFoesParticleTypes.TOTEM_OF_ILLUSION.get());
 					}
 				}
 			};

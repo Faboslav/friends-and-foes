@@ -412,11 +412,11 @@ public class IllusionerEntity extends SpellcasterIllager implements RangedAttack
 		illusion.setHealth(this.getMaxHealth());
 		illusion.copyPosition(illusioner);
 
-		boolean teleportResult = this.tryToTeleport(x, y, z);
+		boolean teleportResult = illusion.tryToTeleport(x, y, z);
 
 		if (teleportResult) {
 			this.level().addFreshEntity(illusion);
-			this.spawnCloudParticles();
+			illusion.spawnCloudParticles();
 		}
 	}
 

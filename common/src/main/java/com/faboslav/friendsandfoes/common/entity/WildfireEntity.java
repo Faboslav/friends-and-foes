@@ -490,13 +490,13 @@ public final class WildfireEntity extends Monster
 			float shieldBreakDamageThreshold = (float) this.getAttributeValue(Attributes.MAX_HEALTH) * 0.25F;
 
 			if (this.damageAmountCounter >= shieldBreakDamageThreshold) {
-				if (attacker instanceof LivingEntity) {
-					VersionedEntity.hurt(attacker, this.damageSources().mobAttack(this), GENERIC_ATTACK_DAMAGE);
-				}
-
 				this.breakShield();
 				this.playShieldBreakSound();
 				this.damageAmountCounter = 0;
+
+				if (attacker instanceof LivingEntity) {
+					VersionedEntity.hurt(attacker, this.damageSources().mobAttack(this), GENERIC_ATTACK_DAMAGE);
+				}
 			}
 
 			amount = 0.0F;

@@ -3,6 +3,7 @@
 - Added armor trims support for wildfire crown
 - Fixed tuff golem animations not playing properly after sleeping, waking up or reloading
 - Fixed burrowed mauler appearing unburrowed after reloading
+- Fixed server crash when hitting wildfire
 - Updated ru_ru translations (Thanks to mpustovoi)
 
 ## 5.0.2

@@ -7,6 +7,7 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityDataSerialize
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
+import com.faboslav.friendsandfoes.common.util.animation.AnimationMath;
 import com.faboslav.friendsandfoes.common.versions.VersionedEntity;
 import com.faboslav.friendsandfoes.common.versions.VersionedInteractionResult;
 import com.faboslav.friendsandfoes.common.versions.VersionedNbt;
@@ -87,6 +88,7 @@ public final class MaulerEntity extends Animal implements NeutralMob
 	private static final int MAXIMUM_STORED_EXPERIENCE_POINTS = 1395;
 	public static final int MIN_TICKS_UNTIL_NEXT_BURROWING = 3000;
 	public static final int MAX_TICKS_UNTIL_NEXT_BURROWING = 6000;
+	private static final int BURROW_ANIMATION_DURATION = AnimationMath.toLengthInTicks(2.0F);
 
 	private static final Type DEFAULT_TYPE = Type.SAVANNA;
 
@@ -298,12 +300,14 @@ public final class MaulerEntity extends Animal implements NeutralMob
 
 	@Override
 	public void onSyncedDataUpdated(EntityDataAccessor<?> dataAccessor) {
-		if (!this.firstTick && IS_BURROWED_DOWN.equals(dataAccessor)) {
+		if (IS_BURROWED_DOWN.equals(dataAccessor)) {
+			int animationStartTick = this.firstTick ? this.tickCount - BURROW_ANIMATION_DURATION * 2 : this.tickCount;
+
 			if (this.isBurrowedDown()) {
-				this.burrowDownAnimationState.start(this.tickCount);
+				this.burrowDownAnimationState.start(animationStartTick);
 				this.burrowUpAnimationState.stop();
 			} else {
-				this.burrowUpAnimationState.start(this.tickCount);
+				this.burrowUpAnimationState.start(animationStartTick);
 				this.burrowDownAnimationState.stop();
 			}
 		}

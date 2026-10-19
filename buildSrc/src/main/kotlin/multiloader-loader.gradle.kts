@@ -84,6 +84,10 @@ tasks {
 			filesMatching("**/*pale_oak*") {
 				exclude()
 			}
+
+			filesMatching("**/*resin_trim*") {
+				exclude()
+			}
 		}
 
 		if (project.stonecutterBuild.eval(commonMod.mc, "<26.3")) {

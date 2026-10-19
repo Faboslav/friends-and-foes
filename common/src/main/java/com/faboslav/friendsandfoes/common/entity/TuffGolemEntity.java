@@ -6,6 +6,7 @@ import com.faboslav.friendsandfoes.common.entity.pose.FriendsAndFoesEntityPose;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesEntityDataSerializers;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.util.MovementUtil;
+import com.faboslav.friendsandfoes.common.util.animation.AnimationMath;
 import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
 import com.faboslav.friendsandfoes.common.versions.*;
 import com.mojang.serialization.Codec;
@@ -80,9 +81,13 @@ import net.minecraft.world.entity.EntitySpawnReason;
 public final class TuffGolemEntity extends AbstractGolem
 {
 	private static final float MOVEMENT_SPEED = 0.225F;
+	private static final float MOVEMENT_SPEED_WITHOUT_ITEM = 1.0F;
 	private static final float MOVEMENT_SPEED_WITH_ITEM = 0.175F;
 	private static final int TUFF_HEAL_AMOUNT = 5;
 	private static final int INACTIVE_TICKS_AFTER_SPAWN = 200;
+	private static final int ITEM_ANIMATION_DURATION = AnimationMath.toLengthInTicks(0.4583F);
+	private static final int SLEEP_ANIMATION_DURATION = AnimationMath.toLengthInTicks(0.9167F);
+	private static final int WAKE_AND_ITEM_ANIMATION_DURATION = AnimationMath.toLengthInTicks(1.375F);
 
 	private static final String COLOR_NBT_NAME = "Color";
 	private static final String PREV_POSE_NBT_NAME = "PrevPose";
@@ -99,6 +104,7 @@ public final class TuffGolemEntity extends AbstractGolem
 	private static final EntityDataAccessor<Boolean> IS_GLUED = SynchedEntityData.defineId(TuffGolemEntity.class, EntityDataSerializers.BOOLEAN);
 
 	private int inactiveTicksAfterSpawn = 0;
+	private int poseAnimationTicks = 0;
 	private Home home = new Home(0, 0, 0, 0.0F);
 
 	public final AnimationState showItemAnimationState = new AnimationState();
@@ -310,14 +316,6 @@ public final class TuffGolemEntity extends AbstractGolem
 
 	private void playGlueOffSound() {
 		this.playSound(this.getGlueOffSound(), 1.0F, 1.0F);
-	}
-
-	public SoundEvent getMoveSound() {
-		return FriendsAndFoesSoundEvents.ENTITY_TUFF_GOLEM_MOVE.get();
-	}
-
-	public void playMoveSound() {
-		this.playSound(this.getMoveSound(), 1.0F, 1.05F + this.getRandom().nextFloat() * 0.05F);
 	}
 
 	public SoundEvent getHoldItemSound() {
@@ -541,9 +539,15 @@ public final class TuffGolemEntity extends AbstractGolem
 		}
 
 		if (this.level() instanceof ServerLevel serverLevel) {
+			if (this.isInPoseTransition()) {
+				return true;
+			}
+
 			MovementUtil.stopMovement(this);
 
 			if (this.isHoldingItem()) {
+				boolean wasSleeping = this.isInSleepingPose();
+
 				if (!player.getAbilities().instabuild) {
 					VersionedEntity.spawnAtLocation(this, this.getItemBySlot(EquipmentSlot.MAINHAND));
 				}
@@ -551,7 +555,7 @@ public final class TuffGolemEntity extends AbstractGolem
 				this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
 				this.startStanding();
 
-				if (this.isInSleepingPose()) {
+				if (wasSleeping) {
 					this.playWakeSound();
 				} else {
 					this.playDropItemSound();
@@ -589,6 +593,7 @@ public final class TuffGolemEntity extends AbstractGolem
 
 		this.setPrevEntityPose(this.getEntityPose());
 		this.entityData.set(ENTITY_POSE, pose);
+		this.poseAnimationTicks = this.getTransitionAnimationDuration();
 	}
 
 	public FriendsAndFoesEntityPose getEntityPose() {
@@ -604,7 +609,7 @@ public final class TuffGolemEntity extends AbstractGolem
 			return;
 		}
 
-		this.setEntityPose(pose);
+		this.entityData.set(ENTITY_POSE, pose);
 	}
 
 	public void setPrevEntityPose(FriendsAndFoesEntityPose pose) {
@@ -702,13 +707,16 @@ public final class TuffGolemEntity extends AbstractGolem
 	}
 
 	public boolean isShowingItem() {
-		return
-			this.isHoldingItem()
-			&& this.isInHoldingItemPose();
+		return this.isHoldingItem() && this.isInHoldingItemPose();
+	}
+
+	public boolean isInPoseTransition() {
+		return this.poseAnimationTicks > 0;
 	}
 
 	public boolean isNotImmobilized() {
-		return this.inactiveTicksAfterSpawn == 0
+		return this.isInPoseTransition() == false
+			   && this.inactiveTicksAfterSpawn == 0
 			   && this.isGlued() == false
 			   && this.isInSleepingPose() == false;
 	}
@@ -757,76 +765,139 @@ public final class TuffGolemEntity extends AbstractGolem
 			this.inactiveTicksAfterSpawn--;
 		}
 
+		if (!this.level().isClientSide() && this.poseAnimationTicks > 0) {
+			this.poseAnimationTicks--;
+		}
+
+		this.updateEntityPoseByHeldItem();
+
 		super.tick();
+	}
+
+	private void updateEntityPoseByHeldItem() {
+		if (this.level().isClientSide()) {
+			return;
+		}
+
+		if (this.isHoldingItem() == this.isInHoldingItemPose()) {
+			return;
+		}
+
+		if (this.isHoldingItem()) {
+			if (this.isInSleepingPose()) {
+				this.setEntityPose(FriendsAndFoesEntityPose.SLEEPING_WITH_ITEM);
+			} else {
+				this.setEntityPose(FriendsAndFoesEntityPose.STANDING_WITH_ITEM);
+			}
+		} else if (this.isInSleepingPose()) {
+			this.setEntityPose(FriendsAndFoesEntityPose.SLEEPING);
+		} else {
+			this.setEntityPose(FriendsAndFoesEntityPose.STANDING);
+		}
 	}
 
 	@Override
 	public void onSyncedDataUpdated(EntityDataAccessor<?> dataAccessor) {
 		if (PREV_ENTITY_POSE.equals(dataAccessor) || ENTITY_POSE.equals(dataAccessor)) {
-			if (this.wasInEntityPose(FriendsAndFoesEntityPose.STANDING)) {
-				if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING_WITH_ITEM)) {
-					this.showItemAnimationState.start(this.tickCount);
-				} else {
-					this.showItemAnimationState.stop();
-				}
-
-				if (this.isInEntityPose(FriendsAndFoesEntityPose.SLEEPING)) {
-					this.sleepAnimationState.start(this.tickCount);
-				} else {
-					this.sleepAnimationState.stop();
-				}
-			} else if (this.wasInEntityPose(FriendsAndFoesEntityPose.STANDING_WITH_ITEM)) {
-				if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING)) {
-					this.hideItemAnimationState.start(this.tickCount);
-				} else {
-					this.hideItemAnimationState.stop();
-				}
-
-				if (this.isInEntityPose(FriendsAndFoesEntityPose.SLEEPING_WITH_ITEM)) {
-					this.sleepWithItemAnimationState.start(this.tickCount);
-				} else {
-					this.sleepWithItemAnimationState.stop();
-				}
-			} else if (this.wasInEntityPose(FriendsAndFoesEntityPose.SLEEPING)) {
-				if (this.isInEntityPose(FriendsAndFoesEntityPose.SLEEPING_WITH_ITEM)) {
-					this.showItemAnimationState.start(this.tickCount);
-				} else {
-					this.showItemAnimationState.stop();
-				}
-
-				if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING_WITH_ITEM)) {
-					this.wakeAndShowItemAnimationState.start(this.tickCount);
-				} else {
-					this.wakeAndShowItemAnimationState.stop();
-				}
-
-				if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING)) {
-					this.wakeAnimationState.start(this.tickCount);
-				} else {
-					this.wakeAnimationState.stop();
-				}
-			} else if (this.wasInEntityPose(FriendsAndFoesEntityPose.SLEEPING_WITH_ITEM)) {
-				if (this.isInEntityPose(FriendsAndFoesEntityPose.SLEEPING)) {
-					this.hideItemAnimationState.start(this.tickCount);
-				} else {
-					this.hideItemAnimationState.stop();
-				}
-
-				if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING)) {
-					this.wakeAndHideItemAnimationState.start(this.tickCount);
-				} else {
-					this.wakeAndHideItemAnimationState.stop();
-				}
-
-				if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING_WITH_ITEM)) {
-					this.wakeWithItemAnimationState.start(this.tickCount);
-				} else {
-					this.wakeWithItemAnimationState.stop();
-				}
-			}
+			this.setupAnimationStates();
 		}
 
 		super.onSyncedDataUpdated(dataAccessor);
+	}
+
+	private void setupAnimationStates() {
+		this.showItemAnimationState.stop();
+		this.hideItemAnimationState.stop();
+		this.sleepAnimationState.stop();
+		this.sleepWithItemAnimationState.stop();
+		this.wakeAnimationState.stop();
+		this.wakeWithItemAnimationState.stop();
+		this.wakeAndShowItemAnimationState.stop();
+		this.wakeAndHideItemAnimationState.stop();
+
+		AnimationState animationState = this.getTransitionAnimationState();
+		int animationStartTick = this.tickCount;
+
+		if (animationState == null || this.firstTick) {
+			animationState = this.getPoseAnimationState();
+			animationStartTick = this.tickCount - WAKE_AND_ITEM_ANIMATION_DURATION * 2;
+		}
+
+		if (animationState != null) {
+			animationState.start(animationStartTick);
+		}
+	}
+
+	@Nullable
+	private AnimationState getTransitionAnimationState() {
+		AnimationState animationState = null;
+
+		if (this.wasInEntityPose(FriendsAndFoesEntityPose.STANDING)) {
+			if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING_WITH_ITEM)) {
+				animationState = this.showItemAnimationState;
+			} else if (this.isInEntityPose(FriendsAndFoesEntityPose.SLEEPING)) {
+				animationState = this.sleepAnimationState;
+			}
+		} else if (this.wasInEntityPose(FriendsAndFoesEntityPose.STANDING_WITH_ITEM)) {
+			if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING)) {
+				animationState = this.hideItemAnimationState;
+			} else if (this.isInEntityPose(FriendsAndFoesEntityPose.SLEEPING_WITH_ITEM)) {
+				animationState = this.sleepWithItemAnimationState;
+			}
+		} else if (this.wasInEntityPose(FriendsAndFoesEntityPose.SLEEPING)) {
+			if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING)) {
+				animationState = this.wakeAnimationState;
+			} else if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING_WITH_ITEM)) {
+				animationState = this.wakeAndShowItemAnimationState;
+			}
+		} else if (this.wasInEntityPose(FriendsAndFoesEntityPose.SLEEPING_WITH_ITEM)) {
+			if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING_WITH_ITEM)) {
+				animationState = this.wakeWithItemAnimationState;
+			} else if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING)) {
+				animationState = this.wakeAndHideItemAnimationState;
+			}
+		}
+
+		return animationState;
+	}
+
+	@Nullable
+	private AnimationState getPoseAnimationState() {
+		AnimationState animationState = null;
+
+		if (this.isInEntityPose(FriendsAndFoesEntityPose.STANDING_WITH_ITEM)) {
+			animationState = this.showItemAnimationState;
+		} else if (this.isInEntityPose(FriendsAndFoesEntityPose.SLEEPING)) {
+			animationState = this.sleepAnimationState;
+		} else if (this.isInEntityPose(FriendsAndFoesEntityPose.SLEEPING_WITH_ITEM)) {
+			animationState = this.sleepWithItemAnimationState;
+		}
+
+		return animationState;
+	}
+
+	private int getTransitionAnimationDuration() {
+		AnimationState animationState = this.getTransitionAnimationState();
+
+		if (animationState == null) {
+			return 0;
+		}
+
+		if (
+			animationState == this.showItemAnimationState
+			|| animationState == this.hideItemAnimationState
+		) {
+			return ITEM_ANIMATION_DURATION;
+		}
+
+		if (
+			animationState == this.wakeAndShowItemAnimationState
+			|| animationState == this.wakeAndHideItemAnimationState
+		) {
+			return WAKE_AND_ITEM_ANIMATION_DURATION;
+		}
+
+		return SLEEP_ANIMATION_DURATION;
 	}
 
 	@Override
@@ -860,21 +931,11 @@ public final class TuffGolemEntity extends AbstractGolem
 		) {
 			if (this.isHoldingItem()) {
 				this.startStandingWithItem();
-
-				if (this.isInSleepingPose()) {
-					this.playWakeSound();
-				} else {
-					this.playMoveSound();
-				}
 			} else {
 				this.startStanding();
-
-				if (this.isInSleepingPose()) {
-					this.playWakeSound();
-				} else {
-					this.playMoveSound();
-				}
 			}
+
+			this.playWakeSound();
 		}
 
 		/*? if >=1.21.3 {*/
@@ -929,10 +990,10 @@ public final class TuffGolemEntity extends AbstractGolem
 
 	public float getMovementSpeedModifier() {
 		if (this.isHoldingItem()) {
-			return 1.0F;
+			return MOVEMENT_SPEED_WITH_ITEM / MOVEMENT_SPEED;
 		}
 
-		return MOVEMENT_SPEED_WITH_ITEM / MOVEMENT_SPEED;
+		return MOVEMENT_SPEED_WITHOUT_ITEM;
 	}
 
 	@Override

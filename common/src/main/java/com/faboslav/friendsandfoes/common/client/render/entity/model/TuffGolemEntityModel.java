@@ -158,7 +158,7 @@ public final class TuffGolemEntityModel extends EntityModel<TuffGolemRenderState
 		//?} else {
 		/*this.root().getAllParts().forEach(ModelPart::resetPose);
 
-		this.updateKeyframeAnimations(tuffGolem.showItemAnimationState, tuffGolem.hideItemAnimationState, tuffGolem.sleepAnimationState, tuffGolem.sleepWithItemAnimationState, tuffGolem.wakeAnimationState, tuffGolem.wakeWithItemAnimationState, tuffGolem.wakeAndShowItemAnimationState, tuffGolem.wakeAndHideItemAnimationState, limbSwing, limbSwingAmount, ageInTicks, tuffGolem.getMovementSpeedModifier(), tuffGolem.isHoldingItem());
+		this.updateKeyframeAnimations(tuffGolem.showItemAnimationState, tuffGolem.hideItemAnimationState, tuffGolem.sleepAnimationState, tuffGolem.sleepWithItemAnimationState, tuffGolem.wakeAnimationState, tuffGolem.wakeWithItemAnimationState, tuffGolem.wakeAndShowItemAnimationState, tuffGolem.wakeAndHideItemAnimationState, limbSwing, limbSwingAmount, ageInTicks, tuffGolem.getMovementSpeedModifier(), tuffGolem.isShowingItem());
 		*///?}
 	}
 

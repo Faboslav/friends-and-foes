@@ -65,7 +65,7 @@ public final class TuffGolemEntityRenderer extends MobRenderer<TuffGolemEntity, 
 		renderState.wakeAndHideItemAnimationState.copyFrom(tuffGolem.wakeAndHideItemAnimationState);
 		renderState.color = tuffGolem.getColor();
 		renderState.movementSpeedModifier = tuffGolem.getMovementSpeedModifier();
-		renderState.isHoldingItem = tuffGolem.isHoldingItem();
+		renderState.isHoldingItem = tuffGolem.isShowingItem();
 		renderState.isInSleepingPose = tuffGolem.isInSleepingPose();
 		renderState.isDeadOrDying = tuffGolem.isDeadOrDying();
 		renderState.partialTick = partialTick;

@@ -84,7 +84,7 @@ public final class TuffGolemHeldItemFeatureRenderer extends RenderLayer<TuffGole
 
 		ItemStack itemStack = tuffGolem.getItemBySlot(EquipmentSlot.MAINHAND);
 		*///?} else {
-		/*if (tuffGolem.isDeadOrDying() || !tuffGolem.isHoldingItem()) {
+		/*if (tuffGolem.isDeadOrDying() || !tuffGolem.isShowingItem()) {
 			return;
 		}
 

@@ -12,12 +12,14 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.level.block.entity.BeaconBlockEntity;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
 //? if >= 1.21.1 {
 import com.teamresourceful.resourcefullib.common.registry.HolderRegistryEntry;
+
 import java.util.List;
 //?} else {
 /*import java.util.Arrays;

@@ -10,6 +10,7 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesSoundEvents;
 import com.faboslav.friendsandfoes.common.tag.FriendsAndFoesTags;
 import com.faboslav.friendsandfoes.common.util.MovementUtil;
 import com.faboslav.friendsandfoes.common.util.RandomGenerator;
+import com.faboslav.friendsandfoes.common.util.animation.AnimationMath;
 import com.faboslav.friendsandfoes.common.util.particle.ParticleSpawner;
 import com.faboslav.friendsandfoes.common.versions.VersionedInteractionResult;
 import com.faboslav.friendsandfoes.common.versions.VersionedProfilerProvider;
@@ -106,6 +107,7 @@ public final class GlareEntity extends TamableAnimal
 	private static final float MOVEMENT_SPEED = 0.1F;
 	public static final int MIN_EYE_ANIMATION_TICK_AMOUNT = 10;
 	public static final int LIGHT_THRESHOLD = 5;
+	private static final int SIT_ANIMATION_DURATION = AnimationMath.toLengthInTicks(0.5F);
 
 	private static final EntityDataAccessor<Byte> GLARE_FLAGS = SynchedEntityData.defineId(GlareEntity.class, EntityDataSerializers.BYTE);
 
@@ -250,12 +252,14 @@ public final class GlareEntity extends TamableAnimal
 
 	@Override
 	public void onSyncedDataUpdated(EntityDataAccessor<?> dataAccessor) {
-		if (!this.firstTick && DATA_FLAGS_ID.equals(dataAccessor)) {
+		if (DATA_FLAGS_ID.equals(dataAccessor)) {
+			int animationStartTick = this.firstTick ? this.tickCount - SIT_ANIMATION_DURATION * 2 : this.tickCount;
+
 			if (this.isOrderedToSit()) {
-				this.sitAnimationState.start(this.tickCount);
+				this.sitAnimationState.start(animationStartTick);
 				this.flyAnimationState.stop();
 			} else {
-				this.flyAnimationState.start(this.tickCount);
+				this.flyAnimationState.start(animationStartTick);
 				this.sitAnimationState.stop();
 			}
 		}

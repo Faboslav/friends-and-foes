@@ -536,13 +536,6 @@
 		],
 		"subtitle": "subtitle.entity.friendsandfoes.tuff_golem.hurt"
 	},
-	"entity.tuff_golem.move": {
-		"sounds": [
-			"friendsandfoes:entity/tuff_golem/move1",
-			"friendsandfoes:entity/tuff_golem/move2"
-		],
-		"subtitle": "subtitle.entity.friendsandfoes.tuff_golem.move"
-	},
 	"entity.tuff_golem.hold_item": {
 		"sounds": [
 			"friendsandfoes:entity/tuff_golem/move1",

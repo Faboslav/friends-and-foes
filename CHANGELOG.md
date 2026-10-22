@@ -1,3 +1,8 @@
+## 5.0.4
+
+- Fixed lightning rods oxidizing when lightning rod oxidation is disabled in config
+- Fixed server crash on some specific servers when generating villages
+
 ## 5.0.3
 
 - Added armor trims support for wildfire crown

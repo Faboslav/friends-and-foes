@@ -3,6 +3,7 @@ package com.faboslav.friendsandfoes.common.mixin;
 import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import com.faboslav.friendsandfoes.common.entity.ai.brain.task.beekeeper.BeekeeperWorkTask;
 import com.faboslav.friendsandfoes.common.init.FriendsAndFoesVillagerProfessions;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.ai.behavior.VillagerGoalPackages;
 import net.minecraft.world.entity.ai.behavior.WorkAtPoi;
@@ -22,11 +23,10 @@ public final class VillagerTaskListProviderMixin
 	private static WorkAtPoi friendsandfoes_setSecondVillagerWorkTask(
 		WorkAtPoi originalTask,
 		//? if >=1.21.5 {
-		Holder<VillagerProfession> professionHolder,
+		@Local(argsOnly = true) Holder<VillagerProfession> professionHolder
 		//?} else {
-		/*VillagerProfession profession,
+		/*@Local(argsOnly = true) VillagerProfession profession
 		*///?}
-		float f
 	) {
 		//? if >=1.21.5 {
 		var profession = professionHolder.value();

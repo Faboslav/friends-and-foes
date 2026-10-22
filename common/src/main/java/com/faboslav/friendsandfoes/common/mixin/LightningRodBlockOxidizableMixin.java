@@ -4,7 +4,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import net.minecraft.world.level.block.LightningRodBlock;
 
 //? if <=1.21.8 {
-/*import com.faboslav.friendsandfoes.common.block.FriendsAndFoesOxidizable;
+/*import com.faboslav.friendsandfoes.common.FriendsAndFoes;
+import com.faboslav.friendsandfoes.common.block.FriendsAndFoesOxidizable;
 
 import java.util.Optional;
 import net.minecraft.world.level.block.RodBlock;
@@ -20,6 +21,10 @@ public abstract class LightningRodBlockOxidizableMixin extends RodBlock implemen
 
 	@Override
 	public Optional<BlockState> getNext(BlockState state) {
+		if (!FriendsAndFoes.getConfig().enableLightningRodOxidation) {
+			return Optional.empty();
+		}
+
 		return FriendsAndFoesOxidizable.getNext(state.getBlock()).map((block) -> block.withPropertiesOf(state));
 	}
 }

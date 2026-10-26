@@ -4,7 +4,6 @@ import com.faboslav.friendsandfoes.common.FriendsAndFoes;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
@@ -16,11 +15,11 @@ import com.faboslav.friendsandfoes.common.init.FriendsAndFoesItems;
 import java.util.HashMap;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeMap;
 //?} else {
-/*import net.minecraft.world.item.crafting.RecipeType;
-import java.util.Map;
+/*import java.util.Map;
 *///?}
 
 //? if >=26.3 {
@@ -30,13 +29,14 @@ import net.minecraft.core.HolderLookup;
 @Mixin(RecipeManager.class)
 public final class RecipeManagerMixin
 {
+	//? if >=1.21.3 {
 	@Final
 	@Mutable
-	//? if >=1.21.3 {
 	@Shadow
 	private RecipeMap recipes;
 	//?} else {
-	/*private Map<RecipeType<?>, Map<Identifier, Recipe<?>>> recipes;
+	/*@Unique
+	private Map<Identifier, ?> friendsandfoes$jsons;
 	*///?}
 
 	@Unique
@@ -57,7 +57,11 @@ public final class RecipeManagerMixin
 	//?} else {
 	/*@Inject(
 		method = "apply*",
+		//? if >= 1.21.3 {
 		at = @At("TAIL")
+		//?} else {
+		/^at = @At("HEAD")
+		^///?}
 	)
 	private void friendsandfoes$applyDynamicRecipes(
 		//? if >=1.21.3 {
@@ -73,75 +77,78 @@ public final class RecipeManagerMixin
 	{
 		//? if >=26.3 {
 		this.friendsandfoes$recipeLookup = registries.lookupOrThrow(Registries.RECIPE);
-		//?}
+		//?} else if < 1.21.3 {
+		/*this.friendsandfoes$jsons = jsons;
+		*///?}
 
 		var config = FriendsAndFoes.getConfig();
 
 		if (!config.enableAcaciaBeehive) {
-			removeRecipe(FriendsAndFoesItems.ACACIA_BEEHIVE.getId());
+			friendsandfoes$removeRecipe(FriendsAndFoesItems.ACACIA_BEEHIVE.getId());
 		}
 
 		if (!config.enableBambooBeehive) {
-			removeRecipe(FriendsAndFoesItems.BAMBOO_BEEHIVE.getId());
+			friendsandfoes$removeRecipe(FriendsAndFoesItems.BAMBOO_BEEHIVE.getId());
 		}
 
 		if (!config.enableBirchBeehive) {
-			removeRecipe(FriendsAndFoesItems.BIRCH_BEEHIVE.getId());
+			friendsandfoes$removeRecipe(FriendsAndFoesItems.BIRCH_BEEHIVE.getId());
 		}
 
 		if (!config.enableCherryBeehive) {
-			removeRecipe(FriendsAndFoesItems.CHERRY_BEEHIVE.getId());
+			friendsandfoes$removeRecipe(FriendsAndFoesItems.CHERRY_BEEHIVE.getId());
 		}
 
 		if (!config.enableCrimsonBeehive) {
-			removeRecipe(FriendsAndFoesItems.CRIMSON_BEEHIVE.getId());
+			friendsandfoes$removeRecipe(FriendsAndFoesItems.CRIMSON_BEEHIVE.getId());
 		}
 
 		if (!config.enableDarkOakBeehive) {
-			removeRecipe(FriendsAndFoesItems.DARK_OAK_BEEHIVE.getId());
+			friendsandfoes$removeRecipe(FriendsAndFoesItems.DARK_OAK_BEEHIVE.getId());
 		}
 
 		if (!config.enableJungleBeehive) {
-			removeRecipe(FriendsAndFoesItems.JUNGLE_BEEHIVE.getId());
+			friendsandfoes$removeRecipe(FriendsAndFoesItems.JUNGLE_BEEHIVE.getId());
 		}
 
 		if (!config.enableMangroveBeehive) {
-			removeRecipe(FriendsAndFoesItems.MANGROVE_BEEHIVE.getId());
+			friendsandfoes$removeRecipe(FriendsAndFoesItems.MANGROVE_BEEHIVE.getId());
 		}
 
 		if (!config.enableSpruceBeehive) {
-			removeRecipe(FriendsAndFoesItems.SPRUCE_BEEHIVE.getId());
+			friendsandfoes$removeRecipe(FriendsAndFoesItems.SPRUCE_BEEHIVE.getId());
 		}
 
 		//? if >=1.21.4 {
 		if (!config.enablePaleOakBeehive) {
-			removeRecipe(FriendsAndFoesItems.PALE_OAK_BEEHIVE.getId());
+			friendsandfoes$removeRecipe(FriendsAndFoesItems.PALE_OAK_BEEHIVE.getId());
 		}
 		//?}
 
 		//? if >=26.3 {
 		if (!config.enablePoplarBeehive) {
-			removeRecipe(FriendsAndFoesItems.POPLAR_BEEHIVE.getId());
+			friendsandfoes$removeRecipe(FriendsAndFoesItems.POPLAR_BEEHIVE.getId());
 		}
 		//?}
 
 		if (!config.enableWarpedBeehive) {
-			removeRecipe(FriendsAndFoesItems.WARPED_BEEHIVE.getId());
+			friendsandfoes$removeRecipe(FriendsAndFoesItems.WARPED_BEEHIVE.getId());
 		}
 
 		if(!config.enableCopperButtons) {
-			removeRecipe(FriendsAndFoesItems.COPPER_BUTTON.getId());
-			removeRecipe(FriendsAndFoesItems.EXPOSED_COPPER_BUTTON.getId());
-			removeRecipe(FriendsAndFoesItems.WEATHERED_COPPER_BUTTON.getId());
-			removeRecipe(FriendsAndFoesItems.OXIDIZED_COPPER_BUTTON.getId());
-			removeRecipe(FriendsAndFoesItems.WAXED_COPPER_BUTTON.getId());
-			removeRecipe(FriendsAndFoesItems.WAXED_EXPOSED_COPPER_BUTTON.getId());
-			removeRecipe(FriendsAndFoesItems.WAXED_WEATHERED_COPPER_BUTTON.getId());
-			removeRecipe(FriendsAndFoesItems.WAXED_OXIDIZED_COPPER_BUTTON.getId());
+			friendsandfoes$removeRecipe(FriendsAndFoesItems.COPPER_BUTTON.getId());
+			friendsandfoes$removeRecipe(FriendsAndFoes.makeID("waxed_copper_button_from_honeycomb"));
+			friendsandfoes$removeRecipe(FriendsAndFoes.makeID("waxed_exposed_copper_button_from_honeycomb"));
+			friendsandfoes$removeRecipe(FriendsAndFoes.makeID("waxed_weathered_copper_button_from_honeycomb"));
+			friendsandfoes$removeRecipe(FriendsAndFoes.makeID("waxed_oxidized_copper_button_from_honeycomb"));
 		}
+
+		//? if < 1.21.3 {
+		/*this.friendsandfoes$jsons = null;
+		*///?}
 	}
 
-	private void removeRecipe(Identifier id) {
+	private void friendsandfoes$removeRecipe(Identifier id) {
 		//? if >=26.3 {
 		ResourceKey<Recipe<?>> key = ResourceKey.create(Registries.RECIPE, id);
 		this.friendsandfoes$recipeLookup.get(key).ifPresent(recipe -> {
@@ -158,10 +165,7 @@ public final class RecipeManagerMixin
 		byKey.remove(key);
 		this.recipes = RecipeMap.create(byKey.values());
 		*///?} else {
-		/*var map = this.recipes.get(RecipeType.CRAFTING);
-		if (map != null) {
-			map.remove(id);
-		}
+		/*this.friendsandfoes$jsons.remove(id);
 		*///?}
 	}
 }

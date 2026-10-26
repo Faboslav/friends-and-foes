@@ -3,6 +3,8 @@
 - Added recipe book advancements
 - Fixed lightning rods oxidizing when lightning rod oxidation is disabled in config
 - Fixed server crash on some specific servers when generating villages
+- Fixed crash related to disabled beehives and/or copper buttons
+- Fixed waxed copper button recipes being craftable when copper buttons are disabled in config
 
 ## 5.0.3
 

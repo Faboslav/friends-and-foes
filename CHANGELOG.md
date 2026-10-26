@@ -1,5 +1,6 @@
 ## 5.0.4
 
+- Added recipe book advancements
 - Fixed lightning rods oxidizing when lightning rod oxidation is disabled in config
 - Fixed server crash on some specific servers when generating villages
 

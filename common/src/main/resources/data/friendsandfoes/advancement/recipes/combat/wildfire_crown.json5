@@ -1,0 +1,38 @@
+{
+	"parent": "minecraft:recipes/root",
+	"rewards": {
+		"recipes": [
+			"friendsandfoes:wildfire_crown"
+		]
+	},
+	"criteria": {
+		"has_wildfire_crown_fragment": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"friendsandfoes:wildfire_crown_fragment"
+						]
+					}
+				]
+			}
+		},
+		"has_the_recipe": {
+			"trigger": "minecraft:recipe_unlocked",
+			"conditions": {
+				//? if >=26.3 {
+				"recipes": "friendsandfoes:wildfire_crown"
+				//?} else {
+				/*"recipe": "friendsandfoes:wildfire_crown"
+				*///?}
+			}
+		}
+	},
+	"requirements": [
+		[
+			"has_wildfire_crown_fragment",
+			"has_the_recipe"
+		]
+	]
+}

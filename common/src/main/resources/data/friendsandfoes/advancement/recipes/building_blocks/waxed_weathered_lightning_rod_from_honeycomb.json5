@@ -1,0 +1,38 @@
+{
+	"parent": "minecraft:recipes/root",
+	"rewards": {
+		"recipes": [
+			"friendsandfoes:waxed_weathered_lightning_rod_from_honeycomb"
+		]
+	},
+	"criteria": {
+		"has_weathered_lightning_rod": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"friendsandfoes:weathered_lightning_rod"
+						]
+					}
+				]
+			}
+		},
+		"has_the_recipe": {
+			"trigger": "minecraft:recipe_unlocked",
+			"conditions": {
+				//? if >=26.3 {
+				"recipes": "friendsandfoes:waxed_weathered_lightning_rod_from_honeycomb"
+				//?} else {
+				/*"recipe": "friendsandfoes:waxed_weathered_lightning_rod_from_honeycomb"
+				*///?}
+			}
+		}
+	},
+	"requirements": [
+		[
+			"has_weathered_lightning_rod",
+			"has_the_recipe"
+		]
+	]
+}

@@ -1,0 +1,38 @@
+{
+	"parent": "minecraft:recipes/root",
+	"rewards": {
+		"recipes": [
+			"friendsandfoes:trident"
+		]
+	},
+	"criteria": {
+		"has_barnacle_tooth": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"friendsandfoes:barnacle_tooth"
+						]
+					}
+				]
+			}
+		},
+		"has_the_recipe": {
+			"trigger": "minecraft:recipe_unlocked",
+			"conditions": {
+				//? if >=26.3 {
+				"recipes": "friendsandfoes:trident"
+				//?} else {
+				/*"recipe": "friendsandfoes:trident"
+				*///?}
+			}
+		}
+	},
+	"requirements": [
+		[
+			"has_barnacle_tooth",
+			"has_the_recipe"
+		]
+	]
+}

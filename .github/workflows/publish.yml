@@ -107,7 +107,7 @@ jobs:
             run: ./.github/scripts/parse-changelog.sh ${{ steps.gradle-properties.outputs.MOD_VERSION }}
 
         -   name: Publish ${{ matrix.mod_loader }}
-            uses: Kira-NT/mc-publish@52307b03863581dec6b652b83e597aec02ebb075 # v3.3.1
+            uses: Kira-NT/mc-publish@c23376546a97f5ba7984e94445da359459b14419 # v3.3.2
             with:
                 github-token: ${{ contains(fromJson(inputs.platforms), 'github') && secrets.GITHUB_TOKEN || '${undefined}' }}
                 github-tag: ${{ contains(fromJson(inputs.platforms), 'github') && steps.gradle-properties.outputs.MOD_VERSION || '${undefined}' }}

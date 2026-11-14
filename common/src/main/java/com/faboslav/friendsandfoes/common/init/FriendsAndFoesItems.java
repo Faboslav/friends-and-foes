@@ -29,6 +29,11 @@ import net.minecraft.world.item.component.BlockItemStateProperties;
 import net.minecraft.world.level.block.BeehiveBlock;
 //?}
 
+//? if >= 1.21.1 {
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
+//?}
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BooleanSupplier;
@@ -141,7 +146,13 @@ public final class FriendsAndFoesItems
 	public final static RegistryEntry<Item> TOTEM_OF_FREEZING = registerItem("totem_of_freezing", TotemItem::new, () -> new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
 	public final static RegistryEntry<Item> TOTEM_OF_ILLUSION = registerItem("totem_of_illusion", TotemItem::new, () -> new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
 	//? if >= 1.21.1 {
-	public static final RegistryEntry<Item> MUSIC_DISC_AROUND_THE_CORNER = registerItem("music_disc_around_the_corner", Item::new, () -> new Item.Properties().stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(FriendsAndFoesJukeboxSongs.AROUND_THE_CORNER));
+	public static final RegistryEntry<Item> MUSIC_DISC_AROUND_THE_CORNER = registerItem("music_disc_around_the_corner", Item::new, () -> new Item.Properties().stacksTo(1).rarity(Rarity.RARE).delayedComponent(
+		DataComponents.JUKEBOX_PLAYABLE,
+		provider -> provider.lookupOrThrow(Registries.JUKEBOX_SONG)
+			.get(FriendsAndFoesJukeboxSongs.AROUND_THE_CORNER)
+			.map(JukeboxPlayable::new)
+			.orElse(null)
+	));
 	//?} else {
 	/*public static final RegistryEntry<Item> MUSIC_DISC_AROUND_THE_CORNER = registerItem("music_disc_around_the_corner", (properties) -> new VersionedRecordItem(13, VersionedRegistryHolder.get(FriendsAndFoesSoundEvents.MUSIC_DISC_AROUND_THE_CORNER), properties, 132), () -> new Item.Properties().stacksTo(1).rarity(Rarity.RARE));
 

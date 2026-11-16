@@ -1,3 +1,9 @@
+## 5.0.5
+
+- Fixed client being kicked when joining servers without the mod
+- Fixed totems not working in trinkets charm slot
+- Updated mauler to only eat enchanted items when sneaking
+
 ## 5.0.4
 
 - Added recipe book advancements

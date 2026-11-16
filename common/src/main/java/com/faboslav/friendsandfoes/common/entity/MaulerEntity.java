@@ -363,6 +363,7 @@ public final class MaulerEntity extends Animal implements NeutralMob
 
 		if (
 			!this.isAngry()
+			&& player.isSecondaryUseActive()
 			&& (
 				!itemStack.isEmpty()
 				&& (
